@@ -1,0 +1,25 @@
+ dpkg-buildpackage -rfakeroot -d -us -uc -S
+dpkg-buildpackage: Quellpaket bde
+dpkg-buildpackage: Quellversion 0.0.1-1
+dpkg-buildpackage: Quellen geändert durch Jürgen Mülbert <develop@juergen-muelbert.de>
+ dpkg-source --before-build bde-0.0.1
+ fakeroot debian/rules clean
+dh clean 
+   dh_testdir
+   dh_auto_clean
+   dh_clean
+ dpkg-source -b bde-0.0.1
+dpkg-source: Information: Quellformat »3.0 (quilt)« wird verwendet
+dpkg-source: Information: bde wird unter Benutzung des existierenden ./bde_0.0.1.orig.tar.bz2 gebaut
+dpkg-source: Information: bde wird in bde_0.0.1-1.debian.tar.gz gebaut
+dpkg-source: Information: bde wird in bde_0.0.1-1.dsc gebaut
+ dpkg-genchanges -S >../bde_0.0.1-1_source.changes
+dpkg-genchanges: kompletter Quellcode beim Hochladen hinzufügen
+ dpkg-source --after-build bde-0.0.1
+dpkg-buildpackage: Alles hochzuladen (Originalquellen enthalten)
+Now running lintian...
+E: bde changes: bad-distribution-in-changes-file unstable
+E: bde source: maintainer-address-malformed J??rgen M??lbert <juergen@unknown>
+W: bde source: superfluous-clutter-in-homepage <insert the upstream URL, if relevant>
+W: bde source: bad-homepage <insert the upstream URL, if relevant>
+Finished running lintian.

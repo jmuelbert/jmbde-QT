@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<QtHelpProject version="1.0">
+    <virtualFolder>jmbde</virtualFolder>
+    <namespace>jmbde.com-0-0-1</namespace>
+    <filterSection>
+        <keywords>
+            <keyword name="new" id="new" ref="new.html"/>
+        </keywords>
+        <files>
+            <file>new.html</file>
+        </files>
+   </filterSection>
+</QtHelpProject>

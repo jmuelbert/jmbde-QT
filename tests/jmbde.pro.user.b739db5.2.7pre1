@@ -1,0 +1,11 @@
+[string]$sqlite_library_path = "C:\Program Files\System.Data.SQLite\2010\bin\System.Data.SQLite.dll"
+[string]$db_data_source = "C:\Temp\SQLite\MyDatabase.db"
+[string]$db_query = "SELECT * FROM MyTable"
+
+[void][System.Reflection.Assembly]::LoadFrom($sqlite_library_path)
+
+$db_dataset = New-Object System.Data.DataSet
+
+$db_data_adapter = New-Object System.Data.SQLite.SQLiteDataAdapter($db_query,"Data Source=$db_data_source")
+[void]$db_data_adapter.Fill($db_dataset)
+$db_dataset.Tables[0]

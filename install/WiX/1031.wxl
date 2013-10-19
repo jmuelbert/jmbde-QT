@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="de-de" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+	<String Id="Language">1031</String>
+	<String Id="ProductName">jmbde</String>
+	<String Id="ProductDescr">jmbde - Ein kleines BDE Tool</String>
+	<String Id="Manufacturer">Jürgen Mülbert</String>
+	<String Id="FeatureTitle">Vollständig</String>
+	<String Id="FormNewerVersionInstalled">Es ist eine neuere Version installiert</String>
+	<String Id="MustCloseForm">Das Programm muss geschlossen werden!</String>
+	<String Id="ErrorAdminRights">Die Installation von [ProductName] erfordert administrative Privilegien.</String>
+	<String Id="ErrorFramework">Microsoft .NET Framework wurde nicht gefunden. [ProductName] benötigt das .NET Framework 4.0.</String>
+</WixLocalization>

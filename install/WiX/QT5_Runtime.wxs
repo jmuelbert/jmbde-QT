@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+  <Fragment Id='QT5RuntimeDLLS'>
+    <DirectoryRef Id='INSTALLDIR'>
+      <Component Id='QT5Runtime' Guid='{42EF7F69-32AB-40e6-8A89-351DA03093A6}'>
+        <File Id='QT5CORE' Name='QT5Core.dll' DiskId='1'
+        Source='C:\Qt\5.1.1\msvc2012\bin\QT5Core.dll'>
+        </File>
+         <File Id='QT5GUI' Name='QT5Gui.dll' DiskId='1'
+        Source='C:\Qt\5.1.1\msvc2012\bin\QT5Gui.dll'>
+        </File>
+         <File Id='QT5WIDGETS' Name='QT5Widgets.dll' DiskId='1'
+        Source='C:\Qt\5.1.1\msvc2012\bin\QT5Widgets.dll'>
+        </File>
+        <File Id='D3DCOMPILER' Name='d3dcompiler_46.dll' DiskId='1'
+        Source='C:\Qt\5.1.1\msvc2012\bin\d3dcompiler_46.dll'>
+        </File>
+    	<File Id='ICUDT' Name='icudt51.dll' DiskId='1'
+        Source='C:\Qt\5.1.1\msvc2012\bin\icudt51.dll'>
+        </File>
+        <File Id='ICUIN' Name='icuin51.dll' DiskId='1'
+        Source='C:\Qt\5.1.1\msvc2012\bin\icuin51.dll'>
+        </File>
+        <File Id='ICUUC' Name='icuuc51.dll' DiskId='1'
+        Source='C:\Qt\5.1.1\msvc2012\bin\icuuc51.dll'>
+        </File>
+        <File Id='LIBEGL' Name='libEGL.dll' DiskId='1'
+        Source='C:\Qt\5.1.1\msvc2012\bin\libEGL.dll'>
+        </File>
+        <File Id='LIBGLESV2' Name='libGLESv2.dll' DiskId='1'
+        Source='C:\Qt\5.1.1\msvc2012\bin\libGLESv2.dll'>
+        </File>
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id='INSTALLDIR'>
+    	<Component Id='QT5Sql' Guid='{DCFAAEC1-5F7F-4d31-AA43-045C589D7E35}'>
+    		<File Id='QT5SQL' Name='QT5Sql.dll' DiskId='1'
+       	 Source='C:\Qt\5.1.1\msvc2012\bin\QT5Sql.dll'>
+       	 </File>
+       	</Component>
+    </DirectoryRef>
+	<DirectoryRef Id='PLATFORMSDIR'>
+		<Component Id='QT5Platforms' Guid='{44ED05FE-59FD-447b-A064-AB672C9ADFD9}'>
+        	<File Id='QWINDOWS' Name='qwindows.dll' DiskId='1'
+        	Source='C:\Qt\5.1.1\msvc2012\plugins\platforms\qwindows.dll'>
+       	 </File>
+ 		</Component>
+	</DirectoryRef>
+	<DirectoryRef Id='SQLDRIVERSDIR'>
+		<Component Id='QT5Sqlite' Guid='{C2EA7895-A63D-41e6-AC20-3C5C17915A36}'>
+        	<File Id='QSQLITE' Name='qsqlite.dll' DiskId='1'
+        	Source='C:\Qt\5.1.1\msvc2012\plugins\sqldrivers\qsqlite.dll'>
+       	 </File>
+ 		</Component>
+	</DirectoryRef>
+  </Fragment>
+</Wix>
