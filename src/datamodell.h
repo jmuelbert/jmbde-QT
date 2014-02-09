@@ -2,7 +2,7 @@
  * datamodell.h
  * jmbde
  *
- * Copyright (c) 2013 Jürgen Mülbert. All rights reserved.
+ * Copyright (c) 2013,2014 Jürgen Mülbert. All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the European Union Public Licence (EUPL),
@@ -23,18 +23,20 @@
 #define DATAMODELL_H
 
 #include <QObject>
+#include <QApplication>
+
 #include <QMessageBox>
 #if QT_VERSION >= 0x050000
 #include <QSql>
 #include <QStandardPaths>
-#ifdef QT_DEBUG
-#include <QtWidgets>
-#endif
+#else
+#include <QDesktopServices>
 #endif
 
 
 #include <QDate>
 #include <QDir>
+#include <QSettings>
 
 #include <QDebug>
 
@@ -42,94 +44,62 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRelation>
+#include <QSqlDriver>
 
+#include <QTableView>
 
-
+/**
+ * @brief The DataModell class
+ */
 class DataModell : public QObject
 {
     Q_OBJECT
 public:
-    explicit DataModell(QObject *parent = 0);
+    /**
+     * @brief DataModell
+     * @param parent
+     */
+    DataModell(QObject *parent = 0);
+
+    ~DataModell();
+
+    /**
+     * @brief CreateConnection
+     * @return
+     */
     bool CreateConnection();
-    /**
-     * @brief initializeModel
-     * @param model
-     */
-    QSqlRelationalTableModel *initializeRelationalModel();
-    QSqlTableModel *initializeEmployeeModel();
-#ifdef QT_DEBUG
-     void viewTableModell();
-#endif
-
 
 
     /**
-     * @brief createRelationalTables()
+     * @brief getDatabase
+     * @return
      */
-     void createRelationalTables();
-     /**
-      * @brief AddEmployee
-      */
-     void AddEmployee();
-     /**
-      * @brief setFirstname
-      */
-     void setFirstname(QString *);
+    QSqlDatabase getDatabase();
+      void addRow(QTableView *);
 
-     /**
-      * @brief setLastname
-      */
-     void setLastname(QString *);
-
+      /**
+     * @brief setOutTableStyle
+     * @return
+     */
+    QString setOutTableStyle();
 protected:
-
-     qint32 id;
-     qint32 persnr;
-     QString *firstname;
-     QString *lastname;
-     const QString *function;
-     const QString *department;
-     qint32 computer;
-     qint32 phone;
-     qint32 mobile;
-     qint32 fax;
-     qint32 documents;
-     bool datenschutz;
-     QDate creationTime;
-     QDate updateTime;
-
-private:
-
      /**
       * @brief db
       */
      QSqlDatabase db;
 
+
+
+private:
      /**
-      * @brief The PosInTable enum
+      * @brief checkDBVersion
+      * @return
       */
-     enum PosInTable {
-         POS_ID,
-         POS_PERSNR,
-         POS_FIRSTNAME,
-         POS_LASTNAME,
-         POS_FUNCTION,
-         POS_DEPARTMENT,
-         POS_COMPUTER,
-         POS_PHONE,
-         POS_MOBILE,
-         POS_FAX,
-         POS_DOCUMENTS,
-         POS_DATENSCHUTZ,
-         POS_CREATIONTIME,
-         POS_UPDATETIME
-     };
+     bool checkDBVersion();
 
-#ifdef QT_DEBUG
-    void CreateTestData();
-
-#endif
-
+     const static qint16 dbVersion = 1;
+     const static qint16 dbRevision = 0;
+     const static qint16 dbPatch = 0;
 signals:
     
 public slots:

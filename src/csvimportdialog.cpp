@@ -1,6 +1,31 @@
+/*
+ * csvimportdialog.cpp
+ * jmbde
+ *
+ *  Copyright (c) 2013,2014 Jürgen Mülbert. All rights reserved.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the European Union Public Licence (EUPL),
+ * version 1.1.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * European Union Public Licence for more details.
+ *
+ * You should have received a copy of the European Union Public Licence
+ * along with this program. If not, see
+ * http://www.osor.eu/eupl/european-union-public-licence-eupl-v.1.1
+ *
+ */
+
 #include "csvimportdialog.h"
 #include "ui_csvimportdialog.h"
 
+/**
+ * @brief CsvImportDialog::CsvImportDialog
+ * @param parent
+ */
 CsvImportDialog::CsvImportDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::CsvImportDialog)
@@ -20,22 +45,22 @@ CsvImportDialog::CsvImportDialog(QWidget *parent) :
 
     QString fileName = QFileDialog::getOpenFileName(0, tr("open CSV file"),
                                                     dataBaseDirAndFile,
-                                                    "CSV (*.csv)");
+                                                    QLatin1String("CSV (*.csv)"));
     QFile file (fileName);
     if (file.open(QFile::Text | QIODevice::ReadOnly)) {
-        QString data = file.readAll();
-        data.remove( QRegExp("\r"));
+        QString data = QLatin1String(file.readAll());
+        data.remove( QRegExp(QLatin1String("\r")));
         QString temp;
         QChar character;
         QTextStream textStream(&data);
         while (!textStream.atEnd()) {
             textStream >> character;
-            if (character == ',') {
+            if (character == QLatin1Char(',')) {
                 checkString(temp, character);
-            } else if (character == ';') {
-                character = ',';
+            } else if (character == QLatin1Char(';')) {
+                character = QLatin1Char(',');
                 checkString(temp, character);
-            } else if (character == '\n') {
+            } else if (character == QLatin1Char('\n')) {
                 checkString(temp, character);
             } else if (textStream.atEnd()) {
                 temp.append(character);
@@ -47,24 +72,31 @@ CsvImportDialog::CsvImportDialog(QWidget *parent) :
     }
 }
 
+/**
+ * @brief CsvImportDialog::~CsvImportDialog
+ */
 CsvImportDialog::~CsvImportDialog()
 {
     delete ui;
 }
 
-
+/**
+ * @brief CsvImportDialog::checkString
+ * @param temp
+ * @param character
+ */
 void CsvImportDialog::checkString(QString &temp, QChar character)
 {
-    if (temp.count("\"") %2 == 0) {
-        if (temp.startsWith( QChar ('\"')) && temp.endsWith( QChar ('\"'))) {
-            temp.remove( QRegExp("^\""));
-            temp.remove( QRegExp("\"$"));
+    if (temp.count(QLatin1String("\"")) %2 == 0) {
+        if (temp.startsWith( QLatin1Char ('\"')) && temp.endsWith( QLatin1Char ('\"'))) {
+            temp.remove( QRegExp(QLatin1String("^\"")));
+            temp.remove( QRegExp(QLatin1String("\"$")));
         }
         // FIXME: will possibly fail if there are 4 or more reapeating double quotes
-        temp.replace("\"\"", "\"");
+        temp.replace(QLatin1String("\"\""), QLatin1String("\""));
         QStandardItem *item = new QStandardItem(temp);
         standardItemList.append(item);
-        if (character != QChar(',')) {
+        if (character != QLatin1Char(',')) {
             model->appendRow(standardItemList);
             standardItemList.clear();
         }
@@ -74,6 +106,9 @@ void CsvImportDialog::checkString(QString &temp, QChar character)
     }
 }
 
+/**
+ * @brief CsvImportDialog::on_buttonBox_accepted
+ */
 void CsvImportDialog::on_buttonBox_accepted()
 {
     int columnCount = model->columnCount();
@@ -83,7 +118,7 @@ void CsvImportDialog::on_buttonBox_accepted()
     for (int i=0; i<rowCount; i++) {
         for (int j=0; j<columnCount; j++) {
             QModelIndex ind(model->index(i, j));
-            tempString.append(ind.data(Qt::DisplayRole).toString() + ", ");
+            tempString.append(ind.data(Qt::DisplayRole).toString() + QLatin1String(", "));
         }
         qDebug() << "SqlState : " << tempString;
         tempString.clear();

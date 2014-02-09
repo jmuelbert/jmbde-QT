@@ -2,7 +2,7 @@
  * mainwindow.h
  * jmbde
  *
- *  Copyright (c) 2013 Jürgen Mülbert. All rights reserved.
+ *  Copyright (c) 2013,2014 Jürgen Mülbert. All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the European Union Public Licence (EUPL),
@@ -38,10 +38,36 @@
 #include <QtWidgets>
 #endif
 
+#ifndef QT_NO_PRINTER
+#include <QPrintDialog>
+#include <QPrinter>
+#include <QPrintPreviewDialog>
+#endif
+
 
 #include "constants.h"
 #include "datamodell.h"
+#include "accountdatamodel.h"
+#include "commondatamodel.h"
+#include "computerdatamodel.h"
+#include "departmentdatamodel.h"
+#include "devicetypedatamodel.h"
+#include "employeedatamodel.h"
+#include "employeeinputdialog.h"
+#include "employeeinputdialog.h"
+#include "functiondatamodel.h"
+#include "inventorydatamodel.h"
+#include "manufacturerdatamodel.h"
+#include "pctypedatamodel.h"
+#include "placedatamodel.h"
+#include "systemdatamodel.h"
+#include "csvimportdialog.h"
+
+#include "printerdatamodel.h"
+#include "phonedatamodel.h"
+
 #include "preferencesdialog.h"
+#include "computerinputdialog.h"
 
 /**
  * Namespace for the UserInterface
@@ -83,10 +109,6 @@ private slots:
      */
     void on_actionAbout_triggered();
 
-    /**
-     * @brief on_pushButtonNewPerson_clicked
-     */
-    void on_pushButtonNewPerson_clicked();
 
     /**
      * @brief on_actionNew_triggered
@@ -112,11 +134,29 @@ private slots:
 
     void on_actionPrint_triggered();
 
-    void on_pushButton_clicked();
+    void on_action_Export_Pdf_triggered();
 
-    void on_pushButton_2_clicked();
+    void on_actionPrint_Preview_triggered();
 
-    void on_pushButton_3_clicked();
+
+    void on_actionEmployee_triggered();
+
+
+    void on_radioButtonEmployee_toggled(bool checked);
+
+    void on_radioButtonComputer_toggled(bool checked);
+
+    void on_radioButtonPrinter_toggled(bool checked);
+
+    void on_radioButtonPhone_toggled(bool checked);
+
+
+
+    void on_pushButtonAddData_clicked();
+
+    void on_QPushButtonSubmit_clicked();
+
+
 
 private:
     /**
@@ -132,6 +172,7 @@ private:
      */
     void writeSettings();
 
+
     /**
      * @brief Not_Available_Message
      */
@@ -140,9 +181,19 @@ private:
      * @brief em
      */
     DataModell *dm;
+    EmployeeDataModel *edm;
+    ComputerDataModel *cdm;
+    PrinterDataModel *pdm;
+    PhoneDataModel *phdm;
 
     QSqlRelationalTableModel *model;
     QSqlTableModel *tableModel;
+
+    qint16 dbType = 0;
+    QString dbConnection;
+    QString dbHostname;
+    QString dbUsername;
+    QString dbPassword;
 };
 
 #endif // MAINWINDOW_H

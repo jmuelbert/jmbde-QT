@@ -2,7 +2,7 @@
  * preferencesdialog.h
  * jmbde
  *
- *  Copyright (c) 2013 Jürgen Mülbert. All rights reserved.
+ *  Copyright (c) 2013,2014 Jürgen Mülbert. All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the European Union Public Licence (EUPL),
@@ -23,13 +23,25 @@
 #ifndef PREFERENCESDIALOG_H
 #define PREFERENCESDIALOG_H
 
+#include <QDebug>
 #include <QDialog>
 #include <QSettings>
+
+#if QT_VERSION >= 0x050000
+#include <QStandardPaths>
+#else
+#include <QDesktopServices>
+#endif
+
+#include <QFileDialog>
 
 namespace Ui {
 class PreferencesDialog;
 }
 
+/**
+ * @brief The PreferencesDialog class
+ */
 class PreferencesDialog : public QDialog
 {
     Q_OBJECT
@@ -38,10 +50,16 @@ public:
     explicit PreferencesDialog(QWidget *parent = 0);
     ~PreferencesDialog();
     
+private slots:
+    void on_pushButtonDBForceFileDialog_clicked();
+
+    void on_buttonBox_accepted();
+
 private:
     Ui::PreferencesDialog *ui;
     void readSettings();
     void writeSettings();
+    QString getUserDataDir();
 };
 
 #endif // PREFERENCESDIALOG_H

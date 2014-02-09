@@ -2,7 +2,7 @@
  * preferencesdialog.cpp
  * jmbde
  *
- *  Copyright (c) 2013 Jürgen Mülbert. All rights reserved.
+ *  Copyright (c) 2013,2014 Jürgen Mülbert. All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the European Union Public Licence (EUPL),
@@ -23,32 +23,98 @@
 #include "ui_preferencesdialog.h"
 #include "constants.h"
 
+/**
+ * @brief PreferencesDialog::PreferencesDialog
+ * @param parent
+ */
 PreferencesDialog::PreferencesDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::PreferencesDialog)
 {
     ui->setupUi(this);
+    ui->comboBoxDatabaseType->addItem(QLatin1String(Database::Type::SQLITE));
+    ui->comboBoxDatabaseType->addItem(QLatin1String(Database::Type::MYSQL));
+    ui->comboBoxDatabaseType->addItem(QLatin1String(Database::Type::ODBC));
+    ui->comboBoxDatabaseType->addItem(QLatin1String(Database::Type::POSTGRESQL));
+    readSettings();
 }
 
+/**
+ * @brief PreferencesDialog::~PreferencesDialog
+ */
 PreferencesDialog::~PreferencesDialog()
 {
     delete ui;
 }
 
+/**
+ * @brief PreferencesDialog::writeSettings
+ */
 void PreferencesDialog::writeSettings()
 {
-    QSettings settings(Constants::COMPANY_NAME, Constants::APPL_NAME);
-    settings.beginGroup("MainWindow");
-    settings.setValue("size", size());
-    settings.setValue("pos", pos());
+    QString CompanyName = QLatin1String(Constants::COMPANY_NAME);
+    QString ApplicationName = QLatin1String(Constants::APPL_NAME);
+    QSettings settings(CompanyName, ApplicationName);
+    settings.beginGroup(QLatin1String(Settings::Groups::MAINWINDOW));
+    settings.setValue(QLatin1String(Settings::MainWindow::SIZE), size());
+    settings.setValue(QLatin1String(Settings::MainWindow::POS), pos());
+    settings.endGroup();
+    settings.beginGroup(QLatin1String(Settings::Groups::DATABASE));
+    settings.setValue(QLatin1String(Settings::Database::TYPE),ui->comboBoxDatabaseType->currentIndex());
+    QString dbConnectionString = ui->lineEditDatabaseConnection->text();
+    if (dbConnectionString.length() < 2) {
+        dbConnectionString = this->getUserDataDir();
+    }
+    settings.setValue(QLatin1String(Settings::Database::CONNECTION), dbConnectionString);
+    settings.setValue(QLatin1String(Settings::Database::HOSTNAME), ui->lineEditHostName->text());
+    settings.setValue(QLatin1String(Settings::Database::USERNAME), ui->lineEditUserName->text());
+    settings.setValue(QLatin1String(Settings::Database::PASSWORD), ui->lineEditPassword->text());
     settings.endGroup();
 }
 
+/**
+ * @brief PreferencesDialog::readSettings
+ */
 void PreferencesDialog::readSettings()
 {
-    QSettings settings(Constants::COMPANY_NAME, Constants::APPL_NAME);
-    settings.beginGroup("MainWindow");
-    resize(settings.value("size",QSize(400,400)).toSize());
-    move(settings.value("pos", QPoint(200,200)).toPoint());
+    QString CompanyName = QLatin1String(Constants::COMPANY_NAME);
+    QString ApplicationName = QLatin1String(Constants::APPL_NAME);
+    QSettings settings(CompanyName, ApplicationName);
+    settings.beginGroup(QLatin1String(Settings::Groups::MAINWINDOW));
+    resize(settings.value(QLatin1String(Settings::MainWindow::SIZE),QSize(400,400)).toSize());
+    move(settings.value(QLatin1String(Settings::MainWindow::POS), QPoint(200,200)).toPoint());
     settings.endGroup();
+    settings.beginGroup(QLatin1String(Settings::Groups::DATABASE));
+    ui->comboBoxDatabaseType->setCurrentIndex(settings.value(QLatin1String(Settings::Database::TYPE), SQLITE).toInt());
+    ui->lineEditDatabaseConnection->setText(settings.value(QLatin1String(Settings::Database::CONNECTION), this->getUserDataDir() ).toString());
+    ui->lineEditHostName->setText(settings.value(QLatin1String(Settings::Database::HOSTNAME), QLatin1String("localhost")).toString());
+    ui->lineEditUserName->setText(settings.value(QLatin1String(Settings::Database::USERNAME), QLatin1String("jmbde")).toString());
+    ui->lineEditPassword->setText(settings.value(QLatin1String(Settings::Database::PASSWORD),QLatin1String("jmbde")).toString());
+
+}
+
+/**
+ * @brief PreferencesDialog::on_pushButtonDBForceFileDialog_clicked
+ */
+void PreferencesDialog::on_pushButtonDBForceFileDialog_clicked()
+{
+    QString dbDir = QFileDialog::getExistingDirectory ( this, tr("Select Directory for Database"), this->getUserDataDir());
+
+    if (dbDir.length() >2) {
+        ui->lineEditDatabaseConnection->setText(dbDir);
+    }
+}
+
+QString PreferencesDialog::getUserDataDir() {
+#if QT_VERSION >= 0x050000
+            QString dataBaseDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+#else
+            QString dataBaseDir = QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+#endif
+        return dataBaseDir;
+}
+
+void PreferencesDialog::on_buttonBox_accepted()
+{
+    writeSettings();
 }

@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=JMBDE
-Comment=JMBDE
-Exec=jmbde
-Categories=Office;Database
-Type=Application
-Terminal=false
-Icon=jmbde
-StartupNotify=true

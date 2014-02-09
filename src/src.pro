@@ -4,17 +4,13 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql
+QT       += core gui sql printsupport
 
+include (../jmbde.pri)
 
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
-TARGET = jmbde
 TEMPLATE = app
-
-
-DESTDIR = $$(PWD)
+TARGET = $$APPLICATION_TARGET
+DESTDIR = $$APPLICATION_PATH
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -22,7 +18,22 @@ SOURCES += main.cpp\
     preferencesdialog.cpp \
     resource.cpp \
     employeeinputdialog.cpp \
-    csvimportdialog.cpp
+    csvimportdialog.cpp \
+    employeedatamodel.cpp \
+    computerdatamodel.cpp \
+    commondatamodel.cpp \
+    accountdatamodel.cpp \
+    departmentdatamodel.cpp \
+    devicetypedatamodel.cpp \
+    functiondatamodel.cpp \
+    inventorydatamodel.cpp \
+    manufacturerdatamodel.cpp \
+    pctypedatamodel.cpp \
+    placedatamodel.cpp \
+    systemdatamodel.cpp \
+    computerinputdialog.cpp \
+    printerdatamodel.cpp \
+    phonedatamodel.cpp
 
 HEADERS  += mainwindow.h \
     datamodell.h \
@@ -30,71 +41,31 @@ HEADERS  += mainwindow.h \
     constants.h \
     resource.h \
     employeeinputdialog.h \
-    csvimportdialog.h
+    csvimportdialog.h \
+    employeedatamodel.h \
+    computerdatamodel.h \
+    commondatamodel.h \
+    accountdatamodel.h \
+    departmentdatamodel.h \
+    devicetypedatamodel.h \
+    functiondatamodel.h \
+    inventorydatamodel.h \
+    manufacturerdatamodel.h \
+    pctypedatamodel.h \
+    placedatamodel.h \
+    systemdatamodel.h \
+    computerinputdialog.h \
+    printerdatamodel.h \
+    phonedatamodel.h
 
 FORMS    += mainwindow.ui \
     preferencesdialog.ui \
     employeeinputdialog.ui \
-    csvimportdialog.ui
-
-TRANSLATIONS = translations/jmbde_de.ts \
-               translations/jmbde_it.ts \
-               translations/jmbde_es.ts
-
-isEmpty(QMAKE_LRELEASE) {
-    win32:QMAKE_LRELEASE = $$[QT_INSTALL_BINS]\lrelease.exe
-    else:QMAKE_LRELEASE = $$[QT_INSTALL_BINS]/lrelease
-}
-
-updateqm.input = TRANSLATIONS
-updateqm.output = $$DESTDIR/qm/${QMAKE_FILE_BASE}.qm
-updateqm.commands = $$QMAKE_LRELEASE -silent ${QMAKE_FILE_IN} -qm $$DESTDIR/translations
-updateqm.CONFIG += no_link target_predeps
-# QMAKE_EXTRA_COMPILERS += updateqm
-
+    csvimportdialog.ui \
+    computerinputdialog.ui
 
 RESOURCES += \
     jmbde.qrc
 
-message(Dest Dir : $$DESTDIR)
-macx {
-help.path = $$DESTDIR/jmbde.app/Contents/Resources/help
-} else {
-    help.path = $$DESTDIR/help
-}
-help.files = help/*
-
-macx {
-    i18n.path = $$DESTDIR/jmbde.app/Contents/Resources/translations
-} else {
-    i18n.path = $$DESTDIR/translations
-}
-
-unix {
-    translations.path = /usr/share/jmbde
-}
-macx {
-    images.path = $$DESTDIR/jmbde.app/Contents/Resources/images
-}
-
-translations.files = translations/*.qm
-
-macx {
-    images.path = $$DESTDIR/jmbde.app/Contents/Resources/images
-} else {
-    images.path = $$DESTDIR/images
-}
-images.files = images/*
 
 
-INSTALLS += help translations images
-
-
-
-OTHER_FILES += \
-    de.plist \
-    images/help-browser.png \
-    images/document-new.png \
-    images/contact-new.png \
-    help/jmbde.qhp \
-    help/jmbde.qhcp

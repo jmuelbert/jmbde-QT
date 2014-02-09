@@ -2,7 +2,7 @@
  * resource.cpp
  * jmbde
  *
- *  Copyright (c) 2013 Jürgen Mülbert. All rights reserved.
+ *  Copyright (c) 2013, 2014 Jürgen Mülbert. All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the European Union Public Licence (EUPL),
@@ -21,6 +21,10 @@
 
 #include "resource.h"
 
+/**
+ * @brief Resource::Resource
+ * @param parent
+ */
 Resource::Resource(QObject *parent) :
     QObject(parent)
 {

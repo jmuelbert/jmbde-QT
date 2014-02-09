@@ -8,12 +8,12 @@ QT       += testlib
 
 QT       -= gui
 
-TARGET = tst_bdetest
+TARGET = tst_jmbdetest
 CONFIG   += console
 CONFIG   -= app_bundle
 
 TEMPLATE = app
 
 
-SOURCES += tst_bdetest.cpp
+SOURCES += tst_jmbdetest.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"

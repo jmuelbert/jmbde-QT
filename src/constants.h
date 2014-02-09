@@ -2,7 +2,7 @@
  * Constants.h
  * jmbde
  *
- * Copyright (c) 2013 Jürgen Mülbert. All rights reserved.
+ * Copyright (c) 2013,2014 Jürgen Mülbert. All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the European Union Public Licence (EUPL),
@@ -41,11 +41,67 @@ namespace Constants {
     /**
      * @brief APPL_VERSION
      */
-    const char APPL_VERSION[] = "0.0.2";
+    const char APPL_VERSION[] = "0.3.4";
 
+    const char APPL_DISPLAYNAME[] = "jmbde 0.3.4 © 2013, 2014 Jürgen Mülbert";
     /**
      * @brief APPL_PROJECT_SITE
      */
     const char APPL_PROJECT_SITE[] = "http://www.juergen-muelbert.de/projects/jmbde/";
+}
+
+namespace Settings {
+namespace Groups {
+    const char MAINWINDOW[] = "MainWindow";
+    const char DATABASE[] = "Database";
+}
+
+namespace MainWindow {
+    const char SIZE[] = "size";
+    const char POS[] = "pos";
+}
+
+namespace Database {
+    const char TYPE[] = "type";
+    const char CONNECTION[] = "connection";
+    const char HOSTNAME[] = "hostname";
+    const char USERNAME[] = "username";
+    const char PASSWORD[] = "password";
+
+
+}
+
+}
+
+enum DbType {
+	SQLITE,
+	MYSQL,
+	ODBC,
+	POSTGRESQL
+	};
+	
+namespace Database {
+
+	
+namespace Type {
+	const char SQLITE[] = "SqLite";
+	const char MYSQL[] = "MySql";
+	const char ODBC[] = "ODBC";
+	const char POSTGRESQL[] = "PostgreSQL";
+	const char DEFAULT[] = "SqLite";
+
+
+}
+
+
+
+namespace Table {
+ const int DEFAULT_FOREIGN_VALUE = 1;
+
+}
+
+namespace EmployeeTable {
+
+}
 }
 #endif // CONSTANTS_H
