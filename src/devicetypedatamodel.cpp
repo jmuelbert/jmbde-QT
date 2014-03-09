@@ -21,28 +21,17 @@
 
 #include "devicetypedatamodel.h"
 
-/**
- * @brief DeviceTypeDataModel::DeviceTypeDataModel
- */
+
 DeviceTypeDataModel::DeviceTypeDataModel(QObject *parent) :
     CommonDataModel(parent)
 {
 }
 
-
-/**
- * @brief DeviceTypeDataModel::~DepartmentDataModel
- */
 DeviceTypeDataModel::~DeviceTypeDataModel()
 {
 
 }
 
-
-/**
- * @brief DeviceTypeDataModel::createDataTable
- * @return
- */
 bool DeviceTypeDataModel::createDataTable()
 {
     bool ret;
@@ -52,10 +41,6 @@ bool DeviceTypeDataModel::createDataTable()
     return ret;
 }
 
-
-/**
- * @brief DeviceTypeDataModel::initializeTableModel
- */
 QSqlTableModel *DeviceTypeDataModel::initializeTableModel()
 {
     QSqlTableModel *tableModel;
@@ -65,9 +50,6 @@ QSqlTableModel *DeviceTypeDataModel::initializeTableModel()
     return tableModel;
 }
 
-/**
- * @brief DeviceTypeDataModel::initializeRelationalModel
- */
 QSqlRelationalTableModel *DeviceTypeDataModel::initializeRelationalModel()
 {
     QSqlRelationalTableModel *tableModel;

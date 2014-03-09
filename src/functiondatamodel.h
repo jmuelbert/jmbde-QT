@@ -39,7 +39,15 @@
 class FunctionDataModel : public CommonDataModel
 {
 public:
+    /**
+      * @brief FunctionDataModel
+      * @param parent
+      */
      FunctionDataModel(QObject *parent = 0);
+
+     /**
+       * @brief ~FunctionDataModel
+       */
     ~FunctionDataModel();
 
     /**

@@ -46,6 +46,9 @@ public:
      */
     PrinterDataModel(QObject *parent = 0);
 
+    /**
+     * @brief PrinterDataModel::~PrinterDataModel
+     */
     ~PrinterDataModel();
 
     /**

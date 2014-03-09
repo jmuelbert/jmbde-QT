@@ -19,6 +19,36 @@
  *
  */
 
+/**
+  * \page Computer Computer
+  *
+  * The Computer Table
+  * -----------------
+  *
+  * - The Account Table
+  *     + account_id - the autoincrement number of the account
+  *     + username - the login/username in the foreign system
+  *     + password - the password for login in the foreign system
+  *     + systemdata_id - the foreign table for the extern systems
+  *     + last_update - TIMESTAMP of the last modification.
+  *
+  * The Systemdata Table
+  * --------------------
+  *
+  * This Table contains a list of systems with accounts
+  * i.e. AD-Server, Mail Server, WebPortals, ...
+  *
+  * - The systemdata Table
+  *     + systemdata_id - the autoincrement number of the account
+  *     + name - the name of the external system
+  *     + local - boolean (yes or no) is a own system
+  *     + account_id - reverse to the account table
+  *     + address_id - address to the external system
+  *     + last_update - TIMESTAMP of the last modification.
+  *
+  *
+  */
+
 #ifndef COMPUTERDATAMODEL_H
 #define COMPUTERDATAMODEL_H
 
@@ -39,6 +69,11 @@
 
 /**
  * @brief The ComputerDataModel class
+ * @details This Class is for the ComputerData
+ * @author Jürgen Mülbert
+ * @version 0.2
+ * @date 09.02.2014
+ * @copyright EUPL V1.1
  */
 class ComputerDataModel : public DataModell
 {
@@ -49,24 +84,30 @@ public:
      */
     ComputerDataModel(QObject *parent = 0);
 
+    /**
+     * @brief ComputerDataModel
+     */
     ~ComputerDataModel();
 
 
     /**
      * @brief addDataSet
+     * @deprecated Not really need now :-(
      */
     void addDataSet();
 
 
     /**
      * @brief initializeRelationalModel
-     * @return
+     * @param tableName
+     * @return RelationalTableModel
      */
     QSqlRelationalTableModel *initializeRelationalModel();
 
     /**
      * @brief initializeTableModel
-     * @return
+     * @param tableName
+     * @return TableModel
      */
     QSqlTableModel *initializeTableModel();
 
@@ -74,7 +115,7 @@ public:
      * @brief generateTableString
      * @param model
      * @param header
-     * @return
+     * @return QString - the generated String
      */
     QString generateTableString(QAbstractTableModel *model, QString header);
 

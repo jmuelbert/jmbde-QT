@@ -19,46 +19,18 @@
  *
  */
 
-/**
-  * \brief The Account Table class
-  * \detail Here will handle all account actions...
-  * \author Jürgen Mülbert
-  * \version 0.1
-  * \date 24.11.2013
-  * \copyright EUPL V1.1
-  *
-  * \page Account Account
-  *
-  *
-  * This is the introduction.
-  *
-  */
-
-
 #include "accountdatamodel.h"
 
-/**
- * @brief AccountDataModel::AccountDataModel
- * @param parent
- */
 
 AccountDataModel::AccountDataModel(QObject *parent)  : CommonDataModel(parent)
 {
 }
 
-/**
- * @brief AccountDataModel::~AccountDataModel
- */
 AccountDataModel:: ~AccountDataModel()
 {
 
 }
 
-
-/**
- * @brief AccountDataModel::createDataTable
- * @return
- */
 bool AccountDataModel::createDataTable()
 {
     CommonDataModel::createDataTable(this->tableName);
@@ -66,9 +38,6 @@ bool AccountDataModel::createDataTable()
     return true;
 }
 
-/**
- * @brief AccountDataModel::initializeTableModel
- */
 QSqlTableModel *AccountDataModel::initializeTableModel()
 {
     QSqlTableModel *tableModel;
@@ -78,10 +47,6 @@ QSqlTableModel *AccountDataModel::initializeTableModel()
     return tableModel;
 }
 
-
-/**
- * @brief AccountDataModel::initializeRelationalModel
- */
 QSqlRelationalTableModel *AccountDataModel::initializeRelationalModel()
 {
     QSqlRelationalTableModel *relationalTableModel;

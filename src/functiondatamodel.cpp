@@ -21,26 +21,17 @@
 
 #include "functiondatamodel.h"
 
-/**
- * @brief FunctionDataModel::FunctionDataModel
- */
+
 FunctionDataModel::FunctionDataModel(QObject *parent) :
     CommonDataModel(parent)
 {
 }
 
-/**
- * @brief FunctionDataModel::~FunctionDataModel
- * @param parent
- */
 FunctionDataModel::~FunctionDataModel()
 {
 
 }
 
-/**
- * @brief FunctionDataModel::createDataTable
- */
 bool FunctionDataModel::createDataTable()
 {
     bool ret;
@@ -50,9 +41,6 @@ bool FunctionDataModel::createDataTable()
     return ret;
 }
 
-/**
- * @brief FunctionDataModel::initializeTableModel
- */
 QSqlTableModel *FunctionDataModel::initializeTableModel()
 {
     QSqlTableModel *tableModel;
@@ -62,9 +50,6 @@ QSqlTableModel *FunctionDataModel::initializeTableModel()
     return tableModel;
 }
 
-/**
- * @brief FunctionDataModel::initializeRelationalModel
- */
 QSqlRelationalTableModel *FunctionDataModel::initializeRelationalModel()
 {
     QSqlRelationalTableModel *tableModel;

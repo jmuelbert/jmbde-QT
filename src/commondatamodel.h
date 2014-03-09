@@ -37,27 +37,47 @@
 
 #include "datamodell.h"
 
+/**
+ * @brief The CommonDataModel class
+ * @details This Class is the root for many common classes
+ * @author Jürgen Mülbert
+ * @version 0.2
+ * @date 09.02.2014
+ * @copyright EUPL V1.1
+ */
 class CommonDataModel : public DataModell
 {
 public:
+    /**
+     * @brief CommonDataModel
+     * @param parent
+     */
     CommonDataModel(QObject *parent = 0);
+
+    /**
+      * @brief ~CommonDataModel
+      */
     ~CommonDataModel();
 
     /**
      * @brief createDataTable
-     * @return
+     * @param tableName
+     * @deprecated You should not longer use this. The Database will create with a script
+     * @return boolean true or false, created ?
      */
     bool createDataTable(QString tableName);
 
     /**
      * @brief initializeRelationalModel
-     * @return
+     * @param tableName
+     * @return RelationalTableModel
      */
     QSqlRelationalTableModel *initializeRelationalModel(const QString tableName);
 
     /**
      * @brief initializeTableModel
-     * @return
+     * @param tableName
+     * @return TableModel
      */
     QSqlTableModel *initializeTableModel(QString tableName);
 

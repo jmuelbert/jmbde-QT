@@ -21,11 +21,11 @@
 
 /**
   * \brief The jmbde program
-  * \detail this will help manage employees, accounts and it hardware
+  * \details this will help manage employees, accounts and it hardware
   *
   * \author Jürgen Mülbert
-  * \version 0.3.2
-  * \date 24.11.2013
+  * \version 0.3.4
+  * \date 09.02.2014
   * \copyright EUPL V1.1
   *
   *
@@ -93,14 +93,27 @@ static const char VERSION_OPTION[] = "-version";
  */
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+    Application app(argc, argv);
 
-    a.setApplicationName(QLatin1String(Constants::APPL_NAME));
-    a.setApplicationVersion(QLatin1String(Constants::APPL_VERSION));
+    app.setApplicationName(QLatin1String(Constants::APPL_NAME));
+    app.setApplicationVersion(QLatin1String(Constants::APPL_VERSION));
  #if QT_VERSION >= 0x050000
-    a.setApplicationDisplayName(QLatin1String(Constants::APPL_DISPLAYNAME));
+    app.setApplicationDisplayName(QLatin1String(Constants::APPL_DISPLAYNAME));
  #endif
-    a.setOrganizationName(QLatin1String(Constants::COMPANY_NAME));
+    app.setOrganizationName(QLatin1String(Constants::COMPANY_NAME));
+
+/*
+    QQmlApplicationEngine engine(QUrl(QLatin1String("qrc:/main.qml")));
+    QObject *toplevel = engine.rootObjects().value(0);
+    QQuickWindow *window = qobject_cast<QQuickWindow *>(toplevel);
+    if (!window) {
+        qWarning("Error: Your root item has to be a Window.");
+        return -1;
+    }
+    window->show();
+    return app.exec();
+  */
+
 
 
  #ifdef Q_OS_MAC
@@ -134,10 +147,11 @@ int main(int argc, char *argv[])
     qDebug() << "Translationfile = " << translationFileAndPath;
 
     translator.load(translationFileAndPath);
-    a.installTranslator(&translator);
+    app.installTranslator(&translator);
 
     MainWindow w;
     w.show();
     
-    return a.exec();
+    return app.exec();
+
 }

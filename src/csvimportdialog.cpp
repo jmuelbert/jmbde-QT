@@ -22,10 +22,7 @@
 #include "csvimportdialog.h"
 #include "ui_csvimportdialog.h"
 
-/**
- * @brief CsvImportDialog::CsvImportDialog
- * @param parent
- */
+
 CsvImportDialog::CsvImportDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::CsvImportDialog)
@@ -72,19 +69,13 @@ CsvImportDialog::CsvImportDialog(QWidget *parent) :
     }
 }
 
-/**
- * @brief CsvImportDialog::~CsvImportDialog
- */
+
 CsvImportDialog::~CsvImportDialog()
 {
     delete ui;
 }
 
-/**
- * @brief CsvImportDialog::checkString
- * @param temp
- * @param character
- */
+
 void CsvImportDialog::checkString(QString &temp, QChar character)
 {
     if (temp.count(QLatin1String("\"")) %2 == 0) {
@@ -106,9 +97,7 @@ void CsvImportDialog::checkString(QString &temp, QChar character)
     }
 }
 
-/**
- * @brief CsvImportDialog::on_buttonBox_accepted
- */
+
 void CsvImportDialog::on_buttonBox_accepted()
 {
     int columnCount = model->columnCount();

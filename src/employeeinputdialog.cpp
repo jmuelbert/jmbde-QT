@@ -23,10 +23,7 @@
 #include "employeeinputdialog.h"
 #include "ui_employeeinputdialog.h"
 
-/**
- * @brief EmployeeInputDialog::EmployeeInputDialog
- * @param parent
- */
+
 EmployeeInputDialog::EmployeeInputDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::EmployeeInputDialog)
@@ -146,17 +143,11 @@ EmployeeInputDialog::EmployeeInputDialog(QWidget *parent) :
 
 }
 
-/**
- * @brief EmployeeInputDialog::~EmployeeInputDialog
- */
 EmployeeInputDialog::~EmployeeInputDialog()
 {
     delete ui;
 }
 
-/**
- * @brief EmployeeInputDialog::on_buttonBox_accepted
- */
 void EmployeeInputDialog::on_buttonBox_accepted()
 {
     model->database().commit();
@@ -164,7 +155,6 @@ void EmployeeInputDialog::on_buttonBox_accepted()
     qDebug() << "OK Clicked!, DB->commit.!";
 
 }
-
 
 void EmployeeInputDialog::on_nextButton_clicked()
 {

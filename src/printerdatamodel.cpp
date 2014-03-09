@@ -21,25 +21,14 @@
 
 #include "printerdatamodel.h"
 
-/**
- * @brief PrinterDataModel::PrinterDataModel
- * @param parent
- */
 PrinterDataModel::PrinterDataModel(QObject *parent) : DataModell(parent)
 {
 }
 
-/**
- * @brief PrinterDataModel::~PrinterDataModel
- */
 PrinterDataModel::~PrinterDataModel() {
 
 }
 
-
-/**
- * @brief PrinterDataModel::addDataSet
- */
 void PrinterDataModel::addDataSet() {
     QSqlQuery query;
 
@@ -59,10 +48,7 @@ void PrinterDataModel::addDataSet() {
     }
 }
 
-/**
- * @brief initializeRelationalModel
- * @return
- */
+
 QSqlRelationalTableModel *PrinterDataModel::initializeRelationalModel() {
     //TODO: id als locale Konstante
 
@@ -129,10 +115,7 @@ QSqlRelationalTableModel *PrinterDataModel::initializeRelationalModel() {
     return model;
 }
 
-/**
- * @brief initializeTableModel
- * @return
- */
+
 QSqlTableModel *PrinterDataModel::initializeTableModel() {
     QSqlTableModel *model = new QSqlTableModel(this);
     model->setTable(QLatin1String("printer"));
@@ -163,12 +146,6 @@ QSqlTableModel *PrinterDataModel::initializeTableModel() {
 
 }
 
-/**
- * @brief PrinterDataModel::generateTableString
- * @param model
- * @param header
- * @return
- */
 QString PrinterDataModel::generateTableString(QAbstractTableModel *model, QString header) {
     QString outString;
     int columnCount = model->columnCount();

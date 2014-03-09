@@ -49,6 +49,24 @@
 #include <QTableView>
 
 /**
+  * \brief The Main Database class
+  * \details Here will handle all db actions...
+  * \author Jürgen Mülbert
+  * \version 0.3
+  * \date 16.11.2013
+  * \copyright EUPL V1.1
+  *
+  * \todo Remove UI fpr Testing
+  * \todo Move Code for every Table in his own class
+  *
+  * \page DataModel Page
+  *
+  *
+  * This is the introduction.
+  *
+  */
+
+/**
  * @brief The DataModell class
  */
 class DataModell : public QObject
@@ -61,11 +79,18 @@ public:
      */
     DataModell(QObject *parent = 0);
 
+    /**
+      * @brief ~DataModell
+      */
     ~DataModell();
 
     /**
-     * @brief CreateConnection
+     * @brief DataModell::CreateConnection
      * @return
+     *
+     * /todo init all tables
+     * /todo check database version
+     * /tode export and import all tables
      */
     bool CreateConnection();
 
@@ -75,13 +100,19 @@ public:
      * @return
      */
     QSqlDatabase getDatabase();
-      void addRow(QTableView *);
 
-      /**
+    /**
+     * @brief DataModell::addRow
+     * @param tableView
+     */
+    void addRow(QTableView *);
+
+    /**
      * @brief setOutTableStyle
      * @return
      */
     QString setOutTableStyle();
+
 protected:
      /**
       * @brief db

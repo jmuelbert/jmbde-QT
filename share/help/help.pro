@@ -6,13 +6,15 @@ CONFIG -= qt sdk separate_debug_info gdb_dwarf_index
 QT =
 LIBS =
 
-HELP_FILES +=
+
+HELP_FILES += help.qhp
 
 help.name = Help
 help.input = HELP_FILES
-help.output = $$APPLICATION_DATA_PATH/images/${QMAKE_FILE_BASE}.png
+help.output = $$APPLICATION_DATA_PATH/help/${QMAKE_FILE_BASE}.qhc
 help.config += no_link
-help.commands = cp ${QMAKE_FILE_IN} $$APPLICATION_DATA_PATH/help/${QMAKE_FILE_BASE}.png
+help.commands = qhelpgenerator ${QMAKE_FILE_IN} -o ${QMAKE_FILE_OUT}
+
 
 QMAKE_EXTRA_COMPILERS += help
 

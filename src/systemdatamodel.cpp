@@ -23,25 +23,16 @@
 
 #include "systemdatamodel.h"
 
-/**
- * @brief SystemDataModel::SystemDataModel
- */
 SystemDataModel::SystemDataModel(QObject *parent) :
     CommonDataModel(parent)
 {
 }
 
-/**
- * @brief SystemDataModel::~SystemDataModel
- */
 SystemDataModel::~SystemDataModel()
 {
 
 }
 
-/**
- * @brief SystemDataModel::createDataTable
- */
 bool SystemDataModel::createDataTable()
 {
     bool ret;
@@ -51,9 +42,6 @@ bool SystemDataModel::createDataTable()
     return ret;
 }
 
-/**
- * @brief SystemDataModel::initializeTableModel
- */
 QSqlTableModel *SystemDataModel::initializeTableModel()
 {
     QSqlTableModel *tableModel;
@@ -63,9 +51,6 @@ QSqlTableModel *SystemDataModel::initializeTableModel()
     return tableModel;
 }
 
-/**
- * @brief SystemDataModel::initializeRelationalModel
- */
 QSqlRelationalTableModel *SystemDataModel::initializeRelationalModel()
 {
     QSqlRelationalTableModel *tableModel;

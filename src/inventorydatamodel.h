@@ -37,7 +37,14 @@
 class InventoryDataModel : public CommonDataModel
 {
 public:
+    /**
+     * @brief InventoryDataModel::InventoryDataModel
+     */
      InventoryDataModel(QObject *parent = 0);
+
+     /**
+      * @brief InventoryDataModel::~InventoryDataModel
+      */
     ~InventoryDataModel();
 
     /**

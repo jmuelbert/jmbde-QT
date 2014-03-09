@@ -39,7 +39,15 @@
 class DepartmentDataModel : public CommonDataModel
 {
 public:
+
+    /**
+     * @brief DepartmentDataModel::DepartmentDataModel
+     */
      DepartmentDataModel(QObject *parent = 0);
+
+     /**
+      * @brief DepartmentDataModel::~DepartmentDataModel
+      */
     ~DepartmentDataModel();
 
     /**

@@ -3,5 +3,7 @@
         <file>images/contact-new.png</file>
         <file>images/document-new.png</file>
         <file>images/help-browser.png</file>
+        <file>main.qml</file>
+        <file>content/AboutDialog.qml</file>
     </qresource>
 </RCC>

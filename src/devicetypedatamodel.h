@@ -39,7 +39,14 @@
 class DeviceTypeDataModel : public CommonDataModel
 {
 public:
+    /**
+     * @brief DeviceTypeDataModel::DeviceTypeDataModel
+     */
      DeviceTypeDataModel(QObject *parent = 0);
+
+     /**
+      * @brief DeviceTypeDataModel::~DepartmentDataModel
+      */
     ~DeviceTypeDataModel();
 
     /**

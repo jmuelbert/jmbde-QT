@@ -20,30 +20,12 @@
  */
 
 
-/**
-  * \brief The Main Database class
-  * \detail Here will handle all db actions...
-  * \author Jürgen Mülbert
-  * \version 0.3
-  * \date 16.11.2013
-  * \copyright EUPL V1.1
-  *
-  * \todo Remove UI fpr Testing
-  * \todo Move Code for every Table in his own class
-  *
-  * \page DataModel Page
-  *
-  *
-  * This is the introduction.
-  *
-  */
+
 
 #include "constants.h"
 #include "datamodell.h"
-/**
- * @brief DataModell::DataModell
- * @param parent
- */
+
+
 DataModell::DataModell(QObject *parent) :
     QObject(parent)
 {
@@ -56,14 +38,6 @@ DataModell::~DataModell() {
 
 }
 
-/**
- * @brief DataModell::CreateConnection
- * @return
- *
- * /todo init all tables
- * /todo check database version
- * /tode export and import all tables
- */
 bool DataModell::CreateConnection()
 {
     bool retValue = false;
@@ -224,17 +198,10 @@ bool DataModell::checkDBVersion() {
          return true;
 }
 
-
 QSqlDatabase DataModell::getDatabase() {
     return db;
 }
 
-
-
-/**
- * @brief DataModell::addRow
- * @param tableView
- */
 void DataModell::addRow(QTableView *tableView)
 {
     QAbstractItemModel *model = tableView->model();
@@ -242,10 +209,6 @@ void DataModell::addRow(QTableView *tableView)
      model->insertRow(model->rowCount());
 }
 
-/**
- * @brief DataModell::setOutTableStyle
- * @return
- */
 QString DataModell::setOutTableStyle() {
     QString css;
 

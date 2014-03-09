@@ -37,9 +37,7 @@
 #include <QDialog>
 #include <QFileDialog>
 
-/**
- *
- */
+
 namespace Ui {
 class CsvImportDialog;
 }
@@ -52,7 +50,15 @@ class CsvImportDialog : public QDialog
     Q_OBJECT
 
 public:
+    /**
+     * @brief CsvImportDialog::CsvImportDialog
+     * @param parent
+     */
     explicit CsvImportDialog(QWidget *parent = 0);
+
+    /**
+     * @brief CsvImportDialog::~CsvImportDialog
+     */
     ~CsvImportDialog();
 
 private:
@@ -62,8 +68,16 @@ private:
     QList<QStandardItem*> standardItemList;
 
 private slots:
+    /**
+     * @brief CsvImportDialog::checkString
+     * @param temp
+     * @param character
+     */
     void checkString(QString &temp, QChar character = 0);
 
+    /**
+     * @brief CsvImportDialog::on_buttonBox_accepted
+     */
     void on_buttonBox_accepted();
 };
 

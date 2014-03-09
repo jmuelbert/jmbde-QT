@@ -23,25 +23,17 @@
 
 #include "placedatamodel.h"
 
-/**
- * @brief PlaceDataModel::PlaceDataModel
- */
+
 PlaceDataModel::PlaceDataModel(QObject *parent) :
     CommonDataModel(parent)
 {
 }
 
-/**
- * @brief PlaceDataModel::~PlaceDataModel
- */
 PlaceDataModel::~PlaceDataModel()
 {
 
 }
 
-/**
- * @brief PlaceDataModel::createDataTable
- */
 bool PlaceDataModel::createDataTable()
 {
     bool ret;
@@ -51,9 +43,6 @@ bool PlaceDataModel::createDataTable()
     return ret;
 }
 
-/**
- * @brief PlaceDataModel::initializeTableModel
- */
 QSqlTableModel *PlaceDataModel::initializeTableModel()
 {
     QSqlTableModel *tableModel;
@@ -63,9 +52,6 @@ QSqlTableModel *PlaceDataModel::initializeTableModel()
     return tableModel;
 }
 
-/**
- * @brief PlaceDataModel::initializeRelationalModel
- */
 QSqlRelationalTableModel *PlaceDataModel::initializeRelationalModel()
 {
     QSqlRelationalTableModel *tableModel;

@@ -71,24 +71,6 @@ CREATE TABLE IF NOT EXISTS zipcity (
 );
 
 
----------------------------------------
---
--- Create the Table Address
--- - This is the private Address
----------------------------------------
-DROP TABLE IF EXISTS address;
-
-CREATE TABLE IF NOT EXISTS address (
-	address_id INTEGER PRIMARY KEY AUTOINCREMENT,
-	address VARCHAR(50) NOT NULL,
-	address2 VARCHAR(50) DEFAULT NULL,
-	zipcity_id SMALLIT UNSIGNED NOT NULL DEFAULT 1,
-	phone VARCHAR(20),
-	mobile VARCHAR(20),
-	email VARCHAR(50),
-	last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-CREATE INDEX idx_fk_city_id ON address (zipcity_id ASC);
 
 ---------------------------------------
 --
@@ -137,11 +119,16 @@ CREATE TABLE IF NOT EXISTS employee (
     title_id SMALLINT UNSIGNED NOT NULL DEFAULT 1,
     firstname VARCHAR(45),
     lastname VARCHAR(45) NOT NULL,
-    address_id SMALLINT UNSIGNED NOT NULL DEFAULT 1,
     birthday DATETIME,
-    email VARCHAR(45),
+    address VARCHAR(50) NOT NULL,
+	zipcity_id SMALLIT UNSIGNED NOT NULL DEFAULT 1,
+	homephone VARCHAR(20),
+	homemobile VARCHAR(20),
+	homeemail VARCHAR(50),
     datacare BOOLEAN NOT NULL DEFAULT FALSE,
     active BOOLEAN NOT NULL DEFAULT TRUE,
+    photo BLOB,
+    notes VARCHAR(50),
     startdate DATETIME,
     enddate DATETIME,
     department_id SMALLINT UNSIGNED NOT NULL DEFAULT 1,
@@ -158,7 +145,6 @@ CREATE TABLE IF NOT EXISTS employee (
 
 CREATE INDEX idx_employee_employee_nr ON employee (employee_nr ASC);
 CREATE INDEX idx_employee_lastname ON employee (lastname ASC);
-CREATE INDEX idx_fk_employee_address_id ON employee (address_id ASC);
 CREATE INDEX idx_fk_employee_department_id ON employee (department_id ASC);
 CREATE INDEX idx_fk_employee_function_id ON employee (function_id ASC);
 CREATE INDEX idx_fk_employee_computer_id ON employee (computer_id ASC);
@@ -254,12 +240,18 @@ DROP TABLE IF EXISTS manufacturer;
 CREATE TABLE IF NOT EXISTS manufacturer (
 	manufacturer_id INTEGER PRIMARY KEY AUTOINCREMENT,
 	name VARCHAR(45) NOT NULL,
+	name2 VARCHAR(45),
 	supporter VARCHAR(45) NOT NULL,
-	address_id SMALLINT UNSIGNED NOT NULL DEFAULT 1,
+    address VARCHAR(50) NOT NULL,
+    address2 VARCHAR(50),
+    email VARCHAR(50),
+    fax VARCHAR(20),
+    hotline VARCHAR(20),
+    phone VARCHAR(20),
+	zipcity_id SMALLIT UNSIGNED NOT NULL DEFAULT 1,
 	last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE INDEX idx_fk_manufacturer_address_id ON manufacturer (address_id ASC);
 
 
 ---------------------------------------
@@ -363,13 +355,14 @@ CREATE TABLE IF NOT EXISTS systemdata (
 	systemdata_id INTEGER PRIMARY KEY AUTOINCREMENT,
 	name VARCHAR(45) NOT NULL,
 	local BOOLEAN DEFAULT TRUE,
+	company VARCHAR(45),
+	address VARCHAR(45),
+	address2 VARCHAR(45),
 	account_id SMALLINT UNSIGNED NOT NULL DEFAULT 1,
-	address_id SMALLINT UNSIGNED NOT NULL DEFAULT 1,
 	last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE INDEX idx_fk_systemdata_account ON systemdata (account_id ASC);
-CREATE INDEX idx_fk_systemdata_address ON systemdata (address_id AsC);
 
 ---------------------------------------
 --
@@ -422,7 +415,7 @@ DROP TABLE IF EXISTS processor;
 CREATE TABLE IF NOT EXISTS processor (
 	processor_id INTEGER PRIMARY KEY AUTOINCREMENT,
 	name VARCHAR(45) NOT NULL,
-	ghz VARCHAR(10) NOT NULL,
+	ghz DECIMAL NOT NULL,
 	cores SMALLINT UNSIGNED DEFAULT 2,
 	last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -595,6 +588,7 @@ CREATE TABLE IF NOT EXISTS printer (
 	replace BOOLEAN DEFAULT FALSE,
 	resources VARCHAR(45) NOT NULL,
 	papersize_max VARCHAR(5) NOT NULL,
+	color BOOLEAN DEFAULT FALSE,			
 	devicetype_id SMALLINT UNSIGNED NOT NULL DEFAULT 1,
 	employee_id SMALLINT UNSIGNED DEFAULT NULL DEFAULT 1,
 	place_id SMALLINT UNSIGNED NOT NULL DEFAULT 1,
@@ -816,12 +810,7 @@ INSERT INTO zipcity (zipcode_id, city_id) VALUES(4, 2);
 INSERT INTO zipcity (zipcode_id, city_id) VALUES(5, 2);
 INSERT INTO zipcity (zipcode_id, city_id) VALUES(6, 2);
 INSERT INTO zipcity (zipcode_id, city_id) VALUES(7, 3);
----------------------------------------
---
--- The Address Table
---
----------------------------------------
-INSERT INTO address (address, zipcity_id, phone) VALUES('NONE', 1, 'NONE');
+
 
 ---------------------------------------
 --
@@ -836,13 +825,13 @@ INSERT INTO title (name) VALUES('');
 --
 ---------------------------------------
 INSERT INTO employee (employee_nr, gender, title_id,
-		lastname, address_id,
+		lastname, address,
 		department_id, function_id,
 		computer_id, printer_id,
 		phone_id, mobile_id, fax_id,
 		employee_account_id, employee_document_id)
 VALUES(1, 'N', 1,
-		'NONE', 1,
+		'NONE', 'NONE',
 		1, 1,
 		1, 1,
 		1, 1, 1,
@@ -904,14 +893,14 @@ INSERT INTO inventory (number, text, active) VALUES('0000-0000', 'NONE', 'FALSE'
 -- The Manufacturer Table
 --
 ---------------------------------------
-INSERT INTO manufacturer (name, supporter, address_id) VALUES('Dell', 'NONE', 1);
-INSERT INTO manufacturer (name, supporter, address_id) VALUES('IBM', 'NONE', 1);
-INSERT INTO manufacturer (name, supporter, address_id) VALUES('Lenovo', 'NONE', 1);
-INSERT INTO manufacturer (name, supporter, address_id) VALUES('Hewlett Packard', 'NONE', 1);
-INSERT INTO manufacturer (name, supporter, address_id) VALUES('Canon', 'NONE', 1);
-INSERT INTO manufacturer (name, supporter, address_id) VALUES('Apple', 'NONE', 1);
-INSERT INTO manufacturer (name, supporter, address_id) VALUES('Siemens', 'NONE', 1);
-INSERT INTO manufacturer (name, supporter, address_id) VALUES('Unify', 'NONE', 1);
+INSERT INTO manufacturer (name, address, supporter) VALUES('Dell', 'NONE', 'NONE');
+INSERT INTO manufacturer (name, address, supporter) VALUES('IBM', 'NONE', 'NONE');
+INSERT INTO manufacturer (name, address, supporter) VALUES('Lenovo', 'NONE', 'NONE');
+INSERT INTO manufacturer (name, address, supporter) VALUES('Hewlett Packard', 'NONE', 'NONE');
+INSERT INTO manufacturer (name, address, supporter) VALUES('Canon', 'NONE', 'NONE');
+INSERT INTO manufacturer (name, address, supporter) VALUES('Apple', 'NONE', 'NONE');
+INSERT INTO manufacturer (name, address, supporter) VALUES('Siemens', 'NONE', 'NONE');
+INSERT INTO manufacturer (name, address, supporter) VALUES('Unify', 'NONE', 'NONE');
 
 ---------------------------------------
 --

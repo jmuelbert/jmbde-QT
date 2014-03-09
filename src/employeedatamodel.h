@@ -47,11 +47,11 @@
 #include "datamodell.h"
 
 /**
- * @brief The EmployeeDataModel class
+ * @brief EmployeeDataModel::EmployeeDataModel
+ * @param parent
  *
- * /page EmployeeDataModell
- *
- * -- - The title is Dr., Ing. and so on
+ * The Datafields:
+-- - The title is Dr., Ing. and so on
 -- - address is foreign key for the address table
 -- - gender (m/w)
 -- - birthday of the employee
@@ -71,12 +71,31 @@
 -- - the foreign key to the table of accounts
 -- - the foreign key to the table of documents
  *
+ * digraph g {
+ *	graph [
+        rankdir = "LR";
+    ];
+
+    node [
+        fontsize = "16";
+        shape = "record";
+        ];
+    }
  */
+
 class EmployeeDataModel : public DataModell
 {
 
 public:
+    /**
+      * @brief EmployeeDataModel
+      * @param parent
+      */
      EmployeeDataModel(QObject *parent = 0);
+
+     /**
+       * @brief ~EmployeeDataModel
+       */
      ~EmployeeDataModel();
 
      /**
@@ -116,7 +135,7 @@ public:
       QTextDocument *createSheet();
 
       /**
-       * @brief generateEmployeeString
+       * @brief generateTabletring
        * @param model
        * @param header
        * @return
@@ -126,11 +145,13 @@ public:
 
     /**
      * @brief setFirstname
+     * @param _firstname
      */
     void setFirstname(QString *);
 
     /**
      * @brief setLastname
+     * @param _lastname
      */
     void setLastname(QString *);
 

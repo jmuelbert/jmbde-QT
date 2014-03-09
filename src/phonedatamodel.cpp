@@ -22,25 +22,14 @@
 
 #include "phonedatamodel.h"
 
-/**
- * @brief PhoneDataModel::PhoneDataModel
- * @param parent
- */
 PhoneDataModel::PhoneDataModel(QObject *parent) : DataModell(parent)
 {
 }
 
-/**
- * @brief PhoneDataModel::~PhoneDataModel
- */
 PhoneDataModel::~PhoneDataModel() {
 
 }
 
-
-/**
- * @brief PhoneDataModel::addDataSet
- */
 void PhoneDataModel::addDataSet() {
     QSqlQuery query;
 
@@ -60,10 +49,6 @@ void PhoneDataModel::addDataSet() {
     }
 }
 
-/**
- * @brief initializeRelationalModel
- * @return
- */
 QSqlRelationalTableModel *PhoneDataModel::initializeRelationalModel() {
     //TODO: id als locale Konstante
 
@@ -121,10 +106,6 @@ QSqlRelationalTableModel *PhoneDataModel::initializeRelationalModel() {
     return model;
 }
 
-/**
- * @brief initializeTableModel
- * @return
- */
 QSqlTableModel *PhoneDataModel::initializeTableModel() {
     QSqlTableModel *model = new QSqlTableModel(this);
     model->setTable(QLatin1String("phone"));

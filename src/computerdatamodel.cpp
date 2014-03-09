@@ -21,25 +21,16 @@
 
 #include "computerdatamodel.h"
 
-/**
- * @brief ComputerDataModel::ComputerDataModel
- * @param parent
- */
+
 ComputerDataModel::ComputerDataModel(QObject *parent) : DataModell(parent)
 {
 }
 
-/**
- * @brief ComputerDataModel::~ComputerDataModel
- */
+
 ComputerDataModel::~ComputerDataModel() {
 
 }
 
-
-/**
- * @brief ComputerDataModel::addDataSet
- */
 void ComputerDataModel::addDataSet() {
     QSqlQuery query;
 
@@ -59,10 +50,7 @@ void ComputerDataModel::addDataSet() {
     }
 }
 
-/**
- * @brief initializeRelationalModel
- * @return
- */
+
 QSqlRelationalTableModel *ComputerDataModel::initializeRelationalModel() {
     //TODO: id als locale Konstante
 
@@ -143,10 +131,7 @@ QSqlRelationalTableModel *ComputerDataModel::initializeRelationalModel() {
     return model;
 }
 
-/**
- * @brief initializeTableModel
- * @return
- */
+
 QSqlTableModel *ComputerDataModel::initializeTableModel() {
     QSqlTableModel *model = new QSqlTableModel(this);
     model->setTable(QLatin1String("computer"));

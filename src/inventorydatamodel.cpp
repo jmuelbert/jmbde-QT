@@ -21,25 +21,17 @@
 
 #include "inventorydatamodel.h"
 
-/**
- * @brief InventoryDataModel::InventoryDataModel
- */
+
 InventoryDataModel::InventoryDataModel(QObject *parent) :
     CommonDataModel(parent)
 {
 }
 
-/**
- * @brief InventoryDataModel::~InventoryDataModel
- */
 InventoryDataModel::~InventoryDataModel()
 {
 
 }
 
-/**
- * @brief InventoryDataModel::createDataTable
- */
 bool InventoryDataModel::createDataTable()
 {
     bool ret;
@@ -49,9 +41,6 @@ bool InventoryDataModel::createDataTable()
     return ret;
 }
 
-/**
- * @brief InventoryDataModel::initializeTableModel
- */
 QSqlTableModel *InventoryDataModel::initializeTableModel()
 {
     QSqlTableModel *tableModel;

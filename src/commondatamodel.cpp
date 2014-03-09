@@ -52,10 +52,6 @@ bool CommonDataModel::createDataTable(QString tableName)
 }
 
 
-/**
- * @brief initializeRelationalModel
- * @return
- */
 QSqlRelationalTableModel *CommonDataModel::initializeRelationalModel(const QString tableName)
 {
     //TODO: id als locale Konstante

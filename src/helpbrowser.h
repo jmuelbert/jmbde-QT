@@ -23,17 +23,30 @@
 #ifndef HELPBROWSER_H
 #define HELPBROWSER_H
 
+#include <QDebug>
+#include <QDir>
+#include <QLibraryInfo>
+#include <QApplication>
+#include <QHelpEngine>
 #include <QTextBrowser>
+
+class QHelpEngine;
 
 class HelpBrowser : public QTextBrowser
 {
     Q_OBJECT
 public:
-    explicit HelpBrowser(QObject *parent = 0);
-
+    explicit HelpBrowser(QWidget *parent = 0);
+    void showHelpForKeyWord(const QString &id);
+    QWidget *getContentWidget();
+    QWidget *getLinkWidget();
 signals:
 
 public slots:
+
+private:
+    QVariant loadResource(int type, const QUrl &name);
+    QHelpEngine *m_helpEngine;
 
 };
 

@@ -39,7 +39,15 @@
 class SystemDataModel : public CommonDataModel
 {
 public:
+    /**
+     * @brief SystemDataModel
+     * @param parent
+     */
     SystemDataModel(QObject *parent = 0);
+
+    /**
+      * ~SystemDataModel
+      */
     ~SystemDataModel();
 
     /**
@@ -62,6 +70,9 @@ public:
 
 
 private:
+    /**
+     * @brief tableName
+     */
     QString tableName = QLatin1String("system");
 };
 

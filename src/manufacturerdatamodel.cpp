@@ -21,9 +21,7 @@
 
 #include "manufacturerdatamodel.h"
 
-/**
- * @brief ManufacturerDataModel::ManufacturerDataModel
- */
+
 ManufacturerDataModel::ManufacturerDataModel(QObject *parent) :
     CommonDataModel(parent)
 {
@@ -34,10 +32,6 @@ ManufacturerDataModel::~ManufacturerDataModel()
 
 }
 
-
-/**
- * @brief ManufacturerDataModel::createDataTable
- */
 bool ManufacturerDataModel::createDataTable()
 {
     bool ret;
@@ -47,9 +41,6 @@ bool ManufacturerDataModel::createDataTable()
     return ret;
 }
 
-/**
- * @brief ManufacturerDataModel::initializeTableModel
- */
 QSqlTableModel *ManufacturerDataModel::initializeTableModel()
 {
     QSqlTableModel *tableModel;
@@ -58,7 +49,6 @@ QSqlTableModel *ManufacturerDataModel::initializeTableModel()
 
     return tableModel;
 }
-
 
 QSqlRelationalTableModel *ManufacturerDataModel::initializeRelationalModel()
 {

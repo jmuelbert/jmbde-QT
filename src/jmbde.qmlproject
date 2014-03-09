@@ -1,6 +1,17 @@
-import QtQuick 2.0
 
-Rectangle {
-    width: 100
-    height: 62
+import QmlProject 1.1
+
+Project {
+    mainFile: "main.qml"
+
+    /* Include .qml, .js, and image files from current directory and subdirectories */
+    QmlFiles {
+        directory: "."
+    }
+    JavaScriptFiles {
+        directory: "."
+    }
+    ImageFiles {
+        directory: "."
+    }
 }

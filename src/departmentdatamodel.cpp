@@ -21,26 +21,17 @@
 
 #include "departmentdatamodel.h"
 
-/**
- * @brief DepartmentDataModel::DepartmentDataModel
- */
+
 DepartmentDataModel::DepartmentDataModel(QObject *parent) :
     CommonDataModel(parent)
 {
 }
 
-/**
- * @brief DepartmentDataModel::~DepartmentDataModel
- */
 DepartmentDataModel::~DepartmentDataModel()
 {
 
 }
 
-/**
- * @brief DepartmentDataModel::createDataTable
- * @return
- */
 bool DepartmentDataModel::createDataTable()
 {
     bool ret;
@@ -49,10 +40,6 @@ bool DepartmentDataModel::createDataTable()
     return ret;
 }
 
-
-/**
- * @brief DepartmentDataModel::initializeTableModel
- */
 QSqlTableModel *DepartmentDataModel::initializeTableModel()
 {
     QSqlTableModel *tableModel;

@@ -39,7 +39,14 @@
 class PlaceDataModel : public CommonDataModel
 {
 public:
+    /**
+     * @brief PlaceDataModel::PlaceDataModel
+     */
     PlaceDataModel(QObject *parent = 0);
+
+    /**
+     * @brief PlaceDataModel::~PlaceDataModel
+     */
     ~PlaceDataModel();
 
     /**

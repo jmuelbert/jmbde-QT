@@ -1118,7 +1118,7 @@ GENERATE_QHP           = YES
 # be used to specify the file name of the resulting .qch file.
 # The path specified is relative to the HTML output folder.
 
-QCH_FILE               = jmbde.qhc
+QCH_FILE               = jmbde_source.qhc
 
 # The QHP_NAMESPACE tag specifies the namespace to use when generating
 # Qt Help Project output. For more information please see
@@ -1130,7 +1130,7 @@ QHP_NAMESPACE          = de.juergenmuelbert.jmbde.documentation
 # Qt Help Project output. For more information please see
 # http://doc.trolltech.com/qthelpproject.html#virtual-folders
 
-QHP_VIRTUAL_FOLDER     = doc/juergenmuelbert/jmbde
+QHP_VIRTUAL_FOLDER     = source
 
 # If QHP_CUST_FILTER_NAME is set, it specifies the name of a custom filter to
 # add. For more information please see

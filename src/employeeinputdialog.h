@@ -42,22 +42,54 @@ class EmployeeInputDialog :  public QDialog
     Q_OBJECT
 
 public:
+    /**
+     * @brief EmployeeInputDialog::EmployeeInputDialog
+     * @param parent
+     */
      EmployeeInputDialog(QWidget *parent = 0);
+
+     /**
+      * @brief EmployeeInputDialog::~EmployeeInputDialog
+      */
     ~EmployeeInputDialog();
 
 private slots:
+
+     /**
+      * @brief EmployeeInputDialog::on_buttonBox_accepted
+      */
     void on_buttonBox_accepted();
 
+    /**
+     * @brief on_nextButton_clicked
+     */
     void on_nextButton_clicked();
 
+    /**
+     * @brief on_previousButton_clicked
+     */
     void on_previousButton_clicked();
 
+    /**
+     * @brief on_buttonBox_rejected
+     */
     void on_buttonBox_rejected();
 
+    /**
+     * @brief on_pushButtonNew_clicked
+     */
     void on_pushButtonNew_clicked();
 
 private:
+    /**
+     * @brief setupModel
+     */
     void setupModel();
+
+    /**
+     * @brief addRow
+     * @param model
+     */
     void addRow(QAbstractTableModel *model);
 
 

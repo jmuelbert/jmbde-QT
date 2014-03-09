@@ -23,10 +23,7 @@
 #include "ui_preferencesdialog.h"
 #include "constants.h"
 
-/**
- * @brief PreferencesDialog::PreferencesDialog
- * @param parent
- */
+
 PreferencesDialog::PreferencesDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::PreferencesDialog)
@@ -39,17 +36,12 @@ PreferencesDialog::PreferencesDialog(QWidget *parent) :
     readSettings();
 }
 
-/**
- * @brief PreferencesDialog::~PreferencesDialog
- */
+
 PreferencesDialog::~PreferencesDialog()
 {
     delete ui;
 }
 
-/**
- * @brief PreferencesDialog::writeSettings
- */
 void PreferencesDialog::writeSettings()
 {
     QString CompanyName = QLatin1String(Constants::COMPANY_NAME);
@@ -72,9 +64,6 @@ void PreferencesDialog::writeSettings()
     settings.endGroup();
 }
 
-/**
- * @brief PreferencesDialog::readSettings
- */
 void PreferencesDialog::readSettings()
 {
     QString CompanyName = QLatin1String(Constants::COMPANY_NAME);
@@ -93,9 +82,6 @@ void PreferencesDialog::readSettings()
 
 }
 
-/**
- * @brief PreferencesDialog::on_pushButtonDBForceFileDialog_clicked
- */
 void PreferencesDialog::on_pushButtonDBForceFileDialog_clicked()
 {
     QString dbDir = QFileDialog::getExistingDirectory ( this, tr("Select Directory for Database"), this->getUserDataDir());

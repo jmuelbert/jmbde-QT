@@ -26,6 +26,17 @@
 
 #include <QSettings>
 
+#include <QtQml/QQmlApplicationEngine>
+
+#include <QtQuick/QQuickView>>
+#include <QtCore/QString>
+
+#ifdef QT_WIDGETS_LIB
+#include <QtWidgets/QApplication>>
+#else
+#include <QtGui/QGuiApplication>
+#endif
+
 #include <QSqlTableModel>
 #include <QSqlRelationalTableModel>
 #include <QSqlRelationalDelegate>
@@ -44,7 +55,10 @@
 #include <QPrintPreviewDialog>
 #endif
 
+#include <QtHelp>
 
+
+#include "helpbrowser.h"
 #include "constants.h"
 #include "datamodell.h"
 #include "accountdatamodel.h"
@@ -76,6 +90,16 @@ namespace Ui {
 class MainWindow;
 }
 
+QT_BEGIN_NAMESPACE
+
+#ifdef QT_WIDGETS_LIB
+#define Application QApplication
+#else
+#define Application QGuiApplication
+#endif
+
+QT_END_NAMESPACE
+
 /**
  * @brief The MainWindow class
  */
@@ -89,6 +113,10 @@ public:
      * @param parent
      */
     explicit MainWindow(QWidget *parent = 0);
+
+    /**
+     * @brief MainWindow::~MainWindow
+     */
     ~MainWindow();
 
 protected:
@@ -126,37 +154,76 @@ private slots:
      */
     void focusChanged(QWidget *, QWidget *now);
 
+    /**
+     * @brief on_actionOpen_triggered
+     */
     void on_actionOpen_triggered();
 
+    /**
+     * @brief on_actionImport_triggered
+     */
     void on_actionImport_triggered();
 
+    /**
+     * @brief on_actionExport_triggered
+     */
     void on_actionExport_triggered();
 
+    /**
+     * @brief on_actionPrint_triggered
+     */
     void on_actionPrint_triggered();
 
+    /**
+     * @brief on_action_Export_Pdf_triggered
+     */
     void on_action_Export_Pdf_triggered();
 
+    /**
+     * @brief on_actionPrint_Preview_triggered
+     */
     void on_actionPrint_Preview_triggered();
 
-
+    /**
+     * @brief on_actionEmployee_triggered
+     */
     void on_actionEmployee_triggered();
 
-
+    /**
+     * @brief on_radioButtonEmployee_toggled
+     * @param checked
+     */
     void on_radioButtonEmployee_toggled(bool checked);
 
+    /**
+     * @brief on_radioButtonComputer_toggled
+     * @param checked
+     */
     void on_radioButtonComputer_toggled(bool checked);
 
+    /**
+     * @brief on_radioButtonPrinter_toggled
+     * @param checked
+     */
     void on_radioButtonPrinter_toggled(bool checked);
 
+    /**
+     * @brief on_radioButtonPhone_toggled
+     * @param checked
+     */
     void on_radioButtonPhone_toggled(bool checked);
 
-
-
+    /**
+     * @brief on_pushButtonAddData_clicked
+     */
     void on_pushButtonAddData_clicked();
 
+    /**
+     * @brief on_QPushButtonSubmit_clicked
+     */
     void on_QPushButtonSubmit_clicked();
 
-
+    void on_actionHelp_triggered();
 
 private:
     /**
@@ -172,6 +239,9 @@ private:
      */
     void writeSettings();
 
+    QHelpEngine *helpEngine;
+
+    QDockWidget *helpWindow;
 
     /**
      * @brief Not_Available_Message

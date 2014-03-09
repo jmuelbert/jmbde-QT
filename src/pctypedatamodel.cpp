@@ -23,26 +23,17 @@
 
 #include "pctypedatamodel.h"
 
-/**
- * @brief PCTypeDataModel::PCTypeDataModel
- * @param parent
- */
+
 PCTypeDataModel::PCTypeDataModel(QObject *parent) :
     CommonDataModel(parent)
 {
 }
 
-/**
- * @brief PCTypeDataModel::~PCTypeDataModel
- */
 PCTypeDataModel::~PCTypeDataModel()
 {
 
 }
 
-/**
- * @brief PCTypeDataModel::createDataTable
- */
 bool PCTypeDataModel::createDataTable()
 {
     bool ret;
@@ -52,9 +43,6 @@ bool PCTypeDataModel::createDataTable()
     return ret;
 }
 
-/**
- * @brief PCTypeDataModel::initializeTableModel
- */
 QSqlTableModel *PCTypeDataModel::initializeTableModel()
 {
     QSqlTableModel *tableModel;
@@ -64,9 +52,6 @@ QSqlTableModel *PCTypeDataModel::initializeTableModel()
     return tableModel;
 }
 
-/**
- * @brief PCTypeDataModel::initializeRelationalModel
- */
 QSqlRelationalTableModel *PCTypeDataModel::initializeRelationalModel()
 {
     QSqlRelationalTableModel *tableModel;

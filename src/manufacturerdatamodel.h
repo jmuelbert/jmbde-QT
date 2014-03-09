@@ -38,7 +38,14 @@
 class ManufacturerDataModel : public CommonDataModel
 {
 public:
+    /**
+     * @brief ManufacturerDataModel::ManufacturerDataModel
+     */
      ManufacturerDataModel(QObject *parent = 0);
+
+     /**
+       * @brief ~ManufacturerDataModel
+       */
     ~ManufacturerDataModel();
 
     /**

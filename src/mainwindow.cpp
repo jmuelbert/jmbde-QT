@@ -1,32 +1,29 @@
 /*
-* Copyright 2013,2014 Jürgen Mülbert
-*
-* Licensed under the EUPL, Version 1.1 or – as soon they
-  will be approved by the European Commission - subsequent
-  versions of the EUPL (the "Licence");
-* You may not use this work except in compliance with the
-  Licence.
-* You may obtain a copy of the Licence at:
-*
-* http://ec.europa.eu/idabc/eupl5
-*
-* Unless required by applicable law or agreed to in
-  writing, software distributed under the Licence is
-  distributed on an "AS IS" basis,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-  express or implied.
-* See the Licence for the specific language governing
-  permissions and limitations under the Licence.
-*/
+ * mainwindow.cpp
+ * jmbde
+ *
+ *  Copyright (c) 2013,2014 Jürgen Mülbert. All rights reserved.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the European Union Public Licence (EUPL),
+ * version 1.1.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * European Union Public Licence for more details.
+ *
+ * You should have received a copy of the European Union Public Licence
+ * along with this program. If not, see
+ * http://www.osor.eu/eupl/european-union-public-licence-eupl-v.1.1
+ *
+ */
 
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-/**
- * @brief MainWindow::MainWindow
- * @param parent
- */
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -40,45 +37,33 @@ MainWindow::MainWindow(QWidget *parent) :
 #endif
 
     readSettings();
+
+
     dm = new DataModell();
     bool retValue = dm->CreateConnection();
     if (retValue == true) {
         ui->radioButtonEmployee->setChecked(true);
         this->on_radioButtonEmployee_toggled(true);
     }
-
 }
 
-/**
- * @brief MainWindow::~MainWindow
- */
+
 MainWindow::~MainWindow()
 {
      dm->~DataModell();
     delete ui;
 }
 
-/**
- * @brief MainWindow::focusChanged
- * @param now
- */
 void MainWindow::focusChanged(QWidget *, QWidget *now)
 {
     qDebug() << "Help :-)";
 }
 
-/**
- * @brief MainWindow::closeEvent
- * @param event
- */
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     writeSettings();
 }
 
-/**
- * @brief MainWindow::on_actionPreferences_triggered
- */
 void MainWindow::on_actionPreferences_triggered()
 {
     PreferencesDialog *settingsDialog;
@@ -86,9 +71,6 @@ void MainWindow::on_actionPreferences_triggered()
     settingsDialog->show();
 }
 
-/**
- * @brief MainWindow::on_actionAbout_triggered
- */
 void MainWindow::on_actionAbout_triggered()
 {
 
@@ -114,9 +96,6 @@ void MainWindow::on_actionAbout_triggered()
 
 }
 
-/**
- * @brief MainWindow::writeSettings
- */
 void MainWindow::writeSettings()
 {
     QString CompanyName = QLatin1String(Constants::COMPANY_NAME);
@@ -138,9 +117,6 @@ void MainWindow::writeSettings()
 
 }
 
-/**
- * @brief MainWindow::readSettings
- */
 void MainWindow::readSettings()
 {
     QString CompanyName = QLatin1String(Constants::COMPANY_NAME);
@@ -166,11 +142,6 @@ void MainWindow::readSettings()
 
 }
 
-
-
-/**
- * @brief MainWindow::on_actionNew_triggered
- */
 void MainWindow::on_actionNew_triggered()
 {
     int ret = QMessageBox::warning(this,
@@ -187,42 +158,27 @@ void MainWindow::on_actionNew_triggered()
     }
 }
 
-/**
- * @brief MainWindow::on_actionQuit_triggered
- */
 void MainWindow::on_actionQuit_triggered()
 {
     qApp->quit();
 }
 
-/**
- * @brief MainWindow::on_actionOpen_triggered
- */
 void MainWindow::on_actionOpen_triggered()
 {
     Not_Available_Message();
 }
 
-/**
- * @brief MainWindow::on_actionImport_triggered
- */
 void MainWindow::on_actionImport_triggered()
 {
     CsvImportDialog *csvImport = new CsvImportDialog();
     csvImport->show();
 }
 
-/**
- * @brief MainWindow::on_actionExport_triggered
- */
 void MainWindow::on_actionExport_triggered()
 {
     Not_Available_Message();
 }
 
-/**
- * @brief MainWindow::on_actionPrint_triggered
- */
 void MainWindow::on_actionPrint_triggered()
 {
 
@@ -272,9 +228,6 @@ void MainWindow::on_actionPrint_triggered()
 #endif
 }
 
-/**
- * @brief MainWindow::on_action_Export_Pdf_triggered
- */
 void MainWindow::on_action_Export_Pdf_triggered()
 {
     QTextDocument doc;
@@ -327,9 +280,6 @@ void MainWindow::on_action_Export_Pdf_triggered()
 
 }
 
-/**
- * @brief MainWindow::on_actionPrint_Preview_triggered
- */
 void MainWindow::on_actionPrint_Preview_triggered()
 {
     QTextDocument doc;
@@ -375,11 +325,6 @@ void MainWindow::on_actionPrint_Preview_triggered()
 
 }
 
-
-
-/**
- * @brief MainWindow::Not_Available_Message
- */
 void MainWindow::Not_Available_Message()
 {
     QString message = tr("This action is not implemented\n"
@@ -400,10 +345,6 @@ void MainWindow::Not_Available_Message()
 }
 
 
-/**
- * @brief MainWindow::on_actionEmployee_triggered
- * Show the pure Employee Table
- */
 void MainWindow::on_actionEmployee_triggered()
 {
     EmployeeDataModel *edm = new EmployeeDataModel;
@@ -417,10 +358,6 @@ void MainWindow::on_actionEmployee_triggered()
 }
 
 
-/**
- * @brief MainWindow::on_radioButtonEmployee_toggled
- * @param checked
- */
 void MainWindow::on_radioButtonEmployee_toggled(bool checked)
 {
     qDebug() << "Employee Button : " << checked;
@@ -437,10 +374,6 @@ void MainWindow::on_radioButtonEmployee_toggled(bool checked)
     tableModel->database().commit();
 }
 
-/**
- * @brief MainWindow::on_radioButtonComputer_toggled
- * @param checked
- */
 void MainWindow::on_radioButtonComputer_toggled(bool checked)
 {
       qDebug() << "Computer Button : " << checked;
@@ -457,10 +390,6 @@ void MainWindow::on_radioButtonComputer_toggled(bool checked)
 
 }
 
-/**
- * @brief MainWindow::on_radioButtonPrinter_toggled
- * @param checked
- */
 void MainWindow::on_radioButtonPrinter_toggled(bool checked)
 {
    qDebug() << "Printer Button : " << checked;
@@ -478,10 +407,6 @@ void MainWindow::on_radioButtonPrinter_toggled(bool checked)
 
 }
 
-/**
- * @brief MainWindow::on_radioButtonPhone_toggled
- * @param checked
- */
 void MainWindow::on_radioButtonPhone_toggled(bool checked)
 {
   qDebug() << "Phone Button : " << checked;
@@ -499,9 +424,6 @@ void MainWindow::on_radioButtonPhone_toggled(bool checked)
 }
 
 
-/**
- * @brief MainWindow::on_pushButtonAddData_clicked
- */
 void MainWindow::on_pushButtonAddData_clicked()
 {
     if (ui->radioButtonEmployee->isChecked()) {
@@ -530,9 +452,6 @@ void MainWindow::on_pushButtonAddData_clicked()
 }
 
 
-/**
- * @brief MainWindow::on_QPushButtonSubmit_clicked
- */
 void MainWindow::on_QPushButtonSubmit_clicked()
 {
     tableModel->submitAll();
@@ -541,3 +460,20 @@ void MainWindow::on_QPushButtonSubmit_clicked()
     qDebug() << "DB       : " << tableModel->database().isValid();
     qDebug() << "Last Error : " << tableModel->database().lastError().text();
 }
+
+void MainWindow::on_actionHelp_triggered()
+{
+    helpWindow = new QDockWidget(tr("Help"), this);
+    QSplitter *helpPanel = new QSplitter(Qt::Horizontal);
+
+    HelpBrowser *helpBrowser = new HelpBrowser();
+
+    helpPanel->insertWidget(0, helpBrowser->getContentWidget());
+    helpPanel->insertWidget(1, helpBrowser->getLinkWidget());
+    helpPanel->setStretchFactor(1,1);
+    helpWindow->setWidget(helpPanel);
+    addDockWidget(Qt::BottomDockWidgetArea, helpWindow);
+
+    helpBrowser->showHelpForKeyWord(QLatin1String("main"));
+}
+

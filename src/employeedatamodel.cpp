@@ -22,58 +22,15 @@
 
 #include "employeedatamodel.h"
 
-/**
- * @brief EmployeeDataModel::EmployeeDataModel
- * @param parent
- *
- * The Datafields:
--- - The title is Dr., Ing. and so on
--- - address is foreign key for the address table
--- - gender (m/w)
--- - birthday of the employee
--- - email address in the company
--- - datacare in german datenschutz (y/n)
---   or TRUE / FALSE
--- - active is the employee real here
--- - startdate  the employee is then here
--- - enddate this is the last day
--- - the foreign key to the department
--- - the foreign key for the function of the employee
--- - the foreign key to the computer
--- - the foreign key to the printer
--- - the foreign key to the inhouse phone
--- - the foreign key to the mobile
--- - the foreign key to the fax
--- - the foreign key to the table of accounts
--- - the foreign key to the table of documents
- *
- * digraph g {
- *	graph [
- 		rankdir = "LR";
- 	];
 
- 	node [
- 		fontsize = "16";
- 		shape = "record";
- 		];
- 	}
- */
 EmployeeDataModel::EmployeeDataModel(QObject *parent) : DataModell(parent)
 {
 
 }
 
-/**
- * @brief EmployeeDataModel::~EmployeeDataModel
- */
 EmployeeDataModel::~EmployeeDataModel() {
 }
 
-
-
-/**
- * @brief EmployeeDataModel::AddDataSet
- */
 void EmployeeDataModel::addDataSet() {
 
    QDate today = QDate::currentDate();
@@ -125,11 +82,6 @@ void EmployeeDataModel::addDataSet() {
    }
 }
 
-
-/**
- * @brief EmployeeDataModel::initializeRelationalModel
- * @return
- */
 QSqlTableModel *EmployeeDataModel::initializeViewModel() {
 
     //TODO: id als locale Konstante
@@ -146,10 +98,6 @@ QSqlTableModel *EmployeeDataModel::initializeViewModel() {
     return model;
 }
 
-/**
- * @brief EmployeeDataModel::initializeRelationalModel
- * @return
- */
 QSqlRelationalTableModel *EmployeeDataModel::initializeRelationalModel() {
 
     //TODO: id als locale Konstante
@@ -226,11 +174,6 @@ QSqlRelationalTableModel *EmployeeDataModel::initializeRelationalModel() {
     return model;
 }
 
-/**
- * @brief EmployeeDataModel::initializeInputDataModel
- * @return
- */
-
 QSqlRelationalTableModel *EmployeeDataModel::initializeInputDataModel() {
 
     QSqlRelationalTableModel *model = new QSqlRelationalTableModel(this, this->db);
@@ -239,10 +182,6 @@ QSqlRelationalTableModel *EmployeeDataModel::initializeInputDataModel() {
    return model;
 }
 
-/**
- * @brief EmployeeDataModel::initializeTableModel
- * @return
- */
 QSqlTableModel *EmployeeDataModel::initializeTableModel() {
     QSqlTableModel *model = new QSqlTableModel(this);
     model->setTable(QLatin1String("employee"));
@@ -277,25 +216,13 @@ QSqlTableModel *EmployeeDataModel::initializeTableModel() {
     return model;
 }
 
-/**
- * @brief EmployeeDataModel::setFirstname
- * @param _firstname
- */
 void EmployeeDataModel::setFirstname(QString *_firstname) {
     this->firstname = _firstname;
 }
 
-/**
- * @brief EmployeeDataModel::setLastname
- * @param _lastname
- */
 void EmployeeDataModel::setLastname(QString *_lastname) {
     this->lastname = _lastname;
 }
-
-/**
- * @brief EmployeeDataModel::readAllRecords
- */
 
 void EmployeeDataModel::readAllRecords()
 {
@@ -328,12 +255,6 @@ QTextDocument *EmployeeDataModel::createSheet() {
     return document;
 }
 
-/**
- * @brief EmployeeDataModel::generateTableString
- * @param model
- * @param header
- * @return
- */
 QString EmployeeDataModel::generateTableString(QAbstractTableModel *model, QString header) {
     QString outString;
     int columnCount = model->columnCount();

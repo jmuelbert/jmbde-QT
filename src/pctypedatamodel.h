@@ -39,7 +39,15 @@
 class PCTypeDataModel : public CommonDataModel
 {
 public:
+    /**
+     * @brief PCTypeDataModel::PCTypeDataModel
+     * @param parent
+     */
     PCTypeDataModel(QObject *parent = 0);
+
+    /**
+     * @brief PCTypeDataModel::~PCTypeDataModel
+     */
     ~PCTypeDataModel();
 
     /**

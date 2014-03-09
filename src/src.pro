@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql printsupport
+QT       += core gui sql printsupport qml quick help
 
 include (../jmbde.pri)
 
@@ -33,7 +33,8 @@ SOURCES += main.cpp\
     systemdatamodel.cpp \
     computerinputdialog.cpp \
     printerdatamodel.cpp \
-    phonedatamodel.cpp
+    phonedatamodel.cpp \
+    helpbrowser.cpp
 
 HEADERS  += mainwindow.h \
     datamodell.h \
@@ -56,7 +57,8 @@ HEADERS  += mainwindow.h \
     systemdatamodel.h \
     computerinputdialog.h \
     printerdatamodel.h \
-    phonedatamodel.h
+    phonedatamodel.h \
+    helpbrowser.h
 
 FORMS    += mainwindow.ui \
     preferencesdialog.ui \
@@ -66,6 +68,11 @@ FORMS    += mainwindow.ui \
 
 RESOURCES += \
     jmbde.qrc
+
+OTHER_FILES += \
+    main.qml \
+    jmbde.qmlproject \
+    content/AboutDialog.qml
 
 
 

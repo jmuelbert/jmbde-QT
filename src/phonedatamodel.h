@@ -49,7 +49,10 @@ public:
      */
     PhoneDataModel(QObject *parent = 0);
 
-    ~PhoneDataModel();
+    /**
+     * @brief PhoneDataModel::~PhoneDataModel
+     */
+      ~PhoneDataModel();
 
 
     /**
