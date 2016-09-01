@@ -1,0 +1,24 @@
+## Ignore temporary files
+## build results
+## generated databases
+
+.build/
+.DS_Store
+
+# Sqlite-DB
+*.db
+*.db3
+*.sqlite
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+[Bb]uild/
+[Oo]bj/
+
+# VS-Code
+*.db-*
+
+# QT
+.qmake*
+

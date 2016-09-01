@@ -20,15 +20,10 @@ unix:!macx:!isEmpty(copydata):SUBDIRS += bin
 
 OTHER_FILES += dist/copyright_template.txt \
     $$files(dist-changes-*) \
-    AUTHORS \
     ChangeLog \
-    DoxyFile \
-    index.html \
-    javascript\main.js \
     NEWS \
-    param.json \
     README \
-    TODO
+    TODO 
 	
 
 qmake_cache = $$targetPath($$APPLICATION_BUILD_TREE/.qmake.cache)

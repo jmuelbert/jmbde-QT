@@ -49,6 +49,9 @@
 /**
  * @brief EmployeeDataModel::EmployeeDataModel
  * @param parent
+ * @version 0.3
+ * @date 18.08.2016
+ * @author Jürgen Mülbert
  *
  * The Datafields:
 -- - The title is Dr., Ing. and so on
@@ -160,25 +163,27 @@ protected:
     qint32 employee_id;
     qint32 employee_nr;
     char gender[1];
-    qint32 title_id;
     QString *firstname;
+    QString *middlename;
     QString *lastname;
-    qint32 address_id;
+    QString *street;
+    QString *city;
+    QString *zipcode;
     QDate birthday;
-    QString *email;
+    QString *phonenumber;
+    QString *faxnumber;
+    QString *mobilenumber;
+    QString *mail;
+    QString *businessmail;
+    QString *chipcard;
     bool datacare;
     bool active;
+    QString *notes;
     QDate startdate;
     QDate enddate;
-    qint32 department_id;
-    qint32 function_id;
-    qint32 computer_id;
-    qint32 printer_id;
-    qint32 phone_id;
-    qint32 mobile_id;
-    qint32 fax_id;
-    qint32 employee_account_id;
-    qint32 employee_document_id;
+    qint32 departmentid;
+    qint32 workfunctionid;
+    qint32 placeid;
     QDate last_update;
 
 
@@ -192,26 +197,29 @@ private:
         POS_EMPLOYEE_ID,
         POS_EMPLOYEE_NR,
         POS_EMPLOYEE_GENDER,
-        POS_EMPLOYEE_TITLE_ID,
         POS_EMPLOYEE_FIRSTNAME,
+        POS_EMPLOYEE_MIDDLENAME,
         POS_EMPLOYEE_LASTNAME,
-        POS_EMPLOYEE_ADDRESS_ID,
+        POS_EMPLOYEE_STREET,
+        POS_EMPLOYEE_CITY,
+        POS_EMPLOYEE_ZIPCODE,
         POS_EMPLOYEE_BIRTHDAY,
-        POS_EMPLOYEE_EMAIL,
+        POS_EMPLOYEE_PHONENUMBER,
+        POS_EMPLOYEE_FAXNUMBER,
+        POS_EMPLOYEE_MOBILENUMBER,
+        POS_EMPLOYEE_MAIL,
+        POS_EMPLOYEE_BUSINESSMAIL,
+        POS_EMPLOYEE_CHIPCARD,
         POS_EMPLOYEE_DATACARE,
         POS_EMPLOYEE_ACTIVE,
+        POS_EMPLOYEE_PHOTO,
+        POS_EMPLOYEE_NOTES,
         POS_EMPLOYEE_STARTDATE,
         POS_EMPLOYEE_ENDDATE,
-        POS_EMPLOYEE_DEPARTMENT_ID,
-        POS_EMPLOYEE_FUNCTION_ID,
-        POS_EMPLOYEE_COMPUTER_ID,
-        POS_EMPLOYEE_PRINTER_ID,
-        POS_EMPLOYEE_PHONE_ID,
-        POS_EMPLOYEE_MOBILE_ID,
-        POS_EMPLOYEE_FAX_ID,
-        POS_EMPLOYEE_EMPLOYEE_ACCOUNT_ID,
-        POS_EMPLOYEE_EMPLOYEE_DOCUMENT_ID,
-        POS_EMPLOYEE_LAST_UPDATE
+        POS_EMPLOYEE_DEPARTMENTID,
+        POS_EMPLOYEE_WORKFUNCTIONID,
+        POS_EMPLOYEE_PLACEID,
+        POS_EMPLOYEE_LASTUPDATE
     };
 };
 #endif // EMPLOYEEDATAMODEL_H

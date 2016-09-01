@@ -85,7 +85,7 @@
        <string>Phone</string>
       </property>
       <property name="buddy">
-       <cstring>comboBoxPrinter</cstring>
+       <cstring>comboBoxPhone</cstring>
       </property>
      </widget>
     </item>
@@ -95,7 +95,7 @@
        <string>Firstname</string>
       </property>
       <property name="buddy">
-       <cstring>lineEditFirstName</cstring>
+       <cstring>lineEditFirstname</cstring>
       </property>
      </widget>
     </item>
@@ -229,6 +229,23 @@
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>lineEditFirstname</tabstop>
+  <tabstop>lineEditLastname</tabstop>
+  <tabstop>doubleSpinBoxPersNR</tabstop>
+  <tabstop>comboBoxDepartment</tabstop>
+  <tabstop>comboBoxFunction</tabstop>
+  <tabstop>checkBoxActive</tabstop>
+  <tabstop>checkBoxDatacare</tabstop>
+  <tabstop>comboBoxComputer</tabstop>
+  <tabstop>comboBoxPrinter</tabstop>
+  <tabstop>comboBoxPhone</tabstop>
+  <tabstop>comboBoxMobile</tabstop>
+  <tabstop>comboBoxFax</tabstop>
+  <tabstop>pushButtonNew</tabstop>
+  <tabstop>previousButton</tabstop>
+  <tabstop>nextButton</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

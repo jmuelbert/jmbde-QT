@@ -78,7 +78,7 @@ void MainWindow::on_actionAbout_triggered()
                        tr("About"),
                        tr(
                        "\n\n"
-                          "Copyright (c) 2013, 2014 Jürgen Mülbert. All rights reserved.\n"
+                          "Copyright (c) 2013-2016 Jürgen Mülbert. All rights reserved.\n"
                           "\n"
                           "This program is free software: you can redistribute it and/or modify\n"
                           "it under the terms of the European Union Public Licence (EUPL),\n"

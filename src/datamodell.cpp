@@ -63,17 +63,17 @@ bool DataModell::CreateConnection()
 
     if (dbType == SQLITE) {
 #ifdef Q_OS_MAC
-   const QString &_creatorTrPath = QCoreApplication::applicationDirPath();
-    QDir trPath(_creatorTrPath);
-    trPath.cdUp();
-    const QString &creatorTrPath = trPath.path();
+        const QString &_creatorTrPath = QCoreApplication::applicationDirPath();
+        QDir trPath(_creatorTrPath);
+        trPath.cdUp();
+        const QString &creatorTrPath = trPath.path();
 
-    QString databaseFileAndPath = QString(creatorTrPath);
-    databaseFileAndPath.append(QDir::separator());
-    databaseFileAndPath.append(QLatin1String("Resources"));
+        QString databaseFileAndPath = QString(creatorTrPath);
+        databaseFileAndPath.append(QDir::separator());
+        databaseFileAndPath.append(QLatin1String("Resources"));
 #else
-   const QString &creatorTrPath = QCoreApplication::applicationDirPath();
-    QString databaseFileAndPath = QString(creatorTrPath);
+        const QString &creatorTrPath = QCoreApplication::applicationDirPath();
+        QString databaseFileAndPath = QString(creatorTrPath);
 #endif
 
 

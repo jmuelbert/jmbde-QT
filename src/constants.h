@@ -33,7 +33,7 @@ namespace Constants {
     /**
      * @brief COMPANY_NAME
      */
-    const char COMPANY_NAME[] = "juergenmuelbert";
+    const char COMPANY_NAME[] = "de.jmuelbert";
     /**
      * @brief APPL_NAME
      */
@@ -41,9 +41,9 @@ namespace Constants {
     /**
      * @brief APPL_VERSION
      */
-    const char APPL_VERSION[] = "0.3.4";
+    const char APPL_VERSION[] = "0.4.0";
 
-    const char APPL_DISPLAYNAME[] = "jmbde 0.3.4 © 2013, 2014 Jürgen Mülbert";
+    const char APPL_DISPLAYNAME[] = "jmbde 0.4.0 © 2013-2016 Jürgen Mülbert";
     /**
      * @brief APPL_PROJECT_SITE
      */
