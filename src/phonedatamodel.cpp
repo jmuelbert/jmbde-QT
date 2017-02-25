@@ -56,50 +56,17 @@ QSqlRelationalTableModel *PhoneDataModel::initializeRelationalModel() {
     model->setTable(QLatin1String("phone"));
     model->setEditStrategy(QSqlTableModel::OnFieldChange);
 
-    model->setRelation(POS_PHONE_DEVICENAME_ID, QSqlRelation(QLatin1String("devicename"),
-                                                             QLatin1String("devicename_id"),
-                                                             QLatin1String("name")));
 
-
-    model->setRelation(POS_PHONE_DEVICETYPE_ID, QSqlRelation(QLatin1String("devicetype"),
-                                                              QLatin1String("devicetype_id"),
-                                                              QLatin1String("name")));
-
-    model->setRelation(POS_PHONE_EMPLOYEE_ID, QSqlRelation(QLatin1String("employee"),
-                                                  QLatin1String("employee_id"),
-                                                  QLatin1String("lastname")));
-
-    model->setRelation(POS_PHONE_PLACE_ID, QSqlRelation(QLatin1String("place"),
-                                                        QLatin1String("place_id"),
-                                                        QLatin1String("name")));
-
-    model->setRelation(POS_PHONE_DEPARTMENT_ID, QSqlRelation(QLatin1String("department"),
-                                                    QLatin1String("department_id"),
-                                                    QLatin1String("name")));
-
-    model->setRelation(POS_PHONE_MANUFACTURER_ID, QSqlRelation(QLatin1String("manufacturer"),
-                                               QLatin1String("manufacturer_id"),
-                                               QLatin1String("name")));
-
-    model->setRelation(POS_PHONE_INVENTORY_ID, QSqlRelation(QLatin1String("inventory"),
-                                               QLatin1String("inventory_id"),
-                                               QLatin1String("number")));
+    model->setRelation(POS_PHONE_EMPLOYEEID, QSqlRelation(QLatin1String("Employee"),
+                                                  QLatin1String("Id"),
+                                                  QLatin1String("Name")));
 
 
     model->setHeaderData(POS_PHONE_ID, Qt::Horizontal, QObject::tr("ID"));
-    model->setHeaderData(POS_PHONE_DEVICENAME_ID, Qt::Horizontal, QObject::tr("Dev.Name"));
-    model->setHeaderData(POS_PHONE_SERIALNUMBER, Qt::Horizontal, QObject::tr("S/N"));
     model->setHeaderData(POS_PHONE_NUMBER, Qt::Horizontal, QObject::tr("Number"));
-    model->setHeaderData(POS_PHONE_PIN, Qt::Horizontal, QObject::tr("PIN"));
     model->setHeaderData(POS_PHONE_ACTIVE, Qt::Horizontal, QObject::tr("Active"));
-    model->setHeaderData(POS_PHONE_REPLACE, Qt::Horizontal, QObject::tr("Replace"));
-    model->setHeaderData(POS_PHONE_DEVICETYPE_ID, Qt::Horizontal, QObject::tr("Device Type"));
-    model->setHeaderData(POS_PHONE_EMPLOYEE_ID, Qt::Horizontal, QObject::tr("Employee"));
-    model->setHeaderData(POS_PHONE_PLACE_ID, Qt::Horizontal, QObject::tr("Place"));
-    model->setHeaderData(POS_PHONE_DEPARTMENT_ID, Qt::Horizontal, QObject::tr("Department"));
-    model->setHeaderData(POS_PHONE_MANUFACTURER_ID, Qt::Horizontal, QObject::tr("Manufacturer"));
-    model->setHeaderData(POS_PHONE_INVENTORY_ID, Qt::Horizontal, QObject::tr("Inventory"));
-    model->setHeaderData(POS_PHONE_LAST_UPDATE, Qt::Horizontal, QObject::tr("Last Update"));
+    model->setHeaderData(POS_PHONE_EMPLOYEEID, Qt::Horizontal, QObject::tr("Employee"));
+    model->setHeaderData(POS_PHONE_LASTUPDATE, Qt::Horizontal, QObject::tr("Last Update"));
 
     model->select();
 
@@ -112,19 +79,10 @@ QSqlTableModel *PhoneDataModel::initializeTableModel() {
     model->setEditStrategy(QSqlTableModel::OnFieldChange);
 
     model->setHeaderData(POS_PHONE_ID, Qt::Horizontal, QObject::tr("ID"));
-    model->setHeaderData(POS_PHONE_DEVICENAME_ID, Qt::Horizontal, QObject::tr("Dev.Name"));
-    model->setHeaderData(POS_PHONE_SERIALNUMBER, Qt::Horizontal, QObject::tr("S/N"));
     model->setHeaderData(POS_PHONE_NUMBER, Qt::Horizontal, QObject::tr("Number"));
-    model->setHeaderData(POS_PHONE_PIN, Qt::Horizontal, QObject::tr("PIN"));
     model->setHeaderData(POS_PHONE_ACTIVE, Qt::Horizontal, QObject::tr("Active"));
-    model->setHeaderData(POS_PHONE_REPLACE, Qt::Horizontal, QObject::tr("Replace"));
-    model->setHeaderData(POS_PHONE_DEVICETYPE_ID, Qt::Horizontal, QObject::tr("Device Type"));
-    model->setHeaderData(POS_PHONE_EMPLOYEE_ID, Qt::Horizontal, QObject::tr("Employee"));
-    model->setHeaderData(POS_PHONE_PLACE_ID, Qt::Horizontal, QObject::tr("Place"));
-    model->setHeaderData(POS_PHONE_DEPARTMENT_ID, Qt::Horizontal, QObject::tr("Department"));
-    model->setHeaderData(POS_PHONE_MANUFACTURER_ID, Qt::Horizontal, QObject::tr("Manufacturer"));
-    model->setHeaderData(POS_PHONE_INVENTORY_ID, Qt::Horizontal, QObject::tr("Inventory"));
-    model->setHeaderData(POS_PHONE_LAST_UPDATE, Qt::Horizontal, QObject::tr("Last Update"));
+    model->setHeaderData(POS_PHONE_EMPLOYEEID, Qt::Horizontal, QObject::tr("Employee"));
+    model->setHeaderData(POS_PHONE_LASTUPDATE, Qt::Horizontal, QObject::tr("Last Update"));
 
     model->select();
 
@@ -141,12 +99,7 @@ QString PhoneDataModel::generateTableString(QAbstractTableModel *model, QString 
 
     QList<int> set;
     set.append(POS_PHONE_NUMBER);
-    set.append(POS_PHONE_DEVICENAME_ID);
-    set.append(POS_PHONE_DEVICETYPE_ID);
-    set.append(POS_PHONE_MANUFACTURER_ID);
-    set.append(POS_PHONE_EMPLOYEE_ID);
-    set.append(POS_PHONE_DEPARTMENT_ID);
-    set.append(POS_PHONE_PLACE_ID);
+    set.append(POS_PHONE_EMPLOYEEID);
 
     // Document Title
     outString = QLatin1String("<h1>");
@@ -166,7 +119,7 @@ QString PhoneDataModel::generateTableString(QAbstractTableModel *model, QString 
     outString += QLatin1String("</tr> </thead>");
 
 
-    for (int i=1; i<rowCount; i++) {
+    for (int i=0; i<rowCount; i++) {
         outString += QLatin1String("<tr>");
         foreach (const int j, set) {
             outString += QLatin1String("<td>");

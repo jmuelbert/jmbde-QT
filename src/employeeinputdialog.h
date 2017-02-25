@@ -35,6 +35,9 @@ class EmployeeInputDialog;
 
 /**
  * @brief The EmployeeInputDialog class
+ * @version 0.3
+ * @date 18.08.2016
+ * @author Jürgen Mülbert
  */
 class EmployeeInputDialog :  public QDialog
 
@@ -94,12 +97,9 @@ private:
 
 
     int departmentIndex;
-    int functionIndex;
-    int computerIndex;
-    int printerIndex;
-    int phoneIndex;
-    int mobileIndex;
-    int faxIndex;
+    int workfunctionIndex;
+    int companyIndex;
+    int placeIndex;
 
 
     // QSqlRelationalTableModel *model;

@@ -71,8 +71,8 @@
  * @brief The ComputerDataModel class
  * @details This Class is for the ComputerData
  * @author Jürgen Mülbert
- * @version 0.2
- * @date 09.02.2014
+ * @version 0.3
+ * @date 18.08.2016
  * @copyright EUPL V1.1
  */
 class ComputerDataModel : public DataModell
@@ -135,27 +135,10 @@ private:
      */
     enum PosCompTable {
         POS_COMPUTER_ID,
-        POS_COMPUTER_DEVICENAME_ID,
-        POS_COMPUTER_SERIALNUMBER,
-        POS_COMPUTER_SERVICE_TAG,
-        POS_COMPUTER_SERVICE_NUMBER,
-        POS_COMPUTER_MEMORY,
-        POS_COMPUTER_NETWORK,
-        POS_COMPUTER_NETWORK_NAME,
-        POS_COMPUTER_NETWORK_IPADDRESS,
+        POS_COMPUTER_NAME,
         POS_COMPUTER_ACTIVE,
-        POS_COMPUTER_REPLACE,
-        POS_COMPUTER_DEVICETYPE_ID,
-        POS_COMPUTER_EMPLOYEE_ID,
-        POS_COMPUTER_PLACE_ID,
-        POS_COMPUTER_DEPARTMENT_ID,
-        POS_COMPUTER_MANUFACTURER_ID,
-        POS_COMPUTER_INVENTORY_ID,
-        POS_COMPUTER_PROCESSOR_ID,
-        POS_COMPUTER_OS_ID,
-        POS_COMPUTER_COMPUTERSOFTWARE_ID,
-        POS_COMPUTER_PRINTER_ID,
-        POS_COMPUTER_LAST_UPDATE
+        POS_COMPUTER_EMPLOYEEID,
+        POS_COMPUTER_LASTUPDATE
     };
 };
 

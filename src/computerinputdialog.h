@@ -32,6 +32,15 @@ namespace Ui {
 class ComputerInputDialog;
 }
 
+
+/**
+ * @brief The ComputerInputDialog class
+ * @details Input for ComputerData
+ * @author Jürgen Mülbert
+ * @version 0.3
+ * @date 18.08.2016
+ * @copyright EUPL V1.1
+ */
 class ComputerInputDialog : public QDialog
 {
     Q_OBJECT
