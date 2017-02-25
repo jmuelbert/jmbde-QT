@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
 <<<<<<< HEAD
+<<<<<<< HEAD
 <!-- Written by QtCreator 4.2.1, 2017-02-25T18:26:55. -->
 <qtcreator>
  <data>
@@ -13,6 +14,13 @@
   <variable>EnvironmentId</variable>
   <value type="QByteArray">{f786372c-bb62-42bd-9ac9-a6193a696937}</value>
 >>>>>>> dev
+=======
+<!-- Written by QtCreator 4.0.3, 2016-08-27T10:47:16. -->
+<qtcreator>
+ <data>
+  <variable>EnvironmentId</variable>
+  <value type="QByteArray">{f786372c-bb62-42bd-9ac9-a6193a696937}</value>
+>>>>>>> origin/dev
  </data>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
@@ -68,6 +76,7 @@
   <variable>ProjectExplorer.Project.Target.0</variable>
   <valuemap type="QVariantMap">
 <<<<<<< HEAD
+<<<<<<< HEAD
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop Qt 5.8.0 clang 64bit</value>
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop Qt 5.8.0 clang 64bit</value>
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">qt.58.clang_64_kit</value>
@@ -76,15 +85,24 @@
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop Qt 5.7.0 clang 64bit</value>
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">qt.57.clang_64_kit</value>
 >>>>>>> dev
+=======
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop Qt 5.7.0 clang 64bit</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop Qt 5.7.0 clang 64bit</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">qt.57.clang_64_kit</value>
+>>>>>>> origin/dev
    <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">0</value>
    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
    <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">3</value>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
 <<<<<<< HEAD
+<<<<<<< HEAD
     <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/Users/juergen/Projects/build-jmbde-Desktop_Qt_5_8_0_clang_64bit-Debug</value>
 =======
     <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/Users/juergen/Documents/Development/jmbde/jmbde-qt/build-jmbde-Desktop_Qt_5_7_0_clang_64bit-Debug</value>
 >>>>>>> dev
+=======
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/Users/juergen/Documents/Development/jmbde/jmbde-qt/build-jmbde-Desktop_Qt_5_7_0_clang_64bit-Debug</value>
+>>>>>>> origin/dev
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
@@ -145,10 +163,14 @@
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.1">
 <<<<<<< HEAD
+<<<<<<< HEAD
     <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/Users/juergen/Projects/build-jmbde-Desktop_Qt_5_8_0_clang_64bit-Release</value>
 =======
     <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/Users/juergen/Documents/Development/jmbde/jmbde-qt/jmbde/build-jmbde-Desktop_Qt_5_7_0_clang_64bit-Release</value>
 >>>>>>> dev
+=======
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/Users/juergen/Documents/Development/jmbde/jmbde-qt/jmbde/build-jmbde-Desktop_Qt_5_7_0_clang_64bit-Release</value>
+>>>>>>> origin/dev
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
@@ -209,10 +231,14 @@
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.2">
 <<<<<<< HEAD
+<<<<<<< HEAD
     <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/Users/juergen/Projects/build-jmbde-Desktop_Qt_5_8_0_clang_64bit-Profile</value>
 =======
     <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/Users/juergen/Documents/Development/jmbde/jmbde-qt/jmbde/build-jmbde-Desktop_Qt_5_7_0_clang_64bit-Profile</value>
 >>>>>>> dev
+=======
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/Users/juergen/Documents/Development/jmbde/jmbde-qt/jmbde/build-jmbde-Desktop_Qt_5_7_0_clang_64bit-Profile</value>
+>>>>>>> origin/dev
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
@@ -329,6 +355,7 @@
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">database</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/Users/juergen/Projects/jmbde-QT/share/database/database.pro</value>
@@ -337,16 +364,25 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">translations2</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/Users/juergen/Documents/Development/jmbde/jmbde-qt/jmbde-QT/share/translations/translations.pro</value>
 >>>>>>> dev
+=======
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">translations</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">translations2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/Users/juergen/Documents/Development/jmbde/jmbde-qt/jmbde-QT/share/translations/translations.pro</value>
+>>>>>>> origin/dev
     <value type="bool" key="QmakeProjectManager.QmakeRunConfiguration.UseLibrarySearchPath">true</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments"></value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">share/translations/translations.pro</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory"></value>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default">/Users/juergen/Projects/build-jmbde-Desktop_Qt_5_8_0_clang_64bit-Debug/share/database/phony_target2.app/Contents/MacOS</value>
 =======
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default">/Users/juergen/Documents/Development/jmbde/jmbde-qt/build-jmbde-Desktop_Qt_5_7_0_clang_64bit-Debug/share/translations/phony_target2.app/Contents/MacOS</value>
 >>>>>>> dev
+=======
+    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default">/Users/juergen/Documents/Development/jmbde/jmbde-qt/build-jmbde-Desktop_Qt_5_7_0_clang_64bit-Debug/share/translations/phony_target2.app/Contents/MacOS</value>
+>>>>>>> origin/dev
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
@@ -397,6 +433,7 @@
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">help</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/Users/juergen/Projects/jmbde-QT/share/help/help.pro</value>
@@ -405,16 +442,25 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">database2</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/Users/juergen/Documents/Development/jmbde/jmbde-qt/jmbde-QT/share/database/database.pro</value>
 >>>>>>> dev
+=======
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">database</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">database2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/Users/juergen/Documents/Development/jmbde/jmbde-qt/jmbde-QT/share/database/database.pro</value>
+>>>>>>> origin/dev
     <value type="bool" key="QmakeProjectManager.QmakeRunConfiguration.UseLibrarySearchPath">true</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments"></value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">share/database/database.pro</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory"></value>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default">/Users/juergen/Projects/build-jmbde-Desktop_Qt_5_8_0_clang_64bit-Debug/share/help/phony_target2.app/Contents/MacOS</value>
 =======
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default"></value>
 >>>>>>> dev
+=======
+    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default"></value>
+>>>>>>> origin/dev
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
@@ -465,6 +511,7 @@
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">translations</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/Users/juergen/Projects/jmbde-QT/share/translations/translations.pro</value>
@@ -473,16 +520,25 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">help2</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/Users/juergen/Documents/Development/jmbde/jmbde-qt/jmbde-QT/share/help/help.pro</value>
 >>>>>>> dev
+=======
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">help</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">help2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/Users/juergen/Documents/Development/jmbde/jmbde-qt/jmbde-QT/share/help/help.pro</value>
+>>>>>>> origin/dev
     <value type="bool" key="QmakeProjectManager.QmakeRunConfiguration.UseLibrarySearchPath">true</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments"></value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">share/help/help.pro</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory"></value>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default">/Users/juergen/Projects/build-jmbde-Desktop_Qt_5_8_0_clang_64bit-Debug/share/translations/phony_target2.app/Contents/MacOS</value>
 =======
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default"></value>
 >>>>>>> dev
+=======
+    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default"></value>
+>>>>>>> origin/dev
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
@@ -534,22 +590,31 @@
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">src</value>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/Users/juergen/Projects/jmbde-QT/src/src.pro</value>
 =======
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">src2</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/Users/juergen/Documents/Development/jmbde/jmbde-qt/jmbde-QT/src/src.pro</value>
 >>>>>>> dev
+=======
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">src2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/Users/juergen/Documents/Development/jmbde/jmbde-qt/jmbde-QT/src/src.pro</value>
+>>>>>>> origin/dev
     <value type="bool" key="QmakeProjectManager.QmakeRunConfiguration.UseLibrarySearchPath">true</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments"></value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">src/src.pro</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory"></value>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default">/Users/juergen/Projects/build-jmbde-Desktop_Qt_5_8_0_clang_64bit-Debug/bin/jmbde.app/Contents/MacOS</value>
 =======
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default">/Users/juergen/Documents/Development/jmbde/jmbde-qt/build-jmbde-Desktop_Qt_5_7_0_clang_64bit-Debug/bin/jmbde.app/Contents/MacOS</value>
 >>>>>>> dev
+=======
+    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default">/Users/juergen/Documents/Development/jmbde/jmbde-qt/build-jmbde-Desktop_Qt_5_7_0_clang_64bit-Debug/bin/jmbde.app/Contents/MacOS</value>
+>>>>>>> origin/dev
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
@@ -562,9 +627,12 @@
  </data>
  <data>
 <<<<<<< HEAD
+<<<<<<< HEAD
   <variable>ProjectExplorer.Project.TargetCount</variable>
   <value type="int">1</value>
 =======
+=======
+>>>>>>> origin/dev
   <variable>ProjectExplorer.Project.Target.1</variable>
   <valuemap type="QVariantMap">
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">iphoneos-clang Qt 5.7.0 for iOS</value>
@@ -2073,7 +2141,10 @@
  <data>
   <variable>ProjectExplorer.Project.TargetCount</variable>
   <value type="int">4</value>
+<<<<<<< HEAD
 >>>>>>> dev
+=======
+>>>>>>> origin/dev
  </data>
  <data>
   <variable>ProjectExplorer.Project.Updater.FileVersion</variable>
