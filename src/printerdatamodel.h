@@ -26,7 +26,7 @@
 #include <QObject>
 
 #if QT_VERSION >= 0x050000
-#include <QSql>
+#include <QtSql>
 #include <QStandardPaths>
 #endif
 
