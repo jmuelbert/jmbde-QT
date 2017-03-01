@@ -48,7 +48,7 @@ void EmployeeDataModel::addDataSet() {
                                ":computer_id, :printer_id, "
                                ":phone_id, :mobile_id, "
                                ":fax_id, "
-                               ":employee_account_id, :employee_document_id, "
+                               ":employee_account_id, :employee_document_id, :chipcard_id"
                                ":lastupdate)"));
 
     query.bindValue(QLatin1String(":employee_nr"), Database::Table::DEFAULT_FOREIGN_VALUE);
@@ -58,7 +58,7 @@ void EmployeeDataModel::addDataSet() {
     query.bindValue(QLatin1String(":address_id"), Database::Table::DEFAULT_FOREIGN_VALUE);
     query.bindValue(QLatin1String(":gender"), QLatin1String("m"));
     query.bindValue(QLatin1String(":birthday"), todayDateString);
-    query.bindValue(QLatin1String("email"), QLatin1String(" "));
+    query.bindValue(QLatin1String("businessemail"), QLatin1String(" "));
     query.bindValue(QLatin1String(":datacare"), 0);
     query.bindValue(QLatin1String(":active"), 1);
     query.bindValue(QLatin1String(":startdate"), todayDateString);
@@ -72,6 +72,7 @@ void EmployeeDataModel::addDataSet() {
     query.bindValue(QLatin1String(":fax_id"), Database::Table::DEFAULT_FOREIGN_VALUE);
     query.bindValue(QLatin1String(":employee_account_id"), Database::Table::DEFAULT_FOREIGN_VALUE);
     query.bindValue(QLatin1String(":employee_document_id"), Database::Table::DEFAULT_FOREIGN_VALUE);
+    query.bindValue(QLatin1String(":chipcard_id"), Database::Table::DEFAULT_FOREIGN_VALUE);
     query.bindValue(QLatin1String(":last_update"), todayDateString);
 
    bool retValue = query.exec();
@@ -105,6 +106,8 @@ QSqlRelationalTableModel *EmployeeDataModel::initializeRelationalModel() {
     QSqlRelationalTableModel *model = new QSqlRelationalTableModel(this);
     model->setTable(QLatin1String("employee"));
     model->setEditStrategy(QSqlTableModel::OnFieldChange);
+
+    /*
 
     model->setRelation(POS_EMPLOYEE_TITLE_ID, QSqlRelation(QLatin1String("title"),
                                                            QLatin1String("title_id"),
@@ -145,17 +148,24 @@ QSqlRelationalTableModel *EmployeeDataModel::initializeRelationalModel() {
                                                          QLatin1String("fax_id"),
                                                         QLatin1String("number")));
 
+     */
     model->setHeaderData(POS_EMPLOYEE_ID, Qt::Horizontal, QObject::tr("ID"));
     model->setHeaderData(POS_EMPLOYEE_NR, Qt::Horizontal, QObject::tr("Emp.Number"));
     model->setHeaderData(POS_EMPLOYEE_GENDER, Qt::Horizontal, QObject::tr("Gender"));
     model->setHeaderData(POS_EMPLOYEE_TITLE_ID, Qt::Horizontal, QObject::tr("Title"));
     model->setHeaderData(POS_EMPLOYEE_FIRSTNAME, Qt::Horizontal, QObject::tr("Firstname"));
     model->setHeaderData(POS_EMPLOYEE_LASTNAME, Qt::Horizontal, QObject::tr("Lastname"));
-    model->setHeaderData(POS_EMPLOYEE_ADDRESS_ID, Qt::Horizontal, QObject::tr("address"));
+    model->setHeaderData(POS_EMPLOYEE_ADDRESS, Qt::Horizontal, QObject::tr("address"));
+    model->setHeaderData(POS_EMPLOYEE_ZIPCITY_ID, Qt::Horizontal, QObject::tr("Zipcity"));
     model->setHeaderData(POS_EMPLOYEE_BIRTHDAY, Qt::Horizontal, QObject::tr("Birthday"));
-    model->setHeaderData(POS_EMPLOYEE_EMAIL, Qt::Horizontal, QObject::tr("EMail"));
+    model->setHeaderData(POS_EMPLOYEE_HOMEPHONE, Qt::Horizontal, QObject::tr("Homephone"));
+    model->setHeaderData(POS_EMPLOYEE_HOMEEMAIL, Qt::Horizontal, QObject::tr("Homemail"));
+    model->setHeaderData(POS_EMPLOYEE_HOMEMOBILE, Qt::Horizontal, QObject::tr("Homemobile"));
+    model->setHeaderData(POS_EMPLOYEE_BUSINESSEMAIL, Qt::Horizontal, QObject::tr("Businessemail"));
     model->setHeaderData(POS_EMPLOYEE_DATACARE, Qt::Horizontal, QObject::tr("Datacare"));
     model->setHeaderData(POS_EMPLOYEE_ACTIVE, Qt::Horizontal, QObject::tr("Active"));
+    model->setHeaderData(POS_EMPLOYEE_PHOTO, Qt::Horizontal, QObject::tr("Photo"));
+    model->setHeaderData(POS_EMPLOYEE_NOTES, Qt::Horizontal, QObject::tr("Notes"));
     model->setHeaderData(POS_EMPLOYEE_STARTDATE, Qt::Horizontal, QObject::tr("StartDate"));
     model->setHeaderData(POS_EMPLOYEE_ENDDATE, Qt::Horizontal, QObject::tr("EndDate"));
     model->setHeaderData(POS_EMPLOYEE_DEPARTMENT_ID, Qt::Horizontal, QObject::tr("Department"));
@@ -167,6 +177,7 @@ QSqlRelationalTableModel *EmployeeDataModel::initializeRelationalModel() {
     model->setHeaderData(POS_EMPLOYEE_FAX_ID, Qt::Horizontal, QObject::tr("Fax"));
     model->setHeaderData(POS_EMPLOYEE_EMPLOYEE_ACCOUNT_ID, Qt::Horizontal, QObject::tr("Accounts"));
     model->setHeaderData(POS_EMPLOYEE_EMPLOYEE_DOCUMENT_ID, Qt::Horizontal, QObject::tr("Documents"));
+    model->setHeaderData(POS_EMPLOYEE_CHIPCARD_ID, Qt::Horizontal, QObject::tr("Chipcard"));
     model->setHeaderData(POS_EMPLOYEE_LAST_UPDATE, Qt::Horizontal, QObject::tr("Last Update"));
 
     model->select();
@@ -193,9 +204,9 @@ QSqlTableModel *EmployeeDataModel::initializeTableModel() {
     model->setHeaderData(POS_EMPLOYEE_TITLE_ID, Qt::Horizontal, QObject::tr("Title"));
     model->setHeaderData(POS_EMPLOYEE_FIRSTNAME, Qt::Horizontal, QObject::tr("Firstname"));
     model->setHeaderData(POS_EMPLOYEE_LASTNAME, Qt::Horizontal, QObject::tr("Lastname"));
-    model->setHeaderData(POS_EMPLOYEE_ADDRESS_ID, Qt::Horizontal, QObject::tr("address"));
+    model->setHeaderData(POS_EMPLOYEE_ADDRESS, Qt::Horizontal, QObject::tr("address"));
     model->setHeaderData(POS_EMPLOYEE_BIRTHDAY, Qt::Horizontal, QObject::tr("Birthday"));
-    model->setHeaderData(POS_EMPLOYEE_EMAIL, Qt::Horizontal, QObject::tr("EMail"));
+    model->setHeaderData(POS_EMPLOYEE_BUSINESSEMAIL, Qt::Horizontal, QObject::tr("Businessemail"));
     model->setHeaderData(POS_EMPLOYEE_DATACARE, Qt::Horizontal, QObject::tr("Datacare"));
     model->setHeaderData(POS_EMPLOYEE_ACTIVE, Qt::Horizontal, QObject::tr("Active"));
     model->setHeaderData(POS_EMPLOYEE_STARTDATE, Qt::Horizontal, QObject::tr("StartDate"));
@@ -268,7 +279,7 @@ QString EmployeeDataModel::generateTableString(QAbstractTableModel *model, QStri
     set.append(POS_EMPLOYEE_FUNCTION_ID);
     set.append(POS_EMPLOYEE_COMPUTER_ID);
     set.append(POS_EMPLOYEE_PRINTER_ID);
-    set.append(POS_EMPLOYEE_EMAIL);
+    set.append(POS_EMPLOYEE_BUSINESSEMAIL);
     set.append(POS_EMPLOYEE_PHONE_ID);
     set.append(POS_EMPLOYEE_FAX_ID);
     set.append(POS_EMPLOYEE_MOBILE_ID);

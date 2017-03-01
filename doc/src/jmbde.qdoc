@@ -1,0 +1,19 @@
+/*!
+    \contentspage{index.html}{jmbde}
+    \page index.html
+    \nextpage preferences.html
+
+    \title jmbde Manual
+
+    \jmbde provides a tool to collect data from a company in a database.
+     this data contains employees, computers, printers, phones and mobiles.
+
+     \table
+        \row
+            \li \b {\l{Getting Started}}
+                \list
+                    \li \l{jmbde Overview}
+                \endlist
+         \endrow
+     \endtable
+*/

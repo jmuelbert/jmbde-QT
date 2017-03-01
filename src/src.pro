@@ -9,8 +9,8 @@ QT       += core gui sql printsupport qml quick help
 include (../jmbde.pri)
 
 TEMPLATE = app
-TARGET = $$APPLICATION_TARGET
-DESTDIR = $$APPLICATION_PATH
+TARGET = $$APPLICATION_APP_TARGET
+DESTDIR = $$APPLICATION_APP_PATH
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -73,6 +73,9 @@ OTHER_FILES += \
     main.qml \
     jmbde.qmlproject \
     content/AboutDialog.qml
+
+DISTFILES += \
+    ../jmbde.qbs
 
 
 

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2017 Jürgen Mülbert -->
+<component type="desktop">
+    <id>de.jmuelbert.jmbde.desktop</id>
+    <metadata_license>CC0-1.0</metadata_license>
+    <project_license>EUPL 1.1</project_license>
+    <description>
+        <p>
+            jmbde provide a database for the data of a company. This includes
+            Employees, Computers, Printers, Phones and Mobiles
+        </p>
+    </description>
+    
+    <url type="homepage">http://github.com/jmuelbert/jmbde-QT</url>
+    <project_group>jmbde</project_group>
+</component>

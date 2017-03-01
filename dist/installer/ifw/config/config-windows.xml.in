@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Installer>
+    <Name>jmbde</Name>
+    <Version>{version}</Version>
+    <Title>jmbde {display_version}</Title>
+    <Publisher>Jürgen Mülbert</Publisher>
+    <ProductUrl>http://github.com/jmuelbert/jmbde-QT</ProductUrl>
+
+    <InstallerWindowIcon>logo.png</InstallerWindowIcon>
+    <Watermark>watermark.png</Watermark>
+    <WizardDefaultHeight>560</WizardDefaultHeight>
+    <MaintenanceToolName>jmbdeUninst</MaintenanceToolName>
+    <!-- @homeDir@ and @rootDir@ are some of the supported vars -->
+    <TargetDir>@rootDir@/jmuelbert/jmbde-{display_version}</TargetDir>
+    <StartMenuDir>jmbde</StartMenuDir>
+</Installer>

@@ -58,6 +58,7 @@ QSqlRelationalTableModel *ComputerDataModel::initializeRelationalModel() {
     model->setTable(QLatin1String("computer"));
     model->setEditStrategy(QSqlTableModel::OnFieldChange);
 
+    /*
     model->setRelation(POS_COMPUTER_DEVICENAME_ID, QSqlRelation(QLatin1String("devicename"),
                                                                QLatin1String("devicename_id"),
                                                                QLatin1String("name")));
@@ -102,6 +103,8 @@ QSqlRelationalTableModel *ComputerDataModel::initializeRelationalModel() {
     model->setRelation(POS_COMPUTER_PRINTER_ID, QSqlRelation(QLatin1String("printer"),
                                                 QLatin1String("printer_id"),
                                                 QLatin1String("network_name")));
+
+    */
 
     model->setHeaderData(POS_COMPUTER_ID, Qt::Horizontal, QObject::tr("ID"));
     model->setHeaderData(POS_COMPUTER_DEVICENAME_ID, Qt::Horizontal, QObject::tr("Dev.Name"));

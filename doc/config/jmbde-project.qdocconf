@@ -1,0 +1,39 @@
+project     = "jmbde"
+description = "jmbde Manual"
+url         = "http://github.com/jmuelbert/jmbde-QT"
+
+headerdirs  =
+srcdirs     = $SRCDIR/src 
+imagedirs   = $SRCDIR/images
+
+outputdir   = $OUTDIR
+exampledirs = $SRCDIR/examples
+exampledirs.fileversions =
+
+HTML.extraimages        =
+qhp.jmbde.extraFiles    = 
+
+sources.fileextensions  = "*.qdoc"
+
+qhp.projects                    = jmbde
+qhp.jmbde.file              = jmbde.qhp
+qhp.jmbde.namespace         = org.jmuelbert.jmbde.$APP_VERSION_TAG
+qhp.jmbde.virtualFolder     = doc
+qhp.jmbde.indexTitle        = jmbde Manual $APP_VERSION
+qhp.jmbde.filterAttributes  = jmbde $APP_VERSION
+qhp.jmbde.customFilters.jmbde.name = jmbde $APP_VERSION
+qhp.jmbde.customFilters.jmbde.filterAttributes = jmbde $APP_VERSION
+qhp.jmbde.indexRoot        =
+
+qhp.jmbde.subprojects       = manual
+qhp.jmbde.subprojects.manual.title = jmbde Manual
+qhp.jmbde.subprojects.manual.indexTitle = jmbde Manual
+qhp.jmbde.subprojects.manual.type = manual
+
+# Doxygen compatibility commands
+
+macro.see                       = "\\sa"
+macro.function                  = "\\fn"
+
+navigation.landingpage = "jmbde Manual"
+buildversion = "jmbde Manual $APP_VERSION"

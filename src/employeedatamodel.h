@@ -163,11 +163,17 @@ protected:
     qint32 title_id;
     QString *firstname;
     QString *lastname;
-    qint32 address_id;
     QDate birthday;
-    QString *email;
+    QString *address;
+    qint32 zipcity_id;
+    QString *homephone;
+    QString *homemobile;
+    QString *homeemail;
+    QString businessemail;
     bool datacare;
     bool active;
+    char photo[8192];
+    QString *notes; // Maxchar 50
     QDate startdate;
     QDate enddate;
     qint32 department_id;
@@ -179,6 +185,7 @@ protected:
     qint32 fax_id;
     qint32 employee_account_id;
     qint32 employee_document_id;
+    qint32 chipcard_id;
     QDate last_update;
 
 
@@ -195,11 +202,17 @@ private:
         POS_EMPLOYEE_TITLE_ID,
         POS_EMPLOYEE_FIRSTNAME,
         POS_EMPLOYEE_LASTNAME,
-        POS_EMPLOYEE_ADDRESS_ID,
         POS_EMPLOYEE_BIRTHDAY,
-        POS_EMPLOYEE_EMAIL,
+        POS_EMPLOYEE_ADDRESS,
+        POS_EMPLOYEE_ZIPCITY_ID,
+        POS_EMPLOYEE_HOMEPHONE,
+        POS_EMPLOYEE_HOMEEMAIL,
+        POS_EMPLOYEE_HOMEMOBILE,
+        POS_EMPLOYEE_BUSINESSEMAIL,
         POS_EMPLOYEE_DATACARE,
         POS_EMPLOYEE_ACTIVE,
+        POS_EMPLOYEE_PHOTO,
+        POS_EMPLOYEE_NOTES,
         POS_EMPLOYEE_STARTDATE,
         POS_EMPLOYEE_ENDDATE,
         POS_EMPLOYEE_DEPARTMENT_ID,
@@ -211,6 +224,7 @@ private:
         POS_EMPLOYEE_FAX_ID,
         POS_EMPLOYEE_EMPLOYEE_ACCOUNT_ID,
         POS_EMPLOYEE_EMPLOYEE_DOCUMENT_ID,
+        POS_EMPLOYEE_CHIPCARD_ID,
         POS_EMPLOYEE_LAST_UPDATE
     };
 };

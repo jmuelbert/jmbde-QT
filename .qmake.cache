@@ -41,3 +41,4 @@ QMAKE_MAC_SDK.macx-xcode.macosx.QMAKE_RANLIB = \
     -s
 QMAKE_MAC_SDK.macx-xcode.macosx.QMAKE_LINK = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
 QMAKE_MAC_SDK.macx-xcode.macosx.QMAKE_LINK_SHLIB = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
+QMAKE_TARGET_BUNDLE_PREFIX = de.jmuelbert

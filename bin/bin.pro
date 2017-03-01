@@ -1,5 +1,8 @@
 TEMPLATE = app
 TARGET = jmbde.sh
+
+include(../jmbde.pri)
+
 OBJECTS_DIR =
 
 PRE_TARGETDEPS = $$PWD/jmbde.sh
@@ -13,4 +16,4 @@ QMAKE_CLEAN = jmbde.sh
 target.path =  $$OUT_PWD
 INSTALLS += target
 
-OTHER_FILES = $$PWD/jmbde.sh
+DISTFILES = $$PWD/jmbde.sh
