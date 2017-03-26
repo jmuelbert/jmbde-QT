@@ -48,6 +48,8 @@ public:
      */
      EmployeeInputDialog(QWidget *parent = 0);
 
+     EmployeeInputDialog(QWidget *parent, int index = 0);
+
      /**
       * @brief EmployeeInputDialog::~EmployeeInputDialog
       */
@@ -61,38 +63,12 @@ private slots:
     void on_buttonBox_accepted();
 
     /**
-     * @brief on_nextButton_clicked
-     */
-    void on_nextButton_clicked();
-
-    /**
-     * @brief on_previousButton_clicked
-     */
-    void on_previousButton_clicked();
-
-    /**
      * @brief on_buttonBox_rejected
      */
     void on_buttonBox_rejected();
 
-    /**
-     * @brief on_pushButtonNew_clicked
-     */
-    void on_pushButtonNew_clicked();
-
+    void preSetFields();
 private:
-    /**
-     * @brief setupModel
-     */
-    void setupModel();
-
-    /**
-     * @brief addRow
-     * @param model
-     */
-    void addRow(QAbstractTableModel *model);
-
-
     int departmentIndex;
     int functionIndex;
     int computerIndex;

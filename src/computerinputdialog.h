@@ -38,14 +38,16 @@ class ComputerInputDialog : public QDialog
 
 public:
     explicit ComputerInputDialog(QWidget *parent = 0);
+    ComputerInputDialog(QWidget *parent, int index = 0);
+
     ~ComputerInputDialog();
 
 private slots:
 
 
-    void on_pushButtonPrevious_clicked();
+    void on_buttonBox_accepted();
 
-    void on_pushButtonNext_clicked();
+    void on_buttonBox_rejected();
 
 private:
     Ui::ComputerInputDialog *ui;

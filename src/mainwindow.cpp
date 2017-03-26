@@ -38,12 +38,31 @@ MainWindow::MainWindow(QWidget *parent) :
 
     readSettings();
 
+    slModel = new QStringListModel(this);
+
+    QStringList stringList;
+    stringList.append(tr("Employee"));
+    stringList.append(tr("Computer"));
+    stringList.append(tr("Printer"));
+    stringList.append(tr("Phone"));
+
+    slModel->setStringList(stringList);
+
+    ui->listView->setModel(slModel);
+
+
+    actualView = VIEW_EMPLOYEE;
 
     dm = new DataModell();
     bool retValue = dm->CreateConnection();
     if (retValue == true) {
-        ui->radioButtonEmployee->setChecked(true);
-        this->on_radioButtonEmployee_toggled(true);
+        EmployeeDataModel *edm = new EmployeeDataModel;
+        tableModel = edm->initializeTableModel();
+        ui->tableView->setModel(tableModel);
+        ui->tableView->hideColumn(0);
+        ui->tableView->show();
+
+        tableModel->database().commit();
     }
 }
 
@@ -183,37 +202,52 @@ void MainWindow::on_actionPrint_triggered()
 {
 
     QTextDocument doc;
+    switch (actualView) {
+        case VIEW_EMPLOYEE:
+        {
+            qDebug() << "Print Employee !";
+            tableModel->database().commit();
+            QString style = edm->setOutTableStyle();
+            QString text = edm->generateTableString(tableModel, tr("Employee"));
+            doc.setHtml(style+text);
+        }
+        break;
 
-    if (ui->radioButtonEmployee->isChecked()) {
-        qDebug() << "Print Employee !";
-        tableModel->database().commit();
-        QString style = edm->setOutTableStyle();
-        QString text = edm->generateTableString(tableModel, tr("Employee"));
-        doc.setHtml(style+text);
+        case VIEW_COMPUTER:
+        {
+            qDebug() << "Print Computer !";
+            tableModel->database().commit();
+            QString style = cdm->setOutTableStyle();
+            QString text = cdm->generateTableString(tableModel, tr("Computer"));
+            doc.setHtml(style+text);
+        }
+        break;
 
-    } else if (ui->radioButtonComputer->isChecked()) {
-        qDebug() << "Print Computer !";
-        tableModel->database().commit();
-        QString style = cdm->setOutTableStyle();
-        QString text = cdm->generateTableString(tableModel, tr("Computer"));
-        doc.setHtml(style+text);
+        case VIEW_PRINTER:
+        {
+            qDebug() << "Print Printer !";
+            tableModel->database().commit();
+            QString style = pdm->setOutTableStyle();
+            QString text = pdm->generateTableString(tableModel, tr("Printer"));
+            doc.setHtml(style+text);
+        }
+        break;
 
-    } else if (ui->radioButtonPrinter->isChecked()) {
-       qDebug() << "Print Printer !";
-       tableModel->database().commit();
-       QString style = pdm->setOutTableStyle();
-       QString text = pdm->generateTableString(tableModel, tr("Printer"));
-       doc.setHtml(style+text);
+        case VIEW_PHONE:
+        {
+            qDebug() << "Print Printer !";
+            tableModel->database().commit();
+            QString style = phdm->setOutTableStyle();
+            QString text = phdm->generateTableString(tableModel, tr("Phone"));
+            doc.setHtml(style+text);
+        }
+        break;
+
+        default:
+            Not_Available_Message();
 
 
-    } else if (ui->radioButtonPhone->isChecked()) {
-        qDebug() << "Print Printer !";
-        tableModel->database().commit();
-        QString style = phdm->setOutTableStyle();
-        QString text = phdm->generateTableString(tableModel, tr("Phone"));
-        doc.setHtml(style+text);
     }
-
 
 #if !defined(QT_NO_PRINTER) && !defined(QT_NO_PRINTDIALOG)
 
@@ -232,34 +266,51 @@ void MainWindow::on_action_Export_Pdf_triggered()
 {
     QTextDocument doc;
 
-    if (ui->radioButtonEmployee->isChecked()) {
-        qDebug() << "Print Employee !";
-        tableModel->database().commit();
-        QString style = edm->setOutTableStyle();
-        QString text = edm->generateTableString(tableModel, tr("Employee"));
-        doc.setHtml(style+text);
+    switch (actualView) {
+        case VIEW_EMPLOYEE:
+        {
+            qDebug() << "Print Employee !";
+            tableModel->database().commit();
+            QString style = edm->setOutTableStyle();
+            QString text = edm->generateTableString(tableModel, tr("Employee"));
+            doc.setHtml(style+text);
+        }
+        break;
 
-    } else if (ui->radioButtonComputer->isChecked()) {
-        qDebug() << "Print Computer !";
-        tableModel->database().commit();
-        QString style = cdm->setOutTableStyle();
-        QString text = cdm->generateTableString(tableModel, tr("Computer"));
-        doc.setHtml(style+text);
+        case VIEW_COMPUTER:
+        {
+            qDebug() << "Print Computer !";
+            tableModel->database().commit();
+            QString style = cdm->setOutTableStyle();
+            QString text = cdm->generateTableString(tableModel, tr("Computer"));
+            doc.setHtml(style+text);
+        }
+        break;
 
-    } else if (ui->radioButtonPrinter->isChecked()) {
-       qDebug() << "Print Printer !";
-       tableModel->database().commit();
-       QString style = pdm->setOutTableStyle();
-       QString text = pdm->generateTableString(tableModel, tr("Printer"));
-       doc.setHtml(style+text);
+        case VIEW_PRINTER:
+        {
+            qDebug() << "Print Printer !";
+            tableModel->database().commit();
+            QString style = pdm->setOutTableStyle();
+            QString text = pdm->generateTableString(tableModel, tr("Printer"));
+            doc.setHtml(style+text);
+        }
+        break;
+
+        case VIEW_PHONE:
+        {
+            qDebug() << "Print Printer !";
+            tableModel->database().commit();
+            QString style = phdm->setOutTableStyle();
+            QString text = phdm->generateTableString(tableModel, tr("Phone"));
+            doc.setHtml(style+text);
+        }
+        break;
+
+        default:
+            Not_Available_Message();
 
 
-    } else if (ui->radioButtonPhone->isChecked()) {
-        qDebug() << "Print Printer !";
-        tableModel->database().commit();
-        QString style = phdm->setOutTableStyle();
-        QString text = phdm->generateTableString(tableModel, tr("Phone"));
-        doc.setHtml(style+text);
     }
 
 #ifndef QT_NO_PRINTER
@@ -284,36 +335,52 @@ void MainWindow::on_actionPrint_Preview_triggered()
 {
     QTextDocument doc;
 
-    if (ui->radioButtonEmployee->isChecked()) {
-        qDebug() << "Print Employee !";
-        tableModel->database().commit();
-        QString style = edm->setOutTableStyle();
-        QString text = edm->generateTableString(tableModel, tr("Employee"));
-        doc.setHtml(style+text);
+    switch (actualView) {
+        case VIEW_EMPLOYEE:
+        {
+            qDebug() << "Print Employee !";
+            tableModel->database().commit();
+            QString style = edm->setOutTableStyle();
+            QString text = edm->generateTableString(tableModel, tr("Employee"));
+            doc.setHtml(style+text);
+        }
+        break;
 
-    } else if (ui->radioButtonComputer->isChecked()) {
-        qDebug() << "Print Computer !";
-        tableModel->database().commit();
-        QString style = cdm->setOutTableStyle();
-        QString text = cdm->generateTableString(tableModel, tr("Computer"));
-        doc.setHtml(style+text);
+        case VIEW_COMPUTER:
+        {
+            qDebug() << "Print Computer !";
+            tableModel->database().commit();
+            QString style = cdm->setOutTableStyle();
+            QString text = cdm->generateTableString(tableModel, tr("Computer"));
+            doc.setHtml(style+text);
+        }
+        break;
 
-    } else if (ui->radioButtonPrinter->isChecked()) {
-       qDebug() << "Print Printer !";
-       tableModel->database().commit();
-       QString style = pdm->setOutTableStyle();
-       QString text = pdm->generateTableString(tableModel, tr("Printer"));
-       doc.setHtml(style+text);
+        case VIEW_PRINTER:
+        {
+            qDebug() << "Print Printer !";
+            tableModel->database().commit();
+            QString style = pdm->setOutTableStyle();
+            QString text = pdm->generateTableString(tableModel, tr("Printer"));
+            doc.setHtml(style+text);
+        }
+        break;
+
+        case VIEW_PHONE:
+        {
+            qDebug() << "Print Printer !";
+            tableModel->database().commit();
+            QString style = phdm->setOutTableStyle();
+            QString text = phdm->generateTableString(tableModel, tr("Phone"));
+            doc.setHtml(style+text);
+        }
+        break;
+
+        default:
+            Not_Available_Message();
 
 
-    } else if (ui->radioButtonPhone->isChecked()) {
-        qDebug() << "Print Printer !";
-        tableModel->database().commit();
-        QString style = phdm->setOutTableStyle();
-        QString text = phdm->generateTableString(tableModel, tr("Phone"));
-        doc.setHtml(style+text);
     }
-
 
 #if !defined(QT_NO_PRINTER) && !defined(QT_NO_PRINTDIALOG)
     QPrinter printer(QPrinter::HighResolution);
@@ -345,122 +412,6 @@ void MainWindow::Not_Available_Message()
 }
 
 
-void MainWindow::on_actionEmployee_triggered()
-{
-    EmployeeDataModel *edm = new EmployeeDataModel;
-    tableModel = edm->initializeTableModel();
-    ui->tableView->setModel(tableModel);
-    ui->tableView->hideColumn(0);
-    ui->tableView->show();
-
-
-    tableModel->database().commit();
-}
-
-
-void MainWindow::on_radioButtonEmployee_toggled(bool checked)
-{
-    qDebug() << "Employee Button : " << checked;
-
-    edm = new EmployeeDataModel;
-    tableModel = edm->initializeRelationalModel();
-
-    ui->tableView->setModel(tableModel);
-
-
-    ui->tableView->setItemDelegate(new QSqlRelationalDelegate(ui->tableView));
-    ui->tableView->show();
-
-    tableModel->database().commit();
-}
-
-void MainWindow::on_radioButtonComputer_toggled(bool checked)
-{
-      qDebug() << "Computer Button : " << checked;
-
-      cdm = new ComputerDataModel;
-      tableModel = cdm->initializeRelationalModel();
-      ui->tableView->setModel(tableModel);
-      ui->tableView->hideColumn(0);
-
-      ui->tableView->setItemDelegate(new QSqlRelationalDelegate(ui->tableView));
-      ui->tableView->show();
-
-      tableModel->database().commit();
-
-}
-
-void MainWindow::on_radioButtonPrinter_toggled(bool checked)
-{
-   qDebug() << "Printer Button : " << checked;
-
-   pdm = new PrinterDataModel;
-   tableModel = pdm->initializeRelationalModel();
-   ui->tableView->setModel(tableModel);
-   ui->tableView->hideColumn(0);
-
-   ui->tableView->setItemDelegate(new QSqlRelationalDelegate(ui->tableView));
-   ui->tableView->show();
-
-   tableModel->database().commit();
-
-
-}
-
-void MainWindow::on_radioButtonPhone_toggled(bool checked)
-{
-  qDebug() << "Phone Button : " << checked;
-
-  phdm = new PhoneDataModel;
-  tableModel = phdm->initializeRelationalModel();
-  ui->tableView->setModel(tableModel);
-  ui->tableView->hideColumn(0);
-
-  ui->tableView->setItemDelegate(new QSqlRelationalDelegate(ui->tableView));
-  ui->tableView->show();
-
-  tableModel->database().commit();
-
-}
-
-
-void MainWindow::on_pushButtonAddData_clicked()
-{
-    if (ui->radioButtonEmployee->isChecked()) {
-        qDebug() << "New Employee !";
-        tableModel->database().commit();
-        edm->addRow(ui->tableView);
-
-    } else if (ui->radioButtonComputer->isChecked()) {
-        qDebug() << "New Computer !";
-        tableModel->database().commit();
-        cdm->addRow(ui->tableView);
-
-
-    } else if (ui->radioButtonPrinter->isChecked()) {
-        qDebug() << "New Printer !";
-        tableModel->database().commit();
-        pdm->addRow(ui->tableView);
-
-    } else if (ui->radioButtonPhone->isChecked()) {
-         qDebug() << "New Phone !";
-         tableModel->database().commit();
-         phdm->addRow(ui->tableView);
-
-    }
-
-}
-
-
-void MainWindow::on_QPushButtonSubmit_clicked()
-{
-    tableModel->submitAll();
-    qDebug() << "Submit All ------------";
-    qDebug() << "Database : " << tableModel->database().databaseName();
-    qDebug() << "DB       : " << tableModel->database().isValid();
-    qDebug() << "Last Error : " << tableModel->database().lastError().text();
-}
-
 void MainWindow::on_actionHelp_triggered()
 {
     helpWindow = new QDockWidget(tr("Help"), this);
@@ -477,3 +428,184 @@ void MainWindow::on_actionHelp_triggered()
     helpBrowser->showHelpForKeyWord(QLatin1String("main"));
 }
 
+
+void MainWindow::on_actionEditAdd_triggered()
+{
+    switch(actualView) {
+        case VIEW_EMPLOYEE:
+        {
+            EmployeeInputDialog *eid = new EmployeeInputDialog();
+            eid->show();
+        }
+        break;
+
+        case VIEW_COMPUTER:
+        {
+            ComputerInputDialog *cid = new ComputerInputDialog();
+            cid->show();
+
+        }
+        break;
+
+        case VIEW_PRINTER:
+        {
+
+        }
+        break;
+
+        case VIEW_PHONE:
+        {
+
+        }
+        break;
+
+        default:
+            Not_Available_Message();
+    }
+}
+
+void MainWindow::on_actionEditEdit_triggered()
+{
+    QItemSelectionModel *select = ui->tableView->selectionModel();
+    QModelIndexList selection = select->selectedRows();
+
+    switch(actualView) {
+        case VIEW_EMPLOYEE:
+        {
+            for (int i=0; i<selection.count(); i++) {
+                QModelIndex index = selection.at(i);
+                EmployeeInputDialog *eid = new EmployeeInputDialog(0, index.row());
+                eid->show();
+            }
+        }
+        break;
+
+        case VIEW_COMPUTER:
+         {
+            for (int i=0; i<selection.count(); i++) {
+                QModelIndex index = selection.at(i);
+                ComputerInputDialog *cid = new ComputerInputDialog(0, index.row());
+                cid->show();
+            }
+        }
+        break;
+
+        case VIEW_PRINTER:
+        {
+
+        }
+        break;
+
+        case VIEW_PHONE:
+        {
+
+        }
+        break;
+
+        default:
+            Not_Available_Message();
+    }
+
+}
+
+void MainWindow::on_actionEditDelete_triggered()
+{
+    switch(actualView) {
+        case VIEW_EMPLOYEE:
+        {
+        }
+        break;
+
+        case VIEW_COMPUTER:
+        {
+
+        }
+        break;
+
+        case VIEW_PRINTER:
+        {
+
+        }
+        break;
+
+        case VIEW_PHONE:
+        {
+
+        }
+        break;
+
+        default:
+            Not_Available_Message();
+    }
+
+}
+
+void MainWindow::on_listView_clicked(const QModelIndex &index)
+{
+    qDebug() << "Item clicked ---" << index.row();
+
+
+    switch (index.row()) {
+        case VIEW_EMPLOYEE:
+        {
+            actualView = VIEW_EMPLOYEE;
+            EmployeeDataModel *edm = new EmployeeDataModel;
+            tableModel = edm->initializeTableModel();
+            ui->tableView->setModel(tableModel);
+            ui->tableView->hideColumn(0);
+            ui->tableView->show();
+
+            tableModel->database().commit();
+        }
+        break;
+
+        case VIEW_COMPUTER:
+        {
+            actualView = VIEW_COMPUTER;
+            cdm = new ComputerDataModel;
+            tableModel = cdm->initializeRelationalModel();
+            ui->tableView->setModel(tableModel);
+            ui->tableView->hideColumn(0);
+
+            ui->tableView->setItemDelegate(new QSqlRelationalDelegate(ui->tableView));
+            ui->tableView->show();
+
+            tableModel->database().commit();
+        }
+        break;
+
+        case VIEW_PRINTER:
+        {
+            actualView = VIEW_PRINTER;
+            pdm = new PrinterDataModel;
+            tableModel = pdm->initializeRelationalModel();
+            ui->tableView->setModel(tableModel);
+            ui->tableView->hideColumn(0);
+
+            ui->tableView->setItemDelegate(new QSqlRelationalDelegate(ui->tableView));
+            ui->tableView->show();
+
+            tableModel->database().commit();
+        }
+        break;
+
+        case VIEW_PHONE:
+        {
+            actualView = VIEW_PHONE;
+            phdm = new PhoneDataModel;
+            tableModel = phdm->initializeRelationalModel();
+            ui->tableView->setModel(tableModel);
+            ui->tableView->hideColumn(0);
+
+            ui->tableView->setItemDelegate(new QSqlRelationalDelegate(ui->tableView));
+            ui->tableView->show();
+
+            tableModel->database().commit();
+        }
+        break;
+
+        default:
+         Not_Available_Message();
+    }
+
+}

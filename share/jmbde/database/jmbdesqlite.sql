@@ -5,6 +5,7 @@
 --
 -- V1.0		- 29. December 2013
 -- V1.0.1	- 12. Januar 2014
+-- V1.1		- 03. March 2017
 --
 ---------------------------------------
 
@@ -141,7 +142,7 @@ CREATE TABLE IF NOT EXISTS employee (
     fax_id SMALLINT UNSIGNED NOT NULL DEFAULT 1,
     employee_account_id SMALLINT UNSIGNED NOT NULL DEFAULT 1,
     employee_document_id SMALLINT UNSIGNED NOT NULL DEFAULT 1,
-    chipcard_id SMALLINT UNSIGNED NOT NULL DEFAULT 1,o
+    chipcard_id SMALLINT UNSIGNED NOT NULL DEFAULT 1,
     last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -538,7 +539,8 @@ CREATE TABLE IF NOT EXISTS computer (
 	os_id SMALLINT UNSIGNED NOT NULL DEFAULT 1,
 	computersoftware_id SMALLINT UNSIGNED NOT NULL DEFAULT 1,
 	printer_id SMALLINT UNSIGNED DEFAULT NULL DEFAULT 1,
-	last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+	last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	CONSTRAINT "FK_Computer_Employee_EmployeeId" FOREIGN KEY ("employee_id") REFERENCES "employee" ("employee_id") ON DELETE CASCADE
 );
 
 CREATE INDEX idx_fk_computer_devicename ON computer (devicename_id ASC);
@@ -646,7 +648,9 @@ CREATE TABLE IF NOT EXISTS phone (
 	department_id SMALLINT UNSIGNET NOT NULL DEFAULT 1,
 	manufacturer_id SMALLINT UNSIGNED NOT NULL DEFAULT 1,
 	inventory_id SMALLINT UNSIGNED NOT NULL DEFAULT 1,
-	last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+	last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	CONSTRAINT "FK_Phone_Employee_EmployeeId" FOREIGN KEY ("employee_id") REFERENCES "employee" ("employee_id") ON DELETE CASCADE
+
 );
 
 CREATE INDEX idx_fk_phone_devicename ON phone (devicename_id ASC);
@@ -738,7 +742,9 @@ CREATE TABLE IF NOT EXISTS mobile (
 	department_id SMALLINT UNSIGNET NOT NULL DEFAULT 1,
 	manufacturer_id SMALLINT UNSIGNED NOT NULL DEFAULT 1,
 	inventory_id SMALLINT UNSIGNED NOT NULL DEFAULT 1,
-	last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+	last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	CONSTRAINT "FK_Mobile_Employee_EmployeeId" FOREIGN KEY ("employee_id") REFERENCES "employee" ("employee_id") ON DELETE CASCADE
+
 );
 
 CREATE INDEX idx_fk_mobile_devicename ON mobile (devicename_id ASC);
@@ -779,291 +785,4 @@ CREATE TABLE IF NOT EXISTS databaseversion (
 --
 --------------------------------------
 INSERT INTO databaseversion VALUES(1,1,0,0,'2013-12-29');
----------------------------------------
---
--- Create the ZIPCODE Table
--- This Table hold the ZIPCODE in german
--- Postleitzahl of the City
---
----------------------------------------
-INSERT INTO zipcode (zipcode) VALUES('NONE');
-INSERT INTO zipcode (zipcode) VALUES('68161');
-INSERT INTO zipcode (zipcode) VALUES('68163');
-INSERT INTO zipcode (zipcode) VALUES('68165');
-INSERT INTO zipcode (zipcode) VALUES('68167');
-INSERT INTO zipcode (zipcode) VALUES('68229');
-INSERT INTO zipcode (zipcode) VALUES('68535');
-
----------------------------------------
---
--- The City Table
---
----------------------------------------
-INSERT INTO cityname (name) VALUES('NONE');
-INSERT INTO cityname (name) VALUES('Edingen-Neckarhausen');
-INSERT INTO cityname (name) VALUES('Heidelberg');
-INSERT INTO cityname (name) VALUES('Mannheim');
-INSERT INTO cityname (name) VALUES('Schwetzingen');
-INSERT INTO cityname (name) VALUES('Weinheim');
-
-INSERT INTO zipcity (zipcode_id, city_id) VALUES(2, 2);
-INSERT INTO zipcity (zipcode_id, city_id) VALUES(3, 2);
-INSERT INTO zipcity (zipcode_id, city_id) VALUES(4, 2);
-INSERT INTO zipcity (zipcode_id, city_id) VALUES(5, 2);
-INSERT INTO zipcity (zipcode_id, city_id) VALUES(6, 2);
-INSERT INTO zipcity (zipcode_id, city_id) VALUES(7, 3);
-
-
----------------------------------------
---
--- The Title Table
---
----------------------------------------
-INSERT INTO title (name) VALUES('');
-
----------------------------------------
---
--- The Employee Table
---
----------------------------------------
-INSERT INTO employee (employee_nr, gender, title_id,
-		lastname, address,
-		department_id, function_id,
-		computer_id, printer_id,
-		phone_id, mobile_id, fax_id,
-		employee_account_id, employee_document_id)
-VALUES(1, 'N', 1,
-		'NONE', 'NONE',
-		1, 1,
-		1, 1,
-		1, 1, 1,
-		1, 1);
---------------------------------------
---
--- Set the Values to devicetype
---
--- Table DeviceType
--- :SERVER
--- :DESKTOP
--- :LAPTOP
--- :PAD
--- :PRINTER
--- :FAX
--- :PHONE
----------------------------------------
-
-INSERT INTO devicetype (name) VALUES('Desktop');
-INSERT INTO devicetype (name) VALUES('Laptop');
-INSERT INTO devicetype (name) VALUES('Server');
-INSERT INTO devicetype (name) VALUES('iPad');
-INSERT INTO devicetype (name) VALUES('Printer');
-INSERT INTO devicetype (name) VALUES('Fax');
-INSERT INTO devicetype (name) VALUES('Scanner');
-INSERT INTO devicetype (name) VALUES('Multifunction');
-INSERT INTO devicetype (name) VALUES('Phone');
-INSERT INTO devicetype (name) VALUES('Handset');
-INSERT INTO devicetype (name) VALUES('Mobile');
-INSERT INTO devicetype (name) VALUES('iPhone');
-INSERT INTO devicetype (name) VALUES('Blackberry');
-INSERT INTO devicetype (name) VALUES('Router');
-INSERT INTO devicetype (name) VALUES('Switch');
-INSERT INTO devicetype (name) VALUES('VPN');
-INSERT INTO devicetype (name) VALUES('Tape Machine');
-
----------------------------------------
---
--- The Devicename Table
---
----------------------------------------
-INSERT INTO devicename (name, manufacturer_id) VALUES('NONE', 1);
----------------------------------------
---
--- The Place Table
---
----------------------------------------
-INSERT INTO place (name, room, desk) VALUES('NONE', 'NONE', 'NONE');
-
----------------------------------------
---
--- The Inventory Table
---
----------------------------------------
-INSERT INTO inventory (number, text, active) VALUES('0000-0000', 'NONE', 'FALSE');
-
----------------------------------------
---
--- The Manufacturer Table
---
----------------------------------------
-INSERT INTO manufacturer (name, address, supporter) VALUES('Dell', 'NONE', 'NONE');
-INSERT INTO manufacturer (name, address, supporter) VALUES('IBM', 'NONE', 'NONE');
-INSERT INTO manufacturer (name, address, supporter) VALUES('Lenovo', 'NONE', 'NONE');
-INSERT INTO manufacturer (name, address, supporter) VALUES('Hewlett Packard', 'NONE', 'NONE');
-INSERT INTO manufacturer (name, address, supporter) VALUES('Canon', 'NONE', 'NONE');
-INSERT INTO manufacturer (name, address, supporter) VALUES('Apple', 'NONE', 'NONE');
-INSERT INTO manufacturer (name, address, supporter) VALUES('Siemens', 'NONE', 'NONE');
-INSERT INTO manufacturer (name, address, supporter) VALUES('Unify', 'NONE', 'NONE');
-
----------------------------------------
---
--- The Department Table
---
----------------------------------------
-INSERT INTO department (name, printer_id, fax_id) VALUES('Managment', 1, 1);
-INSERT INTO department (name, printer_id, fax_id) VALUES('Accounting', 1, 1);
-INSERT INTO department (name, printer_id, fax_id) VALUES('Marketing', 1, 1);
-INSERT INTO department (name, printer_id, fax_id) VALUES('Sales', 1, 1);
-INSERT INTO department (name, printer_id, fax_id) VALUES('Service', 1, 1);
-INSERT INTO department (name, printer_id, fax_id) VALUES('IT', 1, 1);
-
----------------------------------------
---
--- The Function Table
---
----------------------------------------
-INSERT INTO function (name) VALUES('Manager');
-INSERT INTO function (name) VALUES('Accounting Manager');
-INSERT INTO function (name) VALUES('Accounting Persoon');
-INSERT INTO function (name) VALUES('Marketing Manager');
-INSERT INTO function (name) VALUES('Marketing Person');
-INSERT INTO function (name) VALUES('Sales Manager');
-INSERT INTO function (name) VALUES('Sales Person');
-INSERT INTO function (name) VALUES('Service Manager');
-INSERT INTO function (name) VALUES('Service Person');
-INSERT INTO function (name) VALUES('IT Manager');
-INSERT INTO function (name) VALUES('IT Person');
-
----------------------------------------
---
--- The Employee_Account Table
---
----------------------------------------
-INSERT INTO employeeaccount (employee_id, account_id) VALUES(1, 1);
-
----------------------------------------
---
--- The account Table
---
----------------------------------------
-INSERT INTO account (systemdata_id, username, password) VALUES(1, ' ',  ' ');
-
----------------------------------------
---
--- The Employee_Document Table
---
----------------------------------------
-INSERT INTO employeedocument (employee_id, document_id) VALUES(1, 1);
-
----------------------------------------
---
--- The Documents Table
---
----------------------------------------
-INSERT INTO documents (name, document) VALUES('NONE', ' ');
-
----------------------------------------
---
--- The processor Table
---
----------------------------------------
-INSERT INTO processor (name, ghz, cores) VALUES('I3', '2', '2');
-INSERT INTO processor (name, ghz, cores) VALUES('I5', '2', '4');
-INSERT INTO processor (name, ghz, cores) VALUES('I7', '2.5' , '4');
-INSERT INTO processor (name, ghz, cores) VALUES('XEON', '3', '4');
-
----------------------------------------
---
--- The OS Table
---
----------------------------------------
-INSERT INTO os (name, version, revision, fix) VALUES('Windows XP', '0', '0', '0');
-INSERT INTO os (name, version, revision, fix) VALUES('Windows Vista', '0', '0', '0');
-INSERT INTO os (name, version, revision, fix) VALUES('Windows 7', '0', '0', '0');
-INSERT INTO os (name, version, revision, fix) VALUES('Windows 8', '0', '0', '0');
-INSERT INTO os (name, version, revision, fix) VALUES('Windows 8.1', '0', '0', '0');
-INSERT INTO os (name, version, revision, fix) VALUES('Windows Server 2003', '0', '0', '0');
-INSERT INTO os (name, version, revision, fix) VALUES('Windows Server 2008', '0', '0', '0');
-INSERT INTO os (name, version, revision, fix) VALUES('Windows Server 2012', '0', '0', '0');
-INSERT INTO os (name, version, revision, fix) VALUES('iOS', '6', '1', '0');
-INSERT INTO os (name, version, revision, fix) VALUES('iOS', '7', '1', '0');
-INSERT INTO os (name, version, revision, fix) VALUES('OS X', '10', '9', '1');
-INSERT INTO os (name, version, revision, fix) VALUES('Ubuntu Linux', '13', '10', '0');
-INSERT INTO os (name, version, revision, fix) VALUES('OpenSuSE Linux', '12', '1', '0');
-
-----------------------------------------
---
--- The Computer_Software Table
---
----------------------------------------
-INSERT INTO computersoftware (computer_id, software_id) VALUES(1, 1);
-
-
----------------------------------------
---
--- The Software Table
---
----------------------------------------
-INSERT INTO software (name, version, revision, fix) VALUES('Microsoft Office 2003', '0', '0', '0');
-INSERT INTO software (name, version, revision, fix) VALUES('Microsoft Office 2007', '0', '0', '0');
-INSERT INTO software (name, version, revision, fix) VALUES('Microsoft Office 2010', '0', '0', '0');
-INSERT INTO software (name, version, revision, fix) VALUES('Microsoft Office 2012', '0', '0', '0');
-INSERT INTO software (name, version, revision, fix) VALUES('Microsoft Office 365', '0', '0', '0');
-INSERT INTO software (name, version, revision, fix) VALUES('LibreOffice', '0', '0', '0');
-INSERT INTO software (name, version, revision, fix) VALUES('OpenOffice', '0', '0', '0');
-INSERT INTO software (name, version, revision, fix) VALUES('Acrobat Reader', '0', '0', '0');
-INSERT INTO software (name, version, revision, fix) VALUES('PDF Creator', '0', '0', '0');
----------------------------------------
---
--- The Computer Table
---
----------------------------------------
-INSERT INTO computer (devicename_id, serialnumber, service_tag,
-			network, network_name, network_ipaddress,
-			devicetype_id, employee_id, place_id, department_id,
-			manufacturer_id, inventory_id, processor_id,
-			os_id, computersoftware_id, printer_id)
-VALUES(1, '00000000', 'XXX-YYY-0', 'LAN1', 'COMP-0001', '192.168.1.25',
-		1, 1, 1, 1,
-		1, 1, 1,
-		1, 1, 1);
-
----------------------------------------
---
--- The Printer Table
---
----------------------------------------
-INSERT INTO printer (devicename_id, serialnumber,
-		network, network_name, network_ipaddress,
-		resources, papersize_max,
-		devicetype_id, employee_id, place_id, department_id,
-		manufacturer_id, inventory_id, computer_id)
-VALUES(1, '00000000',  'LAN1', 'PRN-0001', '192.168.1.100',
-		'TONER-0001', 'A4',
-		5, 1, 1, 1,
-		1, 1, 1);
----------------------------------------
---
--- The Phone Table
---
----------------------------------------
-INSERT INTO phone (devicename_id, serialnumber, number,
-		devicetype_id, employee_id, place_id, department_id,
-		manufacturer_id, inventory_id)
-VALUES(1, '00000000', '10',
-		9, 1, 1, 1,
-		1, 1);
-		
-INSERT INTO mobile (devicename_id, serialnumber, number,
-		devicetype_id, employee_id, place_id, department_id,
-		manufacturer_id, inventory_id)
-VALUES(1, '00000000', '10',
-		9, 1, 1, 1,
-		1, 1);
-		
-INSERT INTO fax (devicename_id, serialnumber, number,
-		devicetype_id, employee_id, place_id, department_id,
-		manufacturer_id, inventory_id, printer_id)
-VALUES(1, '00000000', '10',
-		9, 1, 1, 1,
-		1, 1, 1);
 COMMIT;

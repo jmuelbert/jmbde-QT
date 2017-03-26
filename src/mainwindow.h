@@ -64,6 +64,7 @@
 #include "accountdatamodel.h"
 #include "commondatamodel.h"
 #include "computerdatamodel.h"
+#include "computerinputdialog.h"
 #include "departmentdatamodel.h"
 #include "devicetypedatamodel.h"
 #include "employeedatamodel.h"
@@ -184,46 +185,16 @@ private slots:
      */
     void on_actionPrint_Preview_triggered();
 
-    /**
-     * @brief on_actionEmployee_triggered
-     */
-    void on_actionEmployee_triggered();
-
-    /**
-     * @brief on_radioButtonEmployee_toggled
-     * @param checked
-     */
-    void on_radioButtonEmployee_toggled(bool checked);
-
-    /**
-     * @brief on_radioButtonComputer_toggled
-     * @param checked
-     */
-    void on_radioButtonComputer_toggled(bool checked);
-
-    /**
-     * @brief on_radioButtonPrinter_toggled
-     * @param checked
-     */
-    void on_radioButtonPrinter_toggled(bool checked);
-
-    /**
-     * @brief on_radioButtonPhone_toggled
-     * @param checked
-     */
-    void on_radioButtonPhone_toggled(bool checked);
-
-    /**
-     * @brief on_pushButtonAddData_clicked
-     */
-    void on_pushButtonAddData_clicked();
-
-    /**
-     * @brief on_QPushButtonSubmit_clicked
-     */
-    void on_QPushButtonSubmit_clicked();
 
     void on_actionHelp_triggered();
+
+    void on_actionEditAdd_triggered();
+
+    void on_actionEditEdit_triggered();
+
+    void on_actionEditDelete_triggered();
+
+    void on_listView_clicked(const QModelIndex &index);
 
 private:
     /**
@@ -264,6 +235,17 @@ private:
     QString dbHostname;
     QString dbUsername;
     QString dbPassword;
+
+    QStringListModel *slModel;
+
+    enum ViewData {
+        VIEW_EMPLOYEE = 0,
+        VIEW_COMPUTER = 1,
+        VIEW_PRINTER = 2,
+        VIEW_PHONE = 3
+    };
+
+    int actualView;
 };
 
 #endif // MAINWINDOW_H

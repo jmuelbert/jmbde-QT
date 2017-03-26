@@ -13,19 +13,7 @@
     <height>500</height>
    </rect>
   </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
   <property name="minimumSize">
-   <size>
-    <width>800</width>
-    <height>500</height>
-   </size>
-  </property>
-  <property name="maximumSize">
    <size>
     <width>800</width>
     <height>500</height>
@@ -35,133 +23,39 @@
    <string>JMBDE Version 0.3.4</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QTableView" name="tableView">
+   <widget class="QSplitter" name="splitter">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>70</y>
-      <width>761</width>
-      <height>281</height>
+      <x>10</x>
+      <y>10</y>
+      <width>781</width>
+      <height>401</height>
      </rect>
     </property>
-    <property name="alternatingRowColors">
-     <bool>true</bool>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
     </property>
-    <property name="sortingEnabled">
-     <bool>true</bool>
-    </property>
-    <attribute name="horizontalHeaderCascadingSectionResizes">
-     <bool>true</bool>
-    </attribute>
-    <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
-     <bool>true</bool>
-    </attribute>
-    <attribute name="horizontalHeaderStretchLastSection">
-     <bool>true</bool>
-    </attribute>
-    <attribute name="verticalHeaderShowSortIndicator" stdset="0">
-     <bool>false</bool>
-    </attribute>
-    <attribute name="verticalHeaderStretchLastSection">
-     <bool>false</bool>
-    </attribute>
-   </widget>
-   <widget class="QGroupBox" name="groupBox">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>0</y>
-      <width>401</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>View</string>
-    </property>
-    <property name="flat">
-     <bool>false</bool>
-    </property>
-    <property name="checkable">
-     <bool>false</bool>
-    </property>
-    <widget class="QRadioButton" name="radioButtonEmployee">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>30</y>
-       <width>102</width>
-       <height>20</height>
-      </rect>
+    <widget class="QListView" name="listView">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
-     <property name="text">
-      <string>Employee</string>
+     <property name="maximumSize">
+      <size>
+       <width>200</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <property name="showDropIndicator" stdset="0">
+      <bool>false</bool>
      </property>
     </widget>
-    <widget class="QRadioButton" name="radioButtonComputer">
-     <property name="geometry">
-      <rect>
-       <x>110</x>
-       <y>30</y>
-       <width>91</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Computer</string>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="radioButtonPrinter">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>30</y>
-       <width>71</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Printer</string>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="radioButtonPhone">
-     <property name="geometry">
-      <rect>
-       <x>290</x>
-       <y>30</y>
-       <width>71</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Phone</string>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QPushButton" name="pushButtonAddData">
-    <property name="geometry">
-     <rect>
-      <x>670</x>
-      <y>360</y>
-      <width>114</width>
-      <height>32</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>+</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="QPushButtonSubmit">
-    <property name="geometry">
-     <rect>
-      <x>560</x>
-      <y>360</y>
-      <width>114</width>
-      <height>32</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Submit</string>
-    </property>
+    <widget class="QTableView" name="tableView"/>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -190,6 +84,9 @@
     <property name="title">
      <string>Edit</string>
     </property>
+    <addaction name="actionEditAdd"/>
+    <addaction name="actionEditEdit"/>
+    <addaction name="actionEditDelete"/>
     <addaction name="actionPreferences"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
@@ -210,7 +107,11 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionPreferences"/>
+   <addaction name="separator"/>
+   <addaction name="actionEditAdd"/>
+   <addaction name="actionEditEdit"/>
+   <addaction name="actionEditDelete"/>
+   <addaction name="separator"/>
    <addaction name="actionPrint"/>
    <addaction name="action_Export_Pdf"/>
   </widget>
@@ -233,6 +134,10 @@
    <property name="enabled">
     <bool>false</bool>
    </property>
+   <property name="icon">
+    <iconset resource="../../../Downloads/qtango-master/icons/tango/tango.qrc">
+     <normaloff>:/icons/tango/16x16/document-new.png</normaloff>:/icons/tango/16x16/document-new.png</iconset>
+   </property>
    <property name="text">
     <string>New</string>
    </property>
@@ -248,6 +153,10 @@
   <action name="actionOpen">
    <property name="enabled">
     <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../../Downloads/qtango-master/icons/tango/tango.qrc">
+     <normaloff>:/icons/tango/16x16/document-open.png</normaloff>:/icons/tango/16x16/document-open.png</iconset>
    </property>
    <property name="text">
     <string>Open...</string>
@@ -273,6 +182,10 @@
    </property>
   </action>
   <action name="actionPrint">
+   <property name="icon">
+    <iconset resource="../../../Downloads/qtango-master/icons/tango/tango.qrc">
+     <normaloff>:/icons/tango/16x16/document-print-preview.png</normaloff>:/icons/tango/16x16/document-print-preview.png</iconset>
+   </property>
    <property name="text">
     <string>Print...</string>
    </property>
@@ -280,19 +193,24 @@
     <string>Ctrl+P</string>
    </property>
   </action>
-  <action name="actionEmployee">
-   <property name="text">
-    <string>Employee</string>
-   </property>
-  </action>
   <action name="actionPrint_Preview">
+   <property name="icon">
+    <iconset resource="../../../Downloads/qtango-master/icons/tango/tango.qrc">
+     <normaloff>:/icons/tango/16x16/document-print-preview.png</normaloff>:/icons/tango/16x16/document-print-preview.png</iconset>
+   </property>
    <property name="text">
     <string>Print Preview...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
    </property>
   </action>
   <action name="action_Export_Pdf">
    <property name="text">
     <string>&amp;Export Pdf</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
    </property>
   </action>
   <action name="actionHelp">
@@ -300,10 +218,38 @@
     <string>Help</string>
    </property>
   </action>
+  <action name="actionEditAdd">
+   <property name="icon">
+    <iconset resource="../../../Downloads/qtango-master/icons/tango/tango.qrc">
+     <normaloff>:/icons/tango/16x16/list-add.png</normaloff>:/icons/tango/16x16/list-add.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add</string>
+   </property>
+  </action>
+  <action name="actionEditEdit">
+   <property name="icon">
+    <iconset resource="../../../Downloads/qtango-master/icons/tango/tango.qrc">
+     <normaloff>:/icons/tango/16x16/accessories-text-editor.png</normaloff>:/icons/tango/16x16/accessories-text-editor.png</iconset>
+   </property>
+   <property name="text">
+    <string>Edit</string>
+   </property>
+  </action>
+  <action name="actionEditDelete">
+   <property name="icon">
+    <iconset resource="../../../Downloads/qtango-master/icons/tango/tango.qrc">
+     <normaloff>:/icons/tango/16x16/edit-delete.png</normaloff>:/icons/tango/16x16/edit-delete.png</iconset>
+   </property>
+   <property name="text">
+    <string>Delete</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
   <include location="jmbde.qrc"/>
+  <include location="../../../Downloads/qtango-master/icons/tango/tango.qrc"/>
  </resources>
  <connections/>
 </ui>

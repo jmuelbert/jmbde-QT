@@ -1,3 +1,19 @@
-<?xml version="1.0" ?>
-<scxml xmlns="http://www.w3.org/2005/07/scxml" version="1.0" name="ZustandsDiagramm">
+<?xml version="1.0" encoding="UTF-8"?>
+<scxml xmlns="http://www.w3.org/2005/07/scxml" version="1.0" binding="early" name="ZustandsDiagramm" qt:editorversion="4.2.1" xmlns:qt="http://www.qt.io/2015/02/scxml-ext">
+    <qt:editorinfo initialGeometry="76.28;62.23;-20;-20;40;40"/>
+    <final id="Final_1">
+        <qt:editorinfo geometry="63.23;220.81;-20;-20;40;40" scenegeometry="63.23;220.81;43.23;200.81;40;40"/>
+        <onentry>
+            <raise/>
+        </onentry>
+    </final>
+    <state id="State_1">
+        <qt:editorinfo geometry="277.02;82.30;-60;-50;120;100" scenegeometry="277.02;82.30;217.02;32.30;120;100"/>
+    </state>
+    <parallel id="Parallel_1">
+        <qt:editorinfo geometry="226.84;220.81;-60;-50;120;100" scenegeometry="226.84;220.81;166.84;170.81;120;100"/>
+        <transition type="external" event="Transition_1">
+            <qt:editorinfo localGeometry="-47.18;-66.24;-159.59;1.01;24.08;-142.52;-149.56;-155.57;24.08;-10.03"/>
+        </transition>
+    </parallel>
 </scxml>

@@ -27,6 +27,35 @@ ComputerInputDialog::ComputerInputDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ComputerInputDialog)
 {
+
+    ui->setupUi(this);
+
+    model = new QSqlRelationalTableModel(this);
+    model->setTable(QLatin1String("computer"));
+    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    model->select();
+
+    mapper = new QDataWidgetMapper(this);
+    mapper->setModel(model);
+    mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
+
+    mapper->addMapping(ui->lineEditComputerName, model->fieldIndex(QLatin1String("network_name")));
+    mapper->toLast();
+    int row = mapper->currentIndex();
+    mapper->submit();
+    model->insertRow(row);
+    mapper->setCurrentIndex(row);
+
+    ui->lineEditComputerName->clear();
+    ui->lineEditComputerName->setFocus();
+ }
+
+ComputerInputDialog::ComputerInputDialog(QWidget *parent, int index) :
+    QDialog(parent),
+    ui(new Ui::ComputerInputDialog)
+{
+    ui->setupUi(this);
+
     model = new QSqlRelationalTableModel(this);
     model->setTable(QLatin1String("computer"));
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
@@ -35,13 +64,12 @@ ComputerInputDialog::ComputerInputDialog(QWidget *parent) :
 
     mapper = new QDataWidgetMapper(this);
     mapper->setModel(model);
-    mapper->setItemDelegate(new QSqlRelationalDelegate(this));
+    mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
+    mapper->addMapping(ui->lineEditComputerName, model->fieldIndex(QLatin1String("network_name")));
+    mapper->setCurrentIndex(index);
+    ui->lineEditComputerName->setFocus();
 
-    ui->setupUi(this);
-
-    mapper->addMapping(ui->lineEditComputerName, model->fieldIndex(QLatin1String("name")));
-    mapper->toFirst();
 }
 
 ComputerInputDialog::~ComputerInputDialog()
@@ -50,13 +78,25 @@ ComputerInputDialog::~ComputerInputDialog()
 }
 
 
-
-void ComputerInputDialog::on_pushButtonPrevious_clicked()
+void ComputerInputDialog::on_buttonBox_accepted()
 {
-    mapper->toPrevious();
+    qDebug() << "Name : " << ui->lineEditComputerName->text();
+    mapper->submit();
+    model->database().transaction();
+    if (model->submitAll()) {
+         model->database().commit();
+    } else {
+         model->database().rollback();
+         QMessageBox::warning(this, tr("Cached Table"),
+                              tr("The database reported an error: %1")
+                              .arg(model->lastError().text()));
+     }
 }
 
-void ComputerInputDialog::on_pushButtonNext_clicked()
+void ComputerInputDialog::on_buttonBox_rejected()
 {
-    mapper->toNext();
+    model->database().rollback();
+    qDebug() << "Cancel Clicked!, DB-rollback.!";
 }
+
+
