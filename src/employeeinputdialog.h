@@ -67,7 +67,6 @@ private slots:
      */
     void on_buttonBox_rejected();
 
-    void preSetFields();
 private:
     int departmentIndex;
     int functionIndex;
@@ -84,6 +83,9 @@ private:
     QDataWidgetMapper *mapper;
 
     Ui::EmployeeInputDialog *ui;
+
+    void preSetFields(bool newEmployee);
+    void setMappings(QSqlTableModel *model, QDataWidgetMapper *mapper);
 };
 
 #endif // EMPLOYEEINPUTDIALOG_H

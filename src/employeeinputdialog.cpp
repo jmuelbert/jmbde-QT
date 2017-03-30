@@ -31,7 +31,7 @@ EmployeeInputDialog::EmployeeInputDialog(QWidget *parent) :
     // Init UI
     ui->setupUi(this);
 
-    preSetFields();
+    preSetFields(true);
 
     // Set the Model
     model = new QSqlTableModel(this);
@@ -54,13 +54,8 @@ EmployeeInputDialog::EmployeeInputDialog(QWidget *parent) :
     mapper->setModel(model);
     mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
-    // Set the fields to the mapper
-    mapper->addMapping(ui->doubleSpinBoxPersNR, model->fieldIndex(QLatin1String("employee_nr")));
-    mapper->addMapping(ui->lineEditFirstname, model->fieldIndex(QLatin1String("firstname")) );
-    mapper->addMapping(ui->lineEditLastname, model->fieldIndex(QLatin1String("lastname")));
-    mapper->addMapping(ui->checkBoxActive, model->fieldIndex(QLatin1String("active")));
-    mapper->addMapping(ui->checkBoxDatacare, model->fieldIndex(QLatin1String("datacare")));
-    mapper->addMapping(ui->comboBoxGender, model->fieldIndex(QLatin1String("gender")));
+    setMappings(model, mapper);
+
 
     // To the last row to adding a dataset
     mapper->toLast();
@@ -69,7 +64,7 @@ EmployeeInputDialog::EmployeeInputDialog(QWidget *parent) :
     model->insertRow(row);
     mapper->setCurrentIndex(row);
 
-    ui->doubleSpinBoxPersNR->setValue(1);
+    ui->doubleSpinBoxPersNR->setValue(++row);
     ui->lineEditFirstname->clear();
     ui->lineEditFirstname->setFocus();
     ui->lineEditLastname->clear();
@@ -82,6 +77,8 @@ EmployeeInputDialog::EmployeeInputDialog(QWidget *parent, int index) :
     // Init UI
     ui->setupUi(this);
 
+    preSetFields(false);
+
     // Set the Model
     model = new QSqlTableModel(this);
     model->setTable(QLatin1String("employee"));
@@ -103,16 +100,11 @@ EmployeeInputDialog::EmployeeInputDialog(QWidget *parent, int index) :
     mapper->setModel(model);
     mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
-    // Set the fields to the mapper
-    mapper->addMapping(ui->doubleSpinBoxPersNR, model->fieldIndex(QLatin1String("employee_nr")));
-    mapper->addMapping(ui->lineEditFirstname, model->fieldIndex(QLatin1String("firstname")) );
-    mapper->addMapping(ui->lineEditLastname, model->fieldIndex(QLatin1String("lastname")));
-    mapper->addMapping(ui->checkBoxActive, model->fieldIndex(QLatin1String("active")));
-    mapper->addMapping(ui->checkBoxDatacare, model->fieldIndex(QLatin1String("datacare")));
-    mapper->addMapping(ui->comboBoxGender, model->fieldIndex(QLatin1String("gender")));
-    mapper->setCurrentIndex(index);
+    setMappings(model, mapper);
 
     mapper->setCurrentIndex(index);
+
+
     ui->lineEditFirstname->setFocus();
 }
 
@@ -142,12 +134,80 @@ void EmployeeInputDialog::on_buttonBox_rejected()
     qDebug() << "Cancel Clicked!, DB-rollback.!";
 }
 
-void EmployeeInputDialog::preSetFields()
+void EmployeeInputDialog::preSetFields(bool newEmployee)
 {
     QStringList qslGender;
     qslGender.append("Not Set");
     qslGender.append("m");
-    qslGender.append("w");
+    qslGender.append("f");
 
     ui->comboBoxGender->addItems(qslGender);
+
+    QStringList qslTitle;
+    qslTitle.append("Not Set");
+    qslTitle.append("Mr.");
+    qslTitle.append("Ms.");
+
+    ui->comboBoxTitle->addItems(qslTitle);
+
+    if (newEmployee == true) {
+        QString dateString = QDate::QDate().currentDate().toString("dd.MM.yyyy");
+        ui->labelLastupdate_Date->setText(dateString);
+        ui->dateEditStartDate->setDate(QDate::QDate().currentDate());
+    }
+}
+
+void EmployeeInputDialog::setMappings(QSqlTableModel *model, QDataWidgetMapper *mapper)
+{
+    // Set the fields to the mapper
+    // Line 1.
+    mapper->addMapping(ui->comboBoxTitle, model->fieldIndex(QLatin1String("title_id")));
+    mapper->addMapping(ui->comboBoxGender, model->fieldIndex(QLatin1String("gender")));
+    // Line 2.
+    mapper->addMapping(ui->lineEditFirstname, model->fieldIndex(QLatin1String("firstname")) );
+    mapper->addMapping(ui->lineEditLastname, model->fieldIndex(QLatin1String("lastname")));
+    mapper->addMapping(ui->doubleSpinBoxPersNR, model->fieldIndex(QLatin1String("employee_nr")));
+
+    // Line 3.
+    mapper->addMapping(ui->lineEditZipCode, model->fieldIndex(QLatin1String("zipcity_id")));
+    // TODO: Write City in the City Text Field
+    mapper->addMapping(ui->lineEditAddress, model->fieldIndex(QLatin1String("address")));
+
+    // Line 4.
+    mapper->addMapping(ui->dateEditBirthday, model->fieldIndex(QLatin1String("birthday")));
+
+    // Line 5.
+    mapper->addMapping(ui->lineEditHomeMail, model->fieldIndex(QLatin1String("homeemail")));
+    mapper->addMapping(ui->lineEditHomePhone, model->fieldIndex(QLatin1String("homephone")));
+    mapper->addMapping(ui->lineEditHomeMobile, model->fieldIndex(QLatin1String("homemobile")));
+
+    // Line 6.
+    mapper->addMapping(ui->lineEditBusinessMail, model->fieldIndex(QLatin1String("businessemail")));
+    mapper->addMapping(ui->checkBoxActive, model->fieldIndex(QLatin1String("active")));
+    mapper->addMapping(ui->checkBoxDatacare, model->fieldIndex(QLatin1String("datacare")));
+
+    // Line 7.
+    mapper->addMapping(ui->dateEditStartDate, model->fieldIndex(QLatin1String("startdate")));
+    mapper->addMapping(ui->dateEditEndDate, model->fieldIndex(QLatin1String("enddate")));
+
+    // Line 8.
+    mapper->addMapping(ui->comboBoxPhone, model->fieldIndex(QLatin1String("phone_id")));
+    mapper->addMapping(ui->comboBoxMobile, model->fieldIndex(QLatin1String("mobile_id")));
+    mapper->addMapping(ui->comboBoxFax, model->fieldIndex(QLatin1String("fax_id")));
+
+    // Line 9.
+    mapper->addMapping(ui->comboBoxComputer, model->fieldIndex(QLatin1String("computer_id")));
+    mapper->addMapping(ui->comboBoxPrinter, model->fieldIndex(QLatin1String("printer_id")));
+    mapper->addMapping(ui->comboBoxChipCard, model->fieldIndex(QLatin1String("chipcard_id")));
+    mapper->addMapping(ui->comboBoxDepartment, model->fieldIndex(QLatin1String("department_id")));
+    mapper->addMapping(ui->comboBoxFunction, model->fieldIndex(QLatin1String("function_id")));
+
+    // Line 10.
+    mapper->addMapping(ui->comboBoxEmployeeAccount, model->fieldIndex(QLatin1String("employee_account_id")));
+    mapper->addMapping(ui->comboBoxEmployeeDocument, model->fieldIndex(QLatin1String("employee_document_id")));
+    mapper->addMapping(ui->labelLastupdate_Date, model->fieldIndex(QLatin1String("last_update")));
+
+    // Line 11.
+    mapper->addMapping(ui->textEditNotes, model->fieldIndex(QLatin1String("notes")));
+
 }
