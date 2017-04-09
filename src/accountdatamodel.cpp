@@ -2,7 +2,7 @@
  * AccountDataModel.cpp
  * jmbde
  *
- * Copyright (c) 2013,2014 Jürgen Mülbert. All rights reserved.
+ * Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the European Union Public Licence (EUPL),
@@ -21,40 +21,29 @@
 
 #include "accountdatamodel.h"
 
+AccountDataModel::AccountDataModel(QObject *parent) : CommonDataModel(parent) {}
 
-AccountDataModel::AccountDataModel(QObject *parent)  : CommonDataModel(parent)
-{
+AccountDataModel::~AccountDataModel() {}
+
+bool AccountDataModel::createDataTable() {
+  CommonDataModel::createDataTable(this->tableName);
+
+  return true;
 }
 
-AccountDataModel:: ~AccountDataModel()
-{
+QSqlTableModel *AccountDataModel::initializeTableModel() {
+  QSqlTableModel *tableModel;
 
+  tableModel = CommonDataModel::initializeTableModel(this->tableName);
+
+  return tableModel;
 }
 
-bool AccountDataModel::createDataTable()
-{
-    CommonDataModel::createDataTable(this->tableName);
+QSqlRelationalTableModel *AccountDataModel::initializeRelationalModel() {
+  QSqlRelationalTableModel *relationalTableModel;
 
-    return true;
+  relationalTableModel =
+      CommonDataModel::initializeRelationalModel(this->tableName);
+
+  return relationalTableModel;
 }
-
-QSqlTableModel *AccountDataModel::initializeTableModel()
-{
-    QSqlTableModel *tableModel;
-
-    tableModel = CommonDataModel::initializeTableModel(this->tableName);
-
-    return tableModel;
-}
-
-QSqlRelationalTableModel *AccountDataModel::initializeRelationalModel()
-{
-    QSqlRelationalTableModel *relationalTableModel;
-
-    relationalTableModel = CommonDataModel::initializeRelationalModel(this->tableName);
-
-    return relationalTableModel;
-}
-
-
-

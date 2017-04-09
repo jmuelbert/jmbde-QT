@@ -2,7 +2,7 @@
  * main.cpp
  * jmbde
  *
- *  Copyright (c) 2013,2014 Jürgen Mülbert. All rights reserved.
+ *  Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the European Union Public Licence (EUPL),
@@ -20,30 +20,30 @@
  */
 
 /**
-  * \brief The jmbde program
-  * \details this will help manage employees, accounts and it hardware
-  *
-  * \author Jürgen Mülbert
-  * \version 0.3.4
-  * \date 09.02.2014
-  * \copyright EUPL V1.1
-  *
-  *
-  * \mainpage jmbde
-  *
-  *
-  * This is the introduction.
-  *
-  */
+ * \brief The jmbde program
+ * \details this will help manage employees, accounts and it hardware
+ *
+ * \author Jürgen Mülbert
+ * \version 0.3.4
+ * \date 09.02.2014
+ * \copyright EUPL V1.1
+ *
+ *
+ * \mainpage jmbde
+ *
+ *
+ * This is the introduction.
+ *
+ */
 
+#include <QApplication>
 #include <QDebug>
 #include <QDir>
 #include <QFileInfo>
-#include <QTranslator>
 #include <QLibraryInfo>
-#include <QApplication>
-#include <QTextStream>
 #include <QSettings>
+#include <QTextStream>
+#include <QTranslator>
 
 #include "constants.h"
 #include "mainwindow.h"
@@ -51,11 +51,11 @@
 /**
  * @brief fixedOptionsC
  */
-static const char fixedOptionsC[]=
+static const char fixedOptionsC[] =
     "[OPTION]... [FILE]...\n"
-        "Options:\n"
-        "   -help                     Display this help\n"
-        "   -version                 Display program version\n";
+    "Options:\n"
+    "   -help                     Display this help\n"
+    "   -version                 Display program version\n";
 
 /**
  * @brief HELP_OPTION1
@@ -84,23 +84,21 @@ static const char VERSION_OPTION[] = "-version";
 #define SHARE_PATH "/../share/jmbde"
 #endif
 
-
 /**
  * @brief main
  * @param argc
  * @param argv
  * @return
  */
-int main(int argc, char *argv[])
-{
-    Application app(argc, argv);
+int main(int argc, char *argv[]) {
+  Application app(argc, argv);
 
-    app.setApplicationName(QLatin1String(Constants::APPL_NAME));
-    app.setApplicationVersion(QLatin1String(Constants::APPL_VERSION));
- #if QT_VERSION >= 0x050000
-    app.setApplicationDisplayName(QLatin1String(Constants::APPL_DISPLAYNAME));
- #endif
-    app.setOrganizationName(QLatin1String(Constants::COMPANY_NAME));
+  app.setApplicationName(QLatin1String(Constants::APPL_NAME));
+  app.setApplicationVersion(QLatin1String(Constants::APPL_VERSION));
+#if QT_VERSION >= 0x050000
+  app.setApplicationDisplayName(QLatin1String(Constants::APPL_DISPLAYNAME));
+#endif
+  app.setOrganizationName(QLatin1String(Constants::COMPANY_NAME));
 
 /*
     QQmlApplicationEngine engine(QUrl(QLatin1String("qrc:/main.qml")));
@@ -114,44 +112,40 @@ int main(int argc, char *argv[])
     return app.exec();
   */
 
+#ifdef Q_OS_MAC
+  const QString &_creatorTrPath = QCoreApplication::applicationDirPath();
+  QDir trPath(_creatorTrPath);
+  trPath.cdUp();
+  const QString &creatorTrPath = trPath.path();
 
+  QString translationFileAndPath = QString(creatorTrPath);
+  translationFileAndPath.append(QDir::separator());
+  translationFileAndPath.append(QLatin1String("Resources"));
+#else
+  const QString &creatorTrPath = QCoreApplication::applicationDirPath();
+  QString translationFileAndPath = QString(creatorTrPath);
+#endif
 
- #ifdef Q_OS_MAC
-    const QString &_creatorTrPath = QCoreApplication::applicationDirPath();
-     QDir trPath(_creatorTrPath);
-     trPath.cdUp();
-     const QString &creatorTrPath = trPath.path();
+  qDebug() << "Path " << creatorTrPath;
 
-     QString translationFileAndPath = QString(creatorTrPath);
-     translationFileAndPath.append(QDir::separator());
-     translationFileAndPath.append(QLatin1String("Resources"));
- #else
-    const QString &creatorTrPath = QCoreApplication::applicationDirPath();
-     QString translationFileAndPath = QString(creatorTrPath);
- #endif
- 
- 
-    qDebug() << "Path " << creatorTrPath;
+  QString locale = QLocale::system().name();
 
-    QString locale = QLocale::system().name();
+  QTranslator translator;
 
-    QTranslator translator;
+  translationFileAndPath.append(QDir::separator());
+  translationFileAndPath.append(QLatin1String("translations"));
+  translationFileAndPath.append(QDir::separator());
+  translationFileAndPath.append(QLatin1String(Constants::APPL_NAME));
+  translationFileAndPath.append(QLatin1Char('_'));
+  translationFileAndPath.append(locale);
 
-    translationFileAndPath.append(QDir::separator());
-    translationFileAndPath.append(QLatin1String("translations"));
-    translationFileAndPath.append(QDir::separator());
-    translationFileAndPath.append(QLatin1String(Constants::APPL_NAME));
-    translationFileAndPath.append(QLatin1Char('_'));
-    translationFileAndPath.append(locale);
+  qDebug() << "Translationfile = " << translationFileAndPath;
 
-    qDebug() << "Translationfile = " << translationFileAndPath;
+  translator.load(translationFileAndPath);
+  app.installTranslator(&translator);
 
-    translator.load(translationFileAndPath);
-    app.installTranslator(&translator);
+  MainWindow w;
+  w.show();
 
-    MainWindow w;
-    w.show();
-    
-    return app.exec();
-
+  return app.exec();
 }

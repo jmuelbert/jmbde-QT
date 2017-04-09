@@ -68,7 +68,7 @@ FORMS    += mainwindow.ui \
 
 RESOURCES += \
     jmbde.qrc \
-    ../../../Downloads/qtango-master/icons/tango/tango.qrc
+    icons.qrc
 
 OTHER_FILES += \
     main.qml \
@@ -76,10 +76,10 @@ OTHER_FILES += \
     content/AboutDialog.qml
 
 DISTFILES += \
-    ../jmbde.qbs
+    ../jmbde.qbs \
+    index.theme
 
-STATECHARTS += \
-    ZustandsDiagramm.scxml
+STATECHARTS +=
 
 
 

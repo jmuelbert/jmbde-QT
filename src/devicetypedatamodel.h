@@ -2,7 +2,7 @@
  * DeviceTypeDataModel.h
  * jmbde
  *
- * Copyright (c) 2013,2014 Jürgen Mülbert. All rights reserved.
+ * Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the European Union Public Licence (EUPL),
@@ -25,8 +25,8 @@
 #include <QObject>
 
 #if QT_VERSION >= 0x050000
-#include <QtSql>
 #include <QStandardPaths>
+#include <QtSql>
 #endif
 
 #include <QSqlDatabase>
@@ -36,39 +36,38 @@
 
 #include "commondatamodel.h"
 
-class DeviceTypeDataModel : public CommonDataModel
-{
+class DeviceTypeDataModel : public CommonDataModel {
 public:
-    /**
-     * @brief DeviceTypeDataModel::DeviceTypeDataModel
-     */
-     DeviceTypeDataModel(QObject *parent = 0);
+  /**
+   * @brief DeviceTypeDataModel::DeviceTypeDataModel
+   */
+  DeviceTypeDataModel(QObject *parent = 0);
 
-     /**
-      * @brief DeviceTypeDataModel::~DepartmentDataModel
-      */
-    ~DeviceTypeDataModel();
+  /**
+   * @brief DeviceTypeDataModel::~DepartmentDataModel
+   */
+  ~DeviceTypeDataModel();
 
-    /**
-     * @brief createDataTable
-     * @return
-     */
-    bool createDataTable();
+  /**
+   * @brief createDataTable
+   * @return
+   */
+  bool createDataTable();
 
-    /**
-     * @brief initializeRelationalModel
-     * @return
-     */
-    QSqlRelationalTableModel *initializeRelationalModel();
+  /**
+   * @brief initializeRelationalModel
+   * @return
+   */
+  QSqlRelationalTableModel *initializeRelationalModel();
 
-    /**
-     * @brief initializeTableModel
-     * @return
-     */
-    QSqlTableModel *initializeTableModel();
+  /**
+   * @brief initializeTableModel
+   * @return
+   */
+  QSqlTableModel *initializeTableModel();
 
 private:
-    QString tableName = QLatin1String("devicetype");
+  QString tableName = QLatin1String("devicetype");
 };
 
 #endif // DEVICETYPEDATAMODEL_H

@@ -2,7 +2,7 @@
  * DeviceTypeDataModel.cpp
  * jmbde
  *
- * Copyright (c) 2013,2014 Jürgen Mülbert. All rights reserved.
+ * Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the European Union Public Licence (EUPL),
@@ -21,40 +21,31 @@
 
 #include "devicetypedatamodel.h"
 
+DeviceTypeDataModel::DeviceTypeDataModel(QObject *parent)
+    : CommonDataModel(parent) {}
 
-DeviceTypeDataModel::DeviceTypeDataModel(QObject *parent) :
-    CommonDataModel(parent)
-{
+DeviceTypeDataModel::~DeviceTypeDataModel() {}
+
+bool DeviceTypeDataModel::createDataTable() {
+  bool ret;
+
+  ret = CommonDataModel::createDataTable(this->tableName);
+
+  return ret;
 }
 
-DeviceTypeDataModel::~DeviceTypeDataModel()
-{
+QSqlTableModel *DeviceTypeDataModel::initializeTableModel() {
+  QSqlTableModel *tableModel;
 
+  tableModel = CommonDataModel::initializeTableModel(this->tableName);
+
+  return tableModel;
 }
 
-bool DeviceTypeDataModel::createDataTable()
-{
-    bool ret;
+QSqlRelationalTableModel *DeviceTypeDataModel::initializeRelationalModel() {
+  QSqlRelationalTableModel *tableModel;
 
-    ret = CommonDataModel::createDataTable(this->tableName);
+  tableModel = CommonDataModel::initializeRelationalModel(this->tableName);
 
-    return ret;
-}
-
-QSqlTableModel *DeviceTypeDataModel::initializeTableModel()
-{
-    QSqlTableModel *tableModel;
-
-    tableModel = CommonDataModel::initializeTableModel(this->tableName);
-
-    return tableModel;
-}
-
-QSqlRelationalTableModel *DeviceTypeDataModel::initializeRelationalModel()
-{
-    QSqlRelationalTableModel *tableModel;
-
-    tableModel = CommonDataModel::initializeRelationalModel(this->tableName);
-
-    return tableModel;
+  return tableModel;
 }

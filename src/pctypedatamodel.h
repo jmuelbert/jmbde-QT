@@ -3,7 +3,7 @@
  * jmbde
  *
  * Created by Jürgen Mülbert on 23.11.2013
- * Copyright (c) 2013,2014 Jürgen Mülbert. All rights reserved.
+ * Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the European Union Public Licence (EUPL),
@@ -20,13 +20,13 @@
  *
  */
 
-
 #ifndef PCTYPEDATAMODEL_H
 #define PCTYPEDATAMODEL_H
 
+#include <QObject>
 #if QT_VERSION >= 0x050000
-#include <QtSql>
 #include <QStandardPaths>
+#include <QtSql>
 #endif
 
 #include <QSqlDatabase>
@@ -36,40 +36,38 @@
 
 #include "commondatamodel.h"
 
-class PCTypeDataModel : public CommonDataModel
-{
+class PCTypeDataModel : public CommonDataModel {
 public:
-    /**
-     * @brief PCTypeDataModel::PCTypeDataModel
-     * @param parent
-     */
-    PCTypeDataModel(QObject *parent = 0);
+  /**
+   * @brief PCTypeDataModel::PCTypeDataModel
+   * @param parent
+   */
+  PCTypeDataModel(QObject *parent = 0);
 
-    /**
-     * @brief PCTypeDataModel::~PCTypeDataModel
-     */
-    ~PCTypeDataModel();
+  /**
+   * @brief PCTypeDataModel::~PCTypeDataModel
+   */
+  ~PCTypeDataModel();
 
-    /**
-     * @brief createDataTable
-     * @return
-     */
-    bool createDataTable();
+  /**
+   * @brief createDataTable
+   * @return
+   */
+  bool createDataTable();
 
-    /**
-     * @brief initializeRelationalModel
-     * @return
-     */
-    QSqlRelationalTableModel *initializeRelationalModel();
+  /**
+   * @brief initializeRelationalModel
+   * @return
+   */
+  QSqlRelationalTableModel *initializeRelationalModel();
 
-    /**
-     * @brief initializeTableModel
-     * @return
-     */
-    QSqlTableModel *initializeTableModel();
-
+  /**
+   * @brief initializeTableModel
+   * @return
+   */
+  QSqlTableModel *initializeTableModel();
 
 private:
-    QString tableName = QLatin1String("pctype");
+  QString tableName = QLatin1String("pctype");
 };
 #endif // PCTYPEDATAMODEL_H

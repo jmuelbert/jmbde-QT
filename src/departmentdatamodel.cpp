@@ -2,7 +2,7 @@
  * DepartmentDataModel.cpp
  * jmbde
  *
- * Copyright (c) 2013,2014 Jürgen Mülbert. All rights reserved.
+ * Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the European Union Public Licence (EUPL),
@@ -21,41 +21,32 @@
 
 #include "departmentdatamodel.h"
 
+DepartmentDataModel::DepartmentDataModel(QObject *parent)
+    : CommonDataModel(parent) {}
 
-DepartmentDataModel::DepartmentDataModel(QObject *parent) :
-    CommonDataModel(parent)
-{
+DepartmentDataModel::~DepartmentDataModel() {}
+
+bool DepartmentDataModel::createDataTable() {
+  bool ret;
+  ret = CommonDataModel::createDataTable(QLatin1String("department"));
+
+  return ret;
 }
 
-DepartmentDataModel::~DepartmentDataModel()
-{
+QSqlTableModel *DepartmentDataModel::initializeTableModel() {
+  QSqlTableModel *tableModel;
 
+  tableModel =
+      CommonDataModel::initializeTableModel(QLatin1String("department"));
+
+  return tableModel;
 }
 
-bool DepartmentDataModel::createDataTable()
-{
-    bool ret;
-    ret = CommonDataModel::createDataTable(QLatin1String("department"));
+QSqlRelationalTableModel *DepartmentDataModel::initializeRelationalModel() {
+  QSqlRelationalTableModel *relationalTableModel;
 
-    return ret;
-}
+  relationalTableModel =
+      CommonDataModel::initializeRelationalModel(QLatin1String("department"));
 
-QSqlTableModel *DepartmentDataModel::initializeTableModel()
-{
-    QSqlTableModel *tableModel;
-
-    tableModel = CommonDataModel::initializeTableModel(QLatin1String("department"));
-
-
-    return tableModel;
-}
-
-QSqlRelationalTableModel *DepartmentDataModel::initializeRelationalModel()
-{
-    QSqlRelationalTableModel *relationalTableModel;
-
-    relationalTableModel = CommonDataModel::initializeRelationalModel(QLatin1String("department"));
-
-
-    return relationalTableModel;
+  return relationalTableModel;
 }

@@ -2,7 +2,7 @@
  * resource.h
  * jmbde
  *
- *  Copyright (c) 2013,2014 Jürgen Mülbert. All rights reserved.
+ *  Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the European Union Public Licence (EUPL),
@@ -19,7 +19,6 @@
  *
  */
 
-
 #ifndef RESOURCE_H
 #define RESOURCE_H
 
@@ -28,16 +27,14 @@
 /**
  * @brief The Resource class
  */
-class Resource : public QObject
-{
-    Q_OBJECT
+class Resource : public QObject {
+  Q_OBJECT
 public:
-    explicit Resource(QObject *parent = 0);
+  explicit Resource(QObject *parent = 0);
 
 signals:
 
 public slots:
-
 };
 
 #endif // RESOURCE_H

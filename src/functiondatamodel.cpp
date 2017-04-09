@@ -2,7 +2,7 @@
  * FunctionDataModel.cpp
  * jmbde
  *
- * Copyright (c) 2013,2014 Jürgen Mülbert. All rights reserved.
+ * Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the European Union Public Licence (EUPL),
@@ -21,40 +21,32 @@
 
 #include "functiondatamodel.h"
 
+FunctionDataModel::FunctionDataModel(QObject *parent)
+    : CommonDataModel(parent) {}
 
-FunctionDataModel::FunctionDataModel(QObject *parent) :
-    CommonDataModel(parent)
-{
+FunctionDataModel::~FunctionDataModel() {}
+
+bool FunctionDataModel::createDataTable() {
+  bool ret;
+
+  ret = CommonDataModel::createDataTable(QLatin1String("function"));
+
+  return ret;
 }
 
-FunctionDataModel::~FunctionDataModel()
-{
+QSqlTableModel *FunctionDataModel::initializeTableModel() {
+  QSqlTableModel *tableModel;
 
+  tableModel = CommonDataModel::initializeTableModel(QLatin1String("function"));
+
+  return tableModel;
 }
 
-bool FunctionDataModel::createDataTable()
-{
-    bool ret;
+QSqlRelationalTableModel *FunctionDataModel::initializeRelationalModel() {
+  QSqlRelationalTableModel *tableModel;
 
-    ret = CommonDataModel::createDataTable(QLatin1String("function"));
+  tableModel =
+      CommonDataModel::initializeRelationalModel(QLatin1String("function"));
 
-    return ret;
-}
-
-QSqlTableModel *FunctionDataModel::initializeTableModel()
-{
-    QSqlTableModel *tableModel;
-
-    tableModel = CommonDataModel::initializeTableModel(QLatin1String("function"));
-
-    return tableModel;
-}
-
-QSqlRelationalTableModel *FunctionDataModel::initializeRelationalModel()
-{
-    QSqlRelationalTableModel *tableModel;
-
-    tableModel = CommonDataModel::initializeRelationalModel(QLatin1String("function"));
-
-    return tableModel;
+  return tableModel;
 }

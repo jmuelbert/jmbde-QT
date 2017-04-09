@@ -2,7 +2,7 @@
  * CommonDataModel.h
  * jmbde
  *
- * Copyright (c) 2013,2014 Jürgen Mülbert. All rights reserved.
+ * Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the European Union Public Licence (EUPL),
@@ -25,15 +25,14 @@
 #include <QObject>
 
 #if QT_VERSION >= 0x050000
-#include <QtSql>
 #include <QStandardPaths>
+#include <QtSql>
 #endif
 
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRelation>
-
 
 #include "datamodell.h"
 
@@ -45,52 +44,52 @@
  * @date 09.02.2014
  * @copyright EUPL V1.1
  */
-class CommonDataModel : public DataModell
-{
+class CommonDataModel : public DataModell {
 public:
-    /**
-     * @brief CommonDataModel
-     * @param parent
-     */
-    CommonDataModel(QObject *parent = 0);
+  /**
+   * @brief CommonDataModel
+   * @param parent
+   */
+  CommonDataModel(QObject *parent = 0);
 
-    /**
-      * @brief ~CommonDataModel
-      */
-    ~CommonDataModel();
+  /**
+   * @brief ~CommonDataModel
+   */
+  ~CommonDataModel();
 
-    /**
-     * @brief createDataTable
-     * @param tableName
-     * @deprecated You should not longer use this. The Database will create with a script
-     * @return boolean true or false, created ?
-     */
-    bool createDataTable(QString tableName);
+  /**
+   * @brief createDataTable
+   * @param tableName
+   * @deprecated You should not longer use this. The Database will create with a
+   * script
+   * @return boolean true or false, created ?
+   */
+  bool createDataTable(QString tableName);
 
-    /**
-     * @brief initializeRelationalModel
-     * @param tableName
-     * @return RelationalTableModel
-     */
-    QSqlRelationalTableModel *initializeRelationalModel(const QString tableName);
+  /**
+   * @brief initializeRelationalModel
+   * @param tableName
+   * @return RelationalTableModel
+   */
+  QSqlRelationalTableModel *initializeRelationalModel(const QString tableName);
 
-    /**
-     * @brief initializeTableModel
-     * @param tableName
-     * @return TableModel
-     */
-    QSqlTableModel *initializeTableModel(QString tableName);
+  /**
+   * @brief initializeTableModel
+   * @param tableName
+   * @return TableModel
+   */
+  QSqlTableModel *initializeTableModel(QString tableName);
 
 private:
-    /**
-     * @brief The PosIFunctionTable enum
-     */
-    enum PosCommonTable {
-        POS_COMMON_ID,
-        POS_COMMON_NAME,
-        POS_COMMON_CREATIONTIME,
-        POS_COMMON_UPDATETIME
-    };
+  /**
+   * @brief The PosIFunctionTable enum
+   */
+  enum PosCommonTable {
+    POS_COMMON_ID,
+    POS_COMMON_NAME,
+    POS_COMMON_CREATIONTIME,
+    POS_COMMON_UPDATETIME
+  };
 };
 
 #endif // COMMONDATAMODEL_H

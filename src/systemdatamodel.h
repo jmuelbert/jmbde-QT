@@ -3,7 +3,7 @@
  * jmbde
  *
  * Created by Jürgen Mülbert on 23.11.2013
- * Copyright (c) 2013, 2014 Jürgen Mülbert. All rights reserved.
+ * Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the European Union Public Licence (EUPL),
@@ -20,13 +20,13 @@
  *
  */
 
-
 #ifndef SYSTEMDATAMODEL_H
 #define SYSTEMDATAMODEL_H
 
+#include <QObject>
 #if QT_VERSION >= 0x050000
-#include <QtSql>
 #include <QStandardPaths>
+#include <QtSql>
 #endif
 
 #include <QSqlDatabase>
@@ -36,44 +36,42 @@
 
 #include "commondatamodel.h"
 
-class SystemDataModel : public CommonDataModel
-{
+class SystemDataModel : public CommonDataModel {
 public:
-    /**
-     * @brief SystemDataModel
-     * @param parent
-     */
-    SystemDataModel(QObject *parent = 0);
+  /**
+   * @brief SystemDataModel
+   * @param parent
+   */
+  SystemDataModel(QObject *parent = 0);
 
-    /**
-      * ~SystemDataModel
-      */
-    ~SystemDataModel();
+  /**
+   * ~SystemDataModel
+   */
+  ~SystemDataModel();
 
-    /**
-     * @brief createDataTable
-     * @return
-     */
-    bool createDataTable();
+  /**
+   * @brief createDataTable
+   * @return
+   */
+  bool createDataTable();
 
-    /**
-     * @brief initializeRelationalModel
-     * @return
-     */
-    QSqlRelationalTableModel *initializeRelationalModel();
+  /**
+   * @brief initializeRelationalModel
+   * @return
+   */
+  QSqlRelationalTableModel *initializeRelationalModel();
 
-    /**
-     * @brief initializeTableModel
-     * @return
-     */
-    QSqlTableModel *initializeTableModel();
-
+  /**
+   * @brief initializeTableModel
+   * @return
+   */
+  QSqlTableModel *initializeTableModel();
 
 private:
-    /**
-     * @brief tableName
-     */
-    QString tableName = QLatin1String("system");
+  /**
+   * @brief tableName
+   */
+  QString tableName = QLatin1String("system");
 };
 
 #endif // SYSTEMDATAMODEL_H

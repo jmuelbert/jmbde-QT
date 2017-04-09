@@ -2,7 +2,7 @@
  * FunctionDataModel.h
  * jmbde
  *
- * Copyright (c) 2013,2014 Jürgen Mülbert. All rights reserved.
+ * Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the European Union Public Licence (EUPL),
@@ -24,8 +24,8 @@
 
 #include <QObject>
 #if QT_VERSION >= 0x050000
-#include <QtSql>
 #include <QStandardPaths>
+#include <QtSql>
 #endif
 
 #include <QSqlDatabase>
@@ -35,41 +35,39 @@
 
 #include "commondatamodel.h"
 
-class FunctionDataModel : public CommonDataModel
-{
+class FunctionDataModel : public CommonDataModel {
 public:
-    /**
-      * @brief FunctionDataModel
-      * @param parent
-      */
-     FunctionDataModel(QObject *parent = 0);
+  /**
+   * @brief FunctionDataModel
+   * @param parent
+   */
+  FunctionDataModel(QObject *parent = 0);
 
-     /**
-       * @brief ~FunctionDataModel
-       */
-    ~FunctionDataModel();
+  /**
+   * @brief ~FunctionDataModel
+   */
+  ~FunctionDataModel();
 
-    /**
-     * @brief createDataTable
-     * @return
-     */
-    bool createDataTable();
+  /**
+   * @brief createDataTable
+   * @return
+   */
+  bool createDataTable();
 
-    /**
-     * @brief initializeRelationalModel
-     * @return
-     */
-    QSqlRelationalTableModel *initializeRelationalModel();
+  /**
+   * @brief initializeRelationalModel
+   * @return
+   */
+  QSqlRelationalTableModel *initializeRelationalModel();
 
-    /**
-     * @brief initializeTableModel
-     * @return
-     */
-    QSqlTableModel *initializeTableModel();
-
+  /**
+   * @brief initializeTableModel
+   * @return
+   */
+  QSqlTableModel *initializeTableModel();
 
 private:
-    // static const QString tableName = QLatin1String("function");
+  // static const QString tableName = QLatin1String("function");
 };
 
 #endif // FUNCTIONDATAMODEL_H

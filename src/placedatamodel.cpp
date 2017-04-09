@@ -3,7 +3,7 @@
  * jmbde
  *
  * Created by Jürgen Mülbert on 23.11.2013
- * Copyright (c) 2013, 2014 Jürgen Mülbert. All rights reserved.
+ * Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the European Union Public Licence (EUPL),
@@ -20,43 +20,32 @@
  *
  */
 
-
 #include "placedatamodel.h"
 
+PlaceDataModel::PlaceDataModel(QObject *parent) : CommonDataModel(parent) {}
 
-PlaceDataModel::PlaceDataModel(QObject *parent) :
-    CommonDataModel(parent)
-{
+PlaceDataModel::~PlaceDataModel() {}
+
+bool PlaceDataModel::createDataTable() {
+  bool ret;
+
+  ret = CommonDataModel::createDataTable(this->tableName);
+
+  return ret;
 }
 
-PlaceDataModel::~PlaceDataModel()
-{
+QSqlTableModel *PlaceDataModel::initializeTableModel() {
+  QSqlTableModel *tableModel;
 
+  tableModel = CommonDataModel::initializeTableModel(this->tableName);
+
+  return tableModel;
 }
 
-bool PlaceDataModel::createDataTable()
-{
-    bool ret;
+QSqlRelationalTableModel *PlaceDataModel::initializeRelationalModel() {
+  QSqlRelationalTableModel *tableModel;
 
-    ret = CommonDataModel::createDataTable(this->tableName);
+  tableModel = CommonDataModel::initializeRelationalModel(this->tableName);
 
-    return ret;
-}
-
-QSqlTableModel *PlaceDataModel::initializeTableModel()
-{
-    QSqlTableModel *tableModel;
-
-    tableModel = CommonDataModel::initializeTableModel(this->tableName);
-
-    return tableModel;
-}
-
-QSqlRelationalTableModel *PlaceDataModel::initializeRelationalModel()
-{
-    QSqlRelationalTableModel *tableModel;
-
-    tableModel = CommonDataModel::initializeRelationalModel(this->tableName);
-
-    return tableModel;
+  return tableModel;
 }

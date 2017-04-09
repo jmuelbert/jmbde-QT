@@ -2,7 +2,7 @@
  * PhoneDataModel.h
  * jmbde
  *
- * Copyright (c) 2013,2014 Jürgen Mülbert. All rights reserved.
+ * Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the European Union Public Licence (EUPL),
@@ -19,17 +19,13 @@
  *
  */
 
-
 #ifndef PHONEDATAMODEL_H
 #define PHONEDATAMODEL_H
 
-
-
 #include <QObject>
-
 #if QT_VERSION >= 0x050000
-#include <QtSql>
 #include <QStandardPaths>
+#include <QtSql>
 #endif
 
 #include <QSqlDatabase>
@@ -39,79 +35,81 @@
 
 #include "datamodell.h"
 
-
-class PhoneDataModel : public DataModell
-{
+class PhoneDataModel : public DataModell {
 public:
-    /**
-     * @brief PhoneDataModel
-     * @param parent
-     */
-    PhoneDataModel(QObject *parent = 0);
+  /**
+   * @brief PhoneDataModel
+   * @param parent
+   */
+  PhoneDataModel(QObject *parent = 0);
 
-    /**
-     * @brief PhoneDataModel::~PhoneDataModel
-     */
-      ~PhoneDataModel();
+  /**
+   * @brief PhoneDataModel::~PhoneDataModel
+   */
+  ~PhoneDataModel();
 
+  /**
+   * @brief addDataSet
+   */
+  void addDataSet();
 
-    /**
-     * @brief addDataSet
-     */
-    void addDataSet();
+  /**
+   * @brief initializeRelationalModel
+   * @return
+   */
+  QSqlRelationalTableModel *initializeRelationalModel();
 
+  /**
+   * @brief initializeTableModel
+   * @return
+   */
+  QSqlTableModel *initializeTableModel();
 
-    /**
-     * @brief initializeRelationalModel
-     * @return
-     */
-    QSqlRelationalTableModel *initializeRelationalModel();
+  /**
+   * @brief generateTableString
+   * @param model
+   * @param header
+   * @return
+   */
+  QString generateTableString(QAbstractTableModel *model, QString header);
 
-    /**
-     * @brief initializeTableModel
-     * @return
-     */
-    QSqlTableModel *initializeTableModel();
-
-    /**
-     * @brief generateTableString
-     * @param model
-     * @param header
-     * @return
-     */
-    QString generateTableString(QAbstractTableModel *model, QString header);
+  /**
+    * @brief getQueryModel
+    *
+    * @return QSqlQueryModel
+    */
+  QSqlQueryModel *getQueryModel();
 
 private:
-    /**
-     * @brief pcnr
-     */
-    QString *pcnr;
+  /**
+   * @brief pcnr
+   */
+  QString *pcnr;
 
-    /**
-     * @brief name
-     */
-    QString *name;
+  /**
+   * @brief name
+   */
+  QString *name;
 
-    /**
-     * @brief The PosPhoneTable enum
-     */
-    enum PosPhoneTable {
-        POS_PHONE_ID,
-        POS_PHONE_DEVICENAME_ID,
-        POS_PHONE_SERIALNUMBER,
-        POS_PHONE_NUMBER,
-        POS_PHONE_PIN,
-        POS_PHONE_ACTIVE,
-        POS_PHONE_REPLACE,
-        POS_PHONE_DEVICETYPE_ID,
-        POS_PHONE_EMPLOYEE_ID,
-        POS_PHONE_PLACE_ID,
-        POS_PHONE_DEPARTMENT_ID,
-        POS_PHONE_MANUFACTURER_ID,
-        POS_PHONE_INVENTORY_ID,
-        POS_PHONE_LAST_UPDATE
-    };
+  /**
+   * @brief The PosPhoneTable enum
+   */
+  enum PosPhoneTable {
+    POS_PHONE_ID,
+    POS_PHONE_DEVICENAME_ID,
+    POS_PHONE_SERIALNUMBER,
+    POS_PHONE_NUMBER,
+    POS_PHONE_PIN,
+    POS_PHONE_ACTIVE,
+    POS_PHONE_REPLACE,
+    POS_PHONE_DEVICETYPE_ID,
+    POS_PHONE_EMPLOYEE_ID,
+    POS_PHONE_PLACE_ID,
+    POS_PHONE_DEPARTMENT_ID,
+    POS_PHONE_MANUFACTURER_ID,
+    POS_PHONE_INVENTORY_ID,
+    POS_PHONE_LAST_UPDATE
+  };
 };
-
 
 #endif // PHONEDATAMODEL_H

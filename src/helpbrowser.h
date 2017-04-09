@@ -2,7 +2,7 @@
  * helpbrowser.h - HelpBrowser
  *
  * Created by Jürgen Mülbert on 09.03.2014
- * Copyright (c) 2014 Jürgen Mülbert. All rights reserved.
+ * Copyright (c) 2014-2017 Jürgen Mülbert. All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the European Union Public Licence (EUPL),
@@ -19,35 +19,32 @@
  *
  */
 
-
 #ifndef HELPBROWSER_H
 #define HELPBROWSER_H
 
+#include <QApplication>
 #include <QDebug>
 #include <QDir>
-#include <QLibraryInfo>
-#include <QApplication>
 #include <QHelpEngine>
+#include <QLibraryInfo>
 #include <QTextBrowser>
 
 class QHelpEngine;
 
-class HelpBrowser : public QTextBrowser
-{
-    Q_OBJECT
+class HelpBrowser : public QTextBrowser {
+  Q_OBJECT
 public:
-    explicit HelpBrowser(QWidget *parent = 0);
-    void showHelpForKeyWord(const QString &id);
-    QWidget *getContentWidget();
-    QWidget *getLinkWidget();
+  explicit HelpBrowser(QWidget *parent = 0);
+  void showHelpForKeyWord(const QString &id);
+  QWidget *getContentWidget();
+  QWidget *getLinkWidget();
 signals:
 
 public slots:
 
 private:
-    QVariant loadResource(int type, const QUrl &name);
-    QHelpEngine *m_helpEngine;
-
+  QVariant loadResource(int type, const QUrl &name);
+  QHelpEngine *m_helpEngine;
 };
 
 #endif // HELPBROWSER_H

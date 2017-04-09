@@ -135,8 +135,8 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="../../../Downloads/qtango-master/icons/tango/tango.qrc">
-     <normaloff>:/icons/tango/16x16/document-new.png</normaloff>:/icons/tango/16x16/document-new.png</iconset>
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/tango/icons/tango/16x16/document-new.png</normaloff>:/icons/tango/icons/tango/16x16/document-new.png</iconset>
    </property>
    <property name="text">
     <string>New</string>
@@ -155,8 +155,8 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="../../../Downloads/qtango-master/icons/tango/tango.qrc">
-     <normaloff>:/icons/tango/16x16/document-open.png</normaloff>:/icons/tango/16x16/document-open.png</iconset>
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/tango/icons/tango/16x16/document-open.png</normaloff>:/icons/tango/icons/tango/16x16/document-open.png</iconset>
    </property>
    <property name="text">
     <string>Open...</string>
@@ -183,8 +183,8 @@
   </action>
   <action name="actionPrint">
    <property name="icon">
-    <iconset resource="../../../Downloads/qtango-master/icons/tango/tango.qrc">
-     <normaloff>:/icons/tango/16x16/document-print-preview.png</normaloff>:/icons/tango/16x16/document-print-preview.png</iconset>
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/tango/icons/tango/16x16/document-print.png</normaloff>:/icons/tango/icons/tango/16x16/document-print.png</iconset>
    </property>
    <property name="text">
     <string>Print...</string>
@@ -195,8 +195,8 @@
   </action>
   <action name="actionPrint_Preview">
    <property name="icon">
-    <iconset resource="../../../Downloads/qtango-master/icons/tango/tango.qrc">
-     <normaloff>:/icons/tango/16x16/document-print-preview.png</normaloff>:/icons/tango/16x16/document-print-preview.png</iconset>
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/tango/icons/tango/16x16/document-print-preview.png</normaloff>:/icons/tango/icons/tango/16x16/document-print-preview.png</iconset>
    </property>
    <property name="text">
     <string>Print Preview...</string>
@@ -214,14 +214,18 @@
    </property>
   </action>
   <action name="actionHelp">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/tango/icons/tango/16x16/help-browser.png</normaloff>:/icons/tango/icons/tango/16x16/help-browser.png</iconset>
+   </property>
    <property name="text">
     <string>Help</string>
    </property>
   </action>
   <action name="actionEditAdd">
    <property name="icon">
-    <iconset resource="../../../Downloads/qtango-master/icons/tango/tango.qrc">
-     <normaloff>:/icons/tango/16x16/list-add.png</normaloff>:/icons/tango/16x16/list-add.png</iconset>
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/tango/icons/tango/16x16/list-add.png</normaloff>:/icons/tango/icons/tango/16x16/list-add.png</iconset>
    </property>
    <property name="text">
     <string>Add</string>
@@ -229,8 +233,8 @@
   </action>
   <action name="actionEditEdit">
    <property name="icon">
-    <iconset resource="../../../Downloads/qtango-master/icons/tango/tango.qrc">
-     <normaloff>:/icons/tango/16x16/accessories-text-editor.png</normaloff>:/icons/tango/16x16/accessories-text-editor.png</iconset>
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/tango/icons/tango/16x16/accessories-text-editor.png</normaloff>:/icons/tango/icons/tango/16x16/accessories-text-editor.png</iconset>
    </property>
    <property name="text">
     <string>Edit</string>
@@ -238,8 +242,8 @@
   </action>
   <action name="actionEditDelete">
    <property name="icon">
-    <iconset resource="../../../Downloads/qtango-master/icons/tango/tango.qrc">
-     <normaloff>:/icons/tango/16x16/edit-delete.png</normaloff>:/icons/tango/16x16/edit-delete.png</iconset>
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/tango/icons/tango/16x16/list-remove.png</normaloff>:/icons/tango/icons/tango/16x16/list-remove.png</iconset>
    </property>
    <property name="text">
     <string>Delete</string>
@@ -248,8 +252,8 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
+  <include location="icons.qrc"/>
   <include location="jmbde.qrc"/>
-  <include location="../../../Downloads/qtango-master/icons/tango/tango.qrc"/>
  </resources>
  <connections/>
 </ui>

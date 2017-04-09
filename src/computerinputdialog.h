@@ -2,7 +2,7 @@
  * ComputerInputDialog.h
  * jmbde
  *
- * Copyright (c) 2013,2014 Jürgen Mülbert. All rights reserved.
+ * Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the European Union Public Licence (EUPL),
@@ -22,9 +22,9 @@
 #ifndef COMPUTERINPUTDIALOG_H
 #define COMPUTERINPUTDIALOG_H
 
+#include <QDataWidgetMapper>
 #include <QDialog>
 #include <QSqlRelationalDelegate>
-#include <QDataWidgetMapper>
 
 #include "computerdatamodel.h"
 
@@ -32,30 +32,27 @@ namespace Ui {
 class ComputerInputDialog;
 }
 
-class ComputerInputDialog : public QDialog
-{
-    Q_OBJECT
+class ComputerInputDialog : public QDialog {
+  Q_OBJECT
 
 public:
-    explicit ComputerInputDialog(QWidget *parent = 0);
-    ComputerInputDialog(QWidget *parent, int index = 0);
+  explicit ComputerInputDialog(QWidget *parent = 0);
+  ComputerInputDialog(QWidget *parent, int index = 0);
 
-    ~ComputerInputDialog();
+  ~ComputerInputDialog();
 
 private slots:
 
+  void on_buttonBox_accepted();
 
-    void on_buttonBox_accepted();
-
-    void on_buttonBox_rejected();
+  void on_buttonBox_rejected();
 
 private:
-    Ui::ComputerInputDialog *ui;
+  Ui::ComputerInputDialog *ui;
 
-    QSqlRelationalTableModel *model;
-    QItemSelectionModel *selectionModel;
-    QDataWidgetMapper *mapper;
-
+  QSqlRelationalTableModel *model;
+  QItemSelectionModel *selectionModel;
+  QDataWidgetMapper *mapper;
 };
 
 #endif // COMPUTERINPUTDIALOG_H
