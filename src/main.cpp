@@ -100,18 +100,6 @@ int main(int argc, char *argv[]) {
 #endif
   app.setOrganizationName(QLatin1String(Constants::COMPANY_NAME));
 
-/*
-    QQmlApplicationEngine engine(QUrl(QLatin1String("qrc:/main.qml")));
-    QObject *toplevel = engine.rootObjects().value(0);
-    QQuickWindow *window = qobject_cast<QQuickWindow *>(toplevel);
-    if (!window) {
-        qWarning("Error: Your root item has to be a Window.");
-        return -1;
-    }
-    window->show();
-    return app.exec();
-  */
-
 #ifdef Q_OS_MAC
   const QString &_creatorTrPath = QCoreApplication::applicationDirPath();
   QDir trPath(_creatorTrPath);

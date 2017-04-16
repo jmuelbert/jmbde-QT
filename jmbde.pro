@@ -11,6 +11,8 @@ include (doc/doc.pri)
 CONFIG += ordered
 TEMPLATE = subdirs
 
+OTHER_FILES = CMakeLists.txt
+
 SUBDIRS = src share
 
 unix:!macx:!isEmpty(copydata):SUBDIRS += bin

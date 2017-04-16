@@ -24,8 +24,9 @@
 
 #include <QtGlobal>
 
-#define jmbde_VERSION_MAJOR 0
-#define jmbde_VERSION_MINOR 4
+#define jmbde_VERSION_MAJOR @jmbde_VERSION_MAJOR@
+#define jmbde_VERSION_MINOR @jmbde_VERSION_MINOR@
+
 /**
  * Constants for the jmbde application
  */

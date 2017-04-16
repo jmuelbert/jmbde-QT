@@ -1,0 +1,22 @@
+{
+  "name": "de.juergen-muelbert.jmbde_QT",
+  "description": "",
+  "author": {
+    "name": "Jürgen Mülbert",
+    "email": "develop@juergen-muelbert.de"
+  },
+  "repository": {
+    "type": "GITHUB",
+    "url": "http://github.com/jmuelbert/jmbde-QT.git"
+  },
+  "version": {
+    "label": "0.0.1",
+    "revision": "",
+    "fingerprint": ""
+  },
+  "dependencies": [
+  ],
+  "license": "GPL_3_0",
+  "pri_filename": "jmbde.pri",
+  "webpage": ""
+}

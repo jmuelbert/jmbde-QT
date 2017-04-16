@@ -58,7 +58,8 @@ HEADERS  += mainwindow.h \
     computerinputdialog.h \
     printerdatamodel.h \
     phonedatamodel.h \
-    helpbrowser.h
+    helpbrowser.h \
+    constants.h.in
 
 FORMS    += mainwindow.ui \
     preferencesdialog.ui \
@@ -77,7 +78,8 @@ OTHER_FILES += \
 
 DISTFILES += \
     ../jmbde.qbs \
-    index.theme
+    index.theme \
+    CMakeLists.txt
 
 STATECHARTS +=
 
