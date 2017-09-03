@@ -45,12 +45,19 @@ MainWindow::MainWindow(QWidget *parent)
   slModel->setStringList(stringList);
 
   ui->listView->setModel(slModel);
+  int width = ui->centralWidget->width() - 20;
+  int height = ui->centralWidget->height() - 20;
+  ui->splitter->resize(width, height);
 
   actualView = VIEW_EMPLOYEE;
 
   dm = new DataModell();
   bool retValue = dm->CreateConnection();
   if (retValue == true) {
+      QSize availableSize = qApp->desktop()->availableGeometry().size();
+      int width = availableSize.width();
+      int height = availableSize.height();
+      qDebug() << "Available dimensions " << width << "x" << height;
     EmployeeDataModel *edm = new EmployeeDataModel;
     tableModel = edm->initializeTableModel();
     ui->tableView->setModel(tableModel);
@@ -65,6 +72,16 @@ MainWindow::~MainWindow() {
   dm->~DataModell();
   delete ui;
 }
+
+void MainWindow::resizeEvent(QResizeEvent *event)
+{
+    int width = ui->centralWidget->width() - 20;
+    int height = ui->centralWidget->height() - 20;
+    qDebug() << "Resize...";
+    qDebug() << "width= " << width <<" height= " << height;
+    ui->splitter->resize(width, height);
+}
+
 
 void MainWindow::focusChanged(QWidget *, QWidget *now) {
   qDebug() << "Help :-)";
@@ -108,6 +125,7 @@ void MainWindow::writeSettings() {
   settings.beginGroup(QLatin1String(Settings::Groups::MAINWINDOW));
   settings.setValue(QLatin1String(Settings::MainWindow::SIZE), size());
   settings.setValue(QLatin1String(Settings::MainWindow::POS), pos());
+  settings.setValue(QLatin1String(Settings::MainWindow::SPLITTER), ui->splitter->saveState());
   settings.endGroup();
 
   // Database settings
@@ -132,6 +150,7 @@ void MainWindow::readSettings() {
   move(
       settings.value(QLatin1String(Settings::MainWindow::POS), QPoint(200, 200))
           .toPoint());
+  ui->splitter->restoreState(settings.value(QLatin1String(Settings::MainWindow::SPLITTER)).toByteArray());
   settings.endGroup();
 
 // Database settings
@@ -465,10 +484,11 @@ void MainWindow::on_listView_clicked(const QModelIndex &index) {
     actualView = VIEW_EMPLOYEE;
     EmployeeDataModel *edm = new EmployeeDataModel;
     tableModel = edm->initializeTableModel();
+
     ui->tableView->setModel(tableModel);
     ui->tableView->hideColumn(0);
-    ui->tableView->show();
 
+    ui->tableView->show();
     tableModel->database().commit();
   } break;
 
@@ -515,3 +535,4 @@ void MainWindow::on_listView_clicked(const QModelIndex &index) {
     Not_Available_Message();
   }
 }
+

@@ -2,7 +2,7 @@
 <Installer>
     <Name>jmbde</Name>
     <Version>{version}</Version>
-    <Title>Qt Creator {display_version}</Title>
+    <Title>jmbde {display_version}</Title>
     <Publisher>Jürgen Mülbert</Publisher>
     <ProductUrl>http://github.com/jmuelbert/jmbde-QT</ProductUrl>
 

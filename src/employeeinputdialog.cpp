@@ -127,25 +127,28 @@ void EmployeeInputDialog::on_buttonBox_rejected() {
 }
 
 void EmployeeInputDialog::preSetFields(bool newEmployee) {
+
   QStringList qslGender;
-  qslGender.append("Not Set");
-  qslGender.append("m");
-  qslGender.append("f");
+  qslGender.append(tr("Not Set"));
+  qslGender.append(tr("m"));
+  qslGender.append(tr("f"));
 
   ui->comboBoxGender->addItems(qslGender);
 
   QStringList qslTitle;
-  qslTitle.append("Not Set");
-  qslTitle.append("Mr.");
-  qslTitle.append("Ms.");
+  qslTitle.append(tr("Not Set"));
+  qslTitle.append(tr("Mr."));
+  qslTitle.append(tr("Ms."));
 
   ui->comboBoxTitle->addItems(qslTitle);
 
+  /*
   if (newEmployee == true) {
-    QString dateString = QDate::QDate().currentDate().toString("dd.MM.yyyy");
-    ui->labelLastupdate_Date->setText(dateString);
+    QString *dateString = new QString(QDate::QDate().currentDate().toString(QLatin1String("dd.MM.yyyy")));
+    ui->labelLastupdate_Date->setText(&dateString);
     ui->dateEditStartDate->setDate(QDate::QDate().currentDate());
   }
+  */
 }
 
 void EmployeeInputDialog::setMappings(QSqlTableModel *model,

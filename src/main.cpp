@@ -24,8 +24,8 @@
  * \details this will help manage employees, accounts and it hardware
  *
  * \author Jürgen Mülbert
- * \version 0.3.4
- * \date 09.02.2014
+ * \version 0.4.0
+ * \date 03.09.2017
  * \copyright EUPL V1.1
  *
  *

@@ -122,6 +122,8 @@ protected:
    */
   void closeEvent(QCloseEvent *event);
 
+  void resizeEvent(QResizeEvent *event);
+
 private slots:
   /**
    * @brief on_actionPreferences_triggered
@@ -188,6 +190,7 @@ private slots:
   void on_actionEditDelete_triggered();
 
   void on_listView_clicked(const QModelIndex &index);
+
 
 private:
   /**

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<QHelpCollectionProject version="1.0">
+	<assistant>
+		<title>JMBDE</title>
+		<applicationIcon>images/help-browser.png</applicationIcon>
+		<cacheDirectory>juergenmuelbert/JMBD</cacheDirectory>
+		<startPage>qthelp://de.juergenmuelbert.jmbde/doc/index.html</startPage>
+		<aboutMenuText>
+			<text>About JMBDE</text>
+		</aboutMenuText>
+		<aboutDialog>
+			<file>src/about.txt</file>
+			<icon>images/icon.png</icon>
+		</aboutDialog>
+		<enableDocumentationManager>false</enableDocumentationManager>
+		<enableAddressBar>false</enableAddressBar>
+		<enableFilterFunctionality>false</enableFilterFunctionality>
+	</assistant>
+    <docFiles>
+        <generate>
+            <file>
+                <input>help.qhp</input>
+                <output>jmbde.qch</output>
+            </file>
+        </generate>
+        <register>
+            <file>jmbde.qch</file>
+        </register>
+    </docFiles>
+ </QHelpCollectionProject>

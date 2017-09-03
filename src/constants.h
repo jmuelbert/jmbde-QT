@@ -61,6 +61,7 @@ const char DATABASE[] = "Database";
 namespace MainWindow {
 const char SIZE[] = "size";
 const char POS[] = "pos";
+const char SPLITTER[] = "splitterSizes";
 } // namespace MainWindow
 
 namespace Database {

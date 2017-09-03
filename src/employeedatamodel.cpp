@@ -233,55 +233,24 @@ QSqlRelationalTableModel *EmployeeDataModel::initializeInputDataModel() {
 }
 
 QSqlTableModel *EmployeeDataModel::initializeTableModel() {
+
   QSqlTableModel *model = new QSqlTableModel(this);
+
   model->setTable(QLatin1String("employee"));
   model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-  model->setHeaderData(POS_EMPLOYEE_ID, Qt::Horizontal, QObject::tr("ID"));
-  model->setHeaderData(POS_EMPLOYEE_NR, Qt::Horizontal,
-                       QObject::tr("Emp.Number"));
-  model->setHeaderData(POS_EMPLOYEE_GENDER, Qt::Horizontal,
-                       QObject::tr("Gender"));
-  model->setHeaderData(POS_EMPLOYEE_TITLE_ID, Qt::Horizontal,
-                       QObject::tr("Title"));
-  model->setHeaderData(POS_EMPLOYEE_FIRSTNAME, Qt::Horizontal,
-                       QObject::tr("Firstname"));
-  model->setHeaderData(POS_EMPLOYEE_LASTNAME, Qt::Horizontal,
-                       QObject::tr("Lastname"));
-  model->setHeaderData(POS_EMPLOYEE_ADDRESS, Qt::Horizontal,
-                       QObject::tr("address"));
-  model->setHeaderData(POS_EMPLOYEE_BIRTHDAY, Qt::Horizontal,
-                       QObject::tr("Birthday"));
-  model->setHeaderData(POS_EMPLOYEE_BUSINESSEMAIL, Qt::Horizontal,
-                       QObject::tr("Businessemail"));
-  model->setHeaderData(POS_EMPLOYEE_DATACARE, Qt::Horizontal,
-                       QObject::tr("Datacare"));
-  model->setHeaderData(POS_EMPLOYEE_ACTIVE, Qt::Horizontal,
-                       QObject::tr("Active"));
-  model->setHeaderData(POS_EMPLOYEE_STARTDATE, Qt::Horizontal,
-                       QObject::tr("StartDate"));
-  model->setHeaderData(POS_EMPLOYEE_ENDDATE, Qt::Horizontal,
-                       QObject::tr("EndDate"));
-  model->setHeaderData(POS_EMPLOYEE_DEPARTMENT_ID, Qt::Horizontal,
-                       QObject::tr("Department"));
-  model->setHeaderData(POS_EMPLOYEE_FUNCTION_ID, Qt::Horizontal,
-                       QObject::tr("Function"));
-  model->setHeaderData(POS_EMPLOYEE_COMPUTER_ID, Qt::Horizontal,
-                       QObject::tr("Computer"));
-  model->setHeaderData(POS_EMPLOYEE_PRINTER_ID, Qt::Horizontal,
-                       QObject::tr("Printer"));
-  model->setHeaderData(POS_EMPLOYEE_PHONE_ID, Qt::Horizontal,
-                       QObject::tr("Phone"));
-  model->setHeaderData(POS_EMPLOYEE_MOBILE_ID, Qt::Horizontal,
-                       QObject::tr("Mobile"));
-  model->setHeaderData(POS_EMPLOYEE_FAX_ID, Qt::Horizontal, QObject::tr("Fax"));
-  model->setHeaderData(POS_EMPLOYEE_EMPLOYEE_ACCOUNT_ID, Qt::Horizontal,
-                       QObject::tr("Accounts"));
-  model->setHeaderData(POS_EMPLOYEE_EMPLOYEE_DOCUMENT_ID, Qt::Horizontal,
-                       QObject::tr("Documents"));
-  model->setHeaderData(POS_EMPLOYEE_LAST_UPDATE, Qt::Horizontal,
-                       QObject::tr("Last Update"));
-
+    // Set the localized header captions
+    model->setHeaderData(model->fieldIndex(QLatin1String("employee_id")), Qt::Horizontal, tr("ID"));
+    model->setHeaderData(model->fieldIndex(QLatin1String("gender")), Qt::Horizontal, tr("Gender"));
+    model->setHeaderData(model->fieldIndex(QLatin1String("firstname")), Qt::Horizontal, tr("Firstname"));
+    model->setHeaderData(model->fieldIndex(QLatin1String("lastname")), Qt::Horizontal, tr("Lastname"));
+    model->setHeaderData(model->fieldIndex(QLatin1String("birthday")), Qt::Horizontal, tr("Birthday"));
+    model->setHeaderData(model->fieldIndex(QLatin1String("email")), Qt::Horizontal, tr("EMail"));
+    model->setHeaderData(model->fieldIndex(QLatin1String("active")), Qt::Horizontal, tr("Active"));
+    model->setHeaderData(model->fieldIndex(QLatin1String("datacare")), Qt::Horizontal, tr("Datecare"));
+    model->setHeaderData(model->fieldIndex(QLatin1String("startdate")), Qt::Horizontal, tr("StartDate"));
+    model->setHeaderData(model->fieldIndex(QLatin1String("enddate")), Qt::Horizontal, tr("EndeDate"));
+    model->setHeaderData(model->fieldIndex(QLatin1String("last_update")), Qt::Horizontal, tr("LastUpdate"));
   model->select();
 
   return model;

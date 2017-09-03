@@ -194,8 +194,8 @@ private:
     POS_EMPLOYEE_TITLE_ID,
     POS_EMPLOYEE_FIRSTNAME,
     POS_EMPLOYEE_LASTNAME,
-    POS_EMPLOYEE_BIRTHDAY,
     POS_EMPLOYEE_ADDRESS,
+    POS_EMPLOYEE_BIRTHDAY,
     POS_EMPLOYEE_ZIPCITY_ID,
     POS_EMPLOYEE_HOMEPHONE,
     POS_EMPLOYEE_HOMEEMAIL,
@@ -219,5 +219,28 @@ private:
     POS_EMPLOYEE_CHIPCARD_ID,
     POS_EMPLOYEE_LAST_UPDATE
   };
+
+    int idIdx;
+    int GenderIdx;
+    int TitleIdx;
+    int FirstNameIdx;
+    int LastNameIdx;
+    int AddressIdx;
+    int BirthDayIdx;
+    int EmailIdx;
+    int DataCareIdx;
+    int ActiveIdx;
+    int StartDateIdx;
+    int EndDateIdx;
+    int DepartmentIdx;
+    int FunctionIdx;
+    int ComputerIdx;
+    int PrinterIdx;
+    int PhoneIdx;
+    int MobileIdx;
+    int FaxIdx;
+    int EmployeeAccountIdx;
+    int EmployeeDocumentIdx;
+    int LastUpdateIdx;
 };
 #endif // EMPLOYEEDATAMODEL_H
