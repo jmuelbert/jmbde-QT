@@ -49,3 +49,16 @@ QSqlRelationalTableModel *PlaceDataModel::initializeRelationalModel() {
 
   return tableModel;
 }
+
+QSqlQueryModel *PlaceDataModel::getQueryModel() {
+    QSqlQueryModel *model = new QSqlQueryModel();
+    QSqlQuery *qry = new QSqlQuery();
+
+    QString sqlString = QLatin1String("select name from place");
+    qry->prepare(sqlString);
+    qry->exec();
+
+    model->setQuery(*qry);
+
+    return model;
+}

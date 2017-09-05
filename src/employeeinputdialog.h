@@ -27,7 +27,12 @@
 #include <QSqlRelationalDelegate>
 
 #include "employeedatamodel.h"
+#include "computerdatamodel.h"
+#include "faxdatamodel.h"
+#include "mobiledatamodel.h"
 #include "phonedatamodel.h"
+#include "placedatamodel.h"
+#include "printerdatamodel.h"
 
 namespace Ui {
 class EmployeeInputDialog;
@@ -75,9 +80,12 @@ private:
   int phoneIndex;
   int mobileIndex;
   int faxIndex;
+  int chipCardIndex;
+  int employeeAccountIdx;
+  int employeeDocumentIdx;
 
-  // QSqlRelationalTableModel *model;
-  QSqlTableModel *model;
+  QSqlRelationalTableModel *model;
+  // QSqlTableModel *model;
   QItemSelectionModel *selectionModel;
   QDataWidgetMapper *mapper;
 

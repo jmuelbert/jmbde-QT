@@ -204,6 +204,19 @@ QSqlTableModel *ComputerDataModel::initializeTableModel() {
   return model;
 }
 
+QSqlQueryModel *ComputerDataModel::getQueryModel() {
+    QSqlQueryModel *model = new QSqlQueryModel();
+    QSqlQuery *qry = new QSqlQuery();
+
+    QString sqlString = QLatin1String("select network_name from computer");
+    qry->prepare(sqlString);
+    qry->exec();
+
+    model->setQuery(*qry);
+
+    return model;
+}
+
 QString ComputerDataModel::generateTableString(QAbstractTableModel *model,
                                                QString header) {
   QString outString;

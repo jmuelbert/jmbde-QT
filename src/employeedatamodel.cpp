@@ -245,7 +245,7 @@ QSqlTableModel *EmployeeDataModel::initializeTableModel() {
     model->setHeaderData(model->fieldIndex(QLatin1String("firstname")), Qt::Horizontal, tr("Firstname"));
     model->setHeaderData(model->fieldIndex(QLatin1String("lastname")), Qt::Horizontal, tr("Lastname"));
     model->setHeaderData(model->fieldIndex(QLatin1String("birthday")), Qt::Horizontal, tr("Birthday"));
-    model->setHeaderData(model->fieldIndex(QLatin1String("email")), Qt::Horizontal, tr("EMail"));
+    model->setHeaderData(model->fieldIndex(QLatin1String("businessemail")), Qt::Horizontal, tr("EMail"));
     model->setHeaderData(model->fieldIndex(QLatin1String("active")), Qt::Horizontal, tr("Active"));
     model->setHeaderData(model->fieldIndex(QLatin1String("datacare")), Qt::Horizontal, tr("Datecare"));
     model->setHeaderData(model->fieldIndex(QLatin1String("startdate")), Qt::Horizontal, tr("StartDate"));

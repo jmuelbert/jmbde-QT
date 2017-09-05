@@ -13,7 +13,8 @@ TEMPLATE = subdirs
 
 OTHER_FILES = CMakeLists.txt
 
-SUBDIRS = src share
+SUBDIRS = src share \
+    installer
 
 unix:!macx:!isEmpty(copydata):SUBDIRS += bin
 !isEmpty(BUILD_TESTS):SUBDIRS += tests

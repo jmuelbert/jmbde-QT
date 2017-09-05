@@ -66,6 +66,13 @@ public:
    */
   QSqlTableModel *initializeTableModel();
 
+  /**
+    * @brief getQueryModel
+    *
+    * @return QSqlQueryModel
+    */
+  QSqlQueryModel *getQueryModel();
+
 private:
   QString tableName = QLatin1String("place");
 };

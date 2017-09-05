@@ -72,6 +72,13 @@ public:
   QSqlTableModel *initializeTableModel();
 
   /**
+    * @brief getQueryModel
+    *
+    * @return QSqlQueryModel
+    */
+  QSqlQueryModel *getQueryModel();
+
+  /**
    * @brief generateTableString
    * @param model
    * @param header

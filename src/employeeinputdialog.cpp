@@ -31,7 +31,7 @@ EmployeeInputDialog::EmployeeInputDialog(QWidget *parent)
   preSetFields(true);
 
   // Set the Model
-  model = new QSqlTableModel(this);
+  model = new QSqlRelationalTableModel(this);
   model->setTable(QLatin1String("employee"));
   model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
@@ -40,11 +40,60 @@ EmployeeInputDialog::EmployeeInputDialog(QWidget *parent)
   departmentIndex = model->fieldIndex(QLatin1String("department_id"));
   computerIndex = model->fieldIndex(QLatin1String("computer_id"));
   printerIndex = model->fieldIndex(QLatin1String("printer_id"));
+  chipCardIndex = model->fieldIndex(QLatin1String("chipcard_id"));
   phoneIndex = model->fieldIndex(QLatin1String("phone_id"));
   mobileIndex = model->fieldIndex(QLatin1String("mobile_id"));
   faxIndex = model->fieldIndex(QLatin1String("fax_id"));
+  // employeeAccountIdx = model->fieldIndex(QLatin1String("employee_accout_id"));
+  // employeeDocumentIdx = model->fieldIndex(QLatin1String("employee_document_id"));
+
+  // Set the relations to the other databases tables
+  model->setRelation(phoneIndex, QSqlRelation("phone", "phone_id", "number"));
+  model->setRelation(mobileIndex, QSqlRelation("mobile", "mobile_id", "number"));
+  model->setRelation(faxIndex, QSqlRelation("fax", "fax_id", "number"));
+
+  model->setRelation(computerIndex, QSqlRelation("computer", "computer_id", "network_name"));
+  model->setRelation(printerIndex, QSqlRelation("printer", "printer_id", "network_name"));
+  model->setRelation(chipCardIndex, QSqlRelation("chipcard", "chipcard_id", "name"));
+
+    model->setRelation(departmentIndex, QSqlRelation("department", "department_id", "name"));
+    model->setRelation(functionIndex, QSqlRelation("function", "function_id", "name"));
+
+    // model->setRelation(employeeAccountIdx, QSqlRelation("employeeaccount", "employee_account_id", "name"));
+    // model->setRelation(employeeDocumentIdx, QSqlRelation("employeedocument", "employee_document_id", "name"));
 
   model->select();
+
+  ui->comboBoxPhone->setModel(model->relationModel(phoneIndex));
+  ui->comboBoxPhone->setModelColumn(model->relationModel(phoneIndex)->fieldIndex("number"));
+
+  ui->comboBoxMobile->setModel(model->relationModel(mobileIndex));
+  ui->comboBoxMobile->setModelColumn(model->relationModel(mobileIndex)->fieldIndex("number"));
+
+  ui->comboBoxFax->setModel(model->relationModel(faxIndex));
+  ui->comboBoxFax->setModelColumn(model->relationModel(faxIndex)->fieldIndex("number"));
+
+
+    ui->comboBoxComputer->setModel(model->relationModel(computerIndex));
+    ui->comboBoxComputer->setModelColumn(model->relationModel(computerIndex)->fieldIndex("network_name"));
+
+    ui->comboBoxPrinter->setModel(model->relationModel(printerIndex));
+    ui->comboBoxPrinter->setModelColumn(model->relationModel(printerIndex)->fieldIndex("network_name"));
+
+    ui->comboBoxChipCard->setModel(model->relationModel(chipCardIndex));
+    ui->comboBoxChipCard->setModelColumn(model->relationModel(chipCardIndex)->fieldIndex("name"));
+
+    ui->comboBoxDepartment->setModel(model->relationModel(departmentIndex));
+    ui->comboBoxDepartment->setModelColumn(model->relationModel(departmentIndex)->fieldIndex("name"));
+
+    ui->comboBoxFunction->setModel(model->relationModel(functionIndex));
+    ui->comboBoxFunction->setModelColumn(model->relationModel(functionIndex)->fieldIndex("name"));
+
+    // ui->comboBoxEmployeeAccount->setModel(model->relationModel(employeeAccountIdx));
+    // ui->comboBoxEmployeeAccount->setModelColumn(model->relationModel(employeeAccountIdx)->fieldIndex("name"));
+
+    // ui->comboBoxEmployeeDocument->setModel(model->relationModel(employeeDocumentIdx));
+    // ui->comboBoxEmployeeDocument->setModelColumn(model->relationModel(employeeDocumentIdx)->fieldIndex("name"));
 
   // Set the mapper
   mapper = new QDataWidgetMapper(this);
@@ -64,9 +113,8 @@ EmployeeInputDialog::EmployeeInputDialog(QWidget *parent)
   ui->lineEditFirstname->clear();
   ui->lineEditFirstname->setFocus();
   ui->lineEditLastname->clear();
-  PhoneDataModel *phd = new PhoneDataModel();
-  QSqlQueryModel *phoneQuery = phd->getQueryModel();
-  ui->comboBoxPhone->setModel(phoneQuery);
+
+
 }
 
 // Edit an existing Employee
@@ -78,7 +126,7 @@ EmployeeInputDialog::EmployeeInputDialog(QWidget *parent, int index)
   preSetFields(false);
 
   // Set the Model
-  model = new QSqlTableModel(this);
+  model = new QSqlRelationalTableModel(this);
   model->setTable(QLatin1String("employee"));
   model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
@@ -97,6 +145,7 @@ EmployeeInputDialog::EmployeeInputDialog(QWidget *parent, int index)
   mapper = new QDataWidgetMapper(this);
   mapper->setModel(model);
   mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
+  ui->comboBoxPhone->setModel(model->relationModel(phoneIndex));
 
   setMappings(model, mapper);
 
@@ -201,6 +250,7 @@ void EmployeeInputDialog::setMappings(QSqlTableModel *model,
                      model->fieldIndex(QLatin1String("enddate")));
 
   // Line 8.
+  /*
   mapper->addMapping(ui->comboBoxPhone,
                      model->fieldIndex(QLatin1String("phone_id")));
   mapper->addMapping(ui->comboBoxMobile,
@@ -208,11 +258,14 @@ void EmployeeInputDialog::setMappings(QSqlTableModel *model,
   mapper->addMapping(ui->comboBoxFax,
                      model->fieldIndex(QLatin1String("fax_id")));
 
+
   // Line 9.
   mapper->addMapping(ui->comboBoxComputer,
                      model->fieldIndex(QLatin1String("computer_id")));
+
   mapper->addMapping(ui->comboBoxPrinter,
                      model->fieldIndex(QLatin1String("printer_id")));
+
   mapper->addMapping(ui->comboBoxChipCard,
                      model->fieldIndex(QLatin1String("chipcard_id")));
   mapper->addMapping(ui->comboBoxDepartment,
@@ -225,6 +278,7 @@ void EmployeeInputDialog::setMappings(QSqlTableModel *model,
                      model->fieldIndex(QLatin1String("employee_account_id")));
   mapper->addMapping(ui->comboBoxEmployeeDocument,
                      model->fieldIndex(QLatin1String("employee_document_id")));
+  */
   mapper->addMapping(ui->labelLastupdate_Date,
                      model->fieldIndex(QLatin1String("last_update")));
 

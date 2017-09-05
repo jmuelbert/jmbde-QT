@@ -178,6 +178,19 @@ QSqlTableModel *PrinterDataModel::initializeTableModel() {
   return model;
 }
 
+QSqlQueryModel *PrinterDataModel::getQueryModel() {
+    QSqlQueryModel *model = new QSqlQueryModel();
+    QSqlQuery *qry = new QSqlQuery();
+
+    QString sqlString = QLatin1String("select network_name from printer");
+    qry->prepare(sqlString);
+    qry->exec();
+
+    model->setQuery(*qry);
+
+    return model;
+}
+
 QString PrinterDataModel::generateTableString(QAbstractTableModel *model,
                                               QString header) {
   QString outString;

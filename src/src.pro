@@ -28,13 +28,16 @@ SOURCES += main.cpp\
     functiondatamodel.cpp \
     inventorydatamodel.cpp \
     manufacturerdatamodel.cpp \
+    mobiledatamodel.cpp \
     pctypedatamodel.cpp \
     placedatamodel.cpp \
     systemdatamodel.cpp \
     computerinputdialog.cpp \
     printerdatamodel.cpp \
     phonedatamodel.cpp \
-    helpbrowser.cpp
+    helpbrowser.cpp \
+    faxdatamodel.cpp
+
 
 HEADERS  += mainwindow.h \
     datamodell.h \
@@ -52,6 +55,7 @@ HEADERS  += mainwindow.h \
     functiondatamodel.h \
     inventorydatamodel.h \
     manufacturerdatamodel.h \
+    mobiledatamodel.h \
     pctypedatamodel.h \
     placedatamodel.h \
     systemdatamodel.h \
@@ -59,7 +63,8 @@ HEADERS  += mainwindow.h \
     printerdatamodel.h \
     phonedatamodel.h \
     helpbrowser.h \
-    constants.h.in
+    constants.h.in \
+    faxdatamodel.h
 
 FORMS    += mainwindow.ui \
     preferencesdialog.ui \
