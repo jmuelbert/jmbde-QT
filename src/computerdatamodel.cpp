@@ -21,7 +21,7 @@
 
 #include "computerdatamodel.h"
 
-ComputerDataModel::ComputerDataModel(QObject *parent) : DataModell(parent) {}
+ComputerDataModel::ComputerDataModel(QObject *parent) : DataModel(parent) {}
 
 ComputerDataModel::~ComputerDataModel() {}
 

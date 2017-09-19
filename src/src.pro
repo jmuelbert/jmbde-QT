@@ -14,7 +14,6 @@ DESTDIR = $$APPLICATION_APP_PATH
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    datamodell.cpp \
     preferencesdialog.cpp \
     resource.cpp \
     employeeinputdialog.cpp \
@@ -36,11 +35,11 @@ SOURCES += main.cpp\
     printerdatamodel.cpp \
     phonedatamodel.cpp \
     helpbrowser.cpp \
-    faxdatamodel.cpp
+    faxdatamodel.cpp \
+    datamodel.cpp
 
 
 HEADERS  += mainwindow.h \
-    datamodell.h \
     preferencesdialog.h \
     constants.h \
     resource.h \
@@ -64,7 +63,8 @@ HEADERS  += mainwindow.h \
     phonedatamodel.h \
     helpbrowser.h \
     constants.h.in \
-    faxdatamodel.h
+    faxdatamodel.h \
+    datamodel.h
 
 FORMS    += mainwindow.ui \
     preferencesdialog.ui \
@@ -73,8 +73,7 @@ FORMS    += mainwindow.ui \
     computerinputdialog.ui
 
 RESOURCES += \
-    jmbde.qrc \
-    icons.qrc
+    jmbde.qrc
 
 OTHER_FILES += \
     main.qml \

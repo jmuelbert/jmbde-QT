@@ -35,9 +35,9 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
-#include "datamodell.h"
+#include "datamodel.h"
 
-class FaxDataModel : public DataModell {
+class FaxDataModel : public DataModel {
 public:
   /**
    * @brief FaxDataModel

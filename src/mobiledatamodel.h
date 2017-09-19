@@ -12,9 +12,9 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
-#include "datamodell.h"
+#include "datamodel.h"
 
-class MobileDataModel : public DataModell {
+class MobileDataModel : public DataModel {
 public:
   /**
    * @brief MobileDataModel

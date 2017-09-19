@@ -61,7 +61,7 @@
 #include "computerinputdialog.h"
 #include "constants.h"
 #include "csvimportdialog.h"
-#include "datamodell.h"
+#include "datamodel.h"
 #include "departmentdatamodel.h"
 #include "devicetypedatamodel.h"
 #include "employeedatamodel.h"
@@ -217,7 +217,7 @@ private:
   /**
    * @brief em
    */
-  DataModell *dm;
+  DataModel *dm;
   EmployeeDataModel *edm;
   ComputerDataModel *cdm;
   PrinterDataModel *pdm;

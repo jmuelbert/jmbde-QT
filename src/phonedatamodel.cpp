@@ -21,7 +21,7 @@
 
 #include "phonedatamodel.h"
 
-PhoneDataModel::PhoneDataModel(QObject *parent) : DataModell(parent) {}
+PhoneDataModel::PhoneDataModel(QObject *parent) : DataModel(parent) {}
 
 PhoneDataModel::~PhoneDataModel() {}
 

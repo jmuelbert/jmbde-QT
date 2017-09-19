@@ -20,7 +20,7 @@
  */
 #include "faxdatamodel.h"
 
-FaxDataModel::FaxDataModel(QObject *parent) : DataModell(parent) {}
+FaxDataModel::FaxDataModel(QObject *parent) : DataModel(parent) {}
 
 FaxDataModel::~FaxDataModel() {}
 

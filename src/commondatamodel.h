@@ -34,7 +34,7 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
-#include "datamodell.h"
+#include "datamodel.h"
 
 /**
  * @brief The CommonDataModel class
@@ -44,7 +44,7 @@
  * @date 09.02.2014
  * @copyright EUPL V1.1
  */
-class CommonDataModel : public DataModell {
+class CommonDataModel : public DataModel {
 public:
   /**
    * @brief CommonDataModel

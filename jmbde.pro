@@ -1,20 +1,33 @@
-include (jmbde.pri)
 
 #version check qt
-!minQtVersion(5, 6, 0) {
-	message("Cannot build this Program with Qt version $${QT_VERSION}.")
-        error("Use at least Qt 5.6.0")
+isEmpty(QT_VERSION) {
+    error("QT_VERSION not defined. jmbde does not work with Qt 3.")
 }
 
+include (jmbde.pri)
 include (doc/doc.pri)
+include(deploy/deploy.pri)
+include(installer/installer.pri)
+
+!minQtVersion(5, 9, 0) {
+	message("Cannot build this Program with Qt version $${QT_VERSION}.")
+        error("Use at least Qt 5.9.0")
+}
+
+win* {
+    message("Building Tiled for Windows using qmake is no longer supported")
+    error("Use the tiled.qbs project file instead")
+}
 
 CONFIG += ordered
 TEMPLATE = subdirs
 
-OTHER_FILES = CMakeLists.txt
+OTHER_FILES = CMakeLists.txt \
+    Doxyfile
 
-SUBDIRS = src share \
-    installer
+SUBDIRS = src  \
+       share \
+       translations
 
 unix:!macx:!isEmpty(copydata):SUBDIRS += bin
 !isEmpty(BUILD_TESTS):SUBDIRS += tests
@@ -101,6 +114,23 @@ win32 {
     installer.commands ~= s,/,\\\\,g
 }
 
-QMAKE_EXTRA_TARGETS += deployqt bindist bindist_installer installer
 
+# Installer
+QTIFW_CONFIG = config.xml
+# QTIFW_MODE = online_all
+
+jmbde.pkg = de.jmuelbert.jmbde
+jmbde.meta = meta
+jmbde.dirs = data
+jmbde.files = LICENSE
+
+QTIFW_PACKAGES += jmbde
+
+#deployment
+CONFIG += qtifw_auto_deploy
+QTIFW_DEPLOY_TSPRO = $$_PRO_FILE_
+QTIFW_AUTO_INSTALL_PKG = jmbde
+
+#enable the "install" make target
+CONFIG += qtifw_install_target
 

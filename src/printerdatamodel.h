@@ -33,9 +33,9 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
-#include "datamodell.h"
+#include "datamodel.h"
 
-class PrinterDataModel : public DataModell {
+class PrinterDataModel : public DataModel {
 public:
   /**
    * @brief PrinterDataModel

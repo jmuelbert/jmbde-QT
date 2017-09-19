@@ -64,7 +64,7 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
-#include "datamodell.h"
+#include "datamodel.h"
 
 /**
  * @brief The ComputerDataModel class
@@ -74,7 +74,7 @@
  * @date 09.02.2014
  * @copyright EUPL V1.1
  */
-class ComputerDataModel : public DataModell {
+class ComputerDataModel : public DataModel {
 public:
   /**
    * @brief ComputerDataModel

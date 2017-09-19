@@ -21,7 +21,7 @@
 
 #include "mobiledatamodel.h"
 
-MobileDataModel::MobileDataModel(QObject *parent) : DataModell(parent) {}
+MobileDataModel::MobileDataModel(QObject *parent) : DataModel(parent) {}
 
 MobileDataModel::~MobileDataModel() {}
 

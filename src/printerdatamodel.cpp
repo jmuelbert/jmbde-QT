@@ -21,7 +21,7 @@
 
 #include "printerdatamodel.h"
 
-PrinterDataModel::PrinterDataModel(QObject *parent) : DataModell(parent) {}
+PrinterDataModel::PrinterDataModel(QObject *parent) : DataModel(parent) {}
 
 PrinterDataModel::~PrinterDataModel() {}
 

@@ -89,6 +89,50 @@ const char DEFAULT[] = "SqLite";
 } // namespace Type
 
 namespace Table {
+const char EMPLOYEE[] = "employee";
+const char COMPANY[] = "company";
+const char COMPUTER[] = "computer";
+const char MOBILE[] = "mobile";
+const char PHONE[] = "phone";
+const char EMPLOYEE_CREATE[] = "CREATE TABLE employee (" \
+        "id integer primary key, " \
+        "EmployeeNO varchar, " \
+        "Gender varchar, " \
+        "FirstName varchar, " \
+        "MiddleName varchar, " \
+        "Name varchar, " \
+        "Street varchar, " \
+        "City varchar, " \
+        "Zipcode varchar, " \
+        "BirthDay varchar, " \
+        "PhoneNumber varchar, " \
+        "MobileNumber varchar, " \
+        "Mail varchar, " \
+        "BusinessMail varchar, " \
+        "ChipCard varchar, " \
+        "DataCare integer, " \
+        "Active integer, " \
+        "Photo varchar, " \
+        "Notes varchar, " \
+        "StartDate varchar, " \
+        "EndDate varchar, " \
+        "DepartmentId integer, " \
+        "WorkfunctionId integer, " \
+        "PlaceId integer, " \
+        "CompanyId integer, " \
+        "LastUpdate varchar);";
+const char COMPUTER_CREATE[] = "CREATE TABLE computer (id integer primary key, Name varchar, Active integer, EmployeeID integer, LastUpdate varchar);";
+const char MOBILE_CREATE[] = "CREATE TABLE phone (id integer primary key, Number varchar, Active integer, EmployeeID integer, Lastupdate varchar);";
+const char PHONE_CREATE[] = "CREATE TABLE phone (id integer primary key, Number varchar, Active integer, EmployeeID integer, Lastupdate varchar);";
+const char COMPANY_CREATE[] = "CREATE TABLE company ("
+        "id integer primary key, " \
+        "Name varchar, Name2 varchar, Street varchar, " \
+        "City varchar, ZipCode varchar, PhoneNumber varchar, " \
+        "FaxNumber varchar, MobileNumber varchar, Mail varchar, " \
+        "Active integer, EmployeeID integer, LastUpdate varchar);";
+}
+
+namespace Table {
 const int DEFAULT_FOREIGN_VALUE = 1;
 }
 

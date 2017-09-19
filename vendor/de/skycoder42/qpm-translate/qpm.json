@@ -1,0 +1,22 @@
+{
+  "name": "de.skycoder42.qpm-translate",
+  "description": "A helper repository to easily create translations for QPM modules, without breaking anything",
+  "author": {
+    "name": "Skycoder",
+    "email": "skycoder42.de@gmx.de"
+  },
+  "repository": {
+    "type": "GITHUB",
+    "url": "https://github.com/Skycoder42/qpm-translate.git"
+  },
+  "version": {
+    "label": "1.1.0",
+    "revision": "",
+    "fingerprint": ""
+  },
+  "dependencies": [
+  ],
+  "license": "BSD_3_CLAUSE",
+  "pri_filename": "de_skycoder42_qpm-translate.pri",
+  "webpage": "https://github.com/Skycoder42/qpm-translate"
+}

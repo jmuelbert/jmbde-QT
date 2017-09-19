@@ -2,97 +2,64 @@
 	error("jmbde.pri already included")
 }
 JMBDE_PRI_INCLUDED = 1
+include(deploy/deploy.pri)
+include(installer/installer.pri)
 
-
-
-JMBDE_VERSION = 0.4.0
-JMBDE_COMPAT_VERSION = 0.4.0
-APPLICATION_VERSION = 0.4.0
-VERSION = $$JMBDE_VERSION
-BINARY_ARTIFACTS_BRANCH = master
-DATABASE_VERSION = 1.0
-
-
-
+# Set C++ Version
 CONFIG += c++14
 
-defineReplace(qtLibraryTargetName) {
-    unset(LIBRARY_NAME)
-    LIBRARY_NAME = $$1
-    CONFIG(debug, debug|release) {
-        !debug_and_release|build_pass {
-            mac:RET = $$member(LIBRARY_NAME, 0)_debug
-            else:win32:RET = $$member(LIBRARY_NAME, 0)d
+# Initialize the Version
+isEmpty(JMBDE_VERSION):JMBDE_VERSION = "0.4.2"
+isEmpty(JMBDE_DB_VERSION):JMBDE_DB_VERSION = "0.1.0"
+
+# See the README file for instructions about setting the install prefix.
+isEmpty(PREFIX):PREFIX = /usr/local
+isEmpty(LIBDIR):LIBDIR = $$(PREFIX)/lib
+isEmpty(RPATH):RPATH = yes
+isEmpty(INSTALL_HEADERS):INSTALL_HEADERS = no
+
+
+# This allows Tiled to use up to 3 GB on 32-bit systems and 4 GB on
+# 64-bit systems, rather than being limited to just 2 GB.
+win32-g++* {
+    QMAKE_LFLAGS += -Wl,--large-address-aware
+} else:win32 {
+    QMAKE_LFLAGS += /LARGEADDRESSAWARE
+}
+
+
+# Taken from Qt Creator project files
+defineTest(minQtVersion) {
+    maj = $$1
+    min = $$2
+    patch = $$3
+    isEqual(QT_MAJOR_VERSION, $$maj) {
+        isEqual(QT_MINOR_VERSION, $$min) {
+            isEqual(QT_PATCH_VERSION, $$patch) {
+                return(true)
+            }
+            greaterThan(QT_PATCH_VERSION, $$patch) {
+                return(true)
+            }
+        }
+        greaterThan(QT_MINOR_VERSION, $$min) {
+            return(true)
         }
     }
-    ieEmpty(RET):RET = $$LIBRARY_NAME
-    return($$RET)
-}
-
-defineReplace(qtLibraryName) {
-    RET = $$qtLibraryTargetName($$1)
-    win32 {
-        VERSION_LIST = $$split(JMBDE_VERSION, .)
-        RET = $$RET$$first(VERSION_LIST)
+    greaterThan(QT_MAJOR_VERSION, $$maj) {
+        return(true)
     }
-    return($$RET)
+    return(false)
 }
 
-defineTest(minQtVersion) {
-	maj = $$1
-	min = $$2
-	patch = $$3
-	isEqual(QT_MAJOR_VERSION, $$maj) {
-		isEqual(QT_MINOR_VERSION, $$min) {
-			isEqual(QT_PATCH_VERSION, $$patch) {
-				return(true)
-			}
-			greaterThan(QT_PATCH_VERSION, $$patch) {
-				return(true)
-			}
-		}
-		greaterThan(QT_MINOR_VERSION, $$min) {
-			return(true)
-		}
-		
-	}
-	greaterThan(QT_MAJOR_VERSION, $$maj) {
-		return(true)
-	}
-	return(false)
-}
 
-# For use in custom compilers which just copy files
-defineReplace(stripScrDir) {
-    return($$relative_path($$absolute_path($$1, $OUT_PWD), $$_PRO_FILE_PWD_))
-}
 
-macos:!minQtVersion(5, 7, 0) {
+macos:!minQtVersion(5, 9, 0) {
     # Qt 5.6 still sets deployment target 10.7, which does not work
     # with all C++11/14 features (e.g. std:future)
-    QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.8
+    QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.12
 }
 
-
-QTC=BUILD_TESTS = $$(QTC_BUILD_TESTS)
-!isEmpty(QTC_BUILD_TESTS):TEST = $$QTC_BUILD_TESTS
-
-!isEmpty(BUILD_TESTS):TEST = 1
-
-isEmpty(TEST):CONFIG(debug, debug|release) {
-	!debug_and_release|build_pass {
-		TEST = 1
-	}
-}
-
-isEmpty(IDE_LIBRARY_BASENAME) {
-	IDE_LIBRARY_BASENAME = lib
-}
-
-equals(TEST, 1) {
-	QT += testlib
-        DEFINES += WITH_TESTS
-}
 
 APPLICATION_SOURCE_TREE = $$PWD
 
@@ -234,42 +201,7 @@ qt {
     contains(QT, gui): QT += widgets
 }
 
-QBSFILE = $$replace(_PRO_FILE_, \\.pro$, .qbs)
-exists($$QBSFILE):DISTFILES += $$QBSFILE
 
-# recursively resolve plugin deps
-done_plugins =
-for(ever) {
-    isEmpty(QTC_PLUGIN_DEPENDS): \
-        break()
-    done_plugins += $$QTC_PLUGIN_DEPENDS
-    for(dep, QTC_PLUGIN_DEPENDS) {
-        dependencies_file =
-        for(dir, QTC_PLUGIN_DIRS) {
-            exists($$dir/$$dep/$${dep}_dependencies.pri) {
-                dependencies_file = $$dir/$$dep/$${dep}_dependencies.pri
-                break()
-            }
-        }
-        isEmpty(dependencies_file): \
-            error("Plugin dependency $$dep not found")
-        include($$dependencies_file)
-        LIBS += -l$$qtLibraryName($$QTC_PLUGIN_NAME)
-    }
-    QTC_PLUGIN_DEPENDS = $$unique(QTC_PLUGIN_DEPENDS)
-    QTC_PLUGIN_DEPENDS -= $$unique(done_plugins)
-}
-
-# recursively resolve library deps
-done_libs =
-for(ever) {
-    isEmpty(QTC_LIB_DEPENDS): \
-        break()
-    done_libs += $$QTC_LIB_DEPENDS
-    for(dep, QTC_LIB_DEPENDS) {
-        include($$PWD/src/libs/$$dep/$${dep}_dependencies.pri)
-        LIBS += -l$$qtLibraryName($$QTC_LIB_NAME)
-    }
-    QTC_LIB_DEPENDS = $$unique(QTC_LIB_DEPENDS)
-    QTC_LIB_DEPENDS -= $$unique(done_libs)
-}
+DISTFILES += \
+    $$PWD/de_skycoder42_qtifw-advanced-setup.pri \
+    $$PWD/deploy/deploy.py

@@ -51,7 +51,7 @@ MainWindow::MainWindow(QWidget *parent)
 
   actualView = VIEW_EMPLOYEE;
 
-  dm = new DataModell();
+  dm = new DataModel();
   bool retValue = dm->CreateConnection();
   if (retValue == true) {
       QSize availableSize = qApp->desktop()->availableGeometry().size();
@@ -69,7 +69,7 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow() {
-  dm->~DataModell();
+  dm->~DataModel();
   delete ui;
 }
 

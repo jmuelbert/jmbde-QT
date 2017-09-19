@@ -21,7 +21,7 @@
 
 #include "employeedatamodel.h"
 
-EmployeeDataModel::EmployeeDataModel(QObject *parent) : DataModell(parent) {}
+EmployeeDataModel::EmployeeDataModel(QObject *parent) : DataModel(parent) {}
 
 EmployeeDataModel::~EmployeeDataModel() {}
 

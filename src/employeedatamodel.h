@@ -41,7 +41,7 @@
 #include <QTextDocument>
 
 #include "constants.h"
-#include "datamodell.h"
+#include "datamodel.h"
 
 /**
  * @brief EmployeeDataModel::EmployeeDataModel
@@ -80,7 +80,7 @@
     }
  */
 
-class EmployeeDataModel : public DataModell {
+class EmployeeDataModel : public DataModel {
 
 public:
   /**
