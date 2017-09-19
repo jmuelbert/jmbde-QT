@@ -19,17 +19,17 @@
  *
  */
 
-#include "datamodell.h"
+#include "datamodel.h"
 #include "constants.h"
 
-DataModell::DataModell(QObject *parent) : QObject(parent) {}
+DataModel::DataModel(QObject *parent) : QObject(parent) {}
 
-DataModell::~DataModell() {
+DataModel::~DataModel() {
   db.commit();
   db.close();
 }
 
-bool DataModell::CreateConnection() {
+bool DataModel::CreateConnection() {
   bool retValue = false;
   QString CompanyName = QLatin1String(Constants::COMPANY_NAME);
   QString ApplicationName = QLatin1String(Constants::APPL_NAME);
@@ -83,21 +83,13 @@ bool DataModell::CreateConnection() {
     // Resources on Mac
     // share/appname on Linux
     // + /database/jmbdesqlite.db
-    databaseFileAndPath.append(QDir::separator());
-    databaseFileAndPath.append(QLatin1String("database"));
-    databaseFileAndPath.append(QDir::separator());
-    databaseFileAndPath.append(dbName);
-    databaseFileAndPath.append(QLatin1String("sqlite.db"));
-    QFile srcDB(databaseFileAndPath);
-    qDebug() << "Source-File : " << databaseFileAndPath;
-
     // Destination Directory
     QString targetFileAndPath = QString(dbConnectionString);
     QDir d(targetFileAndPath);
     d.mkpath(targetFileAndPath);
     targetFileAndPath.append(QDir::separator());
     targetFileAndPath.append(dbName);
-    targetFileAndPath.append(QLatin1String("sqlite.db"));
+    targetFileAndPath.append(QLatin1String("sqlite.db3"));
     QFile destDB(targetFileAndPath);
     qDebug() << "Destination-File : " << targetFileAndPath;
     qDebug() << "Connection-String : " << dbConnectionString;
@@ -112,6 +104,7 @@ bool DataModell::CreateConnection() {
                << db.driver()->hasFeature(QSqlDriver::QuerySize); // FALSE
       qDebug() << "QSQLITE QSqlDriver::Transactions: "
                << db.driver()->hasFeature(QSqlDriver::Transactions); // TRUE
+      qDebug() << initDb();
 
     } else {
       QDir destDir(dbConnectionString);
@@ -124,15 +117,12 @@ bool DataModell::CreateConnection() {
         }
       }
 
-      bool ret = QFile::copy(databaseFileAndPath, targetFileAndPath);
-      if (ret == false) {
-        qDebug() << " Can not copy the db-file...";
-
-      } else {
+        qDebug() << " Create a new DB";
         db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"));
         db.setDatabaseName(targetFileAndPath);
-        retValue = db.open();
-      }
+        qDebug() << db.open();
+        qDebug() << initDb();
+
     }
   } else if (dbType == MYSQL) {
     db = QSqlDatabase::addDatabase(QLatin1String("QMYSQL"));
@@ -169,7 +159,7 @@ bool DataModell::CreateConnection() {
   return retValue;
 }
 
-bool DataModell::checkDBVersion() {
+bool DataModel::checkDBVersion() {
   int version = 0;
   int revision = 0;
   int patch = 0;
@@ -202,15 +192,44 @@ bool DataModell::checkDBVersion() {
   return true;
 }
 
-QSqlDatabase DataModell::getDatabase() { return db; }
+QSqlDatabase DataModel::getDatabase() { return db; }
 
-void DataModell::addRow(QTableView *tableView) {
+QSqlError DataModel::initDb() {
+    if (!db.open())
+            return db.lastError();
+
+    // Check the DB
+    QStringList tables = db.tables();
+    // if (!tables.contains("employee", Qt::CaseInsensitive)) return QSqlError();
+
+    QSqlQuery q;
+    QString queryString;
+
+    if (!q.exec(QString(Database::Table::EMPLOYEE_CREATE)))
+        return q.lastError();
+
+    if (!q.exec(QString(Database::Table::COMPUTER_CREATE)))
+        return q.lastError();
+
+    if (!q.exec(QString(Database::Table::MOBILE_CREATE)))
+        return q.lastError();
+
+    if (!q.exec(QString(Database::Table::PHONE_CREATE)))
+        return q.lastError();
+
+    if (!q.exec(QString(Database::Table::COMPANY_CREATE)))
+        return q.lastError();
+
+    return q.lastError();
+}
+
+void DataModel::addRow(QTableView *tableView) {
   QAbstractItemModel *model = tableView->model();
 
   model->insertRow(model->rowCount());
 }
 
-QString DataModell::setOutTableStyle() {
+QString DataModel::setOutTableStyle() {
   QString css;
 
   css = QLatin1String("<style type=\"text/css\">");

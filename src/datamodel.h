@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef DATAMODELL_H
-#define DATAMODELL_H
+#ifndef DATAMODEL_H
+#define DATAMODEL_H
 
 #include <QObject>
 #include <QApplication>
@@ -67,25 +67,25 @@
   */
 
 /**
- * @brief The DataModell class
+ * @brief The DataModel class
  */
-class DataModell : public QObject
+class DataModel : public QObject
 {
     Q_OBJECT
 public:
     /**
-     * @brief DataModell
+     * @brief DataModel
      * @param parent
      */
-    DataModell(QObject *parent = 0);
+    DataModel(QObject *parent = 0);
 
     /**
-      * @brief ~DataModell
+      * @brief ~DataModel
       */
-    ~DataModell();
+    ~DataModel();
 
     /**
-     * @brief DataModell::CreateConnection
+     * @brief DataModel::CreateConnection
      * @return
      *
      * /todo init all tables
@@ -100,6 +100,13 @@ public:
      * @return
      */
     QSqlDatabase getDatabase();
+
+    /**
+     * @brief initDb
+     *
+     * If the Database new then create the tables
+     */
+    QSqlError initDb();
 
     /**
      * @brief DataModell::addRow
@@ -137,4 +144,4 @@ public slots:
     
 };
 
-#endif // DATAMODELL_H
+#endif // DATAMODEL_H

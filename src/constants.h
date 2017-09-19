@@ -89,51 +89,109 @@ const char DEFAULT[] = "SqLite";
 } // namespace Type
 
 namespace Table {
-const char EMPLOYEE[] = "employee";
-const char COMPANY[] = "company";
-const char COMPUTER[] = "computer";
-const char MOBILE[] = "mobile";
-const char PHONE[] = "phone";
-const char EMPLOYEE_CREATE[] = "CREATE TABLE employee (" \
-        "id integer primary key, " \
-        "EmployeeNO varchar, " \
-        "Gender varchar, " \
-        "FirstName varchar, " \
-        "MiddleName varchar, " \
-        "Name varchar, " \
-        "Street varchar, " \
-        "City varchar, " \
-        "Zipcode varchar, " \
-        "BirthDay varchar, " \
-        "PhoneNumber varchar, " \
-        "MobileNumber varchar, " \
-        "Mail varchar, " \
-        "BusinessMail varchar, " \
-        "ChipCard varchar, " \
-        "DataCare integer, " \
-        "Active integer, " \
-        "Photo varchar, " \
-        "Notes varchar, " \
-        "StartDate varchar, " \
-        "EndDate varchar, " \
-        "DepartmentId integer, " \
-        "WorkfunctionId integer, " \
-        "PlaceId integer, " \
-        "CompanyId integer, " \
-        "LastUpdate varchar);";
-const char COMPUTER_CREATE[] = "CREATE TABLE computer (id integer primary key, Name varchar, Active integer, EmployeeID integer, LastUpdate varchar);";
-const char MOBILE_CREATE[] = "CREATE TABLE phone (id integer primary key, Number varchar, Active integer, EmployeeID integer, Lastupdate varchar);";
-const char PHONE_CREATE[] = "CREATE TABLE phone (id integer primary key, Number varchar, Active integer, EmployeeID integer, Lastupdate varchar);";
-const char COMPANY_CREATE[] = "CREATE TABLE company ("
-        "id integer primary key, " \
-        "Name varchar, Name2 varchar, Street varchar, " \
-        "City varchar, ZipCode varchar, PhoneNumber varchar, " \
-        "FaxNumber varchar, MobileNumber varchar, Mail varchar, " \
-        "Active integer, EmployeeID integer, LastUpdate varchar);";
-}
+const char COMPANY[] = "Company";
+const char COMPANY_CREATE[] = "CREATE TABLE Company (" \
+        "Id INTEGER PRIMARY KEY, " \
+        "Name VARCHAR, " \
+        "Name2 VARCHAR, " \
+        "Street VARCHAR, " \
+        "City VARCHAR, " \
+        "ZipCode VARCHAR(10), " \
+        "PhoneNumber VARCHAR, " \
+        "FaxNumber VARCHAR, " \
+        "MobileNumber VARCHAR, " \
+        "Mail VARCHAR, " \
+        "Active BOOLEAN, " \
+        "EmployeID INTEGER, " \
+        "LastUpdate TIMESTAMP);";
 
-namespace Table {
-const int DEFAULT_FOREIGN_VALUE = 1;
+const char ZIPCODE[] = "ZipCode";
+const char ZIPCODEC_CREATE[] = "CREATE TABLE ZipCode (" \
+        "Id INTEGER PRIMARY KEY, " \
+        "Zipcode VARCHAR(10), " \
+        "LastUpdate TIMESTAMP);";
+
+const char CITYNAME[] = "CityName";
+const char CITYNAME_CREATE[] = "CREATE TABLE CityName (" \
+        "Id INTEGER PRIMARY KEY, " \
+        "Name VARCHAR, " \
+        "LastUpdate TIMESTAMP);";
+
+const char ZIPCITY[] = "ZipCity";
+const char ZIPCITY_CREATE[] = "CREATE TABLE ZipCity (" \
+        "Id INTEGER PRIMARY KEY, " \
+        "ZipCodeID INTEGER, " \
+        "CityID INTEGER, " \
+        "LastUpdate TIMESTAMP);";
+
+const char TITLE[] = "Title";
+const char TITLE_CREATE[] = "CREATE TABLE (" \
+        "Id INTEGER PRIMARY KEY, " \
+        "Name VARCHAR, " \
+        "LastUpdate TIMESTAMP);";
+
+const char EMPLOYEE[] = "Employee";
+const char EMPLOYEE_CREATE[] = "CREATE TABLE Employee (" \
+        "Id INTEGER PRIMARY KEY, " \
+        "NR INTEGER, " \
+        "Gender INTEGER, " \
+        "TitleID INTEGER, " \
+        "FirstName VARCHAR, " \
+        "LastName VARCHAR, " \
+        "BirthDay DATE, " \
+        "Street VARCHAR, " \
+        "ZipCityID INTEGER, " \
+        "HomePhone VARCHAR, " \
+        "HomeMobile VARCHAR, " \
+        "HomeMail VARCHAR, " \
+        "BusinessMail VARCHAR, " \
+        "DataCare BOOLEAN, " \
+        "Active BOOLEAN, " \
+        "Photo BLOB, " \
+        "Notes VARCHAR, " \
+        "HireDate DATE, " \
+        "EndDate DATE, " \
+        "DepartmentID INTEGER, " \
+        "FunctionID INTEGER, " \
+        "ComputerID INTEGER, " \
+        "PrinterID INTEGER, " \
+        "PhoneID INTEGER, " \
+        "MobileID INTEGER, " \
+        "FaxID INTEGER, " \
+        "EmployeeAccountID INTEGER, " \
+        "EmployeeDocumentID INTGER, " \
+        "ChipCardID INTEGER, " \
+        "LastUpdate TIMESTAMP);";
+
+const char DEVICETYPE[] = "DeviceType";
+const char DEVICETYPE_CREATE[] = "CREATE TABLE DeviceType (" \
+        "Id INTEGER PRIMARY KEY, " \
+        "Name VARCHAR, " \
+        "LastUpdate TIMESTAMP);";
+
+const char DEVICENAME[] = "DeviceName";
+const char DEVICENAME_CREATE[] = "CREATE TABLE DeviceName (" \
+        "Id INTEGER PRIMARY KEY, " \
+        "Name VARCHAR, " \
+        "LastUpdate TIMESTAMP);";
+
+const char PLACE[] = "Place";
+const char PLACE_CREATE[] = "CREATE TABLE Place (" \
+        "Id INTEGER PRIMARY KEY, " \
+        "Name VARCHAR, " \
+        "Room VARCHAR, " \
+        "Desk VARCHAR, " \
+        "LastUpdate TIMESTAMP);";
+
+const char INVENTORY[] = "Inventory";
+const char INVENTORY_CREATE[] = "CREATE TABLE Inventory (" \
+        "Id INTEGER PRIMARY KEY, " \
+        "Number VARCHAR, " \
+        "Text VARCHAR, " \
+        "Active BOOLEAN, " \
+        "LastUpdate TIMESTAMP);";
+
+
 }
 
 namespace EmployeeTable {}
