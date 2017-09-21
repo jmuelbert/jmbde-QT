@@ -205,19 +205,88 @@ QSqlError DataModel::initDb() {
     QSqlQuery q;
     QString queryString;
 
+    if (!q.exec(QString(Database::Table::COMPANY_CREATE)))
+        return q.lastError();
+
+    if (!q.exec(QString(Database::Table::ZIPCODE_CREATE)))
+        return q.lastError();
+
+    if (!q.exec(QString(Database::Table::CITYNAME_CREATE)))
+        return q.lastError();
+
+    if (!q.exec((QString(Database::Table::ZIPCITY_CREATE))))
+        return q.lastError();
+
+    if (!q.exec(QString(Database::Table::TITLE_CREATE)))
+        return q.lastError();
+
     if (!q.exec(QString(Database::Table::EMPLOYEE_CREATE)))
+        return q.lastError();
+
+    if (!q.exec(QString(Database::Table::DEVICETYPE_CREATE)))
+        return q.lastError();
+
+    if (!q.exec(QString(Database::Table::DEVICENAME_CREATE)))
+        return q.lastError();
+
+    if (!q.exec(QString(Database::Table::PLACE_CREATE)))
+        return q.lastError();
+
+    if (!q.exec(QString(Database::Table::INVENTORY_CREATE)))
+        return q.lastError();
+
+    if (!q.exec(QString(Database::Table::MANIFACTURER_CREATE)))
+        return q.lastError();
+
+    if (!q.exec(QString(Database::Table::DEPARTMENT_CREATE)))
+        return q.lastError();
+
+    if (!q.exec(QString(Database::Table::FUNCTION_CREATE)))
+        return q.lastError();
+
+    if (!q.exec(QString(Database::Table::EMPLOYEEACCOUNT_CREATE)))
+        return q.lastError();
+
+    if (!q.exec(QString(Database::Table::ACCOUNT_CREATE)))
+        return q.lastError();
+
+    if (!q.exec(QString(Database::Table::SYSTEMDATA_CREATE)))
+        return q.lastError();
+
+    if (!q.exec(QString(Database::Table::EMPLOYEEDOCUMENT_CREATE)))
+        return q.lastError();
+
+    if (!q.exec(QString(Database::Table::DOCUMENTS_CREATE)))
+        return q.lastError();
+
+    if (!q.exec(QString(Database::Table::PROCESSOR_CREATE)))
+        return q.lastError();
+
+    if (!q.exec(QString(Database::Table::OS_CREATE)))
+        return q.lastError();
+
+    if (!q.exec(QString(Database::Table::COMPUTERSOFTWARE_CREATE)))
+        return q.lastError();
+
+    if (!q.exec(QString(Database::Table::SOFTWARE_CREATE)))
         return q.lastError();
 
     if (!q.exec(QString(Database::Table::COMPUTER_CREATE)))
         return q.lastError();
 
-    if (!q.exec(QString(Database::Table::MOBILE_CREATE)))
+    if (!q.exec(QString(Database::Table::PRINTER_CREATE)))
         return q.lastError();
 
     if (!q.exec(QString(Database::Table::PHONE_CREATE)))
         return q.lastError();
 
-    if (!q.exec(QString(Database::Table::COMPANY_CREATE)))
+    if (!q.exec(QString(Database::Table::FAX_CREATE)))
+        return q.lastError();
+
+    if (!q.exec(QString(Database::Table::MOBILE_CREATE)))
+        return q.lastError();
+
+    if (!q.exec(QString(Database::Table::DATABASEVERSION_CREATE)))
         return q.lastError();
 
     return q.lastError();

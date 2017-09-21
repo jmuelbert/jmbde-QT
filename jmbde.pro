@@ -22,8 +22,7 @@ win* {
 CONFIG += ordered
 TEMPLATE = subdirs
 
-OTHER_FILES = CMakeLists.txt \
-    Doxyfile
+OTHER_FILES += Doxyfile
 
 SUBDIRS = src  \
        share \

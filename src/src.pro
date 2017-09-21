@@ -82,8 +82,7 @@ OTHER_FILES += \
 
 DISTFILES += \
     ../jmbde.qbs \
-    index.theme \
-    CMakeLists.txt
+    index.theme
 
 STATECHARTS +=
 

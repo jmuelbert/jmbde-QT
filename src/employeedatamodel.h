@@ -94,10 +94,6 @@ public:
    */
   ~EmployeeDataModel();
 
-  /**
-   * @brief addDataSet
-   */
-  void addDataSet();
 
   /**
    * @brief initializeRelationalModel

@@ -106,7 +106,7 @@ const char COMPANY_CREATE[] = "CREATE TABLE Company (" \
         "LastUpdate TIMESTAMP);";
 
 const char ZIPCODE[] = "ZipCode";
-const char ZIPCODEC_CREATE[] = "CREATE TABLE ZipCode (" \
+const char ZIPCODE_CREATE[] = "CREATE TABLE ZipCode (" \
         "Id INTEGER PRIMARY KEY, " \
         "Zipcode VARCHAR(10), " \
         "LastUpdate TIMESTAMP);";
@@ -125,7 +125,7 @@ const char ZIPCITY_CREATE[] = "CREATE TABLE ZipCity (" \
         "LastUpdate TIMESTAMP);";
 
 const char TITLE[] = "Title";
-const char TITLE_CREATE[] = "CREATE TABLE (" \
+const char TITLE_CREATE[] = "CREATE TABLE Title (" \
         "Id INTEGER PRIMARY KEY, " \
         "Name VARCHAR, " \
         "LastUpdate TIMESTAMP);";
@@ -139,7 +139,7 @@ const char EMPLOYEE_CREATE[] = "CREATE TABLE Employee (" \
         "FirstName VARCHAR, " \
         "LastName VARCHAR, " \
         "BirthDay DATE, " \
-        "Street VARCHAR, " \
+        "Address VARCHAR, " \
         "ZipCityID INTEGER, " \
         "HomePhone VARCHAR, " \
         "HomeMobile VARCHAR, " \
@@ -191,7 +191,216 @@ const char INVENTORY_CREATE[] = "CREATE TABLE Inventory (" \
         "Active BOOLEAN, " \
         "LastUpdate TIMESTAMP);";
 
+const char MANIFACTURER[] = "Manufacturer";
+const char MANIFACTURER_CREATE[] = "CREATE TABLE Manufacturer (" \
+        "Id INTEGER PRIMARY KEY, " \
+        "Name VARCHAR, " \
+        "Name2 VARCHAR, " \
+        "Supporter VARCHAR, " \
+        "Address VARCHAR, " \
+        "Address2 VARCHAR, " \
+        "ZipCityID INTEGER, " \
+        "EMail VARCHAR, " \
+        "Phone VARCHAR, " \
+        "Fax VARCHAR, " \
+        "Hotline VARCHAR, " \
+        "LastUpdate TIMESTAMP);";
 
+
+const char DEPARTMENT[] = "Department";
+const char DEPARTMENT_CREATE[] = "CREATE TABLE Department (" \
+        "Id INTEGER PRIMARY KEY, " \
+        "Name VARCHAR, " \
+        "PRIO INTEGER, " \
+        "PrinterID INTEGER, " \
+        "FaxID INTEGER, " \
+        "LastUpdate TIMESTAMP);";
+
+const char FUNCTION[] = "Function";
+const char FUNCTION_CREATE[] = "CREATE TABLE Function (" \
+        "Id INTEGER PRIMARY KEY, " \
+        "Name VARCHAR, " \
+        "PRIO INTEGER, " \
+        "LastUpdate TIMESTAMP);";
+
+const char EMPLOYEEACCOUNT[] = "EmployeeAccount";
+const char EMPLOYEEACCOUNT_CREATE[] = "CREATE TABLE EmployeeAccount (" \
+        "Id INTEGER PRIMARY KEY, " \
+        "EmployeID INTEGER, " \
+        "AccountID INTEGER, " \
+        "LastUpdate TIMESTAMP);";
+
+const char ACCOUNT[] = "Account";
+const char ACCOUNT_CREATE[] = "CREATE TABLE Account (" \
+        "Id INTEGER PRIMARY KEY, " \
+        "UserName VARCHAR, " \
+        "PassWord VARCHAR, " \
+        "SystemDataID INTEGER, " \
+        "LastUpdate TIMESTAMP);";
+
+const char SYSTEMDATA[] = "SystemData";
+const char SYSTEMDATA_CREATE[] = "CREATE TABLE SystemData (" \
+        "Id INTEGER PRIMARY KEY, " \
+        "Name VARCHAR, " \
+        "Local BOOLEAN, " \
+        "Company VARCHAR, " \
+        "Address VARCHAR, " \
+        "Address2 VARCHAR, " \
+        "ZipCityID INTEGER, " \
+        "LastUpdate TIMESTAMP);";
+
+const char EMPLOYEEDOCUMENT[] = "EmployeeDocument";
+const char EMPLOYEEDOCUMENT_CREATE[] = "CREATE TABLE EmployeeDocument (" \
+        "Id INTEGER PRIMARY KEY, " \
+        "EmployeID INTEGER, " \
+        "DocumentID INTEGER, " \
+        "LastUpdate TIMESTAMP);";
+
+const char DOCUMENTS[] = "Documents";
+const char DOCUMENTS_CREATE[] = "CREATE TABLE Documents (" \
+        "Id INTEGER PRIMARY KEY, " \
+        "Name VARCHAR, " \
+        "Document BLOB, " \
+        "LastUpdate TIMESTAMP);";
+
+const char PROCESSOR[] = "Processor";
+const char PROCESSOR_CREATE[] = "CREATE TABLE Processor (" \
+        "Id INTEGER PRIMARY KEY, " \
+        "Name VARCHAR, " \
+        "GHZ DECIMAL, " \
+        "CORES INTEGER, " \
+        "LastUpdate TIMESTAMP);";
+
+const char OS[] = "OS";
+const char OS_CREATE[] = "CREATE TABLE OS (" \
+        "Id INTEGER PRIMARY KEY, " \
+        "Name VARCHAR, " \
+        "Version VARCHAR, " \
+        "Revision VARCHAR, " \
+        "Fix VARCHAR, " \
+        "LastUpdate TIMESTAMP);";
+
+const char COMPUTERSOFTWARE[] = "ComputerSoftware";
+const char COMPUTERSOFTWARE_CREATE[] = "CREATE TABLE ComputerSoftware (" \
+        "Id INTEGER PRIMARY KEY, " \
+        "ComputerID INTEGER, " \
+        "SoftwareID INTEGER, " \
+        "LastUpdate TIMESTAMP);";
+
+const char SOFTWARE[] = "Software";
+const char SOFTWARE_CREATE[] = "CREATE TABLE Software (" \
+        "Id INTEGER PRIMARY KEY, " \
+        "Name VARCHAR, " \
+        "Version VARCHAR, " \
+        "Revision VARCHAR, " \
+        "Fix VARCHAR, " \
+        "LastUpdate TIMESTAMP);";
+
+const char COMPUTER[] = "Computer";
+const char COMPUTER_CREATE[] = "CREATE TABLE Computer (" \
+        "Id INTEGER PRIMARY KEY, " \
+        "DeviceNameID INTEGER, " \
+        "SerialNumber VARCHAR, " \
+        "ServiceTag VARCHAR, " \
+        "ServiceNumber VARCHAR, " \
+        "Memory INTEGER, " \
+        "Network VARCHAR, " \
+        "NetworkName VARCHAR, " \
+        "NetworkIPAddress VARCHAR, " \
+        "Active BOOLEAN, " \
+        "Replace BOOLEAN, " \
+        "DeviceTypeID INTEGER, " \
+        "EmployeID INTEGER, " \
+        "PlaceID INTEGER, " \
+        "DepartmentID INTEGER, " \
+        "ManufacturerID INTEGER, " \
+        "InventoryID INTEGER, " \
+        "ProcessorID INTEGER, " \
+        "OSID INTEGER, " \
+        "ComputerSoftwareID INTEGER, " \
+        "PrinterID INTEGER, " \
+        "LastUpdate TIMESTAMP);";
+
+const char PRINTER[] = "Printer";
+const char PRINTER_CREATE[] = "CREATE TABLE Printer (" \
+        "Id INTEGER PRIMARY KEY, " \
+        "DeviceNameID INTEGER, " \
+        "SerialNumber VARCHAR, " \
+        "Network VARCHAR, " \
+        "NetworkName VARCHAR, " \
+        "NetworkIPAddress VARCHAR, " \
+        "Active BOOLEAN, " \
+        "Replace BOOLEAN, " \
+        "Resources VARCHAR, " \
+        "PaperSizeMax VARCHAR, " \
+        "Color BOOLEAN, " \
+        "DeviceTypeID INTEGER, " \
+        "EmployeID INTEGER, " \
+        "PlaceID INTEGER, " \
+        "DepartmentID INTEGER, " \
+        "ManufacturerID INTEGER, " \
+        "InventoryID INTEGER, " \
+        "ComputerID INTEGER, " \
+        "LastUpdate TIMESTAMP);";
+
+const char PHONE[] = "Phone";
+const char PHONE_CREATE[] = "CREATE TABLE Phone (" \
+        "Id INTEGER PRIMARY KEY, " \
+        "DeviceNameID INTEGER, " \
+        "SerialNumber VARCHAR, " \
+        "Number VARCHAR, " \
+        "Pin VARCHAR, " \
+        "Active BOOLEAN, " \
+        "Replace BOOLEAN, " \
+        "DeviceTypeID INTEGER, " \
+        "EmployeID INTEGER, " \
+        "PlaceID INTEGER, " \
+        "DepartmentID INTEGER, " \
+        "ManufacturerID INTEGER, " \
+        "InventoryID INTEGER, " \
+        "LastUpdate TIMESTAMP);";
+
+const char FAX[] = "Fax";
+const char FAX_CREATE[] = "CREATE TABLE Fax (" \
+        "Id INTEGER PRIMARY KEY, " \
+        "DeviceNameID INTEGER, " \
+        "SerialNumber VARCHAR, " \
+        "Number VARCHAR, " \
+        "Pin VARCHAR, " \
+        "Active BOOLEAN, " \
+        "Replace BOOLEAN, " \
+        "DeviceTypeID INTEGER, " \
+        "EmployeID INTEGER, " \
+        "PlaceID INTEGER, " \
+        "DepartmentID INTEGER, " \
+        "ManufacturerID INTEGER, " \
+        "InventoryID INTEGER, " \
+        "LastUpdate TIMESTAMP);";
+
+const char MOBILE[] = "Mobile";
+const char MOBILE_CREATE[] = "CREATE TABLE Mobile (" \
+        "Id INTEGER PRIMARY KEY, " \
+        "DeviceNameID INTEGER, " \
+        "SerialNumber VARCHAR, " \
+        "Number VARCHAR, " \
+        "CardNumber VARCHAR, " \
+        "Active BOOLEAN, " \
+        "Replace BOOLEAN, " \
+        "DeviceTypeID INTEGER, " \
+        "EmployeID INTEGER, " \
+        "PlaceID INTEGER, " \
+        "DepartmentID INTEGER, " \
+        "ManufacturerID INTEGER, " \
+        "InventoryID INTEGER, " \
+        "LastUpdate TIMESTAMP);";
+
+const char DATABASEVERSION[] = "DatabaseVersion";
+const char DATABASEVERSION_CREATE[] = "CREATE TABLE DatabaseVersion ("
+        "Id INTEGER PRIMARY KEY, " \
+        "Version VARCHAR, " \
+        "Revision VARCHAR, " \
+        "Path VARCHAR, " \
+        "LastUpdate TIMESTAMP);";
 }
 
 namespace EmployeeTable {}
