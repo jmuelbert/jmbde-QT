@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+	<DisplayName>jmbde Files</DisplayName>
+	<Description>jmbde files for install.</Description>
+	<DisplayName xml:lang="de">jmbde Dateien zur Installation</DisplayName>
+	<Description xml:lang="de">Alle Dateien die Sie zu arbeiten benötigen.</Description>
+	<Version>0.4.0</Version>
+	<ReleaseDate>2017-09-27</ReleaseDate>
+	<ForcedInstallation>true</ForcedInstallation>
+	<Default>true</Default>
+</Package>

@@ -34,7 +34,7 @@
 /.qmake.stash
 *.check_cache
 CMakeFiles/
-*.cmake 
+*.cmake
 CMakeCache.txt
 Makefile*
 Thumbs.db

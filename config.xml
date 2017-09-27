@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Installer>
+	<Name>jmbde</Name>
+	<Version>0.4.0</Version>
+	<Title>jmbde Installer</Title>
+	<Publisher>Jürgen Mülbert</Publisher>
+	<ProductUrl>https://github.com/jmuelbert/jmbde-QT</ProductUrl>
+	<StartMenuDir>jmbde</StartMenuDir>
+	<TargetDir>./jmbde</TargetDir>
+	<RunProgram>jmbde</RunProgram>
+	<AllowSpaceInPath>true</AllowSpaceInPath>
+	<AllowNonAsciiCharacters>true</AllowNonAsciiCharacters>
+	<RemoteRepositories>
+		<Repository>
+			<Url>juergen-muelbert/download/jmbde</Url>
+			<Enabled>1</Enabled>
+			<DisplayName>jmbde Online Repository</DisplayName>
+		</Repository>
+	</RemoteRepositories>
+	<ControlScript>controller.js</ControlScript>
+</Installer>

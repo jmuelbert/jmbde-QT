@@ -13,7 +13,7 @@ help.name = Help
 help.input = HELP_FILES
 help.output = $$APPLICATION_DATA_PATH/help/${QMAKE_FILE_BASE}.qhc
 help.config += no_link
-help.commands = qhelpgenerator ${QMAKE_FILE_IN} -o ${QMAKE_FILE_OUT}
+help.commands = $$[QT_INSTALL_BINS]/qhelpgenerator ${QMAKE_FILE_IN} -o ${QMAKE_FILE_OUT}
 
 
 QMAKE_EXTRA_COMPILERS += help

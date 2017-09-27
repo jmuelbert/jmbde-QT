@@ -8,7 +8,7 @@ Product {
         name: "Unconditional"
         qbs.install: true
         qbs.installDir: qtc.ide_data_path
-        qbs.installSourceBase: "jmbder"
+        qbs.installSourceBase: "jmbde"
         prefix: "jmbde/"
         files: [
             "qml/**/*",

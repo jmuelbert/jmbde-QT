@@ -32,7 +32,7 @@ DOXYFILE_ENCODING      = UTF-8
 # title of most generated pages and in a few other places.
 # The default value is: My Project.
 
-PROJECT_NAME           = Stellarium
+PROJECT_NAME           = jmbde
 
 # The PROJECT_NUMBER tag can be used to enter a project or revision number. This
 # could be handy for archiving the generated documentation or if some version
@@ -51,7 +51,7 @@ PROJECT_BRIEF          =
 # and the maximum width should not exceed 200 pixels. Doxygen will copy the logo
 # to the output directory.
 
-PROJECT_LOGO           = /Users/juergen/Documents/Projects/jmbde-QT/doc/images/stellarium-logo.png
+PROJECT_LOGO           = /Users/juergen/Documents/Projects/jmbde-QT/doc/images/jmbde-logo.png
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) path
 # into which the generated documentation will be written. If a relative path is
@@ -1123,8 +1123,8 @@ HTML_EXTRA_STYLESHEET  = /Users/juergen/Documents/Projects/jmbde-QT/doc/extrasty
 # files will be copied as-is; there are no commands or markers available.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_EXTRA_FILES       = /Users/juergen/Documents/Projects/jmbde-QT/doc/images/stellarium-architecture.svg \
-                         /Users/juergen/Documents/Projects/jmbde-QT/doc/images/stellarium-architecture.png
+HTML_EXTRA_FILES       = /Users/juergen/Documents/Projects/jmbde-QT/doc/images/jmbde-architecture.svg \
+                         /Users/juergen/Documents/Projects/jmbde-QT/doc/images/jmbde-architecture.png
 
 # The HTML_COLORSTYLE_HUE tag controls the color of the HTML output. Doxygen
 # will adjust the colors in the stylesheet and background images according to
@@ -1205,7 +1205,7 @@ GENERATE_DOCSET        = NO
 # The default value is: Doxygen generated docs.
 # This tag requires that the tag GENERATE_DOCSET is set to YES.
 
-DOCSET_FEEDNAME        = "Stellarium Developers Documentation"
+DOCSET_FEEDNAME        = "jmbde Developers Documentation"
 
 # This tag specifies a string that should uniquely identify the documentation
 # set bundle. This should be a reverse domain-name style string, e.g.
@@ -1213,7 +1213,7 @@ DOCSET_FEEDNAME        = "Stellarium Developers Documentation"
 # The default value is: org.doxygen.Project.
 # This tag requires that the tag GENERATE_DOCSET is set to YES.
 
-DOCSET_BUNDLE_ID       = org.stellarium
+DOCSET_BUNDLE_ID       = org.jmbde
 
 # The DOCSET_PUBLISHER_ID tag specifies a string that should uniquely identify
 # the documentation publisher. This should be a reverse domain-name style
@@ -1304,7 +1304,7 @@ GENERATE_QHP           = YES
 # the HTML output folder.
 # This tag requires that the tag GENERATE_QHP is set to YES.
 
-QCH_FILE               = ../stellarium.qch
+QCH_FILE               = ../jmbde.qch
 
 # The QHP_NAMESPACE tag specifies the namespace to use when generating Qt Help
 # Project output. For more information please see Qt Help Project / Namespace
@@ -1312,7 +1312,7 @@ QCH_FILE               = ../stellarium.qch
 # The default value is: org.doxygen.Project.
 # This tag requires that the tag GENERATE_QHP is set to YES.
 
-QHP_NAMESPACE          = org.stellarium
+QHP_NAMESPACE          = org.jmbde
 
 # The QHP_VIRTUAL_FOLDER tag specifies the namespace to use when generating Qt
 # Help Project output. For more information please see Qt Help Project / Virtual
@@ -2035,7 +2035,7 @@ TAGFILES               = qt.tag=http://doc.qt.io/qt-5/ \
 # tag file that is based on the input files it reads. See section "Linking to
 # external documentation" for more information about the usage of tag files.
 
-GENERATE_TAGFILE       = stellarium.tag
+GENERATE_TAGFILE       = jmbde.tag
 
 # If the ALLEXTERNALS tag is set to YES all external class will be listed in the
 # class index. If set to NO only the inherited external classes will be listed.

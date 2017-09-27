@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<Package>
-  <DisplayName>jmbde</DisplayName>
-  <Description>Installs the jmbde Application.</Description>
-  <Version>{version}</Version>
-  <ReleaseDate>{date}</ReleaseDate>
-  <Name>de.jmuelbert.jmbde</Name>
-  <!--  <Script>installscript.js</Script> -->
-</Package>
