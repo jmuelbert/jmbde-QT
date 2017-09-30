@@ -1,3 +1,2 @@
-##jmbde-QT
-
-A little tool for collect data in a company. This is useable for Computer, Printes, Phones and so on.
+### Welcome to jmbde-QT Pages.
+This little program is useable for collect data in a company. The data is from hardware i.e. computer, printer, phones and so on.
