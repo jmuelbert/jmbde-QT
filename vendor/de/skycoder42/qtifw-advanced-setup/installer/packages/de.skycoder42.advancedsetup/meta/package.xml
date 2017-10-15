@@ -21,7 +21,7 @@
 		<Translation>zh.qm</Translation>
 	</Translations>
 	<Licenses>
-		<License name="EUPL-V1.2 License" file="LICENSE.txt" />
+		<License name="BSD 3 Clause License" file="LICENSE.txt" />
 	</Licenses>
 	<ForcedInstallation>true</ForcedInstallation>
 	<Virtual>true</Virtual>

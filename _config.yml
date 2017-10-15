@@ -1,8 +1,0 @@
-title: jmbde-QT
-description: A little BDE program
-google_analytics: UA-47991903-1
-show_downloads: true
-theme: jekyll-theme-cayman
-
-gems:
-  - jekyll-mentions

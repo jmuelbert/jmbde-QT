@@ -3,57 +3,125 @@
 }
 JMBDE_PRI_INCLUDED = 1
 
+lessThan(QT_MAJOR_VERSION, 5)|lessThan(QT_MINOR_VERSION, 8) {
+  error(jmbde: At least Qt \"5.8.0\" is required!!!)
+}
+
+DEFINES += QT_DEPRECATED_WARNINGS
+
+APP_NAME                      = "jmbde"
+APP_LOW_NAME                  = "jmbde"
+APP_LOW_H_NAME                = ".jmbde"
+APP_AUTHOR                    = "Jürgen Mülbert"
+APP_COPYRIGHT                 = "(C) 2014-2017 $$APP_AUTHOR"
+APP_VERSION                   = "0.4.3"
+APP_LONG_NAME                 = "$$APP_NAME $$APP_VERSION"
+APP_EMAIL                     = "develop@juergen-muelbert.de"
+APP_URL                       = "https://github.com/jmuelbert/jmbde-QT"
+APP_URL_ISSUES                = "https://github.com/jmuelbert/jmbde-QT/issues"
+APP_URL_ISSUES_NEW            = "https://github.com/jmuelbert/jmbde-QT/issues/new"
+APP_URL_WIKI                  = "https://github.com/jmuelbert/jmbde-QT/wiki"
+APP_USERAGENT                 = "jmbde/$$APP_VERSION (github.com/jmuelbet/jmbde)"
+APP_DONATE_URL                = ""
+APP_WIN_ARCH                  = "win64"
+
+isEmpty(PREFIX) {
+  message(jmbde: PREFIX variable is not set. This might indicate error.)
+
+  win32 {
+    PREFIX = $$OUT_PWD/app
+  }
+
+  mac {
+    PREFIX = $$quote($$OUT_PWD/$${APP_NAME}.app)
+  }
+
+  unix:!mac {
+    PREFIX = $$OUT_PWD/usr
+  }
+}
+
+isEmpty(DESTDIR) {
+  unix:!mac {
+    DESTDIR = $$OUT_PWD/bin
+  }
+}
+
+isEmpty(QTIFW_BIN) {
+    QTIFW_BIN = "$$[QT_INSTALL_BINS]/../../../Tools/QtInstallerFramework/3.0/bin/"
+}
+
+message(jmbde: Shadow copy build directory \"$$OUT_PWD\".)
+
+
+# Custom definitions.
+DEFINES += APP_VERSION='"\\\"$$APP_VERSION\\\""'
+DEFINES += APP_NAME='"\\\"$$APP_NAME\\\""'
+DEFINES += APP_LOW_NAME='"\\\"$$APP_LOW_NAME\\\""'
+DEFINES += APP_LOW_H_NAME='"\\\"$$APP_LOW_H_NAME\\\""'
+DEFINES += APP_LONG_NAME='"\\\"$$APP_LONG_NAME\\\""'
+DEFINES += APP_AUTHOR='"\\\"$$APP_AUTHOR\\\""'
+DEFINES += APP_EMAIL='"\\\"$$APP_EMAIL\\\""'
+DEFINES += APP_URL='"\\\"$$APP_URL\\\""'
+DEFINES += APP_URL_ISSUES='"\\\"$$APP_URL_ISSUES\\\""'
+DEFINES += APP_URL_ISSUES_NEW='"\\\"$$APP_URL_ISSUES_NEW\\\""'
+DEFINES += APP_URL_WIKI='"\\\"$$APP_URL_WIKI\\\""'
+DEFINES += APP_USERAGENT='"\\\"$$APP_USERAGENT\\\""'
+DEFINES += APP_DONATE_URL='"\\\"$$APP_DONATE_URL\\\""'
+DEFINES += APP_SYSTEM_NAME='"\\\"$$QMAKE_HOST.os\\\""'
+DEFINES += APP_SYSTEM_VERSION='"\\\"$$QMAKE_HOST.arch\\\""'
+
+CODECFORTR  = UTF-8
+CODECFORSRC = UTF-8
+
+exists(.git) {
+  APP_REVISION = $$system(git rev-parse --short HEAD)
+}
+
+isEmpty(APP_REVISION) {
+  APP_REVISION = ""
+}
+
+DEFINES += APP_REVISION='"\\\"$$APP_REVISION\\\""'
+
 # Set C++ Version
 CONFIG += c++14
+CONFIG += debug_and_release warn_on
+DEFINES += QT_USE_QSTRINGBUILDER QT_USE_FAST_CONCATENATION QT_USE_FAST_OPERATOR_PLUS UNICODE _UNICODE
+VERSION = $$APP_VERSION
 
-# Initialize the Version
-isEmpty(JMBDE_VERSION):JMBDE_VERSION = "0.4.2"
-isEmpty(JMBDE_DB_VERSION):JMBDE_DB_VERSION = "0.1.0"
+MOC_DIR = $$OUT_PWD/moc
+RCC_DIR = $$OUT_PWD/rcc
+UI_DIR = $$OUT_PWD/ui
 
-# See the README file for instructions about setting the install prefix.
-isEmpty(PREFIX):PREFIX = /usr/local
-isEmpty(LIBDIR):LIBDIR = $$(PREFIX)/lib
-isEmpty(RPATH):RPATH = yes
-isEmpty(INSTALL_HEADERS):INSTALL_HEADERS = no
+APPLICATION_SOURCE_TREE = $$PWD
 
-
-# This allows Tiled to use up to 3 GB on 32-bit systems and 4 GB on
-# 64-bit systems, rather than being limited to just 2 GB.
-win32-g++* {
-    QMAKE_LFLAGS += -Wl,--large-address-aware
-} else:win32 {
-    QMAKE_LFLAGS += /LARGEADDRESSAWARE
+isEmpty(APPLICATION_BUILD_TREE) {
+    sub_dir = $$_PRO_FILE_PWD_
+    sub_dir ~= s,^$$re_escape($$PWD),,
+    APPLICATION_BUILD_TREE = $$clean_path($$OUT_PWD)
+    APPLICATION_BUILD_TREE ~= s,$$re_escape($$sub_dir)$,,
 }
 
+APPLICATION_APP_PATH = $$APPLICATION_BUILD_TREE/bin
+APPLICATION_APP_TARGET = $$APP_NAME
 
-# Taken from Qt Creator project files
-defineTest(minQtVersion) {
-    maj = $$1
-    min = $$2
-    patch = $$3
-    isEqual(QT_MAJOR_VERSION, $$maj) {
-        isEqual(QT_MINOR_VERSION, $$min) {
-            isEqual(QT_PATCH_VERSION, $$patch) {
-                return(true)
-            }
-            greaterThan(QT_PATCH_VERSION, $$patch) {
-                return(true)
-            }
-        }
-        greaterThan(QT_MINOR_VERSION, $$min) {
-            return(true)
-        }
-    }
-    greaterThan(QT_MAJOR_VERSION, $$maj) {
-        return(true)
-    }
-    return(false)
+win32 {
+  # Makes sure we use correct subsystem on Windows.
+  !contains(QMAKE_TARGET.arch, x86_64) {
+    message(jmbde: Compilling x86 variant.)
+    QMAKE_LFLAGS_WINDOWS = /SUBSYSTEM:WINDOWS,5.01
+  } else {
+    message(jmbde: Compiling x86_64 variant.)
+    QMAKE_LFLAGS_WINDOWS = /SUBSYSTEM:WINDOWS,5.02
+  }
 }
 
-
-
-macos:!minQtVersion(5, 9, 0) {
-    # Qt 5.6 still sets deployment target 10.7, which does not work
-    # with all C++11/14 features (e.g. std:future)
-    QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.12
+# Make needed tweaks for RC file getting generated on Windows.
+win32 {
+  RC_ICONS = resources/graphics/jmbde.ico
+  QMAKE_TARGET_COMPANY = $$APP_AUTHOR
+  QMAKE_TARGET_DESCRIPTION = $$APP_NAME
+  QMAKE_TARGET_COPYRIGHT = $$APP_COPYRIGHT
+  QMAKE_TARGET_PRODUCT = $$APP_NAME
 }
