@@ -10,6 +10,12 @@
     <height>277</height>
    </rect>
   </property>
+  <property name="maximumSize">
+   <size>
+    <width>422</width>
+    <height>277</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
@@ -42,21 +48,21 @@
     <item row="1" column="2">
      <widget class="QComboBox" name="comboBoxDatabaseType">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
      </widget>
     </item>
     <item row="5" column="2">
      <widget class="QLineEdit" name="lineEditPassword">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
      </widget>
     </item>
     <item row="2" column="3">
      <widget class="QPushButton" name="pushButtonDBForceFileDialog">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="text">
        <string>...</string>
@@ -94,7 +100,7 @@
     <item row="4" column="2">
      <widget class="QLineEdit" name="lineEditUserName">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
      </widget>
     </item>
@@ -111,7 +117,7 @@
     <item row="3" column="2">
      <widget class="QLineEdit" name="lineEditHostName">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
      </widget>
     </item>

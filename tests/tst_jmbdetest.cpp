@@ -1,6 +1,6 @@
 /*
 // JmbdeTest tst_jmbdetest.cpp
-// part of <Project>
+// part of jmbde
 //
 // Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
 //

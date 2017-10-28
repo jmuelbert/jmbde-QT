@@ -1,49 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>EmployeeInputDialog</class>
- <widget class="QDialog" name="EmployeeInputDialog">
+ <widget class="QScrollArea" name="EmployeeInputDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>883</width>
-    <height>610</height>
+    <width>886</width>
+    <height>646</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>ScrollArea</string>
   </property>
-  <widget class="QDialogButtonBox" name="buttonBox">
-   <property name="geometry">
-    <rect>
-     <x>530</x>
-     <y>550</y>
-     <width>341</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-   </property>
-  </widget>
+  <property name="widgetResizable">
+   <bool>true</bool>
+  </property>
   <widget class="QWidget" name="gridLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>858</width>
-     <height>515</height>
+     <x>0</x>
+     <y>0</y>
+     <width>884</width>
+     <height>644</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="4">
-     <widget class="QLineEdit" name="lineEditLastname"/>
+    <item row="0" column="0">
+     <widget class="QLabel" name="labelTitle">
+      <property name="text">
+       <string>Titel</string>
+      </property>
+      <property name="buddy">
+       <cstring>comboBoxTitle</cstring>
+      </property>
+     </widget>
     </item>
-    <item row="1" column="1">
-     <widget class="QLineEdit" name="lineEditFirstname"/>
+    <item row="0" column="1">
+     <widget class="QComboBox" name="comboBoxTitle"/>
+    </item>
+    <item row="0" column="2">
+     <widget class="QLabel" name="labelGender">
+      <property name="text">
+       <string>Gender</string>
+      </property>
+      <property name="buddy">
+       <cstring>comboBoxGender</cstring>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="3">
+     <widget class="QComboBox" name="comboBoxGender"/>
     </item>
     <item row="1" column="0">
      <widget class="QLabel" name="labelFirstName">
@@ -55,42 +62,8 @@
       </property>
      </widget>
     </item>
-    <item row="4" column="2">
-     <widget class="QLabel" name="labelHomeMobile">
-      <property name="text">
-       <string>Home Mobile</string>
-      </property>
-      <property name="buddy">
-       <cstring>lineEditHomeMobile</cstring>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="5">
-     <widget class="QCheckBox" name="checkBoxActive">
-      <property name="text">
-       <string>Active</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="6">
-     <widget class="QCheckBox" name="checkBoxDatacare">
-      <property name="text">
-       <string>Datacare</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="1">
-     <widget class="QLineEdit" name="lineEditBusinessMail"/>
-    </item>
-    <item row="5" column="0">
-     <widget class="QLabel" name="labelBusinessMail">
-      <property name="text">
-       <string>Businessmail</string>
-      </property>
-      <property name="buddy">
-       <cstring>lineEditBusinessMail</cstring>
-      </property>
-     </widget>
+    <item row="1" column="1">
+     <widget class="QLineEdit" name="lineEditFirstname"/>
     </item>
     <item row="1" column="2">
      <widget class="QLabel" name="labelLastName">
@@ -102,7 +75,10 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="5">
+    <item row="1" column="3">
+     <widget class="QLineEdit" name="lineEditLastname"/>
+    </item>
+    <item row="1" column="4">
      <widget class="QLabel" name="labelPersNumber">
       <property name="text">
        <string>Pers.Number</string>
@@ -112,7 +88,7 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="6">
+    <item row="1" column="5">
      <widget class="QDoubleSpinBox" name="doubleSpinBoxPersNR">
       <property name="decimals">
        <number>0</number>
@@ -122,8 +98,224 @@
       </property>
      </widget>
     </item>
-    <item row="9" column="4">
-     <widget class="QComboBox" name="comboBoxFunction"/>
+    <item row="2" column="0">
+     <widget class="QLabel" name="labelZipCode">
+      <property name="text">
+       <string>Zipcode</string>
+      </property>
+      <property name="buddy">
+       <cstring>lineEditZipCode</cstring>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QLineEdit" name="lineEditZipCode"/>
+    </item>
+    <item row="2" column="2">
+     <widget class="QLabel" name="labelCity">
+      <property name="text">
+       <string>City</string>
+      </property>
+      <property name="buddy">
+       <cstring>lineEditCity</cstring>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="3">
+     <widget class="QLineEdit" name="lineEditCity"/>
+    </item>
+    <item row="2" column="4">
+     <widget class="QLabel" name="labelAddress">
+      <property name="text">
+       <string>Address</string>
+      </property>
+      <property name="buddy">
+       <cstring>lineEditAddress</cstring>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="5">
+     <widget class="QLineEdit" name="lineEditAddress"/>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="labelBirthday">
+      <property name="text">
+       <string>Birthday</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QDateEdit" name="dateEditBirthday"/>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="labelHomeMail">
+      <property name="text">
+       <string>Home Mail</string>
+      </property>
+      <property name="buddy">
+       <cstring>lineEditHomeMail</cstring>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QLineEdit" name="lineEditHomeMail"/>
+    </item>
+    <item row="4" column="2">
+     <widget class="QLabel" name="labelHomeMobile">
+      <property name="text">
+       <string>Home Mobile</string>
+      </property>
+      <property name="buddy">
+       <cstring>lineEditHomeMobile</cstring>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="3">
+     <widget class="QLineEdit" name="lineEditHomeMobile"/>
+    </item>
+    <item row="4" column="4">
+     <widget class="QLabel" name="labelHomePhone">
+      <property name="text">
+       <string>Home Phone</string>
+      </property>
+      <property name="buddy">
+       <cstring>lineEditHomePhone</cstring>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="5">
+     <widget class="QLineEdit" name="lineEditHomePhone"/>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="labelBusinessMail">
+      <property name="text">
+       <string>Businessmail</string>
+      </property>
+      <property name="buddy">
+       <cstring>lineEditBusinessMail</cstring>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1">
+     <widget class="QLineEdit" name="lineEditBusinessMail"/>
+    </item>
+    <item row="5" column="4">
+     <widget class="QCheckBox" name="checkBoxActive">
+      <property name="text">
+       <string>Active</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="5">
+     <widget class="QCheckBox" name="checkBoxDatacare">
+      <property name="text">
+       <string>Datacare</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0">
+     <widget class="QLabel" name="labelStartDate">
+      <property name="text">
+       <string>Start Date</string>
+      </property>
+      <property name="buddy">
+       <cstring>dateEditStartDate</cstring>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="1">
+     <widget class="QDateEdit" name="dateEditStartDate"/>
+    </item>
+    <item row="6" column="2">
+     <widget class="QLabel" name="labelEndDate">
+      <property name="text">
+       <string>End Date</string>
+      </property>
+      <property name="buddy">
+       <cstring>dateEditEndDate</cstring>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="3">
+     <widget class="QDateEdit" name="dateEditEndDate"/>
+    </item>
+    <item row="7" column="0">
+     <widget class="QLabel" name="labelPhone">
+      <property name="text">
+       <string>Phone</string>
+      </property>
+      <property name="buddy">
+       <cstring>comboBoxPhone</cstring>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="1">
+     <widget class="QComboBox" name="comboBoxPhone"/>
+    </item>
+    <item row="7" column="2">
+     <widget class="QLabel" name="labelMobile">
+      <property name="text">
+       <string>Mobile</string>
+      </property>
+      <property name="buddy">
+       <cstring>comboBoxMobile</cstring>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="3">
+     <widget class="QComboBox" name="comboBoxMobile"/>
+    </item>
+    <item row="7" column="4">
+     <widget class="QLabel" name="labelFax">
+      <property name="text">
+       <string>Fax</string>
+      </property>
+      <property name="buddy">
+       <cstring>comboBoxFax</cstring>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="5">
+     <widget class="QComboBox" name="comboBoxFax"/>
+    </item>
+    <item row="8" column="0">
+     <widget class="QLabel" name="labelComputer">
+      <property name="text">
+       <string>Computer</string>
+      </property>
+      <property name="buddy">
+       <cstring>comboBoxComputer</cstring>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="1">
+     <widget class="QComboBox" name="comboBoxComputer"/>
+    </item>
+    <item row="8" column="2">
+     <widget class="QLabel" name="labelPrinter">
+      <property name="text">
+       <string>Printer</string>
+      </property>
+      <property name="buddy">
+       <cstring>comboBoxPrinter</cstring>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="3">
+     <widget class="QComboBox" name="comboBoxPrinter"/>
+    </item>
+    <item row="8" column="4">
+     <widget class="QLabel" name="labelChipCard">
+      <property name="text">
+       <string>ChipCard</string>
+      </property>
+      <property name="buddy">
+       <cstring>comboBoxChipCard</cstring>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="5">
+     <widget class="QComboBox" name="comboBoxChipCard"/>
     </item>
     <item row="9" column="0">
      <widget class="QLabel" name="labelDepartment">
@@ -148,184 +340,8 @@
       </property>
      </widget>
     </item>
-    <item row="8" column="1">
-     <widget class="QComboBox" name="comboBoxComputer"/>
-    </item>
-    <item row="8" column="4">
-     <widget class="QComboBox" name="comboBoxPrinter"/>
-    </item>
-    <item row="8" column="2">
-     <widget class="QLabel" name="labelPrinter">
-      <property name="text">
-       <string>Printer</string>
-      </property>
-      <property name="buddy">
-       <cstring>comboBoxPrinter</cstring>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="0">
-     <widget class="QLabel" name="labelComputer">
-      <property name="text">
-       <string>Computer</string>
-      </property>
-      <property name="buddy">
-       <cstring>comboBoxComputer</cstring>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="1">
-     <widget class="QDateEdit" name="dateEditBirthday"/>
-    </item>
-    <item row="7" column="5">
-     <widget class="QLabel" name="labelFax">
-      <property name="text">
-       <string>Fax</string>
-      </property>
-      <property name="buddy">
-       <cstring>comboBoxFax</cstring>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="4">
-     <widget class="QDateEdit" name="dateEditEndDate"/>
-    </item>
-    <item row="7" column="1">
-     <widget class="QComboBox" name="comboBoxPhone"/>
-    </item>
-    <item row="11" column="1" colspan="2">
-     <widget class="QTextEdit" name="textEditNotes"/>
-    </item>
-    <item row="7" column="0">
-     <widget class="QLabel" name="labelPhone">
-      <property name="text">
-       <string>Phone</string>
-      </property>
-      <property name="buddy">
-       <cstring>comboBoxPhone</cstring>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="labelTitle">
-      <property name="text">
-       <string>Titel</string>
-      </property>
-      <property name="buddy">
-       <cstring>comboBoxTitle</cstring>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="6">
-     <widget class="QLineEdit" name="lineEditAddress"/>
-    </item>
-    <item row="2" column="5">
-     <widget class="QLabel" name="labelAddress">
-      <property name="text">
-       <string>Address</string>
-      </property>
-      <property name="buddy">
-       <cstring>lineEditAddress</cstring>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QComboBox" name="comboBoxTitle"/>
-    </item>
-    <item row="0" column="2">
-     <widget class="QLabel" name="labelGender">
-      <property name="text">
-       <string>Gender</string>
-      </property>
-      <property name="buddy">
-       <cstring>comboBoxGender</cstring>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="2">
-     <widget class="QLabel" name="labelCity">
-      <property name="text">
-       <string>City</string>
-      </property>
-      <property name="buddy">
-       <cstring>lineEditCity</cstring>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="6">
-     <widget class="QComboBox" name="comboBoxFax"/>
-    </item>
-    <item row="2" column="4">
-     <widget class="QLineEdit" name="lineEditCity"/>
-    </item>
-    <item row="0" column="4">
-     <widget class="QComboBox" name="comboBoxGender"/>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="labelZipCode">
-      <property name="text">
-       <string>Zipcode</string>
-      </property>
-      <property name="buddy">
-       <cstring>lineEditZipCode</cstring>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QLineEdit" name="lineEditZipCode"/>
-    </item>
-    <item row="11" column="0">
-     <widget class="QLabel" name="labelNotes">
-      <property name="text">
-       <string>Notes</string>
-      </property>
-      <property name="buddy">
-       <cstring>textEditNotes</cstring>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="2">
-     <widget class="QLabel" name="labelEndDate">
-      <property name="text">
-       <string>End Date</string>
-      </property>
-      <property name="buddy">
-       <cstring>dateEditEndDate</cstring>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="2">
-     <widget class="QLabel" name="labelMobile">
-      <property name="text">
-       <string>Mobile</string>
-      </property>
-      <property name="buddy">
-       <cstring>comboBoxMobile</cstring>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="4">
-     <widget class="QComboBox" name="comboBoxMobile"/>
-    </item>
-    <item row="6" column="1">
-     <widget class="QDateEdit" name="dateEditStartDate"/>
-    </item>
-    <item row="6" column="0">
-     <widget class="QLabel" name="labelStartDate">
-      <property name="text">
-       <string>Start Date</string>
-      </property>
-      <property name="buddy">
-       <cstring>dateEditStartDate</cstring>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0">
-     <widget class="QLabel" name="labelBirthday">
-      <property name="text">
-       <string>Birthday</string>
-      </property>
-     </widget>
+    <item row="9" column="3">
+     <widget class="QComboBox" name="comboBoxFunction"/>
     </item>
     <item row="10" column="0">
      <widget class="QLabel" name="labelEmployeeAccount">
@@ -340,9 +356,6 @@
     <item row="10" column="1">
      <widget class="QComboBox" name="comboBoxEmployeeAccount"/>
     </item>
-    <item row="10" column="4">
-     <widget class="QComboBox" name="comboBoxEmployeeDocument"/>
-    </item>
     <item row="10" column="2">
      <widget class="QLabel" name="labelEmployeeDocument">
       <property name="text">
@@ -353,61 +366,35 @@
       </property>
      </widget>
     </item>
-    <item row="8" column="5">
-     <widget class="QLabel" name="labelChipCard">
-      <property name="text">
-       <string>ChipCard</string>
-      </property>
-      <property name="buddy">
-       <cstring>comboBoxChipCard</cstring>
-      </property>
-     </widget>
+    <item row="10" column="3">
+     <widget class="QComboBox" name="comboBoxEmployeeDocument"/>
     </item>
-    <item row="8" column="6">
-     <widget class="QComboBox" name="comboBoxChipCard"/>
-    </item>
-    <item row="10" column="5">
+    <item row="10" column="4">
      <widget class="QLabel" name="labelLastupdate">
       <property name="text">
        <string>Last Update</string>
       </property>
      </widget>
     </item>
-    <item row="10" column="6">
+    <item row="10" column="5">
      <widget class="QLabel" name="labelLastupdate_Date">
       <property name="text">
        <string>Date</string>
       </property>
      </widget>
     </item>
-    <item row="4" column="4">
-     <widget class="QLineEdit" name="lineEditHomeMobile"/>
-    </item>
-    <item row="4" column="5">
-     <widget class="QLabel" name="labelHomePhone">
+    <item row="11" column="0">
+     <widget class="QLabel" name="labelNotes">
       <property name="text">
-       <string>Home Phone</string>
+       <string>Notes</string>
       </property>
       <property name="buddy">
-       <cstring>lineEditHomePhone</cstring>
+       <cstring>textEditNotes</cstring>
       </property>
      </widget>
     </item>
-    <item row="4" column="6">
-     <widget class="QLineEdit" name="lineEditHomePhone"/>
-    </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="labelHomeMail">
-      <property name="text">
-       <string>Home Mail</string>
-      </property>
-      <property name="buddy">
-       <cstring>lineEditHomeMail</cstring>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="1">
-     <widget class="QLineEdit" name="lineEditHomeMail"/>
+    <item row="11" column="1" colspan="2">
+     <widget class="QTextEdit" name="textEditNotes"/>
     </item>
    </layout>
   </widget>
@@ -416,7 +403,7 @@
   <tabstop>comboBoxTitle</tabstop>
   <tabstop>comboBoxGender</tabstop>
   <tabstop>lineEditFirstname</tabstop>
-  <tabstop>lineEditLastname</tabstop> 
+  <tabstop>lineEditLastname</tabstop>
   <tabstop>doubleSpinBoxPersNR</tabstop>
   <tabstop>lineEditZipCode</tabstop>
   <tabstop>lineEditCity</tabstop>
@@ -443,38 +430,5 @@
   <tabstop>textEditNotes</tabstop>
  </tabstops>
  <resources/>
- <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>EmployeeInputDialog</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>EmployeeInputDialog</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

@@ -1,45 +1,44 @@
 /*
-// main.cpp
-// part of jmbde
-//
-// Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
-//
-// Licensed under the EUPL, Version 1.2 or – as soon they
-// will be approved by the European Commission - subsequent
-// versions of the EUPL (the "Licence");
-// You may not use this work except in compliance with the
-// Licence.
-// You may obtain a copy of the Licence at:
-//
-// https://joinup.ec.europa.eu/page/eupl-text-11-12
-//
-// Unless required by applicable law or agreed to in
-// writing, software distributed under the Licence is
-// distributed on an "AS IS" basis,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-// express or implied.
-// See the Licence for the specific language governing
-// permissions and limitations under the Licence.
-//
-// Lizenziert unter der EUPL, Version 1.2 oder - sobald
-// diese von der Europäischen Kommission genehmigt wurden -
-// Folgeversionen der EUPL ("Lizenz");
-// Sie dürfen dieses Werk ausschließlich gemäß
-// dieser Lizenz nutzen.
-// Eine Kopie der Lizenz finden Sie hier:
-//
-// https://joinup.ec.europa.eu/page/eupl-text-11-12
-//
-// Sofern nicht durch anwendbare Rechtsvorschriften
-// gefordert oder in schriftlicher Form vereinbart, wird
-// die unter der Lizenz verbreitete Software "so wie sie
-// ist", OHNE JEGLICHE GEWÄHRLEISTUNG ODER BEDINGUNGEN -
-// ausdrücklich oder stillschweigend - verbreitet.
-// Die sprachspezifischen Genehmigungen und Beschränkungen
-// unter der Lizenz sind dem Lizenztext zu entnehmen.
-//
-*/
-
+   // main.cpp
+   // part of jmbde
+   //
+   // Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
+   //
+   // Licensed under the EUPL, Version 1.2 or – as soon they
+   // will be approved by the European Commission - subsequent
+   // versions of the EUPL (the "Licence");
+   // You may not use this work except in compliance with the
+   // Licence.
+   // You may obtain a copy of the Licence at:
+   //
+   // https://joinup.ec.europa.eu/page/eupl-text-11-12
+   //
+   // Unless required by applicable law or agreed to in
+   // writing, software distributed under the Licence is
+   // distributed on an "AS IS" basis,
+   // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+   // express or implied.
+   // See the Licence for the specific language governing
+   // permissions and limitations under the Licence.
+   //
+   // Lizenziert unter der EUPL, Version 1.2 oder - sobald
+   // diese von der Europäischen Kommission genehmigt wurden -
+   // Folgeversionen der EUPL ("Lizenz");
+   // Sie dürfen dieses Werk ausschließlich gemäß
+   // dieser Lizenz nutzen.
+   // Eine Kopie der Lizenz finden Sie hier:
+   //
+   // https://joinup.ec.europa.eu/page/eupl-text-11-12
+   //
+   // Sofern nicht durch anwendbare Rechtsvorschriften
+   // gefordert oder in schriftlicher Form vereinbart, wird
+   // die unter der Lizenz verbreitete Software "so wie sie
+   // ist", OHNE JEGLICHE GEWÄHRLEISTUNG ODER BEDINGUNGEN -
+   // ausdrücklich oder stillschweigend - verbreitet.
+   // Die sprachspezifischen Genehmigungen und Beschränkungen
+   // unter der Lizenz sind dem Lizenztext zu entnehmen.
+   //
+ */
 
 /**
  * \brief The jmbde program
@@ -58,7 +57,6 @@
  *
  */
 
-
 #include <QApplication>
 #include <QDebug>
 #include <QDir>
@@ -70,7 +68,6 @@
 
 #include "definitions.h"
 #include "mainwindow.h"
-
 
 #ifdef Q_OS_MAC
 #define SHARE_PATH "/../Resources"
@@ -84,42 +81,44 @@
  * @param argv
  * @return
  */
-int main(int argc, char *argv[]) {
-    for (int i = 0; i < argc; i++) {
-        const QString str = QString::fromLocal8Bit(argv[i]);
+int main(int argc, char* argv[]) {
+  for (int i = 0; i < argc; i++) {
+    const QString str = QString::fromLocal8Bit(argv[i]);
 
-        if (str == "-h") {
-            qDebug("Usage: jmbde [OPTIONS\n\n"
-                    "Option\t\tMeaning\n"
-                   "-h\t\tDisplays this help.");
-            return  EXIT_SUCCESS;
-        }
+    if (str == "-h") {
+      qDebug("Usage: jmbde [OPTIONS\n\n"
+             "Option\t\tMeaning\n"
+             "-h\t\tDisplays this help.");
+      return EXIT_SUCCESS;
     }
+  }
 
-    QApplication app(argc, argv);
+  QApplication app(argc, argv);
 
-    qDebug("Instantiated Application class.");
-
+  qDebug("Instantiated Application class.");
 
 #if defined (Q_OS_MAC)
-    QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
+  QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
 #endif
 
-    // These settings needs to be set before any QSettings object
-    QApplication::setApplicationName(APP_NAME);
-    QApplication::setApplicationVersion(APP_VERSION);
-    QApplication::setOrganizationDomain(APP_URL);
-    QApplication::setWindowIcon(QIcon(APP_ICON_PATH));
-
+  // These settings needs to be set before any QSettings object
+  QApplication::setApplicationName(APP_NAME);
+  QApplication::setApplicationVersion(APP_VERSION);
+  QApplication::setOrganizationName(APP_ORG_NAME);
+  QApplication::setOrganizationDomain(APP_URL);
+  QApplication::setWindowIcon(QIcon(APP_ICON_PATH));
 
 #ifdef Q_OS_MAC
   const QString& _creatorTrPath = QCoreApplication::applicationDirPath();
   QDir trPath(_creatorTrPath);
+
   trPath.cdUp();
   const QString& creatorTrPath = trPath.path();
-      qDebug() << "ApplicationDirPath : " << creatorTrPath;
+
+  qDebug() << "ApplicationDirPath : " << creatorTrPath;
 
   QString translationFileAndPath = QString(creatorTrPath);
+
   translationFileAndPath.append(QDir::separator());
   translationFileAndPath.append(QLatin1String("Resources"));
 #else
@@ -134,14 +133,17 @@ int main(int argc, char *argv[]) {
   qDebug() << "TranslationDirPath : " << translationFileAndPath;
 
   QTranslator translator;
+
   // look up e.g. translations/jmbde_de.qm
   if (translator.load(QLocale(), QLatin1String(APP_NAME), QLatin1String("_"), QString(translationFileAndPath))) {
-      app.installTranslator(&translator);
-  } else {
-      qDebug() << "The Translation can't load at " << translationFileAndPath << " : " << QLocale() << " : " << QLatin1String(APP_NAME);
+    app.installTranslator(&translator);
+  }
+  else {
+    qDebug() << "The Translation can't load at " << translationFileAndPath << " : " << QLocale() << " : " << QLatin1String(APP_NAME);
   }
 
   MainWindow w;
+
   w.show();
 
   return app.exec();

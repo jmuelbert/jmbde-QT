@@ -2,73 +2,23 @@
 
 include (jmbde.pri)
 
-
 message(jmbde: Welcome jmbde qmake script.)
 
 lessThan(QT_MAJOR_VERSION, 5)|lessThan(QT_MINOR_VERSION, 8) {
   error(jmbde: At least Qt \"5.8.0\" is required!!!)
 }
 
-APP_NAME                      = "jmbde"
-APP_LOW_NAME                  = "jmbde"
-APP_LOW_H_NAME                = ".jmbde"
-APP_AUTHOR                    = "Jürgen Mülbert"
-APP_COPYRIGHT                 = "(C) 2014-2017 $$APP_AUTHOR"
-APP_VERSION                   = "0.4.3"
-APP_LONG_NAME                 = "$$APP_NAME $$APP_VERSION"
-APP_EMAIL                     = "develop@juergen-muelbert.de"
-APP_URL                       = "https://github.com/jmuelbert/jmbde-QT"
-APP_URL_ISSUES                = "https://github.com/jmuelbert/jmbde-QT/issues"
-APP_URL_ISSUES_NEW            = "https://github.com/jmuelbert/jmbde-QT/issues/new"
-APP_URL_WIKI                  = "https://github.com/jmuelbert/jmbde-QT/wiki"
-APP_USERAGENT                 = "jmbde/$$APP_VERSION (github.com/jmuelbet/jmbde)"
-APP_DONATE_URL                = ""
-APP_WIN_ARCH                  = "win64"
+CONFIG += ordered
+TEMPLATE = subdirs
 
-isEmpty(PREFIX) {
-  message(jmbde: PREFIX variable is not set. This might indicate error.)
+SUBDIRS = src  \
+          share
 
-  win32 {
-    PREFIX = $$OUT_PWD/app
-  }
-
-  mac {
-    PREFIX = $$quote($$OUT_PWD/$${APP_NAME}.app)
-  }
-
-  unix:!mac {
-    PREFIX = $$OUT_PWD/usr
-  }
-}
-
-isEmpty(DESTDIR) {
-  unix:!mac {
-    DESTDIR = $$OUT_PWD/bin
-  }
-}
+!isEmpty(BUILD_TESTS):SUBDIRS += tests
 
 
 message(jmbde: Shadow copy build directory \"$$OUT_PWD\".)
 
-# Custom definitions.
-DEFINES += APP_VERSION='"\\\"$$APP_VERSION\\\""'
-DEFINES += APP_NAME='"\\\"$$APP_NAME\\\""'
-DEFINES += APP_LOW_NAME='"\\\"$$APP_LOW_NAME\\\""'
-DEFINES += APP_LOW_H_NAME='"\\\"$$APP_LOW_H_NAME\\\""'
-DEFINES += APP_LONG_NAME='"\\\"$$APP_LONG_NAME\\\""'
-DEFINES += APP_AUTHOR='"\\\"$$APP_AUTHOR\\\""'
-DEFINES += APP_EMAIL='"\\\"$$APP_EMAIL\\\""'
-DEFINES += APP_URL='"\\\"$$APP_URL\\\""'
-DEFINES += APP_URL_ISSUES='"\\\"$$APP_URL_ISSUES\\\""'
-DEFINES += APP_URL_ISSUES_NEW='"\\\"$$APP_URL_ISSUES_NEW\\\""'
-DEFINES += APP_URL_WIKI='"\\\"$$APP_URL_WIKI\\\""'
-DEFINES += APP_USERAGENT='"\\\"$$APP_USERAGENT\\\""'
-DEFINES += APP_DONATE_URL='"\\\"$$APP_DONATE_URL\\\""'
-DEFINES += APP_SYSTEM_NAME='"\\\"$$QMAKE_HOST.os\\\""'
-DEFINES += APP_SYSTEM_VERSION='"\\\"$$QMAKE_HOST.arch\\\""'
-
-CODECFORTR  = UTF-8
-CODECFORSRC = UTF-8
 
 exists(.git) {
   APP_REVISION = $$system(git rev-parse --short HEAD)
@@ -89,13 +39,7 @@ message(jmbde: lrelease executable name: \"$$LRELEASE_EXECUTABLE\".)
 
 DISTFILES += resources/scripts/uncrustify/uncrustify.cfg
 
-
-CONFIG += ordered
-TEMPLATE = subdirs
-
-SUBDIRS = src  \
-       share \
-    jmbdeTest
+OTHERFILES = dbUpdate/SqliteUpdate.py
 
 TRANSLATIONS += \
         $$PWD/localization/jmbde_untranslated.ts \

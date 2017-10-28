@@ -3,16 +3,11 @@
 }
 JMBDE_PRI_INCLUDED = 1
 
-lessThan(QT_MAJOR_VERSION, 5)|lessThan(QT_MINOR_VERSION, 8) {
-  error(jmbde: At least Qt \"5.8.0\" is required!!!)
-}
-
-DEFINES += QT_DEPRECATED_WARNINGS
-
 APP_NAME                      = "jmbde"
 APP_LOW_NAME                  = "jmbde"
 APP_LOW_H_NAME                = ".jmbde"
 APP_AUTHOR                    = "Jürgen Mülbert"
+APP_ORG_NAME                  = "de.jmuelbert"
 APP_COPYRIGHT                 = "(C) 2014-2017 $$APP_AUTHOR"
 APP_VERSION                   = "0.4.3"
 APP_LONG_NAME                 = "$$APP_NAME $$APP_VERSION"
@@ -24,6 +19,7 @@ APP_URL_WIKI                  = "https://github.com/jmuelbert/jmbde-QT/wiki"
 APP_USERAGENT                 = "jmbde/$$APP_VERSION (github.com/jmuelbet/jmbde)"
 APP_DONATE_URL                = ""
 APP_WIN_ARCH                  = "win64"
+
 
 isEmpty(PREFIX) {
   message(jmbde: PREFIX variable is not set. This might indicate error.)
@@ -60,6 +56,7 @@ DEFINES += APP_NAME='"\\\"$$APP_NAME\\\""'
 DEFINES += APP_LOW_NAME='"\\\"$$APP_LOW_NAME\\\""'
 DEFINES += APP_LOW_H_NAME='"\\\"$$APP_LOW_H_NAME\\\""'
 DEFINES += APP_LONG_NAME='"\\\"$$APP_LONG_NAME\\\""'
+DEFINES += APP_ORG_NAME='"\\\"$$APP_ORG_NAME\\\""'
 DEFINES += APP_AUTHOR='"\\\"$$APP_AUTHOR\\\""'
 DEFINES += APP_EMAIL='"\\\"$$APP_EMAIL\\\""'
 DEFINES += APP_URL='"\\\"$$APP_URL\\\""'
@@ -87,7 +84,13 @@ DEFINES += APP_REVISION='"\\\"$$APP_REVISION\\\""'
 # Set C++ Version
 CONFIG += c++14
 CONFIG += debug_and_release warn_on
-DEFINES += QT_USE_QSTRINGBUILDER QT_USE_FAST_CONCATENATION QT_USE_FAST_OPERATOR_PLUS UNICODE _UNICODE
+DEFINES += QT_DEPRECATED_WARNINGS \
+    QT_DISABLE_DEPRECATED_BEFORE=0x050600 \
+    QT_USE_QSTRINGBUILDER \
+    QT_NO_CAST_TO_ASCII \
+    QT_RESTRICTED_CAST_FROM_ASCII \
+    QT_USE_FAST_CONCATENATION \
+    QT_USE_FAST_OPERATOR_PLUS
 VERSION = $$APP_VERSION
 
 MOC_DIR = $$OUT_PWD/moc

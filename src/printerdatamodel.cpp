@@ -1,55 +1,53 @@
 /*
-// PrinterDataModel
-// part of jmbde
-//
-// Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
-//
-// Licensed under the EUPL, Version 1.2 or – as soon they
-// will be approved by the European Commission - subsequent
-// versions of the EUPL (the "Licence");
-// You may not use this work except in compliance with the
-// Licence.
-// You may obtain a copy of the Licence at:
-//
-// https://joinup.ec.europa.eu/page/eupl-text-11-12
-//
-// Unless required by applicable law or agreed to in
-// writing, software distributed under the Licence is
-// distributed on an "AS IS" basis,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-// express or implied.
-// See the Licence for the specific language governing
-// permissions and limitations under the Licence.
-//
-// Lizenziert unter der EUPL, Version 1.2 oder - sobald
-// diese von der Europäischen Kommission genehmigt wurden -
-// Folgeversionen der EUPL ("Lizenz");
-// Sie dürfen dieses Werk ausschließlich gemäß
-// dieser Lizenz nutzen.
-// Eine Kopie der Lizenz finden Sie hier:
-//
-// https://joinup.ec.europa.eu/page/eupl-text-11-12
-//
-// Sofern nicht durch anwendbare Rechtsvorschriften
-// gefordert oder in schriftlicher Form vereinbart, wird
-// die unter der Lizenz verbreitete Software "so wie sie
-// ist", OHNE JEGLICHE GEWÄHRLEISTUNG ODER BEDINGUNGEN -
-// ausdrücklich oder stillschweigend - verbreitet.
-// Die sprachspezifischen Genehmigungen und Beschränkungen
-// unter der Lizenz sind dem Lizenztext zu entnehmen.
-//
-*/
-
+   // PrinterDataModel
+   // part of jmbde
+   //
+   // Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
+   //
+   // Licensed under the EUPL, Version 1.2 or – as soon they
+   // will be approved by the European Commission - subsequent
+   // versions of the EUPL (the "Licence");
+   // You may not use this work except in compliance with the
+   // Licence.
+   // You may obtain a copy of the Licence at:
+   //
+   // https://joinup.ec.europa.eu/page/eupl-text-11-12
+   //
+   // Unless required by applicable law or agreed to in
+   // writing, software distributed under the Licence is
+   // distributed on an "AS IS" basis,
+   // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+   // express or implied.
+   // See the Licence for the specific language governing
+   // permissions and limitations under the Licence.
+   //
+   // Lizenziert unter der EUPL, Version 1.2 oder - sobald
+   // diese von der Europäischen Kommission genehmigt wurden -
+   // Folgeversionen der EUPL ("Lizenz");
+   // Sie dürfen dieses Werk ausschließlich gemäß
+   // dieser Lizenz nutzen.
+   // Eine Kopie der Lizenz finden Sie hier:
+   //
+   // https://joinup.ec.europa.eu/page/eupl-text-11-12
+   //
+   // Sofern nicht durch anwendbare Rechtsvorschriften
+   // gefordert oder in schriftlicher Form vereinbart, wird
+   // die unter der Lizenz verbreitete Software "so wie sie
+   // ist", OHNE JEGLICHE GEWÄHRLEISTUNG ODER BEDINGUNGEN -
+   // ausdrücklich oder stillschweigend - verbreitet.
+   // Die sprachspezifischen Genehmigungen und Beschränkungen
+   // unter der Lizenz sind dem Lizenztext zu entnehmen.
+   //
+ */
 
 #include "printerdatamodel.h"
 
-PrinterDataModel::PrinterDataModel(QObject *parent) : DataModel(parent) {}
+PrinterDataModel::PrinterDataModel(QObject* parent) : DataModel(parent) {}
 
 PrinterDataModel::~PrinterDataModel() {}
 
 void PrinterDataModel::addDataSet() {
   QSqlQuery query;
-
   QString sqlString = QLatin1String("insert into printer(pcnr, name) values( ");
 
   sqlString.append(QLatin1String("'"));
@@ -58,18 +56,21 @@ void PrinterDataModel::addDataSet() {
   sqlString.append(name);
   sqlString.append(QLatin1String("');"));
   bool ret = query.exec(sqlString);
+
   if (ret == false) {
     qDebug() << sqlString.toLatin1();
     qDebug() << db.lastError();
-  } else {
+  }
+  else {
     db.commit();
   }
 }
 
-QSqlRelationalTableModel *PrinterDataModel::initializeRelationalModel() {
+QSqlRelationalTableModel* PrinterDataModel::initializeRelationalModel() {
   // TODO: id als locale Konstante
 
-  QSqlRelationalTableModel *model = new QSqlRelationalTableModel(this);
+  QSqlRelationalTableModel* model = new QSqlRelationalTableModel(this);
+
   model->setTable(QLatin1String("printer"));
   model->setEditStrategy(QSqlTableModel::OnFieldChange);
 
@@ -154,8 +155,9 @@ QSqlRelationalTableModel *PrinterDataModel::initializeRelationalModel() {
   return model;
 }
 
-QSqlTableModel *PrinterDataModel::initializeTableModel() {
-  QSqlTableModel *model = new QSqlTableModel(this);
+QSqlTableModel* PrinterDataModel::initializeTableModel() {
+  QSqlTableModel* model = new QSqlTableModel(this);
+
   model->setTable(QLatin1String("printer"));
   model->setEditStrategy(QSqlTableModel::OnFieldChange);
 
@@ -200,24 +202,25 @@ QSqlTableModel *PrinterDataModel::initializeTableModel() {
   return model;
 }
 
-QSqlQueryModel *PrinterDataModel::getQueryModel() {
-    QSqlQueryModel *model = new QSqlQueryModel();
-    QSqlQuery *qry = new QSqlQuery();
+QSqlQueryModel* PrinterDataModel::getQueryModel() {
+  QSqlQueryModel* model = new QSqlQueryModel();
+  QSqlQuery* qry = new QSqlQuery();
+  QString sqlString = QLatin1String("select network_name from printer");
 
-    QString sqlString = QLatin1String("select network_name from printer");
-    qry->prepare(sqlString);
-    qry->exec();
+  qry->prepare(sqlString);
+  qry->exec();
 
-    model->setQuery(*qry);
+  model->setQuery(*qry);
 
-    return model;
+  return model;
 }
 
-QString PrinterDataModel::generateTableString(QAbstractTableModel *model,
+QString PrinterDataModel::generateTableString(QAbstractTableModel* model,
                                               QString header) {
   QString outString;
   int columnCount = model->columnCount();
   int rowCount = model->rowCount();
+
   qDebug() << "Header : " << header << " Columns : " << columnCount
            << " Rows : " << rowCount;
 
@@ -237,7 +240,7 @@ QString PrinterDataModel::generateTableString(QAbstractTableModel *model,
   outString += QLatin1String("</h1>");
   outString += QLatin1String("<hr />");
   outString +=
-      QLatin1String("<table width=\"100%\" cellspacing=\"0\" class=\"tbl\">");
+    QLatin1String("<table width=\"100%\" cellspacing=\"0\" class=\"tbl\">");
   outString += QLatin1String("<thead> <tr>");
 
   foreach (const int i, set) {
@@ -246,6 +249,7 @@ QString PrinterDataModel::generateTableString(QAbstractTableModel *model,
     outString.append(model->headerData(i, Qt::Horizontal).toString());
     outString += QLatin1String("</th>");
   }
+
   outString += QLatin1String("</tr> </thead>");
 
   for (int i = 1; i < rowCount; i++) {
@@ -253,9 +257,11 @@ QString PrinterDataModel::generateTableString(QAbstractTableModel *model,
     foreach (const int j, set) {
       outString += QLatin1String("<td>");
       QModelIndex ind(model->index(i, j));
+
       outString.append(ind.data(Qt::DisplayRole).toString());
       outString += QLatin1String("</td>");
     }
+
     outString += QLatin1String("</tr>");
   }
 

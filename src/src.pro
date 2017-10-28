@@ -63,10 +63,11 @@ SOURCES += \
 
 FORMS    += \
         mainwindow.ui \
-        computerinputdialog.ui \
         csvimportdialog.ui \
         employeeinputdialog.ui \
         preferencesdialog.ui \
+    scrollarea.ui \
+    computerinputdialog.ui
 
 
 RESOURCES += \
