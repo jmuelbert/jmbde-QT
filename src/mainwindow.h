@@ -189,7 +189,7 @@ class MainWindow : public QMainWindow {
 
     void on_actionEditDelete_triggered();
 
-    void on_listView_clicked(const QModelIndex& index);
+    void clickedTreeView(const QModelIndex& index);
 
   private:
 
@@ -231,9 +231,9 @@ class MainWindow : public QMainWindow {
     QString dbHostname;
     QString dbUsername;
     QString dbPassword;
-    QStringListModel* slModel;
+    QStandardItemModel * m_treeviewModel;
     enum ViewData {
-      VIEW_EMPLOYEE = 0,
+      VIEW_EMPLOYEE,
       VIEW_FUNCTION,
       VIEW_DEPARTMENT,
       VIEW_PHONE,

@@ -65,7 +65,7 @@
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
     </property>
-    <widget class="QListView" name="listView">
+    <widget class="QTreeView" name="treeView">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>

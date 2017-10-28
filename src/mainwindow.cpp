@@ -50,31 +50,60 @@ MainWindow::MainWindow(QWidget* parent)
 
   readSettings();
 
-  slModel = new QStringListModel(this);
 
-  QStringList stringList;
 
-  stringList.append(tr("Employee"));
-  stringList.append(tr("Function"));
-  stringList.append(tr("Department"));
-  stringList.append(tr("Phone"));
-  stringList.append(tr("Mobile"));
+  m_treeviewModel = new QStandardItemModel(this);
+  QStandardItem *parentItem =m_treeviewModel->invisibleRootItem();
 
-  stringList.append(tr("Computer"));
-  stringList.append(tr("Processor"));
-  stringList.append(tr("Operation System"));
-  stringList.append(tr("Software"));
+  QStandardItem *header;
+  QStandardItem *item;
 
-  stringList.append(tr("Printer"));
+  header = new QStandardItem(tr("Person"));
+  parentItem->appendRow(header);
+  item = new QStandardItem(tr("Employee"));
+  header->appendRow(item);
+  item = new QStandardItem(tr("Function"));
+  header->appendRow(item);
+  item = new QStandardItem(tr("Department"));
+  header->appendRow(item);
+  item = new QStandardItem(tr("Title"));
+  header->appendRow(item);
 
-  stringList.append(tr("Manufacturer"));
-  stringList.append(tr("Zip City"));
-  stringList.append(tr("Zip Code"));
-  stringList.append(tr("City Name"));
+  header = new QStandardItem(tr("Device"));
+  parentItem->appendRow(header);
+  item = new QStandardItem(tr("Computer"));
+  header->appendRow(item);
+  item = new QStandardItem(tr("Processor"));
+  header->appendRow(item);
+  item = new QStandardItem(tr("Operation System"));
+  header->appendRow(item);
+  item = new QStandardItem(tr("Software"));
+  header->appendRow(item);
+  item = new QStandardItem(tr("Printer"));
+  header->appendRow(item);
 
-  slModel->setStringList(stringList);
+  header = new QStandardItem(tr("Communication"));
+  parentItem->appendRow(header);
+  item = new QStandardItem(tr("Phone"));
+  header->appendRow(item);
+  item = new QStandardItem(tr("Mobile"));
+  header->appendRow(item);
 
-  ui->listView->setModel(slModel);
+  header = new QStandardItem(tr("Misc"));
+  parentItem->appendRow(header);
+  item = new QStandardItem(tr("Manufacturer"));
+  header->appendRow(item);
+  item = new QStandardItem(tr("Zip City"));
+  header->appendRow(item);
+  item = new QStandardItem(tr("Zip Code"));
+  header->appendRow(item);
+  item = new QStandardItem(tr("City Name"));
+  header->appendRow(item);
+
+  ui->treeView->setModel(m_treeviewModel);
+
+  connect(ui->treeView, SIGNAL(clicked(QModelIndex)), this, SLOT(clickedTreeView(QModelIndex)));
+
   int width = ui->centralWidget->width() - 20;
   int height = ui->centralWidget->height() - 20;
 
@@ -462,14 +491,13 @@ void MainWindow::on_actionEditAdd_triggered() {
       EmployeeInputDialog* eid = new EmployeeInputDialog();
 
       ui->splitter->replaceWidget(1, eid);
-      ui->splitter->refresh();
     } break;
 
     case VIEW_COMPUTER: {
       ComputerInputDialog* cid = new ComputerInputDialog();
 
       ui->splitter->replaceWidget(1, cid);
-      ui->splitter->refresh();
+
 
     } break;
 
@@ -531,11 +559,15 @@ void MainWindow::on_actionEditDelete_triggered() {
   }
 }
 
-void MainWindow::on_listView_clicked(const QModelIndex& index) {
-  qDebug() << "Item clicked ---" << index.row();
+void MainWindow::clickedTreeView(const QModelIndex& index)  {
 
-  switch (index.row()) {
-    case VIEW_EMPLOYEE: {
+  const QStandardItem *item = m_treeviewModel->itemFromIndex(index);
+  const QString selected = item->text();
+  qDebug() << "Item: " << selected;
+
+  // Tree -> Person
+  if (selected== tr("Employee")) {
+      qDebug() << "Select Employee";
       actualView = VIEW_EMPLOYEE;
       EmployeeDataModel* edm = new EmployeeDataModel;
 
@@ -548,9 +580,17 @@ void MainWindow::on_listView_clicked(const QModelIndex& index) {
 
       ui->tableView->show();
       tableModel->database().commit();
-    } break;
+  } else if (selected == tr("Function")) {
+      qDebug() << "Select Function";
+  } else if (selected == tr("Department")) {
+      qDebug() << "Select Department";
+  } else if (selected == tr("Title")) {
+      qDebug() << "Select Title";
 
-    case VIEW_COMPUTER: {
+  // Tree -> Device
+  } else if (selected == tr("Computer")) {
+      qDebug() << "Select Computer";
+
       actualView = VIEW_COMPUTER;
       cdm = new ComputerDataModel;
       tableModel = cdm->initializeRelationalModel();
@@ -564,9 +604,15 @@ void MainWindow::on_listView_clicked(const QModelIndex& index) {
       ui->tableView->show();
 
       tableModel->database().commit();
-    } break;
+  } else if (selected == tr("Processor")) {
+      qDebug() << "Select Processor";
+  } else if (selected == tr("Operation System")) {
+      qDebug() << "Select Operation System";
+  } else if (selected == tr("Software")) {
+      qDebug() << "Select Software";
+  } else if (selected == tr("Printer")) {
+      qDebug() << "Select Printer";
 
-    case VIEW_PRINTER: {
       actualView = VIEW_PRINTER;
       pdm = new PrinterDataModel;
       tableModel = pdm->initializeRelationalModel();
@@ -580,9 +626,11 @@ void MainWindow::on_listView_clicked(const QModelIndex& index) {
       ui->tableView->show();
 
       tableModel->database().commit();
-    } break;
 
-    case VIEW_PHONE: {
+  // Tree -> Communication
+  } else if (selected == tr("Phone")) {
+      qDebug() << "Select Phone";
+
       actualView = VIEW_PHONE;
       phdm = new PhoneDataModel;
       tableModel = phdm->initializeRelationalModel();
@@ -596,9 +644,21 @@ void MainWindow::on_listView_clicked(const QModelIndex& index) {
       ui->tableView->show();
 
       tableModel->database().commit();
-    } break;
+  } else if (selected == tr("Mobile")) {
+      qDebug() << "Select Mobile";
 
-    default:
+  // Tre -> Misc
+  } else if (selected == tr("Manufacturer")) {
+      qDebug() << "Select Manufacturer";
+  } else if (selected == tr("Zip City")) {
+      qDebug() << "Select Zip City";
+  } else if (selected == tr("Zip Code")) {
+      qDebug() << "Select Zip Code";
+  } else if (selected == tr("City Name")) {
+      qDebug() << "Select City Name";
+  } else {
       Not_Available_Message();
   }
 }
+
+

@@ -47,7 +47,6 @@ ComputerInputDialog::ComputerInputDialog(QWidget* parent)
   : QScrollArea(parent), ui(new Ui::ComputerInputDialog) {
 
   ui->setupUi(this);
-  connect(this, SIGNAL(destroyed(QObject*)), this, SLOT(onDestroy(QObject*)));
 
   model = new QSqlRelationalTableModel(this);
   model->setTable(QLatin1String("computer"));
@@ -93,34 +92,19 @@ ComputerInputDialog::ComputerInputDialog(QWidget* parent, int index)
 }
 
 ComputerInputDialog::~ComputerInputDialog() {
+    qDebug() << "Destructor...";
+    qDebug() << "First save changes.";
+    submitData();
+
   delete ui;
 }
 
 void ComputerInputDialog::on_lineEditComputerName_editingFinished()
 {
   qDebug() << "Name : " << ui->lineEditComputerName->text();
-  submitData();
 }
 
 void ComputerInputDialog::submitData() {
-  mapper->submit();
-  model->database().transaction();
-  if (model->submitAll()) {
-    model->database().commit();
-    qDebug() << "Commit changes for Computer Databse Table";
-  }
-  else {
-    model->database().rollback();
-    QMessageBox::warning(this, tr("Cached Table"),
-                         tr("The database reported an error: %1")
-                         .arg(model->lastError().text()));
-  }
-}
-
-void ComputerInputDialog::onDestroy(QObject*) {
-
-  qDebug() << "OnDestroy, when the dialog close than save all!";
-
   mapper->submit();
   model->database().transaction();
   if (model->submitAll()) {

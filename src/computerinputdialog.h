@@ -63,11 +63,6 @@ class ComputerInputDialog : public QScrollArea {
     ~ComputerInputDialog();
 
   private slots:
-    void onDestroy(QObject*);
-    void onDestroyed() {
-      qDebug() << "onDestroyed";
-    }
-
     void on_lineEditComputerName_editingFinished();
 
   private:

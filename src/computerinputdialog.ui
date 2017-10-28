@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>ScrollArea</string>
   </property>
+  <property name="accessibleName">
+   <string>ComputerInputDialog</string>
+  </property>
   <property name="widgetResizable">
    <bool>true</bool>
   </property>
@@ -63,24 +66,7 @@
   </widget>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>ComputerInputDialog</sender>
-   <signal>destroyed()</signal>
-   <receiver>ComputerInputDialog</receiver>
-   <slot>onDestroyed()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>196</x>
-     <y>197</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>196</x>
-     <y>197</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
  <slots>
   <slot>slot1()</slot>
   <slot>onDestroyed()</slot>
