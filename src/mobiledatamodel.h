@@ -53,6 +53,7 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
+#include "definitions.h"
 #include "datamodel.h"
 
 class MobileDataModel : public DataModel {
@@ -101,18 +102,6 @@ class MobileDataModel : public DataModel {
      */
     QString generateTableString(QAbstractTableModel* model, QString header);
 
-  private:
-
-    /**
-     * @brief pcnr
-     */
-    QString* pcnr;
-
-    /**
-     * @brief name
-     */
-    QString* name;
-
     /**
      * @brief The PosMobileTable enum
      */
@@ -132,6 +121,27 @@ class MobileDataModel : public DataModel {
       POS_MOBILE_INVENTORY_ID,
       POS_MOBILE_LAST_UPDATE
     };
+
+  private:
+
+    /**
+     * @brief pcnr
+     */
+    QString* pcnr;
+
+    /**
+     * @brief name
+     */
+    QString* name;
+
+    /**
+     * @brief tableName - the name of the database table
+     * @
+     */
+    const QString tableName = QLatin1String(Database::Table::MOBILE);
+
+
+
 };
 
 #endif // MOBILEDATAMODEL_H

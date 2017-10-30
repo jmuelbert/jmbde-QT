@@ -82,9 +82,16 @@ class EmployeeInputDialog : public QScrollArea
      */
     ~EmployeeInputDialog();
 
+  public slots:
+    void onClickedEmployeeTable(const QModelIndex index);
+
   private slots:
 
-  private:
+    void on_pushButtonAdd_clicked();
+
+    void on_pushButtonEdit_clicked();
+
+private:
     int departmentIndex;
     int functionIndex;
     int computerIndex;

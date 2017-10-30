@@ -65,7 +65,11 @@ class ComputerInputDialog : public QScrollArea {
   private slots:
     void on_lineEditComputerName_editingFinished();
 
-  private:
+    void on_pushButtonEdit_clicked();
+
+    void on_pushButtonAdd_clicked();
+
+private:
     Ui::ComputerInputDialog* ui;
 
     void submitData();

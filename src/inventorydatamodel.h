@@ -53,6 +53,7 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
+#include "definitions.h"
 #include "commondatamodel.h"
 
 class InventoryDataModel : public CommonDataModel {
@@ -87,7 +88,12 @@ class InventoryDataModel : public CommonDataModel {
     QSqlTableModel* initializeTableModel();
 
   private:
-    QString tableName = QLatin1String("inventory");
+    /**
+     * @brief tableName - the name of the database table
+     * @
+     */
+    const QString tableName = QLatin1String(Database::Table::INVENTORY);
+
 };
 
 #endif // INVENTORYDATAMODEL_H

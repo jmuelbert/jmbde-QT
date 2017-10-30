@@ -118,3 +118,13 @@ void ComputerInputDialog::submitData() {
                          .arg(model->lastError().text()));
   }
 }
+
+void ComputerInputDialog::on_pushButtonEdit_clicked()
+{
+    qDebug() << "Click Edit";
+}
+
+void ComputerInputDialog::on_pushButtonAdd_clicked()
+{
+    qDebug() << "Click Add";
+}

@@ -50,25 +50,25 @@ DepartmentDataModel::~DepartmentDataModel() {}
 bool DepartmentDataModel::createDataTable() {
   bool ret;
 
-  ret = CommonDataModel::createDataTable(QLatin1String("department"));
+  ret = CommonDataModel::createDataTable(this->tableName);
 
   return ret;
 }
 
 QSqlTableModel* DepartmentDataModel::initializeTableModel() {
-  QSqlTableModel* tableModel;
+  QSqlTableModel* model = new QSqlTableModel(this);
 
-  tableModel =
-    CommonDataModel::initializeTableModel(QLatin1String("department"));
+  model =
+    CommonDataModel::initializeTableModel(this->tableName);
 
-  return tableModel;
+  return model;
 }
 
 QSqlRelationalTableModel* DepartmentDataModel::initializeRelationalModel() {
   QSqlRelationalTableModel* relationalTableModel;
 
   relationalTableModel =
-    CommonDataModel::initializeRelationalModel(QLatin1String("department"));
+    CommonDataModel::initializeRelationalModel(this->tableName);
 
   return relationalTableModel;
 }

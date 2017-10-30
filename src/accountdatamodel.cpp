@@ -46,11 +46,6 @@ AccountDataModel::AccountDataModel(QObject* parent) : CommonDataModel(parent) {}
 
 AccountDataModel::~AccountDataModel() {}
 
-bool AccountDataModel::createDataTable() {
-  CommonDataModel::createDataTable(this->tableName);
-
-  return true;
-}
 
 QSqlTableModel* AccountDataModel::initializeTableModel() {
   QSqlTableModel* tableModel;

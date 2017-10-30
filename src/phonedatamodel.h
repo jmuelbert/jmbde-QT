@@ -53,6 +53,7 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
+#include "definitions.h"
 #include "datamodel.h"
 
 class PhoneDataModel : public DataModel {
@@ -101,21 +102,6 @@ class PhoneDataModel : public DataModel {
      */
     QSqlQueryModel* getQueryModel();
 
-  private:
-
-    /**
-     * @brief pcnr
-     */
-    QString* pcnr;
-
-    /**
-     * @brief name
-     */
-    QString* name;
-
-    /**
-     * @brief The PosPhoneTable enum
-     */
     enum PosPhoneTable {
       POS_PHONE_ID,
       POS_PHONE_DEVICENAME_ID,
@@ -132,6 +118,30 @@ class PhoneDataModel : public DataModel {
       POS_PHONE_INVENTORY_ID,
       POS_PHONE_LAST_UPDATE
     };
+
+  private:
+
+    /**
+     * @brief pcnr
+     */
+    QString* pcnr;
+
+    /**
+     * @brief name
+     */
+    QString* name;
+
+    /**
+     * @brief tableName - the name of the database table
+     * @
+     */
+    const QString tableName = QLatin1String(Database::Table::PHONE);
+
+
+    /**
+     * @brief The PosPhoneTable enum
+     */
+
 };
 
 #endif // PHONEDATAMODEL_H

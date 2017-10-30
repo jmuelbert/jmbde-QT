@@ -296,3 +296,18 @@ void EmployeeInputDialog::setMappings(QSqlTableModel* model,
   mapper->addMapping(ui->textEditNotes,
                      model->fieldIndex(QLatin1String("notes")));
 }
+
+void EmployeeInputDialog::on_pushButtonAdd_clicked()
+{
+    qDebug() << "Click Add";
+
+}
+
+void EmployeeInputDialog::on_pushButtonEdit_clicked()
+{
+    qDebug() << "Click Edit";
+}
+
+void EmployeeInputDialog::onClickedEmployeeTable(const QModelIndex index) {
+    qDebug() << "Select row: " << index;
+}

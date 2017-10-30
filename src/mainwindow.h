@@ -74,11 +74,17 @@
 #include "functiondatamodel.h"
 #include "inventorydatamodel.h"
 #include "manufacturerdatamodel.h"
-#include "pctypedatamodel.h"
 #include "phonedatamodel.h"
 #include "placedatamodel.h"
 #include "printerdatamodel.h"
 #include "systemdatamodel.h"
+#include "titledatamodel.h"
+#include "processordatamodel.h"
+#include "osdatamodel.h"
+#include "softwaredatamodel.h"
+#include "citynamemodel.h"
+#include "zipcitymodel.h"
+#include "zipcodemodel.h"
 
 #include "helpbrowser.h"
 
@@ -183,14 +189,10 @@ class MainWindow : public QMainWindow {
 
     void on_actionHelp_triggered();
 
-    void on_actionEditAdd_triggered();
-
-    void on_actionEditEdit_triggered();
-
-    void on_actionEditDelete_triggered();
-
     void clickedTreeView(const QModelIndex& index);
 
+    void onClickedEmployeeTableRow(const QModelIndex& index);
+    void onClickedComputerTableRow(const QModelIndex& index);
   private:
 
     /**
@@ -220,10 +222,6 @@ class MainWindow : public QMainWindow {
      * @brief em
      */
     DataModel* dm;
-    EmployeeDataModel* edm;
-    ComputerDataModel* cdm;
-    PrinterDataModel* pdm;
-    PhoneDataModel* phdm;
     QSqlRelationalTableModel* model;
     QSqlTableModel* tableModel;
     qint16 dbType = 0;
@@ -236,6 +234,7 @@ class MainWindow : public QMainWindow {
       VIEW_EMPLOYEE,
       VIEW_FUNCTION,
       VIEW_DEPARTMENT,
+      VIEW_TITLE,
       VIEW_PHONE,
       VIEW_MOBILE,
       VIEW_COMPUTER,

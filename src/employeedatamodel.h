@@ -165,42 +165,6 @@ class EmployeeDataModel : public DataModel {
      */
     void setLastname(QString*);
 
-  protected:
-
-    /* The Datafields for Employees */
-    qint32 employee_id;
-    qint32 employee_nr;
-    char gender[1];
-    qint32 title_id;
-    QString* firstname;
-    QString* lastname;
-    QDate birthday;
-    QString* address;
-    qint32 zipcity_id;
-    QString* homephone;
-    QString* homemobile;
-    QString* homeemail;
-    QString businessemail;
-    bool datacare;
-    bool active;
-    char photo[8192];
-    QString* notes; // Maxchar 50
-    QDate startdate;
-    QDate enddate;
-    qint32 department_id;
-    qint32 function_id;
-    qint32 computer_id;
-    qint32 printer_id;
-    qint32 phone_id;
-    qint32 mobile_id;
-    qint32 fax_id;
-    qint32 employee_account_id;
-    qint32 employee_document_id;
-    qint32 chipcard_id;
-    QDate last_update;
-
-  private:
-
     /**
      * @brief The PosIEmployeeTable enum
      */
@@ -236,6 +200,52 @@ class EmployeeDataModel : public DataModel {
       POS_EMPLOYEE_CHIPCARD_ID,
       POS_EMPLOYEE_LAST_UPDATE
     };
+
+  protected:
+
+    /* The Datafields for Employees */
+    qint32 employee_id;
+    qint32 employee_nr;
+    char gender[1];
+    qint32 title_id;
+    QString* firstname;
+    QString* lastname;
+    QDate birthday;
+    QString* address;
+    qint32 zipcity_id;
+    QString* homephone;
+    QString* homemobile;
+    QString* homeemail;
+    QString businessemail;
+    bool datacare;
+    bool active;
+    char photo[8192];
+    QString* notes; // Maxchar 50
+    QDate startdate;
+    QDate enddate;
+    qint32 department_id;
+    qint32 function_id;
+    qint32 computer_id;
+    qint32 printer_id;
+    qint32 phone_id;
+    qint32 mobile_id;
+    qint32 fax_id;
+    qint32 employee_account_id;
+    qint32 employee_document_id;
+    qint32 chipcard_id;
+    QDate last_update;
+
+
+
+  private:
+
+    /**
+     * @brief tableName - the name of the database table
+     * @
+     */
+    const QString tableName = QLatin1String(Database::Table::EMPLOYEE);
+
+
     int idIdx;
     int GenderIdx;
     int TitleIdx;

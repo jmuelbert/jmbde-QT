@@ -53,6 +53,7 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
+#include "definitions.h"
 #include "commondatamodel.h"
 
 class SystemDataModel : public CommonDataModel {
@@ -90,9 +91,11 @@ class SystemDataModel : public CommonDataModel {
   private:
 
     /**
-     * @brief tableName
+     * @brief tableName - the name of the database table
+     * @
      */
-    QString tableName = QLatin1String("system");
+    const QString tableName = QLatin1String(Database::Table::SYSTEMDATA);
+
 };
 
 #endif // SYSTEMDATAMODEL_H

@@ -101,7 +101,7 @@ class DataModel : public QObject
     /**
      * @brief ~DataModel
      */
-    ~DataModel();
+    virtual ~DataModel();
 
     /**
      * @brief DataModel::CreateConnection
@@ -137,6 +137,7 @@ class DataModel : public QObject
      * @return
      */
     QString setOutTableStyle();
+
 
   protected:
 

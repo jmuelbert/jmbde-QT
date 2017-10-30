@@ -51,7 +51,7 @@ QSqlRelationalTableModel* MobileDataModel::initializeRelationalModel() {
 
   QSqlRelationalTableModel* model = new QSqlRelationalTableModel(this);
 
-  model->setTable(QLatin1String("mobile"));
+  model->setTable(this->tableName);
   model->setEditStrategy(QSqlTableModel::OnFieldChange);
 
   model->setHeaderData(POS_MOBILE_ID, Qt::Horizontal, QObject::tr("ID"));
@@ -87,7 +87,7 @@ QSqlRelationalTableModel* MobileDataModel::initializeRelationalModel() {
 QSqlTableModel* MobileDataModel::initializeTableModel() {
   QSqlTableModel* model = new QSqlTableModel(this);
 
-  model->setTable(QLatin1String("mobile"));
+  model->setTable(this->tableName);
   model->setEditStrategy(QSqlTableModel::OnFieldChange);
 
   model->setHeaderData(POS_MOBILE_ID, Qt::Horizontal, QObject::tr("ID"));

@@ -50,24 +50,24 @@ FunctionDataModel::~FunctionDataModel() {}
 bool FunctionDataModel::createDataTable() {
   bool ret;
 
-  ret = CommonDataModel::createDataTable(QLatin1String("function"));
+  ret = CommonDataModel::createDataTable(this->tableName);
 
   return ret;
 }
 
 QSqlTableModel* FunctionDataModel::initializeTableModel() {
-  QSqlTableModel* tableModel;
+  QSqlTableModel* model = new QSqlTableModel(this);
 
-  tableModel = CommonDataModel::initializeTableModel(QLatin1String("function"));
+  model = CommonDataModel::initializeTableModel(this->tableName);
 
-  return tableModel;
+  return model;
 }
 
 QSqlRelationalTableModel* FunctionDataModel::initializeRelationalModel() {
   QSqlRelationalTableModel* tableModel;
 
   tableModel =
-    CommonDataModel::initializeRelationalModel(QLatin1String("function"));
+    CommonDataModel::initializeRelationalModel(this->tableName);
 
   return tableModel;
 }

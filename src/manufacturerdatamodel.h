@@ -53,6 +53,7 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
+#include "definitions.h"
 #include "commondatamodel.h"
 
 class ManufacturerDataModel : public CommonDataModel {
@@ -86,8 +87,28 @@ class ManufacturerDataModel : public CommonDataModel {
      */
     QSqlTableModel* initializeTableModel();
 
+    enum PosManufacturerTable {
+        POS_MANUFACTURER_ID,
+        POS_MANUFACTURER_NAME,
+        POS_MANUFACTURER_NAME2,
+        POS_MANUFACTURER_SUPPORTER,
+        POS_MANUFACTURER_ADDRESS,
+        POS_MANUFACTURER_ADDRESS2,
+        POS_MANUFACTURER_ZIP_CITY_ID,
+        POS_MANUFACTURER_MAIL_ADDRESS,
+        POS_MANUFACTURER_PHONE_NUMBER,
+        POS_MANUFACTURER_FAX_NUMBER,
+        POS_MANUFACTURER_HOTLINE_NUMBER,
+        POS_MANUFACTURER_LASTUPDATE
+    };
+
   private:
-    QString tableName = QLatin1String("manufacturer");
+    /**
+     * @brief tableName - the name of the database table
+     * @
+     */
+    const QString tableName = QLatin1String(Database::Table::MANIFACTURER);
+
 };
 
 #endif // MANUFACTURERDATAMODEL_H

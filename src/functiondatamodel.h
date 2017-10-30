@@ -52,6 +52,7 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
+#include "definitions.h"
 #include "commondatamodel.h"
 
 class FunctionDataModel : public CommonDataModel {
@@ -86,9 +87,20 @@ class FunctionDataModel : public CommonDataModel {
      */
     QSqlTableModel* initializeTableModel();
 
-  private:
+    enum PosFunctionTable {
+        POS_FUNCTION_ID,
+        POS_FUNCTION_NAME,
+        POS_FUNCTION_PROIRITY,
+        POS_FUNCTION_LASTUPDATE
+    };
 
-    // static const QString tableName = QLatin1String("function");
+  private:
+    /**
+     * @brief tableName - the name of the database table
+     * @
+     */
+    const QString tableName = QLatin1String(Database::Table::FUNCTION);
+
 };
 
 #endif // FUNCTIONDATAMODEL_H

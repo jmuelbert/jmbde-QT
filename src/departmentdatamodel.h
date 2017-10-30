@@ -53,6 +53,7 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
+#include "definitions.h"
 #include "commondatamodel.h"
 
 class DepartmentDataModel : public CommonDataModel {
@@ -86,9 +87,22 @@ class DepartmentDataModel : public CommonDataModel {
      */
     QSqlTableModel* initializeTableModel();
 
-  private:
+    enum PosDeparmentTable {
+        POS_DEPARTMENT_ID,
+        POS_DEPARTMENT_NAME,
+        POS_DEPARTMENT_PRIORITY,
+        POS_DEPARTMENT_PRINTER_ID,
+        POS_DEPARTMENT_FAX_ID,
+        POS_DEPARTMENT_LASTUPDATE
+    };
 
-    // static QString tableName = QLatin1String("department");
+  private:
+    /**
+     * @brief tableName - the name of the database table
+     * @
+     */
+    const QString tableName = QLatin1String(Database::Table::DEPARTMENT);
+
 };
 
 #endif // DEPARTMENTDATAMODEL_H

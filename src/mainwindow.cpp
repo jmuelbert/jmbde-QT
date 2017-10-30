@@ -114,20 +114,21 @@ MainWindow::MainWindow(QWidget* parent)
   dm = new DataModel();
   bool retValue = dm->CreateConnection();
 
+  actualView = VIEW_EMPLOYEE;
+  EmployeeDataModel* edm = new EmployeeDataModel;
+  tableModel = edm->initializeTableModel();
+
+  ui->listView->setModel(tableModel);
+  ui->listView->setModelColumn(5);
+
+
   if (retValue == true) {
     QSize availableSize = qApp->desktop()->availableGeometry().size();
     int width = availableSize.width();
     int height = availableSize.height();
 
     qDebug() << "Available dimensions " << width << "x" << height;
-    EmployeeDataModel* edm = new EmployeeDataModel;
 
-    tableModel = edm->initializeTableModel();
-    ui->tableView->setModel(tableModel);
-    ui->tableView->hideColumn(0);
-    ui->tableView->show();
-
-    tableModel->database().commit();
   }
 }
 
@@ -278,182 +279,182 @@ void MainWindow::on_actionExport_triggered() {
 
 void MainWindow::on_actionPrint_triggered() {
 
-  QTextDocument doc;
+//  QTextDocument doc;
 
-  switch (actualView) {
-    case VIEW_EMPLOYEE: {
-      qDebug() << "Print Employee !";
-      tableModel->database().commit();
-      QString style = edm->setOutTableStyle();
-      QString text = edm->generateTableString(tableModel, tr("Employee"));
+//  switch (actualView) {
+//    case VIEW_EMPLOYEE: {
+//      qDebug() << "Print Employee !";
+//      tableModel->database().commit();
+//      QString style = edm->setOutTableStyle();
+//      QString text = edm->generateTableString(tableModel, tr("Employee"));
 
-      doc.setHtml(style + text);
-    } break;
+//      doc.setHtml(style + text);
+//    } break;
 
-    case VIEW_COMPUTER: {
-      qDebug() << "Print Computer !";
-      tableModel->database().commit();
-      QString style = cdm->setOutTableStyle();
-      QString text = cdm->generateTableString(tableModel, tr("Computer"));
+//    case VIEW_COMPUTER: {
+//      qDebug() << "Print Computer !";
+//      tableModel->database().commit();
+//      QString style = cdm->setOutTableStyle();
+//      QString text = cdm->generateTableString(tableModel, tr("Computer"));
 
-      doc.setHtml(style + text);
-    } break;
+//      doc.setHtml(style + text);
+//    } break;
 
-    case VIEW_PRINTER: {
-      qDebug() << "Print Printer !";
-      tableModel->database().commit();
-      QString style = pdm->setOutTableStyle();
-      QString text = pdm->generateTableString(tableModel, tr("Printer"));
+//    case VIEW_PRINTER: {
+//      qDebug() << "Print Printer !";
+//      tableModel->database().commit();
+//      QString style = pdm->setOutTableStyle();
+//      QString text = pdm->generateTableString(tableModel, tr("Printer"));
 
-      doc.setHtml(style + text);
-    } break;
+//      doc.setHtml(style + text);
+//    } break;
 
-    case VIEW_PHONE: {
-      qDebug() << "Print Printer !";
-      tableModel->database().commit();
-      QString style = phdm->setOutTableStyle();
-      QString text = phdm->generateTableString(tableModel, tr("Phone"));
+//    case VIEW_PHONE: {
+//      qDebug() << "Print Printer !";
+//      tableModel->database().commit();
+//      QString style = phdm->setOutTableStyle();
+//      QString text = phdm->generateTableString(tableModel, tr("Phone"));
 
-      doc.setHtml(style + text);
-    } break;
+//      doc.setHtml(style + text);
+//    } break;
 
-    default:
-      Not_Available_Message();
-  }
+//    default:
+//      Not_Available_Message();
+//  }
 
-#if !defined(QT_NO_PRINTER) && !defined(QT_NO_PRINTDIALOG)
-  QPrinter printer(QPrinter::HighResolution);
+//#if !defined(QT_NO_PRINTER) && !defined(QT_NO_PRINTDIALOG)
+//  QPrinter printer(QPrinter::HighResolution);
 
-  printer.setOrientation(QPrinter::Landscape);
-  QPrintDialog* dlg = new QPrintDialog(&printer, this);
+//  printer.setOrientation(QPrinter::Landscape);
+//  QPrintDialog* dlg = new QPrintDialog(&printer, this);
 
-  dlg->setWindowTitle(tr("Print Document"));
-  if (dlg->exec() == QDialog::Accepted)
-    doc.print(&printer);
-  delete dlg;
-#endif
+//  dlg->setWindowTitle(tr("Print Document"));
+//  if (dlg->exec() == QDialog::Accepted)
+//    doc.print(&printer);
+//  delete dlg;
+//#endif
 }
 
 void MainWindow::on_action_Export_Pdf_triggered() {
-  QTextDocument doc;
+//  QTextDocument doc;
 
-  switch (actualView) {
-    case VIEW_EMPLOYEE: {
-      qDebug() << "Print Employee !";
-      tableModel->database().commit();
-      QString style = edm->setOutTableStyle();
-      QString text = edm->generateTableString(tableModel, tr("Employee"));
+//  switch (actualView) {
+//    case VIEW_EMPLOYEE: {
+//      qDebug() << "Print Employee !";
+//      tableModel->database().commit();
+//      QString style = edm->setOutTableStyle();
+//      QString text = edm->generateTableString(tableModel, tr("Employee"));
 
-      doc.setHtml(style + text);
-    } break;
+//      doc.setHtml(style + text);
+//    } break;
 
-    case VIEW_COMPUTER: {
-      qDebug() << "Print Computer !";
-      tableModel->database().commit();
-      QString style = cdm->setOutTableStyle();
-      QString text = cdm->generateTableString(tableModel, tr("Computer"));
+//    case VIEW_COMPUTER: {
+//      qDebug() << "Print Computer !";
+//      tableModel->database().commit();
+//      QString style = cdm->setOutTableStyle();
+//      QString text = cdm->generateTableString(tableModel, tr("Computer"));
 
-      doc.setHtml(style + text);
-    } break;
+//      doc.setHtml(style + text);
+//    } break;
 
-    case VIEW_PRINTER: {
-      qDebug() << "Print Printer !";
-      tableModel->database().commit();
-      QString style = pdm->setOutTableStyle();
-      QString text = pdm->generateTableString(tableModel, tr("Printer"));
+//    case VIEW_PRINTER: {
+//      qDebug() << "Print Printer !";
+//      tableModel->database().commit();
+//      QString style = pdm->setOutTableStyle();
+//      QString text = pdm->generateTableString(tableModel, tr("Printer"));
 
-      doc.setHtml(style + text);
-    } break;
+//      doc.setHtml(style + text);
+//    } break;
 
-    case VIEW_PHONE: {
-      qDebug() << "Print Printer !";
-      tableModel->database().commit();
-      QString style = phdm->setOutTableStyle();
-      QString text = phdm->generateTableString(tableModel, tr("Phone"));
+//    case VIEW_PHONE: {
+//      qDebug() << "Print Printer !";
+//      tableModel->database().commit();
+//      QString style = phdm->setOutTableStyle();
+//      QString text = phdm->generateTableString(tableModel, tr("Phone"));
 
-      doc.setHtml(style + text);
-    } break;
+//      doc.setHtml(style + text);
+//    } break;
 
-    default:
-      Not_Available_Message();
-  }
+//    default:
+//      Not_Available_Message();
+//  }
 
-#ifndef QT_NO_PRINTER
+//#ifndef QT_NO_PRINTER
 
-  //! [0]
-  QString fileName = QFileDialog::getSaveFileName(
-    this, QLatin1String("Export PDF"), QString(), QLatin1String("*.pdf"));
+//  //! [0]
+//  QString fileName = QFileDialog::getSaveFileName(
+//    this, QLatin1String("Export PDF"), QString(), QLatin1String("*.pdf"));
 
-  if (!fileName.isEmpty()) {
-    if (QFileInfo(fileName).suffix().isEmpty())
-      fileName.append(QLatin1String(".pdf"));
+//  if (!fileName.isEmpty()) {
+//    if (QFileInfo(fileName).suffix().isEmpty())
+//      fileName.append(QLatin1String(".pdf"));
 
-    QPrinter printer(QPrinter::HighResolution);
+//    QPrinter printer(QPrinter::HighResolution);
 
-    printer.setOrientation(QPrinter::Landscape);
-    printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setOutputFileName(fileName);
-    doc.print(&printer);
-  }
+//    printer.setOrientation(QPrinter::Landscape);
+//    printer.setOutputFormat(QPrinter::PdfFormat);
+//    printer.setOutputFileName(fileName);
+//    doc.print(&printer);
+//  }
 
-//! [0]
-#endif
+////! [0]
+//#endif
 }
 
 void MainWindow::on_actionPrint_Preview_triggered() {
-  QTextDocument doc;
+//  QTextDocument doc;
 
-  switch (actualView) {
-    case VIEW_EMPLOYEE: {
-      qDebug() << "Print Employee !";
-      tableModel->database().commit();
-      QString style = edm->setOutTableStyle();
-      QString text = edm->generateTableString(tableModel, tr("Employee"));
+//  switch (actualView) {
+//    case VIEW_EMPLOYEE: {
+//      qDebug() << "Print Employee !";
+//      tableModel->database().commit();
+//      QString style = edm->setOutTableStyle();
+//      QString text = edm->generateTableString(tableModel, tr("Employee"));
 
-      doc.setHtml(style + text);
-    } break;
+//      doc.setHtml(style + text);
+//    } break;
 
-    case VIEW_COMPUTER: {
-      qDebug() << "Print Computer !";
-      tableModel->database().commit();
-      QString style = cdm->setOutTableStyle();
-      QString text = cdm->generateTableString(tableModel, tr("Computer"));
+//    case VIEW_COMPUTER: {
+//      qDebug() << "Print Computer !";
+//      tableModel->database().commit();
+//      QString style = cdm->setOutTableStyle();
+//      QString text = cdm->generateTableString(tableModel, tr("Computer"));
 
-      doc.setHtml(style + text);
-    } break;
+//      doc.setHtml(style + text);
+//    } break;
 
-    case VIEW_PRINTER: {
-      qDebug() << "Print Printer !";
-      tableModel->database().commit();
-      QString style = pdm->setOutTableStyle();
-      QString text = pdm->generateTableString(tableModel, tr("Printer"));
+//    case VIEW_PRINTER: {
+//      qDebug() << "Print Printer !";
+//      tableModel->database().commit();
+//      QString style = pdm->setOutTableStyle();
+//      QString text = pdm->generateTableString(tableModel, tr("Printer"));
 
-      doc.setHtml(style + text);
-    } break;
+//      doc.setHtml(style + text);
+//    } break;
 
-    case VIEW_PHONE: {
-      qDebug() << "Print Printer !";
-      tableModel->database().commit();
-      QString style = phdm->setOutTableStyle();
-      QString text = phdm->generateTableString(tableModel, tr("Phone"));
+//    case VIEW_PHONE: {
+//      qDebug() << "Print Printer !";
+//      tableModel->database().commit();
+//      QString style = phdm->setOutTableStyle();
+//      QString text = phdm->generateTableString(tableModel, tr("Phone"));
 
-      doc.setHtml(style + text);
-    } break;
+//      doc.setHtml(style + text);
+//    } break;
 
-    default:
-      Not_Available_Message();
-  }
+//    default:
+//      Not_Available_Message();
+//  }
 
-#if !defined(QT_NO_PRINTER) && !defined(QT_NO_PRINTDIALOG)
-  QPrinter printer(QPrinter::HighResolution);
+//#if !defined(QT_NO_PRINTER) && !defined(QT_NO_PRINTDIALOG)
+//  QPrinter printer(QPrinter::HighResolution);
 
-  printer.setOrientation(QPrinter::Landscape);
-  QPrintPreviewDialog preview(&printer, ui->tableView);
+//  printer.setOrientation(QPrinter::Landscape);
+////  QPrintPreviewDialog preview(&printer, ui->tableView);
 
-  connect(&preview, SIGNAL(paintRequested(QPrinter*)),
-          SLOT(printPreview(QPrinter*)));
-  preview.exec();
-#endif
+////  connect(&preview, SIGNAL(paintRequested(QPrinter*)),
+////          SLOT(printPreview(QPrinter*)));
+////  preview.exec();
+//#endif
 }
 
 void MainWindow::Not_Available_Message() {
@@ -483,81 +484,6 @@ void MainWindow::on_actionHelp_triggered() {
   helpBrowser->showHelpForKeyWord(QLatin1String("main"));
 }
 
-void MainWindow::on_actionEditAdd_triggered() {
-  qDebug() << "ActionEditAdd : " << actualView;
-
-  switch (actualView) {
-    case VIEW_EMPLOYEE: {
-      EmployeeInputDialog* eid = new EmployeeInputDialog();
-
-      ui->splitter->replaceWidget(1, eid);
-    } break;
-
-    case VIEW_COMPUTER: {
-      ComputerInputDialog* cid = new ComputerInputDialog();
-
-      ui->splitter->replaceWidget(1, cid);
-
-
-    } break;
-
-    case VIEW_PRINTER: {} break;
-
-    case VIEW_PHONE: {} break;
-
-    default:
-      Not_Available_Message();
-  }
-}
-
-void MainWindow::on_actionEditEdit_triggered() {
-  qDebug() << "Action EditEdit" << actualView;
-
-  QItemSelectionModel* select = ui->tableView->selectionModel();
-  QModelIndexList selection = select->selectedRows();
-
-  switch (actualView) {
-    case VIEW_EMPLOYEE: {
-      for (int i = 0; i < selection.count(); i++) {
-        QModelIndex index = selection.at(i);
-        EmployeeInputDialog* eid = new EmployeeInputDialog(0, index.row());
-
-        ui->splitter->replaceWidget(1, eid);
-      }
-    } break;
-
-    case VIEW_COMPUTER: {
-      for (int i = 0; i < selection.count(); i++) {
-        QModelIndex index = selection.at(i);
-        ComputerInputDialog* cid = new ComputerInputDialog(0, index.row());
-
-        ui->splitter->replaceWidget(1, cid);
-      }
-    } break;
-
-    case VIEW_PRINTER: {} break;
-
-    case VIEW_PHONE: {} break;
-
-    default:
-      Not_Available_Message();
-  }
-}
-
-void MainWindow::on_actionEditDelete_triggered() {
-  switch (actualView) {
-    case VIEW_EMPLOYEE: {} break;
-
-    case VIEW_COMPUTER: {} break;
-
-    case VIEW_PRINTER: {} break;
-
-    case VIEW_PHONE: {} break;
-
-    default:
-      Not_Available_Message();
-  }
-}
 
 void MainWindow::clickedTreeView(const QModelIndex& index)  {
 
@@ -570,95 +496,184 @@ void MainWindow::clickedTreeView(const QModelIndex& index)  {
       qDebug() << "Select Employee";
       actualView = VIEW_EMPLOYEE;
       EmployeeDataModel* edm = new EmployeeDataModel;
-
       tableModel = edm->initializeTableModel();
 
-      ui->splitter->replaceWidget(1, ui->tableView);
+      ui->listView->setModel(tableModel);
+      ui->listView->setModelColumn(EmployeeDataModel::POS_EMPLOYEE_LASTNAME);
 
-      ui->tableView->setModel(tableModel);
-      ui->tableView->hideColumn(0);
+      connect( ui->listView, SIGNAL(clicked(QModelIndex)), this, SLOT(onClickedEmployeeTableRow(QModelIndex)) );
 
-      ui->tableView->show();
-      tableModel->database().commit();
   } else if (selected == tr("Function")) {
       qDebug() << "Select Function";
+
+      actualView = VIEW_FUNCTION;
+      FunctionDataModel *fdm = new FunctionDataModel;
+      tableModel = fdm->initializeTableModel();
+
+      ui->listView->setModel(tableModel);
+      ui->listView->setModelColumn(FunctionDataModel::POS_FUNCTION_NAME);
+
   } else if (selected == tr("Department")) {
       qDebug() << "Select Department";
+
+      actualView = VIEW_DEPARTMENT;
+      DepartmentDataModel *dpm = new DepartmentDataModel;
+      tableModel = dpm->initializeTableModel();
+
+      ui->listView->setModel(tableModel);
+      ui->listView->setModelColumn(DepartmentDataModel::POS_DEPARTMENT_NAME);
+
   } else if (selected == tr("Title")) {
       qDebug() << "Select Title";
+
+      actualView = VIEW_TITLE;
+      TitleDataModel *tdm = new TitleDataModel;
+
+      tableModel = tdm->initializeTableModel();
+
+      ui->listView->setModel(tableModel);
+      ui->listView->setModelColumn(TitleDataModel::POS_TITLE_NAME);
+
 
   // Tree -> Device
   } else if (selected == tr("Computer")) {
       qDebug() << "Select Computer";
 
       actualView = VIEW_COMPUTER;
-      cdm = new ComputerDataModel;
-      tableModel = cdm->initializeRelationalModel();
+      ComputerDataModel *cdm = new ComputerDataModel;
 
-      ui->splitter->replaceWidget(1, ui->tableView);
+      tableModel = cdm->initializeTableModel();
+      ui->listView->setModel(tableModel);
+      ui->listView->setModelColumn(ComputerDataModel::POS_COMPUTER_NETWORK_NAME);
 
-      ui->tableView->setModel(tableModel);
-      ui->tableView->hideColumn(0);
+      connect( ui->listView, SIGNAL(clicked(QModelIndex)), this, SLOT(onClickedComputerTableRow(QModelIndex)) );
 
-      ui->tableView->setItemDelegate(new QSqlRelationalDelegate(ui->tableView));
-      ui->tableView->show();
-
-      tableModel->database().commit();
   } else if (selected == tr("Processor")) {
       qDebug() << "Select Processor";
+
+      actualView = VIEW_PROCESSOR;
+      ProcessorDataModel *pdm = new ProcessorDataModel;
+
+      tableModel = pdm->initializeTableModel();
+      ui->listView->setModel(tableModel);
+      ui->listView->setModelColumn(ProcessorDataModel::POS_PROCESSOR_NAME);
+
   } else if (selected == tr("Operation System")) {
       qDebug() << "Select Operation System";
+
+      actualView = VIEW_OS;
+      OSDataModel *odm = new OSDataModel;
+
+      tableModel = odm->initializeTableModel();
+      ui->listView->setModel(tableModel);
+      ui->listView->setModelColumn(OSDataModel::POS_OS_NAME);
+
+
   } else if (selected == tr("Software")) {
       qDebug() << "Select Software";
+
+      actualView = VIEW_SOFTWARE;
+      SoftwareDataModel *sdm = new SoftwareDataModel;
+
+      tableModel = sdm->initializeTableModel();
+      ui->listView->setModel(tableModel);
+      ui->listView->setModelColumn(SoftwareDataModel::POS_SOFTWARE_NAME);
+
+
   } else if (selected == tr("Printer")) {
       qDebug() << "Select Printer";
 
       actualView = VIEW_PRINTER;
-      pdm = new PrinterDataModel;
-      tableModel = pdm->initializeRelationalModel();
+      PrinterDataModel *pdm = new PrinterDataModel;
+      tableModel = pdm->initializeTableModel();
 
-      ui->splitter->replaceWidget(1, ui->tableView);
+      ui->listView->setModel(tableModel);
+      ui->listView->setModelColumn(PrinterDataModel::POS_PRINTER_NETWORK_NAME);
 
-      ui->tableView->setModel(tableModel);
-      ui->tableView->hideColumn(0);
 
-      ui->tableView->setItemDelegate(new QSqlRelationalDelegate(ui->tableView));
-      ui->tableView->show();
-
-      tableModel->database().commit();
 
   // Tree -> Communication
   } else if (selected == tr("Phone")) {
       qDebug() << "Select Phone";
 
       actualView = VIEW_PHONE;
-      phdm = new PhoneDataModel;
+      PhoneDataModel *phdm = new PhoneDataModel;
       tableModel = phdm->initializeRelationalModel();
 
-      ui->splitter->replaceWidget(1, ui->tableView);
+      ui->listView->setModel(tableModel);
+      ui->listView->setModelColumn(PhoneDataModel::POS_PHONE_NUMBER);
 
-      ui->tableView->setModel(tableModel);
-      ui->tableView->hideColumn(0);
 
-      ui->tableView->setItemDelegate(new QSqlRelationalDelegate(ui->tableView));
-      ui->tableView->show();
-
-      tableModel->database().commit();
   } else if (selected == tr("Mobile")) {
       qDebug() << "Select Mobile";
+
+      actualView = VIEW_MOBILE;
+      MobileDataModel *phdm = new MobileDataModel;
+      tableModel = phdm->initializeTableModel();
+
+      ui->listView->setModel(tableModel);
+      ui->listView->setModelColumn(MobileDataModel::POS_MOBILE_NUMBER);
 
   // Tre -> Misc
   } else if (selected == tr("Manufacturer")) {
       qDebug() << "Select Manufacturer";
+
+      actualView = VIEW_MANUFACTURER;
+      ManufacturerDataModel *mdm = new ManufacturerDataModel;
+      tableModel = mdm->initializeTableModel();
+
+      ui->listView->setModel(tableModel);
+      ui->listView->setModelColumn(ManufacturerDataModel::POS_MANUFACTURER_NAME);
+
   } else if (selected == tr("Zip City")) {
       qDebug() << "Select Zip City";
+
+      actualView = VIEW_ZIPCITY;
+      ZipCityModel *zcm = new ZipCityModel;
+      tableModel = zcm->initializeTableModel();
+
+      ui->listView->setModel(tableModel);
+      ui->listView->setModelColumn(ZipCityModel::POS_ZIPCITY_CITY_ID);
+
   } else if (selected == tr("Zip Code")) {
       qDebug() << "Select Zip Code";
+
+      actualView = VIEW_ZIP_CODE;
+      ZipCodeModel *zcm = new ZipCodeModel;
+      tableModel = zcm->initializeTableModel();
+
+      ui->listView->setModel(tableModel);
+      ui->listView->setModelColumn(ZipCodeModel::POS_ZIPCODE_CODE);
+
+
   } else if (selected == tr("City Name")) {
       qDebug() << "Select City Name";
+
+      actualView = VIEW_CITYNAME;
+      CityNameModel *cnm = new CityNameModel;
+      tableModel = cnm->initializeTableModel();
+
+      ui->listView->setModel(tableModel);
+      ui->listView->setModelColumn(CityNameModel::POS_CITYNAME_NAME);
+
+
   } else {
       Not_Available_Message();
   }
 }
 
+void MainWindow::onClickedEmployeeTableRow(const QModelIndex& index) {
+    qDebug() << "Employee Table Row (" << index.row() << ") clicked";
 
+    EmployeeInputDialog* eid = new EmployeeInputDialog(0, index.row());
+
+    ui->splitter->replaceWidget(2, eid);
+}
+
+void MainWindow::onClickedComputerTableRow(const QModelIndex& index) {
+    qDebug() << "Computer Table Row (" << index.row() << ") clicked";
+
+    ComputerInputDialog* cid = new ComputerInputDialog(0, index.row());
+
+    ui->splitter->replaceWidget(2, cid);
+}

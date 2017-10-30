@@ -51,7 +51,7 @@ QSqlRelationalTableModel* FaxDataModel::initializeRelationalModel() {
 
   QSqlRelationalTableModel* model = new QSqlRelationalTableModel(this);
 
-  model->setTable(QLatin1String("fax"));
+  model->setTable(this->tableName);
   model->setEditStrategy(QSqlTableModel::OnFieldChange);
 
   model->setHeaderData(POS_FAX_ID, Qt::Horizontal, QObject::tr("ID"));
@@ -87,7 +87,7 @@ QSqlRelationalTableModel* FaxDataModel::initializeRelationalModel() {
 QSqlTableModel* FaxDataModel::initializeTableModel() {
   QSqlTableModel* model = new QSqlTableModel(this);
 
-  model->setTable(QLatin1String("fax"));
+  model->setTable(this->tableName);
   model->setEditStrategy(QSqlTableModel::OnFieldChange);
 
   model->setHeaderData(POS_FAX_ID, Qt::Horizontal, QObject::tr("ID"));

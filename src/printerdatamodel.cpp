@@ -71,7 +71,7 @@ QSqlRelationalTableModel* PrinterDataModel::initializeRelationalModel() {
 
   QSqlRelationalTableModel* model = new QSqlRelationalTableModel(this);
 
-  model->setTable(QLatin1String("printer"));
+  model->setTable(this->tableName);
   model->setEditStrategy(QSqlTableModel::OnFieldChange);
 
   model->setRelation(POS_PRINTER_DEVICENAME_ID,
@@ -158,7 +158,7 @@ QSqlRelationalTableModel* PrinterDataModel::initializeRelationalModel() {
 QSqlTableModel* PrinterDataModel::initializeTableModel() {
   QSqlTableModel* model = new QSqlTableModel(this);
 
-  model->setTable(QLatin1String("printer"));
+  model->setTable(this->tableName);
   model->setEditStrategy(QSqlTableModel::OnFieldChange);
 
   model->setHeaderData(POS_PRINTER_ID, Qt::Horizontal, QObject::tr("ID"));

@@ -52,7 +52,7 @@ QSqlTableModel* EmployeeDataModel::initializeViewModel() {
 
   QSqlRelationalTableModel* model = new QSqlRelationalTableModel(this);
 
-  model->setTable(QLatin1String("employee_view"));
+  model->setTable(this->tableName);
   model->setEditStrategy(QSqlTableModel::OnFieldChange);
 
   model->setHeaderData(POS_EMPLOYEE_FIRSTNAME, Qt::Horizontal,
@@ -71,7 +71,7 @@ QSqlRelationalTableModel* EmployeeDataModel::initializeRelationalModel() {
 
   QSqlRelationalTableModel* model = new QSqlRelationalTableModel(this);
 
-  model->setTable(QLatin1String("employee"));
+  model->setTable(this->tableName);
   model->setEditStrategy(QSqlTableModel::OnFieldChange);
 
   /*
@@ -185,7 +185,7 @@ QSqlRelationalTableModel* EmployeeDataModel::initializeInputDataModel() {
   QSqlRelationalTableModel* model =
     new QSqlRelationalTableModel(this, this->db);
 
-  model->setTable(QLatin1String("employee"));
+  model->setTable(this->tableName);
 
   return model;
 }

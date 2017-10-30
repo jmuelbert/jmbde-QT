@@ -53,6 +53,7 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
+#include "definitions.h"
 #include "commondatamodel.h"
 
 class DeviceTypeDataModel : public CommonDataModel {
@@ -87,7 +88,12 @@ class DeviceTypeDataModel : public CommonDataModel {
     QSqlTableModel* initializeTableModel();
 
   private:
-    QString tableName = QLatin1String("devicetype");
+    /**
+     * @brief tableName - the name of the database table
+     * @
+     */
+    const QString tableName = QLatin1String(Database::Table::DEVICETYPE);
+
 };
 
 #endif // DEVICETYPEDATAMODEL_H

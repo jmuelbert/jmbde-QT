@@ -55,6 +55,7 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
+#include "definitions.h"
 #include "datamodel.h"
 
 class FaxDataModel : public DataModel {
@@ -114,6 +115,13 @@ class FaxDataModel : public DataModel {
      * @brief name
      */
     QString* name;
+
+    /**
+     * @brief tableName - the name of the database table
+     * @
+     */
+    const QString tableName = QLatin1String(Database::Table::FAX);
+
 
     /**
      * @brief The PosFaxTable enum

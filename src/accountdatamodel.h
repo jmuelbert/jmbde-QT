@@ -83,6 +83,7 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
+#include "definitions.h"
 #include "commondatamodel.h"
 
 /**
@@ -142,7 +143,7 @@ class AccountDataModel : public CommonDataModel
      * @brief tableName - the name of the database table
      * @
      */
-    const QString tableName = QLatin1String("account");
+    const QString tableName = QLatin1String(Database::Table::ACCOUNT);
 
 };
 

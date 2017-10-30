@@ -26,13 +26,19 @@ SOURCES += \
         inventorydatamodel.cpp \
         manufacturerdatamodel.cpp \
         mobiledatamodel.cpp \
-        pctypedatamodel.cpp \
         phonedatamodel.cpp \
         placedatamodel.cpp \
         printerdatamodel.cpp \
         resource.cpp \
         systemdatamodel.cpp \
-        helpbrowser.cpp
+        helpbrowser.cpp \
+    titledatamodel.cpp \
+    processordatamodel.cpp \
+    osdatamodel.cpp \
+    softwaredatamodel.cpp \
+    zipcitymodel.cpp \
+    zipcodemodel.cpp \
+    citynamemodel.cpp
 
  HEADERS  += \
         definitions.h \
@@ -53,13 +59,19 @@ SOURCES += \
         inventorydatamodel.h \
         manufacturerdatamodel.h \
         mobiledatamodel.h \
-        pctypedatamodel.h \
         phonedatamodel.h \
         placedatamodel.h \
         printerdatamodel.h \
         resource.h \
         systemdatamodel.h \
-        helpbrowser.h
+        helpbrowser.h \
+    titledatamodel.h \
+    processordatamodel.h \
+    osdatamodel.h \
+    softwaredatamodel.h \
+    zipcitymodel.h \
+    zipcodemodel.h \
+    citynamemodel.h
 
 FORMS    += \
         mainwindow.ui \

@@ -83,6 +83,7 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
+#include "definitions.h"
 #include "datamodel.h"
 
 /**
@@ -142,18 +143,6 @@ class ComputerDataModel : public DataModel {
      */
     QString generateTableString(QAbstractTableModel* model, QString header);
 
-  private:
-
-    /**
-     * @brief pcnr
-     */
-    QString* pcnr;
-
-    /**
-     * @brief name
-     */
-    QString* name;
-
     /**
      * @brief The PosCompTable enum
      */
@@ -181,6 +170,27 @@ class ComputerDataModel : public DataModel {
       POS_COMPUTER_PRINTER_ID,
       POS_COMPUTER_LAST_UPDATE
     };
+
+  private:
+
+    /**
+     * @brief pcnr
+     */
+    QString* pcnr;
+
+    /**
+     * @brief name
+     */
+    QString* name;
+
+    /**
+     * @brief tableName - the name of the database table
+     * @
+     */
+    const QString tableName = QLatin1String(Database::Table::COMPUTER);
+
+
+
 };
 
 #endif // COMPUTERDATAMODEL_H

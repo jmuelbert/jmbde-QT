@@ -53,6 +53,7 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
+#include "definitions.h"
 #include "datamodel.h"
 
 class PrinterDataModel : public DataModel {
@@ -107,18 +108,6 @@ class PrinterDataModel : public DataModel {
      */
     QString generateTableString(QAbstractTableModel* model, QString header);
 
-  private:
-
-    /**
-     * @brief pcnr
-     */
-    QString* pcnr;
-
-    /**
-     * @brief name
-     */
-    QString* name;
-
     /**
      * @brief The PosCompTable enum
      */
@@ -142,6 +131,27 @@ class PrinterDataModel : public DataModel {
       POS_PRINTER_COMPUTER_ID,
       POS_PRINTER_LAST_UPDATE
     };
+
+  private:
+
+    /**
+     * @brief pcnr
+     */
+    QString* pcnr;
+
+    /**
+     * @brief name
+     */
+    QString* name;
+
+    /**
+     * @brief tableName - the name of the database table
+     * @
+     */
+    const QString tableName = QLatin1String(Database::Table::PRINTER);
+
+
+
 };
 
 #endif // PRINTERDATAMODEL_H

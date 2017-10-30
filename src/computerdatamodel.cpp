@@ -72,7 +72,7 @@ QSqlRelationalTableModel* ComputerDataModel::initializeRelationalModel() {
 
   QSqlRelationalTableModel* model = new QSqlRelationalTableModel(this);
 
-  model->setTable(QLatin1String("computer"));
+  model->setTable(this->tableName);
   model->setEditStrategy(QSqlTableModel::OnFieldChange);
 
   /*
@@ -176,7 +176,7 @@ QSqlRelationalTableModel* ComputerDataModel::initializeRelationalModel() {
 QSqlTableModel* ComputerDataModel::initializeTableModel() {
   QSqlTableModel* model = new QSqlTableModel(this);
 
-  model->setTable(QLatin1String("computer"));
+  model->setTable(this->tableName);
   model->setEditStrategy(QSqlTableModel::OnFieldChange);
 
   model->setHeaderData(POS_COMPUTER_ID, Qt::Horizontal, QObject::tr("ID"));

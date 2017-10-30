@@ -102,11 +102,18 @@ int main(int argc, char* argv[]) {
 #endif
 
   // These settings needs to be set before any QSettings object
-  QApplication::setApplicationName(APP_NAME);
-  QApplication::setApplicationVersion(APP_VERSION);
-  QApplication::setOrganizationName(APP_ORG_NAME);
-  QApplication::setOrganizationDomain(APP_URL);
+  QCoreApplication::setApplicationName(APP_NAME);
+  QCoreApplication::setApplicationVersion(APP_VERSION);
+  QCoreApplication::setOrganizationName(APP_ORG_NAME);
+#if defined (Q_OS_MAC)
+  QApplication::setOrganizationDomain(APP_ORG_NAME);
+#else
+  QCoreApplication::setOrganizationDomain(APP_URL);
+#endif
+
+#if defined (Q_QS_WIN)
   QApplication::setWindowIcon(QIcon(APP_ICON_PATH));
+#endif
 
 #ifdef Q_OS_MAC
   const QString& _creatorTrPath = QCoreApplication::applicationDirPath();
