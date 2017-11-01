@@ -53,8 +53,8 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
-#include "definitions.h"
 #include "datamodel.h"
+#include "definitions.h"
 
 class PhoneDataModel : public DataModel {
   public:
@@ -101,7 +101,6 @@ class PhoneDataModel : public DataModel {
      * @return QSqlQueryModel
      */
     QSqlQueryModel* getQueryModel();
-
     enum PosPhoneTable {
       POS_PHONE_ID,
       POS_PHONE_DEVICENAME_ID,
@@ -136,7 +135,6 @@ class PhoneDataModel : public DataModel {
      * @
      */
     const QString tableName = QLatin1String(Database::Table::PHONE);
-
 
     /**
      * @brief The PosPhoneTable enum

@@ -1,6 +1,6 @@
 /*
-   // EmployeeInputDialog.h
-   // part of jmbde
+   // MobileInputArea mobileinputarea.h
+   // part of <Project>
    //
    // Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
    //
@@ -38,80 +38,27 @@
    // Die sprachspezifischen Genehmigungen und Beschränkungen
    // unter der Lizenz sind dem Lizenztext zu entnehmen.
    //
+   // Created: 1.11.2017
  */
+#ifndef MOBILEINPUTAREA_H
+#define MOBILEINPUTAREA_H
 
-#ifndef EMPLOYEEINPUTDIALOG_H
-#define EMPLOYEEINPUTDIALOG_H
-
-#include <QDataWidgetMapper>
 #include <QScrollArea>
-#include <QSqlRelationalDelegate>
-
-#include "computerdatamodel.h"
-#include "employeedatamodel.h"
-#include "faxdatamodel.h"
-#include "mobiledatamodel.h"
-#include "phonedatamodel.h"
-#include "placedatamodel.h"
-#include "printerdatamodel.h"
 
 namespace Ui {
-  class EmployeeInputDialog;
+  class MobileInputArea;
 }
 
-/**
- * @brief The EmployeeInputDialog class
- */
-class EmployeeInputDialog : public QScrollArea
-
+class MobileInputArea : public QScrollArea
 {
   Q_OBJECT
 
   public:
+    explicit MobileInputArea(QWidget* parent = 0);
+    ~MobileInputArea();
 
-    /**
-     * @brief EmployeeInputDialog::EmployeeInputDialog
-     * @param parent
-     */
-    EmployeeInputDialog(QWidget* parent = 0);
-
-    EmployeeInputDialog(QWidget* parent, int index = 0);
-
-    /**
-     * @brief EmployeeInputDialog::~EmployeeInputDialog
-     */
-    ~EmployeeInputDialog();
-
-  public slots:
-    void onClickedEmployeeTable(const QModelIndex index);
-
-  private slots:
-
-    void on_pushButtonAdd_clicked();
-
-    void on_pushButtonEdit_clicked();
-
-private:
-    int departmentIndex;
-    int functionIndex;
-    int computerIndex;
-    int printerIndex;
-    int phoneIndex;
-    int mobileIndex;
-    int faxIndex;
-    int chipCardIndex;
-    int employeeAccountIdx;
-    int employeeDocumentIdx;
-    QSqlRelationalTableModel* model;
-
-    // QSqlTableModel *model;
-    QItemSelectionModel* selectionModel;
-    QDataWidgetMapper* mapper;
-
-    Ui::EmployeeInputDialog* ui;
-
-    void preSetFields(bool newEmployee);
-    void setMappings(QSqlTableModel* model, QDataWidgetMapper* mapper);
+  private:
+    Ui::MobileInputArea* ui;
 };
 
-#endif // EMPLOYEEINPUTDIALOG_H
+#endif // MOBILEINPUTAREA_H

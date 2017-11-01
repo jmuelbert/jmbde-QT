@@ -53,8 +53,8 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
-#include "definitions.h"
 #include "commondatamodel.h"
+#include "definitions.h"
 
 class DeviceTypeDataModel : public CommonDataModel {
   public:
@@ -88,6 +88,7 @@ class DeviceTypeDataModel : public CommonDataModel {
     QSqlTableModel* initializeTableModel();
 
   private:
+
     /**
      * @brief tableName - the name of the database table
      * @

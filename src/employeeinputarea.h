@@ -1,5 +1,5 @@
 /*
-   // ManufacturerDataModel.h
+   // EmployeeInputDialog.h
    // part of jmbde
    //
    // Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
@@ -40,75 +40,78 @@
    //
  */
 
-#ifndef MANUFACTURERDATAMODEL_H
-#define MANUFACTURERDATAMODEL_H
+#ifndef EMPLOYEEINPUTAREA_H
+#define EMPLOYEEINPUTAREA_H
 
-#include <QObject>
+#include <QDataWidgetMapper>
+#include <QScrollArea>
+#include <QSqlRelationalDelegate>
 
-#include <QStandardPaths>
-#include <QtSql>
+#include "computerdatamodel.h"
+#include "employeedatamodel.h"
+#include "faxdatamodel.h"
+#include "mobiledatamodel.h"
+#include "phonedatamodel.h"
+#include "placedatamodel.h"
+#include "printerdatamodel.h"
 
-#include <QSqlDatabase>
-#include <QSqlError>
-#include <QSqlQuery>
-#include <QSqlRelation>
+namespace Ui {
+  class EmployeeInputArea;
+}
 
-#include "commondatamodel.h"
-#include "definitions.h"
+/**
+ * @brief The EmployeeInputDialog class
+ */
+class EmployeeInputArea : public QScrollArea
 
-class ManufacturerDataModel : public CommonDataModel {
+{
+  Q_OBJECT
+
   public:
 
     /**
-     * @brief ManufacturerDataModel::ManufacturerDataModel
+     * @brief EmployeeInputArea::EmployeeInputArea
+     * @param parent
      */
-    ManufacturerDataModel(QObject* parent = 0);
+    EmployeeInputArea(QWidget* parent = 0);
+
+    EmployeeInputArea(QWidget* parent, int index = 0);
 
     /**
-     * @brief ~ManufacturerDataModel
+     * @brief EmployeeInputArea::~EmployeeInputArea
      */
-    ~ManufacturerDataModel();
+    ~EmployeeInputArea();
 
-    /**
-     * @brief createDataTable
-     * @return
-     */
-    bool createDataTable();
+  public slots:
+    void onClickedEmployeeTable(const QModelIndex index);
 
-    /**
-     * @brief initializeRelationalModel
-     * @return
-     */
-    QSqlRelationalTableModel* initializeRelationalModel();
+  private slots:
 
-    /**
-     * @brief initializeTableModel
-     * @return
-     */
-    QSqlTableModel* initializeTableModel();
-    enum PosManufacturerTable {
-      POS_MANUFACTURER_ID,
-      POS_MANUFACTURER_NAME,
-      POS_MANUFACTURER_NAME2,
-      POS_MANUFACTURER_SUPPORTER,
-      POS_MANUFACTURER_ADDRESS,
-      POS_MANUFACTURER_ADDRESS2,
-      POS_MANUFACTURER_ZIP_CITY_ID,
-      POS_MANUFACTURER_MAIL_ADDRESS,
-      POS_MANUFACTURER_PHONE_NUMBER,
-      POS_MANUFACTURER_FAX_NUMBER,
-      POS_MANUFACTURER_HOTLINE_NUMBER,
-      POS_MANUFACTURER_LASTUPDATE
-    };
+    void on_pushButtonAdd_clicked();
+
+    void on_pushButtonEdit_clicked();
 
   private:
+    int departmentIndex;
+    int functionIndex;
+    int computerIndex;
+    int printerIndex;
+    int phoneIndex;
+    int mobileIndex;
+    int faxIndex;
+    int chipCardIndex;
+    int employeeAccountIdx;
+    int employeeDocumentIdx;
+    QSqlRelationalTableModel* model;
 
-    /**
-     * @brief tableName - the name of the database table
-     * @
-     */
-    const QString tableName = QLatin1String(Database::Table::MANIFACTURER);
+    // QSqlTableModel *model;
+    QItemSelectionModel* selectionModel;
+    QDataWidgetMapper* mapper;
 
+    Ui::EmployeeInputArea* ui;
+
+    void preSetFields(bool newEmployee);
+    void setMappings(QSqlTableModel* model, QDataWidgetMapper* mapper);
 };
 
-#endif // MANUFACTURERDATAMODEL_H
+#endif // EMPLOYEEINPUTArea_H

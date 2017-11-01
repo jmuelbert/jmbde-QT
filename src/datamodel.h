@@ -138,7 +138,6 @@ class DataModel : public QObject
      */
     QString setOutTableStyle();
 
-
   protected:
 
     /**

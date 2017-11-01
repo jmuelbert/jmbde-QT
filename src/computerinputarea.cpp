@@ -1,5 +1,5 @@
 /*
-   // ComputerInputDialog
+   // ComputerInputArea
    // part of jmbde
    //
    // Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
@@ -40,11 +40,11 @@
    //
  */
 
-#include "computerinputdialog.h"
-#include "ui_computerinputdialog.h"
+#include "computerinputarea.h"
+#include "ui_computerinputarea.h"
 
-ComputerInputDialog::ComputerInputDialog(QWidget* parent)
-  : QScrollArea(parent), ui(new Ui::ComputerInputDialog) {
+ComputerInputArea::ComputerInputArea(QWidget* parent)
+  : QScrollArea(parent), ui(new Ui::ComputerInputArea) {
 
   ui->setupUi(this);
 
@@ -57,7 +57,7 @@ ComputerInputDialog::ComputerInputDialog(QWidget* parent)
   mapper->setModel(model);
   mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
-  mapper->addMapping(ui->lineEditComputerName,
+  mapper->addMapping(ui->lineEdit_ComputerName,
                      model->fieldIndex(QLatin1String("network_name")));
   mapper->toLast();
   int row = mapper->currentIndex();
@@ -66,12 +66,12 @@ ComputerInputDialog::ComputerInputDialog(QWidget* parent)
   model->insertRow(row);
   mapper->setCurrentIndex(row);
 
-  ui->lineEditComputerName->clear();
-  ui->lineEditComputerName->setFocus();
+  ui->lineEdit_ComputerName->clear();
+  ui->lineEdit_ComputerName->setFocus();
 }
 
-ComputerInputDialog::ComputerInputDialog(QWidget* parent, int index)
-  : QScrollArea(parent), ui(new Ui::ComputerInputDialog) {
+ComputerInputArea::ComputerInputArea(QWidget* parent, int index)
+  : QScrollArea(parent), ui(new Ui::ComputerInputArea) {
   ui->setupUi(this);
 
   model = new QSqlRelationalTableModel(this);
@@ -84,27 +84,23 @@ ComputerInputDialog::ComputerInputDialog(QWidget* parent, int index)
   mapper->setModel(model);
   mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
-  mapper->addMapping(ui->lineEditComputerName,
+  mapper->addMapping(ui->lineEdit_ComputerName,
                      model->fieldIndex(QLatin1String("network_name")));
   mapper->setCurrentIndex(index);
-  ui->lineEditComputerName->setFocus();
+  ui->lineEdit_ComputerName->setFocus();
 
 }
 
-ComputerInputDialog::~ComputerInputDialog() {
-    qDebug() << "Destructor...";
-    qDebug() << "First save changes.";
-    submitData();
-
+ComputerInputArea::~ComputerInputArea() {
   delete ui;
 }
 
-void ComputerInputDialog::on_lineEditComputerName_editingFinished()
+void ComputerInputArea::on_lineEditComputerName_editingFinished()
 {
-  qDebug() << "Name : " << ui->lineEditComputerName->text();
+  qDebug() << "Name : " << ui->lineEdit_ComputerName->text();
 }
 
-void ComputerInputDialog::submitData() {
+void ComputerInputArea::submitData() {
   mapper->submit();
   model->database().transaction();
   if (model->submitAll()) {
@@ -119,12 +115,12 @@ void ComputerInputDialog::submitData() {
   }
 }
 
-void ComputerInputDialog::on_pushButtonEdit_clicked()
+void ComputerInputArea::on_pushButtonEdit_clicked()
 {
     qDebug() << "Click Edit";
 }
 
-void ComputerInputDialog::on_pushButtonAdd_clicked()
+void ComputerInputArea::on_pushButtonAdd_clicked()
 {
     qDebug() << "Click Add";
 }

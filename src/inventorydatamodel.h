@@ -53,8 +53,8 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
-#include "definitions.h"
 #include "commondatamodel.h"
+#include "definitions.h"
 
 class InventoryDataModel : public CommonDataModel {
   public:
@@ -88,6 +88,7 @@ class InventoryDataModel : public CommonDataModel {
     QSqlTableModel* initializeTableModel();
 
   private:
+
     /**
      * @brief tableName - the name of the database table
      * @

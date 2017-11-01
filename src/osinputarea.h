@@ -1,6 +1,6 @@
 /*
-   // ManufacturerDataModel.h
-   // part of jmbde
+   // OSInputArea osinputarea.h
+   // part of <Project>
    //
    // Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
    //
@@ -38,77 +38,27 @@
    // Die sprachspezifischen Genehmigungen und Beschränkungen
    // unter der Lizenz sind dem Lizenztext zu entnehmen.
    //
+   // Created: 1.11.2017
  */
+#ifndef OSINPUTAREA_H
+#define OSINPUTAREA_H
 
-#ifndef MANUFACTURERDATAMODEL_H
-#define MANUFACTURERDATAMODEL_H
+#include <QScrollArea>
 
-#include <QObject>
+namespace Ui {
+  class OSInputArea;
+}
 
-#include <QStandardPaths>
-#include <QtSql>
+class OSInputArea : public QScrollArea
+{
+  Q_OBJECT
 
-#include <QSqlDatabase>
-#include <QSqlError>
-#include <QSqlQuery>
-#include <QSqlRelation>
-
-#include "commondatamodel.h"
-#include "definitions.h"
-
-class ManufacturerDataModel : public CommonDataModel {
   public:
-
-    /**
-     * @brief ManufacturerDataModel::ManufacturerDataModel
-     */
-    ManufacturerDataModel(QObject* parent = 0);
-
-    /**
-     * @brief ~ManufacturerDataModel
-     */
-    ~ManufacturerDataModel();
-
-    /**
-     * @brief createDataTable
-     * @return
-     */
-    bool createDataTable();
-
-    /**
-     * @brief initializeRelationalModel
-     * @return
-     */
-    QSqlRelationalTableModel* initializeRelationalModel();
-
-    /**
-     * @brief initializeTableModel
-     * @return
-     */
-    QSqlTableModel* initializeTableModel();
-    enum PosManufacturerTable {
-      POS_MANUFACTURER_ID,
-      POS_MANUFACTURER_NAME,
-      POS_MANUFACTURER_NAME2,
-      POS_MANUFACTURER_SUPPORTER,
-      POS_MANUFACTURER_ADDRESS,
-      POS_MANUFACTURER_ADDRESS2,
-      POS_MANUFACTURER_ZIP_CITY_ID,
-      POS_MANUFACTURER_MAIL_ADDRESS,
-      POS_MANUFACTURER_PHONE_NUMBER,
-      POS_MANUFACTURER_FAX_NUMBER,
-      POS_MANUFACTURER_HOTLINE_NUMBER,
-      POS_MANUFACTURER_LASTUPDATE
-    };
+    explicit OSInputArea(QWidget* parent = 0);
+    ~OSInputArea();
 
   private:
-
-    /**
-     * @brief tableName - the name of the database table
-     * @
-     */
-    const QString tableName = QLatin1String(Database::Table::MANIFACTURER);
-
+    Ui::OSInputArea* ui;
 };
 
-#endif // MANUFACTURERDATAMODEL_H
+#endif // OSINPUTAREA_H

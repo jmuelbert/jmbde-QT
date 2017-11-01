@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ComputerInputArea</class>
+ <widget class="QScrollArea" name="ComputerInputArea">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>624</width>
+    <height>367</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ScrollArea</string>
+  </property>
+  <property name="accessibleName">
+   <string>ComputerInputDialog</string>
+  </property>
+  <property name="widgetResizable">
+   <bool>true</bool>
+  </property>
+  <widget class="QWidget" name="scrollAreaWidgetContents">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>622</width>
+     <height>365</height>
+    </rect>
+   </property>
+   <widget class="QWidget" name="gridLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>601</width>
+      <height>291</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_8">
+       <property name="text">
+        <string>Service Number</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="0">
+      <widget class="QCheckBox" name="checkBox">
+       <property name="text">
+        <string>Active</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="3">
+      <widget class="QCheckBox" name="checkBox_2">
+       <property name="text">
+        <string>Replace</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="3">
+      <widget class="QLabel" name="label_14">
+       <property name="text">
+        <string>Opertion System</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="4">
+      <widget class="QComboBox" name="comboBox_9"/>
+     </item>
+     <item row="6" column="3">
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>Place</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>Employee</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="4">
+      <widget class="QComboBox" name="comboBox_2"/>
+     </item>
+     <item row="3" column="2">
+      <widget class="QComboBox" name="comboBox_8"/>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_13">
+       <property name="text">
+        <string>Processor</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="3">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Inventory</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="2">
+      <widget class="QComboBox" name="comboBox_5"/>
+     </item>
+     <item row="8" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Manufacturer</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="4">
+      <widget class="QComboBox" name="comboBox_4"/>
+     </item>
+     <item row="7" column="2">
+      <widget class="QComboBox" name="comboBox_3"/>
+     </item>
+     <item row="6" column="4">
+      <widget class="QComboBox" name="comboBox_6"/>
+     </item>
+     <item row="5" column="2">
+      <widget class="QComboBox" name="comboBox_7"/>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_Name">
+       <property name="text">
+        <string>Name</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="4">
+      <widget class="QLineEdit" name="lineEdit_5"/>
+     </item>
+     <item row="8" column="2">
+      <widget class="QComboBox" name="comboBox"/>
+     </item>
+     <item row="2" column="3">
+      <widget class="QLabel" name="label_12">
+       <property name="text">
+        <string>IP Address</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="3">
+      <widget class="QLabel" name="label_10">
+       <property name="text">
+        <string>Serial Number</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_11">
+       <property name="text">
+        <string>Network</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Devicename</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="3">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Devicetype</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QLineEdit" name="lineEdit_4"/>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Department</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QLineEdit" name="lineEdit"/>
+     </item>
+     <item row="1" column="3">
+      <widget class="QLabel" name="label_9">
+       <property name="text">
+        <string>Service Tag</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="4">
+      <widget class="QLineEdit" name="lineEdit_2"/>
+     </item>
+     <item row="0" column="4">
+      <widget class="QLineEdit" name="lineEdit_3"/>
+     </item>
+     <item row="0" column="2">
+      <widget class="QLineEdit" name="lineEdit_ComputerName"/>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_15">
+       <property name="text">
+        <string>Software</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="2">
+      <widget class="QComboBox" name="comboBox_10"/>
+     </item>
+     <item row="4" column="3">
+      <widget class="QLabel" name="label_16">
+       <property name="text">
+        <string>Printer</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="4">
+      <widget class="QComboBox" name="comboBox_11"/>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>0</y>
+      <width>601</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLabel" name="label_Header">
+       <property name="font">
+        <font>
+         <pointsize>16</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Computer</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>320</y>
+      <width>601</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="pushButtonAdd">
+       <property name="text">
+        <string>+</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonEdit">
+       <property name="text">
+        <string>Finish</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+ <slots>
+  <slot>slot1()</slot>
+  <slot>onDestroyed()</slot>
+ </slots>
+</ui>

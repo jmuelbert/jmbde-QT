@@ -1,5 +1,5 @@
 /*
-   // ManufacturerDataModel.h
+   // ComputerInputArea.h
    // part of jmbde
    //
    // Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
@@ -40,75 +40,43 @@
    //
  */
 
-#ifndef MANUFACTURERDATAMODEL_H
-#define MANUFACTURERDATAMODEL_H
+#ifndef COMPUTERINPUTAREA_H
+#define COMPUTERINPUTAREA_H
 
-#include <QObject>
+#include <QDataWidgetMapper>
+#include <QScrollArea>
+#include <QSqlRelationalDelegate>
 
-#include <QStandardPaths>
-#include <QtSql>
+#include "computerdatamodel.h"
 
-#include <QSqlDatabase>
-#include <QSqlError>
-#include <QSqlQuery>
-#include <QSqlRelation>
+namespace Ui {
+  class ComputerInputArea;
+}
 
-#include "commondatamodel.h"
-#include "definitions.h"
+class ComputerInputArea : public QScrollArea {
+  Q_OBJECT
 
-class ManufacturerDataModel : public CommonDataModel {
   public:
+    explicit ComputerInputArea(QWidget* parent = 0);
+    ComputerInputArea(QWidget* parent, int index = 0);
 
-    /**
-     * @brief ManufacturerDataModel::ManufacturerDataModel
-     */
-    ManufacturerDataModel(QObject* parent = 0);
+    ~ComputerInputArea();
 
-    /**
-     * @brief ~ManufacturerDataModel
-     */
-    ~ManufacturerDataModel();
+  private slots:
+    void on_lineEditComputerName_editingFinished();
 
-    /**
-     * @brief createDataTable
-     * @return
-     */
-    bool createDataTable();
+    void on_pushButtonEdit_clicked();
 
-    /**
-     * @brief initializeRelationalModel
-     * @return
-     */
-    QSqlRelationalTableModel* initializeRelationalModel();
-
-    /**
-     * @brief initializeTableModel
-     * @return
-     */
-    QSqlTableModel* initializeTableModel();
-    enum PosManufacturerTable {
-      POS_MANUFACTURER_ID,
-      POS_MANUFACTURER_NAME,
-      POS_MANUFACTURER_NAME2,
-      POS_MANUFACTURER_SUPPORTER,
-      POS_MANUFACTURER_ADDRESS,
-      POS_MANUFACTURER_ADDRESS2,
-      POS_MANUFACTURER_ZIP_CITY_ID,
-      POS_MANUFACTURER_MAIL_ADDRESS,
-      POS_MANUFACTURER_PHONE_NUMBER,
-      POS_MANUFACTURER_FAX_NUMBER,
-      POS_MANUFACTURER_HOTLINE_NUMBER,
-      POS_MANUFACTURER_LASTUPDATE
-    };
+    void on_pushButtonAdd_clicked();
 
   private:
+    Ui::ComputerInputArea* ui;
 
-    /**
-     * @brief tableName - the name of the database table
-     * @
-     */
-    const QString tableName = QLatin1String(Database::Table::MANIFACTURER);
+    void submitData();
 
+    QSqlRelationalTableModel* model;
+    QItemSelectionModel* selectionModel;
+    QDataWidgetMapper* mapper;
 };
 
-#endif // MANUFACTURERDATAMODEL_H
+#endif // COMPUTERINPUTAREA_H

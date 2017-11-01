@@ -53,8 +53,8 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
-#include "definitions.h"
 #include "commondatamodel.h"
+#include "definitions.h"
 
 class SystemDataModel : public CommonDataModel {
   public:

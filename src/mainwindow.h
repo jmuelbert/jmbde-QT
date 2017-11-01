@@ -64,6 +64,7 @@
 #include <QtHelp>
 
 #include "accountdatamodel.h"
+#include "citynamemodel.h"
 #include "commondatamodel.h"
 #include "computerdatamodel.h"
 #include "datamodel.h"
@@ -74,24 +75,31 @@
 #include "functiondatamodel.h"
 #include "inventorydatamodel.h"
 #include "manufacturerdatamodel.h"
+#include "osdatamodel.h"
 #include "phonedatamodel.h"
 #include "placedatamodel.h"
 #include "printerdatamodel.h"
+#include "processordatamodel.h"
+#include "softwaredatamodel.h"
 #include "systemdatamodel.h"
 #include "titledatamodel.h"
-#include "processordatamodel.h"
-#include "osdatamodel.h"
-#include "softwaredatamodel.h"
-#include "citynamemodel.h"
 #include "zipcitymodel.h"
 #include "zipcodemodel.h"
 
 #include "helpbrowser.h"
 
-#include "computerinputdialog.h"
 #include "csvimportdialog.h"
-#include "employeeinputdialog.h"
 #include "preferencesdialog.h"
+
+#include "computerinputarea.h"
+#include "departmentinputarea.h"
+#include "employeeinputarea.h"
+#include "functioninputarea.h"
+#include "mobileinputarea.h"
+#include "osinputarea.h"
+#include "phoneinputarea.h"
+#include "processorinputarea.h"
+#include "softwareinputarea.h"
 
 /**
  * Namespace for the UserInterface
@@ -191,8 +199,8 @@ class MainWindow : public QMainWindow {
 
     void clickedTreeView(const QModelIndex& index);
 
-    void onClickedEmployeeTableRow(const QModelIndex& index);
-    void onClickedComputerTableRow(const QModelIndex& index);
+    void onClickedListViewRow(const QModelIndex& index);
+
   private:
 
     /**
@@ -229,7 +237,7 @@ class MainWindow : public QMainWindow {
     QString dbHostname;
     QString dbUsername;
     QString dbPassword;
-    QStandardItemModel * m_treeviewModel;
+    QStandardItemModel* m_treeviewModel;
     enum ViewData {
       VIEW_EMPLOYEE,
       VIEW_FUNCTION,

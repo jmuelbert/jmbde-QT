@@ -1,5 +1,5 @@
 /*
-   // ManufacturerDataModel.h
+   // PhoneInputArea phoneinputarea.h
    // part of jmbde
    //
    // Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
@@ -38,77 +38,33 @@
    // Die sprachspezifischen Genehmigungen und Beschränkungen
    // unter der Lizenz sind dem Lizenztext zu entnehmen.
    //
+   // Created: 31.10.2017
  */
+#ifndef PHONEINPUTAREA_H
+#define PHONEINPUTAREA_H
 
-#ifndef MANUFACTURERDATAMODEL_H
-#define MANUFACTURERDATAMODEL_H
+#include <QScrollArea>
 
-#include <QObject>
+namespace Ui {
+  class PhoneInputArea;
+}
 
-#include <QStandardPaths>
-#include <QtSql>
+class PhoneInputArea : public QScrollArea
+{
+  Q_OBJECT
 
-#include <QSqlDatabase>
-#include <QSqlError>
-#include <QSqlQuery>
-#include <QSqlRelation>
-
-#include "commondatamodel.h"
-#include "definitions.h"
-
-class ManufacturerDataModel : public CommonDataModel {
   public:
+    explicit PhoneInputArea(QWidget* parent = 0);
+    ~PhoneInputArea();
 
-    /**
-     * @brief ManufacturerDataModel::ManufacturerDataModel
-     */
-    ManufacturerDataModel(QObject* parent = 0);
+  private slots:
 
-    /**
-     * @brief ~ManufacturerDataModel
-     */
-    ~ManufacturerDataModel();
+    void on_pushButtonAdd_clicked();
 
-    /**
-     * @brief createDataTable
-     * @return
-     */
-    bool createDataTable();
-
-    /**
-     * @brief initializeRelationalModel
-     * @return
-     */
-    QSqlRelationalTableModel* initializeRelationalModel();
-
-    /**
-     * @brief initializeTableModel
-     * @return
-     */
-    QSqlTableModel* initializeTableModel();
-    enum PosManufacturerTable {
-      POS_MANUFACTURER_ID,
-      POS_MANUFACTURER_NAME,
-      POS_MANUFACTURER_NAME2,
-      POS_MANUFACTURER_SUPPORTER,
-      POS_MANUFACTURER_ADDRESS,
-      POS_MANUFACTURER_ADDRESS2,
-      POS_MANUFACTURER_ZIP_CITY_ID,
-      POS_MANUFACTURER_MAIL_ADDRESS,
-      POS_MANUFACTURER_PHONE_NUMBER,
-      POS_MANUFACTURER_FAX_NUMBER,
-      POS_MANUFACTURER_HOTLINE_NUMBER,
-      POS_MANUFACTURER_LASTUPDATE
-    };
+    void on_pushButtonFinish_clicked();
 
   private:
-
-    /**
-     * @brief tableName - the name of the database table
-     * @
-     */
-    const QString tableName = QLatin1String(Database::Table::MANIFACTURER);
-
+    Ui::PhoneInputArea* ui;
 };
 
-#endif // MANUFACTURERDATAMODEL_H
+#endif // PHONEINPUTAREA_H

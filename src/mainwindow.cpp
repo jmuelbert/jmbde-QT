@@ -50,13 +50,10 @@ MainWindow::MainWindow(QWidget* parent)
 
   readSettings();
 
-
-
   m_treeviewModel = new QStandardItemModel(this);
-  QStandardItem *parentItem =m_treeviewModel->invisibleRootItem();
-
-  QStandardItem *header;
-  QStandardItem *item;
+  QStandardItem* parentItem = m_treeviewModel->invisibleRootItem();
+  QStandardItem* header;
+  QStandardItem* item;
 
   header = new QStandardItem(tr("Person"));
   parentItem->appendRow(header);
@@ -103,6 +100,7 @@ MainWindow::MainWindow(QWidget* parent)
   ui->treeView->setModel(m_treeviewModel);
 
   connect(ui->treeView, SIGNAL(clicked(QModelIndex)), this, SLOT(clickedTreeView(QModelIndex)));
+  connect( ui->listView, SIGNAL(clicked(QModelIndex)), this, SLOT(onClickedListViewRow(QModelIndex)) );
 
   int width = ui->centralWidget->width() - 20;
   int height = ui->centralWidget->height() - 20;
@@ -116,11 +114,11 @@ MainWindow::MainWindow(QWidget* parent)
 
   actualView = VIEW_EMPLOYEE;
   EmployeeDataModel* edm = new EmployeeDataModel;
+
   tableModel = edm->initializeTableModel();
 
   ui->listView->setModel(tableModel);
   ui->listView->setModelColumn(5);
-
 
   if (retValue == true) {
     QSize availableSize = qApp->desktop()->availableGeometry().size();
@@ -484,196 +482,289 @@ void MainWindow::on_actionHelp_triggered() {
   helpBrowser->showHelpForKeyWord(QLatin1String("main"));
 }
 
+void MainWindow::clickedTreeView(const QModelIndex& index) {
 
-void MainWindow::clickedTreeView(const QModelIndex& index)  {
-
-  const QStandardItem *item = m_treeviewModel->itemFromIndex(index);
+  const QStandardItem* item = m_treeviewModel->itemFromIndex(index);
   const QString selected = item->text();
+
   qDebug() << "Item: " << selected;
 
   // Tree -> Person
   if (selected== tr("Employee")) {
-      qDebug() << "Select Employee";
-      actualView = VIEW_EMPLOYEE;
-      EmployeeDataModel* edm = new EmployeeDataModel;
-      tableModel = edm->initializeTableModel();
+    qDebug() << "Select Employee";
+    actualView = VIEW_EMPLOYEE;
+    EmployeeDataModel* edm = new EmployeeDataModel;
 
-      ui->listView->setModel(tableModel);
-      ui->listView->setModelColumn(EmployeeDataModel::POS_EMPLOYEE_LASTNAME);
+    tableModel = edm->initializeTableModel();
 
-      connect( ui->listView, SIGNAL(clicked(QModelIndex)), this, SLOT(onClickedEmployeeTableRow(QModelIndex)) );
+    ui->listView->setModel(tableModel);
+    ui->listView->setModelColumn(EmployeeDataModel::POS_EMPLOYEE_LASTNAME);
 
-  } else if (selected == tr("Function")) {
-      qDebug() << "Select Function";
+  }
+  else if (selected == tr("Function")) {
+    qDebug() << "Select Function";
 
-      actualView = VIEW_FUNCTION;
-      FunctionDataModel *fdm = new FunctionDataModel;
-      tableModel = fdm->initializeTableModel();
+    actualView = VIEW_FUNCTION;
+    FunctionDataModel* fdm = new FunctionDataModel;
 
-      ui->listView->setModel(tableModel);
-      ui->listView->setModelColumn(FunctionDataModel::POS_FUNCTION_NAME);
+    tableModel = fdm->initializeTableModel();
 
-  } else if (selected == tr("Department")) {
-      qDebug() << "Select Department";
+    ui->listView->setModel(tableModel);
+    ui->listView->setModelColumn(FunctionDataModel::POS_FUNCTION_NAME);
 
-      actualView = VIEW_DEPARTMENT;
-      DepartmentDataModel *dpm = new DepartmentDataModel;
-      tableModel = dpm->initializeTableModel();
+  }
+  else if (selected == tr("Department")) {
+    qDebug() << "Select Department";
 
-      ui->listView->setModel(tableModel);
-      ui->listView->setModelColumn(DepartmentDataModel::POS_DEPARTMENT_NAME);
+    actualView = VIEW_DEPARTMENT;
+    DepartmentDataModel* dpm = new DepartmentDataModel;
 
-  } else if (selected == tr("Title")) {
-      qDebug() << "Select Title";
+    tableModel = dpm->initializeTableModel();
 
-      actualView = VIEW_TITLE;
-      TitleDataModel *tdm = new TitleDataModel;
+    ui->listView->setModel(tableModel);
+    ui->listView->setModelColumn(DepartmentDataModel::POS_DEPARTMENT_NAME);
 
-      tableModel = tdm->initializeTableModel();
+  }
+  else if (selected == tr("Title")) {
+    qDebug() << "Select Title";
 
-      ui->listView->setModel(tableModel);
-      ui->listView->setModelColumn(TitleDataModel::POS_TITLE_NAME);
+    actualView = VIEW_TITLE;
+    TitleDataModel* tdm = new TitleDataModel;
 
+    tableModel = tdm->initializeTableModel();
 
-  // Tree -> Device
-  } else if (selected == tr("Computer")) {
-      qDebug() << "Select Computer";
+    ui->listView->setModel(tableModel);
+    ui->listView->setModelColumn(TitleDataModel::POS_TITLE_NAME);
 
-      actualView = VIEW_COMPUTER;
-      ComputerDataModel *cdm = new ComputerDataModel;
+    // Tree -> Device
+  }
+  else if (selected == tr("Computer")) {
+    qDebug() << "Select Computer";
 
-      tableModel = cdm->initializeTableModel();
-      ui->listView->setModel(tableModel);
-      ui->listView->setModelColumn(ComputerDataModel::POS_COMPUTER_NETWORK_NAME);
+    actualView = VIEW_COMPUTER;
+    ComputerDataModel* cdm = new ComputerDataModel;
 
-      connect( ui->listView, SIGNAL(clicked(QModelIndex)), this, SLOT(onClickedComputerTableRow(QModelIndex)) );
+    tableModel = cdm->initializeTableModel();
+    ui->listView->setModel(tableModel);
+    ui->listView->setModelColumn(ComputerDataModel::POS_COMPUTER_NETWORK_NAME);
 
-  } else if (selected == tr("Processor")) {
-      qDebug() << "Select Processor";
+  }
+  else if (selected == tr("Processor")) {
+    qDebug() << "Select Processor";
 
-      actualView = VIEW_PROCESSOR;
-      ProcessorDataModel *pdm = new ProcessorDataModel;
+    actualView = VIEW_PROCESSOR;
+    ProcessorDataModel* pdm = new ProcessorDataModel;
 
-      tableModel = pdm->initializeTableModel();
-      ui->listView->setModel(tableModel);
-      ui->listView->setModelColumn(ProcessorDataModel::POS_PROCESSOR_NAME);
+    tableModel = pdm->initializeTableModel();
+    ui->listView->setModel(tableModel);
+    ui->listView->setModelColumn(ProcessorDataModel::POS_PROCESSOR_NAME);
 
-  } else if (selected == tr("Operation System")) {
-      qDebug() << "Select Operation System";
+  }
+  else if (selected == tr("Operation System")) {
+    qDebug() << "Select Operation System";
 
-      actualView = VIEW_OS;
-      OSDataModel *odm = new OSDataModel;
+    actualView = VIEW_OS;
+    OSDataModel* odm = new OSDataModel;
 
-      tableModel = odm->initializeTableModel();
-      ui->listView->setModel(tableModel);
-      ui->listView->setModelColumn(OSDataModel::POS_OS_NAME);
+    tableModel = odm->initializeTableModel();
+    ui->listView->setModel(tableModel);
+    ui->listView->setModelColumn(OSDataModel::POS_OS_NAME);
 
+  }
+  else if (selected == tr("Software")) {
+    qDebug() << "Select Software";
 
-  } else if (selected == tr("Software")) {
-      qDebug() << "Select Software";
+    actualView = VIEW_SOFTWARE;
+    SoftwareDataModel* sdm = new SoftwareDataModel;
 
-      actualView = VIEW_SOFTWARE;
-      SoftwareDataModel *sdm = new SoftwareDataModel;
+    tableModel = sdm->initializeTableModel();
+    ui->listView->setModel(tableModel);
+    ui->listView->setModelColumn(SoftwareDataModel::POS_SOFTWARE_NAME);
 
-      tableModel = sdm->initializeTableModel();
-      ui->listView->setModel(tableModel);
-      ui->listView->setModelColumn(SoftwareDataModel::POS_SOFTWARE_NAME);
+  }
+  else if (selected == tr("Printer")) {
+    qDebug() << "Select Printer";
 
+    actualView = VIEW_PRINTER;
+    PrinterDataModel* pdm = new PrinterDataModel;
 
-  } else if (selected == tr("Printer")) {
-      qDebug() << "Select Printer";
+    tableModel = pdm->initializeTableModel();
 
-      actualView = VIEW_PRINTER;
-      PrinterDataModel *pdm = new PrinterDataModel;
-      tableModel = pdm->initializeTableModel();
+    ui->listView->setModel(tableModel);
+    ui->listView->setModelColumn(PrinterDataModel::POS_PRINTER_NETWORK_NAME);
 
-      ui->listView->setModel(tableModel);
-      ui->listView->setModelColumn(PrinterDataModel::POS_PRINTER_NETWORK_NAME);
+    // Tree -> Communication
+  }
+  else if (selected == tr("Phone")) {
+    qDebug() << "Select Phone";
 
+    actualView = VIEW_PHONE;
+    PhoneDataModel* phdm = new PhoneDataModel;
 
+    tableModel = phdm->initializeRelationalModel();
 
-  // Tree -> Communication
-  } else if (selected == tr("Phone")) {
-      qDebug() << "Select Phone";
+    ui->listView->setModel(tableModel);
+    ui->listView->setModelColumn(PhoneDataModel::POS_PHONE_NUMBER);
 
-      actualView = VIEW_PHONE;
-      PhoneDataModel *phdm = new PhoneDataModel;
-      tableModel = phdm->initializeRelationalModel();
+  }
+  else if (selected == tr("Mobile")) {
+    qDebug() << "Select Mobile";
 
-      ui->listView->setModel(tableModel);
-      ui->listView->setModelColumn(PhoneDataModel::POS_PHONE_NUMBER);
+    actualView = VIEW_MOBILE;
+    MobileDataModel* phdm = new MobileDataModel;
 
+    tableModel = phdm->initializeTableModel();
 
-  } else if (selected == tr("Mobile")) {
-      qDebug() << "Select Mobile";
+    ui->listView->setModel(tableModel);
+    ui->listView->setModelColumn(MobileDataModel::POS_MOBILE_NUMBER);
 
-      actualView = VIEW_MOBILE;
-      MobileDataModel *phdm = new MobileDataModel;
-      tableModel = phdm->initializeTableModel();
+    // Tre -> Misc
+  }
+  else if (selected == tr("Manufacturer")) {
+    qDebug() << "Select Manufacturer";
 
-      ui->listView->setModel(tableModel);
-      ui->listView->setModelColumn(MobileDataModel::POS_MOBILE_NUMBER);
+    actualView = VIEW_MANUFACTURER;
+    ManufacturerDataModel* mdm = new ManufacturerDataModel;
 
-  // Tre -> Misc
-  } else if (selected == tr("Manufacturer")) {
-      qDebug() << "Select Manufacturer";
+    tableModel = mdm->initializeTableModel();
 
-      actualView = VIEW_MANUFACTURER;
-      ManufacturerDataModel *mdm = new ManufacturerDataModel;
-      tableModel = mdm->initializeTableModel();
+    ui->listView->setModel(tableModel);
+    ui->listView->setModelColumn(ManufacturerDataModel::POS_MANUFACTURER_NAME);
 
-      ui->listView->setModel(tableModel);
-      ui->listView->setModelColumn(ManufacturerDataModel::POS_MANUFACTURER_NAME);
+  }
+  else if (selected == tr("Zip City")) {
+    qDebug() << "Select Zip City";
 
-  } else if (selected == tr("Zip City")) {
-      qDebug() << "Select Zip City";
+    actualView = VIEW_ZIPCITY;
+    ZipCityModel* zcm = new ZipCityModel;
 
-      actualView = VIEW_ZIPCITY;
-      ZipCityModel *zcm = new ZipCityModel;
-      tableModel = zcm->initializeTableModel();
+    tableModel = zcm->initializeTableModel();
 
-      ui->listView->setModel(tableModel);
-      ui->listView->setModelColumn(ZipCityModel::POS_ZIPCITY_CITY_ID);
+    ui->listView->setModel(tableModel);
+    ui->listView->setModelColumn(ZipCityModel::POS_ZIPCITY_CITY_ID);
 
-  } else if (selected == tr("Zip Code")) {
-      qDebug() << "Select Zip Code";
+  }
+  else if (selected == tr("Zip Code")) {
+    qDebug() << "Select Zip Code";
 
-      actualView = VIEW_ZIP_CODE;
-      ZipCodeModel *zcm = new ZipCodeModel;
-      tableModel = zcm->initializeTableModel();
+    actualView = VIEW_ZIP_CODE;
+    ZipCodeModel* zcm = new ZipCodeModel;
 
-      ui->listView->setModel(tableModel);
-      ui->listView->setModelColumn(ZipCodeModel::POS_ZIPCODE_CODE);
+    tableModel = zcm->initializeTableModel();
 
+    ui->listView->setModel(tableModel);
+    ui->listView->setModelColumn(ZipCodeModel::POS_ZIPCODE_CODE);
 
-  } else if (selected == tr("City Name")) {
-      qDebug() << "Select City Name";
+  }
+  else if (selected == tr("City Name")) {
+    qDebug() << "Select City Name";
 
-      actualView = VIEW_CITYNAME;
-      CityNameModel *cnm = new CityNameModel;
-      tableModel = cnm->initializeTableModel();
+    actualView = VIEW_CITYNAME;
+    CityNameModel* cnm = new CityNameModel;
 
-      ui->listView->setModel(tableModel);
-      ui->listView->setModelColumn(CityNameModel::POS_CITYNAME_NAME);
+    tableModel = cnm->initializeTableModel();
 
+    ui->listView->setModel(tableModel);
+    ui->listView->setModelColumn(CityNameModel::POS_CITYNAME_NAME);
 
-  } else {
-      Not_Available_Message();
+  }
+  else {
+    Not_Available_Message();
   }
 }
 
-void MainWindow::onClickedEmployeeTableRow(const QModelIndex& index) {
-    qDebug() << "Employee Table Row (" << index.row() << ") clicked";
+void MainWindow::onClickedListViewRow(const QModelIndex& index) {
 
-    EmployeeInputDialog* eid = new EmployeeInputDialog(0, index.row());
+  switch (actualView) {
+    case VIEW_EMPLOYEE: {
+      qDebug() << "Employee Table Row (" << index.row() << ") clicked";
 
-    ui->splitter->replaceWidget(2, eid);
-}
+      EmployeeInputArea* eia = new EmployeeInputArea(0, index.row());
 
-void MainWindow::onClickedComputerTableRow(const QModelIndex& index) {
-    qDebug() << "Computer Table Row (" << index.row() << ") clicked";
+      ui->splitter->replaceWidget(2, eia);
+    }
+                        break;
 
-    ComputerInputDialog* cid = new ComputerInputDialog(0, index.row());
+    case VIEW_FUNCTION: {
+      FunctionInputArea* fia = new FunctionInputArea;
 
-    ui->splitter->replaceWidget(2, cid);
+      ui->splitter->replaceWidget(2, fia);
+    }
+                        break;
+
+    case VIEW_DEPARTMENT:
+    {
+      DepartmentInputArea* dia = new DepartmentInputArea;
+
+      ui->splitter->replaceWidget(2, dia);
+    }
+    break;
+
+    case VIEW_TITLE:
+    {
+      FunctionInputArea* fia = new FunctionInputArea;
+
+      ui->splitter->replaceWidget(2, fia);
+
+    }
+    break;
+
+    case VIEW_COMPUTER:
+    {
+      qDebug() << "Computer Table Row (" << index.row() << ") clicked";
+
+      ComputerInputArea* cia = new ComputerInputArea(0, index.row());
+
+      ui->splitter->replaceWidget(2, cia);
+    }
+    break;
+
+    case VIEW_PROCESSOR:
+    {
+      ProcessorInputArea* pia = new ProcessorInputArea;
+
+      ui->splitter->replaceWidget(2, pia);
+    }
+    break;
+
+    case VIEW_OS:
+    {
+      OSInputArea* oia = new OSInputArea;
+
+      ui->splitter->replaceWidget(2, oia);
+    }
+    break;
+
+    case VIEW_SOFTWARE:
+    {
+      SoftwareInputArea* sia = new SoftwareInputArea;
+
+      ui->splitter->replaceWidget(2, sia);
+    }
+    break;
+
+    case VIEW_PRINTER:
+    case VIEW_PHONE: {
+      PhoneInputArea* pia = new PhoneInputArea;
+
+      ui->splitter->replaceWidget(2, pia);
+    }
+                     break;
+
+    case VIEW_MOBILE: {
+      MobileInputArea* mia = new MobileInputArea;
+
+      ui->splitter->replaceWidget(2, mia);
+    }
+                      break;
+
+    case VIEW_MANUFACTURER:
+    case VIEW_ZIPCITY:
+    case VIEW_ZIP_CODE:
+    case VIEW_CITYNAME:
+    default:
+      Not_Available_Message();
+      break;
+
+  }
 }

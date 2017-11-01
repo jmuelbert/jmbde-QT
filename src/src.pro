@@ -10,9 +10,7 @@ DESTDIR = ../
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-        computerinputdialog.cpp \
         csvimportdialog.cpp \
-        employeeinputdialog.cpp \
         preferencesdialog.cpp \
         accountdatamodel.cpp \
         commondatamodel.cpp \
@@ -38,14 +36,22 @@ SOURCES += \
     softwaredatamodel.cpp \
     zipcitymodel.cpp \
     zipcodemodel.cpp \
-    citynamemodel.cpp
+    citynamemodel.cpp \
+    phoneinputarea.cpp \
+    mobileinputarea.cpp \
+    functioninputarea.cpp \
+    departmentinputarea.cpp \
+    titleinputarea.cpp \
+    employeeinputarea.cpp \
+    computerinputarea.cpp \
+    processorinputarea.cpp \
+    osinputarea.cpp \
+    softwareinputarea.cpp
 
  HEADERS  += \
         definitions.h \
         mainwindow.h \
-        computerinputdialog.h \
         csvimportdialog.h \
-        employeeinputdialog.h \
         preferencesdialog.h \
         accountdatamodel.h \
         commondatamodel.h \
@@ -71,15 +77,32 @@ SOURCES += \
     softwaredatamodel.h \
     zipcitymodel.h \
     zipcodemodel.h \
-    citynamemodel.h
+    citynamemodel.h \
+    phoneinputarea.h \
+    mobileinputarea.h \
+    functioninputarea.h \
+    departmentinputarea.h \
+    titleinputarea.h \
+    employeeinputarea.h \
+    computerinputarea.h \
+    processorinputarea.h \
+    osinputarea.h \
+    softwareinputarea.h
 
 FORMS    += \
         mainwindow.ui \
         csvimportdialog.ui \
         employeeinputdialog.ui \
         preferencesdialog.ui \
-    scrollarea.ui \
-    computerinputdialog.ui
+    phoneinputarea.ui \
+    mobileinputarea.ui \
+    functioninputarea.ui \
+    departmentinputarea.ui \
+    titleinputarea.ui \
+    computerinputarea.ui \
+    processorinputarea.ui \
+    osinputarea.ui \
+    softwareinputarea.ui
 
 
 RESOURCES += \

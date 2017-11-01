@@ -83,8 +83,8 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
-#include "definitions.h"
 #include "datamodel.h"
+#include "definitions.h"
 
 /**
  * @brief The ComputerDataModel class
@@ -188,8 +188,6 @@ class ComputerDataModel : public DataModel {
      * @
      */
     const QString tableName = QLatin1String(Database::Table::COMPUTER);
-
-
 
 };
 

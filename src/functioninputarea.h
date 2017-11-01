@@ -1,6 +1,6 @@
 /*
-   // ComputerInputDialog.h
-   // part of jmbde
+   // FunctionInputArea functioninputarea.h
+   // part of <Project>
    //
    // Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
    //
@@ -38,45 +38,27 @@
    // Die sprachspezifischen Genehmigungen und Beschränkungen
    // unter der Lizenz sind dem Lizenztext zu entnehmen.
    //
+   // Created: 1.11.2017
  */
+#ifndef FUNCTIONINPUTAREA_H
+#define FUNCTIONINPUTAREA_H
 
-#ifndef COMPUTERINPUTDIALOG_H
-#define COMPUTERINPUTDIALOG_H
-
-#include <QDataWidgetMapper>
 #include <QScrollArea>
-#include <QSqlRelationalDelegate>
-
-#include "computerdatamodel.h"
 
 namespace Ui {
-  class ComputerInputDialog;
+  class FunctionInputArea;
 }
 
-class ComputerInputDialog : public QScrollArea {
+class FunctionInputArea : public QScrollArea
+{
   Q_OBJECT
 
   public:
-    explicit ComputerInputDialog(QWidget* parent = 0);
-    ComputerInputDialog(QWidget* parent, int index = 0);
+    explicit FunctionInputArea(QWidget* parent = 0);
+    ~FunctionInputArea();
 
-    ~ComputerInputDialog();
-
-  private slots:
-    void on_lineEditComputerName_editingFinished();
-
-    void on_pushButtonEdit_clicked();
-
-    void on_pushButtonAdd_clicked();
-
-private:
-    Ui::ComputerInputDialog* ui;
-
-    void submitData();
-
-    QSqlRelationalTableModel* model;
-    QItemSelectionModel* selectionModel;
-    QDataWidgetMapper* mapper;
+  private:
+    Ui::FunctionInputArea* ui;
 };
 
-#endif // COMPUTERINPUTDIALOG_H
+#endif // FUNCTIONINPUTAREA_H

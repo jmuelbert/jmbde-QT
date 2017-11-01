@@ -53,8 +53,8 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
-#include "definitions.h"
 #include "commondatamodel.h"
+#include "definitions.h"
 
 class DepartmentDataModel : public CommonDataModel {
   public:
@@ -86,17 +86,17 @@ class DepartmentDataModel : public CommonDataModel {
      * @return
      */
     QSqlTableModel* initializeTableModel();
-
     enum PosDeparmentTable {
-        POS_DEPARTMENT_ID,
-        POS_DEPARTMENT_NAME,
-        POS_DEPARTMENT_PRIORITY,
-        POS_DEPARTMENT_PRINTER_ID,
-        POS_DEPARTMENT_FAX_ID,
-        POS_DEPARTMENT_LASTUPDATE
+      POS_DEPARTMENT_ID,
+      POS_DEPARTMENT_NAME,
+      POS_DEPARTMENT_PRIORITY,
+      POS_DEPARTMENT_PRINTER_ID,
+      POS_DEPARTMENT_FAX_ID,
+      POS_DEPARTMENT_LASTUPDATE
     };
 
   private:
+
     /**
      * @brief tableName - the name of the database table
      * @

@@ -53,8 +53,8 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
-#include "definitions.h"
 #include "datamodel.h"
+#include "definitions.h"
 
 class PrinterDataModel : public DataModel {
   public:
@@ -149,8 +149,6 @@ class PrinterDataModel : public DataModel {
      * @
      */
     const QString tableName = QLatin1String(Database::Table::PRINTER);
-
-
 
 };
 

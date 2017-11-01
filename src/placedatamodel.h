@@ -53,8 +53,8 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
-#include "definitions.h"
 #include "commondatamodel.h"
+#include "definitions.h"
 
 class PlaceDataModel : public CommonDataModel {
   public:
@@ -95,6 +95,7 @@ class PlaceDataModel : public CommonDataModel {
     QSqlQueryModel* getQueryModel();
 
   private:
+
     /**
      * @brief tableName - the name of the database table
      * @

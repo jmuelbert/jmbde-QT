@@ -235,8 +235,6 @@ class EmployeeDataModel : public DataModel {
     qint32 chipcard_id;
     QDate last_update;
 
-
-
   private:
 
     /**
@@ -244,8 +242,6 @@ class EmployeeDataModel : public DataModel {
      * @
      */
     const QString tableName = QLatin1String(Database::Table::EMPLOYEE);
-
-
     int idIdx;
     int GenderIdx;
     int TitleIdx;

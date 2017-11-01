@@ -53,8 +53,8 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
-#include "definitions.h"
 #include "datamodel.h"
+#include "definitions.h"
 
 class MobileDataModel : public DataModel {
   public:
@@ -139,8 +139,6 @@ class MobileDataModel : public DataModel {
      * @
      */
     const QString tableName = QLatin1String(Database::Table::MOBILE);
-
-
 
 };
 
