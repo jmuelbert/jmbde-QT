@@ -2,24 +2,167 @@
 <!DOCTYPE TS>
 <TS version="2.1">
 <context>
-    <name>ComputerInputDialog</name>
+    <name>CityInputArea</name>
     <message>
-        <location filename="../src/computerinputdialog.ui" line="14"/>
-        <source>Dialog</source>
+        <location filename="../src/cityinputarea.ui" line="+14"/>
+        <source>ScrollArea</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/computerinputdialog.ui" line="42"/>
+        <location line="+34"/>
+        <source>City</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Zip Code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>City Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+25"/>
+        <source>+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Finish</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ComputerInputArea</name>
+    <message>
+        <location filename="../src/computerinputarea.ui" line="+14"/>
+        <source>ScrollArea</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>ComputerInputDialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Service Number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Active</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Replace</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Opertion System</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Place</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Employee</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Processor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Inventory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Manufacturer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+19"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/computerinputdialog.cpp" line="103"/>
+        <location line="+13"/>
+        <source>IP Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Serial Number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Devicename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Devicetype</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Department</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Service Tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Software</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Printer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+29"/>
+        <source>Computer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Finish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/computerinputarea.cpp" line="+112"/>
         <source>Cached Table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/computerinputdialog.cpp" line="104"/>
+        <location line="+1"/>
         <source>The database reported an error: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -27,410 +170,578 @@
 <context>
     <name>CsvImportDialog</name>
     <message>
-        <location filename="../src/csvimportdialog.ui" line="14"/>
+        <location filename="../src/csvimportdialog.ui" line="+14"/>
         <source>CSV Import</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/csvimportdialog.cpp" line="64"/>
+        <location filename="../src/csvimportdialog.cpp" line="+63"/>
         <source>open CSV file</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DepartmentInputArea</name>
+    <message>
+        <location filename="../src/departmentinputarea.ui" line="+14"/>
+        <source>ScrollArea</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>Department</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Finish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>Printer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Pri-Test</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Priority</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Fax</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>EmployeeDataModel</name>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="198"/>
+        <location filename="../src/employeedatamodel.cpp" line="+201"/>
         <source>ID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="199"/>
+        <location line="+1"/>
         <source>Gender</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="200"/>
+        <location line="+1"/>
         <source>Firstname</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="201"/>
+        <location line="+1"/>
         <source>Lastname</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="202"/>
+        <location line="+1"/>
         <source>Birthday</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="203"/>
+        <location line="+1"/>
         <source>EMail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="204"/>
+        <location line="+1"/>
         <source>Active</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="205"/>
+        <location line="+1"/>
         <source>Datecare</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="206"/>
+        <location line="+1"/>
         <source>StartDate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="207"/>
+        <location line="+1"/>
         <source>EndeDate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="208"/>
+        <location line="+1"/>
         <source>LastUpdate</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>EmployeeInputDialog</name>
+    <name>EmployeeInputArea</name>
     <message>
-        <location filename="../src/employeeinputdialog.ui" line="14"/>
-        <source>Dialog</source>
+        <location filename="../src/employeeinputdialog.ui" line="+14"/>
+        <source>ScrollArea</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeeinputdialog.ui" line="51"/>
-        <source>Firstname</source>
+        <location line="+34"/>
+        <source>Employee</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeeinputdialog.ui" line="61"/>
-        <source>Home Mobile</source>
+        <location line="+22"/>
+        <source>+</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeeinputdialog.ui" line="71"/>
-        <source>Active</source>
+        <location line="+20"/>
+        <source>Finish</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeeinputdialog.ui" line="78"/>
-        <source>Datacare</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/employeeinputdialog.ui" line="88"/>
-        <source>Businessmail</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/employeeinputdialog.ui" line="98"/>
-        <source>Lastname</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/employeeinputdialog.ui" line="108"/>
+        <location line="+25"/>
         <source>Pers.Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeeinputdialog.ui" line="131"/>
-        <source>Department</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/employeeinputdialog.ui" line="144"/>
-        <source>Function</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/employeeinputdialog.ui" line="160"/>
-        <source>Printer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/employeeinputdialog.ui" line="170"/>
-        <source>Computer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/employeeinputdialog.ui" line="183"/>
-        <source>Fax</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/employeeinputdialog.ui" line="202"/>
-        <source>Phone</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/employeeinputdialog.ui" line="212"/>
-        <source>Titel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/employeeinputdialog.ui" line="225"/>
+        <location line="+10"/>
         <source>Address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeeinputdialog.ui" line="238"/>
+        <location line="+19"/>
+        <source>Lastname</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Firstname</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Gender</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeeinputdialog.ui" line="248"/>
-        <source>City</source>
+        <location line="+10"/>
+        <source>Titel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeeinputdialog.ui" line="267"/>
-        <source>Zipcode</source>
+        <location line="+13"/>
+        <source>Home Mobile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeeinputdialog.ui" line="280"/>
-        <source>Notes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/employeeinputdialog.ui" line="290"/>
-        <source>End Date</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/employeeinputdialog.ui" line="300"/>
-        <source>Mobile</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/employeeinputdialog.ui" line="316"/>
-        <source>Start Date</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/employeeinputdialog.ui" line="326"/>
-        <source>Birthday</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/employeeinputdialog.ui" line="333"/>
-        <source>Employee Account</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/employeeinputdialog.ui" line="349"/>
-        <source>Employee Document</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/employeeinputdialog.ui" line="359"/>
-        <source>ChipCard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/employeeinputdialog.ui" line="372"/>
+        <location line="+16"/>
         <source>Last Update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeeinputdialog.ui" line="379"/>
-        <source>Date</source>
+        <location line="+7"/>
+        <source>Start Date</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeeinputdialog.ui" line="389"/>
+        <location line="+10"/>
+        <source>Phone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Home Phone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeeinputdialog.ui" line="402"/>
+        <location line="+10"/>
+        <source>Computer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+13"/>
         <source>Home Mail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeeinputdialog.cpp" line="188"/>
-        <source>Cached Table</source>
+        <location line="+13"/>
+        <source>Active</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeeinputdialog.cpp" line="189"/>
-        <source>The database reported an error: %1</source>
+        <location line="+7"/>
+        <source>Birthday</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeeinputdialog.cpp" line="202"/>
-        <location filename="../src/employeeinputdialog.cpp" line="209"/>
+        <location line="+13"/>
+        <source>Employee Document</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+29"/>
+        <source>ChipCard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>City</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Zipcode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>Businessmail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Function</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Department</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Printer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Datacare</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Employee Account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>End Date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Fax</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Notes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Mobile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/employeeinputarea.cpp" line="+191"/>
+        <location line="+8"/>
         <source>Not Set</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeeinputdialog.cpp" line="203"/>
+        <location line="-7"/>
         <source>m</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeeinputdialog.cpp" line="204"/>
+        <location line="+1"/>
         <source>f</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeeinputdialog.cpp" line="210"/>
+        <location line="+7"/>
         <source>Mr.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeeinputdialog.cpp" line="211"/>
+        <location line="+1"/>
         <source>Ms.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>FunctionInputArea</name>
+    <message>
+        <location filename="../src/functioninputarea.ui" line="+14"/>
+        <source>ScrollArea</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>Function</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Priority</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+25"/>
+        <source>+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Finish</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.ui" line="35"/>
+        <location filename="../src/mainwindow.ui" line="+35"/>
         <source>JMBDE Version 0.4.0 (c) Jürgen Mülbert</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="127"/>
+        <location line="+116"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="140"/>
-        <location filename="../src/mainwindow.ui" line="295"/>
+        <location line="+13"/>
+        <location line="+155"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="149"/>
-        <location filename="../src/mainwindow.ui" line="277"/>
-        <location filename="../src/mainwindow.cpp" line="397"/>
+        <location line="-146"/>
+        <location line="+128"/>
+        <location filename="../src/mainwindow.cpp" line="+520"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="180"/>
+        <location line="-97"/>
         <source>Preferences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="185"/>
-        <location filename="../src/mainwindow.cpp" line="118"/>
+        <location line="+5"/>
+        <location filename="../src/mainwindow.cpp" line="-337"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="197"/>
+        <location line="+12"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="200"/>
+        <location line="+3"/>
         <source>Ctrl+N</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="205"/>
+        <location line="+5"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="217"/>
+        <location line="+12"/>
         <source>Open...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="220"/>
+        <location line="+3"/>
         <source>Ctrl+O</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="228"/>
+        <location line="+8"/>
         <source>Import...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="236"/>
+        <location line="+8"/>
         <source>Export...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="245"/>
+        <location line="+9"/>
         <source>Print...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="248"/>
+        <location line="+3"/>
         <source>Ctrl+P</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="257"/>
+        <location line="+9"/>
         <source>Print Preview...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="265"/>
+        <location line="+8"/>
         <source>&amp;Export Pdf</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="286"/>
+        <location line="+21"/>
         <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="304"/>
+        <location line="+18"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="57"/>
-        <location filename="../src/mainwindow.cpp" line="231"/>
-        <location filename="../src/mainwindow.cpp" line="284"/>
-        <location filename="../src/mainwindow.cpp" line="341"/>
+        <location filename="../src/mainwindow.cpp" line="-123"/>
+        <location line="+253"/>
+        <location line="+62"/>
+        <location line="+74"/>
+        <location line="+105"/>
         <source>Employee</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="58"/>
-        <location filename="../src/mainwindow.cpp" line="239"/>
-        <location filename="../src/mainwindow.cpp" line="292"/>
-        <location filename="../src/mainwindow.cpp" line="349"/>
+        <location line="-483"/>
+        <location line="+252"/>
+        <location line="+63"/>
+        <location line="+74"/>
+        <location line="+142"/>
         <source>Computer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="59"/>
-        <location filename="../src/mainwindow.cpp" line="247"/>
-        <location filename="../src/mainwindow.cpp" line="300"/>
-        <location filename="../src/mainwindow.cpp" line="357"/>
+        <location line="-523"/>
+        <location line="+254"/>
+        <location line="+64"/>
+        <location line="+74"/>
+        <location line="+175"/>
         <source>Printer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="60"/>
-        <location filename="../src/mainwindow.cpp" line="255"/>
-        <location filename="../src/mainwindow.cpp" line="308"/>
-        <location filename="../src/mainwindow.cpp" line="365"/>
+        <location line="-562"/>
+        <location line="+259"/>
+        <location line="+65"/>
+        <location line="+74"/>
+        <location line="+177"/>
         <source>Phone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="119"/>
+        <location line="-601"/>
+        <location line="+484"/>
+        <source>Person</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-480"/>
+        <location line="+503"/>
+        <source>Function</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-501"/>
+        <location line="+513"/>
+        <source>Department</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-511"/>
+        <location line="+523"/>
+        <source>Title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-520"/>
+        <location line="+475"/>
+        <source>Device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-471"/>
+        <location line="+540"/>
+        <source>Processor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-538"/>
+        <location line="+549"/>
+        <source>Operation System</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-547"/>
+        <location line="+558"/>
+        <source>Software</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-553"/>
+        <location line="+465"/>
+        <source>Communication</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-461"/>
+        <location line="+585"/>
+        <source>Mobile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-582"/>
+        <location line="+460"/>
+        <source>Misc</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-458"/>
+        <location line="+593"/>
+        <source>Manufacturer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-591"/>
+        <location line="+603"/>
+        <source>City</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-512"/>
         <source>
 
-Copyright (c) 2013, 2014 Jürgen Mülbert. All rights reserved.
+Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the European Union Public Licence (EUPL),
-version 1.1.
+version 1.2.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -439,510 +750,913 @@ European Union Public Licence for more details.
 
 You should have received a copy of the European Union Public Licence
 along with this program. If not, see
-http://www.osor.eu/eupl/european-union-public-licence-eupl-v.1.1
+https://joinup.ec.europa.eu/page/eupl-text-11-12
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="201"/>
+        <location line="+89"/>
         <source>This action create a new database. if you have an database
 with data you lost this.
 Proceed for create a new database ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="208"/>
+        <location line="+8"/>
         <source>The new database is created</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="269"/>
+        <location line="+77"/>
         <source>Print Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="384"/>
+        <location line="+149"/>
         <source>This action is not implemented
 in the version </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="388"/>
+        <location line="+4"/>
         <source>
 Please try a newer version, if any available
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="389"/>
+        <location line="+1"/>
         <source>you can check this on the project site:
 </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
+    <name>ManufacturerInputArea</name>
+    <message>
+        <location filename="../src/manufacturerinputarea.ui" line="+14"/>
+        <source>ScrollArea</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>Manufacturer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Phone Number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Mail Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Name2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>City</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Zip Code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Fax Number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Address2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Supporter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Hotline Number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <location line="+20"/>
+        <source>PushButton</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MobileInputArea</name>
+    <message>
+        <location filename="../src/mobileinputarea.ui" line="+14"/>
+        <source>ScrollArea</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>Mobile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+25"/>
+        <source>Devicename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Department</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Inventory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Employee</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Manufacturer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Replace</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Place</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Card Number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Pin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Devicetype</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Active</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Serial Number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Finish</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OSInputArea</name>
+    <message>
+        <location filename="../src/osinputarea.ui" line="+14"/>
+        <source>ScrollArea</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>Operation System</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Revision</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Fix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Finish</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PhoneInputArea</name>
+    <message>
+        <location filename="../src/phoneinputarea.ui" line="+14"/>
+        <source>ScrollArea</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+30"/>
+        <source>Inventory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Manufacturer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Devicename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Devicetype</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>Place</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Department</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Active</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Replace</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Pin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Employee</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+28"/>
+        <source>+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Finish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+26"/>
+        <source>Phone</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PreferencesDialog</name>
     <message>
-        <location filename="../src/preferencesdialog.ui" line="20"/>
+        <location filename="../src/preferencesdialog.ui" line="+20"/>
         <source>Dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/preferencesdialog.ui" line="68"/>
+        <location line="+48"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/preferencesdialog.ui" line="75"/>
+        <location line="+7"/>
         <source>Password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/preferencesdialog.ui" line="89"/>
+        <location line="+14"/>
         <source>Username</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/preferencesdialog.ui" line="96"/>
+        <location line="+7"/>
         <source>Database Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/preferencesdialog.ui" line="110"/>
+        <location line="+14"/>
         <source>Database Connc.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/preferencesdialog.ui" line="127"/>
+        <location line="+17"/>
         <source>Hostname</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/preferencesdialog.cpp" line="121"/>
+        <location filename="../src/preferencesdialog.cpp" line="+126"/>
         <source>Select Directory for Database</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ProcessorInputArea</name>
+    <message>
+        <location filename="../src/processorinputarea.ui" line="+14"/>
+        <source>ScrollArea</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>Processor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+28"/>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Clock Rate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Ghz</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Cores</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Finish</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/commondatamodel.cpp" line="77"/>
-        <location filename="../src/commondatamodel.cpp" line="95"/>
-        <location filename="../src/computerdatamodel.cpp" line="126"/>
-        <location filename="../src/computerdatamodel.cpp" line="180"/>
-        <location filename="../src/employeedatamodel.cpp" line="117"/>
-        <location filename="../src/faxdatamodel.cpp" line="57"/>
-        <location filename="../src/faxdatamodel.cpp" line="92"/>
-        <location filename="../src/mobiledatamodel.cpp" line="58"/>
-        <location filename="../src/mobiledatamodel.cpp" line="93"/>
-        <location filename="../src/phonedatamodel.cpp" line="58"/>
-        <location filename="../src/phonedatamodel.cpp" line="93"/>
-        <location filename="../src/printerdatamodel.cpp" line="116"/>
-        <location filename="../src/printerdatamodel.cpp" line="162"/>
+        <location filename="../src/commondatamodel.cpp" line="+77"/>
+        <location line="+19"/>
+        <location filename="../src/computerdatamodel.cpp" line="+127"/>
+        <location line="+55"/>
+        <location filename="../src/employeedatamodel.cpp" line="-92"/>
+        <location filename="../src/faxdatamodel.cpp" line="+57"/>
+        <location line="+36"/>
+        <location filename="../src/mobiledatamodel.cpp" line="+57"/>
+        <location line="+36"/>
+        <location filename="../src/phonedatamodel.cpp" line="+57"/>
+        <location line="+36"/>
+        <location filename="../src/printerdatamodel.cpp" line="+117"/>
+        <location line="+47"/>
         <source>ID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/commondatamodel.cpp" line="78"/>
-        <location filename="../src/commondatamodel.cpp" line="96"/>
+        <location line="-18"/>
+        <location line="+19"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/commondatamodel.cpp" line="80"/>
-        <location filename="../src/commondatamodel.cpp" line="98"/>
+        <location line="-17"/>
+        <location line="+19"/>
         <source>Creationtime</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/commondatamodel.cpp" line="82"/>
-        <location filename="../src/commondatamodel.cpp" line="100"/>
+        <location line="-17"/>
+        <location line="+19"/>
         <source>Updatetime</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/computerdatamodel.cpp" line="128"/>
-        <location filename="../src/computerdatamodel.cpp" line="182"/>
-        <location filename="../src/faxdatamodel.cpp" line="59"/>
-        <location filename="../src/faxdatamodel.cpp" line="94"/>
-        <location filename="../src/mobiledatamodel.cpp" line="60"/>
-        <location filename="../src/mobiledatamodel.cpp" line="95"/>
-        <location filename="../src/phonedatamodel.cpp" line="60"/>
-        <location filename="../src/phonedatamodel.cpp" line="95"/>
-        <location filename="../src/printerdatamodel.cpp" line="118"/>
-        <location filename="../src/printerdatamodel.cpp" line="164"/>
+        <location filename="../src/computerdatamodel.cpp" line="-53"/>
+        <location line="+55"/>
+        <location filename="../src/faxdatamodel.cpp" line="-34"/>
+        <location line="+36"/>
+        <location filename="../src/mobiledatamodel.cpp" line="-34"/>
+        <location line="+36"/>
+        <location filename="../src/phonedatamodel.cpp" line="-34"/>
+        <location line="+36"/>
+        <location filename="../src/printerdatamodel.cpp" line="-45"/>
+        <location line="+47"/>
         <source>Dev.Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/computerdatamodel.cpp" line="130"/>
-        <location filename="../src/computerdatamodel.cpp" line="184"/>
-        <location filename="../src/faxdatamodel.cpp" line="61"/>
-        <location filename="../src/faxdatamodel.cpp" line="96"/>
-        <location filename="../src/mobiledatamodel.cpp" line="62"/>
-        <location filename="../src/mobiledatamodel.cpp" line="97"/>
-        <location filename="../src/phonedatamodel.cpp" line="62"/>
-        <location filename="../src/phonedatamodel.cpp" line="97"/>
-        <location filename="../src/printerdatamodel.cpp" line="120"/>
-        <location filename="../src/printerdatamodel.cpp" line="166"/>
+        <location line="-53"/>
+        <location line="+55"/>
+        <location filename="../src/faxdatamodel.cpp" line="-34"/>
+        <location line="+36"/>
+        <location filename="../src/mobiledatamodel.cpp" line="-34"/>
+        <location line="+36"/>
+        <location filename="../src/phonedatamodel.cpp" line="-34"/>
+        <location line="+36"/>
+        <location filename="../src/printerdatamodel.cpp" line="-45"/>
+        <location line="+47"/>
         <source>S/N</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/computerdatamodel.cpp" line="132"/>
-        <location filename="../src/computerdatamodel.cpp" line="186"/>
+        <location line="-53"/>
+        <location line="+55"/>
         <source>Service Tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/computerdatamodel.cpp" line="134"/>
-        <location filename="../src/computerdatamodel.cpp" line="188"/>
+        <location line="-53"/>
+        <location line="+55"/>
         <source>Service Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/computerdatamodel.cpp" line="136"/>
-        <location filename="../src/computerdatamodel.cpp" line="190"/>
+        <location line="-53"/>
+        <location line="+55"/>
         <source>Memory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/computerdatamodel.cpp" line="138"/>
-        <location filename="../src/computerdatamodel.cpp" line="192"/>
-        <location filename="../src/printerdatamodel.cpp" line="122"/>
-        <location filename="../src/printerdatamodel.cpp" line="168"/>
+        <location line="-53"/>
+        <location line="+55"/>
+        <location filename="../src/printerdatamodel.cpp" line="-45"/>
+        <location line="+47"/>
         <source>Network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/computerdatamodel.cpp" line="140"/>
-        <location filename="../src/computerdatamodel.cpp" line="194"/>
-        <location filename="../src/printerdatamodel.cpp" line="124"/>
-        <location filename="../src/printerdatamodel.cpp" line="170"/>
+        <location line="-53"/>
+        <location line="+55"/>
+        <location filename="../src/printerdatamodel.cpp" line="-45"/>
+        <location line="+47"/>
         <source>Network Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/computerdatamodel.cpp" line="142"/>
-        <location filename="../src/computerdatamodel.cpp" line="196"/>
-        <location filename="../src/printerdatamodel.cpp" line="126"/>
-        <location filename="../src/printerdatamodel.cpp" line="172"/>
+        <location line="-53"/>
+        <location line="+55"/>
+        <location filename="../src/printerdatamodel.cpp" line="-45"/>
+        <location line="+47"/>
         <source>IP Address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/computerdatamodel.cpp" line="144"/>
-        <location filename="../src/computerdatamodel.cpp" line="198"/>
-        <location filename="../src/employeedatamodel.cpp" line="145"/>
-        <location filename="../src/faxdatamodel.cpp" line="64"/>
-        <location filename="../src/faxdatamodel.cpp" line="99"/>
-        <location filename="../src/mobiledatamodel.cpp" line="65"/>
-        <location filename="../src/mobiledatamodel.cpp" line="100"/>
-        <location filename="../src/phonedatamodel.cpp" line="65"/>
-        <location filename="../src/phonedatamodel.cpp" line="100"/>
-        <location filename="../src/printerdatamodel.cpp" line="128"/>
-        <location filename="../src/printerdatamodel.cpp" line="174"/>
+        <location line="-53"/>
+        <location line="+55"/>
+        <location filename="../src/employeedatamodel.cpp" line="+28"/>
+        <location filename="../src/faxdatamodel.cpp" line="-33"/>
+        <location line="+36"/>
+        <location filename="../src/mobiledatamodel.cpp" line="-33"/>
+        <location line="+36"/>
+        <location filename="../src/phonedatamodel.cpp" line="-33"/>
+        <location line="+36"/>
+        <location filename="../src/printerdatamodel.cpp" line="-45"/>
+        <location line="+47"/>
         <source>Active</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/computerdatamodel.cpp" line="146"/>
-        <location filename="../src/computerdatamodel.cpp" line="200"/>
-        <location filename="../src/faxdatamodel.cpp" line="66"/>
-        <location filename="../src/faxdatamodel.cpp" line="101"/>
-        <location filename="../src/mobiledatamodel.cpp" line="67"/>
-        <location filename="../src/mobiledatamodel.cpp" line="102"/>
-        <location filename="../src/phonedatamodel.cpp" line="67"/>
-        <location filename="../src/phonedatamodel.cpp" line="102"/>
-        <location filename="../src/printerdatamodel.cpp" line="130"/>
-        <location filename="../src/printerdatamodel.cpp" line="176"/>
+        <location line="-53"/>
+        <location line="+55"/>
+        <location filename="../src/faxdatamodel.cpp" line="-34"/>
+        <location line="+36"/>
+        <location filename="../src/mobiledatamodel.cpp" line="-34"/>
+        <location line="+36"/>
+        <location filename="../src/phonedatamodel.cpp" line="-34"/>
+        <location line="+36"/>
+        <location filename="../src/printerdatamodel.cpp" line="-45"/>
+        <location line="+47"/>
         <source>Replace</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/computerdatamodel.cpp" line="148"/>
-        <location filename="../src/computerdatamodel.cpp" line="202"/>
-        <location filename="../src/faxdatamodel.cpp" line="68"/>
-        <location filename="../src/faxdatamodel.cpp" line="103"/>
-        <location filename="../src/mobiledatamodel.cpp" line="69"/>
-        <location filename="../src/mobiledatamodel.cpp" line="104"/>
-        <location filename="../src/phonedatamodel.cpp" line="69"/>
-        <location filename="../src/phonedatamodel.cpp" line="104"/>
-        <location filename="../src/printerdatamodel.cpp" line="136"/>
-        <location filename="../src/printerdatamodel.cpp" line="182"/>
+        <location line="-53"/>
+        <location line="+55"/>
+        <location filename="../src/faxdatamodel.cpp" line="-34"/>
+        <location line="+36"/>
+        <location filename="../src/mobiledatamodel.cpp" line="-34"/>
+        <location line="+36"/>
+        <location filename="../src/phonedatamodel.cpp" line="-34"/>
+        <location line="+36"/>
+        <location filename="../src/printerdatamodel.cpp" line="-41"/>
+        <location line="+47"/>
         <source>Device Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/computerdatamodel.cpp" line="150"/>
-        <location filename="../src/computerdatamodel.cpp" line="204"/>
-        <location filename="../src/faxdatamodel.cpp" line="70"/>
-        <location filename="../src/faxdatamodel.cpp" line="105"/>
-        <location filename="../src/mobiledatamodel.cpp" line="71"/>
-        <location filename="../src/mobiledatamodel.cpp" line="106"/>
-        <location filename="../src/phonedatamodel.cpp" line="71"/>
-        <location filename="../src/phonedatamodel.cpp" line="106"/>
-        <location filename="../src/printerdatamodel.cpp" line="138"/>
-        <location filename="../src/printerdatamodel.cpp" line="184"/>
+        <location line="-53"/>
+        <location line="+55"/>
+        <location filename="../src/faxdatamodel.cpp" line="-34"/>
+        <location line="+36"/>
+        <location filename="../src/mobiledatamodel.cpp" line="-34"/>
+        <location line="+36"/>
+        <location filename="../src/phonedatamodel.cpp" line="-34"/>
+        <location line="+36"/>
+        <location filename="../src/printerdatamodel.cpp" line="-45"/>
+        <location line="+47"/>
         <source>Employee</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/computerdatamodel.cpp" line="152"/>
-        <location filename="../src/computerdatamodel.cpp" line="206"/>
-        <location filename="../src/faxdatamodel.cpp" line="72"/>
-        <location filename="../src/faxdatamodel.cpp" line="107"/>
-        <location filename="../src/mobiledatamodel.cpp" line="73"/>
-        <location filename="../src/mobiledatamodel.cpp" line="108"/>
-        <location filename="../src/phonedatamodel.cpp" line="73"/>
-        <location filename="../src/phonedatamodel.cpp" line="108"/>
-        <location filename="../src/printerdatamodel.cpp" line="140"/>
-        <location filename="../src/printerdatamodel.cpp" line="186"/>
+        <location line="-53"/>
+        <location line="+55"/>
+        <location filename="../src/faxdatamodel.cpp" line="-34"/>
+        <location line="+36"/>
+        <location filename="../src/mobiledatamodel.cpp" line="-34"/>
+        <location line="+36"/>
+        <location filename="../src/phonedatamodel.cpp" line="-34"/>
+        <location line="+36"/>
+        <location filename="../src/printerdatamodel.cpp" line="-45"/>
+        <location line="+47"/>
         <source>Place</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/computerdatamodel.cpp" line="154"/>
-        <location filename="../src/computerdatamodel.cpp" line="208"/>
-        <location filename="../src/employeedatamodel.cpp" line="155"/>
-        <location filename="../src/faxdatamodel.cpp" line="74"/>
-        <location filename="../src/faxdatamodel.cpp" line="109"/>
-        <location filename="../src/mobiledatamodel.cpp" line="75"/>
-        <location filename="../src/mobiledatamodel.cpp" line="110"/>
-        <location filename="../src/phonedatamodel.cpp" line="75"/>
-        <location filename="../src/phonedatamodel.cpp" line="110"/>
-        <location filename="../src/printerdatamodel.cpp" line="142"/>
-        <location filename="../src/printerdatamodel.cpp" line="188"/>
+        <location line="-53"/>
+        <location line="+55"/>
+        <location filename="../src/employeedatamodel.cpp" line="+10"/>
+        <location filename="../src/faxdatamodel.cpp" line="-34"/>
+        <location line="+36"/>
+        <location filename="../src/mobiledatamodel.cpp" line="-34"/>
+        <location line="+36"/>
+        <location filename="../src/phonedatamodel.cpp" line="-34"/>
+        <location line="+36"/>
+        <location filename="../src/printerdatamodel.cpp" line="-45"/>
+        <location line="+47"/>
         <source>Department</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/computerdatamodel.cpp" line="156"/>
-        <location filename="../src/computerdatamodel.cpp" line="210"/>
-        <location filename="../src/faxdatamodel.cpp" line="76"/>
-        <location filename="../src/faxdatamodel.cpp" line="111"/>
-        <location filename="../src/mobiledatamodel.cpp" line="77"/>
-        <location filename="../src/mobiledatamodel.cpp" line="112"/>
-        <location filename="../src/phonedatamodel.cpp" line="77"/>
-        <location filename="../src/phonedatamodel.cpp" line="112"/>
-        <location filename="../src/printerdatamodel.cpp" line="144"/>
-        <location filename="../src/printerdatamodel.cpp" line="190"/>
+        <location line="-53"/>
+        <location line="+55"/>
+        <location filename="../src/faxdatamodel.cpp" line="-34"/>
+        <location line="+36"/>
+        <location filename="../src/mobiledatamodel.cpp" line="-34"/>
+        <location line="+36"/>
+        <location filename="../src/phonedatamodel.cpp" line="-34"/>
+        <location line="+36"/>
+        <location filename="../src/printerdatamodel.cpp" line="-45"/>
+        <location line="+47"/>
         <source>Manufacturer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/computerdatamodel.cpp" line="158"/>
-        <location filename="../src/computerdatamodel.cpp" line="212"/>
-        <location filename="../src/faxdatamodel.cpp" line="78"/>
-        <location filename="../src/faxdatamodel.cpp" line="113"/>
-        <location filename="../src/mobiledatamodel.cpp" line="79"/>
-        <location filename="../src/mobiledatamodel.cpp" line="114"/>
-        <location filename="../src/phonedatamodel.cpp" line="79"/>
-        <location filename="../src/phonedatamodel.cpp" line="114"/>
-        <location filename="../src/printerdatamodel.cpp" line="146"/>
-        <location filename="../src/printerdatamodel.cpp" line="192"/>
+        <location line="-53"/>
+        <location line="+55"/>
+        <location filename="../src/faxdatamodel.cpp" line="-34"/>
+        <location line="+36"/>
+        <location filename="../src/mobiledatamodel.cpp" line="-34"/>
+        <location line="+36"/>
+        <location filename="../src/phonedatamodel.cpp" line="-34"/>
+        <location line="+36"/>
+        <location filename="../src/printerdatamodel.cpp" line="-45"/>
+        <location line="+47"/>
         <source>Inventory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/computerdatamodel.cpp" line="160"/>
-        <location filename="../src/computerdatamodel.cpp" line="214"/>
+        <location line="-53"/>
+        <location line="+55"/>
         <source>Processor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/computerdatamodel.cpp" line="162"/>
-        <location filename="../src/computerdatamodel.cpp" line="216"/>
+        <location line="-53"/>
+        <location line="+55"/>
         <source>Operation System</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/computerdatamodel.cpp" line="164"/>
-        <location filename="../src/computerdatamodel.cpp" line="218"/>
+        <location line="-53"/>
+        <location line="+55"/>
         <source>Software</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/computerdatamodel.cpp" line="166"/>
-        <location filename="../src/computerdatamodel.cpp" line="220"/>
-        <location filename="../src/employeedatamodel.cpp" line="161"/>
-        <location filename="../src/printerdatamodel.cpp" line="148"/>
-        <location filename="../src/printerdatamodel.cpp" line="194"/>
+        <location line="-53"/>
+        <location line="+55"/>
+        <location filename="../src/employeedatamodel.cpp" line="+6"/>
+        <location filename="../src/printerdatamodel.cpp" line="-45"/>
+        <location line="+47"/>
         <source>Printer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/computerdatamodel.cpp" line="168"/>
-        <location filename="../src/computerdatamodel.cpp" line="222"/>
-        <location filename="../src/employeedatamodel.cpp" line="174"/>
-        <location filename="../src/faxdatamodel.cpp" line="80"/>
-        <location filename="../src/faxdatamodel.cpp" line="115"/>
-        <location filename="../src/mobiledatamodel.cpp" line="81"/>
-        <location filename="../src/mobiledatamodel.cpp" line="116"/>
-        <location filename="../src/phonedatamodel.cpp" line="81"/>
-        <location filename="../src/phonedatamodel.cpp" line="116"/>
-        <location filename="../src/printerdatamodel.cpp" line="150"/>
-        <location filename="../src/printerdatamodel.cpp" line="196"/>
+        <location line="-53"/>
+        <location line="+55"/>
+        <location filename="../src/employeedatamodel.cpp" line="+13"/>
+        <location filename="../src/faxdatamodel.cpp" line="-34"/>
+        <location line="+36"/>
+        <location filename="../src/mobiledatamodel.cpp" line="-34"/>
+        <location line="+36"/>
+        <location filename="../src/phonedatamodel.cpp" line="-34"/>
+        <location line="+36"/>
+        <location filename="../src/printerdatamodel.cpp" line="-45"/>
+        <location line="+47"/>
         <source>Last Update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="58"/>
-        <location filename="../src/employeedatamodel.cpp" line="125"/>
+        <location filename="../src/employeedatamodel.cpp" line="-117"/>
+        <location line="+68"/>
         <source>Firstname</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="60"/>
-        <location filename="../src/employeedatamodel.cpp" line="127"/>
+        <location line="-66"/>
+        <location line="+68"/>
         <source>Lastname</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="119"/>
+        <location line="-8"/>
         <source>Emp.Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="121"/>
+        <location line="+2"/>
         <source>Gender</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="123"/>
+        <location line="+2"/>
         <source>Title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="129"/>
+        <location line="+6"/>
         <source>address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="131"/>
+        <location line="+2"/>
         <source>Zipcity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="133"/>
+        <location line="+2"/>
         <source>Birthday</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="135"/>
+        <location line="+2"/>
         <source>Homephone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="137"/>
+        <location line="+2"/>
         <source>Homemail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="139"/>
+        <location line="+2"/>
         <source>Homemobile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="141"/>
+        <location line="+2"/>
         <source>Businessemail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="143"/>
+        <location line="+2"/>
         <source>Datacare</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="147"/>
+        <location line="+4"/>
         <source>Photo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="149"/>
+        <location line="+2"/>
         <source>Notes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="151"/>
+        <location line="+2"/>
         <source>StartDate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="153"/>
+        <location line="+2"/>
         <source>EndDate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="157"/>
+        <location line="+4"/>
         <source>Function</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="159"/>
+        <location line="+2"/>
         <source>Computer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="163"/>
+        <location line="+4"/>
         <source>Phone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="165"/>
+        <location line="+2"/>
         <source>Mobile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="166"/>
+        <location line="+1"/>
         <source>Fax</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="168"/>
+        <location line="+2"/>
         <source>Accounts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="170"/>
+        <location line="+2"/>
         <source>Documents</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/employeedatamodel.cpp" line="172"/>
+        <location line="+2"/>
         <source>Chipcard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/faxdatamodel.cpp" line="62"/>
-        <location filename="../src/faxdatamodel.cpp" line="97"/>
-        <location filename="../src/mobiledatamodel.cpp" line="63"/>
-        <location filename="../src/mobiledatamodel.cpp" line="98"/>
-        <location filename="../src/phonedatamodel.cpp" line="63"/>
-        <location filename="../src/phonedatamodel.cpp" line="98"/>
+        <location filename="../src/faxdatamodel.cpp" line="-54"/>
+        <location line="+36"/>
+        <location filename="../src/mobiledatamodel.cpp" line="-54"/>
+        <location line="+36"/>
+        <location filename="../src/phonedatamodel.cpp" line="-54"/>
+        <location line="+36"/>
         <source>Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/faxdatamodel.cpp" line="63"/>
-        <location filename="../src/faxdatamodel.cpp" line="98"/>
-        <location filename="../src/mobiledatamodel.cpp" line="64"/>
-        <location filename="../src/mobiledatamodel.cpp" line="99"/>
-        <location filename="../src/phonedatamodel.cpp" line="64"/>
-        <location filename="../src/phonedatamodel.cpp" line="99"/>
+        <location line="-35"/>
+        <location line="+36"/>
+        <location filename="../src/mobiledatamodel.cpp" line="-35"/>
+        <location line="+36"/>
+        <location filename="../src/phonedatamodel.cpp" line="-35"/>
+        <location line="+36"/>
         <source>PIN</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/printerdatamodel.cpp" line="132"/>
-        <location filename="../src/printerdatamodel.cpp" line="178"/>
+        <location filename="../src/printerdatamodel.cpp" line="-65"/>
+        <location line="+47"/>
         <source>Resources</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/printerdatamodel.cpp" line="134"/>
-        <location filename="../src/printerdatamodel.cpp" line="180"/>
+        <location line="-45"/>
+        <location line="+47"/>
         <source>Papersize Max</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SoftwareInputArea</name>
+    <message>
+        <location filename="../src/softwareinputarea.ui" line="+14"/>
+        <source>ScrollArea</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>Software</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+28"/>
+        <source>Revision</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Fix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Finish</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TitleInputArea</name>
+    <message>
+        <location filename="../src/titleinputarea.ui" line="+14"/>
+        <source>ScrollArea</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <location line="+87"/>
+        <source>Title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-65"/>
+        <source>+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Finish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>From</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>To</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

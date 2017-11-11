@@ -107,7 +107,7 @@ class ManufacturerDataModel : public CommonDataModel {
      * @brief tableName - the name of the database table
      * @
      */
-    const QString tableName = QLatin1String(Database::Table::MANIFACTURER);
+    const QString tableName = QLatin1String(Database::Table::MANUFACTURER);
 
 };
 

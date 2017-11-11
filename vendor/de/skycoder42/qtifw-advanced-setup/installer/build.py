@@ -16,9 +16,13 @@ bindir = sys.argv[3]
 qtifwdir = sys.argv[4]
 target = sys.argv[5]
 mode = sys.argv[6]
-arch = sys.argv[7]
+platform = sys.argv[7]
+arch = sys.argv[8]
+inputs = sys.argv[9:]
 cfgdir = os.path.join(outdir, "config")
 pkgdir = os.path.join(outdir, "packages")
+
+subTDir = ""
 
 # definitions
 class State(Enum):
@@ -26,7 +30,8 @@ class State(Enum):
 	Package = 1,
 	Meta = 2,
 	DataDir = 3,
-	DataFile = 4
+	DataFile = 4,
+	SubDir = 5
 
 def copy_cfg(src):
 	cfgsrc = os.path.join(srcdir, src)
@@ -35,7 +40,7 @@ def copy_cfg(src):
 
 def copy_pkg(pkg, state, src, subdir, isDir):
 	pkgsrc = os.path.join(srcdir, src)
-	pkgout = os.path.join(pkgdir, pkg, subdir)
+	pkgout = os.path.join(pkgdir, pkg, subdir, subTDir)
 	os.makedirs(pkgout, exist_ok=True)
 	if isDir:
 		copy_tree(pkgsrc, pkgout, preserve_symlinks=True)
@@ -50,10 +55,11 @@ def prepend_file_data(filename, data):
 		file.write(data)
 		file.write(orig)
 
-def create_install_dir(offset):
+def create_install_dir():
+	global subTDir
 	state = State.Config
 	pkg = ""
-	for arg in sys.argv[offset:]:
+	for arg in inputs:
 		if arg == "p":
 			state = State.Package
 		elif arg == "m":
@@ -62,10 +68,13 @@ def create_install_dir(offset):
 			state = State.DataDir
 		elif arg == "f":
 			state = State.DataFile
+		elif arg == "t":
+			state = State.SubDir
 		else:
 			if state == State.Config:
 				copy_cfg(arg)
 			elif state == State.Package:
+				subTDir = ""
 				pkg = arg
 			elif state == State.Meta:
 				copy_pkg(pkg, state, arg, "meta", True)
@@ -76,8 +85,11 @@ def create_install_dir(offset):
 			elif state == State.DataFile:
 				copy_pkg(pkg, state, arg, "data", False)
 				state = State.Package
+			elif state == State.SubDir:
+				subTDir = arg
+				state = State.Package
 			else:
-				raise Exception("Invalid input: " + arg)
+				raise Exception("Invalid state: " + state.name)
 
 def config_arch():
 	#adjust install js
@@ -157,13 +169,13 @@ def create_repo():
 		os.path.join(qtifwdir, "repogen"),
 		"-p",
 		pkgdir,
-		os.path.join(outdir, "repository")
+		os.path.join(outdir, "repository", platform + "_" + arch)
 	], check=True)
 
 # prepare & copy files
 shutil.rmtree(outdir, ignore_errors=True)
 os.makedirs(cfgdir, exist_ok=True)
-create_install_dir(8)
+create_install_dir()
 config_arch()
 add_translations()
 

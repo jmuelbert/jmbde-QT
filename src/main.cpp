@@ -105,10 +105,15 @@ int main(int argc, char* argv[]) {
   QCoreApplication::setApplicationName(APP_NAME);
   QCoreApplication::setApplicationVersion(APP_VERSION);
   QCoreApplication::setOrganizationName(APP_ORG_NAME);
-#if defined (Q_OS_MAC)
-  QApplication::setOrganizationDomain(APP_ORG_NAME);
-#else
-  QCoreApplication::setOrganizationDomain(APP_URL);
+  QCoreApplication::setOrganizationDomain(APP_ORG_NAME);
+
+#if defined (QT_DEBUG)
+    #if defined (Q_OS_MAC)
+        QSettings settings(QSettings::IniFormat, QSettings::UserScope, APP_ORG_NAME, APP_NAME);
+    #else
+        QSettings settings(QSettings::IniFormat, QSettings::UserScope, APP_URL, APP_NAME);
+
+    #endif
 #endif
 
 #if defined (Q_QS_WIN)

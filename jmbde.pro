@@ -12,7 +12,8 @@ CONFIG += ordered
 TEMPLATE = subdirs
 
 SUBDIRS = src  \
-          share
+          share \
+    ../jmbde-QT-lib/jmbdeLib
 
 !isEmpty(BUILD_TESTS):SUBDIRS += tests
 
@@ -56,7 +57,7 @@ QTIFW_CONFIG = config.xml
 jmbde.pkg = de.jmuelbert.jmbde
 jmbde.meta = meta
 jmbde.dirs = data
-jmbde.files = $PWD/resources/text/license
+jmbde.files = $$PWD/EUPL-1.2_en.txt
 
 QTIFW_PACKAGES += jmbde
 

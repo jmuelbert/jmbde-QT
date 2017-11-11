@@ -46,7 +46,9 @@ SOURCES += \
     computerinputarea.cpp \
     processorinputarea.cpp \
     osinputarea.cpp \
-    softwareinputarea.cpp
+    softwareinputarea.cpp \
+    manufacturerinputarea.cpp \
+    cityinputarea.cpp
 
  HEADERS  += \
         definitions.h \
@@ -87,7 +89,9 @@ SOURCES += \
     computerinputarea.h \
     processorinputarea.h \
     osinputarea.h \
-    softwareinputarea.h
+    softwareinputarea.h \
+    manufacturerinputarea.h \
+    cityinputarea.h
 
 FORMS    += \
         mainwindow.ui \
@@ -102,7 +106,9 @@ FORMS    += \
     computerinputarea.ui \
     processorinputarea.ui \
     osinputarea.ui \
-    softwareinputarea.ui
+    softwareinputarea.ui \
+    manufacturerinputarea.ui \
+    cityinputarea.ui
 
 
 RESOURCES += \

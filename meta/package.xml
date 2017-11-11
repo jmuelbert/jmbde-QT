@@ -4,8 +4,8 @@
 	<Description>jmbde files for install.</Description>
 	<DisplayName xml:lang="de">jmbde Dateien zur Installation</DisplayName>
 	<Description xml:lang="de">Alle Dateien die Sie zu arbeiten benötigen.</Description>
-	<Version>0.4.0</Version>
-	<ReleaseDate>2017-09-27</ReleaseDate>
+	<Version>0.4.5</Version>
+	<ReleaseDate>2017-11-11</ReleaseDate>
 	<ForcedInstallation>true</ForcedInstallation>
 	<Default>true</Default>
 </Package>

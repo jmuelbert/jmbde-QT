@@ -57,6 +57,8 @@ namespace Settings {
     const char SIZE[] = "size";
     const char POS[] = "pos";
     const char SPLITTER[] = "splitterSizes";
+    const char LAST_VIEW[] = "last_view";
+    const char LAST_DATA[] = "last_data";
   } // namespace MainWindow
 
   namespace Database {
@@ -184,8 +186,8 @@ namespace Database {
                                     "text VARCHAR, " \
                                     "active BOOLEAN, " \
                                     "last_update TIMESTAMP);";
-    const char MANIFACTURER[] = "manufacturer";
-    const char MANIFACTURER_CREATE[] = "CREATE TABLE manufacturer (" \
+    const char MANUFACTURER[] = "manufacturer";
+    const char MANUFACTURER_CREATE[] = "CREATE TABLE manufacturer (" \
                                        "manufacturer_id INTEGER PRIMARY KEY, " \
                                        "name VARCHAR, " \
                                        "name2 VARCHAR, " \

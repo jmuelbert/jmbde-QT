@@ -2,25 +2,27 @@ DISTFILES += \
 	$$PWD/deploy.py
 
 qtifw_auto_deploy {
-	win32:CONFIG(debug, debug|release): QTIFW_DEPLOY_SRC = "$$OUT_PWD/debug/$${TARGET}.exe"
-	else:win32:CONFIG(release, debug|release): QTIFW_DEPLOY_SRC = "$$OUT_PWD/release/$${TARGET}.exe"
-	else:mac: QTIFW_DEPLOY_SRC = "$$OUT_PWD/$${TARGET}.app"
-	else: QTIFW_DEPLOY_SRC = "$$OUT_PWD/$$TARGET"
+	isEmpty(QTIFW_DEPLOY_SRC): {
+		win32:CONFIG(debug, debug|release): QTIFW_DEPLOY_SRC = "$$OUT_PWD/debug/$${TARGET}.exe"
+		else:win32:CONFIG(release, debug|release): QTIFW_DEPLOY_SRC = "$$OUT_PWD/release/$${TARGET}.exe"
+		else:mac:app_bundle: QTIFW_DEPLOY_SRC = "$$OUT_PWD/$${TARGET}.app"
+		else: QTIFW_DEPLOY_SRC = "$$OUT_PWD/$$TARGET"
+	}
 
-	!isEmpty(QTIFW_AUTO_INSTALL_PKG) { #NOTE: pseudo code, won't work like that
-		mac: $$first(QTIFW_AUTO_INSTALL_PKG).dirs += "$$OUT_PWD/deployed/$${TARGET}.app"
+	!isEmpty(QTIFW_AUTO_INSTALL_PKG) {
+		mac:app_bundle: $$first(QTIFW_AUTO_INSTALL_PKG).dirs += "$$OUT_PWD/deployed/$${TARGET}.app"
 		else: $$first(QTIFW_AUTO_INSTALL_PKG).dirs += "$$OUT_PWD/deployed"
 	}
 }
 
 !isEmpty(QTIFW_DEPLOY_SRC) {
 	isEmpty(QTIFW_DEPLOY_OUT): QTIFW_DEPLOY_OUT = deployed
-	isEmpty(QTIFW_DEPLOY_LCOMBINE): QTIFW_DEPLOY_LCOMBINE = $$PWD/../../qpm-translate/lcombine.py
 
 	linux: QTIFW_DEPLOY_ARGS = linux
 	else:win32:CONFIG(release, debug|release): QTIFW_DEPLOY_ARGS = win_release
 	else:win32:CONFIG(debug, debug|release): QTIFW_DEPLOY_ARGS = win_debug
-	else:mac: QTIFW_DEPLOY_ARGS = mac
+	else:mac:app_bundle: QTIFW_DEPLOY_ARGS = mac
+	else:mac: QTIFW_DEPLOY_ARGS = mac_no_bundle
 	else: QTIFW_DEPLOY_ARGS = unknown
 
 	QTIFW_DEPLOY_ARGS += $$shell_quote($$[QT_INSTALL_BINS])
@@ -29,7 +31,6 @@ qtifw_auto_deploy {
 	QTIFW_DEPLOY_ARGS += $$shell_quote($$QTIFW_DEPLOY_SRC)
 	QTIFW_DEPLOY_ARGS += $$shell_quote($$QTIFW_DEPLOY_OUT)
 	QTIFW_DEPLOY_ARGS += $$shell_quote($$OUT_PWD)
-	QTIFW_DEPLOY_ARGS += $$shell_quote($$QTIFW_DEPLOY_LCOMBINE)
 	!isEmpty(TRANSLATIONS): QTIFW_DEPLOY_ARGS += $$TRANSLATIONS
 
 	qtifw_deploy_clean.target = deploy-clean

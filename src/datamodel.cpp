@@ -272,7 +272,7 @@ QSqlError DataModel::initDb() {
   if (!q.exec(QString(Database::Table::INVENTORY_CREATE)))
     return q.lastError();
 
-  if (!q.exec(QString(Database::Table::MANIFACTURER_CREATE)))
+  if (!q.exec(QString(Database::Table::MANUFACTURER_CREATE)))
     return q.lastError();
 
   if (!q.exec(QString(Database::Table::DEPARTMENT_CREATE)))

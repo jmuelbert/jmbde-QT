@@ -143,6 +143,7 @@ EmployeeInputArea::EmployeeInputArea(QWidget* parent)
 EmployeeInputArea::EmployeeInputArea(QWidget* parent, int index)
   : QScrollArea (parent), ui(new Ui::EmployeeInputArea) {
   // Init UI
+    qDebug() << "Init EmployeeInputarea for Index : " << index;
   ui->setupUi(this);
 
   preSetFields(false);
@@ -167,7 +168,10 @@ EmployeeInputArea::EmployeeInputArea(QWidget* parent, int index)
   mapper = new QDataWidgetMapper(this);
   mapper->setModel(model);
   mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
-  ui->comboBox_Phone->setModel(model->relationModel(phoneIndex));
+  qDebug() << "phoneIndex : " << phoneIndex;
+  if (phoneIndex > 0) {
+   // ui->comboBox_Phone->setModel(model->relationModel(phoneIndex));
+  }
 
   setMappings(model, mapper);
 
@@ -209,6 +213,7 @@ void EmployeeInputArea::preSetFields(bool newEmployee) {
 
 void EmployeeInputArea::setMappings(QSqlTableModel* model,
                                       QDataWidgetMapper* mapper) {
+
   // Set the fields to the mapper
   // Line 1.
   mapper->addMapping(ui->comboBox_Title,

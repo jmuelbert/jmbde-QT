@@ -91,10 +91,12 @@
 #include "csvimportdialog.h"
 #include "preferencesdialog.h"
 
+#include "cityinputarea.h"
 #include "computerinputarea.h"
 #include "departmentinputarea.h"
 #include "employeeinputarea.h"
 #include "functioninputarea.h"
+#include "manufacturerinputarea.h"
 #include "mobileinputarea.h"
 #include "osinputarea.h"
 #include "phoneinputarea.h"
@@ -232,7 +234,7 @@ class MainWindow : public QMainWindow {
     DataModel* dm;
     QSqlRelationalTableModel* model;
     QSqlTableModel* tableModel;
-    qint16 dbType = 0;
+    int dbType = 0;
     QString dbConnection;
     QString dbHostname;
     QString dbUsername;
@@ -251,11 +253,11 @@ class MainWindow : public QMainWindow {
       VIEW_SOFTWARE,
       VIEW_PRINTER,
       VIEW_MANUFACTURER,
-      VIEW_ZIPCITY,
-      VIEW_ZIP_CODE,
-      VIEW_CITYNAME
+      VIEW_CITY,
     };
     int actualView;
+    QModelIndex m_actualView;
+    QModelIndex m_actualData;
 };
 
 #endif // MAINWINDOW_H
