@@ -4,8 +4,9 @@ QT += core gui sql printsupport help
 include (../jmbde.pri)
 
 TEMPLATE = app
-TARGET = $$APPLICATION_APP_TARGET
-DESTDIR = ../
+TARGET  = $$JMBDE_APP_TARGET
+DESTDIR = $$JMBDE_APP_PATH
+VERSION = $$JMBDE_VERSION
 
 SOURCES += \
         main.cpp \
