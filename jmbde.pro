@@ -1,23 +1,25 @@
+
+
 include (jmbde.pri)
 
-#version check qt
-!minQtVersion(4, 8, 0) {
-	message("Cannot build this Program with Qt version $${QT_VERSION}.")
-	error("Use at least Qt 4.8.0.")
-}
+message($$APP_NAME: Welcome APP qmake script.)
 
-include (doc/doc.pri)
+lessThan(QT_MAJOR_VERSION, 5)|lessThan(QT_MINOR_VERSION, 8) {
+  error(APP: At least Qt \"5.8.0\" is required!!!)
+}
 
 CONFIG += ordered
 TEMPLATE = subdirs
 
-greaterThan(QT_MAJOR_VERSION, 4): cache()
-
-SUBDIRS = src share
+SUBDIRS +=  \
+        src  \
+        translations \
+        share
 
 unix:!macx:!isEmpty(copydata):SUBDIRS += bin
 !isEmpty(BUILD_TESTS):SUBDIRS += tests
 
+<<<<<<< HEAD
 OTHER_FILES += dist/copyright_template.txt \
     $$files(dist-changes-*) \
     ChangeLog \
@@ -25,15 +27,30 @@ OTHER_FILES += dist/copyright_template.txt \
     README \
     TODO 
 	
+=======
+DISTFILES += \
+        README.md \
+        $$files(dist/changes-*) \
+        APP.qbs \
+        $$files(dist/installer/ifw/config/config-*) \
+        dist/installer/ifw/packages/de.jmuelbert.APP/meta/package.xml.in \
+        dist/installer/ifw/packages/de.jmuelbert.APP.application/meta/installscript.qs \
+        dist/installer/ifw/packages/de.jmuelbert.APP.application/meta/package.xml.in \
+        dist/installer/ifw/packages/de.jmuelbert.APP.application/meta/license.txt \
+        dist/installer/ifw/packages/de.jmuelbert.APP.application/meta/license_.txt \
+        dist/installer/ifw/packages/de.jmuelbert.APP.application/meta/page.ui \
+        dist/installer/ifw/packages/de.jmuelbert.APP.application/meta/de.ts \
+        dist/installer/ifw/packages/de.jmuelbert.APP.application/meta/de.qm \
+        dist/installer/ifw/packages/de.jmuelbert.APP.datalib/meta/installscript.js \
+        dist/installer/ifw/packages/de.jmuelbert.APP.datalib/meta/package.xml.in \
+        $$files(scripts/*.py) \
+        $$files(scripts/*.sh) \
+        $$files(scripts/*.pl) \
+        resources/scripts/uncrustify/uncrustify.cfg
+>>>>>>> develop
 
-qmake_cache = $$targetPath($$APPLICATION_BUILD_TREE/.qmake.cache)
-!equals(QMAKE_HOST.os, WINDOWS) {
-    maybe_quoute ="\""
-    maybe_backslash = "\\"
-}
-system("echo $${maybe_quote}$${LITERAL_HASH} config for qmake$${maybe_quote} > $$qmake_cache")
 
-_QMAKE_CACHE_ = $$qmake_cache # Qt 4 support prevents us from using cache(), so tell Qt 5 about the cache
+message($$APP_NAME Shadow copy build directory \"$$OUT_PWD\".)
 
 contains(QT_ARCH, i386): ARCHITECTURE = x86
 else: ARCHITECTURE = $$QT_ARCH
@@ -41,9 +58,98 @@ else: ARCHITECTURE = $$QT_ARCH
 macx: PLATFORM = "mac"
 else:win32: PLATFORM = "windows"
 else:linux-*: PLATFORM = "linux-$${ARCHITECTURE}"
-else: PLATFORM = "unknown"
+else: PLATFORM = "unkwon"
 
 BASENAME = $$(INSTALL_BASENAME)
-isEmpty(BASENAME): BASENAME = jmbde-$${PLATFORM}-$${APPLICATION_VERSION}${INSTALL_POSTFIX}
+isEmpty(BASENAME): BASENAME = APP-$${PLATFORM}-$${APP_VERSION}$(INSTALL-POSTFIX)
+
+macx:INSTALLER_NAME = "APP-$${APP_VERSION}"
+else:INSTALLER_NAME = "$${BASENAME}"
+
+linux {
+    appstream.files = dist/de.jmuelbert.APP.appdata.xml
+    appstream.path = share/metainfo/
+
+    desktop.files = dist/de.jmuelbert.APP.desktop
+    desktop.path = share/applications/
+
+    INSTALLS += appstream desktop
+}
+
+macx {
+    APPBUNDLE = "$$OUT_PWD/bin/APP.app"
+    BINDIST_SOURCE = "$$OUT_PWD/bin/APP.app"
+    BINDIST_INSTALLER_SOURCE = $$BINDIST_SOURCE
+    deployqt.commands = $$PWD/scripts/deployqtHelper_mac.sh \"$${APPBUNDLE}\" \"$$[QT_INSTALL_BINS]\" \"$$[QT_INSTALL_TRANSLATIONS]\" \"$$[QT_INSTALL_PLUGINS]\" \"$$[QT_INSTALL_IMPORTS]\" \"$$[QT_INSTALL_QML]\"
+    codesign.commands = codesign --deep -s \"$(SIGNING_IDENTITY)\" $(SIGNING_FLAGS) \"$${APPBUNDLE}\"
+    dmg.commands = $$PWD/scripts/makedmg.sh $$OUT_PWD/bin $${BASENAME}.dmg
+    #dmg.depends = deployqt
+    QMAKE_EXTRA_TARGETS += codesign dmg
+} else {
+    BINDIST_SOURCE = "$(INSTALL_ROOT)"
+    BINDIST_INSTALLER_SOURCE = "$$BINDIST_SOURCE/*"
+    deployqt.commands = python -u $$PWD/scripts/deployqt.py -i \"$(INSTALL_ROOT)\" \"$(QMAKE)\"
+    deployqt.depends = install
+    win32 {
+        deployartifacts.depends = install
+        deployartifacts.commands = git clone --depth 1 -b $$BINARY_ARTIFACTS_BRANCH \
+                "http://github.com/jmuelbert/APP-QT.git"
+        QMAKE_EXTRA_TARGETS += deployartifacts
+    }
+}
+
+INSTALLER_ARCHIVE_FROM_ENV = $$(INSTALLER_ARCHIVE)
+isEmpty(INSTALLER_ARCHIVE_FROM_ENV) {
+    INSTALLER_ARCHIVE = $$OUT_PWD/$${BASENAME}-installer-archive.7z
+} else {
+    INSTALLER_ARCHIVE = $$OUT_PWD/$$(INSTALLER_ARCHIVE)
+}
+
+#bindist.depends = deployqt
+bindist.commands = 7z a -mx9 $$OUT_PWD/$${BASENAME}.7z \"$$BINDIST_SOURCE\"
+#bindist_installer.depends = deployqt
+bindist_installer.commands = 7z a -mx9 $${INSTALLER_ARCHIVE} \"$$BINDIST_INSTALLER_SOURCE\"
+installer.depends = bindist_installer
+installer.commands = python -u $$PWD/scripts/packageIfw.py -i \"$${IFW_PATH}\" -v $${APP_VERSION} -a \"$${INSTALLER_ARCHIVE}\" "$$INSTALLER_NAME"
+
+acx {
+    codesign_installer.commands = codesign -s \"$(SIGNING_IDENTITY)\" $(SIGNING_FLAGS) \"$${INSTALLER_NAME}.app\"
+    dmg_installer.commands = hdiutil create -srcfolder "$${INSTALLER_NAME}.app" -volname \"Qt Creator\" -format UDBZ "$${BASENAME}-installer.dmg" -ov -scrub -size 1g -verbose
+    QMAKE_EXTRA_TARGETS += codesign_installer dmg_installer
+}
+
+win32 {
+    deployqt.commands ~= s,/,\\\\,g
+    bindist.commands ~= s,/,\\\\,g
+    bindist_installer.commands ~= s,/,\\\\,g
+    installer.commands ~= s,/,\\\\,g
+}
+
+exists(.git) {
+  APP_REVISION = $$system(git rev-parse --short HEAD)
+}
+
+isEmpty(APP_REVISION) {
+  APP_REVISION = ""
+}
+
+DEFINES += APP_REVISION='"\\\"$$APP_REVISION\\\""'
+
+message($$APP_NAME: $$APP_NAME version is: \"$$APP_VERSION\".)
+message($$APP_NAME: Detected Qt version: \"$$QT_VERSION\".)
+message($$APP_NAME: Build destination directory: \"$$DESTDIR\".)
+message($$APP_NAME: Prefix directory: \"$$PREFIX\".)
+message($$APP_NAME: Build revision: \"$$APP_REVISION\".)
+message($$APP_NAME: lrelease executable name: \"$$LRELEASE_EXECUTABLE\".)
 
 
+OTHER_FILES += Doxyfile
+
+QMAKE_EXTRA_TARGETS += deployqt bindist bindist_installer installer
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../APP-QT-lib/$$APP_NAMEdata/build-library/release/ -l$$APP_NAMEdata.0.1.1
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../APP-QT-lib/$$APP_NAMEdata/build-library/debug/ -l$$APP_NAMEdata.0.1.1
+else:unix: LIBS += -L$$PWD/../$$APP_NAME-QT-lib/APPdata/build-library/ -l$$APP_NAMEdata.0.1.1
+
+INCLUDEPATH += $$PWD/../$$APP_NAME-QT-lib/$$APP_NAMEdata
+DEPENDPATH += $$PWD/../$$APP_NAME-QT-lib/√data

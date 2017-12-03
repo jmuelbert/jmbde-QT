@@ -1,0 +1,24 @@
+{
+  "name": "de.juergen-muelbert.jmbde_QT",
+  "description": "A BDE tool",
+  "author": {
+    "name": "Jürgen Mülbert",
+    "email": "develop@juergen-muelbert.de"
+  },
+  "repository": {
+    "type": "GITHUB",
+    "url": "http://github.com/jmuelbert/jmbde-QT.git"
+  },
+  "version": {
+    "label": "0.0.1",
+    "revision": "",
+    "fingerprint": ""
+  },
+  "dependencies": [
+    "de.skycoder42.qtifw-advanced-setup@1.2.1",
+    "de.skycoder42.qpm-translate@1.1.0"
+  ],
+  "license": "EUPL-1.2",
+  "pri_filename": "jmbde.pri",
+  "webpage": "http://jmuelbert.github.io/jmbde-QT/"
+}

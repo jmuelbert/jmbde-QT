@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
+<<<<<<< HEAD
 <<<<<<<
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -35,6 +36,13 @@
   <value type="QByteArray">{f786372c-bb62-42bd-9ac9-a6193a696937}</value>
 >>>>>>> dev
 >>>>>>>
+=======
+<!-- Written by QtCreator 4.4.1, 2017-12-03T10:55:38. -->
+<qtcreator>
+ <data>
+  <variable>EnvironmentId</variable>
+  <value type="QByteArray">{22df7d0b-cb08-4520-b402-58704619b0f1}</value>
+>>>>>>> develop
  </data>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
@@ -89,6 +97,7 @@
  <data>
   <variable>ProjectExplorer.Project.Target.0</variable>
   <valuemap type="QVariantMap">
+<<<<<<< HEAD
 <<<<<<<
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -116,10 +125,16 @@
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">qt.57.clang_64_kit</value>
 >>>>>>> dev
 >>>>>>>
+=======
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop Qt 5.9.3 clang 64bit</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop Qt 5.9.3 clang 64bit</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">qt.593.clang_64_kit</value>
+>>>>>>> develop
    <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">0</value>
    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
-   <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">3</value>
+   <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">2</value>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
+<<<<<<< HEAD
 <<<<<<<
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -139,6 +154,9 @@
     <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/Users/juergen/Documents/Development/jmbde/jmbde-qt/build-jmbde-Desktop_Qt_5_7_0_clang_64bit-Debug</value>
 >>>>>>> dev
 >>>>>>>
+=======
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/Users/juergen/Documents/Projects/build-jmbde-Desktop_Qt_5_9_3_clang_64bit-Debug</value>
+>>>>>>> develop
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
@@ -198,6 +216,7 @@
     <value type="bool" key="Qt4ProjectManager.Qt4BuildConfiguration.UseShadowBuild">true</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.1">
+<<<<<<< HEAD
 <<<<<<<
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -217,6 +236,9 @@
     <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/Users/juergen/Documents/Development/jmbde/jmbde-qt/jmbde/build-jmbde-Desktop_Qt_5_7_0_clang_64bit-Release</value>
 >>>>>>> dev
 >>>>>>>
+=======
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/Users/juergen/Documents/Projects/build-jmbde-Desktop_Qt_5_9_3_clang_64bit-Release</value>
+>>>>>>> develop
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
@@ -276,6 +298,7 @@
     <value type="bool" key="Qt4ProjectManager.Qt4BuildConfiguration.UseShadowBuild">true</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.2">
+<<<<<<< HEAD
 <<<<<<<
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -295,6 +318,9 @@
     <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/Users/juergen/Documents/Development/jmbde/jmbde-qt/jmbde/build-jmbde-Desktop_Qt_5_7_0_clang_64bit-Profile</value>
 >>>>>>> dev
 >>>>>>>
+=======
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/Users/juergen/Documents/Projects/build-jmbde-Desktop_Qt_5_9_3_clang_64bit-Profile</value>
+>>>>>>> develop
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
@@ -410,6 +436,7 @@
     </valuelist>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+<<<<<<< HEAD
 <<<<<<<
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -461,6 +488,17 @@
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default">/Users/juergen/Documents/Development/jmbde/jmbde-qt/build-jmbde-Desktop_Qt_5_7_0_clang_64bit-Debug/share/translations/phony_target2.app/Contents/MacOS</value>
 >>>>>>> dev
 >>>>>>>
+=======
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">src</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/Users/juergen/Documents/Projects/jmbde-QT/src/src.pro</value>
+    <value type="bool" key="QmakeProjectManager.QmakeRunConfiguration.UseLibrarySearchPath">true</value>
+    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments"></value>
+    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">src/src.pro</value>
+    <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
+    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory"></value>
+    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default">/Users/juergen/Documents/Projects/build-jmbde-Desktop_Qt_5_9_3_clang_64bit-Debug/bin/jmbde.app/Contents/MacOS</value>
+>>>>>>> develop
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
@@ -510,6 +548,7 @@
     </valuelist>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+<<<<<<< HEAD
 <<<<<<<
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -561,6 +600,15 @@
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default"></value>
 >>>>>>> dev
 >>>>>>>
+=======
+    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Arguments"></value>
+    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Executable">/Users/juergen/Documents/Projects/build-jmbde-Desktop_Qt_5_9_3_clang_64bit-Debug/bin/jmbde.app</value>
+    <value type="bool" key="ProjectExplorer.CustomExecutableRunConfiguration.UseTerminal">false</value>
+    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.WorkingDirectory">%{buildDir}</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">/Users/juergen/Documents/Projects/build-jmbde-Desktop_Qt_5_9_3_clang_64bit-Debug/bin/jmbde.app ausführen</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.CustomExecutableRunConfiguration</value>
+>>>>>>> develop
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
@@ -610,6 +658,7 @@
     </valuelist>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+<<<<<<< HEAD
 <<<<<<<
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -734,11 +783,17 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/Users/juergen/Documents/Development/jmbde/jmbde-qt/jmbde-QT/src/src.pro</value>
 >>>>>>> dev
 >>>>>>>
+=======
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">src</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">src2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/Users/juergen/Documents/Projects/jmbde-QT/src/src.pro</value>
+>>>>>>> develop
     <value type="bool" key="QmakeProjectManager.QmakeRunConfiguration.UseLibrarySearchPath">true</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments"></value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">src/src.pro</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory"></value>
+<<<<<<< HEAD
 <<<<<<<
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -758,6 +813,9 @@
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default">/Users/juergen/Documents/Development/jmbde/jmbde-qt/build-jmbde-Desktop_Qt_5_7_0_clang_64bit-Debug/bin/jmbde.app/Contents/MacOS</value>
 >>>>>>> dev
 >>>>>>>
+=======
+    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default">/Users/juergen/Documents/Projects/build-jmbde-Desktop_Qt_5_9_3_clang_64bit-Debug/bin/jmbde.app/Contents/MacOS</value>
+>>>>>>> develop
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
@@ -765,7 +823,7 @@
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
    </valuemap>
-   <value type="int" key="ProjectExplorer.Target.RunConfigurationCount">4</value>
+   <value type="int" key="ProjectExplorer.Target.RunConfigurationCount">3</value>
   </valuemap>
  </data>
  <data>

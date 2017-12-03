@@ -1,78 +1,116 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2013-08-26T19:02:06
-#
-#-------------------------------------------------
 
-QT       += core gui sql printsupport qml quick help
+QT += core gui sql printsupport help
 
 include (../jmbde.pri)
 
 TEMPLATE = app
-TARGET = $$APPLICATION_TARGET
-DESTDIR = $$APPLICATION_PATH
+TARGET  = $$APP_TARGET
+DESTDIR = $$APP_PATH
+VERSION = $$APP_VERSION
 
-SOURCES += main.cpp\
+SOURCES += \
+        main.cpp \
         mainwindow.cpp \
-    datamodell.cpp \
-    preferencesdialog.cpp \
-    resource.cpp \
-    employeeinputdialog.cpp \
-    csvimportdialog.cpp \
-    employeedatamodel.cpp \
-    computerdatamodel.cpp \
-    commondatamodel.cpp \
-    accountdatamodel.cpp \
-    departmentdatamodel.cpp \
-    devicetypedatamodel.cpp \
-    functiondatamodel.cpp \
-    inventorydatamodel.cpp \
-    manufacturerdatamodel.cpp \
-    pctypedatamodel.cpp \
-    placedatamodel.cpp \
-    systemdatamodel.cpp \
-    computerinputdialog.cpp \
-    printerdatamodel.cpp \
-    phonedatamodel.cpp \
-    helpbrowser.cpp
+        csvimportdialog.cpp \
+        preferencesdialog.cpp \
+        accountdatamodel.cpp \
+        commondatamodel.cpp \
+        computerdatamodel.cpp \
+        datamodel.cpp \
+        departmentdatamodel.cpp \
+        devicetypedatamodel.cpp \
+        employeedatamodel.cpp \
+        faxdatamodel.cpp \
+        functiondatamodel.cpp \
+        inventorydatamodel.cpp \
+        manufacturerdatamodel.cpp \
+        mobiledatamodel.cpp \
+        phonedatamodel.cpp \
+        placedatamodel.cpp \
+        printerdatamodel.cpp \
+        resource.cpp \
+        systemdatamodel.cpp \
+        helpbrowser.cpp \
+    titledatamodel.cpp \
+    processordatamodel.cpp \
+    osdatamodel.cpp \
+    softwaredatamodel.cpp \
+    zipcitymodel.cpp \
+    zipcodemodel.cpp \
+    citynamemodel.cpp \
+    phoneinputarea.cpp \
+    mobileinputarea.cpp \
+    functioninputarea.cpp \
+    departmentinputarea.cpp \
+    titleinputarea.cpp \
+    employeeinputarea.cpp \
+    computerinputarea.cpp \
+    processorinputarea.cpp \
+    osinputarea.cpp \
+    softwareinputarea.cpp \
+    manufacturerinputarea.cpp \
+    cityinputarea.cpp
 
-HEADERS  += mainwindow.h \
-    datamodell.h \
-    preferencesdialog.h \
-    constants.h \
-    resource.h \
-    employeeinputdialog.h \
-    csvimportdialog.h \
-    employeedatamodel.h \
-    computerdatamodel.h \
-    commondatamodel.h \
-    accountdatamodel.h \
-    departmentdatamodel.h \
-    devicetypedatamodel.h \
-    functiondatamodel.h \
-    inventorydatamodel.h \
-    manufacturerdatamodel.h \
-    pctypedatamodel.h \
-    placedatamodel.h \
-    systemdatamodel.h \
-    computerinputdialog.h \
-    printerdatamodel.h \
-    phonedatamodel.h \
-    helpbrowser.h
+ HEADERS  += \
+        definitions.h \
+        mainwindow.h \
+        csvimportdialog.h \
+        preferencesdialog.h \
+        accountdatamodel.h \
+        commondatamodel.h \
+        computerdatamodel.h \
+        datamodel.h \
+        departmentdatamodel.h \
+        devicetypedatamodel.h \
+        employeedatamodel.h \
+        faxdatamodel.h \
+        functiondatamodel.h \
+        inventorydatamodel.h \
+        manufacturerdatamodel.h \
+        mobiledatamodel.h \
+        phonedatamodel.h \
+        placedatamodel.h \
+        printerdatamodel.h \
+        resource.h \
+        systemdatamodel.h \
+        helpbrowser.h \
+    titledatamodel.h \
+    processordatamodel.h \
+    osdatamodel.h \
+    softwaredatamodel.h \
+    zipcitymodel.h \
+    zipcodemodel.h \
+    citynamemodel.h \
+    phoneinputarea.h \
+    mobileinputarea.h \
+    functioninputarea.h \
+    departmentinputarea.h \
+    titleinputarea.h \
+    employeeinputarea.h \
+    computerinputarea.h \
+    processorinputarea.h \
+    osinputarea.h \
+    softwareinputarea.h \
+    manufacturerinputarea.h \
+    cityinputarea.h
 
-FORMS    += mainwindow.ui \
-    preferencesdialog.ui \
-    employeeinputdialog.ui \
-    csvimportdialog.ui \
-    computerinputdialog.ui
+FORMS    += \
+        mainwindow.ui \
+        csvimportdialog.ui \
+        employeeinputdialog.ui \
+        preferencesdialog.ui \
+    phoneinputarea.ui \
+    mobileinputarea.ui \
+    functioninputarea.ui \
+    departmentinputarea.ui \
+    titleinputarea.ui \
+    computerinputarea.ui \
+    processorinputarea.ui \
+    osinputarea.ui \
+    softwareinputarea.ui \
+    manufacturerinputarea.ui \
+    cityinputarea.ui
+
 
 RESOURCES += \
-    jmbde.qrc
-
-OTHER_FILES += \
-    main.qml \
-    jmbde.qmlproject \
-    content/AboutDialog.qml
-
-
-
+        jmbde.qrc

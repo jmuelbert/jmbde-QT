@@ -1,61 +1,74 @@
 /*
- * DepartmentDataModel.cpp
- * jmbde
- *
- * Copyright (c) 2013,2014 Jürgen Mülbert. All rights reserved.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the European Union Public Licence (EUPL),
- * version 1.1.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * European Union Public Licence for more details.
- *
- * You should have received a copy of the European Union Public Licence
- * along with this program. If not, see
- * http://www.osor.eu/eupl/european-union-public-licence-eupl-v.1.1
- *
+   // DepartmentDataModel
+   // part of jmbde
+   //
+   // Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
+   //
+   // Licensed under the EUPL, Version 1.2 or – as soon they
+   // will be approved by the European Commission - subsequent
+   // versions of the EUPL (the "Licence");
+   // You may not use this work except in compliance with the
+   // Licence.
+   // You may obtain a copy of the Licence at:
+   //
+   // https://joinup.ec.europa.eu/page/eupl-text-11-12
+   //
+   // Unless required by applicable law or agreed to in
+   // writing, software distributed under the Licence is
+   // distributed on an "AS IS" basis,
+   // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+   // express or implied.
+   // See the Licence for the specific language governing
+   // permissions and limitations under the Licence.
+   //
+   // Lizenziert unter der EUPL, Version 1.2 oder - sobald
+   // diese von der Europäischen Kommission genehmigt wurden -
+   // Folgeversionen der EUPL ("Lizenz");
+   // Sie dürfen dieses Werk ausschließlich gemäß
+   // dieser Lizenz nutzen.
+   // Eine Kopie der Lizenz finden Sie hier:
+   //
+   // https://joinup.ec.europa.eu/page/eupl-text-11-12
+   //
+   // Sofern nicht durch anwendbare Rechtsvorschriften
+   // gefordert oder in schriftlicher Form vereinbart, wird
+   // die unter der Lizenz verbreitete Software "so wie sie
+   // ist", OHNE JEGLICHE GEWÄHRLEISTUNG ODER BEDINGUNGEN -
+   // ausdrücklich oder stillschweigend - verbreitet.
+   // Die sprachspezifischen Genehmigungen und Beschränkungen
+   // unter der Lizenz sind dem Lizenztext zu entnehmen.
+   //
  */
 
 #include "departmentdatamodel.h"
 
+DepartmentDataModel::DepartmentDataModel(QObject* parent)
+  : CommonDataModel(parent) {}
 
-DepartmentDataModel::DepartmentDataModel(QObject *parent) :
-    CommonDataModel(parent)
-{
+DepartmentDataModel::~DepartmentDataModel() {}
+
+bool DepartmentDataModel::createDataTable() {
+  bool ret;
+
+  ret = CommonDataModel::createDataTable(this->tableName);
+
+  return ret;
 }
 
-DepartmentDataModel::~DepartmentDataModel()
-{
+QSqlTableModel* DepartmentDataModel::initializeTableModel() {
+  QSqlTableModel* model = new QSqlTableModel(this);
 
+  model =
+    CommonDataModel::initializeTableModel(this->tableName);
+
+  return model;
 }
 
-bool DepartmentDataModel::createDataTable()
-{
-    bool ret;
-    ret = CommonDataModel::createDataTable(QLatin1String("department"));
+QSqlRelationalTableModel* DepartmentDataModel::initializeRelationalModel() {
+  QSqlRelationalTableModel* relationalTableModel;
 
-    return ret;
-}
+  relationalTableModel =
+    CommonDataModel::initializeRelationalModel(this->tableName);
 
-QSqlTableModel *DepartmentDataModel::initializeTableModel()
-{
-    QSqlTableModel *tableModel;
-
-    tableModel = CommonDataModel::initializeTableModel(QLatin1String("department"));
-
-
-    return tableModel;
-}
-
-QSqlRelationalTableModel *DepartmentDataModel::initializeRelationalModel()
-{
-    QSqlRelationalTableModel *relationalTableModel;
-
-    relationalTableModel = CommonDataModel::initializeRelationalModel(QLatin1String("department"));
-
-
-    return relationalTableModel;
+  return relationalTableModel;
 }
