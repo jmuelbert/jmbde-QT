@@ -123,7 +123,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_Finish">
+      <widget class="QPushButton" name="pushButton_EditFinish">
        <property name="text">
         <string>Finish</string>
        </property>
@@ -137,7 +137,7 @@
   <tabstop>lineEdit_Name</tabstop>
   <tabstop>spinBox_Priotity</tabstop>
   <tabstop>pushButton_Add</tabstop>
-  <tabstop>pushButton_Finish</tabstop>
+  <tabstop>pushButton_EditFinish</tabstop>
  </tabstops>
  <resources/>
  <connections/>

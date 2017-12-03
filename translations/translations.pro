@@ -53,8 +53,8 @@ defineReplace(prependAppend) {
 }
 
 
-wd = $$replace(JMBDE_SOURCE_TREE, /, $$QMAKE_DIR_SEP)
-TRANSLATIONS = $$prependAppend(LANGUAGES, $$PWD/jmbde_, .ts)
+wd = $$replace(APP_SOURCE_TREE, /, $$QMAKE_DIR_SEP)
+TRANSLATIONS = $$prependAppend(LANGUAGES, $$PWD/$$APP_TRANSLATION_NAME, .ts)
 
 LUPDATE = $$fixSlashes($$[QT_INSTALL_BINS]/lupdate) -locations relative -no-obsolete
 LRELEASE = $$QMAKE_LRELEASE
@@ -67,7 +67,7 @@ win32: \
 else: \
     PREFIX = "file://"
 
-files = $$files($$PWD/*_??.ts) $$PWD/jmbde_untranslated.ts
+files = $$files($$PWD/*_??.ts) $$PWD/$$APP_TRANSLATION_NAMEuntranslated.ts
 for(file, files) {
     lang = $$replace(file, .*_([^/]*)\\.ts, \\1)
     v = ts-$${lang}.commands
@@ -86,14 +86,14 @@ QMAKE_EXTRA_TARGETS += ts
 
 
 updateqm.input = TRANSLATIONS
-updateqm.output = $$JMBDE_DATA_PATH/translations/${QMAKE_FILE_BASE}.qm
+updateqm.output = $$APP_DATA_PATH/translations/${QMAKE_FILE_BASE}.qm
 isEmpty(vcproj):updateqm.variable_out = PRE_TARGETDEPS
 updateqm.commands = $$LRELEASE ${QMAKE_FILE_IN} -qm ${QMAKE_FILE_OUT}
 updateqm.name = LRELEASE ${QMAKE_FILE_IN}
 updateqm.CONFIG += no_link
 QMAKE_EXTRA_COMPILERS += updateqm
 
-qmfiles.files = $$prependAppend(LANGUAGES, $$JMBDE_DATA_PATH/translations/jmbde_, .qm)
+qmfiles.files = $$prependAppend(LANGUAGES, $$APP_DATA_PATH/translations/$$APP_TRANSLATION_NAME, .qm)
 qmfiles.path = $$INSTALL_DATA_PATH/translations
 qmfiles.CONFIG += no_check_exist
 INSTALLS += qmfiles

@@ -43,22 +43,63 @@
 #ifndef OSINPUTAREA_H
 #define OSINPUTAREA_H
 
+#include <QDebug>
+
+#include <QtSql>
+#include <QDataWidgetMapper>
 #include <QScrollArea>
+#include <QSqlRelationalDelegate>
+
+#include <QMessageBox>
 
 namespace Ui {
   class OSInputArea;
 }
 
+/**
+ * @brief The OSInputArea class
+ */
 class OSInputArea : public QScrollArea
 {
   Q_OBJECT
 
   public:
-    explicit OSInputArea(QWidget* parent = 0);
+
+    /**
+     * @brief OSInputArea
+     * @param parent
+     * @param index
+     */
+    explicit OSInputArea(QWidget* parent = 0, const QModelIndex index = QModelIndex());
+
+    /**
+     * @brief ~OSInputArea
+     */
     ~OSInputArea();
+
+  private slots:
+    void on_pushButton_Add_clicked();
+
+    void on_pushButton_EditFinish_clicked();
 
   private:
     Ui::OSInputArea* ui;
+
+    enum Mode {
+      Edit,
+      Finish
+    };
+    Mode m_actualMode;
+    QSqlRelationalTableModel* m_model;
+    QItemSelectionModel* m_selectionModel;
+    QDataWidgetMapper* m_mapper;
+
+    void setMappings();
+    void setViewOnlyMode(bool mode = true);
+    void createDataset();
+    void retrieveDataset(const QModelIndex index);
+    void updateDataset(const QModelIndex index);
+    void deleteDataset(const QModelIndex index);
 };
 
 #endif // OSINPUTAREA_H

@@ -154,86 +154,217 @@ class EmployeeDataModel : public DataModel {
     QString generateTableString(QAbstractTableModel* model, QString header);
 
     /**
-     * @brief setFirstname
-     * @param _firstname
+     * @brief setIndexes
      */
-    void setFirstname(QString*);
+    void setIndexes();
 
     /**
-     * @brief setLastname
-     * @param _lastname
+     * @brief EmployeeNrIndex
+     * @return
      */
-    void setLastname(QString*);
+    int EmployeeNrIndex() const
+    { return m_EmployeeNrIndex; }
 
     /**
-     * @brief The PosIEmployeeTable enum
+     * @brief GenderIndex
+     * @return
      */
-    enum PosEmployeeTable {
-      POS_EMPLOYEE_ID,
-      POS_EMPLOYEE_NR,
-      POS_EMPLOYEE_GENDER,
-      POS_EMPLOYEE_TITLE_ID,
-      POS_EMPLOYEE_FIRSTNAME,
-      POS_EMPLOYEE_LASTNAME,
-      POS_EMPLOYEE_ADDRESS,
-      POS_EMPLOYEE_BIRTHDAY,
-      POS_EMPLOYEE_ZIPCITY_ID,
-      POS_EMPLOYEE_HOMEPHONE,
-      POS_EMPLOYEE_HOMEEMAIL,
-      POS_EMPLOYEE_HOMEMOBILE,
-      POS_EMPLOYEE_BUSINESSEMAIL,
-      POS_EMPLOYEE_DATACARE,
-      POS_EMPLOYEE_ACTIVE,
-      POS_EMPLOYEE_PHOTO,
-      POS_EMPLOYEE_NOTES,
-      POS_EMPLOYEE_STARTDATE,
-      POS_EMPLOYEE_ENDDATE,
-      POS_EMPLOYEE_DEPARTMENT_ID,
-      POS_EMPLOYEE_FUNCTION_ID,
-      POS_EMPLOYEE_COMPUTER_ID,
-      POS_EMPLOYEE_PRINTER_ID,
-      POS_EMPLOYEE_PHONE_ID,
-      POS_EMPLOYEE_MOBILE_ID,
-      POS_EMPLOYEE_FAX_ID,
-      POS_EMPLOYEE_EMPLOYEE_ACCOUNT_ID,
-      POS_EMPLOYEE_EMPLOYEE_DOCUMENT_ID,
-      POS_EMPLOYEE_CHIPCARD_ID,
-      POS_EMPLOYEE_LAST_UPDATE
-    };
+    int GenderIndex() const
+    { return m_GenderIndex; }
+
+    /**
+     * @brief TitleIdIndex
+     * @return
+     */
+    int TitleIdIndex() const
+    { return m_TitleIdIndex; }
+
+    /**
+     * @brief FirstNameIndex
+     * @return
+     */
+    int FirstNameIndex() const
+    { return m_FirstNameIndex; }
+
+    /**
+     * @brief LastNameIndex
+     * @return
+     */
+    int LastNameIndex() const
+    { return m_LastNameIndex; }
+
+    /**
+     * @brief BirthDayIndex
+     * @return
+     */
+    int BirthDayIndex() const
+    { return m_BirthDayIndex; }
+
+    /**
+     * @brief AddressIndex
+     * @return
+     */
+    int AddressIndex() const
+    { return m_AddressIndex; }
+
+    /**
+     * @brief ZipCityIdIndex
+     * @return
+     */
+    int ZipCityIdIndex() const
+    { return m_ZipCityIdIndex; }
+
+    /**
+     * @brief HomePhoneIndex
+     * @return
+     */
+    int HomePhoneIndex() const
+    { return m_HomePhoneIndex; }
+
+    /**
+     * @brief HomeMobileIndex
+     * @return
+     */
+    int HomeMobileIndex() const
+    { return m_HomeMobileIndex; }
+
+    /**
+     * @brief HomeMailIndex
+     * @return
+     */
+    int HomeMailIndex() const
+    { return m_HomeMailIndex; }
+
+    /**
+     * @brief BusinessMailIndex
+     * @return
+     */
+    int BusinessMailIndex() const
+    { return m_BusinessMailIndex; }
+
+    /**
+     * @brief DataCareIndex
+     * @return
+     */
+    int DataCareIndex() const
+    { return m_DataCareIndex; }
+
+    /**
+     * @brief ActiveIndex
+     * @return
+     */
+    int ActiveIndex() const
+    { return m_ActiveIndex; }
+
+    /**
+     * @brief PhotoIndex
+     * @return
+     */
+    int PhotoIndex() const
+    { return m_PhotoIndex; }
+
+    /**
+     * @brief NotesIndex
+     * @return
+     */
+    int NotesIndex() const
+    { return m_NotesIndex; }
+
+    /**
+     * @brief HireDateIndex
+     * @return
+     */
+    int HireDateIndex() const
+    { return m_HireDateIndex; }
+
+    /**
+     * @brief EndDateIndex
+     * @return
+     */
+    int EndDateIndex() const
+    { return m_EndDateIndex; }
+
+    /**
+     * @brief DepartmentIdIndex
+     * @return
+     */
+    int DepartmentIdIndex() const
+    { return m_DepartmentIdIndex; }
+
+    /**
+     * @brief FunctionIdIndex
+     * @return
+     */
+    int FunctionIdIndex() const
+    { return m_FunctionIdIndex; }
+
+    /**
+     * @brief ComputerIdIndex
+     * @return
+     */
+    int ComputerIdIndex() const
+    { return m_ComputerIdIndex; }
+
+    /**
+     * @brief PrinterIdIndex
+     * @return
+     */
+    int PrinterIdIndex() const
+    { return m_PrinterIdIndex; }
+
+    /**
+     * @brief PhoneIdIndex
+     * @return
+     */
+    int PhoneIdIndex() const
+    { return m_PhoneIdIndex; }
+
+    /**
+     * @brief MobileIdIndex
+     * @return
+     */
+    int MobileIdIndex() const
+    { return m_MobileIdIndex; }
+
+    /**
+     * @brief FaxIdIndex
+     * @return
+     */
+    int FaxIdIndex() const
+    { return m_FaxIdIndex; }
+
+    /**
+     * @brief EmployeeAccountIdIndex
+     * @return
+     */
+    int EmployeeAccountIdIndex() const
+    { return m_EmployeeAccountIdIndex; }
+
+    /**
+     * @brief EmployeeDocumentIdIndex
+     * @return
+     */
+    int EmployeeDocumentIdIndex() const
+    { return m_EmployeeDocumentIdIndex; }
+
+    /**
+     * @brief ChipCardIdIndex
+     * @return
+     */
+    int ChipCardIdIndex() const
+    { return m_ChipCardIdIndex; }
+
+    /**
+     * @brief LastUpdateIndex
+     * @return
+     */
+    int LastUpdateIndex() const
+    { return m_LastUpdateIndex; }
+
+
 
   protected:
 
-    /* The Datafields for Employees */
-    qint32 employee_id;
-    qint32 employee_nr;
-    char gender[1];
-    qint32 title_id;
-    QString* firstname;
-    QString* lastname;
-    QDate birthday;
-    QString* address;
-    qint32 zipcity_id;
-    QString* homephone;
-    QString* homemobile;
-    QString* homeemail;
-    QString businessemail;
-    bool datacare;
-    bool active;
-    char photo[8192];
-    QString* notes; // Maxchar 50
-    QDate startdate;
-    QDate enddate;
-    qint32 department_id;
-    qint32 function_id;
-    qint32 computer_id;
-    qint32 printer_id;
-    qint32 phone_id;
-    qint32 mobile_id;
-    qint32 fax_id;
-    qint32 employee_account_id;
-    qint32 employee_document_id;
-    qint32 chipcard_id;
-    QDate last_update;
 
   private:
 
@@ -241,29 +372,41 @@ class EmployeeDataModel : public DataModel {
      * @brief tableName - the name of the database table
      * @
      */
-    const QString tableName = QLatin1String(Database::Table::EMPLOYEE);
-    int idIdx;
-    int GenderIdx;
-    int TitleIdx;
-    int FirstNameIdx;
-    int LastNameIdx;
-    int AddressIdx;
-    int BirthDayIdx;
-    int EmailIdx;
-    int DataCareIdx;
-    int ActiveIdx;
-    int StartDateIdx;
-    int EndDateIdx;
-    int DepartmentIdx;
-    int FunctionIdx;
-    int ComputerIdx;
-    int PrinterIdx;
-    int PhoneIdx;
-    int MobileIdx;
-    int FaxIdx;
-    int EmployeeAccountIdx;
-    int EmployeeDocumentIdx;
-    int LastUpdateIdx;
+    const QString m_tableName = QLatin1String(Database::Table::EMPLOYEE);
+
+    QSqlRelationalTableModel* m_model;
+    QItemSelectionModel* m_selectionModel;
+
+    int m_EmployeeIdIndex;
+    int m_EmployeeNrIndex;
+    int m_GenderIndex;
+    int m_TitleIdIndex;
+    int m_FirstNameIndex;
+    int m_LastNameIndex;
+    int m_BirthDayIndex;
+    int m_AddressIndex;
+    int m_ZipCityIdIndex;
+    int m_HomePhoneIndex;
+    int m_HomeMobileIndex;
+    int m_HomeMailIndex;
+    int m_BusinessMailIndex;
+    int m_DataCareIndex;
+    int m_ActiveIndex;
+    int m_PhotoIndex;
+    int m_NotesIndex;
+    int m_HireDateIndex;
+    int m_EndDateIndex;
+    int m_DepartmentIdIndex;
+    int m_FunctionIdIndex;
+    int m_ComputerIdIndex;
+    int m_PrinterIdIndex;
+    int m_PhoneIdIndex;
+    int m_MobileIdIndex;
+    int m_FaxIdIndex;
+    int m_EmployeeAccountIdIndex;
+    int m_EmployeeDocumentIdIndex;
+    int m_ChipCardIdIndex;
+    int m_LastUpdateIndex;
 };
 
 #endif // EMPLOYEEDATAMODEL_H

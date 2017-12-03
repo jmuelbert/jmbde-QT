@@ -85,9 +85,9 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_Finish">
+      <widget class="QPushButton" name="pushButton_EditFinish">
        <property name="text">
-        <string>Finish</string>
+        <string>Edit</string>
        </property>
       </widget>
      </item>
@@ -151,7 +151,7 @@
   <tabstop>dateEdit_From</tabstop>
   <tabstop>dateEdit_To</tabstop>
   <tabstop>pushButton_Add</tabstop>
-  <tabstop>pushButton_Finish</tabstop>
+  <tabstop>pushButton_EditFinish</tabstop>
  </tabstops>
  <resources/>
  <connections/>

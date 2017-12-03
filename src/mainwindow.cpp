@@ -110,34 +110,35 @@ MainWindow::MainWindow(QWidget* parent)
     qDebug() << "ActualViewRow : " << m_actualView ;
     if (m_actualView.row() > 0) {
         ui->treeView->setCurrentIndex(m_actualView);
-        clickedTreeView(m_actualView);
+        onClickedTreeView(m_actualView);
     } else {
         qDebug() << "Select Employee";
         actualView = VIEW_EMPLOYEE;
         EmployeeDataModel* edm = new EmployeeDataModel;
 
         tableModel = edm->initializeTableModel();
-
+        int idx = edm->LastNameIndex();
         ui->listView->setModel(tableModel);
-        ui->listView->setModelColumn(EmployeeDataModel::POS_EMPLOYEE_LASTNAME);
+        ui->listView->setModelColumn(idx);
     }
 
-   qDebug() << "ActualData Row : " << m_actualData;
-    if (m_actualData.row() > 0) {
-        ui->listView->setCurrentIndex(m_actualData);
-        onClickedListViewRow(m_actualData);
-    } else {
-        qDebug() << "Employee Table Row ( 0 ) selected";
+//   qDebug() << "ActualData Row : " << m_actualData;
+//    if (m_actualData.row() > 0) {
+//        ui->listView->setCurrentIndex(m_actualData);
+//        onClickedListViewRow(m_actualData);
+//    } else {
+//        qDebug() << "Employee Table Row ( 0 ) selected";
 
-        EmployeeInputArea* seia = new EmployeeInputArea();
-        qDebug() << "Splitter count: " << ui->splitter->count();
-        ui->splitter->replaceWidget(2, seia);
-        qDebug() << "Splitter count: " << ui->splitter->count();
+//        EmployeeInputArea* seia = new EmployeeInputArea();
+//        qDebug() << "Splitter count: " << ui->splitter->count();
+//        ui->splitter->replaceWidget(2, seia);
+//        qDebug() << "Splitter count: " << ui->splitter->count();
 
-    }
+//    }
 
-  connect(ui->treeView, SIGNAL(clicked(QModelIndex)), this, SLOT(clickedTreeView(QModelIndex)));
-  connect( ui->listView, SIGNAL(clicked(QModelIndex)), this, SLOT(onClickedListViewRow(QModelIndex)) );
+  connect(ui->treeView, SIGNAL(clicked(QModelIndex)), this, SLOT(onClickedTreeView(QModelIndex)));
+  connect(ui->listView, SIGNAL(clicked(QModelIndex)), this, SLOT(onClickedListViewRow(QModelIndex)) );
+  connect(ui->listView, SIGNAL(pressed(QModelIndex)), this, SLOT(onPressedListViewRow(QModelIndex)) );
 
 }
 
@@ -530,7 +531,7 @@ void MainWindow::on_actionHelp_triggered() {
   helpBrowser->showHelpForKeyWord(QLatin1String("main"));
 }
 
-void MainWindow::clickedTreeView(const QModelIndex& index) {
+void MainWindow::onClickedTreeView(const QModelIndex& index) {
 
   const QStandardItem* item = m_treeviewModel->itemFromIndex(index);
   const QString selected = item->text();
@@ -557,9 +558,10 @@ void MainWindow::clickedTreeView(const QModelIndex& index) {
     EmployeeDataModel* edm = new EmployeeDataModel;
 
     tableModel = edm->initializeTableModel();
+    int idx = edm->LastNameIndex();
 
     ui->listView->setModel(tableModel);
-    ui->listView->setModelColumn(EmployeeDataModel::POS_EMPLOYEE_LASTNAME);
+    ui->listView->setModelColumn(idx);
 
   }
   else if (selected == tr("Function")) {
@@ -713,20 +715,20 @@ void MainWindow::clickedTreeView(const QModelIndex& index) {
 void MainWindow::onClickedListViewRow(const QModelIndex& index) {
 
     m_actualData = index;
-  qDebug() << "ActualDataRow : " << index;
+  qDebug() << "Clicked: ActualDataRow : " << index;
 
   switch (actualView) {
     case VIEW_EMPLOYEE: {
       qDebug() << "Employee Table Row (" << index.row() << ") clicked";
 
-      EmployeeInputArea* eia = new EmployeeInputArea(0, index.row());
+      EmployeeInputArea* eia = new EmployeeInputArea(0, index);
 
       ui->splitter->replaceWidget(2, eia);
     }
                         break;
 
     case VIEW_FUNCTION: {
-      FunctionInputArea* fia = new FunctionInputArea;
+      FunctionInputArea* fia = new FunctionInputArea(0, index);
 
       ui->splitter->replaceWidget(2, fia);
     }
@@ -734,7 +736,7 @@ void MainWindow::onClickedListViewRow(const QModelIndex& index) {
 
     case VIEW_DEPARTMENT:
     {
-      DepartmentInputArea* dia = new DepartmentInputArea;
+      DepartmentInputArea* dia = new DepartmentInputArea(0, index);
 
       ui->splitter->replaceWidget(2, dia);
     }
@@ -742,7 +744,7 @@ void MainWindow::onClickedListViewRow(const QModelIndex& index) {
 
     case VIEW_TITLE:
     {
-      FunctionInputArea* fia = new FunctionInputArea;
+      FunctionInputArea* fia = new FunctionInputArea(0, index);
 
       ui->splitter->replaceWidget(2, fia);
 
@@ -753,7 +755,7 @@ void MainWindow::onClickedListViewRow(const QModelIndex& index) {
     {
       qDebug() << "Computer Table Row (" << index.row() << ") clicked";
 
-      ComputerInputArea* cia = new ComputerInputArea(0, index.row());
+      ComputerInputArea* cia = new ComputerInputArea(0, index);
 
       ui->splitter->replaceWidget(2, cia);
     }
@@ -761,7 +763,7 @@ void MainWindow::onClickedListViewRow(const QModelIndex& index) {
 
     case VIEW_PROCESSOR:
     {
-      ProcessorInputArea* pia = new ProcessorInputArea;
+      ProcessorInputArea* pia = new ProcessorInputArea(0, index);
 
       ui->splitter->replaceWidget(2, pia);
     }
@@ -769,7 +771,7 @@ void MainWindow::onClickedListViewRow(const QModelIndex& index) {
 
     case VIEW_OS:
     {
-      OSInputArea* oia = new OSInputArea;
+      OSInputArea* oia = new OSInputArea(0, index);
 
       ui->splitter->replaceWidget(2, oia);
     }
@@ -777,22 +779,23 @@ void MainWindow::onClickedListViewRow(const QModelIndex& index) {
 
     case VIEW_SOFTWARE:
     {
-      SoftwareInputArea* sia = new SoftwareInputArea;
+      SoftwareInputArea* sia = new SoftwareInputArea(0, index);
 
       ui->splitter->replaceWidget(2, sia);
     }
     break;
 
     case VIEW_PRINTER:
+      break;
     case VIEW_PHONE: {
-      PhoneInputArea* pia = new PhoneInputArea;
+      PhoneInputArea* pia = new PhoneInputArea(0, index);
 
       ui->splitter->replaceWidget(2, pia);
     }
                      break;
 
     case VIEW_MOBILE: {
-      MobileInputArea* mia = new MobileInputArea;
+      MobileInputArea* mia = new MobileInputArea(0, index);
 
       ui->splitter->replaceWidget(2, mia);
     }
@@ -800,14 +803,14 @@ void MainWindow::onClickedListViewRow(const QModelIndex& index) {
 
     case VIEW_MANUFACTURER:
   {
-      ManufacturerInputArea *mia = new ManufacturerInputArea;
+      ManufacturerInputArea *mia = new ManufacturerInputArea(0, index);
 
       ui->splitter->replaceWidget(2, mia);
   }
       break;
     case VIEW_CITY:
   {
-      CityInputArea *cia  = new CityInputArea;
+      CityInputArea *cia  = new CityInputArea(0, index);
 
       ui->splitter->replaceWidget(2, cia);
   }
@@ -819,3 +822,22 @@ void MainWindow::onClickedListViewRow(const QModelIndex& index) {
 
   }
 }
+
+void MainWindow::onPressedListViewRow(const QModelIndex& index) {
+
+    m_actualData = index;
+   qDebug() << "Pressed: ActualDataRow for deleteting: " << index;
+
+   switch (actualView) {
+     case VIEW_EMPLOYEE: {
+       qDebug() << "Employee Table Row (" << index.row() << ") clicked";
+
+       EmployeeInputArea* eia = new EmployeeInputArea(0, index);
+
+       ui->splitter->replaceWidget(2, eia);
+       qDebug() << "Delete index : " << index;
+     } break;
+   }
+}
+
+

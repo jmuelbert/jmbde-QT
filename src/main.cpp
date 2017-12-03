@@ -140,7 +140,6 @@ int main(int argc, char* argv[]) {
 
   translationFileAndPath.append(QDir::separator());
   translationFileAndPath.append(QLatin1String("translations"));
-  translationFileAndPath.append(QDir::separator());
 
   qDebug() << "TranslationDirPath : " << translationFileAndPath;
 

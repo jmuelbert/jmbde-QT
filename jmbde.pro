@@ -2,10 +2,10 @@
 
 include (jmbde.pri)
 
-message(jmbde: Welcome jmbde qmake script.)
+message($$APP_NAME: Welcome APP qmake script.)
 
 lessThan(QT_MAJOR_VERSION, 5)|lessThan(QT_MINOR_VERSION, 8) {
-  error(jmbde: At least Qt \"5.8.0\" is required!!!)
+  error(APP: At least Qt \"5.8.0\" is required!!!)
 }
 
 CONFIG += ordered
@@ -22,25 +22,25 @@ unix:!macx:!isEmpty(copydata):SUBDIRS += bin
 DISTFILES += \
         README.md \
         $$files(dist/changes-*) \
-        jmbde.qbs \
+        APP.qbs \
         $$files(dist/installer/ifw/config/config-*) \
-        dist/installer/ifw/packages/de.jmuelbert.jmbde/meta/package.xml.in \
-        dist/installer/ifw/packages/de.jmuelbert.jmbde.application/meta/installscript.qs \
-        dist/installer/ifw/packages/de.jmuelbert.jmbde.application/meta/package.xml.in \
-        dist/installer/ifw/packages/de.jmuelbert.jmbde.application/meta/license.txt \
-        dist/installer/ifw/packages/de.jmuelbert.jmbde.application/meta/license_.txt \
-        dist/installer/ifw/packages/de.jmuelbert.jmbde.application/meta/page.ui \
-        dist/installer/ifw/packages/de.jmuelbert.jmbde.application/meta/de.ts \
-        dist/installer/ifw/packages/de.jmuelbert.jmbde.application/meta/de.qm \
-        dist/installer/ifw/packages/de.jmuelbert.jmbde.datalib/meta/installscript.js \
-        dist/installer/ifw/packages/de.jmuelbert.jmbde.datalib/meta/package.xml.in \
+        dist/installer/ifw/packages/de.jmuelbert.APP/meta/package.xml.in \
+        dist/installer/ifw/packages/de.jmuelbert.APP.application/meta/installscript.qs \
+        dist/installer/ifw/packages/de.jmuelbert.APP.application/meta/package.xml.in \
+        dist/installer/ifw/packages/de.jmuelbert.APP.application/meta/license.txt \
+        dist/installer/ifw/packages/de.jmuelbert.APP.application/meta/license_.txt \
+        dist/installer/ifw/packages/de.jmuelbert.APP.application/meta/page.ui \
+        dist/installer/ifw/packages/de.jmuelbert.APP.application/meta/de.ts \
+        dist/installer/ifw/packages/de.jmuelbert.APP.application/meta/de.qm \
+        dist/installer/ifw/packages/de.jmuelbert.APP.datalib/meta/installscript.js \
+        dist/installer/ifw/packages/de.jmuelbert.APP.datalib/meta/package.xml.in \
         $$files(scripts/*.py) \
         $$files(scripts/*.sh) \
         $$files(scripts/*.pl) \
         resources/scripts/uncrustify/uncrustify.cfg
 
 
-message(jmbde: Shadow copy build directory \"$$OUT_PWD\".)
+message($$APP_NAME Shadow copy build directory \"$$OUT_PWD\".)
 
 contains(QT_ARCH, i386): ARCHITECTURE = x86
 else: ARCHITECTURE = $$QT_ARCH
@@ -51,24 +51,24 @@ else:linux-*: PLATFORM = "linux-$${ARCHITECTURE}"
 else: PLATFORM = "unkwon"
 
 BASENAME = $$(INSTALL_BASENAME)
-isEmpty(BASENAME): BASENAME = jmbde-$${PLATFORM}-$${JMBDE_VERSION}$(INSTALL-POSTFIX)
+isEmpty(BASENAME): BASENAME = APP-$${PLATFORM}-$${APP_VERSION}$(INSTALL-POSTFIX)
 
-macx:INSTALLER_NAME = "jmbde-$${JMBDE_VERSION}"
+macx:INSTALLER_NAME = "APP-$${APP_VERSION}"
 else:INSTALLER_NAME = "$${BASENAME}"
 
 linux {
-    appstream.files = dist/de.jmuelbert.jmbde.appdata.xml
+    appstream.files = dist/de.jmuelbert.APP.appdata.xml
     appstream.path = share/metainfo/
 
-    desktop.files = dist/de.jmuelbert.jmbde.desktop
+    desktop.files = dist/de.jmuelbert.APP.desktop
     desktop.path = share/applications/
 
     INSTALLS += appstream desktop
 }
 
 macx {
-    APPBUNDLE = "$$OUT_PWD/bin/jmbde.app"
-    BINDIST_SOURCE = "$$OUT_PWD/bin/jmbde.app"
+    APPBUNDLE = "$$OUT_PWD/bin/APP.app"
+    BINDIST_SOURCE = "$$OUT_PWD/bin/APP.app"
     BINDIST_INSTALLER_SOURCE = $$BINDIST_SOURCE
     deployqt.commands = $$PWD/scripts/deployqtHelper_mac.sh \"$${APPBUNDLE}\" \"$$[QT_INSTALL_BINS]\" \"$$[QT_INSTALL_TRANSLATIONS]\" \"$$[QT_INSTALL_PLUGINS]\" \"$$[QT_INSTALL_IMPORTS]\" \"$$[QT_INSTALL_QML]\"
     codesign.commands = codesign --deep -s \"$(SIGNING_IDENTITY)\" $(SIGNING_FLAGS) \"$${APPBUNDLE}\"
@@ -83,7 +83,7 @@ macx {
     win32 {
         deployartifacts.depends = install
         deployartifacts.commands = git clone --depth 1 -b $$BINARY_ARTIFACTS_BRANCH \
-                "http://github.com/jmuelbert/jmbde-QT.git"
+                "http://github.com/jmuelbert/APP-QT.git"
         QMAKE_EXTRA_TARGETS += deployartifacts
     }
 }
@@ -100,7 +100,7 @@ bindist.commands = 7z a -mx9 $$OUT_PWD/$${BASENAME}.7z \"$$BINDIST_SOURCE\"
 #bindist_installer.depends = deployqt
 bindist_installer.commands = 7z a -mx9 $${INSTALLER_ARCHIVE} \"$$BINDIST_INSTALLER_SOURCE\"
 installer.depends = bindist_installer
-installer.commands = python -u $$PWD/scripts/packageIfw.py -i \"$${IFW_PATH}\" -v $${JMBDE_VERSION} -a \"$${INSTALLER_ARCHIVE}\" "$$INSTALLER_NAME"
+installer.commands = python -u $$PWD/scripts/packageIfw.py -i \"$${IFW_PATH}\" -v $${APP_VERSION} -a \"$${INSTALLER_ARCHIVE}\" "$$INSTALLER_NAME"
 
 acx {
     codesign_installer.commands = codesign -s \"$(SIGNING_IDENTITY)\" $(SIGNING_FLAGS) \"$${INSTALLER_NAME}.app\"
@@ -125,29 +125,21 @@ isEmpty(APP_REVISION) {
 
 DEFINES += APP_REVISION='"\\\"$$APP_REVISION\\\""'
 
-message(jmbde: jmbde version is: \"$$APP_VERSION\".)
-message(jmbde: Detected Qt version: \"$$QT_VERSION\".)
-message(jmbde: Build destination directory: \"$$DESTDIR\".)
-message(jmbde: Prefix directory: \"$$PREFIX\".)
-message(jmbde: Build revision: \"$$APP_REVISION\".)
-message(jmbde: lrelease executable name: \"$$LRELEASE_EXECUTABLE\".)
-
-
-TRANSLATIONS += \
-        $$PWD/localization/jmbde_untranslated.ts \
-        $$PWD/localization/jmbde_de.ts \
-        $$PWD/localization/jmbde_it.ts \
-        $$PWD/localization/jmbde_es.ts \
-
+message($$APP_NAME: $$APP_NAME version is: \"$$APP_VERSION\".)
+message($$APP_NAME: Detected Qt version: \"$$QT_VERSION\".)
+message($$APP_NAME: Build destination directory: \"$$DESTDIR\".)
+message($$APP_NAME: Prefix directory: \"$$PREFIX\".)
+message($$APP_NAME: Build revision: \"$$APP_REVISION\".)
+message($$APP_NAME: lrelease executable name: \"$$LRELEASE_EXECUTABLE\".)
 
 
 OTHER_FILES += Doxyfile
 
 QMAKE_EXTRA_TARGETS += deployqt bindist bindist_installer installer
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../jmbde-QT-lib/jmbdedata/build-library/release/ -ljmbdedata.0.1.1
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../jmbde-QT-lib/jmbdedata/build-library/debug/ -ljmbdedata.0.1.1
-else:unix: LIBS += -L$$PWD/../jmbde-QT-lib/jmbdedata/build-library/ -ljmbdedata.0.1.1
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../APP-QT-lib/$$APP_NAMEdata/build-library/release/ -l$$APP_NAMEdata.0.1.1
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../APP-QT-lib/$$APP_NAMEdata/build-library/debug/ -l$$APP_NAMEdata.0.1.1
+else:unix: LIBS += -L$$PWD/../$$APP_NAME-QT-lib/APPdata/build-library/ -l$$APP_NAMEdata.0.1.1
 
-INCLUDEPATH += $$PWD/../jmbde-QT-lib/jmbdedata
-DEPENDPATH += $$PWD/../jmbde-QT-lib/jmbdedata
+INCLUDEPATH += $$PWD/../$$APP_NAME-QT-lib/$$APP_NAMEdata
+DEPENDPATH += $$PWD/../$$APP_NAME-QT-lib/√data

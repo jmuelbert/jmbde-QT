@@ -114,19 +114,9 @@ bool DataModel::CreateConnection() {
 
     bool dbIsCreated = QFile::exists(targetFileAndPath);
 
-    if (dbIsCreated == true) {
-      db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"));
-      db.setDatabaseName(targetFileAndPath);
-      retValue = db.open();
-      qDebug() << "SQLite DB Exists                : " << retValue;
-      qDebug() << "QSQLITE QSqlDriver::QuerySize   : "
-               << db.driver()->hasFeature(QSqlDriver::QuerySize); // FALSE
-      qDebug() << "QSQLITE QSqlDriver::Transactions: "
-               << db.driver()->hasFeature(QSqlDriver::Transactions); // TRUE
-      qDebug() << initDb();
+    // When the DB-Directory not create than do this.
+    if (dbIsCreated == false) {
 
-    }
-    else {
       QDir destDir(dbConnectionString);
 
       if (destDir.exists() == false) {
@@ -136,13 +126,17 @@ bool DataModel::CreateConnection() {
           return false;
         }
       }
-
-      qDebug() << " Create a new DB";
-      db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"));
-      db.setDatabaseName(targetFileAndPath);
-      qDebug() << db.open();
-      qDebug() << initDb();
-
+    }
+    db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"));
+    db.setDatabaseName(targetFileAndPath);
+    if (!db.open()) {
+        qDebug() << "SQLite DB Exists                : " << retValue;
+        qDebug() << "QSQLITE QSqlDriver::QuerySize   : "
+                << db.driver()->hasFeature(QSqlDriver::QuerySize); // FALSE
+        qDebug() << "QSQLITE QSqlDriver::Transactions: "
+             << db.driver()->hasFeature(QSqlDriver::Transactions); // TRUE
+        qDebug() << initDb();
+        retValue = false;
     }
   }
   else if (dbType == MYSQL) {
@@ -238,7 +232,7 @@ QSqlError DataModel::initDb() {
   // Check the DB
   QStringList tables = db.tables();
 
-  // if (!tables.contains("employee", Qt::CaseInsensitive)) return QSqlError();
+  if (!tables.contains("employee", Qt::CaseInsensitive)) return QSqlError();
   QSqlQuery q;
   QString queryString;
 

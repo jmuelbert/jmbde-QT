@@ -199,9 +199,10 @@ class MainWindow : public QMainWindow {
 
     void on_actionHelp_triggered();
 
-    void clickedTreeView(const QModelIndex& index);
+    void onClickedTreeView(const QModelIndex& index);
 
     void onClickedListViewRow(const QModelIndex& index);
+    void onPressedListViewRow(const QModelIndex& index);
 
   private:
 

@@ -60,7 +60,7 @@
       <x>10</x>
       <y>500</y>
       <width>701</width>
-      <height>31</height>
+      <height>32</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -85,9 +85,9 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_Finish">
+      <widget class="QPushButton" name="pushButton_EditFinish">
        <property name="text">
-        <string>Finish</string>
+        <string>Edit</string>
        </property>
       </widget>
      </item>
@@ -154,7 +154,7 @@
         <string>Firstname</string>
        </property>
        <property name="buddy">
-        <cstring>lineEditFirstName</cstring>
+        <cstring>lineEdit_Firstname</cstring>
        </property>
       </widget>
      </item>

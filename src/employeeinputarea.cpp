@@ -1,5 +1,4 @@
 //
-
 // EmployeeInputArea
 // part of jmbde
 //
@@ -44,275 +43,236 @@
 #include "employeeinputarea.h"
 #include "ui_employeeinputdialog.h"
 
-// Add an new Employee
-EmployeeInputArea::EmployeeInputArea(QWidget* parent)
-  : QScrollArea(parent), ui(new Ui::EmployeeInputArea) {
-  // Init UI
-  ui->setupUi(this);
-
-  preSetFields(true);
-
-  // Set the Model
-  model = new QSqlRelationalTableModel(this);
-  model->setTable(QLatin1String("employee"));
-  model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-
-  // Set the indexes for the relations
-  functionIndex = model->fieldIndex(QLatin1String("function_id"));
-  departmentIndex = model->fieldIndex(QLatin1String("department_id"));
-  computerIndex = model->fieldIndex(QLatin1String("computer_id"));
-  printerIndex = model->fieldIndex(QLatin1String("printer_id"));
-  chipCardIndex = model->fieldIndex(QLatin1String("chipcard_id"));
-  phoneIndex = model->fieldIndex(QLatin1String("phone_id"));
-  mobileIndex = model->fieldIndex(QLatin1String("mobile_id"));
-  faxIndex = model->fieldIndex(QLatin1String("fax_id"));
-
-  // employeeAccountIdx = model->fieldIndex(QLatin1String("employee_accout_id"));
-  // employeeDocumentIdx = model->fieldIndex(QLatin1String("employee_document_id"));
-
-  // Set the relations to the other databases tables
-  model->setRelation(phoneIndex, QSqlRelation("phone", "phone_id", "number"));
-  model->setRelation(mobileIndex, QSqlRelation("mobile", "mobile_id", "number"));
-  model->setRelation(faxIndex, QSqlRelation("fax", "fax_id", "number"));
-
-  model->setRelation(computerIndex, QSqlRelation("computer", "computer_id", "network_name"));
-  model->setRelation(printerIndex, QSqlRelation("printer", "printer_id", "network_name"));
-  model->setRelation(chipCardIndex, QSqlRelation("chipcard", "chipcard_id", "name"));
-
-  model->setRelation(departmentIndex, QSqlRelation("department", "department_id", "name"));
-  model->setRelation(functionIndex, QSqlRelation("function", "function_id", "name"));
-
-  // model->setRelation(employeeAccountIdx, QSqlRelation("employeeaccount", "employee_account_id", "name"));
-  // model->setRelation(employeeDocumentIdx, QSqlRelation("employeedocument", "employee_document_id", "name"));
-
-  model->select();
-
-//  ui->comboBoxPhone->setModel(model->relationModel(phoneIndex));
-//  ui->comboBoxPhone->setModelColumn(model->relationModel(phoneIndex)->fieldIndex("number"));
-
-//  ui->comboBoxMobile->setModel(model->relationModel(mobileIndex));
-//  ui->comboBoxMobile->setModelColumn(model->relationModel(mobileIndex)->fieldIndex("number"));
-
-//  ui->comboBoxFax->setModel(model->relationModel(faxIndex));
-//  ui->comboBoxFax->setModelColumn(model->relationModel(faxIndex)->fieldIndex("number"));
-
-//    ui->comboBoxComputer->setModel(model->relationModel(computerIndex));
-//    ui->comboBoxComputer->setModelColumn(model->relationModel(computerIndex)->fieldIndex("network_name"));
-
-//    ui->comboBoxPrinter->setModel(model->relationModel(printerIndex));
-//    ui->comboBoxPrinter->setModelColumn(model->relationModel(printerIndex)->fieldIndex("network_name"));
-
-//    ui->comboBoxChipCard->setModel(model->relationModel(chipCardIndex));
-//    ui->comboBoxChipCard->setModelColumn(model->relationModel(chipCardIndex)->fieldIndex("name"));
-
-//    ui->comboBoxDepartment->setModel(model->relationModel(departmentIndex));
-//    ui->comboBoxDepartment->setModelColumn(model->relationModel(departmentIndex)->fieldIndex("name"));
-
-//    ui->comboBoxFunction->setModel(model->relationModel(functionIndex));
-//    ui->comboBoxFunction->setModelColumn(model->relationModel(functionIndex)->fieldIndex("name"));
-
-//    ui->comboBoxEmployeeAccount->setModel(model->relationModel(employeeAccountIdx));
-//    ui->comboBoxEmployeeAccount->setModelColumn(model->relationModel(employeeAccountIdx)->fieldIndex("name"));
-
-//    ui->comboBoxEmployeeDocument->setModel(model->relationModel(employeeDocumentIdx));
-//    ui->comboBoxEmployeeDocument->setModelColumn(model->relationModel(employeeDocumentIdx)->fieldIndex("name"));
-
-  // Set the mapper
-  mapper = new QDataWidgetMapper(this);
-  mapper->setModel(model);
-  mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
-
-  setMappings(model, mapper);
-
-  // To the last row to adding a dataset
-  mapper->toLast();
-  int row = mapper->currentIndex();
-
-  mapper->submit();
-  model->insertRow(row);
-  mapper->setCurrentIndex(row);
-
-  ui->doubleSpinBox_PersNR->setValue(++row);
-  ui->lineEdit_Firstname->clear();
-  ui->lineEdit_Firstname->setFocus();
-  ui->lineEdit_Lastname->clear();
-
-}
 
 // Edit an existing Employee
-EmployeeInputArea::EmployeeInputArea(QWidget* parent, int index)
-  : QScrollArea (parent), ui(new Ui::EmployeeInputArea) {
-  // Init UI
-    qDebug() << "Init EmployeeInputarea for Index : " << index;
+EmployeeInputArea::EmployeeInputArea(QWidget* parent, const QModelIndex index)
+  : QScrollArea (parent), ui(new Ui::EmployeeInputArea)
+{
   ui->setupUi(this);
 
-  preSetFields(false);
+  // Init UI
+  qDebug() << "Init EmployeeInputarea for Index : " << index.row();
+
+  m_actualMode=Mode::Edit;
+  setViewOnlyMode(true);
 
   // Set the Model
-  model = new QSqlRelationalTableModel(this);
-  model->setTable(QLatin1String("employee"));
-  model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+  m_model = new QSqlRelationalTableModel(this);
+  m_model->setTable(QLatin1String("employee"));
+  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-  // Set the indexes for the relations
-  functionIndex = model->fieldIndex(QLatin1String("function_id"));
-  departmentIndex = model->fieldIndex(QLatin1String("department_id"));
-  computerIndex = model->fieldIndex(QLatin1String("computer_id"));
-  printerIndex = model->fieldIndex(QLatin1String("printer_id"));
-  phoneIndex = model->fieldIndex(QLatin1String("phone_id"));
-  mobileIndex = model->fieldIndex(QLatin1String("mobile_id"));
-  faxIndex = model->fieldIndex(QLatin1String("fax_id"));
-
-  model->select();
+  m_model->select();
 
   // Set the mapper
-  mapper = new QDataWidgetMapper(this);
-  mapper->setModel(model);
-  mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
-  qDebug() << "phoneIndex : " << phoneIndex;
-  if (phoneIndex > 0) {
-   // ui->comboBox_Phone->setModel(model->relationModel(phoneIndex));
-  }
+  m_mapper = new QDataWidgetMapper(this);
+  m_mapper->setModel(m_model);
+  m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
-  setMappings(model, mapper);
+  setMappings();
 
-  mapper->setCurrentIndex(index);
-
-  ui->lineEdit_Firstname->setFocus();
+  m_mapper->setCurrentIndex(index.row());
 }
 
 EmployeeInputArea::~EmployeeInputArea() {
   delete ui;
 }
 
-void EmployeeInputArea::preSetFields(bool newEmployee) {
-
-  QStringList qslGender;
-
-  qslGender.append(tr("Not Set"));
-  qslGender.append(tr("m"));
-  qslGender.append(tr("f"));
-
-  ui->comboBox_Gender->addItems(qslGender);
-
-  QStringList qslTitle;
-
-  qslTitle.append(tr("Not Set"));
-  qslTitle.append(tr("Mr."));
-  qslTitle.append(tr("Ms."));
-
-  ui->comboBox_Title->addItems(qslTitle);
-
-  /*
-     if (newEmployee == true) {
-     QString *dateString = new QString(QDate::QDate().currentDate().toString(QLatin1String("dd.MM.yyyy")));
-     ui->labelLastupdate_Date->setText(&dateString);
-     ui->dateEditStartDate->setDate(QDate::QDate().currentDate());
-     }
-   */
-}
-
-void EmployeeInputArea::setMappings(QSqlTableModel* model,
-                                      QDataWidgetMapper* mapper) {
+void EmployeeInputArea::setMappings() {
 
   // Set the fields to the mapper
   // Line 1.
-  mapper->addMapping(ui->comboBox_Title,
-                     model->fieldIndex(QLatin1String("title_id")));
-  mapper->addMapping(ui->comboBox_Gender,
-                     model->fieldIndex(QLatin1String("gender")));
+  m_mapper->addMapping(ui->comboBox_Title,
+                     m_model->fieldIndex(QLatin1String("title_id")));
+  m_mapper->addMapping(ui->comboBox_Gender,
+                     m_model->fieldIndex(QLatin1String("gender")));
 
   // Line 2.
-  mapper->addMapping(ui->lineEdit_Firstname,
-                     model->fieldIndex(QLatin1String("first_name")));
-  mapper->addMapping(ui->lineEdit_Lastname,
-                     model->fieldIndex(QLatin1String("last_name")));
-  mapper->addMapping(ui->doubleSpinBox_PersNR,
-                     model->fieldIndex(QLatin1String("employee_nr")));
+  m_mapper->addMapping(ui->lineEdit_Firstname,
+                     m_model->fieldIndex(QLatin1String("first_name")));
+  m_mapper->addMapping(ui->lineEdit_Lastname,
+                     m_model->fieldIndex(QLatin1String("last_name")));
+  m_mapper->addMapping(ui->doubleSpinBox_PersNR,
+                     m_model->fieldIndex(QLatin1String("employee_nr")));
 
   // Line 3.
-  mapper->addMapping(ui->lineEditZipCode,
-                     model->fieldIndex(QLatin1String("zipcity_id")));
+  m_mapper->addMapping(ui->lineEditZipCode,
+                     m_model->fieldIndex(QLatin1String("zipcity_id")));
 
   // TODO: Write City in the City Text Field
-  mapper->addMapping(ui->lineEdit_Address,
-                     model->fieldIndex(QLatin1String("address")));
+  m_mapper->addMapping(ui->lineEdit_Address,
+                     m_model->fieldIndex(QLatin1String("address")));
 
   // Line 4.
-  mapper->addMapping(ui->dateEdit_Birthday,
-                     model->fieldIndex(QLatin1String("birth_day")));
+  m_mapper->addMapping(ui->dateEdit_Birthday,
+                     m_model->fieldIndex(QLatin1String("birth_day")));
 
   // Line 5.
-  mapper->addMapping(ui->lineEdit_HomeMail,
-                     model->fieldIndex(QLatin1String("home_mail_address")));
-  mapper->addMapping(ui->lineEdit_HomePhone,
-                     model->fieldIndex(QLatin1String("home_phone")));
-  mapper->addMapping(ui->lineEdit_HomeMobile,
-                     model->fieldIndex(QLatin1String("home_mobile")));
+  m_mapper->addMapping(ui->lineEdit_HomeMail,
+                     m_model->fieldIndex(QLatin1String("home_mail_address")));
+  m_mapper->addMapping(ui->lineEdit_HomePhone,
+                     m_model->fieldIndex(QLatin1String("home_phone")));
+  m_mapper->addMapping(ui->lineEdit_HomeMobile,
+                     m_model->fieldIndex(QLatin1String("home_mobile")));
 
   // Line 6.
-  mapper->addMapping(ui->lineEdit_BusinessMail,
-                     model->fieldIndex(QLatin1String("business_mail_addess")));
-  mapper->addMapping(ui->checkBox_Active,
-                     model->fieldIndex(QLatin1String("active")));
-  mapper->addMapping(ui->checkBox_DataCare,
-                     model->fieldIndex(QLatin1String("data_care")));
+  m_mapper->addMapping(ui->lineEdit_BusinessMail,
+                     m_model->fieldIndex(QLatin1String("business_mail_addess")));
+  m_mapper->addMapping(ui->checkBox_Active,
+                     m_model->fieldIndex(QLatin1String("active")));
+  m_mapper->addMapping(ui->checkBox_DataCare,
+                     m_model->fieldIndex(QLatin1String("data_care")));
 
   // Line 7.
-  mapper->addMapping(ui->dateEdit_StartDate,
-                     model->fieldIndex(QLatin1String("hire_date")));
-  mapper->addMapping(ui->dateEdit_EndDate,
-                     model->fieldIndex(QLatin1String("end_date")));
+  m_mapper->addMapping(ui->dateEdit_StartDate,
+                     m_model->fieldIndex(QLatin1String("hire_date")));
+  m_mapper->addMapping(ui->dateEdit_EndDate,
+                     m_model->fieldIndex(QLatin1String("end_date")));
 
   // Line 8.
 
   /*
-     mapper->addMapping(ui->comboBoxPhone,
-                     model->fieldIndex(QLatin1String("phone_id")));
-     mapper->addMapping(ui->comboBoxMobile,
-                     model->fieldIndex(QLatin1String("mobile_id")));
-     mapper->addMapping(ui->comboBoxFax,
-                     model->fieldIndex(QLatin1String("fax_id")));
+     m_mapper->addMapping(ui->comboBoxPhone,
+                     m_model->fieldIndex(QLatin1String("phone_id")));
+     m_mapper->addMapping(ui->comboBoxMobile,
+                     m_model->fieldIndex(QLatin1String("mobile_id")));
+     m_mapper->addMapping(ui->comboBoxFax,
+                     m_model->fieldIndex(QLatin1String("fax_id")));
 
 
      // Line 9.
-     mapper->addMapping(ui->comboBoxComputer,
-                     model->fieldIndex(QLatin1String("computer_id")));
+     m_mapper->addMapping(ui->comboBoxComputer,
+                     m_model->fieldIndex(QLatin1String("computer_id")));
 
-     mapper->addMapping(ui->comboBoxPrinter,
-                     model->fieldIndex(QLatin1String("printer_id")));
+     m_mapper->addMapping(ui->comboBoxPrinter,
+                     m_model->fieldIndex(QLatin1String("printer_id")));
 
-     mapper->addMapping(ui->comboBoxChipCard,
-                     model->fieldIndex(QLatin1String("chipcard_id")));
-     mapper->addMapping(ui->comboBoxDepartment,
-                     model->fieldIndex(QLatin1String("department_id")));
-     mapper->addMapping(ui->comboBoxFunction,
-                     model->fieldIndex(QLatin1String("function_id")));
+     m_mapper->addMapping(ui->comboBoxChipCard,
+                     m_model->fieldIndex(QLatin1String("chipcard_id")));
+     m_mapper->addMapping(ui->comboBoxDepartment,
+                     m_model->fieldIndex(QLatin1String("department_id")));
+     m_mapper->addMapping(ui->comboBoxFunction,
+                     m_model->fieldIndex(QLatin1String("function_id")));
 
      // Line 10.
-     mapper->addMapping(ui->comboBoxEmployeeAccount,
-                     model->fieldIndex(QLatin1String("employee_account_id")));
-     mapper->addMapping(ui->comboBoxEmployeeDocument,
-                     model->fieldIndex(QLatin1String("employee_document_id")));
+     m_mapper->addMapping(ui->comboBoxEmployeeAccount,
+                     m_model->fieldIndex(QLatin1String("employee_account_id")));
+     m_mapper->addMapping(ui->comboBoxEmployeeDocument,
+                     m_model->fieldIndex(QLatin1String("employee_document_id")));
    */
-  mapper->addMapping(ui->label_Lastupdate_Date,
-                     model->fieldIndex(QLatin1String("last_update")));
+  m_mapper->addMapping(ui->label_Lastupdate_Date,
+                     m_model->fieldIndex(QLatin1String("last_update")));
 
   // Line 11.
-  mapper->addMapping(ui->textEdit_Notes,
-                     model->fieldIndex(QLatin1String("notes")));
+  m_mapper->addMapping(ui->textEdit_Notes,
+                     m_model->fieldIndex(QLatin1String("notes")));
 }
 
-void EmployeeInputArea::on_pushButtonAdd_clicked()
+
+void EmployeeInputArea::setViewOnlyMode(bool mode) {
+    ui->checkBox_Active->setDisabled(mode);
+    ui->checkBox_DataCare->setDisabled(mode);
+    ui->comboBox_ChipCard->setDisabled(mode);
+    ui->comboBox_Computer->setDisabled(mode);
+    ui->comboBox_Department->setDisabled(mode);
+    ui->comboBox_EmployeeAccount->setDisabled(mode);
+    ui->comboBox_EmployeeDocument->setDisabled(mode);
+    ui->comboBox_Fax->setDisabled(mode);
+    ui->comboBox_Function->setDisabled(mode);
+    ui->comboBox_Gender->setDisabled(mode);
+    ui->comboBox_Mobile->setDisabled(mode);
+    ui->comboBox_Phone->setDisabled(mode);
+    ui->comboBox_Printer->setDisabled(mode);
+    ui->comboBox_Title->setDisabled(mode);
+    ui->dateEdit_Birthday->setDisabled(mode);
+    ui->dateEdit_EndDate->setDisabled(mode);
+    ui->dateEdit_StartDate->setDisabled(mode);
+    ui->doubleSpinBox_PersNR->setDisabled(mode);
+    ui->lineEditZipCode->setDisabled(mode);
+    ui->lineEdit_Address->setDisabled(mode);
+    ui->lineEdit_BusinessMail->setDisabled(mode);
+    ui->lineEdit_City->setDisabled(mode);
+    ui->lineEdit_Firstname->setDisabled(mode);
+    ui->lineEdit_HomeMail->setDisabled(mode);
+    ui->lineEdit_HomeMobile->setDisabled(mode);
+    ui->lineEdit_HomePhone->setDisabled(mode);
+    ui->lineEdit_Lastname->setDisabled(mode);
+}
+
+void EmployeeInputArea::createDataset() {
+    qDebug() << "Create a new Dataset for Employee...";
+
+    // Set all inputfields to blank
+    m_mapper->toLast();
+    int row = m_mapper->currentIndex();
+
+    m_mapper->submit();
+    m_model->insertRow(row);
+    m_mapper->setCurrentIndex(row);
+}
+
+void EmployeeInputArea::retrieveDataset(const QModelIndex index) {
+
+}
+
+void EmployeeInputArea::updateDataset(const QModelIndex index) {
+
+}
+
+void EmployeeInputArea::deleteDataset(const QModelIndex index) {
+
+}
+
+// Save the actual data
+
+void EmployeeInputArea::on_pushButton_Add_clicked()
 {
-    qDebug() << "Click Add";
-
+    createDataset();
 }
 
-void EmployeeInputArea::on_pushButtonEdit_clicked()
+void EmployeeInputArea::on_pushButton_EditFinish_clicked()
 {
-    qDebug() << "Click Edit";
+    switch(m_actualMode) {
+        case Mode::Edit:
+    {
+        m_actualMode = Mode::Finish;
+        ui->pushButton_EditFinish->setText(tr("Finish"));
+        setViewOnlyMode(false);
+
+
+    } break;
+
+    case Mode::Finish: {
+        qDebug() << "Save Data...";
+
+        m_actualMode = Mode::Edit;
+        ui->pushButton_EditFinish->setText(tr("Edit"));
+        setViewOnlyMode(false);
+
+        QString lastName = ui->lineEdit_Lastname->text();
+
+        if (lastName.isEmpty()) {
+            QString message(tr("Please provide the name of the employee."));
+            QMessageBox::information(this, tr("Add Employee"), message);
+        } else {
+            m_mapper->submit();
+            m_model->database().transaction();
+            if (m_model->submitAll()) {
+              m_model->database().commit();
+              qDebug() << "Commit changes for Computer Databse Table";
+            }
+            else {
+              m_model->database().rollback();
+              QMessageBox::warning(this, tr("jmbde"),
+                                   tr("The database reported an error: %1")
+                                   .arg(m_model->lastError().text()));
+            }
+          }
+
+    } break;
+
+    default: {
+        qDebug() << "Error";
+        }
+    }
 }
 
-void EmployeeInputArea::onClickedEmployeeTable(const QModelIndex index) {
-    qDebug() << "Select row: " << index;
-}

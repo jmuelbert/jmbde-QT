@@ -43,22 +43,64 @@
 #ifndef TITLEINPUTAREA_H
 #define TITLEINPUTAREA_H
 
+#include <QDebug>
+
+#include <QtSql>
+#include <QDataWidgetMapper>
 #include <QScrollArea>
+#include <QSqlRelationalDelegate>
+
+#include <QMessageBox>
 
 namespace Ui {
   class TitleInputArea;
 }
 
+/**
+ * @brief The TitleInputArea class
+ */
 class TitleInputArea : public QScrollArea
 {
   Q_OBJECT
 
   public:
-    explicit TitleInputArea(QWidget* parent = 0);
+
+    /**
+     * @brief TitleInputArea
+     * @param parent
+     * @param index
+     */
+    explicit TitleInputArea(QWidget* parent = 0, const QModelIndex index = QModelIndex());
+
+    /**
+     * @brief ~TitleInputArea
+     */
     ~TitleInputArea();
+
+  private slots:
+    void on_pushButton_Add_clicked();
+
+    void on_pushButton_EditFinish_clicked();
 
   private:
     Ui::TitleInputArea* ui;
+
+    enum Mode {
+      Edit,
+      Finish
+    };
+    Mode m_actualMode;
+    QSqlRelationalTableModel* m_model;
+    QItemSelectionModel* m_selectionModel;
+    QDataWidgetMapper* m_mapper;
+
+    void setMappings();
+    void setViewOnlyMode(bool mode = true);
+    void createDataset();
+    void retrieveDataset(const QModelIndex index);
+    void updateDataset(const QModelIndex index);
+    void deleteDataset(const QModelIndex index);
+
 };
 
 #endif // TITLEINPUTAREA_H

@@ -43,22 +43,62 @@
 #ifndef MANUFACTURERINPUTAREA_H
 #define MANUFACTURERINPUTAREA_H
 
+#include <QDebug>
+
+#include <QtSql>
+#include <QDataWidgetMapper>
 #include <QScrollArea>
+#include <QSqlRelationalDelegate>
+
+#include <QMessageBox>
 
 namespace Ui {
 class ManufacturerInputArea;
 }
 
+/**
+ * @brief The ManufacturerInputArea class
+ */
 class ManufacturerInputArea : public QScrollArea
 {
     Q_OBJECT
 
 public:
-    explicit ManufacturerInputArea(QWidget *parent = 0);
+    /**
+     * @brief ManufacturerInputArea
+     * @param parent
+     */
+    explicit ManufacturerInputArea(QWidget *parent = 0, const QModelIndex index =  QModelIndex());
+
+    /**
+      * @brief ~ManufacturerInputArea
+      */
     ~ManufacturerInputArea();
+
+private slots:
+    void on_pushButton_Add_clicked();
+
+    void on_pushButton_EditFinish_clicked();
 
 private:
     Ui::ManufacturerInputArea *ui;
+
+    enum Mode {
+      Edit,
+      Finish
+    };
+    Mode m_actualMode;
+
+    QSqlRelationalTableModel* m_model;
+    QItemSelectionModel* m_selectionModel;
+    QDataWidgetMapper* m_mapper;
+
+    void setMappings();
+    void setViewOnlyMode(bool mode = true);
+    void createDataset();
+    void retrieveDataset(const QModelIndex index);
+    void updateDataset(const QModelIndex index);
+    void deleteDataset(const QModelIndex index);
 };
 
 #endif // MANUFACTURERINPUTAREA_H

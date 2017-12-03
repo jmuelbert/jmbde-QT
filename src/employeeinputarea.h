@@ -43,9 +43,14 @@
 #ifndef EMPLOYEEINPUTAREA_H
 #define EMPLOYEEINPUTAREA_H
 
+#include <QDebug>
+
+#include <QtSql>
 #include <QDataWidgetMapper>
 #include <QScrollArea>
 #include <QSqlRelationalDelegate>
+
+#include <QMessageBox>
 
 #include "computerdatamodel.h"
 #include "employeedatamodel.h"
@@ -70,48 +75,53 @@ class EmployeeInputArea : public QScrollArea
   public:
 
     /**
-     * @brief EmployeeInputArea::EmployeeInputArea
+     * @brief EmployeeInputArea
      * @param parent
+     * @param index
      */
-    EmployeeInputArea(QWidget* parent = 0);
-
-    EmployeeInputArea(QWidget* parent, int index = 0);
+    explicit EmployeeInputArea(QWidget* parent, const QModelIndex index);
 
     /**
-     * @brief EmployeeInputArea::~EmployeeInputArea
+     * @brief ~EmployeeInputArea
      */
     ~EmployeeInputArea();
 
   public slots:
-    void onClickedEmployeeTable(const QModelIndex index);
 
   private slots:
 
-    void on_pushButtonAdd_clicked();
+    void on_pushButton_EditFinish_clicked();
 
-    void on_pushButtonEdit_clicked();
+    void on_pushButton_Add_clicked();
 
   private:
-    int departmentIndex;
-    int functionIndex;
-    int computerIndex;
-    int printerIndex;
-    int phoneIndex;
-    int mobileIndex;
-    int faxIndex;
-    int chipCardIndex;
-    int employeeAccountIdx;
-    int employeeDocumentIdx;
-    QSqlRelationalTableModel* model;
-
-    // QSqlTableModel *model;
-    QItemSelectionModel* selectionModel;
-    QDataWidgetMapper* mapper;
-
     Ui::EmployeeInputArea* ui;
 
-    void preSetFields(bool newEmployee);
-    void setMappings(QSqlTableModel* model, QDataWidgetMapper* mapper);
+    enum Mode {
+      Edit,
+      Finish
+    };
+    Mode m_actualMode;
+    int m_departmentIndex;
+    int m_functionIndex;
+    int m_computerIndex;
+    int m_printerIndex;
+    int m_phoneIndex;
+    int m_mobileIndex;
+    int m_faxIndex;
+    int m_chipCardIndex;
+    int m_employeeAccountIdx;
+    int m_employeeDocumentIdx;
+    QSqlRelationalTableModel* m_model;
+    QItemSelectionModel* m_selectionModel;
+    QDataWidgetMapper* m_mapper;
+
+    void setMappings();
+    void setViewOnlyMode(bool mode = true);
+    void createDataset();
+    void retrieveDataset(const QModelIndex index);
+    void updateDataset(const QModelIndex index);
+    void deleteDataset(const QModelIndex index);
 };
 
 #endif // EMPLOYEEINPUTArea_H

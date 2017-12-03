@@ -43,22 +43,64 @@
 #ifndef PROCESSORINPUTAREA_H
 #define PROCESSORINPUTAREA_H
 
+#include <QDebug>
+
+#include <QtSql>
+#include <QDataWidgetMapper>
 #include <QScrollArea>
+#include <QSqlRelationalDelegate>
+
+#include <QMessageBox>
 
 namespace Ui {
   class ProcessorInputArea;
 }
 
+/**
+ * @brief The ProcessorInputArea class
+ */
 class ProcessorInputArea : public QScrollArea
 {
   Q_OBJECT
 
   public:
-    explicit ProcessorInputArea(QWidget* parent = 0);
+
+    /**
+     * @brief ProcessorInputArea
+     * @param parent
+     * @param index
+     */
+    explicit ProcessorInputArea(QWidget* parent = 0, const QModelIndex index = QModelIndex());
+
+    /**
+     * @brief ~ProcessorInputArea
+     */
     ~ProcessorInputArea();
+
+  private slots:
+    void on_pushButton_Add_clicked();
+
+    void on_pushButton_EditFinish_clicked();
 
   private:
     Ui::ProcessorInputArea* ui;
+
+    enum Mode {
+      Edit,
+      Finish
+    };
+    Mode m_actualMode;
+    QSqlRelationalTableModel* m_model;
+    QItemSelectionModel* m_selectionModel;
+    QDataWidgetMapper* m_mapper;
+
+    void setMappings();
+    void setViewOnlyMode(bool mode = true);
+    void createDataset();
+    void retrieveDataset(const QModelIndex index);
+    void updateDataset(const QModelIndex index);
+    void deleteDataset(const QModelIndex index);
+
 };
 
 #endif // PROCESSORINPUTAREA_H

@@ -43,22 +43,62 @@
 #ifndef MOBILEINPUTAREA_H
 #define MOBILEINPUTAREA_H
 
+#include <QDebug>
+
+#include <QtSql>
+#include <QDataWidgetMapper>
 #include <QScrollArea>
+#include <QSqlRelationalDelegate>
+
+#include <QMessageBox>
 
 namespace Ui {
   class MobileInputArea;
 }
 
+/**
+ * @brief The MobileInputArea class
+ */
 class MobileInputArea : public QScrollArea
 {
   Q_OBJECT
 
   public:
-    explicit MobileInputArea(QWidget* parent = 0);
+
+    /**
+     * @brief MobileInputArea
+     * @param parent
+     */
+    explicit MobileInputArea(QWidget* parent = 0, const QModelIndex index = QModelIndex());
+
+    /**
+     * @brief ~MobileInputArea
+     */
     ~MobileInputArea();
+
+  private slots:
+    void on_pushButton_Add_clicked();
+
+    void on_pushButton_EditFinish_clicked();
 
   private:
     Ui::MobileInputArea* ui;
+
+    enum Mode {
+      Edit,
+      Finish
+    };
+    Mode m_actualMode;
+    QSqlRelationalTableModel* m_model;
+    QItemSelectionModel* m_selectionModel;
+    QDataWidgetMapper* m_mapper;
+
+    void setMappings();
+    void setViewOnlyMode(bool mode = true);
+    void createDataset();
+    void retrieveDataset(const QModelIndex index);
+    void updateDataset(const QModelIndex index);
+    void deleteDataset(const QModelIndex index);
 };
 
 #endif // MOBILEINPUTAREA_H

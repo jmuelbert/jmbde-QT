@@ -325,7 +325,7 @@ namespace Database {
                                 "phone_id INTEGER PRIMARY KEY, " \
                                 "device_name_id INTEGER, " \
                                 "serial_number VARCHAR, " \
-                                "Number VARCHAR, " \
+                                "number VARCHAR, " \
                                 "pin VARCHAR, " \
                                 "active BOOLEAN, " \
                                 "replace BOOLEAN, " \
@@ -358,6 +358,7 @@ namespace Database {
                                  "device_name_id INTEGER, " \
                                  "serial_number VARCHAR, " \
                                  "number VARCHAR, " \
+                                 "pin VARCHAR, " \
                                  "card_number VARCHAR, " \
                                  "active BOOLEAN, " \
                                  "replace BOOLEAN, " \
@@ -366,7 +367,7 @@ namespace Database {
                                  "place_id INTEGER, " \
                                  "department_id INTEGER, " \
                                  "manufacturer_ID INTEGER, " \
-                                 "inventoryid INTEGER, " \
+                                 "inventory_id INTEGER, " \
                                  "last_update TIMESTAMP);";
     const char CHIPCARD[] = "chip_card";
     const char CHIPCARD_CREATE[] = "CREATE TABLE chip_card (" \

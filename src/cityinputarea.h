@@ -43,22 +43,65 @@
 #ifndef CITYINPUTAREA_H
 #define CITYINPUTAREA_H
 
-#include <QScrollArea>
+#include <QDebug>
 
+#include <QtSql>
+#include <QDataWidgetMapper>
+#include <QScrollArea>
+#include <QSqlRelationalDelegate>
+
+#include <QMessageBox>
 namespace Ui {
 class CityInputArea;
 }
 
+/**
+ * @brief The CityInputArea class
+ */
 class CityInputArea : public QScrollArea
 {
     Q_OBJECT
 
 public:
-    explicit CityInputArea(QWidget *parent = 0);
+    /**
+     * @brief CityInputArea
+     * @param parent
+     * @param index - the actual dataset
+     */
+    explicit CityInputArea(QWidget *parent = 0, const QModelIndex index =  QModelIndex());
+
+    /**
+     * @brief ~CityInputArea
+     */
     ~CityInputArea();
+
+private slots:
+
+    void on_pushButton_Add_clicked();
+
+    void on_pushButton_EditFinish_clicked();
 
 private:
     Ui::CityInputArea *ui;
+
+    enum Mode {
+      Edit,
+      Finish
+    };
+
+    Mode m_actualMode;
+
+    QSqlRelationalTableModel* m_model;
+    QItemSelectionModel* m_selectionModel;
+    QDataWidgetMapper* m_mapper;
+
+    void setViewOnlyMode(bool mode = true);
+    void setMappings();
+    void createDataset();
+    void retrieveDataset(const QModelIndex index);
+    void updateDataset(const QModelIndex index);
+    void deleteDataset(const QModelIndex index);
+
 };
 
 #endif // CITYINPUTAREA_H

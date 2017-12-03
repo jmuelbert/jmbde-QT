@@ -296,12 +296,12 @@
     <message>
         <location filename="../src/employeeinputdialog.ui" line="48"/>
         <source>Employee</source>
-        <translation type="unfinished"></translation>
+        <translation>Mitarbeiter</translation>
     </message>
     <message>
         <location filename="../src/employeeinputdialog.ui" line="70"/>
         <source>+</source>
-        <translation type="unfinished"></translation>
+        <translation>+</translation>
     </message>
     <message>
         <location filename="../src/employeeinputdialog.ui" line="90"/>
@@ -316,17 +316,17 @@
     <message>
         <location filename="../src/employeeinputdialog.ui" line="125"/>
         <source>Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse</translation>
     </message>
     <message>
         <location filename="../src/employeeinputdialog.ui" line="144"/>
         <source>Lastname</source>
-        <translation type="unfinished"></translation>
+        <translation>Nachname</translation>
     </message>
     <message>
         <location filename="../src/employeeinputdialog.ui" line="154"/>
         <source>Firstname</source>
-        <translation type="unfinished"></translation>
+        <translation>Vorname</translation>
     </message>
     <message>
         <location filename="../src/employeeinputdialog.ui" line="164"/>

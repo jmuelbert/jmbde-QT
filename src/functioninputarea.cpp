@@ -43,14 +43,124 @@
 #include "functioninputarea.h"
 #include "ui_functioninputarea.h"
 
-FunctionInputArea::FunctionInputArea(QWidget *parent) :
+FunctionInputArea::FunctionInputArea(QWidget *parent, const QModelIndex index) :
     QScrollArea(parent),
     ui(new Ui::FunctionInputArea)
 {
     ui->setupUi(this);
+
+    // Init UI
+    qDebug() << "Init FunctionInputarea for Index : " << index.row();
+
+    m_actualMode=Mode::Edit;
+    setViewOnlyMode(true);
+
+    // Set the Model
+    m_model = new QSqlRelationalTableModel(this);
+    m_model->setTable(QLatin1String("function"));
+    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+
+    m_model->select();
+
+    // Set the mapper
+    m_mapper = new QDataWidgetMapper(this);
+    m_mapper->setModel(m_model);
+    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
+
+    setMappings();
+
+    m_mapper->setCurrentIndex(index.row());
 }
 
 FunctionInputArea::~FunctionInputArea()
 {
     delete ui;
+}
+
+void FunctionInputArea::setMappings() {
+    m_mapper->addMapping(ui->lineEdit_Name,
+                         m_model->fieldIndex(QLatin1String("name")));
+    m_mapper->addMapping(ui->spinBox_Priotity,
+                         m_model->fieldIndex(QLatin1String("prority")));
+}
+
+void FunctionInputArea::setViewOnlyMode(bool mode) {
+    ui->lineEdit_Name->setDisabled(mode);
+    ui->spinBox_Priotity->setDisabled(mode);
+}
+
+void FunctionInputArea::createDataset() {
+    qDebug() << "Create a new Dataset for Function...";
+
+    // Set all inputfields to blank
+    m_mapper->toLast();
+    int row = m_mapper->currentIndex();
+
+    m_mapper->submit();
+    m_model->insertRow(row);
+    m_mapper->setCurrentIndex(row);
+}
+
+void FunctionInputArea::retrieveDataset(const QModelIndex index) {
+
+}
+
+void FunctionInputArea::updateDataset(const QModelIndex index) {
+
+}
+
+void FunctionInputArea::deleteDataset(const QModelIndex index) {
+
+}
+
+void FunctionInputArea::on_pushButton_Add_clicked()
+{
+    switch(m_actualMode) {
+        case Mode::Edit:
+    {
+        m_actualMode = Mode::Finish;
+        ui->pushButton_EditFinish->setText(tr("Finish"));
+        setViewOnlyMode(false);
+
+
+    } break;
+
+    case Mode::Finish: {
+        qDebug() << "Save Data...";
+
+        m_actualMode = Mode::Edit;
+        ui->pushButton_EditFinish->setText(tr("Edit"));
+        setViewOnlyMode(false);
+
+        QString name = ui->lineEdit_Name->text();
+
+        if (name.isEmpty()) {
+            QString message(tr("Please provide the name of the Function."));
+            QMessageBox::information(this, tr("Add Function"), message);
+        } else {
+            m_mapper->submit();
+            m_model->database().transaction();
+            if (m_model->submitAll()) {
+              m_model->database().commit();
+              qDebug() << "Commit changes for Computer Databse Table";
+            }
+            else {
+              m_model->database().rollback();
+              QMessageBox::warning(this, tr("jmbde"),
+                                   tr("The database reported an error: %1")
+                                   .arg(m_model->lastError().text()));
+            }
+          }
+
+    } break;
+
+    default: {
+        qDebug() << "Error";
+        }
+    }
+}
+
+void FunctionInputArea::on_pushButton_EditFinish_clicked()
+{
+    createDataset();
 }

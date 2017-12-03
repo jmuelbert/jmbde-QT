@@ -43,28 +43,64 @@
 #ifndef PHONEINPUTAREA_H
 #define PHONEINPUTAREA_H
 
+#include <QDebug>
+
+#include <QtSql>
+#include <QDataWidgetMapper>
 #include <QScrollArea>
+#include <QSqlRelationalDelegate>
+
+#include <QMessageBox>
 
 namespace Ui {
   class PhoneInputArea;
 }
 
+/**
+ * @brief The PhoneInputArea class
+ */
 class PhoneInputArea : public QScrollArea
 {
   Q_OBJECT
 
   public:
-    explicit PhoneInputArea(QWidget* parent = 0);
+
+    /**
+     * @brief PhoneInputArea
+     * @param parent
+     * @param index
+     */
+    explicit PhoneInputArea(QWidget* parent = 0, const QModelIndex index = QModelIndex());
+
+    /**
+     * @brief ~PhoneInputArea
+     */
     ~PhoneInputArea();
 
   private slots:
 
-    void on_pushButtonAdd_clicked();
+    void on_pushButton_Add_clicked();
 
-    void on_pushButtonFinish_clicked();
+    void on_pushButton_EditFinish_clicked();
 
   private:
     Ui::PhoneInputArea* ui;
+
+    enum Mode {
+      Edit,
+      Finish
+    };
+    Mode m_actualMode;
+    QSqlRelationalTableModel* m_model;
+    QItemSelectionModel* m_selectionModel;
+    QDataWidgetMapper* m_mapper;
+
+    void setMappings();
+    void setViewOnlyMode(bool mode = true);
+    void createDataset();
+    void retrieveDataset(const QModelIndex index);
+    void updateDataset(const QModelIndex index);
+    void deleteDataset(const QModelIndex index);
 };
 
 #endif // PHONEINPUTAREA_H

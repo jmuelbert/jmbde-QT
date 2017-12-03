@@ -87,7 +87,7 @@
      <item>
       <widget class="QPushButton" name="pushButton_Finish">
        <property name="text">
-        <string>Finish</string>
+        <string>Edit</string>
        </property>
       </widget>
      </item>
@@ -186,11 +186,11 @@
   <tabstop>lineEdit_Name</tabstop>
   <tabstop>spinBox_Priority</tabstop>
   <tabstop>horizontalSlider_Priority</tabstop>
-  <tabstop>dial_Priority</tabstop>
   <tabstop>comboBox_Printer</tabstop>
   <tabstop>comboBox_Fax</tabstop>
   <tabstop>pushButton_Add</tabstop>
   <tabstop>pushButton_Finish</tabstop>
+  <tabstop>dial_Priority</tabstop>
  </tabstops>
  <resources/>
  <connections/>

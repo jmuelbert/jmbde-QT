@@ -42,185 +42,164 @@
 
 #include "employeedatamodel.h"
 
-EmployeeDataModel::EmployeeDataModel(QObject* parent) : DataModel(parent) {}
+EmployeeDataModel::EmployeeDataModel(QObject* parent) : DataModel(parent) {
+
+    // Set the Model
+    m_model = new QSqlRelationalTableModel(this);
+    m_model->setTable(this->m_tableName);
+    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+
+    setIndexes();
+}
 
 EmployeeDataModel::~EmployeeDataModel() {}
 
+void EmployeeDataModel::setIndexes() {
+    m_EmployeeIdIndex           =   m_model->fieldIndex(QLatin1String("employee_id"));
+    m_EmployeeNrIndex           =   m_model->fieldIndex(QLatin1String("employee_nr"));
+    m_GenderIndex               =   m_model->fieldIndex(QLatin1String("gender"));
+    m_TitleIdIndex              =   m_model->fieldIndex(QLatin1String("title_id"));
+    m_FirstNameIndex            =   m_model->fieldIndex(QLatin1String("first_name"));
+    m_LastNameIndex             =   m_model->fieldIndex(QLatin1String("last_name"));
+    m_BirthDayIndex             =   m_model->fieldIndex(QLatin1String("birth_day"));
+    m_AddressIndex              =   m_model->fieldIndex(QLatin1String("address"));
+    m_ZipCityIdIndex            =   m_model->fieldIndex(QLatin1String("zip_city_id"));
+    m_HomePhoneIndex            =   m_model->fieldIndex(QLatin1String("home_phone"));
+    m_HomeMobileIndex           =   m_model->fieldIndex(QLatin1String("home_mobile"));
+    m_HomeMailIndex             =   m_model->fieldIndex(QLatin1String("home_mail_address"));
+    m_BusinessMailIndex         =   m_model->fieldIndex(QLatin1String("business_mail_address"));
+    m_DataCareIndex             =   m_model->fieldIndex(QLatin1String("data_care"));
+    m_ActiveIndex               =   m_model->fieldIndex(QLatin1String("active"));
+    m_PhotoIndex                =   m_model->fieldIndex(QLatin1String("photo"));
+    m_NotesIndex                =   m_model->fieldIndex(QLatin1String("notes"));
+    m_HireDateIndex             =   m_model->fieldIndex(QLatin1String("hire_date"));
+    m_EndDateIndex              =   m_model->fieldIndex(QLatin1String("end_date"));
+    m_DepartmentIdIndex         =   m_model->fieldIndex(QLatin1String("department_id"));
+    m_FunctionIdIndex           =   m_model->fieldIndex(QLatin1String("function_id"));
+    m_ComputerIdIndex           =   m_model->fieldIndex(QLatin1String("computer_id"));
+    m_PrinterIdIndex            =   m_model->fieldIndex(QLatin1String("printer_id"));
+    m_PhoneIdIndex              =   m_model->fieldIndex(QLatin1String("phone_id"));
+    m_MobileIdIndex             =   m_model->fieldIndex(QLatin1String("mobile_id"));
+    m_FaxIdIndex                =   m_model->fieldIndex(QLatin1String("fax_id"));
+    m_EmployeeAccountIdIndex    =   m_model->fieldIndex(QLatin1String("employee_account_id"));
+    m_EmployeeDocumentIdIndex   =   m_model->fieldIndex(QLatin1String("employee_document_id"));
+    m_ChipCardIdIndex           =   m_model->fieldIndex(QLatin1String("chip_card_id"));
+    m_LastUpdateIndex           =   m_model->fieldIndex(QLatin1String("last_update"));
+}
+
 QSqlTableModel* EmployeeDataModel::initializeViewModel() {
 
-  // TODO: id als locale Konstante
+  m_model->select();
 
-  QSqlRelationalTableModel* model = new QSqlRelationalTableModel(this);
-
-  model->setTable(this->tableName);
-  model->setEditStrategy(QSqlTableModel::OnFieldChange);
-
-  model->setHeaderData(POS_EMPLOYEE_FIRSTNAME, Qt::Horizontal,
-                       QObject::tr("Firstname"));
-  model->setHeaderData(POS_EMPLOYEE_LASTNAME, Qt::Horizontal,
-                       QObject::tr("Lastname"));
-
-  model->select();
-
-  return model;
+  return m_model;
 }
 
 QSqlRelationalTableModel* EmployeeDataModel::initializeRelationalModel() {
 
   // TODO: id als locale Konstante
 
-  QSqlRelationalTableModel* model = new QSqlRelationalTableModel(this);
+  m_model = new QSqlRelationalTableModel(this);
 
-  model->setTable(this->tableName);
-  model->setEditStrategy(QSqlTableModel::OnFieldChange);
+  m_model->setTable(this->m_tableName);
+  m_model->setEditStrategy(QSqlTableModel::OnFieldChange);
 
-  /*
-
-     model->setRelation(POS_EMPLOYEE_TITLE_ID, QSqlRelation(QLatin1String("title"),
-                                                         QLatin1String("title_id"),
-                                                         QLatin1String("name")));
-
-     model->setRelation(POS_EMPLOYEE_ADDRESS_ID,
-     QSqlRelation(QLatin1String("address"), QLatin1String("address_id"),
-                                                           QLatin1String("address")));
-
-     model->setRelation(POS_EMPLOYEE_DEPARTMENT_ID,
-     QSqlRelation(QLatin1String("department"), QLatin1String("department_id"),
-                                                  QLatin1String("name")));
-
-     model->setRelation(POS_EMPLOYEE_FUNCTION_ID,
-     QSqlRelation(QLatin1String("function"), QLatin1String("function_id"),
-                                                QLatin1String("name")));
-
-
-     model->setRelation(POS_EMPLOYEE_COMPUTER_ID,
-     QSqlRelation(QLatin1String("computer"), QLatin1String("computer_id"),
-                                                QLatin1String("network_name")));
-
-
-     model->setRelation(POS_EMPLOYEE_PRINTER_ID,
-     QSqlRelation(QLatin1String("printer"), QLatin1String("printer_id"),
-                                                QLatin1String("network_name")));
-
-
-     model->setRelation(POS_EMPLOYEE_PHONE_ID, QSqlRelation(QLatin1String("phone"),
-                                             QLatin1String("phone_id"),
-                                              QLatin1String("number")));
-
-     model->setRelation(POS_EMPLOYEE_MOBILE_ID,
-     QSqlRelation(QLatin1String("mobile"), QLatin1String("mobile_id"),
-                                                          QLatin1String("number")));
-
-     model->setRelation(POS_EMPLOYEE_FAX_ID, QSqlRelation(QLatin1String("fax"),
-                                                       QLatin1String("fax_id"),
-                                                      QLatin1String("number")));
-
-   */
-  model->setHeaderData(POS_EMPLOYEE_ID, Qt::Horizontal, QObject::tr("ID"));
-  model->setHeaderData(POS_EMPLOYEE_NR, Qt::Horizontal,
+  m_model->setHeaderData(m_EmployeeIdIndex, Qt::Horizontal, QObject::tr("ID"));
+  m_model->setHeaderData(m_EmployeeNrIndex, Qt::Horizontal,
                        QObject::tr("Emp.Number"));
-  model->setHeaderData(POS_EMPLOYEE_GENDER, Qt::Horizontal,
+  m_model->setHeaderData(m_GenderIndex, Qt::Horizontal,
                        QObject::tr("Gender"));
-  model->setHeaderData(POS_EMPLOYEE_TITLE_ID, Qt::Horizontal,
+  m_model->setHeaderData(m_TitleIdIndex, Qt::Horizontal,
                        QObject::tr("Title"));
-  model->setHeaderData(POS_EMPLOYEE_FIRSTNAME, Qt::Horizontal,
+  m_model->setHeaderData(m_FirstNameIndex, Qt::Horizontal,
                        QObject::tr("Firstname"));
-  model->setHeaderData(POS_EMPLOYEE_LASTNAME, Qt::Horizontal,
+  m_model->setHeaderData(m_LastNameIndex, Qt::Horizontal,
                        QObject::tr("Lastname"));
-  model->setHeaderData(POS_EMPLOYEE_ADDRESS, Qt::Horizontal,
+  m_model->setHeaderData(m_AddressIndex, Qt::Horizontal,
                        QObject::tr("address"));
-  model->setHeaderData(POS_EMPLOYEE_ZIPCITY_ID, Qt::Horizontal,
+  m_model->setHeaderData(m_ZipCityIdIndex, Qt::Horizontal,
                        QObject::tr("Zipcity"));
-  model->setHeaderData(POS_EMPLOYEE_BIRTHDAY, Qt::Horizontal,
+  m_model->setHeaderData(m_BirthDayIndex, Qt::Horizontal,
                        QObject::tr("Birthday"));
-  model->setHeaderData(POS_EMPLOYEE_HOMEPHONE, Qt::Horizontal,
+  m_model->setHeaderData(m_HomePhoneIndex, Qt::Horizontal,
                        QObject::tr("Homephone"));
-  model->setHeaderData(POS_EMPLOYEE_HOMEEMAIL, Qt::Horizontal,
+  m_model->setHeaderData(m_HomeMailIndex, Qt::Horizontal,
                        QObject::tr("Homemail"));
-  model->setHeaderData(POS_EMPLOYEE_HOMEMOBILE, Qt::Horizontal,
+  m_model->setHeaderData(m_HomeMobileIndex, Qt::Horizontal,
                        QObject::tr("Homemobile"));
-  model->setHeaderData(POS_EMPLOYEE_BUSINESSEMAIL, Qt::Horizontal,
+  m_model->setHeaderData(m_BusinessMailIndex, Qt::Horizontal,
                        QObject::tr("Businessemail"));
-  model->setHeaderData(POS_EMPLOYEE_DATACARE, Qt::Horizontal,
+  m_model->setHeaderData(m_DataCareIndex, Qt::Horizontal,
                        QObject::tr("Datacare"));
-  model->setHeaderData(POS_EMPLOYEE_ACTIVE, Qt::Horizontal,
+  m_model->setHeaderData(m_ActiveIndex, Qt::Horizontal,
                        QObject::tr("Active"));
-  model->setHeaderData(POS_EMPLOYEE_PHOTO, Qt::Horizontal,
+  m_model->setHeaderData(m_PhotoIndex, Qt::Horizontal,
                        QObject::tr("Photo"));
-  model->setHeaderData(POS_EMPLOYEE_NOTES, Qt::Horizontal,
+  m_model->setHeaderData(m_NotesIndex, Qt::Horizontal,
                        QObject::tr("Notes"));
-  model->setHeaderData(POS_EMPLOYEE_STARTDATE, Qt::Horizontal,
-                       QObject::tr("StartDate"));
-  model->setHeaderData(POS_EMPLOYEE_ENDDATE, Qt::Horizontal,
+  m_model->setHeaderData(m_HireDateIndex, Qt::Horizontal,
+                       QObject::tr("Hire Date"));
+  m_model->setHeaderData(m_EndDateIndex, Qt::Horizontal,
                        QObject::tr("EndDate"));
-  model->setHeaderData(POS_EMPLOYEE_DEPARTMENT_ID, Qt::Horizontal,
+  m_model->setHeaderData(m_DepartmentIdIndex, Qt::Horizontal,
                        QObject::tr("Department"));
-  model->setHeaderData(POS_EMPLOYEE_FUNCTION_ID, Qt::Horizontal,
+  m_model->setHeaderData(m_FunctionIdIndex, Qt::Horizontal,
                        QObject::tr("Function"));
-  model->setHeaderData(POS_EMPLOYEE_COMPUTER_ID, Qt::Horizontal,
+  m_model->setHeaderData(m_ComputerIdIndex, Qt::Horizontal,
                        QObject::tr("Computer"));
-  model->setHeaderData(POS_EMPLOYEE_PRINTER_ID, Qt::Horizontal,
+  m_model->setHeaderData(m_PrinterIdIndex, Qt::Horizontal,
                        QObject::tr("Printer"));
-  model->setHeaderData(POS_EMPLOYEE_PHONE_ID, Qt::Horizontal,
+  m_model->setHeaderData(m_PhoneIdIndex, Qt::Horizontal,
                        QObject::tr("Phone"));
-  model->setHeaderData(POS_EMPLOYEE_MOBILE_ID, Qt::Horizontal,
+  m_model->setHeaderData(m_MobileIdIndex, Qt::Horizontal,
                        QObject::tr("Mobile"));
-  model->setHeaderData(POS_EMPLOYEE_FAX_ID, Qt::Horizontal, QObject::tr("Fax"));
-  model->setHeaderData(POS_EMPLOYEE_EMPLOYEE_ACCOUNT_ID, Qt::Horizontal,
+  m_model->setHeaderData(m_FaxIdIndex, Qt::Horizontal, QObject::tr("Fax"));
+  m_model->setHeaderData(m_EmployeeAccountIdIndex, Qt::Horizontal,
                        QObject::tr("Accounts"));
-  model->setHeaderData(POS_EMPLOYEE_EMPLOYEE_DOCUMENT_ID, Qt::Horizontal,
+  m_model->setHeaderData(m_EmployeeDocumentIdIndex, Qt::Horizontal,
                        QObject::tr("Documents"));
-  model->setHeaderData(POS_EMPLOYEE_CHIPCARD_ID, Qt::Horizontal,
+  m_model->setHeaderData(m_ChipCardIdIndex, Qt::Horizontal,
                        QObject::tr("Chipcard"));
-  model->setHeaderData(POS_EMPLOYEE_LAST_UPDATE, Qt::Horizontal,
+  m_model->setHeaderData(m_LastUpdateIndex, Qt::Horizontal,
                        QObject::tr("Last Update"));
 
-  model->select();
+  m_model->select();
 
-  return model;
+  return m_model;
 }
 
 QSqlRelationalTableModel* EmployeeDataModel::initializeInputDataModel() {
 
-  QSqlRelationalTableModel* model =
-    new QSqlRelationalTableModel(this, this->db);
+  m_model = new QSqlRelationalTableModel(this, this->db);
 
-  model->setTable(this->tableName);
+  m_model->setTable(this->m_tableName);
 
-  return model;
+  return m_model;
 }
 
 QSqlTableModel* EmployeeDataModel::initializeTableModel() {
 
-  QSqlTableModel* model = new QSqlTableModel(this);
+  m_model = new QSqlRelationalTableModel(this);
 
-  model->setTable(QLatin1String("employee"));
-  model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+  m_model->setTable(this->m_tableName);
+  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
   // Set the localized header captions
-  model->setHeaderData(model->fieldIndex(QLatin1String("employee_id")), Qt::Horizontal, tr("ID"));
-  model->setHeaderData(model->fieldIndex(QLatin1String("gender")), Qt::Horizontal, tr("Gender"));
-  model->setHeaderData(model->fieldIndex(QLatin1String("firstname")), Qt::Horizontal, tr("Firstname"));
-  model->setHeaderData(model->fieldIndex(QLatin1String("lastname")), Qt::Horizontal, tr("Lastname"));
-  model->setHeaderData(model->fieldIndex(QLatin1String("birthday")), Qt::Horizontal, tr("Birthday"));
-  model->setHeaderData(model->fieldIndex(QLatin1String("businessemail")), Qt::Horizontal, tr("EMail"));
-  model->setHeaderData(model->fieldIndex(QLatin1String("active")), Qt::Horizontal, tr("Active"));
-  model->setHeaderData(model->fieldIndex(QLatin1String("datacare")), Qt::Horizontal, tr("Datecare"));
-  model->setHeaderData(model->fieldIndex(QLatin1String("startdate")), Qt::Horizontal, tr("StartDate"));
-  model->setHeaderData(model->fieldIndex(QLatin1String("enddate")), Qt::Horizontal, tr("EndeDate"));
-  model->setHeaderData(model->fieldIndex(QLatin1String("last_update")), Qt::Horizontal, tr("LastUpdate"));
-  model->select();
+  m_model->setHeaderData(m_EmployeeIdIndex, Qt::Horizontal, tr("ID"));
+  m_model->setHeaderData(m_GenderIndex, Qt::Horizontal, tr("Gender"));
+  m_model->setHeaderData(m_FirstNameIndex, Qt::Horizontal, tr("Firstname"));
+  m_model->setHeaderData(m_LastNameIndex, Qt::Horizontal, tr("Lastname"));
+  m_model->setHeaderData(m_BirthDayIndex, Qt::Horizontal, tr("Birthday"));
+  m_model->setHeaderData(m_BusinessMailIndex, Qt::Horizontal, tr("EMail"));
+  m_model->setHeaderData(m_ActiveIndex, Qt::Horizontal, tr("Active"));
+  m_model->setHeaderData(m_DataCareIndex, Qt::Horizontal, tr("Datecare"));
+  m_model->setHeaderData(m_HireDateIndex, Qt::Horizontal, tr("StartDate"));
+  m_model->setHeaderData(m_EndDateIndex, Qt::Horizontal, tr("EndeDate"));
+  m_model->setHeaderData(m_LastUpdateIndex, Qt::Horizontal, tr("LastUpdate"));
+  m_model->select();
 
-  return model;
+  return m_model;
 }
 
-void EmployeeDataModel::setFirstname(QString* _firstname) {
-  this->firstname = _firstname;
-}
-
-void EmployeeDataModel::setLastname(QString* _lastname) {
-  this->lastname = _lastname;
-}
 
 void EmployeeDataModel::readAllRecords() {
 
@@ -261,16 +240,16 @@ QString EmployeeDataModel::generateTableString(QAbstractTableModel* model,
            << " Rows : " << rowCount;
 
   QList<int> set;
-  set.append(POS_EMPLOYEE_FIRSTNAME);
-  set.append(POS_EMPLOYEE_LASTNAME);
-  set.append(POS_EMPLOYEE_DEPARTMENT_ID);
-  set.append(POS_EMPLOYEE_FUNCTION_ID);
-  set.append(POS_EMPLOYEE_COMPUTER_ID);
-  set.append(POS_EMPLOYEE_PRINTER_ID);
-  set.append(POS_EMPLOYEE_BUSINESSEMAIL);
-  set.append(POS_EMPLOYEE_PHONE_ID);
-  set.append(POS_EMPLOYEE_FAX_ID);
-  set.append(POS_EMPLOYEE_MOBILE_ID);
+  set.append(m_FirstNameIndex);
+  set.append(m_LastNameIndex);
+  set.append(m_DepartmentIdIndex);
+  set.append(m_FunctionIdIndex);
+  set.append(m_ComputerIdIndex);
+  set.append(m_PrinterIdIndex);
+  set.append(m_BusinessMailIndex);
+  set.append(m_PhoneIdIndex);
+  set.append(m_FaxIdIndex);
+  set.append(m_MobileIdIndex);
 
   // Document Title
   outString = QLatin1String("<h1>");
