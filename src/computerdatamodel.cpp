@@ -75,70 +75,41 @@ QSqlRelationalTableModel* ComputerDataModel::initializeRelationalModel() {
   model->setTable(this->tableName);
   model->setEditStrategy(QSqlTableModel::OnFieldChange);
 
-<<<<<<< HEAD
-
-    model->setRelation(POS_COMPUTER_EMPLOYEEID, QSqlRelation(QLatin1String("Employee"),
-                                                  QLatin1String("Id"),
-                                                  QLatin1String("Name")));
-
-
-    model->setHeaderData(POS_COMPUTER_ID, Qt::Horizontal, QObject::tr("Id"));
-    model->setHeaderData(POS_COMPUTER_NAME, Qt::Horizontal, QObject::tr("Name"));
-    model->setHeaderData(POS_COMPUTER_ACTIVE, Qt::Horizontal, QObject::tr("Active"));
-    model->setHeaderData(POS_COMPUTER_EMPLOYEEID, Qt::Horizontal, QObject::tr("Employee"));
-    model->setHeaderData(POS_COMPUTER_LASTUPDATE, Qt::Horizontal, QObject::tr("Last Update"));
-
-    model->select();
-
-    return model;
-=======
   /*
      model->setRelation(POS_COMPUTER_DEVICENAME_ID,
      QSqlRelation(QLatin1String("devicename"), QLatin1String("devicename_id"),
                                                              QLatin1String("name")));
-
      model->setRelation(POS_COMPUTER_DEVICETYPE_ID,
      QSqlRelation(QLatin1String("devicetype"), QLatin1String("devicetype_id"),
                                                              QLatin1String("name")));
-
      model->setRelation(POS_COMPUTER_EMPLOYEE_ID,
      QSqlRelation(QLatin1String("employee"), QLatin1String("employee_id"),
                                                 QLatin1String("lastname")));
-
      model->setRelation(POS_COMPUTER_PLACE_ID, QSqlRelation(QLatin1String("place"),
                                                 QLatin1String("place_id"),
                                                 QLatin1String("name")));
-
      model->setRelation(POS_COMPUTER_DEPARTMENT_ID,
      QSqlRelation(QLatin1String("department"), QLatin1String("department_id"),
                                                   QLatin1String("name")));
-
      model->setRelation(POS_COMPUTER_MANUFACTURER_ID,
      QSqlRelation(QLatin1String("manufacturer"), QLatin1String("manufacturer_id"),
                                              QLatin1String("name")));
-
      model->setRelation(POS_COMPUTER_INVENTORY_ID,
      QSqlRelation(QLatin1String("inventory"), QLatin1String("inventory_id"),
                                                QLatin1String("number")));
-
-
      model->setRelation(POS_COMPUTER_PROCESSOR_ID,
      QSqlRelation(QLatin1String("processor"), QLatin1String("processor_id"),
                                                              QLatin1String("name")));
-
      model->setRelation(POS_COMPUTER_OS_ID, QSqlRelation(QLatin1String("os"),
                                                       QLatin1String("os_id"),
                                                       QLatin1String("name")));
-
      model->setRelation(POS_COMPUTER_COMPUTERSOFTWARE_ID,
      QSqlRelation(QLatin1String("computersoftware"),
                                                       QLatin1String("computersoftware_id"),
                                                       QLatin1String("software_id")));
-
      model->setRelation(POS_COMPUTER_PRINTER_ID,
      QSqlRelation(QLatin1String("printer"), QLatin1String("printer_id"),
                                               QLatin1String("network_name")));
-
    */
 
   model->setHeaderData(POS_COMPUTER_ID, Qt::Horizontal, QObject::tr("ID"));
@@ -243,7 +214,6 @@ QSqlTableModel* ComputerDataModel::initializeTableModel() {
   model->select();
 
   return model;
->>>>>>> develop
 }
 
 QSqlQueryModel* ComputerDataModel::getQueryModel() {
@@ -251,71 +221,14 @@ QSqlQueryModel* ComputerDataModel::getQueryModel() {
   QSqlQuery* qry = new QSqlQuery();
   QString sqlString = QLatin1String("select network_name from computer");
 
-<<<<<<< HEAD
-QSqlTableModel *ComputerDataModel::initializeTableModel() {
-    QSqlTableModel *model = new QSqlTableModel(this);
-    model->setTable(QLatin1String("computer"));
-    model->setEditStrategy(QSqlTableModel::OnFieldChange);
-
-    model->setHeaderData(POS_COMPUTER_ID, Qt::Horizontal, QObject::tr("Id"));
-    model->setHeaderData(POS_COMPUTER_NAME, Qt::Horizontal, QObject::tr("Name"));
-    model->setHeaderData(POS_COMPUTER_ACTIVE, Qt::Horizontal, QObject::tr("Active"));
-    model->setHeaderData(POS_COMPUTER_EMPLOYEEID, Qt::Horizontal, QObject::tr("Employee"));
-    model->setHeaderData(POS_COMPUTER_LASTUPDATE, Qt::Horizontal, QObject::tr("Last Update"));
-
-    model->select();
-
-    return model;
-=======
   qry->prepare(sqlString);
   qry->exec();
->>>>>>> develop
 
   model->setQuery(*qry);
 
   return model;
 }
 
-<<<<<<< HEAD
-QString ComputerDataModel::generateTableString(QAbstractTableModel *model, QString header) {
-    QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
-    qDebug() << "Header : " << header << " Columns : " << columnCount << " Rows : " << rowCount;
-
-    QList<int> set;
-    set.append(POS_COMPUTER_NAME);
-    set.append(POS_COMPUTER_EMPLOYEEID);
-    set.append(POS_COMPUTER_ACTIVE);
-
-    // Document Title
-    outString = QLatin1String("<h1>");
-    outString += header;
-    outString += QLatin1String("</h1>");
-    outString += QLatin1String("<hr />");
-    outString += QLatin1String("<table width=\"100%\" cellspacing=\"0\" class=\"tbl\">");
-    outString += QLatin1String("<thead> <tr>");
-
-
-    foreach (const int i, set) {
-        qDebug() << "int i = " << i;
-        outString += QLatin1String("<th>");
-        outString.append(model->headerData(i, Qt::Horizontal).toString());
-        outString += QLatin1String("</th>");
-    }
-    outString += QLatin1String("</tr> </thead>");
-
-
-    for (int i=0; i<rowCount; i++) {
-        outString += QLatin1String("<tr>");
-        foreach (const int j, set) {
-            outString += QLatin1String("<td>");
-            QModelIndex ind(model->index(i, j));
-            outString.append(ind.data(Qt::DisplayRole).toString());
-            outString += QLatin1String("</td>");
-        }
-        outString += QLatin1String("</tr>");
-=======
 QString ComputerDataModel::generateTableString(QAbstractTableModel* model,
                                                QString header) {
   QString outString;
@@ -361,7 +274,6 @@ QString ComputerDataModel::generateTableString(QAbstractTableModel* model,
 
       outString.append(ind.data(Qt::DisplayRole).toString());
       outString += QLatin1String("</td>");
->>>>>>> develop
     }
 
     outString += QLatin1String("</tr>");

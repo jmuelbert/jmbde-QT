@@ -45,20 +45,7 @@
 
 #include <QSettings>
 
-<<<<<<< HEAD
-#include <QtQml/QQmlApplicationEngine>
-
-#include <QtQuick/QQuickView>
-#include <QtCore/QString>
-
-#ifdef QT_WIDGETS_LIB
-#include <QtWidgets/QApplication>
-#else
-#include <QtGui/QGuiApplication>
-#endif
-=======
 #include <QString>
->>>>>>> develop
 
 #include <QSqlRelationalDelegate>
 #include <QSqlRelationalTableModel>

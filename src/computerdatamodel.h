@@ -90,8 +90,8 @@
  * @brief The ComputerDataModel class
  * @details This Class is for the ComputerData
  * @author Jürgen Mülbert
- * @version 0.3
- * @date 18.08.2016
+ * @version 0.2
+ * @date 09.02.2014
  * @copyright EUPL V1.1
  */
 class ComputerDataModel : public DataModel {
@@ -187,18 +187,8 @@ class ComputerDataModel : public DataModel {
      * @brief tableName - the name of the database table
      * @
      */
-<<<<<<< HEAD
-    enum PosCompTable {
-        POS_COMPUTER_ID,
-        POS_COMPUTER_NAME,
-        POS_COMPUTER_ACTIVE,
-        POS_COMPUTER_EMPLOYEEID,
-        POS_COMPUTER_LASTUPDATE
-    };
-=======
     const QString tableName = QLatin1String(Database::Table::COMPUTER);
 
->>>>>>> develop
 };
 
 #endif // COMPUTERDATAMODEL_H

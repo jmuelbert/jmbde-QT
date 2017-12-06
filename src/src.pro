@@ -97,7 +97,7 @@ SOURCES += \
 FORMS    += \
         mainwindow.ui \
         csvimportdialog.ui \
-        employeeinputdialog.ui \
+        employeeinputarea.ui \
         preferencesdialog.ui \
     phoneinputarea.ui \
     mobileinputarea.ui \

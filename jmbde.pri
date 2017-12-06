@@ -282,7 +282,7 @@ win32 {
 
 # Make needed tweaks for RC file getting generated on Windows.
 win32 {
-  RC_ICONS = resources/graphics/APP.ico
+  # RC_ICONS = resources/graphics/$$APP_NAME.ico
   QMAKE_TARGET_COMPANY = $$APP_AUTHOR
   QMAKE_TARGET_DESCRIPTION = $$APP_NAME
   QMAKE_TARGET_COPYRIGHT = $$APP_COPYRIGHT

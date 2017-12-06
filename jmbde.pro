@@ -1,8 +1,7 @@
 
-
 include (jmbde.pri)
 
-message($$APP_NAME: Welcome APP qmake script.)
+message($$APP_NAME: Welcome jmbde qmake script.)
 
 lessThan(QT_MAJOR_VERSION, 5)|lessThan(QT_MINOR_VERSION, 8) {
   error(APP: At least Qt \"5.8.0\" is required!!!)
@@ -19,35 +18,25 @@ SUBDIRS +=  \
 unix:!macx:!isEmpty(copydata):SUBDIRS += bin
 !isEmpty(BUILD_TESTS):SUBDIRS += tests
 
-<<<<<<< HEAD
-OTHER_FILES += dist/copyright_template.txt \
-    $$files(dist-changes-*) \
-    ChangeLog \
-    NEWS \
-    README \
-    TODO 
-	
-=======
 DISTFILES += \
         README.md \
         $$files(dist/changes-*) \
-        APP.qbs \
+        jmbde.qbs \
         $$files(dist/installer/ifw/config/config-*) \
-        dist/installer/ifw/packages/de.jmuelbert.APP/meta/package.xml.in \
-        dist/installer/ifw/packages/de.jmuelbert.APP.application/meta/installscript.qs \
-        dist/installer/ifw/packages/de.jmuelbert.APP.application/meta/package.xml.in \
-        dist/installer/ifw/packages/de.jmuelbert.APP.application/meta/license.txt \
-        dist/installer/ifw/packages/de.jmuelbert.APP.application/meta/license_.txt \
-        dist/installer/ifw/packages/de.jmuelbert.APP.application/meta/page.ui \
-        dist/installer/ifw/packages/de.jmuelbert.APP.application/meta/de.ts \
-        dist/installer/ifw/packages/de.jmuelbert.APP.application/meta/de.qm \
-        dist/installer/ifw/packages/de.jmuelbert.APP.datalib/meta/installscript.js \
-        dist/installer/ifw/packages/de.jmuelbert.APP.datalib/meta/package.xml.in \
+        dist/installer/ifw/packages/de.jmuelbert.jmbde/meta/package.xml.in \
+        dist/installer/ifw/packages/de.jmuelbert.jmbde.application/meta/installscript.qs \
+        dist/installer/ifw/packages/de.jmuelbert.jmbde.application/meta/package.xml.in \
+        dist/installer/ifw/packages/de.jmuelbert.jmbde.application/meta/license.txt \
+        dist/installer/ifw/packages/de.jmuelbert.jmbde.application/meta/license_.txt \
+        dist/installer/ifw/packages/de.jmuelbert.jmbde.application/meta/page.ui \
+        dist/installer/ifw/packages/de.jmuelbert.jmbde.application/meta/de.ts \
+        dist/installer/ifw/packages/de.jmuelbert.jmbde.application/meta/de.qm \
+        dist/installer/ifw/packages/de.jmuelbert.jmbde.datalib/meta/installscript.js \
+        dist/installer/ifw/packages/de.jmuelbert.jmbde.datalib/meta/package.xml.in \
         $$files(scripts/*.py) \
         $$files(scripts/*.sh) \
         $$files(scripts/*.pl) \
         resources/scripts/uncrustify/uncrustify.cfg
->>>>>>> develop
 
 
 message($$APP_NAME Shadow copy build directory \"$$OUT_PWD\".)
@@ -61,24 +50,24 @@ else:linux-*: PLATFORM = "linux-$${ARCHITECTURE}"
 else: PLATFORM = "unkwon"
 
 BASENAME = $$(INSTALL_BASENAME)
-isEmpty(BASENAME): BASENAME = APP-$${PLATFORM}-$${APP_VERSION}$(INSTALL-POSTFIX)
+isEmpty(BASENAME): BASENAME = $${APP_NAME}-$${PLATFORM}-$${APP_VERSION}$(INSTALL-POSTFIX)
 
-macx:INSTALLER_NAME = "APP-$${APP_VERSION}"
+macx:INSTALLER_NAME = "$${APP_NAME}-$${APP_VERSION}"
 else:INSTALLER_NAME = "$${BASENAME}"
 
 linux {
-    appstream.files = dist/de.jmuelbert.APP.appdata.xml
+    appstream.files = dist/de.jmuelbert.$${APP_NAME}.appdata.xml
     appstream.path = share/metainfo/
 
-    desktop.files = dist/de.jmuelbert.APP.desktop
+    desktop.files = dist/de.jmuelbert.$${APP_NAME}.desktop
     desktop.path = share/applications/
 
     INSTALLS += appstream desktop
 }
 
 macx {
-    APPBUNDLE = "$$OUT_PWD/bin/APP.app"
-    BINDIST_SOURCE = "$$OUT_PWD/bin/APP.app"
+    APPBUNDLE = "$$OUT_PWD/bin/$${APP_NAME}.app"
+    BINDIST_SOURCE = "$$OUT_PWD/bin/$${APP_NAME}.app"
     BINDIST_INSTALLER_SOURCE = $$BINDIST_SOURCE
     deployqt.commands = $$PWD/scripts/deployqtHelper_mac.sh \"$${APPBUNDLE}\" \"$$[QT_INSTALL_BINS]\" \"$$[QT_INSTALL_TRANSLATIONS]\" \"$$[QT_INSTALL_PLUGINS]\" \"$$[QT_INSTALL_IMPORTS]\" \"$$[QT_INSTALL_QML]\"
     codesign.commands = codesign --deep -s \"$(SIGNING_IDENTITY)\" $(SIGNING_FLAGS) \"$${APPBUNDLE}\"

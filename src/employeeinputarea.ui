@@ -13,216 +13,10 @@
   <property name="windowTitle">
    <string>ScrollArea</string>
   </property>
-<<<<<<< HEAD
-  <widget class="QDialogButtonBox" name="buttonBox">
-   <property name="geometry">
-    <rect>
-     <x>300</x>
-     <y>290</y>
-     <width>341</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-   </property>
-  </widget>
-  <widget class="QWidget" name="gridLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>653</width>
-     <height>221</height>
-    </rect>
-   </property>
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="3" column="1">
-     <widget class="QLabel" name="labelComputer">
-      <property name="text">
-       <string>Computer</string>
-      </property>
-      <property name="buddy">
-       <cstring>comboBoxComputer</cstring>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="6">
-     <widget class="QLabel" name="labelFax">
-      <property name="text">
-       <string>Fax</string>
-      </property>
-      <property name="buddy">
-       <cstring>comboBoxFax</cstring>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="4">
-     <widget class="QLabel" name="labelPrinter">
-      <property name="text">
-       <string>Printer</string>
-      </property>
-      <property name="buddy">
-       <cstring>comboBoxPrinter</cstring>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QLabel" name="labelDepartment">
-      <property name="text">
-       <string>Department</string>
-      </property>
-      <property name="buddy">
-       <cstring>comboBoxDepartment</cstring>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="1">
-     <widget class="QLabel" name="labelPhone">
-      <property name="text">
-       <string>Phone</string>
-      </property>
-      <property name="buddy">
-       <cstring>comboBoxPhone</cstring>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QLabel" name="labelFirstName">
-      <property name="text">
-       <string>Firstname</string>
-      </property>
-      <property name="buddy">
-       <cstring>lineEditFirstname</cstring>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="4">
-     <widget class="QLabel" name="labelMobile">
-      <property name="text">
-       <string>Mobile</string>
-      </property>
-      <property name="buddy">
-       <cstring>comboBoxMobile</cstring>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="5">
-     <widget class="QComboBox" name="comboBoxPrinter"/>
-    </item>
-    <item row="3" column="2">
-     <widget class="QComboBox" name="comboBoxComputer"/>
-    </item>
-    <item row="4" column="2">
-     <widget class="QComboBox" name="comboBoxPhone"/>
-    </item>
-    <item row="4" column="7">
-     <widget class="QComboBox" name="comboBoxFax"/>
-    </item>
-    <item row="4" column="5">
-     <widget class="QComboBox" name="comboBoxMobile"/>
-    </item>
-    <item row="0" column="2">
-     <widget class="QLineEdit" name="lineEditFirstname"/>
-    </item>
-    <item row="0" column="4">
-     <widget class="QLabel" name="labelLastName">
-      <property name="text">
-       <string>Lastname</string>
-      </property>
-      <property name="buddy">
-       <cstring>lineEditLastname</cstring>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="5">
-     <widget class="QLineEdit" name="lineEditLastname"/>
-    </item>
-    <item row="0" column="6">
-     <widget class="QLabel" name="labelPersNumber">
-      <property name="text">
-       <string>Pers.Number</string>
-      </property>
-      <property name="buddy">
-       <cstring>doubleSpinBoxPersNR</cstring>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="7">
-     <widget class="QDoubleSpinBox" name="doubleSpinBoxPersNR">
-      <property name="decimals">
-       <number>0</number>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="2">
-     <widget class="QComboBox" name="comboBoxDepartment"/>
-    </item>
-    <item row="1" column="4">
-     <widget class="QLabel" name="labelFunction">
-      <property name="text">
-       <string>Function</string>
-      </property>
-      <property name="buddy">
-       <cstring>comboBoxFunction</cstring>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="5">
-     <widget class="QComboBox" name="comboBoxFunction"/>
-    </item>
-    <item row="1" column="7">
-     <widget class="QCheckBox" name="checkBoxDatacare">
-      <property name="text">
-       <string>Datacare</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="6">
-     <widget class="QCheckBox" name="checkBoxActive">
-      <property name="text">
-       <string>Active</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QPushButton" name="nextButton">
-   <property name="geometry">
-    <rect>
-     <x>530</x>
-     <y>250</y>
-     <width>114</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Next</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="previousButton">
-   <property name="geometry">
-    <rect>
-     <x>410</x>
-     <y>250</y>
-     <width>114</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Previous</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButtonNew">
-=======
   <property name="widgetResizable">
    <bool>true</bool>
   </property>
   <widget class="QWidget" name="scrollAreaWidgetContents">
->>>>>>> develop
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -687,23 +481,6 @@
   </widget>
  </widget>
  <tabstops>
-<<<<<<< HEAD
-  <tabstop>lineEditFirstname</tabstop>
-  <tabstop>lineEditLastname</tabstop>
-  <tabstop>doubleSpinBoxPersNR</tabstop>
-  <tabstop>comboBoxDepartment</tabstop>
-  <tabstop>comboBoxFunction</tabstop>
-  <tabstop>checkBoxActive</tabstop>
-  <tabstop>checkBoxDatacare</tabstop>
-  <tabstop>comboBoxComputer</tabstop>
-  <tabstop>comboBoxPrinter</tabstop>
-  <tabstop>comboBoxPhone</tabstop>
-  <tabstop>comboBoxMobile</tabstop>
-  <tabstop>comboBoxFax</tabstop>
-  <tabstop>pushButtonNew</tabstop>
-  <tabstop>previousButton</tabstop>
-  <tabstop>nextButton</tabstop>
-=======
   <tabstop>comboBox_Title</tabstop>
   <tabstop>comboBox_Gender</tabstop>
   <tabstop>lineEdit_Firstname</tabstop>
@@ -732,7 +509,6 @@
   <tabstop>comboBox_EmployeeAccount</tabstop>
   <tabstop>comboBox_EmployeeDocument</tabstop>
   <tabstop>textEdit_Notes</tabstop>
->>>>>>> develop
  </tabstops>
  <resources/>
  <connections/>

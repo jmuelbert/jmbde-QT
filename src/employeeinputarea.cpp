@@ -41,7 +41,7 @@
 //
 
 #include "employeeinputarea.h"
-#include "ui_employeeinputdialog.h"
+#include "ui_employeeinputarea.h"
 
 
 // Edit an existing Employee

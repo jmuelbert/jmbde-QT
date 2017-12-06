@@ -57,27 +57,7 @@
  *
  */
 
-<<<<<<< HEAD
-/**
-  * \brief The jmbde program
-  * \details this will help manage employees, accounts and it hardware
-  *
-  * \author Jürgen Mülbert
-  * \version 0.4.0
-  * \date 18.08.2016
-  * \copyright EUPL V1.1
-  *
-  *
-  * \mainpage jmbde
-  *
-  *
-  * This is the introduction.
-  *
-  */
-
-=======
 #include <QApplication>
->>>>>>> develop
 #include <QDebug>
 #include <QDir>
 #include <QFileInfo>

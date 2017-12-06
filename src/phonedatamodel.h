@@ -139,17 +139,6 @@ class PhoneDataModel : public DataModel {
     /**
      * @brief The PosPhoneTable enum
      */
-<<<<<<< HEAD
-    enum PosPhoneTable {
-        POS_PHONE_ID,
-        POS_PHONE_NUMBER,
-        POS_PHONE_ACTIVE,
-        POS_PHONE_EMPLOYEEID,
-        POS_PHONE_LASTUPDATE
-    };
-};
-=======
->>>>>>> develop
 
 };
 

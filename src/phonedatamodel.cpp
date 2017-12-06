@@ -140,46 +140,6 @@ void PhoneDataModel::addDataSet() {
   }
 }
 
-<<<<<<< HEAD
-QSqlRelationalTableModel *PhoneDataModel::initializeRelationalModel() {
-    //TODO: id als locale Konstante
-
-    QSqlRelationalTableModel *model = new QSqlRelationalTableModel(this);
-    model->setTable(QLatin1String("phone"));
-    model->setEditStrategy(QSqlTableModel::OnFieldChange);
-
-
-    model->setRelation(POS_PHONE_EMPLOYEEID, QSqlRelation(QLatin1String("Employee"),
-                                                  QLatin1String("Id"),
-                                                  QLatin1String("Name")));
-
-
-    model->setHeaderData(POS_PHONE_ID, Qt::Horizontal, QObject::tr("ID"));
-    model->setHeaderData(POS_PHONE_NUMBER, Qt::Horizontal, QObject::tr("Number"));
-    model->setHeaderData(POS_PHONE_ACTIVE, Qt::Horizontal, QObject::tr("Active"));
-    model->setHeaderData(POS_PHONE_EMPLOYEEID, Qt::Horizontal, QObject::tr("Employee"));
-    model->setHeaderData(POS_PHONE_LASTUPDATE, Qt::Horizontal, QObject::tr("Last Update"));
-
-    model->select();
-
-    return model;
-}
-
-QSqlTableModel *PhoneDataModel::initializeTableModel() {
-    QSqlTableModel *model = new QSqlTableModel(this);
-    model->setTable(QLatin1String("phone"));
-    model->setEditStrategy(QSqlTableModel::OnFieldChange);
-
-    model->setHeaderData(POS_PHONE_ID, Qt::Horizontal, QObject::tr("ID"));
-    model->setHeaderData(POS_PHONE_NUMBER, Qt::Horizontal, QObject::tr("Number"));
-    model->setHeaderData(POS_PHONE_ACTIVE, Qt::Horizontal, QObject::tr("Active"));
-    model->setHeaderData(POS_PHONE_EMPLOYEEID, Qt::Horizontal, QObject::tr("Employee"));
-    model->setHeaderData(POS_PHONE_LASTUPDATE, Qt::Horizontal, QObject::tr("Last Update"));
-
-    model->select();
-
-    return model;
-=======
 QSqlQueryModel* PhoneDataModel::getQueryModel() {
   QSqlQueryModel* model = new QSqlQueryModel();
   QSqlQuery* qry = new QSqlQuery();
@@ -189,51 +149,10 @@ QSqlQueryModel* PhoneDataModel::getQueryModel() {
   qry->exec();
 
   model->setQuery(*qry);
->>>>>>> develop
 
   return model;
 }
 
-<<<<<<< HEAD
-
-QString PhoneDataModel::generateTableString(QAbstractTableModel *model, QString header) {
-    QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
-    qDebug() << "Header : " << header << " Columns : " << columnCount << " Rows : " << rowCount;
-
-    QList<int> set;
-    set.append(POS_PHONE_NUMBER);
-    set.append(POS_PHONE_EMPLOYEEID);
-
-    // Document Title
-    outString = QLatin1String("<h1>");
-    outString += header;
-    outString += QLatin1String("</h1>");
-    outString += QLatin1String("<hr />");
-    outString += QLatin1String("<table width=\"100%\" cellspacing=\"0\" class=\"tbl\">");
-    outString += QLatin1String("<thead> <tr>");
-
-
-    foreach (const int i, set) {
-        qDebug() << "int i = " << i;
-        outString += QLatin1String("<th>");
-        outString.append(model->headerData(i, Qt::Horizontal).toString());
-        outString += QLatin1String("</th>");
-    }
-    outString += QLatin1String("</tr> </thead>");
-
-
-    for (int i=0; i<rowCount; i++) {
-        outString += QLatin1String("<tr>");
-        foreach (const int j, set) {
-            outString += QLatin1String("<td>");
-            QModelIndex ind(model->index(i, j));
-            outString.append(ind.data(Qt::DisplayRole).toString());
-            outString += QLatin1String("</td>");
-        }
-        outString += QLatin1String("</tr>");
-=======
 QString PhoneDataModel::generateTableString(QAbstractTableModel* model,
                                             QString header) {
   QString outString;
@@ -278,7 +197,6 @@ QString PhoneDataModel::generateTableString(QAbstractTableModel* model,
 
       outString.append(ind.data(Qt::DisplayRole).toString());
       outString += QLatin1String("</td>");
->>>>>>> develop
     }
 
     outString += QLatin1String("</tr>");
