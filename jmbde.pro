@@ -1,4 +1,3 @@
-
 include (jmbde.pri)
 
 message($$APP_NAME: Welcome jmbde qmake script.)
@@ -21,18 +20,18 @@ unix:!macx:!isEmpty(copydata):SUBDIRS += bin
 DISTFILES += \
         README.md \
         $$files(dist/changes-*) \
-        jmbde.qbs \
+        $$APP_NAME.qbs \
         $$files(dist/installer/ifw/config/config-*) \
-        dist/installer/ifw/packages/de.jmuelbert.jmbde/meta/package.xml.in \
-        dist/installer/ifw/packages/de.jmuelbert.jmbde.application/meta/installscript.qs \
-        dist/installer/ifw/packages/de.jmuelbert.jmbde.application/meta/package.xml.in \
-        dist/installer/ifw/packages/de.jmuelbert.jmbde.application/meta/license.txt \
-        dist/installer/ifw/packages/de.jmuelbert.jmbde.application/meta/license_.txt \
-        dist/installer/ifw/packages/de.jmuelbert.jmbde.application/meta/page.ui \
-        dist/installer/ifw/packages/de.jmuelbert.jmbde.application/meta/de.ts \
-        dist/installer/ifw/packages/de.jmuelbert.jmbde.application/meta/de.qm \
-        dist/installer/ifw/packages/de.jmuelbert.jmbde.datalib/meta/installscript.js \
-        dist/installer/ifw/packages/de.jmuelbert.jmbde.datalib/meta/package.xml.in \
+        dist/installer/ifw/packages/de.jmuelbert.$$APP_NAME/meta/package.xml.in \
+        dist/installer/ifw/packages/de.jmuelbert.$$APP_NAME.application/meta/installscript.qs \
+        dist/installer/ifw/packages/de.jmuelbert.$$APP_NAME.application/meta/package.xml.in \
+        dist/installer/ifw/packages/de.jmuelbert.$$APP_NAME.application/meta/license.txt \
+        dist/installer/ifw/packages/de.jmuelbert.$$APP_NAME.application/meta/license_.txt \
+        dist/installer/ifw/packages/de.jmuelbert.$$APP_NAME.application/meta/page.ui \
+        dist/installer/ifw/packages/de.jmuelbert.$$APP_NAME.application/meta/de.ts \
+        dist/installer/ifw/packages/de.jmuelbert.$$APP_NAME.application/meta/de.qm \
+        dist/installer/ifw/packages/de.jmuelbert.$$APP_NAME.datalib/meta/installscript.js \
+        dist/installer/ifw/packages/de.jmuelbert.$$APP_NAME.datalib/meta/package.xml.in \
         $$files(scripts/*.py) \
         $$files(scripts/*.sh) \
         $$files(scripts/*.pl) \
@@ -75,9 +74,9 @@ macx {
     #dmg.depends = deployqt
     QMAKE_EXTRA_TARGETS += codesign dmg
 } else {
-    BINDIST_SOURCE = "$(INSTALL_ROOT)"
-    BINDIST_INSTALLER_SOURCE = "$$BINDIST_SOURCE/*"
-    deployqt.commands = python -u $$PWD/scripts/deployqt.py -i \"$(INSTALL_ROOT)\" \"$(QMAKE)\"
+    BINDIST_SOURCE = "$$OUT_PWD"
+    BINDIST_INSTALLER_SOURCE = "$$OUT_PWD/bin/*"
+    deployqt.commands = python -u $$PWD/scripts/deployqt.py -i \"$$OUT_PWD\" \"$(QMAKE)\"
     deployqt.depends = install
     win32 {
         deployartifacts.depends = install
@@ -101,7 +100,7 @@ bindist_installer.commands = 7z a -mx9 $${INSTALLER_ARCHIVE} \"$$BINDIST_INSTALL
 installer.depends = bindist_installer
 installer.commands = python -u $$PWD/scripts/packageIfw.py -i \"$${IFW_PATH}\" -v $${APP_VERSION} -a \"$${INSTALLER_ARCHIVE}\" "$$INSTALLER_NAME"
 
-acx {
+macx {
     codesign_installer.commands = codesign -s \"$(SIGNING_IDENTITY)\" $(SIGNING_FLAGS) \"$${INSTALLER_NAME}.app\"
     dmg_installer.commands = hdiutil create -srcfolder "$${INSTALLER_NAME}.app" -volname \"Qt Creator\" -format UDBZ "$${BASENAME}-installer.dmg" -ov -scrub -size 1g -verbose
     QMAKE_EXTRA_TARGETS += codesign_installer dmg_installer
@@ -136,9 +135,9 @@ OTHER_FILES += Doxyfile
 
 QMAKE_EXTRA_TARGETS += deployqt bindist bindist_installer installer
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../APP-QT-lib/$$APP_NAMEdata/build-library/release/ -l$$APP_NAMEdata.0.1.1
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../APP-QT-lib/$$APP_NAMEdata/build-library/debug/ -l$$APP_NAMEdata.0.1.1
-else:unix: LIBS += -L$$PWD/../$$APP_NAME-QT-lib/APPdata/build-library/ -l$$APP_NAMEdata.0.1.1
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../$$APP_NAME-QT-lib/$$APP_NAMEdata/build-library/release/ -l$$APP_NAMEdata.0.1.1
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../$$APP_NAME-QT-lib/$$APP_NAMEdata/build-library/debug/ -l$$APP_NAMEdata.0.1.1
+else:unix: LIBS += -L$$PWD/../$$APP_NAME-QT-lib/$$APP_NAMEdata/build-library/ -l$$APP_NAMEdata.0.1.1
 
 INCLUDEPATH += $$PWD/../$$APP_NAME-QT-lib/$$APP_NAMEdata
 DEPENDPATH += $$PWD/../$$APP_NAME-QT-lib/√data

@@ -87,6 +87,7 @@ equals(TEST, 1) {
     DEFINES += WITH_TESTS
 }
 
+
 APP_SOURCE_TREE = $$PWD
 isEmpty(APP_BUILD_TREE) {
     sub_dir = $$_PRO_FILE_PWD_
@@ -133,30 +134,30 @@ osx {
     # target output path if not set manually
     isEmpty(APP_OUTPUT_PATH): APP_OUTPUT_PATH = $$APP_BUILD_TREE
 
-    APP_LIBRARY_PATH      = $$APP_OUTPUT_PATH/$$APP_LIBRARY_BASENAME/APP
+    APP_LIBRARY_PATH      = $$APP_OUTPUT_PATH/$$APP_LIBRARY_BASENAME/$$APP_NAME
     APP_PLUGIN_PATH       = $$APP_LIBRARY_PATH/plugins
-    APP_DATA_PATH         = $$APP_OUTPUT_PATH/share/APP
-    APP_DOC_PATH          = $$APP_OUTPUT_PATH/share/doc/APP
+    APP_DATA_PATH         = $$APP_OUTPUT_PATH/share/$$APP_NAME
+    APP_DOC_PATH          = $$APP_OUTPUT_PATH/share/doc/$$APP_NAME
     APP_BIN_PATH          = $$APP_OUTPUT_PATH/bin
 
     win32: \
         APP_LIBEXEC_PATH = $$APP_OUTPUT_PATH/bin
     else: \
-        APP_LIBEXEC_PATH  = $$APP_OUTPUT_PATH/libexec/APP
+        APP_LIBEXEC_PATH  = $$APP_OUTPUT_PATH/libexec/$$APP_NAME
     !isEqual(APP_SOURCE_TREE, $$APP_OUTPUT_PATH): copydata = 1
 
-    LINK_LIBRARY_PATH       = $$APP_BUILD_TREE/$$APP_LIBRARY_BASENAME/APP
+    LINK_LIBRARY_PATH       = $$APP_BUILD_TREE/$$APP_LIBRARY_BASENAME/$$APP_NAME
     LINK_PLUGIN_PATH        = $$LINK_LIBRARY_PATH/plugins
 
-    INSTALL_LIBRARY_PATH    = $$APP_LIBRARY_BASENAME/APP
+    INSTALL_LIBRARY_PATH    = $$APP_LIBRARY_BASENAME/$$APP_NAME
     INSTALL_PLUGIN_PATH     = $$LINK_LIBRARY_PATH/plugins
 
     win32: \
         INSTALL_LIBEXEC_PATH    = bin
     else: \
         INSTALL_LIBEXEC_PATH    = libexec/$APP_NAME
-    INSTALL_DATA_PATH       = share/$APP_NAME
-    INSTALL_DOC_PATH        = share/doc/$APP_NAME
+    INSTALL_DATA_PATH       = share/$$APP_NAME
+    INSTALL_DOC_PATH        = share/doc/$$APP_NAME
     INSTALL_BIN_PATH        = bin
     INSTALL_APP_PATH        = bin
 }
@@ -178,10 +179,10 @@ INCLUDEPATH += \
     $$APP_SOURCE_TREE/src/libs \
     $$APP_SOURCE_TREE/tools
 
-win32:exists($$APP_SOURCE_TREE/lib/APP) {
+win32:exists($$APP_SOURCE_TREE/lib/$${APP_NAME}) {
     # for .lib in case of binary package with dev package
-    LIBS *= -L$$APP_SOURCE_TREE/lib/APP
-    LIBS *= -L$$APP_SOURCE_TREE/lib/APP/plugins
+    LIBS *= -L$$APP_SOURCE_TREE/lib/$${APP_NAME}
+    LIBS *= -L$$APP_SOURCE_TREE/lib/{APP_NAME}/plugins
 }
 
 CONFIG += \
@@ -198,7 +199,7 @@ exists($$APP_LIBRARY_PATH): LIBS *= -L$$APP_LIBRARY_PATH  # library path from ou
 }
 
 DEFINES += \
-    APP \
+    $$APP_NAME \
     QT_NO_CAST_TO_ASCII \
     QT_RESTRICTED_CAST_FROM_ASCII \
     QT_DISABLE_DEPRECATED_BEFORE=0x050600 \
@@ -231,8 +232,6 @@ qt {
 
 QBSFILE = $$replace(_PRO_FILE_, \\.pro$, .qbs)
 exists($$QBSFILE):DISTFILES += $$QBSFILE
-
-
 
 
 isEmpty(IFW_PATH) {
@@ -288,5 +287,8 @@ win32 {
   QMAKE_TARGET_COPYRIGHT = $$APP_COPYRIGHT
   QMAKE_TARGET_PRODUCT = $$APP_NAME
 }
+
+DISTFILES += \
+    $$PWD/deployqt.py
 
 
