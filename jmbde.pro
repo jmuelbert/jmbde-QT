@@ -32,6 +32,7 @@ DISTFILES += \
         dist/installer/ifw/packages/de.jmuelbert.$$APP_NAME.application/meta/de.qm \
         dist/installer/ifw/packages/de.jmuelbert.$$APP_NAME.datalib/meta/installscript.js \
         dist/installer/ifw/packages/de.jmuelbert.$$APP_NAME.datalib/meta/package.xml.in \
+        dist/installer/innosetup/jmbde.iss \
         $$files(scripts/*.py) \
         $$files(scripts/*.sh) \
         $$files(scripts/*.pl) \
