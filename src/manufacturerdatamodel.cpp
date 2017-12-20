@@ -43,30 +43,126 @@
 #include "manufacturerdatamodel.h"
 
 ManufacturerDataModel::ManufacturerDataModel(QObject* parent)
-  : CommonDataModel(parent) {}
+  : CommonDataModel(parent) {
+
+    // Set the Model
+    m_model = new QSqlRelationalTableModel(this);
+    m_model->setTable(this->m_tableName);
+    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+
+    setIndexes();
+}
 
 ManufacturerDataModel::~ManufacturerDataModel() {}
 
+
 bool ManufacturerDataModel::createDataTable() {
-  bool ret;
 
-  ret = CommonDataModel::createDataTable(this->tableName);
+  QSqlQuery query;
+  QString sqlString = "CREATE TABLE %1 (" \
+                      "manufacturer_id INTEGER PRIMARY KEY, " \
+                      "name VARCHAR, " \
+                      "name2 VARCHAR, " \
+                      "supporter VARCHAR, " \
+                      "address VARCHAR, " \
+                      "address2 VARCHAR, " \
+                      "zip_city_id INTEGER, " \
+                      "mail_address VARCHAR, " \
+                      "phone_number VARCHAR, " \
+                      "fax_number VARCHAR, " \
+                      "hotline_number VARCHAR, " \
+                      "last_update TIMESTAMP);";
 
-  return ret;
+  return query.exec(sqlString.arg(this->m_tableName));
 }
 
-QSqlTableModel* ManufacturerDataModel::initializeTableModel() {
-  QSqlTableModel* tableModel;
-
-  tableModel = CommonDataModel::initializeTableModel(this->tableName);
-
-  return tableModel;
+void ManufacturerDataModel::setIndexes() {
+  m_ManufacturerIdIndex = m_model->fieldIndex(QLatin1String("manufacturer_id"));
+  m_NameIndex = m_model->fieldIndex(QLatin1String("name"));
+  m_Name2Index = m_model->fieldIndex(QLatin1String("name2"));                                                 m_PasswordIndex = m_model->fieldIndex(QLatin1String("password"));
+  m_SupporterIndex = m_model->fieldIndex(QLatin1String("supporter"));
+  m_AddressIndex = m_model->fieldIndex(QLatin1String("address"));
+  m_Address2Index = m_model->fieldIndex(QLatin1String("address2"));
+  m_ZipCityIdIndex = m_model->fieldIndex(QLatin1String("zip_city_id"));
+  m_MailAddressIndex = m_model->fieldIndex(QLatin1String("mail_address"));
+  m_PhoneNumberIndex = m_model->fieldIndex(QLatin1String("phone_number"));
+  m_FaxNumberIndex = m_model->fieldIndex(QLatin1String("fax_number"));
+  m_HotlineNumberIndex = m_model->fieldIndex(QLatin1String("hotline_number"));
+  m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
 QSqlRelationalTableModel* ManufacturerDataModel::initializeRelationalModel() {
-  QSqlRelationalTableModel* tableModel;
 
-  tableModel = CommonDataModel::initializeRelationalModel(this->tableName);
+  m_model = new QSqlRelationalTableModel(this);
 
-  return tableModel;
+  m_model->setTable(this->m_tableName);
+  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+
+  m_model->select();
+
+  return m_model;
+}
+
+QSqlRelationalTableModel* ManufacturerDataModel::initializeInputDataModel() {
+
+  m_model = new QSqlRelationalTableModel(this, this->db);
+
+  m_model->setTable(this->m_tableName);
+
+  return m_model;
+}
+
+QSqlTableModel* ManufacturerDataModel::initializeViewModel() {
+
+  m_model->select();
+
+  return m_model;
+}
+
+QString ManufacturerDataModel::generateTableString(QAbstractTableModel* model, QString header) {
+  QString outString;
+  int columnCount = model->columnCount();
+  int rowCount = model->rowCount();
+
+  qDebug() << "Header : " << header << " Columns : " << columnCount
+           << " Rows : " << rowCount;
+
+  QList<int> set;
+
+  // Document Title
+  outString = QLatin1String("<h1>");
+  outString += header;
+  outString += QLatin1String("</h1>");
+  outString += QLatin1String("<hr />");
+  outString +=
+    QLatin1String("<table width=\"100%\" cellspacing=\"0\" class=\"tbl\">");
+  outString += QLatin1String("<thead> <tr>");
+
+  foreach (const int i, set) {
+    qDebug() << "int i = " << i;
+    outString += QLatin1String("<th>");
+    outString.append(model->headerData(i, Qt::Horizontal).toString());
+    outString += QLatin1String("</th>");
+  }
+
+  return outString;
+}
+
+QString ManufacturerDataModel::generateFormularString(QAbstractTableModel* model, QString header) {
+  QString outString;
+  int columnCount = model->columnCount();
+  int rowCount = model->rowCount();
+
+  qDebug() << "Header : " << header << " Columns : " << columnCount
+           << " Rows : " << rowCount;
+
+  QList<int> set;
+
+  // Document Title
+  outString = QLatin1String("<h1>");
+  outString += header;
+  outString += QLatin1String("</h1>");
+  outString += QLatin1String("<hr />");
+
+  return outString;
 }

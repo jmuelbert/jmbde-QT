@@ -55,8 +55,9 @@
 
 #include "commondatamodel.h"
 #include "definitions.h"
+#include "idatamodel.h"
 
-class SystemDataModel : public CommonDataModel {
+class SystemDataModel : public CommonDataModel, public IDataModel {
   public:
 
     /**
@@ -70,23 +71,59 @@ class SystemDataModel : public CommonDataModel {
      */
     ~SystemDataModel();
 
+    // implement the virtuals
+
     /**
      * @brief createDataTable
-     * @return
+     * @return bool - true if creation of the table successfull
      */
-    bool createDataTable();
+    virtual bool createDataTable();
+
+    /**
+     * @brief setIndexes
+     */
+    virtual void setIndexes();
 
     /**
      * @brief initializeRelationalModel
      * @return
      */
-    QSqlRelationalTableModel* initializeRelationalModel();
+    virtual QSqlRelationalTableModel* initializeRelationalModel();
 
     /**
-     * @brief initializeTableModel
+     * @brief initializeInputDataModel
      * @return
      */
-    QSqlTableModel* initializeTableModel();
+    virtual QSqlRelationalTableModel* initializeInputDataModel();
+
+    /**
+     * @brief initializeViewModel
+     * @return
+     */
+    virtual QSqlTableModel* initializeViewModel();
+
+    /**
+     * @brief generateTableString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateTableString(QAbstractTableModel* model, QString header);
+
+    /**
+     * @brief generateFormularString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateFormularString(QAbstractTableModel* model, QString header);
+
+    // Getter
+    int SystemDataIdIndex() const { return m_SystemDataIdIndex; }
+    int NameIndex() const { return  m_NameIndex; }
+    int LocalIndex() const { return  m_LocalIndex; }
+    int CompanyIdIndex() const { return  m_CompanyIdIndex; }
+    int LastUpdateIndex() const { return  m_LastUpdateIndex; }
 
   private:
 
@@ -94,7 +131,13 @@ class SystemDataModel : public CommonDataModel {
      * @brief tableName - the name of the database table
      * @
      */
-    const QString tableName = QLatin1String(Database::Table::SYSTEMDATA);
+    const QString m_tableName = QLatin1String("system_data");
+
+    int m_SystemDataIdIndex;
+    int m_NameIndex;
+    int m_LocalIndex;
+    int m_CompanyIdIndex;
+    int m_LastUpdateIndex;
 
 };
 

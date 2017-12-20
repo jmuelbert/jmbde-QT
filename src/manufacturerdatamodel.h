@@ -55,8 +55,9 @@
 
 #include "commondatamodel.h"
 #include "definitions.h"
+#include "idatamodel.h"
 
-class ManufacturerDataModel : public CommonDataModel {
+class ManufacturerDataModel : public CommonDataModel, public IDataModel {
   public:
 
     /**
@@ -69,45 +70,87 @@ class ManufacturerDataModel : public CommonDataModel {
      */
     ~ManufacturerDataModel();
 
+    // implement the virtuals
+
     /**
      * @brief createDataTable
-     * @return
+     * @return bool - true if creation of the table successfull
      */
-    bool createDataTable();
+    virtual bool createDataTable();
+
+    /**
+     * @brief setIndexes
+     */
+    virtual void setIndexes();
 
     /**
      * @brief initializeRelationalModel
      * @return
      */
-    QSqlRelationalTableModel* initializeRelationalModel();
+    virtual QSqlRelationalTableModel* initializeRelationalModel();
 
     /**
-     * @brief initializeTableModel
+     * @brief initializeInputDataModel
      * @return
      */
-    QSqlTableModel* initializeTableModel();
-    enum PosManufacturerTable {
-      POS_MANUFACTURER_ID,
-      POS_MANUFACTURER_NAME,
-      POS_MANUFACTURER_NAME2,
-      POS_MANUFACTURER_SUPPORTER,
-      POS_MANUFACTURER_ADDRESS,
-      POS_MANUFACTURER_ADDRESS2,
-      POS_MANUFACTURER_ZIP_CITY_ID,
-      POS_MANUFACTURER_MAIL_ADDRESS,
-      POS_MANUFACTURER_PHONE_NUMBER,
-      POS_MANUFACTURER_FAX_NUMBER,
-      POS_MANUFACTURER_HOTLINE_NUMBER,
-      POS_MANUFACTURER_LASTUPDATE
-    };
+    virtual QSqlRelationalTableModel* initializeInputDataModel();
 
+    /**
+     * @brief initializeViewModel
+     * @return
+     */
+    virtual QSqlTableModel* initializeViewModel();
+
+    /**
+     * @brief generateTableString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateTableString(QAbstractTableModel* model, QString header);
+
+    /**
+     * @brief generateFormularString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateFormularString(QAbstractTableModel* model, QString header);
+
+    // Getter
+
+    int ManufacturerIdIndex() const { return m_ManufacturerIdIndex; }
+    int NameIndex() const { return m_NameIndex; }
+    int Name2Index() const  { return  m_Name2Index; }
+    int SupporterIndex() const { return  m_SupporterIndex; }
+    int AddressIndex() const { return m_AddressIndex; }
+    int Address2Index() const { return  m_Address2Index; }
+    int ZipCityIdIndex() const { return  m_ZipCityIdIndex; }
+    int MailAddressIndex() const { return m_MailAddressIndex; }
+    int PhoneNumberIndex() const { return  m_PhoneNumberIndex; }
+    int FaxNumberIndex() const { return  m_FaxNumberIndex; }
+    int HotlineNumberIndex() const { return  m_HotlineNumberIndex; }
+    int LastUpdateIndex() const { return m_LastUpdateIndex; }
   private:
 
     /**
      * @brief tableName - the name of the database table
      * @
      */
-    const QString tableName = QLatin1String(Database::Table::MANUFACTURER);
+    const QString m_tableName = QLatin1String("manufacturer");
+
+    int m_ManufacturerIdIndex;
+    int m_NameIndex;
+    int m_Name2Index;
+    int m_SupporterIndex;
+    int m_AddressIndex;
+    int m_Address2Index;
+    int m_ZipCityIdIndex;
+    int m_MailAddressIndex;
+    int m_PhoneNumberIndex;
+    int m_FaxNumberIndex;
+    int m_HotlineNumberIndex;
+    int m_LastUpdateIndex;
 
 };
 

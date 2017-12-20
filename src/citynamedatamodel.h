@@ -1,0 +1,159 @@
+/*
+   // CityName cityname.h
+   // part of <Project>
+   //
+   // Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
+   //
+   // Licensed under the EUPL, Version 1.2 or – as soon they
+   // will be approved by the European Commission - subsequent
+   // versions of the EUPL (the "Licence");
+   // You may not use this work except in compliance with the
+   // Licence.
+   // You may obtain a copy of the Licence at:
+   //
+   // https://joinup.ec.europa.eu/page/eupl-text-11-12
+   //
+   // Unless required by applicable law or agreed to in
+   // writing, software distributed under the Licence is
+   // distributed on an "AS IS" basis,
+   // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+   // express or implied.
+   // See the Licence for the specific language governing
+   // permissions and limitations under the Licence.
+   //
+   // Lizenziert unter der EUPL, Version 1.2 oder - sobald
+   // diese von der Europäischen Kommission genehmigt wurden -
+   // Folgeversionen der EUPL ("Lizenz");
+   // Sie dürfen dieses Werk ausschließlich gemäß
+   // dieser Lizenz nutzen.
+   // Eine Kopie der Lizenz finden Sie hier:
+   //
+   // https://joinup.ec.europa.eu/page/eupl-text-11-12
+   //
+   // Sofern nicht durch anwendbare Rechtsvorschriften
+   // gefordert oder in schriftlicher Form vereinbart, wird
+   // die unter der Lizenz verbreitete Software "so wie sie
+   // ist", OHNE JEGLICHE GEWÄHRLEISTUNG ODER BEDINGUNGEN -
+   // ausdrücklich oder stillschweigend - verbreitet.
+   // Die sprachspezifischen Genehmigungen und Beschränkungen
+   // unter der Lizenz sind dem Lizenztext zu entnehmen.
+   //
+   // Created: 30.10.2017
+ */
+#ifndef CITYNAME_H
+#define CITYNAME_H
+
+#include <QObject>
+#include <QtSql>
+
+#include <QSqlDatabase>
+#include <QSqlError>
+#include <QSqlQuery>
+#include <QSqlRelation>
+
+#include "commondatamodel.h"
+#include "definitions.h"
+#include "idatamodel.h"
+
+class CityNameDataModel : public CommonDataModel, public IDataModel
+{
+  Q_OBJECT
+
+  public:
+
+    /**
+     * @brief CityNameDataModel
+     * @details The Datamodel for the CityNames
+     * @param parent
+     */
+    CityNameDataModel(QObject* parent = 0);
+
+    virtual ~CityNameDataModel();
+
+    // implement the virtuals
+
+    /**
+     * @brief createDataTable
+     * @return bool - true if creation of the table successfull
+     */
+    virtual bool createDataTable();
+
+    /**
+     * @brief setIndexes
+     */
+    virtual void setIndexes();
+
+    /**
+     * @brief initializeRelationalModel
+     * @return
+     */
+    virtual QSqlRelationalTableModel* initializeRelationalModel();
+
+    /**
+     * @brief initializeInputDataModel
+     * @return
+     */
+    virtual QSqlRelationalTableModel* initializeInputDataModel();
+
+    /**
+     * @brief initializeViewModel
+     * @return
+     */
+    virtual QSqlTableModel* initializeViewModel();
+
+    /**
+     * @brief generateTableString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateTableString(QAbstractTableModel* model, QString header);
+
+    /**
+     * @brief generateFormularString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateFormularString(QAbstractTableModel* model, QString header);
+
+    // Getter
+
+    /**
+     * @brief CityNameIdIndex
+     * @return
+     */
+    int CityNameIdIndex() const {
+        return m_CityNameIdIndex;
+    }
+
+    /**
+     * @brief NameIndex
+     * @return
+     */
+    int NameIndex() const {
+        return m_NameIndex;
+    }
+
+    /**
+     * @brief LastUpdateIndex
+     * @return
+     */
+    int LastUpdateIndex() const {
+        return m_LastUpdateIndex;
+    }
+
+  private:
+
+    /**
+     * @brief tableName - the name of the database table
+     * @
+     */
+    QString m_tableName = QLatin1String("city_name");
+    int m_CityNameIdIndex;
+    int m_NameIndex;
+    int m_LastUpdateIndex;
+
+};
+
+#endif // CITYNAME_H

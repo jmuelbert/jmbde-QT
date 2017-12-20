@@ -51,34 +51,70 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
-#include "datamodel.h"
+#include "commondatamodel.h"
 #include "definitions.h"
+#include "idatamodel.h"
 
-class ZipCityModel : public DataModel
+class ZipCityModel : public CommonDataModel, public IDataModel
 {
   public:
     ZipCityModel(QObject* parent = 0);
 
     virtual ~ZipCityModel();
 
+    // implement the virtuals
+
+    /**
+     * @brief createDataTable
+     * @return bool - true if creation of the table successfull
+     */
+    virtual bool createDataTable();
+
+    /**
+     * @brief setIndexes
+     */
+    virtual void setIndexes();
+
     /**
      * @brief initializeRelationalModel
      * @return
      */
-    QSqlRelationalTableModel* initializeRelationalModel();
+    virtual QSqlRelationalTableModel* initializeRelationalModel();
 
     /**
-     * @brief initializeTableModel
+     * @brief initializeInputDataModel
      * @return
      */
-    QSqlTableModel* initializeTableModel();
-    enum PosZipcityTable {
-      POS_ZIPCITY_ID,
-      POS_ZIPCITY_ZIPCODE_ID,
-      POS_ZIPCITY_CITY_ID,
-      POS_ZIPCITY_LASTUPDATE
+    virtual QSqlRelationalTableModel* initializeInputDataModel();
 
-    };
+    /**
+     * @brief initializeViewModel
+     * @return
+     */
+    virtual QSqlTableModel* initializeViewModel();
+
+    /**
+     * @brief generateTableString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateTableString(QAbstractTableModel* model, QString header);
+
+    /**
+     * @brief generateFormularString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateFormularString(QAbstractTableModel* model, QString header);
+
+    // Getter
+    int ZipCityIdIndex() const { return m_ZipCityIdIndex; }
+    int ZipCodeIdIndex() const { return  m_ZipCodeIdIndex; }
+    int CityIdIndex() const { return  m_CityIdIndex; }
+    int LastUpdateIndex() const { return  m_LastUpdateIndex; }
+
 
   private:
 
@@ -86,7 +122,12 @@ class ZipCityModel : public DataModel
      * @brief tableName - the name of the database table
      * @
      */
-    const QString tableName = QLatin1String(Database::Table::ZIPCITY);
+    const QString m_tableName = QLatin1String("zip_city");
+
+    int m_ZipCityIdIndex;
+    int m_ZipCodeIdIndex;
+    int m_CityIdIndex;
+    int m_LastUpdateIndex;
 
 };
 

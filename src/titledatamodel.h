@@ -53,36 +53,71 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
-#include "datamodel.h"
+#include "commondatamodel.h"
 #include "definitions.h"
+#include "idatamodel.h"
 
-class TitleDataModel : public DataModel
+class TitleDataModel : public CommonDataModel, public IDataModel
 {
   public:
     TitleDataModel(QObject* parent = 0);
 
     ~TitleDataModel();
 
-    /**
-     * @brief initializeRelationalModel
-     * @param tableName
-     * @return RelationalTableModel
-     */
-    QSqlRelationalTableModel* initializeRelationalModel();
+    // implement the virtuals
 
     /**
-     * @brief initializeTableModel
-     * @param tableName
-     * @return TableModel
+     * @brief createDataTable
+     * @return bool - true if creation of the table successfull
      */
-    QSqlTableModel* initializeTableModel();
-    enum PosTitleTable {
-      POS_TITLE_ID,
-      POS_TITLE_NAME,
-      POS_TITLE_FROM_DATE,
-      POS_TITLE_TO_DATE,
-      POS_TITLE_LASTUPDATE
-    };
+    virtual bool createDataTable();
+
+    /**
+     * @brief setIndexes
+     */
+    virtual void setIndexes();
+
+    /**
+     * @brief initializeRelationalModel
+     * @return
+     */
+    virtual QSqlRelationalTableModel* initializeRelationalModel();
+
+    /**
+     * @brief initializeInputDataModel
+     * @return
+     */
+    virtual QSqlRelationalTableModel* initializeInputDataModel();
+
+    /**
+     * @brief initializeViewModel
+     * @return
+     */
+    virtual QSqlTableModel* initializeViewModel();
+
+    /**
+     * @brief generateTableString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateTableString(QAbstractTableModel* model, QString header);
+
+    /**
+     * @brief generateFormularString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateFormularString(QAbstractTableModel* model, QString header);
+
+    // Getter
+    int TitleIdIndex() const { return m_TitleIdIndex; }
+    int NameIndex() const { return  m_NameIndex; }
+    int FromDateIndex() const { return  m_FromDateIndex; }
+    int ToDateIndex() const { return  m_ToDateIndex; }
+    int LastUpdateIndex() const { return  m_LastUpdateIndex; }
+
 
   private:
 
@@ -90,7 +125,13 @@ class TitleDataModel : public DataModel
      * @brief tableName - the name of the database table
      * @
      */
-    const QString tableName = QLatin1String(Database::Table::TITLE);
+    const QString tableName = QLatin1String("title");
+
+    int m_TitleIdIndex;
+    int m_NameIndex;
+    int m_FromDateIndex;
+    int m_ToDateIndex;
+    int m_LastUpdateIndex;
 
 };
 

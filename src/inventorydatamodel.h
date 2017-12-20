@@ -55,8 +55,9 @@
 
 #include "commondatamodel.h"
 #include "definitions.h"
+#include "idatamodel.h"
 
-class InventoryDataModel : public CommonDataModel {
+class InventoryDataModel : public CommonDataModel, public IDataModel {
   public:
 
     /**
@@ -69,23 +70,59 @@ class InventoryDataModel : public CommonDataModel {
      */
     ~InventoryDataModel();
 
+    // implement the virtuals
+
     /**
      * @brief createDataTable
-     * @return
+     * @return bool - true if creation of the table successfull
      */
-    bool createDataTable();
+    virtual bool createDataTable();
+
+    /**
+     * @brief setIndexes
+     */
+    virtual void setIndexes();
 
     /**
      * @brief initializeRelationalModel
      * @return
      */
-    QSqlRelationalTableModel* initializeRelationalModel();
+    virtual QSqlRelationalTableModel* initializeRelationalModel();
 
     /**
-     * @brief initializeTableModel
+     * @brief initializeInputDataModel
      * @return
      */
-    QSqlTableModel* initializeTableModel();
+    virtual QSqlRelationalTableModel* initializeInputDataModel();
+
+    /**
+     * @brief initializeViewModel
+     * @return
+     */
+    virtual QSqlTableModel* initializeViewModel();
+
+    /**
+     * @brief generateTableString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateTableString(QAbstractTableModel* model, QString header);
+
+    /**
+     * @brief generateFormularString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateFormularString(QAbstractTableModel* model, QString header);
+
+    // Getter
+    int InventoryIdIndex() const { return  m_InventoryIdIndex; }
+    int NumberIndex() const { return m_NumberIndex; }
+    int DescriptionIndex() const { return  m_DescriptionIndex; }
+    int ActiveIndex() const { return m_ActiveIndex; }
+    int LastUpateIndex() const { return  m_LastUpdateIndex; }
 
   private:
 
@@ -93,8 +130,12 @@ class InventoryDataModel : public CommonDataModel {
      * @brief tableName - the name of the database table
      * @
      */
-    const QString tableName = QLatin1String(Database::Table::INVENTORY);
-
+    const QString m_tableName = QLatin1String("inventory");
+    int m_InventoryIdIndex;
+    int m_NumberIndex;
+    int m_DescriptionIndex;
+    int m_ActiveIndex;
+    int m_LastUpdateIndex;
 };
 
 #endif // INVENTORYDATAMODEL_H

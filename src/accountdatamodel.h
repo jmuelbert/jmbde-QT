@@ -74,8 +74,6 @@
 #define ACCOUNTDATAMODEL_H
 
 #include <QObject>
-
-#include <QStandardPaths>
 #include <QtSql>
 
 #include <QSqlDatabase>
@@ -85,17 +83,20 @@
 
 #include "commondatamodel.h"
 #include "definitions.h"
+#include "idatamodel.h"
 
 /**
  * @brief The AccountDataModel class
  * @details In this is handlet all Accounts from the Employees
  * @author Jürgen Mülbert
- * @version 0.2
- * @date 09.02.2014
- * @copyright EUPL V1.1
+ * @version 0.3
+ * @date 14.12.2017
+ * @copyright EUPL V1.2
  */
-class AccountDataModel : public CommonDataModel
+class AccountDataModel : public CommonDataModel, public IDataModel
 {
+  Q_OBJECT
+
   public:
 
     /**
@@ -110,32 +111,89 @@ class AccountDataModel : public CommonDataModel
      */
     ~AccountDataModel();
 
+    // implement the virtuals
+
     /**
      * @brief createDataTable
-     * @details create the table in the SQL Database
-     * @see CommonDataModel::createDataTable()
-     * @deprecated You should not longer use this. The Database will create with a script.
-     * @return
+     * @return bool - true if creation of the table successfull
      */
-    bool createDataTable();
+    virtual bool createDataTable();
+
+    /**
+     * @brief setIndexes
+     */
+    virtual void setIndexes();
 
     /**
      * @brief initializeRelationalModel
-     * @details Provide the Relational Table Model to Display
-     * @see CommonDataModel::initializeRelationalModel()
-     * @todo implement this
-     * @return the Relational Table Model
+     * @return
      */
-    QSqlRelationalTableModel* initializeRelationalModel();
+    virtual QSqlRelationalTableModel* initializeRelationalModel();
 
     /**
-     * @brief initializeTableModel
-     * @details Provide the tablemodel to display
-     * @see CommonDataModel::initializeTableModel()
-     * @todo implement this.
-     * @return the TableModel
+     * @brief initializeInputDataModel
+     * @return
      */
-    QSqlTableModel* initializeTableModel();
+    virtual QSqlRelationalTableModel* initializeInputDataModel();
+
+    /**
+     * @brief initializeViewModel
+     * @return
+     */
+    virtual QSqlTableModel* initializeViewModel();
+
+    /**
+     * @brief generateTableString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateTableString(QAbstractTableModel* model, QString header);
+
+    /**
+     * @brief generateFormularString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateFormularString(QAbstractTableModel* model, QString header);
+
+    // Getter
+    /**
+     * @brief AccountIdIndex
+     * @return
+     */
+    int AccountIdIndex() const {
+        return m_AccountIdIndex;
+    }
+
+    /**
+     * @brief UserNameIndex
+     * @return
+     */
+    int UserNameIndex() const {
+        return m_UserNameIndex;
+    }
+
+    /**
+     * @brief PasswordIndex
+     * @return
+     */
+    int PasswordIndex() const {
+        return m_PasswordIndex;
+    }
+
+    /**
+     * @brief SystemDataIndex
+     * @return
+     */
+    int SystemDataIndex() const {
+        return m_SystemDataIdIndex;
+    }
+
+    int LastUpdateIndex() const {
+        return m_LastUpdateIndex;
+    }
 
   private:
 
@@ -143,8 +201,12 @@ class AccountDataModel : public CommonDataModel
      * @brief tableName - the name of the database table
      * @
      */
-    const QString tableName = QLatin1String(Database::Table::ACCOUNT);
-
+    const QString m_tableName = QLatin1String("account");
+    int m_AccountIdIndex;
+    int m_UserNameIndex;
+    int m_PasswordIndex;
+    int m_SystemDataIdIndex;
+    int m_LastUpdateIndex;
 };
 
 #endif // ACCOUNTDATAMODEL_H

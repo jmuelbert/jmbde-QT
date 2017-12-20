@@ -109,10 +109,9 @@ int main(int argc, char* argv[]) {
 
 #if defined (QT_DEBUG)
     #if defined (Q_OS_MAC)
-        QSettings settings(QSettings::IniFormat, QSettings::UserScope, APP_ORG_NAME, APP_NAME);
+  QSettings settings(QSettings::IniFormat, QSettings::UserScope, APP_ORG_NAME, APP_NAME);
     #else
-        QSettings settings(QSettings::IniFormat, QSettings::UserScope, APP_URL, APP_NAME);
-
+  QSettings settings(QSettings::IniFormat, QSettings::UserScope, APP_URL, APP_NAME);
     #endif
 #endif
 

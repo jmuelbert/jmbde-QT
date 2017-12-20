@@ -43,32 +43,114 @@
 #include "departmentdatamodel.h"
 
 DepartmentDataModel::DepartmentDataModel(QObject* parent)
-  : CommonDataModel(parent) {}
+  : CommonDataModel(parent) {
+
+    // Set the Model
+    m_model = new QSqlRelationalTableModel(this);
+    m_model->setTable(this->m_tableName);
+    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+
+    setIndexes();
+}
 
 DepartmentDataModel::~DepartmentDataModel() {}
 
 bool DepartmentDataModel::createDataTable() {
-  bool ret;
 
-  ret = CommonDataModel::createDataTable(this->tableName);
+  QSqlQuery query;
+  QString sqlString = "CREATE TABLE %1 (" \
+                      "department_id INTEGER PRIMARY KEY, " \
+                      "name VARCHAR, " \
+                      "priority INTEGER, " \
+                      "printer_id INTEGER, " \
+                      "fax_id INTEGER, " \
+                      "last_update TIMESTAMP);";
 
-  return ret;
+  return query.exec(sqlString.arg(this->m_tableName));
 }
 
-QSqlTableModel* DepartmentDataModel::initializeTableModel() {
-  QSqlTableModel* model = new QSqlTableModel(this);
+void DepartmentDataModel::setIndexes() {
+  m_DepartmentIdIndex = m_model->fieldIndex(QLatin1String("department_id"));
+  m_NameIndex = m_model->fieldIndex(QLatin1String("name"));
+  m_PriorityIndex = m_model->fieldIndex(QLatin1String("priority"));
+  m_PrinterIdIndex = m_model->fieldIndex(QLatin1String("printer_id"));
+  m_FaxIdIndex = m_model->fieldIndex(QLatin1String("fax_id"));
+  m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 
-  model =
-    CommonDataModel::initializeTableModel(this->tableName);
-
-  return model;
 }
 
 QSqlRelationalTableModel* DepartmentDataModel::initializeRelationalModel() {
-  QSqlRelationalTableModel* relationalTableModel;
 
-  relationalTableModel =
-    CommonDataModel::initializeRelationalModel(this->tableName);
+  m_model = new QSqlRelationalTableModel(this);
 
-  return relationalTableModel;
+  m_model->setTable(this->m_tableName);
+  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+
+  m_model->select();
+
+  return m_model;
+}
+
+QSqlRelationalTableModel* DepartmentDataModel::initializeInputDataModel() {
+
+  m_model = new QSqlRelationalTableModel(this, this->db);
+
+  m_model->setTable(this->m_tableName);
+
+  return m_model;
+}
+
+QSqlTableModel* DepartmentDataModel::initializeViewModel() {
+
+  m_model->select();
+
+  return m_model;
+}
+
+QString DepartmentDataModel::generateTableString(QAbstractTableModel* model, QString header) {
+  QString outString;
+  int columnCount = model->columnCount();
+  int rowCount = model->rowCount();
+
+  qDebug() << "Header : " << header << " Columns : " << columnCount
+           << " Rows : " << rowCount;
+
+  QList<int> set;
+
+  // Document Title
+  outString = QLatin1String("<h1>");
+  outString += header;
+  outString += QLatin1String("</h1>");
+  outString += QLatin1String("<hr />");
+  outString +=
+    QLatin1String("<table width=\"100%\" cellspacing=\"0\" class=\"tbl\">");
+  outString += QLatin1String("<thead> <tr>");
+
+  foreach (const int i, set) {
+    qDebug() << "int i = " << i;
+    outString += QLatin1String("<th>");
+    outString.append(model->headerData(i, Qt::Horizontal).toString());
+    outString += QLatin1String("</th>");
+  }
+
+  return outString;
+}
+
+QString DepartmentDataModel::generateFormularString(QAbstractTableModel* model, QString header) {
+  QString outString;
+  int columnCount = model->columnCount();
+  int rowCount = model->rowCount();
+
+  qDebug() << "Header : " << header << " Columns : " << columnCount
+           << " Rows : " << rowCount;
+
+  QList<int> set;
+
+  // Document Title
+  outString = QLatin1String("<h1>");
+  outString += header;
+  outString += QLatin1String("</h1>");
+  outString += QLatin1String("<hr />");
+
+  return outString;
 }

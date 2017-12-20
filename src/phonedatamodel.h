@@ -53,10 +53,11 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
-#include "datamodel.h"
+#include "commondatamodel.h"
 #include "definitions.h"
+#include "idatamodel.h"
 
-class PhoneDataModel : public DataModel {
+class PhoneDataModel : public CommonDataModel, public IDataModel {
   public:
 
     /**
@@ -70,22 +71,36 @@ class PhoneDataModel : public DataModel {
      */
     ~PhoneDataModel();
 
+    // implement the virtuals
+
     /**
-     * @brief addDataSet
+     * @brief createDataTable
+     * @return bool - true if creation of the table successfull
      */
-    void addDataSet();
+    virtual bool createDataTable();
+
+    /**
+     * @brief setIndexes
+     */
+    virtual void setIndexes();
 
     /**
      * @brief initializeRelationalModel
      * @return
      */
-    QSqlRelationalTableModel* initializeRelationalModel();
+    virtual QSqlRelationalTableModel* initializeRelationalModel();
 
     /**
-     * @brief initializeTableModel
+     * @brief initializeInputDataModel
      * @return
      */
-    QSqlTableModel* initializeTableModel();
+    virtual QSqlRelationalTableModel* initializeInputDataModel();
+
+    /**
+     * @brief initializeViewModel
+     * @return
+     */
+    virtual QSqlTableModel* initializeViewModel();
 
     /**
      * @brief generateTableString
@@ -93,30 +108,32 @@ class PhoneDataModel : public DataModel {
      * @param header
      * @return
      */
-    QString generateTableString(QAbstractTableModel* model, QString header);
+    virtual QString generateTableString(QAbstractTableModel* model, QString header);
 
     /**
-     * @brief getQueryModel
-     *
-     * @return QSqlQueryModel
+     * @brief generateFormularString
+     * @param model
+     * @param header
+     * @return
      */
-    QSqlQueryModel* getQueryModel();
-    enum PosPhoneTable {
-      POS_PHONE_ID,
-      POS_PHONE_DEVICENAME_ID,
-      POS_PHONE_SERIALNUMBER,
-      POS_PHONE_NUMBER,
-      POS_PHONE_PIN,
-      POS_PHONE_ACTIVE,
-      POS_PHONE_REPLACE,
-      POS_PHONE_DEVICETYPE_ID,
-      POS_PHONE_EMPLOYEE_ID,
-      POS_PHONE_PLACE_ID,
-      POS_PHONE_DEPARTMENT_ID,
-      POS_PHONE_MANUFACTURER_ID,
-      POS_PHONE_INVENTORY_ID,
-      POS_PHONE_LAST_UPDATE
-    };
+    virtual QString generateFormularString(QAbstractTableModel* model, QString header);
+
+
+    // Getter
+    int PhoneIdIndex() const { return m_PhoneIdIndex; }
+    int DeviceNameIdIndex() const { return m_DeviceNameIdIndex; }
+    int SerialNumberIndex() const { return m_SerialNumberIndex; }
+    int NumberIndex() const { return  m_NumberIndex; }
+    int PinIndex() const { return m_PinIndex; }
+    int ActiveIndex() const { return m_ActiveIndex; }
+    int ReplaceIndex() const { return  m_ReplaceIndex; }
+    int DeviceTypeIdIndex() const { return m_DeviceTypeIdIndex; }
+    int EmployeeIdIndex() const { return m_EmployeeIdIndex; }
+    int PlaceIdIndex() const { return m_PlaceIdIndex; }
+    int DepartmentIdIndex() const { return m_DepartmentIdIndex; }
+    int ManufacturerIdIndex() const { return m_ManufacturerIdIndex; }
+    int InventoryIdIndex() const { return m_InventoryIdIndex; }
+    int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
   private:
 
@@ -134,11 +151,23 @@ class PhoneDataModel : public DataModel {
      * @brief tableName - the name of the database table
      * @
      */
-    const QString tableName = QLatin1String(Database::Table::PHONE);
+    const QString m_tableName = QLatin1String("phone");
 
-    /**
-     * @brief The PosPhoneTable enum
-     */
+    int m_PhoneIdIndex;
+    int m_DeviceNameIdIndex;
+    int m_SerialNumberIndex;
+    int m_NumberIndex;
+    int m_PinIndex;
+    int m_ActiveIndex;
+    int m_ReplaceIndex;
+    int m_DeviceTypeIdIndex;
+    int m_EmployeeIdIndex;
+    int m_PlaceIdIndex;
+    int m_DepartmentIdIndex;
+    int m_ManufacturerIdIndex;
+    int m_InventoryIdIndex;
+    int m_LastUpdateIndex;
+
 
 };
 

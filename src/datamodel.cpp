@@ -40,6 +40,35 @@
    //
  */
 
+#include "accountdatamodel.h"
+#include "chipcarddatamodel.h"
+#include "chipcarddoorsdatamodel.h"
+#include "chipcardprofiledatamodel.h"
+#include "chipcardprofiledoordatamodel.h"
+#include "citynamedatamodel.h"
+#include "companydatamodel.h"
+#include "computerdatamodel.h"
+#include "computersoftwaredatamodel.h"
+#include "departmentdatamodel.h"
+#include "devicenamedatamodel.h"
+#include "devicetypedatamodel.h"
+#include "documentsdatamodel.h"
+#include "employeedatamodel.h"
+#include "faxdatamodel.h"
+#include "functiondatamodel.h"
+#include "inventorydatamodel.h"
+#include "manufacturerdatamodel.h"
+#include "mobiledatamodel.h"
+#include "osdatamodel.h"
+#include "phonedatamodel.h"
+#include "placedatamodel.h"
+#include "processordatamodel.h"
+#include "softwaredatamodel.h"
+#include "systemdatamodel.h"
+#include "titledatamodel.h"
+#include "zipcitymodel.h"
+#include "zipcodemodel.h"
+
 #include "datamodel.h"
 #include "definitions.h"
 
@@ -127,16 +156,17 @@ bool DataModel::CreateConnection() {
         }
       }
     }
+
     db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"));
     db.setDatabaseName(targetFileAndPath);
     if (!db.open()) {
-        qDebug() << "SQLite DB Exists                : " << retValue;
-        qDebug() << "QSQLITE QSqlDriver::QuerySize   : "
-                << db.driver()->hasFeature(QSqlDriver::QuerySize); // FALSE
-        qDebug() << "QSQLITE QSqlDriver::Transactions: "
-             << db.driver()->hasFeature(QSqlDriver::Transactions); // TRUE
-        qDebug() << initDb();
-        retValue = false;
+      qDebug() << "SQLite DB Exists                : " << retValue;
+      qDebug() << "QSQLITE QSqlDriver::QuerySize   : "
+               << db.driver()->hasFeature(QSqlDriver::QuerySize);  // FALSE
+      qDebug() << "QSQLITE QSqlDriver::Transactions: "
+               << db.driver()->hasFeature(QSqlDriver::Transactions); // TRUE
+      qDebug() << initDb();
+      retValue = false;
     }
   }
   else if (dbType == MYSQL) {
@@ -233,16 +263,43 @@ QSqlError DataModel::initDb() {
   QStringList tables = db.tables();
 
   if (!tables.contains("employee", Qt::CaseInsensitive)) return QSqlError();
+
   QSqlQuery q;
   QString queryString;
 
-  if (!q.exec(QString(Database::Table::COMPANY_CREATE)))
-    return q.lastError();
+  AccountDataModel* acm = new AccountDataModel();
+  if (!acm->createDataTable()) return db.lastError();
+
+
+  ChipCardDataModel* ccm = new ChipCardDataModel();
+  if (!ccm->createDataTable()) return db.lastError();
+
+  ChipCardDoorsDataModel* ccdm = new ChipCardDoorsDataModel();
+  if (!ccdm->createDataTable()) return db.lastError();
+
+  ChipCardProfileDataModel* ccpm = new ChipCardProfileDataModel();
+  if (!ccpm->createDataTable()) return db.lastError();
+
+  ChipCardProfileDoorDataModel* ccpd = new ChipCardProfileDoorDataModel();
+  if (!ccpd->createDataTable()) return db.lastError();
+
+  CityNameDataModel* cnm = new CityNameDataModel();
+  if (!acm->createDataTable()) return db.lastError();
+
+
+  CompanyDataModel* cpm = new CompanyDataModel();
+  if (!cpm->createDataTable()) return db.lastError();
+
+
+  ComputerDataModel* cdm = new ComputerDataModel();
+  if (!cdm->createDataTable()) return db.lastError();
+
+
+  ComputerSoftwareDataModel* csd = new ComputerSoftwareDataModel();
+  if (!csd->createDataTable()) return db.lastError();
+
 
   if (!q.exec(QString(Database::Table::ZIPCODE_CREATE)))
-    return q.lastError();
-
-  if (!q.exec(QString(Database::Table::CITYNAME_CREATE)))
     return q.lastError();
 
   if (!q.exec((QString(Database::Table::ZIPCITY_CREATE))))
@@ -253,6 +310,8 @@ QSqlError DataModel::initDb() {
 
   if (!q.exec(QString(Database::Table::EMPLOYEE_CREATE)))
     return q.lastError();
+
+
 
   if (!q.exec(QString(Database::Table::DEVICETYPE_CREATE)))
     return q.lastError();
@@ -278,8 +337,6 @@ QSqlError DataModel::initDb() {
   if (!q.exec(QString(Database::Table::EMPLOYEEACCOUNT_CREATE)))
     return q.lastError();
 
-  if (!q.exec(QString(Database::Table::ACCOUNT_CREATE)))
-    return q.lastError();
 
   if (!q.exec(QString(Database::Table::SYSTEMDATA_CREATE)))
     return q.lastError();
@@ -296,14 +353,10 @@ QSqlError DataModel::initDb() {
   if (!q.exec(QString(Database::Table::OS_CREATE)))
     return q.lastError();
 
-  if (!q.exec(QString(Database::Table::COMPUTERSOFTWARE_CREATE)))
-    return q.lastError();
 
   if (!q.exec(QString(Database::Table::SOFTWARE_CREATE)))
     return q.lastError();
 
-  if (!q.exec(QString(Database::Table::COMPUTER_CREATE)))
-    return q.lastError();
 
   if (!q.exec(QString(Database::Table::PRINTER_CREATE)))
     return q.lastError();
@@ -317,14 +370,6 @@ QSqlError DataModel::initDb() {
   if (!q.exec(QString(Database::Table::MOBILE_CREATE)))
     return q.lastError();
 
-  if (!q.exec(QString(Database::Table::CHIPCARD_CREATE)))
-    return q.lastError();
-
-  if (!q.exec(QString(Database::Table::CHIPCARDPROFILEDOOR_CREATE)))
-    return q.lastError();
-
-  if (!q.exec(QString(Database::Table::CHIPCARDPROFILE_CREATE)))
-    return q.lastError();
 
   if (!q.exec(QString(Database::Table::DATABASEVERSION_CREATE)))
     return q.lastError();
@@ -341,26 +386,4 @@ QSqlError DataModel::initDb() {
   query.exec();
   qDebug() << "Set DB-Version: " << query.lastError();
   return q.lastError();
-}
-
-void DataModel::addRow(QTableView* tableView) {
-  QAbstractItemModel* model = tableView->model();
-
-  model->insertRow(model->rowCount());
-}
-
-QString DataModel::setOutTableStyle() {
-  QString css;
-
-  css = QLatin1String("<style type=\"text/css\">");
-  css += QLatin1String("H1 { color: #f00;}");
-  css +=
-    QLatin1String("table.tbl {border-width: 1px;border-style: "
-                  "solid;border-color: black;margin-top: 0px;margin-bottom: "
-                  "0px;color: black; font-size: small; }");
-  css += QLatin1String("table.tbl td {padding: 3px;}");
-  css += QLatin1String("table.tbl th {padding: 3px;}");
-  css += QLatin1String("</style>");
-
-  return css;
 }

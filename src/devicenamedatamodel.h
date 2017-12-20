@@ -1,6 +1,6 @@
 /*
-   // CityName cityname.h
-   // part of <Project>
+   // DeviceNameDataModel
+   // part of jmbde
    //
    // Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
    //
@@ -38,10 +38,10 @@
    // Die sprachspezifischen Genehmigungen und Beschränkungen
    // unter der Lizenz sind dem Lizenztext zu entnehmen.
    //
-   // Created: 30.10.2017
  */
-#ifndef CITYNAME_H
-#define CITYNAME_H
+
+#ifndef DEVICENAMEDATAMODEL_H
+#define DEVICENAMEDATAMODEL_H
 
 #include <QObject>
 #include <QtSql>
@@ -51,41 +51,81 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
-#include "datamodel.h"
+#include "commondatamodel.h"
 #include "definitions.h"
+#include "idatamodel.h"
 
-class CityNameModel : public DataModel
+class DeviceNameDataModel : public CommonDataModel, public IDataModel
 {
-  public:
-    CityNameModel(QObject* parent = 0);
+  Q_OBJECT
+public:
+    DeviceNameDataModel(QObject* parent = 0);
 
-    virtual ~CityNameModel();
+    ~DeviceNameDataModel();
+
+    // implement the virtuals
+
+    /**
+     * @brief createDataTable
+     * @return bool - true if creation of the table successfull
+     */
+    virtual bool createDataTable();
+
+    /**
+     * @brief setIndexes
+     */
+    virtual void setIndexes();
 
     /**
      * @brief initializeRelationalModel
      * @return
      */
-    QSqlRelationalTableModel* initializeRelationalModel();
+    virtual QSqlRelationalTableModel* initializeRelationalModel();
 
     /**
-     * @brief initializeTableModel
+     * @brief initializeInputDataModel
      * @return
      */
-    QSqlTableModel* initializeTableModel();
-    enum PosCitynameTable {
-      POS_CITYNAME_ID,
-      POS_CITYNAME_NAME,
-      POS_CITYNAME_LASTUPDATE
-    };
-
-  private:
+    virtual QSqlRelationalTableModel* initializeInputDataModel();
 
     /**
-     * @brief tableName - the name of the database table
-     * @
+     * @brief initializeViewModel
+     * @return
      */
-    const QString tableName = QLatin1String(Database::Table::CITYNAME);
+    virtual QSqlTableModel* initializeViewModel();
+
+    /**
+     * @brief generateTableString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateTableString(QAbstractTableModel* model, QString header);
+
+    /**
+     * @brief generateFormularString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateFormularString(QAbstractTableModel* model, QString header);
+
+    // Getter
+    int DeviceNameIdIndex() const { return m_DeviceNameIdIndex; }
+    int NameIndex() const { return  m_NameIndex; }
+    int LastUpdateIndex() const { return  m_LastUpdateIndex; }
+
+private:
+
+  /**
+   * @brief tableName - the name of the database table
+   * @
+   */
+  const QString m_tableName = QLatin1String("device_name");
+  int m_DeviceNameIdIndex;
+  int m_NameIndex;
+  int m_LastUpdateIndex;
 
 };
 
-#endif // CITYNAME_H
+#endif // DEVICENAMEDATAMODEL_H

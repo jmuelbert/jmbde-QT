@@ -59,8 +59,9 @@
 #include <QTableView>
 #include <QTextDocument>
 
-#include "datamodel.h"
+#include "commondatamodel.h"
 #include "definitions.h"
+#include "idatamodel.h"
 
 /**
  * @brief EmployeeDataModel::EmployeeDataModel
@@ -98,13 +99,14 @@
     }
  */
 
-class EmployeeDataModel : public DataModel {
+class EmployeeDataModel : public CommonDataModel, public IDataModel {
   Q_OBJECT
 
   public:
 
     /**
      * @brief EmployeeDataModel
+     * @details The Datamodel for the Accounts from the Employees
      * @param parent
      */
     EmployeeDataModel(QObject* parent = 0);
@@ -114,256 +116,321 @@ class EmployeeDataModel : public DataModel {
      */
     ~EmployeeDataModel();
 
+    // implement the virtuals
+
+    /**
+     * @brief createDataTable
+     * @return bool - true if creation of the table successfull
+     */
+    virtual bool createDataTable();
+
+    /**
+     * @brief setIndexes
+     */
+    virtual void setIndexes();
+
     /**
      * @brief initializeRelationalModel
      * @return
      */
-    QSqlRelationalTableModel* initializeRelationalModel();
+    virtual QSqlRelationalTableModel* initializeRelationalModel();
 
     /**
      * @brief initializeInputDataModel
      * @return
      */
-    QSqlRelationalTableModel* initializeInputDataModel();
-    QSqlTableModel* initializeViewModel();
+    virtual QSqlRelationalTableModel* initializeInputDataModel();
 
     /**
-     * @brief initializeTableModel
+     * @brief initializeViewModel
      * @return
      */
-    QSqlTableModel* initializeTableModel();
+    virtual QSqlTableModel* initializeViewModel();
 
     /**
-     * @brief readAllRecords
-     */
-    void readAllRecords();
-
-    /**
-     * @brief createSheet
-     * @return
-     */
-    QTextDocument* createSheet();
-
-    /**
-     * @brief generateTabletring
+     * @brief generateTableString
      * @param model
      * @param header
      * @return
      */
-    QString generateTableString(QAbstractTableModel* model, QString header);
+    virtual QString generateTableString(QAbstractTableModel* model, QString header);
 
     /**
-     * @brief setIndexes
+     * @brief generateFormularString
+     * @param model
+     * @param header
+     * @return
      */
-    void setIndexes();
+    virtual QString generateFormularString(QAbstractTableModel* model, QString header);
+
+    // Getter
+    /**
+     * @brief EmployeeIdIndex
+     * @return
+     */
+    int EmployeeIdIndex() const {
+        return m_EmployeeIdIndex;
+    }
 
     /**
      * @brief EmployeeNrIndex
      * @return
      */
     int EmployeeNrIndex() const
-    { return m_EmployeeNrIndex; }
+    {
+      return m_EmployeeNrIndex;
+    }
 
     /**
      * @brief GenderIndex
      * @return
      */
     int GenderIndex() const
-    { return m_GenderIndex; }
+    {
+      return m_GenderIndex;
+    }
 
     /**
      * @brief TitleIdIndex
      * @return
      */
     int TitleIdIndex() const
-    { return m_TitleIdIndex; }
+    {
+      return m_TitleIdIndex;
+    }
 
     /**
      * @brief FirstNameIndex
      * @return
      */
     int FirstNameIndex() const
-    { return m_FirstNameIndex; }
+    {
+      return m_FirstNameIndex;
+    }
 
     /**
      * @brief LastNameIndex
      * @return
      */
     int LastNameIndex() const
-    { return m_LastNameIndex; }
+    {
+      return m_LastNameIndex;
+    }
 
     /**
      * @brief BirthDayIndex
      * @return
      */
     int BirthDayIndex() const
-    { return m_BirthDayIndex; }
+    {
+      return m_BirthDayIndex;
+    }
 
     /**
      * @brief AddressIndex
      * @return
      */
     int AddressIndex() const
-    { return m_AddressIndex; }
+    {
+      return m_AddressIndex;
+    }
 
     /**
      * @brief ZipCityIdIndex
      * @return
      */
     int ZipCityIdIndex() const
-    { return m_ZipCityIdIndex; }
+    {
+      return m_ZipCityIdIndex;
+    }
 
     /**
      * @brief HomePhoneIndex
      * @return
      */
     int HomePhoneIndex() const
-    { return m_HomePhoneIndex; }
+    {
+      return m_HomePhoneIndex;
+    }
 
     /**
      * @brief HomeMobileIndex
      * @return
      */
     int HomeMobileIndex() const
-    { return m_HomeMobileIndex; }
+    {
+      return m_HomeMobileIndex;
+    }
 
     /**
      * @brief HomeMailIndex
      * @return
      */
     int HomeMailIndex() const
-    { return m_HomeMailIndex; }
+    {
+      return m_HomeMailIndex;
+    }
 
     /**
      * @brief BusinessMailIndex
      * @return
      */
     int BusinessMailIndex() const
-    { return m_BusinessMailIndex; }
+    {
+      return m_BusinessMailIndex;
+    }
 
     /**
      * @brief DataCareIndex
      * @return
      */
     int DataCareIndex() const
-    { return m_DataCareIndex; }
+    {
+      return m_DataCareIndex;
+    }
 
     /**
      * @brief ActiveIndex
      * @return
      */
     int ActiveIndex() const
-    { return m_ActiveIndex; }
+    {
+      return m_ActiveIndex;
+    }
 
     /**
      * @brief PhotoIndex
      * @return
      */
     int PhotoIndex() const
-    { return m_PhotoIndex; }
+    {
+      return m_PhotoIndex;
+    }
 
     /**
      * @brief NotesIndex
      * @return
      */
     int NotesIndex() const
-    { return m_NotesIndex; }
+    {
+      return m_NotesIndex;
+    }
 
     /**
      * @brief HireDateIndex
      * @return
      */
     int HireDateIndex() const
-    { return m_HireDateIndex; }
+    {
+      return m_HireDateIndex;
+    }
 
     /**
      * @brief EndDateIndex
      * @return
      */
     int EndDateIndex() const
-    { return m_EndDateIndex; }
+    {
+      return m_EndDateIndex;
+    }
 
     /**
      * @brief DepartmentIdIndex
      * @return
      */
     int DepartmentIdIndex() const
-    { return m_DepartmentIdIndex; }
+    {
+      return m_DepartmentIdIndex;
+    }
 
     /**
      * @brief FunctionIdIndex
      * @return
      */
     int FunctionIdIndex() const
-    { return m_FunctionIdIndex; }
+    {
+      return m_FunctionIdIndex;
+    }
 
     /**
      * @brief ComputerIdIndex
      * @return
      */
     int ComputerIdIndex() const
-    { return m_ComputerIdIndex; }
+    {
+      return m_ComputerIdIndex;
+    }
 
     /**
      * @brief PrinterIdIndex
      * @return
      */
     int PrinterIdIndex() const
-    { return m_PrinterIdIndex; }
+    {
+      return m_PrinterIdIndex;
+    }
 
     /**
      * @brief PhoneIdIndex
      * @return
      */
     int PhoneIdIndex() const
-    { return m_PhoneIdIndex; }
+    {
+      return m_PhoneIdIndex;
+    }
 
     /**
      * @brief MobileIdIndex
      * @return
      */
     int MobileIdIndex() const
-    { return m_MobileIdIndex; }
+    {
+      return m_MobileIdIndex;
+    }
 
     /**
      * @brief FaxIdIndex
      * @return
      */
     int FaxIdIndex() const
-    { return m_FaxIdIndex; }
+    {
+      return m_FaxIdIndex;
+    }
 
     /**
      * @brief EmployeeAccountIdIndex
      * @return
      */
     int EmployeeAccountIdIndex() const
-    { return m_EmployeeAccountIdIndex; }
+    {
+      return m_EmployeeAccountIdIndex;
+    }
 
     /**
      * @brief EmployeeDocumentIdIndex
      * @return
      */
     int EmployeeDocumentIdIndex() const
-    { return m_EmployeeDocumentIdIndex; }
+    {
+      return m_EmployeeDocumentIdIndex;
+    }
 
     /**
      * @brief ChipCardIdIndex
      * @return
      */
     int ChipCardIdIndex() const
-    { return m_ChipCardIdIndex; }
+    {
+      return m_ChipCardIdIndex;
+    }
 
     /**
      * @brief LastUpdateIndex
      * @return
      */
-    int LastUpdateIndex() const
-    { return m_LastUpdateIndex; }
-
-
+    int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
   protected:
-
 
   private:
 
@@ -371,10 +438,7 @@ class EmployeeDataModel : public DataModel {
      * @brief tableName - the name of the database table
      * @
      */
-    const QString m_tableName = QLatin1String(Database::Table::EMPLOYEE);
-
-    QSqlRelationalTableModel* m_model;
-    QItemSelectionModel* m_selectionModel;
+    const QString m_tableName = QLatin1String("employee");
 
     int m_EmployeeIdIndex;
     int m_EmployeeNrIndex;

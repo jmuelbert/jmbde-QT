@@ -42,30 +42,112 @@
 
 #include "systemdatamodel.h"
 
-SystemDataModel::SystemDataModel(QObject* parent) : CommonDataModel(parent) {}
+SystemDataModel::SystemDataModel(QObject* parent) : CommonDataModel(parent) {
+
+    // Set the Model
+    m_model = new QSqlRelationalTableModel(this);
+    m_model->setTable(this->m_tableName);
+    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+
+    setIndexes();
+}
 
 SystemDataModel::~SystemDataModel() {}
 
+
 bool SystemDataModel::createDataTable() {
-  bool ret;
 
-  ret = CommonDataModel::createDataTable(this->tableName);
+  QSqlQuery query;
+  QString sqlString = "CREATE TABLE %1 (" \
+                      "system_data_id INTEGER PRIMARY KEY, " \
+                      "name VARCHAR, " \
+                      "local BOOLEAN, " \
+                      "company_id INTEGER, " \
+                      "last_update TIMESTAMP);";
 
-  return ret;
+  return query.exec(sqlString.arg(this->m_tableName));
 }
 
-QSqlTableModel* SystemDataModel::initializeTableModel() {
-  QSqlTableModel* tableModel;
-
-  tableModel = CommonDataModel::initializeTableModel(this->tableName);
-
-  return tableModel;
+void SystemDataModel::setIndexes() {
+  m_SystemDataIdIndex = m_model->fieldIndex(QLatin1String("ystem_data_id"));
+  m_NameIndex = m_model->fieldIndex(QLatin1String("name"));
+  m_LocalIndex = m_model->fieldIndex(QLatin1String("local"));
+  m_CompanyIdIndex = m_model->fieldIndex(QLatin1String("company_id"));
+  m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
 QSqlRelationalTableModel* SystemDataModel::initializeRelationalModel() {
-  QSqlRelationalTableModel* tableModel;
 
-  tableModel = CommonDataModel::initializeRelationalModel(this->tableName);
+  m_model = new QSqlRelationalTableModel(this);
 
-  return tableModel;
+  m_model->setTable(this->m_tableName);
+  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+
+  m_model->select();
+
+  return m_model;
+}
+
+QSqlRelationalTableModel* SystemDataModel::initializeInputDataModel() {
+
+  m_model = new QSqlRelationalTableModel(this, this->db);
+
+  m_model->setTable(this->m_tableName);
+
+  return m_model;
+}
+
+QSqlTableModel* SystemDataModel::initializeViewModel() {
+
+  m_model->select();
+
+  return m_model;
+}
+
+QString SystemDataModel::generateTableString(QAbstractTableModel* model, QString header) {
+  QString outString;
+  int columnCount = model->columnCount();
+  int rowCount = model->rowCount();
+
+  qDebug() << "Header : " << header << " Columns : " << columnCount
+           << " Rows : " << rowCount;
+
+  QList<int> set;
+
+  // Document Title
+  outString = QLatin1String("<h1>");
+  outString += header;
+  outString += QLatin1String("</h1>");
+  outString += QLatin1String("<hr />");
+  outString +=
+    QLatin1String("<table width=\"100%\" cellspacing=\"0\" class=\"tbl\">");
+  outString += QLatin1String("<thead> <tr>");
+
+  foreach (const int i, set) {
+    qDebug() << "int i = " << i;
+    outString += QLatin1String("<th>");
+    outString.append(model->headerData(i, Qt::Horizontal).toString());
+    outString += QLatin1String("</th>");
+  }
+
+  return outString;
+}
+
+QString SystemDataModel::generateFormularString(QAbstractTableModel* model, QString header) {
+  QString outString;
+  int columnCount = model->columnCount();
+  int rowCount = model->rowCount();
+
+  qDebug() << "Header : " << header << " Columns : " << columnCount
+           << " Rows : " << rowCount;
+
+  QList<int> set;
+
+  // Document Title
+  outString = QLatin1String("<h1>");
+  outString += header;
+  outString += QLatin1String("</h1>");
+  outString += QLatin1String("<hr />");
+
+  return outString;
 }

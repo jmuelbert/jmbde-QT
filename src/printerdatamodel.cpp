@@ -42,181 +42,98 @@
 
 #include "printerdatamodel.h"
 
-PrinterDataModel::PrinterDataModel(QObject* parent) : DataModel(parent) {}
+PrinterDataModel::PrinterDataModel(QObject* parent) : CommonDataModel(parent) {
+
+    // Set the Model
+    m_model = new QSqlRelationalTableModel(this);
+    m_model->setTable(this->m_tableName);
+    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+
+    setIndexes();
+
+}
 
 PrinterDataModel::~PrinterDataModel() {}
 
-void PrinterDataModel::addDataSet() {
+const char PRINTER[] = "printer";
+
+bool PrinterDataModel::createDataTable() {
+
   QSqlQuery query;
-  QString sqlString = QLatin1String("insert into printer(pcnr, name) values( ");
+  QString sqlString =  "CREATE TABLE %1 (" \
+                       "printer_id INTEGER PRIMARY KEY, " \
+                       "device_name_id INTEGER, " \
+                       "serial_number VARCHAR, " \
+                       "network VARCHAR, " \
+                       "network_name VARCHAR, " \
+                       "network_ip_address VARCHAR, " \
+                       "active BOOLEAN, " \
+                       "replace BOOLEAN, " \
+                       "resources VARCHAR, " \
+                       "paper_size_max VARCHAR, " \
+                       "color BOOLEAN, " \
+                       "device_type_id INTEGER, " \
+                       "employe_id INTEGER, " \
+                       "place_id INTEGER, " \
+                       "department_id INTEGER, " \
+                       "manufacturer_id INTEGER, " \
+                       "inventory_id INTEGER, " \
+                       "computer_id INTEGER, " \
+                       "last_update TIMESTAMP);";
+  return query.exec(sqlString.arg(this->m_tableName));
+}
 
-  sqlString.append(QLatin1String("'"));
-  sqlString.append(pcnr);
-  sqlString.append(QLatin1String("' , '"));
-  sqlString.append(name);
-  sqlString.append(QLatin1String("');"));
-  bool ret = query.exec(sqlString);
-
-  if (ret == false) {
-    qDebug() << sqlString.toLatin1();
-    qDebug() << db.lastError();
-  }
-  else {
-    db.commit();
-  }
+void PrinterDataModel::setIndexes() {
+   m_PrinterIdIndex  = m_model->fieldIndex(QLatin1String("printer_id"));
+   m_DeviceNameIdIndex = m_model->fieldIndex(QLatin1String("device_name_id"));
+   m_SerialNumberIndex = m_model->fieldIndex(QLatin1String("lserial_number"));
+   m_NetworkIndex = m_model->fieldIndex(QLatin1String("network"));
+   m_NetworkNameIndex = m_model->fieldIndex(QLatin1String("network_name"));
+   m_NetworkIpAddressIndex = m_model->fieldIndex(QLatin1String("network_ip_address"));
+   m_ActiveIndex = m_model->fieldIndex(QLatin1String("active"));
+   m_ReplaceIndex = m_model->fieldIndex(QLatin1String("replace"));
+   m_ResourcesIndex = m_model->fieldIndex(QLatin1String("resources"));
+   m_PaperSizeMaxIndex = m_model->fieldIndex(QLatin1String("paper_size_max"));
+    m_ColorIndex = m_model->fieldIndex(QLatin1String("color"));
+    m_DeviceTypeIdIndex = m_model->fieldIndex(QLatin1String("device_type_id"));
+    m_EmployeeIdIndex = m_model->fieldIndex(QLatin1String("employe_id"));
+    m_PlaceIdIndex = m_model->fieldIndex(QLatin1String("place_id"));
+    m_DepartmentIdIndex = m_model->fieldIndex(QLatin1String("department_id"));
+    m_ManufacurerIdIndex = m_model->fieldIndex(QLatin1String("manufacturer_id"));
+    m_InventoryIdIndex = m_model->fieldIndex(QLatin1String("inventory_id"));
+    m_ComputerIdIndex = m_model->fieldIndex(QLatin1String("computer_id"));
+  m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
 QSqlRelationalTableModel* PrinterDataModel::initializeRelationalModel() {
-  // TODO: id als locale Konstante
 
-  QSqlRelationalTableModel* model = new QSqlRelationalTableModel(this);
+  m_model = new QSqlRelationalTableModel(this);
 
-  model->setTable(this->tableName);
-  model->setEditStrategy(QSqlTableModel::OnFieldChange);
+  m_model->setTable(this->m_tableName);
+  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-  model->setRelation(POS_PRINTER_DEVICENAME_ID,
-                     QSqlRelation(QLatin1String("devicename"),
-                                  QLatin1String("devicename_id"),
-                                  QLatin1String("name")));
+  m_model->select();
 
-  model->setRelation(POS_PRINTER_DEVICETYPE_ID,
-                     QSqlRelation(QLatin1String("devicetype"),
-                                  QLatin1String("devicetype_id"),
-                                  QLatin1String("name")));
-
-  model->setRelation(POS_PRINTER_EMPLOYEE_ID,
-                     QSqlRelation(QLatin1String("employee"),
-                                  QLatin1String("employee_id"),
-                                  QLatin1String("lastname")));
-
-  model->setRelation(POS_PRINTER_PLACE_ID,
-                     QSqlRelation(QLatin1String("place"),
-                                  QLatin1String("place_id"),
-                                  QLatin1String("name")));
-
-  model->setRelation(POS_PRINTER_DEPARTMENT_ID,
-                     QSqlRelation(QLatin1String("department"),
-                                  QLatin1String("department_id"),
-                                  QLatin1String("name")));
-
-  model->setRelation(POS_PRINTER_MANUFACTURER_ID,
-                     QSqlRelation(QLatin1String("manufacturer"),
-                                  QLatin1String("manufacturer_id"),
-                                  QLatin1String("name")));
-
-  model->setRelation(POS_PRINTER_INVENTORY_ID,
-                     QSqlRelation(QLatin1String("inventory"),
-                                  QLatin1String("inventory_id"),
-                                  QLatin1String("number")));
-
-  model->setRelation(POS_PRINTER_COMPUTER_ID,
-                     QSqlRelation(QLatin1String("computer"),
-                                  QLatin1String("computer_id"),
-                                  QLatin1String("network_name")));
-
-  model->setHeaderData(POS_PRINTER_ID, Qt::Horizontal, QObject::tr("ID"));
-  model->setHeaderData(POS_PRINTER_DEVICENAME_ID, Qt::Horizontal,
-                       QObject::tr("Dev.Name"));
-  model->setHeaderData(POS_PRINTER_SERIALNUMBER, Qt::Horizontal,
-                       QObject::tr("S/N"));
-  model->setHeaderData(POS_PRINTER_NETWORK, Qt::Horizontal,
-                       QObject::tr("Network"));
-  model->setHeaderData(POS_PRINTER_NETWORK_NAME, Qt::Horizontal,
-                       QObject::tr("Network Name"));
-  model->setHeaderData(POS_PRINTER_NETWORK_IPADDRESS, Qt::Horizontal,
-                       QObject::tr("IP Address"));
-  model->setHeaderData(POS_PRINTER_ACTIVE, Qt::Horizontal,
-                       QObject::tr("Active"));
-  model->setHeaderData(POS_PRINTER_REPLACE, Qt::Horizontal,
-                       QObject::tr("Replace"));
-  model->setHeaderData(POS_PRINTER_RESOURCES, Qt::Horizontal,
-                       QObject::tr("Resources"));
-  model->setHeaderData(POS_PRINTER_PAPERSIZE_MAX, Qt::Horizontal,
-                       QObject::tr("Papersize Max"));
-  model->setHeaderData(POS_PRINTER_DEVICETYPE_ID, Qt::Horizontal,
-                       QObject::tr("Device Type"));
-  model->setHeaderData(POS_PRINTER_EMPLOYEE_ID, Qt::Horizontal,
-                       QObject::tr("Employee"));
-  model->setHeaderData(POS_PRINTER_PLACE_ID, Qt::Horizontal,
-                       QObject::tr("Place"));
-  model->setHeaderData(POS_PRINTER_DEPARTMENT_ID, Qt::Horizontal,
-                       QObject::tr("Department"));
-  model->setHeaderData(POS_PRINTER_MANUFACTURER_ID, Qt::Horizontal,
-                       QObject::tr("Manufacturer"));
-  model->setHeaderData(POS_PRINTER_INVENTORY_ID, Qt::Horizontal,
-                       QObject::tr("Inventory"));
-  model->setHeaderData(POS_PRINTER_COMPUTER_ID, Qt::Horizontal,
-                       QObject::tr("Printer"));
-  model->setHeaderData(POS_PRINTER_LAST_UPDATE, Qt::Horizontal,
-                       QObject::tr("Last Update"));
-
-  model->select();
-
-  return model;
+  return m_model;
 }
 
-QSqlTableModel* PrinterDataModel::initializeTableModel() {
-  QSqlTableModel* model = new QSqlTableModel(this);
+QSqlRelationalTableModel* PrinterDataModel::initializeInputDataModel() {
 
-  model->setTable(this->tableName);
-  model->setEditStrategy(QSqlTableModel::OnFieldChange);
+  m_model = new QSqlRelationalTableModel(this, this->db);
 
-  model->setHeaderData(POS_PRINTER_ID, Qt::Horizontal, QObject::tr("ID"));
-  model->setHeaderData(POS_PRINTER_DEVICENAME_ID, Qt::Horizontal,
-                       QObject::tr("Dev.Name"));
-  model->setHeaderData(POS_PRINTER_SERIALNUMBER, Qt::Horizontal,
-                       QObject::tr("S/N"));
-  model->setHeaderData(POS_PRINTER_NETWORK, Qt::Horizontal,
-                       QObject::tr("Network"));
-  model->setHeaderData(POS_PRINTER_NETWORK_NAME, Qt::Horizontal,
-                       QObject::tr("Network Name"));
-  model->setHeaderData(POS_PRINTER_NETWORK_IPADDRESS, Qt::Horizontal,
-                       QObject::tr("IP Address"));
-  model->setHeaderData(POS_PRINTER_ACTIVE, Qt::Horizontal,
-                       QObject::tr("Active"));
-  model->setHeaderData(POS_PRINTER_REPLACE, Qt::Horizontal,
-                       QObject::tr("Replace"));
-  model->setHeaderData(POS_PRINTER_RESOURCES, Qt::Horizontal,
-                       QObject::tr("Resources"));
-  model->setHeaderData(POS_PRINTER_PAPERSIZE_MAX, Qt::Horizontal,
-                       QObject::tr("Papersize Max"));
-  model->setHeaderData(POS_PRINTER_DEVICETYPE_ID, Qt::Horizontal,
-                       QObject::tr("Device Type"));
-  model->setHeaderData(POS_PRINTER_EMPLOYEE_ID, Qt::Horizontal,
-                       QObject::tr("Employee"));
-  model->setHeaderData(POS_PRINTER_PLACE_ID, Qt::Horizontal,
-                       QObject::tr("Place"));
-  model->setHeaderData(POS_PRINTER_DEPARTMENT_ID, Qt::Horizontal,
-                       QObject::tr("Department"));
-  model->setHeaderData(POS_PRINTER_MANUFACTURER_ID, Qt::Horizontal,
-                       QObject::tr("Manufacturer"));
-  model->setHeaderData(POS_PRINTER_INVENTORY_ID, Qt::Horizontal,
-                       QObject::tr("Inventory"));
-  model->setHeaderData(POS_PRINTER_COMPUTER_ID, Qt::Horizontal,
-                       QObject::tr("Printer"));
-  model->setHeaderData(POS_PRINTER_LAST_UPDATE, Qt::Horizontal,
-                       QObject::tr("Last Update"));
+  m_model->setTable(this->m_tableName);
 
-  model->select();
-
-  return model;
+  return m_model;
 }
 
-QSqlQueryModel* PrinterDataModel::getQueryModel() {
-  QSqlQueryModel* model = new QSqlQueryModel();
-  QSqlQuery* qry = new QSqlQuery();
-  QString sqlString = QLatin1String("select network_name from printer");
+QSqlTableModel* PrinterDataModel::initializeViewModel() {
 
-  qry->prepare(sqlString);
-  qry->exec();
+  m_model->select();
 
-  model->setQuery(*qry);
-
-  return model;
+  return m_model;
 }
 
-QString PrinterDataModel::generateTableString(QAbstractTableModel* model,
-                                              QString header) {
+QString PrinterDataModel::generateTableString(QAbstractTableModel* model, QString header) {
   QString outString;
   int columnCount = model->columnCount();
   int rowCount = model->rowCount();
@@ -225,14 +142,6 @@ QString PrinterDataModel::generateTableString(QAbstractTableModel* model,
            << " Rows : " << rowCount;
 
   QList<int> set;
-  set.append(POS_PRINTER_DEVICENAME_ID);
-  set.append(POS_PRINTER_DEVICETYPE_ID);
-  set.append(POS_PRINTER_NETWORK_NAME);
-  set.append(POS_PRINTER_MANUFACTURER_ID);
-  set.append(POS_PRINTER_EMPLOYEE_ID);
-  set.append(POS_PRINTER_DEPARTMENT_ID);
-  set.append(POS_PRINTER_PLACE_ID);
-  set.append(POS_PRINTER_COMPUTER_ID);
 
   // Document Title
   outString = QLatin1String("<h1>");
@@ -250,22 +159,24 @@ QString PrinterDataModel::generateTableString(QAbstractTableModel* model,
     outString += QLatin1String("</th>");
   }
 
-  outString += QLatin1String("</tr> </thead>");
+  return outString;
+}
 
-  for (int i = 1; i < rowCount; i++) {
-    outString += QLatin1String("<tr>");
-    foreach (const int j, set) {
-      outString += QLatin1String("<td>");
-      QModelIndex ind(model->index(i, j));
+QString PrinterDataModel::generateFormularString(QAbstractTableModel* model, QString header) {
+  QString outString;
+  int columnCount = model->columnCount();
+  int rowCount = model->rowCount();
 
-      outString.append(ind.data(Qt::DisplayRole).toString());
-      outString += QLatin1String("</td>");
-    }
+  qDebug() << "Header : " << header << " Columns : " << columnCount
+           << " Rows : " << rowCount;
 
-    outString += QLatin1String("</tr>");
-  }
+  QList<int> set;
 
-  // Close Table
-  outString += QLatin1String("</table>");
+  // Document Title
+  outString = QLatin1String("<h1>");
+  outString += header;
+  outString += QLatin1String("</h1>");
+  outString += QLatin1String("<hr />");
+
   return outString;
 }

@@ -51,32 +51,68 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
-#include "datamodel.h"
+#include "commondatamodel.h"
 #include "definitions.h"
+#include "idatamodel.h"
 
-class ZipCodeModel : public DataModel
+class ZipCodeModel : public CommonDataModel, public IDataModel
 {
   public:
     ZipCodeModel(QObject* parent = 0);
 
     virtual ~ZipCodeModel();
 
+    // implement the virtuals
+
+    /**
+     * @brief createDataTable
+     * @return bool - true if creation of the table successfull
+     */
+    virtual bool createDataTable();
+
+    /**
+     * @brief setIndexes
+     */
+    virtual void setIndexes();
+
     /**
      * @brief initializeRelationalModel
      * @return
      */
-    QSqlRelationalTableModel* initializeRelationalModel();
+    virtual QSqlRelationalTableModel* initializeRelationalModel();
 
     /**
-     * @brief initializeTableModel
+     * @brief initializeInputDataModel
      * @return
      */
-    QSqlTableModel* initializeTableModel();
-    enum PosZipcodeTable {
-      POS_ZIPCODE_ID,
-      POS_ZIPCODE_CODE,
-      POS_ZIPCODE_LASTUPDATE
-    };
+    virtual QSqlRelationalTableModel* initializeInputDataModel();
+
+    /**
+     * @brief initializeViewModel
+     * @return
+     */
+    virtual QSqlTableModel* initializeViewModel();
+
+    /**
+     * @brief generateTableString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateTableString(QAbstractTableModel* model, QString header);
+
+    /**
+     * @brief generateFormularString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateFormularString(QAbstractTableModel* model, QString header);
+
+    // Getter
+    int ZipCodeIdIndex() const { return m_ZipCodeIdIndex; }
+    int CodeIndex() const { return  m_CodeIndex; }
+    int LastUpdateIndex() const { return  m_LastUpdateIndex; }
 
   private:
 
@@ -84,8 +120,11 @@ class ZipCodeModel : public DataModel
      * @brief tableName - the name of the database table
      * @
      */
-    const QString tableName = QLatin1String(Database::Table::ZIPCODE);
+    const QString m_tableName = QLatin1String("zip_code");
 
+    int m_ZipCodeIdIndex;
+    int m_CodeIndex;
+    int m_LastUpdateIndex;
 };
 
 #endif // ZIPCODE_H

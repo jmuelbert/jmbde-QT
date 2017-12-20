@@ -42,167 +42,127 @@
 
 #include "phonedatamodel.h"
 
-PhoneDataModel::PhoneDataModel(QObject* parent) : DataModel(parent) {}
+PhoneDataModel::PhoneDataModel(QObject* parent) : CommonDataModel(parent) {
+    // Set the Model
+    m_model = new QSqlRelationalTableModel(this);
+    m_model->setTable(this->m_tableName);
+    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+
+    setIndexes();
+}
 
 PhoneDataModel::~PhoneDataModel() {}
 
-QSqlRelationalTableModel* PhoneDataModel::initializeRelationalModel() {
-  // TODO: id als locale Konstante
+bool PhoneDataModel::createDataTable() {
 
-  QSqlRelationalTableModel* model = new QSqlRelationalTableModel(this);
-
-  model->setTable(this->tableName);
-  model->setEditStrategy(QSqlTableModel::OnFieldChange);
-
-  model->setHeaderData(POS_PHONE_ID, Qt::Horizontal, QObject::tr("ID"));
-  model->setHeaderData(POS_PHONE_DEVICENAME_ID, Qt::Horizontal,
-                       QObject::tr("Dev.Name"));
-  model->setHeaderData(POS_PHONE_SERIALNUMBER, Qt::Horizontal,
-                       QObject::tr("S/N"));
-  model->setHeaderData(POS_PHONE_NUMBER, Qt::Horizontal, QObject::tr("Number"));
-  model->setHeaderData(POS_PHONE_PIN, Qt::Horizontal, QObject::tr("PIN"));
-  model->setHeaderData(POS_PHONE_ACTIVE, Qt::Horizontal, QObject::tr("Active"));
-  model->setHeaderData(POS_PHONE_REPLACE, Qt::Horizontal,
-                       QObject::tr("Replace"));
-  model->setHeaderData(POS_PHONE_DEVICETYPE_ID, Qt::Horizontal,
-                       QObject::tr("Device Type"));
-  model->setHeaderData(POS_PHONE_EMPLOYEE_ID, Qt::Horizontal,
-                       QObject::tr("Employee"));
-  model->setHeaderData(POS_PHONE_PLACE_ID, Qt::Horizontal,
-                       QObject::tr("Place"));
-  model->setHeaderData(POS_PHONE_DEPARTMENT_ID, Qt::Horizontal,
-                       QObject::tr("Department"));
-  model->setHeaderData(POS_PHONE_MANUFACTURER_ID, Qt::Horizontal,
-                       QObject::tr("Manufacturer"));
-  model->setHeaderData(POS_PHONE_INVENTORY_ID, Qt::Horizontal,
-                       QObject::tr("Inventory"));
-  model->setHeaderData(POS_PHONE_LAST_UPDATE, Qt::Horizontal,
-                       QObject::tr("Last Update"));
-
-  model->select();
-
-  return model;
-}
-
-QSqlTableModel* PhoneDataModel::initializeTableModel() {
-  QSqlTableModel* model = new QSqlTableModel(this);
-
-  model->setTable(this->tableName);
-  model->setEditStrategy(QSqlTableModel::OnFieldChange);
-
-  model->setHeaderData(POS_PHONE_ID, Qt::Horizontal, QObject::tr("ID"));
-  model->setHeaderData(POS_PHONE_DEVICENAME_ID, Qt::Horizontal,
-                       QObject::tr("Dev.Name"));
-  model->setHeaderData(POS_PHONE_SERIALNUMBER, Qt::Horizontal,
-                       QObject::tr("S/N"));
-  model->setHeaderData(POS_PHONE_NUMBER, Qt::Horizontal, QObject::tr("Number"));
-  model->setHeaderData(POS_PHONE_PIN, Qt::Horizontal, QObject::tr("PIN"));
-  model->setHeaderData(POS_PHONE_ACTIVE, Qt::Horizontal, QObject::tr("Active"));
-  model->setHeaderData(POS_PHONE_REPLACE, Qt::Horizontal,
-                       QObject::tr("Replace"));
-  model->setHeaderData(POS_PHONE_DEVICETYPE_ID, Qt::Horizontal,
-                       QObject::tr("Device Type"));
-  model->setHeaderData(POS_PHONE_EMPLOYEE_ID, Qt::Horizontal,
-                       QObject::tr("Employee"));
-  model->setHeaderData(POS_PHONE_PLACE_ID, Qt::Horizontal,
-                       QObject::tr("Place"));
-  model->setHeaderData(POS_PHONE_DEPARTMENT_ID, Qt::Horizontal,
-                       QObject::tr("Department"));
-  model->setHeaderData(POS_PHONE_MANUFACTURER_ID, Qt::Horizontal,
-                       QObject::tr("Manufacturer"));
-  model->setHeaderData(POS_PHONE_INVENTORY_ID, Qt::Horizontal,
-                       QObject::tr("Inventory"));
-  model->setHeaderData(POS_PHONE_LAST_UPDATE, Qt::Horizontal,
-                       QObject::tr("Last Update"));
-
-  model->select();
-
-  return model;
-}
-
-void PhoneDataModel::addDataSet() {
-  QSqlQuery query;
-  QString sqlString = QLatin1String("insert into phone(pcnr, name) values( ");
-
-  sqlString.append(QLatin1String("'"));
-  sqlString.append(pcnr);
-  sqlString.append(QLatin1String("' , '"));
-  sqlString.append(name);
-  sqlString.append(QLatin1String("');"));
-  bool ret = query.exec(sqlString);
-
-  if (ret == false) {
-    qDebug() << sqlString.toLatin1();
-    qDebug() << db.lastError();
-  }
-  else {
-    db.commit();
-  }
-}
-
-QSqlQueryModel* PhoneDataModel::getQueryModel() {
-  QSqlQueryModel* model = new QSqlQueryModel();
-  QSqlQuery* qry = new QSqlQuery();
-  QString sqlString = QLatin1String("select phone_id, number from phone");
-
-  qry->prepare(sqlString);
-  qry->exec();
-
-  model->setQuery(*qry);
-
-  return model;
-}
-
-QString PhoneDataModel::generateTableString(QAbstractTableModel* model,
-                                            QString header) {
-  QString outString;
-  int columnCount = model->columnCount();
-  int rowCount = model->rowCount();
-
-  qDebug() << "Header : " << header << " Columns : " << columnCount
-           << " Rows : " << rowCount;
-
-  QList<int> set;
-  set.append(POS_PHONE_NUMBER);
-  set.append(POS_PHONE_DEVICENAME_ID);
-  set.append(POS_PHONE_DEVICETYPE_ID);
-  set.append(POS_PHONE_MANUFACTURER_ID);
-  set.append(POS_PHONE_EMPLOYEE_ID);
-  set.append(POS_PHONE_DEPARTMENT_ID);
-  set.append(POS_PHONE_PLACE_ID);
-
-  // Document Title
-  outString = QLatin1String("<h1>");
-  outString += header;
-  outString += QLatin1String("</h1>");
-  outString += QLatin1String("<hr />");
-  outString +=
-    QLatin1String("<table width=\"100%\" cellspacing=\"0\" class=\"tbl\">");
-  outString += QLatin1String("<thead> <tr>");
-
-  foreach (const int i, set) {
-    qDebug() << "int i = " << i;
-    outString += QLatin1String("<th>");
-    outString.append(model->headerData(i, Qt::Horizontal).toString());
-    outString += QLatin1String("</th>");
+    QSqlQuery query;
+    QString sqlString = "CREATE TABLE %1 (" \
+                        "phone_id INTEGER PRIMARY KEY, " \
+                        "device_name_id INTEGER, " \
+                        "serial_number VARCHAR, " \
+                        "number VARCHAR, " \
+                        "pin VARCHAR, " \
+                        "active BOOLEAN, " \
+                        "replace BOOLEAN, " \
+                        "device_type_id INTEGER, " \
+                        "employee_id INTEGER, " \
+                        "place_id INTEGER, " \
+                        "department_id INTEGER, " \
+                        "manufacturer_id INTEGER, " \
+                        "inventory_id INTEGER, " \
+                        "last_update TIMESTAMP);";
+    return query.exec(sqlString.arg(this->m_tableName));
   }
 
-  outString += QLatin1String("</tr> </thead>");
+  void PhoneDataModel::setIndexes() {
+    m_PhoneIdIndex = m_model->fieldIndex(QLatin1String("fax_id"));
+    m_DeviceNameIdIndex = m_model->fieldIndex(QLatin1String("device_name_id"));
+    m_SerialNumberIndex = m_model->fieldIndex(QLatin1String("serial_number"));
+    m_NumberIndex = m_model->fieldIndex(QLatin1String("number"));
+    m_PinIndex = m_model->fieldIndex(QLatin1String("pin"));
+    m_ActiveIndex = m_model->fieldIndex(QLatin1String("active"));
+    m_ReplaceIndex = m_model->fieldIndex(QLatin1String("replace"));
+    m_DeviceTypeIdIndex = m_model->fieldIndex(QLatin1String("device_type_id"));
+    m_EmployeeIdIndex = m_model->fieldIndex(QLatin1String("employe_id"));
+    m_PlaceIdIndex = m_model->fieldIndex(QLatin1String("place_id"));
+    m_DepartmentIdIndex = m_model->fieldIndex(QLatin1String("department_id"));
+    m_ManufacturerIdIndex = m_model->fieldIndex(QLatin1String("manufacturer_id"));
+    m_InventoryIdIndex = m_model->fieldIndex(QLatin1String("inventory_id"));
+    m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
+  }
 
-  for (int i = 1; i < rowCount; i++) {
-    outString += QLatin1String("<tr>");
-    foreach (const int j, set) {
-      outString += QLatin1String("<td>");
-      QModelIndex ind(model->index(i, j));
+  QSqlRelationalTableModel* PhoneDataModel::initializeRelationalModel() {
 
-      outString.append(ind.data(Qt::DisplayRole).toString());
-      outString += QLatin1String("</td>");
+    m_model = new QSqlRelationalTableModel(this);
+
+    m_model->setTable(this->m_tableName);
+    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+
+    m_model->select();
+
+    return m_model;
+  }
+
+  QSqlRelationalTableModel* PhoneDataModel::initializeInputDataModel() {
+
+    m_model = new QSqlRelationalTableModel(this, this->db);
+
+    m_model->setTable(this->m_tableName);
+
+    return m_model;
+  }
+
+  QSqlTableModel* PhoneDataModel::initializeViewModel() {
+
+    m_model->select();
+
+    return m_model;
+  }
+
+  QString PhoneDataModel::generateTableString(QAbstractTableModel* model, QString header) {
+    QString outString;
+    int columnCount = model->columnCount();
+    int rowCount = model->rowCount();
+
+    qDebug() << "Header : " << header << " Columns : " << columnCount
+             << " Rows : " << rowCount;
+
+    QList<int> set;
+
+    // Document Title
+    outString = QLatin1String("<h1>");
+    outString += header;
+    outString += QLatin1String("</h1>");
+    outString += QLatin1String("<hr />");
+    outString +=
+      QLatin1String("<table width=\"100%\" cellspacing=\"0\" class=\"tbl\">");
+    outString += QLatin1String("<thead> <tr>");
+
+    foreach (const int i, set) {
+      qDebug() << "int i = " << i;
+      outString += QLatin1String("<th>");
+      outString.append(model->headerData(i, Qt::Horizontal).toString());
+      outString += QLatin1String("</th>");
     }
 
-    outString += QLatin1String("</tr>");
+    return outString;
   }
 
-  // Close Table
-  outString += QLatin1String("</table>");
-  return outString;
-}
+  QString PhoneDataModel::generateFormularString(QAbstractTableModel* model, QString header) {
+    QString outString;
+    int columnCount = model->columnCount();
+    int rowCount = model->rowCount();
+
+    qDebug() << "Header : " << header << " Columns : " << columnCount
+             << " Rows : " << rowCount;
+
+    QList<int> set;
+
+    // Document Title
+    outString = QLatin1String("<h1>");
+    outString += header;
+    outString += QLatin1String("</h1>");
+    outString += QLatin1String("<hr />");
+
+    return outString;
+  }

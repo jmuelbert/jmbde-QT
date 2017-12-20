@@ -42,23 +42,111 @@
 
 #include "accountdatamodel.h"
 
-AccountDataModel::AccountDataModel(QObject* parent) : CommonDataModel(parent) {}
+AccountDataModel::AccountDataModel(QObject* parent) : CommonDataModel (parent)
+{
+    // Set the Model
+    m_model = new QSqlRelationalTableModel(this);
+    m_model->setTable(this->m_tableName);
+    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+
+    setIndexes();
+}
 
 AccountDataModel::~AccountDataModel() {}
 
-QSqlTableModel* AccountDataModel::initializeTableModel() {
-  QSqlTableModel* tableModel;
+bool AccountDataModel::createDataTable() {
 
-  tableModel = CommonDataModel::initializeTableModel(this->tableName);
+  QSqlQuery query;
+  QString sqlString = "CREATE TABLE %1 (" \
+                      "account_id INTEGER PRIMARY KEY, " \
+                      "user_name VARCHAR, " \
+                      "password VARCHAR, " \
+                      "system_data_id INTEGER, " \
+                      "last_update TIMESTAMP);";
 
-  return tableModel;
+  return query.exec(sqlString.arg(this->m_tableName));
+}
+
+void AccountDataModel::setIndexes() {
+  m_AccountIdIndex = m_model->fieldIndex(QLatin1String("account_id"));
+  m_UserNameIndex = m_model->fieldIndex(QLatin1String("user_name"));
+  m_PasswordIndex = m_model->fieldIndex(QLatin1String("password"));
+  m_SystemDataIdIndex = m_model->fieldIndex(QLatin1String("system_data_id"));
+  m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
 QSqlRelationalTableModel* AccountDataModel::initializeRelationalModel() {
-  QSqlRelationalTableModel* relationalTableModel;
 
-  relationalTableModel =
-    CommonDataModel::initializeRelationalModel(this->tableName);
+  m_model = new QSqlRelationalTableModel(this);
 
-  return relationalTableModel;
+  m_model->setTable(this->m_tableName);
+  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+
+  m_model->select();
+
+  return m_model;
+}
+
+QSqlRelationalTableModel* AccountDataModel::initializeInputDataModel() {
+
+  m_model = new QSqlRelationalTableModel(this, this->db);
+
+  m_model->setTable(this->m_tableName);
+
+  return m_model;
+}
+
+QSqlTableModel* AccountDataModel::initializeViewModel() {
+
+  m_model->select();
+
+  return m_model;
+}
+
+QString AccountDataModel::generateTableString(QAbstractTableModel* model, QString header) {
+  QString outString;
+  int columnCount = model->columnCount();
+  int rowCount = model->rowCount();
+
+  qDebug() << "Header : " << header << " Columns : " << columnCount
+           << " Rows : " << rowCount;
+
+  QList<int> set;
+
+  // Document Title
+  outString = QLatin1String("<h1>");
+  outString += header;
+  outString += QLatin1String("</h1>");
+  outString += QLatin1String("<hr />");
+  outString +=
+    QLatin1String("<table width=\"100%\" cellspacing=\"0\" class=\"tbl\">");
+  outString += QLatin1String("<thead> <tr>");
+
+  foreach (const int i, set) {
+    qDebug() << "int i = " << i;
+    outString += QLatin1String("<th>");
+    outString.append(model->headerData(i, Qt::Horizontal).toString());
+    outString += QLatin1String("</th>");
+  }
+
+  return outString;
+}
+
+QString AccountDataModel::generateFormularString(QAbstractTableModel* model, QString header) {
+  QString outString;
+  int columnCount = model->columnCount();
+  int rowCount = model->rowCount();
+
+  qDebug() << "Header : " << header << " Columns : " << columnCount
+           << " Rows : " << rowCount;
+
+  QList<int> set;
+
+  // Document Title
+  outString = QLatin1String("<h1>");
+  outString += header;
+  outString += QLatin1String("</h1>");
+  outString += QLatin1String("<hr />");
+
+  return outString;
 }

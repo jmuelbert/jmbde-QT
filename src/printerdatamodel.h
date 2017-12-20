@@ -53,10 +53,11 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
-#include "datamodel.h"
+#include "commondatamodel.h"
 #include "definitions.h"
+#include "idatamodel.h"
 
-class PrinterDataModel : public DataModel {
+class PrinterDataModel : public CommonDataModel, public IDataModel {
   public:
 
     /**
@@ -70,35 +71,36 @@ class PrinterDataModel : public DataModel {
      */
     ~PrinterDataModel();
 
-    /**
-     * @brief createDataTable
-     * @return
-     */
-    bool createDataTable();
+    // implement the virtuals
 
     /**
-     * @brief addDataSet
+     * @brief createDataTable
+     * @return bool - true if creation of the table successfull
      */
-    void addDataSet();
+    virtual bool createDataTable();
+
+    /**
+     * @brief setIndexes
+     */
+    virtual void setIndexes();
 
     /**
      * @brief initializeRelationalModel
      * @return
      */
-    QSqlRelationalTableModel* initializeRelationalModel();
+    virtual QSqlRelationalTableModel* initializeRelationalModel();
 
     /**
-     * @brief initializeTableModel
+     * @brief initializeInputDataModel
      * @return
      */
-    QSqlTableModel* initializeTableModel();
+    virtual QSqlRelationalTableModel* initializeInputDataModel();
 
     /**
-     * @brief getQueryModel
-     *
-     * @return QSqlQueryModel
+     * @brief initializeViewModel
+     * @return
      */
-    QSqlQueryModel* getQueryModel();
+    virtual QSqlTableModel* initializeViewModel();
 
     /**
      * @brief generateTableString
@@ -106,50 +108,63 @@ class PrinterDataModel : public DataModel {
      * @param header
      * @return
      */
-    QString generateTableString(QAbstractTableModel* model, QString header);
+    virtual QString generateTableString(QAbstractTableModel* model, QString header);
 
     /**
-     * @brief The PosCompTable enum
+     * @brief generateFormularString
+     * @param model
+     * @param header
+     * @return
      */
-    enum PosPrintTable {
-      POS_PRINTER_ID,
-      POS_PRINTER_DEVICENAME_ID,
-      POS_PRINTER_SERIALNUMBER,
-      POS_PRINTER_NETWORK,
-      POS_PRINTER_NETWORK_NAME,
-      POS_PRINTER_NETWORK_IPADDRESS,
-      POS_PRINTER_ACTIVE,
-      POS_PRINTER_REPLACE,
-      POS_PRINTER_RESOURCES,
-      POS_PRINTER_PAPERSIZE_MAX,
-      POS_PRINTER_DEVICETYPE_ID,
-      POS_PRINTER_EMPLOYEE_ID,
-      POS_PRINTER_PLACE_ID,
-      POS_PRINTER_DEPARTMENT_ID,
-      POS_PRINTER_MANUFACTURER_ID,
-      POS_PRINTER_INVENTORY_ID,
-      POS_PRINTER_COMPUTER_ID,
-      POS_PRINTER_LAST_UPDATE
-    };
+    virtual QString generateFormularString(QAbstractTableModel* model, QString header);
+
+    // Getter
+    int PrinterIdIndex() const { return m_PrinterIdIndex; }
+    int DeviceNameIdIndex() const { return   m_DeviceNameIdIndex; }
+    int SerialNumberIndex() const { return  m_SerialNumberIndex; }
+    int NetworkIndex() const { return  m_NetworkIndex; }
+    int NetworkNameIndex() const { return  m_NetworkNameIndex; }
+    int NetworkIpAddressIndex() const { return  m_NetworkIpAddressIndex; }
+    int ActiveIndex() const { return  m_ActiveIndex; }
+    int ReplaceIndex() const { return  m_ReplaceIndex; }
+    int ResourcesIndex() const { return  m_ResourcesIndex; }
+    int PaperSizeMaxIndex() const { return  m_PaperSizeMaxIndex; }
+    int ColorIndex() const { return  m_ColorIndex; }
+    int DeviceTypeIdIndex() const { return  m_DeviceTypeIdIndex; }
+    int EmployeeIdIndex() const { return  m_EmployeeIdIndex; }
+    int PlaceIdIndex() const { return  m_PlaceIdIndex; }
+    int DepartmentIdIndex() const { return  m_DepartmentIdIndex; }
+    int ManufacurerIdIndex() const { return  m_ManufacurerIdIndex; }
+    int InventoryIdIndex() const { return  m_InventoryIdIndex; }
+    int ComputerIdIndex() const { return  m_ComputerIdIndex; }
+    int LastUpdateIndex() const { return  m_LastUpdateIndex; }
 
   private:
-
-    /**
-     * @brief pcnr
-     */
-    QString* pcnr;
-
-    /**
-     * @brief name
-     */
-    QString* name;
-
     /**
      * @brief tableName - the name of the database table
      * @
      */
-    const QString tableName = QLatin1String(Database::Table::PRINTER);
+    const QString m_tableName = QLatin1String("printer");
 
+    int m_PrinterIdIndex;
+    int m_DeviceNameIdIndex;
+    int m_SerialNumberIndex;
+    int m_NetworkIndex;
+    int m_NetworkNameIndex;
+    int m_NetworkIpAddressIndex;
+    int m_ActiveIndex;
+    int m_ReplaceIndex;
+    int m_ResourcesIndex;
+    int m_PaperSizeMaxIndex;
+    int m_ColorIndex;
+    int m_DeviceTypeIdIndex;
+    int m_EmployeeIdIndex;
+    int m_PlaceIdIndex;
+    int m_DepartmentIdIndex;
+    int m_ManufacurerIdIndex;
+    int m_InventoryIdIndex;
+    int m_ComputerIdIndex;
+    int m_LastUpdateIndex;
 };
 
 #endif // PRINTERDATAMODEL_H

@@ -55,8 +55,9 @@
 
 #include "commondatamodel.h"
 #include "definitions.h"
+#include "idatamodel.h"
 
-class DepartmentDataModel : public CommonDataModel {
+class DepartmentDataModel : public CommonDataModel, public IDataModel {
   public:
 
     /**
@@ -69,31 +70,60 @@ class DepartmentDataModel : public CommonDataModel {
      */
     ~DepartmentDataModel();
 
+    // implement the virtuals
+
     /**
      * @brief createDataTable
-     * @return
+     * @return bool - true if creation of the table successfull
      */
-    bool createDataTable();
+    virtual bool createDataTable();
+
+    /**
+     * @brief setIndexes
+     */
+    virtual void setIndexes();
 
     /**
      * @brief initializeRelationalModel
      * @return
      */
-    QSqlRelationalTableModel* initializeRelationalModel();
+    virtual QSqlRelationalTableModel* initializeRelationalModel();
 
     /**
-     * @brief initializeTableModel
+     * @brief initializeInputDataModel
      * @return
      */
-    QSqlTableModel* initializeTableModel();
-    enum PosDeparmentTable {
-      POS_DEPARTMENT_ID,
-      POS_DEPARTMENT_NAME,
-      POS_DEPARTMENT_PRIORITY,
-      POS_DEPARTMENT_PRINTER_ID,
-      POS_DEPARTMENT_FAX_ID,
-      POS_DEPARTMENT_LASTUPDATE
-    };
+    virtual QSqlRelationalTableModel* initializeInputDataModel();
+
+    /**
+     * @brief initializeViewModel
+     * @return
+     */
+    virtual QSqlTableModel* initializeViewModel();
+
+    /**
+     * @brief generateTableString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateTableString(QAbstractTableModel* model, QString header);
+
+    /**
+     * @brief generateFormularString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateFormularString(QAbstractTableModel* model, QString header);
+
+    // Getter
+    int DepartmentIdIndex() const { return  m_DepartmentIdIndex; }
+    int NameIndex() const { return  m_NameIndex; }
+    int PriorityIndex() const { return  m_PriorityIndex; }
+    int PrinterIdIndex() const { return  m_PrinterIdIndex; }
+    int FaxIdIndex() const { return  m_FaxIdIndex; }
+    int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
   private:
 
@@ -101,7 +131,13 @@ class DepartmentDataModel : public CommonDataModel {
      * @brief tableName - the name of the database table
      * @
      */
-    const QString tableName = QLatin1String(Database::Table::DEPARTMENT);
+    const QString m_tableName = QLatin1String("department");
+    int m_DepartmentIdIndex;
+    int m_NameIndex;
+    int m_PriorityIndex;
+    int m_PrinterIdIndex;
+    int m_FaxIdIndex;
+    int m_LastUpdateIndex;
 
 };
 

@@ -55,8 +55,9 @@
 
 #include "commondatamodel.h"
 #include "definitions.h"
+#include "idatamodel.h"
 
-class PlaceDataModel : public CommonDataModel {
+class PlaceDataModel : public CommonDataModel, public IDataModel {
   public:
 
     /**
@@ -69,38 +70,74 @@ class PlaceDataModel : public CommonDataModel {
      */
     ~PlaceDataModel();
 
+    // implement the virtuals
+
     /**
      * @brief createDataTable
-     * @return
+     * @return bool - true if creation of the table successfull
      */
-    bool createDataTable();
+    virtual bool createDataTable();
+
+    /**
+     * @brief setIndexes
+     */
+    virtual void setIndexes();
 
     /**
      * @brief initializeRelationalModel
      * @return
      */
-    QSqlRelationalTableModel* initializeRelationalModel();
+    virtual QSqlRelationalTableModel* initializeRelationalModel();
 
     /**
-     * @brief initializeTableModel
+     * @brief initializeInputDataModel
      * @return
      */
-    QSqlTableModel* initializeTableModel();
+    virtual QSqlRelationalTableModel* initializeInputDataModel();
 
     /**
-     * @brief getQueryModel
-     *
-     * @return QSqlQueryModel
+     * @brief initializeViewModel
+     * @return
      */
-    QSqlQueryModel* getQueryModel();
+    virtual QSqlTableModel* initializeViewModel();
 
-  private:
+    /**
+     * @brief generateTableString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateTableString(QAbstractTableModel* model, QString header);
+
+    /**
+     * @brief generateFormularString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateFormularString(QAbstractTableModel* model, QString header);
+
+    // Getter
+    int PlaceIdIndex() const { return m_PlaceIdIndex; }
+    int NameIndex() const { return  m_NameIndex; }
+    int RoomIndex() const { return  m_RoomIndex; }
+    int DeskIndex() const { return  m_DeskIndex; }
+    int LastUpdateIndex() const { return  m_LastUpdateIndex; }
+
+
+private:
 
     /**
      * @brief tableName - the name of the database table
      * @
      */
-    const QString tableName = QLatin1String(Database::Table::PLACE);
+    const QString m_tableName = QLatin1String("place");
+
+    int m_PlaceIdIndex;
+    int m_NameIndex;
+    int m_RoomIndex;
+    int m_DeskIndex;
+    int m_LastUpdateIndex;
 
 };
 

@@ -42,43 +42,113 @@
 
 #include "placedatamodel.h"
 
-PlaceDataModel::PlaceDataModel(QObject* parent) : CommonDataModel(parent) {}
+PlaceDataModel::PlaceDataModel(QObject* parent) : CommonDataModel(parent) {
+
+    // Set the Model
+    m_model = new QSqlRelationalTableModel(this);
+    m_model->setTable(this->m_tableName);
+    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+
+    setIndexes();
+
+}
 
 PlaceDataModel::~PlaceDataModel() {}
 
+
 bool PlaceDataModel::createDataTable() {
-  bool ret;
 
-  ret = CommonDataModel::createDataTable(this->tableName);
+  QSqlQuery query;
+  QString sqlString = "CREATE TABLE %1 (" \
+                      "place_id INTEGER PRIMARY KEY, " \
+                      "name VARCHAR, " \
+                      "room VARCHAR, " \
+                      "desk VARCHAR, " \
+                      "last_update TIMESTAMP);";
 
-  return ret;
+  return query.exec(sqlString.arg(this->m_tableName));
 }
 
-QSqlTableModel* PlaceDataModel::initializeTableModel() {
-  QSqlTableModel* tableModel;
-
-  tableModel = CommonDataModel::initializeTableModel(this->tableName);
-
-  return tableModel;
+void PlaceDataModel::setIndexes() {
+  m_PlaceIdIndex = m_model->fieldIndex(QLatin1String("place_id"));
+  m_NameIndex = m_model->fieldIndex(QLatin1String("name"));
+  m_RoomIndex = m_model->fieldIndex(QLatin1String("room"));
+  m_DeskIndex = m_model->fieldIndex(QLatin1String("desk"));
+  m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
 QSqlRelationalTableModel* PlaceDataModel::initializeRelationalModel() {
-  QSqlRelationalTableModel* tableModel;
 
-  tableModel = CommonDataModel::initializeRelationalModel(this->tableName);
+  m_model = new QSqlRelationalTableModel(this);
 
-  return tableModel;
+  m_model->setTable(this->m_tableName);
+  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+
+  m_model->select();
+
+  return m_model;
 }
 
-QSqlQueryModel* PlaceDataModel::getQueryModel() {
-  QSqlQueryModel* model = new QSqlQueryModel();
-  QSqlQuery* qry = new QSqlQuery();
-  QString sqlString = QLatin1String("select name from place");
+QSqlRelationalTableModel* PlaceDataModel::initializeInputDataModel() {
 
-  qry->prepare(sqlString);
-  qry->exec();
+  m_model = new QSqlRelationalTableModel(this, this->db);
 
-  model->setQuery(*qry);
+  m_model->setTable(this->m_tableName);
 
-  return model;
+  return m_model;
+}
+
+QSqlTableModel* PlaceDataModel::initializeViewModel() {
+
+  m_model->select();
+
+  return m_model;
+}
+
+QString PlaceDataModel::generateTableString(QAbstractTableModel* model, QString header) {
+  QString outString;
+  int columnCount = model->columnCount();
+  int rowCount = model->rowCount();
+
+  qDebug() << "Header : " << header << " Columns : " << columnCount
+           << " Rows : " << rowCount;
+
+  QList<int> set;
+
+  // Document Title
+  outString = QLatin1String("<h1>");
+  outString += header;
+  outString += QLatin1String("</h1>");
+  outString += QLatin1String("<hr />");
+  outString +=
+    QLatin1String("<table width=\"100%\" cellspacing=\"0\" class=\"tbl\">");
+  outString += QLatin1String("<thead> <tr>");
+
+  foreach (const int i, set) {
+    qDebug() << "int i = " << i;
+    outString += QLatin1String("<th>");
+    outString.append(model->headerData(i, Qt::Horizontal).toString());
+    outString += QLatin1String("</th>");
+  }
+
+  return outString;
+}
+
+QString PlaceDataModel::generateFormularString(QAbstractTableModel* model, QString header) {
+  QString outString;
+  int columnCount = model->columnCount();
+  int rowCount = model->rowCount();
+
+  qDebug() << "Header : " << header << " Columns : " << columnCount
+           << " Rows : " << rowCount;
+
+  QList<int> set;
+
+  // Document Title
+  outString = QLatin1String("<h1>");
+  outString += header;
+  outString += QLatin1String("</h1>");
+  outString += QLatin1String("<hr />");
+
+  return outString;
 }

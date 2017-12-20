@@ -45,10 +45,10 @@
 
 #include <QDebug>
 
-#include <QtSql>
 #include <QDataWidgetMapper>
 #include <QScrollArea>
 #include <QSqlRelationalDelegate>
+#include <QtSql>
 
 #include <QMessageBox>
 

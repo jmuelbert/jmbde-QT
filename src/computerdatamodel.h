@@ -83,8 +83,9 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
-#include "datamodel.h"
+#include "commondatamodel.h"
 #include "definitions.h"
+#include "idatamodel.h"
 
 /**
  * @brief The ComputerDataModel class
@@ -94,7 +95,7 @@
  * @date 09.02.2014
  * @copyright EUPL V1.1
  */
-class ComputerDataModel : public DataModel {
+class ComputerDataModel : public CommonDataModel, public IDataModel {
   public:
 
     /**
@@ -108,87 +109,105 @@ class ComputerDataModel : public DataModel {
      */
     ~ComputerDataModel();
 
+    // implement the virtuals
+
     /**
-     * @brief addDataSet
-     * @deprecated Not really need now :-(
+     * @brief createDataTable
+     * @return bool - true if creation of the table successfull
      */
-    void addDataSet();
+    virtual bool createDataTable();
+
+    /**
+     * @brief setIndexes
+     */
+    virtual void setIndexes();
 
     /**
      * @brief initializeRelationalModel
-     * @param tableName
-     * @return RelationalTableModel
+     * @return
      */
-    QSqlRelationalTableModel* initializeRelationalModel();
+    virtual QSqlRelationalTableModel* initializeRelationalModel();
 
     /**
-     * @brief initializeTableModel
-     * @param tableName
-     * @return TableModel
+     * @brief initializeInputDataModel
+     * @return
      */
-    QSqlTableModel* initializeTableModel();
+    virtual QSqlRelationalTableModel* initializeInputDataModel();
 
     /**
-     * @brief getQueryModel
-     *
-     * @return QSqlQueryModel
+     * @brief initializeViewModel
+     * @return
      */
-    QSqlQueryModel* getQueryModel();
+    virtual QSqlTableModel* initializeViewModel();
 
     /**
      * @brief generateTableString
      * @param model
      * @param header
-     * @return QString - the generated String
+     * @return
      */
-    QString generateTableString(QAbstractTableModel* model, QString header);
+    virtual QString generateTableString(QAbstractTableModel* model, QString header);
 
     /**
-     * @brief The PosCompTable enum
+     * @brief generateFormularString
+     * @param model
+     * @param header
+     * @return
      */
-    enum PosCompTable {
-      POS_COMPUTER_ID,
-      POS_COMPUTER_DEVICENAME_ID,
-      POS_COMPUTER_SERIALNUMBER,
-      POS_COMPUTER_SERVICE_TAG,
-      POS_COMPUTER_SERVICE_NUMBER,
-      POS_COMPUTER_MEMORY,
-      POS_COMPUTER_NETWORK,
-      POS_COMPUTER_NETWORK_NAME,
-      POS_COMPUTER_NETWORK_IPADDRESS,
-      POS_COMPUTER_ACTIVE,
-      POS_COMPUTER_REPLACE,
-      POS_COMPUTER_DEVICETYPE_ID,
-      POS_COMPUTER_EMPLOYEE_ID,
-      POS_COMPUTER_PLACE_ID,
-      POS_COMPUTER_DEPARTMENT_ID,
-      POS_COMPUTER_MANUFACTURER_ID,
-      POS_COMPUTER_INVENTORY_ID,
-      POS_COMPUTER_PROCESSOR_ID,
-      POS_COMPUTER_OS_ID,
-      POS_COMPUTER_COMPUTERSOFTWARE_ID,
-      POS_COMPUTER_PRINTER_ID,
-      POS_COMPUTER_LAST_UPDATE
-    };
+    virtual QString generateFormularString(QAbstractTableModel* model, QString header);
 
+    // Getter
+    int ComputerIdIndex() const { return m_ComputerIdIndex; }
+    int DeviceNameIndex() const { return m_DepartmentIdIndex; }
+    int SerialNumberIndex() const { return  m_SerialNumberIndex; }
+    int ServiceTagIndex() const { return m_ServiceTagIndex; }
+    int ServiceNumberIndex() const { return  m_ServiceNumberIndex; }
+    int MemoryIndex() const { return  m_MemoryIndex; }
+    int NetworkIndex() const { return  m_NetworkIndex; }
+    int NetworkNameIndex() const {  return m_NetworkNameIndex; }
+    int NetworkIpAddressIndex() const { return  m_NetworkIpAddressIndex; }
+    int ActiveIndex() const { return  m_ActiveIndex; }
+    int ReplaceIndex() const { return  m_ReplaceIndex; }
+    int DeviceTypeIdIndex() const { return  m_DeviceTypeIdIndex; }
+    int EmployeeIdIndex() const { return  m_EmployeeIdIndex; }
+    int PlaceIdIndex() const { return  m_PlaceIdIndex; }
+    int DepartmentIdIndex() const { return  m_DepartmentIdIndex; }
+    int ManufacturerIdIndex() const { return m_ManufacturerIdIndex; }
+    int InventoryIdIndex() const { return  m_InventoryIdIndex; }
+    int ProcessorIdIndex() const { return  m_ProcessorIdIndex; }
+    int OSIdIndex() const { return  m_OSIdIndex; }
+    int ComputerSoftwareIdIndex() const { return  m_ComputerSoftwareIdIndex; }
+    int PrinterIdIndex() const { return  m_PrinterIdIndex; }
+    int LastUpdateIndex() const { return  m_LastUpdateIndex; }
   private:
-
-    /**
-     * @brief pcnr
-     */
-    QString* pcnr;
-
-    /**
-     * @brief name
-     */
-    QString* name;
 
     /**
      * @brief tableName - the name of the database table
      * @
      */
-    const QString tableName = QLatin1String(Database::Table::COMPUTER);
-
+    const QString m_tableName = QLatin1String("computer");
+    int m_ComputerIdIndex;
+    int m_DeviceNameIdIndex;
+    int m_SerialNumberIndex;
+    int m_ServiceTagIndex;
+    int m_ServiceNumberIndex;
+    int m_MemoryIndex;
+    int m_NetworkIndex;
+    int m_NetworkNameIndex;
+    int m_NetworkIpAddressIndex;
+    int m_ActiveIndex;
+    int m_ReplaceIndex;
+    int m_DeviceTypeIdIndex;
+    int m_EmployeeIdIndex;
+    int m_PlaceIdIndex;
+    int m_DepartmentIdIndex;
+    int m_ManufacturerIdIndex;
+    int m_InventoryIdIndex;
+    int m_ProcessorIdIndex;
+    int m_OSIdIndex;
+    int m_ComputerSoftwareIdIndex;
+    int m_PrinterIdIndex;
+    int m_LastUpdateIndex;
 };
 
 #endif // COMPUTERDATAMODEL_H

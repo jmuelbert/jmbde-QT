@@ -54,8 +54,9 @@
 
 #include "commondatamodel.h"
 #include "definitions.h"
+#include "idatamodel.h"
 
-class FunctionDataModel : public CommonDataModel {
+class FunctionDataModel : public CommonDataModel, public IDataModel {
   public:
 
     /**
@@ -69,29 +70,58 @@ class FunctionDataModel : public CommonDataModel {
      */
     ~FunctionDataModel();
 
+    // implement the virtuals
+
     /**
      * @brief createDataTable
-     * @return
+     * @return bool - true if creation of the table successfull
      */
-    bool createDataTable();
+    virtual bool createDataTable();
+
+    /**
+     * @brief setIndexes
+     */
+    virtual void setIndexes();
 
     /**
      * @brief initializeRelationalModel
      * @return
      */
-    QSqlRelationalTableModel* initializeRelationalModel();
+    virtual QSqlRelationalTableModel* initializeRelationalModel();
 
     /**
-     * @brief initializeTableModel
+     * @brief initializeInputDataModel
      * @return
      */
-    QSqlTableModel* initializeTableModel();
-    enum PosFunctionTable {
-      POS_FUNCTION_ID,
-      POS_FUNCTION_NAME,
-      POS_FUNCTION_PROIRITY,
-      POS_FUNCTION_LASTUPDATE
-    };
+    virtual QSqlRelationalTableModel* initializeInputDataModel();
+
+    /**
+     * @brief initializeViewModel
+     * @return
+     */
+    virtual QSqlTableModel* initializeViewModel();
+
+    /**
+     * @brief generateTableString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateTableString(QAbstractTableModel* model, QString header);
+
+    /**
+     * @brief generateFormularString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateFormularString(QAbstractTableModel* model, QString header);
+
+    // Getter
+    int FunctionIdIndex() const { return m_FunctionIdIndex; }
+    int NameIndex() const { return  m_NameIndex; }
+    int PriorityIndex() const { return  m_PriorityIndex; }
+    int LastUpdateIndex() const { return  m_LastUpdateIndex; }
 
   private:
 
@@ -99,7 +129,12 @@ class FunctionDataModel : public CommonDataModel {
      * @brief tableName - the name of the database table
      * @
      */
-    const QString tableName = QLatin1String(Database::Table::FUNCTION);
+    const QString m_tableName = QLatin1String("function");
+
+    int m_FunctionIdIndex;
+    int m_NameIndex;
+    int m_PriorityIndex;
+    int m_LastUpdateIndex;
 
 };
 

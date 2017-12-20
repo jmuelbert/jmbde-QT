@@ -55,8 +55,9 @@
 
 #include "commondatamodel.h"
 #include "definitions.h"
+#include "idatamodel.h"
 
-class DeviceTypeDataModel : public CommonDataModel {
+class DeviceTypeDataModel : public CommonDataModel, public IDataModel {
   public:
 
     /**
@@ -69,31 +70,67 @@ class DeviceTypeDataModel : public CommonDataModel {
      */
     ~DeviceTypeDataModel();
 
+    // implement the virtuals
+
     /**
      * @brief createDataTable
-     * @return
+     * @return bool - true if creation of the table successfull
      */
-    bool createDataTable();
+    virtual bool createDataTable();
+
+    /**
+     * @brief setIndexes
+     */
+    virtual void setIndexes();
 
     /**
      * @brief initializeRelationalModel
      * @return
      */
-    QSqlRelationalTableModel* initializeRelationalModel();
+    virtual QSqlRelationalTableModel* initializeRelationalModel();
 
     /**
-     * @brief initializeTableModel
+     * @brief initializeInputDataModel
      * @return
      */
-    QSqlTableModel* initializeTableModel();
+    virtual QSqlRelationalTableModel* initializeInputDataModel();
 
-  private:
+    /**
+     * @brief initializeViewModel
+     * @return
+     */
+    virtual QSqlTableModel* initializeViewModel();
+
+    /**
+     * @brief generateTableString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateTableString(QAbstractTableModel* model, QString header);
+
+    /**
+     * @brief generateFormularString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateFormularString(QAbstractTableModel* model, QString header);
+
+    int DeviceTypeIdIndex() const { return m_DeviceTypeIdIndex; }
+    int NameIndex() const { return  m_NameIndex; }
+    int LastUpdateIndex() const { return  m_LastUpdateIndex; }
+
+private:
 
     /**
      * @brief tableName - the name of the database table
      * @
      */
-    const QString tableName = QLatin1String(Database::Table::DEVICETYPE);
+    const QString m_tableName = QLatin1String("device_type");
+    int m_DeviceTypeIdIndex;
+    int m_NameIndex;
+    int m_LastUpdateIndex;
 
 };
 

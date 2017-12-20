@@ -9,7 +9,7 @@
 
 #define MyAppName "jmbde"
 #define MyAppVersion GetFileVersion("..\..\..\..\build-jmbde-Desktop_Qt_5_9_3_MSVC2017_64bit-Release\bin\jmbde.exe")
-#define MyAppPublisher "J�rgen M�lbert"
+#define MyAppPublisher "Jürgen Mülbert"
 #define MyAppUrl "http://jmuelbert.github.io/jmbde-QT/"
 #define MyAppExeName "jmbde.exe"
 
@@ -235,5 +235,5 @@ Source: "..\..\..\EUPL-1.2_en.txt"; DestDir: "{app}"; Flags: solidbreak
 Source: "..\..\..\README.md"; DestDir: "{app}"; Flags: isreadme
 
 [Icons]
-Name: "{group}\Juergen Muelbert"; Filename: "{app}\jmbde.exe"
+Name: "{group}\jmbde"; Filename: "{app}\jmbde.exe"
 

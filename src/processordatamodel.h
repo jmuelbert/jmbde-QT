@@ -45,34 +45,71 @@
 
 #include <QObject>
 
-#include "datamodel.h"
+#include "commondatamodel.h"
 #include "definitions.h"
+#include "idatamodel.h"
 
-class ProcessorDataModel : public DataModel
+class ProcessorDataModel : public CommonDataModel, public IDataModel
 {
   public:
     ProcessorDataModel(QObject* parent = 0);
 
     ~ProcessorDataModel();
 
+    // implement the virtuals
+
+    /**
+     * @brief createDataTable
+     * @return bool - true if creation of the table successfull
+     */
+    virtual bool createDataTable();
+
+    /**
+     * @brief setIndexes
+     */
+    virtual void setIndexes();
+
     /**
      * @brief initializeRelationalModel
      * @return
      */
-    QSqlRelationalTableModel* initializeRelationalModel();
+    virtual QSqlRelationalTableModel* initializeRelationalModel();
 
     /**
-     * @brief initializeTableModel
+     * @brief initializeInputDataModel
      * @return
      */
-    QSqlTableModel* initializeTableModel();
-    enum PosProcessorTable {
-      POS_PROCESSOR_ID,
-      POS_PROCESSOR_NAME,
-      POS_PROCESSOR_CLOCK_RATE,
-      POS_PROCESSOR_CORES,
-      POS_PROCESSOR_LASTUPDATE
-    };
+    virtual QSqlRelationalTableModel* initializeInputDataModel();
+
+    /**
+     * @brief initializeViewModel
+     * @return
+     */
+    virtual QSqlTableModel* initializeViewModel();
+
+    /**
+     * @brief generateTableString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateTableString(QAbstractTableModel* model, QString header);
+
+    /**
+     * @brief generateFormularString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateFormularString(QAbstractTableModel* model, QString header);
+
+    // Getter
+
+    int ProcessorIdIndex() const { return m_ProcessorIdIndex; }
+    int NameIndex() const { return m_NameIndex; }
+    int ClockRateIndex() const { return m_ClockRateIndex; }
+    int CoresIndex() const { return m_CoresIndex; }
+    int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
   private:
 
@@ -80,7 +117,14 @@ class ProcessorDataModel : public DataModel
      * @brief tableName - the name of the database table
      * @
      */
-    const QString tableName = QLatin1String(Database::Table::PROCESSOR);
+    const QString m_tableName = QLatin1String("processor");
+
+    int m_ProcessorIdIndex;
+    int m_NameIndex;
+    int m_ClockRateIndex;
+    int m_CoresIndex;
+    int m_LastUpdateIndex;
+
 
 };
 

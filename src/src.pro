@@ -37,7 +37,6 @@ SOURCES += \
     softwaredatamodel.cpp \
     zipcitymodel.cpp \
     zipcodemodel.cpp \
-    citynamemodel.cpp \
     phoneinputarea.cpp \
     mobileinputarea.cpp \
     functioninputarea.cpp \
@@ -49,7 +48,18 @@ SOURCES += \
     osinputarea.cpp \
     softwareinputarea.cpp \
     manufacturerinputarea.cpp \
-    cityinputarea.cpp
+    cityinputarea.cpp \
+    citynamedatamodel.cpp \
+    companydatamodel.cpp \
+    devicenamedatamodel.cpp \
+    employeeaccountdatamodel.cpp \
+    employeedocumentdatamodel.cpp \
+    documentsdatamodel.cpp \
+    computersoftwaredatamodel.cpp \
+    chipcarddatamodel.cpp \
+    chipcarddoorsdatamodel.cpp \
+    chipcardprofiledatamodel.cpp \
+    chipcardprofiledoordatamodel.cpp
 
  HEADERS  += \
         definitions.h \
@@ -80,7 +90,6 @@ SOURCES += \
     softwaredatamodel.h \
     zipcitymodel.h \
     zipcodemodel.h \
-    citynamemodel.h \
     phoneinputarea.h \
     mobileinputarea.h \
     functioninputarea.h \
@@ -92,7 +101,19 @@ SOURCES += \
     osinputarea.h \
     softwareinputarea.h \
     manufacturerinputarea.h \
-    cityinputarea.h
+    cityinputarea.h \
+    citynamedatamodel.h \
+    idatamodel.h \
+    companydatamodel.h \
+    devicenamedatamodel.h \
+    employeeaccountdatamodel.h \
+    employeedocumentdatamodel.h \
+    documentsdatamodel.h \
+    computersoftwaredatamodel.h \
+    chipcarddatamodel.h \
+    chipcarddoorsdatamodel.h \
+    chipcardprofiledatamodel.h \
+    chipcardprofiledoordatamodel.h
 
 FORMS    += \
         mainwindow.ui \
@@ -114,3 +135,5 @@ FORMS    += \
 
 RESOURCES += \
         jmbde.qrc
+
+DISTFILES +=

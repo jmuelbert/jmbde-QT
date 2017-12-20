@@ -135,10 +135,3 @@ message($$APP_NAME: lrelease executable name: \"$$LRELEASE_EXECUTABLE\".)
 OTHER_FILES += Doxyfile
 
 QMAKE_EXTRA_TARGETS += deployqt bindist bindist_installer installer
-
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../$$APP_NAME-QT-lib/$$APP_NAMEdata/build-library/release/ -l$$APP_NAMEdata.0.1.1
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../$$APP_NAME-QT-lib/$$APP_NAMEdata/build-library/debug/ -l$$APP_NAMEdata.0.1.1
-else:unix: LIBS += -L$$PWD/../$$APP_NAME-QT-lib/$$APP_NAMEdata/build-library/ -l$$APP_NAMEdata.0.1.1
-
-INCLUDEPATH += $$PWD/../$$APP_NAME-QT-lib/$$APP_NAMEdata
-DEPENDPATH += $$PWD/../$$APP_NAME-QT-lib/√data

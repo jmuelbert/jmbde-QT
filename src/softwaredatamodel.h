@@ -51,35 +51,71 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
-#include "datamodel.h"
+#include "commondatamodel.h"
 #include "definitions.h"
+#include "idatamodel.h"
 
-class SoftwareDataModel : public DataModel
+class SoftwareDataModel : public CommonDataModel, public IDataModel
 {
   public:
     SoftwareDataModel(QObject* parent = 0);
 
     virtual ~SoftwareDataModel();
 
+    // implement the virtuals
+
+    /**
+     * @brief createDataTable
+     * @return bool - true if creation of the table successfull
+     */
+    virtual bool createDataTable();
+
+    /**
+     * @brief setIndexes
+     */
+    virtual void setIndexes();
+
     /**
      * @brief initializeRelationalModel
      * @return
      */
-    QSqlRelationalTableModel* initializeRelationalModel();
+    virtual QSqlRelationalTableModel* initializeRelationalModel();
 
     /**
-     * @brief initializeTableModel
+     * @brief initializeInputDataModel
      * @return
      */
-    QSqlTableModel* initializeTableModel();
-    enum PosSoftwareTable {
-      POS_SOFTWARE_ID,
-      POS_SOFTWARE_NAME,
-      POS_SOFTWARE_VERSION,
-      POS_SOFTWARE_REVISION,
-      POS_SOFTWATE_FIX,
-      POS_SOFTWARE_LASTUPDATE
-    };
+    virtual QSqlRelationalTableModel* initializeInputDataModel();
+
+    /**
+     * @brief initializeViewModel
+     * @return
+     */
+    virtual QSqlTableModel* initializeViewModel();
+
+    /**
+     * @brief generateTableString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateTableString(QAbstractTableModel* model, QString header);
+
+    /**
+     * @brief generateFormularString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateFormularString(QAbstractTableModel* model, QString header);
+
+    // Getter
+    int SoftwareIdIndex() const { return  m_SoftwareIdIndex; }
+    int NameIndex() const { return  m_NameIndex; }
+    int VersionIndex() const { return  m_VersionIndex; }
+    int RevisionIndex() const { return  m_RevisionIndex; }
+    int FixIndex() const { return  m_FixIndex; }
+    int LastUpdateIndex() const { return  m_LastUpdateIndex; }
 
   private:
 
@@ -87,7 +123,14 @@ class SoftwareDataModel : public DataModel
      * @brief tableName - the name of the database table
      * @
      */
-    const QString tableName = QLatin1String(Database::Table::SOFTWARE);
+    const QString m_tableName = QLatin1String("software");
+
+    int m_SoftwareIdIndex;
+    int m_NameIndex;
+    int m_VersionIndex;
+    int m_RevisionIndex;
+    int m_FixIndex;
+    int m_LastUpdateIndex;
 
 };
 

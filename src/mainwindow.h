@@ -64,7 +64,7 @@
 #include <QtHelp>
 
 #include "accountdatamodel.h"
-#include "citynamemodel.h"
+#include "citynamedatamodel.h"
 #include "commondatamodel.h"
 #include "computerdatamodel.h"
 #include "datamodel.h"

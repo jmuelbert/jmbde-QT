@@ -98,6 +98,7 @@ MainWindow::MainWindow(QWidget* parent)
 
   dm = new DataModel();
   bool retValue = dm->CreateConnection();
+
   if (retValue == true) {
     QSize availableSize = qApp->desktop()->availableGeometry().size();
     int width = availableSize.width();
@@ -107,20 +108,22 @@ MainWindow::MainWindow(QWidget* parent)
 
   }
 
-    qDebug() << "ActualViewRow : " << m_actualView ;
-    if (m_actualView.row() > 0) {
-        ui->treeView->setCurrentIndex(m_actualView);
-        onClickedTreeView(m_actualView);
-    } else {
-        qDebug() << "Select Employee";
-        actualView = VIEW_EMPLOYEE;
-        EmployeeDataModel* edm = new EmployeeDataModel;
+  qDebug() << "ActualViewRow : " << m_actualView;
+  if (m_actualView.row() > 0) {
+    ui->treeView->setCurrentIndex(m_actualView);
+    onClickedTreeView(m_actualView);
+  }
+  else {
+    qDebug() << "Select Employee";
+    actualView = VIEW_EMPLOYEE;
+    EmployeeDataModel* edm = new EmployeeDataModel;
 
-        tableModel = edm->initializeTableModel();
-        int idx = edm->LastNameIndex();
-        ui->listView->setModel(tableModel);
-        ui->listView->setModelColumn(idx);
-    }
+    tableModel = edm->initializeTableModel();
+    int idx = edm->LastNameIndex();
+
+    ui->listView->setModel(tableModel);
+    ui->listView->setModelColumn(idx);
+  }
 
 //   qDebug() << "ActualData Row : " << m_actualData;
 //    if (m_actualData.row() > 0) {
@@ -149,7 +152,7 @@ MainWindow::~MainWindow() {
 
 void MainWindow::resizeEvent(QResizeEvent* event)
 {
-    Q_UNUSED(event);
+  Q_UNUSED(event);
 
   int width = ui->centralWidget->width() - 20;
   int height = ui->centralWidget->height() - 20;
@@ -160,13 +163,13 @@ void MainWindow::resizeEvent(QResizeEvent* event)
 }
 
 void MainWindow::focusChanged(QWidget*, QWidget* now) {
-    Q_UNUSED(now);
+  Q_UNUSED(now);
 
   qDebug() << "Help :-)";
 }
 
 void MainWindow::closeEvent(QCloseEvent* event) {
-    Q_UNUSED(event);
+  Q_UNUSED(event);
 
   writeSettings();
 }
@@ -209,9 +212,9 @@ void MainWindow::writeSettings() {
   settings.setValue(QLatin1String(Settings::MainWindow::POS), pos());
   settings.setValue(QLatin1String(Settings::MainWindow::SPLITTER), ui->splitter->saveState());
   qDebug() << "Settings:ActualViewRow : " << m_actualView;
-  settings.setValue(QLatin1String(Settings::MainWindow::LAST_VIEW),m_actualView);
+  settings.setValue(QLatin1String(Settings::MainWindow::LAST_VIEW), m_actualView);
   qDebug() << "Settings:ActualDataRow : " << m_actualData;
-  settings.setValue(QLatin1String(Settings::MainWindow::LAST_DATA),m_actualData);
+  settings.setValue(QLatin1String(Settings::MainWindow::LAST_DATA), m_actualData);
   settings.endGroup();
 
   // Database settings
@@ -237,8 +240,7 @@ void MainWindow::readSettings() {
     .toPoint());
   ui->splitter->restoreState(settings.value(QLatin1String(Settings::MainWindow::SPLITTER)).toByteArray());
   m_actualView = settings.value(QLatin1String(Settings::MainWindow::LAST_VIEW)).toModelIndex();
-  m_actualView =settings.value(QLatin1String(Settings::MainWindow::LAST_DATA)).toModelIndex();
-
+  m_actualView = settings.value(QLatin1String(Settings::MainWindow::LAST_DATA)).toModelIndex();
 
   settings.endGroup();
 
@@ -309,7 +311,7 @@ void MainWindow::on_actionPrint_triggered() {
     case VIEW_EMPLOYEE: {
       qDebug() << "Print Employee !";
       tableModel->database().commit();
-      EmployeeDataModel *edm = new EmployeeDataModel;
+      EmployeeDataModel* edm = new EmployeeDataModel;
       QString style = edm->setOutTableStyle();
       QString text = edm->generateTableString(tableModel, tr("Employee"));
 
@@ -319,7 +321,7 @@ void MainWindow::on_actionPrint_triggered() {
     case VIEW_COMPUTER: {
       qDebug() << "Print Computer !";
       tableModel->database().commit();
-      ComputerDataModel *cdm = new ComputerDataModel;
+      ComputerDataModel* cdm = new ComputerDataModel;
       QString style = cdm->setOutTableStyle();
       QString text = cdm->generateTableString(tableModel, tr("Computer"));
 
@@ -329,7 +331,7 @@ void MainWindow::on_actionPrint_triggered() {
     case VIEW_PRINTER: {
       qDebug() << "Print Printer !";
       tableModel->database().commit();
-      PrinterDataModel *pdm = new PrinterDataModel;
+      PrinterDataModel* pdm = new PrinterDataModel;
       QString style = pdm->setOutTableStyle();
       QString text = pdm->generateTableString(tableModel, tr("Printer"));
 
@@ -339,7 +341,7 @@ void MainWindow::on_actionPrint_triggered() {
     case VIEW_PHONE: {
       qDebug() << "Print Printer !";
       tableModel->database().commit();
-      PhoneDataModel *pdm = new PhoneDataModel;
+      PhoneDataModel* pdm = new PhoneDataModel;
       QString style = pdm->setOutTableStyle();
       QString text = pdm->generateTableString(tableModel, tr("Phone"));
 
@@ -364,14 +366,14 @@ void MainWindow::on_actionPrint_triggered() {
 }
 
 void MainWindow::on_action_Export_Pdf_triggered() {
- QTextDocument doc;
+  QTextDocument doc;
 
   switch (actualView) {
     case VIEW_EMPLOYEE: {
       qDebug() << "Print Employee !";
       tableModel->database().commit();
 
-      EmployeeDataModel *edm = new EmployeeDataModel;
+      EmployeeDataModel* edm = new EmployeeDataModel;
       QString style = edm->setOutTableStyle();
       QString text = edm->generateTableString(tableModel, tr("Employee"));
 
@@ -382,7 +384,7 @@ void MainWindow::on_action_Export_Pdf_triggered() {
       qDebug() << "Print Computer !";
       tableModel->database().commit();
 
-      ComputerDataModel *cdm = new ComputerDataModel;
+      ComputerDataModel* cdm = new ComputerDataModel;
       QString style = cdm->setOutTableStyle();
       QString text = cdm->generateTableString(tableModel, tr("Computer"));
 
@@ -393,7 +395,7 @@ void MainWindow::on_action_Export_Pdf_triggered() {
       qDebug() << "Print Printer !";
       tableModel->database().commit();
 
-      PrinterDataModel *pdm = new PrinterDataModel;
+      PrinterDataModel* pdm = new PrinterDataModel;
       QString style = pdm->setOutTableStyle();
       QString text = pdm->generateTableString(tableModel, tr("Printer"));
 
@@ -404,7 +406,7 @@ void MainWindow::on_action_Export_Pdf_triggered() {
       qDebug() << "Print Printer !";
       tableModel->database().commit();
 
-      PhoneDataModel *pdm = new PhoneDataModel;
+      PhoneDataModel* pdm = new PhoneDataModel;
       QString style = pdm->setOutTableStyle();
       QString text = pdm->generateTableString(tableModel, tr("Phone"));
 
@@ -445,7 +447,7 @@ void MainWindow::on_actionPrint_Preview_triggered() {
       qDebug() << "Print Employee !";
       tableModel->database().commit();
 
-      EmployeeDataModel *edm = new EmployeeDataModel;
+      EmployeeDataModel* edm = new EmployeeDataModel;
       QString style = edm->setOutTableStyle();
       QString text = edm->generateTableString(tableModel, tr("Employee"));
 
@@ -456,7 +458,7 @@ void MainWindow::on_actionPrint_Preview_triggered() {
       qDebug() << "Print Computer !";
       tableModel->database().commit();
 
-      ComputerDataModel *cdm = new ComputerDataModel;
+      ComputerDataModel* cdm = new ComputerDataModel;
       QString style = cdm->setOutTableStyle();
       QString text = cdm->generateTableString(tableModel, tr("Computer"));
 
@@ -467,7 +469,7 @@ void MainWindow::on_actionPrint_Preview_triggered() {
       qDebug() << "Print Printer !";
       tableModel->database().commit();
 
-      PrinterDataModel *pdm = new PrinterDataModel;
+      PrinterDataModel* pdm = new PrinterDataModel;
       QString style = pdm->setOutTableStyle();
       QString text = pdm->generateTableString(tableModel, tr("Printer"));
 
@@ -478,7 +480,7 @@ void MainWindow::on_actionPrint_Preview_triggered() {
       qDebug() << "Print Printer !";
       tableModel->database().commit();
 
-      PhoneDataModel *pdm = new PhoneDataModel;
+      PhoneDataModel* pdm = new PhoneDataModel;
       QString style = pdm->setOutTableStyle();
       QString text = pdm->generateTableString(tableModel, tr("Phone"));
 
@@ -494,6 +496,7 @@ void MainWindow::on_actionPrint_Preview_triggered() {
 
   printer.setOrientation(QPrinter::Landscape);
   QPrintPreviewDialog preview(&printer);
+
   doc.print(&printer);
 
   connect(&preview, SIGNAL(paintRequested(QPrinter*)),
@@ -501,8 +504,6 @@ void MainWindow::on_actionPrint_Preview_triggered() {
   preview.exec();
 #endif
 }
-
-
 
 void MainWindow::Not_Available_Message() {
   QString message = tr("This action is not implemented\n"
@@ -535,6 +536,7 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
 
   const QStandardItem* item = m_treeviewModel->itemFromIndex(index);
   const QString selected = item->text();
+
   m_actualView = index;
   qDebug() << "ActualViewRow : " << index;
   qDebug() << "Item: " << selected;
@@ -542,12 +544,14 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
   // Headers -> no action
   if (selected == tr("Person")) {
     return;
-  } else if (selected == tr("Device"))
-  {
+  }
+  else if (selected == tr("Device")) {
     return;
-  } else if (selected == tr("Communication")) {
+  }
+  else if (selected == tr("Communication")) {
     return;
-  } else if (selected == tr("Misc")) {
+  }
+  else if (selected == tr("Misc")) {
     return;
   }
 
@@ -714,7 +718,7 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
 
 void MainWindow::onClickedListViewRow(const QModelIndex& index) {
 
-    m_actualData = index;
+  m_actualData = index;
   qDebug() << "Clicked: ActualDataRow : " << index;
 
   switch (actualView) {
@@ -725,14 +729,14 @@ void MainWindow::onClickedListViewRow(const QModelIndex& index) {
 
       ui->splitter->replaceWidget(2, eia);
     }
-                        break;
+    break;
 
     case VIEW_FUNCTION: {
       FunctionInputArea* fia = new FunctionInputArea(0, index);
 
       ui->splitter->replaceWidget(2, fia);
     }
-                        break;
+    break;
 
     case VIEW_DEPARTMENT:
     {
@@ -787,35 +791,38 @@ void MainWindow::onClickedListViewRow(const QModelIndex& index) {
 
     case VIEW_PRINTER:
       break;
+
     case VIEW_PHONE: {
       PhoneInputArea* pia = new PhoneInputArea(0, index);
 
       ui->splitter->replaceWidget(2, pia);
     }
-                     break;
+    break;
 
     case VIEW_MOBILE: {
       MobileInputArea* mia = new MobileInputArea(0, index);
 
       ui->splitter->replaceWidget(2, mia);
     }
-                      break;
+    break;
 
     case VIEW_MANUFACTURER:
-  {
-      ManufacturerInputArea *mia = new ManufacturerInputArea(0, index);
+    {
+      ManufacturerInputArea* mia = new ManufacturerInputArea(0, index);
 
       ui->splitter->replaceWidget(2, mia);
-  }
-      break;
+    }
+    break;
+
     case VIEW_CITY:
-  {
-      CityInputArea *cia  = new CityInputArea(0, index);
+    {
+      CityInputArea* cia = new CityInputArea(0, index);
 
       ui->splitter->replaceWidget(2, cia);
-  }
+    }
 
-      break;
+    break;
+
     default:
       Not_Available_Message();
       break;
@@ -825,18 +832,17 @@ void MainWindow::onClickedListViewRow(const QModelIndex& index) {
 
 void MainWindow::onPressedListViewRow(const QModelIndex& index) {
 
-    m_actualData = index;
-   qDebug() << "Pressed: ActualDataRow for deleteting: " << index;
+  m_actualData = index;
+  qDebug() << "Pressed: ActualDataRow for deleteting: " << index;
 
-   switch (actualView) {
-     case VIEW_EMPLOYEE: {
-       qDebug() << "Employee Table Row (" << index.row() << ") clicked";
+  switch (actualView) {
+    case VIEW_EMPLOYEE: {
+      qDebug() << "Employee Table Row (" << index.row() << ") clicked";
 
-       EmployeeInputArea* eia = new EmployeeInputArea(0, index);
+      EmployeeInputArea* eia = new EmployeeInputArea(0, index);
 
-       ui->splitter->replaceWidget(2, eia);
-       qDebug() << "Delete index : " << index;
-     } break;
-   }
+      ui->splitter->replaceWidget(2, eia);
+      qDebug() << "Delete index : " << index;
+    } break;
+  }
 }
-

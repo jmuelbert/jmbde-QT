@@ -69,9 +69,9 @@
  * \brief The Main Database class
  * \details Here will handle all db actions...
  * \author Jürgen Mülbert
- * \version 0.3
- * \date 16.11.2013
- * \copyright EUPL V1.1
+ * \version 0.4
+ * \date 14.12.2017
+ * \copyright EUPL V1.2
  *
  * \todo Remove UI fpr Testing
  * \todo Move Code for every Table in his own class
@@ -125,18 +125,6 @@ class DataModel : public QObject
      * If the Database new then create the tables
      */
     QSqlError initDb();
-
-    /**
-     * @brief DataModell::addRow
-     * @param tableView
-     */
-    void addRow(QTableView*);
-
-    /**
-     * @brief setOutTableStyle
-     * @return
-     */
-    QString setOutTableStyle();
 
   protected:
 

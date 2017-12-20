@@ -46,61 +46,33 @@ CommonDataModel::CommonDataModel(QObject* parent) : DataModel(parent) {}
 
 CommonDataModel::~CommonDataModel() {}
 
-bool CommonDataModel::createDataTable(QString tableName) {
-  bool ret;
-  QSqlQuery query;
-  QString sqlCommand = QLatin1String("CREATE TABLE ");
-  QString sqlTable = QLatin1String(" (id INTEGER primary key AUTOINCREMENT, "
-                                   "name TEXT, "
-                                   "creationTime TEXT, "
-                                   "updateTime TEXT);");
-  QString cmdString;
+QTextDocument* CommonDataModel::createSheet() {
+  QTextDocument* document = new QTextDocument;
 
-  cmdString = sqlCommand;
-  cmdString = cmdString + tableName;
-  cmdString = cmdString + sqlTable;
-  ret = query.exec(cmdString);
-
-  return ret;
+  return document;
 }
 
-QSqlRelationalTableModel*
-CommonDataModel::initializeRelationalModel(const QString tableName) {
-  // TODO: id als locale Konstante
+QString CommonDataModel::setOutTableStyle() {
+  QString css;
 
-  QSqlRelationalTableModel* model =
-    new QSqlRelationalTableModel(this, this->db);
+  css = QLatin1String("<style type=\"text/css\">");
+  css += QLatin1String("H1 { color: #f00;}");
+  css +=
+    QLatin1String("table.tbl {border-width: 1px;border-style: "
+                  "solid;border-color: black;margin-top: 0px;margin-bottom: "
+                  "0px;color: black; font-size: small; }");
+  css += QLatin1String("table.tbl td {padding: 3px;}");
+  css += QLatin1String("table.tbl th {padding: 3px;}");
+  css += QLatin1String("</style>");
 
-  model->setTable(tableName);
-  model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-
-  model->setHeaderData(POS_COMMON_ID, Qt::Horizontal, QObject::tr("ID"));
-  model->setHeaderData(POS_COMMON_NAME, Qt::Horizontal, QObject::tr("Name"));
-  model->setHeaderData(POS_COMMON_CREATIONTIME, Qt::Horizontal,
-                       QObject::tr("Creationtime"));
-  model->setHeaderData(POS_COMMON_UPDATETIME, Qt::Horizontal,
-                       QObject::tr("Updatetime"));
-
-  model->select();
-
-  return model;
+  return css;
 }
 
-QSqlTableModel* CommonDataModel::initializeTableModel(const QString tableName) {
+QString CommonDataModel::setOutFormularStyle() {
+  QString css;
 
-  QSqlTableModel* model = new QSqlTableModel(this, this->db);
+  css = QLatin1String("<style type=\"text/css\">");
+  css += QLatin1String("H1 { color: #f00;}");
 
-  model->setTable(tableName);
-  model->setEditStrategy(QSqlTableModel::OnFieldChange);
-
-  model->setHeaderData(POS_COMMON_ID, Qt::Horizontal, QObject::tr("ID"));
-  model->setHeaderData(POS_COMMON_NAME, Qt::Horizontal, QObject::tr("Name"));
-  model->setHeaderData(POS_COMMON_CREATIONTIME, Qt::Horizontal,
-                       QObject::tr("Creationtime"));
-  model->setHeaderData(POS_COMMON_UPDATETIME, Qt::Horizontal,
-                       QObject::tr("Updatetime"));
-
-  model->select();
-
-  return model;
+  return css;
 }

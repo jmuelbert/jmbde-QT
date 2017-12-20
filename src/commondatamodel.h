@@ -45,25 +45,29 @@
 
 #include <QObject>
 
-#include <QStandardPaths>
 #include <QtSql>
 
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRelation>
+#include <QTextDocument>
 
 #include "datamodel.h"
+#include "definitions.h"
 
 /**
  * @brief The CommonDataModel class
  * @details This Class is the root for many common classes
  * @author Jürgen Mülbert
- * @version 0.2
- * @date 09.02.2014
- * @copyright EUPL V1.1
+ * @version 0.3
+ * @date 14.12.2017
+ * @copyright EUPL V1.2
  */
+
 class CommonDataModel : public DataModel {
+  Q_OBJECT
+
   public:
 
     /**
@@ -78,39 +82,29 @@ class CommonDataModel : public DataModel {
     ~CommonDataModel();
 
     /**
-     * @brief createDataTable
-     * @param tableName
-     * @deprecated You should not longer use this. The Database will create with a
-     * script
-     * @return boolean true or false, created ?
+     * @brief createSheet
+     * @return
      */
-    bool createDataTable(QString tableName);
+    QTextDocument* createSheet();
 
     /**
-     * @brief initializeRelationalModel
-     * @param tableName
-     * @return RelationalTableModel
+     * @brief setOutTableStyle
+     * @return
      */
-    QSqlRelationalTableModel* initializeRelationalModel(const QString tableName);
+    QString setOutTableStyle();
 
     /**
-     * @brief initializeTableModel
-     * @param tableName
-     * @return TableModel
+     * @brief setFormularStyle
+     * @return
      */
-    QSqlTableModel* initializeTableModel(QString tableName);
+    QString setOutFormularStyle();
+
+  protected:
+    QSqlRelationalTableModel* m_model;
+    QItemSelectionModel* m_selectionModel;
 
   private:
 
-    /**
-     * @brief The PosIFunctionTable enum
-     */
-    enum PosCommonTable {
-      POS_COMMON_ID,
-      POS_COMMON_NAME,
-      POS_COMMON_CREATIONTIME,
-      POS_COMMON_UPDATETIME
-    };
 };
 
 #endif // COMMONDATAMODEL_H
