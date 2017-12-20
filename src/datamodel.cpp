@@ -53,7 +53,9 @@
 #include "devicenamedatamodel.h"
 #include "devicetypedatamodel.h"
 #include "documentsdatamodel.h"
+#include "employeeaccountdatamodel.h"
 #include "employeedatamodel.h"
+#include "employeedocumentdatamodel.h"
 #include "faxdatamodel.h"
 #include "functiondatamodel.h"
 #include "inventorydatamodel.h"
@@ -62,6 +64,7 @@
 #include "osdatamodel.h"
 #include "phonedatamodel.h"
 #include "placedatamodel.h"
+#include "printerdatamodel.h"
 #include "processordatamodel.h"
 #include "softwaredatamodel.h"
 #include "systemdatamodel.h"
@@ -72,55 +75,58 @@
 #include "datamodel.h"
 #include "definitions.h"
 
-DataModel::DataModel(QObject* parent) : QObject(parent) {}
+DataModel::DataModel(QObject *parent) : QObject(parent) {}
 
-DataModel::~DataModel() {
+DataModel::~DataModel()
+{
   db.commit();
   db.close();
 }
 
-bool DataModel::CreateConnection() {
+bool DataModel::CreateConnection()
+{
   bool retValue = false;
   QSettings settings;
   QString dbName = qApp->applicationName();
 
-// Read DB Settings
-// Database settings
+  // Read DB Settings
+  // Database settings
   QString dataBaseDir =
-    QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+      QStandardPaths::writableLocation(QStandardPaths::DataLocation);
 
   settings.beginGroup(QLatin1String(Settings::Groups::DATABASE));
   int dbType =
-    settings.value(QLatin1String(Settings::Database::TYPE), SQLITE).toInt();
+      settings.value(QLatin1String(Settings::Database::TYPE), SQLITE).toInt();
   QString dbConnectionString =
-    settings.value(QLatin1String(Settings::Database::CONNECTION), dataBaseDir)
-    .toString();
+      settings.value(QLatin1String(Settings::Database::CONNECTION), dataBaseDir)
+          .toString();
   QString dbHostName = settings
-                       .value(QLatin1String(Settings::Database::HOSTNAME),
-                              QLatin1String("localhost"))
-                       .toString();
+                           .value(QLatin1String(Settings::Database::HOSTNAME),
+                                  QLatin1String("localhost"))
+                           .toString();
   QString dbUserName = settings
-                       .value(QLatin1String(Settings::Database::USERNAME),
-                              QLatin1String("jmbde"))
-                       .toString();
+                           .value(QLatin1String(Settings::Database::USERNAME),
+                                  QLatin1String("jmbde"))
+                           .toString();
   QString dbPassWord = settings
-                       .value(QLatin1String(Settings::Database::PASSWORD),
-                              QLatin1String("jmbde"))
-                       .toString();
+                           .value(QLatin1String(Settings::Database::PASSWORD),
+                                  QLatin1String("jmbde"))
+                           .toString();
 
-  if (dbType == SQLITE) {
+  if (dbType == SQLITE)
+  {
 #ifdef Q_OS_MAC
-    const QString& _creatorTrPath = QCoreApplication::applicationDirPath();
+    const QString &_creatorTrPath = QCoreApplication::applicationDirPath();
     QDir trPath(_creatorTrPath);
 
     trPath.cdUp();
-    const QString& creatorTrPath = trPath.path();
+    const QString &creatorTrPath = trPath.path();
     QString databaseFileAndPath = QString(creatorTrPath);
 
     databaseFileAndPath.append(QDir::separator());
     databaseFileAndPath.append(QLatin1String("Resources"));
 #else
-    const QString& creatorTrPath = QCoreApplication::applicationDirPath();
+    const QString &creatorTrPath = QCoreApplication::applicationDirPath();
     QString databaseFileAndPath = QString(creatorTrPath);
 #endif
 
@@ -144,12 +150,15 @@ bool DataModel::CreateConnection() {
     bool dbIsCreated = QFile::exists(targetFileAndPath);
 
     // When the DB-Directory not create than do this.
-    if (dbIsCreated == false) {
+    if (dbIsCreated == false)
+    {
 
       QDir destDir(dbConnectionString);
 
-      if (destDir.exists() == false) {
-        if (destDir.mkpath(dbConnectionString) == false) {
+      if (destDir.exists() == false)
+      {
+        if (destDir.mkpath(dbConnectionString) == false)
+        {
           // TODO: Error handling
           qDebug() << "Can not create destination directoy...";
           return false;
@@ -159,17 +168,19 @@ bool DataModel::CreateConnection() {
 
     db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"));
     db.setDatabaseName(targetFileAndPath);
-    if (!db.open()) {
+    if (!db.open())
+    {
       qDebug() << "SQLite DB Exists                : " << retValue;
       qDebug() << "QSQLITE QSqlDriver::QuerySize   : "
-               << db.driver()->hasFeature(QSqlDriver::QuerySize);  // FALSE
+               << db.driver()->hasFeature(QSqlDriver::QuerySize); // FALSE
       qDebug() << "QSQLITE QSqlDriver::Transactions: "
                << db.driver()->hasFeature(QSqlDriver::Transactions); // TRUE
       qDebug() << initDb();
       retValue = false;
     }
   }
-  else if (dbType == MYSQL) {
+  else if (dbType == MYSQL)
+  {
     db = QSqlDatabase::addDatabase(QLatin1String("QMYSQL"));
     db.setHostName(dbHostName);
     db.setDatabaseName(dbName);
@@ -177,7 +188,8 @@ bool DataModel::CreateConnection() {
     db.setPassword(dbPassWord);
     retValue = db.open();
   }
-  else if (dbType == ODBC) {
+  else if (dbType == ODBC)
+  {
     db = QSqlDatabase::addDatabase(QLatin1String("QODBC"));
     db.setHostName(dbHostName);
     db.setDatabaseName(dbName);
@@ -185,7 +197,8 @@ bool DataModel::CreateConnection() {
     db.setPassword(dbPassWord);
     retValue = db.open();
   }
-  else if (dbType == POSTGRESQL) {
+  else if (dbType == POSTGRESQL)
+  {
     db = QSqlDatabase::addDatabase(QLatin1String("QPSQL"));
     db.setHostName(dbHostName);
     db.setDatabaseName(dbName);
@@ -193,15 +206,18 @@ bool DataModel::CreateConnection() {
     db.setPassword(dbPassWord);
     retValue = db.open();
   }
-  else {
+  else
+  {
     qDebug() << "Unknown DB-Type!";
     retValue = false;
   }
 
-  if (retValue == true) {
+  if (retValue == true)
+  {
     retValue = checkDBVersion();
   }
-  else {
+  else
+  {
     qDebug() << db.lastError().databaseText();
     qDebug() << db.lastError().driverText();
   }
@@ -209,16 +225,18 @@ bool DataModel::CreateConnection() {
   return retValue;
 }
 
-bool DataModel::checkDBVersion() {
+bool DataModel::checkDBVersion()
+{
   QString version;
   QString revision;
   QString patch;
   QDateTime lupdate;
   QSqlQuery query(
-    QLatin1String("SELECT version, revision, patch, last_update FROM database_version"));
+      QLatin1String("SELECT version, revision, patch, last_update FROM database_version"));
 
   qDebug() << db.lastError().text();
-  while (query.next()) {
+  while (query.next())
+  {
     version = query.value(0).toString();
     qDebug() << "Version = " << version;
     revision = query.value(1).toString();
@@ -226,19 +244,23 @@ bool DataModel::checkDBVersion() {
     lupdate = query.value(3).toDateTime();
   }
 
-  if (version == Database::Version::Version && revision == Database::Version::Revision) {
+  if (version == Database::Version::Version && revision == Database::Version::Revision)
+  {
     qDebug() << "Check Databaseverion: OK - Version: " << version << "." << revision << "." << patch << " from " << lupdate.toString();
     return true;
   }
-  else {
-    if (version < Database::Version::Version) {
+  else
+  {
+    if (version < Database::Version::Version)
+    {
       qDebug() << "Database to old. Updata in progress! Version : " << version
                << " <> dbVersion : " << Database::Version::Version
                << "Revision : " << revision
                << "<> dbRevision : " << Database::Version::Revision;
     }
 
-    if (revision < Database::Version::Revision) {
+    if (revision < Database::Version::Revision)
+    {
       qDebug() << "Database to old. Updata in progress! Version : " << version
                << " <> dbVersion : " << Database::Version::Version
                << "Revision : " << revision
@@ -251,132 +273,146 @@ bool DataModel::checkDBVersion() {
   return true;
 }
 
-QSqlDatabase DataModel::getDatabase() {
+QSqlDatabase DataModel::getDatabase()
+{
   return db;
 }
 
-QSqlError DataModel::initDb() {
+QSqlError DataModel::initDb()
+{
   if (!db.open())
     return db.lastError();
 
   // Check the DB
   QStringList tables = db.tables();
 
-  if (!tables.contains("employee", Qt::CaseInsensitive)) return QSqlError();
+  if (!tables.contains("employee", Qt::CaseInsensitive))
+    return QSqlError();
 
   QSqlQuery q;
   QString queryString;
 
-  AccountDataModel* acm = new AccountDataModel();
-  if (!acm->createDataTable()) return db.lastError();
+  AccountDataModel *acm = new AccountDataModel();
+  if (!acm->createDataTable())
+    return db.lastError();
+
+  ChipCardDataModel *ccm = new ChipCardDataModel();
+  if (!ccm->createDataTable())
+    return db.lastError();
+
+  ChipCardDoorsDataModel *ccdm = new ChipCardDoorsDataModel();
+  if (!ccdm->createDataTable())
+    return db.lastError();
+
+  ChipCardProfileDataModel *ccpm = new ChipCardProfileDataModel();
+  if (!ccpm->createDataTable())
+    return db.lastError();
+
+  ChipCardProfileDoorDataModel *ccpd = new ChipCardProfileDoorDataModel();
+  if (!ccpd->createDataTable())
+    return db.lastError();
+
+  CityNameDataModel *cnm = new CityNameDataModel();
+  if (!cnm->createDataTable())
+    return db.lastError();
+
+  CompanyDataModel *cpm = new CompanyDataModel();
+  if (!cpm->createDataTable())
+    return db.lastError();
+
+  ComputerDataModel *cdm = new ComputerDataModel();
+  if (!cdm->createDataTable())
+    return db.lastError();
+
+  ComputerSoftwareDataModel *csd = new ComputerSoftwareDataModel();
+  if (!csd->createDataTable())
+    return db.lastError();
+
+  DepartmentDataModel *dpm = new DepartmentDataModel();
+  if (!dpm->createDataTable()) return db.lastError();
 
 
-  ChipCardDataModel* ccm = new ChipCardDataModel();
-  if (!ccm->createDataTable()) return db.lastError();
+  DeviceNameDataModel *dnm = new DeviceNameDataModel();
+    if (!dnm->createDataTable()) return db.lastError();
 
-  ChipCardDoorsDataModel* ccdm = new ChipCardDoorsDataModel();
-  if (!ccdm->createDataTable()) return db.lastError();
-
-  ChipCardProfileDataModel* ccpm = new ChipCardProfileDataModel();
-  if (!ccpm->createDataTable()) return db.lastError();
-
-  ChipCardProfileDoorDataModel* ccpd = new ChipCardProfileDoorDataModel();
-  if (!ccpd->createDataTable()) return db.lastError();
-
-  CityNameDataModel* cnm = new CityNameDataModel();
-  if (!acm->createDataTable()) return db.lastError();
+    DeviceTypeDataModel *dtm = new DeviceTypeDataModel();
+    if (!dtm->createDataTable()) return db.lastError();
 
 
-  CompanyDataModel* cpm = new CompanyDataModel();
-  if (!cpm->createDataTable()) return db.lastError();
+    DocumentsDataModel *dcm = new DocumentsDataModel();
+    if (!dcm->createDataTable()) return db.lastError();
+
+    EmployeeAccountDataModel *ead = new EmployeeAccountDataModel();
+    if (!ead->createDataTable()) return db.lastError();
+
+    EmployeeDataModel *epm = new EmployeeDataModel();
+    if (!epm->createDataTable()) return db.lastError();
+
+    EmployeeDocumentDataModel *edm = new EmployeeDocumentDataModel();
+    if (!edm->createDataTable()) return  db.lastError();
 
 
-  ComputerDataModel* cdm = new ComputerDataModel();
-  if (!cdm->createDataTable()) return db.lastError();
+    FaxDataModel *fdm = new FaxDataModel();
+    if (!fdm->createDataTable()) return db.lastError();
 
 
-  ComputerSoftwareDataModel* csd = new ComputerSoftwareDataModel();
-  if (!csd->createDataTable()) return db.lastError();
+    FunctionDataModel *fudm = new FunctionDataModel();
+    if (!fudm->createDataTable()) return db.lastError();
 
 
-  if (!q.exec(QString(Database::Table::ZIPCODE_CREATE)))
-    return q.lastError();
-
-  if (!q.exec((QString(Database::Table::ZIPCITY_CREATE))))
-    return q.lastError();
-
-  if (!q.exec(QString(Database::Table::TITLE_CREATE)))
-    return q.lastError();
-
-  if (!q.exec(QString(Database::Table::EMPLOYEE_CREATE)))
-    return q.lastError();
+    InventoryDataModel *idm = new InventoryDataModel();
+    if (!idm->createDataTable()) return db.lastError();
 
 
+    ManufacturerDataModel *mdm = new ManufacturerDataModel();
+    if (!mdm->createDataTable()) return db.lastError();
 
-  if (!q.exec(QString(Database::Table::DEVICETYPE_CREATE)))
-    return q.lastError();
+    MobileDataModel *modm = new MobileDataModel();
+    if (!modm->createDataTable()) return db.lastError();
 
-  if (!q.exec(QString(Database::Table::DEVICENAME_CREATE)))
-    return q.lastError();
+    OSDataModel *osd = new OSDataModel();
+    if (!osd->createDataTable()) return db.lastError();
 
-  if (!q.exec(QString(Database::Table::PLACE_CREATE)))
-    return q.lastError();
-
-  if (!q.exec(QString(Database::Table::INVENTORY_CREATE)))
-    return q.lastError();
-
-  if (!q.exec(QString(Database::Table::MANUFACTURER_CREATE)))
-    return q.lastError();
-
-  if (!q.exec(QString(Database::Table::DEPARTMENT_CREATE)))
-    return q.lastError();
-
-  if (!q.exec(QString(Database::Table::FUNCTION_CREATE)))
-    return q.lastError();
-
-  if (!q.exec(QString(Database::Table::EMPLOYEEACCOUNT_CREATE)))
-    return q.lastError();
+    PhoneDataModel *pdm = new PhoneDataModel();
+    if (!pdm->createDataTable()) return db.lastError();
 
 
-  if (!q.exec(QString(Database::Table::SYSTEMDATA_CREATE)))
-    return q.lastError();
+    PlaceDataModel *pld = new PlaceDataModel();
+    if (!pld->createDataTable()) db.lastError();
 
-  if (!q.exec(QString(Database::Table::EMPLOYEEDOCUMENT_CREATE)))
-    return q.lastError();
+    PrinterDataModel *prdm = new PrinterDataModel();
+    if (!prdm->createDataTable()) return db.lastError();
 
-  if (!q.exec(QString(Database::Table::DOCUMENTS_CREATE)))
-    return q.lastError();
+    ProcessorDataModel *podm = new ProcessorDataModel();
+    if (!podm->createDataTable()) return db.lastError();
 
-  if (!q.exec(QString(Database::Table::PROCESSOR_CREATE)))
-    return q.lastError();
+    SoftwareDataModel *sod = new SoftwareDataModel();
+    if (!sod->createDataTable()) return db.lastError();
 
-  if (!q.exec(QString(Database::Table::OS_CREATE)))
-    return q.lastError();
+    SystemDataModel *syd =new SystemDataModel();
+    if (!syd->createDataTable()) return db.lastError();
 
+    TitleDataModel *tdm = new TitleDataModel();
+    if (!tdm->createDataTable()) return db.lastError();
 
-  if (!q.exec(QString(Database::Table::SOFTWARE_CREATE)))
-    return q.lastError();
+    ZipCityModel *zcm = new ZipCityModel();
+    if (!zcm->createDataTable()) return db.lastError();
 
-
-  if (!q.exec(QString(Database::Table::PRINTER_CREATE)))
-    return q.lastError();
-
-  if (!q.exec(QString(Database::Table::PHONE_CREATE)))
-    return q.lastError();
-
-  if (!q.exec(QString(Database::Table::FAX_CREATE)))
-    return q.lastError();
-
-  if (!q.exec(QString(Database::Table::MOBILE_CREATE)))
-    return q.lastError();
+    ZipCodeModel *zcom = new ZipCodeModel();
+    if (!zcom->createDataTable()) return db.lastError();
 
 
-  if (!q.exec(QString(Database::Table::DATABASEVERSION_CREATE)))
-    return q.lastError();
 
   QSqlQuery query;
 
-  query.prepare("INSERT INTO database_version (database_version_id, version, revision, patch, last_update)  " \
+  QString sqlString = "CREATE TABLE database_version ("
+                      "database_version_id INTEGER PRIMARY KEY, " \
+                      "version VARCHAR(10), " \
+                      "revision VARCHAR(10), " \
+                      "patch VARCHAR(10), " \
+                      "last_update TIMESTAMP);";
+  query.exec(sqlString);
+  query.prepare("INSERT INTO database_version (database_version_id, version, revision, patch, last_update)  "
                 "VALUES (:database_version_id, :version, :revision, :patch, :last_update)");
   query.bindValue(":database_version_id", 1);
   query.bindValue(":version", Database::Version::Version);

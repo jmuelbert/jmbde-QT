@@ -79,7 +79,7 @@ bool ManufacturerDataModel::createDataTable() {
 void ManufacturerDataModel::setIndexes() {
   m_ManufacturerIdIndex = m_model->fieldIndex(QLatin1String("manufacturer_id"));
   m_NameIndex = m_model->fieldIndex(QLatin1String("name"));
-  m_Name2Index = m_model->fieldIndex(QLatin1String("name2"));                                                 m_PasswordIndex = m_model->fieldIndex(QLatin1String("password"));
+  m_Name2Index = m_model->fieldIndex(QLatin1String("name2"));
   m_SupporterIndex = m_model->fieldIndex(QLatin1String("supporter"));
   m_AddressIndex = m_model->fieldIndex(QLatin1String("address"));
   m_Address2Index = m_model->fieldIndex(QLatin1String("address2"));

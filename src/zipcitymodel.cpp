@@ -56,15 +56,13 @@ ZipCityModel::ZipCityModel(QObject* parent) : CommonDataModel (parent)
 
 ZipCityModel::~ZipCityModel() {}
 
-const char ZIPCITY[] = "zip_city";
-
 bool ZipCityModel::createDataTable() {
 
   QSqlQuery query;
   QString sqlString =  "CREATE TABLE %1 (" \
                        "zip_city_id INTEGER PRIMARY KEY, " \
                        "zip_code_id INTEGER, " \
-                       "city_id INTEGER, " \
+                       "city_name_id INTEGER, " \
                        "last_update TIMESTAMP);";
   return query.exec(sqlString.arg(this->m_tableName));
 }

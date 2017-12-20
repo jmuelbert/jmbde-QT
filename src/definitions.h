@@ -78,8 +78,8 @@ namespace Database {
 
   namespace Version {
     const char Version[] = "0";
-    const char Revision[] = "9";
-    const char Patch[] = "1";
+    const char Revision[] = "10";
+    const char Patch[] = "0";
   }
 
   namespace Type {
@@ -90,18 +90,5 @@ namespace Database {
     const char DEFAULT[] = "SqLite";
 
   } // namespace Type
-
-  namespace Table {
-
-    const char DATABASEVERSION[] = "database_version";
-    const char DATABASEVERSION_CREATE[] = "CREATE TABLE database_version ("
-                                          "database_version_id INTEGER PRIMARY KEY, " \
-                                          "version VARCHAR(10), " \
-                                          "revision VARCHAR(10), " \
-                                          "patch VARCHAR(10), " \
-                                          "last_update TIMESTAMP);";
-  }
-
-  namespace EmployeeTable {}
 } // namespace Database
 #endif // DEFINITIONS_H

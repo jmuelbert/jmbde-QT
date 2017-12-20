@@ -116,9 +116,8 @@ public:
     int CompanyIdIndex() const { return m_CompanyIdIndex; }
     int NameIndex() const { return m_NameIndex; }
     int Name2Index() const { return m_Name2Index;}
-    int StreetIndex() const { return m_StreetIndex; }
-    int CityIndex() const { return m_CityIndex; }
-    int ZipCodeIndex() const { return m_ZipCodeIndex; }
+    int AddressIndex() const { return m_AddressIndex; }
+    int ZipCityIdIndex() const { return m_ZipCityIdIndex; }
     int PhoneNumberIndex() const { return m_PhoneNumberIndex; }
     int FaxNumberIndex() const { return m_FaxNumberIndex; }
     int MobileNumberIndex() const { return m_MobileNumberIndex; }
@@ -137,9 +136,8 @@ public:
     int m_CompanyIdIndex;
     int m_NameIndex;
     int m_Name2Index;
-    int m_StreetIndex;
-    int m_CityIndex;
-    int m_ZipCodeIndex;
+    int m_AddressIndex;
+    int m_ZipCityIdIndex;
     int m_PhoneNumberIndex;
     int m_FaxNumberIndex;
     int m_MobileNumberIndex;

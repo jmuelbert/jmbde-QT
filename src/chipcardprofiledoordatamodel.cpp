@@ -62,7 +62,7 @@ bool ChipCardProfileDoorDataModel::createDataTable() {
   QString sqlString = "CREATE TABLE %1 (" \
                       "chip_card_profile_door_id INTEGER PRIMARY KEY, " \
                       "chip_card_profile_id INTEGER, " \
-                      "chip_card_doors_id INTEGER, " \
+                      "chip_card_door_id INTEGER, " \
                       "last_update TIMESTAMP);";
 
   return query.exec(sqlString.arg(this->m_tableName));

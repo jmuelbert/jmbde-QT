@@ -61,9 +61,8 @@ bool CompanyDataModel::createDataTable() {
                       "company_id INTEGER PRIMARY KEY, " \
                       "name VARCHAR, " \
                       "name2 VARCHAR, " \
-                      "street VARCHAR, " \
-                      "city VARCHAR, " \
-                      "zip_code VARCHAR(10), " \
+                      "address VARCHAR, " \
+                      "zip_code_id INTEGER, " \
                       "phone_number VARCHAR, " \
                       "fax_number VARCHAR, " \
                       "mobile_number VARCHAR, " \
@@ -78,9 +77,8 @@ void CompanyDataModel::setIndexes() {
     m_CompanyIdIndex = m_model->fieldIndex(QLatin1String("company_id"));
     m_NameIndex = m_model->fieldIndex(QLatin1String("name"));;
     m_Name2Index = m_model->fieldIndex(QLatin1String("name2"));;
-    m_StreetIndex = m_model->fieldIndex(QLatin1String("street"));;
-    m_CityIndex = m_model->fieldIndex(QLatin1String("city"));;
-    m_ZipCodeIndex = m_model->fieldIndex(QLatin1String("zip_code"));;
+    m_AddressIndex = m_model->fieldIndex(QLatin1String("address"));;
+    m_ZipCityIdIndex = m_model->fieldIndex(QLatin1String("zip_code_id"));;
     m_PhoneNumberIndex = m_model->fieldIndex(QLatin1String("phone_number"));;
     m_FaxNumberIndex = m_model->fieldIndex(QLatin1String("fax_number"));;
     m_MobileNumberIndex = m_model->fieldIndex(QLatin1String("mobile_number"));;

@@ -125,7 +125,7 @@ class TitleDataModel : public CommonDataModel, public IDataModel
      * @brief tableName - the name of the database table
      * @
      */
-    const QString tableName = QLatin1String("title");
+    const QString m_tableName = QLatin1String("title");
 
     int m_TitleIdIndex;
     int m_NameIndex;

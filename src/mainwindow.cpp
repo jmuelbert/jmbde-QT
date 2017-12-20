@@ -117,8 +117,7 @@ MainWindow::MainWindow(QWidget* parent)
     qDebug() << "Select Employee";
     actualView = VIEW_EMPLOYEE;
     EmployeeDataModel* edm = new EmployeeDataModel;
-
-    tableModel = edm->initializeTableModel();
+    tableModel = edm->initializeRelationalModel();
     int idx = edm->LastNameIndex();
 
     ui->listView->setModel(tableModel);
@@ -561,7 +560,7 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
     actualView = VIEW_EMPLOYEE;
     EmployeeDataModel* edm = new EmployeeDataModel;
 
-    tableModel = edm->initializeTableModel();
+    tableModel = edm->initializeRelationalModel();
     int idx = edm->LastNameIndex();
 
     ui->listView->setModel(tableModel);
@@ -574,10 +573,11 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
     actualView = VIEW_FUNCTION;
     FunctionDataModel* fdm = new FunctionDataModel;
 
-    tableModel = fdm->initializeTableModel();
+    tableModel = fdm->initializeRelationalModel();
 
     ui->listView->setModel(tableModel);
-    ui->listView->setModelColumn(FunctionDataModel::POS_FUNCTION_NAME);
+    int idx = fdm->NameIndex();
+    ui->listView->setModelColumn(idx);
 
   }
   else if (selected == tr("Department")) {
@@ -586,10 +586,11 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
     actualView = VIEW_DEPARTMENT;
     DepartmentDataModel* dpm = new DepartmentDataModel;
 
-    tableModel = dpm->initializeTableModel();
+    tableModel = dpm->initializeRelationalModel();
+    int idx = dpm->NameIndex();
 
     ui->listView->setModel(tableModel);
-    ui->listView->setModelColumn(DepartmentDataModel::POS_DEPARTMENT_NAME);
+    ui->listView->setModelColumn(idx);
 
   }
   else if (selected == tr("Title")) {
@@ -598,10 +599,11 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
     actualView = VIEW_TITLE;
     TitleDataModel* tdm = new TitleDataModel;
 
-    tableModel = tdm->initializeTableModel();
+    tableModel = tdm->initializeRelationalModel();
+    int idx = tdm->NameIndex();
 
     ui->listView->setModel(tableModel);
-    ui->listView->setModelColumn(TitleDataModel::POS_TITLE_NAME);
+    ui->listView->setModelColumn(idx);
 
     // Tree -> Device
   }
@@ -611,9 +613,11 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
     actualView = VIEW_COMPUTER;
     ComputerDataModel* cdm = new ComputerDataModel;
 
-    tableModel = cdm->initializeTableModel();
+    tableModel = cdm->initializeRelationalModel();
+    int idx = cdm->NetworkNameIndex();
+
     ui->listView->setModel(tableModel);
-    ui->listView->setModelColumn(ComputerDataModel::POS_COMPUTER_NETWORK_NAME);
+    ui->listView->setModelColumn(idx);
 
   }
   else if (selected == tr("Processor")) {
@@ -622,9 +626,11 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
     actualView = VIEW_PROCESSOR;
     ProcessorDataModel* pdm = new ProcessorDataModel;
 
-    tableModel = pdm->initializeTableModel();
+    tableModel = pdm->initializeRelationalModel();
+    int idx = pdm->NameIndex();
+
     ui->listView->setModel(tableModel);
-    ui->listView->setModelColumn(ProcessorDataModel::POS_PROCESSOR_NAME);
+    ui->listView->setModelColumn(idx);
 
   }
   else if (selected == tr("Operation System")) {
@@ -633,9 +639,11 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
     actualView = VIEW_OS;
     OSDataModel* odm = new OSDataModel;
 
-    tableModel = odm->initializeTableModel();
+    tableModel = odm->initializeRelationalModel();
+    int idx = odm->NameIndex();
+
     ui->listView->setModel(tableModel);
-    ui->listView->setModelColumn(OSDataModel::POS_OS_NAME);
+    ui->listView->setModelColumn(idx);
 
   }
   else if (selected == tr("Software")) {
@@ -644,9 +652,11 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
     actualView = VIEW_SOFTWARE;
     SoftwareDataModel* sdm = new SoftwareDataModel;
 
-    tableModel = sdm->initializeTableModel();
+    tableModel = sdm->initializeRelationalModel();
+    int idx = sdm->NameIndex();
+
     ui->listView->setModel(tableModel);
-    ui->listView->setModelColumn(SoftwareDataModel::POS_SOFTWARE_NAME);
+    ui->listView->setModelColumn(idx);
 
   }
   else if (selected == tr("Printer")) {
@@ -655,10 +665,11 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
     actualView = VIEW_PRINTER;
     PrinterDataModel* pdm = new PrinterDataModel;
 
-    tableModel = pdm->initializeTableModel();
+    tableModel = pdm->initializeRelationalModel();
+    int idx = pdm->NetworkNameIndex();
 
     ui->listView->setModel(tableModel);
-    ui->listView->setModelColumn(PrinterDataModel::POS_PRINTER_NETWORK_NAME);
+    ui->listView->setModelColumn(idx);
 
     // Tree -> Communication
   }
@@ -669,9 +680,10 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
     PhoneDataModel* phdm = new PhoneDataModel;
 
     tableModel = phdm->initializeRelationalModel();
+    int idx = phdm->NumberIndex();
 
     ui->listView->setModel(tableModel);
-    ui->listView->setModelColumn(PhoneDataModel::POS_PHONE_NUMBER);
+    ui->listView->setModelColumn(idx);
 
   }
   else if (selected == tr("Mobile")) {
@@ -680,10 +692,11 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
     actualView = VIEW_MOBILE;
     MobileDataModel* phdm = new MobileDataModel;
 
-    tableModel = phdm->initializeTableModel();
+    tableModel = phdm->initializeRelationalModel();
+    int idx = phdm->NumberIndex();
 
     ui->listView->setModel(tableModel);
-    ui->listView->setModelColumn(MobileDataModel::POS_MOBILE_NUMBER);
+    ui->listView->setModelColumn(idx);
 
     // Tre -> Misc
   }
@@ -693,10 +706,11 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
     actualView = VIEW_MANUFACTURER;
     ManufacturerDataModel* mdm = new ManufacturerDataModel;
 
-    tableModel = mdm->initializeTableModel();
+    tableModel = mdm->initializeRelationalModel();
+    int idx = mdm->NameIndex();
 
     ui->listView->setModel(tableModel);
-    ui->listView->setModelColumn(ManufacturerDataModel::POS_MANUFACTURER_NAME);
+    ui->listView->setModelColumn(idx);
 
   }
   else if (selected == tr("City")) {
@@ -705,10 +719,11 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
     actualView = VIEW_CITY;
     ZipCityModel* zcm = new ZipCityModel;
 
-    tableModel = zcm->initializeTableModel();
+    tableModel = zcm->initializeRelationalModel();
+    int idx = zcm->ZipCityIdIndex();
 
     ui->listView->setModel(tableModel);
-    ui->listView->setModelColumn(ZipCityModel::POS_ZIPCITY_CITY_ID);
+    ui->listView->setModelColumn(idx);
 
   }
   else {
