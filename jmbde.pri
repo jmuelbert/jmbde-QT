@@ -162,7 +162,7 @@ osx {
     INSTALL_APP_PATH        = bin
 }
 
-gcc:!clang: QMAKE_CXXFLAGS += Wno-noexcept-type
+gcc:!clang: QMAKE_CXXFLAGS += -Wno-noexcept-type
 
 RELATIVE_PLUGIN_PATH = $$relative_path($$APP_PLUGIN_PATH, $$APP_BIN_PATH)
 RELATIVE_LIBEXEC_PATH = $$relative_path($$APP_LIBEXEC_PATH, $$APP_BIN_PATH)
@@ -271,12 +271,12 @@ APPLICATION_APP_TARGET = $$APP_NAME
 win32 {
   # Makes sure we use correct subsystem on Windows.
   !contains(QMAKE_TARGET.arch, x86_64) {
-    message(APP: Compilling x86 variant.)
+    message($$APP_NAME: Compilling x86 variant.)
     QMAKE_LFLAGS_WINDOWS = /SUBSYSTEM:WINDOWS,5.01
   } else {
-    message(APP: Compiling x86_64 variant.)
+    message($$APP_NAME: Compiling x86_64 variant.)
     QMAKE_LFLAGS_WINDOWS = /SUBSYSTEM:WINDOWS,5.02
-  }
+    }
 }
 
 # Make needed tweaks for RC file getting generated on Windows.

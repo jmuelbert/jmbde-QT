@@ -78,7 +78,7 @@ def is_debug(fpath):
     return coredebug.search(output.decode(encoding)) != None
 
 def is_debug_build(install_dir):
-    return is_debug(os.path.join(install_dir, 'bin', 'qtcreator.exe'))
+    return is_debug(os.path.join(install_dir, 'bin', 'jmbde.exe'))
 
 def op_failed(details = None):
     if details != None:
@@ -191,7 +191,7 @@ def add_qt_conf(target_path, qt_prefix_path):
 
 def copy_translations(install_dir, qt_tr_dir):
     translations = glob(os.path.join(qt_tr_dir, '*.qm'))
-    tr_dir = os.path.join(install_dir, 'share', 'qtcreator', 'translations')
+    tr_dir = os.path.join(install_dir, 'share', 'jmbde', 'translations')
 
     print("copying translations...")
     for translation in translations:

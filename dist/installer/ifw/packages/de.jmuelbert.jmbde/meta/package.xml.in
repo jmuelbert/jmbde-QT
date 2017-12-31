@@ -6,7 +6,7 @@
     <ReleaseDate>{date}</ReleaseDate>
     <name>de.jmuelbert.jmbde</name>
     <Default>true</Default>
-    <Translations>
+    <!-- Translations>
       <Translation>de.qm</Translation>
-    </Translations>
+    </Translations -->
 </Package>

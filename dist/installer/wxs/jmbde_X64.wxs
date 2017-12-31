@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?define ManufacturerName="jmbde Project"?>
+  <?define ProductName="jmbde_X64"?>
+  <?define ProductVersion="0.4.8"?>
+  <Product Name="$(var.ProductName)"
+      Id="*"
+      UpgradeCode="a7acf535-ceee-46ab-8dd4-11b041750052"
+      Language="1033"
+      Version="$(var.ProductVersion)"
+      Manufacturer="$(var.ManufacturerName)">
+
+    <Package Id="*"
+        InstallerVersion="200"
+        Compressed="yes"
+        Description="jmbde Installer"
+        Manufacturer="$(var.ManufacturerName)"
+    />
+
+    <Media Id="1"
+        Cabinet="jmbde.cab"
+        EmbedCab="yes"
+    />
+
+    <MajorUpgrade
+        DowngradeErrorMessage="jmbde is already installed with a higher version."
+        AllowSameVersionUpgrades="yes" />
+
+    <!-- Directory tree -->
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLDIR" Name="$(var.ProductName)">
+          <Directory Id="iconengines" Name="iconengines"/>
+          <Directory Id="imageformats" Name="imageformats"/>
+          <Directory Id="platforms" Name="platforms"/>
+          <Directory Id="printsupport" Name="printsupport"/>
+          <Directory Id="sqldrivers" Name="sqldrivers" />
+          <Directory Id="styles" Name="styles" />
+          <Directory Id="translations" Name="translations"/>
+        </Directory>
+      </Directory>
+
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ProgramMenuDir" Name="$(var.ProductName) $(var.ProductVersion)">
+          <Component Id="ApplicationShortcuts" Guid="00d6f7a6-1169-47e1-bf41-014ae8fef5cc">
+            <RemoveFolder Id="ProgramMenuDir" On="uninstall"/>
+            <RegistryValue Root="HKCU" Key="Software\$(var.ManufacturerName)\jmbde" Type="string" Value="" KeyPath="yes"/>
+          </Component>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <!-- Main Installation Directory -->
+    <DirectoryRef Id="INSTALLDIR">
+      <Component Id="ProductComponent" Guid="22589b7b-0e16-4d8b-8242-ea9d77515b2a" DiskId="1">
+        <File Id="ApplicationFile" Source="bin\jmbde.exe" KeyPath="yes">
+          <Shortcut Id="StartMenujmbde" Directory="ProgramMenuDir" Name="jmbde" WorkingDirectory="INSTALLDIR" Icon="jmbde.exe" Advertise="yes"/>
+          <!--<Shortcut Id="Desktopjmbde" Directory="DesktopFolder" Name="jmbde" WorkingDirectory="INSTALLDIR" Icon="jmbde.exe" Advertise="yes"/>-->
+        </File>
+        <!-- done in main.cpp instead:
+        <ProgId Id="$(var.ProductName)" Icon="ApplicationFile"
+                Description="Markdown Document">
+          <Extension Id="md">
+            <Verb Id="open" Argument="&quot;%1&quot;"
+                  TargetFile="ApplicationFile" />
+          </Extension>
+          <Extension Id="markdown"/>
+        </ProgId>-->
+      </Component>
+
+      <Component Id="Qt5Component" Guid="b5033a9d-60a3-47f8-b150-f1a622fccb64" DiskId="1">
+        <File Id="d3dcompilerLibrary" Source="bin\d3dcompiler_47.dll" />
+        <File Id="EGLibrary" Source="bin\libEGL.dll" />
+        <File Id="GLESV2Library" Source="bin\libGLESV2.dll" />
+        <File Id="opengl32swLibrary" Source="bin\opengl32sw.dll" />
+        <File Id="Qt5CoreLibrary" Source="bin\Qt5Core.dll"/>
+        <File Id="Qt5GuiLibrary" Source="bin\Qt5Gui.dll"/>
+        <File Id="Qt5HelpLibrary" Source="bin\Qt5Help.dll"/>
+        <File Id="Qt5PrintSupportLibrary" Source="bin\Qt5PrintSupport.dll"/>
+        <File Id="Qt5SqlLibrary" Source="bin\Qt5Sql.dll"/>
+        <File Id="Qt5SvgLibrary" Source="bin\Qt5Svg.dll"/>
+        <File Id="Qt5WidgetsLibrary" Source="bin\Qt5Widgets.dll"/>
+      </Component>
+
+      <Component Id="TextComponent" Guid="9fc2e75e-250d-4b13-8803-98b387436990" DiskId="1">
+        <File Id="LICENSE.md" Source="LICENSE.md"/>
+        <File Id="README.md" Source="README.md"/>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="iconengines">
+      <Component Id="QtIconEngineComponent" Guid="9e018224-ee8b-4e41-80f5-83d2486655de" DiskId="1">
+        <File Id="QtSvgIconLibrary" Source="bin\iconengines\qsvgicon.dll" />
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="imageformats">
+      <Component Id="QtImageFormatsComponent" Guid="4bbfa7d2-0e07-4b3a-8e15-48d45fe45205" DiskId="1">
+        <File Id="QtGifPlugin" Source="bin\imageformats\qgif.dll"/>
+        <File Id="QtIcnsPlugin" Source="bin\imageformats\qicns.dll" />
+        <File Id="QtIcoPlugin" Source="bin\imageformats\qico.dll"/>
+        <File Id="QtJpegPlugin" Source="bin\imageformats\qjpeg.dll"/>
+        <File Id="QtSvgPlugin" Source="bin\imageformats\qsvg.dll"/>
+        <File Id="QtTgaPlugin" Source="bin\imageformats\qtga.dll"/>
+        <File Id="QtTiffPlugin" Source="bin\imageformats\qtiff.dll"/>
+        <File Id="QtWbmpPlugin" Source="bin\imageformats\qwbmp.dll"/>
+        <File Id="QtWebpPlugin" Source="bin\imageformats\qwebp.dll"/>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="platforms">
+      <Component Id="QtPlatformsComponent" Guid="c4ca7624-193c-4145-aafb-7741091de3eb" DiskId="1">
+        <File Id="QtWindowsPlugin" Source="bin\platforms/qwindows.dll"/>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="printsupport">
+      <Component Id="QtPrintSupportComponent" Guid="a464d1ab-c9fb-473d-93d3-91807d69548f" DiskId="1">
+        <File Id="QtWindowsPrinterPlugin" Source="bin\printsupport/windowsprintersupport.dll"/>
+      </Component>
+    </DirectoryRef>
+
+      <DirectoryRef Id="sqldrivers">
+      <Component Id="QtSqlSupportComponent" Guid="6fe1175f-7738-46cd-a451-9de27c07dbb3" DiskId="1">
+        <File Id="QtSqlitePlugin" Source="bin\sqldrivers\qsqlite.dll" />
+        <File Id="QtMySqlPlugin" Source="bin\sqldrivers\qsqlmysql.dll" />
+        <File Id="QtODBCPlugin" Source="bin\sqldrivers\qsqlodbc.dll" />
+        <File Id="QtPSqlPlugin" Source="bin\sqldrivers\qsqlpsql.dll" />
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="styles">
+      <Component Id="QtStyleComponent" Guid="13d6eae3-b88e-4ccd-bc89-d3de2894ace8" DiskId="1">
+        <File Id="QtWindowsVistaStyle" Source="bin\styles\qwindowsvistastyle.dll" />
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="translations">
+      <Component Id="QtTranslationsComponent" Guid="69416631-b4ea-42f3-9e8d-359ec0bd21c5" DiskId="1">
+        <!-- jmbde Translations -->
+        <File Id="jmbdeAR_DZTranslation" Source="share\jmbde\translations\jmbde_ar_DZ.qm" />
+        <File Id="jmbdeBGTranslation" Source="share\jmbde\translations\jmbde_bg.qm" />
+        <File Id="jmbdeCSTranslation" Source="share\jmbde\translations\jmbde_cs.qm" />
+        <File Id="jmbdeDETranslation" Source="share\jmbde\translations\jmbde_de.qm" />
+        <File Id="jmbdeENTranslation" Source="share\jmbde\translations\jmbde_en.qm" />
+        <File Id="jmbdeESTranslation" Source="share\jmbde\translations\jmbde_es.qm" />
+        <File Id="jmbdeFITranslation" Source="share\jmbde\translations\jmbde_fi.qm" />
+        <File Id="jmbdeFRTranslation" Source="share\jmbde\translations\jmbde_fr.qm" />
+        <File Id="jmbdeHETranslation" Source="share\jmbde\translations\jmbde_he.qm" />
+        <File Id="jmbdeHUTranslation" Source="share\jmbde\translations\jmbde_hu.qm" />
+        <File Id="jmbdeITTranslation" Source="share\jmbde\translations\jmbde_it.qm" />
+        <File Id="jmbdeJATranslation" Source="share\jmbde\translations\jmbde_ja.qm" />
+        <File Id="jmbdeNBTranslation" Source="share\jmbde\translations\jmbde_nb.qm" />
+        <File Id="jmbdeNLTranslation" Source="share\jmbde\translations\jmbde_nl.qm" />
+        <File Id="jmbdePLTranslation" Source="share\jmbde\translations\jmbde_pl.qm" />
+        <File Id="jmbdePTTranslation" Source="share\jmbde\translations\jmbde_pt.qm" />
+        <File Id="jmbdePT_PTTranslation" Source="share\jmbde\translations\jmbde_pt_PT.qm" />
+        <File Id="jmbdeRUTranslation" Source="share\jmbde\translations\jmbde_ru.qm" />
+        <File Id="jmbdeTRTranslation" Source="share\jmbde\translations\jmbde_tr.qm" />
+        <File Id="jmbdeUKTranslation" Source="share\jmbde\translations\jmbde_uk.qm" />
+        <File Id="jmbdeZHTranslation" Source="share\jmbde\translations\jmbde_zh.qm" />
+        <File Id="jmbdeZH_TWTranslation" Source="share\jmbde\translations\jmbde_zh_TW.qm" />
+        
+        <!-- Qt-Translations -->
+        <File Id="QtCSTranslation" Source="bin\translations/qt_cs.qm"/>
+        <File Id="QtDATranslation" Source="bin\translations/qt_da.qm"/>
+        <File Id="QtDETranslation" Source="bin\translations/qt_de.qm"/>
+        <File Id="QtESTranslation" Source="bin\translations/qt_es.qm"/>
+        <File Id="QtFRTranslation" Source="bin\translations/qt_fr.qm"/>
+        <File Id="QtHUTranslation" Source="bin\translations/qt_hu.qm"/>
+        <File Id="QtITTranslation" Source="bin\translations/qt_it.qm"/>
+        <File Id="QtJATranslation" Source="bin\translations/qt_ja.qm"/>
+        <File Id="QtPLTranslation" Source="bin\translations/qt_pl.qm"/>
+        <File Id="QtRUTranslation" Source="bin\translations/qt_ru.qm"/>
+        <File Id="QtSKTranslation" Source="bin\translations/qt_sk.qm"/>
+        <File Id="QtUKTranslation" Source="bin\translations/qt_uk.qm"/>
+      </Component>
+    </DirectoryRef>
+
+    <Feature Id="Complete" Title="jmbde" Level="1">
+      <ComponentRef Id="ProductComponent"/>
+      <ComponentRef Id="Qt5Component"/>
+      <ComponentRef Id="QtIconEngineComponent" />
+      <ComponentRef Id="QtImageFormatsComponent"/>
+      <ComponentRef Id="QtPlatformsComponent"/>
+      <ComponentRef Id="QtPrintSupportComponent"/>
+      <ComponentRef Id="QtSqlSupportComponent" />
+      <ComponentRef Id="QtStyleComponent" />
+      <ComponentRef Id="QtTranslationsComponent"/>
+      <ComponentRef Id="TextComponent"/>
+      <ComponentRef Id="ApplicationShortcuts"/>
+    </Feature>
+
+    <!-- Allow user to change the installation directory -->
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
+    <UIRef Id="WixUI_InstallDir" />
+
+    <!-- Skip license dialog -->
+    <UI>
+      <Publish Dialog="WelcomeDlg"
+               Control="Next"
+               Event="NewDialog"
+               Value="InstallDirDlg"
+               Order="2">1</Publish>
+      <Publish Dialog="InstallDirDlg"
+               Control="Back"
+               Event="NewDialog"
+               Value="WelcomeDlg"
+               Order="2">1</Publish>
+    </UI>
+
+    <Icon Id="jmbde.exe" SourceFile="bin\jmbde.exe"/>
+  </Product>
+</Wix>
