@@ -5,7 +5,7 @@
             "includePath": [
                 "/usr/include",
                 "/usr/local/include",
-                "/Users/juergen/Qt/5.9.3/clang_64/include",
+                "/usr/local/Cellar/qt/5.10.0_1/lib/QtCore.framework/Version/5/Headers",
                 "${workspaceRoot}"
             ],
             "defines": [],
@@ -14,7 +14,7 @@
                 "path": [
                     "/usr/include",
                     "/usr/local/include",
-                    "/Users/juergen/Qt/5.9.3/clang_64/include",
+                    "/usr/local/Cellar/qt/5.10.0_1/lib/QtCore.framework/Version/5/Headers",
                     "${workspaceRoot}"
                 ],
                 "limitSymbolsToIncludedHeaders": true,

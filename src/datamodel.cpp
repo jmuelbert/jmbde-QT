@@ -1,44 +1,44 @@
-/*
-   // DataModel
-   // part of jmbde
-   //
-   // Copyright (c) 2013-2017 Jürgen Mülbert. All rights reserved.
-   //
-   // Licensed under the EUPL, Version 1.2 or – as soon they
-   // will be approved by the European Commission - subsequent
-   // versions of the EUPL (the "Licence");
-   // You may not use this work except in compliance with the
-   // Licence.
-   // You may obtain a copy of the Licence at:
-   //
-   // https://joinup.ec.europa.eu/page/eupl-text-11-12
-   //
-   // Unless required by applicable law or agreed to in
-   // writing, software distributed under the Licence is
-   // distributed on an "AS IS" basis,
-   // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-   // express or implied.
-   // See the Licence for the specific language governing
-   // permissions and limitations under the Licence.
-   //
-   // Lizenziert unter der EUPL, Version 1.2 oder - sobald
-   // diese von der Europäischen Kommission genehmigt wurden -
-   // Folgeversionen der EUPL ("Lizenz");
-   // Sie dürfen dieses Werk ausschließlich gemäß
-   // dieser Lizenz nutzen.
-   // Eine Kopie der Lizenz finden Sie hier:
-   //
-   // https://joinup.ec.europa.eu/page/eupl-text-11-12
-   //
-   // Sofern nicht durch anwendbare Rechtsvorschriften
-   // gefordert oder in schriftlicher Form vereinbart, wird
-   // die unter der Lizenz verbreitete Software "so wie sie
-   // ist", OHNE JEGLICHE GEWÄHRLEISTUNG ODER BEDINGUNGEN -
-   // ausdrücklich oder stillschweigend - verbreitet.
-   // Die sprachspezifischen Genehmigungen und Beschränkungen
-   // unter der Lizenz sind dem Lizenztext zu entnehmen.
-   //
- */
+/**************************************************************************
+**
+** Copyright (c) 2013-2018 Jürgen Mülbert. All rights reserved.
+**
+** This file is part of jmbde
+**
+** Licensed under the EUPL, Version 1.2 or – as soon they
+** will be approved by the European Commission - subsequent
+** versions of the EUPL (the "Licence");
+** You may not use this work except in compliance with the
+** Licence.
+** You may obtain a copy of the Licence at:
+**
+** https://joinup.ec.europa.eu/page/eupl-text-11-12
+**
+** Unless required by applicable law or agreed to in
+** writing, software distributed under the Licence is
+** distributed on an "AS IS" basis,
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+** express or implied.
+** See the Licence for the specific language governing
+** permissions and limitations under the Licence.
+**
+** Lizenziert unter der EUPL, Version 1.2 oder - sobald
+**  diese von der Europäischen Kommission genehmigt wurden -
+** Folgeversionen der EUPL ("Lizenz");
+** Sie dürfen dieses Werk ausschließlich gemäß
+** dieser Lizenz nutzen.
+** Eine Kopie der Lizenz finden Sie hier:
+**
+** https://joinup.ec.europa.eu/page/eupl-text-11-12
+**
+** Sofern nicht durch anwendbare Rechtsvorschriften
+** gefordert oder in schriftlicher Form vereinbart, wird
+** die unter der Lizenz verbreitete Software "so wie sie
+** ist", OHNE JEGLICHE GEWÄHRLEISTUNG ODER BEDINGUNGEN -
+** ausdrücklich oder stillschweigend - verbreitet.
+** Die sprachspezifischen Genehmigungen und Beschränkungen
+** unter der Lizenz sind dem Lizenztext zu entnehmen.
+**
+**************************************************************************/
 
 #include "accountdatamodel.h"
 #include "chipcarddatamodel.h"
@@ -244,7 +244,8 @@ bool DataModel::checkDBVersion()
     lupdate = query.value(3).toDateTime();
   }
 
-  if (version == Database::Version::Version && revision == Database::Version::Revision)
+  if (version == QLatin1String(Database::Version::Version) && 
+      revision == QLatin1String(Database::Version::Revision))
   {
     qDebug() << "Check Databaseverion: OK - Version: " << version << "." << revision << "." << patch << " from " << lupdate.toString();
     return true;
@@ -405,20 +406,20 @@ QSqlError DataModel::initDb()
 
   QSqlQuery query;
 
-  QString sqlString = "CREATE TABLE database_version ("
+  QString sqlString = QLatin1String("CREATE TABLE database_version ("
                       "database_version_id INTEGER PRIMARY KEY, " \
                       "version VARCHAR(10), " \
                       "revision VARCHAR(10), " \
                       "patch VARCHAR(10), " \
-                      "last_update TIMESTAMP);";
+                      "last_update TIMESTAMP);");
   query.exec(sqlString);
   query.prepare("INSERT INTO database_version (database_version_id, version, revision, patch, last_update)  "
                 "VALUES (:database_version_id, :version, :revision, :patch, :last_update)");
-  query.bindValue(":database_version_id", 1);
-  query.bindValue(":version", Database::Version::Version);
-  query.bindValue(":revision", Database::Version::Revision);
-  query.bindValue(":patch", Database::Version::Patch);
-  query.bindValue(":last_update", QDateTime().toString());
+  query.bindValue(QLatin1String(":database_version_id"), 1);
+  query.bindValue(QLatin1String(":version"), Database::Version::Version);
+  query.bindValue((QLatin1String(":revision"), Database::Version::Revision);
+  query.bindValue(QLatin1String(":patch"), Database::Version::Patch);
+  query.bindValue(QLatin1String(":last_update"), QDateTime().toString());
   query.exec();
   qDebug() << "Set DB-Version: " << query.lastError();
   return q.lastError();

@@ -1,15 +1,14 @@
-<<<<<<< HEAD
 ## Ignore temporary files
 ## build results
 ## generated databases
 
 .build/
-.DS_Store
 
 # Sqlite-DB
 *.db
 *.db3
 *.sqlite
+*.user.*
 
 # Build results
 [Dd]ebug/
@@ -23,7 +22,6 @@
 # QT
 .qmake*
 
-=======
 # This file is used to ignore files which are generated
 # ----------------------------------------------------------------------------
 
@@ -72,8 +70,7 @@ ui_*.h
 wrapper.bat
 wrapper.sh
 
-# qtcreator generated files
-*.creator.user*
+# qtcreator generated file
 *.pro.user*
 *.pyqtc.user*
 *.qbs.user*
@@ -141,6 +138,7 @@ phony.c
 /doc/html-dev/
 /doc/html/
 /doc/pluginhowto/html/
+/jmbde_doc_generated
 /lib/
 /lib64/
 /libexec/
@@ -161,4 +159,4 @@ tmp/
 # qbs builds
 /*-debug/
 /*-release/
->>>>>>> develop
+

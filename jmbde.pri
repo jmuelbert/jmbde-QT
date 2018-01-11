@@ -1,5 +1,5 @@
 !isEmpty(APP_PRI_INCLUDED) {
-        error("APP.pri already included")
+        error("jmbde.pri already included")
 }
 APP_PRI_INCLUDED = 1
 

@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=jmbde
+Name[de]=jmbde
+Name[es]=jmbde
+Name[it]=jmbde
+GenericName=A little BDE Tool
+Exec=jmbde
+Comment=jmbde is a little bde tool
+Icon=jmbde
+Type=Application
+Terminal=false
+StartupNotify=false
+Categories=Qt;Office;Managment
