@@ -75,6 +75,28 @@
 #define SHARE_PATH "/../share/jmbde"
 #endif
 
+const char fixedOptionsC[] =
+    " [OPTION]...\n"
+    "Options:\n"
+    "    -help                         Display this help\n"
+    "    -version                      Display program version\n";
+
+const char HELP_OPTION1[] = "-h";
+const char HELP_OPTION2[] = "-help";
+const char HELP_OPTION3[] = "/h";
+const char HELP_OPTION4[] = "--help";
+const char VERSION_OPTION[] = "-version";
+
+
+static void displayHelpText(const QString &t)
+{
+  if (Utils::HostOsInfo::isWindowsHost())
+    QMessageBox::information(0, QLatin1String(Core::Constants
+                                              : JMBDE_DISPLAY_NAME),
+                             toHtml());
+  else
+    qWarning("%s", qPrintable(t));
+}
 /**
  * @brief main
  * @param argc

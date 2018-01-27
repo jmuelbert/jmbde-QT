@@ -47,7 +47,7 @@ def substitute_file(infile, outfile, substitutions):
 def ifw_template_dir():
     script_dir = os.path.dirname(inspect.getfile(inspect.currentframe()))
     source_dir = os.path.normpath(os.path.join(script_dir, '..'))
-    return os.path.normpath(os.path.join(source_dir, 'dist', 'installer', 'ifw'))
+    return os.path.normpath(os.path.join(source_dir, 'dist', 'ifw'))
 
 def main():
     try:
@@ -141,14 +141,14 @@ def main():
         for archive in archives:
             shutil.copy(archive, data_path)
 
-        ifw_call = [os.path.join(ifw_location, 'bin', 'binarycreator'), '-c', os.path.join(out_config_dir, config_name), '-p', out_packages_dir, installer_name, '--offline-only' ]
+        ifw_call = [os.path.join(ifw_location, 'bin', 'binarycreator'),  '-c', os.path.join(out_config_dir, config_name), '-p', out_packages_dir, installer_name, '--offline-only' ]
         if debug:
             ifw_call.append('-v')
         subprocess.check_call(ifw_call, stderr=subprocess.STDOUT)
     finally:
         if not debug:
             print('Cleaning up...')
-            shutil.rmtree(temp_dir)
+            # shutil.rmtree(temp_dir)
         print('Done.')
 
 if __name__ == '__main__':

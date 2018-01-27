@@ -3,9 +3,6 @@
         {
             "name": "Mac",
             "includePath": [
-                "/usr/include",
-                "/usr/local/include",
-                "/usr/local/Cellar/qt/5.10.0_1/lib/QtCore.framework/Version/5/Headers",
                 "${workspaceRoot}"
             ],
             "defines": [],
@@ -14,7 +11,14 @@
                 "path": [
                     "/usr/include",
                     "/usr/local/include",
-                    "/usr/local/Cellar/qt/5.10.0_1/lib/QtCore.framework/Version/5/Headers",
+                    "/usr/local/include/QtCore",
+                    "/usr/local/include/QtGui",
+                    "/usr/local/include/QtHelp",
+                    "/usr/local/include/QtSql",
+                    "/usr/local/include/QtSvg",
+                    "/usr/local/include/QtTest",
+                    "/usr/local/include/QtWidgets",
+                    "/usr/local/include/QtXml",
                     "${workspaceRoot}"
                 ],
                 "limitSymbolsToIncludedHeaders": true,

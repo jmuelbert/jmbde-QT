@@ -1,0 +1,94 @@
+/**************************************************************************
+**
+** Copyright (c) 2013-2018 Jürgen Mülbert. All rights reserved.
+**
+** This file is part of jmbde
+**
+** Licensed under the EUPL, Version 1.2 or – as soon they
+** will be approved by the European Commission - subsequent
+** versions of the EUPL (the "Licence");
+** You may not use this work except in compliance with the
+** Licence.
+** You may obtain a copy of the Licence at:
+**
+** https://joinup.ec.europa.eu/page/eupl-text-11-12
+**
+** Unless required by applicable law or agreed to in
+** writing, software distributed under the Licence is
+** distributed on an "AS IS" basis,
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+** express or implied.
+** See the Licence for the specific language governing
+** permissions and limitations under the Licence.
+**
+** Lizenziert unter der EUPL, Version 1.2 oder - sobald
+**  diese von der Europäischen Kommission genehmigt wurden -
+** Folgeversionen der EUPL ("Lizenz");
+** Sie dürfen dieses Werk ausschließlich gemäß
+** dieser Lizenz nutzen.
+** Eine Kopie der Lizenz finden Sie hier:
+**
+** https://joinup.ec.europa.eu/page/eupl-text-11-12
+**
+** Sofern nicht durch anwendbare Rechtsvorschriften
+** gefordert oder in schriftlicher Form vereinbart, wird
+** die unter der Lizenz verbreitete Software "so wie sie
+** ist", OHNE JEGLICHE GEWÄHRLEISTUNG ODER BEDINGUNGEN -
+** ausdrücklich oder stillschweigend - verbreitet.
+** Die sprachspezifischen Genehmigungen und Beschränkungen
+** unter der Lizenz sind dem Lizenztext zu entnehmen.
+**
+**************************************************************************/
+
+#pragma once
+
+namespace Core {
+namespace Constants {
+
+#define STRINGIFY_INTERNAL(x) #x
+#define STRINGIFY(x) STRINGIFY_INTERNAL(x)
+
+const char JMBDE_DISPLAY_NAME[] = \"jmbde\";
+const char JMBDE_ID[] = \"jmbde\";
+const char JMBDE_CASED_ID[] = \"JMBDE\";
+
+#define JMBDE_VERSION $${APP_VERSION}
+#define JMBDE_VERSION_STR STRINGIFY(APP_VERSION)
+#define JMBDE_VERSION_DISPLAY_DEF $${APP_DISPLAY_VERSION}
+
+#define JMBDE_VERSION_MAJOR $$replace(APP_VERSION, "^(\\d+)\\.\\d+\\.\\d+(-.*)?$", \\1)
+#define JMBDE_VERSION_MINOR $$replace(APP_VERSION, "^\\d+\\.(\\d+)\\.\\d+(-.*)?$", \\1)
+#define JMBDE_VERSION_RELEASE $$replace(APP_VERSION, "^\\d+\\.\\d+\\.(\\d+)(-.*)?$", \\1)
+
+const char * const JMBDE_VERSION_LONG      = JMBDE_VERSION_STR;
+const char * const JMDBE_VERSION_DISPLAY   = STRINGIFY(JMBDE_VERSION_DISPLAY_DEF);
+const char * const JMBDE_AUTHOR            = \"Jürgen Mülbert\";
+const char * const JMBDE_YEAR              = \"$${JMBDE_COPYRIGHT_YEAR}\";
+
+#ifdef JMBDE_REVISION
+const char * const JMBDE_REVISION_STR      = STRINGIFY(JMBDE_REVISION);
+#else
+const char * const JMBDE_REVISION_STR      = \"\";
+#endif
+
+// changes the path where the settings are saved to
+#ifdef JMBDE_SETTINGSVARIANT
+const char * const JMBDE_SETTINGSVARIANT_STR      = STRINGIFY(JMBDE_SETTINGSVARIANT);
+#else
+const char * const JMBDE_SETTINGSVARIANT_STR      = \"jmbde\";
+#endif
+
+#ifdef JMBDE_COPY_SETTINGS_FROM_VARIANT
+const char * const JMBDE_COPY_SETTINGS_FROM_VARIANT_STR = STRINGIFY(JMBDE_COPY_SETTINGS_FROM_VARIANT);
+#else
+const char * const JMBDE_COPY_SETTINGS_FROM_VARIANT_STR = \"JMBDE\";
+#endif
+
+#undef JMBDE_VERSION_DISPLAY_DEF
+#undef JMBDE_VERSION
+#undef JMBDE_VERSION_STR
+#undef STRINGIFY
+#undef STRINGIFY_INTERNAL
+
+}
+}

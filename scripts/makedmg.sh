@@ -35,7 +35,8 @@ title="jmbde"
 echo Preparing image artifacts...
 cp -a "${sourceFolder}/" "${intermediateFolder}"
 ln -s /Applications "${intermediateFolder}"
-cp "$(dirname "${BASH_SOURCE[0]}")/../LICENSE.GPL3-EXCEPT" "${intermediateFolder}/LICENSE.GPL3-EXCEPT.txt"
+cp "$(dirname "${BASH_SOURCE[0]}")/../LICENSE.EUPL_1_2.txt" "${intermediateFolder}/LICENSE.EUPL_1_2.txt"
+cp "$(dirname "${BASH_SOURCE[0]}")/../LICENSE.EUPL_1_2_DE.txt" "${intermediateFolder}/LICENSE.EUPL_1_2_DE.txt"
 echo Creating image...
 hdiutil create -srcfolder "${intermediateFolder}" -volname "${title}" -format UDBZ "${finalDMGName}" -ov -scrub -size 1g -verbose
 # make sure that the image is umounted etc

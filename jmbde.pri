@@ -3,62 +3,64 @@
 }
 APP_PRI_INCLUDED = 1
 
+APP_NAME = "jmbde"
+APP_VERSION = 0.4.9
+APP_COMPACT_VERSION =  0.4.9
+VERSION = $$APP_VERSION
+APP_DISPLAY_VERSION = 0.4.9
+APP_COPYRIGHT_YEAR = 2018
+BINARY_ARTIFACTS_BRANCH = master
 
-# Custom definitions.
-APP_NAME                    = "jmbde"
-APP_LOW_NAME                = "jmbde"
-APP_LOW_H_NAME              = ".jmbde"
-APP_TRANSLATION_NAME        = "jmbde_"
-APP_AUTHOR                  = "Jürgen Mülbert"
-APP_ORG_NAME                = "juergen-muelbert.de"
-APP_COPYRIGHT               = "(C) 2014-2017 $$APP_AUTHOR"
-APP_VERSION                 = 0.5.0
-APP_COMPACT_VERSION         = 0.5.0
-APP_DISPLAY_VERSION         = 0.5.0
-VERSION                     = $$APP_VERSION
-APP_COPYRIGHT_YEAR          = 2017
-BINARY_ARTIFACTS_BRANCH     = master
-APP_LONG_NAME               = "$$APP_NAME $$APP_VERSION"
-APP_EMAIL                   = "develop@juergen-muelbert.de"
-APP_URL                     = "https://github.com/jmuelbert/$$APP_NAME-QT"
-APP_URL_ISSUES              = "https://github.com/jmuelbert/$$APP_NAME-QT/issues"
-APP_URL_ISSUES_NEW          = "https://github.com/jmuelbert/$$APP_NAME-QT/issues/new"
-APP_URL_WIKI                = "https://github.com/jmuelbert/$$APP_NAME-QT/wiki"
-APP_USERAGENT               = "APP/$$APP_VERSION (github.com/jmuelbert/$$APP_NAME-QT-lib)"
-APP_DONATE_URL              = ""
-APP_WIN_ARCH                = "win64"
+isEmpty(APP_DISPLAY_NAME):  APP_DISPLAY_NAME = jmbde
+isEmpty(APP_ID):            APP_ID = jmbde
+isEmpty(ID_CASED_ID):       APP_CASED_ID = jmbde
 
-exists(.git) {
-  APP_REVISION = $$system(git rev-parse --short HEAD)
+DEFINES += APPNAME=$${APP_NAME}
+DEFINES += APP_VERSION=$${APP_VERSION}
+DEFINES += QT_NO_CAST_FROM_ASCII \
+           QT_NO_CAST_TO_ASCII
+
+DEFINES += \
+    QT_DISABLE_DEPRECATED_BEFORE=0x050600 \
+    QT_USE_FAST_OPERATOR_PLUS \
+    QT_USE_FAST_CONCATENATION
+
+DEFINES += QT_DEPRECATED_WARNINGS \
+    QT_DISABLE_DEPRECATED_BEFORE=0x050600 \
+    QT_USE_QSTRINGBUILDER \
+    QT_USE_FAST_CONCATENATION \
+    QT_USE_FAST_OPERATOR_PLUS
+
+
+CONFIG += depend_includepath c++14
+
+CONFIG += debug_and_release warn_on
+
+# See the README file for instructions about setting the install prefix.
+isEmpty(PREFIX):PREFIX = /usr/local
+isEmpty(LIBDIR):LIBDIR = $${PREFIX}/lib
+isEmpty(RPATH):RPATH = yes
+isEmpty(INSTALL_HEADERS):INSTALL_HEADERS = no
+
+macx {
+    # Do a universal build when possible
+    contains(QT_CONFIG, ppc):CONFIG += x86 ppc
 }
 
-isEmpty(APP_REVISION) {
-  APP_REVISION = ""
+# This allows jmbde to use up to 3GB on a 32-bit system and 4 GB on
+# 64-bit systems, rather than being limited to just 2 GB.
+win32-g++* {
+    QMAKE_LFLAGS += -Wl,--large-address-aware
+} else:win32 {
+    QMAKE_LFLAGS += /LARGEADDRESSAWARE
 }
+
+
+
 
 # Settings
-CONFIG += c++14
 CODECFORTR  = UTF-8
 CODECFORSRC = UTF-8
-
-
-DEFINES += APP_VERSION='"\\\"$$APP_VERSION\\\""'
-DEFINES += APP_NAME='"\\\"$$APP_NAME\\\""'
-DEFINES += APP_LOW_NAME='"\\\"$$APP_LOW_NAME\\\""'
-DEFINES += APP_LOW_H_NAME='"\\\"$$APP_LOW_H_NAME\\\""'
-DEFINES += APP_LONG_NAME='"\\\"$$APP_LONG_NAME\\\""'
-DEFINES += APP_ORG_NAME='"\\\"$$APP_ORG_NAME\\\""'
-DEFINES += APP_AUTHOR='"\\\"$$APP_AUTHOR\\\""'
-DEFINES += APP_EMAIL='"\\\"$$APP_EMAIL\\\""'
-DEFINES += APP_URL='"\\\"$$APP_URL\\\""'
-DEFINES += APP_URL_ISSUES='"\\\"$$APP_URL_ISSUES\\\""'
-DEFINES += APP_URL_ISSUES_NEW='"\\\"$$APP_URL_ISSUES_NEW\\\""'
-DEFINES += APP_URL_WIKI='"\\\"$$APP_URL_WIKI\\\""'
-DEFINES += APP_USERAGENT='"\\\"$$APP_USERAGENT\\\""'
-DEFINES += APP_DONATE_URL='"\\\"$$APP_DONATE_URL\\\""'
-DEFINES += APP_SYSTEM_NAME='"\\\"$$QMAKE_HOST.os\\\""'
-DEFINES += APP_SYSTEM_VERSION='"\\\"$$QMAKE_HOST.arch\\\""'
-DEFINES += APP_REVISION='"\\\"$$APP_REVISION\\\""'
 
 
 # For use in custom compilers which just copy files
@@ -85,6 +87,29 @@ isEmpty(APP_LIBRARY_BASENAME) {
 equals(TEST, 1) {
     QT += testlib
     DEFINES += WITH_TESTS
+}
+
+defineTest(minQtVersion) {
+    maj = $$1
+    min = $$2
+    patch = $$3
+    isEqual(QT_MAJOR_VERSION, $$maj) {
+        isEqual(QT_MINOR_VERSION, $$min) {
+            isEqual(QT_PATCH_VERSION, $$patch) {
+                return(true)
+            }
+            greaterThan(QT_PATCH_VERSION, $$patch) {
+                return(true)
+            }
+        }
+        greaterThan(QT_MINOR_VERSION, $$min) {
+            return(true)
+        }
+    }
+    greaterThan(QT_MAJOR_VERSION, $$maj) {
+        return(true)
+    }
+    return(false)
 }
 
 
@@ -198,13 +223,6 @@ exists($$APP_LIBRARY_PATH): LIBS *= -L$$APP_LIBRARY_PATH  # library path from ou
     DEFINES += APP_LIBRARY_BASENAME=\\\"$$APP_LIBRARY_BASENAME\\\"
 }
 
-DEFINES += \
-    $$APP_NAME \
-    QT_NO_CAST_TO_ASCII \
-    QT_RESTRICTED_CAST_FROM_ASCII \
-    QT_DISABLE_DEPRECATED_BEFORE=0x050600 \
-    QT_USE_FAST_OPERATOR_PLUS \
-    QT_USE_FAST_CONCATENATION
 
 unix {
     CONFIG(debug, debug|release):OBJECTS_DIR = $${OUT_PWD}/.obj/debug-shared
@@ -233,24 +251,24 @@ qt {
 QBSFILE = $$replace(_PRO_FILE_, \\.pro$, .qbs)
 exists($$QBSFILE):DISTFILES += $$QBSFILE
 
-
-isEmpty(IFW_PATH) {
-    IFW_PATH = "$$[QT_INSTALL_BINS]/../../../Tools/QtInstallerFramework/3.0"
+defineTest(hasBinarycreator) {
+    cmd = $$eval(QT_TOOL.binarycreator.binary)
+    isEmpty(cmd) {
+        cmd = $$[QT_HOST_BINS]/binarycreator
+        message($$cmd)
+        contains(QMAKE_HOST.os, Windows):exists($${cmd}.exe): return(true)
+        contains(QMAKE_HOST.os, Darwin):exists($${cmd}.app/Contents/MacOS/binarycreator): return(true)
+        exists($$cmd): return(true)
+    } else {
+        exists($$last(cmd)): return(true)
+    }efineTest
+    return(false)
 }
+
+!hasBinarycreator(): IFW_PATH = "$$[QT_INSTALL_BINS]/../../../Tools/QtInstallerFramework/3.0"
 
 message($$APP_NAME: The IFW-Path is \"$$IFW_PATH\".)
 message($$APP_NAME: Shadow copy build directory \"$$OUT_PWD\".)
-
-
-CONFIG += debug_and_release warn_on
-DEFINES += QT_DEPRECATED_WARNINGS \
-    QT_DISABLE_DEPRECATED_BEFORE=0x050600 \
-    QT_USE_QSTRINGBUILDER \
-    QT_NO_CAST_TO_ASCII \
-    QT_RESTRICTED_CAST_FROM_ASCII \
-    QT_USE_FAST_CONCATENATION \
-    QT_USE_FAST_OPERATOR_PLUS
-VERSION = $$APP_VERSION
 
 MOC_DIR = $$OUT_PWD/moc
 RCC_DIR = $$OUT_PWD/rcc

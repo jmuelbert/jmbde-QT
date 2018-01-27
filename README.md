@@ -6,6 +6,17 @@ jmbde is a program to collect data for the IT. The database contains employees, 
 
 This program is build with [qt](https://www.qt.io). This can use on macOS, linux and windows.
 
+### Build on Mac
+
+    Preperations:
+    -   Install Qt ´brew  install qt´
+    -   Install Qt Installer Framework ´brew tap jmuelbert/qtifw & brew install qtifw´
+
+    Build the program:
+    -   ´qmake´
+    -   ´make´
+    -   'make installer´
+
 ## Usage
 
 This project is not finish. You cant this use for production environments.

@@ -1,139 +1,32 @@
+include(../jmbde.pri)
 
-QT += core gui sql printsupport help
+TEMPLATE  = subdirs
+CONFIG   += ordered
 
-include (../jmbde.pri)
+QBS_DIRS = \
+    qbscorelib \
+    qbsqtprofilesetup \
+    qbsapps \
+    qbslibexec \
+    qbsplugins \
+    qbsstatic
 
-TEMPLATE = app
-TARGET  = $$APP_TARGET
-DESTDIR = $$APP_PATH
-VERSION = $$APP_VERSION
+qbscorelib.subdir = shared/qbs/src/lib/corelib
+qbsqtprofilesetup.subdir = shared/qbs/src/lib/qtprofilesetup
+qbsqtprofilesetup.depends = qbscorelib
+qbsapps.subdir = shared/qbs/src/app
+qbsapps.depends = qbsqtprofilesetup
+qbslibexec.subdir = shared/qbs/src/libexec
+qbslibexec.depends = qbscorelib
+qbsplugins.subdir = shared/qbs/src/plugins
+qbsstatic.file = shared/qbs/static.pro
 
-SOURCES += \
-        main.cpp \
-        mainwindow.cpp \
-        csvimportdialog.cpp \
-        preferencesdialog.cpp \
-        accountdatamodel.cpp \
-        commondatamodel.cpp \
-        computerdatamodel.cpp \
-        datamodel.cpp \
-        departmentdatamodel.cpp \
-        devicetypedatamodel.cpp \
-        employeedatamodel.cpp \
-        faxdatamodel.cpp \
-        functiondatamodel.cpp \
-        inventorydatamodel.cpp \
-        manufacturerdatamodel.cpp \
-        mobiledatamodel.cpp \
-        phonedatamodel.cpp \
-        placedatamodel.cpp \
-        printerdatamodel.cpp \
-        resource.cpp \
-        systemdatamodel.cpp \
-        helpbrowser.cpp \
-    titledatamodel.cpp \
-    processordatamodel.cpp \
-    osdatamodel.cpp \
-    softwaredatamodel.cpp \
-    zipcitymodel.cpp \
-    zipcodemodel.cpp \
-    phoneinputarea.cpp \
-    mobileinputarea.cpp \
-    functioninputarea.cpp \
-    departmentinputarea.cpp \
-    titleinputarea.cpp \
-    employeeinputarea.cpp \
-    computerinputarea.cpp \
-    processorinputarea.cpp \
-    osinputarea.cpp \
-    softwareinputarea.cpp \
-    manufacturerinputarea.cpp \
-    cityinputarea.cpp \
-    citynamedatamodel.cpp \
-    companydatamodel.cpp \
-    devicenamedatamodel.cpp \
-    employeeaccountdatamodel.cpp \
-    employeedocumentdatamodel.cpp \
-    documentsdatamodel.cpp \
-    computersoftwaredatamodel.cpp \
-    chipcarddatamodel.cpp \
-    chipcarddoorsdatamodel.cpp \
-    chipcardprofiledatamodel.cpp \
-    chipcardprofiledoordatamodel.cpp
+exists(shared/qbs/qbs.pro) {
+    isEmpty(QBS_INSTALL_DIR):QBS_INSTALL_DIR = $$(QBS_INSTALL_DIR)
+    isEmpty(QBS_INSTALL_DIR):SUBDIRS += $$QBS_DIRS
+}
+TR_EXCLUDE = shared/qbs
 
- HEADERS  += \
-        definitions.h \
-        mainwindow.h \
-        csvimportdialog.h \
-        preferencesdialog.h \
-        accountdatamodel.h \
-        commondatamodel.h \
-        computerdatamodel.h \
-        datamodel.h \
-        departmentdatamodel.h \
-        devicetypedatamodel.h \
-        employeedatamodel.h \
-        faxdatamodel.h \
-        functiondatamodel.h \
-        inventorydatamodel.h \
-        manufacturerdatamodel.h \
-        mobiledatamodel.h \
-        phonedatamodel.h \
-        placedatamodel.h \
-        printerdatamodel.h \
-        resource.h \
-        systemdatamodel.h \
-        helpbrowser.h \
-    titledatamodel.h \
-    processordatamodel.h \
-    osdatamodel.h \
-    softwaredatamodel.h \
-    zipcitymodel.h \
-    zipcodemodel.h \
-    phoneinputarea.h \
-    mobileinputarea.h \
-    functioninputarea.h \
-    departmentinputarea.h \
-    titleinputarea.h \
-    employeeinputarea.h \
-    computerinputarea.h \
-    processorinputarea.h \
-    osinputarea.h \
-    softwareinputarea.h \
-    manufacturerinputarea.h \
-    cityinputarea.h \
-    citynamedatamodel.h \
-    idatamodel.h \
-    companydatamodel.h \
-    devicenamedatamodel.h \
-    employeeaccountdatamodel.h \
-    employeedocumentdatamodel.h \
-    documentsdatamodel.h \
-    computersoftwaredatamodel.h \
-    chipcarddatamodel.h \
-    chipcarddoorsdatamodel.h \
-    chipcardprofiledatamodel.h \
-    chipcardprofiledoordatamodel.h
-
-FORMS    += \
-        mainwindow.ui \
-        csvimportdialog.ui \
-        employeeinputarea.ui \
-        preferencesdialog.ui \
-    phoneinputarea.ui \
-    mobileinputarea.ui \
-    functioninputarea.ui \
-    departmentinputarea.ui \
-    titleinputarea.ui \
-    computerinputarea.ui \
-    processorinputarea.ui \
-    osinputarea.ui \
-    softwareinputarea.ui \
-    manufacturerinputarea.ui \
-    cityinputarea.ui
-
-
-RESOURCES += \
-        jmbde.qrc
-
-DISTFILES +=
+SUBDIRS += \
+    app
+# libs

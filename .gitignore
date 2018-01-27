@@ -10,17 +10,56 @@
 *.sqlite
 *.user.*
 
-# Build results
+# General Build artifacts
 [Dd]ebug/
 [Rr]elease/
 [Bb]uild/
 [Oo]bj/
+[Bb]in/
+[Ll]ib/*.so*
+Makefile*
+*.o
+*.qm
+*.moc
+moc_*.cpp
+ui_*.h
+qrc_*
+default/
+moc_predefs.h
+
+# Build artifacts on Windows
+jmbde.exe
+*.dll
+*.obj
+*.a
+*.lib
+*.exp
+*.intermediate.manifest
+
+# Build artifacts on Mac
+.qmake.stash
+translations/phony_target.app
+
+# IDE files
+*.pro.user*
+*.qbs.user*
+
+# Man
+
+# Doxygen and Sphinx
+html/
+docs/_build/html/
+docs/_build/gettext/.doctrees
+docs/build/doctrees/
+*.mo
+
+# Linux perf/debugging
+gmon.out
+
 
 # VS-Code
 *.db-*
 
-# QT
-.qmake*
 
 # This file is used to ignore files which are generated
 # ----------------------------------------------------------------------------

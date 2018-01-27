@@ -6,9 +6,28 @@ QtGuiApplication {
     name: "jmbde"
     targetName: name
     version: project.version
+    type: [ "application" ]
 
     Depends { name: "Qt"; submodules: ["core", "widgets", "sql", "printsupport", "help" ]; versionAtLeast: "5.9" }
+    Depends { name: "bundle" }
+    Depends { name: "ib"; condition: qbs.targetOS.contains("macos") }
+    Depends { name: "app_version_header" }
+    Depends { name: "Utils" }
+    Depends { name: "ExtensionSystem" }
 
+    Properties {
+        condition: qbs.targetOS.contains("macos")
+        ib.appIconName: "jmbde"
+    }
+
+    Properties {
+        condition: qbs.targetOS.contains("windows")
+        consoleApplication: qbs.debugInformationen
+    }
+    consoleApplication: false
+
+    property bool isBundle: qbs.targetOS.contains("darwin") && bundle.isBundle
+    
     property bool qtcRunnable: false
 
     cpp.includePaths: ["."]
@@ -23,7 +42,7 @@ QtGuiApplication {
     cpp.useRPaths: project.useRPaths
     cpp.rpaths: {
         if (qbs.targetOS.contains("darwin"))
-            return ["@loader_path/../Frameworks"];
+            return ["@executable_path/../Frameworks"];
         else if (project.linuxArchive)
             return ["$ORIGIN/lib"];
         else
@@ -47,6 +66,7 @@ QtGuiApplication {
     }
 
     consoleApplication: false;
+
 
     Group {
         name: "Precompiled header"
@@ -200,7 +220,7 @@ QtGuiApplication {
         qbs.install: true
         qbs.installDir: {
             if (qbs.targetOS.contains("windows")
-                   || project.linuxArchivee)
+                   || project.linuxArchive)
                 return ""
             else
                 return "bin"
