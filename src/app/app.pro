@@ -15,7 +15,7 @@ win32 {
     #  RC_VERSION=4,3,82,0 (quadruple)
     #  RC_VERSION_STRING="4.4.0-beta1" (free text)
     # Also, we need to replace space with \x20 to be able to work with both rc and windres
-    COPYRIGHT = "2011-$${APP_COPYRIGHT_YEAR} Jürgen Mülbert"
+    COPYRIGHT = "2013-$${APP_COPYRIGHT_YEAR} Jürgen Mülbert"
     DEFINES += RC_VERSION=$$replace(APP_VERSION, "\\.", ","),0 \
         RC_VERSION_STRING=\"$${APP_DISPLAY_VERSION}\" \
         RC_COPYRIGHT=\"$$replace(COPYRIGHT, " ", "\\x20")\"
@@ -45,14 +45,16 @@ win32 {
             QMAKE_EXTRA_COMPILERS += ASSETCATALOG
             icns.files = \
                 $$APP_DATA_PATH/jmbde.icns
-                icns.path = $$INSTALL_DATA_PATH
+            icns.path = $$INSTALL_DATA_PATH
             icns.CONFIG += no_check_exist
             INSTALLS += icns
         }
     }
-    infoplist = $$cat($$PWD/Info.plist, blob)
+
+    infoplist = $$cat($$PWD/app-Info.plist, blob)
     infoplist = $$replace(infoplist, @MACOSX_DEPLOYMENT_TARGET@, $$QMAKE_MACOSX_DEPLOYMENT_TARGET)
-    infoplist = $$replace(infoplist, @QTCREATOR_COPYRIGHT_YEAR@, $$QTCREATOR_COPYRIGHT_YEAR)
+    infoplist = $$replace(infoplist, @APP_COPYRIGHT_YEAR@, $$APP_COPYRIGHT_YEAR)
+    infoplist = $$replace(infoplist, @PRODUCT_BUNDLE_IDENTIFIER@, $$PRODUCT_BUNDLE_IDENTIFIER)
     write_file($$OUT_PWD/Info.plist, infoplist)
 
     QMAKE_INFO_PLIST = $$OUT_PWD/Info.plist
@@ -196,27 +198,6 @@ FORMS    += \
 
 RESOURCES += \
         jmbde.qrc
-
-
-icon32.path = $${PREFIX}/share/icons/hicolor/32x32/apps/
-icon32.files += images/32x32/jmbde.png
-INSTALLS += icon32
-
-icon16.path = $${PREFIX}/share/icons/hicolor/16x16/apps/
-icon16.files += images/16x16/jmbde.png
-INSTALLS += icon16
-
-iconscalable.path = $${PREFIX}/share/icons/hicolor/scalable/apps/
-iconscalable.files += images/scalable/jmbde.png
-INSTALLS += iconscalable
-
-desktopfile.path = $${PREFIX}/share/applications/
-desktopfile.files += ../../dist/osb/$${APP_NAME}.desktop
-INSTALLS += desktopfile
-
-manpage.path = $${PREFIX}/share/man/man1/
-manpage.files += ../../man/jmbde.1
-INSTALLS += manpage
 
 
 

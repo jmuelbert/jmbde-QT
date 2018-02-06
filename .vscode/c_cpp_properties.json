@@ -3,7 +3,8 @@
         {
             "name": "Mac",
             "includePath": [
-                "${workspaceRoot}"
+                "${workspaceRoot}",
+                "~/Qt/5.10.0/clang_64/lib/QtCore.framework/Headers"
             ],
             "defines": [],
             "intelliSenseMode": "clang-x64",

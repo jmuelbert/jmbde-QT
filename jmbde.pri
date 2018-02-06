@@ -55,9 +55,6 @@ win32-g++* {
     QMAKE_LFLAGS += /LARGEADDRESSAWARE
 }
 
-
-
-
 # Settings
 CODECFORTR  = UTF-8
 CODECFORSRC = UTF-8
@@ -251,23 +248,6 @@ qt {
 QBSFILE = $$replace(_PRO_FILE_, \\.pro$, .qbs)
 exists($$QBSFILE):DISTFILES += $$QBSFILE
 
-defineTest(hasBinarycreator) {
-    cmd = $$eval(QT_TOOL.binarycreator.binary)
-    isEmpty(cmd) {
-        cmd = $$[QT_HOST_BINS]/binarycreator
-        message($$cmd)
-        contains(QMAKE_HOST.os, Windows):exists($${cmd}.exe): return(true)
-        contains(QMAKE_HOST.os, Darwin):exists($${cmd}.app/Contents/MacOS/binarycreator): return(true)
-        exists($$cmd): return(true)
-    } else {
-        exists($$last(cmd)): return(true)
-    }efineTest
-    return(false)
-}
-
-!hasBinarycreator(): IFW_PATH = "$$[QT_INSTALL_BINS]/../../../Tools/QtInstallerFramework/3.0"
-
-message($$APP_NAME: The IFW-Path is \"$$IFW_PATH\".)
 message($$APP_NAME: Shadow copy build directory \"$$OUT_PWD\".)
 
 MOC_DIR = $$OUT_PWD/moc
@@ -306,7 +286,5 @@ win32 {
   QMAKE_TARGET_PRODUCT = $$APP_NAME
 }
 
-DISTFILES += \
-    $$PWD/deployqt.py
 
 
