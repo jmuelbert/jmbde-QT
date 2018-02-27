@@ -270,10 +270,10 @@ win32 {
   # Makes sure we use correct subsystem on Windows.
   !contains(QMAKE_TARGET.arch, x86_64) {
     message($$APP_NAME: Compilling x86 variant.)
-    QMAKE_LFLAGS_WINDOWS = /SUBSYSTEM:WINDOWS,5.01
+    # QMAKE_LFLAGS_WINDOWS = /SUBSYSTEM:WINDOWS,5.01
   } else {
     message($$APP_NAME: Compiling x86_64 variant.)
-    QMAKE_LFLAGS_WINDOWS = /SUBSYSTEM:WINDOWS,5.02
+    # QMAKE_LFLAGS_WINDOWS = /SUBSYSTEM:WINDOWS,5.02
     }
 }
 

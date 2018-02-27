@@ -26,6 +26,7 @@ ui_*.h
 qrc_*
 default/
 moc_predefs.h
+jmbde_autogen/
 
 # Build artifacts on Windows
 jmbde.exe

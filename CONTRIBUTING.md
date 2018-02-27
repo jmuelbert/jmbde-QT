@@ -1,4 +1,4 @@
-# Contributing to qtifw
+# Contributing to jmbde
 First time contributing to jmbde-QT ? Read our [Code of Conduct](https://github.com/jmuelbert/jmbde-QT/blob/master/CODE_OF_CONDUCT.md#code-of-conduct).
 
 ### Report a bug
