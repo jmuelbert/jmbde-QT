@@ -122,21 +122,12 @@ MainWindow::MainWindow(QWidget* parent)
 
     ui->listView->setModel(tableModel);
     ui->listView->setModelColumn(idx);
+
+    QModelIndex qmi = QModelIndex();
+    EmployeeInputArea *eia = new EmployeeInputArea(ui->scrollArea, qmi);
+    ui->scrollArea->setWidget(eia);
   }
 
-//   qDebug() << "ActualData Row : " << m_actualData;
-//    if (m_actualData.row() > 0) {
-//        ui->listView->setCurrentIndex(m_actualData);
-//        onClickedListViewRow(m_actualData);
-//    } else {
-//        qDebug() << "Employee Table Row ( 0 ) selected";
-
-//        EmployeeInputArea* seia = new EmployeeInputArea();
-//        qDebug() << "Splitter count: " << ui->splitter->count();
-//        ui->splitter->replaceWidget(2, seia);
-//        qDebug() << "Splitter count: " << ui->splitter->count();
-
-//    }
 
   connect(ui->treeView, SIGNAL(clicked(QModelIndex)), this, SLOT(onClickedTreeView(QModelIndex)));
   connect(ui->listView, SIGNAL(clicked(QModelIndex)), this, SLOT(onClickedListViewRow(QModelIndex)) );
@@ -565,6 +556,9 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
 
     ui->listView->setModel(tableModel);
     ui->listView->setModelColumn(idx);
+    QModelIndex qmi = QModelIndex();
+    EmployeeInputArea *eia = new EmployeeInputArea(ui->scrollArea, qmi);
+    ui->scrollArea->setWidget(eia);
 
   }
   else if (selected == tr("Function")) {
@@ -578,7 +572,9 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
     ui->listView->setModel(tableModel);
     int idx = fdm->NameIndex();
     ui->listView->setModelColumn(idx);
-
+    QModelIndex qmi = QModelIndex();
+    FunctionInputArea *fia = new FunctionInputArea(ui->scrollArea, qmi);
+    ui->scrollArea->setWidget(fia);
   }
   else if (selected == tr("Department")) {
     qDebug() << "Select Department";
@@ -591,6 +587,9 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
 
     ui->listView->setModel(tableModel);
     ui->listView->setModelColumn(idx);
+    QModelIndex qmi = QModelIndex();
+    DepartmentInputArea *dia = new DepartmentInputArea(ui->scrollArea, qmi);
+    ui->scrollArea->setWidget(dia);
 
   }
   else if (selected == tr("Title")) {
@@ -604,6 +603,10 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
 
     ui->listView->setModel(tableModel);
     ui->listView->setModelColumn(idx);
+
+    // QModelIndex qmi = QModelIndex();
+    // TitleInputArea *tia = new TitleInputArea(ui->scrollArea, qmi);
+    // ui->scrollArea->setWidget(tia);
 
     // Tree -> Device
   }
@@ -619,6 +622,9 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
     ui->listView->setModel(tableModel);
     ui->listView->setModelColumn(idx);
 
+    QModelIndex qmi = QModelIndex();
+    ComputerInputArea *cia = new ComputerInputArea(ui->scrollArea, qmi);
+    ui->scrollArea->setWidget(cia);
   }
   else if (selected == tr("Processor")) {
     qDebug() << "Select Processor";
@@ -724,6 +730,10 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
 
     ui->listView->setModel(tableModel);
     ui->listView->setModelColumn(idx);
+
+    QModelIndex qmi = QModelIndex();
+    CityInputArea *cia = new CityInputArea(ui->scrollArea, qmi);
+    ui->scrollArea->setWidget(cia);
 
   }
   else {

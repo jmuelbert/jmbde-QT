@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>669</width>
-    <height>311</height>
+    <width>702</width>
+    <height>300</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -44,10 +44,10 @@
    <widget class="QSplitter" name="splitter">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>0</x>
       <y>0</y>
-      <width>651</width>
-      <height>200</height>
+      <width>691</width>
+      <height>201</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -130,6 +130,12 @@
      </property>
     </widget>
     <widget class="QScrollArea" name="scrollArea">
+     <property name="verticalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOn</enum>
+     </property>
+     <property name="horizontalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOn</enum>
+     </property>
      <property name="widgetResizable">
       <bool>true</bool>
      </property>
@@ -138,8 +144,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>295</width>
-        <height>198</height>
+        <width>335</width>
+        <height>199</height>
        </rect>
       </property>
      </widget>
@@ -151,7 +157,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>669</width>
+     <width>702</width>
      <height>22</height>
     </rect>
    </property>

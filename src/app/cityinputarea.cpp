@@ -44,7 +44,7 @@
 #include "ui_cityinputarea.h"
 
 CityInputArea::CityInputArea(QWidget* parent, const QModelIndex index) :
-  QScrollArea(parent), ui(new Ui::CityInputArea)
+  QGroupBox(parent), ui(new Ui::CityInputArea)
 {
   ui->setupUi(this);
 

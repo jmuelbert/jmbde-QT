@@ -92,7 +92,7 @@ bool DataModel::CreateConnection()
   // Read DB Settings
   // Database settings
   QString dataBaseDir =
-      QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+      QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
 
   settings.beginGroup(QLatin1String(Settings::Groups::DATABASE));
   int dbType =
@@ -106,29 +106,15 @@ bool DataModel::CreateConnection()
                            .toString();
   QString dbUserName = settings
                            .value(QLatin1String(Settings::Database::USERNAME),
-                                  QLatin1String("jmbde"))
+                                  dbName)
                            .toString();
   QString dbPassWord = settings
                            .value(QLatin1String(Settings::Database::PASSWORD),
-                                  QLatin1String("jmbde"))
+                                  dbName)
                            .toString();
 
   if (dbType == SQLITE)
   {
-#ifdef Q_OS_MAC
-    const QString &_creatorTrPath = QCoreApplication::applicationDirPath();
-    QDir trPath(_creatorTrPath);
-
-    trPath.cdUp();
-    const QString &creatorTrPath = trPath.path();
-    QString databaseFileAndPath = QString(creatorTrPath);
-
-    databaseFileAndPath.append(QDir::separator());
-    databaseFileAndPath.append(QLatin1String("Resources"));
-#else
-    const QString &creatorTrPath = QCoreApplication::applicationDirPath();
-    QString databaseFileAndPath = QString(creatorTrPath);
-#endif
 
     // Application Directory +
     // Resources on Mac
@@ -136,17 +122,19 @@ bool DataModel::CreateConnection()
     // + /database/jmbdesqlite.db
     // Destination Directory
     QString targetFileAndPath = QString(dbConnectionString);
+    // Create the Directory
     QDir d(targetFileAndPath);
-
     d.mkpath(targetFileAndPath);
+
+    // Append the Datafile on the Path
     targetFileAndPath.append(QDir::separator());
     targetFileAndPath.append(dbName);
     targetFileAndPath.append(QLatin1String("sqlite.db3"));
-    QFile destDB(targetFileAndPath);
 
-    qDebug() << "Destination-File : " << targetFileAndPath;
     qDebug() << "Connection-String : " << dbConnectionString;
+    qDebug() << "Destination-File : " << targetFileAndPath;
 
+    // Check if the dbFile Exists
     bool dbIsCreated = QFile::exists(targetFileAndPath);
 
     // When the DB-Directory not create than do this.
@@ -167,16 +155,22 @@ bool DataModel::CreateConnection()
     }
 
     db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"));
+    qDebug() << "Database Path: " << targetFileAndPath;
     db.setDatabaseName(targetFileAndPath);
-    if (!db.open())
+    retValue = db.open();
+    if (retValue == true)
     {
-      qDebug() << "SQLite DB Exists                : " << retValue;
-      qDebug() << "QSQLITE QSqlDriver::QuerySize   : "
-               << db.driver()->hasFeature(QSqlDriver::QuerySize); // FALSE
-      qDebug() << "QSQLITE QSqlDriver::Transactions: "
-               << db.driver()->hasFeature(QSqlDriver::Transactions); // TRUE
-      qDebug() << initDb();
-      retValue = false;
+        bool dbVersion = checkDBVersion();
+        if (dbVersion == false) {
+            QDate now =  QDate::currentDate();
+            QString backupName = targetFileAndPath;
+            backupName.append(QLatin1String("-"));
+            backupName.append(now.toString(QLatin1String("yyyyMMdd")));
+            QFile source(targetFileAndPath);
+            source.rename(backupName);
+            db.open();
+            initDb();
+        }
     }
   }
   else if (dbType == MYSQL)
@@ -231,6 +225,9 @@ bool DataModel::checkDBVersion()
   QString revision;
   QString patch;
   QDateTime lupdate;
+  bool retValue = false;
+
+
   QSqlQuery query(
       QLatin1String("SELECT version, revision, patch, last_update FROM database_version"));
 
@@ -248,7 +245,7 @@ bool DataModel::checkDBVersion()
       revision == QLatin1String(Database::Version::Revision))
   {
     qDebug() << "Check Databaseverion: OK - Version: " << version << "." << revision << "." << patch << " from " << lupdate.toString();
-    return true;
+    retValue = true;
   }
   else
   {
@@ -271,7 +268,7 @@ bool DataModel::checkDBVersion()
     qDebug() << db.lastError().text();
   }
 
-  return true;
+  return retValue;
 }
 
 QSqlDatabase DataModel::getDatabase()
@@ -287,8 +284,6 @@ QSqlError DataModel::initDb()
   // Check the DB
   QStringList tables = db.tables();
 
-  if (!tables.contains(QLatin1String("employee"), Qt::CaseInsensitive))
-    return QSqlError();
 
   QSqlQuery q;
   QString queryString;

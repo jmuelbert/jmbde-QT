@@ -44,7 +44,7 @@
 #include "ui_computerinputarea.h"
 
 ComputerInputArea::ComputerInputArea(QWidget* parent, const QModelIndex& index)
-  : QScrollArea(parent), ui(new Ui::ComputerInputArea) {
+  :  QGroupBox (parent), ui(new Ui::ComputerInputArea) {
   ui->setupUi(this);
 
   qDebug() << "Init ComputerInputArea for Index : " << index;
@@ -139,6 +139,8 @@ void ComputerInputArea::createDataset() {
   // Set all inputfields to blank
   m_mapper->toLast();
   int row = m_mapper->currentIndex();
+
+  if (row < 0 ) row = 0;
 
   m_mapper->submit();
   m_model->insertRow(row);

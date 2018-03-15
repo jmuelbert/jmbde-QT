@@ -1,5 +1,5 @@
-#include "chipcardoinputarea.h"
-#include "ui_chipcardoinputarea.h"
+#include "chipcardinputarea.h"
+#include "ui_chipcardinputarea.h"
 
 ChipCardOInputArea::ChipCardOInputArea(QWidget *parent) :
     QGroupBox(parent),

@@ -240,6 +240,9 @@ class MainWindow : public QMainWindow {
     QString dbHostname;
     QString dbUsername;
     QString dbPassword;
+    QSplitter* m_splitter;
+    QTreeView* m_treeView;
+    QListView* m_listView;
     QStandardItemModel* m_treeviewModel;
     enum ViewData {
       VIEW_EMPLOYEE,

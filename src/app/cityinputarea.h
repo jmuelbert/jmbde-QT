@@ -46,7 +46,7 @@
 #include <QDebug>
 
 #include <QDataWidgetMapper>
-#include <QScrollArea>
+#include <QGroupBox>
 #include <QSqlRelationalDelegate>
 #include <QtSql>
 
@@ -58,7 +58,7 @@ namespace Ui {
 /**
  * @brief The CityInputArea class
  */
-class CityInputArea : public QScrollArea
+class CityInputArea : public QGroupBox
 {
   Q_OBJECT
 

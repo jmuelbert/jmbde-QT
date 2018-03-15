@@ -45,7 +45,7 @@
 
 // Edit an existing Employee
 EmployeeInputArea::EmployeeInputArea(QWidget* parent, const QModelIndex index)
-  : QScrollArea (parent), ui(new Ui::EmployeeInputArea)
+  : QGroupBox (parent), ui(new Ui::EmployeeInputArea)
 {
   ui->setupUi(this);
 
@@ -203,6 +203,8 @@ void EmployeeInputArea::createDataset() {
   m_mapper->toLast();
   int row = m_mapper->currentIndex();
 
+  if (row < 0) row = 0;
+
   m_mapper->submit();
   m_model->insertRow(row);
   m_mapper->setCurrentIndex(row);
@@ -219,6 +221,8 @@ void EmployeeInputArea::deleteDataset(const QModelIndex index) {}
 void EmployeeInputArea::on_pushButton_Add_clicked()
 {
   createDataset();
+  m_actualMode = Mode::Finish;
+  on_pushButton_EditFinish_clicked();
 }
 
 void EmployeeInputArea::on_pushButton_EditFinish_clicked()
@@ -251,7 +255,7 @@ void EmployeeInputArea::on_pushButton_EditFinish_clicked()
         m_model->database().transaction();
         if (m_model->submitAll()) {
           m_model->database().commit();
-          qDebug() << "Commit changes for Computer Databse Table";
+          qDebug() << "Commit changes for Employee Database Table";
         }
         else {
           m_model->database().rollback();

@@ -122,7 +122,8 @@ SOURCES += \
     chipcarddatamodel.cpp \
     chipcarddoorsdatamodel.cpp \
     chipcardprofiledatamodel.cpp \
-    chipcardprofiledoordatamodel.cpp
+    chipcardprofiledoordatamodel.cpp \
+    chipcardinputarea.cpp
 
  HEADERS  += \
         definitions.h \
@@ -176,7 +177,8 @@ SOURCES += \
     chipcarddatamodel.h \
     chipcarddoorsdatamodel.h \
     chipcardprofiledatamodel.h \
-    chipcardprofiledoordatamodel.h
+    chipcardprofiledoordatamodel.h \
+    chipcardinputarea.h
 
 FORMS    += \
         mainwindow.ui \
@@ -193,7 +195,8 @@ FORMS    += \
     osinputarea.ui \
     softwareinputarea.ui \
     manufacturerinputarea.ui \
-    cityinputarea.ui
+    cityinputarea.ui \
+    chipcardinputarea.ui
 
 
 RESOURCES += \
