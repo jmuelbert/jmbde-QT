@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>PrinterInputArea</class>
  <widget class="QGroupBox" name="PrinterInputArea">
@@ -5,12 +6,332 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>730</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>GroupBox</string>
+   <string>Printer</string>
   </property>
+  <property name="accessibleName">
+   <string>PrinterInputDialog</string>
+  </property>
+  <property name="title">
+   <string>Printer</string>
+  </property>
+  <widget class="QWidget" name="formLayoutWidget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>30</y>
+     <width>730</width>
+     <height>600</height>
+    </rect>
+   </property>
+   <widget class="QWidget" name="gridLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>0</y>
+      <width>700</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLabel" name="label_Header">
+       <property name="font">
+        <font>
+         <pointsize>16</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Printer</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_Buttons">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>500</y>
+      <width>700</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="pushButton_Add">
+       <property name="text">
+        <string>+</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_EditFinish">
+       <property name="text">
+        <string>Edit</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="gridLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>700</width>
+      <height>470</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="2" column="3">
+      <widget class="QLabel" name="label_Papersize">
+       <property name="text">
+        <string>Papersize</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="4">
+      <widget class="QComboBox" name="comboBox_Inventory"/>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_Employee">
+       <property name="text">
+        <string>Employee</string>
+       </property>
+       <property name="buddy">
+        <cstring>comboBox_Employee</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="3">
+      <widget class="QLabel" name="label_Place">
+       <property name="text">
+        <string>Place</string>
+       </property>
+       <property name="buddy">
+        <cstring>comboBox_Place</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="0">
+      <widget class="QCheckBox" name="checkBox_Active">
+       <property name="text">
+        <string>Active</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="3">
+      <widget class="QCheckBox" name="checkBox_Replace">
+       <property name="text">
+        <string>Replace</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QTextEdit" name="textEdit_Resources">
+       <property name="baseSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="3">
+      <widget class="QLabel" name="label_Inventory">
+       <property name="text">
+        <string>Inventory</string>
+       </property>
+       <property name="buddy">
+        <cstring>comboBox_Inventory</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QLineEdit" name="lineEdit_Network"/>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_Name">
+       <property name="text">
+        <string>Name</string>
+       </property>
+       <property name="buddy">
+        <cstring>lineEdit_PrinterName</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="4">
+      <widget class="QComboBox" name="comboBox_Computer"/>
+     </item>
+     <item row="1" column="3">
+      <widget class="QLabel" name="label_IPAddress">
+       <property name="text">
+        <string>IP Address</string>
+       </property>
+       <property name="buddy">
+        <cstring>lineEdit_IPAddress</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="2">
+      <widget class="QComboBox" name="comboBox_DeviceName"/>
+     </item>
+     <item row="2" column="4">
+      <widget class="QComboBox" name="comboBox_Papersize"/>
+     </item>
+     <item row="0" column="2">
+      <widget class="QLineEdit" name="lineEdit_PrinterName"/>
+     </item>
+     <item row="6" column="3">
+      <widget class="QLabel" name="label_DeviceType">
+       <property name="text">
+        <string>Devicetype</string>
+       </property>
+       <property name="buddy">
+        <cstring>comboBox_DeviceType</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="label_Department">
+       <property name="text">
+        <string>Department</string>
+       </property>
+       <property name="buddy">
+        <cstring>comboBox_Department</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="2">
+      <widget class="QComboBox" name="comboBox_Employee"/>
+     </item>
+     <item row="1" column="4">
+      <widget class="QLineEdit" name="lineEdit_IPAddress"/>
+     </item>
+     <item row="0" column="3">
+      <widget class="QLabel" name="label_SerialNumber">
+       <property name="text">
+        <string>Serial Number</string>
+       </property>
+       <property name="buddy">
+        <cstring>lineEdit_SerialNumber</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="4">
+      <widget class="QLineEdit" name="lineEdit_SerialNumber"/>
+     </item>
+     <item row="4" column="3">
+      <widget class="QLabel" name="label_Computer">
+       <property name="text">
+        <string>Computer</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="2">
+      <widget class="QComboBox" name="comboBox_Manufacturer"/>
+     </item>
+     <item row="6" column="4">
+      <widget class="QComboBox" name="comboBox_DeviceType"/>
+     </item>
+     <item row="7" column="0">
+      <widget class="QLabel" name="label_Manufacturer">
+       <property name="text">
+        <string>Manufacturer</string>
+       </property>
+       <property name="buddy">
+        <cstring>comboBox_Manufacturer</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="4">
+      <widget class="QComboBox" name="comboBox_Place"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_Network">
+       <property name="text">
+        <string>Network</string>
+       </property>
+       <property name="buddy">
+        <cstring>lineEdit_Network</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="label_Devicename">
+       <property name="text">
+        <string>Devicename</string>
+       </property>
+       <property name="buddy">
+        <cstring>comboBox_DeviceName</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="2">
+      <widget class="QComboBox" name="comboBox_Department"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_Resources">
+       <property name="text">
+        <string>Resources</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QCheckBox" name="checkBox_Color">
+       <property name="text">
+        <string>Color</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
  </widget>
+ <tabstops>
+  <tabstop>lineEdit_PrinterName</tabstop>
+  <tabstop>lineEdit_SerialNumber</tabstop>
+  <tabstop>lineEdit_Network</tabstop>
+  <tabstop>lineEdit_IPAddress</tabstop>
+  <tabstop>comboBox_Employee</tabstop>
+  <tabstop>comboBox_Department</tabstop>
+  <tabstop>comboBox_Place</tabstop>
+  <tabstop>comboBox_DeviceName</tabstop>
+  <tabstop>comboBox_DeviceType</tabstop>
+  <tabstop>comboBox_Manufacturer</tabstop>
+  <tabstop>comboBox_Inventory</tabstop>
+  <tabstop>checkBox_Active</tabstop>
+  <tabstop>checkBox_Replace</tabstop>
+  <tabstop>pushButton_Add</tabstop>
+  <tabstop>pushButton_EditFinish</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+ <slots>
+  <slot>slot1()</slot>
+  <slot>onDestroyed()</slot>
+ </slots>
 </ui>

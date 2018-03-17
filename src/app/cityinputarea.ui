@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>730</width>
-    <height>570</height>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,7 +25,7 @@
      <x>10</x>
      <y>30</y>
      <width>720</width>
-     <height>570</height>
+     <height>600</height>
     </rect>
    </property>
    <widget class="QWidget" name="verticalLayoutWidget_Header">

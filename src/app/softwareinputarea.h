@@ -46,6 +46,7 @@
 #include <QDebug>
 
 #include <QDataWidgetMapper>
+#include <QGroupBox>
 #include <QScrollArea>
 #include <QSqlRelationalDelegate>
 #include <QtSql>
@@ -59,7 +60,7 @@ namespace Ui {
 /**
  * @brief The SoftwareInputArea class
  */
-class SoftwareInputArea : public QScrollArea
+class SoftwareInputArea : public QGroupBox
 {
   Q_OBJECT
 

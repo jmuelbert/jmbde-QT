@@ -1,37 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>FunctionInputArea</class>
- <widget class="QScrollArea" name="FunctionInputArea">
+ <widget class="QGroupBox" name="FunctionInputArea">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>632</width>
-    <height>360</height>
+    <width>730</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>ScrollArea</string>
+   <string>Function</string>
   </property>
-  <property name="widgetResizable">
-   <bool>true</bool>
+  <property name="accessibleName">
+   <string>FunctionInputDialog</string>
   </property>
-  <widget class="QWidget" name="scrollAreaWidgetContents">
+  <property name="title">
+   <string>Function</string>
+  </property>
+  <widget class="QWidget" name="formLayoutWidget" native="true">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>630</width>
-     <height>358</height>
+     <x>10</x>
+     <y>39</y>
+     <width>730</width>
+     <height>600</height>
     </rect>
    </property>
-   <widget class="QWidget" name="verticalLayoutWidget">
+   <widget class="QWidget" name="verticalLayoutWidget_Header">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>611</width>
-      <height>21</height>
+      <width>700</width>
+      <height>30</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -54,13 +57,52 @@
      </item>
     </layout>
    </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_Buttons">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>500</y>
+      <width>700</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="pushButton_Add">
+       <property name="text">
+        <string>+</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_EditFinish">
+       <property name="text">
+        <string>Edit</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
    <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>20</y>
-      <width>611</width>
-      <height>301</height>
+      <y>30</y>
+      <width>700</width>
+      <height>470</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
@@ -89,45 +131,6 @@
      </item>
      <item row="1" column="3">
       <widget class="QSpinBox" name="spinBox_Priotity"/>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="verticalLayoutWidget_2">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>320</y>
-      <width>611</width>
-      <height>32</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QPushButton" name="pushButton_Add">
-       <property name="text">
-        <string>+</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_EditFinish">
-       <property name="text">
-        <string>Finish</string>
-       </property>
-      </widget>
      </item>
     </layout>
    </widget>

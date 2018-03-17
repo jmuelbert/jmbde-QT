@@ -44,7 +44,7 @@
 #include "ui_titleinputarea.h"
 
 TitleInputArea::TitleInputArea(QWidget* parent, const QModelIndex index) :
-  QScrollArea(parent),
+  QGroupBox(parent),
   ui(new Ui::TitleInputArea)
 {
   ui->setupUi(this);
@@ -97,7 +97,9 @@ void TitleInputArea::createDataset() {
 
   // Set all inputfields to blank
   m_mapper->toLast();
+
   int row = m_mapper->currentIndex();
+  if (row < 0) row = 0;
 
   m_mapper->submit();
   m_model->insertRow(row);

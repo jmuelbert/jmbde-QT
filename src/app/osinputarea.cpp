@@ -44,7 +44,7 @@
 #include "ui_osinputarea.h"
 
 OSInputArea::OSInputArea(QWidget* parent, const QModelIndex index) :
-  QScrollArea(parent),
+  QGroupBox(parent),
   ui(new Ui::OSInputArea)
 {
   ui->setupUi(this);
@@ -98,7 +98,9 @@ void OSInputArea::createDataset() {
 
   // Set all inputfields to blank
   m_mapper->toLast();
+
   int row = m_mapper->currentIndex();
+  if (row < 0) row = 0;
 
   m_mapper->submit();
   m_model->insertRow(row);

@@ -13,13 +13,13 @@
   <property name="windowTitle">
    <string>GroupBox</string>
   </property>
-  <property name="title">
-   <string>Computer</string>
-  </property>
   <property name="accessibleName">
    <string>ComputerInputDialog</string>
   </property>
-  <widget class="QWidget" name="formLayoutWidget">
+  <property name="title">
+   <string>Computer</string>
+  </property>  
+  <widget class="QWidget" name="formLayoutWidget" native="true">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -33,7 +33,7 @@
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>720</width>
+      <width>700</width>
       <height>30</height>
      </rect>
     </property>
@@ -342,16 +342,6 @@
       <widget class="QComboBox" name="comboBox_Printer"/>
      </item>
     </layout>
-   </widget>
-   <widget class="QWidget" name="verticalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>0</y>
-      <width>601</width>
-      <height>31</height>
-     </rect>
-    </property>
    </widget>
   </widget>
  </widget>

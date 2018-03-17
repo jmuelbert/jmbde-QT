@@ -201,8 +201,8 @@ void EmployeeInputArea::createDataset() {
 
   // Set all inputfields to blank
   m_mapper->toLast();
-  int row = m_mapper->currentIndex();
 
+  int row = m_mapper->currentIndex();
   if (row < 0) row = 0;
 
   m_mapper->submit();
@@ -221,7 +221,6 @@ void EmployeeInputArea::deleteDataset(const QModelIndex index) {}
 void EmployeeInputArea::on_pushButton_Add_clicked()
 {
   createDataset();
-  m_actualMode = Mode::Finish;
   on_pushButton_EditFinish_clicked();
 }
 

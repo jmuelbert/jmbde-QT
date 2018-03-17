@@ -45,7 +45,7 @@
 #include "ui_departmentinputarea.h"
 
 DepartmentInputArea::DepartmentInputArea(QWidget* parent, const QModelIndex index) :
-  QScrollArea(parent),
+  QGroupBox(parent),
   ui(new Ui::DepartmentInputArea)
 {
   ui->setupUi(this);
@@ -102,7 +102,10 @@ void DepartmentInputArea::createDataset() {
 
   // Set all inputfields to blank
   m_mapper->toLast();
+
   int row = m_mapper->currentIndex();
+  if (row < 0) row = 0;
+
 
   m_mapper->submit();
   m_model->insertRow(row);
@@ -126,7 +129,7 @@ void DepartmentInputArea::on_pushButton_Finish_clicked()
     case Mode::Edit:
     {
       m_actualMode = Mode::Finish;
-      ui->pushButton_Finish->setText(tr("Finish"));
+      ui->pushButton_EditFinish->setText(tr("Finish"));
       setViewOnlyMode(false);
 
     } break;
@@ -135,7 +138,7 @@ void DepartmentInputArea::on_pushButton_Finish_clicked()
       qDebug() << "Save Data...";
 
       m_actualMode = Mode::Edit;
-      ui->pushButton_Finish->setText(tr("Edit"));
+      ui->pushButton_EditFinish->setText(tr("Edit"));
       setViewOnlyMode(false);
 
       QString lastName = ui->lineEdit_Name->text();

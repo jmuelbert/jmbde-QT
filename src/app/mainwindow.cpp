@@ -48,6 +48,8 @@ MainWindow::MainWindow(QWidget* parent)
 
   ui->setupUi(this);
 
+  ui->scrollArea->setWidgetResizable(true);
+
   readSettings();
 
   m_treeviewModel = new QStandardItemModel(this);
@@ -92,6 +94,8 @@ MainWindow::MainWindow(QWidget* parent)
   header->appendRow(item);
   item = new QStandardItem(tr("City"));
   header->appendRow(item);
+  item = new QStandardItem(tr("Chipcard"));
+  header->appendRow(item);
 
   ui->treeView->setModel(m_treeviewModel);
   ui->treeView->expandAll();
@@ -125,6 +129,10 @@ MainWindow::MainWindow(QWidget* parent)
 
     QModelIndex qmi = QModelIndex();
     EmployeeInputArea *eia = new EmployeeInputArea(ui->scrollArea, qmi);
+    QSize AdjustSize = eia->size();
+    AdjustSize.width();
+    eia->setMinimumSize(AdjustSize);
+    ui->scrollArea->setWidgetResizable(true);
     ui->scrollArea->setWidget(eia);
   }
 
@@ -557,7 +565,12 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
     ui->listView->setModel(tableModel);
     ui->listView->setModelColumn(idx);
     QModelIndex qmi = QModelIndex();
+
     EmployeeInputArea *eia = new EmployeeInputArea(ui->scrollArea, qmi);
+    QSize AdjustSize = eia->size();
+    AdjustSize.width();
+    eia->setMinimumSize(AdjustSize);
+    ui->scrollArea->setWidgetResizable(true);
     ui->scrollArea->setWidget(eia);
 
   }
@@ -604,9 +617,9 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
     ui->listView->setModel(tableModel);
     ui->listView->setModelColumn(idx);
 
-    // QModelIndex qmi = QModelIndex();
-    // TitleInputArea *tia = new TitleInputArea(ui->scrollArea, qmi);
-    // ui->scrollArea->setWidget(tia);
+    QModelIndex qmi = QModelIndex();
+    TitleInputArea *tia = new TitleInputArea(ui->scrollArea, qmi);
+    ui->scrollArea->setWidget(tia);
 
     // Tree -> Device
   }
@@ -638,6 +651,9 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
     ui->listView->setModel(tableModel);
     ui->listView->setModelColumn(idx);
 
+    QModelIndex qmi = QModelIndex();
+    ProcessorInputArea *pia = new ProcessorInputArea(ui->scrollArea, qmi);
+    ui->scrollArea->setWidget(pia);
   }
   else if (selected == tr("Operation System")) {
     qDebug() << "Select Operation System";
@@ -651,6 +667,9 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
     ui->listView->setModel(tableModel);
     ui->listView->setModelColumn(idx);
 
+    QModelIndex qmi = QModelIndex();
+    OSInputArea *oia = new OSInputArea(ui->scrollArea, qmi);
+    ui->scrollArea->setWidget(oia);
   }
   else if (selected == tr("Software")) {
     qDebug() << "Select Software";
@@ -664,6 +683,11 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
     ui->listView->setModel(tableModel);
     ui->listView->setModelColumn(idx);
 
+    QModelIndex qmi = QModelIndex();
+    SoftwareInputArea *sia = new SoftwareInputArea(ui->scrollArea, qmi);
+    ui->scrollArea->setWidget(sia);
+
+
   }
   else if (selected == tr("Printer")) {
     qDebug() << "Select Printer";
@@ -676,6 +700,11 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
 
     ui->listView->setModel(tableModel);
     ui->listView->setModelColumn(idx);
+
+    QModelIndex qmi = QModelIndex();
+    PrinterInputArea *pia = new PrinterInputArea(ui->scrollArea, qmi);
+    ui->scrollArea->setWidget(pia);
+
 
     // Tree -> Communication
   }
@@ -691,6 +720,9 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
     ui->listView->setModel(tableModel);
     ui->listView->setModelColumn(idx);
 
+    QModelIndex qmi = QModelIndex();
+    PhoneInputArea *pia = new PhoneInputArea(ui->scrollArea, qmi);
+    ui->scrollArea->setWidget(pia);
   }
   else if (selected == tr("Mobile")) {
     qDebug() << "Select Mobile";
@@ -704,7 +736,10 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
     ui->listView->setModel(tableModel);
     ui->listView->setModelColumn(idx);
 
-    // Tre -> Misc
+    QModelIndex qmi = QModelIndex();
+    MobileInputArea *mia = new MobileInputArea(ui->scrollArea, qmi);
+    ui->scrollArea->setWidget(mia);
+    // Tree -> Misc
   }
   else if (selected == tr("Manufacturer")) {
     qDebug() << "Select Manufacturer";
@@ -718,6 +753,9 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
     ui->listView->setModel(tableModel);
     ui->listView->setModelColumn(idx);
 
+    QModelIndex qmi = QModelIndex();
+    ManufacturerInputArea *mia = new ManufacturerInputArea(ui->scrollArea, qmi);
+    ui->scrollArea->setWidget(mia);
   }
   else if (selected == tr("City")) {
     qDebug() << "Select Zip City";
@@ -734,6 +772,22 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
     QModelIndex qmi = QModelIndex();
     CityInputArea *cia = new CityInputArea(ui->scrollArea, qmi);
     ui->scrollArea->setWidget(cia);
+
+  } else if (selected == tr("Chipcard")) {
+      qDebug() << "Select Chipcard";
+
+      actualView = VIEW_CHIPCARD;
+      ChipCardDataModel* ccdm = new ChipCardDataModel;
+
+      tableModel = ccdm->initializeRelationalModel();
+      int idx = ccdm->NumberIndex();
+
+      ui->listView->setModel(tableModel);
+      ui->listView->setModelColumn(idx);
+
+      QModelIndex qmi = QModelIndex();
+      ChipCardInputArea *cia = new ChipCardInputArea(ui->scrollArea, qmi);
+      ui->scrollArea->setWidget(cia);
 
   }
   else {
@@ -752,14 +806,21 @@ void MainWindow::onClickedListViewRow(const QModelIndex& index) {
 
       EmployeeInputArea* eia = new EmployeeInputArea(0, index);
 
-      ui->splitter->replaceWidget(2, eia);
+      QSize AdjustSize = eia->size();
+      AdjustSize.width();
+      eia->setMinimumSize(AdjustSize);
+      ui->scrollArea->setWidgetResizable(true);
+      ui->scrollArea->setWidget(eia);
     }
     break;
 
     case VIEW_FUNCTION: {
       FunctionInputArea* fia = new FunctionInputArea(0, index);
-
-      ui->splitter->replaceWidget(2, fia);
+      QSize AdjustSize = fia->size();
+      AdjustSize.width();
+      fia->setMinimumSize(AdjustSize);
+      ui->scrollArea->setWidgetResizable(true);
+      ui->scrollArea->setWidget(fia);
     }
     break;
 
@@ -767,7 +828,11 @@ void MainWindow::onClickedListViewRow(const QModelIndex& index) {
     {
       DepartmentInputArea* dia = new DepartmentInputArea(0, index);
 
-      ui->splitter->replaceWidget(2, dia);
+      QSize AdjustSize = dia->size();
+      AdjustSize.width();
+      dia->setMinimumSize(AdjustSize);
+      ui->scrollArea->setWidgetResizable(true);
+      ui->scrollArea->setWidget(dia);
     }
     break;
 
@@ -775,8 +840,11 @@ void MainWindow::onClickedListViewRow(const QModelIndex& index) {
     {
       FunctionInputArea* fia = new FunctionInputArea(0, index);
 
-      ui->splitter->replaceWidget(2, fia);
-
+      QSize AdjustSize = fia->size();
+      AdjustSize.width();
+      fia->setMinimumSize(AdjustSize);
+      ui->scrollArea->setWidgetResizable(true);
+      ui->scrollArea->setWidget(fia);
     }
     break;
 
@@ -786,7 +854,11 @@ void MainWindow::onClickedListViewRow(const QModelIndex& index) {
 
       ComputerInputArea* cia = new ComputerInputArea(0, index);
 
-      ui->splitter->replaceWidget(2, cia);
+      QSize AdjustSize = cia->size();
+      AdjustSize.width();
+      cia->setMinimumSize(AdjustSize);
+      ui->scrollArea->setWidgetResizable(true);
+      ui->scrollArea->setWidget(cia);
     }
     break;
 
@@ -794,7 +866,11 @@ void MainWindow::onClickedListViewRow(const QModelIndex& index) {
     {
       ProcessorInputArea* pia = new ProcessorInputArea(0, index);
 
-      ui->splitter->replaceWidget(2, pia);
+      QSize AdjustSize = pia->size();
+      AdjustSize.width();
+      pia->setMinimumSize(AdjustSize);
+      ui->scrollArea->setWidgetResizable(true);
+      ui->scrollArea->setWidget(pia);
     }
     break;
 
@@ -802,7 +878,11 @@ void MainWindow::onClickedListViewRow(const QModelIndex& index) {
     {
       OSInputArea* oia = new OSInputArea(0, index);
 
-      ui->splitter->replaceWidget(2, oia);
+      QSize AdjustSize = oia->size();
+      AdjustSize.width();
+      oia->setMinimumSize(AdjustSize);
+      ui->scrollArea->setWidgetResizable(true);
+      ui->scrollArea->setWidget(oia);
     }
     break;
 
@@ -810,24 +890,44 @@ void MainWindow::onClickedListViewRow(const QModelIndex& index) {
     {
       SoftwareInputArea* sia = new SoftwareInputArea(0, index);
 
-      ui->splitter->replaceWidget(2, sia);
+      QSize AdjustSize = sia->size();
+      AdjustSize.width();
+      sia->setMinimumSize(AdjustSize);
+      ui->scrollArea->setWidgetResizable(true);
+      ui->scrollArea->setWidget(sia);
     }
     break;
 
     case VIEW_PRINTER:
-      break;
+    {
+        PrinterInputArea* pia = new PrinterInputArea(0, index);
+
+        QSize AdjustSize = pia->size();
+        AdjustSize.width();
+        pia->setMinimumSize(AdjustSize);
+        ui->scrollArea->setWidgetResizable(true);
+        ui->scrollArea->setWidget(pia);
+    }
+     break;
 
     case VIEW_PHONE: {
       PhoneInputArea* pia = new PhoneInputArea(0, index);
 
-      ui->splitter->replaceWidget(2, pia);
-    }
+      QSize AdjustSize = pia->size();
+      AdjustSize.width();
+      pia->setMinimumSize(AdjustSize);
+      ui->scrollArea->setWidgetResizable(true);
+      ui->scrollArea->setWidget(pia);    }
     break;
 
     case VIEW_MOBILE: {
       MobileInputArea* mia = new MobileInputArea(0, index);
 
-      ui->splitter->replaceWidget(2, mia);
+      QSize AdjustSize = mia->size();
+      AdjustSize.width();
+      mia->setMinimumSize(AdjustSize);
+      ui->scrollArea->setWidgetResizable(true);
+      ui->scrollArea->setWidget(mia);
     }
     break;
 
@@ -835,19 +935,37 @@ void MainWindow::onClickedListViewRow(const QModelIndex& index) {
     {
       ManufacturerInputArea* mia = new ManufacturerInputArea(0, index);
 
-      ui->splitter->replaceWidget(2, mia);
-    }
+      QSize AdjustSize = mia->size();
+      AdjustSize.width();
+      mia->setMinimumSize(AdjustSize);
+      ui->scrollArea->setWidgetResizable(true);
+      ui->scrollArea->setWidget(mia);
+  }
     break;
 
     case VIEW_CITY:
     {
       CityInputArea* cia = new CityInputArea(0, index);
 
-      ui->splitter->replaceWidget(2, cia);
-    }
+      QSize AdjustSize = cia->size();
+      AdjustSize.width();
+      cia->setMinimumSize(AdjustSize);
+      ui->scrollArea->setWidgetResizable(true);
+      ui->scrollArea->setWidget(cia);    }
 
     break;
 
+    case VIEW_CHIPCARD:
+    {
+      ChipCardInputArea* ccia = new ChipCardInputArea(0, index);
+
+      QSize AdjustSize = ccia->size();
+      AdjustSize.width();
+      ccia->setMinimumSize(AdjustSize);
+      ui->scrollArea->setWidgetResizable(true);
+      ui->scrollArea->setWidget(ccia);
+    }
+      break;
     default:
       Not_Available_Message();
       break;
@@ -866,7 +984,11 @@ void MainWindow::onPressedListViewRow(const QModelIndex& index) {
 
       EmployeeInputArea* eia = new EmployeeInputArea(0, index);
 
-      ui->splitter->replaceWidget(2, eia);
+      QSize AdjustSize = eia->size();
+      AdjustSize.width();
+      eia->setMinimumSize(AdjustSize);
+      ui->scrollArea->setWidgetResizable(true);
+      ui->scrollArea->setWidget(eia);
       qDebug() << "Delete index : " << index;
     } break;
   }

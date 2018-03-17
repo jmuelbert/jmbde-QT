@@ -91,6 +91,7 @@
 #include "csvimportdialog.h"
 #include "preferencesdialog.h"
 
+#include "chipcardinputarea.h"
 #include "cityinputarea.h"
 #include "computerinputarea.h"
 #include "departmentinputarea.h"
@@ -98,8 +99,10 @@
 #include "functioninputarea.h"
 #include "manufacturerinputarea.h"
 #include "mobileinputarea.h"
+#include "titleinputarea.h"
 #include "osinputarea.h"
 #include "phoneinputarea.h"
+#include "printerinputarea.h"
 #include "processorinputarea.h"
 #include "softwareinputarea.h"
 
@@ -258,6 +261,7 @@ class MainWindow : public QMainWindow {
       VIEW_PRINTER,
       VIEW_MANUFACTURER,
       VIEW_CITY,
+      VIEW_CHIPCARD,
     };
     int actualView;
     QModelIndex m_actualView;

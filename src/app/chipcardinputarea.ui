@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ChipCardOInputArea</class>
- <widget class="QGroupBox" name="ChipCardOInputArea">
+ <class>ChipCardInputArea</class>
+ <widget class="QGroupBox" name="ChipCardInputArea">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>730</width>
-    <height>570</height>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>GroupChipcard</string>
+   <string>Operation System</string>
   </property>
   <property name="accessibleName">
-   <string>ChipCardInputDialog</string>
+   <string>OSInputDialog</string>
   </property>
   <property name="title">
-   <string>Chipcard</string>
+   <string>ChipCard</string>
   </property>
-  <widget class="QWidget" name="formLayoutWidget" native="true">
+  <widget class="QWidget" name="GroupBox" native="true">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>30</y>
-     <width>720</width>
-     <height>570</height>
+     <width>722</width>
+     <height>600</height>
     </rect>
    </property>
    <widget class="QWidget" name="verticalLayoutWidget_Header">
@@ -48,7 +48,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Chipcard</string>
+        <string>ChipCard</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -96,7 +96,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="verticalLayoutWidget_2">
+   <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -105,7 +105,21 @@
       <height>470</height>
      </rect>
     </property>
-    <layout class="QFormLayout" name="formLayout">
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_Version">
+       <property name="text">
+        <string>Door</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_Revision">
+       <property name="text">
+        <string>Profile</string>
+       </property>
+      </widget>
+     </item>
      <item row="0" column="0">
       <widget class="QLabel" name="label_Number">
        <property name="text">
@@ -113,47 +127,33 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QSpinBox" name="spinBox_Number">
-       <property name="maximum">
-        <number>9999</number>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_Door">
-       <property name="text">
-        <string>Door</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QComboBox" name="comboBox_Door"/>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_Profile">
-       <property name="text">
-        <string>Profile</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QComboBox" name="comboBox_Profile"/>
-     </item>
      <item row="3" column="0">
-      <widget class="QLabel" name="label_Employee">
+      <widget class="QLabel" name="label_Fix">
        <property name="text">
         <string>Employee</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
-      <widget class="QListView" name="listView_Employee"/>
+     <item row="0" column="3">
+      <widget class="QSpinBox" name="spinBox_Number"/>
+     </item>
+     <item row="1" column="3">
+      <widget class="QComboBox" name="comboBox_Door"/>
+     </item>
+     <item row="2" column="3">
+      <widget class="QComboBox" name="comboBox_Profile"/>
+     </item>
+     <item row="3" column="3">
+      <widget class="QComboBox" name="comboBox_Employee"/>
      </item>
     </layout>
    </widget>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>pushButton_Add</tabstop>
+  <tabstop>pushButton_EditFinish</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
