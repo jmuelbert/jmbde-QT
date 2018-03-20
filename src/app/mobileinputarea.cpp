@@ -78,6 +78,14 @@ MobileInputArea::~MobileInputArea()
 }
 
 void MobileInputArea::setMappings() {
+    m_mapper->addMapping(ui->lineEdit_Pin,
+                         m_model->fieldIndex(QLatin1String("pin")));
+    m_mapper->addMapping(ui->lineEdit_SerialNumber,
+                         m_model->fieldIndex(QLatin1String("serial_number")));
+    m_mapper->addMapping(ui->lineEdit_CardNumber,
+                         m_model->fieldIndex(QLatin1String("card_number")));
+    m_mapper->addMapping(ui->lineEdit_Number,
+                         m_model->fieldIndex(QLatin1String("number")));
   m_mapper->addMapping(ui->checkBox_Active,
                        m_model->fieldIndex(QLatin1String("active")));
   m_mapper->addMapping(ui->checkBox_Replace,
@@ -96,14 +104,7 @@ void MobileInputArea::setMappings() {
                        m_model->fieldIndex(QLatin1String("manfacturer_id")));
   m_mapper->addMapping(ui->comboBox_Place,
                        m_model->fieldIndex(QLatin1String("place_id")));
-  m_mapper->addMapping(ui->lineEdit_Pin,
-                       m_model->fieldIndex(QLatin1String("pin")));
-  m_mapper->addMapping(ui->lineEdit_SerialNumber,
-                       m_model->fieldIndex(QLatin1String("serial_number")));
-  m_mapper->addMapping(ui->lineEdit_CardNumber,
-                       m_model->fieldIndex(QLatin1String("card_number")));
-  m_mapper->addMapping(ui->lineEdit_Number,
-                       m_model->fieldIndex(QLatin1String("number")));
+
 }
 
 void MobileInputArea::setViewOnlyMode(bool mode) {
@@ -146,6 +147,7 @@ void MobileInputArea::deleteDataset(const QModelIndex index) {}
 void MobileInputArea::on_pushButton_Add_clicked()
 {
   createDataset();
+  on_pushButton_EditFinish_clicked();
 }
 
 void MobileInputArea::on_pushButton_EditFinish_clicked()

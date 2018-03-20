@@ -115,6 +115,7 @@ void TitleInputArea::deleteDataset(const QModelIndex index) {}
 void TitleInputArea::on_pushButton_Add_clicked()
 {
   createDataset();
+  on_pushButton_EditFinish_clicked();
 }
 
 void TitleInputArea::on_pushButton_EditFinish_clicked()

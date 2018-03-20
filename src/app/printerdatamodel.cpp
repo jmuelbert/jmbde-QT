@@ -55,11 +55,12 @@ PrinterDataModel::PrinterDataModel(QObject* parent) : CommonDataModel(parent) {
 
 PrinterDataModel::~PrinterDataModel() {}
 
-const char PRINTER[] = "printer";
-
 bool PrinterDataModel::createDataTable() {
 
   QSqlQuery query;
+
+  // TODO change employe_id to employee_id
+  // TODO add fax BOOLEAN or MF BOOLEAN
   QString sqlString =  QLatin1String("CREATE TABLE %1 (" \
                        "printer_id INTEGER PRIMARY KEY, " \
                        "device_name_id INTEGER, " \

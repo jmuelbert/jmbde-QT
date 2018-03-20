@@ -57,6 +57,8 @@ EmployeeAccountDataModel::~EmployeeAccountDataModel() {}
 bool EmployeeAccountDataModel::createDataTable() {
 
   QSqlQuery query;
+
+  // TODO Change employe_id to employee_id
   QString sqlString = QLatin1String("CREATE TABLE %1 (" \
                       "employee_account_id INTEGER PRIMARY KEY, " \
                       "employe_id INTEGER, " \

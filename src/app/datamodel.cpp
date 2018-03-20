@@ -88,6 +88,8 @@ bool DataModel::CreateConnection()
   bool retValue = false;
   QSettings settings;
   QString dbName = qApp->applicationName();
+  QString appName = qApp->applicationDisplayName();
+
 
   // Read DB Settings
   // Database settings
@@ -113,6 +115,11 @@ bool DataModel::CreateConnection()
                                   dbName)
                            .toString();
 
+
+    qDebug() << "AppName     : " << qApp->applicationName();
+    qDebug() << "AddDisplayN : " << qApp->applicationDisplayName();
+    qDebug() << "Version     : " << qApp->applicationVersion();
+    qDebug() << "dataBaseDir :" << dataBaseDir;
   if (dbType == SQLITE)
   {
 

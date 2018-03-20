@@ -57,10 +57,12 @@ InventoryDataModel::~InventoryDataModel() {}
 bool InventoryDataModel::createDataTable() {
 
   QSqlQuery query;
+
+  // TODO change text to description ?
   QString sqlString = QLatin1String("CREATE TABLE %1 (" \
                       "inventory_id INTEGER PRIMARY KEY, " \
                       "number VARCHAR, " \
-                      "description VARCHAR, " \
+                      "text VARCHAR, " \
                       "active BOOLEAN, " \
                       "last_update TIMESTAMP);");
 

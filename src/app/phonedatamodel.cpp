@@ -56,6 +56,8 @@ PhoneDataModel::~PhoneDataModel() {}
 bool PhoneDataModel::createDataTable() {
 
     QSqlQuery query;
+
+    // TODO change employe_id to employee_id
     QString sqlString = QLatin1String("CREATE TABLE %1 (" \
                         "phone_id INTEGER PRIMARY KEY, " \
                         "device_name_id INTEGER, " \
@@ -65,7 +67,7 @@ bool PhoneDataModel::createDataTable() {
                         "active BOOLEAN, " \
                         "replace BOOLEAN, " \
                         "device_type_id INTEGER, " \
-                        "employee_id INTEGER, " \
+                        "employe_id INTEGER, " \
                         "place_id INTEGER, " \
                         "department_id INTEGER, " \
                         "manufacturer_id INTEGER, " \
@@ -75,7 +77,7 @@ bool PhoneDataModel::createDataTable() {
   }
 
   void PhoneDataModel::setIndexes() {
-    m_PhoneIdIndex = m_model->fieldIndex(QLatin1String("fax_id"));
+    m_PhoneIdIndex = m_model->fieldIndex(QLatin1String("phone_id"));
     m_DeviceNameIdIndex = m_model->fieldIndex(QLatin1String("device_name_id"));
     m_SerialNumberIndex = m_model->fieldIndex(QLatin1String("serial_number"));
     m_NumberIndex = m_model->fieldIndex(QLatin1String("number"));

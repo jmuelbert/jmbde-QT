@@ -115,6 +115,7 @@ void ProcessorInputArea::deleteDataset(const QModelIndex index) {}
 void ProcessorInputArea::on_pushButton_Add_clicked()
 {
   createDataset();
+  on_pushButton_EditFinish_clicked();
 }
 
 void ProcessorInputArea::on_pushButton_EditFinish_clicked()

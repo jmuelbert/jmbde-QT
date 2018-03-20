@@ -121,6 +121,16 @@ int main(int argc, char* argv[]) {
     SharedTools::QtSingleApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
     SharedTools::QtSingleApplication app((QLatin1String(Core::Constants::JMBDE_DISPLAY_NAME)), argc, argv);
 
+#if defined (Q_OS_MAC)
+  QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
+#endif
+
+  // These settings needs to be set before any QSettings object
+  QCoreApplication::setApplicationName(QLatin1String(Core::Constants::JMBDE_DISPLAY_NAME));
+  QCoreApplication::setApplicationVersion(QLatin1String(Core::Constants::JMBDE_VERSION_LONG));
+  QCoreApplication::setOrganizationName(QLatin1String(Core::Constants::JMBDE_ID));
+  QCoreApplication::setOrganizationDomain(QLatin1String(Core::Constants::JMBDE_ID));
+
     // Must be done before any QSettings class is created
     QSettings::setDefaultFormat(QSettings::IniFormat);
 

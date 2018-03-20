@@ -76,13 +76,13 @@ class CityInputArea : public QGroupBox
      */
     ~CityInputArea();
 
-  private slots:
 
+private slots:
     void on_pushButton_Add_clicked();
 
     void on_pushButton_EditFinish_clicked();
 
-  private:
+private:
     Ui::CityInputArea* ui;
 
     enum Mode {

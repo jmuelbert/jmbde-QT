@@ -49,7 +49,7 @@ namespace Constants {
 #define STRINGIFY(x) STRINGIFY_INTERNAL(x)
 
 const char JMBDE_DISPLAY_NAME[] = \"jmbde\";
-const char JMBDE_ID[] = \"jmbde\";
+const char JMBDE_ID[] = \"juergen-muelbert.de\";
 const char JMBDE_CASED_ID[] = \"JMBDE\";
 
 #define JMBDE_VERSION $${APP_VERSION}

@@ -79,8 +79,7 @@ ManufacturerInputArea::~ManufacturerInputArea()
 }
 
 void ManufacturerInputArea::setMappings() {
-  m_mapper->addMapping(ui->comboBox_ZipCode,
-                       m_model->fieldIndex(QLatin1String("zip_city_id")));
+
   m_mapper->addMapping(ui->lineEdit_Address,
                        m_model->fieldIndex(QLatin1String("address")));
   m_mapper->addMapping(ui->lineEdit_Address2,
@@ -88,7 +87,7 @@ void ManufacturerInputArea::setMappings() {
   m_mapper->addMapping(ui->lineEdit_Fax,
                        m_model->fieldIndex(QLatin1String("fax_number")));
   m_mapper->addMapping(ui->lineEdit_Hotline,
-                       m_model->fieldIndex(QLatin1String("hotline_numbert")));
+                       m_model->fieldIndex(QLatin1String("hotline_number")));
   m_mapper->addMapping(ui->lineEdit_MailAddress,
                        m_model->fieldIndex(QLatin1String("mail_address")));
   m_mapper->addMapping(ui->lineEdit_Name,
@@ -99,6 +98,8 @@ void ManufacturerInputArea::setMappings() {
                        m_model->fieldIndex(QLatin1String("phone_number")));
   m_mapper->addMapping(ui->lineEdit_Supporter,
                        m_model->fieldIndex(QLatin1String("supporter")));
+  m_mapper->addMapping(ui->comboBox_ZipCode,
+                       m_model->fieldIndex(QLatin1String("zip_city_id")));
 }
 
 void ManufacturerInputArea::setViewOnlyMode(bool mode) {
@@ -138,6 +139,7 @@ void ManufacturerInputArea::deleteDataset(const QModelIndex index) {}
 void ManufacturerInputArea::on_pushButton_Add_clicked()
 {
   createDataset();
+  on_pushButton_EditFinish_clicked();
 }
 
 void ManufacturerInputArea::on_pushButton_EditFinish_clicked()

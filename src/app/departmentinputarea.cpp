@@ -121,9 +121,10 @@ void DepartmentInputArea::deleteDataset(const QModelIndex index) {}
 void DepartmentInputArea::on_pushButton_Add_clicked()
 {
   createDataset();
+  on_pushButton_EditFinish_clicked();
 }
 
-void DepartmentInputArea::on_pushButton_Finish_clicked()
+void DepartmentInputArea::on_pushButton_EditFinish_clicked()
 {
   switch(m_actualMode) {
     case Mode::Edit:

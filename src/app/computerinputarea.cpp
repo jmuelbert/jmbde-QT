@@ -154,6 +154,12 @@ void ComputerInputArea::updateDataset(const QModelIndex index) {}
 
 void ComputerInputArea::deleteDataset(const QModelIndex index) {}
 
+void ComputerInputArea::on_pushButton_Add_clicked()
+{
+  createDataset();
+  on_pushButton_EditFinish_clicked();
+}
+
 void ComputerInputArea::on_pushButton_EditFinish_clicked()
 {
   switch(m_actualMode) {
@@ -201,7 +207,3 @@ void ComputerInputArea::on_pushButton_EditFinish_clicked()
   }
 }
 
-void ComputerInputArea::on_pushButton_Add_clicked()
-{
-  createDataset();
-}

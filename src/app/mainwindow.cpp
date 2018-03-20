@@ -48,6 +48,12 @@ MainWindow::MainWindow(QWidget* parent)
 
   ui->setupUi(this);
 
+  QString title;
+  title.append(QLatin1String(Core::Constants::JMBDE_ID));
+  title.append(QLatin1String(" "));
+  title.append(QLatin1String(Core::Constants::JMDBE_VERSION_DISPLAY));
+  setWindowTitle(title);
+
   ui->scrollArea->setWidgetResizable(true);
 
   readSettings();
@@ -761,10 +767,10 @@ void MainWindow::onClickedTreeView(const QModelIndex& index) {
     qDebug() << "Select Zip City";
 
     actualView = VIEW_CITY;
-    ZipCityModel* zcm = new ZipCityModel;
+   CityNameDataModel* cnm = new CityNameDataModel;
 
-    tableModel = zcm->initializeRelationalModel();
-    int idx = zcm->ZipCityIdIndex();
+    tableModel = cnm->initializeRelationalModel();
+    int idx = cnm->NameIndex();
 
     ui->listView->setModel(tableModel);
     ui->listView->setModelColumn(idx);

@@ -161,6 +161,7 @@ void PrinterInputArea::deleteDataset(const QModelIndex index) {}
 void PrinterInputArea::on_pushButton_Add_clicked()
 {
   createDataset();
+  on_pushButton_EditFinish_clicked();
 }
 
 void PrinterInputArea::on_pushButton_EditFinish_clicked()

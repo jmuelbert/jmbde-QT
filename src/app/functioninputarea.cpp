@@ -111,6 +111,12 @@ void FunctionInputArea::deleteDataset(const QModelIndex index) {}
 
 void FunctionInputArea::on_pushButton_Add_clicked()
 {
+    createDataset();
+    on_pushButton_EditFinish_clicked();
+}
+
+void FunctionInputArea::on_pushButton_EditFinish_clicked()
+{
   switch(m_actualMode) {
     case Mode::Edit:
     {
@@ -154,9 +160,4 @@ void FunctionInputArea::on_pushButton_Add_clicked()
       qDebug() << "Error";
     }
   }
-}
-
-void FunctionInputArea::on_pushButton_EditFinish_clicked()
-{
-  createDataset();
 }

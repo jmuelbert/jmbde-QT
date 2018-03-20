@@ -49,16 +49,13 @@ CityInputArea::CityInputArea(QWidget* parent, const QModelIndex index) :
   ui->setupUi(this);
 
   qDebug() << "Init CityInputArea for Index : " << index;
-  ui->setupUi(this);
-
-  setViewOnlyMode(true);
 
   m_actualMode = Mode::Edit;
   setViewOnlyMode(true);
 
   // Set the Model
   m_model = new QSqlRelationalTableModel(this);
-  m_model->setTable(QLatin1String("cityname"));
+  m_model->setTable(QLatin1String("city_name"));
   m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
   m_model->select();
@@ -106,6 +103,12 @@ void CityInputArea::updateDataset(const QModelIndex index) {}
 
 void CityInputArea::deleteDataset(const QModelIndex index) {}
 
+void CityInputArea::on_pushButton_Add_clicked()
+{
+  createDataset();
+  on_pushButton_EditFinish_clicked();
+}
+
 void CityInputArea::on_pushButton_EditFinish_clicked()
 {
   switch(m_actualMode) {
@@ -151,9 +154,6 @@ void CityInputArea::on_pushButton_EditFinish_clicked()
       qDebug() << "Error";
     }
   }
-}
+ }
 
-void CityInputArea::on_pushButton_Add_clicked()
-{
-  createDataset();
-}
+

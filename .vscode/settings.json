@@ -1,4 +1,5 @@
 {
-    "C_Cpp.clang_format_formatOnSav": true,
-    "editor.formatOnType": true 
+    "editor.formatOnType": true, 
+
+    "clang-format.executable": "/usr/local/bin"
 }

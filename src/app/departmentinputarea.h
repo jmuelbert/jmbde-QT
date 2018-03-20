@@ -82,9 +82,9 @@ class DepartmentInputArea : public QGroupBox
   private slots:
     void on_pushButton_Add_clicked();
 
-    void on_pushButton_Finish_clicked();
+    void on_pushButton_EditFinish_clicked();
 
-  private:
+private:
     Ui::DepartmentInputArea* ui;
 
     enum Mode {

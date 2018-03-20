@@ -44,123 +44,127 @@
 
 CompanyDataModel::CompanyDataModel(QObject* parent) : CommonDataModel (parent)
 {
-    // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+	// Set the Model
+	m_model = new QSqlRelationalTableModel(this);
+	m_model->setTable(this->m_tableName);
+	m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-    setIndexes();
+	setIndexes();
 }
 
-CompanyDataModel::~CompanyDataModel() {}
+CompanyDataModel::~CompanyDataModel() {
+}
 
 bool CompanyDataModel::createDataTable() {
 
-  QSqlQuery query;
-  QString sqlString = QLatin1String("CREATE TABLE %1 (" \
-                      "company_id INTEGER PRIMARY KEY, " \
-                      "name VARCHAR, " \
-                      "name2 VARCHAR, " \
-                      "address VARCHAR, " \
-                      "zip_code_id INTEGER, " \
-                      "phone_number VARCHAR, " \
-                      "fax_number VARCHAR, " \
-                      "mobile_number VARCHAR, " \
-                      "mail_address VARCHAR, " \
-                      "active BOOLEAN, " \
-                      "employee_id INTEGER, " \
-                      "last_update TIMESTAMP);");
-  return query.exec(sqlString.arg(this->m_tableName));
+	QSqlQuery query;
+
+	// TODO Change structur like employee
+	QString sqlString = QLatin1String("CREATE TABLE %1 (" \
+	                                  "company_id INTEGER PRIMARY KEY, " \
+	                                  "name VARCHAR, " \
+	                                  "name2 VARCHAR, " \
+	                                  "street VARCHAR, " \
+	                                  "city VARCHAR, " \
+	                                  "zip_code INTEGER, " \
+	                                  "phone_number VARCHAR, " \
+	                                  "fax_number VARCHAR, " \
+	                                  "mobile_number VARCHAR, " \
+	                                  "mail_address VARCHAR, " \
+	                                  "active BOOLEAN, " \
+	                                  "employee_id INTEGER, " \
+	                                  "last_update TIMESTAMP);");
+	return query.exec(sqlString.arg(this->m_tableName));
 }
 
 void CompanyDataModel::setIndexes() {
-    m_CompanyIdIndex = m_model->fieldIndex(QLatin1String("company_id"));
-    m_NameIndex = m_model->fieldIndex(QLatin1String("name"));;
-    m_Name2Index = m_model->fieldIndex(QLatin1String("name2"));;
-    m_AddressIndex = m_model->fieldIndex(QLatin1String("address"));;
-    m_ZipCityIdIndex = m_model->fieldIndex(QLatin1String("zip_code_id"));;
-    m_PhoneNumberIndex = m_model->fieldIndex(QLatin1String("phone_number"));;
-    m_FaxNumberIndex = m_model->fieldIndex(QLatin1String("fax_number"));;
-    m_MobileNumberIndex = m_model->fieldIndex(QLatin1String("mobile_number"));;
-    m_MailAddressIndex = m_model->fieldIndex(QLatin1String("mail_address"));;
-    m_ActiceIndex = m_model->fieldIndex(QLatin1String("active"));;
-    m_EmployeeIdIndex = m_model->fieldIndex(QLatin1String("employee_id"));;
-    m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));;
+	m_CompanyIdIndex = m_model->fieldIndex(QLatin1String("company_id"));
+	m_NameIndex = m_model->fieldIndex(QLatin1String("name"));;
+	m_Name2Index = m_model->fieldIndex(QLatin1String("name2"));;
+	m_AddressIndex = m_model->fieldIndex(QLatin1String("address"));;
+	m_ZipCityIdIndex = m_model->fieldIndex(QLatin1String("zip_code_id"));;
+	m_PhoneNumberIndex = m_model->fieldIndex(QLatin1String("phone_number"));;
+	m_FaxNumberIndex = m_model->fieldIndex(QLatin1String("fax_number"));;
+	m_MobileNumberIndex = m_model->fieldIndex(QLatin1String("mobile_number"));;
+	m_MailAddressIndex = m_model->fieldIndex(QLatin1String("mail_address"));;
+	m_ActiceIndex = m_model->fieldIndex(QLatin1String("active"));;
+	m_EmployeeIdIndex = m_model->fieldIndex(QLatin1String("employee_id"));;
+	m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));;
 }
 
 QSqlRelationalTableModel* CompanyDataModel::initializeRelationalModel() {
 
-  m_model = new QSqlRelationalTableModel(this);
+	m_model = new QSqlRelationalTableModel(this);
 
-  m_model->setTable(this->m_tableName);
-  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+	m_model->setTable(this->m_tableName);
+	m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-  m_model->select();
+	m_model->select();
 
-  return m_model;
+	return m_model;
 }
 
 QSqlRelationalTableModel* CompanyDataModel::initializeInputDataModel() {
 
-  m_model = new QSqlRelationalTableModel(this, this->db);
+	m_model = new QSqlRelationalTableModel(this, this->db);
 
-  m_model->setTable(this->m_tableName);
+	m_model->setTable(this->m_tableName);
 
-  return m_model;
+	return m_model;
 }
 
 QSqlTableModel* CompanyDataModel::initializeViewModel() {
 
-  m_model->select();
+	m_model->select();
 
-  return m_model;
+	return m_model;
 }
 
 QString CompanyDataModel::generateTableString(QAbstractTableModel* model, QString header) {
-  QString outString;
-  int columnCount = model->columnCount();
-  int rowCount = model->rowCount();
+	QString outString;
+	int columnCount = model->columnCount();
+	int rowCount = model->rowCount();
 
-  qDebug() << "Header : " << header << " Columns : " << columnCount
-           << " Rows : " << rowCount;
+	qDebug() << "Header : " << header << " Columns : " << columnCount
+	         << " Rows : " << rowCount;
 
-  QList<int> set;
+	QList<int> set;
 
-  // Document Title
-  outString = QLatin1String("<h1>");
-  outString += header;
-  outString += QLatin1String("</h1>");
-  outString += QLatin1String("<hr />");
-  outString +=
-    QLatin1String("<table width=\"100%\" cellspacing=\"0\" class=\"tbl\">");
-  outString += QLatin1String("<thead> <tr>");
+	// Document Title
+	outString = QLatin1String("<h1>");
+	outString += header;
+	outString += QLatin1String("</h1>");
+	outString += QLatin1String("<hr />");
+	outString +=
+		QLatin1String("<table width=\"100%\" cellspacing=\"0\" class=\"tbl\">");
+	outString += QLatin1String("<thead> <tr>");
 
-  foreach (const int i, set) {
-    qDebug() << "int i = " << i;
-    outString += QLatin1String("<th>");
-    outString.append(model->headerData(i, Qt::Horizontal).toString());
-    outString += QLatin1String("</th>");
-  }
+	foreach (const int i, set) {
+		qDebug() << "int i = " << i;
+		outString += QLatin1String("<th>");
+		outString.append(model->headerData(i, Qt::Horizontal).toString());
+		outString += QLatin1String("</th>");
+	}
 
-  return outString;
+	return outString;
 }
 
 QString CompanyDataModel::generateFormularString(QAbstractTableModel* model, QString header) {
-  QString outString;
-  int columnCount = model->columnCount();
-  int rowCount = model->rowCount();
+	QString outString;
+	int columnCount = model->columnCount();
+	int rowCount = model->rowCount();
 
-  qDebug() << "Header : " << header << " Columns : " << columnCount
-           << " Rows : " << rowCount;
+	qDebug() << "Header : " << header << " Columns : " << columnCount
+	         << " Rows : " << rowCount;
 
-  QList<int> set;
+	QList<int> set;
 
-  // Document Title
-  outString = QLatin1String("<h1>");
-  outString += header;
-  outString += QLatin1String("</h1>");
-  outString += QLatin1String("<hr />");
+	// Document Title
+	outString = QLatin1String("<h1>");
+	outString += header;
+	outString += QLatin1String("</h1>");
+	outString += QLatin1String("<hr />");
 
-  return outString;
+	return outString;
 }
 

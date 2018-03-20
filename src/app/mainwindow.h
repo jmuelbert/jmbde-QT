@@ -63,6 +63,7 @@
 
 #include <QtHelp>
 
+#include "app/app_version.h"
 #include "accountdatamodel.h"
 #include "citynamedatamodel.h"
 #include "commondatamodel.h"

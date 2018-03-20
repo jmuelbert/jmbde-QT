@@ -59,6 +59,8 @@ MobileDataModel::~MobileDataModel() {}
 bool MobileDataModel::createDataTable() {
 
   QSqlQuery query;
+
+  // TODO change employe_id to employee_id
   QString sqlString = QLatin1String("CREATE TABLE %1 (" \
                       "mobile_id INTEGER PRIMARY KEY, " \
                       "device_name_id INTEGER, " \
