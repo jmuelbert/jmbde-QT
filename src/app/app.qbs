@@ -1,4 +1,4 @@
-import qbs 1.0
+import qbs 
 import qbs.FileInfo
 import qbs.TextFile
 
@@ -7,9 +7,16 @@ QtGuiApplication {
     targetName: name
     version: project.version
 
-    Depends { name: "Qt"; submodules: ["core", "widgets", "sql", "printsupport", "help" ]; versionAtLeast: "5.9" }
+    Depends { name: "lib" }
+    Depends { name: "translations" }
+    Depends { name: "ib"; condition: qbs.targetOS.contains("macos") }
+    Depends { name: "Qt"; submodules: [ "core", 
+                                        "widgets", 
+                                        "sql", 
+                                        "printsupport", 
+                                        "help" ]; versionAtLeast: "5.10" }
 
-    property bool qtcRunnable: false
+    property bool qtcRunnable: true
 
     cpp.includePaths: ["."]
     cpp.frameworks: {
@@ -19,7 +26,6 @@ QtGuiApplication {
         }
         return frameworks;
     }
-
     cpp.useRPaths: project.useRPaths
     cpp.rpaths: {
         if (qbs.targetOS.contains("darwin"))
@@ -29,24 +35,24 @@ QtGuiApplication {
         else
             return ["$ORIGIN/../lib"];
     }
-
     cpp.useCxxPrecompiledHeader: qbs.buildVariant != "debug"
     cpp.cxxLanguageVersion: "c++14"
 
     cpp.defines: {
         var defs = [
             "JMBDE_VERSION=" + version,
+            "QT_DEPRECATED_WARNINGS",
+            "QT_DISABLE_DEPRECATED_BEFORE=0x050700",
             "QT_NO_CAST_FROM_ASCII",
             "QT_NO_CAST_TO_ASCII",
-            "QT_NO_URL_CAST_FROM_STRING",
-            "_USE_MATH_DEFINES"
+            "QT_NO_URL_CAST_FROM_STRING"
         ];
         if (project.snapshot)
             defs.push("JMBDE_SNAPSHOT");
-        return defs; 
+        return defs;
     }
 
-    consoleApplication: false;
+    consoleApplication: false
 
     Group {
         name: "Precompiled header"
@@ -55,143 +61,147 @@ QtGuiApplication {
     }
 
     files: [
-        "accountdatamodel.cpp",
-        "accountdatamodel.h",
-        "chipcarddatamodel.cpp",
-        "chipcarddatamodel.h",
-        "chipcarddoorsdatamodel.cpp",
-        "chipcarddoorsdatamodel.h",
-        "chipcardprofiledatamodel.cpp",
-        "chipcardprofiledatamodel.h",
-        "chipcardprofiledoordatamodel.cpp",
-        "chipcardprofiledoordatamodel.h",
-        "cityinputarea.cpp",
-        "cityinputarea.h",
-        "cityinputarea.ui",
-        "citynamedatamodel.cpp",
-        "citynamedatamodel.h",
-        "commondatamodel.cpp",
-        "commondatamodel.h",
-        "companydatamodel.cpp",
-        "companydatamodel.h",
-        "computerdatamodel.cpp",
-        "computerdatamodel.h",
-        "computerinputarea.cpp",
-        "computerinputarea.h",
-        "computerinputarea.ui",
-        "computersoftwaredatamodel.cpp",
-        "computersoftwaredatamodel.h",
-        "constants.h",
-        "csvimportdialog.cpp",
-        "csvimportdialog.h",
-        "csvimportdialog.ui",
-        "datamodel.cpp",
-        "datamodel.h",
-        "definitions.h",
-        "departmentdatamodel.cpp",
-        "departmentdatamodel.h",
-        "departmentinputarea.cpp",
-        "departmentinputarea.h",
-        "departmentinputarea.ui",
-        "devicenamedatamodel.cpp",
-        "devicenamedatamodel.h",
-        "devicetypedatamodel.cpp",
-        "devicetypedatamodel.h",
-        "documentsdatamodel.cpp",
-        "documentsdatamodel.h",
-        "employeeaccountdatamodel.cpp",
-        "employeeaccountdatamodel.h",
-        "employeedatamodel.cpp",
-        "employeedatamodel.h",
-        "employeedocumentdatamodel.cpp",
-        "employeedocumentdatamodel.h",
-        "employeeinputarea.cpp",
-        "employeeinputarea.h",
-        "employeeinputarea.ui",
-        "faxdatamodel.cpp",
-        "faxdatamodel.h",
-        "functiondatamodel.cpp",
-        "functiondatamodel.h",
-        "functioninputarea.cpp",
-        "functioninputarea.h",
-        "functioninputarea.ui",
-        "helpbrowser.cpp",
-        "helpbrowser.h",
-        "idatamodel.h",
-        "index.theme",
-        "inventorydatamodel.cpp",
-        "inventorydatamodel.h",
-        "jmbde.qrc",
         "main.cpp",
-        "mainwindow.cpp",
-        "mainwindow.h",
-        "mainwindow.ui",
-        "manufacturerdatamodel.cpp",
-        "manufacturerdatamodel.h",
-        "manufacturerinputarea.cpp",
-        "manufacturerinputarea.h",
-        "manufacturerinputarea.ui",
-        "mobiledatamodel.cpp",
-        "mobiledatamodel.h",
-        "mobileinputarea.cpp",
-        "mobileinputarea.h",
-        "mobileinputarea.ui",
-        "osdatamodel.cpp",
-        "osdatamodel.h",
-        "osinputarea.cpp",
-        "osinputarea.h",
-        "osinputarea.ui",
-        "phonedatamodel.cpp",
-        "phonedatamodel.h",
-        "phoneinputarea.cpp",
-        "phoneinputarea.h",
-        "phoneinputarea.ui",
-        "placedatamodel.cpp",
-        "placedatamodel.h",
-        "preferencesdialog.cpp",
-        "preferencesdialog.h",
-        "preferencesdialog.ui",
-        "printerdatamodel.cpp",
-        "printerdatamodel.h",
-        "processordatamodel.cpp",
-        "processordatamodel.h",
-        "processorinputarea.cpp",
-        "processorinputarea.h",
-        "processorinputarea.ui",
-        "resource.cpp",
-        "resource.h",
-        "softwaredatamodel.cpp",
-        "softwaredatamodel.h",
-        "softwareinputarea.cpp",
-        "softwareinputarea.h",
-        "softwareinputarea.ui",
-        "src.pro",
-        "systemdatamodel.cpp",
-        "systemdatamodel.h",
-        "titledatamodel.cpp",
-        "titledatamodel.h",
-        "titleinputarea.cpp",
-        "titleinputarea.h",
-        "titleinputarea.ui",
-        "zipcitymodel.cpp",
-        "zipcitymodel.h",
-        "zipcodemodel.cpp",
-        "zipcodemodel.h",
+        "constants.h",
+        "definitions.h",
+        "jmbde.qrc",
+        "utils.h",
+        "models/accountdatamodel.cpp",
+        "models/accountdatamodel.h",
+        "models/chipcarddatamodel.cpp",
+        "models/chipcarddatamodel.h",
+        "models/chipcarddoorsdatamodel.cpp",
+        "models/chipcarddoorsdatamodel.h",
+        "models/chipcardprofiledatamodel.cpp",
+        "models/chipcardprofiledatamodel.h",
+        "models/chipcardprofiledoordatamodel.cpp",
+        "models/chipcardprofiledoordatamodel.h",
+        "models/citynamedatamodel.cpp",
+        "models/citynamedatamodel.h",
+        "models/commondatamodel.cpp",
+        "models/commondatamodel.h",
+        "models/companydatamodel.cpp",
+        "models/companydatamodel.h",
+        "models/computerdatamodel.cpp",
+        "models/computerdatamodel.h",
+        "models/computersoftwaredatamodel.cpp",
+        "models/computersoftwaredatamodel.h",
+        "models/datamodel.cpp",
+        "models/datamodel.h",
+        "models/departmentdatamodel.cpp",
+        "models/departmentdatamodel.h",
+        "models/devicenamedatamodel.cpp",
+        "models/devicenamedatamodel.h",
+        "models/devicetypedatamodel.cpp",
+        "models/devicetypedatamodel.h",
+        "models/documentsdatamodel.cpp",
+        "models/documentsdatamodel.h",
+        "models/employeeaccountdatamodel.cpp",
+        "models/employeeaccountdatamodel.h",
+        "models/employeedatamodel.cpp",
+        "models/employeedatamodel.h",
+        "models/employeedocumentdatamodel.cpp",
+        "models/employeedocumentdatamodel.h",
+        "models/faxdatamodel.cpp",
+        "models/faxdatamodel.h",
+        "models/functiondatamodel.cpp",
+        "models/functiondatamodel.h",
+        "models/idatamodel.cpp",
+        "models/idatamodel.h",
+        "models/inventorydatamodel.cpp",
+        "models/inventorydatamodel.h",
+        "models/manufacturerdatamodel.cpp",
+        "models/manufacturerdatamodel.h",
+        "models/mobiledatamodel.cpp",
+        "models/mobiledatamodel.h",
+        "models/osdatamodel.cpp",
+        "models/osdatamodel.h",
+        "models/phonedatamodel.cpp",
+        "models/phonedatamodel.h",
+        "models/placedatamodel.cpp",
+        "models/placedatamodel.h",
+        "models/printerdatamodel.cpp",
+        "models/printerdatamodel.h",
+        "models/processordatamodel.cpp",
+        "models/processordatamodel.h",
+        "models/softwaredatamodel.cpp",
+        "models/softwaredatamodel.h",
+        "models/systemdatamodel.cpp",
+        "models/systemdatamodel.h",
+        "models/titledatamodel.cpp",
+        "models/titledatamodel.h",
+        "models/zipcitymodel.cpp",
+        "models/zipcitymodel.h",
+        "models/zipcodemodel.cpp",
+        "models/zipcodemodel.h",
+        "views/aboutdialog.cpp",
+        "views/aboutdialog.h",
+        "views/aboutdialog.ui",
+        "views/chipcardinputarea.cpp",
+        "views/chipcardinputarea.h",
+        "views/chipcardinputarea.ui",
+        "views/cityinputarea.cpp",
+        "views/cityinputarea.h",
+        "views/cityinputarea.ui",
+        "views/computerinputarea.cpp",
+        "views/computerinputarea.h",
+        "views/computerinputarea.ui",
+        "views/csvimportdialog.cpp",
+        "views/csvimportdialog.h",
+        "views/csvimportdialog.ui",
+        "views/departmentinputarea.cpp",
+        "views/departmentinputarea.h",
+        "views/departmentinputarea.ui",
+        "views/employeeinputarea.cpp",
+        "views/employeeinputarea.h",
+        "views/employeeinputarea.ui",
+        "views/functioninputarea.cpp",
+        "views/functioninputarea.h",
+        "views/functioninputarea.ui",
+        "views/mainwindow.cpp",
+        "views/mainwindow.h",
+        "views/mainwindow.ui",
+        "views/manufacturerinputarea.cpp",
+        "views/manufacturerinputarea.h",
+        "views/manufacturerinputarea.ui",
+        "views/mobileinputarea.cpp",
+        "views/mobileinputarea.h",
+        "views/mobileinputarea.ui",
+        "views/osinputarea.cpp",
+        "views/osinputarea.h",
+        "views/osinputarea.ui",
+        "views/phoneinputarea.cpp",
+        "views/phoneinputarea.h",
+        "views/phoneinputarea.ui",
+        "views/preferencesdialog.cpp",
+        "views/preferencesdialog.h",
+        "views/preferencesdialog.ui",
+        "views/printerinputarea.cpp",
+        "views/printerinputarea.h",
+        "views/printerinputarea.ui",
+        "views/processorinputarea.cpp",
+        "views/processorinputarea.h",
+        "views/processorinputarea.ui",
+        "views/softwareinputarea.cpp",
+        "views/softwareinputarea.h",
+        "views/softwareinputarea.ui",
+        "views/titleinputarea.cpp",
+        "views/titleinputarea.h",
+        "views/titleinputarea.ui"
     ]
 
     Properties {
         condition: qbs.targetOS.contains("macos")
         cpp.cxxFlags: ["-Wno-unknown-pragmas"]
-        bundle.identifierPrefix: "de.juergen-muelbert"
+        bundle.identifierPrefix: "ede.juergen-muelbert"
         ib.appIconName: "jmbde-icon-mac"
         targetName: "jmbde"
     }
-
     Group {
         name: "macOS"
         condition: qbs.targetOS.contains("macos")
         files: [
-            "Info.plist"
+            "Info.plist",
         ]
     }
 
@@ -200,7 +210,7 @@ QtGuiApplication {
         qbs.install: true
         qbs.installDir: {
             if (qbs.targetOS.contains("windows")
-                   || project.linuxArchivee)
+                    || project.linuxArchive)
                 return ""
             else
                 return "bin"
@@ -212,7 +222,7 @@ QtGuiApplication {
     Group {
         name: "macOS (icons)"
         condition: qbs.targetOS.contains("macos")
-        files: ["images/Assets.xcassets"]
+        files: ["images/jmbde.xcassets"]
     }
 
     Group {
@@ -220,7 +230,7 @@ QtGuiApplication {
         condition: qbs.targetOS.contains("linux")
         qbs.install: true
         qbs.installDir: "share/applications"
-        files: ["../../jmbde.desktop" ]
+        files: [ "../../de.juergen-muelbert.jmbde.desktop" ]
     }
 
     Group {
@@ -228,18 +238,27 @@ QtGuiApplication {
         condition: qbs.targetOS.contains("linux")
         qbs.install: true
         qbs.installDir: "share/metainfo"
-        files: ["../../jmbde.appdata.xml" ]
+        files: [ "../../de.juergen-muelbert.jmbde.appdata.xml" ]
     }
 
     Group {
-        name: "Man Page (Linux)"
+        name: "Thumbnailer (Linux)"
+        condition: qbs.targetOS.contains("linux")
+        qbs.install: true
+        qbs.installDir: "share/thumbnailers"
+        files: [ "../../mime/jmbde.thumbnailer" ]
+    }
+
+
+    Group {
+        name: "Man page (Linux)"
         condition: qbs.targetOS.contains("linux")
         qbs.install: true
         qbs.installDir: "share/man/man1"
-        files: ["../../man/jmbde.1" ]
+        files: [ "../../man/jmbde.1" ]
     }
 
-    Group { 
+    Group {
         name: "Icon 16x16 (Linux)"
         condition: qbs.targetOS.contains("linux")
         qbs.install: true
@@ -263,9 +282,33 @@ QtGuiApplication {
         files: [ "images/scalable/jmbde.svg" ]
     }
 
+    Group {
+        name: "MIME icon 16x16 (Linux)"
+        condition: qbs.targetOS.contains("linux")
+        qbs.install: true
+        qbs.installDir: "share/icons/hicolor/16x16/mimetypes"
+        files: [ "images/16x16/application-x-jmbde.png" ]
+    }
+
+    Group {
+        name: "MIME icon 32x32 (Linux)"
+        condition: qbs.targetOS.contains("linux")
+        qbs.install: true
+        qbs.installDir: "share/icons/hicolor/32x32/mimetypes"
+        files: [ "images/32x32/application-x-jmbde.png" ]
+    }
+
+    Group {
+        name: "MIME icon scalable (Linux)"
+        condition: qbs.targetOS.contains("linux")
+        qbs.install: true
+        qbs.installDir: "share/icons/hicolor/scalable/mimetypes"
+        files: [ "images/scalable/application-x-jmbde.svg" ]
+    }
+
     // This is necessary to install the app bundle (OS X)
     Group {
-        fileTagsFilter: [ "bundle.content" ]
+        fileTagsFilter: ["bundle.content"]
         qbs.install: true
         qbs.installDir: "."
         qbs.installSourceBase: product.buildDirectory
@@ -275,10 +318,9 @@ QtGuiApplication {
     Group {
         name: "RC file (Windows)"
         files: [ "jmbde.rc.in" ]
-        fileTags: [ "rcIn" ]
+        fileTags: ["rcIn"]
     }
-
-      Rule {
+    Rule {
         inputs: ["rcIn"]
         Artifact {
             filePath: {

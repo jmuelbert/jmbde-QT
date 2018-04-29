@@ -48,75 +48,83 @@
 /**
  * Constants for the jmbde application
  */
-namespace Constants {
+namespace Constants
+{
 
-  /**
-   * @brief COMPANY_NAME
-   */
-  const char COMPANY_NAME[] = "de.jmuelbert";
+/**
+ * @brief COMPANY_NAME
+ */
+const char COMPANY_NAME[] = "de.jmuelbert";
 
-  /**
-   * @brief APPL_NAME
-   */
-  const char APPL_NAME[] = "jmbde";
+/**
+ * @brief APPL_NAME
+ */
+const char APPL_NAME[] = "jmbde";
 
-  /**
-   * @brief APPL_VERSION
-   */
-  const char APPL_VERSION[] = "0.4.0";
-  const char APPL_DISPLAYNAME[] = "jmbde 0.4.0 © 2013-2016 Jürgen Mülbert";
+/**
+ * @brief APPL_VERSION
+ */
+const char APPL_VERSION[] = "0.4.0";
+const char APPL_DISPLAYNAME[] = "jmbde 0.4.0 © 2013-2016 Jürgen Mülbert";
 
-  /**
-   * @brief APPL_PROJECT_SITE
-   */
-  const char APPL_PROJECT_SITE[] = "http://www.juergen-muelbert.de/projects/jmbde/";
+/**
+ * @brief APPL_PROJECT_SITE
+ */
+const char APPL_PROJECT_SITE[] = "http://www.juergen-muelbert.de/projects/jmbde/";
 }
 
-namespace Settings {
-  namespace Groups {
-    const char MAINWINDOW[] = "MainWindow";
-    const char DATABASE[] = "Database";
-  }
+namespace Settings
+{
+namespace Groups
+{
+const char MAINWINDOW[] = "MainWindow";
+const char DATABASE[] = "Database";
+}
 
-  namespace MainWindow {
-    const char SIZE[] = "size";
-    const char POS[] = "pos";
-  }
+namespace MainWindow
+{
+const char SIZE[] = "size";
+const char POS[] = "pos";
+}
 
-  namespace Database {
-    const char TYPE[] = "type";
-    const char CONNECTION[] = "connection";
-    const char HOSTNAME[] = "hostname";
-    const char USERNAME[] = "username";
-    const char PASSWORD[] = "password";
+namespace Database
+{
+const char TYPE[] = "type";
+const char CONNECTION[] = "connection";
+const char HOSTNAME[] = "hostname";
+const char USERNAME[] = "username";
+const char PASSWORD[] = "password";
 
-  }
+}
 
 }
 
 enum DbType {
-  SQLITE,
-  MYSQL,
-  ODBC,
-  POSTGRESQL
+    SQLITE,
+    MYSQL,
+    ODBC,
+    POSTGRESQL
 };
 
-namespace Database {
+namespace Database
+{
 
-  namespace Type {
-    const char SQLITE[] = "SqLite";
-    const char MYSQL[] = "MySql";
-    const char ODBC[] = "ODBC";
-    const char POSTGRESQL[] = "PostgreSQL";
-    const char DEFAULT[] = "SqLite";
+namespace Type
+{
+const char SQLITE[] = "SqLite";
+const char MYSQL[] = "MySql";
+const char ODBC[] = "ODBC";
+const char POSTGRESQL[] = "PostgreSQL";
+const char DEFAULT[] = "SqLite";
 
-  }
+}
 
-  namespace Table {
-    const int DEFAULT_FOREIGN_VALUE = 1;
+namespace Table
+{
+const int DEFAULT_FOREIGN_VALUE = 1;
 
-  }
+}
 
-  namespace EmployeeTable {}
+namespace EmployeeTable {}
 }
 #endif // CONSTANTS_H

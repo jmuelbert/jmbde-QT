@@ -4,46 +4,61 @@ jmbde is a program to collect data for the IT. The database contains employees, 
 
 jmbde uese the cross-platform framework [Qt](http://www.qt.io/download-open-source/),
 which means it works with the most operating systems.
+## Supported Platforms
 
-jmbde is free software; you can redistribute ot and/or modify ir under the terms
-of the [European Public License Version 1.2](https://joinup.ec.europa.eu/page/eupl-text-11-12).
-Please read the [LICENSE](https://github.com/jmuelbert/jmbde-QT/blob/master/LICENSE.EUPL-1_2.txt) for additional information.
+The standalone binary packages support the following platforms:
 
+* Windows 7 or later
+* macOS 10.10 or later
+
+##  Sources
 The master branch represents the latest pre-release code.
 
 - [Releases](https://github.com/jmuelbert/jmbde-QT/releases)
 
 - [Milestones](https://github.com/jmuelbert/jmbde-QT/milestones)
 
-**Requests and Bug reports**
+## Requests and Bug reports
 
 - [GitHub issues (preferred)](https://github.com/jmuelbert/jmbde-QT/issues)
 
-**Questions or Comments**
+## Questions or Comments
 
-**Wiki**
+## Wiki
 
 - [Main Page](https://github.com/jmuelbert/jmbde-QT/wiki)
 - [User Manual](http://jmuelbert.github.io/jmbde-QT/)
 
-**Building**
+## Compiling jmbde
 
-Requirments:
+Prerequisites:
 
-- [Qt](http://www.qt.io/download-open-source/)
+* Qt 5.10 or later
+* On Windows:
+    * MinGW with g++ 4.9 or Visual Studio 2015 or later
+    * jom
+* On macOS: latest Xcode
+* on Linux: g++ 4.9 or later
+* Qbs 1.10.x (optional, sources also contain Qbs itself)
 
-Build the program:
-Open a shell, Terminal in MacOS and Linux. CMD or Powershell in Windows.
--  run ´qmake´
--  run ´make´
+The installed toolchains have to match the one Qt was compiled with.
 
-## Install
+You can build jmbde with
 
-The install is realized with the [QT Installer Framework](http://doc.qt.io/qtinstallerframework/ifw-overview.html). For macos and windows will the installer-package contains all needed libraries. 
--   macos is the installer an dmg
--   windows is an install.exe
+    cd $SOURCE_DIRECTORY
+    qmake -r
+    make (mingw32-make or nmake or jom, depending on your platform)
+
+Installation ("make install") is not needed. It is however possible, using
+
+    make install INSTALL_ROOT=$INSTALL_DIRECTORY
 
 ## License
+
+jmbde is free software; you can redistribute ot and/or modify ir under the terms
+of the [European Public License Version 1.2](https://joinup.ec.europa.eu/page/eupl-text-11-12).
+Please read the [LICENSE](https://github.com/jmuelbert/jmbde-QT/blob/master/LICENSE.EUPL-1_2.txt) for additional information.
+
 EUPL-1.2 © [Jürgen Mülbert](https:/github.com/jmuelbert/jmbde-QT)
 
 [Return to top](#top)

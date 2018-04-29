@@ -47,48 +47,55 @@
 
 #define APP_ICON_PATH QStringLiteral(":/graphics/jmbde.png")
 
-namespace Settings {
-  namespace Groups {
-    const char MAINWINDOW[] = "MainWindow";
-    const char DATABASE[] = "Database";
-  } // namespace Groups
+namespace Settings
+{
+namespace Groups
+{
+const char MAINWINDOW[] = "MainWindow";
+const char DATABASE[] = "Database";
+} // namespace Groups
 
-  namespace MainWindow {
-    const char SIZE[] = "size";
-    const char POS[] = "pos";
-    const char SPLITTER[] = "splitterSizes";
-    const char LAST_VIEW[] = "last_view";
-    const char LAST_DATA[] = "last_data";
-  } // namespace MainWindow
+namespace MainWindow
+{
+const char SIZE[] = "size";
+const char POS[] = "pos";
+const char SPLITTER[] = "splitterSizes";
+const char LAST_VIEW[] = "last_view";
+const char LAST_DATA[] = "last_data";
+} // namespace MainWindow
 
-  namespace Database {
-    const char TYPE[] = "type";
-    const char CONNECTION[] = "connection";
-    const char HOSTNAME[] = "hostname";
-    const char USERNAME[] = "username";
-    const char PASSWORD[] = "password";
+namespace Database
+{
+const char TYPE[] = "type";
+const char CONNECTION[] = "connection";
+const char HOSTNAME[] = "hostname";
+const char USERNAME[] = "username";
+const char PASSWORD[] = "password";
 
-  } // namespace Database
+} // namespace Database
 
 } // namespace Settings
 
 enum DbType { SQLITE, MYSQL, ODBC, POSTGRESQL };
 
-namespace Database {
+namespace Database
+{
 
-  namespace Version {
-    const char Version[] = "0";
-    const char Revision[] = "90";
-    const char Patch[] = "0";
-  }
+namespace Version
+{
+const char Version[] = "0";
+const char Revision[] = "90";
+const char Patch[] = "0";
+}
 
-  namespace Type {
-    const char SQLITE[] = "SqLite";
-    const char MYSQL[] = "MySql";
-    const char ODBC[] = "ODBC";
-    const char POSTGRESQL[] = "PostgreSQL";
-    const char DEFAULT[] = "SqLite";
+namespace Type
+{
+const char SQLITE[] = "SqLite";
+const char MYSQL[] = "MySql";
+const char ODBC[] = "ODBC";
+const char POSTGRESQL[] = "PostgreSQL";
+const char DEFAULT[] = "SqLite";
 
-  } // namespace Type
+} // namespace Type
 } // namespace Database
 #endif // DEFINITIONS_H

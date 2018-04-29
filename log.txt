@@ -1,0 +1,486 @@
+commit 5b14175594be6fcaf84173a883513d1002cf30e8
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Fri Apr 27 22:45:31 2018 +0200
+
+    Great rewrite...
+
+commit 329604abc176e2e9863633723c23983533670e70
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Tue Mar 20 22:57:28 2018 +0100
+
+    Make all inputareas working. create all translation ts-files.
+
+commit a59c98f5ac1550541a77e5c9e45bc844732f8c11
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sat Mar 17 19:17:55 2018 +0100
+
+    Version 0.4.9. Add Dialogs for Printers and ChipCards
+
+commit 2dcf4ad28add761eada6f66d8dee8eb5178d3e9b
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sat Mar 17 19:17:18 2018 +0100
+
+    Version 0.4.9. Add Dialogs for Printer and Chipcards
+
+commit a9cbbc6919161856c6d5c540ad9e8c22754cd7ed
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Thu Mar 15 21:53:04 2018 +0100
+
+    Change Input Dialog Handling
+
+commit 82a40f9ddb6804f8a93def6e2e99f1a562715cdc
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Thu Mar 15 21:52:26 2018 +0100
+
+    Change Inputdialog Handling.
+
+commit 40fd83f62695e3e28f21576ed0e784f206a19283
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Tue Feb 27 22:28:01 2018 +0100
+
+    Remove unused files. Correct CONTRIBUTING
+
+commit 852d65388764872ecd80f41de558569a5192dd13
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Tue Feb 27 22:27:09 2018 +0100
+
+    Remove unused files. Correct CONTRIBUTING
+
+commit 9df8e3dfd2b397adba59b6eb5f4f5bb7ce90e59d
+Author: Jürgen Mülbert <jmuelbert@users.noreply.github.com>
+Date:   Sat Feb 17 11:18:02 2018 +0100
+
+    Delete LICENS
+
+commit 69c624f7d44e093f0d9079d792c8147efedb405e
+Author: Jürgen Mülbert <jmuelbert@users.noreply.github.com>
+Date:   Sat Feb 17 11:17:13 2018 +0100
+
+    Create License
+
+commit bceac7f91488e1b96add79c2654eaebf7f6b793a
+Author: Jürgen Mülbert <jmuelbert@users.noreply.github.com>
+Date:   Sat Feb 17 11:16:23 2018 +0100
+
+    Create LICENS
+
+commit f7c1e632af7b9533ba2952765786065884c84c1f
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sun Feb 11 11:14:06 2018 +0100
+
+    Remove win build errors
+
+commit 9ed94157fc631a655a58703d7bb71af105c43cac
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Tue Feb 6 22:23:54 2018 +0100
+
+    Remove deploy from source.
+
+commit 76d3d2db079b9304c4c67dd9efe586fac9cb6214
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sat Jan 27 19:44:45 2018 +0100
+
+    Change Project-Structure. Change Deploy,
+
+commit 457b570b01438b1321fda733eac95785ec2b07d4
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Thu Jan 11 23:03:26 2018 +0100
+
+    Add qbs build system. Change Copyright Header.
+
+commit c8b42bf05321792e97ce092462dacb16a6403cc1
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sun Dec 31 12:15:13 2017 +0100
+
+    Create WiX-Installer
+
+commit 0273d33ba145319d288eb40024321f184705c4ff
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Wed Dec 20 20:38:46 2017 +0100
+
+    Change the connections in mainwindow.cpp.
+
+commit fb90e9e23d2793b4d2bc799b8040eba13f60f269
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Wed Dec 20 11:12:13 2017 +0100
+
+    Create consistent DataModell Classes.
+
+commit 994d992c9b2da9eada3c7c41e3d9b759e47b8485
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sun Dec 10 14:47:56 2017 +0100
+
+    Upgrade ISS-File
+
+commit eba464eeb080834f15d953014f931472104ba765
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sat Dec 9 19:14:27 2017 +0100
+
+    Update project files add installer innosetuo script.
+
+commit 9737d74470af551c0d224058912870493c2ef73b
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sat Dec 9 19:12:13 2017 +0100
+
+    Test with Win64 and wrote ISS Installscript
+
+commit 5e835f90ef5747be0fa78da64c2ae40178273866
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Wed Dec 6 21:14:51 2017 +0100
+
+    resolve merge conflicts
+
+commit fb5b0d5bf06e834c37c63e105e40b9d0273139e5
+Merge: 74ff05e 19afb53
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sun Dec 3 11:27:21 2017 +0100
+
+    Merge develop tp master
+
+commit 19afb537d6f7d06ed10a8675aa19684ba59f6df6
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sun Dec 3 11:15:34 2017 +0100
+
+    Change the Index for DB in Employee
+
+commit 932ad7765f0c9046dd472530bad647d0ff43e9b3
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Tue Nov 21 20:51:55 2017 +0100
+
+    Change project structure and QTIFW_Installer
+
+commit 8daa862a0730b37e1d83c8c5ddf63a23a2a72a36
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sat Nov 11 16:48:12 2017 +0100
+
+    Improve GUI. Repair Installer on Mac
+
+commit cbb338a8f3561fc41759e2259f33e6394fcac1ef
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sun Nov 5 22:00:42 2017 +0100
+
+    Add the last missing gui elements for this version.
+    
+    Add Manufacturer and City. Began with restore the last views.
+
+commit 0270b5c9f7122eaaeff988992c4410bcfd8d6f20
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Wed Nov 1 18:01:29 2017 +0100
+
+    Add many GUI Elements for Input...
+
+commit d6edc00a8ee37f9721c2363da50c9b02ff37e144
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Mon Oct 30 17:20:26 2017 +0100
+
+    Add Modell Classes. View all Classes in the Listbox
+
+commit aa6d9f168bdd6ebe1256ef3a3048b55f5e43334d
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sat Oct 28 17:39:08 2017 +0200
+
+    changed to treeview selector
+
+commit 33cc98ce7ac977ec3533c60f064eb364fd7d16a9
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sat Oct 28 12:51:37 2017 +0200
+
+    Update License to EUPL 1.2
+    
+    Uncrustify all source files. Update the Menu.
+
+commit 9f45d0c6cdb455e915c15f9c20bb4c05a4e12905
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sun Oct 15 12:27:59 2017 +0200
+
+    Add QtIFW Installer
+
+commit 74ff05e6e0528e887f03b6cf4cd37e56e922524d
+Author: Jürgen Mülbert <jmuelbert@users.noreply.github.com>
+Date:   Sat Sep 30 19:02:00 2017 +0200
+
+    Create license.txt
+
+commit 17762898abe6e3558b75779b827946a2059ab064
+Author: Jürgen Mülbert <jmuelbert@users.noreply.github.com>
+Date:   Sat Sep 30 18:57:52 2017 +0200
+
+    Delete index.md
+    
+    Use gh-pages.
+
+commit c020e1582c7af4382390e21e7599a229a1d05b30
+Author: Jürgen Mülbert <jmuelbert@users.noreply.github.com>
+Date:   Sat Sep 30 18:57:18 2017 +0200
+
+    Update README.md
+    
+    little corrections
+
+commit 352c62bf35a4ce8864e00d3c19dd712b1d08a123
+Author: Jürgen Mülbert <jmuelbert@users.noreply.github.com>
+Date:   Sat Sep 30 18:55:49 2017 +0200
+
+    Delete _config.yml
+    
+    Use gh-pages
+
+commit b0a6bd969ee43f306757d481e4da0ad158af6fd8
+Author: Jürgen Mülbert <jmuelbert@users.noreply.github.com>
+Date:   Sat Sep 30 18:55:00 2017 +0200
+
+    Update README.md
+    
+    Add text...
+
+commit 5fb821fe2a29fc8908b787b777127f3318ecff8a
+Author: Jürgen Mülbert <jmuelbert@users.noreply.github.com>
+Date:   Sat Sep 30 18:54:25 2017 +0200
+
+    Delete README, must be README.md
+
+commit 49e9554ff63390b151fc97a521187a7d2f385a1b
+Author: Jürgen Mülbert <jmuelbert@users.noreply.github.com>
+Date:   Sat Sep 30 18:53:33 2017 +0200
+
+    Delete index.html
+
+commit 6fc31a4ace1054777952f1edaba12e20a58abfb5
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Wed Sep 27 22:17:51 2017 +0200
+
+    create an installer. cleanup the project structure.
+
+commit 13640c08f401407b77243e513bcf7cff78984164
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Thu Sep 21 23:13:45 2017 +0200
+
+    Finish the DB Creation
+
+commit 45984bb9ac469b663c5efb0f7f2ad7fd8d4146d4
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Tue Sep 19 22:28:53 2017 +0200
+
+    Change DB Creation Step.1
+
+commit cfbc94100437ed86caaf51977a707380e6c70604
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Tue Sep 19 22:26:47 2017 +0200
+
+    Create DB with QSql DDL Step.1
+
+commit ebb8aa4323931abe03b4deafc3564c65f9c51697
+Author: Jürgen Mülbert <jmuelbert@de40170p>
+Date:   Tue Sep 5 21:50:14 2017 +0200
+
+    Finish the employee input dialog
+
+commit 87ce15a9c35611fd007e58eb20283a251e68170e
+Author: Jürgen Mülbert <jmuelbert@de40170p>
+Date:   Tue Sep 5 21:49:20 2017 +0200
+
+    Finsh the employee input dialog.
+
+commit fc4907a79d136ce81ccded4e572a813d32567dc4
+Author: Jürgen Mülbert <jmuelbert@de40170p>
+Date:   Sun Sep 3 11:44:43 2017 +0200
+
+    Add autoresize for splittview. And correct the employee listview.
+
+commit fedffd702eee8c6873aaad529ea5f046b2acbdde
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sun Apr 16 10:31:07 2017 +0200
+
+    Remove qms
+
+commit 215a3d7bed949f98a09d4ed45f53a586890b85e7
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sun Apr 16 10:30:32 2017 +0200
+
+    Add CMake
+
+commit dec6ebdd9b46a9a0576e6fc6f6bbe270d27662ae
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sun Apr 9 17:58:47 2017 +0200
+
+    Add Method for add phone for new employee
+
+commit d1173be9fc89989bdf44e7b324a789c4e1cdb3e4
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sun Apr 9 00:09:43 2017 +0200
+
+    Change the ICONS. Update Copyright (years).
+
+commit 0bcf36d7d6e328bf4f07b8ff757d8ddd21b5c7f9
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sun Apr 2 16:51:13 2017 +0200
+
+    Add Diagram for Database.Minor corrections. Update Copyright.
+
+commit df7e9a65c9d1d62187b9c69a624d7b870f28a71a
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Thu Mar 30 22:13:18 2017 +0200
+
+    Complete UI for Employee
+
+commit 5e29aba60193e86f278d10e8542e04547653aebc
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sun Mar 26 19:27:29 2017 +0200
+
+    Update UI and Database
+
+commit 27d4e7f5c9e876435dd51b989a94072d2a1c4fc1
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sun Mar 26 19:23:28 2017 +0200
+
+    Change and Update UI plus Database
+
+commit 6be10c54d48e2a4f60ad62c7f3c50ad5550da46d
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Wed Mar 1 11:19:07 2017 +0100
+
+    Update auf Q 5.8 and cleaning
+
+commit bc1d0b2ca878b4c8f44496b663b20e659f238eb3
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Wed Mar 1 11:18:34 2017 +0100
+
+    Update auf Qt 5.8 and cleanning
+
+commit 36d67e42378f7fd9fb58284d398753fce99d6416
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sat Feb 25 19:23:46 2017 +0100
+
+    Changes in *.pro files
+
+commit b421b7ce0c7620daf26099609fbfc52ed34773bb
+Merge: 09cdb32 6f099fb
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sat Feb 25 19:17:17 2017 +0100
+
+    Merge dev
+
+commit 09cdb328a1ffd3a5ae39f4c03c917c047f89771b
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sat Feb 25 19:15:16 2017 +0100
+
+    Changes to develop
+
+commit 50d12bbc133bc5e290809fb1e340922a8da4feaf
+Merge: 0ec5967 ca45614
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sat Feb 25 18:59:02 2017 +0100
+
+    Merged branch gh-pages into master
+
+commit 0ec5967896c203769034e619f568a1f0dc057ad1
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sat Feb 25 18:55:51 2017 +0100
+
+    Adjustments for QT5.8
+
+commit 7bc04119b5b16d05b88390771fb8951a9eee943e
+Author: Jürgen Mülbert <jmuelbert@users.noreply.github.com>
+Date:   Sat Jan 14 16:35:29 2017 +0100
+
+    Update
+
+commit ca4561486fb53f7a11f52caec7164f7b4694a932
+Author: Jürgen Mülbert <jmuelbert@users.noreply.github.com>
+Date:   Sat Jan 14 16:34:50 2017 +0100
+
+    Migrate page to Jekyll site on master branch
+
+commit c8ff78722a9249e61b3df0066be8a5b5b2ec3364
+Author: Jürgen Mülbert <jmuelbert@users.noreply.github.com>
+Date:   Sat Jan 14 16:34:49 2017 +0100
+
+    Set theme jekyll-theme-cayman and migrate Page Generator content
+
+commit 6f099fbc3e7d36829b624f9581a1986b4a84771b
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Thu Sep 1 20:54:15 2016 +0200
+
+    Update to Version 0.4.0
+    
+    Change the Database. Add README.md
+
+commit 24fef5235f1ec5c079b6066e53f2afedf3833e4a
+Author: Jürgen Mülbert <jmuelbert@users.noreply.github.com>
+Date:   Sun Apr 27 18:57:29 2014 +0200
+
+    Create gh-pages branch via GitHub
+
+commit 854b6c25dd06eb1fae1942eadb7cfbf80db3a6d0
+Author: Jürgen Mülbert <jmuelbert@users.noreply.github.com>
+Date:   Sun Apr 27 18:41:06 2014 +0200
+
+    Create gh-pages branch via GitHub
+
+commit 7dc3dda32465e6acee5714d4e9e62747d384c302
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sun Mar 9 18:51:37 2014 +0100
+
+    Add the HelpBrowser, improve the source.
+
+commit f7e2ac67a1d2c5f6d54700a9fa779ea1fd816176
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sun Mar 9 18:50:10 2014 +0100
+
+    Began Add Help
+    Start with QML
+    Improve the Database, but the DB must generate from Source-Code by QT
+
+commit 945c09d070789dd4022fb8e59baa8b9443e708b9
+Merge: 0e26636 dae4d98
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Tue Feb 11 22:33:59 2014 +0100
+
+    Merge branch 'master' of https://github.com/jmuelbert/jmbde-QT
+
+commit 0e26636eb5d2fb14ed517dc83bbb5dafe1c95fe6
+Merge: ec5d351 62a1ee8
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Tue Feb 11 22:26:05 2014 +0100
+
+    Merge commit '62a1ee8d95b8bd611ba0cbf310c4abcbdb477582'
+
+commit dae4d987df368a8284c68c55e0e196841d21a2a6
+Author: Jürgen Mülbert <jmuelbert@users.noreply.github.com>
+Date:   Tue Feb 11 22:16:23 2014 +0100
+
+    Update README
+
+commit 491ed66672e5ade4175db64f47e8986d1080f8fe
+Author: Jürgen Mülbert <jmuelbert@users.noreply.github.com>
+Date:   Tue Feb 11 22:15:18 2014 +0100
+
+    Create README
+
+commit 62a1ee8d95b8bd611ba0cbf310c4abcbdb477582
+Author: Jürgen Mülbert <jmuelbert@users.noreply.github.com>
+Date:   Tue Feb 11 22:04:48 2014 +0100
+
+    Create gh-pages branch via GitHub
+
+commit 2f113b9bae8ab0862b759e23678cad3058c9c805
+Author: Jürgen Mülbert <jmuelbert@users.noreply.github.com>
+Date:   Tue Feb 11 21:29:05 2014 +0100
+
+    Create gh-pages branch via GitHub
+
+commit ec5d3512aa7efdf75caa53482b02c8981b71158a
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sun Feb 9 15:14:22 2014 +0100
+
+    + New Database structure
+    + Improve GUI
+    + A little usable
+    + Tables: Employee, Computer, Printer and Phone can save as PDF.
+    + Tables: Employee, Computer, Printer and Phone can print.
+
+commit c812970bb18d56e28fe2cd4445c26d262756e00a
+Author: Jürgen Mülbert <develop@juergen-muelbert.de>
+Date:   Sat Oct 19 17:51:31 2013 +0200
+
+    Initial commot

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2018 Jürgen Mülbert -->
+<component type="desktop">
+    <id>de.juergen-muelbert.jmbde.desktop</id>
+    <metadata_license>CC0-1.0</metadata_license>
+    <project_license>EUPL-1.2</project_license>
+    <description>
+        <p>   jmbde is a tool to collect Users, Accounts, Computer and so on in a databas...  </p>
+    </description>
+    <url type="homepage">https://github.com/jmuelbert/jmbde-QT/</url>
+    <project_group>Tools</project_group>
+</component>

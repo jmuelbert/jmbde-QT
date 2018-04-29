@@ -57,23 +57,32 @@
  *
  */
 
-#include <QApplication>
+#include <QObject>
 #include <QDebug>
+
+#ifndef USE_QUICKVIEW
+#include <QApplication>
+#include <QMessageBox>
+#else
+#include <QGuiApplication>
+#endif
+
+#include <QCoreApplication>
 #include <QDir>
+#include <QFile>
 #include <QFileInfo>
+#include <QGuiApplication>
+#include <QSettings>
+#include <QString>
+#include <QStringList>
+#include <QTranslator>
 #include <QLibraryInfo>
 #include <QLoggingCategory>
-#include <QSettings>
-#include <QTextStream>
-#include <QTranslator>
-#include <QMessageBox>
 
-#include <qtsingleapplication.h>
+#include <clocale>
+
 #include "definitions.h"
-#include "mainwindow.h"
-#include "app/app_version.h"
-
-
+#include "views/mainwindow.h"
 
 const char fixedOptionsC[] =
     " [OPTION]...\n"
@@ -87,20 +96,22 @@ const char HELP_OPTION3[] = "/h";
 const char HELP_OPTION4[] = "--help";
 const char VERSION_OPTION[] = "-version";
 
-static QSettings *createUserSettings()
+static QSettings* createUserSettings()
 {
-    return new QSettings(QSettings::IniFormat, QSettings::UserScope,
-                         QLatin1String(Core::Constants::JMBDE_COPY_SETTINGS_FROM_VARIANT_STR),
-                         QLatin1String(Core::Constants::JMBDE_CASED_ID));
+    return new QSettings(
+               QSettings::IniFormat, QSettings::UserScope,
+               QLatin1String(Core::Constants::JMBDE_COPY_SETTINGS_FROM_VARIANT_STR),
+               QLatin1String(Core::Constants::JMBDE_CASED_ID));
 }
 
-static inline QSettings *userSettings()
+static inline QSettings* userSettings()
 {
-    QSettings *settings = createUserSettings();
-    const QString fromVariant = QLatin1String(Core::Constants::JMBDE_COPY_SETTINGS_FROM_VARIANT_STR);
-    if (fromVariant.isEmpty())
+    QSettings* settings = createUserSettings();
+    const QString fromVariant =
+        QLatin1String(Core::Constants::JMBDE_COPY_SETTINGS_FROM_VARIANT_STR);
+    if (fromVariant.isEmpty()) {
         return settings;
-
+    }
 
     // Make sure to use the copied settings
     delete settings;
@@ -113,92 +124,124 @@ static inline QSettings *userSettings()
  * @param argv
  * @return
  */
-int main(int argc, char* argv[]) {
-    
-    QLoggingCategory::setFilterRules(QLatin1String("jmbde.*.debug=false\njmbde.*.info=false"));
-        
+int main(int argc, char* argv[])
+{
 
-    SharedTools::QtSingleApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
-    SharedTools::QtSingleApplication app((QLatin1String(Core::Constants::JMBDE_DISPLAY_NAME)), argc, argv);
+    QLoggingCategory::setFilterRules(
+        QLatin1String("jmbde.*.debug=false\njmbde.*.info=false"));
 
-#if defined (Q_OS_MAC)
-  QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
+
+#if defined(Q_OS_MAC)
+    QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
 #endif
 
-  // These settings needs to be set before any QSettings object
-  QCoreApplication::setApplicationName(QLatin1String(Core::Constants::JMBDE_DISPLAY_NAME));
-  QCoreApplication::setApplicationVersion(QLatin1String(Core::Constants::JMBDE_VERSION_LONG));
-  QCoreApplication::setOrganizationName(QLatin1String(Core::Constants::JMBDE_ID));
-  QCoreApplication::setOrganizationDomain(QLatin1String(Core::Constants::JMBDE_ID));
+    // These settings needs to be set before any QSettings object
+    QCoreApplication::setApplicationName(
+        QLatin1String(Core::Constants::JMBDE_DISPLAY_NAME));
+    QCoreApplication::setApplicationVersion(
+        QLatin1String(Core::Constants::JMBDE_VERSION_LONG));
+    QCoreApplication::setOrganizationName(
+        QLatin1String(Core::Constants::JMBDE_ID));
+    QCoreApplication::setOrganizationDomain(
+        QLatin1String(Core::Constants::JMBDE_ID));
+
+#if defined(Q_OS_MAC)
+    QFileInfo appInfo(QString::fromUtf8(argv[0]));
+    QDir appDir(appInfo.absolutePath());
+    appDir.cdUp();
+    QCoreApplication::addLibraryPath(appDir.absoluteFilePath(QLatin1Literal("plugins")));
+#elif defined(Q_OS_WIN)
+    QFileInfo appInfo(QString::fromUtf8(argv[0]));
+    QCoreApplication::addLibraryPath(appInfo.absolutePath());
+#endif
+
+    QGuiApplication::setDesktopSettingsAware(false);
+
+#ifndef USE_QUICKVIEW
+    QApplication::setStyle(QStyleFactory::create(QLatin1Literal("Fusion")));
+    // The QApplication MUST be created before the StelFileMgr is initialized.
+    QApplication app(argc, argv);
+#else
+    QGuiApplication::setDesktopSettingsAware(false);
+    QGuiApplication app(argc, argv);
+#endif
 
     // Must be done before any QSettings class is created
     QSettings::setDefaultFormat(QSettings::IniFormat);
 
-    QSettings *settings = userSettings();
+    QSettings* settings = userSettings();
 
-    QSettings *globalSettings = new QSettings(QSettings::IniFormat,
-                                              QSettings::SystemScope,
-                                              QLatin1String(Core::Constants::JMBDE_COPY_SETTINGS_FROM_VARIANT_STR),
-                                              QLatin1String(Core::Constants::JMBDE_CASED_ID));
+    QSettings* globalSettings = new QSettings(
+        QSettings::IniFormat, QSettings::SystemScope,
+        QLatin1String(Core::Constants::JMBDE_COPY_SETTINGS_FROM_VARIANT_STR),
+        QLatin1String(Core::Constants::JMBDE_CASED_ID));
 
     QTranslator translator;
     QTranslator qtTranslator;
     QStringList uiLanguages;
 
     uiLanguages = QLocale::system().uiLanguages();
-    QString overideLanguage = settings->value(QLatin1String("General/OverrideLanguage")).toString();
-    if (!overideLanguage.isEmpty())
+    QString overideLanguage =
+        settings->value(QLatin1Literal("General/OverrideLanguage")).toString();
+    if (!overideLanguage.isEmpty()) {
         uiLanguages.prepend(overideLanguage);
+    }
 
-      const QString &appDirPath = QCoreApplication::applicationDirPath();
-      QString translationFileAndPath;
+    const QString &appDirPath = QCoreApplication::applicationDirPath();
+    QString translationFileAndPath;
 
 #ifdef Q_OS_MAC
-  QDir trPath(appDirPath);
+    QDir trPath(appDirPath);
 
-  trPath.cdUp();
-  const QString& creatorTrPath = trPath.path();
+    trPath.cdUp();
+    const QString &creatorTrPath = trPath.path();
 
-  translationFileAndPath = QString(creatorTrPath);
+    translationFileAndPath = QString(creatorTrPath);
 
-  translationFileAndPath.append(QDir::separator());
-  translationFileAndPath.append(QLatin1String("Resources"));
+    translationFileAndPath.append(QDir::separator());
+    translationFileAndPath.append(QLatin1Literal("Resources"));
 #else
-  translationFileAndPath = QString(appDirPath);
+    translationFileAndPath = QString(appDirPath);
 #endif
 
-  translationFileAndPath.append(QDir::separator());
-  translationFileAndPath.append(QLatin1String("translations"));
+    translationFileAndPath.append(QDir::separator());
+    translationFileAndPath.append(QLatin1String("translations"));
 
-  foreach (QString locale, uiLanguages) {
-      locale = QLocale(locale).name();
-      QString myLangId = QLatin1String(Core::Constants::JMBDE_ID);
-      myLangId.append(QLatin1String("_"));
-      myLangId.append(locale);
-      if (translator.load(myLangId, translationFileAndPath)) {
-          const QString &qtTrPath = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
-          const QString &qtTrFile = QLatin1String("qt_") + locale;
-          // Binary installer puts Qt tr files into creatorTrPath
-          if (qtTranslator.load(qtTrFile, qtTrPath) || qtTranslator.load(qtTrFile, translationFileAndPath)) {
-              app.installTranslator(&translator);
-              app.installTranslator(&qtTranslator);
-              app.setProperty("jmbde_locale", locale);
-              break;
-          }
-          translator.load(QString()); // unload()
-      } else if (locale == QLatin1String("C") /* overrideLanguage == "English" */) {
-          // use built-in
-          break;
-      } else if (locale.startsWith(QLatin1String("en")) /* "English is built-in */) {
-          // use built-in
-          break;
-      }
-  }
+    foreach (QString locale, uiLanguages) {
+        locale = QLocale(locale).name();
+        QString myLangId = QLatin1String(Core::Constants::JMBDE_ID);
+        myLangId.append(QLatin1String("_"));
+        myLangId.append(locale);
+        if (translator.load(myLangId, translationFileAndPath)) {
+            const QString &qtTrPath =
+                QLibraryInfo::location(QLibraryInfo::TranslationsPath);
+            const QString &qtTrFile = QLatin1String("qt_") + locale;
+            // Binary installer puts Qt tr files into creatorTrPath
+            if (qtTranslator.load(qtTrFile, qtTrPath) ||
+                qtTranslator.load(qtTrFile, translationFileAndPath)) {
+                app.installTranslator(&translator);
+                app.installTranslator(&qtTranslator);
+                app.setProperty("jmbde_locale", locale);
+                break;
+            }
+            translator.load(QString()); // unload()
+        }
+        else if (locale ==
+                 QLatin1Literal("C") /* overrideLanguage == "English" */) {
+            // use built-in
+            break;
+        }
+        else if (locale.startsWith(
+                     QLatin1Literal("en")) /* "English is built-in */) {
+            // use built-in
+            break;
+        }
+    }
 
 
-  MainWindow w;
+    MainWindow w;
+    w.show();
 
-  w.show();
+    return app.exec();
 
-  return app.exec();
 }

@@ -1,12 +1,32 @@
 # Contributing to jmbde
-First time contributing to jmbde-QT ? Read our [Code of Conduct](https://github.com/jmuelbert/jmbde-QT/blob/master/CODE_OF_CONDUCT.md#code-of-conduct).
+First time contributing to jmbde-QT ? 
+Read our [Code of Conduct](https://github.com/jmuelbert/jmbde-QT/blob/master/CODE_OF_CONDUCT.md#code-of-conduct).
 
-### Report a bug
+All kinds of contributions are very appreciated, be it documentation, code or build system improvements, be it a small patch, a feature or maybe even becoming a co-maintainer of Tiled. Bug reports and feature requests are of course welcome too!
 
-* Open an issue on jmuelbert/jmbde-QT if it's not a formula-specific issue.
+## Reporting an Issue
 
-### Propose a feature
+Make sure to mention the following things:
 
-* Open an issue with a detailed description of your proposed feature, the motivation for it and alternatives considered. Please note we may close this issue or ask you to create a pull-request if this is not something we see as sufficiently high priority.
+* How the issue can reproduced
+* What behavior you expected instead
+* What actually happened
+* jmbde version, operating system, etc. if possibly relevant.
 
-Thanks!
+Also, please consider adding a screenshot or video if it helps illustrate the issue.
+
+## Requesting a Feature
+
+First of all, look around the already open issues to see if the feature was already requested in some form. In that case it's better to comment on the existing feature instead.
+
+In any case, be sure to describe the feature in enough detail, to consider its implications on existing parts of the software if relevant and to describe how it would help you in particular. Also, please consider including a mockup if the issue includes UI changes.
+
+## Submitting a Patch
+
+* Ideally, start with something small to get familiar with the review process and work up from there.
+* Make an effort to follow the overal coding style, which is roughly based on the [Qt Creator coding style](https://doc-snapshots.qt.io/qtcreator-extending/coding-style.html).
+* Be prepared for detailed feedback on your patch and to make several revisions.
+* Each pull request will be built automatically for Windows, Linux and macOS. If the build fails anywhere, please check if it may be a problem with your patch.
+
+
+Thanks a lot for your contribution!

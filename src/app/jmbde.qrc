@@ -30,4 +30,7 @@
         <file>icons/tango/22x22/help-browser.png</file>
         <file>icons/tango/32x32/help-browser.png</file>
     </qresource>
+    <qresource prefix="/Data">
+        <file>models/script.sql</file>
+    </qresource>
 </RCC>

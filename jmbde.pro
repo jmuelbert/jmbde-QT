@@ -1,66 +1,21 @@
-include (jmbde.pri)
-
-
-message($$APP_NAME: Welcome jmbde qmake script.)
-
-lessThan(QT_MAJOR_VERSION, 5)|lessThan(QT_MINOR_VERSION, 9) {
-  error(APP: At least Qt \"5.9.0\" is required!!!)
+# Check the Qt version. If QT_VERSION is not set, it is probably Qt 3.
+isEmpty(QT_VERSION) {
+    error("QT_VERSION not defined. Tiled does not work with Qt 3.")
 }
 
-CONFIG += ordered
-TEMPLATE = subdirs
+include(jmbde.pri)
 
-SUBDIRS += src share
-
-unix:!macx:!isEmpty(copydata):SUBDIRS += bin
-!isEmpty(BUILD_TESTS):SUBDIRS += tests
-
-DISTFILES += \
-        README.md \
-        $$files(dist/changes-*) \
-        $$APP_NAME.qbs 
-
-message($$APP_NAME Shadow copy build directory \"$$OUT_PWD\".)
-
-exists(src/shared/qbs/qbs.pro) {
-
+!minQtVersion(5, 10, 0) {
+    message("Cannot build Tiled with Qt version $${QT_VERSION}")
+    error("Use at least Qt 5.10.0.")
 }
 
-contains(QT_ARCH, i386): ARCHITECTURE = x86
-else: ARCHITECTURE = $$QT_ARCH
-
-macx: PLATFORM = "mac"
-else:win32: PLATFORM = "windows"
-else:linux-*: PLATFORM = "linux-$${ARCHITECTURE}"
-else: PLATFORM = "unkwon"
-
-BASENAME = $$(INSTALL_BASENAME)
-isEmpty(BASENAME): BASENAME = $${APP_NAME}-$${PLATFORM}-$${APP_VERSION}$(INSTALL-POSTFIX)
-
-macx {
-    APPBUNDLE = "$$OUT_PWD/bin/$${APP_NAME}.app"
-    BINDIST_SOURCE = "$$OUT_PWD/bin/$${APP_NAME}.app"
-    BINDIST_INSTALLER_SOURCE = $$BINDIST_SOURCE
-} else {
-    BINDIST_SOURCE = "$(INSTALL_ROOT)"
-    BINDIST_INSTALLER_SOURCE = "$$BINDIST_SOURCE/*"
+win* {
+    message("Building jmbde for Windows using qmake is no longer supported")
+    error("Use the jmbde.qbs project file instead")
 }
 
+TEMPLATE  = subdirs
+CONFIG   += ordered
 
-INSTALLER_ARCHIVE_FROM_ENV = $$(INSTALLER_ARCHIVE)
-isEmpty(INSTALLER_ARCHIVE_FROM_ENV) {
-    INSTALLER_ARCHIVE = $$OUT_PWD/$${BASENAME}-installer-archive.7z
-} else {
-    INSTALLER_ARCHIVE = $$OUT_PWD/$$(INSTALLER_ARCHIVE)
-}
-
-exists(.git) {
-  APP_REVISION = $$system(git rev-parse --short HEAD)
-}
-
-isEmpty(APP_REVISION) {
-  APP_REVISION = ""
-
-}
-
-DEFINES += APP_REVISION='"\\\"$$APP_REVISION\\\""'
+SUBDIRS = src translations

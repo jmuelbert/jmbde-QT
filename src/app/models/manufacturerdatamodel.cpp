@@ -1,0 +1,176 @@
+/**************************************************************************
+**
+** Copyright (c) 2013-2018 Jürgen Mülbert. All rights reserved.
+**
+** This file is part of jmbde
+**
+** Licensed under the EUPL, Version 1.2 or – as soon they
+** will be approved by the European Commission - subsequent
+** versions of the EUPL (the "Licence");
+** You may not use this work except in compliance with the
+** Licence.
+** You may obtain a copy of the Licence at:
+**
+** https://joinup.ec.europa.eu/page/eupl-text-11-12
+**
+** Unless required by applicable law or agreed to in
+** writing, software distributed under the Licence is
+** distributed on an "AS IS" basis,
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+** express or implied.
+** See the Licence for the specific language governing
+** permissions and limitations under the Licence.
+**
+** Lizenziert unter der EUPL, Version 1.2 oder - sobald
+**  diese von der Europäischen Kommission genehmigt wurden -
+** Folgeversionen der EUPL ("Lizenz");
+** Sie dürfen dieses Werk ausschließlich gemäß
+** dieser Lizenz nutzen.
+** Eine Kopie der Lizenz finden Sie hier:
+**
+** https://joinup.ec.europa.eu/page/eupl-text-11-12
+**
+** Sofern nicht durch anwendbare Rechtsvorschriften
+** gefordert oder in schriftlicher Form vereinbart, wird
+** die unter der Lizenz verbreitete Software "so wie sie
+** ist", OHNE JEGLICHE GEWÄHRLEISTUNG ODER BEDINGUNGEN -
+** ausdrücklich oder stillschweigend - verbreitet.
+** Die sprachspezifischen Genehmigungen und Beschränkungen
+** unter der Lizenz sind dem Lizenztext zu entnehmen.
+**
+**************************************************************************/
+
+#include "manufacturerdatamodel.h"
+
+ManufacturerDataModel::ManufacturerDataModel(QObject* parent)
+    : CommonDataModel(parent)
+{
+
+    // Set the Model
+    m_model = new QSqlRelationalTableModel(this);
+    m_model->setTable(this->m_tableName);
+    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+
+    setIndexes();
+}
+
+ManufacturerDataModel::~ManufacturerDataModel() {}
+
+
+bool ManufacturerDataModel::createDataTable()
+{
+
+    QSqlQuery query;
+    QString sqlString = QLatin1String("CREATE TABLE %1 (" \
+                                      "manufacturer_id INTEGER PRIMARY KEY, " \
+                                      "name VARCHAR, " \
+                                      "name2 VARCHAR, " \
+                                      "supporter VARCHAR, " \
+                                      "address VARCHAR, " \
+                                      "address2 VARCHAR, " \
+                                      "zip_city_id INTEGER, " \
+                                      "mail_address VARCHAR, " \
+                                      "phone_number VARCHAR, " \
+                                      "fax_number VARCHAR, " \
+                                      "hotline_number VARCHAR, " \
+                                      "last_update TIMESTAMP);");
+
+    return query.exec(sqlString.arg(this->m_tableName));
+}
+
+void ManufacturerDataModel::setIndexes()
+{
+    m_ManufacturerIdIndex = m_model->fieldIndex(QLatin1String("manufacturer_id"));
+    m_NameIndex = m_model->fieldIndex(QLatin1String("name"));
+    m_Name2Index = m_model->fieldIndex(QLatin1String("name2"));
+    m_SupporterIndex = m_model->fieldIndex(QLatin1String("supporter"));
+    m_AddressIndex = m_model->fieldIndex(QLatin1String("address"));
+    m_Address2Index = m_model->fieldIndex(QLatin1String("address2"));
+    m_ZipCityIdIndex = m_model->fieldIndex(QLatin1String("zip_city_id"));
+    m_MailAddressIndex = m_model->fieldIndex(QLatin1String("mail_address"));
+    m_PhoneNumberIndex = m_model->fieldIndex(QLatin1String("phone_number"));
+    m_FaxNumberIndex = m_model->fieldIndex(QLatin1String("fax_number"));
+    m_HotlineNumberIndex = m_model->fieldIndex(QLatin1String("hotline_number"));
+    m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
+}
+
+QSqlRelationalTableModel* ManufacturerDataModel::initializeRelationalModel()
+{
+
+    m_model = new QSqlRelationalTableModel(this);
+
+    m_model->setTable(this->m_tableName);
+    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+
+    m_model->select();
+
+    return m_model;
+}
+
+QSqlRelationalTableModel* ManufacturerDataModel::initializeInputDataModel()
+{
+
+    m_model = new QSqlRelationalTableModel(this);
+
+    m_model->setTable(this->m_tableName);
+
+    return m_model;
+}
+
+QSqlTableModel* ManufacturerDataModel::initializeViewModel()
+{
+
+    m_model->select();
+
+    return m_model;
+}
+
+QString ManufacturerDataModel::generateTableString(QAbstractTableModel* model, QString header)
+{
+    QString outString;
+    int columnCount = model->columnCount();
+    int rowCount = model->rowCount();
+
+    qDebug() << "Header : " << header << " Columns : " << columnCount
+             << " Rows : " << rowCount;
+
+    QList<int> set;
+
+    // Document Title
+    outString = QLatin1String("<h1>");
+    outString += header;
+    outString += QLatin1String("</h1>");
+    outString += QLatin1String("<hr />");
+    outString +=
+        QLatin1String("<table width=\"100%\" cellspacing=\"0\" class=\"tbl\">");
+    outString += QLatin1String("<thead> <tr>");
+
+    foreach (const int i, set) {
+        qDebug() << "int i = " << i;
+        outString += QLatin1String("<th>");
+        outString.append(model->headerData(i, Qt::Horizontal).toString());
+        outString += QLatin1String("</th>");
+    }
+
+    return outString;
+}
+
+QString ManufacturerDataModel::generateFormularString(QAbstractTableModel* model, QString header)
+{
+    QString outString;
+    int columnCount = model->columnCount();
+    int rowCount = model->rowCount();
+
+    qDebug() << "Header : " << header << " Columns : " << columnCount
+             << " Rows : " << rowCount;
+
+    QList<int> set;
+
+    // Document Title
+    outString = QLatin1String("<h1>");
+    outString += header;
+    outString += QLatin1String("</h1>");
+    outString += QLatin1String("<hr />");
+
+    return outString;
+}
