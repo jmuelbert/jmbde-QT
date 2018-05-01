@@ -47,6 +47,18 @@
 
 #define APP_ICON_PATH QStringLiteral(":/graphics/jmbde.png")
 
+#ifndef QSL
+#define QSL(x) QStringLiteral(x)
+#endif
+
+#ifndef QL1S
+#define QL1S(x) QLatin1String(x)
+#endif
+
+#ifndef QL1C
+#define QL1C(x) QLatin1Char(x)
+#endif
+
 namespace Settings
 {
 namespace Groups

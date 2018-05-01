@@ -107,7 +107,7 @@ MainWindow::MainWindow(QWidget* parent)
 	ui->treeView->setModel(m_treeviewModel);
 	ui->treeView->expandAll();
 
-	dm = new DataModel(QLatin1Literal("jmbde.db"));
+    dm = new DataModel(QStringLiteral("jmbde"));
 	bool retValue = dm->CreateConnection();
 
 	if (retValue == true) {

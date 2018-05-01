@@ -94,15 +94,22 @@ DataModel::DataModel(const QString &name, QObject* parent) : QObject(parent)
     this->name = name.isEmpty() ? QUuid::createUuid().toString() : name;
     qDebug() << "Creating DB for: " << this->name;
 
-    QSettings settings;
-    QString dataBaseDir = QString();
+    QString dbDataPath = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
+    dbDataPath.append(QDir::separator());
+    dbDataPath.append(QLatin1Literal("de.juergen-muelbert"));
 
+    QSettings settings;
+    settings.beginGroup(QLatin1String(Settings::Groups::DATABASE));
     const int dbType =
         settings.value(QLatin1Literal(Settings::Database::TYPE), SQLITE).toInt();
 
     const QString dbConnectionString =
-        settings.value(QLatin1Literal(Settings::Database::CONNECTION), dataBaseDir)
+        settings.value(QLatin1Literal(Settings::Database::CONNECTION), dbDataPath)
         .toString();
+    settings.endGroup();
+
+
+    qDebug() << "DbConnection from Settings : " << dbConnectionString;
 
     if (dbType == SQLITE) {
         // Application Directory +
@@ -110,7 +117,13 @@ DataModel::DataModel(const QString &name, QObject* parent) : QObject(parent)
         // share/appname on Linux
         // + /database/jmbdesqlite.db
         // Destination Directory
-        QString targetFileAndPath = QString(dbConnectionString);
+        QString targetFileAndPath = QString();
+        if (dbConnectionString.isEmpty()) {
+            targetFileAndPath = QString(dbDataPath);
+        } else {
+            targetFileAndPath = QString(dbConnectionString);
+        }
+
         // Create the Directory
         QDir d(targetFileAndPath);
         d.mkpath(targetFileAndPath);
@@ -119,14 +132,15 @@ DataModel::DataModel(const QString &name, QObject* parent) : QObject(parent)
         targetFileAndPath.append(QDir::separator());
         targetFileAndPath.append(this->name);
         targetFileAndPath.append(QLatin1Literal("sqlite.db3"));
+        QFile f(targetFileAndPath);
 
-        if (!Utils::fileExists(Utils::JmBdeDBPath + Utils::DBName)) {
-            this->openDB(this->name);
+        if (!f.exists()) {
+            this->openDB(targetFileAndPath);
             qDebug() << "DB doesn't exists, trying to create it" << targetFileAndPath;
             this->prepareDB();
         }
         else {
-            this->openDB(this->name);
+            this->openDB(targetFileAndPath);
         }
     }
     else {
@@ -465,7 +479,7 @@ void DataModel::openDB(const QString &name)
 {
     if (!QSqlDatabase::contains(name)) {
         this->m_db = QSqlDatabase::addDatabase(QStringLiteral("QSQLITE"), name);
-        this->m_db.setDatabaseName(Utils::JmBdeDBPath + Utils::DBName);
+        this->m_db.setDatabaseName(name);
     }
 
     if (!this->m_db.isOpen()) {

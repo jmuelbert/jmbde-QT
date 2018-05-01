@@ -65,9 +65,6 @@
 
 #include "definitions.h"
 
-#include "app_version.h"
-
-
 #include "utils/helpbrowser.h"
 
 #include "views/csvimportdialog.h"

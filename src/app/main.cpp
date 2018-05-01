@@ -84,31 +84,24 @@
 #include "definitions.h"
 #include "views/mainwindow.h"
 
-const char fixedOptionsC[] =
-    " [OPTION]...\n"
-    "Options:\n"
-    "    -help                         Display this help\n"
-    "    -version                      Display program version\n";
 
-const char HELP_OPTION1[] = "-h";
-const char HELP_OPTION2[] = "-help";
-const char HELP_OPTION3[] = "/h";
-const char HELP_OPTION4[] = "--help";
-const char VERSION_OPTION[] = "-version";
+#define STRINGIFY(x) #x
+#define AS_STRING(x) STRINGIFY(x)
 
 static QSettings* createUserSettings()
 {
     return new QSettings(
-               QSettings::IniFormat, QSettings::UserScope,
-               QLatin1String(Core::Constants::JMBDE_COPY_SETTINGS_FROM_VARIANT_STR),
-               QLatin1String(Core::Constants::JMBDE_CASED_ID));
+               QSettings::IniFormat,
+               QSettings::UserScope,
+               QLatin1String("de.juergen-muelbert"),
+               QLatin1String("jmbde"));
 }
 
 static inline QSettings* userSettings()
 {
     QSettings* settings = createUserSettings();
     const QString fromVariant =
-        QLatin1String(Core::Constants::JMBDE_COPY_SETTINGS_FROM_VARIANT_STR);
+        QLatin1String("jmbde");
     if (fromVariant.isEmpty()) {
         return settings;
     }
@@ -131,19 +124,33 @@ int main(int argc, char* argv[])
         QLatin1String("jmbde.*.debug=false\njmbde.*.info=false"));
 
 
+#if QT_VERSION >= 0x050600
+    QGuiApplication::setFallbackSessionManagementEnabled(false);
+#endif
+
+    // Enable support for highres images (added in Qt 5.1, but off by default)
+    QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+
 #if defined(Q_OS_MAC)
     QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
 #endif
 
     // These settings needs to be set before any QSettings object
-    QCoreApplication::setApplicationName(
-        QLatin1String(Core::Constants::JMBDE_DISPLAY_NAME));
-    QCoreApplication::setApplicationVersion(
-        QLatin1String(Core::Constants::JMBDE_VERSION_LONG));
-    QCoreApplication::setOrganizationName(
-        QLatin1String(Core::Constants::JMBDE_ID));
-    QCoreApplication::setOrganizationDomain(
-        QLatin1String(Core::Constants::JMBDE_ID));
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+    QCoreApplication::setApplicationName(QLatin1String("jmBDE"));
+#else
+    QCoreApplication::setApplicationName(QLatin1String("jmbde"));
+#endif
+
+    QGuiApplication::setApplicationDisplayName(QLatin1String("jmbde"));
+    QCoreApplication::setOrganizationName(QLatin1String("jmbde"));
+    QCoreApplication::setOrganizationDomain(QLatin1String("de.juergen.muelbert"));
+
+#ifdef GIT_REVISION
+    QCoreApplication::setApplicationVersion(QSL("%1 (%2)").arg(JMBDE_VERSION, GIT_REVISION);
+#else
+    QCoreApplication::setApplicationVersion(QSL(AS_STRING(JMBDE_VERSION)));
+#endif
 
 #if defined(Q_OS_MAC)
     QFileInfo appInfo(QString::fromUtf8(argv[0]));
@@ -166,15 +173,20 @@ int main(int argc, char* argv[])
     QGuiApplication app(argc, argv);
 #endif
 
+    QCommandLineParser parser;
+    parser.setApplicationDescription(QLatin1String("jmbde - Commandline"));
+    parser.addHelpOption();
+    parser.addVersionOption();
     // Must be done before any QSettings class is created
     QSettings::setDefaultFormat(QSettings::IniFormat);
 
     QSettings* settings = userSettings();
 
     QSettings* globalSettings = new QSettings(
-        QSettings::IniFormat, QSettings::SystemScope,
-        QLatin1String(Core::Constants::JMBDE_COPY_SETTINGS_FROM_VARIANT_STR),
-        QLatin1String(Core::Constants::JMBDE_CASED_ID));
+        QSettings::IniFormat,
+        QSettings::SystemScope,
+        QLatin1String("de.juergen-muelbert"),
+        QLatin1String("jmbde"));
 
     QTranslator translator;
     QTranslator qtTranslator;
@@ -209,7 +221,7 @@ int main(int argc, char* argv[])
 
     foreach (QString locale, uiLanguages) {
         locale = QLocale(locale).name();
-        QString myLangId = QLatin1String(Core::Constants::JMBDE_ID);
+        QString myLangId = QLatin1String("jmbde");
         myLangId.append(QLatin1String("_"));
         myLangId.append(locale);
         if (translator.load(myLangId, translationFileAndPath)) {

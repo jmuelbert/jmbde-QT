@@ -9,6 +9,7 @@ QtGuiApplication {
 
     Depends { name: "lib" }
     Depends { name: "translations" }
+    Depends { name: "qtsingleapplication" }
     Depends { name: "ib"; condition: qbs.targetOS.contains("macos") }
     Depends { name: "Qt"; submodules: [ "core", 
                                         "widgets", 
