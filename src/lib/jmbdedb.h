@@ -16,14 +16,13 @@
 #include <QDir>
 #include <QVariantMap>
 
-#include "data_global.h"
 
-class DATASHARED_EXPORT JmBdeDB : public QObject
+class JmBdeDB : public QObject
 {
     Q_OBJECT
 public:
     explicit JmBdeDB(QObject* parent = nullptr);
-    explicit JmBdeDB(const QString &name = QString(), QObject* parent = nullptr);
+    explicit JmBdeDB( const QString &name = QString(), QObject* parent = nullptr);
     ~JmBdeDB() override;
 
     bool execQuery(QSqlQuery &query) const;

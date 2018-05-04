@@ -7,7 +7,6 @@ QtGuiApplication {
     targetName: name
     version: project.version
 
-    Depends { name: "lib" }
     Depends { name: "translations" }
     Depends { name: "qtsingleapplication" }
     Depends { name: "ib"; condition: qbs.targetOS.contains("macos") }

@@ -1,4 +1,4 @@
-IDI_ICON1               ICON    DISCARDABLE     "images/jmbe-icon.ico"
+IDI_ICON1               ICON    DISCARDABLE     "images/jmbde-icon.ico"
 
 #include <winver.h>
 

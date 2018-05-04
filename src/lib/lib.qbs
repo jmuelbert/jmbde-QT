@@ -14,7 +14,7 @@ DynamicLibrary {
     cpp.cxxLanguageVersion: "c++14"
     cpp.visibility: "minimal"
     cpp.defines: [
-        "JMBDE_LIBRARY",
+        "DATA_LIBRARY",
         "QT_NO_CAST_FROM_ASCII",
         "QT_NO_CAST_TO_ASCII",
         "QT_NO_URL_CAST_FROM_STRING"
@@ -29,13 +29,11 @@ DynamicLibrary {
     cpp.sonamePrefix: qbs.targetOS.contains("darwin") ? "@rpath" : undefined
 
     files: [
-        "data_global.h",
-        "data.cpp",
-        "data.h",
         "data.qrc",
+        "data_global.h",
         "jmbdedb.cpp",
         "jmbdedb.h",
-        "utils.h"
+        "utils.h",
     ]
 
     Group {

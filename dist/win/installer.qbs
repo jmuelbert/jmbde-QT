@@ -4,7 +4,7 @@ import qbs.File
 import qbs.TextFile
 
 WindowsInstallerPackage {
-    builtByDefault: false
+    builtByDefault: false;
     condition: {
         if (project.windowsInstaller) {
             if (!(qbs.toolchain.contains("mingw") || qbs.toolchain.contains("msvc"))) {
@@ -43,9 +43,7 @@ WindowsInstallerPackage {
             defs.push("MingwDir=" + FileInfo.joinPaths(cpp.toolchainInstallPath, ".."));
         else if (qbs.toolchain.contains("msvc"))
             defs.push("VcInstallDir=" + FileInfo.joinPaths(cpp.toolchainInstallPath, "../.."));
-
-        if (project.sparkleEnabled)
-            defs.push("Sparkle");
+            
 
         // A bit of a hack to exclude the Python plugin when it isn't built
         if (File.exists("C:/Python27") &&

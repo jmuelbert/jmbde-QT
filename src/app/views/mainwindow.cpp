@@ -50,9 +50,9 @@ MainWindow::MainWindow(QWidget* parent)
 	ui->setupUi(this);
 
 	QString title;
-	title.append(QLatin1String(Core::Constants::JMBDE_ID));
+    title.append(qApp->applicationDisplayName());
 	title.append(QLatin1String(" "));
-	title.append(QLatin1String(Core::Constants::JMDBE_VERSION_DISPLAY));
+    title.append(qApp->applicationVersion());
 	setWindowTitle(title);
 
 	ui->scrollArea->setWidgetResizable(true);
