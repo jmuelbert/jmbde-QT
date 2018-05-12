@@ -56,18 +56,6 @@ CityNameDataModel::CityNameDataModel(QObject* parent) : CommonDataModel(parent)
 CityNameDataModel::~CityNameDataModel()
     = default;
 
-bool CityNameDataModel::createDataTable()
-{
-
-    QSqlQuery query;
-    QString sqlString = QLatin1String("CREATE TABLE %1 (" \
-                                      "city_name_id INTEGER PRIMARY KEY, " \
-                                      "name VARCHAR, " \
-                                      "last_update TIMESTAMP);");
-
-    return query.exec(sqlString.arg(this->m_tableName));
-}
-
 void CityNameDataModel::setIndexes()
 {
     m_CityNameIdIndex = m_model->fieldIndex(QLatin1String("city_name_id"));

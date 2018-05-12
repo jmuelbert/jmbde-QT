@@ -56,21 +56,6 @@ EmployeeAccountDataModel::~EmployeeAccountDataModel()
 {
 }
 
-bool EmployeeAccountDataModel::createDataTable()
-{
-
-    QSqlQuery query;
-
-    // TODO Change employe_id to employee_id
-    QString sqlString = QLatin1String("CREATE TABLE %1 (" \
-                                      "employee_account_id INTEGER PRIMARY KEY, " \
-                                      "employe_id INTEGER, " \
-                                      "account_id INTEGER, " \
-                                      "last_update TIMESTAMP);");
-
-    return query.exec(sqlString.arg(this->m_tableName));
-}
-
 void EmployeeAccountDataModel::setIndexes()
 {
     m_EmployeeAccountIdIndex = m_model->fieldIndex(QLatin1String("employee_account_id"));

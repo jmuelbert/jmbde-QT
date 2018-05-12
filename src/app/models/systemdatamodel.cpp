@@ -55,21 +55,6 @@ SystemDataModel::SystemDataModel(QObject* parent) : CommonDataModel(parent)
 
 SystemDataModel::~SystemDataModel() {}
 
-
-bool SystemDataModel::createDataTable()
-{
-
-    QSqlQuery query;
-    QString sqlString = QLatin1String("CREATE TABLE %1 (" \
-                                      "system_data_id INTEGER PRIMARY KEY, " \
-                                      "name VARCHAR, " \
-                                      "local BOOLEAN, " \
-                                      "company_id INTEGER, " \
-                                      "last_update TIMESTAMP);");
-
-    return query.exec(sqlString.arg(this->m_tableName));
-}
-
 void SystemDataModel::setIndexes()
 {
     m_SystemDataIdIndex = m_model->fieldIndex(QLatin1String("ystem_data_id"));

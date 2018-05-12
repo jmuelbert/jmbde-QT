@@ -56,36 +56,6 @@ PrinterDataModel::PrinterDataModel(QObject* parent) : CommonDataModel(parent)
 
 PrinterDataModel::~PrinterDataModel() {}
 
-bool PrinterDataModel::createDataTable()
-{
-
-    QSqlQuery query;
-
-    // TODO change employe_id to employee_id
-    // TODO add fax BOOLEAN or MF BOOLEAN
-    QString sqlString =  QLatin1String("CREATE TABLE %1 (" \
-                                       "printer_id INTEGER PRIMARY KEY, " \
-                                       "device_name_id INTEGER, " \
-                                       "serial_number VARCHAR, " \
-                                       "network VARCHAR, " \
-                                       "network_name VARCHAR, " \
-                                       "network_ip_address VARCHAR, " \
-                                       "active BOOLEAN, " \
-                                       "replace BOOLEAN, " \
-                                       "resources VARCHAR, " \
-                                       "paper_size_max VARCHAR, " \
-                                       "color BOOLEAN, " \
-                                       "device_type_id INTEGER, " \
-                                       "employe_id INTEGER, " \
-                                       "place_id INTEGER, " \
-                                       "department_id INTEGER, " \
-                                       "manufacturer_id INTEGER, " \
-                                       "inventory_id INTEGER, " \
-                                       "computer_id INTEGER, " \
-                                       "last_update TIMESTAMP);");
-    return query.exec(sqlString.arg(this->m_tableName));
-}
-
 void PrinterDataModel::setIndexes()
 {
     m_PrinterIdIndex  = m_model->fieldIndex(QLatin1String("printer_id"));

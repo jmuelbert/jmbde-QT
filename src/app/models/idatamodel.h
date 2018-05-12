@@ -55,15 +55,6 @@ public:
     virtual ~IDataModel();
 
     /**
-     * @brief createDataTable
-     * @param tableName
-     * @deprecated You should not longer use this. The Database will create with a
-     * script
-     * @return boolean true or false, created ?
-     */
-    virtual bool createDataTable() = 0;
-
-    /**
      * @brief setIndexes
      */
     virtual void setIndexes() = 0;

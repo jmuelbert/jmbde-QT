@@ -56,28 +56,6 @@ ManufacturerDataModel::ManufacturerDataModel(QObject* parent)
 
 ManufacturerDataModel::~ManufacturerDataModel() {}
 
-
-bool ManufacturerDataModel::createDataTable()
-{
-
-    QSqlQuery query;
-    QString sqlString = QLatin1String("CREATE TABLE %1 (" \
-                                      "manufacturer_id INTEGER PRIMARY KEY, " \
-                                      "name VARCHAR, " \
-                                      "name2 VARCHAR, " \
-                                      "supporter VARCHAR, " \
-                                      "address VARCHAR, " \
-                                      "address2 VARCHAR, " \
-                                      "zip_city_id INTEGER, " \
-                                      "mail_address VARCHAR, " \
-                                      "phone_number VARCHAR, " \
-                                      "fax_number VARCHAR, " \
-                                      "hotline_number VARCHAR, " \
-                                      "last_update TIMESTAMP);");
-
-    return query.exec(sqlString.arg(this->m_tableName));
-}
-
 void ManufacturerDataModel::setIndexes()
 {
     m_ManufacturerIdIndex = m_model->fieldIndex(QLatin1String("manufacturer_id"));

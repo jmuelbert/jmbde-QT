@@ -53,46 +53,9 @@ EmployeeDataModel::EmployeeDataModel(QObject* parent) : CommonDataModel(parent)
     setIndexes();
 }
 
-EmployeeDataModel::~EmployeeDataModel() {}
 
-bool EmployeeDataModel::createDataTable()
-{
+EmployeeDataModel::~EmployeeDataModel() = default;
 
-    QSqlQuery query;
-    QString sqlString = QLatin1String("CREATE TABLE %1 (" \
-                                      "employee_id INTEGER PRIMARY KEY, " \
-                                      "employee_nr INTEGER, " \
-                                      "gender INTEGER, " \
-                                      "title_id INTEGER, " \
-                                      "first_name VARCHAR, " \
-                                      "last_name VARCHAR, " \
-                                      "birth_day DATE, " \
-                                      "address VARCHAR, " \
-                                      "zip_city_id INTEGER, " \
-                                      "home_phone VARCHAR, " \
-                                      "home_mobile VARCHAR, " \
-                                      "home_mail_address VARCHAR, " \
-                                      "business_mail_address VARCHAR, " \
-                                      "data_care BOOLEAN, " \
-                                      "active BOOLEAN, " \
-                                      "photo BLOB, " \
-                                      "notes VARCHAR, " \
-                                      "hire_date DATE, " \
-                                      "end_date DATE, " \
-                                      "department_id INTEGER, " \
-                                      "function_id INTEGER, " \
-                                      "computer_id INTEGER, " \
-                                      "printer_id INTEGER, " \
-                                      "phone_id INTEGER, " \
-                                      "mobile_id INTEGER, " \
-                                      "fax_id INTEGER, " \
-                                      "employee_account_id INTEGER, " \
-                                      "employee_document_id INTGER, " \
-                                      "chip_card_id INTEGER, " \
-                                      "last_update TIMESTAMP);");
-
-    return query.exec(sqlString.arg(this->m_tableName));
-}
 
 void EmployeeDataModel::setIndexes()
 {

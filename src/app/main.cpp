@@ -153,74 +153,74 @@ int main(int argc, char* argv[])
 #endif
 
 #if defined(Q_OS_MAC)
-    QFileInfo appInfo(QString::fromUtf8(argv[0]));
-    QDir appDir(appInfo.absolutePath());
-    appDir.cdUp();
-    QCoreApplication::addLibraryPath(appDir.absoluteFilePath(QLatin1Literal("plugins")));
+                                            QFileInfo appInfo(QString::fromUtf8(argv[0]));
+                                            QDir appDir(appInfo.absolutePath());
+                                            appDir.cdUp();
+                                            QCoreApplication::addLibraryPath(appDir.absoluteFilePath(QLatin1Literal("plugins")));
 #elif defined(Q_OS_WIN)
-    QFileInfo appInfo(QString::fromUtf8(argv[0]));
-    QCoreApplication::addLibraryPath(appInfo.absolutePath());
+                                            QFileInfo appInfo(QString::fromUtf8(argv[0]));
+                                            QCoreApplication::addLibraryPath(appInfo.absolutePath());
 #endif
 
-    QGuiApplication::setDesktopSettingsAware(false);
+                                            QGuiApplication::setDesktopSettingsAware(false);
 
 #ifndef USE_QUICKVIEW
-    QApplication::setStyle(QStyleFactory::create(QLatin1Literal("Fusion")));
-    // The QApplication MUST be created before the StelFileMgr is initialized.
-    QApplication app(argc, argv);
+                                            QApplication::setStyle(QStyleFactory::create(QLatin1Literal("Fusion")));
+                                            // The QApplication MUST be created before the StelFileMgr is initialized.
+                                            QApplication app(argc, argv);
 #else
-    QGuiApplication::setDesktopSettingsAware(false);
-    QGuiApplication app(argc, argv);
+                                            QGuiApplication::setDesktopSettingsAware(false);
+                                            QGuiApplication app(argc, argv);
 #endif
 
-    QCommandLineParser parser;
-    parser.setApplicationDescription(QLatin1String("jmbde - Commandline"));
-    parser.addHelpOption();
-    parser.addVersionOption();
-    // Must be done before any QSettings class is created
-    QSettings::setDefaultFormat(QSettings::IniFormat);
+                                            QCommandLineParser parser;
+                                            parser.setApplicationDescription(QLatin1String("jmbde - Commandline"));
+                                            parser.addHelpOption();
+                                            parser.addVersionOption();
+                                            // Must be done before any QSettings class is created
+                                            QSettings::setDefaultFormat(QSettings::IniFormat);
 
-    QSettings* settings = userSettings();
+                                            QSettings* settings = userSettings();
 
-    QSettings* globalSettings = new QSettings(
+                                            QSettings* globalSettings = new QSettings(
         QSettings::IniFormat,
         QSettings::SystemScope,
         QLatin1String("de.juergen-muelbert"),
         QLatin1String("jmbde"));
 
-    QTranslator translator;
-    QTranslator qtTranslator;
-    QStringList uiLanguages;
+                                            QTranslator translator;
+                                            QTranslator qtTranslator;
+                                            QStringList uiLanguages;
 
-    uiLanguages = QLocale::system().uiLanguages();
-    QString overideLanguage =
-        settings->value(QLatin1Literal("General/OverrideLanguage")).toString();
+                                            uiLanguages = QLocale::system().uiLanguages();
+                                            QString overideLanguage =
+                                                    settings->value(QLatin1Literal("General/OverrideLanguage")).toString();
     if (!overideLanguage.isEmpty()) {
-        uiLanguages.prepend(overideLanguage);
+    uiLanguages.prepend(overideLanguage);
     }
 
     const QString &appDirPath = QCoreApplication::applicationDirPath();
-    QString translationFileAndPath;
+                                QString translationFileAndPath;
 
 #ifdef Q_OS_MAC
-    QDir trPath(appDirPath);
+                                QDir trPath(appDirPath);
 
-    trPath.cdUp();
-    const QString &creatorTrPath = trPath.path();
+                                trPath.cdUp();
+                                const QString &creatorTrPath = trPath.path();
 
-    translationFileAndPath = QString(creatorTrPath);
+                                translationFileAndPath = QString(creatorTrPath);
 
-    translationFileAndPath.append(QDir::separator());
-    translationFileAndPath.append(QLatin1Literal("Resources"));
+                                translationFileAndPath.append(QDir::separator());
+                                translationFileAndPath.append(QLatin1Literal("Resources"));
 #else
-    translationFileAndPath = QString(appDirPath);
+                                translationFileAndPath = QString(appDirPath);
 #endif
 
-    translationFileAndPath.append(QDir::separator());
-    translationFileAndPath.append(QLatin1String("translations"));
+                                translationFileAndPath.append(QDir::separator());
+                                translationFileAndPath.append(QLatin1String("translations"));
 
     foreach (QString locale, uiLanguages) {
-        locale = QLocale(locale).name();
+    locale = QLocale(locale).name();
         QString myLangId = QLatin1String("jmbde");
         myLangId.append(QLatin1String("_"));
         myLangId.append(locale);

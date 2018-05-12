@@ -54,30 +54,6 @@ PhoneDataModel::PhoneDataModel(QObject* parent) : CommonDataModel(parent)
 
 PhoneDataModel::~PhoneDataModel() {}
 
-bool PhoneDataModel::createDataTable()
-{
-
-    QSqlQuery query;
-
-    // TODO change employe_id to employee_id
-    QString sqlString = QLatin1String("CREATE TABLE %1 (" \
-                                      "phone_id INTEGER PRIMARY KEY, " \
-                                      "device_name_id INTEGER, " \
-                                      "serial_number VARCHAR, " \
-                                      "number VARCHAR, " \
-                                      "pin VARCHAR, " \
-                                      "active BOOLEAN, " \
-                                      "replace BOOLEAN, " \
-                                      "device_type_id INTEGER, " \
-                                      "employe_id INTEGER, " \
-                                      "place_id INTEGER, " \
-                                      "department_id INTEGER, " \
-                                      "manufacturer_id INTEGER, " \
-                                      "inventory_id INTEGER, " \
-                                      "last_update TIMESTAMP);");
-    return query.exec(sqlString.arg(this->m_tableName));
-}
-
 void PhoneDataModel::setIndexes()
 {
     m_PhoneIdIndex = m_model->fieldIndex(QLatin1String("phone_id"));

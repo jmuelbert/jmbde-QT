@@ -58,21 +58,6 @@ DepartmentDataModel::~DepartmentDataModel()
 {
 }
 
-bool DepartmentDataModel::createDataTable()
-{
-
-    QSqlQuery query;
-    QString sqlString = QLatin1String("CREATE TABLE %1 (" \
-                                      "department_id INTEGER PRIMARY KEY, " \
-                                      "name VARCHAR, " \
-                                      "priority INTEGER, " \
-                                      "printer_id INTEGER, " \
-                                      "fax_id INTEGER, " \
-                                      "last_update TIMESTAMP);");
-
-    return query.exec(sqlString.arg(this->m_tableName));
-}
-
 void DepartmentDataModel::setIndexes()
 {
     m_DepartmentIdIndex = m_model->fieldIndex(QLatin1String("department_id"));

@@ -42,7 +42,7 @@
 
 #include "commondatamodel.h"
 
-CommonDataModel::CommonDataModel(QObject* parent) : DataModel(parent)
+CommonDataModel::CommonDataModel(QObject* parent)
 {
 }
 

@@ -21,16 +21,6 @@ Product {
     }
 
     Group {
-        name: "Python Scripts"
-        prefix: "../src/plugins/python/scripts/"
-        files: ["**"]
-
-        qbs.install: true
-        qbs.installDir: "examples/python"
-        qbs.installSourceBase: prefix
-    }
-
-    Group {
         name: "Qt DLLs"
         prefix: {
             if (qbs.targetOS.contains("windows")) {
@@ -64,6 +54,7 @@ Product {
                     "Qt5Core" + postfix,
                     "Qt5Gui" + postfix,
                     "Qt5Network" + postfix,
+                    "Qt5Sql" + postfix,
                     "Qt5Svg" + postfix,
                     "Qt5Widgets" + postfix
                 );
@@ -272,6 +263,7 @@ Product {
         files: {
             var list = [
                 "LICENSE",
+                "LICENSE.EUPL_1_2",
                 "AUTHORS",
                 "README.md",
                 "NEWS.md",

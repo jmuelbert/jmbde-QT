@@ -56,21 +56,6 @@ PlaceDataModel::PlaceDataModel(QObject* parent) : CommonDataModel(parent)
 
 PlaceDataModel::~PlaceDataModel() {}
 
-
-bool PlaceDataModel::createDataTable()
-{
-
-    QSqlQuery query;
-    QString sqlString = QLatin1String("CREATE TABLE %1 (" \
-                                      "place_id INTEGER PRIMARY KEY, " \
-                                      "name VARCHAR, " \
-                                      "room VARCHAR, " \
-                                      "desk VARCHAR, " \
-                                      "last_update TIMESTAMP);");
-
-    return query.exec(sqlString.arg(this->m_tableName));
-}
-
 void PlaceDataModel::setIndexes()
 {
     m_PlaceIdIndex = m_model->fieldIndex(QLatin1String("place_id"));

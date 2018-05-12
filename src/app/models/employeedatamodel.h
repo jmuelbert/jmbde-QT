@@ -119,11 +119,6 @@ public:
 
 // implement the virtuals
 
-    /**
-     * @brief createDataTable
-     * @return bool - true if creation of the table successfull
-     */
-    virtual bool createDataTable();
 
     /**
      * @brief setIndexes

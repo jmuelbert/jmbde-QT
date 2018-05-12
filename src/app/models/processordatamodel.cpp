@@ -57,22 +57,6 @@ ProcessorDataModel::ProcessorDataModel(QObject* parent): CommonDataModel(parent)
 ProcessorDataModel::~ProcessorDataModel()
 {}
 
-
-bool ProcessorDataModel::createDataTable()
-{
-
-    QSqlQuery query;
-    QString sqlString = QLatin1String("CREATE TABLE %1 (" \
-                                      "processor_id INTEGER PRIMARY KEY, " \
-                                      "name VARCHAR, " \
-                                      "clock_rate DECIMAL, " \
-                                      "cores INTEGER, " \
-                                      "last_update TIMESTAMP);");
-
-
-    return query.exec(sqlString.arg(this->m_tableName));
-}
-
 void ProcessorDataModel::setIndexes()
 {
     m_ProcessorIdIndex = m_model->fieldIndex(QLatin1String("processor_id"));

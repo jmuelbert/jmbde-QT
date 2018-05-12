@@ -116,12 +116,6 @@ public:
 // implement the virtuals
 
     /**
-     * \brief createDataTable
-     * \return bool - true if creation of the table successfull
-     */
-    bool createDataTable();
-
-    /**
      * \brief setIndexes
      */
     void setIndexes();

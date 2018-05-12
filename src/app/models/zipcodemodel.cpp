@@ -56,20 +56,6 @@ ZipCodeModel::ZipCodeModel(QObject* parent) : CommonDataModel(parent)
 
 ZipCodeModel::~ZipCodeModel() {}
 
-
-
-bool ZipCodeModel::createDataTable()
-{
-
-    QSqlQuery query;
-    QString sqlString = QLatin1String("CREATE TABLE %1 (" \
-                                      "zip_code_id INTEGER PRIMARY KEY, " \
-                                      "code VARCHAR(10), " \
-                                      "last_update TIMESTAMP);");
-
-    return query.exec(sqlString.arg(this->m_tableName));
-}
-
 void ZipCodeModel::setIndexes()
 {
     m_ZipCodeIdIndex = m_model->fieldIndex(QLatin1String("zip_code_id"));

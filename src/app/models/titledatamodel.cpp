@@ -56,20 +56,6 @@ TitleDataModel::TitleDataModel(QObject* parent) : CommonDataModel(parent)
 
 TitleDataModel::~TitleDataModel() {}
 
-
-bool TitleDataModel::createDataTable()
-{
-
-    QSqlQuery query;
-    QString sqlString = QLatin1String("CREATE TABLE %1 (" \
-                                      "title_id INTEGER PRIMARY KEY, " \
-                                      "name VARCHAR(50), " \
-                                      "from_date DATE " \
-                                      "last_update TIMESTAMP);");
-
-    return query.exec(sqlString.arg(this->m_tableName));
-}
-
 void TitleDataModel::setIndexes()
 {
     m_TitleIdIndex = m_model->fieldIndex(QLatin1String("title_id"));

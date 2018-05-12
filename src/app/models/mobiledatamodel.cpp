@@ -56,33 +56,6 @@ MobileDataModel::MobileDataModel(QObject* parent) : CommonDataModel(parent)
 
 MobileDataModel::~MobileDataModel() {}
 
-
-bool MobileDataModel::createDataTable()
-{
-
-    QSqlQuery query;
-
-    // TODO change employe_id to employee_id
-    QString sqlString = QLatin1String("CREATE TABLE %1 (" \
-                                      "mobile_id INTEGER PRIMARY KEY, " \
-                                      "device_name_id INTEGER, " \
-                                      "serial_number VARCHAR, " \
-                                      "number VARCHAR, " \
-                                      "pin VARCHAR, " \
-                                      "card_number VARCHAR, " \
-                                      "active BOOLEAN, " \
-                                      "replace BOOLEAN, " \
-                                      "device_type_id INTEGER, " \
-                                      "employe_id INTEGER, " \
-                                      "place_id INTEGER, " \
-                                      "department_id INTEGER, " \
-                                      "manufacturer_id INTEGER, " \
-                                      "inventory_id INTEGER, " \
-                                      "last_update TIMESTAMP);");
-
-    return query.exec(sqlString.arg(this->m_tableName));
-}
-
 void MobileDataModel::setIndexes()
 {
     m_MobileIdIndex = m_model->fieldIndex(QLatin1String("mobile_id"));

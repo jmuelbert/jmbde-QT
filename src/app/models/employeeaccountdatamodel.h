@@ -51,8 +51,7 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
-#include "definitions.h"
-#include "models/commondatamodel.h"
+#include "commondatamodel.h"
 
 class EmployeeAccountDataModel : public CommonDataModel
 {
@@ -66,11 +65,6 @@ public:
 
 // implement the virtuals
 
-    /**
-     * @brief createDataTable
-     * @return bool - true if creation of the table successfull
-     */
-    virtual bool createDataTable();
 
     /**
      * @brief setIndexes

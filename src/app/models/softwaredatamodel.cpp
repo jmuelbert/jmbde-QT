@@ -57,22 +57,6 @@ SoftwareDataModel::SoftwareDataModel(QObject* parent) : CommonDataModel(parent)
 
 SoftwareDataModel::~SoftwareDataModel() {}
 
-
-bool SoftwareDataModel::createDataTable()
-{
-
-    QSqlQuery query;
-    QString sqlString = QLatin1String("CREATE TABLE %1 (" \
-                                      "software_id INTEGER PRIMARY KEY, " \
-                                      "name VARCHAR, " \
-                                      "version VARCHAR, " \
-                                      "revision VARCHAR, " \
-                                      "fix VARCHAR, " \
-                                      "last_update TIMESTAMP);");
-
-    return query.exec(sqlString.arg(this->m_tableName));
-}
-
 void SoftwareDataModel::setIndexes()
 {
     m_SoftwareIdIndex = m_model->fieldIndex(QLatin1String("software_id"));

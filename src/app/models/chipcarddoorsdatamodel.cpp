@@ -54,21 +54,6 @@ ChipCardDoorsDataModel::ChipCardDoorsDataModel(QObject* parent) : CommonDataMode
 ChipCardDoorsDataModel::~ChipCardDoorsDataModel()
     = default;
 
-bool ChipCardDoorsDataModel::createDataTable()
-{
-
-    QSqlQuery query;
-    QString sqlString = QLatin1String("CREATE TABLE %1 (" \
-                                      "chip_card_door_id INTEGER PRIMARY KEY, " \
-                                      "number VARCHAR(10), " \
-                                      "place_id INTEGER, " \
-                                      "department_id INTEGER, " \
-                                      "employee_id INTEGER, " \
-                                      "last_update TIMESTAMP);");
-
-    return query.exec(sqlString.arg(this->m_tableName));
-}
-
 void ChipCardDoorsDataModel::setIndexes()
 {
     m_ChipCardDoorIdIndex = m_model->fieldIndex(QLatin1String("chip_card_door_id"));

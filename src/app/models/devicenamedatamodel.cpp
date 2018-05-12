@@ -56,18 +56,6 @@ DeviceNameDataModel::~DeviceNameDataModel()
 {
 }
 
-bool DeviceNameDataModel::createDataTable()
-{
-
-    QSqlQuery query;
-    QString sqlString = QLatin1String("CREATE TABLE %1 (" \
-                                      "device_name_id INTEGER PRIMARY KEY, " \
-                                      "name VARCHAR, " \
-                                      "last_update TIMESTAMP);");
-
-
-    return query.exec(sqlString.arg(this->m_tableName));
-}
 
 void DeviceNameDataModel::setIndexes()
 {

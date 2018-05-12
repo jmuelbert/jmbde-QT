@@ -55,7 +55,7 @@
 #include <QSqlRelation>
 #include <QTextDocument>
 
-#include "definitions.h"
+
 #include "models/datamodel.h"
 
 
@@ -68,7 +68,7 @@
  * EUPL V1.2
  */
 
-class CommonDataModel : public DataModel
+class CommonDataModel : public QObject
 {
     Q_OBJECT
 

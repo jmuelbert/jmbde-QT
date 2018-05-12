@@ -56,36 +56,6 @@ ComputerDataModel::ComputerDataModel(QObject* parent) : CommonDataModel(parent)
 ComputerDataModel::~ComputerDataModel()
     = default;
 
-bool ComputerDataModel::createDataTable()
-{
-
-    QSqlQuery query;
-    QString sqlString = QLatin1String("CREATE TABLE %1 (" \
-                                      "computer_id INTEGER PRIMARY KEY, " \
-                                      "device_name_id INTEGER, " \
-                                      "serial_number VARCHAR, " \
-                                      "service_tag VARCHAR, " \
-                                      "service_number VARCHAR, " \
-                                      "memory INTEGER, " \
-                                      "network VARCHAR, " \
-                                      "network_name VARCHAR, " \
-                                      "network_ip_address VARCHAR, " \
-                                      "active BOOLEAN, " \
-                                      "replace BOOLEAN, " \
-                                      "device_type_id INTEGER, " \
-                                      "employee_id INTEGER, " \
-                                      "place_id INTEGER, " \
-                                      "department_id INTEGER, " \
-                                      "manufacturer_id INTEGER, " \
-                                      "inventory_id INTEGER, " \
-                                      "processor_id INTEGER, " \
-                                      "os_id INTEGER, " \
-                                      "computer_software_id INTEGER, " \
-                                      "printer_id INTEGER, " \
-                                      "last_update TIMESTAMP);");
-
-    return query.exec(sqlString.arg(this->m_tableName));
-}
 
 void ComputerDataModel::setIndexes()
 {

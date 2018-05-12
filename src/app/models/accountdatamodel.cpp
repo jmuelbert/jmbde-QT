@@ -55,19 +55,6 @@ AccountDataModel::AccountDataModel(QObject* parent) : CommonDataModel(parent)
 AccountDataModel::~AccountDataModel()
     = default;
 
-bool AccountDataModel::createDataTable()
-{
-
-    QSqlQuery query;
-    QString sqlString = QLatin1String("CREATE TABLE %1 ("
-                                      "account_id INTEGER PRIMARY KEY, "
-                                      "user_name VARCHAR, "
-                                      "password VARCHAR, "
-                                      "system_data_id INTEGER, "
-                                      "last_update TIMESTAMP);");
-
-    return query.exec(sqlString.arg(this->m_tableName));
-}
 
 void AccountDataModel::setIndexes()
 {

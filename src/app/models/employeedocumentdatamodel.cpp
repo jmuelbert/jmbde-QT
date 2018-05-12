@@ -55,18 +55,6 @@ EmployeeDocumentDataModel::EmployeeDocumentDataModel(QObject* parent) : CommonDa
 
 EmployeeDocumentDataModel::~EmployeeDocumentDataModel() {}
 
-bool EmployeeDocumentDataModel::createDataTable()
-{
-
-    QSqlQuery query;
-    QString sqlString = QLatin1String("CREATE TABLE %1 (" \
-                                      "employee_document_id INTEGER PRIMARY KEY, " \
-                                      "employe_id INTEGER, " \
-                                      "document_id INTEGER, " \
-                                      "last_update TIMESTAMP);");
-    return query.exec(sqlString.arg(this->m_tableName));
-}
-
 void EmployeeDocumentDataModel::setIndexes()
 {
     m_EmployeeDocumentIdIndex = m_model->fieldIndex(QLatin1String("employee_document_id"));

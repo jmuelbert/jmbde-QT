@@ -55,28 +55,6 @@ CompanyDataModel::CompanyDataModel(QObject* parent) : CommonDataModel(parent)
 CompanyDataModel::~CompanyDataModel()
     = default;
 
-bool CompanyDataModel::createDataTable()
-{
-
-    QSqlQuery query;
-
-    // TODO(Employee): Change structur like employee
-    QString sqlString = QLatin1String("CREATE TABLE %1 (" \
-                                      "company_id INTEGER PRIMARY KEY, " \
-                                      "name VARCHAR, " \
-                                      "name2 VARCHAR, " \
-                                      "street VARCHAR, " \
-                                      "city VARCHAR, " \
-                                      "zip_code INTEGER, " \
-                                      "phone_number VARCHAR, " \
-                                      "fax_number VARCHAR, " \
-                                      "mobile_number VARCHAR, " \
-                                      "mail_address VARCHAR, " \
-                                      "active BOOLEAN, " \
-                                      "employee_id INTEGER, " \
-                                      "last_update TIMESTAMP);");
-    return query.exec(sqlString.arg(this->m_tableName));
-}
 
 void CompanyDataModel::setIndexes()
 {

@@ -55,20 +55,6 @@ ChipCardDataModel::ChipCardDataModel(QObject* parent) : CommonDataModel(parent)
 ChipCardDataModel::~ChipCardDataModel()
     = default;
 
-bool ChipCardDataModel::createDataTable()
-{
-
-    QSqlQuery query;
-    QString sqlString = QLatin1String("CREATE TABLE %1 (" \
-                                      "chip_card_id INTEGER PRIMARY KEY, " \
-                                      "number VARCHAR(10), " \
-                                      "chip_card_door_id INTEGER, " \
-                                      "chip_card_profile_id INTEGER, " \
-                                      "employee_id INTEGER, " \
-                                      "last_update TIMESTAMP);");
-
-    return query.exec(sqlString.arg(this->m_tableName));
-}
 
 void ChipCardDataModel::setIndexes()
 {

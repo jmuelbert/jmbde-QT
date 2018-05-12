@@ -33,7 +33,7 @@
             UpgradeCode="$(var.UpgradeCode)"
             Language='1033' Codepage='1252'
             Version='$(var.Version)'
-            Manufacturer='$(var.Manufacturer'>
+            Manufacturer='$(var.Manufacturer)'>
 
     
         <Package Id='*' Keywords='Installer' Description="[ProductName] Installer" 
@@ -74,6 +74,7 @@
             </Property>
 
             <Directory Id='TARGETDIR' Name='SourceDir'>
+
                 <Directory Id='$(var.PlatformProgramFilesFolder)' Name='PFiles'>
                     <Directory Id='INSTALLDIR' Name='jmbde'>
 
@@ -83,6 +84,10 @@
                                 <Shortcut Id="desktopJMBDE" Directory="DesktopFolder" Name="jmbde" WorkingDirectory='INSTALLDIR' Icon='jmbde.exe' IconIndex="0" Advertise="yes" />
                             </File>
 
+                            <!-- libs/dlls -->
+                            <file Id="c34167e695754794969fcb610bdec48e" Source="$(var.InstallRoot)\jmbde.dll" />
+                           
+                            <!-- qtconf -->
                             <File Id="qt_conf" Source="$(var.RootDir)\dist\win\qt.conf" />
                             <File Id="Qt5Core_dll" Source="$(var.QtDir)\bin\Qt5Core.dll" />
                             <File Id="Qt5Gui_dll" Source="$(var.QtDir)\bin\Qt5Gui.dll" />
@@ -106,11 +111,11 @@
                                 <File Source="$(var.VcInstallDir)\redist\$(var.Platform)\Microsoft.VC140.CRT\vcruntime140.dll"/>
                             <?endif?>
 
-                            <File Id="LICENSE_EUPL_EN" Name="EUPL-1.2_EN.txt" Source="$(var.RootDir)\EUPL-1.2_EN" />
-                            <File Id="LICENSE_EUPL_DE" Name="EUPL-1.2_DE.txt" Source="$(var.RootDir)\EUPL-1.2_DE" />
-                            <FIle Id="AUTHORS" Name="Authors.txt" Source="$(var.RootDir)\AUTHORS" />
-                            <File Id="README" Name="README.txt" Source="$(var.RootDir)\README" />
-                            <File Id="NEWS" Name="NEWS.txt" Source="$(var.RootDir)\NEWS" />
+                            <File Id="LICENSE_EUPL_EN" Name="License.txt" Source="$(var.RootDir)\LICENSE" />
+                            <File Id="LICENSE_EUPL_DE" Name="License_DE.txt" Source="$(var.RootDir)\LICENSE.EUPL_1_2" />
+                            <File Id="AUTHORS" Name="Authors.txt" Source="$(var.RootDir)\AUTHORS" />
+                            <File Id="README" Name="README.txt" Source="$(var.RootDir)\README.md" />
+                            <File Id="NEWS" Name="NEWS.txt" Source="$(var.RootDir)\NEWS.md" />
 
                             <RegistryKey Root='HKLM' Key='Software\[Manufacturer]\[ProductName]'>
                                 <RegistryValue Type='string' Name='InstallDir' Value='[INSTALLDIR]'/>
@@ -118,6 +123,11 @@
                         </Component>
 
                         <Directory Id="dir4B4EC78E44A14E3586DBB582DEE9DB20" Name="plugins">
+                            <Directory Id="dir9161b681077a40d68ac660a9b0eb3ad3" Name="jmbde">
+                                <Component Id="Plugins" Guid="{9158E791-DAE3-4D08-99BA-04F421CB6F19}">
+                                    <!-- File Id="GUID" Source="$(var.InstallRoot)\plugins\jmbde\plugin.dll" / -->
+                                </Component>
+                            </Directory>
                             <Directory Id="platformPlugins" Name="platforms">
                                 <Component Id="PlatformPlugins" Guid="{F3CB8779-86F5-4E18-A68D-83A2C284F8E5}" >
                                     <File Id="qwindows.dll" Source="$(var.QtDir)\plugins\platforms\qwindows.dll" />
@@ -144,13 +154,13 @@
                                 </Component>
                             </Directory>
 
-                            <Directory Id="printSupportPlugins" name="printsupport">
+                            <Directory Id="printSupportPlugins" Name="printsupport">
                                 <Component Id="PrintSupportPlugin" Guid="{29A6CEEA-C311-4CAA-AC42-C0BC6CBB6257}">
-                                    <File Id="windowsprintersupport_dll" ource="$(var.QtDir)\plugins\printsupport\windowsprintersupport.dll"/>
+                                    <File Id="windowsprintersupport_dll" Source="$(var.QtDir)\plugins\printsupport\windowsprintersupport.dll"/>
                                 </Component>
                             </Directory>
 
-                            <Directory Id="sqlDriversPlugins" name="sqldrivers">
+                            <Directory Id="sqlDriversPlugins" Name="sqldrivers">
                                 <Component Id="SqlDriversSupport" Guid="{0D10DC6F-85B8-40B3-9D2B-317F0918A607}">
                                     <File Id="qsqlite_dll" Source="$(var.QtDir)\plugins\sqldrivers\qsqlite.dll"/>
                                     <File Id="qsqlmysql_dll" Source="$(var.QtDir)\plugins\sqldrivers\qsqlmysql.dll"/>
@@ -158,9 +168,8 @@
                                     <File Id="qsqlpsql_dll" Source="$(var.QtDir)\plugins\sqldrivers\qsqlpsql.dll"/>                                    
                                 </Component>
                             </Directory>
-
-                                                        
-                            <Directory Id="stylesPlugins" name="styles">
+                                 
+                            <Directory Id="stylesPlugins" Name="styles">
                                 <Component Id="StylesSupport" Guid="{90554436-C14D-46ED-B476-547D703BF402}">
                                     <File Id="qwindowsvistastyle_dll" Source="$(var.QtDir)\plugins\styles\qwindowsvistastyle.dll"/>
                                 </Component>
@@ -185,7 +194,7 @@
                                 <File Id="filF7E25D0A42864D5B897D94D093BB6F1E" Source="$(var.InstallRoot)\translations\jmbde_pl.qm" />
                                 <File Id="filA52BE6B3BB194074AD4093141FFC962E" Source="$(var.InstallRoot)\translations\jmbde_pt.qm" />
                                 <File Id="fil433A9E290BC5481785CA08CF5562B98D" Source="$(var.InstallRoot)\translations\jmbde_pt_PT.qm" />
-                                <File Id="fil433A9E290BC5481785CA08CF5562B98D" Source="$(var.InstallRoot)\translations\jmbde_ru.qm" />
+                                <File Id="fil06c3bab056a34f5b9941b1f743e714c6" Source="$(var.InstallRoot)\translations\jmbde_ru.qm" />
                                 <File Id="fil9BEAC97D9B684A21A03BE12084C28C45" Source="$(var.InstallRoot)\translations\jmbde_tr.qm" />
                                 <File Id="filB0BC755DC88649EFB339B858F549E75D" Source="$(var.InstallRoot)\translations\jmbde_zh.qm" />
                                 <File Id="filD1308BB6A2694829831D5A13E05F5184" Source="$(var.InstallRoot)\translations\jmbde_zh_TW.qm" />
@@ -214,47 +223,49 @@
                         </Directory>
                     </Directory>
                 </Directory>    
+                <!-- End of ProgramFilesFolder -->
+
+                <!-- Begin of ProgramMenuFolder -->
+                <Directory Id="ProgramMenuFolder" Name="Programs">
+                    <Component Id="ProgramMenuDir" Guid="{244A93CA-0235-495E-A758-7FFCF1937289}">
+                        <RegistryValue Root='HKMU' Key='Software\[Manufacturer]\[ProductName]' Type='string' Value='' KeyPath='yes' />
+                    </Component>
+                </Directory>
+
+                <Directory Id="DesktopFolder" Name="Desktop" />
             </Directory>
-        </Directory>
 
-        <Directory Id="ProgramMenuFolder" Name="Programs">
-            <Component Id="ProgramMenuDir" Guid="{244A93CA-0235-495E-A758-7FFCF1937289}">
-                <RegistryValue Root='HKMU' Key='Software\[Manufacturer]\[ProductName]' Type='string' Value='' KeyPath='yes' />
-            </Component>
-        </Directory>
-
-        <Directory Id="DesktopFolder" Name="Desktop" /></Directory>
-
-        <Feature Id='Complete' Level='1' Title="jmbde" Description="The complete package." ConfigurableDirectory='INSTALLDIR' AllowAdvertise='no' Absent='disallow'>
-            <ComponentRef Id='MainExecutable' /> 
-            <ComponentRef Id='Plugins' />
-            <ComponentRef Id='Translations' />
-            <ComponentRef Id='PlatformPlugins' />
-            <ComponentRef Id='IconEnginesPlugins' />
-            <ComponentRef Id='ImageFormatPlugins' />
-            <ComponentRef Id='PrintSupportPlugins' />
-            <ComponentRef Id='SqlDriverPlugins' /> 
-            <ComponentRef Id='StylesPlugins' />
-            <ComponentRef Id='ProgramMenuDir' /> 
-        </Feature>
+            <!-- Begin of Features -->
+            <Feature Id='Complete' Level='1' Title="jmbde" Description="The complete package." ConfigurableDirectory='INSTALLDIR' AllowAdvertise='no' Absent='disallow'>
+                <ComponentRef Id='MainExecutable' /> 
+                <ComponentRef Id='Plugins' />
+                <ComponentRef Id='Translations' />
+                <ComponentRef Id='PlatformPlugins' />
+                <ComponentRef Id='IconEnginesPlugins' />
+                <ComponentRef Id='ImageFormatPlugins' />
+                <CompoqnentRef Id='PrintSupportPlugins' />
+                <ComponentRef Id='SqlDriverPlugins' /> 
+                <ComponentRef Id='StylesPlugins' />
+                <ComponentRef Id='ProgramMenuDir' /> 
+            </Feature>
 
     
-        <!-- Set up ARPINSTALLLOCATION property (http://blogs.technet.com/b/alexshev/archive/2008/02/09/from-msi-to-wix-part-2.aspx) -->
-        <CustomAction Id="SetARPINSTALLLOCATION" Property="ARPINSTALLLOCATION" Value="[INSTALLDIR]" />
-        <CustomAction Id='LaunchApplication' FileKey='jmbdeEXE' ExeCommand='' Return='asyncNoWait' />                                          
+            <!-- Set up ARPINSTALLLOCATION property (http://blogs.technet.com/b/alexshev/archive/2008/02/09/from-msi-to-wix-part-2.aspx) -->
+            <CustomAction Id="SetARPINSTALLLOCATION" Property="ARPINSTALLLOCATION" Value="[INSTALLDIR]" />
+            <CustomAction Id='LaunchApplication' FileKey='jmbdeEXE' ExeCommand='' Return='asyncNoWait' />                                          
 
-        <Property Id="WIXUI_INSTALLDIR">INSTALLDIR</Property>
-        <UIRef Id="WixUI_InstallDir" />
-        <UIRef Id="WixUI_ErrorProgressText" />
+            <Property Id="WIXUI_INSTALLDIR">INSTALLDIR</Property>
+            <UIRef Id="WixUI_InstallDir" />
+            <UIRef Id="WixUI_ErrorProgressText" />
 
-        <Icon Id="jmbde.exe" SourceFile="$(var.InstallRoot)\jmbde.exe" />
+            <Icon Id="jmbde.exe" SourceFile="$(var.InstallRoot)\jmbde.exe" />
   
      
-        <WixVariable Id="WixUILicenseRtf" Value="$(var.RootDir)\dist\win\eupl-1.2.rtf" />
-        <WixVariable Id="WixUIBannerBmp" Value="$(var.RootDir)\dist\win\banner.bmp" />
-        <WixVariable Id="WixUIDialogBmp" Value="$(var.RootDir)\dist\win\dialog.bmp" />
+            <WixVariable Id="WixUILicenseRtf" Value="$(var.RootDir)\dist\win\eupl-1.2.rtf" />
+            <WixVariable Id="WixUIBannerBmp" Value="$(var.RootDir)\dist\win\banner.bmp" />
+            <WixVariable Id="WixUIDialogBmp" Value="$(var.RootDir)\dist\win\dialog.bmp" />
 
-        <InstallExecuteSequence>
+            <InstallExecuteSequence>
             <!-- Determine the install location after the install path has been validated by the installer -->
             <Custom Action="SetARPINSTALLLOCATION" After="InstallValidate"></Custom>
             <Custom Action='LaunchApplication' After='InstallFinalize'>NOT Installed</Custom>

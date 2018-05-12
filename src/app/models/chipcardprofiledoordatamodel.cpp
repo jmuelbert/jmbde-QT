@@ -56,18 +56,6 @@ ChipCardProfileDoorDataModel::ChipCardProfileDoorDataModel(QObject* parent) : Co
 ChipCardProfileDoorDataModel::~ChipCardProfileDoorDataModel()
     = default;
 
-bool ChipCardProfileDoorDataModel::createDataTable()
-{
-
-    QSqlQuery query;
-    QString sqlString = QLatin1String("CREATE TABLE %1 (" \
-                                      "chip_card_profile_door_id INTEGER PRIMARY KEY, " \
-                                      "chip_card_profile_id INTEGER, " \
-                                      "chip_card_door_id INTEGER, " \
-                                      "last_update TIMESTAMP);");
-
-    return query.exec(sqlString.arg(this->m_tableName));
-}
 
 void ChipCardProfileDoorDataModel::setIndexes()
 {

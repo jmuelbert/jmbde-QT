@@ -226,7 +226,8 @@ private:
     /**
      * @brief em
      */
-    DataModel* dm;
+    DataModel* connection;
+    QString dataBaseName;
     QSqlRelationalTableModel* model;
     QSqlTableModel* tableModel;
     int dbType = 0;

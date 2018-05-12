@@ -55,22 +55,6 @@ InventoryDataModel::InventoryDataModel(QObject* parent)
 
 InventoryDataModel::~InventoryDataModel() {}
 
-bool InventoryDataModel::createDataTable()
-{
-
-    QSqlQuery query;
-
-    // TODO change text to description ?
-    QString sqlString = QLatin1String("CREATE TABLE %1 (" \
-                                      "inventory_id INTEGER PRIMARY KEY, " \
-                                      "number VARCHAR, " \
-                                      "text VARCHAR, " \
-                                      "active BOOLEAN, " \
-                                      "last_update TIMESTAMP);");
-
-    return query.exec(sqlString.arg(this->m_tableName));
-}
-
 void InventoryDataModel::setIndexes()
 {
     m_InventoryIdIndex = m_model->fieldIndex(QLatin1String("inventory_id"));

@@ -54,29 +54,6 @@ FaxDataModel::FaxDataModel(QObject* parent) : CommonDataModel(parent)
 
 FaxDataModel::~FaxDataModel() {}
 
-
-bool FaxDataModel::createDataTable()
-{
-
-    QSqlQuery query;
-    QString sqlString = QLatin1String("CREATE TABLE %1 (" \
-                                      "fax_id INTEGER PRIMARY KEY, " \
-                                      "device_name_id INTEGER, " \
-                                      "serial_number VARCHAR, " \
-                                      "number VARCHAR, " \
-                                      "pin VARCHAR, " \
-                                      "active BOOLEAN, " \
-                                      "replace BOOLEAN, " \
-                                      "device_type_id INTEGER, " \
-                                      "employee_id INTEGER, " \
-                                      "place_id INTEGER, " \
-                                      "department_id INTEGER, " \
-                                      "manufacturer_id INTEGER, " \
-                                      "inventory_id INTEGER, " \
-                                      "last_update TIMESTAMP);");
-    return query.exec(sqlString.arg(this->m_tableName));
-}
-
 void FaxDataModel::setIndexes()
 {
     m_FaxIdIndex = m_model->fieldIndex(QLatin1String("fax_id"));

@@ -47,16 +47,30 @@
 
 DataModel::DataModel(QObject* parent) : QObject(parent)
 {
-    QSettings settings;
     QString dataBaseDir = QString();
 
     this->name = QUuid::createUuid().toString();
+    QString dbDataPath = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
+
+    QSettings settings;
+    settings.beginGroup(QLatin1String(Settings::Groups::DATABASE));
     const int dbType =
-        settings.value(QLatin1String(Settings::Database::TYPE), SQLITE).toInt();
+        settings.value(QLatin1Literal(Settings::Database::TYPE), SQLITE).toInt();
 
     const QString dbConnectionString =
-        settings.value(QLatin1String(Settings::Database::CONNECTION), dataBaseDir)
+        settings.value(QLatin1Literal(Settings::Database::CONNECTION), dbDataPath)
         .toString();
+
+    const QString dbHostName =
+        settings.value(QLatin1Literal(Settings::Database::HOSTNAME), QLatin1String("localhost")).toString();
+
+    const QString dbUserName =
+        settings.value(QLatin1Literal(Settings::Database::USERNAME), QLatin1String("user")).toString();
+
+    const QString dbPassWord =
+        settings.value(QLatin1Literal(Settings::Database::PASSWORD), QLatin1String("123456")).toString();
+
+    settings.endGroup();
 
     if (dbType == SQLITE) {
         // Application Directory +
@@ -83,9 +97,30 @@ DataModel::DataModel(QObject* parent) : QObject(parent)
             this->openDB(this->name);
         }
     }
+    else if (dbType == MYSQL) {
+        m_db = QSqlDatabase::addDatabase(QStringLiteral("QMYSQL"));
+        m_db.setHostName(dbHostName);
+        m_db.setDatabaseName(this->name);
+        m_db.setUserName(dbUserName);
+        m_db.setPassword(dbPassWord);
+    }
+    else if (dbType == ODBC) {
+        m_db = QSqlDatabase::addDatabase(QStringLiteral("QODBC"));
+        m_db.setHostName(dbHostName);
+        m_db.setDatabaseName(this->name);
+        m_db.setUserName(dbUserName);
+        m_db.setPassword(dbPassWord);
+    }
+    else if (dbType == POSTGRESQL) {
+        m_db = QSqlDatabase::addDatabase(QStringLiteral("QPSQL"));
+        m_db.setHostName(dbHostName);
+        m_db.setDatabaseName(this->name);
+        m_db.setUserName(dbUserName);
+        m_db.setPassword(dbPassWord);
+    }
     else {
-        qDebug() << "Now not supported";
-        exit(1);
+        qDebug() << "Unknown DB-Type!";
+        exit(0);
     }
 }
 
@@ -106,6 +141,16 @@ DataModel::DataModel(const QString &name, QObject* parent) : QObject(parent)
     const QString dbConnectionString =
         settings.value(QLatin1Literal(Settings::Database::CONNECTION), dbDataPath)
         .toString();
+
+    const QString dbHostName =
+        settings.value(QLatin1Literal(Settings::Database::HOSTNAME), QLatin1String("localhost")).toString();
+
+    const QString dbUserName =
+        settings.value(QLatin1Literal(Settings::Database::USERNAME), QLatin1String("localhost")).toString();
+
+    const QString dbPassWord =
+        settings.value(QLatin1Literal(Settings::Database::PASSWORD), QLatin1String("localhost")).toString();
+
     settings.endGroup();
 
 
@@ -120,7 +165,8 @@ DataModel::DataModel(const QString &name, QObject* parent) : QObject(parent)
         QString targetFileAndPath = QString();
         if (dbConnectionString.isEmpty()) {
             targetFileAndPath = QString(dbDataPath);
-        } else {
+        }
+        else {
             targetFileAndPath = QString(dbConnectionString);
         }
 
@@ -143,9 +189,30 @@ DataModel::DataModel(const QString &name, QObject* parent) : QObject(parent)
             this->openDB(targetFileAndPath);
         }
     }
+    else if (dbType == MYSQL) {
+        m_db = QSqlDatabase::addDatabase(QStringLiteral("QMYSQL"));
+        m_db.setHostName(dbHostName);
+        m_db.setDatabaseName(this->name);
+        m_db.setUserName(dbUserName);
+        m_db.setPassword(dbPassWord);
+    }
+    else if (dbType == ODBC) {
+        m_db = QSqlDatabase::addDatabase(QStringLiteral("QODBC"));
+        m_db.setHostName(dbHostName);
+        m_db.setDatabaseName(this->name);
+        m_db.setUserName(dbUserName);
+        m_db.setPassword(dbPassWord);
+    }
+    else if (dbType == POSTGRESQL) {
+        m_db = QSqlDatabase::addDatabase(QStringLiteral("QPSQL"));
+        m_db.setHostName(dbHostName);
+        m_db.setDatabaseName(this->name);
+        m_db.setUserName(dbUserName);
+        m_db.setPassword(dbPassWord);
+    }
     else {
-        qDebug() << "Now not supported";
-        exit(1);
+        qDebug() << "Unknown DB-Type!";
+        exit(0);
     }
 }
 
@@ -156,7 +223,7 @@ DataModel::~DataModel()
 
 void DataModel::closeConnection()
 {
-    qDebug() << "Closeing Database";
+    qDebug() << "Closing Database";
 }
 
 void DataModel::prepareDB() const
@@ -221,132 +288,6 @@ void DataModel::prepareDB() const
         }
     }
     file.close();
-}
-
-bool DataModel::CreateConnection()
-{
-    bool retValue = false;
-    QSettings settings;
-
-
-    // Read DB Settings
-    // Database settings
-    QString dataBaseDir =
-        QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-
-    settings.beginGroup(QLatin1String(Settings::Groups::DATABASE));
-    int dbType =
-        settings.value(QLatin1String(Settings::Database::TYPE), SQLITE).toInt();
-    QString dbConnectionString =
-        settings.value(QLatin1String(Settings::Database::CONNECTION), dataBaseDir)
-        .toString();
-    QString dbHostName = settings
-                         .value(QLatin1String(Settings::Database::HOSTNAME),
-                                QLatin1String("localhost"))
-                         .toString();
-    QString dbUserName = settings
-                         .value(QLatin1String(Settings::Database::USERNAME),
-                                this->name)
-                         .toString();
-    QString dbPassWord = settings
-                         .value(QLatin1String(Settings::Database::PASSWORD),
-                                this->name)
-                         .toString();
-
-
-    if (dbType == SQLITE) {
-
-        // Application Directory +
-        // Resources on Mac
-        // share/appname on Linux
-        // + /database/jmbdesqlite.db
-        // Destination Directory
-        QString targetFileAndPath = QString(dbConnectionString);
-        // Create the Directory
-        QDir d(targetFileAndPath);
-        d.mkpath(targetFileAndPath);
-
-        // Append the Datafile on the Path
-        targetFileAndPath.append(QDir::separator());
-        targetFileAndPath.append(this->name);
-        targetFileAndPath.append(this->name);
-
-        qDebug() << "Connection-String : " << dbConnectionString;
-        qDebug() << "Destination-File : " << targetFileAndPath;
-
-        // Check if the dbFile Exists
-        bool dbIsCreated = QFile::exists(targetFileAndPath);
-
-        // When the DB-Directory not create than do this.
-        if (dbIsCreated == false) {
-
-            QDir destDir(dbConnectionString);
-
-            if (destDir.exists() == false) {
-                if (destDir.mkpath(dbConnectionString) == false) {
-                    // TODO: Error handling
-                    qDebug() << "Can not create destination directoy...";
-                    return false;
-                }
-            }
-        }
-
-        m_db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"));
-        qDebug() << "Database Path: " << targetFileAndPath;
-        m_db.setDatabaseName(targetFileAndPath);
-        retValue = m_db.open();
-        if (retValue == true) {
-            bool dbVersion = checkDBVersion();
-            if (dbVersion == false) {
-                QDate now =  QDate::currentDate();
-                QString backupName = targetFileAndPath;
-                backupName.append(QLatin1String("-"));
-                backupName.append(now.toString(QLatin1String("yyyyMMdd")));
-                QFile source(targetFileAndPath);
-                source.rename(backupName);
-                m_db.open();
-                initDb();
-            }
-        }
-    }
-    else if (dbType == MYSQL) {
-        m_db = QSqlDatabase::addDatabase(QStringLiteral("QMYSQL"));
-        m_db.setHostName(dbHostName);
-        m_db.setDatabaseName(this->name);
-        m_db.setUserName(dbUserName);
-        m_db.setPassword(dbPassWord);
-        retValue = m_db.open();
-    }
-    else if (dbType == ODBC) {
-        m_db = QSqlDatabase::addDatabase(QStringLiteral("QODBC"));
-        m_db.setHostName(dbHostName);
-        m_db.setDatabaseName(this->name);
-        m_db.setUserName(dbUserName);
-        m_db.setPassword(dbPassWord);
-        retValue = m_db.open();
-    }
-    else if (dbType == POSTGRESQL) {
-        m_db = QSqlDatabase::addDatabase(QStringLiteral("QPSQL"));
-        m_db.setHostName(dbHostName);
-        m_db.setDatabaseName(this->name);
-        m_db.setUserName(dbUserName);
-        m_db.setPassword(dbPassWord);
-        retValue = m_db.open();
-    }
-    else {
-        qDebug() << "Unknown DB-Type!";
-        retValue = false;
-    }
-
-    if (retValue == true) {
-        retValue = checkDBVersion();
-    }
-    else {
-        qDebug() << m_db.lastError().databaseText();
-        qDebug() << m_db.lastError().driverText();
-    }
-
-    return retValue;
 }
 
 bool DataModel::checkDBVersion()

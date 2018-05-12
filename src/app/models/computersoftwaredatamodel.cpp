@@ -57,17 +57,6 @@ ComputerSoftwareDataModel::ComputerSoftwareDataModel(QObject* parent) : CommonDa
 ComputerSoftwareDataModel::~ComputerSoftwareDataModel()
     = default;
 
-bool ComputerSoftwareDataModel::createDataTable()
-{
-
-    QSqlQuery query;
-    QString sqlString = QLatin1String("CREATE TABLE %1 (" \
-                                      "computer_software_id INTEGER PRIMARY KEY, " \
-                                      "computer_id INTEGER, " \
-                                      "software_id INTEGER, " \
-                                      "last_update TIMESTAMP);");
-    return query.exec(sqlString.arg(this->m_tableName));
-}
 
 void ComputerSoftwareDataModel::setIndexes()
 {

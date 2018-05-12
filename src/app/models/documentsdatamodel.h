@@ -51,7 +51,6 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
-#include "definitions.h"
 #include "models/commondatamodel.h"
 
 
@@ -65,12 +64,6 @@ public:
     ~DocumentsDataModel();
 
 // implement the virtuals
-
-    /**
-     * @brief createDataTable
-     * @return bool - true if creation of the table successfull
-     */
-    virtual bool createDataTable();
 
     /**
      * @brief setIndexes

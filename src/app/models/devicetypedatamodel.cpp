@@ -56,17 +56,6 @@ DeviceTypeDataModel::DeviceTypeDataModel(QObject* parent)
 
 DeviceTypeDataModel::~DeviceTypeDataModel() {}
 
-bool DeviceTypeDataModel::createDataTable()
-{
-
-    QSqlQuery query;
-    QString sqlString = QLatin1String("CREATE TABLE device_type (" \
-                                      "device_type_id INTEGER PRIMARY KEY, " \
-                                      "name VARCHAR, " \
-                                      "last_update TIMESTAMP);");
-
-    return query.exec(sqlString.arg(this->m_tableName));
-}
 
 void DeviceTypeDataModel::setIndexes()
 {

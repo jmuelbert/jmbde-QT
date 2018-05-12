@@ -56,19 +56,6 @@ FunctionDataModel::FunctionDataModel(QObject* parent)
 
 FunctionDataModel::~FunctionDataModel() {}
 
-bool FunctionDataModel::createDataTable()
-{
-
-    QSqlQuery query;
-    QString sqlString = QLatin1String("CREATE TABLE %1 (" \
-                                      "function_id INTEGER PRIMARY KEY, " \
-                                      "name VARCHAR, " \
-                                      "priority INTEGER, " \
-                                      "last_update TIMESTAMP);");
-
-    return query.exec(sqlString.arg(this->m_tableName));
-}
-
 void FunctionDataModel::setIndexes()
 {
     m_FunctionIdIndex = m_model->fieldIndex(QLatin1String("function_id"));

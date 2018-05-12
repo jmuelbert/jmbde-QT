@@ -2,7 +2,6 @@ import qbs
 import qbs.Environment
 
 Project {
-    name: "jmbde"
 
     qbsSearchPaths: "qbs"
     minimumQbsVersion: "1.8.0"
@@ -20,14 +19,62 @@ Project {
     property bool installHeaders: false
     property bool useRPaths: true
     property bool windowsInstaller: false
+    property bool withCode: true
+    property bool withDocker: true
+    property bool withDocumentation: true
+    property bool withExamples: false
+    property bool withTests: withCode
+    property stringList autotestArguments: []
+    property stringList autotestWrapper: []
 
     references: [
         "dist/archive.qbs",
         "dist/distribute.qbs",
         "dist/win/installer.qbs",
-        "src/lib",
-        "src/lib/3rdparty/qtsingleapplication",
-        "src/app",
-        "translations",
     ]
+
+    SubProject {
+        filePath: "docker/docker.qbs"
+        Properties {
+            condition: parent.withDocker
+        }
+    }
+
+    SubProject {
+        filePath: "doc/doc.qbs"
+        Properties {
+            condition: parent.withDocumentation
+        }
+    }
+
+    SubProject {
+        filePath: "src/src.qbs"
+        Properties {
+            condition: parent.withCode
+        }
+    }
+
+    SubProject {
+        filePath: "tests/tests.qbs"
+        Properties {
+            condition: parent.withTests
+        }
+    }
+
+    SubProject {
+        filePath: "translations/translations.qbs"
+        Properties {
+            condition: parent.withCode
+        }
+    }
+
+    Product {
+        name: "version"
+        files: ["VERSION"]
+    }
+
+    Product {
+        name: "qmake project files for qbs"
+        files: ["**/*.pr[io]"]
+    }
 }
