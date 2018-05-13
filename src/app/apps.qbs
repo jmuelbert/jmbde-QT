@@ -6,6 +6,7 @@ QbsApp {
     name: "jmbde"
     targetName: name
     version: project.version
+    consoleApplication: false
 
     Depends { name: "ib"; condition: qbs.targetOS.contains("macos") }
     Depends { name: "Qt"; submodules: [ "core", 
@@ -50,7 +51,6 @@ QbsApp {
         return defs;
     }
 
-    consoleApplication: false
 
     Group {
         name: "Precompiled header"
@@ -191,7 +191,7 @@ QbsApp {
     Properties {
         condition: qbs.targetOS.contains("macos")
         cpp.cxxFlags: ["-Wno-unknown-pragmas"]
-        bundle.identifierPrefix: "ede.juergen-muelbert"
+        bundle.identifierPrefix: "de.juergen-muelbert"
         ib.appIconName: "jmbde-icon-mac"
         targetName: "jmbde"
     }
@@ -328,6 +328,7 @@ QbsApp {
             }
             fileTags: "rc"
         }
+
         prepare: {
             var cmd = new JavaScriptCommand();
             cmd.description = "prepare " + FileInfo.fileName(output.filePath);

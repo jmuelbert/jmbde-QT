@@ -46,6 +46,9 @@
 
 DataContext::DataContext(QObject* parent) : QObject(parent)
 {
+    QLoggingCategory::setFilterRules(QStringLiteral("q t.custom.log.debug=false"));
+    qSetMessagePattern(QLatin1String("%{category} %{message}"));
+
     QString dataBaseDir = QString();
 
     this->name = QUuid::createUuid().toString();
@@ -126,8 +129,12 @@ DataContext::DataContext(QObject* parent) : QObject(parent)
 
 DataContext::DataContext(const QString &name, QObject* parent) : QObject(parent)
 {
+    QLoggingCategory::setFilterRules(QStringLiteral("q t.custom.log.debug=false"));
+    qSetMessagePattern(QLatin1String("%{category} %{message}"));
+    QLoggingCategory category("datalib.log");
+
     this->name = name.isEmpty() ? QUuid::createUuid().toString() : name;
-    qDebug() << "Creating DB for: " << this->name;
+    qCDebug(category) << "Creating DB for: " << this->name;
 
     QString dbDataPath = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
     dbDataPath.append(QDir::separator());
@@ -187,6 +194,14 @@ DataContext::DataContext(const QString &name, QObject* parent) : QObject(parent)
         }
         else {
             this->openDB(targetFileAndPath);
+            qDebug() << "Open DB: " << targetFileAndPath;
+            qDebug() << "ConnectionName     : " << this->m_db.connectionName();
+            qDebug() << "DriverName         : " << this->m_db.driverName();
+            qDebug() << "Database  Name     : " << this->m_db.databaseName();
+            qDebug() << "Connect Options    : " << this->m_db.connectOptions();
+            qDebug() << "isAvailable Sqlite : " << this->m_db.isDriverAvailable(QStringLiteral("QSQLITE"));
+
+
         }
     }
     else if (dbType == MYSQL) {

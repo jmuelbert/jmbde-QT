@@ -13,7 +13,7 @@ Project {
     property pathList additionalLibs: []
     property pathList additionalTools: []
     property pathList additionalAutotests: []
-    property string version: Environment.getEnv("JMBDE_VERSION") || "0.4.12";
+    property string version: Environment.getEnv("JMBDE_VERSION") || "0.4.13";
     property bool snapshot: Environment.getEnv("JMBDE_SNAPSHOT")
     property bool release: Environment.getEnv("JMBDE_RELEASE")
     property bool installHeaders: false

@@ -8,6 +8,8 @@ Project {
     AutotestRunner {
         Depends { name: "Qt.core" }
         Depends { name: "Qt.sql" }
+        Depends { name: "jmbde" }
+
 
         arguments: project.autotestArguments
         wrapper: project.autotestWrapper

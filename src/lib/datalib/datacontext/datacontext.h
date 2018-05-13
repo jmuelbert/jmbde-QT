@@ -49,6 +49,7 @@
 
 #include <QDebug>
 
+#include <QLoggingCategory>
 #include <QString>
 #include <QStringList>
 #include <QList>
@@ -97,6 +98,7 @@
 class DATASHARED_EXPORT DataContext : public QObject
 {
     Q_OBJECT
+
 
 public:
 

@@ -13,6 +13,8 @@ public:
 private Q_SLOTS:
     void initTestCase();
     void cleanupTestCase();
+
+    void OpenDatabase();
     void CheckExistence();
     void CheckExistence_data();
 };
@@ -22,6 +24,7 @@ DataContext_Test::DataContext_Test() = default;
 void DataContext_Test::initTestCase()
 {
 }
+
 
 void DataContext_Test::cleanupTestCase()
 {
@@ -37,6 +40,14 @@ void DataContext_Test::CheckExistence_data()
     QTest::addColumn<bool>("retValue");
 
     QTest::newRow("database_version") << "database_version" << "revision" << "90" << true;
+}
+
+void DataContext_Test::OpenDatabase()
+{
+    DataContext* testDB = new DataContext("Test");
+    testDB->openDB("Test");
+
+    testDB->closeConnection();
 }
 
 void DataContext_Test::CheckExistence()

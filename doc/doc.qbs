@@ -8,7 +8,7 @@ Project {
 	Product {
         name: "jmbde documentation"
         builtByDefault: false
-		type: ["qch", "app.doc-html-fixed" ]
+        type: ["qch", "app.doc-html-fixed" ]
 		property string fixedHtmlDir: FileInfo.joinPaths(buildDirectory, "qdoc-html-fixed")
 
 		Depends { name: "Qt.core" }
@@ -25,14 +25,17 @@ Project {
 			"images/**",
 			"targets/**",
 		]
+
 		Group {
 			name: "main qdocconf file"
-			files: "app.qdocconf"
+			files: [
+                "app.qdocconf",
+            ]
 			fileTags: "qdocconf-main"
 
 		}
 
-            property string versionTag: qbsversion.version.replace(/\.|-/g, "")
+        property string versionTag: qbsversion.version.replace(/\.|-/g, "")
 		Qt.core.qdocEnvironment: [
             "APP_VERSION=" + qbs.version.version,
 			"SRCDIR=" + path,
@@ -60,12 +63,14 @@ Project {
             qbs.installDir: qbsbuildconfig.docInstallDir
             qbs.installSourceBase: product.fixedHtmlDir
         }
+
         Group {
             fileTagsFilter: ["qdoc-css", "qdoc-png"]
             qbs.install: qbsbuildconfig.installHtml
             qbs.installDir: qbsbuildconfig.docInstallDir
             qbs.installSourceBase: Qt.core.qdocOutputDir
         }
+
         Group {
             fileTagsFilter: ["qch"]
             qbs.install: qbsbuildconfig.installQch
