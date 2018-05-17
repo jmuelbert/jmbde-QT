@@ -95,12 +95,14 @@
 /**
  * @brief The DataContext class
  */
+
 class DATASHARED_EXPORT DataContext : public QObject
 {
     Q_OBJECT
 
 
 public:
+
 
     /**
      * @brief DataContext
@@ -169,6 +171,8 @@ private:
     bool insert(const QString &tableName, const QVariantMap &insertData);
     bool update(const QString &table, const QString &column, const QVariant &newValue, const QVariant &op, const QString &id);
     bool remove();
+
+    QString getSqliteName();
 
 signals:
     void DBActionFinished();

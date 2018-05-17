@@ -46,22 +46,12 @@
 
 DataContext::DataContext(QObject* parent) : QObject(parent)
 {
-    QLoggingCategory::setFilterRules(QStringLiteral("q t.custom.log.debug=false"));
-    qSetMessagePattern(QLatin1String("%{category} %{message}"));
-
-    QString dataBaseDir = QString();
-
     this->name = QUuid::createUuid().toString();
-    QString dbDataPath = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
 
     QSettings settings;
     settings.beginGroup(QLatin1String(Settings::Groups::DATABASE));
     const int dbType =
         settings.value(QLatin1Literal(Settings::Database::TYPE), SQLITE).toInt();
-
-    const QString dbConnectionString =
-        settings.value(QLatin1Literal(Settings::Database::CONNECTION), dbDataPath)
-        .toString();
 
     const QString dbHostName =
         settings.value(QLatin1Literal(Settings::Database::HOSTNAME), QLatin1String("localhost")).toString();
@@ -75,25 +65,11 @@ DataContext::DataContext(QObject* parent) : QObject(parent)
     settings.endGroup();
 
     if (dbType == SQLITE) {
-        // Application Directory +
-        // Resources on Mac
-        // share/appname on Linux
-        // + /database/jmbdesqlite.db
-        // Destination Directory
-        QString targetFileAndPath = QString(dbConnectionString);
-        // Create the Directory
-        QDir d(targetFileAndPath);
-        d.mkpath(targetFileAndPath);
-
-        // Append the Datafile on the Path
-        targetFileAndPath.append(QDir::separator());
-        targetFileAndPath.append(this->name);
-        targetFileAndPath.append(QLatin1String("sqlite.db3"));
+        const auto targetFileAndPath = this->getSqliteName();
         QFile f(targetFileAndPath);
-
         if (!f.exists()) {
             this->openDB(this->name);
-            qDebug() << "DB doesn't exists, trying to create it" << targetFileAndPath;
+            qDebug("DB doesn't exists, trying to create it %s", qUtf8Printable(targetFileAndPath));
             this->prepareDB();
         }
         else {
@@ -122,32 +98,21 @@ DataContext::DataContext(QObject* parent) : QObject(parent)
         m_db.setPassword(dbPassWord);
     }
     else {
-        qDebug() << "Unknown DB-Type!";
+        qDebug("Unknown DB-Type!");
         exit(0);
     }
 }
 
 DataContext::DataContext(const QString &name, QObject* parent) : QObject(parent)
 {
-    QLoggingCategory::setFilterRules(QStringLiteral("q t.custom.log.debug=false"));
-    qSetMessagePattern(QLatin1String("%{category} %{message}"));
-    QLoggingCategory category("datalib.log");
-
     this->name = name.isEmpty() ? QUuid::createUuid().toString() : name;
-    qCDebug(category) << "Creating DB for: " << this->name;
+    qDebug("Ctr:Request Database : %s ", qUtf8Printable(this->name));
 
-    QString dbDataPath = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
-    dbDataPath.append(QDir::separator());
-    dbDataPath.append(QLatin1Literal("de.juergen-muelbert"));
 
     QSettings settings;
     settings.beginGroup(QLatin1String(Settings::Groups::DATABASE));
     const int dbType =
         settings.value(QLatin1Literal(Settings::Database::TYPE), SQLITE).toInt();
-
-    const QString dbConnectionString =
-        settings.value(QLatin1Literal(Settings::Database::CONNECTION), dbDataPath)
-        .toString();
 
     const QString dbHostName =
         settings.value(QLatin1Literal(Settings::Database::HOSTNAME), QLatin1String("localhost")).toString();
@@ -161,50 +126,23 @@ DataContext::DataContext(const QString &name, QObject* parent) : QObject(parent)
     settings.endGroup();
 
 
-    qDebug() << "DbConnection from Settings : " << dbConnectionString;
 
     if (dbType == SQLITE) {
-        // Application Directory +
-        // Resources on Mac
-        // share/appname on Linux
-        // + /database/jmbdesqlite.db
-        // Destination Directory
-        QString targetFileAndPath = QString();
-        if (dbConnectionString.isEmpty()) {
-            targetFileAndPath = QString(dbDataPath);
-        }
-        else {
-            targetFileAndPath = QString(dbConnectionString);
-        }
 
-        // Create the Directory
-        QDir d(targetFileAndPath);
-        d.mkpath(targetFileAndPath);
-
-        // Append the Datafile on the Path
-        targetFileAndPath.append(QDir::separator());
-        targetFileAndPath.append(this->name);
-        targetFileAndPath.append(QLatin1Literal("sqlite.db3"));
+        const auto targetFileAndPath = this->getSqliteName();
         QFile f(targetFileAndPath);
-
         if (!f.exists()) {
-            this->openDB(targetFileAndPath);
-            qDebug() << "DB doesn't exists, trying to create it" << targetFileAndPath;
+            qInfo("Create Sqlite Database: %s", qUtf8Printable(name));
+            this->openDB(name);
             this->prepareDB();
         }
         else {
-            this->openDB(targetFileAndPath);
-            qDebug() << "Open DB: " << targetFileAndPath;
-            qDebug() << "ConnectionName     : " << this->m_db.connectionName();
-            qDebug() << "DriverName         : " << this->m_db.driverName();
-            qDebug() << "Database  Name     : " << this->m_db.databaseName();
-            qDebug() << "Connect Options    : " << this->m_db.connectOptions();
-            qDebug() << "isAvailable Sqlite : " << this->m_db.isDriverAvailable(QStringLiteral("QSQLITE"));
-
-
+            qInfo("Open Sqlite Database: %s", qUtf8Printable(name));
+            this->openDB(name);
         }
     }
     else if (dbType == MYSQL) {
+        qInfo("Connect to MySQL Database: %s", qUtf8Printable(this->name));
         m_db = QSqlDatabase::addDatabase(QStringLiteral("QMYSQL"));
         m_db.setHostName(dbHostName);
         m_db.setDatabaseName(this->name);
@@ -212,6 +150,7 @@ DataContext::DataContext(const QString &name, QObject* parent) : QObject(parent)
         m_db.setPassword(dbPassWord);
     }
     else if (dbType == ODBC) {
+        qInfo("Connect to MySQL Database: %s", qUtf8Printable(this->name));
         m_db = QSqlDatabase::addDatabase(QStringLiteral("QODBC"));
         m_db.setHostName(dbHostName);
         m_db.setDatabaseName(this->name);
@@ -219,6 +158,7 @@ DataContext::DataContext(const QString &name, QObject* parent) : QObject(parent)
         m_db.setPassword(dbPassWord);
     }
     else if (dbType == POSTGRESQL) {
+        qInfo("Connect to PostGreSQL Database: %s", qUtf8Printable(this->name));
         m_db = QSqlDatabase::addDatabase(QStringLiteral("QPSQL"));
         m_db.setHostName(dbHostName);
         m_db.setDatabaseName(this->name);
@@ -226,7 +166,7 @@ DataContext::DataContext(const QString &name, QObject* parent) : QObject(parent)
         m_db.setPassword(dbPassWord);
     }
     else {
-        qDebug() << "Unknown DB-Type!";
+        qFatal("Unknown DB-Type!");
         exit(0);
     }
 }
@@ -234,12 +174,12 @@ DataContext::DataContext(const QString &name, QObject* parent) : QObject(parent)
 DataContext::~DataContext()
 {
     this->m_db.close();
-    qDebug() << "m_db.close()";
+    qDebug("m_db.close()");
 }
 
 void DataContext::closeConnection()
 {
-    qDebug() << "Closing Database";
+    qDebug("Closing Database");
 }
 
 void DataContext::prepareDB() const
@@ -249,18 +189,12 @@ void DataContext::prepareDB() const
     QFile file(QStringLiteral(":/script.sql"));
 
     if (!file.exists()) {
-        QString log = QStringLiteral("Fatal error on build database. The file '");
-        log.append(
-            file.fileName() +
-            QStringLiteral(
-                "' for database and tables creation query cannot be not found!"));
-        qDebug() << log;
+        qFatal("Fatal error on build database. The file '%s' for database and tables creation query cannot be not found!",  qUtf8Printable(file.fileName()));
         return;
     }
 
     if (!file.open(QIODevice::ReadOnly)) {
-        qDebug() << QStringLiteral(
-                     "Fatal error on try to create database! The file with sql queries "
+        qFatal( "Fatal error on try to create database! The file with sql queries "
                      "for database creation cannot be opened!");
         return;
     }
@@ -359,13 +293,11 @@ bool DataContext::check_existence(const QString &tableName, const QString &searc
 
     auto query = this->getQuery(queryStr);
 
-    qDebug() << queryStr << " : " << query.lastError();
-
     if (query.exec()) {
         if (query.next()) return true;
     }
     else {
-        qDebug() << query.lastError().text();
+        qWarning( "Warning : %s", qUtf8Printable(query.lastError().text()));
     }
 
     return false;
@@ -374,11 +306,11 @@ bool DataContext::check_existence(const QString &tableName, const QString &searc
 bool DataContext::insert(const QString &tableName, const QVariantMap &insertData)
 {
     if (tableName.isEmpty()) {
-        qDebug() << QStringLiteral("Fatal error on insert! The table name is empty!");
+        qFatal("Fatal error on insert! The table name is empty!");
         return false;
     }
     else if (insertData.isEmpty()) {
-        qDebug() << QStringLiteral("Fatal error on insert! The insertData is empty!");
+        qFatal("Fatal error on insert! The insertData is empty!");
         return false;
     }
 
@@ -420,8 +352,6 @@ bool DataContext::update(const QString &table, const QString &column, const QVar
 bool DataContext::execQuery(QSqlQuery &query) const
 {
     if (query.exec()) return true;
-    qDebug() << "ERROR ON EXEC QUERY";
-    qDebug() << query.lastError()  << query.lastQuery();
     return false;
 }
 
@@ -434,17 +364,25 @@ bool DataContext::execQuery(const QString &queryTxt)
 
 void DataContext::openDB(const QString &name)
 {
+    const auto dbFile = getSqliteName();
     if (!QSqlDatabase::contains(name)) {
+        qDebug("openDB:Set default DB : %s", qUtf8Printable(name));
         this->m_db = QSqlDatabase::addDatabase(QStringLiteral("QSQLITE"), name);
-        this->m_db.setDatabaseName(name);
+        this->m_db.setDatabaseName(dbFile);
+    }
+
+    if (!this->m_db.isValid()) {
+        this->m_db = QSqlDatabase::database(name);
     }
 
     if (!this->m_db.isOpen()) {
         if (!this->m_db.open()) {
-            qDebug() << "ERROR OPENING DB" << this->m_db.lastError().text() << m_db.connectionName();
+        } else {
+            qWarning("openDB:DB yet open %s ", qUtf8Printable(m_db.databaseName()));
         }
     }
 }
+
 
 QSqlQuery DataContext::getQuery(const QString &queryTxt)
 {
@@ -460,4 +398,48 @@ QSqlDatabase DataContext::getDatabase()
 QSqlError DataContext::initDb()
 {
     return m_db.lastError();
+}
+
+QString DataContext::getSqliteName()
+{
+
+    QString dbDataPath = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
+    dbDataPath.append(QDir::separator());
+    dbDataPath.append(QLatin1Literal("de.juergen-muelbert"));
+
+    QSettings settings;
+    settings.beginGroup(QLatin1String(Settings::Groups::DATABASE));
+
+    const QString dbConnectionString =
+        settings.value(QLatin1Literal(Settings::Database::CONNECTION), dbDataPath)
+        .toString();
+
+
+    qDebug() << "getSqliteName:DbConnection from Settings : " << dbConnectionString;
+
+    // Application Directory +
+    // Resources on Mac
+    // share/appname on Linux
+    // + /database/jmbdesqlite.db
+    // Destination Directory
+    QString targetFileAndPath = QString();
+    if (dbConnectionString.isEmpty()) {
+        targetFileAndPath = QString(dbDataPath);
+    }
+    else {
+        targetFileAndPath = QString(dbConnectionString);
+    }
+
+    // Create the Directory
+    QDir d(targetFileAndPath);
+    if (!d.exists())
+        d.mkpath(targetFileAndPath);
+
+    // Append the Datafile on the Path
+    targetFileAndPath.append(QDir::separator());
+    targetFileAndPath.append(this->name);
+    targetFileAndPath.append(QLatin1Literal("sqlite.db3"));
+
+    return targetFileAndPath;
+
 }

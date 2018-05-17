@@ -40,12 +40,13 @@ void DataContext_Test::CheckExistence_data()
     QTest::addColumn<bool>("retValue");
 
     QTest::newRow("database_version") << "database_version" << "revision" << "90" << true;
+    QTest::newRow("database_version") << "database_version" << "version" << "1" << false;
 }
 
 void DataContext_Test::OpenDatabase()
 {
-    DataContext* testDB = new DataContext("Test");
-    testDB->openDB("Test");
+    const QString name = QStringLiteral("Test");
+    auto * testDB = new DataContext(name);
 
     testDB->closeConnection();
 }
@@ -53,9 +54,8 @@ void DataContext_Test::OpenDatabase()
 void DataContext_Test::CheckExistence()
 {
 
-    DataContext* testDB = new DataContext("Test");
-    testDB->openDB("Test");
-
+    const QString name = QStringLiteral("Test");
+    auto * testDB = new DataContext(name);
 
     QFETCH(QString, table);
     QFETCH(QString, value1);
