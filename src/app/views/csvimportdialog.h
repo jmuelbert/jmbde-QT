@@ -40,8 +40,7 @@
 **
 **************************************************************************/
 
-#ifndef CSVIMPORTDIALOG_H
-#define CSVIMPORTDIALOG_H
+#pragma once 
 
 #include <QDebug>
 #include <QFile>
@@ -101,5 +100,3 @@ private slots:
      */
     void on_buttonBox_accepted();
 };
-
-#endif // CSVIMPORTDIALOG_H

@@ -1,6 +1,3 @@
-macro.APP               = "jmbde"
-macro.appversion        = $APP_VERSION
-
 macro.defaultvalue      = "Default:"
 macro.nodefaultvalue    = "Default: Undefined"
 macro.appleproperty     = "This property is specific to Apple platforms."

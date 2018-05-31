@@ -1,16 +1,24 @@
-include($QT_INSTALL_DOCS/global/qt-cpp-defines.qdocconf)
-include($QT_INSTALL_DOCS/global/compat.qdocconf)
-include($QT_INSTALL_DOCS/global/fileextensions.qdocconf)
-
 project     = "jmbde"
 description = "jmbde Manual"
+url         = http://www.juergen-muelbert.de/projects/jmbde
 
 headerdirs =
-sourcedirs = ..
-imagedirs = ../images ../templates/images
-exampledirs = ..
+sourcedirs = ../src
+imagedirs = ../images \
+            ../templates/images \
+            ../../src/libs/utils/images
+
+exampledirs = ../examples
+examples.fileextensions += *.qml *.svg
+
+HTML.extraimages = images/extra.png
+qhp.jmbde.extraFiles = images/extra.png
+
+depends +=
+
 
 include(macros.qdocconf)
+
 sources.fileextensions  = "*.qdoc"
 
 
@@ -18,15 +26,15 @@ qhp.projects            = jmbde
 qhp.Qbs.file             = jmbde.qhp
 qhp.Qbs.namespace        = de.juergen-muelbert.jmbde.$APP_VERSION_TAG
 qhp.Qbs.virtualFolder    = doc
-qhp.Qbs.indexTitle       = Qbs
+qhp.Qbs.indexTitle       = jmbde Manual $APP_VERSION
 qhp.Qbs.filterAttributes = jmbde $APP_VERSION
-qhp.Qbs.customFilters.Qbs.name = jmbde $APP_VERSION
-qhp.Qbs.customFilters.Qbs.filterAttributes = jmbde $APP_VERSION
+qhp.Qbs.customFilters.jmbde.name = jmbde $APP_VERSION
+qhp.Qbs.customFilters.jmbde.filterAttributes = jmbde $APP_VERSION
 qhp.Qbs.indexRoot        =
 
 qhp.Qbs.subprojects = manual
 qhp.Qbs.subprojects.manual.title = jmbde Manual
-qhp.Qbs.subprojects.manual.indexTitle = jmbde Manual
+qhp.Qbs.subprojects.manual.indexTitle = jmbde TOC
 qhp.Qbs.subprojects.manual.type = manual
 
 # Doxygen compatibility commands
@@ -34,4 +42,4 @@ macro.see                       = "\\sa"
 macro.function                  = "\\fn"
 
 navigation.homepage = "jmbde Manual"
-buildversion        = "jmbde $APP_VERSION"
+buildversion        = "jmbde Manual $APP_VERSION"

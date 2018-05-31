@@ -40,8 +40,7 @@
 **
 **************************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include <QSettings>
 
@@ -63,29 +62,31 @@
 
 #include <QtHelp>
 
+
 #include "definitions.h"
 
-#include "utils/helpbrowser.h"
+#include "help/helpbrowser.h"
 
-#include "views/csvimportdialog.h"
-#include "views/preferencesdialog.h"
+#include "csvimportdialog.h"
+#include "preferencesdialog.h"
 
-#include "views/aboutdialog.h"
-#include "views/chipcardinputarea.h"
-#include "views/cityinputarea.h"
-#include "views/computerinputarea.h"
-#include "views/departmentinputarea.h"
-#include "views/employeeinputarea.h"
-#include "views/functioninputarea.h"
-#include "views/manufacturerinputarea.h"
-#include "views/mobileinputarea.h"
-#include "views/titleinputarea.h"
-#include "views/osinputarea.h"
-#include "views/phoneinputarea.h"
-#include "views/printerinputarea.h"
-#include "views/processorinputarea.h"
-#include "views/softwareinputarea.h"
+#include "aboutdialog.h"
+#include "chipcardinputarea.h"
+#include "cityinputarea.h"
+#include "computerinputarea.h"
+#include "departmentinputarea.h"
+#include "employeeinputarea.h"
+#include "functioninputarea.h"
+#include "manufacturerinputarea.h"
+#include "mobileinputarea.h"
+#include "titleinputarea.h"
+#include "osinputarea.h"
+#include "phoneinputarea.h"
+#include "printerinputarea.h"
+#include "processorinputarea.h"
+#include "softwareinputarea.h"
 
+#include "libs/datalib/datacontext/datacontext.h"
 #include "models/functiondatamodel.h"
 #include "models/departmentdatamodel.h"
 #include "models/titledatamodel.h"
@@ -226,10 +227,10 @@ private:
     /**
      * @brief em
      */
-    DataModel* connection;
-    QString dataBaseName;
     QSqlRelationalTableModel* model;
     QSqlTableModel* tableModel;
+    QString dataBaseName;
+    DataContext *dataBase;
     int dbType = 0;
     QString dbConnection;
     QString dbHostname;
@@ -260,4 +261,3 @@ private:
     QModelIndex m_actualData;
 };
 
-#endif // MAINWINDOW_H

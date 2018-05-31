@@ -40,8 +40,7 @@
 **
 **************************************************************************/
 
-#ifndef PROCESSORINPUTAREA_H
-#define PROCESSORINPUTAREA_H
+#pragma once 
 
 #include <QDebug>
 
@@ -105,4 +104,3 @@ private:
 
 };
 
-#endif // PROCESSORINPUTAREA_H

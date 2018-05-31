@@ -41,8 +41,7 @@
 **************************************************************************/
 
 
-#ifndef DEPARTMENTINPUTAREA_H
-#define DEPARTMENTINPUTAREA_H
+#pragma once 
 
 #include <QDebug>
 
@@ -104,5 +103,3 @@ private:
     void updateDataset(const QModelIndex index);
     void deleteDataset(const QModelIndex index);
 };
-
-#endif // DEPARTMENTINPUTAREA_H

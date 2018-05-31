@@ -126,7 +126,7 @@ QString MobileDataModel::generateTableString(QAbstractTableModel* model, QString
         QLatin1String("<table width=\"100%\" cellspacing=\"0\" class=\"tbl\">");
     outString += QLatin1String("<thead> <tr>");
 
-    foreach (const int i, set) {
+    for (const auto i: set) {
         qDebug() << "int i = " << i;
         outString += QLatin1String("<th>");
         outString.append(model->headerData(i, Qt::Horizontal).toString());

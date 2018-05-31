@@ -6,7 +6,7 @@ import qbs.Probes
 import qbs.Utilities
 
 Product {
-    name: "jmbde man page"
+    name: "app man page"
     type: ["manpage"]
 
     Depends { productTypes: ["jmbdeapplication"]; condition: updateManPage }

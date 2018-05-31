@@ -40,8 +40,7 @@
 **
 **************************************************************************/
 
-#ifndef TITLEINPUTAREA_H
-#define TITLEINPUTAREA_H
+#pragma once 
 
 #include <QDebug>
 
@@ -104,5 +103,3 @@ private:
     void deleteDataset(const QModelIndex index);
 
 };
-
-#endif // TITLEINPUTAREA_H

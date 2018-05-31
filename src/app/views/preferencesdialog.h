@@ -40,8 +40,7 @@
 **
 **************************************************************************/
 
-#ifndef PREFERENCESDIALOG_H
-#define PREFERENCESDIALOG_H
+#pragma once 
 
 #include <QObject>
 #include <QStandardPaths>
@@ -111,5 +110,3 @@ private:
      */
     QString getUserDataDir();
 };
-
-#endif // PREFERENCESDIALOG_H

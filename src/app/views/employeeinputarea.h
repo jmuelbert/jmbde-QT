@@ -40,8 +40,7 @@
 **
 **************************************************************************/
 
-#ifndef EMPLOYEEINPUTAREA_H
-#define EMPLOYEEINPUTAREA_H
+#pragma once 
 
 #include <QDebug>
 
@@ -124,5 +123,3 @@ private:
     void updateDataset(const QModelIndex index);
     void deleteDataset(const QModelIndex index);
 };
-
-#endif // EMPLOYEEINPUTArea_H

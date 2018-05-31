@@ -2,68 +2,61 @@ import qbs
 import qbs.FileInfo
 import qbs.TextFile
 
-QbsApp {
-    name: "jmbde"
-    targetName: name
-    version: project.version
+QbsProduct {
+    Depends { name: "bundle" }
+    Depends { name: "ib"; condition: qbs.targetOS.contains("macos") }
+  
+    Properties {
+        condition: qbs.targetOS.contains("macos")
+        ib.appIconName: "jmbde"
+    }
+
+    Properties {
+        condition: qbs.targetOS.contains("windows")
+        consoleApplication: qbs.debugInformation
+    }
+ 
     consoleApplication: false
 
-    Depends { name: "ib"; condition: qbs.targetOS.contains("macos") }
-    Depends { name: "Qt"; submodules: [ "core", 
-                                        "widgets", 
-                                        "sql", 
-                                        "printsupport", 
-                                        "help" ]; versionAtLeast: "5.10" }
+    type: [ "application" ]
+    name: "jmbde"
+    targetName: app.app_app_target
+    version: app.app_version
 
+    property bool isBundle: qbs.targetOS.contains("darwin") && bundle.isBundle
+    installDir: isBundle ? app.app_app_path : app.app_bin_path
+    installTags: (isBundle ? ["bundle.content"] : base).concat(["debuginfo_app"])
     property bool qtcRunnable: true
 
-    cpp.includePaths: ["."]
-    cpp.frameworks: {
-        var frameworks = [];
-        if (qbs.targetOS.contains("macos")) {
-            frameworks.push("Foundation");
-        }
-        return frameworks;
-    }
-    cpp.useRPaths: project.useRPaths
-    cpp.rpaths: {
-        if (qbs.targetOS.contains("darwin"))
-            return ["@loader_path/../Frameworks"];
-        else if (project.linuxArchive)
-            return ["$ORIGIN/lib"];
-        else
-            return ["$ORIGIN/../lib"];
-    }
-    cpp.useCxxPrecompiledHeader: qbs.buildVariant != "debug"
-    cpp.cxxLanguageVersion: "c++14"
+    bundle.identifier: app.app_bundle_identifier
+    bundle.infoPlist: ({
+        "NSHumanReadableCopyright": app.app_copyright_string
+    })
 
-    cpp.defines: {
-        var defs = [
-            "JMBDE_VERSION=" + version,
-            "QT_DEPRECATED_WARNINGS",
-            "QT_DISABLE_DEPRECATED_BEFORE=0x050700",
-            "QT_NO_CAST_FROM_ASCII",
-            "QT_NO_CAST_TO_ASCII",
-            "QT_NO_URL_CAST_FROM_STRING"
-        ];
-        if (project.snapshot)
-            defs.push("JMBDE_SNAPSHOT");
-        return defs;
-    }
+    cpp.rpaths: qbs.targetOS.contains("macos") ? ["@executable_path/../Frameworks"]
+                                             : ["$ORIGIN/../" + app.libDirName + "/jmbde"]
+    cpp.includePaths: [
+        project.app_source_tree + "/src/",       
+        project.app_source_tree + "/src/app",
+    ]
 
-
-    Group {
-        name: "Precompiled header"
-        files: ["pch.h"]
-        fileTags: ["cpp_pch_src"]
-    }
+    Depends { name: "app_version_header" }
+    Depends { name: "Qt"; submodules: ["widgets", "network", "sql", "printsupport", "help" ] }
+    Depends { name: "DataLib" }
+    Depends { name: "Utils" }
+    // Depends { name: "ExtensionSystem" }
 
     files: [
+        "app-Info.plist",
         "main.cpp",
-        "constants.h",
-        "definitions.h",
-        "jmbde.qrc",
-        "utils.h",
+        "../shared/qtsingleapplication/src/qtsingleapplication.h",
+        "../shared/qtsingleapplication/src/qtsingleapplication.cpp",
+        "../shared/qtsingleapplication/src/qtlocalpeer.h",
+        "../shared/qtsingleapplication/src/qtlocalpeer.cpp",
+        "../shared/qtlockedfile/src/qtlockedfile.cpp",
+               "jmbde.qrc",
+        "help/helpbrowser.cpp",
+        "help/helpbrowser.h",
         "models/accountdatamodel.cpp",
         "models/accountdatamodel.h",
         "models/chipcarddatamodel.cpp",
@@ -84,6 +77,9 @@ QbsApp {
         "models/computerdatamodel.h",
         "models/computersoftwaredatamodel.cpp",
         "models/computersoftwaredatamodel.h",
+        "models/datacontext.cpp",
+        "models/datacontext.h",
+        "models/datacontext.qrc",
         "models/datamodel.cpp",
         "models/datamodel.h",
         "models/departmentdatamodel.cpp",
@@ -132,6 +128,7 @@ QbsApp {
         "models/zipcitymodel.h",
         "models/zipcodemodel.cpp",
         "models/zipcodemodel.h",
+        "models/script.sql",
         "views/aboutdialog.cpp",
         "views/aboutdialog.h",
         "views/aboutdialog.ui",
@@ -185,180 +182,42 @@ QbsApp {
         "views/softwareinputarea.ui",
         "views/titleinputarea.cpp",
         "views/titleinputarea.h",
-        "views/titleinputarea.ui"
+        "views/titleinputarea.ui",
     ]
 
-    Properties {
-        condition: qbs.targetOS.contains("macos")
-        cpp.cxxFlags: ["-Wno-unknown-pragmas"]
-        bundle.identifierPrefix: "de.juergen-muelbert"
-        ib.appIconName: "jmbde-icon-mac"
-        targetName: "jmbde"
-    }
     Group {
-        name: "macOS"
-        condition: qbs.targetOS.contains("macos")
+          // We need the version in two separate formats for the .rc file
+          //  RC_VERSION=4,3,82,0 (quadruple)
+          //  RC_VERSION_STRING="4.4.0-beta1" (free text)
+          // Also, we need to replace space with \x20 to be able to work with both rc and windres
+          cpp.defines: outer.concat(["RC_VERSION=" + app.app_version.replace(/\./g, ",") + ",0",
+                                     "RC_VERSION_STRING=" + app.app_display_version,
+                                     "RC_COPYRIGHT=2008-" + app.app_copyright_year
+                                     + " Jürgen Mülbert".replace(/ /g, "\\x20")])
+          files: "jmbde.rc"
+      }
+
+      Group {
+          name: "jmbde.sh"
+          condition: qbs.targetOS.contains("unix") && !qbs.targetOS.contains("macos")
+          files: "../../bin/jmbdecreator.sh"
+          qbs.install: true
+          qbs.installDir: "bin"
+      }
+
+    Group {
+        name: "QtLockedFile_unix"
+        condition: qbs.targetOS.contains("unix")
         files: [
-            "Info.plist",
+            "../shared/qtlockedfile/src/qtlockedfile_unix.cpp"
         ]
     }
 
     Group {
-        condition: !qbs.targetOS.contains("darwin")
-        qbs.install: true
-        qbs.installDir: {
-            if (qbs.targetOS.contains("windows")
-                    || project.linuxArchive)
-                return ""
-            else
-                return "bin"
-        }
-        qbs.installSourceBase: product.buildDirectory
-        fileTagsFilter: product.type
+        name: "QtLockedFile_win"
+        condition: qbs.targetOS.contains("windows")
+        files: [
+            "../shared/qtlockedfile/src/qtlockedfile_win.cpp"
+        ]
     }
-
-    Group {
-        name: "macOS (icons)"
-        condition: qbs.targetOS.contains("macos")
-        files: ["images/jmbde.xcassets"]
-    }
-
-    Group {
-        name: "Desktop file (Linux)"
-        condition: qbs.targetOS.contains("linux")
-        qbs.install: true
-        qbs.installDir: "share/applications"
-        files: [ "../../de.juergen-muelbert.jmbde.desktop" ]
-    }
-
-    Group {
-        name: "AppData file (Linux)"
-        condition: qbs.targetOS.contains("linux")
-        qbs.install: true
-        qbs.installDir: "share/metainfo"
-        files: [ "../../de.juergen-muelbert.jmbde.appdata.xml" ]
-    }
-
-    Group {
-        name: "Thumbnailer (Linux)"
-        condition: qbs.targetOS.contains("linux")
-        qbs.install: true
-        qbs.installDir: "share/thumbnailers"
-        files: [ "../../mime/jmbde.thumbnailer" ]
-    }
-
-
-    Group {
-        name: "Man page (Linux)"
-        condition: qbs.targetOS.contains("linux")
-        qbs.install: true
-        qbs.installDir: "share/man/man1"
-        files: [ "../../man/jmbde.1" ]
-    }
-
-    Group {
-        name: "Icon 16x16 (Linux)"
-        condition: qbs.targetOS.contains("linux")
-        qbs.install: true
-        qbs.installDir: "share/icons/hicolor/16x16/apps"
-        files: [ "images/16x16/jmbde.png" ]
-    }
-
-    Group {
-        name: "Icon 32x32 (Linux)"
-        condition: qbs.targetOS.contains("linux")
-        qbs.install: true
-        qbs.installDir: "share/icons/hicolor/32x32/apps"
-        files: [ "images/32x32/jmbde.png" ]
-    }
-
-    Group {
-        name: "Icon scalable (Linux)"
-        condition: qbs.targetOS.contains("linux")
-        qbs.install: true
-        qbs.installDir: "share/icons/hicolor/scalable/apps"
-        files: [ "images/scalable/jmbde.svg" ]
-    }
-
-    Group {
-        name: "MIME icon 16x16 (Linux)"
-        condition: qbs.targetOS.contains("linux")
-        qbs.install: true
-        qbs.installDir: "share/icons/hicolor/16x16/mimetypes"
-        files: [ "images/16x16/application-x-jmbde.png" ]
-    }
-
-    Group {
-        name: "MIME icon 32x32 (Linux)"
-        condition: qbs.targetOS.contains("linux")
-        qbs.install: true
-        qbs.installDir: "share/icons/hicolor/32x32/mimetypes"
-        files: [ "images/32x32/application-x-jmbde.png" ]
-    }
-
-    Group {
-        name: "MIME icon scalable (Linux)"
-        condition: qbs.targetOS.contains("linux")
-        qbs.install: true
-        qbs.installDir: "share/icons/hicolor/scalable/mimetypes"
-        files: [ "images/scalable/application-x-jmbde.svg" ]
-    }
-
-    // This is necessary to install the app bundle (OS X)
-    Group {
-        fileTagsFilter: ["bundle.content"]
-        qbs.install: true
-        qbs.installDir: "."
-        qbs.installSourceBase: product.buildDirectory
-    }
-
-    // Generate the jmbde.rc file in order to dynamically specify the version
-    Group {
-        name: "RC file (Windows)"
-        files: [ "jmbde.rc.in" ]
-        fileTags: ["rcIn"]
-    }
-    Rule {
-        inputs: ["rcIn"]
-        Artifact {
-            filePath: {
-                var destdir = FileInfo.joinPaths(product.moduleProperty("Qt.core",
-                                                         "generatedFilesDir"), input.fileName);
-                return destdir.replace(/\.[^\.]*$/,'')
-            }
-            fileTags: "rc"
-        }
-
-        prepare: {
-            var cmd = new JavaScriptCommand();
-            cmd.description = "prepare " + FileInfo.fileName(output.filePath);
-            cmd.highlight = "codegen";
-
-            cmd.sourceCode = function() {
-                var i;
-                var vars = {};
-                var inf = new TextFile(input.filePath);
-                var all = inf.readAll();
-
-                var versionArray = project.version.split(".");
-                if (versionArray.length == 3)
-                    versionArray.push("0");
-
-                // replace vars
-                vars['VERSION'] = project.version;
-                vars['VERSION_CSV'] = versionArray.join(",");
-
-                for (i in vars) {
-                    all = all.replace(new RegExp('@' + i + '@(?!\w)', 'g'), vars[i]);
-                }
-
-                var file = new TextFile(output.filePath, TextFile.WriteOnly);
-                file.truncate();
-                file.write(all);
-                file.close();
-            }
-
-            return cmd;
-        }
-    }
-}
+  }

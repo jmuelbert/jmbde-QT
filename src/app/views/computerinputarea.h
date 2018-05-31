@@ -40,8 +40,7 @@
 **
 **************************************************************************/
 
-#ifndef COMPUTERINPUTAREA_H
-#define COMPUTERINPUTAREA_H
+#pragma once 
 
 #include <QDebug>
 
@@ -104,5 +103,3 @@ private:
     void updateDataset(const QModelIndex index);
     void deleteDataset(const QModelIndex index);
 };
-
-#endif // COMPUTERINPUTAREA_H

@@ -40,8 +40,7 @@
 **
 **************************************************************************/
 
-#ifndef CITYINPUTAREA_H
-#define CITYINPUTAREA_H
+#pragma once 
 
 #include <QDebug>
 
@@ -103,5 +102,3 @@ private:
     void deleteDataset(const QModelIndex index);
 
 };
-
-#endif // CITYINPUTAREA_H

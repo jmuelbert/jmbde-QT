@@ -40,8 +40,7 @@
 **
 **************************************************************************/
 
-#ifndef PRINTERINPUTAREA_H
-#define PRINTERINPUTAREA_H
+#pragma once 
 
 #include <QDebug>
 
@@ -103,5 +102,3 @@ private:
     void deleteDataset(const QModelIndex index);
 
 };
-
-#endif // PRINTERINPUTAREA_H

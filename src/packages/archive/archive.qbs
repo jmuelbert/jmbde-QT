@@ -5,11 +5,10 @@ import qbs.Process
 import qbs.TextFile
 
 QbsProduct {
-    Depends { name: "jmbdedata" }
     Depends { name: "bundledqt" }
-    Depends { name: "jmbde documentation" }
+    Depends { name: "user doc offline" }
     Depends { name: "qbs" }
-    Depends { name: "jmbde man page"; condition: qbs.targetOS.contains("unix") }
+    Depends { name: "app man page"; condition: qbs.targetOS.contains("unix") }
     Depends { productTypes: ["qbsapplication", "qbsplugin"] }
 
     Depends { name: "archiver" }
@@ -36,7 +35,7 @@ QbsProduct {
     builtByDefault: false
     name: "qbs archive"
     type: ["archiver.archive"]
-    targetName: "qbs-" + qbs.targetOS[0] + "-" + qbs.architecture + "-" + qbsversion.version
+    targetName: "qbs-" + qbs.targetOS[0] + "-" + qbs.architecture + "-" + app.version
     destinationDirectory: project.buildDirectory
 
     archiver.type: qbs.targetOS.contains("windows") ? "zip" : "tar"

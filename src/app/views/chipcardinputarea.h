@@ -40,8 +40,7 @@
 **
 **************************************************************************/
 
-#ifndef CHIPCARDINPUTAREA_H
-#define CHIPCARDINPUTAREA_H
+#pragma once 
 
 #include <QDebug>
 
@@ -103,5 +102,3 @@ private:
     void updateDataset(const QModelIndex index);
     void deleteDataset(const QModelIndex index);
 };
-
-#endif // CHIPCARDINPUTAREA_H

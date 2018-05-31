@@ -52,7 +52,7 @@
 #include <QSqlRelation>
 
 #include "definitions.h"
-#include "models/commondatamodel.h"
+#include "commondatamodel.h"
 
 
 class CompanyDataModel : public CommonDataModel

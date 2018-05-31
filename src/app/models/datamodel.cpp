@@ -41,7 +41,7 @@
 **************************************************************************/
 
 #include "datamodel.h"
-#include "utils.h"
+
 
 #include <QUuid>
 
@@ -88,6 +88,7 @@ DataModel::DataModel(QObject* parent) : QObject(parent)
         targetFileAndPath.append(this->name);
         targetFileAndPath.append(QLatin1String("sqlite.db3"));
 
+        /*
         if (!Utils::fileExists(Utils::JmBdeDBPath + Utils::DBName)) {
             this->openDB(this->name);
             qDebug() << "DB doesn't exists, trying to create it" << targetFileAndPath;
@@ -96,6 +97,7 @@ DataModel::DataModel(QObject* parent) : QObject(parent)
         else {
             this->openDB(this->name);
         }
+        */
     }
     else if (dbType == MYSQL) {
         m_db = QSqlDatabase::addDatabase(QStringLiteral("QMYSQL"));
@@ -382,7 +384,7 @@ bool DataModel::insert(const QString &tableName, const QVariantMap &insertData)
     query.prepare(sqlQueryString);
 
     int k = 0;
-    foreach (const QVariant &value, values)
+    for (const auto &value: values)
         query.bindValue(k++, value);
 
     return query.exec();

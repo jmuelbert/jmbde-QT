@@ -40,8 +40,7 @@
 **
 **************************************************************************/
 
-#ifndef MANUFACTURERINPUTAREA_H
-#define MANUFACTURERINPUTAREA_H
+#pragma once 
 
 #include <QDebug>
 
@@ -103,4 +102,3 @@ private:
     void deleteDataset(const QModelIndex index);
 };
 
-#endif // MANUFACTURERINPUTAREA_H

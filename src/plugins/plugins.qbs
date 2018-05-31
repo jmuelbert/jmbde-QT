@@ -1,5 +1,7 @@
 import qbs
 
 Project {
-    references: []
+    references: [
+
+    ].concat(project.additionalPlugins)
 }

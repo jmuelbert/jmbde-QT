@@ -56,7 +56,7 @@
 #include <QTextDocument>
 
 
-#include "models/datamodel.h"
+#include "datamodel.h"
 
 
 /**

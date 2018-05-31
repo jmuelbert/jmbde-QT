@@ -81,7 +81,6 @@
 
 #include <clocale>
 
-#include "definitions.h"
 #include "views/mainwindow.h"
 
 
@@ -219,8 +218,8 @@ int main(int argc, char* argv[])
                                 translationFileAndPath.append(QDir::separator());
                                 translationFileAndPath.append(QLatin1String("translations"));
 
-    foreach (QString locale, uiLanguages) {
-    locale = QLocale(locale).name();
+    for (auto locale: uiLanguages) {
+        locale = QLocale(locale).name();
         QString myLangId = QLatin1String("jmbde");
         myLangId.append(QLatin1String("_"));
         myLangId.append(locale);

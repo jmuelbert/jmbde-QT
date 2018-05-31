@@ -40,9 +40,6 @@
 **
 **************************************************************************/
 
-#ifndef FUNCTIONINPUTAREA_H
-#define FUNCTIONINPUTAREA_H
-
 #include <QDebug>
 
 #include <QDataWidgetMapper>
@@ -104,4 +101,3 @@ private:
     void deleteDataset(const QModelIndex index);
 };
 
-#endif // FUNCTIONINPUTAREA_H

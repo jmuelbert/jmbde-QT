@@ -1,27 +1,31 @@
 import qbs
 import qbs.FileInfo
-import qbs.Utilities
 
-QtApplication {
+QbsProduct {
     type: ["application", "autotest"]
-    consoleApplication: true
-    property string testName
-    name: "tst_" + testName
-    Depends { name: "Qt.testlib" }
-    Depends { name: "jmbdedata" }
-    Depends { name: "qbsbuildconfig" }
-    cpp.defines: [
-        "QBS_TEST_SUITE_NAME=" + Utilities.cStringQuote(testName.toUpperCase().replace("-", "_"))
-    ]
-    cpp.includePaths: [
-        "../../../src",
-        "../../../src/app/shared", // for the logger
-    ]
-    cpp.cxxLanguageVersion: "c++14"
-    destinationDirectory: "bin"
 
-    cpp.rpaths: [FileInfo.joinPaths(qbs.installRoot, qbs.installPrefix, qbsbuildconfig.libDirName)]
-    qbs.commonRunEnvironment: ({
-        "QBS_INSTALL_ROOT": qbs.installRoot
+    Depends { name: "Qt.testlib" }
+    Depends { name: "copyable_resource" }
+
+    targetName: "tst_" + name.split(' ').join("")
+
+    // This needs to be absolute, because it is passed to one of the source files.
+    destinationDirectory: project.buildDirectory + '/'  
+                            + FileInfo.relativePath(project.app_source_tree, sourceDirectory)
+
+    cpp.rpaths: [
+        project.buildDirectory + '/' + app.app_library_path,
+        project.buildDirectory + '/' + app.app_plugin_path
+    ]    
+
+    cpp.defines: base.filter(function(d) {
+        return d !== "QT_RESTRICTED_CAST_FROM_ASCII"
+            && d !== "QT_USE_FAST_OPERATOR_PLUS"
+            && d !== "QT_USE_FAST_CONCATENATION";
     })
+
+    Group {
+        fileTagsFilter: product.type
+        qbs.install: false
+    }
 }

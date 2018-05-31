@@ -40,8 +40,7 @@
 **
 **************************************************************************/
 
-#ifndef SOFTWAREINPUTAREA_H
-#define SOFTWAREINPUTAREA_H
+#pragma once 
 
 #include <QDebug>
 
@@ -104,4 +103,3 @@ private:
     void deleteDataset(const QModelIndex index);
 };
 
-#endif // SOFTWAREINPUTAREA_H

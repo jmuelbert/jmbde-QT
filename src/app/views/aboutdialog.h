@@ -40,8 +40,7 @@
 **
 **************************************************************************/
 
-#ifndef ABOUTDIALOG_H
-#define ABOUTDIALOG_H
+#pragma once
 
 #include <QDialog>
 
@@ -63,5 +62,3 @@ private:
 
     void donate();
 };
-
-#endif // ABOUTDIALOG_H

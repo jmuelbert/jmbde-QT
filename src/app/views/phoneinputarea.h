@@ -40,8 +40,7 @@
 **
 **************************************************************************/
 
-#ifndef PHONEINPUTAREA_H
-#define PHONEINPUTAREA_H
+#pragma once 
 
 #include <QDebug>
 
@@ -104,4 +103,3 @@ private:
     void deleteDataset(const QModelIndex index);
 };
 
-#endif // PHONEINPUTAREA_H

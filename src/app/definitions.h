@@ -40,8 +40,7 @@
 **
 **************************************************************************/
 
-#ifndef DEFINITIONS_H
-#define DEFINITIONS_H
+#pragma once 
 
 #include <QtGlobal>
 
@@ -110,4 +109,3 @@ const char DEFAULT[] = "SqLite";
 
 } // namespace Type
 } // namespace Database
-#endif // DEFINITIONS_H
