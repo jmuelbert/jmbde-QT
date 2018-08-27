@@ -3,7 +3,7 @@ import qbs.Utilities
 
 QbsLibrary {
     Depends { name: "cpp" }
-    Depends { name: "Qt"; submodules: ["core-private", "network", "sql", "script", "xml"] }
+    Depends { name: "Qt"; submodules: ["core-private", "network", "sql", "xml"] }
     name: "jmbdedata"
     cpp.includePaths: base.concat([
         ".",

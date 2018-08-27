@@ -4,7 +4,7 @@ import qbs.FileInfo
 Product {
     Depends { name: "qbsbuildconfig" }
     Depends { name: "Qt"; submodules:
-            ["core", "gui", "network", "printsupport", "script", "sql", "widgets", "xml"] }
+            ["core", "gui", "network", "printsupport", "sql", "widgets", "xml"] }
 
     property bool deployQt: qbsbuildconfig.enableBundledQt && qbs.targetOS.contains("macos")
                             && Qt.core.qtConfig.contains("rpath")
