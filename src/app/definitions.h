@@ -59,16 +59,13 @@
 #define QL1C(x) QLatin1Char(x)
 #endif
 
-namespace Settings
-{
-namespace Groups
-{
+namespace Settings {
+namespace Groups {
 const char MAINWINDOW[] = "MainWindow";
 const char DATABASE[] = "Database";
 } // namespace Groups
 
-namespace MainWindow
-{
+namespace MainWindow {
 const char SIZE[] = "size";
 const char POS[] = "pos";
 const char SPLITTER[] = "splitterSizes";
@@ -76,8 +73,7 @@ const char LAST_VIEW[] = "last_view";
 const char LAST_DATA[] = "last_data";
 } // namespace MainWindow
 
-namespace Database
-{
+namespace Database {
 const char TYPE[] = "type";
 const char CONNECTION[] = "connection";
 const char HOSTNAME[] = "hostname";
@@ -90,18 +86,15 @@ const char PASSWORD[] = "password";
 
 enum DbType { SQLITE, MYSQL, ODBC, POSTGRESQL };
 
-namespace Database
-{
+namespace Database {
 
-namespace Version
-{
+namespace Version {
 const char Version[] = "0";
 const char Revision[] = "90";
 const char Patch[] = "0";
-}
+} // namespace Version
 
-namespace Type
-{
+namespace Type {
 const char SQLITE[] = "SqLite";
 const char MYSQL[] = "MySql";
 const char ODBC[] = "ODBC";

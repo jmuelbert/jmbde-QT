@@ -56,99 +56,81 @@
 #include "definitions.h"
 #include "models/commondatamodel.h"
 
-
-class SystemDataModel : public CommonDataModel
-{
+class SystemDataModel : public CommonDataModel {
 public:
+  /**
+   * @brief SystemDataModel
+   * @param parent
+   */
+  explicit SystemDataModel(QObject *parent = 0);
 
-    /**
-     * @brief SystemDataModel
-     * @param parent
-     */
-    explicit SystemDataModel(QObject* parent = 0);
+  /**
+   * ~SystemDataModel
+   */
+  ~SystemDataModel();
 
-    /**
-     * ~SystemDataModel
-     */
-    ~SystemDataModel();
+  // implement the virtuals
 
-// implement the virtuals
+  /**
+   * @brief setIndexes
+   */
+  virtual void setIndexes();
 
-    /**
-     * @brief setIndexes
-     */
-    virtual void setIndexes();
+  /**
+   * @brief initializeRelationalModel
+   * @return
+   */
+  virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-    /**
-     * @brief initializeRelationalModel
-     * @return
-     */
-    virtual QSqlRelationalTableModel* initializeRelationalModel();
+  /**
+   * @brief initializeInputDataModel
+   * @return
+   */
+  virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-    /**
-     * @brief initializeInputDataModel
-     * @return
-     */
-    virtual QSqlRelationalTableModel* initializeInputDataModel();
+  /**
+   * @brief initializeViewModel
+   * @return
+   */
+  virtual QSqlTableModel *initializeViewModel();
 
-    /**
-     * @brief initializeViewModel
-     * @return
-     */
-    virtual QSqlTableModel* initializeViewModel();
+  /**
+   * @brief generateTableString
+   * @param model
+   * @param header
+   * @return
+   */
+  virtual QString generateTableString(QAbstractTableModel *model,
+                                      QString header);
 
-    /**
-     * @brief generateTableString
-     * @param model
-     * @param header
-     * @return
-     */
-    virtual QString generateTableString(QAbstractTableModel* model, QString header);
+  /**
+   * @brief generateFormularString
+   * @param model
+   * @param header
+   * @return
+   */
+  virtual QString generateFormularString(QAbstractTableModel *model,
+                                         QString header);
 
-    /**
-     * @brief generateFormularString
-     * @param model
-     * @param header
-     * @return
-     */
-    virtual QString generateFormularString(QAbstractTableModel* model, QString header);
-
-// Getter
-    int SystemDataIdIndex() const
-    {
-        return m_SystemDataIdIndex;
-    }
-    int NameIndex() const
-    {
-        return m_NameIndex;
-    }
-    int LocalIndex() const
-    {
-        return m_LocalIndex;
-    }
-    int CompanyIdIndex() const
-    {
-        return m_CompanyIdIndex;
-    }
-    int LastUpdateIndex() const
-    {
-        return m_LastUpdateIndex;
-    }
+  // Getter
+  int SystemDataIdIndex() const { return m_SystemDataIdIndex; }
+  int NameIndex() const { return m_NameIndex; }
+  int LocalIndex() const { return m_LocalIndex; }
+  int CompanyIdIndex() const { return m_CompanyIdIndex; }
+  int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
+  /**
+   * @brief tableName - the name of the database table
+   * @
+   */
+  const QString m_tableName = QLatin1String("system_data");
 
-    /**
-     * @brief tableName - the name of the database table
-     * @
-     */
-    const QString m_tableName = QLatin1String("system_data");
-
-    int m_SystemDataIdIndex;
-    int m_NameIndex;
-    int m_LocalIndex;
-    int m_CompanyIdIndex;
-    int m_LastUpdateIndex;
-
+  int m_SystemDataIdIndex;
+  int m_NameIndex;
+  int m_LocalIndex;
+  int m_CompanyIdIndex;
+  int m_LastUpdateIndex;
 };
 
 #endif // SYSTEMDATAMODEL_H

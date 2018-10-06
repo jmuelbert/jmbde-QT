@@ -1,7 +1,14 @@
+<a name="jmbde" />
+
 # jmbde
 
-[![GitHub license](https://img.shields.io/badge/license-EUPL-blue.svg)](https://joinup.ec.europa.eu/page/eupl-text-11-12)
+---
 
+<p align="center">
+[![GitHub license](https://img.shields.io/badge/license-EUPL-blue.svg)](https://joinup.ec.europa.eu/page/eupl-text-11-12)
+</p>
+
+--
 jmbde is a program to collect data for the IT. The database contains employees, departments, functions, phones, mobiles, computers, printers, faxes and accounts.
 
 jmbde uese the cross-platform framework [Qt](http://www.qt.io/download-open-source/),

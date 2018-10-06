@@ -42,104 +42,98 @@
 
 #include "zipcodemodel.h"
 
-ZipCodeModel::ZipCodeModel(QObject* parent) : CommonDataModel(parent)
-{
+ZipCodeModel::ZipCodeModel(QObject *parent) : CommonDataModel(parent) {
 
-    // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+  // Set the Model
+  m_model = new QSqlRelationalTableModel(this);
+  m_model->setTable(this->m_tableName);
+  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-    setIndexes();
-
+  setIndexes();
 }
 
 ZipCodeModel::~ZipCodeModel() {}
 
-void ZipCodeModel::setIndexes()
-{
-    m_ZipCodeIdIndex = m_model->fieldIndex(QLatin1String("zip_code_id"));
-    m_CodeIndex = m_model->fieldIndex(QLatin1String("code"));
-    m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
+void ZipCodeModel::setIndexes() {
+  m_ZipCodeIdIndex = m_model->fieldIndex(QLatin1String("zip_code_id"));
+  m_CodeIndex = m_model->fieldIndex(QLatin1String("code"));
+  m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-QSqlRelationalTableModel* ZipCodeModel::initializeRelationalModel()
-{
+QSqlRelationalTableModel *ZipCodeModel::initializeRelationalModel() {
 
-    m_model = new QSqlRelationalTableModel(this);
+  m_model = new QSqlRelationalTableModel(this);
 
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+  m_model->setTable(this->m_tableName);
+  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-    m_model->select();
+  m_model->select();
 
-    return m_model;
+  return m_model;
 }
 
-QSqlRelationalTableModel* ZipCodeModel::initializeInputDataModel()
-{
+QSqlRelationalTableModel *ZipCodeModel::initializeInputDataModel() {
 
-    m_model = new QSqlRelationalTableModel(this);
+  m_model = new QSqlRelationalTableModel(this);
 
-    m_model->setTable(this->m_tableName);
+  m_model->setTable(this->m_tableName);
 
-    return m_model;
+  return m_model;
 }
 
-QSqlTableModel* ZipCodeModel::initializeViewModel()
-{
+QSqlTableModel *ZipCodeModel::initializeViewModel() {
 
-    m_model->select();
+  m_model->select();
 
-    return m_model;
+  return m_model;
 }
 
-QString ZipCodeModel::generateTableString(QAbstractTableModel* model, QString header)
-{
-    QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
+QString ZipCodeModel::generateTableString(QAbstractTableModel *model,
+                                          QString header) {
+  QString outString;
+  int columnCount = model->columnCount();
+  int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+  qDebug() << "Header : " << header << " Columns : " << columnCount
+           << " Rows : " << rowCount;
 
-    QList<int> set;
+  QList<int> set;
 
-    // Document Title
-    outString = QLatin1String("<h1>");
-    outString += header;
-    outString += QLatin1String("</h1>");
-    outString += QLatin1String("<hr />");
-    outString +=
-        QLatin1String("<table width=\"100%\" cellspacing=\"0\" class=\"tbl\">");
-    outString += QLatin1String("<thead> <tr>");
+  // Document Title
+  outString = QLatin1String("<h1>");
+  outString += header;
+  outString += QLatin1String("</h1>");
+  outString += QLatin1String("<hr />");
+  outString +=
+      QLatin1String("<table width=\"100%\" cellspacing=\"0\" class=\"tbl\">");
+  outString += QLatin1String("<thead> <tr>");
 
-    foreach (const int i, set) {
-        qDebug() << "int i = " << i;
-        outString += QLatin1String("<th>");
-        outString.append(model->headerData(i, Qt::Horizontal).toString());
-        outString += QLatin1String("</th>");
-    }
+  foreach (const int i, set) {
+    qDebug() << "int i = " << i;
+    outString += QLatin1String("<th>");
+    outString.append(model->headerData(i, Qt::Horizontal).toString());
+    outString += QLatin1String("</th>");
+  }
 
-    return outString;
+  return outString;
 }
 
-QString ZipCodeModel::generateFormularString(QAbstractTableModel* model, QString header)
-{
-    QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
+QString ZipCodeModel::generateFormularString(QAbstractTableModel *model,
+                                             QString header) {
+  QString outString;
+  int columnCount = model->columnCount();
+  int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+  qDebug() << "Header : " << header << " Columns : " << columnCount
+           << " Rows : " << rowCount;
 
-    QList<int> set;
+  QList<int> set;
 
-    // Document Title
-    outString = QLatin1String("<h1>");
-    outString += header;
-    outString += QLatin1String("</h1>");
-    outString += QLatin1String("<hr />");
+  // Document Title
+  outString = QLatin1String("<h1>");
+  outString += header;
+  outString += QLatin1String("</h1>");
+  outString += QLatin1String("<hr />");
 
-    return outString;
+  return outString;
 }

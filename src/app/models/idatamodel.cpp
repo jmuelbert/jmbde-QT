@@ -1,5 +1,3 @@
 #include "models/idatamodel.h"
 
-IDataModel::~IDataModel()
-{
-}
+IDataModel::~IDataModel() {}

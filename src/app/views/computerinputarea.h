@@ -54,55 +54,49 @@
 
 #include "models/computerdatamodel.h"
 
-namespace Ui
-{
+namespace Ui {
 class ComputerInputArea;
 }
 
 /**
  * @brief The ComputerInputArea class
  */
-class ComputerInputArea : public QGroupBox
-{
-    Q_OBJECT
+class ComputerInputArea : public QGroupBox {
+  Q_OBJECT
 
 public:
+  /**
+   * @brief ComputerInputArea
+   * @param parent
+   * @param index
+   */
+  explicit ComputerInputArea(QWidget *parent, const QModelIndex &index);
 
-    /**
-     * @brief ComputerInputArea
-     * @param parent
-     * @param index
-     */
-    explicit ComputerInputArea(QWidget* parent, const QModelIndex &index);
-
-    /**
-     * @brief ~ComputerInputArea();
-     */
-    ~ComputerInputArea();
+  /**
+   * @brief ~ComputerInputArea();
+   */
+  ~ComputerInputArea();
 
 private slots:
 
-    void on_pushButton_Add_clicked();
+  void on_pushButton_Add_clicked();
 
-    void on_pushButton_EditFinish_clicked();
+  void on_pushButton_EditFinish_clicked();
 
 private:
-    Ui::ComputerInputArea* ui;
-    enum Mode {
-        Edit,
-        Finish
-    };
-    Mode m_actualMode;
-    QSqlRelationalTableModel* m_model;
-    QItemSelectionModel* m_selectionModel;
-    QDataWidgetMapper* m_mapper;
+  Ui::ComputerInputArea *ui;
+  enum Mode { Edit, Finish };
+  Mode m_actualMode;
+  QSqlRelationalTableModel *m_model;
+  QItemSelectionModel *m_selectionModel;
+  QDataWidgetMapper *m_mapper;
 
-    void setMappings();
-    void setViewOnlyMode(bool mode = true);
-    void createDataset();
-    void retrieveDataset(const QModelIndex index);
-    void updateDataset(const QModelIndex index);
-    void deleteDataset(const QModelIndex index);
+  void setMappings();
+  void setViewOnlyMode(bool mode = true);
+  void createDataset();
+  void retrieveDataset(const QModelIndex index);
+  void updateDataset(const QModelIndex index);
+  void deleteDataset(const QModelIndex index);
 };
 
 #endif // COMPUTERINPUTAREA_H

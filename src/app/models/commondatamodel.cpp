@@ -42,43 +42,37 @@
 
 #include "commondatamodel.h"
 
-CommonDataModel::CommonDataModel(QObject* parent)
-{
+CommonDataModel::CommonDataModel(QObject *parent) {}
+
+CommonDataModel::~CommonDataModel() = default;
+
+QTextDocument *CommonDataModel::createSheet() {
+  auto *document = new QTextDocument;
+
+  return document;
 }
 
-CommonDataModel::~CommonDataModel()
-    = default;
+QString CommonDataModel::setOutTableStyle() {
+  QString css;
 
-QTextDocument* CommonDataModel::createSheet()
-{
-    auto* document = new QTextDocument;
+  css = QLatin1String("<style type=\"text/css\">");
+  css += QLatin1String("H1 { color: #f00;}");
+  css +=
+      QLatin1String("table.tbl {border-width: 1px;border-style: "
+                    "solid;border-color: black;margin-top: 0px;margin-bottom: "
+                    "0px;color: black; font-size: small; }");
+  css += QLatin1String("table.tbl td {padding: 3px;}");
+  css += QLatin1String("table.tbl th {padding: 3px;}");
+  css += QLatin1String("</style>");
 
-    return document;
+  return css;
 }
 
-QString CommonDataModel::setOutTableStyle()
-{
-    QString css;
+QString CommonDataModel::setOutFormularStyle() {
+  QString css;
 
-    css = QLatin1String("<style type=\"text/css\">");
-    css += QLatin1String("H1 { color: #f00;}");
-    css +=
-        QLatin1String("table.tbl {border-width: 1px;border-style: "
-                      "solid;border-color: black;margin-top: 0px;margin-bottom: "
-                      "0px;color: black; font-size: small; }");
-    css += QLatin1String("table.tbl td {padding: 3px;}");
-    css += QLatin1String("table.tbl th {padding: 3px;}");
-    css += QLatin1String("</style>");
+  css = QLatin1String("<style type=\"text/css\">");
+  css += QLatin1String("H1 { color: #f00;}");
 
-    return css;
-}
-
-QString CommonDataModel::setOutFormularStyle()
-{
-    QString css;
-
-    css = QLatin1String("<style type=\"text/css\">");
-    css += QLatin1String("H1 { color: #f00;}");
-
-    return css;
+  return css;
 }

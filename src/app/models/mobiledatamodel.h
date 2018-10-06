@@ -56,147 +56,100 @@
 #include "definitions.h"
 #include "models/commondatamodel.h"
 
-
-class MobileDataModel : public CommonDataModel
-{
+class MobileDataModel : public CommonDataModel {
 public:
+  /**
+   * @brief MobileDataModel
+   * @param parent
+   */
+  explicit MobileDataModel(QObject *parent = 0);
 
-    /**
-     * @brief MobileDataModel
-     * @param parent
-     */
-    explicit MobileDataModel(QObject* parent = 0);
+  /**
+   * @brief MobileDataModel::~MobileDataModel
+   */
+  ~MobileDataModel();
 
-    /**
-     * @brief MobileDataModel::~MobileDataModel
-     */
-    ~MobileDataModel();
+  // implement the virtuals
 
-// implement the virtuals
+  /**
+   * @brief setIndexes
+   */
+  virtual void setIndexes();
 
-    /**
-     * @brief setIndexes
-     */
-    virtual void setIndexes();
+  /**
+   * @brief initializeRelationalModel
+   * @return
+   */
+  virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-    /**
-     * @brief initializeRelationalModel
-     * @return
-     */
-    virtual QSqlRelationalTableModel* initializeRelationalModel();
+  /**
+   * @brief initializeInputDataModel
+   * @return
+   */
+  virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-    /**
-     * @brief initializeInputDataModel
-     * @return
-     */
-    virtual QSqlRelationalTableModel* initializeInputDataModel();
+  /**
+   * @brief initializeViewModel
+   * @return
+   */
+  virtual QSqlTableModel *initializeViewModel();
 
-    /**
-     * @brief initializeViewModel
-     * @return
-     */
-    virtual QSqlTableModel* initializeViewModel();
+  /**
+   * @brief generateTableString
+   * @param model
+   * @param header
+   * @return
+   */
+  virtual QString generateTableString(QAbstractTableModel *model,
+                                      QString header);
 
-    /**
-     * @brief generateTableString
-     * @param model
-     * @param header
-     * @return
-     */
-    virtual QString generateTableString(QAbstractTableModel* model, QString header);
+  /**
+   * @brief generateFormularString
+   * @param model
+   * @param header
+   * @return
+   */
+  virtual QString generateFormularString(QAbstractTableModel *model,
+                                         QString header);
 
-    /**
-     * @brief generateFormularString
-     * @param model
-     * @param header
-     * @return
-     */
-    virtual QString generateFormularString(QAbstractTableModel* model, QString header);
+  // Getter
+  int MobileIdIndex() const { return m_MobileIdIndex; }
+  int DeviceNameIdIndex() const { return m_DeviceNameIdIndex; }
+  int SerialNumberIndex() const { return m_SerialNumberIndex; }
+  int NumberIndex() const { return m_NumberIndex; }
+  int PinIndex() const { return m_PinIndex; }
+  int CardNumberIndex() const { return m_CardNumberIndex; }
+  int ActiveIndex() const { return m_ActiveIndex; }
+  int ReplaceIndex() const { return m_ReplaceIndex; }
+  int DeviceTypeIdIndex() const { return m_DeviceTypeIdIndex; }
+  int EmployeeIdIndex() const { return m_EmployeeIdIndex; }
+  int PlaceIdIndex() const { return m_PlaceIdIndex; }
+  int DepartmentIdIndex() const { return m_DepartmentIdIndex; }
+  int ManufacturerIdIndex() const { return m_ManufacturerIdIndex; }
+  int InventoryIdIndex() const { return m_InventoryIdIndex; }
+  int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
-
-// Getter
-    int MobileIdIndex() const
-    {
-        return m_MobileIdIndex;
-    }
-    int DeviceNameIdIndex() const
-    {
-        return m_DeviceNameIdIndex;
-    }
-    int SerialNumberIndex() const
-    {
-        return m_SerialNumberIndex;
-    }
-    int NumberIndex() const
-    {
-        return m_NumberIndex;
-    }
-    int PinIndex() const
-    {
-        return m_PinIndex;
-    }
-    int CardNumberIndex() const
-    {
-        return m_CardNumberIndex;
-    }
-    int ActiveIndex() const
-    {
-        return m_ActiveIndex;
-    }
-    int ReplaceIndex() const
-    {
-        return m_ReplaceIndex;
-    }
-    int DeviceTypeIdIndex() const
-    {
-        return m_DeviceTypeIdIndex;
-    }
-    int EmployeeIdIndex() const
-    {
-        return m_EmployeeIdIndex;
-    }
-    int PlaceIdIndex() const
-    {
-        return m_PlaceIdIndex;
-    }
-    int DepartmentIdIndex() const
-    {
-        return m_DepartmentIdIndex;
-    }
-    int ManufacturerIdIndex() const
-    {
-        return m_ManufacturerIdIndex;
-    }
-    int InventoryIdIndex() const
-    {
-        return m_InventoryIdIndex;
-    }
-    int LastUpdateIndex() const
-    {
-        return m_LastUpdateIndex;
-    }
 private:
-
-    /**
-     * @brief tableName - the name of the database table
-     * @
-     */
-    const QString m_tableName = QLatin1String("mobile");
-    int m_MobileIdIndex;
-    int m_DeviceNameIdIndex;
-    int m_SerialNumberIndex;
-    int m_NumberIndex;
-    int m_PinIndex;
-    int m_CardNumberIndex;
-    int m_ActiveIndex;
-    int m_ReplaceIndex;
-    int m_DeviceTypeIdIndex;
-    int m_EmployeeIdIndex;
-    int m_PlaceIdIndex;
-    int m_DepartmentIdIndex;
-    int m_ManufacturerIdIndex;
-    int m_InventoryIdIndex;
-    int m_LastUpdateIndex;
+  /**
+   * @brief tableName - the name of the database table
+   * @
+   */
+  const QString m_tableName = QLatin1String("mobile");
+  int m_MobileIdIndex;
+  int m_DeviceNameIdIndex;
+  int m_SerialNumberIndex;
+  int m_NumberIndex;
+  int m_PinIndex;
+  int m_CardNumberIndex;
+  int m_ActiveIndex;
+  int m_ReplaceIndex;
+  int m_DeviceTypeIdIndex;
+  int m_EmployeeIdIndex;
+  int m_PlaceIdIndex;
+  int m_DepartmentIdIndex;
+  int m_ManufacturerIdIndex;
+  int m_InventoryIdIndex;
+  int m_LastUpdateIndex;
 };
 
 #endif // MOBILEDATAMODEL_H

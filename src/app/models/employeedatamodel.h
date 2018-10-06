@@ -62,7 +62,6 @@
 #include "definitions.h"
 #include "models/commondatamodel.h"
 
-
 /**
  * @brief EmployeeDataModel::EmployeeDataModel
  * @param parent
@@ -99,377 +98,284 @@
     }
  */
 
-class EmployeeDataModel : public CommonDataModel
-{
-    Q_OBJECT
+class EmployeeDataModel : public CommonDataModel {
+  Q_OBJECT
 
 public:
+  /**
+   * @brief EmployeeDataModel
+   * @details The Datamodel for the Accounts from the Employees
+   * @param parent
+   */
+  explicit EmployeeDataModel(QObject *parent = nullptr);
 
-    /**
-     * @brief EmployeeDataModel
-     * @details The Datamodel for the Accounts from the Employees
-     * @param parent
-     */
-    explicit EmployeeDataModel(QObject* parent = nullptr);
+  /**
+   * @brief ~EmployeeDataModel
+   */
+  ~EmployeeDataModel();
 
-    /**
-     * @brief ~EmployeeDataModel
-     */
-    ~EmployeeDataModel();
+  // implement the virtuals
 
-// implement the virtuals
+  /**
+   * @brief setIndexes
+   */
+  virtual void setIndexes();
 
+  /**
+   * @brief initializeRelationalModel
+   * @return
+   */
+  virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-    /**
-     * @brief setIndexes
-     */
-    virtual void setIndexes();
+  /**
+   * @brief initializeInputDataModel
+   * @return
+   */
+  virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-    /**
-     * @brief initializeRelationalModel
-     * @return
-     */
-    virtual QSqlRelationalTableModel* initializeRelationalModel();
+  /**
+   * @brief initializeViewModel
+   * @return
+   */
+  virtual QSqlTableModel *initializeViewModel();
 
-    /**
-     * @brief initializeInputDataModel
-     * @return
-     */
-    virtual QSqlRelationalTableModel* initializeInputDataModel();
+  /**
+   * @brief generateTableString
+   * @param model
+   * @param header
+   * @return
+   */
+  virtual QString generateTableString(QAbstractTableModel *model,
+                                      QString header);
 
-    /**
-     * @brief initializeViewModel
-     * @return
-     */
-    virtual QSqlTableModel* initializeViewModel();
+  /**
+   * @brief generateFormularString
+   * @param model
+   * @param header
+   * @return
+   */
+  virtual QString generateFormularString(QAbstractTableModel *model,
+                                         QString header);
 
-    /**
-     * @brief generateTableString
-     * @param model
-     * @param header
-     * @return
-     */
-    virtual QString generateTableString(QAbstractTableModel* model, QString header);
+  // Getter
+  /**
+   * @brief EmployeeIdIndex
+   * @return
+   */
+  int EmployeeIdIndex() const { return m_EmployeeIdIndex; }
 
-    /**
-     * @brief generateFormularString
-     * @param model
-     * @param header
-     * @return
-     */
-    virtual QString generateFormularString(QAbstractTableModel* model, QString header);
+  /**
+   * @brief EmployeeNrIndex
+   * @return
+   */
+  int EmployeeNrIndex() const { return m_EmployeeNrIndex; }
 
-// Getter
-    /**
-     * @brief EmployeeIdIndex
-     * @return
-     */
-    int EmployeeIdIndex() const
-    {
-        return m_EmployeeIdIndex;
-    }
+  /**
+   * @brief GenderIndex
+   * @return
+   */
+  int GenderIndex() const { return m_GenderIndex; }
 
-    /**
-     * @brief EmployeeNrIndex
-     * @return
-     */
-    int EmployeeNrIndex() const
-    {
-        return m_EmployeeNrIndex;
-    }
+  /**
+   * @brief TitleIdIndex
+   * @return
+   */
+  int TitleIdIndex() const { return m_TitleIdIndex; }
 
-    /**
-     * @brief GenderIndex
-     * @return
-     */
-    int GenderIndex() const
-    {
-        return m_GenderIndex;
-    }
+  /**
+   * @brief FirstNameIndex
+   * @return
+   */
+  int FirstNameIndex() const { return m_FirstNameIndex; }
 
-    /**
-     * @brief TitleIdIndex
-     * @return
-     */
-    int TitleIdIndex() const
-    {
-        return m_TitleIdIndex;
-    }
+  /**
+   * @brief LastNameIndex
+   * @return
+   */
+  int LastNameIndex() const { return m_LastNameIndex; }
 
-    /**
-     * @brief FirstNameIndex
-     * @return
-     */
-    int FirstNameIndex() const
-    {
-        return m_FirstNameIndex;
-    }
+  /**
+   * @brief BirthDayIndex
+   * @return
+   */
+  int BirthDayIndex() const { return m_BirthDayIndex; }
 
-    /**
-     * @brief LastNameIndex
-     * @return
-     */
-    int LastNameIndex() const
-    {
-        return m_LastNameIndex;
-    }
+  /**
+   * @brief AddressIndex
+   * @return
+   */
+  int AddressIndex() const { return m_AddressIndex; }
 
-    /**
-     * @brief BirthDayIndex
-     * @return
-     */
-    int BirthDayIndex() const
-    {
-        return m_BirthDayIndex;
-    }
+  /**
+   * @brief ZipCityIdIndex
+   * @return
+   */
+  int ZipCityIdIndex() const { return m_ZipCityIdIndex; }
 
-    /**
-     * @brief AddressIndex
-     * @return
-     */
-    int AddressIndex() const
-    {
-        return m_AddressIndex;
-    }
+  /**
+   * @brief HomePhoneIndex
+   * @return
+   */
+  int HomePhoneIndex() const { return m_HomePhoneIndex; }
 
-    /**
-     * @brief ZipCityIdIndex
-     * @return
-     */
-    int ZipCityIdIndex() const
-    {
-        return m_ZipCityIdIndex;
-    }
+  /**
+   * @brief HomeMobileIndex
+   * @return
+   */
+  int HomeMobileIndex() const { return m_HomeMobileIndex; }
 
-    /**
-     * @brief HomePhoneIndex
-     * @return
-     */
-    int HomePhoneIndex() const
-    {
-        return m_HomePhoneIndex;
-    }
+  /**
+   * @brief HomeMailIndex
+   * @return
+   */
+  int HomeMailIndex() const { return m_HomeMailIndex; }
 
-    /**
-     * @brief HomeMobileIndex
-     * @return
-     */
-    int HomeMobileIndex() const
-    {
-        return m_HomeMobileIndex;
-    }
+  /**
+   * @brief BusinessMailIndex
+   * @return
+   */
+  int BusinessMailIndex() const { return m_BusinessMailIndex; }
 
-    /**
-     * @brief HomeMailIndex
-     * @return
-     */
-    int HomeMailIndex() const
-    {
-        return m_HomeMailIndex;
-    }
+  /**
+   * @brief DataCareIndex
+   * @return
+   */
+  int DataCareIndex() const { return m_DataCareIndex; }
 
-    /**
-     * @brief BusinessMailIndex
-     * @return
-     */
-    int BusinessMailIndex() const
-    {
-        return m_BusinessMailIndex;
-    }
+  /**
+   * @brief ActiveIndex
+   * @return
+   */
+  int ActiveIndex() const { return m_ActiveIndex; }
 
-    /**
-     * @brief DataCareIndex
-     * @return
-     */
-    int DataCareIndex() const
-    {
-        return m_DataCareIndex;
-    }
+  /**
+   * @brief PhotoIndex
+   * @return
+   */
+  int PhotoIndex() const { return m_PhotoIndex; }
 
-    /**
-     * @brief ActiveIndex
-     * @return
-     */
-    int ActiveIndex() const
-    {
-        return m_ActiveIndex;
-    }
+  /**
+   * @brief NotesIndex
+   * @return
+   */
+  int NotesIndex() const { return m_NotesIndex; }
 
-    /**
-     * @brief PhotoIndex
-     * @return
-     */
-    int PhotoIndex() const
-    {
-        return m_PhotoIndex;
-    }
+  /**
+   * @brief HireDateIndex
+   * @return
+   */
+  int HireDateIndex() const { return m_HireDateIndex; }
 
-    /**
-     * @brief NotesIndex
-     * @return
-     */
-    int NotesIndex() const
-    {
-        return m_NotesIndex;
-    }
+  /**
+   * @brief EndDateIndex
+   * @return
+   */
+  int EndDateIndex() const { return m_EndDateIndex; }
 
-    /**
-     * @brief HireDateIndex
-     * @return
-     */
-    int HireDateIndex() const
-    {
-        return m_HireDateIndex;
-    }
+  /**
+   * @brief DepartmentIdIndex
+   * @return
+   */
+  int DepartmentIdIndex() const { return m_DepartmentIdIndex; }
 
-    /**
-     * @brief EndDateIndex
-     * @return
-     */
-    int EndDateIndex() const
-    {
-        return m_EndDateIndex;
-    }
+  /**
+   * @brief FunctionIdIndex
+   * @return
+   */
+  int FunctionIdIndex() const { return m_FunctionIdIndex; }
 
-    /**
-     * @brief DepartmentIdIndex
-     * @return
-     */
-    int DepartmentIdIndex() const
-    {
-        return m_DepartmentIdIndex;
-    }
+  /**
+   * @brief ComputerIdIndex
+   * @return
+   */
+  int ComputerIdIndex() const { return m_ComputerIdIndex; }
 
-    /**
-     * @brief FunctionIdIndex
-     * @return
-     */
-    int FunctionIdIndex() const
-    {
-        return m_FunctionIdIndex;
-    }
+  /**
+   * @brief PrinterIdIndex
+   * @return
+   */
+  int PrinterIdIndex() const { return m_PrinterIdIndex; }
 
-    /**
-     * @brief ComputerIdIndex
-     * @return
-     */
-    int ComputerIdIndex() const
-    {
-        return m_ComputerIdIndex;
-    }
+  /**
+   * @brief PhoneIdIndex
+   * @return
+   */
+  int PhoneIdIndex() const { return m_PhoneIdIndex; }
 
-    /**
-     * @brief PrinterIdIndex
-     * @return
-     */
-    int PrinterIdIndex() const
-    {
-        return m_PrinterIdIndex;
-    }
+  /**
+   * @brief MobileIdIndex
+   * @return
+   */
+  int MobileIdIndex() const { return m_MobileIdIndex; }
 
-    /**
-     * @brief PhoneIdIndex
-     * @return
-     */
-    int PhoneIdIndex() const
-    {
-        return m_PhoneIdIndex;
-    }
+  /**
+   * @brief FaxIdIndex
+   * @return
+   */
+  int FaxIdIndex() const { return m_FaxIdIndex; }
 
-    /**
-     * @brief MobileIdIndex
-     * @return
-     */
-    int MobileIdIndex() const
-    {
-        return m_MobileIdIndex;
-    }
+  /**
+   * @brief EmployeeAccountIdIndex
+   * @return
+   */
+  int EmployeeAccountIdIndex() const { return m_EmployeeAccountIdIndex; }
 
-    /**
-     * @brief FaxIdIndex
-     * @return
-     */
-    int FaxIdIndex() const
-    {
-        return m_FaxIdIndex;
-    }
+  /**
+   * @brief EmployeeDocumentIdIndex
+   * @return
+   */
+  int EmployeeDocumentIdIndex() const { return m_EmployeeDocumentIdIndex; }
 
-    /**
-     * @brief EmployeeAccountIdIndex
-     * @return
-     */
-    int EmployeeAccountIdIndex() const
-    {
-        return m_EmployeeAccountIdIndex;
-    }
+  /**
+   * @brief ChipCardIdIndex
+   * @return
+   */
+  int ChipCardIdIndex() const { return m_ChipCardIdIndex; }
 
-    /**
-     * @brief EmployeeDocumentIdIndex
-     * @return
-     */
-    int EmployeeDocumentIdIndex() const
-    {
-        return m_EmployeeDocumentIdIndex;
-    }
-
-    /**
-     * @brief ChipCardIdIndex
-     * @return
-     */
-    int ChipCardIdIndex() const
-    {
-        return m_ChipCardIdIndex;
-    }
-
-    /**
-     * @brief LastUpdateIndex
-     * @return
-     */
-    int LastUpdateIndex() const
-    {
-        return m_LastUpdateIndex;
-    }
+  /**
+   * @brief LastUpdateIndex
+   * @return
+   */
+  int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 protected:
-
 private:
+  /**
+   * @brief tableName - the name of the database table
+   * @
+   */
+  const QString m_tableName = QLatin1String("employee");
 
-    /**
-     * @brief tableName - the name of the database table
-     * @
-     */
-    const QString m_tableName = QLatin1String("employee");
-
-    int m_EmployeeIdIndex;
-    int m_EmployeeNrIndex;
-    int m_GenderIndex;
-    int m_TitleIdIndex;
-    int m_FirstNameIndex;
-    int m_LastNameIndex;
-    int m_BirthDayIndex;
-    int m_AddressIndex;
-    int m_ZipCityIdIndex;
-    int m_HomePhoneIndex;
-    int m_HomeMobileIndex;
-    int m_HomeMailIndex;
-    int m_BusinessMailIndex;
-    int m_DataCareIndex;
-    int m_ActiveIndex;
-    int m_PhotoIndex;
-    int m_NotesIndex;
-    int m_HireDateIndex;
-    int m_EndDateIndex;
-    int m_DepartmentIdIndex;
-    int m_FunctionIdIndex;
-    int m_ComputerIdIndex;
-    int m_PrinterIdIndex;
-    int m_PhoneIdIndex;
-    int m_MobileIdIndex;
-    int m_FaxIdIndex;
-    int m_EmployeeAccountIdIndex;
-    int m_EmployeeDocumentIdIndex;
-    int m_ChipCardIdIndex;
-    int m_LastUpdateIndex;
+  int m_EmployeeIdIndex;
+  int m_EmployeeNrIndex;
+  int m_GenderIndex;
+  int m_TitleIdIndex;
+  int m_FirstNameIndex;
+  int m_LastNameIndex;
+  int m_BirthDayIndex;
+  int m_AddressIndex;
+  int m_ZipCityIdIndex;
+  int m_HomePhoneIndex;
+  int m_HomeMobileIndex;
+  int m_HomeMailIndex;
+  int m_BusinessMailIndex;
+  int m_DataCareIndex;
+  int m_ActiveIndex;
+  int m_PhotoIndex;
+  int m_NotesIndex;
+  int m_HireDateIndex;
+  int m_EndDateIndex;
+  int m_DepartmentIdIndex;
+  int m_FunctionIdIndex;
+  int m_ComputerIdIndex;
+  int m_PrinterIdIndex;
+  int m_PhoneIdIndex;
+  int m_MobileIdIndex;
+  int m_FaxIdIndex;
+  int m_EmployeeAccountIdIndex;
+  int m_EmployeeDocumentIdIndex;
+  int m_ChipCardIdIndex;
+  int m_LastUpdateIndex;
 };
 
 #endif // EMPLOYEEDATAMODEL_H

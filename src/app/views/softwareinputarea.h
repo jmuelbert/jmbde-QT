@@ -53,55 +53,50 @@
 
 #include <QMessageBox>
 
-namespace Ui
-{
+namespace Ui {
 class SoftwareInputArea;
 }
 
 /**
  * @brief The SoftwareInputArea class
  */
-class SoftwareInputArea : public QGroupBox
-{
-    Q_OBJECT
+class SoftwareInputArea : public QGroupBox {
+  Q_OBJECT
 
 public:
+  /**
+   * @brief SoftwareInputArea
+   * @param parent
+   * @param index
+   */
+  explicit SoftwareInputArea(QWidget *parent = 0,
+                             const QModelIndex index = QModelIndex());
 
-    /**
-     * @brief SoftwareInputArea
-     * @param parent
-     * @param index
-     */
-    explicit SoftwareInputArea(QWidget* parent = 0, const QModelIndex index = QModelIndex());
-
-    /**
-     * @brief ~SoftwareInputArea
-     */
-    ~SoftwareInputArea();
+  /**
+   * @brief ~SoftwareInputArea
+   */
+  ~SoftwareInputArea();
 
 private slots:
-    void on_pushButton_Add_clicked();
+  void on_pushButton_Add_clicked();
 
-    void on_pushButton_EditFinish_clicked();
+  void on_pushButton_EditFinish_clicked();
 
 private:
-    Ui::SoftwareInputArea* ui;
+  Ui::SoftwareInputArea *ui;
 
-    enum Mode {
-        Edit,
-        Finish
-    };
-    Mode m_actualMode;
-    QSqlRelationalTableModel* m_model;
-    QItemSelectionModel* m_selectionModel;
-    QDataWidgetMapper* m_mapper;
+  enum Mode { Edit, Finish };
+  Mode m_actualMode;
+  QSqlRelationalTableModel *m_model;
+  QItemSelectionModel *m_selectionModel;
+  QDataWidgetMapper *m_mapper;
 
-    void setMappings();
-    void setViewOnlyMode(bool mode = true);
-    void createDataset();
-    void retrieveDataset(const QModelIndex index);
-    void updateDataset(const QModelIndex index);
-    void deleteDataset(const QModelIndex index);
+  void setMappings();
+  void setViewOnlyMode(bool mode = true);
+  void createDataset();
+  void retrieveDataset(const QModelIndex index);
+  void updateDataset(const QModelIndex index);
+  void deleteDataset(const QModelIndex index);
 };
 
 #endif // SOFTWAREINPUTAREA_H

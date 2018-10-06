@@ -1,16 +1,13 @@
--------------------------------------------------------------------
-Tue Mar 20 22:57:28 2018 +0100 - develop@juergen-muelbert.de
+# ChangeLog
 
-+ Make all inputareas working. 
-+ Create all translation ts-files.
+## 0.4.9
 
--------------------------------------------------------------------
-Sat Mar 17 19:17:55 2018 +0100 - develop@juergen-muelbert.de
+### Sat Mar 17 2018
 
-+ Version 0.4.9. 
-+ Add Dialogs for Printer and Chipcards
+- Add Dialogs for Printer and Chipcards
+- Make all inputareas working. 
+- Create all translation ts-files.
 
--------------------------------------------------------------------
 Thu Mar 15 21:53:04 2018 +0100 - develop@juergen-muelbert.de
 
 + Change Input Dialog Handling

@@ -40,7 +40,6 @@
 **
 **************************************************************************/
 
-
 #ifndef DEPARTMENTINPUTAREA_H
 #define DEPARTMENTINPUTAREA_H
 
@@ -54,55 +53,50 @@
 
 #include <QMessageBox>
 
-namespace Ui
-{
+namespace Ui {
 class DepartmentInputArea;
 }
 
 /**
  * @brief The DepartmentInputArea class
  */
-class DepartmentInputArea : public QGroupBox
-{
-    Q_OBJECT
+class DepartmentInputArea : public QGroupBox {
+  Q_OBJECT
 
 public:
+  /**
+   * @brief DepartmentInputArea
+   * @param parent
+   * @param index
+   */
+  explicit DepartmentInputArea(QWidget *parent = 0,
+                               const QModelIndex index = QModelIndex());
 
-    /**
-     * @brief DepartmentInputArea
-     * @param parent
-     * @param index
-     */
-    explicit DepartmentInputArea(QWidget* parent = 0, const QModelIndex index = QModelIndex());
-
-    /**
-     * @brief ~DepartmentInputArea();
-     */
-    ~DepartmentInputArea();
+  /**
+   * @brief ~DepartmentInputArea();
+   */
+  ~DepartmentInputArea();
 
 private slots:
-    void on_pushButton_Add_clicked();
+  void on_pushButton_Add_clicked();
 
-    void on_pushButton_EditFinish_clicked();
+  void on_pushButton_EditFinish_clicked();
 
 private:
-    Ui::DepartmentInputArea* ui;
+  Ui::DepartmentInputArea *ui;
 
-    enum Mode {
-        Edit,
-        Finish
-    };
-    Mode m_actualMode;
-    QSqlRelationalTableModel* m_model;
-    QItemSelectionModel* m_selectionModel;
-    QDataWidgetMapper* m_mapper;
+  enum Mode { Edit, Finish };
+  Mode m_actualMode;
+  QSqlRelationalTableModel *m_model;
+  QItemSelectionModel *m_selectionModel;
+  QDataWidgetMapper *m_mapper;
 
-    void setMappings();
-    void setViewOnlyMode(bool mode = true);
-    void createDataset();
-    void retrieveDataset(const QModelIndex index);
-    void updateDataset(const QModelIndex index);
-    void deleteDataset(const QModelIndex index);
+  void setMappings();
+  void setViewOnlyMode(bool mode = true);
+  void createDataset();
+  void retrieveDataset(const QModelIndex index);
+  void updateDataset(const QModelIndex index);
+  void deleteDataset(const QModelIndex index);
 };
 
 #endif // DEPARTMENTINPUTAREA_H

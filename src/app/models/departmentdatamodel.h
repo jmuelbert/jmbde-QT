@@ -56,102 +56,81 @@
 #include "definitions.h"
 #include "models/commondatamodel.h"
 
-
-class DepartmentDataModel : public CommonDataModel
-{
+class DepartmentDataModel : public CommonDataModel {
 public:
+  /**
+   * @brief DepartmentDataModel::DepartmentDataModel
+   */
+  explicit DepartmentDataModel(QObject *parent = nullptr);
 
-    /**
-     * @brief DepartmentDataModel::DepartmentDataModel
-     */
-    explicit DepartmentDataModel(QObject* parent = nullptr);
+  /**
+   * @brief DepartmentDataModel::~DepartmentDataModel
+   */
+  ~DepartmentDataModel();
 
-    /**
-     * @brief DepartmentDataModel::~DepartmentDataModel
-     */
-    ~DepartmentDataModel();
+  // implement the virtuals
 
-// implement the virtuals
+  /**
+   * @brief setIndexes
+   */
+  virtual void setIndexes();
 
-    /**
-     * @brief setIndexes
-     */
-    virtual void setIndexes();
+  /**
+   * @brief initializeRelationalModel
+   * @return
+   */
+  virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-    /**
-     * @brief initializeRelationalModel
-     * @return
-     */
-    virtual QSqlRelationalTableModel* initializeRelationalModel();
+  /**
+   * @brief initializeInputDataModel
+   * @return
+   */
+  virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-    /**
-     * @brief initializeInputDataModel
-     * @return
-     */
-    virtual QSqlRelationalTableModel* initializeInputDataModel();
+  /**
+   * @brief initializeViewModel
+   * @return
+   */
+  virtual QSqlTableModel *initializeViewModel();
 
-    /**
-     * @brief initializeViewModel
-     * @return
-     */
-    virtual QSqlTableModel* initializeViewModel();
+  /**
+   * @brief generateTableString
+   * @param model
+   * @param header
+   * @return
+   */
+  virtual QString generateTableString(QAbstractTableModel *model,
+                                      QString header);
 
-    /**
-     * @brief generateTableString
-     * @param model
-     * @param header
-     * @return
-     */
-    virtual QString generateTableString(QAbstractTableModel* model, QString header);
+  /**
+   * @brief generateFormularString
+   * @param model
+   * @param header
+   * @return
+   */
+  virtual QString generateFormularString(QAbstractTableModel *model,
+                                         QString header);
 
-    /**
-     * @brief generateFormularString
-     * @param model
-     * @param header
-     * @return
-     */
-    virtual QString generateFormularString(QAbstractTableModel* model, QString header);
-
-// Getter
-    int DepartmentIdIndex() const
-    {
-        return m_DepartmentIdIndex;
-    }
-    int NameIndex() const
-    {
-        return m_NameIndex;
-    }
-    int PriorityIndex() const
-    {
-        return m_PriorityIndex;
-    }
-    int PrinterIdIndex() const
-    {
-        return m_PrinterIdIndex;
-    }
-    int FaxIdIndex() const
-    {
-        return m_FaxIdIndex;
-    }
-    int LastUpdateIndex() const
-    {
-        return m_LastUpdateIndex;
-    }
+  // Getter
+  int DepartmentIdIndex() const { return m_DepartmentIdIndex; }
+  int NameIndex() const { return m_NameIndex; }
+  int PriorityIndex() const { return m_PriorityIndex; }
+  int PrinterIdIndex() const { return m_PrinterIdIndex; }
+  int FaxIdIndex() const { return m_FaxIdIndex; }
+  int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-
-    /**
-     * @brief tableName - the name of the database table
-     * @
-     */
-    const QString m_tableName = QLatin1String("department");
-    int m_DepartmentIdIndex;
-    int m_NameIndex;
-    int m_PriorityIndex;
-    int m_PrinterIdIndex;
-    int m_FaxIdIndex;
-    int m_LastUpdateIndex;
-
+  /**
+   * @brief tableName - the name of the database table
+   * @
+   */
+  const QString m_tableName = QLatin1String("department");
+  int m_DepartmentIdIndex;
+  int m_NameIndex;
+  int m_PriorityIndex;
+  int m_PrinterIdIndex;
+  int m_FaxIdIndex;
+  int m_LastUpdateIndex;
 };
 
 #endif // DEPARTMENTDATAMODEL_H

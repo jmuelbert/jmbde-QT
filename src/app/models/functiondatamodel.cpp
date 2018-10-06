@@ -42,105 +42,100 @@
 
 #include "functiondatamodel.h"
 
-FunctionDataModel::FunctionDataModel(QObject* parent)
-    : CommonDataModel(parent)
-{
+FunctionDataModel::FunctionDataModel(QObject *parent)
+    : CommonDataModel(parent) {
 
-    // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+  // Set the Model
+  m_model = new QSqlRelationalTableModel(this);
+  m_model->setTable(this->m_tableName);
+  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-    setIndexes();
+  setIndexes();
 }
 
 FunctionDataModel::~FunctionDataModel() {}
 
-void FunctionDataModel::setIndexes()
-{
-    m_FunctionIdIndex = m_model->fieldIndex(QLatin1String("function_id"));
-    m_NameIndex = m_model->fieldIndex(QLatin1String("name"));
-    m_PriorityIndex = m_model->fieldIndex(QLatin1String("priority"));
-    m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
+void FunctionDataModel::setIndexes() {
+  m_FunctionIdIndex = m_model->fieldIndex(QLatin1String("function_id"));
+  m_NameIndex = m_model->fieldIndex(QLatin1String("name"));
+  m_PriorityIndex = m_model->fieldIndex(QLatin1String("priority"));
+  m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-QSqlRelationalTableModel* FunctionDataModel::initializeRelationalModel()
-{
+QSqlRelationalTableModel *FunctionDataModel::initializeRelationalModel() {
 
-    m_model = new QSqlRelationalTableModel(this);
+  m_model = new QSqlRelationalTableModel(this);
 
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+  m_model->setTable(this->m_tableName);
+  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-    m_model->select();
+  m_model->select();
 
-    return m_model;
+  return m_model;
 }
 
-QSqlRelationalTableModel* FunctionDataModel::initializeInputDataModel()
-{
+QSqlRelationalTableModel *FunctionDataModel::initializeInputDataModel() {
 
-    m_model = new QSqlRelationalTableModel(this);
+  m_model = new QSqlRelationalTableModel(this);
 
-    m_model->setTable(this->m_tableName);
+  m_model->setTable(this->m_tableName);
 
-    return m_model;
+  return m_model;
 }
 
-QSqlTableModel* FunctionDataModel::initializeViewModel()
-{
+QSqlTableModel *FunctionDataModel::initializeViewModel() {
 
-    m_model->select();
+  m_model->select();
 
-    return m_model;
+  return m_model;
 }
 
-QString FunctionDataModel::generateTableString(QAbstractTableModel* model, QString header)
-{
-    QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
+QString FunctionDataModel::generateTableString(QAbstractTableModel *model,
+                                               QString header) {
+  QString outString;
+  int columnCount = model->columnCount();
+  int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+  qDebug() << "Header : " << header << " Columns : " << columnCount
+           << " Rows : " << rowCount;
 
-    QList<int> set;
+  QList<int> set;
 
-    // Document Title
-    outString = QLatin1String("<h1>");
-    outString += header;
-    outString += QLatin1String("</h1>");
-    outString += QLatin1String("<hr />");
-    outString +=
-        QLatin1String("<table width=\"100%\" cellspacing=\"0\" class=\"tbl\">");
-    outString += QLatin1String("<thead> <tr>");
+  // Document Title
+  outString = QLatin1String("<h1>");
+  outString += header;
+  outString += QLatin1String("</h1>");
+  outString += QLatin1String("<hr />");
+  outString +=
+      QLatin1String("<table width=\"100%\" cellspacing=\"0\" class=\"tbl\">");
+  outString += QLatin1String("<thead> <tr>");
 
-    foreach (const int i, set) {
-        qDebug() << "int i = " << i;
-        outString += QLatin1String("<th>");
-        outString.append(model->headerData(i, Qt::Horizontal).toString());
-        outString += QLatin1String("</th>");
-    }
+  foreach (const int i, set) {
+    qDebug() << "int i = " << i;
+    outString += QLatin1String("<th>");
+    outString.append(model->headerData(i, Qt::Horizontal).toString());
+    outString += QLatin1String("</th>");
+  }
 
-    return outString;
+  return outString;
 }
 
-QString FunctionDataModel::generateFormularString(QAbstractTableModel* model, QString header)
-{
-    QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
+QString FunctionDataModel::generateFormularString(QAbstractTableModel *model,
+                                                  QString header) {
+  QString outString;
+  int columnCount = model->columnCount();
+  int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+  qDebug() << "Header : " << header << " Columns : " << columnCount
+           << " Rows : " << rowCount;
 
-    QList<int> set;
+  QList<int> set;
 
-    // Document Title
-    outString = QLatin1String("<h1>");
-    outString += header;
-    outString += QLatin1String("</h1>");
-    outString += QLatin1String("<hr />");
+  // Document Title
+  outString = QLatin1String("<h1>");
+  outString += header;
+  outString += QLatin1String("</h1>");
+  outString += QLatin1String("<hr />");
 
-    return outString;
+  return outString;
 }

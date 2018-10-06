@@ -42,67 +42,62 @@
 
 #include "helpbrowser.h"
 
-HelpBrowser::HelpBrowser(QWidget* parent) : QTextBrowser(parent)
-{
+HelpBrowser::HelpBrowser(QWidget *parent) : QTextBrowser(parent) {
 #ifdef Q_OS_MAC
-    const QString &_creatorTrPath = QCoreApplication::applicationDirPath();
-    QDir trPath(_creatorTrPath);
+  const QString &_creatorTrPath = QCoreApplication::applicationDirPath();
+  QDir trPath(_creatorTrPath);
 
-    trPath.cdUp();
-    const QString &creatorTrPath = trPath.path();
-    QString helpFileAndPath = QString(creatorTrPath);
+  trPath.cdUp();
+  const QString &creatorTrPath = trPath.path();
+  QString helpFileAndPath = QString(creatorTrPath);
 
-    helpFileAndPath.append(QDir::separator());
-    helpFileAndPath.append(QLatin1String("Resources"));
+  helpFileAndPath.append(QDir::separator());
+  helpFileAndPath.append(QLatin1String("Resources"));
 #else
-    const QString &creatorTrPath = QCoreApplication::applicationDirPath();
-    QString helpFileAndPath = QString(creatorTrPath);
+  const QString &creatorTrPath = QCoreApplication::applicationDirPath();
+  QString helpFileAndPath = QString(creatorTrPath);
 #endif
 
-    QString collectionFile = helpFileAndPath + QLatin1String("/help/help.qch");
+  QString collectionFile = helpFileAndPath + QLatin1String("/help/help.qch");
 
-    qDebug() << "HelpPath " << collectionFile;
+  qDebug() << "HelpPath " << collectionFile;
 
-    m_helpEngine = new QHelpEngine(collectionFile, this);
-    if (!m_helpEngine->setupData()) {
-        delete m_helpEngine;
-        m_helpEngine = 0;
-    }
+  m_helpEngine = new QHelpEngine(collectionFile, this);
+  if (!m_helpEngine->setupData()) {
+    delete m_helpEngine;
+    m_helpEngine = 0;
+  }
 }
 
-void HelpBrowser::showHelpForKeyWord(const QString &id)
-{
-    if (m_helpEngine) {
-        QMap<QString, QUrl> links = m_helpEngine->linksForIdentifier(id);
-        if (links.count()) {
-            setSource(links.constBegin().value());
-        }
+void HelpBrowser::showHelpForKeyWord(const QString &id) {
+  if (m_helpEngine) {
+    QMap<QString, QUrl> links = m_helpEngine->linksForIdentifier(id);
+    if (links.count()) {
+      setSource(links.constBegin().value());
     }
+  }
 }
 
-QVariant HelpBrowser::loadResource(int type, const QUrl &name)
-{
-    QByteArray ba;
+QVariant HelpBrowser::loadResource(int type, const QUrl &name) {
+  QByteArray ba;
 
-    if (type < 4 && m_helpEngine) {
-        QUrl url(name);
+  if (type < 4 && m_helpEngine) {
+    QUrl url(name);
 
-        if (name.isRelative()) {
-            url = source().resolved(url);
-        }
-
-        ba = m_helpEngine->fileData(url);
+    if (name.isRelative()) {
+      url = source().resolved(url);
     }
 
-    return ba;
+    ba = m_helpEngine->fileData(url);
+  }
+
+  return ba;
 }
 
-QWidget* HelpBrowser::getContentWidget()
-{
-    return (QWidget*)m_helpEngine->contentWidget();
+QWidget *HelpBrowser::getContentWidget() {
+  return (QWidget *)m_helpEngine->contentWidget();
 }
 
-QWidget* HelpBrowser::getLinkWidget()
-{
-    return (QWidget*)m_helpEngine->indexWidget();
+QWidget *HelpBrowser::getLinkWidget() {
+  return (QWidget *)m_helpEngine->indexWidget();
 }

@@ -53,90 +53,74 @@
 
 #include "commondatamodel.h"
 
-class EmployeeAccountDataModel : public CommonDataModel
-{
-    Q_OBJECT
+class EmployeeAccountDataModel : public CommonDataModel {
+  Q_OBJECT
 
 public:
-    explicit EmployeeAccountDataModel(QObject* parent = nullptr);
+  explicit EmployeeAccountDataModel(QObject *parent = nullptr);
 
-    ~EmployeeAccountDataModel();
+  ~EmployeeAccountDataModel();
 
+  // implement the virtuals
 
-// implement the virtuals
+  /**
+   * @brief setIndexes
+   */
+  virtual void setIndexes();
 
+  /**
+   * @brief initializeRelationalModel
+   * @return
+   */
+  virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-    /**
-     * @brief setIndexes
-     */
-    virtual void setIndexes();
+  /**
+   * @brief initializeInputDataModel
+   * @return
+   */
+  virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-    /**
-     * @brief initializeRelationalModel
-     * @return
-     */
-    virtual QSqlRelationalTableModel* initializeRelationalModel();
+  /**
+   * @brief initializeViewModel
+   * @return
+   */
+  virtual QSqlTableModel *initializeViewModel();
 
-    /**
-     * @brief initializeInputDataModel
-     * @return
-     */
-    virtual QSqlRelationalTableModel* initializeInputDataModel();
+  /**
+   * @brief generateTableString
+   * @param model
+   * @param header
+   * @return
+   */
+  virtual QString generateTableString(QAbstractTableModel *model,
+                                      QString header);
 
-    /**
-     * @brief initializeViewModel
-     * @return
-     */
-    virtual QSqlTableModel* initializeViewModel();
+  /**
+   * @brief generateFormularString
+   * @param model
+   * @param header
+   * @return
+   */
 
-    /**
-     * @brief generateTableString
-     * @param model
-     * @param header
-     * @return
-     */
-    virtual QString generateTableString(QAbstractTableModel* model, QString header);
+  virtual QString generateFormularString(QAbstractTableModel *model,
+                                         QString header);
 
-    /**
-     * @brief generateFormularString
-     * @param model
-     * @param header
-     * @return
-     */
-
-    virtual QString generateFormularString(QAbstractTableModel* model, QString header);
-
-
-// Getter
-    int EmployeeAccountIdIndex() const
-    {
-        return m_EmployeeAccountIdIndex;
-    }
-    int EmployeeIdIndex() const
-    {
-        return m_EmployeeIdIndex;
-    }
-    int AccountIdIndex() const
-    {
-        return m_AccountIdIndex;
-    }
-    int LastUpdateIndex() const
-    {
-        return m_LastUpdateIndex;
-    }
+  // Getter
+  int EmployeeAccountIdIndex() const { return m_EmployeeAccountIdIndex; }
+  int EmployeeIdIndex() const { return m_EmployeeIdIndex; }
+  int AccountIdIndex() const { return m_AccountIdIndex; }
+  int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-
-    /**
-     * @brief tableName - the name of the database table
-     * @
-     */
-    const QString m_tableName = QLatin1String("employee_account");
-    int m_EmployeeAccountIdIndex;
-    int m_EmployeeIdIndex;
-    int m_AccountIdIndex;
-    int m_LastUpdateIndex;
-
+  /**
+   * @brief tableName - the name of the database table
+   * @
+   */
+  const QString m_tableName = QLatin1String("employee_account");
+  int m_EmployeeAccountIdIndex;
+  int m_EmployeeIdIndex;
+  int m_AccountIdIndex;
+  int m_LastUpdateIndex;
 };
 
 #endif // EMPLOYEEACCOUNTDATAMODEL_H

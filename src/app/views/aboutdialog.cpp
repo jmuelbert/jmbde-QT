@@ -40,7 +40,6 @@
 **
 **************************************************************************/
 
-
 #include "aboutdialog.h"
 #include "ui_aboutdialog.h"
 
@@ -48,41 +47,49 @@
 #include <QApplication>
 #include <QDesktopServices>
 
-AboutDialog::AboutDialog(QWidget* parent) :
-    QDialog(parent),
-    ui(new Ui::AboutDialog)
-{
-    ui->setupUi(this);
+AboutDialog::AboutDialog(QWidget *parent)
+    : QDialog(parent), ui(new Ui::AboutDialog) {
+  ui->setupUi(this);
 
-    const QString aboutInfo = QCoreApplication::translate(
-                                  "AboutDialog",
-                                  "<p align=\"center\"><font size=\"+2\"><b>%1</b></font><br><i>Version %2</i></p>\n"
-                                  "<p align=\"center\">Copyright 2013-2018 Jürgen Mülbert\n"
-                                  "<p align=\"center\">This program is free software: you can redistribute it and/or modify</p>\n"
-                                  "<p align=\"center\">it under the terms of the European Union Public Licence (EUPL) version 1.2. or newer</p>\n"
-                                  "<p align=\"center\">this program is distributed in the hope that it will be useful,</p>\n"
-                                  "<p align=\"center\">but WITHOUT ANY WARRANTY; without even the implied warranty of</p>\n"
-                                  "<p align=\"center\">MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</p>\n"
-                                  "<p align=\"center\">European Union Public Licence for more details.</p>\n\n"
-                                  "<p align=\"center\">You should have received a copy of the European Union Public Licence</p>\n"
-                                  "<p align=\"center\">along with this program. If not, see</p>\n"
-                                  "<p align=\"center\"><a href=\"https://joinup.ec.europa.eu/page/eupl-text-11-12/\">https://joinup.ec.europa.eu/page/eupl-text-11-12</a></p>\n")
+  const QString aboutInfo =
+      QCoreApplication::translate(
+          "AboutDialog",
+          "<p align=\"center\"><font "
+          "size=\"+2\"><b>%1</b></font><br><i>Version %2</i></p>\n"
+          "<p align=\"center\">Copyright 2013-2018 Jürgen Mülbert\n"
+          "<p align=\"center\">This program is free software: you can "
+          "redistribute it and/or modify</p>\n"
+          "<p align=\"center\">it under the terms of the European Union "
+          "Public "
+          "Licence (EUPL) version 1.2. or newer</p>\n"
+          "<p align=\"center\">this program is distributed in the hope that "
+          "it "
+          "will be useful,</p>\n"
+          "<p align=\"center\">but WITHOUT ANY WARRANTY; without even the "
+          "implied warranty of</p>\n"
+          "<p align=\"center\">MERCHANTABILITY or FITNESS FOR A PARTICULAR "
+          "PURPOSE.  See the</p>\n"
+          "<p align=\"center\">European Union Public Licence for more "
+          "details.</p>\n\n"
+          "<p align=\"center\">You should have received a copy of the "
+          "European "
+          "Union Public Licence</p>\n"
+          "<p align=\"center\">along with this program. If not, see</p>\n"
+          "<p align=\"center\"><a "
+          "href=\"https://joinup.ec.europa.eu/page/eupl-text-11-12/\">https:/"
+          "/"
+          "joinup.ec.europa.eu/page/eupl-text-11-12</a></p>\n")
 
-                              .arg(qApp->applicationDisplayName())
-                              .arg(qApp->applicationVersion());
+          .arg(qApp->applicationDisplayName())
+          .arg(qApp->applicationVersion());
 
-    ui->textBrowser->setHtml(aboutInfo);
+  ui->textBrowser->setHtml(aboutInfo);
 
-    connect(ui->donateButton, SIGNAL(clicked()), SLOT(donate()));
-
+  connect(ui->donateButton, SIGNAL(clicked()), SLOT(donate()));
 }
 
-AboutDialog::~AboutDialog()
-{
-    delete ui;
-}
+AboutDialog::~AboutDialog() { delete ui; }
 
-void AboutDialog::donate()
-{
-    QDesktopServices::openUrl(QUrl(QLatin1String("test")));
+void AboutDialog::donate() {
+  QDesktopServices::openUrl(QUrl(QLatin1String("test")));
 }

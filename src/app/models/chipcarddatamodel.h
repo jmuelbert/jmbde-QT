@@ -54,95 +54,76 @@
 #include "definitions.h"
 #include "models/commondatamodel.h"
 
-
-class ChipCardDataModel : public CommonDataModel
-{
-    Q_OBJECT
+class ChipCardDataModel : public CommonDataModel {
+  Q_OBJECT
 public:
-    explicit ChipCardDataModel(QObject* parent = nullptr);
+  explicit ChipCardDataModel(QObject *parent = nullptr);
 
-    ~ChipCardDataModel();
+  ~ChipCardDataModel();
 
-// implement the virtuals
+  // implement the virtuals
 
-    /**
-     * @brief setIndexes
-     */
-    virtual void setIndexes();
+  /**
+   * @brief setIndexes
+   */
+  virtual void setIndexes();
 
-    /**
-     * @brief initializeRelationalModel
-     * @return
-     */
-    virtual QSqlRelationalTableModel* initializeRelationalModel();
+  /**
+   * @brief initializeRelationalModel
+   * @return
+   */
+  virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-    /**
-     * @brief initializeInputDataModel
-     * @return
-     */
-    virtual QSqlRelationalTableModel* initializeInputDataModel();
+  /**
+   * @brief initializeInputDataModel
+   * @return
+   */
+  virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-    /**
-     * @brief initializeViewModel
-     * @return
-     */
-    virtual QSqlTableModel* initializeViewModel();
+  /**
+   * @brief initializeViewModel
+   * @return
+   */
+  virtual QSqlTableModel *initializeViewModel();
 
-    /**
-     * @brief generateTableString
-     * @param model
-     * @param header
-     * @return
-     */
-    virtual QString generateTableString(QAbstractTableModel* model, QString header);
+  /**
+   * @brief generateTableString
+   * @param model
+   * @param header
+   * @return
+   */
+  virtual QString generateTableString(QAbstractTableModel *model,
+                                      QString header);
 
-    /**
-     * @brief generateFormularString
-     * @param model
-     * @param header
-     * @return
-     */
-    virtual QString generateFormularString(QAbstractTableModel* model, QString header);
+  /**
+   * @brief generateFormularString
+   * @param model
+   * @param header
+   * @return
+   */
+  virtual QString generateFormularString(QAbstractTableModel *model,
+                                         QString header);
 
-// Getter
-    int ChipCardIdIndex() const
-    {
-        return m_ChipCardIdIndex;
-    }
-    int NumberIndex() const
-    {
-        return m_NumberIndex;
-    }
-    int ChipCardDoorIdIndex() const
-    {
-        return m_ChipCardDoorIdIndex;
-    }
-    int ChipCardProfileIdIndex() const
-    {
-        return m_ChipCardProfileIdIndex;
-    }
-    int EmployeeIdIndex() const
-    {
-        return m_EmployeeIdIndex;
-    }
-    int LastUpdateIndex() const
-    {
-        return m_LastUpdateIndex;
-    }
+  // Getter
+  int ChipCardIdIndex() const { return m_ChipCardIdIndex; }
+  int NumberIndex() const { return m_NumberIndex; }
+  int ChipCardDoorIdIndex() const { return m_ChipCardDoorIdIndex; }
+  int ChipCardProfileIdIndex() const { return m_ChipCardProfileIdIndex; }
+  int EmployeeIdIndex() const { return m_EmployeeIdIndex; }
+  int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-
-    /**
-     * @brief tableName - the name of the database table
-     * @
-     */
-    const QString m_tableName = QLatin1String("chip_card");
-    int m_ChipCardIdIndex;
-    int m_NumberIndex;
-    int m_ChipCardDoorIdIndex;
-    int m_ChipCardProfileIdIndex;
-    int m_EmployeeIdIndex;
-    int m_LastUpdateIndex;
+  /**
+   * @brief tableName - the name of the database table
+   * @
+   */
+  const QString m_tableName = QLatin1String("chip_card");
+  int m_ChipCardIdIndex;
+  int m_NumberIndex;
+  int m_ChipCardDoorIdIndex;
+  int m_ChipCardProfileIdIndex;
+  int m_EmployeeIdIndex;
+  int m_LastUpdateIndex;
 };
 
 #endif // CHIPCARDDATAMODEL_H

@@ -42,107 +42,104 @@
 
 #include "computersoftwaredatamodel.h"
 
+ComputerSoftwareDataModel::ComputerSoftwareDataModel(QObject *parent)
+    : CommonDataModel(parent) {
+  // Set the Model
+  m_model = new QSqlRelationalTableModel(this);
+  m_model->setTable(this->m_tableName);
+  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-
-ComputerSoftwareDataModel::ComputerSoftwareDataModel(QObject* parent) : CommonDataModel(parent)
-{
-    // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-
-    setIndexes();
+  setIndexes();
 }
 
-ComputerSoftwareDataModel::~ComputerSoftwareDataModel()
-    = default;
+ComputerSoftwareDataModel::~ComputerSoftwareDataModel() = default;
 
-
-void ComputerSoftwareDataModel::setIndexes()
-{
-    m_ComputerSoftwareIdIndex = m_model->fieldIndex(QLatin1String("computer_software_id"));
-    m_ComputerIdIndex = m_model->fieldIndex(QLatin1String("computer_id"));
-    m_SoftwareIdIndex = m_model->fieldIndex(QLatin1String("software_id"));
-    m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
+void ComputerSoftwareDataModel::setIndexes() {
+  m_ComputerSoftwareIdIndex =
+      m_model->fieldIndex(QLatin1String("computer_software_id"));
+  m_ComputerIdIndex = m_model->fieldIndex(QLatin1String("computer_id"));
+  m_SoftwareIdIndex = m_model->fieldIndex(QLatin1String("software_id"));
+  m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-QSqlRelationalTableModel* ComputerSoftwareDataModel::initializeRelationalModel()
-{
+QSqlRelationalTableModel *
+ComputerSoftwareDataModel::initializeRelationalModel() {
 
-    m_model = new QSqlRelationalTableModel(this);
+  m_model = new QSqlRelationalTableModel(this);
 
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+  m_model->setTable(this->m_tableName);
+  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-    m_model->select();
+  m_model->select();
 
-    return m_model;
+  return m_model;
 }
 
-QSqlRelationalTableModel* ComputerSoftwareDataModel::initializeInputDataModel()
-{
+QSqlRelationalTableModel *
+ComputerSoftwareDataModel::initializeInputDataModel() {
 
-    m_model = new QSqlRelationalTableModel(this);
+  m_model = new QSqlRelationalTableModel(this);
 
-    m_model->setTable(this->m_tableName);
+  m_model->setTable(this->m_tableName);
 
-    return m_model;
+  return m_model;
 }
 
-QSqlTableModel* ComputerSoftwareDataModel::initializeViewModel()
-{
+QSqlTableModel *ComputerSoftwareDataModel::initializeViewModel() {
 
-    m_model->select();
+  m_model->select();
 
-    return m_model;
+  return m_model;
 }
 
-QString ComputerSoftwareDataModel::generateTableString(QAbstractTableModel* model, QString header)
-{
-    QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
+QString
+ComputerSoftwareDataModel::generateTableString(QAbstractTableModel *model,
+                                               QString header) {
+  QString outString;
+  int columnCount = model->columnCount();
+  int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+  qDebug() << "Header : " << header << " Columns : " << columnCount
+           << " Rows : " << rowCount;
 
-    QList<int> set;
+  QList<int> set;
 
-    // Document Title
-    outString = QLatin1String("<h1>");
-    outString += header;
-    outString += QLatin1String("</h1>");
-    outString += QLatin1String("<hr />");
-    outString +=
-        QLatin1String(R"(<table width="100%" cellspacing="0" class="tbl">)");
-    outString += QLatin1String("<thead> <tr>");
+  // Document Title
+  outString = QLatin1String("<h1>");
+  outString += header;
+  outString += QLatin1String("</h1>");
+  outString += QLatin1String("<hr />");
+  outString +=
+      QLatin1String(R"(<table width="100%" cellspacing="0" class="tbl">)");
+  outString += QLatin1String("<thead> <tr>");
 
-    foreach (const int i, set) {
-        qDebug() << "int i = " << i;
-        outString += QLatin1String("<th>");
-        outString.append(model->headerData(i, Qt::Horizontal).toString());
-        outString += QLatin1String("</th>");
-    }
+  foreach (const int i, set) {
+    qDebug() << "int i = " << i;
+    outString += QLatin1String("<th>");
+    outString.append(model->headerData(i, Qt::Horizontal).toString());
+    outString += QLatin1String("</th>");
+  }
 
-    return outString;
+  return outString;
 }
 
-QString ComputerSoftwareDataModel::generateFormularString(QAbstractTableModel* model, QString header)
-{
-    QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
+QString
+ComputerSoftwareDataModel::generateFormularString(QAbstractTableModel *model,
+                                                  QString header) {
+  QString outString;
+  int columnCount = model->columnCount();
+  int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+  qDebug() << "Header : " << header << " Columns : " << columnCount
+           << " Rows : " << rowCount;
 
-    QList<int> set;
+  QList<int> set;
 
-    // Document Title
-    outString = QLatin1String("<h1>");
-    outString += header;
-    outString += QLatin1String("</h1>");
-    outString += QLatin1String("<hr />");
+  // Document Title
+  outString = QLatin1String("<h1>");
+  outString += header;
+  outString += QLatin1String("</h1>");
+  outString += QLatin1String("<hr />");
 
-    return outString;
+  return outString;
 }

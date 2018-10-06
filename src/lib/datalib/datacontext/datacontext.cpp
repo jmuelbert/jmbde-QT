@@ -44,402 +44,393 @@
 
 #include <QUuid>
 
-DataContext::DataContext(QObject* parent) : QObject(parent)
-{
-    this->name = QUuid::createUuid().toString();
+DataContext::DataContext(QObject *parent) : QObject(parent) {
+  this->name = QUuid::createUuid().toString();
 
-    QSettings settings;
-    settings.beginGroup(QLatin1String(Settings::Groups::DATABASE));
-    const int dbType =
-        settings.value(QLatin1Literal(Settings::Database::TYPE), SQLITE).toInt();
+  QSettings settings;
+  settings.beginGroup(QLatin1String(Settings::Groups::DATABASE));
+  const int dbType =
+      settings.value(QLatin1Literal(Settings::Database::TYPE), SQLITE).toInt();
 
-    const QString dbHostName =
-        settings.value(QLatin1Literal(Settings::Database::HOSTNAME), QLatin1String("localhost")).toString();
+  const QString dbHostName =
+      settings
+          .value(QLatin1Literal(Settings::Database::HOSTNAME),
+                 QLatin1String("localhost"))
+          .toString();
 
-    const QString dbUserName =
-        settings.value(QLatin1Literal(Settings::Database::USERNAME), QLatin1String("user")).toString();
+  const QString dbUserName =
+      settings
+          .value(QLatin1Literal(Settings::Database::USERNAME),
+                 QLatin1String("user"))
+          .toString();
 
-    const QString dbPassWord =
-        settings.value(QLatin1Literal(Settings::Database::PASSWORD), QLatin1String("123456")).toString();
+  const QString dbPassWord =
+      settings
+          .value(QLatin1Literal(Settings::Database::PASSWORD),
+                 QLatin1String("123456"))
+          .toString();
 
-    settings.endGroup();
+  settings.endGroup();
 
-    if (dbType == SQLITE) {
-        const auto targetFileAndPath = this->getSqliteName();
-        QFile f(targetFileAndPath);
-        if (!f.exists()) {
-            this->openDB(this->name);
-            qDebug("DB doesn't exists, trying to create it %s", qUtf8Printable(targetFileAndPath));
-            this->prepareDB();
-        }
-        else {
-            this->openDB(this->name);
-        }
+  if (dbType == SQLITE) {
+    const auto targetFileAndPath = this->getSqliteName();
+    QFile f(targetFileAndPath);
+    if (!f.exists()) {
+      this->openDB(this->name);
+      qDebug("DB doesn't exists, trying to create it %s",
+             qUtf8Printable(targetFileAndPath));
+      this->prepareDB();
+    } else {
+      this->openDB(this->name);
     }
-    else if (dbType == MYSQL) {
-        m_db = QSqlDatabase::addDatabase(QStringLiteral("QMYSQL"));
-        m_db.setHostName(dbHostName);
-        m_db.setDatabaseName(this->name);
-        m_db.setUserName(dbUserName);
-        m_db.setPassword(dbPassWord);
-    }
-    else if (dbType == ODBC) {
-        m_db = QSqlDatabase::addDatabase(QStringLiteral("QODBC"));
-        m_db.setHostName(dbHostName);
-        m_db.setDatabaseName(this->name);
-        m_db.setUserName(dbUserName);
-        m_db.setPassword(dbPassWord);
-    }
-    else if (dbType == POSTGRESQL) {
-        m_db = QSqlDatabase::addDatabase(QStringLiteral("QPSQL"));
-        m_db.setHostName(dbHostName);
-        m_db.setDatabaseName(this->name);
-        m_db.setUserName(dbUserName);
-        m_db.setPassword(dbPassWord);
-    }
-    else {
-        qDebug("Unknown DB-Type!");
-        exit(0);
-    }
+  } else if (dbType == MYSQL) {
+    m_db = QSqlDatabase::addDatabase(QStringLiteral("QMYSQL"));
+    m_db.setHostName(dbHostName);
+    m_db.setDatabaseName(this->name);
+    m_db.setUserName(dbUserName);
+    m_db.setPassword(dbPassWord);
+  } else if (dbType == ODBC) {
+    m_db = QSqlDatabase::addDatabase(QStringLiteral("QODBC"));
+    m_db.setHostName(dbHostName);
+    m_db.setDatabaseName(this->name);
+    m_db.setUserName(dbUserName);
+    m_db.setPassword(dbPassWord);
+  } else if (dbType == POSTGRESQL) {
+    m_db = QSqlDatabase::addDatabase(QStringLiteral("QPSQL"));
+    m_db.setHostName(dbHostName);
+    m_db.setDatabaseName(this->name);
+    m_db.setUserName(dbUserName);
+    m_db.setPassword(dbPassWord);
+  } else {
+    qDebug("Unknown DB-Type!");
+    exit(0);
+  }
 }
 
-DataContext::DataContext(const QString &name, QObject* parent) : QObject(parent)
-{
-    this->name = name.isEmpty() ? QUuid::createUuid().toString() : name;
-    qDebug("Ctr:Request Database : %s ", qUtf8Printable(this->name));
+DataContext::DataContext(const QString &name, QObject *parent)
+    : QObject(parent) {
+  this->name = name.isEmpty() ? QUuid::createUuid().toString() : name;
+  qDebug("Ctr:Request Database : %s ", qUtf8Printable(this->name));
 
+  QSettings settings;
+  settings.beginGroup(QLatin1String(Settings::Groups::DATABASE));
+  const int dbType =
+      settings.value(QLatin1Literal(Settings::Database::TYPE), SQLITE).toInt();
 
-    QSettings settings;
-    settings.beginGroup(QLatin1String(Settings::Groups::DATABASE));
-    const int dbType =
-        settings.value(QLatin1Literal(Settings::Database::TYPE), SQLITE).toInt();
+  const QString dbHostName =
+      settings
+          .value(QLatin1Literal(Settings::Database::HOSTNAME),
+                 QLatin1String("localhost"))
+          .toString();
 
-    const QString dbHostName =
-        settings.value(QLatin1Literal(Settings::Database::HOSTNAME), QLatin1String("localhost")).toString();
+  const QString dbUserName =
+      settings
+          .value(QLatin1Literal(Settings::Database::USERNAME),
+                 QLatin1String("localhost"))
+          .toString();
 
-    const QString dbUserName =
-        settings.value(QLatin1Literal(Settings::Database::USERNAME), QLatin1String("localhost")).toString();
+  const QString dbPassWord =
+      settings
+          .value(QLatin1Literal(Settings::Database::PASSWORD),
+                 QLatin1String("localhost"))
+          .toString();
 
-    const QString dbPassWord =
-        settings.value(QLatin1Literal(Settings::Database::PASSWORD), QLatin1String("localhost")).toString();
+  settings.endGroup();
 
-    settings.endGroup();
+  if (dbType == SQLITE) {
 
-
-
-    if (dbType == SQLITE) {
-
-        const auto targetFileAndPath = this->getSqliteName();
-        QFile f(targetFileAndPath);
-        if (!f.exists()) {
-            qInfo("Create Sqlite Database: %s", qUtf8Printable(name));
-            this->openDB(name);
-            this->prepareDB();
-        }
-        else {
-            qInfo("Open Sqlite Database: %s", qUtf8Printable(name));
-            this->openDB(name);
-        }
+    const auto targetFileAndPath = this->getSqliteName();
+    QFile f(targetFileAndPath);
+    if (!f.exists()) {
+      qInfo("Create Sqlite Database: %s", qUtf8Printable(name));
+      this->openDB(name);
+      this->prepareDB();
+    } else {
+      qInfo("Open Sqlite Database: %s", qUtf8Printable(name));
+      this->openDB(name);
     }
-    else if (dbType == MYSQL) {
-        qInfo("Connect to MySQL Database: %s", qUtf8Printable(this->name));
-        m_db = QSqlDatabase::addDatabase(QStringLiteral("QMYSQL"));
-        m_db.setHostName(dbHostName);
-        m_db.setDatabaseName(this->name);
-        m_db.setUserName(dbUserName);
-        m_db.setPassword(dbPassWord);
-    }
-    else if (dbType == ODBC) {
-        qInfo("Connect to MySQL Database: %s", qUtf8Printable(this->name));
-        m_db = QSqlDatabase::addDatabase(QStringLiteral("QODBC"));
-        m_db.setHostName(dbHostName);
-        m_db.setDatabaseName(this->name);
-        m_db.setUserName(dbUserName);
-        m_db.setPassword(dbPassWord);
-    }
-    else if (dbType == POSTGRESQL) {
-        qInfo("Connect to PostGreSQL Database: %s", qUtf8Printable(this->name));
-        m_db = QSqlDatabase::addDatabase(QStringLiteral("QPSQL"));
-        m_db.setHostName(dbHostName);
-        m_db.setDatabaseName(this->name);
-        m_db.setUserName(dbUserName);
-        m_db.setPassword(dbPassWord);
-    }
-    else {
-        qFatal("Unknown DB-Type!");
-        exit(0);
-    }
+  } else if (dbType == MYSQL) {
+    qInfo("Connect to MySQL Database: %s", qUtf8Printable(this->name));
+    m_db = QSqlDatabase::addDatabase(QStringLiteral("QMYSQL"));
+    m_db.setHostName(dbHostName);
+    m_db.setDatabaseName(this->name);
+    m_db.setUserName(dbUserName);
+    m_db.setPassword(dbPassWord);
+  } else if (dbType == ODBC) {
+    qInfo("Connect to MySQL Database: %s", qUtf8Printable(this->name));
+    m_db = QSqlDatabase::addDatabase(QStringLiteral("QODBC"));
+    m_db.setHostName(dbHostName);
+    m_db.setDatabaseName(this->name);
+    m_db.setUserName(dbUserName);
+    m_db.setPassword(dbPassWord);
+  } else if (dbType == POSTGRESQL) {
+    qInfo("Connect to PostGreSQL Database: %s", qUtf8Printable(this->name));
+    m_db = QSqlDatabase::addDatabase(QStringLiteral("QPSQL"));
+    m_db.setHostName(dbHostName);
+    m_db.setDatabaseName(this->name);
+    m_db.setUserName(dbUserName);
+    m_db.setPassword(dbPassWord);
+  } else {
+    qFatal("Unknown DB-Type!");
+    exit(0);
+  }
 }
 
-DataContext::~DataContext()
-{
-    this->m_db.close();
-    qDebug("m_db.close()");
+DataContext::~DataContext() {
+  this->m_db.close();
+  qDebug("m_db.close()");
 }
 
-void DataContext::closeConnection()
-{
-    qDebug("Closing Database");
+void DataContext::closeConnection() { qDebug("Closing Database"); }
+
+void DataContext::prepareDB() const {
+  QSqlQuery query(this->m_db);
+
+  QFile file(QStringLiteral(":/script.sql"));
+
+  if (!file.exists()) {
+    qFatal("Fatal error on build database. The file '%s' for database and "
+           "tables creation query cannot be not found!",
+           qUtf8Printable(file.fileName()));
+    return;
+  }
+
+  if (!file.open(QIODevice::ReadOnly)) {
+    qFatal("Fatal error on try to create database! The file with sql queries "
+           "for database creation cannot be opened!");
+    return;
+  }
+
+  bool hasText;
+  QString line;
+  QByteArray readLine;
+  QString cleanedLine;
+  QStringList strings;
+
+  while (!file.atEnd()) {
+    hasText = false;
+    line = QLatin1String("");
+    readLine = QByteArray();
+    cleanedLine = QLatin1String("");
+    strings.clear();
+    while (!hasText) {
+      readLine = file.readLine();
+      cleanedLine = QLatin1Literal(readLine.trimmed());
+      strings = cleanedLine.split(QStringLiteral("--"));
+      cleanedLine = strings.at(0);
+      if (!cleanedLine.startsWith(QStringLiteral("--")) &&
+          !cleanedLine.startsWith(QStringLiteral("DROP")) &&
+          !cleanedLine.isEmpty()) {
+        line += cleanedLine;
+      }
+      if (cleanedLine.endsWith(QStringLiteral(";")))
+        break;
+      if (cleanedLine.startsWith(QStringLiteral("COMMIT"))) {
+        hasText = true;
+      }
+    }
+    if (!line.isEmpty()) {
+      if (!query.exec(line)) {
+        qDebug() << "exec failed" << line << query.lastQuery()
+                 << query.lastError();
+      }
+
+    } else {
+      qDebug() << "exec wrong" << line << query.lastError();
+    }
+  }
+  file.close();
 }
 
-void DataContext::prepareDB() const
-{
-    QSqlQuery query(this->m_db);
+bool DataContext::checkDBVersion() {
+  QString version;
+  QString revision;
+  QString patch;
+  QDateTime lupdate;
+  bool retValue = false;
 
-    QFile file(QStringLiteral(":/script.sql"));
+  QSqlQuery query(QLatin1String(
+      "SELECT version, revision, patch, last_update FROM database_version"));
 
-    if (!file.exists()) {
-        qFatal("Fatal error on build database. The file '%s' for database and tables creation query cannot be not found!",  qUtf8Printable(file.fileName()));
-        return;
+  qDebug() << m_db.lastError().text();
+  while (query.next()) {
+    version = query.value(0).toString();
+    qDebug() << "Version = " << version;
+    revision = query.value(1).toString();
+    patch = query.value(2).toString();
+    lupdate = query.value(3).toDateTime();
+  }
+
+  if (version == QLatin1String(Database::Version::Version) &&
+      revision == QLatin1String(Database::Version::Revision)) {
+    qDebug() << "Check Databaseverion: OK - Version: " << version << "."
+             << revision << "." << patch << " from " << lupdate.toString();
+    retValue = true;
+  } else {
+    if (version < QLatin1String(Database::Version::Version)) {
+      qDebug() << "Database to old. Updata in progress! Version : " << version
+               << " <> dbVersion : " << Database::Version::Version
+               << "Revision : " << revision
+               << "<> dbRevision : " << Database::Version::Revision;
     }
 
-    if (!file.open(QIODevice::ReadOnly)) {
-        qFatal( "Fatal error on try to create database! The file with sql queries "
-                     "for database creation cannot be opened!");
-        return;
+    if (revision < QLatin1String(Database::Version::Revision)) {
+      qDebug() << "Database to old. Updata in progress! Version : " << version
+               << " <> dbVersion : " << Database::Version::Version
+               << "Revision : " << revision
+               << "<> dbRevision : " << Database::Version::Revision;
     }
-
-    bool hasText;
-    QString line;
-    QByteArray readLine;
-    QString cleanedLine;
-    QStringList strings;
-
-    while (!file.atEnd()) {
-        hasText = false;
-        line = QLatin1String("");
-        readLine = QByteArray();
-        cleanedLine = QLatin1String("");
-        strings.clear();
-        while (!hasText) {
-            readLine = file.readLine();
-            cleanedLine = QLatin1Literal(readLine.trimmed());
-            strings = cleanedLine.split(QStringLiteral("--"));
-            cleanedLine = strings.at(0);
-            if (!cleanedLine.startsWith(QStringLiteral("--")) && !cleanedLine.startsWith(QStringLiteral("DROP")) &&
-                !cleanedLine.isEmpty()) {
-                line += cleanedLine;
-            }
-            if (cleanedLine.endsWith(QStringLiteral(";")))
-                break;
-            if (cleanedLine.startsWith(QStringLiteral("COMMIT"))) {
-                hasText = true;
-            }
-        }
-        if (!line.isEmpty()) {
-            if (!query.exec(line)) {
-                qDebug() << "exec failed" << line << query.lastQuery()
-                         << query.lastError();
-            }
-
-        }
-        else {
-            qDebug() << "exec wrong" << line << query.lastError();
-        }
-    }
-    file.close();
-}
-
-bool DataContext::checkDBVersion()
-{
-    QString version;
-    QString revision;
-    QString patch;
-    QDateTime lupdate;
-    bool retValue = false;
-
-
-    QSqlQuery query(
-        QLatin1String("SELECT version, revision, patch, last_update FROM database_version"));
 
     qDebug() << m_db.lastError().text();
-    while (query.next()) {
-        version = query.value(0).toString();
-        qDebug() << "Version = " << version;
-        revision = query.value(1).toString();
-        patch = query.value(2).toString();
-        lupdate = query.value(3).toDateTime();
-    }
+  }
 
-    if (version == QLatin1String(Database::Version::Version) &&
-        revision == QLatin1String(Database::Version::Revision)) {
-        qDebug() << "Check Databaseverion: OK - Version: " << version << "." << revision << "." << patch << " from " << lupdate.toString();
-        retValue = true;
-    }
-    else {
-        if (version < QLatin1String(Database::Version::Version)) {
-            qDebug() << "Database to old. Updata in progress! Version : " << version
-                     << " <> dbVersion : " << Database::Version::Version
-                     << "Revision : " << revision
-                     << "<> dbRevision : " << Database::Version::Revision;
-        }
-
-        if (revision < QLatin1String(Database::Version::Revision)) {
-            qDebug() << "Database to old. Updata in progress! Version : " << version
-                     << " <> dbVersion : " << Database::Version::Version
-                     << "Revision : " << revision
-                     << "<> dbRevision : " << Database::Version::Revision;
-        }
-
-        qDebug() << m_db.lastError().text();
-    }
-
-    return retValue;
+  return retValue;
 }
 
-bool DataContext::check_existence(const QString &tableName, const QString &searchId, const QString &search)
-{
-    auto queryStr = QString(QStringLiteral("SELECT %1 FROM %2 WHERE %3 = \"%4\"")).arg(searchId, tableName, searchId, search);
+bool DataContext::check_existence(const QString &tableName,
+                                  const QString &searchId,
+                                  const QString &search) {
+  auto queryStr = QString(QStringLiteral("SELECT %1 FROM %2 WHERE %3 = \"%4\""))
+                      .arg(searchId, tableName, searchId, search);
 
-    auto query = this->getQuery(queryStr);
+  auto query = this->getQuery(queryStr);
 
-    if (query.exec()) {
-        if (query.next()) return true;
-    }
-    else {
-        qWarning( "Warning : %s", qUtf8Printable(query.lastError().text()));
-    }
+  if (query.exec()) {
+    if (query.next())
+      return true;
+  } else {
+    qWarning("Warning : %s", qUtf8Printable(query.lastError().text()));
+  }
 
+  return false;
+}
+
+bool DataContext::insert(const QString &tableName,
+                         const QVariantMap &insertData) {
+  if (tableName.isEmpty()) {
+    qFatal("Fatal error on insert! The table name is empty!");
     return false;
-}
-
-bool DataContext::insert(const QString &tableName, const QVariantMap &insertData)
-{
-    if (tableName.isEmpty()) {
-        qFatal("Fatal error on insert! The table name is empty!");
-        return false;
-    }
-    else if (insertData.isEmpty()) {
-        qFatal("Fatal error on insert! The insertData is empty!");
-        return false;
-    }
-
-    QStringList strValues;
-    QStringList fields = insertData.keys();
-    QVariantList values = insertData.values();
-    int totalFields = fields.size();
-    for (int i = 0; i < totalFields; ++i) {
-        strValues.append(QStringLiteral("?"));
-    }
-
-    QString sqlQueryString = QLatin1Literal("INSERT INTO ") + tableName +
-                             QLatin1Literal(" (") + QString(fields.join(QStringLiteral(","))) +
-                             QLatin1Literal(") VALUES(") +
-                             QString(strValues.join(QStringLiteral(","))) + QLatin1Literal(")");
-    QSqlQuery query(this->m_db);
-    query.prepare(sqlQueryString);
-
-    int k = 0;
-    foreach (const QVariant &value, values)
-        query.bindValue(k++, value);
-
-    return query.exec();
-}
-
-bool DataContext::update(const QString &table, const QString &column, const QVariant &newValue, const QVariant &op, const QString &id)
-{
-    auto searchStr = QStringLiteral("\"");
-    auto replaceStr = QStringLiteral("\"\"");
-    auto newValString = newValue.toString();
-    auto realNewString = newValString.replace(searchStr, replaceStr);
-    auto queryString = QStringLiteral("UPDATA %1 SET %2 = \"%3\" WHERE %4 = \"%5\"");
-
-    auto queryStr = QString(queryString).arg(table, column, realNewString, op.toString(), id);
-    auto query = this->getQuery(queryStr);
-    return query.exec();
-}
-
-bool DataContext::execQuery(QSqlQuery &query) const
-{
-    if (query.exec()) return true;
+  } else if (insertData.isEmpty()) {
+    qFatal("Fatal error on insert! The insertData is empty!");
     return false;
+  }
+
+  QStringList strValues;
+  QStringList fields = insertData.keys();
+  QVariantList values = insertData.values();
+  int totalFields = fields.size();
+  for (int i = 0; i < totalFields; ++i) {
+    strValues.append(QStringLiteral("?"));
+  }
+
+  QString sqlQueryString =
+      QLatin1Literal("INSERT INTO ") + tableName + QLatin1Literal(" (") +
+      QString(fields.join(QStringLiteral(","))) + QLatin1Literal(") VALUES(") +
+      QString(strValues.join(QStringLiteral(","))) + QLatin1Literal(")");
+  QSqlQuery query(this->m_db);
+  query.prepare(sqlQueryString);
+
+  int k = 0;
+  foreach (const QVariant &value, values)
+    query.bindValue(k++, value);
+
+  return query.exec();
 }
 
-bool DataContext::execQuery(const QString &queryTxt)
-{
-    auto query = this->getQuery(queryTxt);
-    return query.exec();
+bool DataContext::update(const QString &table, const QString &column,
+                         const QVariant &newValue, const QVariant &op,
+                         const QString &id) {
+  auto searchStr = QStringLiteral("\"");
+  auto replaceStr = QStringLiteral("\"\"");
+  auto newValString = newValue.toString();
+  auto realNewString = newValString.replace(searchStr, replaceStr);
+  auto queryString =
+      QStringLiteral("UPDATA %1 SET %2 = \"%3\" WHERE %4 = \"%5\"");
+
+  auto queryStr =
+      QString(queryString).arg(table, column, realNewString, op.toString(), id);
+  auto query = this->getQuery(queryStr);
+  return query.exec();
 }
 
+bool DataContext::execQuery(QSqlQuery &query) const {
+  if (query.exec())
+    return true;
+  return false;
+}
 
-void DataContext::openDB(const QString &name)
-{
-    const auto dbFile = getSqliteName();
-    if (!QSqlDatabase::contains(name)) {
-        qDebug("openDB:Set default DB : %s", qUtf8Printable(name));
-        this->m_db = QSqlDatabase::addDatabase(QStringLiteral("QSQLITE"), name);
-        this->m_db.setDatabaseName(dbFile);
+bool DataContext::execQuery(const QString &queryTxt) {
+  auto query = this->getQuery(queryTxt);
+  return query.exec();
+}
+
+void DataContext::openDB(const QString &name) {
+  const auto dbFile = getSqliteName();
+  if (!QSqlDatabase::contains(name)) {
+    qDebug("openDB:Set default DB : %s", qUtf8Printable(name));
+    this->m_db = QSqlDatabase::addDatabase(QStringLiteral("QSQLITE"), name);
+    this->m_db.setDatabaseName(dbFile);
+  }
+
+  if (!this->m_db.isValid()) {
+    this->m_db = QSqlDatabase::database(name);
+  }
+
+  if (!this->m_db.isOpen()) {
+    if (!this->m_db.open()) {
+    } else {
+      qWarning("openDB:DB yet open %s ", qUtf8Printable(m_db.databaseName()));
     }
-
-    if (!this->m_db.isValid()) {
-        this->m_db = QSqlDatabase::database(name);
-    }
-
-    if (!this->m_db.isOpen()) {
-        if (!this->m_db.open()) {
-        } else {
-            qWarning("openDB:DB yet open %s ", qUtf8Printable(m_db.databaseName()));
-        }
-    }
+  }
 }
 
-
-QSqlQuery DataContext::getQuery(const QString &queryTxt)
-{
-    QSqlQuery query(queryTxt, this->m_db);
-    return query;
+QSqlQuery DataContext::getQuery(const QString &queryTxt) {
+  QSqlQuery query(queryTxt, this->m_db);
+  return query;
 }
 
-QSqlDatabase DataContext::getDatabase()
-{
-    return m_db;
-}
+QSqlDatabase DataContext::getDatabase() { return m_db; }
 
-QSqlError DataContext::initDb()
-{
-    return m_db.lastError();
-}
+QSqlError DataContext::initDb() { return m_db.lastError(); }
 
-QString DataContext::getSqliteName()
-{
+QString DataContext::getSqliteName() {
 
-    QString dbDataPath = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
-    dbDataPath.append(QDir::separator());
-    dbDataPath.append(QLatin1Literal("de.juergen-muelbert"));
+  QString dbDataPath =
+      QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
+  dbDataPath.append(QDir::separator());
+  dbDataPath.append(QLatin1Literal("de.juergen-muelbert"));
 
-    QSettings settings;
-    settings.beginGroup(QLatin1String(Settings::Groups::DATABASE));
+  QSettings settings;
+  settings.beginGroup(QLatin1String(Settings::Groups::DATABASE));
 
-    const QString dbConnectionString =
-        settings.value(QLatin1Literal(Settings::Database::CONNECTION), dbDataPath)
-        .toString();
+  const QString dbConnectionString =
+      settings.value(QLatin1Literal(Settings::Database::CONNECTION), dbDataPath)
+          .toString();
 
+  qDebug() << "getSqliteName:DbConnection from Settings : "
+           << dbConnectionString;
 
-    qDebug() << "getSqliteName:DbConnection from Settings : " << dbConnectionString;
+  // Application Directory +
+  // Resources on Mac
+  // share/appname on Linux
+  // + /database/jmbdesqlite.db
+  // Destination Directory
+  QString targetFileAndPath = QString();
+  if (dbConnectionString.isEmpty()) {
+    targetFileAndPath = QString(dbDataPath);
+  } else {
+    targetFileAndPath = QString(dbConnectionString);
+  }
 
-    // Application Directory +
-    // Resources on Mac
-    // share/appname on Linux
-    // + /database/jmbdesqlite.db
-    // Destination Directory
-    QString targetFileAndPath = QString();
-    if (dbConnectionString.isEmpty()) {
-        targetFileAndPath = QString(dbDataPath);
-    }
-    else {
-        targetFileAndPath = QString(dbConnectionString);
-    }
+  // Create the Directory
+  QDir d(targetFileAndPath);
+  if (!d.exists())
+    d.mkpath(targetFileAndPath);
 
-    // Create the Directory
-    QDir d(targetFileAndPath);
-    if (!d.exists())
-        d.mkpath(targetFileAndPath);
+  // Append the Datafile on the Path
+  targetFileAndPath.append(QDir::separator());
+  targetFileAndPath.append(this->name);
+  targetFileAndPath.append(QLatin1Literal("sqlite.db3"));
 
-    // Append the Datafile on the Path
-    targetFileAndPath.append(QDir::separator());
-    targetFileAndPath.append(this->name);
-    targetFileAndPath.append(QLatin1Literal("sqlite.db3"));
-
-    return targetFileAndPath;
-
+  return targetFileAndPath;
 }

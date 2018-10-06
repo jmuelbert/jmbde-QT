@@ -40,111 +40,100 @@
 **
 **************************************************************************/
 
-#include "definitions.h"
 #include "preferencesdialog.h"
+#include "definitions.h"
 #include "ui_preferencesdialog.h"
 
-PreferencesDialog::PreferencesDialog(QWidget* parent)
-    : QDialog(parent), ui(new Ui::PreferencesDialog)
-{
-    ui->setupUi(this);
-    ui->comboBoxDatabaseType->addItem(QLatin1String(Database::Type::SQLITE));
-    ui->comboBoxDatabaseType->addItem(QLatin1String(Database::Type::MYSQL));
-    ui->comboBoxDatabaseType->addItem(QLatin1String(Database::Type::ODBC));
-    ui->comboBoxDatabaseType->addItem(QLatin1String(Database::Type::POSTGRESQL));
-    readSettings();
+PreferencesDialog::PreferencesDialog(QWidget *parent)
+    : QDialog(parent), ui(new Ui::PreferencesDialog) {
+  ui->setupUi(this);
+  ui->comboBoxDatabaseType->addItem(QLatin1String(Database::Type::SQLITE));
+  ui->comboBoxDatabaseType->addItem(QLatin1String(Database::Type::MYSQL));
+  ui->comboBoxDatabaseType->addItem(QLatin1String(Database::Type::ODBC));
+  ui->comboBoxDatabaseType->addItem(QLatin1String(Database::Type::POSTGRESQL));
+  readSettings();
 }
 
-PreferencesDialog::~PreferencesDialog()
-{
-    delete ui;
+PreferencesDialog::~PreferencesDialog() { delete ui; }
+
+void PreferencesDialog::writeSettings() {
+  QSettings settings;
+
+  settings.beginGroup(QLatin1String(Settings::Groups::MAINWINDOW));
+  settings.setValue(QLatin1String(Settings::MainWindow::SIZE), size());
+  settings.setValue(QLatin1String(Settings::MainWindow::POS), pos());
+  settings.endGroup();
+  settings.beginGroup(QLatin1String(Settings::Groups::DATABASE));
+  settings.setValue(QLatin1String(Settings::Database::TYPE),
+                    ui->comboBoxDatabaseType->currentIndex());
+  QString dbConnectionString = ui->lineEditDatabaseConnection->text();
+
+  if (dbConnectionString.length() < 2) {
+    dbConnectionString = this->getUserDataDir();
+  }
+
+  settings.setValue(QLatin1String(Settings::Database::CONNECTION),
+                    dbConnectionString);
+  settings.setValue(QLatin1String(Settings::Database::HOSTNAME),
+                    ui->lineEditHostName->text());
+  settings.setValue(QLatin1String(Settings::Database::USERNAME),
+                    ui->lineEditUserName->text());
+  settings.setValue(QLatin1String(Settings::Database::PASSWORD),
+                    ui->lineEditPassword->text());
+  settings.endGroup();
 }
 
-void PreferencesDialog::writeSettings()
-{
-    QSettings settings;
+void PreferencesDialog::readSettings() {
+  QSettings settings;
 
-    settings.beginGroup(QLatin1String(Settings::Groups::MAINWINDOW));
-    settings.setValue(QLatin1String(Settings::MainWindow::SIZE), size());
-    settings.setValue(QLatin1String(Settings::MainWindow::POS), pos());
-    settings.endGroup();
-    settings.beginGroup(QLatin1String(Settings::Groups::DATABASE));
-    settings.setValue(QLatin1String(Settings::Database::TYPE),
-                      ui->comboBoxDatabaseType->currentIndex());
-    QString dbConnectionString = ui->lineEditDatabaseConnection->text();
-
-    if (dbConnectionString.length() < 2) {
-        dbConnectionString = this->getUserDataDir();
-    }
-
-    settings.setValue(QLatin1String(Settings::Database::CONNECTION),
-                      dbConnectionString);
-    settings.setValue(QLatin1String(Settings::Database::HOSTNAME),
-                      ui->lineEditHostName->text());
-    settings.setValue(QLatin1String(Settings::Database::USERNAME),
-                      ui->lineEditUserName->text());
-    settings.setValue(QLatin1String(Settings::Database::PASSWORD),
-                      ui->lineEditPassword->text());
-    settings.endGroup();
+  settings.beginGroup(QLatin1String(Settings::Groups::MAINWINDOW));
+  resize(
+      settings.value(QLatin1String(Settings::MainWindow::SIZE), QSize(400, 400))
+          .toSize());
+  move(
+      settings.value(QLatin1String(Settings::MainWindow::POS), QPoint(200, 200))
+          .toPoint());
+  settings.endGroup();
+  settings.beginGroup(QLatin1String(Settings::Groups::DATABASE));
+  ui->comboBoxDatabaseType->setCurrentIndex(
+      settings.value(QLatin1String(Settings::Database::TYPE), SQLITE).toInt());
+  ui->lineEditDatabaseConnection->setText(
+      settings
+          .value(QLatin1String(Settings::Database::CONNECTION),
+                 this->getUserDataDir())
+          .toString());
+  ui->lineEditHostName->setText(
+      settings
+          .value(QLatin1String(Settings::Database::HOSTNAME),
+                 QLatin1String("localhost"))
+          .toString());
+  ui->lineEditUserName->setText(
+      settings
+          .value(QLatin1String(Settings::Database::USERNAME),
+                 QLatin1String("jmbde"))
+          .toString());
+  ui->lineEditPassword->setText(
+      settings
+          .value(QLatin1String(Settings::Database::PASSWORD),
+                 QLatin1String("jmbde"))
+          .toString());
 }
 
-void PreferencesDialog::readSettings()
-{
-    QSettings settings;
+void PreferencesDialog::on_pushButtonDBForceFileDialog_clicked() {
+  QString dbDir = QFileDialog::getExistingDirectory(
+      this, tr("Select Directory for Database"), this->getUserDataDir());
 
-    settings.beginGroup(QLatin1String(Settings::Groups::MAINWINDOW));
-    resize(
-        settings.value(QLatin1String(Settings::MainWindow::SIZE), QSize(400, 400))
-        .toSize());
-    move(
-        settings.value(QLatin1String(Settings::MainWindow::POS), QPoint(200, 200))
-        .toPoint());
-    settings.endGroup();
-    settings.beginGroup(QLatin1String(Settings::Groups::DATABASE));
-    ui->comboBoxDatabaseType->setCurrentIndex(
-        settings.value(QLatin1String(Settings::Database::TYPE), SQLITE).toInt());
-    ui->lineEditDatabaseConnection->setText(
-        settings
-        .value(QLatin1String(Settings::Database::CONNECTION),
-               this->getUserDataDir())
-        .toString());
-    ui->lineEditHostName->setText(
-        settings
-        .value(QLatin1String(Settings::Database::HOSTNAME),
-               QLatin1String("localhost"))
-        .toString());
-    ui->lineEditUserName->setText(
-        settings
-        .value(QLatin1String(Settings::Database::USERNAME),
-               QLatin1String("jmbde"))
-        .toString());
-    ui->lineEditPassword->setText(
-        settings
-        .value(QLatin1String(Settings::Database::PASSWORD),
-               QLatin1String("jmbde"))
-        .toString());
+  if (dbDir.length() > 2) {
+    ui->lineEditDatabaseConnection->setText(dbDir);
+  }
 }
 
-void PreferencesDialog::on_pushButtonDBForceFileDialog_clicked()
-{
-    QString dbDir = QFileDialog::getExistingDirectory(
-                        this, tr("Select Directory for Database"), this->getUserDataDir());
+QString PreferencesDialog::getUserDataDir() {
 
-    if (dbDir.length() > 2) {
-        ui->lineEditDatabaseConnection->setText(dbDir);
-    }
+  QString dataBaseDir =
+      QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+
+  return dataBaseDir;
 }
 
-QString PreferencesDialog::getUserDataDir()
-{
-
-    QString dataBaseDir =
-        QStandardPaths::writableLocation(QStandardPaths::DataLocation);
-
-    return dataBaseDir;
-}
-
-void PreferencesDialog::on_buttonBox_accepted()
-{
-    writeSettings();
-}
+void PreferencesDialog::on_buttonBox_accepted() { writeSettings(); }

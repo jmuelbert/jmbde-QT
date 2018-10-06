@@ -1,13 +1,24 @@
+# Fix GitHub thinking our translations are TypeScript
+*.ts                linguist-language=XML
+
+# Don't count the translation files in the language stats
+translations/*      linguist-vendored
+
 *                   text=auto
 
 *.cpp               text
 *.h                 text
 *.ui                text
 
+# fix bootstrap.sh on Windows MSYS
+*.sh                eol=lf
 *.bat               eol=crlf
 
 *.png               binary
 
 .gitignore          export-ignore
 .gitattributes      export-ignore
+.mailmap            export-ignore
+.tx                 export-ignore
+.LICENSE-HEADER     export-ignore
 .travis.yml         export-ignore

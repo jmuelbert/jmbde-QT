@@ -43,70 +43,63 @@
 #include "titleinputarea.h"
 #include "ui_titleinputarea.h"
 
-TitleInputArea::TitleInputArea(QWidget* parent, const QModelIndex index) :
-    QGroupBox(parent),
-    ui(new Ui::TitleInputArea)
-{
-    ui->setupUi(this);
+TitleInputArea::TitleInputArea(QWidget *parent, const QModelIndex index)
+    : QGroupBox(parent), ui(new Ui::TitleInputArea) {
+  ui->setupUi(this);
 
-    // Init UI
-    qDebug() << "Init TitleInputarea for Index : " << index.row();
+  // Init UI
+  qDebug() << "Init TitleInputarea for Index : " << index.row();
 
-    m_actualMode = Mode::Edit;
-    setViewOnlyMode(true);
+  m_actualMode = Mode::Edit;
+  setViewOnlyMode(true);
 
-    // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(QLatin1String("title"));
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+  // Set the Model
+  m_model = new QSqlRelationalTableModel(this);
+  m_model->setTable(QLatin1String("title"));
+  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-    m_model->select();
+  m_model->select();
 
-    // Set the mapper
-    m_mapper = new QDataWidgetMapper(this);
-    m_mapper->setModel(m_model);
-    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
+  // Set the mapper
+  m_mapper = new QDataWidgetMapper(this);
+  m_mapper->setModel(m_model);
+  m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
-    setMappings();
+  setMappings();
 
-    m_mapper->setCurrentIndex(index.row());
+  m_mapper->setCurrentIndex(index.row());
 }
 
-TitleInputArea::~TitleInputArea()
-{
-    delete ui;
+TitleInputArea::~TitleInputArea() { delete ui; }
+
+void TitleInputArea::setMappings() {
+  m_mapper->addMapping(ui->lineEdit_Title,
+                       m_model->fieldIndex(QLatin1String("name")));
+  m_mapper->addMapping(ui->dateEdit_From,
+                       m_model->fieldIndex(QLatin1String("from_date")));
+  m_mapper->addMapping(ui->dateEdit_To,
+                       m_model->fieldIndex(QLatin1String("to_date")));
 }
 
-void TitleInputArea::setMappings()
-{
-    m_mapper->addMapping(ui->lineEdit_Title,
-                         m_model->fieldIndex(QLatin1String("name")));
-    m_mapper->addMapping(ui->dateEdit_From,
-                         m_model->fieldIndex(QLatin1String("from_date")));
-    m_mapper->addMapping(ui->dateEdit_To,
-                         m_model->fieldIndex(QLatin1String("to_date")));
+void TitleInputArea::setViewOnlyMode(bool mode) {
+  ui->dateEdit_From->setDisabled(mode);
+  ui->dateEdit_To->setDisabled(mode);
+  ui->lineEdit_Title->setDisabled(mode);
 }
 
-void TitleInputArea::setViewOnlyMode(bool mode)
-{
-    ui->dateEdit_From->setDisabled(mode);
-    ui->dateEdit_To->setDisabled(mode);
-    ui->lineEdit_Title->setDisabled(mode);
-}
+void TitleInputArea::createDataset() {
+  qDebug() << "Create a new Dataset for Title...";
 
-void TitleInputArea::createDataset()
-{
-    qDebug() << "Create a new Dataset for Title...";
+  // Set all inputfields to blank
+  m_mapper->toLast();
 
-    // Set all inputfields to blank
-    m_mapper->toLast();
+  int row = m_mapper->currentIndex();
+  if (row < 0)
+    row = 0;
 
-    int row = m_mapper->currentIndex();
-    if (row < 0) row = 0;
-
-    m_mapper->submit();
-    m_model->insertRow(row);
-    m_mapper->setCurrentIndex(row);
+  m_mapper->submit();
+  m_model->insertRow(row);
+  m_mapper->setCurrentIndex(row);
 }
 
 void TitleInputArea::retrieveDataset(const QModelIndex index) {}
@@ -115,56 +108,48 @@ void TitleInputArea::updateDataset(const QModelIndex index) {}
 
 void TitleInputArea::deleteDataset(const QModelIndex index) {}
 
-void TitleInputArea::on_pushButton_Add_clicked()
-{
-    createDataset();
-    on_pushButton_EditFinish_clicked();
+void TitleInputArea::on_pushButton_Add_clicked() {
+  createDataset();
+  on_pushButton_EditFinish_clicked();
 }
 
-void TitleInputArea::on_pushButton_EditFinish_clicked()
-{
-    switch (m_actualMode) {
-    case Mode::Edit: {
-        m_actualMode = Mode::Finish;
-        ui->pushButton_EditFinish->setText(tr("Finish"));
-        setViewOnlyMode(false);
+void TitleInputArea::on_pushButton_EditFinish_clicked() {
+  switch (m_actualMode) {
+  case Mode::Edit: {
+    m_actualMode = Mode::Finish;
+    ui->pushButton_EditFinish->setText(tr("Finish"));
+    setViewOnlyMode(false);
 
+  } break;
+
+  case Mode::Finish: {
+    qDebug() << "Save Data...";
+
+    m_actualMode = Mode::Edit;
+    ui->pushButton_EditFinish->setText(tr("Edit"));
+    setViewOnlyMode(false);
+
+    QString name = ui->lineEdit_Title->text();
+
+    if (name.isEmpty()) {
+      QString message(tr("Please provide a name for the new title."));
+
+      QMessageBox::information(this, tr("Add Title"), message);
+    } else {
+      m_mapper->submit();
+      m_model->database().transaction();
+      if (m_model->submitAll()) {
+        m_model->database().commit();
+        qDebug() << "Commit changes for Title Databse Table";
+      } else {
+        m_model->database().rollback();
+        QMessageBox::warning(this, tr("jmbde"),
+                             tr("The database reported an error: %1")
+                                 .arg(m_model->lastError().text()));
+      }
     }
-    break;
+  } break;
 
-    case Mode::Finish: {
-        qDebug() << "Save Data...";
-
-        m_actualMode = Mode::Edit;
-        ui->pushButton_EditFinish->setText(tr("Edit"));
-        setViewOnlyMode(false);
-
-        QString name = ui->lineEdit_Title->text();
-
-        if (name.isEmpty()) {
-            QString message(tr("Please provide a name for the new title."));
-
-            QMessageBox::information(this, tr("Add Title"), message);
-        }
-        else {
-            m_mapper->submit();
-            m_model->database().transaction();
-            if (m_model->submitAll()) {
-                m_model->database().commit();
-                qDebug() << "Commit changes for Title Databse Table";
-            }
-            else {
-                m_model->database().rollback();
-                QMessageBox::warning(this, tr("jmbde"),
-                                     tr("The database reported an error: %1")
-                                     .arg(m_model->lastError().text()));
-            }
-        }
-    }
-    break;
-
-    default: {
-        qDebug() << "Error";
-    }
-    }
+  default: { qDebug() << "Error"; }
+  }
 }

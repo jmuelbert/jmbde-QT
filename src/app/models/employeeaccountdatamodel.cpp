@@ -42,106 +42,103 @@
 
 #include "employeeaccountdatamodel.h"
 
-EmployeeAccountDataModel::EmployeeAccountDataModel(QObject* parent) : CommonDataModel(parent)
-{
-    // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+EmployeeAccountDataModel::EmployeeAccountDataModel(QObject *parent)
+    : CommonDataModel(parent) {
+  // Set the Model
+  m_model = new QSqlRelationalTableModel(this);
+  m_model->setTable(this->m_tableName);
+  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-    setIndexes();
+  setIndexes();
 }
 
-EmployeeAccountDataModel::~EmployeeAccountDataModel()
-{
+EmployeeAccountDataModel::~EmployeeAccountDataModel() {}
+
+void EmployeeAccountDataModel::setIndexes() {
+  m_EmployeeAccountIdIndex =
+      m_model->fieldIndex(QLatin1String("employee_account_id"));
+  m_EmployeeIdIndex = m_model->fieldIndex(QLatin1String("employe_id"));
+  m_AccountIdIndex = m_model->fieldIndex(QLatin1String("account_id"));
+  m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-void EmployeeAccountDataModel::setIndexes()
-{
-    m_EmployeeAccountIdIndex = m_model->fieldIndex(QLatin1String("employee_account_id"));
-    m_EmployeeIdIndex = m_model->fieldIndex(QLatin1String("employe_id"));
-    m_AccountIdIndex = m_model->fieldIndex(QLatin1String("account_id"));
-    m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
+QSqlRelationalTableModel *
+EmployeeAccountDataModel::initializeRelationalModel() {
+
+  m_model = new QSqlRelationalTableModel(this);
+
+  m_model->setTable(this->m_tableName);
+  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+
+  m_model->select();
+
+  return m_model;
 }
 
-QSqlRelationalTableModel* EmployeeAccountDataModel::initializeRelationalModel()
-{
+QSqlRelationalTableModel *EmployeeAccountDataModel::initializeInputDataModel() {
 
-    m_model = new QSqlRelationalTableModel(this);
+  m_model = new QSqlRelationalTableModel(this);
 
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+  m_model->setTable(this->m_tableName);
 
-    m_model->select();
-
-    return m_model;
+  return m_model;
 }
 
-QSqlRelationalTableModel* EmployeeAccountDataModel::initializeInputDataModel()
-{
+QSqlTableModel *EmployeeAccountDataModel::initializeViewModel() {
 
-    m_model = new QSqlRelationalTableModel(this);
+  m_model->select();
 
-    m_model->setTable(this->m_tableName);
-
-    return m_model;
+  return m_model;
 }
 
-QSqlTableModel* EmployeeAccountDataModel::initializeViewModel()
-{
+QString
+EmployeeAccountDataModel::generateTableString(QAbstractTableModel *model,
+                                              QString header) {
+  QString outString;
+  int columnCount = model->columnCount();
+  int rowCount = model->rowCount();
 
-    m_model->select();
+  qDebug() << "Header : " << header << " Columns : " << columnCount
+           << " Rows : " << rowCount;
 
-    return m_model;
+  QList<int> set;
+
+  // Document Title
+  outString = QLatin1String("<h1>");
+  outString += header;
+  outString += QLatin1String("</h1>");
+  outString += QLatin1String("<hr />");
+  outString +=
+      QLatin1String("<table width=\"100%\" cellspacing=\"0\" class=\"tbl\">");
+  outString += QLatin1String("<thead> <tr>");
+
+  foreach (const int i, set) {
+    qDebug() << "int i = " << i;
+    outString += QLatin1String("<th>");
+    outString.append(model->headerData(i, Qt::Horizontal).toString());
+    outString += QLatin1String("</th>");
+  }
+
+  return outString;
 }
 
-QString EmployeeAccountDataModel::generateTableString(QAbstractTableModel* model, QString header)
-{
-    QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
+QString
+EmployeeAccountDataModel::generateFormularString(QAbstractTableModel *model,
+                                                 QString header) {
+  QString outString;
+  int columnCount = model->columnCount();
+  int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+  qDebug() << "Header : " << header << " Columns : " << columnCount
+           << " Rows : " << rowCount;
 
-    QList<int> set;
+  QList<int> set;
 
-    // Document Title
-    outString = QLatin1String("<h1>");
-    outString += header;
-    outString += QLatin1String("</h1>");
-    outString += QLatin1String("<hr />");
-    outString +=
-        QLatin1String("<table width=\"100%\" cellspacing=\"0\" class=\"tbl\">");
-    outString += QLatin1String("<thead> <tr>");
+  // Document Title
+  outString = QLatin1String("<h1>");
+  outString += header;
+  outString += QLatin1String("</h1>");
+  outString += QLatin1String("<hr />");
 
-    foreach (const int i, set) {
-        qDebug() << "int i = " << i;
-        outString += QLatin1String("<th>");
-        outString.append(model->headerData(i, Qt::Horizontal).toString());
-        outString += QLatin1String("</th>");
-    }
-
-    return outString;
+  return outString;
 }
-
-QString EmployeeAccountDataModel::generateFormularString(QAbstractTableModel* model, QString header)
-{
-    QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
-
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
-
-    QList<int> set;
-
-    // Document Title
-    outString = QLatin1String("<h1>");
-    outString += header;
-    outString += QLatin1String("</h1>");
-    outString += QLatin1String("<hr />");
-
-    return outString;
-}
-

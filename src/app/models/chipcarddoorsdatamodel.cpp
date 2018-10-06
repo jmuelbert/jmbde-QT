@@ -41,108 +41,103 @@
 **************************************************************************/
 #include "chipcarddoorsdatamodel.h"
 
-ChipCardDoorsDataModel::ChipCardDoorsDataModel(QObject* parent) : CommonDataModel(parent)
-{
-    // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+ChipCardDoorsDataModel::ChipCardDoorsDataModel(QObject *parent)
+    : CommonDataModel(parent) {
+  // Set the Model
+  m_model = new QSqlRelationalTableModel(this);
+  m_model->setTable(this->m_tableName);
+  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-    setIndexes();
+  setIndexes();
 }
 
-ChipCardDoorsDataModel::~ChipCardDoorsDataModel()
-    = default;
+ChipCardDoorsDataModel::~ChipCardDoorsDataModel() = default;
 
-void ChipCardDoorsDataModel::setIndexes()
-{
-    m_ChipCardDoorIdIndex = m_model->fieldIndex(QLatin1String("chip_card_door_id"));
-    m_NumberIndex = m_model->fieldIndex(QLatin1String("number"));
-    m_PlaceIdIndex = m_model->fieldIndex(QLatin1String("place_id"));
-    m_DepartmetIdIndex = m_model->fieldIndex(QLatin1String("department_id"));
-    m_EmployeeIdIndex = m_model->fieldIndex(QLatin1String("employee_id"));
-    m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
+void ChipCardDoorsDataModel::setIndexes() {
+  m_ChipCardDoorIdIndex =
+      m_model->fieldIndex(QLatin1String("chip_card_door_id"));
+  m_NumberIndex = m_model->fieldIndex(QLatin1String("number"));
+  m_PlaceIdIndex = m_model->fieldIndex(QLatin1String("place_id"));
+  m_DepartmetIdIndex = m_model->fieldIndex(QLatin1String("department_id"));
+  m_EmployeeIdIndex = m_model->fieldIndex(QLatin1String("employee_id"));
+  m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-QSqlRelationalTableModel* ChipCardDoorsDataModel::initializeRelationalModel()
-{
+QSqlRelationalTableModel *ChipCardDoorsDataModel::initializeRelationalModel() {
 
-    m_model = new QSqlRelationalTableModel(this);
+  m_model = new QSqlRelationalTableModel(this);
 
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+  m_model->setTable(this->m_tableName);
+  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-    m_model->select();
+  m_model->select();
 
-    return m_model;
+  return m_model;
 }
 
-QSqlRelationalTableModel* ChipCardDoorsDataModel::initializeInputDataModel()
-{
+QSqlRelationalTableModel *ChipCardDoorsDataModel::initializeInputDataModel() {
 
-    m_model = new QSqlRelationalTableModel(this);
+  m_model = new QSqlRelationalTableModel(this);
 
-    m_model->setTable(this->m_tableName);
+  m_model->setTable(this->m_tableName);
 
-    return m_model;
+  return m_model;
 }
 
-QSqlTableModel* ChipCardDoorsDataModel::initializeViewModel()
-{
+QSqlTableModel *ChipCardDoorsDataModel::initializeViewModel() {
 
-    m_model->select();
+  m_model->select();
 
-    return m_model;
+  return m_model;
 }
 
-QString ChipCardDoorsDataModel::generateTableString(QAbstractTableModel* model, QString header)
-{
-    QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
+QString ChipCardDoorsDataModel::generateTableString(QAbstractTableModel *model,
+                                                    QString header) {
+  QString outString;
+  int columnCount = model->columnCount();
+  int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+  qDebug() << "Header : " << header << " Columns : " << columnCount
+           << " Rows : " << rowCount;
 
-    QList<int> set;
+  QList<int> set;
 
-    // Document Title
-    outString = QLatin1String("<h1>");
-    outString += header;
-    outString += QLatin1String("</h1>");
-    outString += QLatin1String("<hr />");
-    outString +=
-        QLatin1String(R"(<table width="100%" cellspacing="0" class="tbl">)");
-    outString += QLatin1String("<thead> <tr>");
+  // Document Title
+  outString = QLatin1String("<h1>");
+  outString += header;
+  outString += QLatin1String("</h1>");
+  outString += QLatin1String("<hr />");
+  outString +=
+      QLatin1String(R"(<table width="100%" cellspacing="0" class="tbl">)");
+  outString += QLatin1String("<thead> <tr>");
 
-    foreach (const int i, set) {
-        qDebug() << "int i = " << i;
-        outString += QLatin1String("<th>");
-        outString.append(model->headerData(i, Qt::Horizontal).toString());
-        outString += QLatin1String("</th>");
-    }
+  foreach (const int i, set) {
+    qDebug() << "int i = " << i;
+    outString += QLatin1String("<th>");
+    outString.append(model->headerData(i, Qt::Horizontal).toString());
+    outString += QLatin1String("</th>");
+  }
 
-    return outString;
+  return outString;
 }
 
-QString ChipCardDoorsDataModel::generateFormularString(QAbstractTableModel* model, QString header)
-{
-    QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
+QString
+ChipCardDoorsDataModel::generateFormularString(QAbstractTableModel *model,
+                                               QString header) {
+  QString outString;
+  int columnCount = model->columnCount();
+  int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+  qDebug() << "Header : " << header << " Columns : " << columnCount
+           << " Rows : " << rowCount;
 
-    QList<int> set;
+  QList<int> set;
 
-    // Document Title
-    outString = QLatin1String("<h1>");
-    outString += header;
-    outString += QLatin1String("</h1>");
-    outString += QLatin1String("<hr />");
+  // Document Title
+  outString = QLatin1String("<h1>");
+  outString += header;
+  outString += QLatin1String("</h1>");
+  outString += QLatin1String("<hr />");
 
-    return outString;
+  return outString;
 }
-
-

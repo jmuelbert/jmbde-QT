@@ -1,7 +1,6 @@
 #ifndef _SRC_APP_MODELS_DataContext_H
 #define _SRC_APP_MODELS_DataContext_H
 
-
 /**************************************************************************
 **
 ** Copyright (c) 2013-2018 Jürgen Mülbert. All rights reserved.
@@ -44,33 +43,31 @@
 **
 **************************************************************************/
 
-
 #include <QObject>
 
 #include <QDebug>
 
+#include <QList>
 #include <QLoggingCategory>
 #include <QString>
 #include <QStringList>
-#include <QList>
 
-#include <QFileInfo>
 #include <QDir>
+#include <QFileInfo>
 #include <QVariantMap>
 
 #include <QDate>
 
 #include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QSqlError>
-#include <QSqlRecord>
 #include <QSqlDriver>
+#include <QSqlError>
+#include <QSqlQuery>
+#include <QSqlRecord>
 
 #include <QSettings>
 
-
-#include <QStandardPaths>
 #include "app/definitions.h"
+#include <QStandardPaths>
 
 #include "../data_global.h"
 
@@ -96,91 +93,86 @@
  * @brief The DataContext class
  */
 
-class DATASHARED_EXPORT DataContext : public QObject
-{
-    Q_OBJECT
-
+class DATASHARED_EXPORT DataContext : public QObject {
+  Q_OBJECT
 
 public:
+  /**
+   * @brief DataContext
+   * @param parent
+   */
+  explicit DataContext(QObject *parent = nullptr);
 
+  explicit DataContext(const QString &name = QString(),
+                       QObject *parent = nullptr);
 
-    /**
-     * @brief DataContext
-     * @param parent
-     */
-    explicit DataContext(QObject* parent = nullptr);
+  /**
+   * @brief ~DataContext
+   */
+  ~DataContext() override;
 
-    explicit DataContext(const QString &name = QString(), QObject* parent = nullptr);
+  /**
+   * @brief DataContext::CreateConnection
+   * @return
+   *
+   * \todo init all tables
+   * \todo check database version
+   * \todo export and import all tables
+   */
+  bool CreateConnection();
 
-    /**
-     * @brief ~DataContext
-     */
-    ~DataContext() override;
+  /**
+   * @brief getDatabase
+   * @return
+   */
+  QSqlDatabase getDatabase();
 
-    /**
-     * @brief DataContext::CreateConnection
-     * @return
-     *
-     * \todo init all tables
-     * \todo check database version
-     * \todo export and import all tables
-     */
-    bool CreateConnection();
+  /**
+   * @brief initDb
+   *
+   * If the Database new then create the tables
+   */
+  QSqlError initDb();
 
-    /**
-     * @brief getDatabase
-     * @return
-     */
-    QSqlDatabase getDatabase();
+  bool execQuery(QSqlQuery &query) const;
+  bool execQuery(const QString &queryText);
 
-    /**
-     * @brief initDb
-     *
-     * If the Database new then create the tables
-     */
-    QSqlError initDb();
+  /* basic public actions */
+  void prepareDB() const;
+  bool check_existence(const QString &tableNmae, const QString &searchId,
+                       const QString &serach);
 
-    bool execQuery(QSqlQuery &query) const;
-    bool execQuery(const QString &queryText);
-
-    /* basic public actions */
-    void prepareDB() const;
-    bool check_existence(const QString &tableNmae, const QString &searchId, const QString &serach);
-
-    /* useful actions */
-    QSqlQuery getQuery(const QString &queryText);
-    void openDB(const QString &name);
-
+  /* useful actions */
+  QSqlQuery getQuery(const QString &queryText);
+  void openDB(const QString &name);
 
 private:
-    QString name;
+  QString name;
 
-    /**
-     * @brief db
-     */
-    QSqlDatabase m_db;
+  /**
+   * @brief db
+   */
+  QSqlDatabase m_db;
 
+  /**
+   * @brief checkDBVersion
+   * @return
+   */
+  bool checkDBVersion();
 
-    /**
-     * @brief checkDBVersion
-     * @return
-     */
-    bool checkDBVersion();
+  /* basic actions */
+  bool insert(const QString &tableName, const QVariantMap &insertData);
+  bool update(const QString &table, const QString &column,
+              const QVariant &newValue, const QVariant &op, const QString &id);
+  bool remove();
 
-    /* basic actions */
-    bool insert(const QString &tableName, const QVariantMap &insertData);
-    bool update(const QString &table, const QString &column, const QVariant &newValue, const QVariant &op, const QString &id);
-    bool remove();
-
-    QString getSqliteName();
+  QString getSqliteName();
 
 signals:
-    void DBActionFinished();
+  void DBActionFinished();
 
 public slots:
-    void closeConnection();
-
-
+  void closeConnection();
 };
 
 #endif // _SRC_APP_MODELS_DataContext_H

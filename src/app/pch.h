@@ -1,41 +1,41 @@
 #include <algorithm>
-#include <string>
 #include <iostream>
+#include <string>
 
 // Qt
-#include <QString>
-#include <QObject>
-#include <QVariant>
-#include <QEvent>
-#include <QVector>
-#include <QMap>
-#include <QtPlugin>
 #include <QCoreApplication>
-#include <QTimer>
 #include <QDebug>
+#include <QEvent>
+#include <QMap>
+#include <QObject>
+#include <QString>
+#include <QTimer>
+#include <QVariant>
+#include <QVector>
+#include <QtPlugin>
 
 #include <QImage>
-#include <QPixmap>
 #include <QPalette>
+#include <QPixmap>
 #include <QTextDocument>
 
-#include <QWidget>
 #include <QApplication>
 #include <QUndoCommand>
+#include <QWidget>
 
 #include <QBoxLayout>
 #include <QFrame>
 
+#include <QCheckBox>
 #include <QMenu>
 #include <QPinchGesture>
-#include <QTreeView>
 #include <QPushButton>
-#include <QCheckBox>
+#include <QTreeView>
 
-#include <QGraphicsView>
-#include <QGraphicsScene>
 #include <QGraphicsItem>
+#include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
+#include <QGraphicsView>
 
-#include <QPlainTextEdit>
 #include <QFileDialog>
+#include <QPlainTextEdit>

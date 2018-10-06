@@ -53,55 +53,50 @@
 
 #include <QMessageBox>
 
-namespace Ui
-{
+namespace Ui {
 class PhoneInputArea;
 }
 
 /**
  * @brief The PhoneInputArea class
  */
-class PhoneInputArea : public QGroupBox
-{
-    Q_OBJECT
+class PhoneInputArea : public QGroupBox {
+  Q_OBJECT
 
 public:
+  /**
+   * @brief PhoneInputArea
+   * @param parent
+   * @param index
+   */
+  explicit PhoneInputArea(QWidget *parent = 0,
+                          const QModelIndex index = QModelIndex());
 
-    /**
-     * @brief PhoneInputArea
-     * @param parent
-     * @param index
-     */
-    explicit PhoneInputArea(QWidget* parent = 0, const QModelIndex index = QModelIndex());
-
-    /**
-     * @brief ~PhoneInputArea
-     */
-    ~PhoneInputArea();
+  /**
+   * @brief ~PhoneInputArea
+   */
+  ~PhoneInputArea();
 
 private slots:
-    void on_pushButton_Add_clicked();
+  void on_pushButton_Add_clicked();
 
-    void on_pushButton_EditFinish_clicked();
+  void on_pushButton_EditFinish_clicked();
 
 private:
-    Ui::PhoneInputArea* ui;
+  Ui::PhoneInputArea *ui;
 
-    enum Mode {
-        Edit,
-        Finish
-    };
-    Mode m_actualMode;
-    QSqlRelationalTableModel* m_model;
-    QItemSelectionModel* m_selectionModel;
-    QDataWidgetMapper* m_mapper;
+  enum Mode { Edit, Finish };
+  Mode m_actualMode;
+  QSqlRelationalTableModel *m_model;
+  QItemSelectionModel *m_selectionModel;
+  QDataWidgetMapper *m_mapper;
 
-    void setMappings();
-    void setViewOnlyMode(bool mode = true);
-    void createDataset();
-    void retrieveDataset(const QModelIndex index);
-    void updateDataset(const QModelIndex index);
-    void deleteDataset(const QModelIndex index);
+  void setMappings();
+  void setViewOnlyMode(bool mode = true);
+  void createDataset();
+  void retrieveDataset(const QModelIndex index);
+  void updateDataset(const QModelIndex index);
+  void deleteDataset(const QModelIndex index);
 };
 
 #endif // PHONEINPUTAREA_H

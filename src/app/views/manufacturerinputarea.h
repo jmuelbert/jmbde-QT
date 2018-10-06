@@ -53,54 +53,49 @@
 
 #include <QMessageBox>
 
-namespace Ui
-{
+namespace Ui {
 class ManufacturerInputArea;
 }
 
 /**
  * @brief The ManufacturerInputArea class
  */
-class ManufacturerInputArea : public QGroupBox
-{
-    Q_OBJECT
+class ManufacturerInputArea : public QGroupBox {
+  Q_OBJECT
 
 public:
+  /**
+   * @brief ManufacturerInputArea
+   * @param parent
+   */
+  explicit ManufacturerInputArea(QWidget *parent = 0,
+                                 const QModelIndex index = QModelIndex());
 
-    /**
-     * @brief ManufacturerInputArea
-     * @param parent
-     */
-    explicit ManufacturerInputArea(QWidget* parent = 0, const QModelIndex index = QModelIndex());
-
-    /**
-     * @brief ~ManufacturerInputArea
-     */
-    ~ManufacturerInputArea();
+  /**
+   * @brief ~ManufacturerInputArea
+   */
+  ~ManufacturerInputArea();
 
 private slots:
-    void on_pushButton_Add_clicked();
+  void on_pushButton_Add_clicked();
 
-    void on_pushButton_EditFinish_clicked();
+  void on_pushButton_EditFinish_clicked();
 
 private:
-    Ui::ManufacturerInputArea* ui;
+  Ui::ManufacturerInputArea *ui;
 
-    enum Mode {
-        Edit,
-        Finish
-    };
-    Mode m_actualMode;
-    QSqlRelationalTableModel* m_model;
-    QItemSelectionModel* m_selectionModel;
-    QDataWidgetMapper* m_mapper;
+  enum Mode { Edit, Finish };
+  Mode m_actualMode;
+  QSqlRelationalTableModel *m_model;
+  QItemSelectionModel *m_selectionModel;
+  QDataWidgetMapper *m_mapper;
 
-    void setMappings();
-    void setViewOnlyMode(bool mode = true);
-    void createDataset();
-    void retrieveDataset(const QModelIndex index);
-    void updateDataset(const QModelIndex index);
-    void deleteDataset(const QModelIndex index);
+  void setMappings();
+  void setViewOnlyMode(bool mode = true);
+  void createDataset();
+  void retrieveDataset(const QModelIndex index);
+  void updateDataset(const QModelIndex index);
+  void deleteDataset(const QModelIndex index);
 };
 
 #endif // MANUFACTURERINPUTAREA_H

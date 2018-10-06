@@ -46,62 +46,57 @@
 #include <QDebug>
 
 #include <QDataWidgetMapper>
-#include <QScrollArea>
 #include <QGroupBox>
+#include <QScrollArea>
 #include <QSqlRelationalDelegate>
 #include <QtSql>
 
 #include <QMessageBox>
 
-namespace Ui
-{
+namespace Ui {
 class FunctionInputArea;
 }
 
 /**
  * @brief The FunctionInputArea class
  */
-class FunctionInputArea : public QGroupBox
-{
-    Q_OBJECT
+class FunctionInputArea : public QGroupBox {
+  Q_OBJECT
 
 public:
+  /**
+   * @brief FunctionInputArea
+   * @param parent
+   * @param index
+   */
+  explicit FunctionInputArea(QWidget *parent = 0,
+                             const QModelIndex index = QModelIndex());
 
-    /**
-     * @brief FunctionInputArea
-     * @param parent
-     * @param index
-     */
-    explicit FunctionInputArea(QWidget* parent = 0, const QModelIndex index = QModelIndex());
-
-    /**
-     * @brief ~FunctionInputArea
-     */
-    ~FunctionInputArea();
+  /**
+   * @brief ~FunctionInputArea
+   */
+  ~FunctionInputArea();
 
 private slots:
-    void on_pushButton_Add_clicked();
+  void on_pushButton_Add_clicked();
 
-    void on_pushButton_EditFinish_clicked();
+  void on_pushButton_EditFinish_clicked();
 
 private:
-    Ui::FunctionInputArea* ui;
+  Ui::FunctionInputArea *ui;
 
-    enum Mode {
-        Edit,
-        Finish
-    };
-    Mode m_actualMode;
-    QSqlRelationalTableModel* m_model;
-    QItemSelectionModel* m_selectionModel;
-    QDataWidgetMapper* m_mapper;
+  enum Mode { Edit, Finish };
+  Mode m_actualMode;
+  QSqlRelationalTableModel *m_model;
+  QItemSelectionModel *m_selectionModel;
+  QDataWidgetMapper *m_mapper;
 
-    void setMappings();
-    void setViewOnlyMode(bool mode = true);
-    void createDataset();
-    void retrieveDataset(const QModelIndex index);
-    void updateDataset(const QModelIndex index);
-    void deleteDataset(const QModelIndex index);
+  void setMappings();
+  void setViewOnlyMode(bool mode = true);
+  void createDataset();
+  void retrieveDataset(const QModelIndex index);
+  void updateDataset(const QModelIndex index);
+  void deleteDataset(const QModelIndex index);
 };
 
 #endif // FUNCTIONINPUTAREA_H

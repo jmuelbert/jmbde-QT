@@ -54,23 +54,22 @@
 
 class QHelpEngine;
 
-class HelpBrowser : public QTextBrowser
-{
-    Q_OBJECT
+class HelpBrowser : public QTextBrowser {
+  Q_OBJECT
 
 public:
-    explicit HelpBrowser(QWidget* parent = 0);
-    void showHelpForKeyWord(const QString &id);
-    QWidget* getContentWidget();
-    QWidget* getLinkWidget();
+  explicit HelpBrowser(QWidget *parent = 0);
+  void showHelpForKeyWord(const QString &id);
+  QWidget *getContentWidget();
+  QWidget *getLinkWidget();
 
 signals:
 
 public slots:
 
 private:
-    QVariant loadResource(int type, const QUrl &name);
-    QHelpEngine* m_helpEngine;
+  QVariant loadResource(int type, const QUrl &name);
+  QHelpEngine *m_helpEngine;
 };
 
 #endif // HELPBROWSER_H

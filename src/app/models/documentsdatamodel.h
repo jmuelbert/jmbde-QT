@@ -53,88 +53,73 @@
 
 #include "models/commondatamodel.h"
 
-
-class DocumentsDataModel : public CommonDataModel
-{
-    Q_OBJECT
+class DocumentsDataModel : public CommonDataModel {
+  Q_OBJECT
 
 public:
-    explicit DocumentsDataModel(QObject* parent = nullptr);
+  explicit DocumentsDataModel(QObject *parent = nullptr);
 
-    ~DocumentsDataModel();
+  ~DocumentsDataModel();
 
-// implement the virtuals
+  // implement the virtuals
 
-    /**
-     * @brief setIndexes
-     */
-    virtual void setIndexes();
+  /**
+   * @brief setIndexes
+   */
+  virtual void setIndexes();
 
-    /**
-     * @brief initializeRelationalModel
-     * @return
-     */
-    virtual QSqlRelationalTableModel* initializeRelationalModel();
+  /**
+   * @brief initializeRelationalModel
+   * @return
+   */
+  virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-    /**
-     * @brief initializeInputDataModel
-     * @return
-     */
-    virtual QSqlRelationalTableModel* initializeInputDataModel();
+  /**
+   * @brief initializeInputDataModel
+   * @return
+   */
+  virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-    /**
-     * @brief initializeViewModel
-     * @return
-     */
-    virtual QSqlTableModel* initializeViewModel();
+  /**
+   * @brief initializeViewModel
+   * @return
+   */
+  virtual QSqlTableModel *initializeViewModel();
 
-    /**
-     * @brief generateTableString
-     * @param model
-     * @param header
-     * @return
-     */
-    virtual QString generateTableString(QAbstractTableModel* model, QString header);
+  /**
+   * @brief generateTableString
+   * @param model
+   * @param header
+   * @return
+   */
+  virtual QString generateTableString(QAbstractTableModel *model,
+                                      QString header);
 
-    /**
-     * @brief generateFormularString
-     * @param model
-     * @param header
-     * @return
-     */
-    virtual QString generateFormularString(QAbstractTableModel* model, QString header);
+  /**
+   * @brief generateFormularString
+   * @param model
+   * @param header
+   * @return
+   */
+  virtual QString generateFormularString(QAbstractTableModel *model,
+                                         QString header);
 
-// Getter
-    int DocumentIdIndex() const
-    {
-        return m_DocumentIdIndex;
-    }
-    int NameIndex() const
-    {
-        return m_NameIndex;
-    }
-    int DocumentDataIndex() const
-    {
-        return m_DocumentDataIndex;
-    }
-    int LastUpdateIndex() const
-    {
-        return m_LastUpdateIndex;
-    }
+  // Getter
+  int DocumentIdIndex() const { return m_DocumentIdIndex; }
+  int NameIndex() const { return m_NameIndex; }
+  int DocumentDataIndex() const { return m_DocumentDataIndex; }
+  int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-
-    /**
-     * @brief tableName - the name of the database table
-     * @
-     */
-    const QString m_tableName = QLatin1String("document");
-    int m_DocumentIdIndex;
-    int m_NameIndex;
-    int m_DocumentDataIndex;
-    int m_LastUpdateIndex;
-
-
+  /**
+   * @brief tableName - the name of the database table
+   * @
+   */
+  const QString m_tableName = QLatin1String("document");
+  int m_DocumentIdIndex;
+  int m_NameIndex;
+  int m_DocumentDataIndex;
+  int m_LastUpdateIndex;
 };
 
 #endif // DOCUMENTSDATAMODEL_H

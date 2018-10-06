@@ -80,14 +80,12 @@
 
     \sa QFile::QFile()
 */
-QtLockedFile::QtLockedFile()
-    : QFile()
-{
+QtLockedFile::QtLockedFile() : QFile() {
 #ifdef Q_OS_WIN
-    wmutex = 0;
-    rmutex = 0;
+  wmutex = 0;
+  rmutex = 0;
 #endif
-    m_lock_mode = NoLock;
+  m_lock_mode = NoLock;
 }
 
 /*!
@@ -97,14 +95,12 @@ QtLockedFile::QtLockedFile()
 
     \sa QFile::QFile()
 */
-QtLockedFile::QtLockedFile(const QString &name)
-    : QFile(name)
-{
+QtLockedFile::QtLockedFile(const QString &name) : QFile(name) {
 #ifdef Q_OS_WIN
-    wmutex = 0;
-    rmutex = 0;
+  wmutex = 0;
+  rmutex = 0;
 #endif
-    m_lock_mode = NoLock;
+  m_lock_mode = NoLock;
 }
 
 /*!
@@ -120,13 +116,12 @@ QtLockedFile::QtLockedFile(const QString &name)
 
   \sa QFile::open(), QFile::resize()
 */
-bool QtLockedFile::open(OpenMode mode)
-{
-    if (mode & QIODevice::Truncate) {
-        qWarning("QtLockedFile::open(): Truncate mode not allowed.");
-        return false;
-    }
-    return QFile::open(mode);
+bool QtLockedFile::open(OpenMode mode) {
+  if (mode & QIODevice::Truncate) {
+    qWarning("QtLockedFile::open(): Truncate mode not allowed.");
+    return false;
+  }
+  return QFile::open(mode);
 }
 
 /*!
@@ -135,10 +130,7 @@ bool QtLockedFile::open(OpenMode mode)
 
     \sa lockMode()
 */
-bool QtLockedFile::isLocked() const
-{
-    return m_lock_mode != NoLock;
-}
+bool QtLockedFile::isLocked() const { return m_lock_mode != NoLock; }
 
 /*!
     Returns the type of lock currently held by this object, or \e
@@ -146,10 +138,7 @@ bool QtLockedFile::isLocked() const
 
     \sa isLocked()
 */
-QtLockedFile::LockMode QtLockedFile::lockMode() const
-{
-    return m_lock_mode;
-}
+QtLockedFile::LockMode QtLockedFile::lockMode() const { return m_lock_mode; }
 
 /*!
     \fn bool QtLockedFile::lock(LockMode mode, bool block = true)

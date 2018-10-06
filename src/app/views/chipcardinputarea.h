@@ -54,54 +54,49 @@
 
 #include "models/chipcarddatamodel.h"
 
-namespace Ui
-{
+namespace Ui {
 class ChipCardInputArea;
 }
 
 /**
  * @brief The ChipCardInputArea class
  */
-class ChipCardInputArea : public QGroupBox
-{
-    Q_OBJECT
+class ChipCardInputArea : public QGroupBox {
+  Q_OBJECT
 
 public:
+  /**
+   * @brief ChipcardInputArea
+   * @param parent
+   * @param index
+   */
+  explicit ChipCardInputArea(QWidget *parent = nullptr,
+                             const QModelIndex &index = QModelIndex());
 
-    /**
-     * @brief ChipcardInputArea
-     * @param parent
-     * @param index
-     */
-    explicit ChipCardInputArea(QWidget* parent = nullptr, const QModelIndex &index = QModelIndex());
-
-    /**
-     * @brief ~ChipCardInputArea();
-     */
-    ~ChipCardInputArea();
+  /**
+   * @brief ~ChipCardInputArea();
+   */
+  ~ChipCardInputArea();
 
 private slots:
-    void on_pushButton_Add_clicked();
+  void on_pushButton_Add_clicked();
 
-    void on_pushButton_EditFinish_clicked();
+  void on_pushButton_EditFinish_clicked();
 
 private:
-    Ui::ChipCardInputArea* ui;
-    enum Mode {
-        Edit,
-        Finish
-    };
-    Mode m_actualMode;
-    QSqlRelationalTableModel* m_model;
-    QItemSelectionModel* m_selectionModel;
-    QDataWidgetMapper* m_mapper;
+  Ui::ChipCardInputArea *ui;
+  enum Mode { Edit, Finish };
+  Mode m_actualMode;
+  QSqlRelationalTableModel *m_model;
+  QItemSelectionModel *m_selectionModel;
+  QDataWidgetMapper *m_mapper;
 
-    void setMappings();
-    void setViewOnlyMode(bool mode = true);
-    void createDataset();
-    void retrieveDataset(const QModelIndex index);
-    void updateDataset(const QModelIndex index);
-    void deleteDataset(const QModelIndex index);
+  void setMappings();
+  void setViewOnlyMode(bool mode = true);
+  void createDataset();
+  void retrieveDataset(const QModelIndex index);
+  void updateDataset(const QModelIndex index);
+  void deleteDataset(const QModelIndex index);
 };
 
 #endif // CHIPCARDINPUTAREA_H

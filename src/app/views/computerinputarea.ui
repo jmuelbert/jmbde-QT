@@ -18,7 +18,7 @@
   </property>
   <property name="title">
    <string>Computer</string>
-  </property>  
+  </property>
   <widget class="QWidget" name="formLayoutWidget" native="true">
    <property name="geometry">
     <rect>

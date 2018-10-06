@@ -48,8 +48,7 @@
 /**
  * Constants for the jmbde application
  */
-namespace Constants
-{
+namespace Constants {
 
 /**
  * @brief COMPANY_NAME
@@ -70,61 +69,50 @@ const char APPL_DISPLAYNAME[] = "jmbde 0.4.0 © 2013-2016 Jürgen Mülbert";
 /**
  * @brief APPL_PROJECT_SITE
  */
-const char APPL_PROJECT_SITE[] = "http://www.juergen-muelbert.de/projects/jmbde/";
-}
+const char APPL_PROJECT_SITE[] =
+    "http://www.juergen-muelbert.de/projects/jmbde/";
+} // namespace Constants
 
-namespace Settings
-{
-namespace Groups
-{
+namespace Settings {
+namespace Groups {
 const char MAINWINDOW[] = "MainWindow";
 const char DATABASE[] = "Database";
-}
+} // namespace Groups
 
-namespace MainWindow
-{
+namespace MainWindow {
 const char SIZE[] = "size";
 const char POS[] = "pos";
-}
+} // namespace MainWindow
 
-namespace Database
-{
+namespace Database {
 const char TYPE[] = "type";
 const char CONNECTION[] = "connection";
 const char HOSTNAME[] = "hostname";
 const char USERNAME[] = "username";
 const char PASSWORD[] = "password";
 
-}
+} // namespace Database
 
-}
+} // namespace Settings
 
-enum DbType {
-    SQLITE,
-    MYSQL,
-    ODBC,
-    POSTGRESQL
-};
+enum DbType { SQLITE, MYSQL, ODBC, POSTGRESQL };
 
-namespace Database
-{
+namespace Database {
 
-namespace Type
-{
+namespace Type {
 const char SQLITE[] = "SqLite";
 const char MYSQL[] = "MySql";
 const char ODBC[] = "ODBC";
 const char POSTGRESQL[] = "PostgreSQL";
 const char DEFAULT[] = "SqLite";
 
-}
+} // namespace Type
 
-namespace Table
-{
+namespace Table {
 const int DEFAULT_FOREIGN_VALUE = 1;
 
 }
 
 namespace EmployeeTable {}
-}
+} // namespace Database
 #endif // CONSTANTS_H

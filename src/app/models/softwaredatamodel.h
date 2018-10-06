@@ -54,96 +54,76 @@
 #include "definitions.h"
 #include "models/commondatamodel.h"
 
-
-class SoftwareDataModel : public CommonDataModel
-{
+class SoftwareDataModel : public CommonDataModel {
 public:
-    explicit SoftwareDataModel(QObject* parent = 0);
+  explicit SoftwareDataModel(QObject *parent = 0);
 
-    virtual ~SoftwareDataModel();
+  virtual ~SoftwareDataModel();
 
-// implement the virtuals
+  // implement the virtuals
 
-    /**
-     * @brief setIndexes
-     */
-    virtual void setIndexes();
+  /**
+   * @brief setIndexes
+   */
+  virtual void setIndexes();
 
-    /**
-     * @brief initializeRelationalModel
-     * @return
-     */
-    virtual QSqlRelationalTableModel* initializeRelationalModel();
+  /**
+   * @brief initializeRelationalModel
+   * @return
+   */
+  virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-    /**
-     * @brief initializeInputDataModel
-     * @return
-     */
-    virtual QSqlRelationalTableModel* initializeInputDataModel();
+  /**
+   * @brief initializeInputDataModel
+   * @return
+   */
+  virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-    /**
-     * @brief initializeViewModel
-     * @return
-     */
-    virtual QSqlTableModel* initializeViewModel();
+  /**
+   * @brief initializeViewModel
+   * @return
+   */
+  virtual QSqlTableModel *initializeViewModel();
 
-    /**
-     * @brief generateTableString
-     * @param model
-     * @param header
-     * @return
-     */
-    virtual QString generateTableString(QAbstractTableModel* model, QString header);
+  /**
+   * @brief generateTableString
+   * @param model
+   * @param header
+   * @return
+   */
+  virtual QString generateTableString(QAbstractTableModel *model,
+                                      QString header);
 
-    /**
-     * @brief generateFormularString
-     * @param model
-     * @param header
-     * @return
-     */
-    virtual QString generateFormularString(QAbstractTableModel* model, QString header);
+  /**
+   * @brief generateFormularString
+   * @param model
+   * @param header
+   * @return
+   */
+  virtual QString generateFormularString(QAbstractTableModel *model,
+                                         QString header);
 
-// Getter
-    int SoftwareIdIndex() const
-    {
-        return m_SoftwareIdIndex;
-    }
-    int NameIndex() const
-    {
-        return m_NameIndex;
-    }
-    int VersionIndex() const
-    {
-        return m_VersionIndex;
-    }
-    int RevisionIndex() const
-    {
-        return m_RevisionIndex;
-    }
-    int FixIndex() const
-    {
-        return m_FixIndex;
-    }
-    int LastUpdateIndex() const
-    {
-        return m_LastUpdateIndex;
-    }
+  // Getter
+  int SoftwareIdIndex() const { return m_SoftwareIdIndex; }
+  int NameIndex() const { return m_NameIndex; }
+  int VersionIndex() const { return m_VersionIndex; }
+  int RevisionIndex() const { return m_RevisionIndex; }
+  int FixIndex() const { return m_FixIndex; }
+  int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
+  /**
+   * @brief tableName - the name of the database table
+   * @
+   */
+  const QString m_tableName = QLatin1String("software");
 
-    /**
-     * @brief tableName - the name of the database table
-     * @
-     */
-    const QString m_tableName = QLatin1String("software");
-
-    int m_SoftwareIdIndex;
-    int m_NameIndex;
-    int m_VersionIndex;
-    int m_RevisionIndex;
-    int m_FixIndex;
-    int m_LastUpdateIndex;
-
+  int m_SoftwareIdIndex;
+  int m_NameIndex;
+  int m_VersionIndex;
+  int m_RevisionIndex;
+  int m_FixIndex;
+  int m_LastUpdateIndex;
 };
 
 #endif // SOFTWAREDATAMODEL_H

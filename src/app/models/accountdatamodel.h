@@ -80,11 +80,8 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
-
 #include "definitions.h"
 #include "models/commondatamodel.h"
-
-
 
 /**
  * \class AccountDataModel
@@ -95,118 +92,100 @@
  * \date 07.04.2018
  * \copyright EUPL V1.2
  */
-class AccountDataModel : public CommonDataModel
-{
-    Q_OBJECT
+class AccountDataModel : public CommonDataModel {
+  Q_OBJECT
 
 public:
+  /**
+   * \brief AccountDataModel
+   * \details The Datamodel for the Accounts from the Employees
+   * \param parent
+   */
+  explicit AccountDataModel(QObject *parent = nullptr);
 
-    /**
-     * \brief AccountDataModel
-     * \details The Datamodel for the Accounts from the Employees
-     * \param parent
-     */
-    explicit AccountDataModel(QObject* parent = nullptr);
+  /**
+   * \brief ~AccountDataModel
+   */
+  ~AccountDataModel() override;
 
-    /**
-     * \brief ~AccountDataModel
-     */
-    ~AccountDataModel() override;
+  // implement the virtuals
 
-// implement the virtuals
+  /**
+   * \brief setIndexes
+   */
+  void setIndexes();
 
-    /**
-     * \brief setIndexes
-     */
-    void setIndexes();
+  /**
+   * \brief initializeRelationalModel
+   * \return
+   */
+  QSqlRelationalTableModel *initializeRelationalModel();
 
-    /**
-     * \brief initializeRelationalModel
-     * \return
-     */
-    QSqlRelationalTableModel* initializeRelationalModel();
+  /**
+   * \brief initializeInputDataModel
+   * \return
+   */
+  QSqlRelationalTableModel *initializeInputDataModel();
 
-    /**
-     * \brief initializeInputDataModel
-     * \return
-     */
-    QSqlRelationalTableModel* initializeInputDataModel();
+  /**
+   * \brief initializeViewModel
+   * \return
+   */
+  QSqlTableModel *initializeViewModel();
 
-    /**
-     * \brief initializeViewModel
-     * \return
-     */
-    QSqlTableModel* initializeViewModel();
+  /**
+   * \brief generateTableString
+   * \param model
+   * \param header
+   * \return
+   */
+  QString generateTableString(QAbstractTableModel *model, QString header);
 
-    /**
-     * \brief generateTableString
-     * \param model
-     * \param header
-     * \return
-     */
-    QString generateTableString(QAbstractTableModel* model, QString header);
+  /**
+   * \brief generateFormularString
+   * \param model
+   * \param header
+   * \return
+   */
+  QString generateFormularString(QAbstractTableModel *model, QString header);
 
-    /**
-     * \brief generateFormularString
-     * \param model
-     * \param header
-     * \return
-     */
-    QString generateFormularString(QAbstractTableModel* model, QString header);
+  // Getter
+  /**
+   * \brief AccountIdIndex
+   * \return
+   */
+  int AccountIdIndex() const { return m_AccountIdIndex; }
 
-// Getter
-    /**
-     * \brief AccountIdIndex
-     * \return
-     */
-    int AccountIdIndex() const
-    {
-        return m_AccountIdIndex;
-    }
+  /**
+   * \brief UserNameIndex
+   * \return
+   */
+  int UserNameIndex() const { return m_UserNameIndex; }
 
-    /**
-     * \brief UserNameIndex
-     * \return
-     */
-    int UserNameIndex() const
-    {
-        return m_UserNameIndex;
-    }
+  /**
+   * \brief PasswordIndex
+   * \return
+   */
+  int PasswordIndex() const { return m_PasswordIndex; }
 
-    /**
-     * \brief PasswordIndex
-     * \return
-     */
-    int PasswordIndex() const
-    {
-        return m_PasswordIndex;
-    }
+  /**
+   * \brief SystemDataIndex
+   * \return
+   */
+  int SystemDataIndex() const { return m_SystemDataIdIndex; }
 
-    /**
-     * \brief SystemDataIndex
-     * \return
-     */
-    int SystemDataIndex() const
-    {
-        return m_SystemDataIdIndex;
-    }
-
-    int LastUpdateIndex() const
-    {
-        return m_LastUpdateIndex;
-    }
+  int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-
-    /**
-     * tableName - the name of the database table
-     */
-    const QString m_tableName = QLatin1String("account");
-    int m_AccountIdIndex{};
-    int m_UserNameIndex{};
-    int m_PasswordIndex{};
-    int m_SystemDataIdIndex{};
-    int m_LastUpdateIndex{};
+  /**
+   * tableName - the name of the database table
+   */
+  const QString m_tableName = QLatin1String("account");
+  int m_AccountIdIndex{};
+  int m_UserNameIndex{};
+  int m_PasswordIndex{};
+  int m_SystemDataIdIndex{};
+  int m_LastUpdateIndex{};
 };
 
 #endif // ACCOUNTDATAMODEL_H

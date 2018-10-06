@@ -54,88 +54,72 @@
 #include "definitions.h"
 #include "models/commondatamodel.h"
 
-class ComputerSoftwareDataModel : public CommonDataModel
-{
-    Q_OBJECT
+class ComputerSoftwareDataModel : public CommonDataModel {
+  Q_OBJECT
 
 public:
-    explicit ComputerSoftwareDataModel(QObject* parent = nullptr);
+  explicit ComputerSoftwareDataModel(QObject *parent = nullptr);
 
-    ~ComputerSoftwareDataModel();
+  ~ComputerSoftwareDataModel();
 
-// implement the virtuals
+  // implement the virtuals
 
-    /**
-     * @brief setIndexes
-     */
-    virtual void setIndexes();
+  /**
+   * @brief setIndexes
+   */
+  virtual void setIndexes();
 
-    /**
-     * @brief initializeRelationalModel
-     * @return
-     */
-    virtual QSqlRelationalTableModel* initializeRelationalModel();
+  /**
+   * @brief initializeRelationalModel
+   * @return
+   */
+  virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-    /**
-     * @brief initializeInputDataModel
-     * @return
-     */
-    virtual QSqlRelationalTableModel* initializeInputDataModel();
+  /**
+   * @brief initializeInputDataModel
+   * @return
+   */
+  virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-    /**
-     * @brief initializeViewModel
-     * @return
-     */
-    virtual QSqlTableModel* initializeViewModel();
+  /**
+   * @brief initializeViewModel
+   * @return
+   */
+  virtual QSqlTableModel *initializeViewModel();
 
-    /**
-     * @brief generateTableString
-     * @param model
-     * @param header
-     * @return
-     */
-    virtual QString generateTableString(QAbstractTableModel* model, QString header);
+  /**
+   * @brief generateTableString
+   * @param model
+   * @param header
+   * @return
+   */
+  virtual QString generateTableString(QAbstractTableModel *model,
+                                      QString header);
 
-    /**
-     * @brief generateFormularString
-     * @param model
-     * @param header
-     * @return
-     */
-    virtual QString generateFormularString(QAbstractTableModel* model, QString header);
+  /**
+   * @brief generateFormularString
+   * @param model
+   * @param header
+   * @return
+   */
+  virtual QString generateFormularString(QAbstractTableModel *model,
+                                         QString header);
 
-    int ComputerSoftwareIdIndex() const
-    {
-        return m_ComputerSoftwareIdIndex;
-    }
-    int ComputerIdIndex() const
-    {
-        return m_ComputerIdIndex;
-    }
-    int SoftwareIdIndex() const
-    {
-        return m_SoftwareIdIndex;
-    }
-    int LastUpdateIndex() const
-    {
-        return m_LastUpdateIndex;
-    }
-
+  int ComputerSoftwareIdIndex() const { return m_ComputerSoftwareIdIndex; }
+  int ComputerIdIndex() const { return m_ComputerIdIndex; }
+  int SoftwareIdIndex() const { return m_SoftwareIdIndex; }
+  int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-
-    /**
-     * @brief tableName - the name of the database table
-     * @
-     */
-    const QString m_tableName = QLatin1String("computer_software");
-    int m_ComputerSoftwareIdIndex;
-    int m_ComputerIdIndex;
-    int m_SoftwareIdIndex;
-    int m_LastUpdateIndex;
-
-
-
+  /**
+   * @brief tableName - the name of the database table
+   * @
+   */
+  const QString m_tableName = QLatin1String("computer_software");
+  int m_ComputerSoftwareIdIndex;
+  int m_ComputerIdIndex;
+  int m_SoftwareIdIndex;
+  int m_LastUpdateIndex;
 };
 
 #endif // COMPUTERSOFTWAREDATAMODEL_H

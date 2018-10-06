@@ -43,8 +43,6 @@
 **
 **************************************************************************/
 
-
-
 #include <QObject>
 
 #include <QtSql>
@@ -55,9 +53,7 @@
 #include <QSqlRelation>
 #include <QTextDocument>
 
-
 #include "models/datamodel.h"
-
 
 /**
  * The CommonDataModel class
@@ -68,47 +64,44 @@
  * EUPL V1.2
  */
 
-class CommonDataModel : public QObject
-{
-    Q_OBJECT
+class CommonDataModel : public QObject {
+  Q_OBJECT
 
 public:
+  /**
+   * CommonDataModel
+   * parent
+   */
+  explicit CommonDataModel(QObject *parent = nullptr);
 
-    /**
-     * CommonDataModel
-     * parent
-     */
-    explicit CommonDataModel(QObject* parent = nullptr);
+  /**
+   * ~CommonDataModel
+   */
+  ~CommonDataModel() override;
 
-    /**
-     * ~CommonDataModel
-     */
-    ~CommonDataModel() override;
+  /**
+   * createSheet
+   * return
+   */
+  QTextDocument *createSheet();
 
-    /**
-     * createSheet
-     * return
-     */
-    QTextDocument* createSheet();
+  /**
+   * setOutTableStyle
+   * return
+   */
+  QString setOutTableStyle();
 
-    /**
-     * setOutTableStyle
-     * return
-     */
-    QString setOutTableStyle();
-
-    /**
-     * setFormularStyle
-     * return
-     */
-    QString setOutFormularStyle();
+  /**
+   * setFormularStyle
+   * return
+   */
+  QString setOutFormularStyle();
 
 protected:
-    QSqlRelationalTableModel* m_model;
-    QItemSelectionModel* m_selectionModel;
+  QSqlRelationalTableModel *m_model;
+  QItemSelectionModel *m_selectionModel;
 
 private:
-
 };
 
 #endif // COMMONDATAMODEL_H

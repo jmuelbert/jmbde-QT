@@ -56,95 +56,79 @@
 #include "definitions.h"
 #include "models/commondatamodel.h"
 
-class InventoryDataModel : public CommonDataModel
-{
+class InventoryDataModel : public CommonDataModel {
 public:
+  /**
+   * @brief InventoryDataModel::InventoryDataModel
+   */
+  explicit InventoryDataModel(QObject *parent = 0);
 
-    /**
-     * @brief InventoryDataModel::InventoryDataModel
-     */
-    explicit InventoryDataModel(QObject* parent = 0);
+  /**
+   * @brief InventoryDataModel::~InventoryDataModel
+   */
+  ~InventoryDataModel();
 
-    /**
-     * @brief InventoryDataModel::~InventoryDataModel
-     */
-    ~InventoryDataModel();
+  // implement the virtuals
 
-// implement the virtuals
+  /**
+   * @brief setIndexes
+   */
+  virtual void setIndexes();
 
-    /**
-     * @brief setIndexes
-     */
-    virtual void setIndexes();
+  /**
+   * @brief initializeRelationalModel
+   * @return
+   */
+  virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-    /**
-     * @brief initializeRelationalModel
-     * @return
-     */
-    virtual QSqlRelationalTableModel* initializeRelationalModel();
+  /**
+   * @brief initializeInputDataModel
+   * @return
+   */
+  virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-    /**
-     * @brief initializeInputDataModel
-     * @return
-     */
-    virtual QSqlRelationalTableModel* initializeInputDataModel();
+  /**
+   * @brief initializeViewModel
+   * @return
+   */
+  virtual QSqlTableModel *initializeViewModel();
 
-    /**
-     * @brief initializeViewModel
-     * @return
-     */
-    virtual QSqlTableModel* initializeViewModel();
+  /**
+   * @brief generateTableString
+   * @param model
+   * @param header
+   * @return
+   */
+  virtual QString generateTableString(QAbstractTableModel *model,
+                                      QString header);
 
-    /**
-     * @brief generateTableString
-     * @param model
-     * @param header
-     * @return
-     */
-    virtual QString generateTableString(QAbstractTableModel* model, QString header);
+  /**
+   * @brief generateFormularString
+   * @param model
+   * @param header
+   * @return
+   */
+  virtual QString generateFormularString(QAbstractTableModel *model,
+                                         QString header);
 
-    /**
-     * @brief generateFormularString
-     * @param model
-     * @param header
-     * @return
-     */
-    virtual QString generateFormularString(QAbstractTableModel* model, QString header);
-
-// Getter
-    int InventoryIdIndex() const
-    {
-        return m_InventoryIdIndex;
-    }
-    int NumberIndex() const
-    {
-        return m_NumberIndex;
-    }
-    int DescriptionIndex() const
-    {
-        return m_DescriptionIndex;
-    }
-    int ActiveIndex() const
-    {
-        return m_ActiveIndex;
-    }
-    int LastUpateIndex() const
-    {
-        return m_LastUpdateIndex;
-    }
+  // Getter
+  int InventoryIdIndex() const { return m_InventoryIdIndex; }
+  int NumberIndex() const { return m_NumberIndex; }
+  int DescriptionIndex() const { return m_DescriptionIndex; }
+  int ActiveIndex() const { return m_ActiveIndex; }
+  int LastUpateIndex() const { return m_LastUpdateIndex; }
 
 private:
-
-    /**
-     * @brief tableName - the name of the database table
-     * @
-     */
-    const QString m_tableName = QLatin1String("inventory");
-    int m_InventoryIdIndex;
-    int m_NumberIndex;
-    int m_DescriptionIndex;
-    int m_ActiveIndex;
-    int m_LastUpdateIndex;
+  /**
+   * @brief tableName - the name of the database table
+   * @
+   */
+  const QString m_tableName = QLatin1String("inventory");
+  int m_InventoryIdIndex;
+  int m_NumberIndex;
+  int m_DescriptionIndex;
+  int m_ActiveIndex;
+  int m_LastUpdateIndex;
 };
 
 #endif // INVENTORYDATAMODEL_H
