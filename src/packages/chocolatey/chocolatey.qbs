@@ -28,7 +28,7 @@ Product {
     builtByDefault: false
     name: "qbs chocolatey"
     type: ["chocolatey.nupkg"]
-    targetName: "qbs." + qbsversion.version
+    targetName: "jmbde." + qbsversion.version
     destinationDirectory: project.buildDirectory
 
     property string chocoFilePath: choco.filePath
@@ -83,7 +83,7 @@ Product {
                                          chocoBuildDirectory, "tools", "chocolateyinstall.ps1"),
                                       TextFile.WriteOnly);
                 try {
-                    tf.writeLine("$qbsVersion = '" + qbsVersion + "'");
+                    tf.writeLine("$jmbdeVersion = '" + jmbdeVersion + "'");
                     tf.writeLine("");
                     var tf2 = new TextFile(powershellFilePath, TextFile.ReadOnly);
                     try {
