@@ -17,7 +17,7 @@ QtApplication {
         "../../../src",
         "../../../src/app/shared", // for the logger
     ]
-    cpp.cxxLanguageVersion: "c++14"
+    cpp.cxxLanguageVersion: "c++11"
     destinationDirectory: "bin"
 
     cpp.rpaths: [FileInfo.joinPaths(qbs.installRoot, qbs.installPrefix, qbsbuildconfig.libDirName)]
