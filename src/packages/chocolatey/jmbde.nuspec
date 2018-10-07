@@ -3,22 +3,22 @@
 <package 
     xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
     <metadata>
-        <id>qbs</id>
-        <title>Qbs</title>
+        <id>jmbde</id>
+        <title>jmbde</title>
         <authors>Qt Project</authors>
-        <owners>qbs</owners>
-        <summary>Build tool that helps simplify the build process for developing projects across multiple platforms.</summary>
-        <description>Qbs is a tool that helps simplify the build process for developing projects across multiple platforms.</description>
-        <projectUrl>https://wiki.qt.io/Qbs</projectUrl>
-        <packageSourceUrl>https://code.qt.io/cgit/qbs/qbs.git</packageSourceUrl>
-        <projectSourceUrl>https://code.qt.io/cgit/qbs/qbs.git</projectSourceUrl>
-        <docsUrl>https://doc.qt.io/qbs/</docsUrl>
-        <mailingListUrl>http://lists.qt-project.org/mailman/listinfo/qbs</mailingListUrl>
-        <bugTrackerUrl>https://bugreports.qt.io/browse/QBS</bugTrackerUrl>
-        <tags>qbs qt build</tags>
-        <copyright>© 2017 The Qt Company Ltd.</copyright>
-        <licenseUrl>http://doc.qt.io/qt-5/licensing.html</licenseUrl>
+        <owners>jmuelbert</owners>
+        <summary>A BDE tool</summary>
+        <description>A BDE tool.</description>
+        <projectUrl>http://jmuelbert.github.io/jmbde-QT</projectUrl>
+        <packageSourceUrl>https://github.com/jmuelbert/jmbde-QT.git</packageSourceUrl>
+        <projectSourceUrl>https://github.com/jmuelbert/jmbde-QT.git</projectSourceUrl>
+        <docsUrl>http://jmuelbert.github.io/jmbde-QT/</docsUrl>
+        <!-- mailingListUrl>http://lists.qt-project.org/mailman/listinfo/qbs</mailingListUrl -->
+        <bugTrackerUrl>https://github.com/jmuelbert/jmbde-QT/issues</bugTrackerUrl>
+        <tags>bde BDE qbs qt build</tags>
+        <copyright>© 2018 Jürgen Mülbert</copyright>
+        <licenseUrl>https://github.com/jmuelbert/jmbde-QT/blob/master/LICENSE</licenseUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <iconUrl>https://d3hp9ud7yvwzy0.cloudfront.net/wp-content/uploads/2015/02/Qt-logo-medium.png</iconUrl>
+        <!-- iconUrl>**.png</iconUrl -->
     </metadata>
 </package>

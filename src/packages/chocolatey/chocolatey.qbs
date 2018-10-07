@@ -34,7 +34,7 @@ Product {
     property string chocoFilePath: choco.filePath
 
     Group {
-        files: ["qbs.nuspec"]
+        files: ["jmbde.nuspec"]
         fileTags: ["chocolatey.nuspec"]
     }
 
