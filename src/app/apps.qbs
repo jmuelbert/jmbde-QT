@@ -13,7 +13,7 @@ QbsApp {
                                         "widgets", 
                                         "sql", 
                                         "printsupport", 
-                                        "help" ]; versionAtLeast: "5.10" }
+                                        "help" ]; versionAtLeast: "5.5" }
 
     property bool qtcRunnable: true
 
