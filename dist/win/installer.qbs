@@ -39,18 +39,19 @@ WindowsInstallerPackage {
             "RootDir=" + project.sourceDirectory
         ];
 
-        if (qbs.toolchain.contains("mingw"))
+       if (qbs.toolchain.contains("mingw"))
             defs.push("MingwDir=" + FileInfo.joinPaths(cpp.toolchainInstallPath, ".."));
-        else if (qbs.toolchain.contains("msvc"))
-            defs.push("VcInstallDir=" + FileInfo.joinPaths(cpp.toolchainInstallPath, "../.."));
-            
-
-        // A bit of a hack to exclude the Python plugin when it isn't built
-        if (File.exists("C:/Python27") &&
-                qbs.toolchain.contains("mingw") &&
-                !qbs.debugInformation) {
-            defs.push("Python");
+        else if (qbs.toolchain.contains("msvc")) {
+            if (cpp.compilerVersionMajor >= 19) {
+                defs.push("VcUniversalCRT=true");
+                defs.push("VcInstallDir=" + cpp.toolchainInstallPath);
+            } else {
+                defs.push("VcInstallDir=" + FileInfo.joinPaths(cpp.toolchainInstallPath, "../.."));
+            }
         }
+            
+       if (File.exists(Environment.getEnv("PYTHONHOME")))
+            defs.push("Python");
 
         return defs;
     }
