@@ -1,19 +1,18 @@
 /*!
-    \contentspage{index.html}{Qbs}
+    \contentspage{index.html}{JMBDE}
     \page index.html
     \nextpage overview.html
 
-    \title Qbs Manual
+    \title JMBDE Manual
 
     \section1 Version \qbsversion
 
-    \QBS is a tool that helps simplify the build process for
-    developing projects across multiple platforms. \QBS can be used for any
-    software project, regardless of programming language, toolkit, or libraries used.
+    \JMBDE is a tool that helps simplify collect
+     Resources for a company-
 
 
     \note Please report bugs and suggestions to the
-    \l{http://bugreports.qt.io/}{Qt Bug Tracker}.
+    \l{https://github.com/jmuelbert/jmbde-QT/issues/}{JMBDE Bug Tracker}.
 
     \list
        \li  \l{Introduction}
@@ -25,15 +24,7 @@
            \endlist
        \li  \l{Usage}
            \list
-               \li  \l{Language Introduction}
-               \li  \l{Building Applications}
-               \li  \l{Running Applications}
-               \li  \l{Installing Files}
-               \li  \l{Target Platforms}
-               \li  \l{Using the Shell}
-               \li  \l{Generators}
-               \li  \l{Multiplexing}
-               \li  \l{Custom Modules and Items}
+               \li  \l{Introduction}
            \endlist
        \li  \l{How-tos}
        \li  \l{Reference}
@@ -43,15 +34,7 @@
                     \li \l{List of Language Items}
                     \li \l{List of Convenience Items}
                 \endlist
-                \li \l{List of Built-in Services}
-                \li \l{Command-Line Interface}
-                \li \l{List of Modules}
-                \li \l{Command and JavaScriptCommand}
            \endlist
-
-       \li  \l{Appendix A: Building Qbs}
-       \li  \l{Appendix B: Migrating from Other Build Systems}
-       \li  \l{Appendix C: Code Attributions}
     \endlist
 */
 
@@ -67,9 +50,4 @@
     \section1 Features
 
     \section2 Declarative Paradigm
-
-    \section2 Well-Defined Language
-
-    \section2 Platform and Programming Language Independence
-
 */

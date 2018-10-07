@@ -15,19 +15,19 @@ sources.fileextensions  = "*.qdoc"
 
 
 qhp.projects            = jmbde
-qhp.Qbs.file             = jmbde.qhp
-qhp.Qbs.namespace        = de.juergen-muelbert.jmbde.$APP_VERSION_TAG
-qhp.Qbs.virtualFolder    = doc
-qhp.Qbs.indexTitle       = Qbs
-qhp.Qbs.filterAttributes = jmbde $APP_VERSION
-qhp.Qbs.customFilters.Qbs.name = jmbde $APP_VERSION
-qhp.Qbs.customFilters.Qbs.filterAttributes = jmbde $APP_VERSION
-qhp.Qbs.indexRoot        =
+qhp.jmbde.file             = jmbde.qhp
+qhp.jmbde.namespace        = de.juergen-muelbert.jmbde.$APP_VERSION_TAG
+qhp.jmbde.virtualFolder    = doc
+qhp.jmbde.indexTitle       = Qbs
+qhp.jmbde.filterAttributes = jmbde $APP_VERSION
+qhp.jmbde.customFilters.Qbs.name = jmbde $APP_VERSION
+qhp.jmbde.customFilters.Qbs.filterAttributes = jmbde $APP_VERSION
+qhp.jmbde.indexRoot        =
 
-qhp.Qbs.subprojects = manual
-qhp.Qbs.subprojects.manual.title = jmbde Manual
-qhp.Qbs.subprojects.manual.indexTitle = jmbde Manual
-qhp.Qbs.subprojects.manual.type = manual
+qhp.jmbde.subprojects = manual
+qhp.jmbde.subprojects.manual.title = jmbde Manual
+qhp.jmbde.subprojects.manual.indexTitle = jmbde Manual
+qhp.jmbde.subprojects.manual.type = manual
 
 # Doxygen compatibility commands
 macro.see                       = "\\sa"
