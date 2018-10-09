@@ -62,9 +62,9 @@ Product {
 
             if (qbs.targetOS.contains("windows")) {
                 if (Qt.core.versionMinor < 7) {
-                    list.push("icuin54.dll",
-                              "icuuc54.dll",
-                              "icudt54.dll");
+                    list.push("icuin56.dll",
+                              "icuuc56.dll",
+                              "icudt56.dll");
                 }
             } else if (qbs.targetOS.contains("linux")) {
                 list = addQtVersions(list);
