@@ -60,6 +60,7 @@ build_script:
   - if defined JMBDE_RELEASE (set JMBDE_ITCH_VERSION=%JMBDE_VERSION%) else (set JMBDE_ITCH_VERSION=%VERSION_DATE%)
   - if defined JMBDE_SNAPSHOT (set JMBDE_ITCH_CHANNEL=%JMBDE_ITCH_CHANNEL%-snapshot)
   - if not defined APPVEYOR_PULL_REQUEST_NUMBER if [%APPVEYOR_REPO_BRANCH%]==[snapshot] set PUSH_TO_ITCH=true
+  - dir %QTDIR\bin
   - qbs build --all-products config:release projects.jmbde.windowsInstaller:true
   - qbs build --all-products config:itch  projects.jmbde.version:%JMBDE_ITCH_VERSION%
   - cd util\java

@@ -21,7 +21,7 @@ Project {
     property bool windowsInstaller: false
     property bool withCode: true
     property bool withDocker: true
-    property bool withDocumentation: true
+    property bool withDocumentation: false
     property bool withExamples: false
     property bool withTests: withCode
     property stringList autotestArguments: []
