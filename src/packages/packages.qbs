@@ -2,8 +2,7 @@ import qbs
 
 Project {
     references: [
-        "archive/archive.qbs",
-        "chocolatey/chocolatey.qbs",
+        "archive/archive.qbs"
     ]
 
     // Virtual product for building all possible packagings
