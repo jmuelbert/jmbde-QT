@@ -234,7 +234,7 @@ void DataModel::prepareDB() const {
   if (!file.exists()) {
     QString log = QStringLiteral("Fatal error on build database. The file '");
     log.append(file.fileName() +
-               QStringLiteral("' for database and tables creation query "
+               QStringLiteral(" for database and tables creation query "
                               "cannot be not found!"));
     qDebug() << log;
     return;
