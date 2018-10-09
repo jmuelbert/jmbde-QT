@@ -103,7 +103,7 @@ public:
    */
   explicit DataContext(QObject *parent = nullptr);
 
-  explicit DataContext(const QString &name = QString(),
+  // explicit DataContext(const QString &name = QString(),
                        QObject *parent = nullptr);
 
   /**
