@@ -98,7 +98,7 @@ matrix:
         - for test in `find -executable -type f`; do pushd `dirname $test`; xvfb-run -a ./`basename $test`||exit 1; popd; done
         - popd
       after_script:
-        - cppcheck --enable=all -q -Isrc/libtiled `git ls-files src/\*.cpp`
+        - cppcheck --enable=all -q -Isrc `git ls-files src/\*.cpp`
     - os: osx
       env:
         - INSTALLER_NAME="qt-opensource-mac-x64-clang-5.6.3"

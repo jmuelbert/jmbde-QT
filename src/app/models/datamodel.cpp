@@ -234,16 +234,14 @@ void DataModel::prepareDB() const {
   if (!file.exists()) {
     QString log = QStringLiteral("Fatal error on build database. The file '");
     log.append(file.fileName() +
-               QStringLiteral(" for database and tables creation query "
-                              "cannot be not found!"));
+               QStringLiteral(" for database and tables creation query cannot be not found!"));
     qDebug() << log;
     return;
   }
 
   if (!file.open(QIODevice::ReadOnly)) {
     qDebug() << QStringLiteral(
-        "Fatal error on try to create database! The file with sql queries "
-        "for database creation cannot be opened!");
+        "Fatal error on try to create database! The file with sql queries for database creation cannot be opened!");
     return;
   }
 
