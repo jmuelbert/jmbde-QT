@@ -107,6 +107,7 @@ DataContext::DataContext(QObject *parent) : QObject(parent) {
   }
 }
 
+/*
 DataContext::DataContext(const QString &name, QObject *parent)
     : QObject(parent) {
   this->name = name.isEmpty() ? QUuid::createUuid().toString() : name;
@@ -175,7 +176,7 @@ DataContext::DataContext(const QString &name, QObject *parent)
     exit(0);
   }
 }
-
+*/
 DataContext::~DataContext() {
   this->m_db.close();
   qDebug("m_db.close()");

@@ -83,7 +83,7 @@ Product {
                                          chocoBuildDirectory, "tools", "chocolateyinstall.ps1"),
                                       TextFile.WriteOnly);
                 try {
-                    tf.writeLine("$jmbdeVersion = '" + jmbdeVersion + "'");
+                    tf.writeLine("$qbsVersion = '" + qbsVersion + "'");
                     tf.writeLine("");
                     var tf2 = new TextFile(powershellFilePath, TextFile.ReadOnly);
                     try {
