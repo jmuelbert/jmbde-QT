@@ -40,6 +40,7 @@ build_script:
   - if defined JMBDE_RELEASE echo Building jmbde %JMBDE_VERSION%... (from %COMMITNOW%)
   - if defined JMBDE_SNAPSHOT set JMBDE_VERSION=%APPVEYOR_BUILD_VERSION%
   - if defined JMBDE_SNAPSHOT echo Building JMBDE snapshot %JMBDE_VERSION%... (from %COMMITNOW%)
+  - dir %QTDIR\bin
   - qbs --version
   - qbs setup-toolchains --detect
   - qbs setup-qt %QTDIR%\bin\qmake.exe qt
@@ -53,7 +54,7 @@ build_script:
   - mvn --version
   - mvn clean install
   - cd ..\..
-  - dir %QTDIR\bin
+
 
 
 after_build:

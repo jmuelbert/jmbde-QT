@@ -13,14 +13,14 @@ Project {
     property pathList additionalLibs: []
     property pathList additionalTools: []
     property pathList additionalAutotests: []
-    property string version: Environment.getEnv("JMBDE_VERSION") || "0.4.13";
+    property string version: Environment.getEnv("JMBDE_VERSION") || "0.4.21";
     property bool snapshot: Environment.getEnv("JMBDE_SNAPSHOT")
     property bool release: Environment.getEnv("JMBDE_RELEASE")
     property bool installHeaders: false
     property bool useRPaths: true
     property bool windowsInstaller: false
     property bool withCode: true
-    property bool withDocker: true
+    property bool withDocker: false
     property bool withDocumentation: true
     property bool withExamples: false
     property bool withTests: withCode

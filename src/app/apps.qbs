@@ -318,6 +318,7 @@ QbsApp {
         files: [ "jmbde.rc.in" ]
         fileTags: ["rcIn"]
     }
+    
     Rule {
         inputs: ["rcIn"]
         Artifact {

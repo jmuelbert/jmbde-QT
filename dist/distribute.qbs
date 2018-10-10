@@ -21,6 +21,16 @@ Product {
     }
 
     Group {
+        name: "Python Scripts"
+        prefix: "../src/plugins/python/scripts/"
+        files: ["**"]
+
+        qbs.install: true
+        qbs.installDir: "examples/python"
+        qbs.installSourceBase: prefix
+    }
+    
+    Group {
         name: "Qt DLLs"
         prefix: {
             if (qbs.targetOS.contains("windows")) {
