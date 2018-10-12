@@ -7,12 +7,7 @@ include(jmbde.pri)
 
 !minQtVersion(5, 9, 6) {
     message("Cannot build jmbde with Qt version $${QT_VERSION}")
-    error("Use at least Qt 5.10.0.")
-}
-
-win* {
-    message("Building jmbde for Windows using qmake is no longer supported")
-    error("Use the jmbde.qbs project file instead")
+    error("Use at least Qt 5.9.6.")
 }
 
 TEMPLATE  = subdirs
