@@ -41,24 +41,24 @@ before_script:
 - if [ "$TRAVIS_OS_NAME" = "linux" ]; then source /opt/qt510/bin/qt510-env.sh; fi
 - qmake -v
 script:
-- if [ "$TRAVIS_OS_NAME" = "linux" ]; then qmake CONFIG+=coverage -Wall qtpass.pro; fi
+- if [ "$TRAVIS_OS_NAME" = "linux" ]; then qmake CONFIG+=coverage -Wall jmbde.pro; fi
 - if [ "$TRAVIS_OS_NAME" = "linux" ]; then make -j$(nproc); fi
 - if [ "$TRAVIS_OS_NAME" = "linux" ]; then make -j$(nproc) coveralls TESTARGS="--platform offscreen"; fi
 - if [ "$TRAVIS_OS_NAME" = "linux" ]; then make distclean; fi
-- if [ "$TRAVIS_OS_NAME" = "linux" ]; then qmake CONFIG+=coverage -Wall qtpass.pro; fi
+- if [ "$TRAVIS_OS_NAME" = "linux" ]; then qmake CONFIG+=coverage -Wall jmbde.pro; fi
 - if [ "$TRAVIS_OS_NAME" = "linux" ]; then make -j$(nproc); fi
 - if [ "$TRAVIS_OS_NAME" = "linux" ]; then make -j$(nproc) codecov TESTARGS="--platform offscreen"; fi
 - if [ "$TRAVIS_OS_NAME" = "linux" ]; then make distclean; fi
 - qmake -Wall jmbde.pro
 - make -j$(nproc)
 - make check TESTARGS="--platform offscreen"
-- if [ "$TRAVIS_OS_NAME" = "osx" ]; then macdeployqt main/QtPass.app; fi
+- if [ "$TRAVIS_OS_NAME" = "osx" ]; then macdeployqt main/jmbde.app; fi
 # - if [ "$TRAVIS_OS_NAME" = "osx" ]; then sed 's/FAQ\.md/https:\/\/qtpass.org\/docs\/md_FAQ.html/' < README.md > README.faq; fi
 # - if [ "$TRAVIS_OS_NAME" = "osx" ]; then sed 's/CONTRIBUTING\.md/https:\/\/qtpass.org\/docs\/md_CONTRIBUTING.html/' < README.faq > README.contrib; fi
 - if [ "$TRAVIS_OS_NAME" = "osx" ]; then sed 's/\[\!.*//' < README.contrib > README.clean; fi
 - if [ "$TRAVIS_OS_NAME" = "osx" ]; then pandoc --standalone --from=gfm --to=rtf --output=README.rtf README.clean; fi
-- if [ "$TRAVIS_OS_NAME" = "osx" ]; then appdmg appdmg.json qtpass-$(grep ^VERSION  qtpass.pri | cut -d " " -f 6).dmg; fi
-- if [ "$TRAVIS_OS_NAME" = "osx" ]; then export VERSION=$(grep ^VERSION  qtpass.pri | cut -d " " -f 6); fi
+- if [ "$TRAVIS_OS_NAME" = "osx" ]; then appdmg appdmg.json qtpass-$(grep ^VERSION  jmbde.pri | cut -d " " -f 6).dmg; fi
+- if [ "$TRAVIS_OS_NAME" = "osx" ]; then export VERSION=$(grep ^VERSION  jmbde.pri | cut -d " " -f 6); fi
 # deploy:
 #  provider: releases
 #  api_key:
