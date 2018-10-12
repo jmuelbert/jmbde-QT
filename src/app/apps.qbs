@@ -2,12 +2,15 @@ import qbs
 import qbs.FileInfo
 import qbs.TextFile
 
-QbsApp {
+QtGuiApplication {
     name: "jmbde"
     targetName: name
     version: project.version
     consoleApplication: false
 
+    Depends { name: "jmbdedata" }
+    Depends { name: "translations" }
+    Depends { name: "qtsingleapplication" }
     Depends { name: "ib"; condition: qbs.targetOS.contains("macos") }
     Depends { name: "Qt"; submodules: [ "core", 
                                         "widgets", 

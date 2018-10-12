@@ -16,6 +16,7 @@
 [Bb]uild/
 [Oo]bj/
 [Bb]in/
+[Ii]nstall/
 [Ll]ib/*.so*
 Makefile*
 

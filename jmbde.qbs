@@ -31,6 +31,7 @@ Project {
         "dist/archive.qbs",
         "dist/distribute.qbs",
         "dist/win/installer.qbs",
+        "src/lib/3rdparty/qtsingleapplication",
     ]
 
     SubProject {

@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-Exec=jmbde %F
-Name=jmbde
-GenericName=application to collect data in a company
-X-KDE-StartupNotify=true
-Icon=jmbde
-Terminal=false
-Categories=Tool;Business;Qt;

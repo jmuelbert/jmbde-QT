@@ -14,7 +14,7 @@ include(macros.qdocconf)
 sources.fileextensions  = "*.qdoc"
 
 
-qhp.projects            = jmbde
+qhp.projects               = jmbde
 qhp.jmbde.file             = jmbde.qhp
 qhp.jmbde.namespace        = de.juergen-muelbert.jmbde.$APP_VERSION_TAG
 qhp.jmbde.virtualFolder    = doc

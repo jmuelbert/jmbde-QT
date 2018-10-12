@@ -1,14 +1,17 @@
 INCLUDEPATH += $$PWD
+INCLUDEPATH += $$_PRO_FILE_
 QT += sql
 
+message($$_PRO_FILE_)
+
 SOURCES += \
-    $$PWD/data.cpp \
-    $$PWD/jmbdedb.cpp
+    $$PWD/datalib/datacontext/datacontext.cpp 
+ 
 
 HEADERS += \
-    $$PWD/data_global.h \
-    $$PWD/data.h \
-    $$PWD/jmbdedb.h \
-    $$PWD/utils.h
+    $$PWD/datalib/app.h \
+    $$PWD/datalib/data_global.h \
+    $$PWD/datalib/datacontext/datacontext.h
 
-RESOURCES = data.qrc
+
+RESOURCES = $$PWD/datalib/datacontext/datacontext.qrc

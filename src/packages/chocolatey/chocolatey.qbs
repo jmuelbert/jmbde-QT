@@ -26,7 +26,7 @@ Product {
 
     condition: choco.found
     builtByDefault: false
-    name: "qbs chocolatey"
+    name: "jmbde chocolatey"
     type: ["chocolatey.nupkg"]
     targetName: "jmbde." + qbsversion.version
     destinationDirectory: project.buildDirectory

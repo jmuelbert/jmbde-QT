@@ -34,9 +34,9 @@ QbsProduct {
 
     condition: qbs.targetOS.containsAny(["windows", "macos"])
     builtByDefault: false
-    name: "qbs archive"
+    name: "jmbde archive"
     type: ["archiver.archive"]
-    targetName: "qbs-" + qbs.targetOS[0] + "-" + qbs.architecture + "-" + qbsversion.version
+    targetName: "jmbde-" + qbs.targetOS[0] + "-" + qbs.architecture + "-" + qbsversion.version
     destinationDirectory: project.buildDirectory
 
     archiver.type: qbs.targetOS.contains("windows") ? "zip" : "tar"
@@ -54,7 +54,7 @@ QbsProduct {
             "LICENSE.EUPL_1_2",
         ]
         qbs.install: true
-        qbs.installDir: "share/doc/qbs"
+        qbs.installDir: "share/doc/jmbde"
     }
 
     Rule {

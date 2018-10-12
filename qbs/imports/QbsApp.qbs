@@ -1,23 +1,50 @@
 import qbs
 import qbs.FileInfo
 
-QbsProduct {
-    Depends { name: "jmbdedata" }
+QtGuiApplication {
     Depends { name: "cpp" }
     Depends { name: "qbsversion" }
-    type: ["application", "qbsapplication"]
-    version: qbsversion.version
-    consoleApplication: true
     destinationDirectory: FileInfo.joinPaths(project.buildDirectory, "bin")
-    cpp.includePaths: [
-        "../shared",    // for the logger
-    ]
-    Group {
-        fileTagsFilter: product.type
-            .concat(qbs.buildVariant === "debug" ? ["debuginfo_app"] : [])
-        qbs.install: true
-        qbs.installSourceBase: destinationDirectory
-        qbs.installDir: targetInstallDir
+    cpp.useRPaths: project.useRPaths
+      cpp.rpaths: {
+        if (qbs.targetOS.contains("darwin"))
+            return ["@loader_path/../Frameworks"];
+        else if (project.linuxArchive)
+            return ["$ORIGIN/lib"]
+        else
+            return ["$ORIGIN/../lib"];
     }
-    targetInstallDir: qbsbuildconfig.appInstallDir
+    cpp.cxxLanguageVersion: "c++11"
+    cpp.defines: [
+        "QT_DEPRECATED_WARNINGS",
+        "QT_DISABLE_DEPRECATED_BEFORE=0x050900",
+        "QT_NO_FOREACH"
+    ]
+
+    Properties {
+        condition: qbs.targetOS.contains("macos")
+        cpp.cxxFlags: ["-Wno-unknown-pragmas"]
+    }
+
+    Group {
+        condition: qbs.targetOS.contains("darwin") && bundle.isBundle
+        qbs.install: true
+        qbs.installSourceBase: product.buildDirectory
+        fileTagsFilter: ["bundle.content"]
+    }
+
+    Group {
+        condition: !qbs.targetOS.contains("darwin") || !bundle.isBundle
+        qbs.install: true
+        qbs.installDir: {
+            if (qbs.targetOS.contains("windows") || project.linuxArchive)
+                return "";
+            else if (qbs.targetOS.contains("darwin"))
+                return "jmbde.app/Contents/MacOS";
+            else
+                return "bin";
+        }
+
+        fileTagsFilter: product.type
+    }
 }

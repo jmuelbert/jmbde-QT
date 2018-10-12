@@ -66,10 +66,11 @@
 
 #include <QSettings>
 
-#include "app/definitions.h"
 #include <QStandardPaths>
 
 #include "../data_global.h"
+
+
 
 /**
  * \brief The Main Database class
@@ -88,6 +89,49 @@
  * This is the introduction.
  *
  */
+
+
+namespace Settings {
+namespace Groups {
+const char MAINWINDOW[] = "MainWindow";
+const char DATABASE[] = "Database";
+} // namespace Groups
+
+namespace MainWindow {
+const char SIZE[] = "size";
+const char POS[] = "pos";
+} // namespace MainWindow
+
+namespace Database {
+const char TYPE[] = "type";
+const char CONNECTION[] = "connection";
+const char HOSTNAME[] = "hostname";
+const char USERNAME[] = "username";
+const char PASSWORD[] = "password";
+
+} // namespace Database
+
+} // namespace Settings
+
+namespace Database {
+
+namespace Version {
+const char Version[] = "0";
+const char Revision[] = "90";
+const char Patch[] = "0";
+} // namespace Version
+
+namespace Type {
+const char SQLITE[] = "SqLite";
+const char MYSQL[] = "MySql";
+const char ODBC[] = "ODBC";
+const char POSTGRESQL[] = "PostgreSQL";
+const char DEFAULT[] = "SqLite";
+
+} // namespace Type
+} // namespace Database
+
+enum DbType { SQLITE, MYSQL, ODBC, POSTGRESQL };
 
 /**
  * @brief The DataContext class

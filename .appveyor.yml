@@ -1,0 +1,24 @@
+install:
+  - set QTDIR=C:\Qt\5.10\mingw53_32
+  - choco install -y InnoSetup
+  - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw530_32\bin;%PATH%;"C:\Program Files (x86)\Inno Setup 5"
+build_script:
+  - qmake jmbde.pro
+  - mingw32-make
+#  - mingw32-make check
+#after_build:
+  - cmd: copy README.md src\release\README.txt
+  - cmd: copy LICENSE src\release\LICENSE.txt
+  - iscc qtpass.iss
+artifacts:
+  - path: Output\jmbde-*.exe
+  - path: main\release\jmbde.exe
+# deploy:
+#  provider: GitHub
+#  auth_token:
+#    secure: YfscG1DR0+kApThPXxQSr+ZEjUOUlIG0Tqc5+90IFsUInyICRRMdbJsbxR2qhq/p
+#  artifact: /qtpass-[0-9]+\.[0-9]+\.[0-9]+\.exe/
+#  draft: true
+#  prerelease: false
+#  on:
+#    appveyor_repo_tag: true

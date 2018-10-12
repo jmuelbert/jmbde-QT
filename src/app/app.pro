@@ -97,14 +97,15 @@ models/systemdatamodel.cpp \
 models/titledatamodel.cpp \
 models/zipcitymodel.cpp \
 models/zipcodemodel.cpp \
-utils/helpbrowser.cpp \
-    views/aboutdialog.cpp
+utils/helpbrowser.cpp
+
 
 HEADERS += \
 constants.h \
 definitions.h \
 pch.h \
 utils.h \
+views/aboutdialog.h \
 views/chipcardinputarea.h \
 views/cityinputarea.h \
 views/computerinputarea.h \
@@ -156,8 +157,8 @@ models/systemdatamodel.h \
 models/titledatamodel.h \
 models/zipcitymodel.h \
 models/zipcodemodel.h \
-utils/helpbrowser.h \
-    views/aboutdialog.h
+utils/helpbrowser.h
+
 
 FORMS += \
 views/aboutdialog.ui \ 

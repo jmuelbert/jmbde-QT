@@ -7,8 +7,8 @@ Project {
 
     // Virtual product for building all possible packagings
     Product {
-        Depends { name: "qbs archive"; required: false }
-        Depends { name: "qbs chocolatey"; required: false }
+        Depends { name: "jmbde archive"; required: false }
+        Depends { name: "jmbde chocolatey"; required: false }
         name: "dist"
         builtByDefault: false
     }
