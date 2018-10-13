@@ -5,9 +5,9 @@ isEmpty(QT_VERSION) {
 
 include(jmbde.pri)
 
-!minQtVersion(5, 9, 6) {
+!minQtVersion(5, 9, 5) {
     message("Cannot build jmbde with Qt version $${QT_VERSION}")
-    error("Use at least Qt 5.9.6.")
+    error("Use at least Qt 5.9.5.")
 }
 
 TEMPLATE  = subdirs
