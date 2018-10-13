@@ -1,6 +1,4 @@
 include(../../jmbde.pri)
-include(../lib/lib.pri)
-
 
 TEMPLATE = app
 TARGET = jmbde
@@ -178,9 +176,7 @@ views/preferencesdialog.ui \
 views/printerinputarea.ui \
 views/processorinputarea.ui \
 views/softwareinputarea.ui \
-views/titleinputarea.ui \ 
-    views/aboutdialog.ui
-
+views/titleinputarea.ui 
 
 icon32.path = $${PREFIX}/share/icons/hicolor/32x32/apps/
 icon32.files += images/32x32/jmbde.png
