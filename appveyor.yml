@@ -26,16 +26,15 @@ matrix:
       image: Visual Studio 2017
     - PLATFORM: msvc2015
       image: Visual Studio 2017
-
+    - PLATFORM: linux
+      image: Ubuntu
+    
 install:
-  # - git clone https://github.com/Skycoder42/QtModules.git .\qtmodules-travis
-  - .\qtmodules-travis\ci\win\setup.bat
 
 build_script:
-  - .\qtmodules-travis\ci\win\build.bat
+  
 
 after_build:
-  - .\qtmodules-travis\ci\win\upload-prepare.bat
 
 artifacts:
   - path: install\build_*_%QT_VER%.zip
