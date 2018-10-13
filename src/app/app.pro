@@ -15,7 +15,7 @@ win32 {
 
 QT += widgets sql printsupport help
 
-contains(QT_CONFIG,opengl):!macx:!minQtVersion(5, 4, 0) {
+contains(QT_CONFIG,opengl):!macx:!minQtVersion(5, 9, 5) {
     QT += opengl
 }
 
@@ -233,10 +233,12 @@ macx {
     QMAKE_ASSET_CATALOGS += images/jmbde.xcassets
     QMAKE_ASSET_CATALOGS_APP_ICON = jmbde-icon-mac
 }
+
 win32 {
-    RC_FILE = jmbde.rc.in
+    RC_FILE = jmbde.rc
     PRECOMPILED_HEADER = pch.h
 }
+
 win32:INCLUDEPATH += .
 contains(CONFIG, static) {
     DEFINES += STATIC_BUILD
