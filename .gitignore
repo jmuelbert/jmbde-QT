@@ -2,7 +2,8 @@
 ## build results
 ## generated databases
 
-.build/
+.build
+.qtmodules-travis
 
 # Sqlite-DB
 *.db
