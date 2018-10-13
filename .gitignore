@@ -3,7 +3,7 @@
 ## generated databases
 
 .build
-.qtmodules-travis
+# .qtmodules-travis
 
 # Sqlite-DB
 *.db

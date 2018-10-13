@@ -31,7 +31,7 @@ matrix:
         - PLATFORM=clang_64
 
 before_install:
-  - git clone https://github.com/Skycoder42/QtModules.git ./qtmodules-travis
+ # - git clone https://github.com/Skycoder42/QtModules.git ./qtmodules-travis
   - travis_wait 40 ./qtmodules-travis/ci/$TRAVIS_OS_NAME/setup.sh
 
 script:
