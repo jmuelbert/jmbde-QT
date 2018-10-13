@@ -1,6 +1,6 @@
 @echo off
 :: before anything else: restore git symlinks
-C:\msys64\usr\bin\sh.exe --login %CD%\qtmodules-travis\ci\win\git-setup.sh || exit /B 1
+C:\msys64\usr\bin\sh.exe --login %CD%\tools\ci\win\git-setup.sh || exit /B 1
 
 :: install qpm
 powershell -Command "Invoke-WebRequest https://storage.googleapis.com/www.qpm.io/download/latest/windows_amd64/qpm.exe -OutFile C:\projects\qpm.exe"
