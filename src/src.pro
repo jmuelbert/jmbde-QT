@@ -1,4 +1,4 @@
 TEMPLATE = subdirs
 CONFIG += ordered
 
-SUBDIRS = lib app
+SUBDIRS = app

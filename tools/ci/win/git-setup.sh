@@ -31,6 +31,6 @@ git config --global alias.rm-symlinks '!__git_rm_symlinks(){
 }; __git_rm_symlinks'
 
 git rm-symlinks
-cd qtmodules-travis
+cd tools
 git rm-symlinks
 cd ..
