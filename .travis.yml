@@ -36,7 +36,7 @@ matrix:
 
 before_install:
   # - git clone https://github.com/Skycoder42/QtModules.git ./qtmodules-travis
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then travis_wait 40 ./tools/ci/$TRAVIS_OS_NAME/setup.sh; else ./qtmodules-travis/ci/$TRAVIS_OS_NAME/setup.sh; fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then travis_wait 40 ./tools/ci/$TRAVIS_OS_NAME/setup.sh; else ./tools/ci/$TRAVIS_OS_NAME/setup.sh; fi
 
 script:
   - ./tools/ci/$TRAVIS_OS_NAME/build.sh
