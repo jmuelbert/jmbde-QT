@@ -14,3 +14,9 @@ TEMPLATE  = subdirs
 CONFIG   += ordered
 
 SUBDIRS = src translations
+
+DISTFILES += .qmake.conf \
+    README.md
+
+QMAKE_EXTRA_TARGETS += lrelease
+
