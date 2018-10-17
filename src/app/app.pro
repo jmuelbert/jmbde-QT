@@ -19,6 +19,8 @@ contains(QT_CONFIG,opengl):!macx:!minQtVersion(5, 9, 5) {
 
 DEFINES += JMBDE_VERSION=$${JMBDE_VERSION}
 
+message("Build app: $${TARGET} at $${target.path}")
+
 DEFINES += QT_NO_CAST_FROM_ASCII \
     QT_NO_CAST_TO_ASCII
 

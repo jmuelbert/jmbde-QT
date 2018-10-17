@@ -94,7 +94,7 @@ QSqlTableModel *ChipCardDataModel::initializeViewModel() {
 }
 
 QString ChipCardDataModel::generateTableString(QAbstractTableModel *model,
-                                               QString header) {
+                                               const QString header) {
   QString outString;
   int columnCount = model->columnCount();
   int rowCount = model->rowCount();

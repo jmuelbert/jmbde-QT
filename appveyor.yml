@@ -56,4 +56,5 @@ after_build:
   - .\tools\ci\win\upload-prepare.bat
 
 artifacts:
+  - dir
   - path: install\build_*_%QT_VER%.zip

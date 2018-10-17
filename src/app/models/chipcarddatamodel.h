@@ -93,7 +93,7 @@ public:
    * @return
    */
   virtual QString generateTableString(QAbstractTableModel *model,
-                                      QString header);
+                                      const QString header);
 
   /**
    * @brief generateFormularString
