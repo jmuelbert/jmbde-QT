@@ -1,21 +1,19 @@
-# Check the Qt version. If QT_VERSION is not set, it is probably Qt 3.
-isEmpty(QT_VERSION) {
-    error("QT_VERSION not defined. Tiled does not work with Qt 3.")
-}
+# Usage:
+#   cd ../build-dir
+#   qmake ../build.pro -r "CONFIG+=release" "PREFIX=./usr"
+#   make
+#   make install
+#
+# Variables:
+#   PREFIX - specifies base folder to which files are copied during "make install"
+#            step, defaults to "$$OUT_PWD/AppDir/usr" on Linux and to "$$OUT_PWD/app" on Windows.
+#            Also, note that INSTALL_ROOT variable during "make install" step is not needed, when
+#            PREFIX variable in "qmake" call is used.
+#
+#   LRELEASE_EXECUTABLE - specifies the name/path of "lrelease" executable, defaults to "lrelease".
 
-include(jmbde.pri)
+TEMPLATE = subdirs
 
-!minQtVersion(5, 10, 0) {
-    message("Cannot build Tiled with Qt version $${QT_VERSION}")
-    error("Use at least Qt 5.10.0.")
-}
+CONFIG += ordered
 
-win* {
-    message("Building jmbde for Windows using qmake is no longer supported")
-    error("Use the jmbde.qbs project file instead")
-}
-
-TEMPLATE  = subdirs
-CONFIG   += ordered
-
-SUBDIRS = src translations
+SUBDIRS = src/jmbde

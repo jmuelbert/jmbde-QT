@@ -1,0 +1,36 @@
+version: 0.4.{build}
+skip_tags: false
+os: Visual Studio 2017
+clone_depth: 1
+clone_folder: C:\jmbde-QT
+
+environment:
+  access_token:
+    secure: 5bbe16814f9f451c1f2033e044e5e1f7d12e2d42
+
+artifacts:
+  - path: 'jmbde-build\src\jmbde\*win64.exe'
+    name: jmbdeexe
+
+  - path: 'jmbde-build\src\jmbde\*win64.7z'
+    name: jmbde7z
+
+deploy:
+  description: 'New jmbde release.'
+  provider: GitHub
+  auth_token:
+    secure: XCWdr9wPgK4gm6289WXCg2vtMA02eBSnj6eKHC+ps6Z5lgw0jsK09UQ5y9E9ZFwS
+  artifact: jmbdeexe, jmbde7z
+  draft: false
+  prerelease: false
+  on:
+    appveyor_repo_tag: true
+    
+build_script:
+  - git submodule update --init --recursive
+  - ps: C:\jmbde-QT\resources\scripts\.appveyor-prepare-win.ps1
+  - '"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"'
+  - ps: C:\jmbde-QT\resources\scripts\.appveyor-build-win.ps1
+
+on_success:
+  - ps: C:\jmbde-QT\resources\scripts\.appveyor-install-win.ps1

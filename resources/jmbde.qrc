@@ -1,0 +1,29 @@
+<RCC>
+  <qresource prefix="/">
+    <file>text/CHANGELOG</file>
+    <file>text/COPYING_GNU_GPL</file>
+    <file>text/COPYING_GNU_GPL_HTML</file>
+    <file>text/COPYING_GNU_LGPL_HTML</file>
+    <file>text/COPYING_HOEDOWN</file>
+    <file>text/COPYING_MPL</file>
+    <file>graphics/textosaurus.ico</file>
+    <file>graphics/textosaurus.png</file>
+    <file>desktop/io.github.martinrotter.textosaurus.desktop</file>
+    
+    <file>graphics/misc/flags/cs.png</file>
+    <file>graphics/misc/flags/en.png</file>
+    <file>graphics/misc/flags/es.png</file>
+    <file>graphics/misc/flags/sk.png</file>
+    
+    <file>../translations/jmbde_en.qm</file>
+    
+    <file>../translations/jmbde_cs.qm</file>
+    <file>../translations/qtbase_cs.qm</file>
+    
+    <file>../translations/jmbde_es.qm</file>
+    <file>../translations/qtbase_es.qm</file>
+    
+    <file>../translations/jmbde_sk.qm</file>
+    <file>../translations/qtbase_sk.qm</file>
+  </qresource>
+</RCC>
