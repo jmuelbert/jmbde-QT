@@ -7,6 +7,8 @@ cd C:\jmbde-QT
 
 Invoke-WebRequest -Uri $url -OutFile $output
 
+choco install 7zip.install
+
 & ".\resources\scripts\7za\7za.exe" x $output
 
 cd .\$qt_stub\bin
