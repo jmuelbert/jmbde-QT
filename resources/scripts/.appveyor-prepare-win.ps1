@@ -9,7 +9,8 @@ Invoke-WebRequest -Uri $url -OutFile $output
 
 choco install 7zip.install
 
-& ".\resources\scripts\7za\7za.exe" x $output
+'C:\Program Files\7-Zip\7z.exe' x $output
+
 
 cd .\$qt_stub\bin
 & ".\qtbinpatcher.exe"
