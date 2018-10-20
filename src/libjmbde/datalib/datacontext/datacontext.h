@@ -92,7 +92,7 @@
  * @brief The DataContext class
  */
 
-class DATASHARED_EXPORT DataContext : public QObject
+class DATASHARED_DLLSPEC DataContext : public QObject
 {
     Q_OBJECT
 

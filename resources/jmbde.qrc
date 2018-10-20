@@ -1,29 +1,34 @@
 <RCC>
-  <qresource prefix="/">
-    <file>text/CHANGELOG</file>
-    <file>text/COPYING_GNU_GPL</file>
-    <file>text/COPYING_GNU_GPL_HTML</file>
-    <file>text/COPYING_GNU_LGPL_HTML</file>
-    <file>text/COPYING_HOEDOWN</file>
-    <file>text/COPYING_MPL</file>
-    <file>graphics/textosaurus.ico</file>
-    <file>graphics/textosaurus.png</file>
-    <file>desktop/io.github.martinrotter.textosaurus.desktop</file>
-    
-    <file>graphics/misc/flags/cs.png</file>
-    <file>graphics/misc/flags/en.png</file>
-    <file>graphics/misc/flags/es.png</file>
-    <file>graphics/misc/flags/sk.png</file>
-    
-    <file>../translations/jmbde_en.qm</file>
-    
-    <file>../translations/jmbde_cs.qm</file>
-    <file>../translations/qtbase_cs.qm</file>
-    
-    <file>../translations/jmbde_es.qm</file>
-    <file>../translations/qtbase_es.qm</file>
-    
-    <file>../translations/jmbde_sk.qm</file>
-    <file>../translations/qtbase_sk.qm</file>
-  </qresource>
+    <qresource prefix="/">
+        <file>../CHANGELOG.md</file>
+        <file>../LICENSE</file>
+        <file>../LICENSE.EUPL_1_2</file>
+        <file>graphics/jmbde.ico</file>
+        <file>graphics/jmbde.png</file>
+        <file>desktop/io.github.jmuelbert.jmbde.appdata.desktop</file>
+        <file>../localizations/jmbde_ar_DZ.qm</file>
+        <file>../localizations/jmbde_bg.qm</file>
+        <file>../localizations/jmbde_cs.qm</file>
+        <file>../localizations/jmbde_de.qm</file>
+        <file>../localizations/jmbde_en.qm</file>
+        <file>../localizations/jmbde_fi.qm</file>
+        <file>../localizations/jmbde_fr.qm</file>
+        <file>../localizations/jmbde_he.qm</file>
+        <file>../localizations/jmbde_hu.qm</file>
+        <file>../localizations/jmbde_it.qm</file>
+        <file>../localizations/jmbde_ja.qm</file>
+        <file>../localizations/jmbde_nb.qm</file>
+        <file>../localizations/jmbde_nl.qm</file>
+        <file>../localizations/jmbde_pl.qm</file>
+        <file>../localizations/jmbde_pt_PT.qm</file>
+        <file>../localizations/jmbde_pt.qm</file>
+        <file>../localizations/jmbde_ru.qm</file>
+        <file>../localizations/jmbde_tr.qm</file>
+        <file>../localizations/jmbde_uk.qm</file>
+        <file>../localizations/jmbde_zh_TW.qm</file>
+        <file>../localizations/jmbde_zh.qm</file>
+    </qresource>
+    <qresource prefix="/Data">
+      <file>data/script.sql</file>
+    </qresource>
 </RCC>

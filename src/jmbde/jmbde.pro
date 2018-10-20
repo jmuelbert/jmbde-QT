@@ -1,47 +1,49 @@
-include(../../jmbde.pri)
-include(../libjmbde/lib.pri)
+TEMPLATE    = app
+TARGET      = jmbde
 
+MSG_PREFIX  = "jmBDE"
+APP_TYPE    = "executable"
 
-TEMPLATE = app
-TARGET = jmbde
-target.path = $${PREFIX}/bin
-INSTALLS += target
+include(../../pri/vars.pri)
 
-win32 {
-    DESTDIR = ../..
-} else {
-    DESTDIR = ../../bin
+isEmpty(PREFIX) {
+  message($$MSG_PREFIX: PREFIX variable is not set. This might indicate error.)
+
+  win32 {
+    PREFIX = $$OUT_PWD/app
+  }
+
+  mac {
+    PREFIX = $$quote($$OUT_PWD/$${APP_NAME}.app)
+  }
+
+  unix:!mac:!android {
+    PREFIX = $$OUT_PWD/AppDir/usr
+  }
 }
 
-QT += widgets sql printsupport help
+include(../../pri/defs.pri)
 
-contains(QT_CONFIG,opengl):!macx:!minQtVersion(5, 4, 0) {
-    QT += opengl
+message($$MSG_PREFIX: Shadow copy build directory \"$$OUT_PWD\".)
+message($$MSG_PREFIX: $$APP_NAME version is: \"$$APP_VERSION\".)
+message($$MSG_PREFIX: Detected Qt version: \"$$QT_VERSION\".)
+message($$MSG_PREFIX: Build destination directory: \"$$DESTDIR\".)
+message($$MSG_PREFIX: Prefix directory: \"$$PREFIX\".)
+message($$MSG_PREFIX: Build revision: \"$$APP_REVISION\".)
+
+QT *= widgets sql printsupport help
+
+include(../../pri/build_opts.pri)
+
+DEFINES *= DATASHARED_DLLSPEC=Q_DECL_IMPORT
+DEFINES -= MAKING_LIBRARY=1
+
+CONFIG(FLATPAK_MODE) {
+  message($$MSG_PREFIX: Enabling Flatpak-specific code.)
+  DEFINES *= FLATPAK_MODE=1
 }
 
-DEFINES += JMBDE_VERSION=$${JMBDE_VERSION}
 
-DEFINES += QT_NO_CAST_FROM_ASCII \
-    QT_NO_CAST_TO_ASCII
-
-macx {
-    QMAKE_LIBDIR += $$OUT_PWD/../../bin/jmbde.app/Contents/Frameworks
-    LIBS += -framework Foundation
-    DEFINES += QT_NO_OPENGL
-} else:win32 {
-    LIBS += -L$$OUT_PWD/../../lib
-} else {
-    QMAKE_LIBDIR = $$OUT_PWD/../../lib $$QMAKE_LIBDIR
-}
-
-# Make sure the jmbde executable can find libjmbde
-!win32:!macx:!cygwin:contains(RPATH, yes) {
-    QMAKE_RPATHDIR += \$\$ORIGIN/../lib
-
-    # It is not possible to use ORIGIN in QMAKE_RPATHDIR, so a bit manually
-    QMAKE_LFLAGS += -Wl,-z,origin \'-Wl,-rpath,$$join(QMAKE_RPATHDIR, ":")\'
-    QMAKE_RPATHDIR =
-}
 
 SOURCES += \
 main.cpp \
@@ -176,65 +178,97 @@ views/processorinputarea.ui \
 views/softwareinputarea.ui \
 views/titleinputarea.ui
 
+INCLUDEPATH += ../libjmbde \
+                ../libjmbde/datalib \
+                ../libjmbde/datalib/datacontext \
+                ../libjmbde/utils \
+                $$OUT_PWD/../libjmbde 
+DEPENDPATH  += $$PWD/../libjmbde
 
-icon32.path = $${PREFIX}/share/icons/hicolor/32x32/apps/
-icon32.files += images/32x32/jmbde.png
-INSTALLS += icon32
+win32:  LIBS += -L$$OUT_PWD/../libjmbde -llibjmbde
+unix:   LIBS += -L$$OUT_PWD/../libjmbde -ljmbde
 
-icon16.path = $${PREFIX}/share/icons/hicolor/16x16/apps/
-icon16.files += images/16x16/jmbde.png
-INSTALLS += icon16
-
-iconscalable.path = $${PREFIX}/share/icons/hicolor/scalable/apps/
-iconscalable.files += images/scalable/jmbde.svg
-INSTALLS += iconscalable
-
-mimeicon16.path = $${PREFIX}/share/icons/hicolor/16x16/mimetypes/
-mimeicon16.files += images/16x16/application-x-jmbde.png
-INSTALLS += mimeicon16
-
-mimeicon32.path = $${PREFIX}/share/icons/hicolor/32x32/mimetypes/
-mimeicon32.files += images/32x32/application-x-jmbde.png
-INSTALLS += mimeicon32
-
-mimeiconscalable.path = $${PREFIX}/share/icons/hicolor/scalable/mimetypes/
-mimeiconscalable.files += images/scalable/application-x-jmbde.svg
-INSTALLS += mimeiconscalable
-
-mimeinfofile.path = $${PREFIX}/share/mime/packages/
-mimeinfofile.files += ../../mime/org.mapeditor.jmbde.xml
-INSTALLS += mimeinfofile
-
-thumbnailgenerator.path = $${PREFIX}/share/thumbnailers/
-thumbnailgenerator.files += ../../mime/jmbde.thumbnailer
-INSTALLS += thumbnailgenerator
-
-desktopfile.path = $${PREFIX}/share/applications/
-desktopfile.files += ../../org.mapeditor.jmbde.desktop
-INSTALLS += desktopfile
-
-appdatafile.path = $${PREFIX}/share/metainfo/
-appdatafile.files += ../../org.mapeditor.jmbde.appdata.xml
-INSTALLS += appdatafile
-
-manpage.path = $${PREFIX}/share/man/man1/
-manpage.files += ../../man/jmbde.1
-INSTALLS += manpage
-
-RESOURCES += jmbde.qrc
-macx {
-    TARGET = jmbde
-    QMAKE_INFO_PLIST = Info.plist
-    QMAKE_ASSET_CATALOGS += images/jmbde.xcassets
-    QMAKE_ASSET_CATALOGS_APP_ICON = jmbde-icon-mac
-}
+# Create new "make 7zip" target and "make zip" target.
 win32 {
-    RC_FILE = jmbde.rc.in
+  seven_zip.target = 7zip
+  seven_zip.depends = install
+  seven_zip.commands = $$shell_path($$shell_quote(7za.exe)) a -t7z $$TARGET-$$APP_VERSION-$$APP_REVISION-$${APP_WIN_ARCH}.7z $$shell_path($$PREFIX/*)
+
+  zip.target = zip
+  zip.depends = install
+  zip.commands = $$shell_path($$shell_quote(7za.exe)) a -tzip $$TARGET-$$APP_VERSION-$$APP_REVISION-$${APP_WIN_ARCH}.zip $$shell_path($$PREFIX/*)
+
+  QMAKE_EXTRA_TARGETS += seven_zip zip
 }
-win32:INCLUDEPATH += .
-contains(CONFIG, static) {
-    DEFINES += STATIC_BUILD
-    QTPLUGIN += qgif \
-        qjpeg \
-        qtiff
+
+# Create NSIS installer target on Windows.
+win32 {
+  nsis.target = nsis
+  nsis.depends = install
+  nsis.commands = \
+    $$shell_path($$shell_quote(sed.exe)) -e \"s|@APP_VERSION@|$$APP_VERSION|g; s|@APP_WIN_ARCH@|$$APP_WIN_ARCH|g; s|@APP_REVISION@|$$APP_REVISION|g; s|@APP_NAME@|$$APP_NAME|g; s|@APP_LOW_NAME@|$$APP_LOW_NAME|g; s|@EXE_NAME@|$${APP_LOW_NAME}.exe|g; s|@PWD@|$$replace(PWD, /, \\\\\\\\\\\\\\\\)|g; s|@OUT_PWD@|$$replace(OUT_PWD, /, \\\\\\\\\\\\\\\\)|g\" $$shell_quote($$shell_path($$PWD/../../resources/nsis/NSIS.definitions.nsh.in)) > $$shell_quote($$shell_path($$OUT_PWD/NSIS.definitions.nsh)) && \
+    xcopy \"$$system_path($$PWD/../../resources/nsis/NSIS.template.in)\" \"$$system_path($$OUT_PWD/)\" /Y && \
+    $$shell_path($$shell_quote(makensis.exe)) \"$$system_path($$OUT_PWD/NSIS.template.in)\"
+
+  QMAKE_EXTRA_TARGETS += nsis
+}
+
+win32 {
+  windows_all.target = windows_all
+  windows_all.depends = seven_zip nsis
+  windows_all.commands = echo "windows_all done..."
+
+  QMAKE_EXTRA_TARGETS += windows_all
+}
+
+
+mac {
+  frameworks.target = frameworks
+  frameworks.depends = install
+  frameworks.commands = macdeployqt $$shell_quote($$shell_path($$PREFIX))
+
+  QMAKE_EXTRA_TARGETS += frameworks
+}
+
+include(../../pri/install.pri)
+
+# Localizations
+TRANSLATIONS_WO_QT += $$PWD/../../Localization/jmbde_ar_DZ.ts \
+                      $$PWD/../../Localization/jmbde_cs.ts \
+                      $$PWD/../../Localization/jmbde_de.ts \
+                      $$PWD/../../Localization/jmbde_en.ts \
+                      $$PWD/../../Localization/jmbde_es.ts \
+                      $$PWD/../../Localization/jmbde_fi.ts \
+                      $$PWD/../../Localization/jmbde_fr.ts \
+                      $$PWD/../../Localization/jmbde_he.ts \
+                      $$PWD/../../Localization/jmbde_hu.ts \
+                      $$PWD/../../Localization/jmbde_it.ts \
+                      $$PWD/../../Localization/jmbde_ja.ts \
+                      $$PWD/../../Localization/jmbde_nb.ts \
+                      $$PWD/../../Localization/jmbde_nl.ts \
+                      $$PWD/../../Localization/jmbde_pl.ts \
+                      $$PWD/../../Localization/jmbde_pt_PT.ts \
+                      $$PWD/../../Localization/jmbde_pt.ts \
+                      $$PWD/../../Localization/jmbde_ru.ts \
+                      $$PWD/../../Localization/jmbde_tr.ts \
+                      $$PWD/../../Localization/jmbde_uk.ts \
+                      $$PWD/../../Localization/jmbde_zh_TW.ts \
+                      $$PWD/../../Localization/jmbde_zh.ts
+
+TRANSLATIONS += TRANSLATIONS_WO_QT \
+                      $$PWD/../../Localization/qtbase_cs.ts
+
+load(uic)
+uic.commands -= -no-stringliteral
+
+# Create a new "make lupdate" target
+lupdate.target = lupdate
+lupdate.commands = lupdate -no-obsolete -pro $$shell_path($$PWD/jmbde.pro) -ts $$TRANSLATIONS_WO_QT
+
+QMAKE_EXTRA_TARGETS += lupdate
+
+# Make sure QM translations are created.
+qtPrepareTool(LRELEASE, lrelease) {
+  message($$MSG_PREFIX: Running: $$LRELEASE_EXECUTABLE -compress $$shell_quote($$shell_path($$PWD/jmbde.pro)))
+  system($$LRELEASE_EXECUTABLE -compress libtextosaurus.pro)
 }

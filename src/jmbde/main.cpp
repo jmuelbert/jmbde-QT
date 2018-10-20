@@ -146,7 +146,7 @@ int main(int argc, char* argv[])
     QCoreApplication::setOrganizationDomain(QLatin1String("de.juergen.muelbert"));
 
 #ifdef GIT_REVISION
-    QCoreApplication::setApplicationVersion(QSL("%1 (%2)").arg(JMBDE_VERSION, GIT_REVISION);
+    QCoreApplication::setApplicationVersion(QSL("%1 (%2)").arg(JMBDE_VERSION, GIT_REVISION));
 #else
     QCoreApplication::setApplicationVersion(QSL(AS_STRING(JMBDE_VERSION)));
 #endif

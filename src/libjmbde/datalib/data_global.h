@@ -4,9 +4,9 @@
 #include <QtCore/qglobal.h>
 
 #if defined(DATA_LIBRARY)
-#  define DATASHARED_EXPORT Q_DECL_EXPORT
+#  define DATASHARED_DLLSPEC Q_DECL_EXPORT
 #else
-#  define DATASHARED_EXPORT Q_DECL_IMPORT
+#  define DATASHARED_DLLSPEC Q_DECL_IMPORT
 #endif
 
 #endif // DATA_GLOBAL_H
