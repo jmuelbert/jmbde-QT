@@ -8,6 +8,9 @@ cd C:\jmbde-QT
 Invoke-WebRequest -Uri $url -OutFile $output
 
 choco install 7zip.install
+choco install nsis
+choco install sed
+
 
 'C:\Program Files\7-Zip\7z.exe' x $output
 
