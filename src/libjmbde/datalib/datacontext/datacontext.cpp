@@ -42,7 +42,7 @@
 
 #include "datacontext.h"
 
-#include "definitions.h"
+#include "../jmbde/definitions.h"
 
 #include <QUuid>
 

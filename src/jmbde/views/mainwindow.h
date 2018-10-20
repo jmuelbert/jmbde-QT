@@ -86,7 +86,7 @@
 #include "processorinputarea.h"
 #include "softwareinputarea.h"
 
-#include "libs/datalib/datacontext/datacontext.h"
+#include "../libjmbde/datalib/datacontext/datacontext.h"
 #include "models/functiondatamodel.h"
 #include "models/departmentdatamodel.h"
 #include "models/titledatamodel.h"

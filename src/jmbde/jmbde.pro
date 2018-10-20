@@ -1,5 +1,5 @@
 include(../../jmbde.pri)
-include(../lib/lib.pri)
+include(../libjmbde/lib.pri)
 
 
 TEMPLATE = app
@@ -97,11 +97,11 @@ models/systemdatamodel.cpp \
 models/titledatamodel.cpp \
 models/zipcitymodel.cpp \
 models/zipcodemodel.cpp \
-help/helpbrowser.cpp \
-    views/aboutdialog.cpp
+help/helpbrowser.cpp
 
 HEADERS += \
-definitions.h \\
+definitions.h \
+    views/aboutdialog.h \
 views/chipcardinputarea.h \
 views/cityinputarea.h \
 views/computerinputarea.h \
@@ -153,8 +153,8 @@ models/systemdatamodel.h \
 models/titledatamodel.h \
 models/zipcitymodel.h \
 models/zipcodemodel.h \
-help/helpbrowser.h \
-    views/aboutdialog.h
+help/helpbrowser.h
+
 
 FORMS += \
 views/aboutdialog.ui \ 
@@ -174,8 +174,7 @@ views/preferencesdialog.ui \
 views/printerinputarea.ui \
 views/processorinputarea.ui \
 views/softwareinputarea.ui \
-views/titleinputarea.ui \ 
-    views/aboutdialog.ui
+views/titleinputarea.ui
 
 
 icon32.path = $${PREFIX}/share/icons/hicolor/32x32/apps/

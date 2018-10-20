@@ -16,8 +16,7 @@ deploy:
   provider: releases
   file_glob: true
   skip_cleanup: true
-  api_key:
-    secure: i+bdzcqqAoeaT6ipHjijO0UubXhPhSbArq+pZqAZNbq1MeOORxqZ0lS6RaDcrJVPvBjAcKt9BdYdeEaoUqI9o1LBsIw3ukSfgb811C8/4FfgaxbCKjtFjUsOQQFEpZDziuhpu3WzijHQhMmQxR3aEvyKMgRqWmVRa6YSCmLH57+hmv/IL8Kx2agTIenubndC6X2Nl+hcm/b4ZCz2Yf5ybQPG1pp2JkPksRHY8L/W6TjMZOswq2DJPvUtXHGnl8i8knwGbDI/oAdg7M+EYx52W8FR8wU05Je72FXpur0FErIU4KwVeSVY30lN9p0JllW9cc8KEIjTivCExoo8M/BZ2tMdHDcugx7iJGFuTXXywApQjkUThk+vSAfKj9Ws/gkBkvDIMw7rOeS2Cug0CwZlBa9Jp24UTdh09ceDukL94hMUK5O5JtwFvqKGiNr/xtBCaw4P+lcgBeqt+U9yv7wLmqjcSHOGEF4LTPt9Wr3zi8Mi80ylAhPXN96WanQBly8jVtYcswJssbsWGSAmoUed0tqs4edEv7NWsjzK0AK+cbD+Z/BHjVqnfCZ10zGHG/tdKm57q4OI6nxkau3fsTbyY6/Gq2QToDFlHAJ0t+69BV2etYDGIYTDU+f29uRACUGXtGBnIdceN+unSfnekXyBe3yJdXlfEbFoLK6JXWHMZJQ=
+  api_key: 
   file:
   - jmbde-build/src/jmbde/jmbde*.AppImage
   - jmbde-build/src/jmbde/jmbde*.7z
@@ -31,9 +30,13 @@ before_script:
     - chmod +x ./resources/scripts/.travis-install-linux.sh
     - chmod +x ./resources/scripts/.travis-install-osxsh
     - chmod +x ./resources/scripts/update-localizations.sh
-    install: true
+  
+  install: true
 script:
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./resources/scripts/.travis-install-linux.sh
   ; fi
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then chmod +x ./resources/scripts/.travis-install-osx.sh && ./resources/scripts/.travis-install-osx.sh
-  ; fi
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then chmod +x ./resources/scripts/.travis-install-osx.sh
+  && ./resources/scripts/.travis-install-osx.sh ; fi
+env:
+  global:
+    secure: gBL8ze+6pzs+2SvzlyYMpfrJ7MndzVPu3kXPKLXZVMrrt43ROpXyaDCbX8OaykWTnvb94Q7QurQ3WApzNHa1DYwtEgArH1cgR+cL4CBVmJKxVnBcqUg1sih7gR/leoiauPaEQDR/N8len59ZCvLxU75Q7jXyznS2Uo+FwV2XYow0lT7vih8Osaqg9TxRxpsNSKMe9bbwbrdSTXOymbeQXpE+GANHFKnmAceIxRSdBHsuWx99BunCR2sep7mUQtESIw5eOwTaZYm8regDNnoEYDHo+yGB9h9L/3ibLZ1jem11HPPx95stUJIeUKB5Rd7/nwhD8FRLkZBqxlOIqv6GvIzfQqFd9vg7YYn6TCRtk9s3oapBCIbVpL71fzw5a3AMiURr6f2mTp7jGh1g+8yCAmw01t7w08U77/BhhmboyMtzdvtgyg2Z110UQihyvHvi0OtqMNtBp631Eez9hRNW90UicSahsavwtpVsLherXu99aCymCpCadfdBVgQfm1yb8jTa2wzjHcA0GXDaCCJ/Q2AQFn5m5B8TkltekHTo0+p1KWfdXR5zDnuq+Vr3GTz2G8pQ0lr76BKa1fyxaniRleOoRsSwaMqlccSHk82yU24ndu0Wf6v1rIQLXlABgzOvbSaSS4F+qcdjxoxO+gfuiI9Wzt4wphKd4kDQZs8szlI=

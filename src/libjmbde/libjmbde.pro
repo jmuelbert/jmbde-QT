@@ -1,7 +1,7 @@
 include(../../jmbde.pri)
 
 TEMPLATE = lib
-TARGET  = jmbde
+TARGET  = libjmbde
 target.path = $${LIBDIR}
 INSTALLS += target
 
