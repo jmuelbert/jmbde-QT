@@ -29,7 +29,7 @@ cd "src\jmbde"
 
 cd "app"
 
-& "C:\jmbde-QT\$qt_stub\bin\windeployqt.exe" --no-translations "jmbde.exe" # "???.dll"
+& "C:\jmbde-QT\$qt_stub\bin\windeployqt.exe" --no-translations "jmbde.exe" "libjmbde.dll"
 Copy-Item -Path C:\jmbde-QT\$qt_stub\bin\*eay* -Destination .\
 
 cd ..

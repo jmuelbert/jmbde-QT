@@ -6,7 +6,7 @@ lib_root=$root/src
 
 cd "$lib_root"
 
-for header in $(find ???/x -name *.h); do
+for header in $(find libjmbde/ -name *.h); do
   echo "../$header \\"
 done
 
