@@ -101,10 +101,7 @@ help/helpbrowser.cpp \
     views/aboutdialog.cpp
 
 HEADERS += \
-constants.h \
-definitions.h \
-pch.h \
-utils.h \
+definitions.h \\
 views/chipcardinputarea.h \
 views/cityinputarea.h \
 views/computerinputarea.h \
