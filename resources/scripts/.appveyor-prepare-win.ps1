@@ -11,8 +11,9 @@ choco install 7zip.install
 choco install nsis
 choco install sed
 
-
-'C:\Program Files\7-Zip\7z.exe' x $output
+if (-not (test-path "$env:ProgramFiles\7-Zip\7z.exe")) {throw "$env:ProgramFiles\7-Zip\7z.exe needed"}
+set-alias sz "$env:ProgramFiles\7-Zip\7z.exe"
+sz x $output
 
 
 cd .\$qt_stub\bin
