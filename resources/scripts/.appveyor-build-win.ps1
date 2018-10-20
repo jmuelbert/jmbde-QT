@@ -21,11 +21,11 @@ if (-not (test-path "C:\jmbde-QT\jmbde.pro")) {throw "C:\jmbde-QT\jmbde.pro need
 #$mak_contents = [System.IO.File]::ReadAllText($mak_path).Replace(" qjp2.lib", "")
 #[System.IO.File]::WriteAllText($mak_path, $mak_contents)
 
-& "jom"
+& "nmake"
 
 cd "src\jmbde"
 
-& "jom" install
+& "nmake" install
 
 cd "app"
 
@@ -34,4 +34,4 @@ Copy-Item -Path C:\jmbde-QT\$qt_stub\bin\*eay* -Destination .\
 
 cd ..
 
-& "jom" windows_all
+& "nmake" windows_all

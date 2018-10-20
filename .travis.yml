@@ -23,13 +23,6 @@ deploy:
   on:
     tags: true
 before_install: "./resources/scripts/.travis-before-install.sh"
-before_script:
-    - chmod +x ./resources/scripts/.flathub-release.sh
-    - chmod +x ./resources/scripts/.generate-public-headers.sh    
-    - chmod +x ./resources/scripts/.travis-before-install.sh
-    - chmod +x ./resources/scripts/.travis-install-linux.sh
-    - chmod +x ./resources/scripts/.travis-install-osxsh
-    - chmod +x ./resources/scripts/update-localizations.sh
   
   install: true
 script:
