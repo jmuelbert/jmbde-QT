@@ -97,7 +97,7 @@ models/systemdatamodel.cpp \
 models/titledatamodel.cpp \
 models/zipcitymodel.cpp \
 models/zipcodemodel.cpp \
-utils/helpbrowser.cpp \
+help/helpbrowser.cpp \
     views/aboutdialog.cpp
 
 HEADERS += \
@@ -156,7 +156,7 @@ models/systemdatamodel.h \
 models/titledatamodel.h \
 models/zipcitymodel.h \
 models/zipcodemodel.h \
-utils/helpbrowser.h \
+help/helpbrowser.h \
     views/aboutdialog.h
 
 FORMS += \

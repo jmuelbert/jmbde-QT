@@ -1,2 +1,2 @@
 INCLUDEPATH += $$PWD
-LIBS *= -ljmbde
+LIBS *= -llibjmbde
