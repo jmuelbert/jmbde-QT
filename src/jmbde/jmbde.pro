@@ -231,7 +231,6 @@ macx {
 }
 win32 {
     RC_FILE = jmbde.rc.in
-    PRECOMPILED_HEADER = pch.h
 }
 win32:INCLUDEPATH += .
 contains(CONFIG, static) {
