@@ -8,4 +8,4 @@ HEADERS += \
     $$PWD/datalib/data_global.h \
     $$PWD/datalib/datacontext/datacontext.h \
 
-RESOURCES = $$PWD/datalib/datacontext/datacontext/datacontext.qrc
+RESOURCES = $$PWD/datalib/datacontext/datacontext.qrc
