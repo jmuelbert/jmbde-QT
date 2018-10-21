@@ -16,7 +16,7 @@ TEMPLATE = subdirs
 
 CONFIG += ordered
 
-SUBDIRS = libjmbde jmbde
+SUBDIRS = translations libjmbde jmbde
 
 libjmbde.subdir = src/libjmbde
 

@@ -70,9 +70,8 @@ mac {
   pkginfo.extra = @printf "APPL????" > $$shell_quote($$PREFIX/Contents/PkgInfo)
   pkginfo.path = $$quote($$PREFIX/Contents/)
 
-  # INSTALL_HEADERS_PREFIX = $$quote($$PREFIX/Contents/Resources/Include/??/)
-  INSTALLS += target icns_icon info_plist info_plist2 pkginfo readme 
-  # lib 
+  INSTALL_HEADERS_PREFIX = $$quote($$PREFIX/Contents/Resources/Include/libjmbde/)
+  INSTALLS += target icns_icon info_plist info_plist2 pkginfo readme lib 
 }
 
 # Create install step for each folder of public headers.

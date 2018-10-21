@@ -6,27 +6,6 @@
         <file>graphics/jmbde.ico</file>
         <file>graphics/jmbde.png</file>
         <file>desktop/io.github.jmuelbert.jmbde.appdata.desktop</file>
-        <file>../localizations/jmbde_ar_DZ.qm</file>
-        <file>../localizations/jmbde_bg.qm</file>
-        <file>../localizations/jmbde_cs.qm</file>
-        <file>../localizations/jmbde_de.qm</file>
-        <file>../localizations/jmbde_en.qm</file>
-        <file>../localizations/jmbde_fi.qm</file>
-        <file>../localizations/jmbde_fr.qm</file>
-        <file>../localizations/jmbde_he.qm</file>
-        <file>../localizations/jmbde_hu.qm</file>
-        <file>../localizations/jmbde_it.qm</file>
-        <file>../localizations/jmbde_ja.qm</file>
-        <file>../localizations/jmbde_nb.qm</file>
-        <file>../localizations/jmbde_nl.qm</file>
-        <file>../localizations/jmbde_pl.qm</file>
-        <file>../localizations/jmbde_pt_PT.qm</file>
-        <file>../localizations/jmbde_pt.qm</file>
-        <file>../localizations/jmbde_ru.qm</file>
-        <file>../localizations/jmbde_tr.qm</file>
-        <file>../localizations/jmbde_uk.qm</file>
-        <file>../localizations/jmbde_zh_TW.qm</file>
-        <file>../localizations/jmbde_zh.qm</file>
     </qresource>
     <qresource prefix="/Data">
       <file>data/script.sql</file>

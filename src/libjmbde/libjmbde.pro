@@ -28,7 +28,7 @@ QT *= sql
 
 include(../../pri/build_opts.pri)
 
-DEFINES *= TEXTOSAURUS_DLLSPEC=Q_DECL_EXPORT
+DEFINES *= DATASHARED_DLLSPEC=Q_DECL_EXPORT
 CONFIG += unversioned_libname unversioned_soname skip_target_version_ext
 
 win32 {
@@ -40,13 +40,13 @@ CONFIG(FLATPAK_MODE) {
   DEFINES *= FLATPAK_MODE=1
 }
 
-RESOURCES += ../../resources/jmbde.qrc
-
-mac|win32 {
-  RESOURCES += ../../resources/icons.qrc
-
-  message($$MSG_PREFIX: Adding resources for default icon theme.)
-}
+#RESOURCES += ../../resources/jmbde.qrc
+#
+#mac|win32 {
+#  RESOURCES += ../../resources/icons.qrc
+#
+#  message($$MSG_PREFIX: Adding resources for default icon theme.)
+#}
 
 HEADERS += datalib/dataglobal.h \
             datalib/datacontext/datacontext.h 

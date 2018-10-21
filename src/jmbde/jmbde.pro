@@ -44,6 +44,13 @@ CONFIG(FLATPAK_MODE) {
 }
 
 
+RESOURCES += ../../resources/jmbde.qrc
+
+mac|win32 {
+  RESOURCES += ../../resources/icons.qrc
+
+  message($$MSG_PREFIX: Adding resources for default icon theme.)
+}
 
 SOURCES += \
 main.cpp \
