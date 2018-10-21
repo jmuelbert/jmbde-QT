@@ -48,7 +48,7 @@ CONFIG(FLATPAK_MODE) {
 #  message($$MSG_PREFIX: Adding resources for default icon theme.)
 #}
 
-HEADERS += datalib/dataglobal.h \
+HEADERS += datalib/data_global.h \
             datalib/datacontext/datacontext.h 
     
 SOURCES +=  datalib/datacontext/datacontext.cpp

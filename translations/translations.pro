@@ -84,7 +84,7 @@ win32 {
 } else:macx {
     TARGET_DIR = ../bin/jmbde.app/Contents/Translations
 } else {
-    TARGET_DIR = ../share/jmbde/translations
+    TARGET_DIR = .
 }
 
 updateqm.input = TRANSLATIONS
