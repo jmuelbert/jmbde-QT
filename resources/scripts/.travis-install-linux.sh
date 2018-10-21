@@ -15,7 +15,7 @@ qmake -spec linux-g++ -r "WITH_UBUNTU=true" ../jmbde.pro
 make
 make install
 
-cd src/jmbde-QT
+cd src/jmbde
 
 # Obtain linuxdeployqt.
 wget -c https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage
