@@ -24,12 +24,18 @@ isEmpty(PREFIX) {
 
 include(../../pri/defs.pri)
 
+isEmpty(LRELEASE_EXECUTABLE) {
+  LRELEASE_EXECUTABLE = lrelease
+  message($$MSG_PREFIX: LRELEASE_EXECUTABLE variable is not set.)
+}
+
 message($$MSG_PREFIX: Shadow copy build directory \"$$OUT_PWD\".)
 message($$MSG_PREFIX: $$APP_NAME version is: \"$$APP_VERSION\".)
 message($$MSG_PREFIX: Detected Qt version: \"$$QT_VERSION\".)
 message($$MSG_PREFIX: Build destination directory: \"$$DESTDIR\".)
 message($$MSG_PREFIX: Prefix directory: \"$$PREFIX\".)
 message($$MSG_PREFIX: Build revision: \"$$APP_REVISION\".)
+message($$MSG_PREFIX: lrelease executable name: \"$$LRELEASE_EXECUTABLE\".)
 
 QT *= widgets sql printsupport help
 
@@ -42,7 +48,6 @@ CONFIG(FLATPAK_MODE) {
   message($$MSG_PREFIX: Enabling Flatpak-specific code.)
   DEFINES *= FLATPAK_MODE=1
 }
-
 
 RESOURCES += ../../resources/jmbde.qrc
 
@@ -166,24 +171,24 @@ help/helpbrowser.h
 
 
 FORMS += \
-views/aboutdialog.ui \ 
-views/chipcardinputarea.ui \
-views/cityinputarea.ui \
-views/computerinputarea.ui \
-views/csvimportdialog.ui \
-views/departmentinputarea.ui \
-views/employeeinputarea.ui \
-views/functioninputarea.ui \
-views/mainwindow.ui \
-views/manufacturerinputarea.ui \
-views/mobileinputarea.ui \
-views/osinputarea.ui \
-views/phoneinputarea.ui \
-views/preferencesdialog.ui \
-views/printerinputarea.ui \
-views/processorinputarea.ui \
-views/softwareinputarea.ui \
-views/titleinputarea.ui
+    views/aboutdialog.ui \ 
+    views/chipcardinputarea.ui \
+    views/cityinputarea.ui \
+    views/computerinputarea.ui \
+    views/csvimportdialog.ui \
+    views/departmentinputarea.ui \
+    views/employeeinputarea.ui \
+    views/functioninputarea.ui \
+    views/mainwindow.ui \
+    views/manufacturerinputarea.ui \
+    views/mobileinputarea.ui \
+    views/osinputarea.ui \
+    views/phoneinputarea.ui \
+    views/preferencesdialog.ui \
+    views/printerinputarea.ui \
+    views/processorinputarea.ui \
+    views/softwareinputarea.ui \
+    views/titleinputarea.ui
 
 INCLUDEPATH += ../libjmbde \
                 ../libjmbde/datalib \
