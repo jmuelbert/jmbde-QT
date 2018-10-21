@@ -27,6 +27,8 @@ cd "src\jmbde"
 
 & "nmake" install
 
+ls 
+
 cd "app"
 
 & "C:\jmbde-QT\$qt_stub\bin\windeployqt.exe" --no-translations "jmbde.exe" "libjmbde.dll"
