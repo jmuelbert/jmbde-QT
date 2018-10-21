@@ -30,6 +30,9 @@ cd "src\jmbde"
 ls 
 
 ls "..\"
+ls "..\libjmbde"
+
+
 
 cd "app"
 
