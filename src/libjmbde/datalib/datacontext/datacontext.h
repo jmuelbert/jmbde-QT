@@ -68,7 +68,7 @@
 #include <QStandardPaths>
 
 
-#include "../data_global.h"
+// #include "../data_global.h"
 
 /**
  * \brief The Main Database class
