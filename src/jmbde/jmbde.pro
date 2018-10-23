@@ -204,7 +204,7 @@ unix:   LIBS += -L$$OUT_PWD/../libjmbde -ljmbde
 win32 {
   seven_zip.target = 7zip
   seven_zip.depends = install
-  seven_zip.commands = $$shell_path($$shell_quote(7za.exe)) a -t7z $$TARGET-$$APP_VERSION-$$APP_REVISION-$${APP_WIN_ARCH}.7z $$shell_path($$PREFIX/*)
+  seven_zip.commands = $$shell_path($$shell_quote(7z.exe)) a -t7z $$TARGET-$$APP_VERSION-$$APP_REVISION-$${APP_WIN_ARCH}.7z $$shell_path($$PREFIX/*)
 
   zip.target = zip
   zip.depends = install
@@ -245,30 +245,30 @@ mac {
 include(../../pri/install.pri)
 
 # Localizations
-TRANSLATIONS_WO_QT += $$PWD/../../Localization/jmbde_ar_DZ.ts \
-                      $$PWD/../../Localization/jmbde_cs.ts \
-                      $$PWD/../../Localization/jmbde_de.ts \
-                      $$PWD/../../Localization/jmbde_en.ts \
-                      $$PWD/../../Localization/jmbde_es.ts \
-                      $$PWD/../../Localization/jmbde_fi.ts \
-                      $$PWD/../../Localization/jmbde_fr.ts \
-                      $$PWD/../../Localization/jmbde_he.ts \
-                      $$PWD/../../Localization/jmbde_hu.ts \
-                      $$PWD/../../Localization/jmbde_it.ts \
-                      $$PWD/../../Localization/jmbde_ja.ts \
-                      $$PWD/../../Localization/jmbde_nb.ts \
-                      $$PWD/../../Localization/jmbde_nl.ts \
-                      $$PWD/../../Localization/jmbde_pl.ts \
-                      $$PWD/../../Localization/jmbde_pt_PT.ts \
-                      $$PWD/../../Localization/jmbde_pt.ts \
-                      $$PWD/../../Localization/jmbde_ru.ts \
-                      $$PWD/../../Localization/jmbde_tr.ts \
-                      $$PWD/../../Localization/jmbde_uk.ts \
-                      $$PWD/../../Localization/jmbde_zh_TW.ts \
-                      $$PWD/../../Localization/jmbde_zh.ts
+TRANSLATIONS_WO_QT += $$PWD/../../translations/jmbde_ar_DZ.ts \
+                      $$PWD/../../translations/jmbde_cs.ts \
+                      $$PWD/../../translations/jmbde_de.ts \
+                      $$PWD/../../translations/jmbde_en.ts \
+                      $$PWD/../../translations/jmbde_es.ts \
+                      $$PWD/../../translations/jmbde_fi.ts \
+                      $$PWD/../../translations/jmbde_fr.ts \
+                      $$PWD/../../translations/jmbde_he.ts \
+                      $$PWD/../../translations/jmbde_hu.ts \
+                      $$PWD/../../translations/jmbde_it.ts \
+                      $$PWD/../../translations/jmbde_ja.ts \
+                      $$PWD/../../translations/jmbde_nb.ts \
+                      $$PWD/../../translations/jmbde_nl.ts \
+                      $$PWD/../../translations/jmbde_pl.ts \
+                      $$PWD/../../translations/jmbde_pt_PT.ts \
+                      $$PWD/../../translations/jmbde_pt.ts \
+                      $$PWD/../../translations/jmbde_ru.ts \
+                      $$PWD/../../translations/jmbde_tr.ts \
+                      $$PWD/../../translations/jmbde_uk.ts \
+                      $$PWD/../../translations/jmbde_zh_TW.ts \
+                      $$PWD/../../translations/jmbde_zh.ts
 
-TRANSLATIONS += TRANSLATIONS_WO_QT \
-                      $$PWD/../../Localization/qtbase_cs.ts
+TRANSLATIONS += $$TRANSLATIONS_WO_QT \
+                      $$PWD/../../translations/qtbase_cs.ts
 
 load(uic)
 uic.commands -= -no-stringliteral
@@ -282,5 +282,5 @@ QMAKE_EXTRA_TARGETS += lupdate
 # Make sure QM translations are created.
 qtPrepareTool(LRELEASE, lrelease) {
   message($$MSG_PREFIX: Running: $$LRELEASE_EXECUTABLE -compress $$shell_quote($$shell_path($$PWD/jmbde.pro)))
-  system($$LRELEASE_EXECUTABLE -compress libtextosaurus.pro)
+  system($$LRELEASE_EXECUTABLE -compress jmbde.pro)
 }
