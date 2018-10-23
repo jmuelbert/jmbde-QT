@@ -19,7 +19,7 @@ deploy:
   description: 'New jmbde release.'
   provider: GitHub
   auth_token:
-    secure: XCWdr9wPgK4gm6289WXCg2vtMA02eBSnj6eKHC+ps6Z5lgw0jsK09UQ5y9E9ZFwS
+    secure: c71f4efd0ad83267033e1d54633240fc962b6151
   artifact: jmbdeexe, jmbde7z
   draft: false
   prerelease: false
