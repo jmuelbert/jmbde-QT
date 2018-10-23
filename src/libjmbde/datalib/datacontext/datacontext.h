@@ -104,8 +104,9 @@ public:
      * @brief DataContext
      * @param parent
      */
+    /*
     explicit DataContext(QObject* parent = nullptr);
-
+    */
     explicit DataContext(const QString &name = QString(), QObject* parent = nullptr);
 
     /**

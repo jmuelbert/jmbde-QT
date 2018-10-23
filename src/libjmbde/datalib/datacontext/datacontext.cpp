@@ -46,6 +46,7 @@
 
 #include <QUuid>
 
+/*
 DataContext::DataContext(QObject* parent) : QObject(parent)
 {
     this->name = QUuid::createUuid().toString();
@@ -104,6 +105,7 @@ DataContext::DataContext(QObject* parent) : QObject(parent)
         exit(0);
     }
 }
+*/
 
 DataContext::DataContext(const QString &name, QObject* parent) : QObject(parent)
 {
