@@ -22,7 +22,7 @@ deploy:
     secure: c71f4efd0ad83267033e1d54633240fc962b6151
   artifact: jmbdeexe, jmbde7z
   draft: false
-  prerelease: false
+  prerelease: true
   on:
     appveyor_repo_tag: true
     
