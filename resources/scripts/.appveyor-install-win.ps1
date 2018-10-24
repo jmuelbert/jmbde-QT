@@ -39,7 +39,7 @@ $wikiline = "| Windows | $date | [$git_revision](https://github.com/jmuelbert/jm
 
 (Get-Content $wikifile) -replace $regex, $wikiline | Set-Content -Encoding "utf8" $wikifile
 
-cd C:\textosaurus-wiki
+cd C:\jmbde-wiki
 git add *.*
 git commit -m "New files."
 git pull origin master
