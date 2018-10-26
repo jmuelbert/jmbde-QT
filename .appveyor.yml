@@ -9,10 +9,6 @@ branches:
       - master
       - develop
 
-environment:
-  access_token:
-    secure: 5bbe16814f9f451c1f2033e044e5e1f7d12e2d42
-
 artifacts:
   - path: 'jmbde-build\src\jmbde\*win64.exe'
     name: jmbdeexe
@@ -24,7 +20,7 @@ deploy:
   description: 'New jmbde release.'
   provider: GitHub
   auth_token:
-    secure: c71f4efd0ad83267033e1d54633240fc962b6151
+    secure: mPGleT8ntVsgOL8VXZ/dmdZ/G5oqK4KgNR2+vZmYhSOnzyWA/NjBgnbMiu9QWlvX
   artifact: jmbdeexe, jmbde7z
   draft: false
   prerelease: false
