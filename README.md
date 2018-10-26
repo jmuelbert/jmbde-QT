@@ -1,14 +1,9 @@
-<a name="jmbde" />
 
 # jmbde
 
----
-
-<p align="center">
 [![GitHub license](https://img.shields.io/badge/license-EUPL-blue.svg)](https://joinup.ec.europa.eu/page/eupl-text-11-12)
 [![Build status](https://ci.appveyor.com/api/projects/status/mq9qt36e588dk7ui?svg=true)](https://ci.appveyor.com/project/jmuelbert/jmbde-qt)
 [![Build Status](https://travis-ci.org/jmuelbert/jmbde-QT.svg?branch=develop)](https://travis-ci.org/jmuelbert/jmbde-QT)
-</p>
 
 --
 jmbde is a program to collect data for the IT. The database contains employees, departments, functions, phones, mobiles, computers, printers, faxes and accounts.
