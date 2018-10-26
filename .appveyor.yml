@@ -1,8 +1,13 @@
-version: 0.4.{build}
+version: 1.0.{build}
 skip_tags: false
 os: Visual Studio 2017
 clone_depth: 1
 clone_folder: C:\jmbde-QT
+
+branches:
+  only:
+      - master
+      - develop
 
 environment:
   access_token:
@@ -16,6 +21,7 @@ artifacts:
     name: jmbde7z
 
 deploy:
+  release: jmBDE-v$(appveyor_build_version)
   description: 'New jmbde release.'
   provider: GitHub
   auth_token:

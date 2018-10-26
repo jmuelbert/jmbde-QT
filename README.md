@@ -5,7 +5,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/mq9qt36e588dk7ui?svg=true)](https://ci.appveyor.com/project/jmuelbert/jmbde-qt)
 [![Build Status](https://travis-ci.org/jmuelbert/jmbde-QT.svg?branch=develop)](https://travis-ci.org/jmuelbert/jmbde-QT)
 
---
+
 jmbde is a program to collect data for the IT. The database contains employees, departments, functions, phones, mobiles, computers, printers, faxes and accounts.
 
 jmbde uese the cross-platform framework [Qt](http://www.qt.io/download-open-source/),
