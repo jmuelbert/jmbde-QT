@@ -1,66 +1,32 @@
+language: cpp
 sudo: required
 dist: trusty
-osx_image: xcode9.2
-
-env:
-  global:
-    - QPMX_CACHE_DIR=$HOME/.qpmx-cache
-    - QT_VER=5.10.0
-    - EXTRA_MODULES=.skycoder42
-
-matrix:
-  include:
-   # - os: linux
-   #   env:
-   #     - PLATFORM=gcc_64
-   #     - BUILD_DOC=true
-   # - os: linux
-   #  env:
-   #     - PLATFORM=android_armv7
-   # - os: linux
-   #   env:
-   #     - PLATFORM=android_x86
-    - os: osx
-      env:
-        - PLATFORM=clang_64
-   # - os: osx
-   #   env:
-   #     - PLATFORM=ios
-   # only when using static tools
-   # - os: linux
-   #   env:
-   #     - PLATFORM=static
-   # - os: osx
-   #   env:
-   #     - PLATFORM=static
-
-before_install:
-  # - git clone https://github.com/Skycoder42/QtModules.git ./qtmodules-travis
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then travis_wait 40 ./tools/ci/$TRAVIS_OS_NAME/setup.sh; else ./tools/ci/$TRAVIS_OS_NAME/setup.sh; fi
-
-script:
-  - ./tools/ci/$TRAVIS_OS_NAME/build.sh
-
-before_deploy:
-  - ./tools/ci/$TRAVIS_OS_NAME/upload-prepare.sh
+os:
+- linux
+- osx
+osx_image: xcode9.4
+notifications:
+  email: false
+compiler:
+- gcc
+git:
+  submodules: true
+  depth: 1
 deploy:
   provider: releases
-  skip_cleanup: true
   api_key:
-    secure: <travis encrypted key>
-  file_glob: true
-  file: install/opt/build_*_$QT_VER.tar.xz
+    secure: U3v5aIJggMPvyA0gYwYEGqrkiPMcAh6Ey9c2a3IcivnW3/ngA2kVM6EUADAIZHv6LtgRiqNS/H+exWG805vbNTHYzd4xExxZXtxEuzqdD4qZAbILsfKLmNvNEUxtHeEl4kq5GRrr8f5AXn9tT+XDgp9TSA9q/3YmuuO/kWXctShJzojIqXXv5EVEbLO28COuhNCVdrXb1xJuQpaLjzNqh+im5t23HbYB/+cghJ5xpmwJhm8pdeVSnsOZmC3kwIqTg2BsiuhIbMFGMV0JKHs7cS+W7Ya+kiEiexbqqKEBwdTmTjAmg2xz0Q6/YU11ll3n/b0F8j7cx/63ET43C09t+zLO5VLGKmEDastixxutk5cgeyH4BiKtwt0Lj2a4Q+nyK8VU+UPC1/8j/hRyFATrxM/Fhdg3SRo1k4O0xjEYCUFoviScfVVkjmtav+ECyLEDKtAQQYUwRMSfDHanMZ08DgXIDgWfTyeEaiFk3iVP8rhST63UwNQ/Un9TBm7pnnk18lAb+VfZ5B0tnNmZ1x3894dnn+9Qtz4QbKu7F4bAyn7mN2EmgG++qKQxnICHjcOwcVjMTuwiGHUJbVm52o+e9eMsC+cv+eh9aSGNJzONPkOP0edAcRUS0vbCJZkw1EYRZBWDi73cqRkxU6vR5w6Aq2sd73ubGZoq+FPjS2nlsSQ=
+  file: 
+    - jmbde-build/src/jmbde/jmbde*.AppImage
+    - jmbde-build/src/jmbde/jmbde*.7z
+
   on:
-    repo: <user/repository>
     tags: true
 
-before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-  - rm -fr $QPMX_CACHE_DIR/locks
-cache:
-  directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-    - $HOME/.android/build-cache
-    - $QPMX_CACHE_DIR
+before_install: "./resources/scripts/.travis-before-install.sh"
+install: true
+script:
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./resources/scripts/.travis-install-linux.sh
+  ; fi
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then chmod +x ./resources/scripts/.travis-install-osx.sh
+  && ./resources/scripts/.travis-install-osx.sh ; fi

@@ -1,8 +1,10 @@
 import qbs
 
 Project {
-	name: "Autotests"
+	name: "QbsAutotests"
+	condition: project.withAutotests
 	references: [
-        "datacontext/datacontext.qbs",
+		"app/app.qbs",
+		"utils/utils.qbs",
 	]
 }

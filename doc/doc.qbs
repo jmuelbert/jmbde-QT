@@ -3,78 +3,69 @@ import qbs.File
 import qbs.FileInfo
 
 Project {
-	references: [ "man/man.qbs" ]
+    name: "documentation"
 
-	Product {
-        name: "jmbde documentation"
-        builtByDefault: false
-        type: ["qch", "app.doc-html-fixed" ]
-		property string fixedHtmlDir: FileInfo.joinPaths(buildDirectory, "qdoc-html-fixed")
+    QbsDocumentation {
+        name: "user doc online"
+        isOnlineDoc: true
+        mainDocConfFile: "app-online.qdocconf"
 
-		Depends { name: "Qt.core" }
-        Depends { name: "qbsbuildconfig" }
-        Depends { name: "qbsversion" }
+        files: [
+            "src/**/*",
+        ]
+    }
 
-		files: [
-			"../README.md",
-			"app.qdoc",
-			"app-online.qdocconf",
-			"config/*.qdocconf",
-			"reference/**/*",
-			"templates/**/*",
-			"images/**",
-			"targets/**",
-		]
+    QbsDocumentation {
+        name: "user doc offline"
+        isOnlineDoc: false
+        mainDocConfFile: "app.qdocconf"
 
-		Group {
-			name: "main qdocconf file"
-			files: [
-                "app.qdocconf",
+        files: [
+            "src/**/*",
+        ]
+    }
+
+    QbsDocumentation {
+        name: "API doc online"
+        isOnlineDoc: true
+        mainDocConfFile: "api/app-dev-online.qdocconf"
+
+        Group {
+            name: "sources"
+            files: [
+                "api/*.qdoc",
+                "api/**/*",
             ]
-			fileTags: "qdocconf-main"
-
-		}
-
-        property string versionTag: qbsversion.version.replace(/\.|-/g, "")
-		Qt.core.qdocEnvironment: [
-            "APP_VERSION=" + qbs.version.version,
-			"SRCDIR=" + path,
-			"QT_INSTALL_DOCS=" + Qt.core.docPath,
-			"APP_VERSION_TAG=" + versionTag
-		]
-		
-		Rule {
-			inputs: [ "qdoc-html" ]
-			Artifact {
-				filePath: FileInfo.joinPaths(product.fixedHtmlDir, input.fileName)
-				fileTags: [ "appdoc.qdoc-html-fixed" ]
-			}
-           prepare: {
-                var cmd = new JavaScriptCommand();
-                cmd.silent = true;
-                cmd.sourceCode = function() { File.copy(input.filePath, output.filePath); }
-                return [cmd];
-            }
-        }
-
-        Group {
-            fileTagsFilter: ["appdoc.qdoc-html-fixed"]
-            qbs.install: qbsbuildconfig.installHtml
-            qbs.installDir: qbsbuildconfig.docInstallDir
-            qbs.installSourceBase: product.fixedHtmlDir
-        }
-
-        Group {
-            fileTagsFilter: ["qdoc-css", "qdoc-png"]
-            qbs.install: qbsbuildconfig.installHtml
-            qbs.installDir: qbsbuildconfig.docInstallDir
-            qbs.installSourceBase: Qt.core.qdocOutputDir
-        }
-
-        Group {
-            fileTagsFilter: ["qch"]
-            qbs.install: qbsbuildconfig.installQch
-            qbs.installDir: qbsbuildconfig.docInstallDir
+            excludeFiles: [ mainDocConfFile ]
         }
     }
+
+    QbsDocumentation {
+        name: "API doc offline"
+        isOnlineDoc: true
+        mainDocConfFile: "api/app-dev.qdocconf"
+
+        Group {
+            name: "sources"
+            files: [
+                "api/*.qdoc",
+                "api/**/*",
+            ]
+            excludeFiles: [ mainDocConfFile ]
+        }
+    }
+
+    property string qbsBaseDir: project.sharedSourcesDir + "/qbs"
+    property bool qbsSubModulesExists: File.exists(qbsBaseDir + "/qbs.qbs")
+
+    Properties {
+        condition: qbsSubModulesExists
+
+        references: [ qbsBaseDir + "/doc/doc.qbs" ]
+
+        // The first entry is for overriding qbs' own qbsbuildconfig module.
+        qbsSearchPaths: [project.ide_source_tree + "/qbs", qbsBaseDir + "/qbs-resources"]
+
+    }
+
 }

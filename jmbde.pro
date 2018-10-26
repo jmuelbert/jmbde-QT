@@ -1,22 +1,26 @@
-# Check the Qt version. If QT_VERSION is not set, it is probably Qt 3.
-isEmpty(QT_VERSION) {
-    error("QT_VERSION not defined. jmbde does not work with Qt 3.")
-}
+# Usage:
+#   cd ../build-dir
+#   qmake ../build.pro -r "CONFIG+=release" "PREFIX=./usr"
+#   make
+#   make install
+#
+# Variables:
+#   PREFIX - specifies base folder to which files are copied during "make install"
+#            step, defaults to "$$OUT_PWD/AppDir/usr" on Linux and to "$$OUT_PWD/app" on Windows.
+#            Also, note that INSTALL_ROOT variable during "make install" step is not needed, when
+#            PREFIX variable in "qmake" call is used.
+#
+#   LRELEASE_EXECUTABLE - specifies the name/path of "lrelease" executable, defaults to "lrelease".
 
-include(jmbde.pri)
+TEMPLATE = subdirs
 
-!minQtVersion(5, 9, 5) {
-    message("Cannot build jmbde with Qt version $${QT_VERSION}")
-    error("Use at least Qt 5.9.5.")
-}
+CONFIG += ordered
 
-TEMPLATE  = subdirs
-CONFIG   += ordered
+SUBDIRS = translations libjmbde jmbde
 
-SUBDIRS = src translations
+libjmbde.subdir = src/libjmbde
 
-DISTFILES += .qmake.conf \
-    README.md
+jmbde.subdir = src/jmbde
 
-QMAKE_EXTRA_TARGETS += lrelease
+jmbde.depends = libjmbde
 

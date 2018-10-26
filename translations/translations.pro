@@ -7,6 +7,19 @@
 # - The .qm files are created as part of a regular make command
 #
 
+isEmpty(LRELEASE_EXECUTABLE) {
+  LRELEASE_EXECUTABLE = lrelease
+  message($$MSG_PREFIX: LRELEASE_EXECUTABLE variable is not set.)
+}
+
+message($$MSG_PREFIX: Shadow copy build directory \"$$OUT_PWD\".)
+message($$MSG_PREFIX: $$APP_NAME version is: \"$$APP_VERSION\".)
+message($$MSG_PREFIX: Detected Qt version: \"$$QT_VERSION\".)
+message($$MSG_PREFIX: Build destination directory: \"$$DESTDIR\".)
+message($$MSG_PREFIX: Prefix directory: \"$$PREFIX\".)
+message($$MSG_PREFIX: Build revision: \"$$APP_REVISION\".)
+message($$MSG_PREFIX: lrelease executable name: \"$$LRELEASE_EXECUTABLE\".)
+
 # The list of supported translations
 LANGUAGES = \
     ar_DZ \
@@ -71,7 +84,7 @@ win32 {
 } else:macx {
     TARGET_DIR = ../bin/jmbde.app/Contents/Translations
 } else {
-    TARGET_DIR = ../share/jmbde/translations
+    TARGET_DIR = .
 }
 
 updateqm.input = TRANSLATIONS
@@ -83,7 +96,7 @@ updateqm.CONFIG += no_link
 QMAKE_EXTRA_COMPILERS += updateqm
 
 # Install rule for translations
-include(../jmbde.pri)
+
 qmfiles.files = $$prependAppend(LANGUAGES, $$OUT_PWD/$$TARGET_DIR/jmbde_, .qm)
 qmfiles.path = $${PREFIX}/share/jmbde/translations
 qmfiles.CONFIG += no_check_exist

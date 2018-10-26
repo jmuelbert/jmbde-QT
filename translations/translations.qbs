@@ -5,26 +5,20 @@ Project {
     Product {
         name: "translations"
         type: "qm"
-        files: "*.ts"
-
-        // Disabled languages because they're too outdated
-        excludeFiles: [
-            "jmbde_lv.ts",
-        ]
-
         Depends { name: "Qt.core" }
+        Depends { name: "app" }
 
+        Group {
+           files: [ "*.ts" ]
+           excludeFiles: [
+                "jmbde_lv.ts",
+           ]
+        }
+     
         Group {
             fileTagsFilter: product.type
             qbs.install: true
-            qbs.installDir: {
-                if (qbs.targetOS.contains("windows") || project.linuxArchive)
-                    return "translations"
-                else if (qbs.targetOS.contains("macos"))
-                    return "jmbde.app/Contents/Translations"
-                else
-                    return "share/jmbde/translations"
-            }
+            qbs.installDir: app.app_data_path + "/translations"
         }
     }
 }

@@ -1,47 +1,39 @@
-import qbs
+import qbs 1.0
 import qbs.FileInfo
+import "qbsfunctions/functions.js" as QbsFunctions
 
 QbsProduct {
-    Depends { name: "cpp" }
-    version: qbsversion.version
-    type: Qt.core.staticBuild ? "staticlibrary" : "dynamiclibrary"
-    targetName: (qbs.enableDebugCode && qbs.targetOS.contains("windows")) ? (name + 'd') : name
-    destinationDirectory: FileInfo.joinPaths(project.buildDirectory,
-        qbs.targetOS.contains("windows") ? "bin" : qbsbuildconfig.libDirName)
-    cpp.defines: base.concat(visibilityType === "static" ? ["QBS_STATIC_LIB"] : ["QBS_LIBRARY"])
-    cpp.sonamePrefix: qbs.targetOS.contains("darwin") ? "@rpath" : undefined
-    Properties {
-        condition: qbs.toolchain.contains("gcc")
-        cpp.soVersion: version.replace(/\.\d+$/, '')
-    }
-    cpp.visibility: "minimal"
-    property bool visibilityType: Qt.core.staticBuild ? "static" : "dynamic"
-    property string headerInstallPrefix: "/include/qbs"
-    Group {
-        fileTagsFilter: product.type.concat("dynamiclibrary_symlink")
-            .concat(qbs.buildVariant === "debug" ? ["debuginfo_dll"] : [])
-        qbs.install: install
-        qbs.installSourceBase: destinationDirectory
-        qbs.installDir: targetInstallDir
-    }
-    targetInstallDir: qbsbuildconfig.libInstallDir
-    Group {
-        fileTagsFilter: ["dynamiclibrary_import"]
-        qbs.install: install
-        qbs.installDir: qbsbuildconfig.importLibInstallDir
+    type: ["dynamiclibrary", "dynamiclibrary_symlink", "app.dev-module"]
+    installDir: app.app_library_path
+    installTags: ["dynamiclibrary", "dynamiclibrary_symlink", "debuginfo_dll"]
+    useNonGuiPchFile: true
+    Depends {
+        condition: app.testsEnabled
+        name: "Qt.testlib"
     }
 
-    Properties {
-        condition: qbs.targetOS.contains("darwin")
-        bundle.isBundle: false
-        cpp.linkerFlags: ["-compatibility_version", cpp.soVersion]
+    targetName: QbsFunctions.qtLibraryName(qbs, name)
+    destinationDirectory: FileInfo.joinPaths(project.buildDirectory, app.app_library_path)
+
+    cpp.linkerFlags: {
+        var flags = base;
+        if (qbs.buildVariant == "debug" && qbs.toolchain.contains("msvc"))
+            flags.push("/INCREMENTAL:NO"); // Speed up startup time when debugging with cdb
+        if (qbs.targetOS.contains("macos"))
+            flags.push("-compatibility_version", app.app_compat_version);
+        return flags;
     }
+    cpp.sonamePrefix: qbs.targetOS.contains("macos")
+            ? "@rpath"
+            : undefined
+    cpp.rpaths: qbs.targetOS.contains("macos")
+            ? ["@loader_path/../Frameworks"]
+            : ["$ORIGIN", "$ORIGIN/.."]
+    property string libIncludeBase: ".." // #include <lib/header.h>
+    cpp.includePaths: [libIncludeBase]
 
     Export {
         Depends { name: "cpp" }
-        Depends { name: "Qt"; submodules: ["core"] }
-
-        cpp.includePaths: [product.sourceDirectory]
-        cpp.defines: product.visibilityType === "static" ? ["QBS_STATIC_LIB"] : []
+        cpp.includePaths: [product.libIncludeBase]
     }
 }

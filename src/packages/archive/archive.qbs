@@ -5,11 +5,10 @@ import qbs.Process
 import qbs.TextFile
 
 QbsProduct {
-    Depends { name: "jmbdedata" }
     Depends { name: "bundledqt" }
-    Depends { name: "jmbde documentation" }
+    Depends { name: "user doc offline" }
     Depends { name: "qbs" }
-    Depends { name: "jmbde man page"; condition: qbs.targetOS.contains("unix") }
+    Depends { name: "app man page"; condition: qbs.targetOS.contains("unix") }
     Depends { productTypes: ["qbsapplication", "qbsplugin"] }
 
     Depends { name: "archiver" }

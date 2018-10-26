@@ -1,0 +1,95 @@
+/**************************************************************************
+**
+** Copyright (c) 2013-2018 Jürgen Mülbert. All rights reserved.
+**
+** This file is part of jmbde
+**
+** Licensed under the EUPL, Version 1.2 or – as soon they
+** will be approved by the European Commission - subsequent
+** versions of the EUPL (the "Licence");
+** You may not use this work except in compliance with the
+** Licence.
+** You may obtain a copy of the Licence at:
+**
+** https://joinup.ec.europa.eu/page/eupl-text-11-12
+**
+** Unless required by applicable law or agreed to in
+** writing, software distributed under the Licence is
+** distributed on an "AS IS" basis,
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+** express or implied.
+** See the Licence for the specific language governing
+** permissions and limitations under the Licence.
+**
+** Lizenziert unter der EUPL, Version 1.2 oder - sobald
+**  diese von der Europäischen Kommission genehmigt wurden -
+** Folgeversionen der EUPL ("Lizenz");
+** Sie dürfen dieses Werk ausschließlich gemäß
+** dieser Lizenz nutzen.
+** Eine Kopie der Lizenz finden Sie hier:
+**
+** https://joinup.ec.europa.eu/page/eupl-text-11-12
+**
+** Sofern nicht durch anwendbare Rechtsvorschriften
+** gefordert oder in schriftlicher Form vereinbart, wird
+** die unter der Lizenz verbreitete Software "so wie sie
+** ist", OHNE JEGLICHE GEWÄHRLEISTUNG ODER BEDINGUNGEN -
+** ausdrücklich oder stillschweigend - verbreitet.
+** Die sprachspezifischen Genehmigungen und Beschränkungen
+** unter der Lizenz sind dem Lizenztext zu entnehmen.
+**
+**************************************************************************/
+
+
+#pragma once
+
+namespace Core {
+    namespace Constants {
+
+        #define STRINGIFY_INTERNAL(x) #x
+        #define STRINGIFY(x) STRINGIFY_INTERNAL(x)
+
+        const char APP_DISPLAY_NAME[] = \"$${APP_DISPLAY_NAME}\";
+        const char APP_ID[] = \"$${APP_ID}\";
+        const char APP_CASED_ID[] = \"$${APP_CASED_ID}\";
+
+        #define APP_VERSION $${APP_VERSION}
+        #define APP_VERSION_STR STRINGIFY(APP_VERSION)
+        #define APP_VERSION_DISPLAY_DEF $${APP_DISPLAY_VERSION}
+
+        #define APP_VERSION_MAJOR $$replace(APP_VERSION, "^(\\d+)\\.\\d+\\.\\d+(-.*)?$", \\1)
+        #define APP_VERSION_MINOR $$replace(APP_VERSION, "^\\d+\\.(\\d+)\\.\\d+(-.*)?$", \\1)
+        #define APP_VERSION_RELEASE $$replace(APP_VERSION, "^\\d+\\.\\d+\\.(\\d+)(-.*)?$", \\1)
+
+        const char * const APP_VERSION_LONG      = APP_VERSION_STR;
+        const char * const APP_VERSION_DISPLAY   = STRINGIFY(APP_VERSION_DISPLAY_DEF);  
+        const char * const APP_AUTHOR            = \"Jürgen Mülbert\";  
+        const char * const APP_YEAR              = \"$${APP_COPYRIGHT_YEAR}\";
+
+#ifdef APP_REVISION
+        const char * const APP_REVISION_STR      = STRINGIFY(APP_REVISION);
+#else
+        const char * const APP_REVISION_STR      = \"\";
+#endif
+
+// changes the path where the settings are saved to
+#ifdef APP_SETTINGSVARIANT
+        const char * const APP_SETTINGSVARIANT_STR      = STRINGIFY(APP_SETTINGSVARIANT);
+#else
+        const char * const APP_SETTINGSVARIANT_STR      = \"jmbde\";
+#endif
+
+#ifdef APP_COPY_SETTINGS_FROM_VARIANT
+        const char * const APP_COPY_SETTINGS_FROM_VARIANT_STR = STRINGIFY(APP_COPY_SETTINGS_FROM_VARIANT);
+#else
+        const char * const APP_COPY_SETTINGS_FROM_VARIANT_STR = \"Jürgen Mülbert\";
+#endif
+
+#undef APP_VERSION_DISPLAY_DEF
+#undef APP_VERSION
+#undef APP_VERSION_STR
+#undef STRINGIFY
+#undef STRINGIFY_INTERNAL
+
+    } // Constants
+} // Core

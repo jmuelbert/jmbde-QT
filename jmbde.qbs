@@ -1,9 +1,13 @@
 import qbs 
 import qbs.Environment
+import qbs.FileInfo
 
 Project {
+    name: "jmbde"
+    qbsSearchPaths: [
+        "qbs",
+    ]
 
-    qbsSearchPaths: "qbs"
     minimumQbsVersion: "1.8.0"
 
     property string minimumMacosVersion: "10.8"
@@ -13,27 +17,83 @@ Project {
     property pathList additionalLibs: []
     property pathList additionalTools: []
     property pathList additionalAutotests: []
-    property string version: Environment.getEnv("JMBDE_VERSION") || "0.4.21";
-    property bool snapshot: Environment.getEnv("JMBDE_SNAPSHOT")
-    property bool release: Environment.getEnv("JMBDE_RELEASE")
-    property bool installHeaders: false
-    property bool useRPaths: true
+    property string sharedSourcesDir: path + "/src/shared"
+    property string lib3rdPartyDir: path + "/src/libs/3rdparty"
+   
     property bool windowsInstaller: false
     property bool withCode: true
     property bool withDocker: false
     property bool withDocumentation: true
     property bool withExamples: false
     property bool withTests: withCode
-    property stringList autotestArguments: []
-    property stringList autotestWrapper: []
-
+ 
     references: [
+        "doc/doc.qbs",
+        "src/src.qbs",
+        "share/share.qbs",
+        "share/app/translations/translations.qbs",
+        "share/bundledqt/bundledqt.qbs",
+        "tests/tests.qbs",
+        "doc/man/man.qbs",
         "dist/archive.qbs",
         "dist/distribute.qbs",
         "dist/win/installer.qbs",
         "src/lib/3rdparty/qtsingleapplication",
     ]
 
+    Product {
+        name: "qbs_import_modules"
+        Depends { name: "app" }
+        Group {
+            prefix: "qbs/"
+            files: ["**/*"]
+            qbs.install: app.make_dev_package
+            qbs.installDir: app.app_qbs_resources_path
+            qbs.installSourceBase: "qbs"
+        }
+    }
+
+    Product {
+        name: "qmake project files"
+        files: {
+            var list = ["**/*.pr[io]"];
+            var props = [additionalPlugins, additionalLibs, additionalTools, additionalAutotests];
+            for (var i = 0; i < props.length; ++i) {
+                for (var j = 0; j < props[i].length; ++j)
+                    list.push(props[i][j] + "/**/*.pr[io]");
+            }
+            return list;
+        }
+    }
+
+    AutotestRunner {
+        Depends { name: "Qt.core" }
+        Depends { name: "app" }
+        environment: {
+            var env = base;
+            if (!qbs.hostOS.contains("windows") || !qbs.targetOS.contains("windows"))
+                return env;
+            var path = "";
+            for (var i = 0; i < env.length; ++i) {
+                if (env[i].startsWith("PATH=")) {
+                    path = env[i].substring(5);
+                    break;
+                }
+            }
+            var fullAppInstallDir = FileInfo.joinPaths(qbs.installRoot, qbs.installPrefix);
+            var fullLibInstallDir = FileInfo.joinPaths(fullAppInstallDir, app.app_library_path);
+            var fullPluginInstallDir = FileInfo.joinPaths(fullAppInstallDir, app.app_plugin_path);
+            path = Qt.core.binPath + ";" + fullLibInstallDir + ";" + fullPluginInstallDir
+                    + ";" + path;
+            var arrayElem = "PATH=" + path;
+            if (i < env.length)
+                env[i] = arrayElem;
+            else
+                env.push(arrayElem);
+            return env;
+        }
+    }
+  
     SubProject {
         filePath: "docker/docker.qbs"
         Properties {
@@ -41,41 +101,8 @@ Project {
         }
     }
 
-    SubProject {
-        filePath: "doc/doc.qbs"
-        Properties {
-            condition: parent.withDocumentation
-        }
-    }
-
-    SubProject {
-        filePath: "src/src.qbs"
-        Properties {
-            condition: parent.withCode
-        }
-    }
-
-    SubProject {
-        filePath: "tests/tests.qbs"
-        Properties {
-            condition: parent.withTests
-        }
-    }
-
-    SubProject {
-        filePath: "translations/translations.qbs"
-        Properties {
-            condition: parent.withCode
-        }
-    }
-
     Product {
         name: "version"
         files: ["VERSION"]
-    }
-
-    Product {
-        name: "qmake project files for qbs"
-        files: ["**/*.pr[io]"]
     }
 }
