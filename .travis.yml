@@ -15,10 +15,14 @@ git:
 deploy:
   provider: releases
   api_key:
-    secure: n6gbcwACI49YMemxJHKObR2oebd88sNot4tnPXzQjdAxgvShOHQcjIGZIFOPu5aHzsl8VmdMSsEkebJvNUTuA1CB82H3HhBiHLTzv8TfjCFpIbR8jEyBfIIQhiHmzzSpZkCls4UuWfB4AR6CW2lA+pygWX2sRk98lY25bsP2PWCbIXX6PLtM3cYwL8Dj3h5gHN25mLbIwE7g29LQSkUOZfBaZkziaKXtCcWBq+iHFF2u2zdkVsyDfUNHa9WLulreqvQ+PlZCR+0viGJDdtbjmvNtx2P+S/nrzf8gIhnEfAHSL2dqn/Yi01UDxGB1l0H87UrlljUl/qceJ8CxQSDj5IVJRXyf20tbyYah9YZ7976nX8g+5gVxLpdnQYrthMl3Bled08sJy1oLY5W39kT/cW8sqcvdNOJRApgy1tWETD/5XZixCi+MDRbtTC9hSj01U07BBE6HnNL5VgxvFiAWsKuvrD95Qms4JRMlG91JLSmcXX1GevLicO7z1ZLUT2OYFQfujRjhAR2pyjRcXt5UnXRIU7ZD4ex/mbJcyy43Lyf3Vo8GuHX3pWRTWu73BxxZadZ+jhdfImyF2PMdUkJWSL3RsqifIjj/DaSaJfBk+7/gS9LWrOaVZ7Jyan2ClDe3KddIB/61sJxY7JJNJGi5XbGm/CviaS8OYJedqtsbdlo=
+    secure: U3v5aIJggMPvyA0gYwYEGqrkiPMcAh6Ey9c2a3IcivnW3/ngA2kVM6EUADAIZHv6LtgRiqNS/H+exWG805vbNTHYzd4xExxZXtxEuzqdD4qZAbILsfKLmNvNEUxtHeEl4kq5GRrr8f5AXn9tT+XDgp9TSA9q/3YmuuO/kWXctShJzojIqXXv5EVEbLO28COuhNCVdrXb1xJuQpaLjzNqh+im5t23HbYB/+cghJ5xpmwJhm8pdeVSnsOZmC3kwIqTg2BsiuhIbMFGMV0JKHs7cS+W7Ya+kiEiexbqqKEBwdTmTjAmg2xz0Q6/YU11ll3n/b0F8j7cx/63ET43C09t+zLO5VLGKmEDastixxutk5cgeyH4BiKtwt0Lj2a4Q+nyK8VU+UPC1/8j/hRyFATrxM/Fhdg3SRo1k4O0xjEYCUFoviScfVVkjmtav+ECyLEDKtAQQYUwRMSfDHanMZ08DgXIDgWfTyeEaiFk3iVP8rhST63UwNQ/Un9TBm7pnnk18lAb+VfZ5B0tnNmZ1x3894dnn+9Qtz4QbKu7F4bAyn7mN2EmgG++qKQxnICHjcOwcVjMTuwiGHUJbVm52o+e9eMsC+cv+eh9aSGNJzONPkOP0edAcRUS0vbCJZkw1EYRZBWDi73cqRkxU6vR5w6Aq2sd73ubGZoq+FPjS2nlsSQ=
+  file: 
+    - jmbde-build/src/jmbde/jmbde*.AppImage
+    - jmbde-build/src/jmbde/jmbde*.7z
+
   on:
-    repo: jmuelbert/jmbde-QT
-    branch: develop
+    tags: true
+
 before_install: "./resources/scripts/.travis-before-install.sh"
 install: true
 script:

@@ -21,9 +21,8 @@ deploy:
   auth_token:
     secure: c71f4efd0ad83267033e1d54633240fc962b6151
   artifact: jmbdeexe, jmbde7z
-  draft: true
-  release: true
-  prerelease: true
+  draft: false
+  prerelease: false
   on:
     appveyor_repo_tag: true
     
