@@ -21,7 +21,6 @@ artifacts:
     name: jmbde7z
 
 deploy:
-  release: jmBDE-v$(appveyor_build_version)
   description: 'New jmbde release.'
   provider: GitHub
   auth_token:
