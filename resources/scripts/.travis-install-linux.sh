@@ -24,8 +24,8 @@ chmod a+x linuxdeployqt-continuous-x86_64.AppImage
 # Create AppImage.
 find . -type f
 unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
-./linuxdeployqt-continuous-x86_64.AppImage "./AppDir/usr/share/applications/io.github.jmuelbert.jmbde-QT.desktop" -bundle-non-qt-libs -no-translations
-./linuxdeployqt-continuous-x86_64.AppImage "./AppDir/usr/share/applications/io.github.jmuelbert.jmbde-QT.desktop" -appimage -no-translations
+./linuxdeployqt-continuous-x86_64.AppImage "./AppDir/usr/share/applications/io.github.jmuelbert.jmbde.desktop" -bundle-non-qt-libs -no-translations
+./linuxdeployqt-continuous-x86_64.AppImage "./AppDir/usr/share/applications/io.github.jmuelbert.jmbde.desktop" -appimage -no-translations
 
 set -- j*.AppImage
 rc=$?; if [[ $rc != 0 ]]; then exit $rc; fi
