@@ -267,8 +267,8 @@ TRANSLATIONS_WO_QT += $$PWD/../../translations/jmbde_ar_DZ.ts \
                       $$PWD/../../translations/jmbde_zh_TW.ts \
                       $$PWD/../../translations/jmbde_zh.ts
 
-TRANSLATIONS += $$TRANSLATIONS_WO_QT \
-                      $$PWD/../../translations/qtbase_cs.ts
+TRANSLATIONS += $$TRANSLATIONS_WO_QT
+#                      $$PWD/../../translations/qtbase_cs.ts
 
 load(uic)
 uic.commands -= -no-stringliteral
