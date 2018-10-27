@@ -7,11 +7,30 @@
 # - The .qm files are created as part of a regular make command
 #
 
+include(../pri/vars.pri)
+
+isEmpty(PREFIX) {
+  message($$MSG_PREFIX: PREFIX variable is not set. This might indicate error.)
+
+  win32 {
+    PREFIX = $$OUT_PWD/app
+  }
+
+  mac {
+    PREFIX = $$quote($$OUT_PWD/$${APP_NAME}.app)
+  }
+
+  unix:!mac:!android {
+    PREFIX = $$OUT_PWD/AppDir/usr
+  }
+}
+
+include(../pri/defs.pri)
+
 isEmpty(LRELEASE_EXECUTABLE) {
   LRELEASE_EXECUTABLE = lrelease
   message($$MSG_PREFIX: LRELEASE_EXECUTABLE variable is not set.)
 }
-
 message($$MSG_PREFIX: Shadow copy build directory \"$$OUT_PWD\".)
 message($$MSG_PREFIX: $$APP_NAME version is: \"$$APP_VERSION\".)
 message($$MSG_PREFIX: Detected Qt version: \"$$QT_VERSION\".)
