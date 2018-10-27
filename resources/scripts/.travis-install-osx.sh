@@ -11,6 +11,9 @@ make install
 
 cd src/jmbde
 
+ls ../
+ls ../libjmbde
+
 # Make app directory (not DMG image).
 make frameworks
 otool -L "jmBDE.app/Contents/MacOS/jmbde"

@@ -49,7 +49,9 @@ git config --global user.email "juergen.muelbert@gmail.com"
 git config --global user.name "jmuelbert"
 git clone https://jmuelbert:${GH_TOKEN}@github.com/jmuelbert/jmbde-QT.wiki.git ./build-wiki
 
-ls
+ls ../
+ls ../libjmbde
+
 imagenamenospace="jmbde-${git_tag_name}-${git_revision}-linux64.AppImage"
 
 mv "$imagename" "$imagenamenospace"
