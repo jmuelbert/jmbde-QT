@@ -14,15 +14,15 @@ git:
   depth: 1
 deploy:
   provider: releases
+  file_glob: true
   api_key:
-    secure: U3v5aIJggMPvyA0gYwYEGqrkiPMcAh6Ey9c2a3IcivnW3/ngA2kVM6EUADAIZHv6LtgRiqNS/H+exWG805vbNTHYzd4xExxZXtxEuzqdD4qZAbILsfKLmNvNEUxtHeEl4kq5GRrr8f5AXn9tT+XDgp9TSA9q/3YmuuO/kWXctShJzojIqXXv5EVEbLO28COuhNCVdrXb1xJuQpaLjzNqh+im5t23HbYB/+cghJ5xpmwJhm8pdeVSnsOZmC3kwIqTg2BsiuhIbMFGMV0JKHs7cS+W7Ya+kiEiexbqqKEBwdTmTjAmg2xz0Q6/YU11ll3n/b0F8j7cx/63ET43C09t+zLO5VLGKmEDastixxutk5cgeyH4BiKtwt0Lj2a4Q+nyK8VU+UPC1/8j/hRyFATrxM/Fhdg3SRo1k4O0xjEYCUFoviScfVVkjmtav+ECyLEDKtAQQYUwRMSfDHanMZ08DgXIDgWfTyeEaiFk3iVP8rhST63UwNQ/Un9TBm7pnnk18lAb+VfZ5B0tnNmZ1x3894dnn+9Qtz4QbKu7F4bAyn7mN2EmgG++qKQxnICHjcOwcVjMTuwiGHUJbVm52o+e9eMsC+cv+eh9aSGNJzONPkOP0edAcRUS0vbCJZkw1EYRZBWDi73cqRkxU6vR5w6Aq2sd73ubGZoq+FPjS2nlsSQ=
+    secure: fj8D6Cc8lt0hsH93EbW7mV53AVa53U8YJO4094hQwpSWp+zzAM6CNTOXdIpURtMHKOH78YTSQcMq2Su9wNkgWH4BrmQknd50vDsK6yk3EdmWtlBP8dtwdR6XQMlJ7X8zDqy9TBdHb1NBEHzWiztugSu0m1vXwEG5qyFnk2jKGBDhSHJTuPH0ZLazTgCRluHJbzoXuhsdTBw6P7I3GZn0Gh+TNvtdVnhKplMTQqSmDwjvsglgCQ51fEA2CCCxuOwumYHU6j29lpocqCvqq8AylqQWzgR8uCFANr/zG5dw+NuPepo1wp2DhibNhg+g3Pj/iTSXQuxT+RvybePOkT+258hWTswcO0jFnPzeSEFt/hPJBgL+zmpDmvqftiL18dYojaA+kPZaEUi+XcrIbnkJT7akcDwVm6V3LXMYqLXDRcp7WoEX6+J5Ri4yJCJ8yxjquoR4fT1uCKBIPKpBx1BSGwzg2K2zpjKS3ynsQ4CQcLWpmb+K1gs9ONdBXmjIOeN1S1GikETx8k163wYtGBRlkqPiMNfnZh+yk6+GEgKmCsWAYvxrtlT2SQVl4ClZ6QlB5L0TTj876X2jR7yOimsv6fmBExsMa4UttK+Cb+WxOKBm3FahCQtuZBBo2pmVeY2HHZlS8uYlAb6noR7vtovbiqvddDe6aO9lphqTUwQ0lhE=
   file: 
-    - jmbde-build/src/jmbde/jmbde*.AppImage
-    - jmbde-build/src/jmbde/jmbde*.7z
-
+    - jmbde-build/src/jmbde/j*.AppImage
+    - jmbde-build/src/jmbde/*.7z
   on:
-    tags: true
-
+     tags: true
+     
 before_install: "./resources/scripts/.travis-before-install.sh"
 install: true
 script:
