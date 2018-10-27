@@ -8,7 +8,6 @@ osx_image: xcode9.4
 env:
   global:
     secure: YjunL/sJrO7GJdmWOVos1i8QU58s7+ApE81u0GYrRuI5cn00YvIdWVEB4cUoJjmr08uMH8hRlW+1ku+OYq/Znra+EDmYZfKOFdXIfbgojnOvPMtWyB+wHcuICcUy2rinjUTfC33XwVrsdHuIWpuyAybhjHboElSyoyudxkORko+jCHu5TlFBleD1Ceuzjp7x3V4Hkdb3eiNSJoD70dM7bCrzcxFokrbNCQTmK3BPTLkj9mQCH0MPtIQY1snhCCwWmOVaKBD10FkuEzZkjpmLYzO4fowV53KlqUCg1EHL/vjUNvTjRaMOR/d83KbyfrlasxzYbu3mPdwcmYfeoaEi53ts//pdfkSV5YlB7/J0xVvf9iBhKQhUJuAOQp0WdDpgsPogysyDqRC+ST6D/FTEPXf0JzpAh1aIzmVDseT1zHjJhfBpr4EG5jWBoBeeaVbDmxgHT/5nKYWODOoRQozuBY9sLQGOmv3x8pUYYSh5RbNRvr9JTfl70FlRI20FE3x6pObAuqn2jTnnaBvjFvOs9PbcN5VBQO/QzNiVe2QduqPJSevSFZ2lfnHVgmkBhS4Nr7ZgZ9dmgebq7d4N4jevJ7cK+8XsN6o73p2BSl6EXGyMq0WqwD3tvrADLXzkN+FIsdrdfnssy6/SY0w5JyMAIzthMoOPlH8btB+wogagyxo=
-
 notifications:
   email: false
 compiler:
@@ -19,13 +18,14 @@ git:
 deploy:
   provider: releases
   file_glob: true
-  api_key:
-    secure: YjunL/sJrO7GJdmWOVos1i8QU58s7+ApE81u0GYrRuI5cn00YvIdWVEB4cUoJjmr08uMH8hRlW+1ku+OYq/Znra+EDmYZfKOFdXIfbgojnOvPMtWyB+wHcuICcUy2rinjUTfC33XwVrsdHuIWpuyAybhjHboElSyoyudxkORko+jCHu5TlFBleD1Ceuzjp7x3V4Hkdb3eiNSJoD70dM7bCrzcxFokrbNCQTmK3BPTLkj9mQCH0MPtIQY1snhCCwWmOVaKBD10FkuEzZkjpmLYzO4fowV53KlqUCg1EHL/vjUNvTjRaMOR/d83KbyfrlasxzYbu3mPdwcmYfeoaEi53ts//pdfkSV5YlB7/J0xVvf9iBhKQhUJuAOQp0WdDpgsPogysyDqRC+ST6D/FTEPXf0JzpAh1aIzmVDseT1zHjJhfBpr4EG5jWBoBeeaVbDmxgHT/5nKYWODOoRQozuBY9sLQGOmv3x8pUYYSh5RbNRvr9JTfl70FlRI20FE3x6pObAuqn2jTnnaBvjFvOs9PbcN5VBQO/QzNiVe2QduqPJSevSFZ2lfnHVgmkBhS4Nr7ZgZ9dmgebq7d4N4jevJ7cK+8XsN6o73p2BSl6EXGyMq0WqwD3tvrADLXzkN+FIsdrdfnssy6/SY0w5JyMAIzthMoOPlH8btB+wogagyxo=
-  file:
-  - jmbde-build/src/jmbde/j*.AppImage
-  - jmbde-build/src/jmbde/*.7z
+  skip_cleanup: true
   on:
-    tags: true
+    repo: jmuelbert/jmbde-QT
+  api_key:
+    secure: qdSEjb8s9tyZPY9KChCseeJiWOEyDIyhf2GTR6CXvyqU8igyP/hqggaN/umfTTycPIrKEpdxNYuGtirRhLiPHuTW7zsyphoJwclc/eJbXHEcE8q5TEGkeSVyAatkY6wLUFZ0QpIeFl0R1P8tmzDqAkyeNGHxagRG/aWIpw6BRtjnBBd0XEFW7rxRGc7Efr05r7VKo90YUsKBMKAI78/ZFW7h1e5QhPfr/FIXLe3QZUPeAKwezYaUxQ/jrWHRC4cVTJlQIpSOJO9Ct7WhGvkIEfwzFqsZ4KZbqwyzjKlOOYnRiKwXdrfdiaRQoZjav2uiMIAZZK7dShNwCd88FZe0dE/SFtvEK3BTTkNhUXQ+xiriXaPyr505QDtkWnXtZHZEOd1J/8nJaV9K5LEjjsVyMuAzd63xS1ngc0615SAkgsS1herVpVuP95jiErbNXYZumjwrasMXnxTTruY5FGA9dme+EzHPM3t56kmTdAD+FFvS7anoew5XJze+oiveibTIxE1i9vloj4vWMEmTQ2zHzdumx+DFGGCu2Q8FHaUDyuEUV0FMiD5Rf2GdJSrr0F7m1eEdjOhh+MHL/8/+vnCiWsJulEZ3zjwMDtb8lqY0nfGtPAe7OPeAxntHs2l82cDUwX18lMz2guXT5TlMVEGnCuYLUu8DKWwdoh+G2GeG24Y=
+  file: 
+    - jmbde-build/src/jmbde/j*.AppImage
+    - jmbde-build/src/jmbde/j*.7z
 before_install: "./resources/scripts/.travis-before-install.sh"
 install: true
 script:

@@ -22,13 +22,6 @@ dmgnamenospace="jmbde-${git_tag_name}-${git_revision}-mac64.7z"
 
 echo "File to upload: $dmgnamenospace"
 
-echo "Parent Dir"
-ls ../
-
-echo "libjmbde Dir"
-ls ../libjmbde
-
-
 # DMG is finished, upload it.
 git config --global user.email "juergen.muelbert@gmail.com"
 git config --global user.name "jmuelbert"
