@@ -15,7 +15,7 @@
     <key>CFBundleIconFile</key>
     <string>@ICON@</string>
     <key>CFBundleIdentifier</key>
-    <string>io.github.jmuelbert.jmbde-QT</string>
+    <string>io.github.jmuelbert.jmbde</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleName</key>

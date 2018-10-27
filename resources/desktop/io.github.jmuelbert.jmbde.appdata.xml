@@ -4,7 +4,7 @@
     <id>https://github.com/jmuelbert/jmbde-QT</id>
     <metadata_license>CC0-1.0</metadata_license>
     <project_license>EUPL-1.2</project_license>
-    <name>jmbde-QT</name>
+    <name>jmbde</name>
     <developer_name>Jürgen Mülbert</developer_name>
     <update_contact>juergen.muelbert_AT_gmail.com</update_contact>
     <summary>jmbde is a tool to collect Users, Accounts, Computer and so on in a database...</summary>
@@ -12,7 +12,7 @@
     <description>
         <p>jmbde is a tool to collect Users, Accounts, Computer and so on in a database based on QT  </p>
     </description>
-  <launchable type="desktop-id">io.github.jmuelbert.jmbde-QT.desktop</launchable>
+  <launchable type="desktop-id">io.github.jmuelbert.jmbde.desktop</launchable>
   <url type="homepage">https://github.com/jmuelbert.jmbde-QT</url>
   <url type="bugtracker">https://github.com/jmuelbert.jmbde-QT/issues</url>
   <url type="donation">https://jmuelbert.github.io/donate</url>

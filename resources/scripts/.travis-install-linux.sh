@@ -49,8 +49,7 @@ git config --global user.email "juergen.muelbert@gmail.com"
 git config --global user.name "jmuelbert"
 git clone https://jmuelbert:${GH_TOKEN}@github.com/jmuelbert/jmbde-QT.wiki.git ./build-wiki
 
-ls ../
-ls ../libjmbde
+
 
 imagenamenospace="jmbde-${git_tag_name}-${git_revision}-linux64.AppImage"
 
@@ -59,6 +58,12 @@ imagename="$imagenamenospace"
 
 echo "File to upload: $imagename"
 echo "URL ending: $imagenamenospace"
+
+echo "Parent Dir"
+ls ../
+
+echo "libjmbde Dir"
+ls ../libjmbde
 
 url=$(curl --upload-file "./$imagename" "https://transfer.sh/$imagenamenospace" --silent)
 

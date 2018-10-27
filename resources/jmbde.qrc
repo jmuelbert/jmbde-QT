@@ -5,7 +5,7 @@
         <file>../LICENSE.EUPL_1_2</file>
         <file>graphics/jmbde.ico</file>
         <file>graphics/jmbde.png</file>
-        <file>desktop/io.github.jmuelbert.jmbde-QT.appdata.desktop</file>
+        <file>desktop/io.github.jmuelbert.jmbde.appdata.desktop</file>
     </qresource>
     <qresource prefix="/Data">
       <file>data/script.sql</file>

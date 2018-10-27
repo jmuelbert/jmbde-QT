@@ -11,8 +11,6 @@ make install
 
 cd src/jmbde
 
-ls ../
-ls ../libjmbde
 
 # Make app directory (not DMG image).
 make frameworks
@@ -23,6 +21,13 @@ dmgnamenospace="jmbde-${git_tag_name}-${git_revision}-mac64.7z"
 7za a -t7z "$dmgnamenospace" "jmBDE.app"
 
 echo "File to upload: $dmgnamenospace"
+
+echo "Parent Dir"
+ls ../
+
+echo "libjmbde Dir"
+ls ../libjmbde
+
 
 # DMG is finished, upload it.
 git config --global user.email "juergen.muelbert@gmail.com"
