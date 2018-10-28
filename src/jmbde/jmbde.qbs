@@ -181,7 +181,7 @@ QtGuiApplication {
         "views/titleinputarea.cpp",
         "views/titleinputarea.h",
         "views/titleinputarea.ui",
-        "../../resources/graphics/icons/io.github.jmuelbert.jmbde.icns",
+        "../../resources/graphics/icons/jmbde.icns",
         "../../resources/jmbde.rc",
         "../../resources/jmbde.qrc",
         "../../resources/icons.qrc"
