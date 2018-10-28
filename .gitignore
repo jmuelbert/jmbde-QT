@@ -86,7 +86,6 @@ gmon.out
 *.out
 *.prl
 *.qm
-*.rc
 *.rej
 *.res
 *.so
