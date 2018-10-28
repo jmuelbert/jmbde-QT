@@ -1,0 +1,34 @@
+machine:
+  services:
+    - docker
+  timezone:
+    Europe/Berlin
+  environment:
+    MAKEFLAGS: "j4"
+    BUILD__: "x86_64"
+    BTYPE__: "release"
+dependencies:
+  cache_directories:
+    - "~/cache"
+  pre:
+    - sudo apt-get update
+    - sudo apt-get install zip
+    - docker info
+    - ./.travis/build-windows.sh "$BUILD__" "$BTYPE__" ~/cache/"$BUILD__" stage1
+    - ./.travis/build-windows.sh "$BUILD__" "$BTYPE__" ~/cache/"$BUILD__" stage2
+    - ls -al ~/cache
+compile:
+  override:
+    - ./.travis/build-windows.sh "$BUILD__" "$BTYPE__" ~/cache/"$BUILD__" stage3
+    - ls -al ~/
+
+    - ls -al /home/ubuntu/jmbde/workspace/"$BUILD__"/jmbde/"$BTYPE__"/
+    - ls -al /home/ubuntu/jmbde/workspace/"$BUILD__"/jmbde/"$BTYPE__"/jmbde.exe
+    
+    - mkdir -p $CIRCLE_ARTIFACTS/"$BUILD__"/
+    - cp -av /home/ubuntu/jmbde/workspace/"$BUILD__"/jmbde/"$BTYPE__"/jmbde.exe $CIRCLE_ARTIFACTS/"$BUILD__"/jmbde_"$BTYPE__".exe
+    - cd /home/ubuntu/jmbde/workspace/"$BUILD__"/jmbde/"$BTYPE__"/ ; zip -r $CIRCLE_ARTIFACTS/"$BUILD__"/jmbde_"$BUILD__"_"$BTYPE__".zip *
+    - echo "Download Artifacts for this PR at https://circleci.com/api/v2/project/jmbde/jmbde/latest/artifacts/0/\$CIRCLE_ARTIFACTS/x86_64/jmbde_x86_64_release.zip?filter=completed&branch=$CIRCLE_BRANCH"
+test:
+  override:
+    - "true"

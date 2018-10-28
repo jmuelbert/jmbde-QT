@@ -2,59 +2,57 @@ import qbs
 import qbs.FileInfo
 import qbs.TextFile
 
-QbsProduct {
-    Depends { name: "bundle" }
-    Depends { name: "ib"; condition: qbs.targetOS.contains("macos") }
-  
-    Properties {
-        condition: qbs.targetOS.contains("macos")
-        ib.appIconName: "jmbde"
-    }
+QtGuiApplication {
+    readonly property bool isBundle: qbs.targetOS.contains("darwin") && bundle.isBundle
+    readonly property string dataInstallDir: jmbdedeployment.dataDir + "/jmbde"
 
-    Properties {
-        condition: qbs.targetOS.contains("windows")
-        consoleApplication: qbs.debugInformation
+    name: "jmbde"
+    targetName: {
+        if (qbs.targetOS.contains("windows"))
+            return "jmBDE";
+        return name;
     }
- 
     consoleApplication: false
 
-    type: [ "application" ]
-    name: "jmbde"
-    targetName: app.app_app_target
-    version: app.app_version
+    Depends { name: "jmbdedeployment" }
+    Depends { name: "Qt"; submodules: ["core", "widgets", "network", "sql", "printsupport", "help" ] }
+    Depends { name: "ib"; condition: qbs.targetOS.contains("macos") }
+    Depends { name: "jmbdetranslations" }
+    
 
-    property bool isBundle: qbs.targetOS.contains("darwin") && bundle.isBundle
-    installDir: isBundle ? app.app_app_path : app.app_bin_path
-    installTags: (isBundle ? ["bundle.content"] : base).concat(["debuginfo_app"])
-    property bool qtcRunnable: true
+    
+    Properties {
+        condition: qbs.targetOS.contains("darwin")
+        bundle.identifierPrefix: "io.github.jmuelbert"
+        bundle.identifier: "io.github.jmuelbert.jmBDE"
+        bundle.infoPlist: ({"CFBundleIconFile": "io.liri.Text"})
+    }
 
-    bundle.identifier: app.app_bundle_identifier
-    bundle.infoPlist: ({
-        "NSHumanReadableCopyright": app.app_copyright_string
-    })
+    cpp.defines: {
+        var defines = base.concat([
+            "TEXT_VERSION=" + project.version,
+            'USER_LANGUAGE_PATH="/language-specs/"',
+            "LANGUAGE_DB_VERSION=1"
+        ]);
+        if (qbs.targetOS.contains("windows"))
+            defines.push('RELATIVE_LANGUAGE_PATH="/language-specs/"');
+        else if (qbs.targetOS.contains("macos"))
+            defines.push('RELATIVE_LANGUAGE_PATH="../Resources/language-specs/"');
+        else if (qbs.targetOS.contains("linux"))
+            defines.push('ABSOLUTE_LANGUAGE_PATH="' + dataInstallDir + '/language-specs/"');
+        return defines;
+    }
 
-    cpp.rpaths: qbs.targetOS.contains("macos") ? ["@executable_path/../Frameworks"]
-                                             : ["$ORIGIN/../" + app.libDirName + "/jmbde"]
     cpp.includePaths: [
-        project.app_source_tree + "/src/",       
-        project.app_source_tree + "/src/app",
-    ]
+         project.app_source_tree + "/src/",
+         project.app_source_tree + "/src/jmbde",
+     ]
 
-    Depends { name: "app_version_header" }
-    Depends { name: "Qt"; submodules: ["widgets", "network", "sql", "printsupport", "help" ] }
-    Depends { name: "DataLib" }
-    Depends { name: "Utils" }
-    // Depends { name: "ExtensionSystem" }
+    Qt.core.resourcePrefix: "/"
+    Qt.core.resourceSourceBase: sourceDirectory
 
     files: [
-        "app-Info.plist",
         "main.cpp",
-        "../shared/qtsingleapplication/src/qtsingleapplication.h",
-        "../shared/qtsingleapplication/src/qtsingleapplication.cpp",
-        "../shared/qtsingleapplication/src/qtlocalpeer.h",
-        "../shared/qtsingleapplication/src/qtlocalpeer.cpp",
-        "../shared/qtlockedfile/src/qtlockedfile.cpp",
-               "jmbde.qrc",
         "help/helpbrowser.cpp",
         "help/helpbrowser.h",
         "models/accountdatamodel.cpp",
@@ -183,41 +181,92 @@ QbsProduct {
         "views/titleinputarea.cpp",
         "views/titleinputarea.h",
         "views/titleinputarea.ui",
+        "../../resources/graphics/icons/io.github.jmuelbert.jmbde.icns",
+        "../../resources/jmbde.rc",
+        "../../resources/jmbde.qrc",
+        "../../resources/icons.qrc"
     ]
 
     Group {
+        name: "Resource Data"
+        files: [
+
+        ]
+        fileTags: ["qt.core.resource_data"]
+    }
+
+    Group {
+        name: "Translations"
+        files: ["../../translations/*.ts"]
+    }
+
+     Group {
+        qbs.install: true
+        qbs.installDir: jmbdedeployment.binDir
+        qbs.installSourceBase: destinationDirectory
+        fileTagsFilter: isBundle ? ["bundle.content"] : ["application"]
+    }
+
+   Group {
+        condition: qbs.targetOS.contains("unix") && !qbs.targetOS.contains("darwin") && !qbs.targetOS.contains("android")
+        name: "Desktop File"
+        files: ["../../resources/desktop/io.github.jmuelbert.jmbde.desktop.in"]
+        fileTags: ["jmbde.desktop.template"]
+    }
+
+    Group {
+        name: "Desktop File Translations"
+        files: ["../../translations/io.github.jmuelbert.jmbde_*.desktop"]
+        fileTags: ["jmbde.desktop.translations"]
+    }
+
+   Group {
+        qbs.install: true
+        qbs.installDir: jmbdedeployment.applicationsDir
+        fileTagsFilter: "jmbde.desktop.file"
+    }
+
+    Group {
+        condition: qbs.targetOS.contains("unix") && !qbs.targetOS.contains("darwin") && !qbs.targetOS.contains("android")
+        name: "AppStream Metadata"
+        files: ["../../resources/desktop/*.appdata.xml"]
+        qbs.install: true
+        qbs.installDir: jmbdedeployment.appDataDir
+    }
+
+    Group {
+        condition: qbs.targetOS.contains("unix") && !qbs.targetOS.contains("darwin") && !qbs.targetOS.contains("android")
+        name: "Icons"
+        prefix: "../../resources/graphics/icons/hicolor/"
+        files: ["**/*.png", "**/*.svg"]
+        qbs.install: true
+        qbs.installSourceBase: prefix
+        qbs.installDir: jmbdedeployment.dataDir + "/icons/hicolor"
+    }
+
+    Group {
+        fileTagsFilter: "qm"
+        qbs.install: true
+        qbs.installDir: {
+            if (qbs.targetOS.contains("windows"))
+                return "translations";
+            else if (qbs.targetOS.contains("macos"))
+                return "Contents/Resources/data/translations";
+            else
+                return dataInstallDir + "/translations";
+        }
+    }
+
+    // Group {
           // We need the version in two separate formats for the .rc file
           //  RC_VERSION=4,3,82,0 (quadruple)
           //  RC_VERSION_STRING="4.4.0-beta1" (free text)
           // Also, we need to replace space with \x20 to be able to work with both rc and windres
-          cpp.defines: outer.concat(["RC_VERSION=" + app.app_version.replace(/\./g, ",") + ",0",
-                                     "RC_VERSION_STRING=" + app.app_display_version,
-                                     "RC_COPYRIGHT=2008-" + app.app_copyright_year
-                                     + " Jürgen Mülbert".replace(/ /g, "\\x20")])
-          files: "jmbde.rc"
-      }
+          // cpp.defines: outer.concat(["RC_VERSION=" + app.app_version.replace(/\./g, ",") + ",0",
+          //                           "RC_VERSION_STRING=" + app.app_display_version,
+          //                           "RC_COPYRIGHT=2008-" + app.app_copyright_year
+          //                           + " Jürgen Mülbert".replace(/ /g, "\\x20")])
+          // files: "jmbde.rc"
+      // }
 
-      Group {
-          name: "jmbde.sh"
-          condition: qbs.targetOS.contains("unix") && !qbs.targetOS.contains("macos")
-          files: "../../bin/jmbdecreator.sh"
-          qbs.install: true
-          qbs.installDir: "bin"
-      }
-
-    Group {
-        name: "QtLockedFile_unix"
-        condition: qbs.targetOS.contains("unix")
-        files: [
-            "../shared/qtlockedfile/src/qtlockedfile_unix.cpp"
-        ]
-    }
-
-    Group {
-        name: "QtLockedFile_win"
-        condition: qbs.targetOS.contains("windows")
-        files: [
-            "../shared/qtlockedfile/src/qtlockedfile_win.cpp"
-        ]
-    }
-  }
+}

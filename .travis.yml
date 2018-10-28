@@ -1,17 +1,30 @@
 language: cpp
-sudo: required
-dist: trusty
-os:
-- linux
-- osx
-osx_image: xcode9.4
-env:
-  global:
-    secure: YjunL/sJrO7GJdmWOVos1i8QU58s7+ApE81u0GYrRuI5cn00YvIdWVEB4cUoJjmr08uMH8hRlW+1ku+OYq/Znra+EDmYZfKOFdXIfbgojnOvPMtWyB+wHcuICcUy2rinjUTfC33XwVrsdHuIWpuyAybhjHboElSyoyudxkORko+jCHu5TlFBleD1Ceuzjp7x3V4Hkdb3eiNSJoD70dM7bCrzcxFokrbNCQTmK3BPTLkj9mQCH0MPtIQY1snhCCwWmOVaKBD10FkuEzZkjpmLYzO4fowV53KlqUCg1EHL/vjUNvTjRaMOR/d83KbyfrlasxzYbu3mPdwcmYfeoaEi53ts//pdfkSV5YlB7/J0xVvf9iBhKQhUJuAOQp0WdDpgsPogysyDqRC+ST6D/FTEPXf0JzpAh1aIzmVDseT1zHjJhfBpr4EG5jWBoBeeaVbDmxgHT/5nKYWODOoRQozuBY9sLQGOmv3x8pUYYSh5RbNRvr9JTfl70FlRI20FE3x6pObAuqn2jTnnaBvjFvOs9PbcN5VBQO/QzNiVe2QduqPJSevSFZ2lfnHVgmkBhS4Nr7ZgZ9dmgebq7d4N4jevJ7cK+8XsN6o73p2BSl6EXGyMq0WqwD3tvrADLXzkN+FIsdrdfnssy6/SY0w5JyMAIzthMoOPlH8btB+wogagyxo=
-notifications:
-  email: false
-compiler:
-- gcc
+
+
+# regex is for release tags
+branches:
+  only:
+    - master
+    - /^v(\d+\.){2}\d+$/
+
+matrix:
+  include:
+    - os: linux
+      cache:
+        directories:
+          - /var/cache/apt/archives/*.deb
+        compiler: gcc
+        sudo: require
+        dist: trusty
+        services:
+          - docker
+    - os: osx
+
+  fast_finish: true
+  include:
+    - stage: Linux
+      os: Linux
+      env
 git:
   submodules: true
   depth: 1

@@ -24,3 +24,4 @@ jmbde.subdir = src/jmbde
 
 jmbde.depends = libjmbde
 
+OTHER_FILES += README.md CHANGELOG.md NEWS.md

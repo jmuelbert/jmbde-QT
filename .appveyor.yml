@@ -1,42 +1,61 @@
 version: 1.0.{build}
-skip_tags: false
-os: Visual Studio 2017
-clone_depth: 1
-clone_folder: C:\jmbde-QT
-
-environment:
-  access_token:
-    secure: RH8OsaFygA6h23W9pkdOgeCjwxIVJ8uiokLGmk7+I4FQWOItr7uXPlZv3viZTUZR
-    
+pull_requests:
+  do_not_increment_build_number: true
+configuration: Release
 branches:
-  only:
-      - master
-      - develop
+  except:
+  - /^(?i:continuous)$/
+skip_tags: true
+environment:
+  matrix:
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+    QT_PROFILE: msvc2015
+    QTDIR: C:\Qt\5.10.1\msvc2015
+    QBS_PROFILE: MSVC2015-x86
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+    QT_PROFILE: msvc2017_64
+    QTDIR: C:\Qt\5.10.1\msvc2017_64
+    QBS_PROFILE: MSVC2017-x86_x64
+# FIXME: WinRT builds are disabled due to linker issues
+#  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+#    QT_PROFILE: winrt_x86_msvc2017
+#    QTDIR: C:\Qt\5.10.1\winrt_x86_msvc2017
+#    QBS_PROFILE: MSVC2017-x86
+#  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+#    QT_PROFILE: winrt_x64_msvc2017
+#    QTDIR: C:\Qt\5.10.1\winrt_x64_msvc2017
+#    QBS_PROFILE: MSVC2017-x86_x64
+init:
+- set PATH=%QTDIR%\bin;%PATH%
+install:
+- choco install -y qbs --version 1.11.0
+before_build:
+- qbs setup-toolchains --detect
+- qbs setup-qt %QTDIR%\bin\qmake.exe appveyor-qt5
+- qbs config profiles.appveyor-qt5.baseProfile %QBS_PROFILE%
+- qbs config defaultProfile appveyor-qt5
+- qbs config preferences.qbsSearchPaths %cd%/fluid/qbs/shared
+build_script:
+- git submodule update --init --recursive
+- qbs -d build --all-products config:release
+- dir build\release\install-root
 
 artifacts:
-  - path: 'jmbde-build\src\jmbde\*win64.exe'
-    name: jmbdeexe
+  - path: 'build\release\install-root\j*win64.exe'
+    name: jmbde_64_exe
 
-  - path: 'jmbde-build\src\jmbde\*win64.7z'
-    name: jmbde7z
+  - path: 'build\release\install-root\j*win64.7z'
+    name: jmbde_64_7z
 
 deploy:
   description: 'New jmbde release.'
   provider: GitHub
   auth_token:
-    secure:  Wkgz/u7wFNT8+geqAjgOIBbEWM87ZsQauQpGfMeYP5OM/36pCiKH0eL9VZFRjIBR
+    secure:  VvBrqW/Jy8VMhSfn/rO1oeXITBPu3sUryFEI8+zcsiHdjmWuyWPnqrNPitPUBtPp
 
-  artifact: jmbdeexe, jmbde7z
-  draft: false
-  prerelease: false
+  artifact: jmbde_64_exe, jmbde_64_7z
+  force_update: true
   on:
+    branch: master
     appveyor_repo_tag: true
     
-build_script:
-  - git submodule update --init --recursive
-  - ps: C:\jmbde-QT\resources\scripts\.appveyor-prepare-win.ps1
-  - '"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"'
-  - ps: C:\jmbde-QT\resources\scripts\.appveyor-build-win.ps1
-
-on_success:
-  - ps: C:\jmbde-QT\resources\scripts\.appveyor-install-win.ps1

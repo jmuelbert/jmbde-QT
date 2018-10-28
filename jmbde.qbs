@@ -3,12 +3,14 @@ import qbs.Environment
 import qbs.FileInfo
 
 Project {
-    name: "jmbde"
-    qbsSearchPaths: [
-        "qbs",
-    ]
+    minimumQbsVersion: "1.10.0"
 
-    minimumQbsVersion: "1.8.0"
+    name: "jmbde"
+    qbsSearchPaths: ["qbs-resources"]
+    
+    readonly property string version: "0.4.23"
+
+    property bool useStaticAnalyzer: false
 
     property string minimumMacosVersion: "10.8"
     property bool withAutotests: qbs.buildVariant === "debug"
@@ -28,30 +30,9 @@ Project {
     property bool withTests: withCode
  
     references: [
-        "doc/doc.qbs",
-        "src/src.qbs",
-        "share/share.qbs",
-        "share/app/translations/translations.qbs",
-        "share/bundledqt/bundledqt.qbs",
-        "tests/tests.qbs",
-        "doc/man/man.qbs",
-        "dist/archive.qbs",
-        "dist/distribute.qbs",
-        "dist/win/installer.qbs",
-        "src/lib/3rdparty/qtsingleapplication",
+        "src/jmbde/jmbde.qbs",
     ]
 
-    Product {
-        name: "qbs_import_modules"
-        Depends { name: "app" }
-        Group {
-            prefix: "qbs/"
-            files: ["**/*"]
-            qbs.install: app.make_dev_package
-            qbs.installDir: app.app_qbs_resources_path
-            qbs.installSourceBase: "qbs"
-        }
-    }
 
     Product {
         name: "qmake project files"
@@ -64,6 +45,20 @@ Project {
             }
             return list;
         }
+    }
+
+    Product {
+        name: "Text Documents"
+        files: [
+            "AUTHORS",
+            "README.md",
+            "CHANGELOG.md",
+            "CONTRIBUTING.md",
+            "CONTRIBUTORS",
+            "LICENSE",
+            "LICENSE.*",
+            "NEWS.md"
+        ]
     }
 
     AutotestRunner {
@@ -92,17 +87,5 @@ Project {
                 env.push(arrayElem);
             return env;
         }
-    }
-  
-    SubProject {
-        filePath: "docker/docker.qbs"
-        Properties {
-            condition: parent.withDocker
-        }
-    }
-
-    Product {
-        name: "version"
-        files: ["VERSION"]
     }
 }
