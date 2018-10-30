@@ -53,15 +53,72 @@ matrix:
         - ./linuxdeployqt ./jmbde/usr/share/applications/io.github.jmuelbert.jmbde.desktop -exclude-libs=libpython3.4m.so.1.0 -appimage
         - find ./jmbde -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
         # - mv jmbde-x86_64.AppImage jmbde-$JMBDE_VERSION-x86_64.AppImage          
-  deploy:
-  provider: releases
-  file_glob: true
-  skip_cleanup: true
-  on:
-    repo: jmuelbert/jmbde-QT
-  api_key:
-    secure: qdSEjb8s9tyZPY9KChCseeJiWOEyDIyhf2GTR6CXvyqU8igyP/hqggaN/umfTTycPIrKEpdxNYuGtirRhLiPHuTW7zsyphoJwclc/eJbXHEcE8q5TEGkeSVyAatkY6wLUFZ0QpIeFl0R1P8tmzDqAkyeNGHxagRG/aWIpw6BRtjnBBd0XEFW7rxRGc7Efr05r7VKo90YUsKBMKAI78/ZFW7h1e5QhPfr/FIXLe3QZUPeAKwezYaUxQ/jrWHRC4cVTJlQIpSOJO9Ct7WhGvkIEfwzFqsZ4KZbqwyzjKlOOYnRiKwXdrfdiaRQoZjav2uiMIAZZK7dShNwCd88FZe0dE/SFtvEK3BTTkNhUXQ+xiriXaPyr505QDtkWnXtZHZEOd1J/8nJaV9K5LEjjsVyMuAzd63xS1ngc0615SAkgsS1herVpVuP95jiErbNXYZumjwrasMXnxTTruY5FGA9dme+EzHPM3t56kmTdAD+FFvS7anoew5XJze+oiveibTIxE1i9vloj4vWMEmTQ2zHzdumx+DFGGCu2Q8FHaUDyuEUV0FMiD5Rf2GdJSrr0F7m1eEdjOhh+MHL/8/+vnCiWsJulEZ3zjwMDtb8lqY0nfGtPAe7OPeAxntHs2l82cDUwX18lMz2guXT5TlMVEGnCuYLUu8DKWwdoh+G2GeG24Y=
-  file: 
-    - jmbde-build/src/jmbde/j*.AppImage
-    - jmbde-build/src/jmbde/j*.7z
-
+      deploy:
+        - provider: releases
+          skip_cleanup: true
+          tag_name: $TRAVIS_TAG
+          draft: true
+          api_key:
+            secure: qdSEjb8s9tyZPY9KChCseeJiWOEyDIyhf2GTR6CXvyqU8igyP/hqggaN/umfTTycPIrKEpdxNYuGtirRhLiPHuTW7zsyphoJwclc/eJbXHEcE8q5TEGkeSVyAatkY6wLUFZ0QpIeFl0R1P8tmzDqAkyeNGHxagRG/aWIpw6BRtjnBBd0XEFW7rxRGc7Efr05r7VKo90YUsKBMKAI78/ZFW7h1e5QhPfr/FIXLe3QZUPeAKwezYaUxQ/jrWHRC4cVTJlQIpSOJO9Ct7WhGvkIEfwzFqsZ4KZbqwyzjKlOOYnRiKwXdrfdiaRQoZjav2uiMIAZZK7dShNwCd88FZe0dE/SFtvEK3BTTkNhUXQ+xiriXaPyr505QDtkWnXtZHZEOd1J/8nJaV9K5LEjjsVyMuAzd63xS1ngc0615SAkgsS1herVpVuP95jiErbNXYZumjwrasMXnxTTruY5FGA9dme+EzHPM3t56kmTdAD+FFvS7anoew5XJze+oiveibTIxE1i9vloj4vWMEmTQ2zHzdumx+DFGGCu2Q8FHaUDyuEUV0FMiD5Rf2GdJSrr0F7m1eEdjOhh+MHL/8/+vnCiWsJulEZ3zjwMDtb8lqY0nfGtPAe7OPeAxntHs2l82cDUwX18lMz2guXT5TlMVEGnCuYLUu8DKWwdoh+G2GeG24Y=
+          file: j*.AppImage
+          file_glob: true
+          on:
+            repo: jmuelbert/jmbde-QT
+            tags: true
+    - os: linux
+      compiler: clang
+      env:
+        - QMAKESPEC=linux-clang
+        - MAKEFLAGS=-j2
+      before_install:
+        - sudo add-apt-repository --yes ppa:beineri/opt-qt563-trusty
+        - sudo apt-get update -qq
+        - sudo apt-get -y install qt56base qt56svg qt56tools binutils zlib1g-dev cppcheck xvfb
+        - source /opt/qt56/bin/qt56-env.sh
+        - qmake -version
+      script:
+        - qmake
+        - make
+        - pushd tests/
+        - qmake
+        - make
+        - for test in `find -executable -type f`; do pushd `dirname $test`; xvfb-run -a ./`basename $test`||exit 1; popd; done
+        - popd
+      after_script:
+        - cppcheck --enable=all -q -Isrc/libtiled `git ls-files src/\*.cpp`
+    - os: osx
+      env:
+        - INSTALLER_NAME="qt-opensource-mac-x64-clang-5.6.3"
+        - QT_CI_PACKAGES="qt.563.clang_64"
+      before_install:
+        - brew update
+        - brew install qbs
+        - curl -L https://raw.githubusercontent.com/benlau/qtci/master/bin/extract-qt-installer --output extract-qt-installer
+        - chmod +x extract-qt-installer
+        - curl -L http://download.qt.io/official_releases/qt/5.6/5.6.3/${INSTALLER_NAME}.dmg --output ${INSTALLER_NAME}.dmg
+        - hdiutil attach ${INSTALLER_NAME}.dmg
+        - ./extract-qt-installer /Volumes/${INSTALLER_NAME}/${INSTALLER_NAME}.app/Contents/MacOS/${INSTALLER_NAME} $HOME/Qt
+        - hdiutil detach /Volumes/${INSTALLER_NAME}
+      script:
+        - qbs --version
+        - qbs setup-toolchains --detect
+        - qbs setup-qt $HOME/Qt/5.6.3/clang_64/bin/qmake qt
+        - qbs config profiles.qt.baseProfile xcode-macosx-x86_64
+        - qbs config defaultProfile qt
+        - qbs -d build --all-products config:release  
+        - $HOME/Qt/5.6.3/clang_64/bin/macdeployqt build/release/install-root/jmbde.app
+        - pushd install
+        - ruby ../dist/macos/fixup-install-names.rb
+        - popd
+      deploy:
+        - provider: releases
+          skip_cleanup: true
+          tag_name: $TRAVIS_TAG
+          draft: true
+          api_key:
+            secure: qdSEjb8s9tyZPY9KChCseeJiWOEyDIyhf2GTR6CXvyqU8igyP/hqggaN/umfTTycPIrKEpdxNYuGtirRhLiPHuTW7zsyphoJwclc/eJbXHEcE8q5TEGkeSVyAatkY6wLUFZ0QpIeFl0R1P8tmzDqAkyeNGHxagRG/aWIpw6BRtjnBBd0XEFW7rxRGc7Efr05r7VKo90YUsKBMKAI78/ZFW7h1e5QhPfr/FIXLe3QZUPeAKwezYaUxQ/jrWHRC4cVTJlQIpSOJO9Ct7WhGvkIEfwzFqsZ4KZbqwyzjKlOOYnRiKwXdrfdiaRQoZjav2uiMIAZZK7dShNwCd88FZe0dE/SFtvEK3BTTkNhUXQ+xiriXaPyr505QDtkWnXtZHZEOd1J/8nJaV9K5LEjjsVyMuAzd63xS1ngc0615SAkgsS1herVpVuP95jiErbNXYZumjwrasMXnxTTruY5FGA9dme+EzHPM3t56kmTdAD+FFvS7anoew5XJze+oiveibTIxE1i9vloj4vWMEmTQ2zHzdumx+DFGGCu2Q8FHaUDyuEUV0FMiD5Rf2GdJSrr0F7m1eEdjOhh+MHL/8/+vnCiWsJulEZ3zjwMDtb8lqY0nfGtPAe7OPeAxntHs2l82cDUwX18lMz2guXT5TlMVEGnCuYLUu8DKWwdoh+G2GeG24Y=
+          file: j*.app
+          file_glob: true
+          on:
+            repo: jmuelbert/jmbde-QT
+            tags: true      
