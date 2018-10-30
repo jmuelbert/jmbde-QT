@@ -1,34 +1,59 @@
 language: cpp
+sudo: required
+dist: trusty
+python: 3.6
 
+env:
+  global:
+    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+    #   via the "travis encrypt" command using the project repo's public key 
+    - secure:
 
-# regex is for release tags
-branches:
-  only:
-    - master
-    - /^v(\d+\.){2}\d+$/
+  addons:
+    coverty_scan:
+      project:
+        name: "jmuelbert/jmbde-QT"
+        description: "A little BDE tool"
+      notification_email: juergen.muelbert@gmail.com
+      build_command_prepend: qmake
+      build_command: make
+      branch_pattern: coverity_scan
 
 matrix:
   include:
     - os: linux
-      cache:
-        directories:
-          - /var/cache/apt/archives/*.deb
-        compiler: gcc
-        sudo: require
-        dist: trusty
-        services:
-          - docker
-    - os: osx
-
-  fast_finish: true
-  include:
-    - stage: Linux
-      os: Linux
-      env
-git:
-  submodules: true
-  depth: 1
-deploy:
+      compiler: gcc
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+      before_install:
+        - eval "${MATRIX_EVAL}"
+        - sudo add-apt-repository --yes ppa:beineri/opt-qt595-trusty
+        - sudo apt-get update -qq
+        - sudo apt-get -y install qt59base qt59script qt59svg qt59imageformats qt59tools binutils zlib1g-dev
+        - source /opt/qt59/bin/qt59-env.sh
+        - source ./dist/linux/setup-qbs.sh       
+      script:
+        - qbs --version
+        - qbs setup-toolchains --detect
+        - qbs setup-qt --detect
+        - qbs config defaultProfile qt-5-9-5
+        - qbs -d build --all-products config:release  
+      after_success:
+       - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" -O linuxdeployqt
+        - chmod a+x linuxdeployqt
+        - unset QTDIR; unset QT_PLUGIN_PATH; unset LD_LIBRARY_PATH
+        - ls
+        # - ./linuxdeployqt ./Tiled/usr/share/applications/org.mapeditor.Tiled.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.4m.so.1.0 -verbose=2
+        # - ./linuxdeployqt ./Tiled/usr/share/applications/org.mapeditor.Tiled.desktop -exclude-libs=libpython3.4m.so.1.0 -appimage
+        #  - find ./Tiled -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
+        # - mv Tiled-x86_64.AppImage Tiled-$TILED_VERSION-x86_64.AppImage          
+  deploy:
   provider: releases
   file_glob: true
   skip_cleanup: true
@@ -39,10 +64,4 @@ deploy:
   file: 
     - jmbde-build/src/jmbde/j*.AppImage
     - jmbde-build/src/jmbde/j*.7z
-before_install: "./resources/scripts/.travis-before-install.sh"
-install: true
-script:
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./resources/scripts/.travis-install-linux.sh
-  ; fi
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then chmod +x ./resources/scripts/.travis-install-osx.sh
-  && ./resources/scripts/.travis-install-osx.sh ; fi
+

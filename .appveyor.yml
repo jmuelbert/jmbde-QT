@@ -41,8 +41,8 @@ build_script:
 - dir build\release\install-root
 
 artifacts:
-  - path: 'build\release\install-root\j*win64.exe'
-    name: jmbde_64_exe
+  - path: 'build\release\install-root\jmBDE.exe'
+    name: jmbdeexe
 
   - path: 'build\release\install-root\j*win64.7z'
     name: jmbde_64_7z
@@ -53,7 +53,7 @@ deploy:
   auth_token:
     secure:  VvBrqW/Jy8VMhSfn/rO1oeXITBPu3sUryFEI8+zcsiHdjmWuyWPnqrNPitPUBtPp
 
-  artifact: jmbde_64_exe, jmbde_64_7z
+  artifact: jmbdeexe
   force_update: true
   on:
     branch: master
