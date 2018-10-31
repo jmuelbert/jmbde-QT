@@ -4,7 +4,7 @@ dist: trusty
 python: 3.6
 env:
   global:
-  - secure: LKLAJsygybVGNwgA/xuae8B3kVLtNO+4dNGcfDVZJ7Mfej6vY6cxQ9BxHx9SSNwgrne+pXJ/jLeIM5Xj5FGWPA1RdhtDbYCzCVlJRr67U3ht2UH00KOAOjG1m+egPuF1j8Lf0rml/Bb0pb3h1IZVfT22eYvU9i3n2FW966Td/EStxcWj5mndgC6idJleYjfqOVzm7vMvwFfX7iLBbaKsfKJF/EfO9PQE1oM44aBS+62hxJD7tEafP1oInGtcfdMMQJr1cGYYm/0IfLbY0SAMz29OPHA669d1Nhw8/Z9DIm2nRp9mVrQf10GCI+uMmBnJAeaR0ZYFSjxoU6B2Z6kBTTRpfUa2dHPC77NtNZh0DvQkJoLruLhlPJ97ZNfT2GEmybWmBC2+ifpt4I5l/5cukWubgos8qvdkHqxhRZ3C5C2A5fAevk0r4uD0RTeuitGN0unbX+pQWjcsVFtUCJlDK/RWrnktjQ3X7g/63Xjv2+gdj2xjWORWmzGCk+zb0JgNaM/KqA2DQUwcWy074BU04FD79jeJgHWg+tEgcQulb7dIniVLFb0hkJSITa1KWlJd1TYpprdEKP1PzeiqoDMZwem7Ky+dWCT1hgfYRMKeldKjqsavaTYvGHwgSOYjpHbiN9VSMWfmrir8u5rXx7/CD5YpqKDDlVwAnSqUIHcEO5E=
+  - secure: "lpfs05x6HxkxEJS/dA4k85bytYZbDF77upYZqftkI9fp1L/c3Ka/vZ8GW9Y+pUCDRBYPgdg0OWEhOA3nUnZd8l2e7CiSXwU9V3OPWT4jVdHToEXlF34uZKUyM3grr0SfeMGqQotZ7pPpnM9V1tkMcJdCEE0gQqGxmgaX5woVB8QZFpnZY8lun7Yb4wKIjH3DC4Y79+I2smQWnEb9WZtM6GuP3CsOyuiL7IUZ1hoyDvp2yi8dPSVGQGSHXmLADPFXz7BzPh2biI5Yd5rh5o4lo7KcNCvjPfCbdLK8hUsYg621FsxRjQQKsxf8fDJtMNoE4Gp1kgI8g6ebEDkfkVzM4RuZyaCo3iODunAsD06lokbhIkNBhE4mBziYUYRHhMDY+7YBsJs1oBqq6fqD5JVTBnBgxCIMStON+gtG7+s1yvnjSgo5yX/ffGjsuKxHBXCqRsgvGPSxt6e4FalVAPok5v0GhUVKgpwA4jmaqFZnmF75AHaxZI53N8RTnWAq3Z2/q7BBE8UwxEdwJQfZYEbmGrfCmoTgAqa8bDsM+kbRW0RukYP5cMKs0HbXBhWtBpSOS/TReORd/iHTsNut+vCa6i7GXktnzED35SOie22298iZSalgOZelRGTYcx1BHWE7o142NN/OZ8qXG3sq8fGjKvHtg9aIQRRW/EyQvyeEtyc="
   addons:
     coverty_scan:
       project:
@@ -90,16 +90,8 @@ matrix:
     - QT_CI_PACKAGES="qt.563.clang_64"
     before_install:
     - brew update
+    - brew install qt
     - brew install qbs
-    - curl -L https://raw.githubusercontent.com/benlau/qtci/master/bin/extract-qt-installer
-      --output extract-qt-installer
-    - chmod +x extract-qt-installer
-    - curl -L http://download.qt.io/official_releases/qt/5.6/5.6.3/${INSTALLER_NAME}.dmg
-      --output ${INSTALLER_NAME}.dmg
-    - hdiutil attach ${INSTALLER_NAME}.dmg
-    - "./extract-qt-installer /Volumes/${INSTALLER_NAME}/${INSTALLER_NAME}.app/Contents/MacOS/${INSTALLER_NAME}
-      $HOME/Qt"
-    - hdiutil detach /Volumes/${INSTALLER_NAME}
     script:
     - qbs --version
     - qbs setup-toolchains --detect

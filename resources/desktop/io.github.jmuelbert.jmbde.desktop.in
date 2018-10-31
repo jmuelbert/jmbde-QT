@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Exec=jmbde %F
+Name=jmbde
+GenericName=Company Collector
+Comment=application to collect data in a company
+Icon=jmbde
+Terminal=false
+Categories=X-Tool;X-Business;X-Qt;
