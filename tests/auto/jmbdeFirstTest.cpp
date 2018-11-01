@@ -1,17 +1,17 @@
 #include <QtTest/QtTest>
 
-class TestQString: public QObject
+class jmbdeFirsTest: public QObject
 {
     Q_OBJECT
 private slots:
     void toUpper();
 };
 
-void TestQString::toUpper()
+void jmbdeFirsTest::toUpper()
 {
     QString str = "Hello";
     QCOMPARE(str.toUpper(), QString("HELLO"));
 }
 
-QTEST_MAIN(TestQString)
-#include "testqstring.moc"
+QTEST_MAIN(jmbdeFirsTest)
+#include "jmbdeFirsTest.moc"

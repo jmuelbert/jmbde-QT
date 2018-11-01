@@ -37,7 +37,7 @@ matrix:
       - qbs --version
       - qbs setup-toolchains --detect
       - qbs setup-qt --detect
-      - qbs config defaultProfile qt-5-11
+      - qbs config defaultProfile qt-5-9-5
       - qbs -d build --all-products config:release
     after_success:
       - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" -O linuxdeployqt 
@@ -91,7 +91,7 @@ matrix:
     script:
     - qbs --version
     - qbs setup-toolchains --detect
-    - qbs setup-qt $HOME/Qt/5.6.3/clang_64/bin/qmake qt
+    - qbs setup-qt --detect
     - qbs config profiles.qt.baseProfile xcode-macosx-x86_64
     - qbs config defaultProfile qt
     - qbs -d build --all-products config:release
