@@ -40,6 +40,7 @@ matrix:
       - qbs config defaultProfile qt-5-9-5
       - qbs -d build --all-products config:release
     after_success:
+      - bash <(curl -s https://codecov.is/bash)
       - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" -O linuxdeployqt 
       - chmod a+x linuxdeployqt 
       - unset QTDIR; unset QT_PLUGIN_PATH; unset LD_LIBRARY_PATH 
@@ -81,7 +82,7 @@ matrix:
       # - for test in `find -executable -type f`; do pushd `dirname $test`; xvfb-run -a ./`basename $test`||exit 1; popd; done
       # - popd
     after_script:
-      - cppcheck --enable=all -q -Isrc/libtiled `git ls-files src/\*.cpp`
+      - cppcheck --enable=all -q -Isrc/libjmbde `git ls-files src/\*.cpp`
   - os: osx
     before_install:
     - brew update

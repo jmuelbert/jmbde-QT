@@ -8,8 +8,9 @@ Project {
     name: "jmbde"
     qbsSearchPaths: ["qbs-resources"]
     
-    readonly property string version: "0.4.23"
-
+    property string version: Environment.getEnv("JMBDE_VERSION") || "0.4.23";
+    property bool snapshot: Environment.getEnv("JMBDE_SNAPSHOT")
+    property bool release: Environment.getEnv("JMBDE_RELEASE")
     property bool useStaticAnalyzer: false
 
     property string minimumMacosVersion: "10.8"
