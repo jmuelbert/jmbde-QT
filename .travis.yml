@@ -33,7 +33,7 @@ matrix:
       - sudo add-apt-repository --yes ppa:beineri/opt-qt595-trusty
       - sudo apt-get update -qq
       # Upgrade pip
-      - sudo pip install --upgrade pip
+      # - sudo pip install --upgrade pip
       # Codecov
       - sudo pip install codecov
     install:
