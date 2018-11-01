@@ -1,17 +1,22 @@
-#include <QtTest/QtTest>
+#include "jmbdefirsttest.h"
 
-class jmbdeFirsTest: public QObject
+void jmbdeFirstTest::toUpper_data()
 {
-    Q_OBJECT
-private slots:
-    void toUpper();
-};
+    QTest::addColumn<QString>("string");
+    QTest::addColumn<QString>("result");
 
-void jmbdeFirsTest::toUpper()
-{
-    QString str = "Hello";
-    QCOMPARE(str.toUpper(), QString("HELLO"));
+    QTest::newRow("all lower") << "hello" << "HELLO";
+    QTest::newRow("mixed")     << "Hello" << "HELLO";
+    QTest::newRow("all upper") << "HELLO" << "HELLO";
 }
 
-QTEST_MAIN(jmbdeFirsTest)
-#include "jmbdeFirsTest.moc"
+void jmbdeFirstTest::toUpper()
+{
+    QFETCH(QString, string);
+    QFETCH(QString, result);
+
+    QCOMPARE(string.toUpper(), result);
+}
+
+QTEST_MAIN(jmbdeFirstTest)
+

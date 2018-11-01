@@ -1,4 +1,5 @@
-TEMPLETE=subdirs
+TEMPLATE = subdirs
 
-SUBDIR = \
-    auto.pro
+SUBDIRS = \
+    auto
+
