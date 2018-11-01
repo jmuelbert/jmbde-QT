@@ -40,7 +40,7 @@ matrix:
       - qbs config defaultProfile qt-5-9-5
       - qbs -d build --all-products config:release
     after_success:
-      - bash <(curl -s https://codecov.is/bash)
+      - bash <(curl -s https://codecov.io/bash)
       - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" -O linuxdeployqt 
       - chmod a+x linuxdeployqt 
       - unset QTDIR; unset QT_PLUGIN_PATH; unset LD_LIBRARY_PATH 
