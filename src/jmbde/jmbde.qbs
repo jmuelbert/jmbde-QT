@@ -25,7 +25,7 @@ QtGuiApplication {
         condition: qbs.targetOS.contains("darwin")
         bundle.identifierPrefix: "io.github.jmuelbert"
         bundle.identifier: "io.github.jmuelbert.jmBDE"
-        bundle.infoPlist: ({"CFBundleIconFile": "io.liri.Text"})
+        bundle.infoPlist: ({"CFBundleIconFile": "io.github.jmuelbert.jmBDE"})
     }
 
     cpp.defines: {
