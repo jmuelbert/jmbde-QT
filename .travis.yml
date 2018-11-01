@@ -25,30 +25,29 @@ matrix:
         packages:
         - g++-7
     env:
-    - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+      - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
     before_install:
-    - eval "${MATRIX_EVAL}"
-    - sudo add-apt-repository --yes ppa:beineri/opt-qt595-trusty
-    - sudo apt-get update -qq
-    - sudo apt-get -y install qt59base qt59script qt59svg qt59imageformats qt59tools
-      binutils zlib1g-dev
-    - source /opt/qt59/bin/qt59-env.sh
-    - source ./tools/ci/linux/setup-qbs.sh
+      - eval "${MATRIX_EVAL}"
+      - sudo add-apt-repository --yes ppa:beineri/opt-qt595-trusty
+      - sudo apt-get update -qq
+      - sudo apt-get -y install qt59base qt59script qt59svg qt59imageformats qt59tools binutils zlib1g-dev
+      - source /opt/qt59/bin/qt59-env.sh
+      - source ./tools/ci/linux/setup-qbs.sh
     script:
-    - qbs --version
-    - qbs setup-toolchains --detect
-    - qbs setup-qt --detect
-    - qbs config defaultProfile qt-5-9-5
-    - qbs -d build --all-products config:release
+      - qbs --version
+      - qbs setup-toolchains --detect
+      - qbs setup-qt --detect
+      - qbs config defaultProfile qt-5-11
+      - qbs -d build --all-products config:release
     after_success:
-    - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" -O linuxdeployqt 
-    - chmod a+x linuxdeployqt 
-    - unset QTDIR; unset QT_PLUGIN_PATH; unset LD_LIBRARY_PATH 
-    - ls 
-    - ./linuxdeployqt ./jmbde/usr/share/applications/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.4m.so.1.0 -verbose=2 
-    - ./linuxdeployqt ./jmbde/usr/share/applications/io.github.jmuelbert.jmbde.desktop -exclude-libs=libpython3.4m.so.1.0 -appimage 
+      - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" -O linuxdeployqt 
+      - chmod a+x linuxdeployqt 
+      - unset QTDIR; unset QT_PLUGIN_PATH; unset LD_LIBRARY_PATH 
+      - ls 
+      - ./linuxdeployqt ../build/releases/install-root/jmbde/usr/share/applications/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.4m.so.1.0 -verbose=2 
+      - ./linuxdeployqt ../build/releases/install-root/jmbde/usr/share/applications/io.github.jmuelbert.jmbde.desktop -exclude-libs=libpython3.4m.so.1.0 -appimage 
       - find ./jmbde -executable 
-      -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq 
+      - type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq 
       - mv jmbde-x86_64.AppImage jmbde-$JMBDE_VERSION-x86_64.AppImage
     deploy:
       - provider: releases
@@ -65,26 +64,24 @@ matrix:
   - os: linux
     compiler: clang
     env:
-    - QMAKESPEC=linux-clang
-    - MAKEFLAGS=-j2
+      - QMAKESPEC=linux-clang
+      - MAKEFLAGS=-j2
     before_install:
-    - sudo add-apt-repository --yes ppa:beineri/opt-qt563-trusty
-    - sudo apt-get update -qq
-    - sudo apt-get -y install qt56base qt56svg qt56tools binutils zlib1g-dev cppcheck
-      xvfb
-    - source /opt/qt56/bin/qt56-env.sh
-    - qmake -version
+      - sudo add-apt-repository --yes ppa:beineri/opt-qt563-trusty
+      - sudo apt-get update -qq
+      - sudo apt-get -y install qt56base qt56svg qt56tools binutils zlib1g-dev cppcheck xvfb
+      - source /opt/qt56/bin/qt56-env.sh
+      - qmake -version
     script:
-    - qmake
-    - make
-    - pushd tests/
-    - qmake
-    - make
-    - for test in `find -executable -type f`; do pushd `dirname $test`; xvfb-run -a
-      ./`basename $test`||exit 1; popd; done
-    - popd
+      - qmake
+      - make
+      - pushd tests/
+      - qmake
+      - make
+      - for test in `find -executable -type f`; do pushd `dirname $test`; xvfb-run -a ./`basename $test`||exit 1; popd; done
+      - popd
     after_script:
-    - cppcheck --enable=all -q -Isrc/libtiled `git ls-files src/\*.cpp`
+      - cppcheck --enable=all -q -Isrc/libtiled `git ls-files src/\*.cpp`
   - os: osx
     before_install:
     - brew update
