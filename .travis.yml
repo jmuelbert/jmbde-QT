@@ -5,6 +5,7 @@ python: 3.6
 env:
   global:
   - secure: "lpfs05x6HxkxEJS/dA4k85bytYZbDF77upYZqftkI9fp1L/c3Ka/vZ8GW9Y+pUCDRBYPgdg0OWEhOA3nUnZd8l2e7CiSXwU9V3OPWT4jVdHToEXlF34uZKUyM3grr0SfeMGqQotZ7pPpnM9V1tkMcJdCEE0gQqGxmgaX5woVB8QZFpnZY8lun7Yb4wKIjH3DC4Y79+I2smQWnEb9WZtM6GuP3CsOyuiL7IUZ1hoyDvp2yi8dPSVGQGSHXmLADPFXz7BzPh2biI5Yd5rh5o4lo7KcNCvjPfCbdLK8hUsYg621FsxRjQQKsxf8fDJtMNoE4Gp1kgI8g6ebEDkfkVzM4RuZyaCo3iODunAsD06lokbhIkNBhE4mBziYUYRHhMDY+7YBsJs1oBqq6fqD5JVTBnBgxCIMStON+gtG7+s1yvnjSgo5yX/ffGjsuKxHBXCqRsgvGPSxt6e4FalVAPok5v0GhUVKgpwA4jmaqFZnmF75AHaxZI53N8RTnWAq3Z2/q7BBE8UwxEdwJQfZYEbmGrfCmoTgAqa8bDsM+kbRW0RukYP5cMKs0HbXBhWtBpSOS/TReORd/iHTsNut+vCa6i7GXktnzED35SOie22298iZSalgOZelRGTYcx1BHWE7o142NN/OZ8qXG3sq8fGjKvHtg9aIQRRW/EyQvyeEtyc="
+  - CODECOV_TOKEN="af490a45-9d52-4578-8a12-55155f9e65c9"
   addons:
     coverty_scan:
       project:
@@ -40,7 +41,7 @@ matrix:
       - qbs config defaultProfile qt-5-9-5
       - qbs -d build --all-products config:release
     after_success:
-      - bash <(curl -s https://codecov.io/bash)
+      - bash <(curl -s https://codecov.io/bash) 
       - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" -O linuxdeployqt 
       - chmod a+x linuxdeployqt 
       - unset QTDIR; unset QT_PLUGIN_PATH; unset LD_LIBRARY_PATH 
