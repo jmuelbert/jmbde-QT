@@ -43,7 +43,7 @@ matrix:
       - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" -O linuxdeployqt 
       - chmod a+x linuxdeployqt 
       - unset QTDIR; unset QT_PLUGIN_PATH; unset LD_LIBRARY_PATH 
-      - ls 
+      - ls ../
       - ./linuxdeployqt ../build/releases/install-root/jmbde/usr/share/applications/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.4m.so.1.0 -verbose=2 
       - ./linuxdeployqt ../build/releases/install-root/jmbde/usr/share/applications/io.github.jmuelbert.jmbde.desktop -exclude-libs=libpython3.4m.so.1.0 -appimage 
       - find ./jmbde -executable 
@@ -95,7 +95,7 @@ matrix:
     - qbs config profiles.qt.baseProfile xcode-macosx-x86_64
     - qbs config defaultProfile qt-5-11-2
     - qbs -d build --all-products config:release
-    - "macdeployqt build/release/install-root/jmbde.app"
+    # - "macdeployqt build/release/install-root/jmbde.app"
     - pushd install
     # - ruby ../dist/macos/fixup-install-names.rb
     - popd

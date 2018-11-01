@@ -1,7 +1,7 @@
 QT += widgets testlib
 
-SOURCES = jmbdeFirstTest.cpp
-HEADERS = jmbdeFirstTest.h
+SOURCES = jmbdefirsttest.cpp
+HEADERS = jmbdefirsttest.h
 
 # install
 INSTALLS += target
