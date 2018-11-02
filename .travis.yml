@@ -31,32 +31,24 @@ matrix:
       - eval "${MATRIX_EVAL}"
       - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
       - sudo add-apt-repository --yes ppa:beineri/opt-qt595-trusty
+#     - sudo add-apt-repository --yes ppa:beineri/opt-qt-5.10.1-trusty
       - sudo apt-get update -qq
-      # Upgrade pip
-      # - sudo pip install --upgrade pip
-      # Codecov
-      - sudo pip install codecov
     install:
       - sudo apt-get -y install qt59base qt59script qt59svg qt59imageformats qt59tools binutils zlib1g-dev
       - source /opt/qt59/bin/qt59-env.sh
       - source ./tools/ci/linux/setup-qbs.sh
-      # Codecov
-      - sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-7 90      
     script:
       - qbs --version
       - qbs setup-toolchains --detect
       - qbs setup-qt --detect
       - qbs config defaultProfile qt-5-9-5
       - qbs -d build --all-products config:release
-      # Codecov
-      - ./resources/scripts/get_code_cov.sh
     after_success:
-      - bash <(curl -s https://codecov.io/bash) 
       - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" -O linuxdeployqt 
       - chmod a+x linuxdeployqt 
       - unset QTDIR; unset QT_PLUGIN_PATH; unset LD_LIBRARY_PATH 
-      - ./linuxdeployqt ../build/releases/install-root/jmbde/usr/share/applications/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.4m.so.1.0 -verbose=2 
-      - ./linuxdeployqt ../build/releases/install-root/jmbde/usr/share/applications/io.github.jmuelbert.jmbde.desktop -exclude-libs=libpython3.4m.so.1.0 -appimage 
+      - ./linuxdeployqt ./build/release/install-root/usr/local/share/applications/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.4m.so.1.0 -verbose=2 
+      - ./linuxdeployqt ./build/release/install-root/usr/local/share/applications/io.github.jmuelbert.jmbde.desktop -exclude-libs=libpython3.4m.so.1.0 -appimage 
       - find ./jmbde -executable 
       - type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq 
       - mv jmbde-x86_64.AppImage jmbde-$JMBDE_VERSION-x86_64.AppImage
@@ -80,17 +72,26 @@ matrix:
     before_install:
       - sudo add-apt-repository --yes ppa:beineri/opt-qt563-trusty
       - sudo apt-get update -qq
+    install:
       - sudo apt-get -y install qt56base qt56svg qt56tools binutils zlib1g-dev cppcheck xvfb
       - source /opt/qt56/bin/qt56-env.sh
       - qmake -version
+      # Upgrade pip
+      # - sudo -H pip install --upgrade pip
+      # Codecov
+      - sudo -H pip install codecov
     script:
+      - qmake "QMAKE_CXXFLAGS += -fprofile-arcs -ftest-coverage" "LIBS += -lgcov"
+      - make
+      - pushd tests/
       - qmake
       - make
-      # - pushd tests/
-      # - qmake
-      # - make
-      # - for test in `find -executable -type f`; do pushd `dirname $test`; xvfb-run -a ./`basename $test`||exit 1; popd; done
-      # - popd
+      - for test in `find -executable -type f`; do pushd `dirname $test`; xvfb-run -a ./`basename $test`||exit 1; popd; done
+      - popd
+     # Codecov
+      - ./resources/scripts/get_code_cov.sh
+    after_success:
+      - bash <(curl -s https://codecov.io/bash) 
     after_script:
       - cppcheck --enable=all -q -Isrc/libjmbde `git ls-files src/\*.cpp`
   - os: osx
