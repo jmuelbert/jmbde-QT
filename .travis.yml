@@ -80,18 +80,22 @@ matrix:
       - sudo add-apt-repository --yes ppa:beineri/opt-qt595-trusty
 #     - sudo add-apt-repository --yes ppa:beineri/opt-qt-5.10.1-trusty
       - sudo apt-get update -qq
+        # Codecov
+      - sudo pip install codecov
+
     install:
       - sudo apt-get -y install qt59base qt59script qt59svg qt59imageformats qt59tools binutils zlib1g-dev cppcheck
       - source /opt/qt59/bin/qt59-env.sh
       - qmake -version
-      # Codecov
-      - sudo -H pip install codecov
+      - sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-7 90
+
     script:
       - qmake "QMAKE_CXXFLAGS += -fprofile-arcs -ftest-coverage" "LIBS += -lgcov"
       - make
      # Codecov
       - ./resources/scripts/get_code_cov.sh
       - codecov
+      # Tests
       - pushd tests/
       - qmake
       - make
@@ -111,6 +115,9 @@ matrix:
       - brew install qbs
       - curl -L https://raw.githubusercontent.com/benlau/qtci/master/bin/extract-qt-installer --output extract-qt-installer
       - chmod +x extract-qt-installer
+      - echo $INSTALLER_NAME
+      - echo ${INSTALLER_NAME}.dmg
+      - echo "${INSTALLER_NAME}.dmg"
       - curl -L http://download.qt.io/official_releases/qt/5.11/5.11.2/${INSTALLER_NAME}.dmg --output ${INSTALLER_NAME}.dmg
       - hdiutil attach ${INSTALLER_NAME}.dmg
       - ./extract-qt-installer /Volumes/${INSTALLER_NAME}/${INSTALLER_NAME}.app/Contents/MacOS/${INSTALLER_NAME} $HOME/Qt
