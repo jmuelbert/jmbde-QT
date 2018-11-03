@@ -82,6 +82,7 @@ matrix:
       - sudo apt-get update -qq
     install:
       - sudo apt-get -y install qt59base qt59script qt59svg qt59imageformats qt59tools binutils zlib1g-dev
+      - source /opt/qt59/bin/qt59-env.sh
       - qmake -version
       # Upgrade pip
       # - sudo -H pip install --upgrade pip
