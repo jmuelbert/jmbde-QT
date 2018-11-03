@@ -96,27 +96,35 @@ matrix:
       - popd
      # Codecov
       - ./resources/scripts/get_code_cov.sh
+      - codecov
     after_success:
       - bash <(curl -s https://codecov.io/bash) -t af490a45-9d52-4578-8a12-55155f9e65c9
     after_script:
       - cppcheck --enable=all -q -Isrc/libjmbde `git ls-files src/\*.cpp`
   - os: osx
+    env:
+        - INSTALLER_NAME="qt-opensource-mac-x64-clang-5.11.2"
+        - QT_CI_PACKAGES="qt.5112.clang_64"
     before_install:
-    - brew update
-    - brew install qt
-    - brew link --force qt5
-    - brew install qbs
+      - brew update
+      - brew install qbs
+      - curl -L https://raw.githubusercontent.com/benlau/qtci/master/bin/extract-qt-installer --output extract-qt-installer
+      - chmod +x extract-qt-installer
+      - curl -L http://download.qt.io/official_releases/qt/5.11/5.11.2/${INSTALLER_NAME}.dmg --output ${INSTALLER_NAME}.dmg
+      - hdiutil attach ${INSTALLER_NAME}.dmg
+      - ./extract-qt-installer /Volumes/${INSTALLER_NAME}/${INSTALLER_NAME}.app/Contents/MacOS/${INSTALLER_NAME} $HOME/Qt
+      - hdiutil detach /Volumes/${INSTALLER_NAME}
     script:
-    - qbs --version
-    - qbs setup-toolchains --detect
-    - qbs setup-qt --detect
-    - qbs config profiles.qt.baseProfile xcode-macosx-x86_64
-    - qbs config defaultProfile qt-5-11-2
-    - qbs -d build --all-products config:release
-    # - "macdeployqt build/release/install-root/jmbde.app"
-    # - pushd install
-    # - ruby ../dist/macos/fixup-install-names.rb
-    # - popd
+      - qbs --version
+      - qbs setup-toolchains --detect
+      - qbs setup-qt $HOME/Qt/5.11.2/clang_64/bin/qmake qt
+      - qbs config profiles.qt.baseProfile xcode-macosx-x86_64
+      - qbs config defaultProfile qt
+      - qbs -d build --all-products config:release
+      - $HOME/Qt/5.11.2/clang_64/bin/macdeployqt build/release/install-root/jmbde.app
+      - pushd install
+      - ruby ../../../resources/scripts/fixup-install-names.rb
+      - popd
     deploy:
       - provider: releases
         skip_cleanup: true
