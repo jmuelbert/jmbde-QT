@@ -64,6 +64,7 @@ matrix:
           repo: jmuelbert/jmbde-QT
           tags: true   
   - os: linux
+    compiler: gcc  
     addons:
       apt:
         sources:
