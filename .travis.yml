@@ -108,7 +108,7 @@ matrix:
       - cppcheck --enable=all -q -Isrc/libjmbde `git ls-files src/\*.cpp`
   - os: osx
     env:
-        - INSTALLER_NAME="qt-opensource-mac-x64-clang-5.11.2"
+        - INSTALLER_NAME="qt-opensource-mac-x64-5.11.2"
         - QT_CI_PACKAGES="qt.5112.clang_64"
     before_install:
       - brew update
