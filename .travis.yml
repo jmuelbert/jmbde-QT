@@ -64,16 +64,24 @@ matrix:
           repo: jmuelbert/jmbde-QT
           tags: true   
   - os: linux
-    compiler: gcc
+    addons:
+      apt:
+        sources:
+        - ubuntu-toolchain-r-test
+        packages:
+        - g++-7
     env:
+      - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
       - QMAKESPEC=linux-g++
       - MAKEFLAGS=-j2
     before_install:
-      - sudo add-apt-repository --yes ppa:beineri/opt-qt563-trusty
+      - eval "${MATRIX_EVAL}"
+      - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
+      - sudo add-apt-repository --yes ppa:beineri/opt-qt595-trusty
+#     - sudo add-apt-repository --yes ppa:beineri/opt-qt-5.10.1-trusty
       - sudo apt-get update -qq
     install:
-      - sudo apt-get -y install qt56base qt56svg qt56tools binutils zlib1g-dev cppcheck xvfb
-      - source /opt/qt56/bin/qt56-env.sh
+      - sudo apt-get -y install qt59base qt59script qt59svg qt59imageformats qt59tools binutils zlib1g-dev
       - qmake -version
       # Upgrade pip
       # - sudo -H pip install --upgrade pip
