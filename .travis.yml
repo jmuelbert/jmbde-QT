@@ -81,7 +81,7 @@ matrix:
 #     - sudo add-apt-repository --yes ppa:beineri/opt-qt-5.10.1-trusty
       - sudo apt-get update -qq
     install:
-      - sudo apt-get -y install qt59base qt59script qt59svg qt59imageformats qt59tools binutils zlib1g-dev
+      - sudo apt-get -y install qt59base qt59script qt59svg qt59imageformats qt59tools binutils zlib1g-dev cppcheck
       - source /opt/qt59/bin/qt59-env.sh
       - qmake -version
       # Codecov
@@ -97,7 +97,7 @@ matrix:
      # Codecov
       - ./resources/scripts/get_code_cov.sh
     after_success:
-      - bash <(curl -s https://codecov.io/bash) 
+      - bash <(curl -s https://codecov.io/bash) -t af490a45-9d52-4578-8a12-55155f9e65c9
     after_script:
       - cppcheck --enable=all -q -Isrc/libjmbde `git ls-files src/\*.cpp`
   - os: osx
