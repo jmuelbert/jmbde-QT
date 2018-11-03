@@ -4,11 +4,11 @@ DEFINES *= QT_USE_QSTRINGBUILDER QT_USE_FAST_CONCATENATION QT_USE_FAST_OPERATOR_
 VERSION = $$APP_VERSION
 
 gcc|g++|clang* {
-  QMAKE_CXXFLAGS += -std=c++14
+  QMAKE_CXXFLAGS += --std=gnu++1y
 }
 
 equals(QMAKE_CXX, clang++) {
-     message("enabling c++17 support in clang")
+    message("enabling c++17 support in clang")
     QMAKE_CXXFLAGS += -std=c++17 
 }
 
