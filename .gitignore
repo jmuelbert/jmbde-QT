@@ -2,6 +2,8 @@
 ## build results
 ## generated databases
 
+linuxdeployqt 
+*.AppImage
 .build
 # .qtmodules-travis
 
@@ -20,6 +22,7 @@
 [Ii]nstall/
 [Ll]ib/*.so*
 Makefile*
+qbs-build/
 
 # Compiled Object files, Static and Dynamic libs (Shared Objects)
 *.o
