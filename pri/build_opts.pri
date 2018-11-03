@@ -1,14 +1,15 @@
-CONFIG *= c++1z warn_on
+CONFIG *= c++14 warn_on
 CONFIG -=  debug_and_release
 DEFINES *= QT_USE_QSTRINGBUILDER QT_USE_FAST_CONCATENATION QT_USE_FAST_OPERATOR_PLUS UNICODE _UNICODE
 VERSION = $$APP_VERSION
 
 gcc|g++|clang* {
-  QMAKE_CXXFLAGS += -std=c++17
+  QMAKE_CXXFLAGS += -std=c++14
 }
 
-clang* {
-  DEFINES *= CLANG=1
+equals(QMAKE_CXX, clang++) {
+     message("enabling c++17 support in clang")
+    QMAKE_CXXFLAGS += -std=c++17 
 }
 
 # Setup specific compiler options.
