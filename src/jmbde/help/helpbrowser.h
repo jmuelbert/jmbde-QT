@@ -54,6 +54,9 @@
 
 class QHelpEngine;
 
+/*!
+
+*/
 class HelpBrowser : public QTextBrowser {
   Q_OBJECT
 
