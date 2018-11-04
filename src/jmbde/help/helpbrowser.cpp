@@ -65,7 +65,7 @@ HelpBrowser::HelpBrowser(QWidget *parent) : QTextBrowser(parent) {
   m_helpEngine = new QHelpEngine(collectionFile, this);
   if (!m_helpEngine->setupData()) {
     delete m_helpEngine;
-    m_helpEngine = 0;
+    m_helpEngine = nullptr;
   }
 }
 
