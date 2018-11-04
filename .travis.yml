@@ -102,7 +102,7 @@ matrix:
   - os: osx
     env:
         - INSTALLER_NAME="qt-opensource-mac-x64-5.11.2"
-        - QT_CI_PACKAGES="qt.5112.clang_64"
+        - QT_CI_PACKAGES="qt.qt5.5112.clang_64"
     before_install:
       - brew update
       - brew install qbs
