@@ -51,8 +51,8 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
-#include "definitions.h"
 #include "commondatamodel.h"
+#include "definitions.h"
 
 class CompanyDataModel : public CommonDataModel {
   Q_OBJECT

@@ -50,6 +50,7 @@
 #include <QDir>
 #include <QHelpEngine>
 #include <QLibraryInfo>
+#include <QLoggingCategory>
 #include <QTextBrowser>
 
 class QHelpEngine;

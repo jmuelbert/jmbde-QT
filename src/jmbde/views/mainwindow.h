@@ -57,11 +57,10 @@
 #include <QtWidgets>
 
 #include <QPrintDialog>
-#include <QPrinter>
 #include <QPrintPreviewDialog>
+#include <QPrinter>
 
 #include <QtHelp>
-
 
 #include "definitions.h"
 
@@ -79,185 +78,179 @@
 #include "functioninputarea.h"
 #include "manufacturerinputarea.h"
 #include "mobileinputarea.h"
-#include "titleinputarea.h"
 #include "osinputarea.h"
 #include "phoneinputarea.h"
 #include "printerinputarea.h"
 #include "processorinputarea.h"
 #include "softwareinputarea.h"
+#include "titleinputarea.h"
 
 #include "../libjmbde/datalib/datacontext/datacontext.h"
-#include "models/functiondatamodel.h"
-#include "models/departmentdatamodel.h"
-#include "models/titledatamodel.h"
-#include "models/processordatamodel.h"
-#include "models/osdatamodel.h"
-#include "models/softwaredatamodel.h"
-#include "models/manufacturerdatamodel.h"
 #include "models/citynamedatamodel.h"
+#include "models/departmentdatamodel.h"
+#include "models/functiondatamodel.h"
+#include "models/manufacturerdatamodel.h"
+#include "models/osdatamodel.h"
+#include "models/processordatamodel.h"
+#include "models/softwaredatamodel.h"
+#include "models/titledatamodel.h"
 
 /**
  * Namespace for the UserInterface
  */
-namespace Ui
-{
+namespace Ui {
 class MainWindow;
 }
 
 /**
  * @brief The MainWindow class
  */
-class MainWindow : public QMainWindow
-{
-    Q_OBJECT
+class MainWindow : public QMainWindow {
+  Q_OBJECT
 
 public:
+  /**
+   * @brief MainWindow
+   * @param parent
+   */
+  explicit MainWindow(QWidget *parent = nullptr);
 
-    /**
-     * @brief MainWindow
-     * @param parent
-     */
-    explicit MainWindow(QWidget* parent = nullptr);
-
-    /**
-     * @brief MainWindow::~MainWindow
-     */
-    ~MainWindow();
+  /**
+   * @brief MainWindow::~MainWindow
+   */
+  ~MainWindow();
 
 protected:
+  /**
+   * @brief closeEvent
+   * @param event
+   */
+  void closeEvent(QCloseEvent *event);
 
-    /**
-     * @brief closeEvent
-     * @param event
-     */
-    void closeEvent(QCloseEvent* event);
-
-    void resizeEvent(QResizeEvent* event);
+  void resizeEvent(QResizeEvent *event);
 
 private slots:
 
-    /**
-     * @brief on_actionPreferences_triggered
-     */
-    void on_actionPreferences_triggered();
+  /**
+   * @brief on_actionPreferences_triggered
+   */
+  void on_actionPreferences_triggered();
 
-    /**
-     * @brief on_actionAbout_triggered
-     */
-    void on_actionAbout_triggered();
+  /**
+   * @brief on_actionAbout_triggered
+   */
+  void on_actionAbout_triggered();
 
-    /**
-     * @brief on_actionNew_triggered
-     */
-    void on_actionNew_triggered();
+  /**
+   * @brief on_actionNew_triggered
+   */
+  void on_actionNew_triggered();
 
-    /**
-     * @brief on_actionQuit_triggered
-     */
-    void on_actionQuit_triggered();
+  /**
+   * @brief on_actionQuit_triggered
+   */
+  void on_actionQuit_triggered();
 
-    /**
-     * @brief focusChanged
-     * @param now
-     */
-    void focusChanged(QWidget*, QWidget* now);
+  /**
+   * @brief focusChanged
+   * @param now
+   */
+  void focusChanged(QWidget *, QWidget *now);
 
-    /**
-     * @brief on_actionOpen_triggered
-     */
-    void on_actionOpen_triggered();
+  /**
+   * @brief on_actionOpen_triggered
+   */
+  void on_actionOpen_triggered();
 
-    /**
-     * @brief on_actionImport_triggered
-     */
-    void on_actionImport_triggered();
+  /**
+   * @brief on_actionImport_triggered
+   */
+  void on_actionImport_triggered();
 
-    /**
-     * @brief on_actionExport_triggered
-     */
-    void on_actionExport_triggered();
+  /**
+   * @brief on_actionExport_triggered
+   */
+  void on_actionExport_triggered();
 
-    /**
-     * @brief on_actionPrint_triggered
-     */
-    void on_actionPrint_triggered();
+  /**
+   * @brief on_actionPrint_triggered
+   */
+  void on_actionPrint_triggered();
 
-    /**
-     * @brief on_action_Export_Pdf_triggered
-     */
-    void on_action_Export_Pdf_triggered();
+  /**
+   * @brief on_action_Export_Pdf_triggered
+   */
+  void on_action_Export_Pdf_triggered();
 
-    /**
-     * @brief on_actionPrint_Preview_triggered
-     */
-    void on_actionPrint_Preview_triggered();
+  /**
+   * @brief on_actionPrint_Preview_triggered
+   */
+  void on_actionPrint_Preview_triggered();
 
-    void on_actionHelp_triggered();
+  void on_actionHelp_triggered();
 
-    void onClickedTreeView(const QModelIndex &index);
+  void onClickedTreeView(const QModelIndex &index);
 
-    void onClickedListViewRow(const QModelIndex &index);
-    void onPressedListViewRow(const QModelIndex &index);
+  void onClickedListViewRow(const QModelIndex &index);
+  void onPressedListViewRow(const QModelIndex &index);
 
 private:
+  /**
+   * @brief ui
+   */
+  Ui::MainWindow *ui;
 
-    /**
-     * @brief ui
-     */
-    Ui::MainWindow* ui;
+  /**
+   * @brief readSettings
+   */
+  void readSettings();
 
-    /**
-     * @brief readSettings
-     */
-    void readSettings();
+  /**
+   * @brief writeSettings
+   */
+  void writeSettings();
 
-    /**
-     * @brief writeSettings
-     */
-    void writeSettings();
+  QHelpEngine *helpEngine;
+  QDockWidget *helpWindow;
 
-    QHelpEngine* helpEngine;
-    QDockWidget* helpWindow;
+  /**
+   * @brief Not_Available_Message
+   */
+  void Not_Available_Message();
 
-    /**
-     * @brief Not_Available_Message
-     */
-    void Not_Available_Message();
-
-    /**
-     * @brief em
-     */
-    QSqlRelationalTableModel* model;
-    QSqlTableModel* tableModel;
-    QString dataBaseName;
-    DataContext *dataBase;
-    int dbType = 0;
-    QString dbConnection;
-    QString dbHostname;
-    QString dbUsername;
-    QString dbPassword;
-    QSplitter* m_splitter;
-    QTreeView* m_treeView;
-    QListView* m_listView;
-    QStandardItemModel* m_treeviewModel;
-    enum ViewData {
-        VIEW_EMPLOYEE,
-        VIEW_FUNCTION,
-        VIEW_DEPARTMENT,
-        VIEW_TITLE,
-        VIEW_PHONE,
-        VIEW_MOBILE,
-        VIEW_COMPUTER,
-        VIEW_PROCESSOR,
-        VIEW_OS,
-        VIEW_SOFTWARE,
-        VIEW_PRINTER,
-        VIEW_MANUFACTURER,
-        VIEW_CITY,
-        VIEW_CHIPCARD,
-    };
-    int actualView;
-    QModelIndex m_actualView;
-    QModelIndex m_actualData;
+  /**
+   * @brief em
+   */
+  QSqlRelationalTableModel *model;
+  QSqlTableModel *tableModel;
+  QString dataBaseName;
+  DataContext *dataBase;
+  int dbType = 0;
+  QString dbConnection;
+  QString dbHostname;
+  QString dbUsername;
+  QString dbPassword;
+  QSplitter *m_splitter;
+  QTreeView *m_treeView;
+  QListView *m_listView;
+  QStandardItemModel *m_treeviewModel;
+  enum ViewData {
+    VIEW_EMPLOYEE,
+    VIEW_FUNCTION,
+    VIEW_DEPARTMENT,
+    VIEW_TITLE,
+    VIEW_PHONE,
+    VIEW_MOBILE,
+    VIEW_COMPUTER,
+    VIEW_PROCESSOR,
+    VIEW_OS,
+    VIEW_SOFTWARE,
+    VIEW_PRINTER,
+    VIEW_MANUFACTURER,
+    VIEW_CITY,
+    VIEW_CHIPCARD,
+  };
+  int actualView;
+  QModelIndex m_actualView;
+  QModelIndex m_actualData;
 };
-

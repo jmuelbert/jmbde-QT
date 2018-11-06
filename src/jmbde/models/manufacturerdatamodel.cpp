@@ -42,113 +42,109 @@
 
 #include "manufacturerdatamodel.h"
 
-ManufacturerDataModel::ManufacturerDataModel(QObject* parent)
-    : CommonDataModel(parent)
-{
+ManufacturerDataModel::ManufacturerDataModel(QObject *parent)
+    : CommonDataModel(parent) {
 
-    // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+  // Set the Model
+  m_model = new QSqlRelationalTableModel(this);
+  m_model->setTable(this->m_tableName);
+  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-    setIndexes();
+  setIndexes();
 }
 
 ManufacturerDataModel::~ManufacturerDataModel() {}
 
-void ManufacturerDataModel::setIndexes()
-{
-    m_ManufacturerIdIndex = m_model->fieldIndex(QLatin1String("manufacturer_id"));
-    m_NameIndex = m_model->fieldIndex(QLatin1String("name"));
-    m_Name2Index = m_model->fieldIndex(QLatin1String("name2"));
-    m_SupporterIndex = m_model->fieldIndex(QLatin1String("supporter"));
-    m_AddressIndex = m_model->fieldIndex(QLatin1String("address"));
-    m_Address2Index = m_model->fieldIndex(QLatin1String("address2"));
-    m_ZipCityIdIndex = m_model->fieldIndex(QLatin1String("zip_city_id"));
-    m_MailAddressIndex = m_model->fieldIndex(QLatin1String("mail_address"));
-    m_PhoneNumberIndex = m_model->fieldIndex(QLatin1String("phone_number"));
-    m_FaxNumberIndex = m_model->fieldIndex(QLatin1String("fax_number"));
-    m_HotlineNumberIndex = m_model->fieldIndex(QLatin1String("hotline_number"));
-    m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
+void ManufacturerDataModel::setIndexes() {
+  m_ManufacturerIdIndex = m_model->fieldIndex(QLatin1String("manufacturer_id"));
+  m_NameIndex = m_model->fieldIndex(QLatin1String("name"));
+  m_Name2Index = m_model->fieldIndex(QLatin1String("name2"));
+  m_SupporterIndex = m_model->fieldIndex(QLatin1String("supporter"));
+  m_AddressIndex = m_model->fieldIndex(QLatin1String("address"));
+  m_Address2Index = m_model->fieldIndex(QLatin1String("address2"));
+  m_ZipCityIdIndex = m_model->fieldIndex(QLatin1String("zip_city_id"));
+  m_MailAddressIndex = m_model->fieldIndex(QLatin1String("mail_address"));
+  m_PhoneNumberIndex = m_model->fieldIndex(QLatin1String("phone_number"));
+  m_FaxNumberIndex = m_model->fieldIndex(QLatin1String("fax_number"));
+  m_HotlineNumberIndex = m_model->fieldIndex(QLatin1String("hotline_number"));
+  m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-QSqlRelationalTableModel* ManufacturerDataModel::initializeRelationalModel()
-{
+QSqlRelationalTableModel *ManufacturerDataModel::initializeRelationalModel() {
 
-    m_model = new QSqlRelationalTableModel(this);
+  m_model = new QSqlRelationalTableModel(this);
 
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+  m_model->setTable(this->m_tableName);
+  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-    m_model->select();
+  m_model->select();
 
-    return m_model;
+  return m_model;
 }
 
-QSqlRelationalTableModel* ManufacturerDataModel::initializeInputDataModel()
-{
+QSqlRelationalTableModel *ManufacturerDataModel::initializeInputDataModel() {
 
-    m_model = new QSqlRelationalTableModel(this);
+  m_model = new QSqlRelationalTableModel(this);
 
-    m_model->setTable(this->m_tableName);
+  m_model->setTable(this->m_tableName);
 
-    return m_model;
+  return m_model;
 }
 
-QSqlTableModel* ManufacturerDataModel::initializeViewModel()
-{
+QSqlTableModel *ManufacturerDataModel::initializeViewModel() {
 
-    m_model->select();
+  m_model->select();
 
-    return m_model;
+  return m_model;
 }
 
-QString ManufacturerDataModel::generateTableString(QAbstractTableModel* model, QString header)
-{
-    QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
+QString ManufacturerDataModel::generateTableString(QAbstractTableModel *model,
+                                                   QString header) {
+  QString outString;
+  int columnCount = model->columnCount();
+  int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+  qDebug() << "Header : " << header << " Columns : " << columnCount
+           << " Rows : " << rowCount;
 
-    QList<int> set;
+  QList<int> set;
 
-    // Document Title
-    outString = QLatin1String("<h1>");
-    outString += header;
-    outString += QLatin1String("</h1>");
-    outString += QLatin1String("<hr />");
-    outString +=
-        QLatin1String("<table width=\"100%\" cellspacing=\"0\" class=\"tbl\">");
-    outString += QLatin1String("<thead> <tr>");
+  // Document Title
+  outString = QLatin1String("<h1>");
+  outString += header;
+  outString += QLatin1String("</h1>");
+  outString += QLatin1String("<hr />");
+  outString +=
+      QLatin1String("<table width=\"100%\" cellspacing=\"0\" class=\"tbl\">");
+  outString += QLatin1String("<thead> <tr>");
 
-    for (const auto i: set) {
-        qDebug() << "int i = " << i;
-        outString += QLatin1String("<th>");
-        outString.append(model->headerData(i, Qt::Horizontal).toString());
-        outString += QLatin1String("</th>");
-    }
+  for (const auto i : set) {
+    qDebug() << "int i = " << i;
+    outString += QLatin1String("<th>");
+    outString.append(model->headerData(i, Qt::Horizontal).toString());
+    outString += QLatin1String("</th>");
+  }
 
-    return outString;
+  return outString;
 }
 
-QString ManufacturerDataModel::generateFormularString(QAbstractTableModel* model, QString header)
-{
-    QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
+QString
+ManufacturerDataModel::generateFormularString(QAbstractTableModel *model,
+                                              QString header) {
+  QString outString;
+  int columnCount = model->columnCount();
+  int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+  qDebug() << "Header : " << header << " Columns : " << columnCount
+           << " Rows : " << rowCount;
 
-    QList<int> set;
+  QList<int> set;
 
-    // Document Title
-    outString = QLatin1String("<h1>");
-    outString += header;
-    outString += QLatin1String("</h1>");
-    outString += QLatin1String("<hr />");
+  // Document Title
+  outString = QLatin1String("<h1>");
+  outString += header;
+  outString += QLatin1String("</h1>");
+  outString += QLatin1String("<hr />");
 
-    return outString;
+  return outString;
 }

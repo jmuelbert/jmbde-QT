@@ -43,6 +43,10 @@
 #include "helpbrowser.h"
 
 HelpBrowser::HelpBrowser(QWidget *parent) : QTextBrowser(parent) {
+
+  QLoggingCategory::setFilterRules(
+      QLatin1String("jmbde.*.debug=false\njmbde.*.info=false"));
+
 #ifdef Q_OS_MAC
   const QString &_creatorTrPath = QCoreApplication::applicationDirPath();
   QDir trPath(_creatorTrPath);

@@ -95,4 +95,3 @@ private:
   void updateDataset(const QModelIndex index);
   void deleteDataset(const QModelIndex index);
 };
-

@@ -42,132 +42,129 @@
 
 #include "employeedatamodel.h"
 
-EmployeeDataModel::EmployeeDataModel(QObject* parent) : CommonDataModel(parent)
-{
+EmployeeDataModel::EmployeeDataModel(QObject *parent)
+    : CommonDataModel(parent) {
 
-    // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+  // Set the Model
+  m_model = new QSqlRelationalTableModel(this);
+  m_model->setTable(this->m_tableName);
+  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-    setIndexes();
+  setIndexes();
 }
-
 
 EmployeeDataModel::~EmployeeDataModel() = default;
 
-
-void EmployeeDataModel::setIndexes()
-{
-    m_EmployeeIdIndex = m_model->fieldIndex(QLatin1String("employee_id"));
-    m_EmployeeNrIndex = m_model->fieldIndex(QLatin1String("employee_nr"));
-    m_GenderIndex = m_model->fieldIndex(QLatin1String("gender"));
-    m_TitleIdIndex = m_model->fieldIndex(QLatin1String("title_id"));
-    m_FirstNameIndex = m_model->fieldIndex(QLatin1String("first_name"));
-    m_LastNameIndex = m_model->fieldIndex(QLatin1String("last_name"));
-    m_BirthDayIndex = m_model->fieldIndex(QLatin1String("birth_day"));
-    m_AddressIndex = m_model->fieldIndex(QLatin1String("address"));
-    m_ZipCityIdIndex = m_model->fieldIndex(QLatin1String("zip_city_id"));
-    m_HomePhoneIndex = m_model->fieldIndex(QLatin1String("home_phone"));
-    m_HomeMobileIndex = m_model->fieldIndex(QLatin1String("home_mobile"));
-    m_HomeMailIndex = m_model->fieldIndex(QLatin1String("home_mail_address"));
-    m_BusinessMailIndex = m_model->fieldIndex(QLatin1String("business_mail_address"));
-    m_DataCareIndex = m_model->fieldIndex(QLatin1String("data_care"));
-    m_ActiveIndex = m_model->fieldIndex(QLatin1String("active"));
-    m_PhotoIndex = m_model->fieldIndex(QLatin1String("photo"));
-    m_NotesIndex = m_model->fieldIndex(QLatin1String("notes"));
-    m_HireDateIndex = m_model->fieldIndex(QLatin1String("hire_date"));
-    m_EndDateIndex = m_model->fieldIndex(QLatin1String("end_date"));
-    m_DepartmentIdIndex = m_model->fieldIndex(QLatin1String("department_id"));
-    m_FunctionIdIndex = m_model->fieldIndex(QLatin1String("function_id"));
-    m_ComputerIdIndex = m_model->fieldIndex(QLatin1String("computer_id"));
-    m_PrinterIdIndex = m_model->fieldIndex(QLatin1String("printer_id"));
-    m_PhoneIdIndex = m_model->fieldIndex(QLatin1String("phone_id"));
-    m_MobileIdIndex = m_model->fieldIndex(QLatin1String("mobile_id"));
-    m_FaxIdIndex = m_model->fieldIndex(QLatin1String("fax_id"));
-    m_EmployeeAccountIdIndex = m_model->fieldIndex(QLatin1String("employee_account_id"));
-    m_EmployeeDocumentIdIndex = m_model->fieldIndex(QLatin1String("employee_document_id"));
-    m_ChipCardIdIndex = m_model->fieldIndex(QLatin1String("chip_card_id"));
-    m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
+void EmployeeDataModel::setIndexes() {
+  m_EmployeeIdIndex = m_model->fieldIndex(QLatin1String("employee_id"));
+  m_EmployeeNrIndex = m_model->fieldIndex(QLatin1String("employee_nr"));
+  m_GenderIndex = m_model->fieldIndex(QLatin1String("gender"));
+  m_TitleIdIndex = m_model->fieldIndex(QLatin1String("title_id"));
+  m_FirstNameIndex = m_model->fieldIndex(QLatin1String("first_name"));
+  m_LastNameIndex = m_model->fieldIndex(QLatin1String("last_name"));
+  m_BirthDayIndex = m_model->fieldIndex(QLatin1String("birth_day"));
+  m_AddressIndex = m_model->fieldIndex(QLatin1String("address"));
+  m_ZipCityIdIndex = m_model->fieldIndex(QLatin1String("zip_city_id"));
+  m_HomePhoneIndex = m_model->fieldIndex(QLatin1String("home_phone"));
+  m_HomeMobileIndex = m_model->fieldIndex(QLatin1String("home_mobile"));
+  m_HomeMailIndex = m_model->fieldIndex(QLatin1String("home_mail_address"));
+  m_BusinessMailIndex =
+      m_model->fieldIndex(QLatin1String("business_mail_address"));
+  m_DataCareIndex = m_model->fieldIndex(QLatin1String("data_care"));
+  m_ActiveIndex = m_model->fieldIndex(QLatin1String("active"));
+  m_PhotoIndex = m_model->fieldIndex(QLatin1String("photo"));
+  m_NotesIndex = m_model->fieldIndex(QLatin1String("notes"));
+  m_HireDateIndex = m_model->fieldIndex(QLatin1String("hire_date"));
+  m_EndDateIndex = m_model->fieldIndex(QLatin1String("end_date"));
+  m_DepartmentIdIndex = m_model->fieldIndex(QLatin1String("department_id"));
+  m_FunctionIdIndex = m_model->fieldIndex(QLatin1String("function_id"));
+  m_ComputerIdIndex = m_model->fieldIndex(QLatin1String("computer_id"));
+  m_PrinterIdIndex = m_model->fieldIndex(QLatin1String("printer_id"));
+  m_PhoneIdIndex = m_model->fieldIndex(QLatin1String("phone_id"));
+  m_MobileIdIndex = m_model->fieldIndex(QLatin1String("mobile_id"));
+  m_FaxIdIndex = m_model->fieldIndex(QLatin1String("fax_id"));
+  m_EmployeeAccountIdIndex =
+      m_model->fieldIndex(QLatin1String("employee_account_id"));
+  m_EmployeeDocumentIdIndex =
+      m_model->fieldIndex(QLatin1String("employee_document_id"));
+  m_ChipCardIdIndex = m_model->fieldIndex(QLatin1String("chip_card_id"));
+  m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-QSqlRelationalTableModel* EmployeeDataModel::initializeRelationalModel()
-{
+QSqlRelationalTableModel *EmployeeDataModel::initializeRelationalModel() {
 
-    m_model = new QSqlRelationalTableModel(this);
+  m_model = new QSqlRelationalTableModel(this);
 
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+  m_model->setTable(this->m_tableName);
+  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-    m_model->select();
+  m_model->select();
 
-    return m_model;
+  return m_model;
 }
 
-QSqlRelationalTableModel* EmployeeDataModel::initializeInputDataModel()
-{
+QSqlRelationalTableModel *EmployeeDataModel::initializeInputDataModel() {
 
-    m_model = new QSqlRelationalTableModel(this);
+  m_model = new QSqlRelationalTableModel(this);
 
-    m_model->setTable(this->m_tableName);
+  m_model->setTable(this->m_tableName);
 
-    return m_model;
+  return m_model;
 }
 
-QSqlTableModel* EmployeeDataModel::initializeViewModel()
-{
+QSqlTableModel *EmployeeDataModel::initializeViewModel() {
 
-    m_model->select();
+  m_model->select();
 
-    return m_model;
+  return m_model;
 }
 
-QString EmployeeDataModel::generateTableString(QAbstractTableModel* model, QString header)
-{
-    QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
+QString EmployeeDataModel::generateTableString(QAbstractTableModel *model,
+                                               QString header) {
+  QString outString;
+  int columnCount = model->columnCount();
+  int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+  qDebug() << "Header : " << header << " Columns : " << columnCount
+           << " Rows : " << rowCount;
 
-    QList<int> set;
+  QList<int> set;
 
-    // Document Title
-    outString = QLatin1String("<h1>");
-    outString += header;
-    outString += QLatin1String("</h1>");
-    outString += QLatin1String("<hr />");
-    outString +=
-        QLatin1String("<table width=\"100%\" cellspacing=\"0\" class=\"tbl\">");
-    outString += QLatin1String("<thead> <tr>");
+  // Document Title
+  outString = QLatin1String("<h1>");
+  outString += header;
+  outString += QLatin1String("</h1>");
+  outString += QLatin1String("<hr />");
+  outString +=
+      QLatin1String("<table width=\"100%\" cellspacing=\"0\" class=\"tbl\">");
+  outString += QLatin1String("<thead> <tr>");
 
-    for (const auto i: set) {
-        qDebug() << "int i = " << i;
-        outString += QLatin1String("<th>");
-        outString.append(model->headerData(i, Qt::Horizontal).toString());
-        outString += QLatin1String("</th>");
-    }
+  for (const auto i : set) {
+    qDebug() << "int i = " << i;
+    outString += QLatin1String("<th>");
+    outString.append(model->headerData(i, Qt::Horizontal).toString());
+    outString += QLatin1String("</th>");
+  }
 
-    return outString;
+  return outString;
 }
 
-QString EmployeeDataModel::generateFormularString(QAbstractTableModel* model, QString header)
-{
-    QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
+QString EmployeeDataModel::generateFormularString(QAbstractTableModel *model,
+                                                  QString header) {
+  QString outString;
+  int columnCount = model->columnCount();
+  int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+  qDebug() << "Header : " << header << " Columns : " << columnCount
+           << " Rows : " << rowCount;
 
-    QList<int> set;
+  QList<int> set;
 
-    // Document Title
-    outString = QLatin1String("<h1>");
-    outString += header;
-    outString += QLatin1String("</h1>");
-    outString += QLatin1String("<hr />");
+  // Document Title
+  outString = QLatin1String("<h1>");
+  outString += header;
+  outString += QLatin1String("</h1>");
+  outString += QLatin1String("<hr />");
 
-    return outString;
+  return outString;
 }
