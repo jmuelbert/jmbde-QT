@@ -512,8 +512,8 @@ void MainWindow::on_actionPrint_Preview_triggered() {
 
   doc.print(&printer);
 
-  connect(&preview, SIGNAL(paintRequested(QPrinter *)),
-          SLOT(printPreview(QPrinter *)));
+  connect(&preview, SIGNAL(paintRequested(QPrinter*)),
+          SLOT(printPreview(QPrinter*)));
   preview.exec();
 #endif
 }
