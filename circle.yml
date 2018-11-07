@@ -2,13 +2,35 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/<language>:version TAG>
+     # Primary container image where all steps run.
+     - image: buildpack-deps:trusty
+    # Secondary container image on common network. 
+     - image: mongo:2.6.8-jessie
+       command: [mongod, --smallfiles]
+
+    working_directory: ~/
+
     steps:
-      - checkout
-      - run: <command>
+      # command will execute in trusty container
+      # and can access mongo on localhost
+      - run: sleep 5 && nc -vz localhost 27017
+
+
+  build:
+      macos:
+        xcode: "9.0"
+      
+      steps:
+        # Commands will execute in macOS container
+        # with Xcode 9.0 installed
+        - run: xcodebuild -version
   test:
     docker:
-      - image: circleci/<language>:version TAG>
+    # Primary container image where all steps run.
+     - image: buildpack-deps:trusty
+    # Secondary container image on common network. 
+     - image: mongo:2.6.8-jessie
+       command: [mongod, --smallfiles
     steps:
       - checkout
       - run: <command>

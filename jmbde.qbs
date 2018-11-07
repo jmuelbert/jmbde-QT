@@ -29,8 +29,11 @@ Project {
     property bool withDocumentation: true
     property bool withExamples: false
     property bool withTests: withCode
+    property bool useRPaths: true
  
     references: [
+        "dist/archive.qbs",
+        "dist/distribute.qbs",
         "src/jmbde/jmbde.qbs",
     ]
 
