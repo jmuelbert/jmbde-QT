@@ -39,27 +39,71 @@ The master branch represents the latest pre-release code.
 
 ## Compiling jmbde
 
-Prerequisites:
+### On macOS 
+    The latest Xcode.
 
-* Qt 5.10 or later
-* On Windows:
-    * MinGW with g++ 4.9 or Visual Studio 2015 or later
-    * jom
-* On macOS: latest Xcode
-* on Linux: g++ 4.9 or later
-* Qbs 1.10.x (optional, sources also contain Qbs itself)
+    `brew install qt5`
+    `brew link qt5 --force`
+    `brew install qbs`
+    `qbs setup-toolchains --detect`
+    `qbs setup-qt /usr/local/opt/qt/bin/qmake qt-brew`
+    `qbs config profiles.qt-brew.baseProfile xcode-macosx-x86_64`
+    `qbs config defaultProfile qt-brew``
+
+Run `qbs` to build jmbde:
+
+    For the release version:
+
+        `qbs -d build --all-products config:release`
+
+    For the debug version:
+
+        `qbs -d build --all-products config:debug`
+  
+* Alternatively, you can [download Qt here](https://www.qt.io/download-qt-installer)
+
+### On Windows
+
+    + MinGW with g++ 4.9 or Visual Studio 2017 or later
+    + jom
+
+### On Linux
+
+* On Ubuntu/Debian: `apt-get install qt5-default qttools5-dev-tools zlib1g-dev`
+* On Fedora:        `sudo dnf builddep tiled`
+* On Arch Linux:    `pacman -S qt`
 
 The installed toolchains have to match the one Qt was compiled with.
 
-You can build jmbde with
+Next, compile by running:
 
-    cd $SOURCE_DIRECTORY
-    qmake -r
-    make (mingw32-make or nmake or jom, depending on your platform)
+    $ qmake (or qmake-qt5 on some systems)
+    $ make 
 
-Installation ("make install") is not needed. It is however possible, using
+To perform a shadow build, run qmake from a different directory and refer
+it to jmbde.pro. For example:
 
-    make install INSTALL_ROOT=$INSTALL_DIRECTORY
+    $ mkdir build
+    $ cd build 
+    $ qmake ../jmdbde.pro
+    $ make
+
+You can now run jmbde using the executable in `bin/jmbde``
+
+
+## Installing 
+
+To install jmbde, run `make install`from terminal. By default, jmbde will
+install itself to `/usr/local`.
+
+The installation prefix fan be changed when running qmake, or by changing thr
+install root when running `make install`. For example, to use an installation
+prefix of `/usr`instead of `/usr/local`:
+
+    $ qmake -r PREFIX=/usr
+
+Note: The -r recursive flag is required if you've run qmake before, as this
+command will affect nested pro files.
 
 ## License
 

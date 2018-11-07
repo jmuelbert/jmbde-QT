@@ -114,8 +114,6 @@ matrix:
       - hdiutil detach /Volumes/${INSTALLER_NAME}
     script:
       - qbs --version
-      - ls $HOME/qt
-      - ls $HOME/Qt
       - qbs setup-toolchains --detect
       - qbs setup-qt $HOME/Qt/5.11.2/clang_64/bin/qmake qt
       - qbs config profiles.qt.baseProfile xcode-macosx-x86_64
