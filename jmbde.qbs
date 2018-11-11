@@ -32,11 +32,10 @@ Project {
 
     Product {
         name: "qmake project files"
-        files: {
+        files: [
             var list = ["**/*.pr[io]"];
-            }
-            return list;
-        }
+        ]
+        return list;
     }
 
     Product {

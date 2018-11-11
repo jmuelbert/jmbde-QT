@@ -6,7 +6,8 @@ env:
   global:
      # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
     #   via the "travis encrypt" command using the project repo's public key
-    - secure: "lpfs05x6HxkxEJS/dA4k85bytYZbDF77upYZqftkI9fp1L/c3Ka/vZ8GW9Y+pUCDRBYPgdg0OWEhOA3nUnZd8l2e7CiSXwU9V3OPWT4jVdHToEXlF34uZKUyM3grr0SfeMGqQotZ7pPpnM9V1tkMcJdCEE0gQqGxmgaX5woVB8QZFpnZY8lun7Yb4wKIjH3DC4Y79+I2smQWnEb9WZtM6GuP3CsOyuiL7IUZ1hoyDvp2yi8dPSVGQGSHXmLADPFXz7BzPh2biI5Yd5rh5o4lo7KcNCvjPfCbdLK8hUsYg621FsxRjQQKsxf8fDJtMNoE4Gp1kgI8g6ebEDkfkVzM4RuZyaCo3iODunAsD06lokbhIkNBhE4mBziYUYRHhMDY+7YBsJs1oBqq6fqD5JVTBnBgxCIMStON+gtG7+s1yvnjSgo5yX/ffGjsuKxHBXCqRsgvGPSxt6e4FalVAPok5v0GhUVKgpwA4jmaqFZnmF75AHaxZI53N8RTnWAq3Z2/q7BBE8UwxEdwJQfZYEbmGrfCmoTgAqa8bDsM+kbRW0RukYP5cMKs0HbXBhWtBpSOS/TReORd/iHTsNut+vCa6i7GXktnzED35SOie22298iZSalgOZelRGTYcx1BHWE7o142NN/OZ8qXG3sq8fGjKvHtg9aIQRRW/EyQvyeEtyc="
+    - secure: "p3rN5l2i/w21LhRkGtn50lqhkrFXF9z0PTnip969B6bs5AWznG/zlNSTWckDAZpr5B0xuoysZg9/0on4pAUdludKoYQ7PKS1NFzjSH2yLcTuVy+HY6vkR21o7/rQxOJkH+ftOKnpe8Sv/0tRdGXYHVrAKh4XVTY0MQBrqXu2bQWMmgoi9P2CcvFzIukLqIk5LKDM5zin4sndPfipsT5eXPpQgAqD5XnGKdDqvX7WlSJOMcTVMDem3OIw/sM06u4kIsipQUdXD8yUhMMTflM39lsHcY/JYl+m6Fn6p0OLt1SY/euBvAKDmvMKMA6Wq7iLQprft7PL9dj2iNoerDKazL5hilY1lAgd1RWtTvn/YZXo/SaS1sVYmsUKJUFBRpU2SYCBnvuPiEYZ2WkeBCBzYziVJ2FoJrl4J/hXJnWd7O2MQPErREBXqv7nt55VMYrMj3s1tdJKvF8t6TOkPuR1YMDDlweYNXhCWGNqZressSDZX32evH8Mnt7VCWsgbUUFjK1k6f9ZmG//kssR320oPiF0bW28jJMVfqmAUcsCLIgF1+fsxUgn+ui0LtR6feV3QmUPWTmIvqpMuTvj/gLTQRZ5Bb0cD/zlc8BAgZJHGjWy9ZcXDrzDKBNtoP58JiVTTTRWrhrJFYx1BN0IJElv/pVGnf+VS3lJNHhFV9sDplI="
+
   addons:
     coverty_scan:
       project:
@@ -45,7 +46,7 @@ matrix:
       - qbs setup-qt --detect
       - qbs config defaultProfile qt-5-9-5
       - qbs install --install-root install/usr config:release projects.jmbde.version:$JMBDE_VERSION
-      - cp LICENSE* *md JMBde/
+      - cp LICENSE* *md install/
     after_success:
       - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" -O linuxdeployqt 
       - chmod a+x linuxdeployqt 

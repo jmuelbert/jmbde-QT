@@ -71,6 +71,6 @@ deploy:
       secure:  NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
     artifact: /.*\.msi/
     draft: true
-  on:
-    appveyor_repo_tag: true
-    push_release: true    
+    on:
+      appveyor_repo_tag: true
+      push_release: true    

@@ -1,4 +1,0 @@
-coverage:
-    ignore:
-        - tests/*
-        - src/qrc_*.cpp
