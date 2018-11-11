@@ -4,7 +4,9 @@ dist: trusty
 python: 3.6
 env:
   global:
-  - secure: "lpfs05x6HxkxEJS/dA4k85bytYZbDF77upYZqftkI9fp1L/c3Ka/vZ8GW9Y+pUCDRBYPgdg0OWEhOA3nUnZd8l2e7CiSXwU9V3OPWT4jVdHToEXlF34uZKUyM3grr0SfeMGqQotZ7pPpnM9V1tkMcJdCEE0gQqGxmgaX5woVB8QZFpnZY8lun7Yb4wKIjH3DC4Y79+I2smQWnEb9WZtM6GuP3CsOyuiL7IUZ1hoyDvp2yi8dPSVGQGSHXmLADPFXz7BzPh2biI5Yd5rh5o4lo7KcNCvjPfCbdLK8hUsYg621FsxRjQQKsxf8fDJtMNoE4Gp1kgI8g6ebEDkfkVzM4RuZyaCo3iODunAsD06lokbhIkNBhE4mBziYUYRHhMDY+7YBsJs1oBqq6fqD5JVTBnBgxCIMStON+gtG7+s1yvnjSgo5yX/ffGjsuKxHBXCqRsgvGPSxt6e4FalVAPok5v0GhUVKgpwA4jmaqFZnmF75AHaxZI53N8RTnWAq3Z2/q7BBE8UwxEdwJQfZYEbmGrfCmoTgAqa8bDsM+kbRW0RukYP5cMKs0HbXBhWtBpSOS/TReORd/iHTsNut+vCa6i7GXktnzED35SOie22298iZSalgOZelRGTYcx1BHWE7o142NN/OZ8qXG3sq8fGjKvHtg9aIQRRW/EyQvyeEtyc="
+     # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+    #   via the "travis encrypt" command using the project repo's public key
+    - secure: "lpfs05x6HxkxEJS/dA4k85bytYZbDF77upYZqftkI9fp1L/c3Ka/vZ8GW9Y+pUCDRBYPgdg0OWEhOA3nUnZd8l2e7CiSXwU9V3OPWT4jVdHToEXlF34uZKUyM3grr0SfeMGqQotZ7pPpnM9V1tkMcJdCEE0gQqGxmgaX5woVB8QZFpnZY8lun7Yb4wKIjH3DC4Y79+I2smQWnEb9WZtM6GuP3CsOyuiL7IUZ1hoyDvp2yi8dPSVGQGSHXmLADPFXz7BzPh2biI5Yd5rh5o4lo7KcNCvjPfCbdLK8hUsYg621FsxRjQQKsxf8fDJtMNoE4Gp1kgI8g6ebEDkfkVzM4RuZyaCo3iODunAsD06lokbhIkNBhE4mBziYUYRHhMDY+7YBsJs1oBqq6fqD5JVTBnBgxCIMStON+gtG7+s1yvnjSgo5yX/ffGjsuKxHBXCqRsgvGPSxt6e4FalVAPok5v0GhUVKgpwA4jmaqFZnmF75AHaxZI53N8RTnWAq3Z2/q7BBE8UwxEdwJQfZYEbmGrfCmoTgAqa8bDsM+kbRW0RukYP5cMKs0HbXBhWtBpSOS/TReORd/iHTsNut+vCa6i7GXktnzED35SOie22298iZSalgOZelRGTYcx1BHWE7o142NN/OZ8qXG3sq8fGjKvHtg9aIQRRW/EyQvyeEtyc="
   addons:
     coverty_scan:
       project:
@@ -14,6 +16,7 @@ env:
       build_command_prepend: qmake
       build_command: make
       branch_pattern: coverity_scan
+
 matrix:
   include:
   - os: linux
@@ -35,20 +38,21 @@ matrix:
     install:
       - sudo apt-get -y install qt59base qt59script qt59svg qt59imageformats qt59tools binutils zlib1g-dev
       - source /opt/qt59/bin/qt59-env.sh
-      - source ./tools/ci/linux/setup-qbs.sh
+      - source ./scripts/ci/linux/setup-qbs.sh
     script:
       - qbs --version
       - qbs setup-toolchains --detect
       - qbs setup-qt --detect
       - qbs config defaultProfile qt-5-9-5
-      - qbs -d build --all-products config:release
+      - qbs install --install-root install/usr config:release projects.jmbde.version:$JMBDE_VERSION
+      - cp LICENSE* *md JMBde/
     after_success:
       - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" -O linuxdeployqt 
       - chmod a+x linuxdeployqt 
       - unset QTDIR; unset QT_PLUGIN_PATH; unset LD_LIBRARY_PATH 
-      - ./linuxdeployqt ./build/release/install-root/usr/local/share/applications/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.4m.so.1.0 -verbose=2 
-      - ./linuxdeployqt ./build/release/install-root/usr/local/share/applications/io.github.jmuelbert.jmbde.desktop -exclude-libs=libpython3.4m.so.1.0 -appimage 
-      - find ./build/release/install-root/usr/local/bin/jmbde -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq 
+      - ./linuxdeployqt ./install/usr/share/applications/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.4m.so.1.0 -verbose=2 
+      - ./linuxdeployqt ./install/usr/local/share/applications/io.github.jmuelbert.jmbde.desktop -exclude-libs=libpython3.4m.so.1.0 -appimage 
+      - find ./install -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq 
       - mv jmbde-x86_64.AppImage jmbde-$JMBDE_VERSION-x86_64.AppImage
     deploy:
       - provider: releases
@@ -118,10 +122,10 @@ matrix:
       - qbs setup-qt $HOME/Qt/5.11.2/clang_64/bin/qmake qt
       - qbs config profiles.qt.baseProfile xcode-macosx-x86_64
       - qbs config defaultProfile qt
-      - qbs -d build --all-products config:release
-      # - $HOME/Qt/5.11.2/clang_64/bin/macdeployqt build/release/install-root/jmbde.app
-      - pushd build/release/install-root
-      - ruby ../../../resources/scripts/fixup-install-names.rb
+      - qbs install --install-root install config:release project.jmbde.version:$JMBDE_VERSION
+      # - $HOME/Qt/5.11.2/clang_64/bin/macdeployqt install/jmbde.app
+      - pushd install
+      - ruby ../dist/macos/fixup-install-names.rb
       - popd
     deploy:
       - provider: releases

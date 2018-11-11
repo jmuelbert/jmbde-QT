@@ -5,6 +5,8 @@
 linuxdeployqt 
 *.AppImage
 .build
+*.tar 
+*.gz
 # .qtmodules-travis
 
 # Sqlite-DB
@@ -36,7 +38,7 @@ moc_predefs.h
 jmbde_autogen/
 
 # Build artifacts on Windows
-jmbde.exe
+*.exe
 *.dll
 *.obj
 *.a

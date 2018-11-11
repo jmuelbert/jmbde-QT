@@ -1,21 +1,19 @@
-TEMPLATE = lib
+include(../../jmbde.pri)
 
-unix|mac {
-    TARGET = jmbde
+TEMPLATE = lib
+TARGET = jmbde
+target.path = $${LIBDIR}
+INSTALLS += target
+macx {
+    DESTDIR = ../../bin/jmbde.app/Contents/Frameworks
+    QMAKE_LFLAGS_SONAME = -Wl,-install_name,@executable_path/../Frameworks/
+} else {
+    DESTDIR = ../../lib
 }
-else {
-    TARGET = libjmbde
-}
+DLLDESTDIR = ../..
 
 MSG_PREFIX  = "libjmbde"
 APP_TYPE    = "core library"
-
-isEmpty(LRELEASE_EXECUTABLE) {
-  LRELEASE_EXECUTABLE = lrelease
-  message($$MSG_PREFIX: LRELEASE_EXECUTABLE variable is not set.)
-}
-
-include(../../pri/defs.pri)
 
 message($$MSG_PREFIX: Shadow copy build directory \"$$OUT_PWD\".)
 message($$MSG_PREFIX: $$APP_NAME version is: \"$$APP_VERSION\".)
@@ -24,52 +22,29 @@ message($$MSG_PREFIX: Build destination directory: \"$$DESTDIR\".)
 message($$MSG_PREFIX: Build revision: \"$$APP_REVISION\".)
 message($$MSG_PREFIX: lrelease executable name: \"$$LRELEASE_EXECUTABLE\".)
 
-QT *= sql
-
-include(../../pri/build_opts.pri)
-
-DEFINES *= DATASHARED_DLLSPEC=Q_DECL_EXPORT
-CONFIG += unversioned_libname unversioned_soname skip_target_version_ext
-
 win32 {
-  LIBS *= Shell32.lib
+  QMAKE_PROJECT_NAME = libjmbde
+} else {
+  # On other platforms it is necessary to link to  
 }
 
-CONFIG(FLATPAK_MODE) {
-  message($$MSG_PREFIX: Enabling Flatpak-specific code.)
-  DEFINES *= FLATPAK_MODE=1
+DEFINES += QT_NO_CAST_FROM_ASCII \
+    QT_NO_CAST_TO_ASCII
+DEFINES += JMBDE_LIBRARY
+
+contains(QT_CONFIG, reduce_exports): CONFIG += hide_symbols
+
+include(./libjmbde-src.pri)
+
+contains(INSTALL_HEADERS, yes) {
+    headers.files = $${HEADERS}
+    headers.path = $${PREFIX}/include/jmbde
+    INSTALLS += headers
 }
 
-#RESOURCES += ../../resources/jmbde.qrc
-#
-#mac|win32 {
-#  RESOURCES += ../../resources/icons.qrc
-#
-#  message($$MSG_PREFIX: Adding resources for default icon theme.)
-#}
-
-HEADERS += datalib/data_global.h \
-            datalib/datacontext/datacontext.h 
-    
-SOURCES +=  datalib/datacontext/datacontext.cpp
-
-# Add qtsingleapplication.
-SOURCES += $$files(3rd-party/qtsingleapplication/*.cpp, false)
-HEADERS  += $$files(3rd-party/qtsingleapplication/*.h, false)
-
-CONFIG(release, debug|release) {
-  DEFINES *= NDEBUG=1
-}
 static {
   message($$MSG_PREFIX: Building static version of library.)
 }
 else {
   message($$MSG_PREFIX: Building shared version of library.)
-}
-
-mac {
-  IDENTIFIER = $$APP_REVERSE_NAME
-  CONFIG -= app_bundle
-  QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.8
-  LIBS += -framework AppKit
 }

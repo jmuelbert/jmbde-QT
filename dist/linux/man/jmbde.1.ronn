@@ -1,0 +1,25 @@
+jmbde(1) -- BDE Tool
+===========================
+
+## SYNOPSIS
+
+`jmbde` [<OPTIONS>] [FILES...]
+
+## DESCRIPTION
+
+Tiled is a BDE Tool. JMBde is free software and written
+in C++, using the Qt application framework.
+
+## OPTIONS
+
+  * `-h` `--help`:
+    Displays the help
+  * `-v` `--version`:
+    Displays the version
+  * `--quit`:
+    Only check validity of arguments
+  
+## AUTHORS
+<https://github.com/jmuelbert/jmbde-QT/blob/master/AUTHORS>
+
+## SEE ALSO

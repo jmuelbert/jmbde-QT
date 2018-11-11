@@ -1,0 +1,36 @@
+<RCC>
+  <qresource prefix="/">
+      <file>images/contact-new.png</file>
+      <file>images/document-new.png</file>
+      <file>images/help-browser.png</file>    
+   </qresource>
+   <qresource prefix="/icons/tango">
+        <file>images/tango/16x16/accessories-text-editor.png</file>
+        <file>images/tango/16x16/document-new.png</file>
+        <file>images/tango/16x16/document-open.png</file>
+        <file>images/tango/16x16/document-print-preview.png</file>
+        <file>images/tango/16x16/document-print.png</file>
+        <file>images/tango/16x16/list-add.png</file>
+        <file>images/tango/16x16/list-remove.png</file>
+        <file>images/tango/22x22/accessories-text-editor.png</file>
+        <file>images/tango/22x22/document-new.png</file>
+        <file>images/tango/22x22/document-open.png</file> 
+        <file>images/tango/22x22/document-print-preview.png</file>
+        <file>images/tango/22x22/document-print.png</file>
+        <file>images/tango/22x22/list-add.png</file>
+        <file>images/tango/22x22/list-remove.png</file>
+        <file>images/tango/32x32/accessories-text-editor.png</file>
+        <file>images/tango/32x32/document-new.png</file>
+        <file>images/tango/32x32/document-open.png</file>
+        <file>images/tango/32x32/document-print-preview.png</file>
+        <file>images/tango/32x32/document-print.png</file>
+        <file>images/tango/32x32/list-add.png</file>
+        <file>images/tango/32x32/list-remove.png</file>
+        <file>images/tango/16x16/help-browser.png</file>
+        <file>images/tango/22x22/help-browser.png</file>
+        <file>images/tango/32x32/help-browser.png</file>
+    </qresource>
+    <qresource prefix="/Data">
+        <file>data/script.sql</file>
+    </qresource>
+</RCC>

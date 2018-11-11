@@ -1,40 +1,32 @@
-import qbs 
+import qbs 1.0
 import qbs.Environment
 import qbs.FileInfo
 
 Project {
     minimumQbsVersion: "1.10.0"
+    qbsSearchPaths: ["qbs-resources"]
 
     name: "jmbde"
-    qbsSearchPaths: ["qbs-resources"]
-    
-    property string version: Environment.getEnv("JMBDE_VERSION") || "0.4.23";
+
+    property string version: Environment.getEnv("JMBDE_VERSION") || "0.4.22";
     property bool snapshot: Environment.getEnv("JMBDE_SNAPSHOT")
     property bool release: Environment.getEnv("JMBDE_RELEASE")
-    property bool useStaticAnalyzer: false
 
     property string minimumMacosVersion: "10.8"
-    property bool withAutotests: qbs.buildVariant === "debug"
-    property path app_source_tree: path
-    property pathList additionalPlugins: []
-    property pathList additionalLibs: []
-    property pathList additionalTools: []
-    property pathList additionalAutotests: []
-    property string sharedSourcesDir: path + "/src/shared"
-    property string lib3rdPartyDir: path + "/src/libs/3rdparty"
-   
-    property bool windowsInstaller: false
-    property bool withCode: true
-    property bool withDocker: false
-    property bool withDocumentation: true
-    property bool withExamples: false
-    property bool withTests: withCode
+
+    property bool installHeaders: false
     property bool useRPaths: true
+    property bool windowsInstaller: false
  
     references: [
         "dist/archive.qbs",
         "dist/distribute.qbs",
+        "dist/win/installer.qbs",
+        "src/libjmbde",
+        "src/plugins",
+        "src/3rd-party/qtsingleapplication",
         "src/jmbde/jmbde.qbs",
+        "translations"
     ]
 
 
@@ -42,10 +34,6 @@ Project {
         name: "qmake project files"
         files: {
             var list = ["**/*.pr[io]"];
-            var props = [additionalPlugins, additionalLibs, additionalTools, additionalAutotests];
-            for (var i = 0; i < props.length; ++i) {
-                for (var j = 0; j < props[i].length; ++j)
-                    list.push(props[i][j] + "/**/*.pr[io]");
             }
             return list;
         }
@@ -65,9 +53,19 @@ Project {
         ]
     }
 
+    Product {
+        name: "Scripts"
+        files:[
+            var list = ["**/*.[sh|py|rb|bat|cmd" ]
+        ]
+        return list;
+    }
+
     AutotestRunner {
         Depends { name: "Qt.core" }
-        Depends { name: "app" }
+        Depends { name: "libjmbde" }
+        Depends { name: "jmbde" }
+
         environment: {
             var env = base;
             if (!qbs.hostOS.contains("windows") || !qbs.targetOS.contains("windows"))

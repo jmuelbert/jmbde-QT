@@ -4,12 +4,13 @@
             "name": "Mac",
             "includePath": [
                 "${workspaceRoot}",
-                "~/Qt/5.10.0/clang_64/lib/QtCore.framework/Headers"
+                "/usr/include",
+                "~/Qt/5.11.2/clang_64/lib/QtCore.framework/Headers"
             ],
             "defines": [],
             "intelliSenseMode": "clang-x64",
             "browse": {
-                "path": [
+                "path": [    
                     "/usr/include",
                     "/usr/local/include",
                     "/usr/local/include/QtCore",

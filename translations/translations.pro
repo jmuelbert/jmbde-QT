@@ -7,25 +7,10 @@
 # - The .qm files are created as part of a regular make command
 #
 
-include(../pri/vars.pri)
 
 isEmpty(PREFIX) {
   message($$MSG_PREFIX: PREFIX variable is not set. This might indicate error.)
 
-  win32 {
-    PREFIX = $$OUT_PWD/app
-  }
-
-  mac {
-    PREFIX = $$quote($$OUT_PWD/$${APP_NAME}.app)
-  }
-
-  unix:!mac:!android {
-    PREFIX = $$OUT_PWD/AppDir/usr
-  }
-}
-
-include(../pri/defs.pri)
 
 isEmpty(LRELEASE_EXECUTABLE) {
   LRELEASE_EXECUTABLE = lrelease
@@ -103,7 +88,7 @@ win32 {
 } else:macx {
     TARGET_DIR = ../bin/jmbde.app/Contents/Translations
 } else {
-    TARGET_DIR = .
+    TARGET_DIR = ../share/jmbde/translations
 }
 
 updateqm.input = TRANSLATIONS
@@ -115,7 +100,7 @@ updateqm.CONFIG += no_link
 QMAKE_EXTRA_COMPILERS += updateqm
 
 # Install rule for translations
-
+include(../jmbde.pri)
 qmfiles.files = $$prependAppend(LANGUAGES, $$OUT_PWD/$$TARGET_DIR/jmbde_, .qm)
 qmfiles.path = $${PREFIX}/share/jmbde/translations
 qmfiles.CONFIG += no_check_exist

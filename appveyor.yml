@@ -1,21 +1,25 @@
+clone_depth: 200
 version: 1.0.{build}
-pull_requests:
-  do_not_increment_build_number: true
-configuration: Release
-branches:
-  except:
-  - /^(?i:continuous)$/
-skip_tags: true
+
+cache:
+  - C:\Users\appveyor\.m2
+  - C:\ProgramData\chocolatey\bin -> appveyor.yml
+  - C:\ProgramData\chocolatey\lib -> appveyor.yml
+
 environment:
+  my_secret:
+    secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
   matrix:
   - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
     QT_PROFILE: msvc2015
     QTDIR: C:\Qt\5.10.1\msvc2015
     QBS_PROFILE: MSVC2015-x86
+    PUSH_RELEASE: true
   - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
     QT_PROFILE: msvc2017_64
     QTDIR: C:\Qt\5.10.1\msvc2017_64
     QBS_PROFILE: MSVC2017-x86_x64
+    PUSH_RELEASE: true
 # FIXME: WinRT builds are disabled due to linker issues
 #  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
 #    QT_PROFILE: winrt_x86_msvc2017
@@ -25,37 +29,48 @@ environment:
 #    QT_PROFILE: winrt_x64_msvc2017
 #    QTDIR: C:\Qt\5.10.1\winrt_x64_msvc2017
 #    QBS_PROFILE: MSVC2017-x86_x64
+
+configuration: release
+
 init:
-- set PATH=%QTDIR%\bin;%PATH%
+  - set PATH=%QTDIR%\bin;%PATH%
 install:
-- choco install -y qbs --version 1.11.0
+  - choco install -y qbs --version 1.12.0
 before_build:
-- qbs setup-toolchains --detect
-- qbs setup-qt %QTDIR%\bin\qmake.exe appveyor-qt5
-- qbs config profiles.appveyor-qt5.baseProfile %QBS_PROFILE%
-- qbs config defaultProfile appveyor-qt5
-- qbs config preferences.qbsSearchPaths %cd%/fluid/qbs/shared
+  - FOR /F "tokens=*" %%i in ('git describe') do SET COMMITNOW=%%i
+  - set VERSION_DATE=%DATE:~10,4%.%DATE:~4,2%.%DATE:~7,2%
+  - if defined APPVEYOR_REPO_TAG_NAME (set JMBDE_RELEASE=true) else (set JMBDE_SNAPSHOT=true)
+  - if defined JMBDE_RELEASE set JMBDE_VERSION=%APPVEYOR_REPO_TAG_NAME:~1%
+  - if defined JMBDE_RELEASE echo Building JMBDE %JMBDE_VERSION%... (from %COMMITNOW%)
+  - if defined JMBDE_SNAPSHOT set JMBDE_VERSION=%APPVEYOR_BUILD_VERSION%
+  - if defined JMBDE_SNAPSHOT echo Building JMBDE snapshot %JMBDE_VERSION%... (from %COMMITNOW%)  
+  - qbs --version
+  - qbs setup-toolchains --detect
+  - qbs setup-qt %QTDIR%\bin\qmake.exe appveyor-qt5
+  - qbs config profiles.appveyor-qt5.baseProfile %QBS_PROFILE%
+  - qbs config defaultProfile appveyor-qt5
 build_script:
-- git submodule update --init --recursive
-- qbs -d build --all-products config:release
-- dir build\release\install-root
+  - qbs build --all-products config:release projects.jmbde.windowsInstaller:true
 
+after_build:
+  - cd release
+  - cd installer*
+  - move jmbde-*.msi %APPVEYOR_BUILD_FOLDER%
+
+  
 artifacts:
-  - path: 'build\release\install-root\jmBDE.exe'
-    name: jmbdeexe
-
-  - path: 'build\release\install-root\j*win64.7z'
-    name: jmbde_64_7z
+  - name: Installer
+  - path: 'jmbde-*.msi'
+  - name: Archive
+  - path: 'jmbde-*.7z'
 
 deploy:
-  description: 'New jmbde release.'
-  provider: GitHub
-  auth_token:
-    secure:  VvBrqW/Jy8VMhSfn/rO1oeXITBPu3sUryFEI8+zcsiHdjmWuyWPnqrNPitPUBtPp
-
-  artifact: jmbdeexe
-  force_update: true
+  - provider: GitHub
+    release: JMBde $(JMBDE_VERSION)
+    auth_token:
+      secure:  NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
+    artifact: /.*\.msi/
+    draft: true
   on:
-    branch: master
     appveyor_repo_tag: true
-    
+    push_release: true    
