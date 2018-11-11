@@ -60,9 +60,9 @@ after_build:
   
 artifacts:
   - name: Installer
-  - path: 'jmbde-*.msi'
+    path: 'jmbde-*.msi'
   - name: Archive
-  - path: 'jmbde-*.7z'
+    path: 'jmbde-*.7z'
 
 deploy:
   - provider: GitHub
