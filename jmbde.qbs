@@ -17,6 +17,11 @@ Project {
     property bool installHeaders: false
     property bool useRPaths: true
     property bool windowsInstaller: false
+
+    property pathList additionalPlugins: []
+    property pathList additionalLibs: []
+    property pathList additionalTools: []
+    property pathList additionalAutotests: []
  
     references: [
         "dist/archive.qbs",
@@ -34,9 +39,14 @@ Project {
         name: "qmake project files"
         files: [
             var list = ["**/*.pr[io]"];
-        ]
-        return list;
-    }
+        var props = [additionalPlugins, additionalLibs, additionalTools, additionalAutotests];
+            for (var i = 0; i < props.length; ++i) {
+                for (var j = 0; j < props[i].length; ++j)
+                    list.push(props[i][j] + "/**/*.pr[io]");
+            }
+            return list;
+        }
+    }            
 
     Product {
         name: "Text Documents"
@@ -50,14 +60,6 @@ Project {
             "LICENSE.*",
             "NEWS.md"
         ]
-    }
-
-    Product {
-        name: "Scripts"
-        files:[
-            var list = ["**/*.[sh|py|rb|bat|cmd" ]
-        ]
-        return list;
     }
 
     AutotestRunner {
