@@ -32,6 +32,8 @@ DEFINES += QT_NO_CAST_FROM_ASCII \
     QT_NO_CAST_TO_ASCII
 DEFINES += JMBDE_LIBRARY
 
+QT += sql
+
 contains(QT_CONFIG, reduce_exports): CONFIG += hide_symbols
 
 include(./libjmbde-src.pri)

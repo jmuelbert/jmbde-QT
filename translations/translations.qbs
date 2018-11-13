@@ -1,8 +1,7 @@
 
 import qbs 1.0
 
-Project {
-    Product {
+Product {
         name: "translations"
         type: "qm"
         files: [ "*.ts" ]
@@ -22,7 +21,7 @@ Project {
             else if (qbs.targetOS.contains("macos"))
                 return "jmbde.app/Contents/Translations"
             else
-                return "share/tiled/translations"
+                return "share/jmbde/translations"
         }
     }
 }

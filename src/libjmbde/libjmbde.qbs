@@ -1,10 +1,10 @@
 import qbs 1.0
 
 DynamicLibrary {
-    targetName: "tiled"
+    targetName: "jmbde"
 
     Depends { name: "cpp" }
-    Depends { name: "Qt"; submodules: "gui"; versionAtLeast: "5.5" }
+    Depends { name: "Qt"; submodules: "gui", "sql"; versionAtLeast: "5.5" }
 
     Properties {
         condition: !qbs.toolchain.contains("msvc")
@@ -30,12 +30,10 @@ DynamicLibrary {
     cpp.sonamePrefix: qbs.targetOS.contains("darwin") ? "@rpath" : undefined
 
     files: [
-        data_global.h,
-        datacontext.cpp,
-        datacontext.h,
-        datacontext.cpp,
-        datacontext.qrc,
-
+        "libdata_global.h",
+        "libdatacontext.cpp",
+        "libdatacontext.h",
+        "libdatacontext.qrc"
     ]
 
     Group {

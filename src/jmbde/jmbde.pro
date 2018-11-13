@@ -1,6 +1,6 @@
 include(../../jmbde.pri)
 include(../libjmbde/libjmbde.pri)
-include(../3rd-party/qtsingleapplication/src/qtsingleapplication.pri)
+# include(../3rd-party/qtsingleapplication/src/qtsingleapplication.pri)
 
 TEMPLATE    = app
 TARGET      = jmbde
@@ -19,7 +19,7 @@ win32 {
 
 isEmpty(PREFIX) {
   message($$MSG_PREFIX: PREFIX variable is not set. This might indicate error.)
-
+}
 
 isEmpty(LRELEASE_EXECUTABLE) {
   LRELEASE_EXECUTABLE = lrelease
@@ -192,7 +192,7 @@ FORMS += \
     views/processorinputarea.ui \
     views/softwareinputarea.ui \
     views/titleinputarea.ui
-‚
+
 icon32.path = $${PREFIX}/share/icons/hicolor/32x32/apps/
 icon32.files += images/32x32/jmbde.png
 INSTALLS += icon32

@@ -10,12 +10,13 @@
 
 isEmpty(PREFIX) {
   message($$MSG_PREFIX: PREFIX variable is not set. This might indicate error.)
-
+}
 
 isEmpty(LRELEASE_EXECUTABLE) {
   LRELEASE_EXECUTABLE = lrelease
   message($$MSG_PREFIX: LRELEASE_EXECUTABLE variable is not set.)
 }
+
 message($$MSG_PREFIX: Shadow copy build directory \"$$OUT_PWD\".)
 message($$MSG_PREFIX: $$APP_NAME version is: \"$$APP_VERSION\".)
 message($$MSG_PREFIX: Detected Qt version: \"$$QT_VERSION\".)

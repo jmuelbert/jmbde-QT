@@ -3,7 +3,7 @@ import qbs.FileInfo
 import qbs.TextFile
 
 QtGuiApplication {
-    name: "jmbde
+    name: "jmbde"
     targetName: name
     version: project.version
     
@@ -16,13 +16,16 @@ QtGuiApplication {
     property bool qtcRunnable: true
 
     cpp.includePaths: [ "." ]
-      cpp.frameworks: {
+    cpp.frameworks: {
         var frameworks = [];
         if (qbs.targetOS.contains("macos")) {
-            frameworks.push("Foundation");
+          frameworks.push("Foundation");
+        }
         return frameworks;
     }
-    cpp.useRPaths: project.useRPaths
+
+   cpp.useRPaths: project.useRPaths
+
     cpp.rpaths: {
         if (qbs.targetOS.contains("darwin"))
             return ["@loader_path/../Frameworks"];
@@ -188,10 +191,6 @@ QtGuiApplication {
         "views/titleinputarea.cpp",
         "views/titleinputarea.h",
         "views/titleinputarea.ui",
-        "../../resources/graphics/jmbde.icns",
-        "../../resources/jmbde.rc",
-        "../../resources/jmbde.qrc",
-        "../../resources/icons.qrc"
     ]
 
    
@@ -282,7 +281,7 @@ QtGuiApplication {
     // Generate the tiled.rc file in order to dynamically specify the version
     Group {
         name: "RC file (Windows)"
-        files: [ "tiled.rc.in" ]
+        files: [ "jmbde.rc.in" ]
         fileTags: ["rcIn"]
     }
     Rule {

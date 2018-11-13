@@ -67,7 +67,7 @@
 
 #include <QStandardPaths>
 
-#include "data_global.h"
+#include "libdata_global.h"
 
 /**
  * \brief The Main Database class
@@ -80,7 +80,7 @@
  * \todo Remove UI fpr Testing
  * \todo Move Code for every Table in his own class
  *
- * \page DataContext Page
+ * \page LibDataContext Page
  *
  *
  * This is the introduction.
@@ -88,30 +88,30 @@
  */
 
 /**
- * @brief The DataContext class
+ * @brief The LibDataContext class
  */
 
-class DATASHARED_DLLSPEC DataContext : public QObject {
+class LIBDATASHARED_DLLSPEC LibDataContext : public QObject {
   Q_OBJECT
 
 public:
   /**
-   * @brief DataContext
+   * @brief LibDataContext
    * @param parent
    */
   /*
-  explicit DataContext(QObject* parent = nullptr);
+  explicit LibDataContext(QObject* parent = nullptr);
   */
-  explicit DataContext(const QString &name = QString(),
+  explicit LibDataContext(const QString &name = QString(),
                        QObject *parent = nullptr);
 
   /**
-   * @brief ~DataContext
+   * @brief ~LibDataContext
    */
-  ~DataContext() override;
+  ~LibDataContext() override;
 
   /**
-   * @brief DataContext::CreateConnection
+   * @brief LibDataContext::CreateConnection
    * @return
    *
    * \todo init all tables

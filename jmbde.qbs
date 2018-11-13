@@ -6,7 +6,7 @@ Project {
     minimumQbsVersion: "1.10.0"
     qbsSearchPaths: ["qbs-resources"]
 
-    name: "jmbde"
+    name: "JMBde"
 
     property string version: Environment.getEnv("JMBDE_VERSION") || "0.4.22";
     property bool snapshot: Environment.getEnv("JMBDE_SNAPSHOT")
@@ -37,7 +37,7 @@ Project {
 
     Product {
         name: "qmake project files"
-        files: [
+        files: {
             var list = ["**/*.pr[io]"];
         var props = [additionalPlugins, additionalLibs, additionalTools, additionalAutotests];
             for (var i = 0; i < props.length; ++i) {

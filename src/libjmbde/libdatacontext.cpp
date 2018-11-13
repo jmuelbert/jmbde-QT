@@ -40,14 +40,14 @@
 **
 **************************************************************************/
 
-#include "datacontext.h"
+#include "libdatacontext.h"
 
 #include "../jmbde/definitions.h"
 
 #include <QUuid>
 
 /*
-DataContext::DataContext(QObject* parent) : QObject(parent)
+LibDataContext::LibDataContext(QObject* parent) : QObject(parent)
 {
     this->name = QUuid::createUuid().toString();
 
@@ -111,7 +111,7 @@ qUtf8Printable(targetFileAndPath)); this->prepareDB();
 }
 */
 
-DataContext::DataContext(const QString &name, QObject *parent)
+LibDataContext::LibDataContext(const QString &name, QObject *parent)
     : QObject(parent) {
   this->name = name.isEmpty() ? QUuid::createUuid().toString() : name;
   qDebug("Ctr:Request Database : %s ", qUtf8Printable(this->name));
@@ -180,14 +180,14 @@ DataContext::DataContext(const QString &name, QObject *parent)
   }
 }
 
-DataContext::~DataContext() {
+LibDataContext::~LibDataContext() {
   this->m_db.close();
   qDebug("m_db.close()");
 }
 
-void DataContext::closeConnection() { qDebug("Closing Database"); }
+void LibDataContext::closeConnection() { qDebug("Closing Database"); }
 
-void DataContext::prepareDB() const {
+void LibDataContext::prepareDB() const {
   if (!this->m_db.isValid()) {
     QSqlDatabase::database(name);
   }
@@ -250,7 +250,7 @@ void DataContext::prepareDB() const {
   file.close();
 }
 
-bool DataContext::checkDBVersion() {
+bool LibDataContext::checkDBVersion() {
   QString version;
   QString revision;
   QString patch;
@@ -295,7 +295,7 @@ bool DataContext::checkDBVersion() {
   return retValue;
 }
 
-bool DataContext::check_existence(const QString &tableName,
+bool LibDataContext::check_existence(const QString &tableName,
                                   const QString &searchId,
                                   const QString &search) {
   auto queryStr = QString(QStringLiteral("SELECT %1 FROM %2 WHERE %3 = \"%4\""))
@@ -313,7 +313,7 @@ bool DataContext::check_existence(const QString &tableName,
   return false;
 }
 
-bool DataContext::insert(const QString &tableName,
+bool LibDataContext::insert(const QString &tableName,
                          const QVariantMap &insertData) {
   if (tableName.isEmpty()) {
     qFatal("Fatal error on insert! The table name is empty!");
@@ -345,7 +345,7 @@ bool DataContext::insert(const QString &tableName,
   return query.exec();
 }
 
-bool DataContext::update(const QString &table, const QString &column,
+bool LibDataContext::update(const QString &table, const QString &column,
                          const QVariant &newValue, const QVariant &op,
                          const QString &id) {
   auto searchStr = QStringLiteral("\"");
@@ -361,18 +361,18 @@ bool DataContext::update(const QString &table, const QString &column,
   return query.exec();
 }
 
-bool DataContext::execQuery(QSqlQuery &query) const {
+bool LibDataContext::execQuery(QSqlQuery &query) const {
   if (query.exec())
     return true;
   return false;
 }
 
-bool DataContext::execQuery(const QString &queryTxt) {
+bool LibDataContext::execQuery(const QString &queryTxt) {
   auto query = this->getQuery(queryTxt);
   return query.exec();
 }
 
-bool DataContext::openDB(const QString &name) {
+bool LibDataContext::openDB(const QString &name) {
   const auto dbFile = getSqliteName();
   if (!QSqlDatabase::contains(name)) {
     qDebug("openDB:Set default DB : %s", qUtf8Printable(name));
@@ -397,7 +397,7 @@ bool DataContext::openDB(const QString &name) {
   return true;
 }
 
-void DataContext::renameDB(const QString &oldName, const QString &newName) {
+void LibDataContext::renameDB(const QString &oldName, const QString &newName) {
   this->name = newName;
   const QString newDBName = this->getSqliteName();
 
@@ -409,7 +409,7 @@ void DataContext::renameDB(const QString &oldName, const QString &newName) {
   }
 }
 
-void DataContext::deleteDB(const QString &name) {
+void LibDataContext::deleteDB(const QString &name) {
   if (!this->m_db.isValid()) {
     this->m_db = QSqlDatabase::database(name);
     QString fileName = this->m_db.databaseName();
@@ -419,16 +419,16 @@ void DataContext::deleteDB(const QString &name) {
   }
 }
 
-QSqlQuery DataContext::getQuery(const QString &queryTxt) {
+QSqlQuery LibDataContext::getQuery(const QString &queryTxt) {
   QSqlQuery query(queryTxt, this->m_db);
   return query;
 }
 
-QSqlDatabase DataContext::getDatabase() { return m_db; }
+QSqlDatabase LibDataContext::getDatabase() { return m_db; }
 
-QSqlError DataContext::initDb() { return m_db.lastError(); }
+QSqlError LibDataContext::initDb() { return m_db.lastError(); }
 
-QString DataContext::getSqliteName() {
+QString LibDataContext::getSqliteName() {
 
   QString dbDataPath =
       QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);

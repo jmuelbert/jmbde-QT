@@ -85,7 +85,7 @@
 #include "softwareinputarea.h"
 #include "titleinputarea.h"
 
-#include "../libjmbde/datalib/datacontext/datacontext.h"
+#include "../../libjmbde/libdatacontext.h"
 #include "models/citynamedatamodel.h"
 #include "models/departmentdatamodel.h"
 #include "models/functiondatamodel.h"
@@ -224,7 +224,7 @@ private:
   QSqlRelationalTableModel *model;
   QSqlTableModel *tableModel;
   QString dataBaseName;
-  DataContext *dataBase;
+  LibDataContext *dataBase;
   int dbType = 0;
   QString dbConnection;
   QString dbHostname;

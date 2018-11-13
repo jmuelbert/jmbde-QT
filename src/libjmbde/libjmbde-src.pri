@@ -1,9 +1,9 @@
 INCLUDEPATH += $$PWD
 
-SOURCES += $$PWD/datacontext.cpp
+SOURCES += $$PWD/libdatacontext.cpp
 
-HEADERS += $$PWD/datacontext.h 
+HEADERS += $$PWD/libdatacontext.h
 
-RESOURCES += $$PWD/datacontext.qrc
+RESOURCES += $$PWD/libdatacontext.qrc
 
 OTHER_FILES += script.sql
