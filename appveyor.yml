@@ -50,7 +50,7 @@ before_build:
   - qbs config profiles.appveyor-qt5.baseProfile %QBS_PROFILE%
   - qbs config defaultProfile appveyor-qt5
 build_script:
-  - qbs build --all-products config:release projects.jmbde.windowsInstaller:true
+  - qbs build --all-products config:release projects.JMBde.windowsInstaller:true
 
 after_build:
   - cd release
