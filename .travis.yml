@@ -45,7 +45,7 @@ matrix:
       - qbs setup-toolchains --detect
       - qbs setup-qt --detect
       - qbs config defaultProfile qt-5-9-5
-      - qbs install --install-root install/usr config:release projects.jmbde.version:$JMBDE_VERSION
+      - qbs install --install-root install/usr config:release projects.JMBde.version:$JMBDE_VERSION
       - cp LICENSE* *md install/
     after_success:
       - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" -O linuxdeployqt 
@@ -123,7 +123,7 @@ matrix:
       - qbs setup-qt $HOME/Qt/5.11.2/clang_64/bin/qmake qt
       - qbs config profiles.qt.baseProfile xcode-macosx-x86_64
       - qbs config defaultProfile qt
-      - qbs install --install-root install config:release project.jmbde.version:$JMBDE_VERSION
+      - qbs install --install-root install config:release project.JMBde.version:$JMBDE_VERSION
       # - $HOME/Qt/5.11.2/clang_64/bin/macdeployqt install/jmbde.app
       - pushd install
       - ruby ../dist/macos/fixup-install-names.rb

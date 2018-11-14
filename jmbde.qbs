@@ -78,17 +78,6 @@ Project {
                     break;
                 }
             }
-            var fullAppInstallDir = FileInfo.joinPaths(qbs.installRoot, qbs.installPrefix);
-            var fullLibInstallDir = FileInfo.joinPaths(fullAppInstallDir, app.app_library_path);
-            var fullPluginInstallDir = FileInfo.joinPaths(fullAppInstallDir, app.app_plugin_path);
-            path = Qt.core.binPath + ";" + fullLibInstallDir + ";" + fullPluginInstallDir
-                    + ";" + path;
-            var arrayElem = "PATH=" + path;
-            if (i < env.length)
-                env[i] = arrayElem;
-            else
-                env.push(arrayElem);
-            return env;
         }
     }
 }
