@@ -62,22 +62,5 @@ Project {
         ]
     }
 
-    AutotestRunner {
-        Depends { name: "Qt.core" }
-        Depends { name: "libjmbde" }
-        Depends { name: "jmbde" }
-
-        environment: {
-            var env = base;
-            if (!qbs.hostOS.contains("windows") || !qbs.targetOS.contains("windows"))
-                return env;
-            var path = "";
-            for (var i = 0; i < env.length; ++i) {
-                if (env[i].startsWith("PATH=")) {
-                    path = env[i].substring(5);
-                    break;
-                }
-            }
-        }
-    }
+    AutotestRunner {}
 }

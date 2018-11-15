@@ -56,7 +56,8 @@ Product {
                     "Qt5Gui" + postfix,
                     "Qt5Network" + postfix,
                     "Qt5Svg" + postfix,
-                    "Qt5Widgets" + postfix
+                    "Qt5Widgets" + postfix,
+                    "Qt5Sql" + postfix
                 );
             }
 
@@ -147,6 +148,16 @@ Product {
         files: pluginFiles
         excludeFiles: pluginExcludeFiles
         qbs.install: true
+        qbs.installDir: "plugins/imageformats"
+    }
+
+    Group {
+        name: "Qt Sql Database Plugins"
+        prefix: FileInfo.joinPaths(Qt.core.pluginPath, "/sqldrivers/")
+        files: pluginFiles
+        excludeFiles: pluginExcludeFiles
+        qbs.install: true
+        qbs.installDir: "plugins/sqldrivers"    
     }
 
     Group {
