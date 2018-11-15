@@ -51,8 +51,6 @@ before_build:
   - qbs config defaultProfile appveyor-qt5
   - dir "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.12.25827\bin\HostX64\x64"
   - dir "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin" 
-89  MSVC 2017 (x64_x86) detected in
-90
 build_script:
   - qbs build --all-products config:release projects.JMBde.windowsInstaller:true
 
