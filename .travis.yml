@@ -126,7 +126,7 @@ matrix:
       - qbs install --install-root install config:release project.JMBde.version:$JMBDE_VERSION
       # - $HOME/Qt/5.11.2/clang_64/bin/macdeployqt install/jmbde.app
       - pushd install
-      - ruby ../dist/macos/fixup-install-names.rb
+      - ruby ../dist/mac/fixup-install-names.rb
       - popd
     deploy:
       - provider: releases

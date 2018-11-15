@@ -90,8 +90,8 @@
             <File Id="libstdc___6_dll" Source="$(var.MingwDir)\bin\libstdc++-6.dll"/>
             <File Id="libwinpthread_1_dll" Source="$(var.MingwDir)\bin\libwinpthread-1.dll"/>
             <?else?>
-              <?ifdef VcUniversalCRT ?>
-              <File Source="$(var.VcInstallDir)\msvcp140.dll"/>
+              <?ifdef VcUniversalCRT_T ?>
+                <File Source="$(var.VcInstallDir)\msvcp140.dll"/>
               <?else?>
               <File Source="$(var.VcInstallDir)\redist\$(var.Platform)\Microsoft.VC120.CRT\msvcp120.dll"/>
               <File Source="$(var.VcInstallDir)\redist\$(var.Platform)\Microsoft.VC120.CRT\msvcr120.dll"/>
