@@ -23,7 +23,7 @@ WindowsInstallerPackage {
     Depends { name: "Qt.core" }
 
     property int bits: {
-        if (qbs.architekture == "x86_64")
+        if (qbs.architecture == "x86_64")
             return 64;
         if (qbs.architecture == "x86")
             return 32;
