@@ -57,6 +57,7 @@ after_build:
   - cd release
   - cd installer*
   - dir
+  - echo %APPVEYOR_BUILD_FOLDER%
   - move jmbde-*.msi %APPVEYOR_BUILD_FOLDER%
 
   
