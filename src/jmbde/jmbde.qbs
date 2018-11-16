@@ -35,7 +35,7 @@ QtGuiApplication {
             return ["$ORIGIN/../lib"];
     }
     cpp.useCxxPrecompiledHeader: qbs.buildVariant != "debug"
-    cpp.cxxLanguageVersion: "c++17"
+    cpp.cxxLanguageVersion: "c++14"
 
     cpp.defines: {
         var defs = [
