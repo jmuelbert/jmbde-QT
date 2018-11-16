@@ -26,7 +26,7 @@ Product {
             if (qbs.targetOS.contains("windows")) {
                 return Qt.core.binPath + "/"
             } else {
-                return Qt.core.binPath + "/lib"
+                return Qt.core.libPath + "/lib"
             }
         }
 
