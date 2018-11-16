@@ -49,8 +49,6 @@ before_build:
   - qbs setup-qt %QTDIR%\bin\qmake.exe appveyor-qt5
   - qbs config profiles.appveyor-qt5.baseProfile %QBS_PROFILE%
   - qbs config defaultProfile appveyor-qt5
-  - dir "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.12.25827\bin\HostX64\x64"
-  - dir "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin" 
 build_script:
   - qbs build --all-products config:release projects.JMBde.windowsInstaller:true
 
