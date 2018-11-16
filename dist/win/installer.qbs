@@ -29,7 +29,7 @@ WindowsInstallerPackage {
             return 32;
     }
 
-    targetName: "jmdbe-" + project.version + "-win" + bits
+    targetName: "jmbde-" + project.version + "-win" + bits
 
     wix.defines: {
         var defs = [
