@@ -15,7 +15,7 @@ env:
     - secure: "p3rN5l2i/w21LhRkGtn50lqhkrFXF9z0PTnip969B6bs5AWznG/zlNSTWckDAZpr5B0xuoysZg9/0on4pAUdludKoYQ7PKS1NFzjSH2yLcTuVy+HY6vkR21o7/rQxOJkH+ftOKnpe8Sv/0tRdGXYHVrAKh4XVTY0MQBrqXu2bQWMmgoi9P2CcvFzIukLqIk5LKDM5zin4sndPfipsT5eXPpQgAqD5XnGKdDqvX7WlSJOMcTVMDem3OIw/sM06u4kIsipQUdXD8yUhMMTflM39lsHcY/JYl+m6Fn6p0OLt1SY/euBvAKDmvMKMA6Wq7iLQprft7PL9dj2iNoerDKazL5hilY1lAgd1RWtTvn/YZXo/SaS1sVYmsUKJUFBRpU2SYCBnvuPiEYZ2WkeBCBzYziVJ2FoJrl4J/hXJnWd7O2MQPErREBXqv7nt55VMYrMj3s1tdJKvF8t6TOkPuR1YMDDlweYNXhCWGNqZressSDZX32evH8Mnt7VCWsgbUUFjK1k6f9ZmG//kssR320oPiF0bW28jJMVfqmAUcsCLIgF1+fsxUgn+ui0LtR6feV3QmUPWTmIvqpMuTvj/gLTQRZ5Bb0cD/zlc8BAgZJHGjWy9ZcXDrzDKBNtoP58JiVTTTRWrhrJFYx1BN0IJElv/pVGnf+VS3lJNHhFV9sDplI="
 
   addons:
-    coverty_scan:
+    coverity_scan:
       project:
         name: jmuelbert/jmbde-QT
         description: A little BDE tool
