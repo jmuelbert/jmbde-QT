@@ -53,6 +53,7 @@ init:
   - set PATH=%QTDIR%\bin;%PATH%
 install:
   - choco install -y qbs --version 1.12.0
+  - choco install -y wixtoolset
 before_build:
   - FOR /F "tokens=*" %%i in ('git describe') do SET COMMITNOW=%%i
   - set VERSION_DATE=%DATE:~10,4%.%DATE:~4,2%.%DATE:~7,2%
@@ -75,7 +76,8 @@ after_build:
   - cd release
   - cd install-root
   - windeployqt jmbde.exe
-  - candle -ext WixUIExtension ../../dist/win/installer.wxs -dInstallRoot=. -dQtDir=%QTDIR% -dRootDir=../../ -dVersion=$JMBDE_VERSION -dPlatform=MY_PLATFORM
+  - "%WIX%"/bin/candle.exe -ext WixUIExtension ../../dist/win/installer.wxs -dInstallRoot=. -dQtDir=%QTDIR% -dRootDir=../../ -dVersion=$JMBDE_VERSION -dPlatform=MY_PLATFORM
+  - "%WIX%"/bin/light.exe installer.wixobj
   - move jmbde-*.msi %APPVEYOR_BUILD_FOLDER%
   
 artifacts:
