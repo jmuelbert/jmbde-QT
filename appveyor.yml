@@ -22,7 +22,6 @@ environment:
     QBS_PROFILE: MSVC2017-x86_x64
     MY_PLATFORM: x64
     PUSH_RELEASE: true
-  - APP_VEYOR_BUILD_WORKER_IMAGE: Ubuntu
   
 # FIXME: WinRT builds are disabled due to linker issues
 #  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
@@ -33,19 +32,6 @@ environment:
 #    QT_PROFILE: winrt_x64_msvc2017
 #    QTDIR: C:\Qt\5.10.1\winrt_x64_msvc2017
 #    QBS_PROFILE: MSVC2017-x86_x64
-
-for:
-########## UBUNTU SPECIFIC CONFIGURATION ##########
--
-  matrix:
-    only:
-      - image: Ubuntu1804
-
-  clone_folder: /home/appveyor/projects/mixxx
-
-  install:
-    - sudo apt-get update
-    - sudo apt-get -y install gdb libavformat-dev libchromaprint-dev libfaad-dev libfftw3-dev libflac-dev libid3tag0-dev libmad0-dev libmodplug-dev libmp3lame-dev libmp4v2-dev libopusfile-dev libportmidi-dev libprotobuf-dev libqt5opengl5-dev libqt5sql5-sqlite libqt5svg5-dev librubberband-dev libshout3-dev libsndfile1-dev libsqlite3-dev libtag1-dev libupower-glib-dev libusb-1.0-0-dev libwavpack-dev portaudio19-dev protobuf-compiler qt5-default qtscript5-dev scons vamp-plugin-sdk qtkeychain-dev liblilv-dev
 
 configuration: release
 
@@ -76,7 +62,7 @@ after_build:
   - cd release
   - cd install-root
   - windeployqt jmbde.exe
-  - candle.exe -ext WixUIExtension ../../dist/win/installer.wxs -dInstallRoot=. -dQtDir=%QTDIR% -dRootDir=../../ -dVersion=%JMBDE_VERSION% -dPlatform=MY_PLATFORM
+  - candle.exe -ext WixUIExtension ../../dist/win/installer.wxs -dInstallRoot=. -dQtDir=%QTDIR% -dRootDir=../../ -dVersion=%JMBDE_VERSION% -dPlatform=%MY_PLATFORM%
   - light.exe -ext WixUIExtension installer.wixobj -out jmbde-%JMBDE_VERSION%-win%MY_PLATFORM%.msi
   - dir
   - move jmbde-*.msi %APPVEYOR_BUILD_FOLDER%
