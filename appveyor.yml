@@ -51,6 +51,8 @@ before_build:
   - qbs config defaultProfile appveyor-qt5
 
 build_script:
+  - qbs build config:release 
+  - windeployqt release/install-root/jmbde.exe
   - qbs build --all-products config:release projects.JMBde.windowsInstaller:true
 
 after_build:
