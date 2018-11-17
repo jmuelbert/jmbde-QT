@@ -59,8 +59,8 @@ before_build:
   - if defined JMBDE_RELEASE echo Building JMBDE %JMBDE_VERSION%... (from %COMMITNOW%)
   - if defined JMBDE_SNAPSHOT set JMBDE_VERSION=%APPVEYOR_BUILD_VERSION%
   - if defined JMBDE_SNAPSHOT echo Building JMBDE snapshot %JMBDE_VERSION%... (from %COMMITNOW%) 
-  - if %QBS_PROFILE% =  'MSVC2015-x86' set MYPLATFORM = x86
-  - if %QBS_PROFILE% = 'MSVC2017-x86_x64' set MYPLATFORM = x64
+  - if %QBS_PROFILE% EQ 'MSVC2015-x86' set MYPLATFORM = x86
+  - if %QBS_PROFILE% EQ 'MSVC2017-x86_x64' set MYPLATFORM = x64
   - qbs --version
   - qbs setup-toolchains --detect
   - qbs setup-qt %QTDIR%\bin\qmake.exe appveyor-qt5
