@@ -14,11 +14,13 @@ environment:
     QT_PROFILE: msvc2015
     QTDIR: C:\Qt\5.10.1\msvc2015
     QBS_PROFILE: MSVC2015-x86
+    MY_PLATFORM: x86
     PUSH_RELEASE: true
   - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
     QT_PROFILE: msvc2017_64
     QTDIR: C:\Qt\5.10.1\msvc2017_64
     QBS_PROFILE: MSVC2017-x86_x64
+    MY_PLATFORM: x64
     PUSH_RELEASE: true
   - APP_VEYOR_BUILD_WORKER_IMAGE: Ubuntu
   
@@ -59,8 +61,7 @@ before_build:
   - if defined JMBDE_RELEASE echo Building JMBDE %JMBDE_VERSION%... (from %COMMITNOW%)
   - if defined JMBDE_SNAPSHOT set JMBDE_VERSION=%APPVEYOR_BUILD_VERSION%
   - if defined JMBDE_SNAPSHOT echo Building JMBDE snapshot %JMBDE_VERSION%... (from %COMMITNOW%) 
-  - if %QBS_PROFILE% EQ 'MSVC2015-x86' set MYPLATFORM = x86
-  - if %QBS_PROFILE% EQ 'MSVC2017-x86_x64' set MYPLATFORM = x64
+
   - qbs --version
   - qbs setup-toolchains --detect
   - qbs setup-qt %QTDIR%\bin\qmake.exe appveyor-qt5
@@ -76,7 +77,7 @@ after_build:
   - cd release
   - cd install-root
   - windeployqt jmbde.exe
-  - candle -ext WixUIExtension ../../dist/win/installer.wxs -dInstallRoot=. -dQtDir=%QTDIR% -dRootDir=../../ -dVersion=$JMBDE_VERSION -dPlatform=MYPLATFORM
+  - candle -ext WixUIExtension ../../dist/win/installer.wxs -dInstallRoot=. -dQtDir=%QTDIR% -dRootDir=../../ -dVersion=$JMBDE_VERSION -dPlatform=MY_PLATFORM
   - move jmbde-*.msi %APPVEYOR_BUILD_FOLDER%
   
 artifacts:
