@@ -52,6 +52,8 @@ before_build:
 
 build_script:
   - qbs build --all-products config:release projects.JMBde.windowsInstaller:true
+  - windeployqt release\install-root\jmbde.exe
+  - qbs build --all-products config:release projects.JMBde.windowsInstaller:true
 
 after_build:
   - cd release
