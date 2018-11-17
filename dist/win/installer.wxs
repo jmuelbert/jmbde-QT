@@ -69,8 +69,10 @@
     </Property>
 
    <Directory Id='TARGETDIR' Name='SourceDir'>
+
+
       <Directory Id='$(var.PlatformProgramFilesFolder)' Name='PFiles'>
-        <Directory Id='INSTALLDIR' Name='Tiled'>
+        <Directory Id='INSTALLDIR' Name='jmbde'>
 
           <Component Id='MainExecutable' Guid='{95F0AC13-13B8-4EE8-AF1E-A9BE9C4BDDD5}'>       
             <File Id='JMBdeEXE' Source='$(var.InstallRoot)\jmbde.exe' KeyPath='yes'>
@@ -78,25 +80,38 @@
               <Shortcut Id="desktopJMBde" Directory="DesktopFolder" Name="JMBde" WorkingDirectory='INSTALLDIR' Icon="jmbde.exe" IconIndex="0" Advertise="yes" />
             </File>
 
-            <File Id="qt_conf" Source="$(var.RootDir)\dist\win\qt.conf" />
-            <File Id="Qt5Core_dll" Source="$(var.QtDir)\bin\Qt5Core.dll"/>
-            <File Id="Qt5Gui_dll" Source="$(var.QtDir)\bin\Qt5Gui.dll"/>
-            <File Id="Qt5Network_dll" Source="$(var.QtDir)\bin\Qt5Network.dll"/>
-            <File Id="Qt5Svg_dll" Source="$(var.QtDir)\bin\Qt5Svg.dll"/>
-            <File Id="Qt5Widgets_dll" Source="$(var.QtDir)\bin\Qt5Widgets.dll"/>
+            <File Id="jmbde_dll" Source="$(var.InstallRoot)\jmbde.dll" />
+
+            <!-- Qt Main Part -->
+            <!-- File Id="qt_conf" Source="$(var.InstallRoot)\qt.conf" / -->
+            <File Id="Qt5Core_dll" Source="$(var.InstallRoot)\Qt5Core.dll"/>
+            <File Id="Qt5Gui_dll" Source="$(var.InstallRoot)\Qt5Gui.dll"/>
+            <File Id="Qt5PrintSupport_dll" Source="$(var.InstallRoot)\Qt5PrintSupport.dll"/>
+            <File Id="Qt5Sql_dll" Source="$(var.InstallRoot)\Qt5Sql.dll"/>
+            <File Id="Qt5Svg_dll" Source="$(var.InstallRoot)\Qt5Svg.dll"/>
+            <File Id="Qt5Widgets_dll" Source="$(var.InstallRoot)\Qt5Widgets.dll"/>
+
+            <!-- Common DLL -->
+            <File Id="D3DCompiler_dll" Source="$(var.InstallRoot)\d3dcompiler_47.dll" />
+            <File Id="LibEGL_dll" Source="$(var.InstallRoot)\libEGL.dll" />
+            <File Id="LibGLESV2_dll" Source="$(var.InstallRoot)\libGLESV2.dll" />
+            <File Id="OpenGL32sw_dll" Source="$(var.InstallRoot)\opengl32sw.dll" />
+
+            <!-- VC Redist 
 
            <?ifdef MingwDir ?>
-            <File Id="libgcc_s_dw2_1_dll" Source="$(var.MingwDir)\bin\libgcc_s_dw2-1.dll"/>
-            <File Id="libstdc___6_dll" Source="$(var.MingwDir)\bin\libstdc++-6.dll"/>
-            <File Id="libwinpthread_1_dll" Source="$(var.MingwDir)\bin\libwinpthread-1.dll"/>
+            <File Id="libgcc_s_dw2_1_dll" Source="$(var.InstallRoot)\libgcc_s_dw2-1.dll"/>
+            <File Id="libstdc___6_dll" Source="$(var.InstallRoot)\libstdc++-6.dll"/>
+            <File Id="libwinpthread_1_dll" Source="$(var.InstallRoot)\\libwinpthread-1.dll"/>
             <?else?>
               <?ifdef VcUniversalCRT ?>
-                <!-- File Source="$(var.VcInstallDir)\msvcp140.dll"/ -->
+                <File Source="$(var.VcInstallDir)\msvcp140.dll"/>
               <?else?>
               <File Source="$(var.VcInstallDir)\redist\$(var.Platform)\Microsoft.VC120.CRT\msvcp120.dll"/>
               <File Source="$(var.VcInstallDir)\redist\$(var.Platform)\Microsoft.VC120.CRT\msvcr120.dll"/>
               <?endif?>
             <?endif?>
+            -->
             
             <File Id="LICENSE" Name="LICENSE.txt" Source="$(var.RootDir)\LICENSE"/>
             <File Id="LICENSE.EUPL_1_2" Name="LICENSE.EUPL_1_2.txt" Source="$(var.RootDir)\LICENSE.EUPL_1_2"/>
@@ -109,34 +124,51 @@
             </RegistryKey>   
         </Component>
 
-        <Directory Id="dirC9BB3CDAF59A4E6BA9AFCBA87D7C8B18" Name="plugins">        
+        <!-- Directory Id="dirC9BB3CDAF59A4E6BA9AFCBA87D7C8B18" Name="plugins" -->        
             <Directory Id="platformPlugins" Name="platforms">
               <Component Id="PlatformPlugins" Guid="{07E910ED-1861-446D-A465-CD2436E58546}">
-                <File Id="qwindows_dll" Source="$(var.QtDir)\plugins\platforms\qwindows.dll"/>
+                <File Id="qwindows_dll" Source="$(var.InstallRoot)\platforms\qwindows.dll"/>
+              </Component>
+            </Directory>
+            <Directory Id="iconEnginesPlugins" Name="iconengines">
+              <Component Id="IconEnginesPlugins" Guid="{7A11A4FF-3C50-4D89-BBC8-2ACA90AD1763}">
+                <File Id="qsvgicon_dll" Source="$(var.InstallRoot)\iconengines\qsvgicon.dll" />
               </Component>
             </Directory>
            <Directory Id="imageFormatPlugins" Name="imageformats">
               <Component Id="ImageFormatPlugins" Guid="{7F35354B-E9D6-458F-BFA9-D98026C04CCD}">
-                <File Id="qgif_dll" Source="$(var.QtDir)\plugins\imageformats\qgif.dll"/>
-                <File Id="qjpeg_dll" Source="$(var.QtDir)\plugins\imageformats\qjpeg.dll"/>
-                <File Id="qsvg_dll" Source="$(var.QtDir)\plugins\imageformats\qsvg.dll"/>
-                <File Id="qtga_dll" Source="$(var.QtDir)\plugins\imageformats\qtga.dll"/>
-                <File Id="qtiff_dll" Source="$(var.QtDir)\plugins\imageformats\qtiff.dll"/>
-                <File Id="qwbmp_dll" Source="$(var.QtDir)\plugins\imageformats\qwbmp.dll"/>
-                <File Id="qwebp_dll" Source="$(var.QtDir)\plugins\imageformats\qwebp.dll"/>
+                <File Id="qgif_dll" Source="$(var.InstallRoot)\imageformats\qgif.dll"/>
+                <File Id="qicns_dll" Source="$(var.InstallRoot)\imageformats\qicns.dll"/>
+                <File Id="qico_dll" Source="$(var.InstallRoot)\imageformats\qico.dll"/>                
+                <File Id="qjpeg_dll" Source="$(var.InstallRoot)\imageformats\qjpeg.dll"/>
+                <File Id="qsvg_dll" Source="$(var.InstallRoot)\imageformats\qsvg.dll"/>
+                <File Id="qtga_dll" Source="$(var.InstallRoot)\imageformats\qtga.dll"/>
+                <File Id="qtiff_dll" Source="$(var.InstallRoot)\imageformats\qtiff.dll"/>
+                <File Id="qwbmp_dll" Source="$(var.InstallRoot)\imageformats\qwbmp.dll"/>
+                <File Id="qwebp_dll" Source="$(var.InstallRoot)\imageformats\qwebp.dll"/>
               </Component>
+            </Directory>
+            <Directory Id="printSupportPlugin" Name="printsupport">
+              <Component Id="PrintSupportPlugins" Guid="{0E654898-42AD-439F-B2DE-D651D5640B84}">
+                <File Id="windowsprintersupport_dll" Source="$(var.InstallRoot)\printsupport\windowsprintersupport.dll" />
+              </Component>  
             </Directory>
             <Directory Id="sqlDriversPlugins" Name="sqldrivers">
               <Component Id="SqlDriversPlugins" Guid="{E57E2AE9-39A9-4F21-86B9-A9DE6FD3CECC}">
-                <File Id="qsqlite_dll" Source="$(var.QtDir)\plugins\sqldrivers\qsqlite.dll"/>
-                <File Id="qsqlmysql_dll" Source="$(var.QtDir)\plugins\sqldrivers\qsqlmysql.dll"/>
-                <File Id="qsqlodbc_dll" Source="$(var.QtDir)\plugins\sqldrivers\qsqlodbc.dll"/>
-                <File Id="qsqlpsql_dll" Source="$(var.QtDir)\plugins\sqldrivers\qsqlpsql.dll"/>
+                <File Id="qsqlite_dll" Source="$(var.InstallRoot)\sqldrivers\qsqlite.dll"/>
+                <File Id="qsqlmysql_dll" Source="$(var.InstallRoot)\sqldrivers\qsqlmysql.dll"/>
+                <File Id="qsqlodbc_dll" Source="$(var.InstallRoot)\sqldrivers\qsqlodbc.dll"/>
+                <File Id="qsqlpsql_dll" Source="$(var.InstallRoot)\sqldrivers\qsqlpsql.dll"/>
+              </Component>
+            </Directory>
+            <Directory Id="stylesPlugins" Name="styles">
+              <Component Id="StylesPlugins" Guid="{ADC111F7-1750-4967-9EEE-6250AC6C6039}">
+                <File Id="windowsvistastyle_dll" Source="$(var.InstallRoot)\styles\qwindowsvistastyle.dll" />
               </Component>
             </Directory>
             <Directory Id="dir3BE8642E1807402AB1BF376DED175FD3" Name="translations">
                 <Component Id="Translations" Guid="{EA6DC1E2-A2EB-4130-A482-231583226C08}">
-                    <!-- Tiled translations -->
+                    <!-- JMBde translations -->
                     <File Id="fil125043B921544D97A9C9B35E838E330D" Source="$(var.InstallRoot)\translations\jmbde_ar_DZ.qm" />
                     <File Id="filB9CAC0F1D9E041C798E10802471B7893" Source="$(var.InstallRoot)\translations\jmbde_bg.qm" />
                     <File Id="fil3487C65DBB5F4CECB77B9B08EEECBCDF" Source="$(var.InstallRoot)\translations\jmbde_cs.qm" />
@@ -158,19 +190,29 @@
                     <File Id="filA64DE22795444E69A4817D9BE6FAB382" Source="$(var.InstallRoot)\translations\jmbde_zh_TW.qm" />
 
                     <!-- Qt translations -->
-                    <File Id="qt_cs" Source="$(var.QtDir)\translations\qt_cs.qm"/>
-                    <File Id="qt_de" Source="$(var.QtDir)\translations\qt_de.qm"/>
-                    <File Id="qt_es" Source="$(var.QtDir)\translations\qt_es.qm"/>
-                    <File Id="qt_fr" Source="$(var.QtDir)\translations\qt_fr.qm"/>
-                    <File Id="qt_he" Source="$(var.QtDir)\translations\qt_he.qm"/>
-                    <File Id="qt_ja" Source="$(var.QtDir)\translations\qt_ja.qm"/>
-                    <File Id="qt_pt" Source="$(var.QtDir)\translations\qt_pt.qm"/>
-                    <File Id="qt_ru" Source="$(var.QtDir)\translations\qt_ru.qm"/>
-                    <File Id="qt_zh_CN" Source="$(var.QtDir)\translations\qt_zh_CN.qm"/>
-                    <File Id="qt_zh_TW" Source="$(var.QtDir)\translations\qt_zh_TW.qm"/>
+                    <File Id="qt_ar" Source="$(var.InstallRoot)\translations\qt_ar.qm" />
+                    <File Id="qt_bg" Source="$(var.InstallRoot)\translations\qt_bg.qm" />
+                    <File Id="qt_ca" Source="$(var.InstallRoot)\translations\qt_ca.qm" />
+                    <File Id="qt_cs" Source="$(var.InstallRoot)\translations\qt_cs.qm" />
+                    <File Id="qt_da" Source="$(var.InstallRoot)\translations\qt_da.qm" />
+                    <File Id="qt_de" Source="$(var.InstallRoot)\translations\qt_de.qm" />
+                    <File Id="qt_en" Source="$(var.InstallRoot)\translations\qt_en.qm" />
+                    <File Id="qt_es" Source="$(var.InstallRoot)\translations\qt_es.qm" />
+                    <File Id="qt_fi" Source="$(var.InstallRoot)\translations\qt_fi.qm" />                    
+                    <File Id="qt_fr" Source="$(var.InstallRoot)\translations\qt_fr.qm" />
+                    <File Id="qt_he" Source="$(var.InstallRoot)\translations\qt_he.qm" />
+                    <File Id="qt_hu" Source="$(var.InstallRoot)\translations\qt_hu.qm" /> 
+                    <File Id="qt_it" Source="$(var.InstallRoot)\translations\qt_it.qm" />                   
+                    <File Id="qt_ja" Source="$(var.InstallRoot)\translations\qt_ja.qm" />
+                    <File Id="qt_ko" Source="$(var.InstallRoot)\translations\qt_ko.qm" />
+                    <File Id="qt_lv" Source="$(var.InstallRoot)\translations\qt_lv.qm" />
+                    <File Id="qt_pl" Source="$(var.InstallRoot)\translations\qt_pl.qm" />
+                    <File Id="qt_ru" Source="$(var.InstallRoot)\translations\qt_ru.qm" />
+                    <File Id="qt_sk" Source="$(var.InstallRoot)\translations\qt_sk.qm" />
+                    <File Id="qt_uk" Source="$(var.InstallRoot)\translations\qt_uk.qm" />                        
                 </Component>
             </Directory>
-          </Directory>
+          <!-- /Directory -->
         </Directory>
       </Directory>
 
@@ -184,11 +226,21 @@
     </Directory>
 
     <Feature Id='Complete' Level='1' Title="JMBde" Description="The complete package." ConfigurableDirectory='INSTALLDIR' AllowAdvertise='no' Absent='disallow'>
+      <!-->
+      <?if $(var.Platform) = x64 ?>
+        <ComponentRef Id="redist_vc140_x64" />
+      <?else ?>
+        <ComponentRef Id="redist_vc140_x86" />
+      <?endif ?>
+      -->
       <ComponentRef Id='MainExecutable' />
       <ComponentRef Id='Translations' />
       <ComponentRef Id='PlatformPlugins' />
+      <ComponentRef Id='IconEnginesPlugins' />
       <ComponentRef Id='ImageFormatPlugins' />
+      <ComponentRef Id='PrintSupportPlugins' />
       <ComponentRef Id='SqlDriversPlugins' />
+      <ComponentRef Id='StylesPlugins' />
       <ComponentRef Id='ProgramMenuDir' />
     </Feature>
 

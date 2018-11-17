@@ -85,7 +85,7 @@ Product {
             return list;
         }
 
-        qbs.install: true;
+        qbs.install: false;
         qbs.installDir: qbs.targetOS.contains("windows") ? "" : "lib"
     }
 
@@ -235,7 +235,7 @@ Product {
 
              return list;
          }
-         qbs.install: true
+         qbs.install: false
          qbs.installDir: "translations"
      }
 
@@ -265,7 +265,7 @@ Product {
                 ]
             }
         }
-        qbs.install: true
+        qbs.install: false
         qbs.installDir: ""
     }
 
@@ -283,7 +283,7 @@ Product {
             "libeay32.dll",
             "ssleay32.dll",
         ]
-        qbs.install: true
+        qbs.install: false
         qbs.installDir: ""
     }
 
@@ -298,11 +298,6 @@ Product {
                 "README.md",
                 "NEWS.md",
             ];
-
-            if (qbs.targetOS.contains("windows"))
-                list.push("dist/win/qt.conf");
-            else if (qbs.targetOS.contains("linux"))
-                list.push("dist/linux/qt.conf");
 
             return list;
         }
