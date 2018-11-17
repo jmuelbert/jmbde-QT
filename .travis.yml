@@ -6,13 +6,13 @@ python: 3.6
 branches:
     only:
     - master
-    - /v\d+\.\d+[a-z]/
+    - coverity_scan
 
 env:
   global:
      # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
     #   via the "travis encrypt" command using the project repo's public key
-    - secure: "p3rN5l2i/w21LhRkGtn50lqhkrFXF9z0PTnip969B6bs5AWznG/zlNSTWckDAZpr5B0xuoysZg9/0on4pAUdludKoYQ7PKS1NFzjSH2yLcTuVy+HY6vkR21o7/rQxOJkH+ftOKnpe8Sv/0tRdGXYHVrAKh4XVTY0MQBrqXu2bQWMmgoi9P2CcvFzIukLqIk5LKDM5zin4sndPfipsT5eXPpQgAqD5XnGKdDqvX7WlSJOMcTVMDem3OIw/sM06u4kIsipQUdXD8yUhMMTflM39lsHcY/JYl+m6Fn6p0OLt1SY/euBvAKDmvMKMA6Wq7iLQprft7PL9dj2iNoerDKazL5hilY1lAgd1RWtTvn/YZXo/SaS1sVYmsUKJUFBRpU2SYCBnvuPiEYZ2WkeBCBzYziVJ2FoJrl4J/hXJnWd7O2MQPErREBXqv7nt55VMYrMj3s1tdJKvF8t6TOkPuR1YMDDlweYNXhCWGNqZressSDZX32evH8Mnt7VCWsgbUUFjK1k6f9ZmG//kssR320oPiF0bW28jJMVfqmAUcsCLIgF1+fsxUgn+ui0LtR6feV3QmUPWTmIvqpMuTvj/gLTQRZ5Bb0cD/zlc8BAgZJHGjWy9ZcXDrzDKBNtoP58JiVTTTRWrhrJFYx1BN0IJElv/pVGnf+VS3lJNHhFV9sDplI="
+    - secure: p3rN5l2i/w21LhRkGtn50lqhkrFXF9z0PTnip969B6bs5AWznG/zlNSTWckDAZpr5B0xuoysZg9/0on4pAUdludKoYQ7PKS1NFzjSH2yLcTuVy+HY6vkR21o7/rQxOJkH+ftOKnpe8Sv/0tRdGXYHVrAKh4XVTY0MQBrqXu2bQWMmgoi9P2CcvFzIukLqIk5LKDM5zin4sndPfipsT5eXPpQgAqD5XnGKdDqvX7WlSJOMcTVMDem3OIw/sM06u4kIsipQUdXD8yUhMMTflM39lsHcY/JYl+m6Fn6p0OLt1SY/euBvAKDmvMKMA6Wq7iLQprft7PL9dj2iNoerDKazL5hilY1lAgd1RWtTvn/YZXo/SaS1sVYmsUKJUFBRpU2SYCBnvuPiEYZ2WkeBCBzYziVJ2FoJrl4J/hXJnWd7O2MQPErREBXqv7nt55VMYrMj3s1tdJKvF8t6TOkPuR1YMDDlweYNXhCWGNqZressSDZX32evH8Mnt7VCWsgbUUFjK1k6f9ZmG//kssR320oPiF0bW28jJMVfqmAUcsCLIgF1+fsxUgn+ui0LtR6feV3QmUPWTmIvqpMuTvj/gLTQRZ5Bb0cD/zlc8BAgZJHGjWy9ZcXDrzDKBNtoP58JiVTTTRWrhrJFYx1BN0IJElv/pVGnf+VS3lJNHhFV9sDplI=
 
   addons:
     coverity_scan:
@@ -51,25 +51,27 @@ matrix:
       - qbs setup-toolchains --detect
       - qbs setup-qt --detect
       - qbs config defaultProfile qt-5-9-5
-      - qbs install --install-root install/usr config:release projects.JMBde.version:$JMBDE_VERSION
-      - cp LICENSE* *md install/
+      - qbs install --install-root jmbde/usr config:release projects.JMBde.version:$JMBDE_VERSION
+      - cp LICENSE* *md jmbde/
     after_success:
       - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" -O linuxdeployqt 
       - chmod a+x linuxdeployqt 
       - unset QTDIR; unset QT_PLUGIN_PATH; unset LD_LIBRARY_PATH 
-      - ./linuxdeployqt ./install/usr/share/applications/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.4m.so.1.0 -verbose=2 
-      - ./linuxdeployqt ./install/usr/local/share/applications/io.github.jmuelbert.jmbde.desktop -exclude-libs=libpython3.4m.so.1.0 -appimage 
-      - find ./install -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq 
+      - ./linuxdeployqt ./jmbde/usr/share/applications/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.4m.so.1.0 -verbose=2 
+      - ./linuxdeployqt ./jmbde/usr/local/share/applications/io.github.jmuelbert.jmbde.desktop -exclude-libs=libpython3.4m.so.1.0 -appimage 
+      - find ./jmbde -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq 
       - mv jmbde-x86_64.AppImage jmbde-$JMBDE_VERSION-x86_64.AppImage
     deploy:
       - provider: releases
         skip_cleanup: true
-        draft: true        
+        draft: true    
+        tag_name: "$TRAVIS_TAG"    
         api_key:
           secure: pNq/95/zTpPX25pAF3ACjoIQAnvxp6xZQYCgKhKkXhuSMCSBMl7ZIrRw0BNuM1JSHe3bRV68pfF3tgTJDWtDjFj/JHAWDOAKWhc1DeEmBXVESoizaY2Hk4yrnxjFfk+XMOFgqO+iMExap4OW+kZWXP3tltjKUYzBROMU33rey6NBiYne+UNVlzC5vgy47mj7ResrS4YBl/s3nifuE9Bigp4yDYHh4/4UgXCLXuFup+PwYRQPfwZKKiac5Bk3nHXxW+8WK3b6anboyHb+eqdZMqtu5xjqOpjwroGPPuUQsRm7c4hT93yx3IIBoIHl29hdhkWJlCOQxdhnbV0Ch9E4gombkwfHGlTFAwD3SQZFkCLdtF+1hbMgp4jta09hLgSobOIHhpGjqw+CxB5epYCM7E3WC6iKSrE7yMiSEqg6V+cf3LV+B2MlSzr1HtwLe6B7542WhFoJiF0mJCCGt//Ztp2m5174s4ZwvsiXqYMgs5x5kyp1HS5NqqllxmL3dDdPlhscKWLr7zbwDG/hhDfUpfpjefmadwf6BramK66En7fe2iol/supO86alL6/WNpCtyFaTLve/DHtWfDt+XquivGZwzCAz+0XyopJc3E7Ebxi8C49dyvdrQRi+ej1s44Cm1l/qCtS90d3WyqSfp8moepbi4pwd08vw/TD5zi8+x4=
         file: j*.AppImage
         file_glob: true
         on:
+          repo: jmuelbert/jmbde-QT
           tags: true   
   - os: linux
     compiler: gcc  

@@ -103,7 +103,7 @@ public:
   explicit LibDataContext(QObject* parent = nullptr);
   */
   explicit LibDataContext(const QString &name = QString(),
-                       QObject *parent = nullptr);
+                          QObject *parent = nullptr);
 
   /**
    * @brief ~LibDataContext

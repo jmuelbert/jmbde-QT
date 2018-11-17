@@ -136,7 +136,6 @@ QtGuiApplication {
         "models/zipcitymodel.h",
         "models/zipcodemodel.cpp",
         "models/zipcodemodel.h",
-        "models/script.sql",
         "views/aboutdialog.cpp",
         "views/aboutdialog.h",
         "views/aboutdialog.ui",

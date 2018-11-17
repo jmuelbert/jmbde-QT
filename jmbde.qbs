@@ -46,7 +46,17 @@ Project {
             }
             return list;
         }
-    }            
+    }
+
+    Product {
+        name: "Script files"
+        files: [
+            "scripts/*.bat",
+            "scripts/*.sh",
+            "scripts/*.py",
+            "scripts/*.rb"
+        ]
+    }
 
     Product {
         name: "Text Documents"

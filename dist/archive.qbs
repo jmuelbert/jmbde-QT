@@ -3,10 +3,10 @@ import qbs
 InstallPackage {
     builtByDefault: false
     condition: {
-        return ((project.snapshot || project.release) && 
-                (qbs.toolchain.contains("mingw") || qbs.toolchain.contains("msvsc")) ||
-                (project.linuxArchive && qbs.targetOS.contains("linux")));
-    }
+         return ((project.snapshot || project.release) &&
+                 (qbs.toolchain.contains("mingw") || qbs.toolchain.contains("msvc")) ||
+                 (project.linuxArchive && qbs.targetOS.contains("linux")));
+     }
 
     archiver.type: {
         if (qbs.targetOS.contains("windows"))

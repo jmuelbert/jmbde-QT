@@ -296,8 +296,8 @@ bool LibDataContext::checkDBVersion() {
 }
 
 bool LibDataContext::check_existence(const QString &tableName,
-                                  const QString &searchId,
-                                  const QString &search) {
+                                     const QString &searchId,
+                                     const QString &search) {
   auto queryStr = QString(QStringLiteral("SELECT %1 FROM %2 WHERE %3 = \"%4\""))
                       .arg(searchId, tableName, searchId, search);
 
@@ -314,7 +314,7 @@ bool LibDataContext::check_existence(const QString &tableName,
 }
 
 bool LibDataContext::insert(const QString &tableName,
-                         const QVariantMap &insertData) {
+                            const QVariantMap &insertData) {
   if (tableName.isEmpty()) {
     qFatal("Fatal error on insert! The table name is empty!");
     return false;
@@ -346,8 +346,8 @@ bool LibDataContext::insert(const QString &tableName,
 }
 
 bool LibDataContext::update(const QString &table, const QString &column,
-                         const QVariant &newValue, const QVariant &op,
-                         const QString &id) {
+                            const QVariant &newValue, const QVariant &op,
+                            const QString &id) {
   auto searchStr = QStringLiteral("\"");
   auto replaceStr = QStringLiteral("\"\"");
   auto newValString = newValue.toString();

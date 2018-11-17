@@ -287,7 +287,7 @@ bool DataContext::insert(const QString &tableName,
   query.prepare(sqlQueryString);
 
   int k = 0;
-  for(const QVariant &value: values)
+  for (const QVariant &value : values)
     query.bindValue(k++, value);
 
   return query.exec();
