@@ -78,6 +78,7 @@ after_build:
   - windeployqt jmbde.exe
   - candle.exe -ext WixUIExtension ../../dist/win/installer.wxs -dInstallRoot=. -dQtDir=%QTDIR% -dRootDir=../../ -dVersion=%JMBDE_VERSION% -dPlatform=MY_PLATFORM
   - light.exe -ext WixUIExtension installer.wixobj
+  - dir
   - move jmbde-*.msi %APPVEYOR_BUILD_FOLDER%
   
 artifacts:

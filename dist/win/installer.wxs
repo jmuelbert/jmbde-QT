@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='windows-1252'?>
 <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
 
-    <?define ProductName = "jmdbe" ?>
+    <?define ProductName = "jmbde" ?>
     <?define Manufacturer = "Jürgen Mülbert" ?>
     <?define UpgradeCode = "B794E12A-3D7B-4AC8-8732-1406DBA1FAA4" ?>
     <?define WebsiteURL = "http://jmuelbert.github.io/jmbde-QT" ?>
