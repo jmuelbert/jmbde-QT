@@ -78,22 +78,6 @@ after_build:
   - windeployqt jmbde.exe
   - candle -ext WixUIExtension ../../dist/win/installer.wxs -dInstallRoot=. -dQtDir=%QTDIR% -dRootDir=../../ -dVersion=$JMBDE_VERSION -dPlatform=MYPLATFORM
   - move jmbde-*.msi %APPVEYOR_BUILD_FOLDER%
-
-<?ifndef InstallRoot ?>
-  <?error InstallRoot must be defined ?>
-  <?endif?>
-  <?ifndef QtDir ?>
-  <?error QtDir must be defined ?>
-  <?endif?>
-  <?ifndef RootDir ?>
-  <?error RootDir must be defined ?>
-  <?endif?>
-  <?ifndef Version ?>
-  <?error Version must be defined ?>
-  <?endif?>
-  <?ifndef Platform ?>
-  <?error Platform must be defined ?>
-  <?endif?>
   
 artifacts:
   - name: Installer
