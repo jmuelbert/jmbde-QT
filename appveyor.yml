@@ -1,5 +1,5 @@
 clone_depth: 200
-version: 1.0-{build}
+version: 1.0.{build}
 
 cache:
   - C:\Users\appveyor\.m2
