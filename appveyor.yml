@@ -1,5 +1,5 @@
 clone_depth: 200
-version: 1.0.{build}
+version: '{branch}-{build}'
 
 cache:
   - C:\Users\appveyor\.m2
@@ -20,6 +20,8 @@ environment:
     QTDIR: C:\Qt\5.10.1\msvc2017_64
     QBS_PROFILE: MSVC2017-x86_x64
     PUSH_RELEASE: true
+  - APP_VEYOR_BUILD_WORKER_IMAGE: Ubuntu
+  
 # FIXME: WinRT builds are disabled due to linker issues
 #  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
 #    QT_PROFILE: winrt_x86_msvc2017
@@ -29,6 +31,19 @@ environment:
 #    QT_PROFILE: winrt_x64_msvc2017
 #    QTDIR: C:\Qt\5.10.1\winrt_x64_msvc2017
 #    QBS_PROFILE: MSVC2017-x86_x64
+
+for:
+########## UBUNTU SPECIFIC CONFIGURATION ##########
+-
+  matrix:
+    only:
+      - image: Ubuntu1804
+
+  clone_folder: /home/appveyor/projects/mixxx
+
+  install:
+    - sudo apt-get update
+    - sudo apt-get -y install gdb libavformat-dev libchromaprint-dev libfaad-dev libfftw3-dev libflac-dev libid3tag0-dev libmad0-dev libmodplug-dev libmp3lame-dev libmp4v2-dev libopusfile-dev libportmidi-dev libprotobuf-dev libqt5opengl5-dev libqt5sql5-sqlite libqt5svg5-dev librubberband-dev libshout3-dev libsndfile1-dev libsqlite3-dev libtag1-dev libupower-glib-dev libusb-1.0-0-dev libwavpack-dev portaudio19-dev protobuf-compiler qt5-default qtscript5-dev scons vamp-plugin-sdk qtkeychain-dev liblilv-dev
 
 configuration: release
 
@@ -43,7 +58,9 @@ before_build:
   - if defined JMBDE_RELEASE set JMBDE_VERSION=%APPVEYOR_REPO_TAG_NAME:~1%
   - if defined JMBDE_RELEASE echo Building JMBDE %JMBDE_VERSION%... (from %COMMITNOW%)
   - if defined JMBDE_SNAPSHOT set JMBDE_VERSION=%APPVEYOR_BUILD_VERSION%
-  - if defined JMBDE_SNAPSHOT echo Building JMBDE snapshot %JMBDE_VERSION%... (from %COMMITNOW%)  
+  - if defined JMBDE_SNAPSHOT echo Building JMBDE snapshot %JMBDE_VERSION%... (from %COMMITNOW%) 
+  - if %QBS_PROFILE% =  'MSVC2015-x86' set MYPLATFORM = x86
+  - if %QBS_PROFILE% = 'MSVC2017-x86_x64' set MYPLATFORM = x64
   - qbs --version
   - qbs setup-toolchains --detect
   - qbs setup-qt %QTDIR%\bin\qmake.exe appveyor-qt5
@@ -54,14 +71,29 @@ build_script:
   - qbs build config:release 
   - windeployqt release/install-root/jmbde.exe
   - qbs build --all-products config:release projects.JMBde.windowsInstaller:true
-  - windeployqt release\install-root\jmbde.exe
-  - qbs build --all-products config:release projects.JMBde.windowsInstaller:true
 
 after_build:
   - cd release
-  - cd installer*
+  - cd install-root
+  - windeployqt jmbde.exe
+  - candle -ext WixUIExtension ../../dist/win/installer.wxs -dInstallRoot=. -dQtDir=%QTDIR% -dRootDir=../../ -dVersion=$JMBDE_VERSION -dPlatform=MYPLATFORM
   - move jmbde-*.msi %APPVEYOR_BUILD_FOLDER%
 
+<?ifndef InstallRoot ?>
+  <?error InstallRoot must be defined ?>
+  <?endif?>
+  <?ifndef QtDir ?>
+  <?error QtDir must be defined ?>
+  <?endif?>
+  <?ifndef RootDir ?>
+  <?error RootDir must be defined ?>
+  <?endif?>
+  <?ifndef Version ?>
+  <?error Version must be defined ?>
+  <?endif?>
+  <?ifndef Platform ?>
+  <?error Platform must be defined ?>
+  <?endif?>
   
 artifacts:
   - name: Installer
