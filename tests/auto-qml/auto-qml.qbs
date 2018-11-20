@@ -23,7 +23,7 @@ Product {
         name: 'C++ source files'
         prefix: './'
         files: [
-            "main.cpp",
+            "tst_test.cpp",
         ]
     }
 

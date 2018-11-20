@@ -1,3 +1,3 @@
 #include <QtQuickTest/quicktest.h>
 
-QUICK_TEST_MAIN()
+QUICK_TEST_MAIN(test_test)
