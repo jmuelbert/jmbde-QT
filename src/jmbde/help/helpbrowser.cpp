@@ -97,11 +97,3 @@ QVariant HelpBrowser::loadResource(int type, const QUrl &name) {
 
   return ba;
 }
-
-QWidget *HelpBrowser::getContentWidget() {
-  return (QWidget *)m_helpEngine->contentWidget();
-}
-
-QWidget *HelpBrowser::getLinkWidget() {
-  return (QWidget *)m_helpEngine->indexWidget();
-}

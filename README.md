@@ -15,8 +15,9 @@ which means it works with the most operating systems.
 
 The standalone binary packages support the following platforms:
 
-* Windows 7 or later
 * macOS 10.10 or later
+* Windows 7 or later
+* Linux
 
 ## Sources
 
@@ -42,23 +43,23 @@ The master branch represents the latest pre-release code.
 ### On macOS 
     The latest Xcode.
 
-    `brew install qt5`
-    `brew link qt5 --force`
-    `brew install qbs`
-    `qbs setup-toolchains --detect`
-    `qbs setup-qt /usr/local/opt/qt/bin/qmake qt-brew`
-    `qbs config profiles.qt-brew.baseProfile xcode-macosx-x86_64`
-    `qbs config defaultProfile qt-brew``
+    brew install qt5
+    brew link qt5 --force
+    brew install qbs
+    qbs setup-toolchains --detect
+    qbs setup-qt /usr/local/opt/qt/bin/qmake qt-brew
+    qbs config profiles.qt-brew.baseProfile xcode-macosx-x86_64
+    qbs config defaultProfile qt-brew
 
 Run `qbs` to build jmbde:
 
     For the release version:
 
-        `qbs -d build --all-products config:release`
+        qbs -d build --all-products config:release
 
     For the debug version:
 
-        `qbs -d build --all-products config:debug`
+        qbs -d build --all-products config:debug
   
 * Alternatively, you can [download Qt here](https://www.qt.io/download-qt-installer)
 

@@ -53,26 +53,46 @@
 #include <QLoggingCategory>
 #include <QTextBrowser>
 
-class QHelpEngine;
+class QHelpEngineCore;
 
+//! The jmbde Help System
 /*!
-
+  The first implenmentation of the help-system
 */
 class HelpBrowser : public QTextBrowser {
   Q_OBJECT
 
 public:
-  explicit HelpBrowser(QWidget *parent = 0);
-  void showHelpForKeyWord(const QString &id);
-  QWidget *getContentWidget();
-  QWidget *getLinkWidget();
+    //! The HelpBrowser Constructor.
+    /*!
+     * \brief HelpBrowser
+     * \param parent
+     */
+    explicit HelpBrowser(QWidget *parent = nullptr);
+
+    //! The ContextHelp Fuction
+    /*!
+     * \brief showHelpForKeyWord
+     * \param id
+     */
+    void showHelpForKeyWord(const QString &id);
+
 
 signals:
 
 public slots:
 
 private:
+    /*!
+   * \brief loadResource
+   * \param type
+   * \param name
+   * \return
+   */
   QVariant loadResource(int type, const QUrl &name);
+  /*!
+   * \brief m_helpEngine
+   */
   QHelpEngine *m_helpEngine;
 };
 

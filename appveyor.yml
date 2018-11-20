@@ -75,7 +75,7 @@ artifacts:
 
 deploy:
   - provider: GitHub
-    release: JMBde $(JMBDE_VERSION)
+    release: $(APPVEYOR_REPO_TAG_NAME)
     auth_token:
       secure:  NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
     artifact: /.*\.msi/

@@ -90,7 +90,7 @@ QSqlTableModel *AccountDataModel::initializeViewModel() {
 }
 
 QString AccountDataModel::generateTableString(QAbstractTableModel *model,
-                                              QString header) {
+                                              const QString &header) {
   QString outString;
   int columnCount = model->columnCount();
   int rowCount = model->rowCount();
@@ -120,15 +120,13 @@ QString AccountDataModel::generateTableString(QAbstractTableModel *model,
 }
 
 QString AccountDataModel::generateFormularString(QAbstractTableModel *model,
-                                                 QString header) {
+                                                 const QString &header) {
   QString outString;
   int columnCount = model->columnCount();
   int rowCount = model->rowCount();
 
   qDebug() << "Header : " << header << " Columns : " << columnCount
            << " Rows : " << rowCount;
-
-  QList<int> set;
 
   // Document Title
   outString = QLatin1String("<h1>");

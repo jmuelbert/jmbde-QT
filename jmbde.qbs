@@ -31,7 +31,8 @@ Project {
         "src/plugins",
         "src/3rd-party/qtsingleapplication",
         "src/jmbde/jmbde.qbs",
-        "translations"
+        "translations",
+        "tests/tests.qbs",
     ]
 
 
@@ -72,5 +73,4 @@ Project {
         ]
     }
 
-    AutotestRunner {}
 }

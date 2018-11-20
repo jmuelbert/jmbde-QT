@@ -96,95 +96,118 @@ class AccountDataModel : public CommonDataModel {
   Q_OBJECT
 
 public:
-  /**
+    //! Constructor AccountDataModel
+    /*!
    * \brief AccountDataModel
-   * \details The Datamodel for the Accounts from the Employees
    * \param parent
    */
   explicit AccountDataModel(QObject *parent = nullptr);
 
-  /**
-   * \brief ~AccountDataModel
-   */
+   //! Destructor AccountDataModel
   ~AccountDataModel() override;
 
   // implement the virtuals
 
-  /**
+    //! setIndexes
+    /*!
    * \brief setIndexes
    */
   void setIndexes();
 
-  /**
+  //! initializeRelationalModel
+  /*!
    * \brief initializeRelationalModel
    * \return
    */
   QSqlRelationalTableModel *initializeRelationalModel();
 
-  /**
+  //! initializeInputDataModel
+  /*!
    * \brief initializeInputDataModel
    * \return
    */
   QSqlRelationalTableModel *initializeInputDataModel();
 
-  /**
+  //! initializeViewModel
+  /*!
    * \brief initializeViewModel
    * \return
    */
   QSqlTableModel *initializeViewModel();
 
-  /**
+  //! generateTableString
+  /*!
    * \brief generateTableString
    * \param model
    * \param header
    * \return
    */
-  QString generateTableString(QAbstractTableModel *model, QString header);
+  QString generateTableString(QAbstractTableModel *model, const QString &header);
 
-  /**
+  //! generateFormularString
+  /*!
    * \brief generateFormularString
    * \param model
    * \param header
    * \return
    */
-  QString generateFormularString(QAbstractTableModel *model, QString header);
+  QString generateFormularString(QAbstractTableModel *model, const QString &header);
 
   // Getter
-  /**
+  //! AccountIdIndex
+  /*!
    * \brief AccountIdIndex
    * \return
    */
   int AccountIdIndex() const { return m_AccountIdIndex; }
 
-  /**
+  //! UserNameIndex
+  /*!
    * \brief UserNameIndex
    * \return
    */
   int UserNameIndex() const { return m_UserNameIndex; }
 
-  /**
+  //! PasswordIndex
+  /*!
    * \brief PasswordIndex
    * \return
    */
   int PasswordIndex() const { return m_PasswordIndex; }
 
-  /**
+  //! SystemDataIndex
+  /*!
    * \brief SystemDataIndex
    * \return
    */
   int SystemDataIndex() const { return m_SystemDataIdIndex; }
 
+  //! LastUpdateIndex
+  /*!
+   * \brief LastUpdateIndex
+   * \return
+   */
   int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-  /**
-   * tableName - the name of the database table
+  /*!
+   * \brief m_tableName
    */
   const QString m_tableName = QLatin1String("account");
+
+  //! The value of the AccountIdIndex
   int m_AccountIdIndex{};
+
+  //! The value of the UserNameIndex
   int m_UserNameIndex{};
+
+  //! The value of the PasswordIndex
   int m_PasswordIndex{};
+
+  //! The value of the SystemDataIdIndex
   int m_SystemDataIdIndex{};
+
+  //! The value of the LastUpdateIndex
   int m_LastUpdateIndex{};
 };
 
