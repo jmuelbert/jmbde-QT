@@ -107,7 +107,7 @@ MainWindow::MainWindow(QWidget *parent)
   ui->treeView->expandAll();
 
   this->dataBaseName = QString(QStringLiteral("jmbde"));
-  this->dataBase = new LibDataContext(this->dataBaseName);
+  this->dataBase = new DataContext(this->dataBaseName);
 
   qDebug() << "ActualViewRow : " << m_actualView;
 
@@ -144,7 +144,7 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow() {
-  dataBase->~LibDataContext();
+  dataBase->~DataContext();
   delete ui;
 }
 

@@ -1,6 +1,6 @@
 #include <QtTest/QtTest>
 
-class jmbdeFirstTest : public QObject {
+class tst_test : public QObject {
   Q_OBJECT
 
 private slots:

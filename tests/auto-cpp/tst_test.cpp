@@ -1,6 +1,6 @@
-#include "jmbdefirsttest.h"
+#include "tst_test.h"
 
-void jmbdeFirstTest::toUpper_data() {
+void tst_test::toUpper_data() {
   QTest::addColumn<QString>("string");
   QTest::addColumn<QString>("result");
 
@@ -12,11 +12,11 @@ void jmbdeFirstTest::toUpper_data() {
                              << "HELLO";
 }
 
-void jmbdeFirstTest::toUpper() {
+void tst_test::toUpper() {
   QFETCH(QString, string);
   QFETCH(QString, result);
 
   QCOMPARE(string.toUpper(), result);
 }
 
-QTEST_MAIN(jmbdeFirstTest)
+QTEST_MAIN(tst_test)

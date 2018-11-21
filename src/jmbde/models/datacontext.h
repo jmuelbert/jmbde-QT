@@ -134,7 +134,7 @@ public:
   bool execQuery(const QString &queryText);
 
   /* basic public actions */
-  void prepareDB() const;
+  void prepareDB() ;
   bool check_existence(const QString &tableNmae, const QString &searchId,
                        const QString &serach);
 
@@ -143,8 +143,6 @@ public:
   bool openDB(const QString &name);
   void renameDB(const QString &oldName, const QString &newName);
   void deleteDB(const QString &name);
-
-  static QSqlDatabase db;
 
 private:
   QString name;

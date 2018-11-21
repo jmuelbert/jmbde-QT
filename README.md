@@ -55,7 +55,7 @@ Run `qbs` to build jmbde:
 
     For the release version:
 
-        qbs -d build --all-products config:release
+        qbs install --install-root install config:release project.JMBde.version:$JMBDE_VERSION
 
     For the debug version:
 
@@ -64,9 +64,10 @@ Run `qbs` to build jmbde:
 * Alternatively, you can [download Qt here](https://www.qt.io/download-qt-installer)
 
 ### On Windows
-
-    + MinGW with g++ 4.9 or Visual Studio 2017 or later
-    + jom
+    + You many tools install with choco
+    + choco install qbs
+    + Visual Studio 2017 or later
+    + qbs
 
 ### On Linux
 

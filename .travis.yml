@@ -125,7 +125,7 @@ matrix:
       - qbs config profiles.qt.baseProfile xcode-macosx-x86_64
       - qbs config defaultProfile qt
       - qbs install --install-root install config:release project.JMBde.version:$JMBDE_VERSION
-      - $HOME/Qt/5.11.2/clang_64/bin/macdeployqt -appstore-compliant install/jmbde.app
+      - $HOME/Qt/5.11.2/clang_64/bin/macdeployqt install/jmbde.app -appstore-compliant 
       - pushd install
       - ruby ../dist/mac/fixup-install-names.rb
       - popd

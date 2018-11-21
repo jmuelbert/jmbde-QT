@@ -41,7 +41,7 @@
 **************************************************************************/
 
 /**
- * \page Computer Computer
+ * \page Data Computer
  *
  * The Computer Table
  * -----------------

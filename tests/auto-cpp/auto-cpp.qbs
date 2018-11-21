@@ -23,8 +23,8 @@ Product {
 		name: "C++ source files"
 		prefix: './'
 		files: [
-			"jmbdefirsttest.cpp",
-			"jmbdefirsttest.h",
+			"tst_test.cpp",
+			"tst_test.h",
 		]
 	}
 }
