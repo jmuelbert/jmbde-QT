@@ -6,10 +6,10 @@ rm -rf $BUILDROOT
 
 pushd $(git rev-parse --show-toplevel)
 VERSION=$(git describe | sed 's/^v//' | sed 's/-[^-]*$//' | sed 's/-/\./')
-git archive HEAD --prefix=tiled-$VERSION/ -o ${BUILDROOT}/SOURCES/jmbde-$VERSION.tar.gz || exit 1
+git archive HEAD --prefix=jmbde-$VERSION/ -o ${BUILDROOT}/SOURCES/jmbde-$VERSION.tar.gz || exit 1
 popd
 
-cat tiled.spec | sed "s/^Version:\(.*\)/Version: $VERSION/" > ${BUILDROOT}/SPECS/jmbde_tmp.spec
+cat jmbde.spec | sed "s/^Version:\(.*\)/Version: $VERSION/" > ${BUILDROOT}/SPECS/jmbde_tmp.spec
 rpmbuild --define "_topdir ${BUILDROOT}/" -bs ${BUILDROOT}/SPECS/jmbde_tmp.spec || exit 1
 
 pushd ${BUILDROOT}

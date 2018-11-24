@@ -106,8 +106,8 @@ MainWindow::MainWindow(QWidget *parent)
   ui->treeView->setModel(m_treeviewModel);
   ui->treeView->expandAll();
 
-  this->dataBaseName = QString(QStringLiteral("jmbde"));
-  this->dataBase = new DataContext(this->dataBaseName);
+  this->dataContextName = QString(QStringLiteral("jmbde"));
+  this->dataContext = new DataContext(this->dataContextName);
 
   qDebug() << "ActualViewRow : " << m_actualView;
 
@@ -117,7 +117,7 @@ MainWindow::MainWindow(QWidget *parent)
   } else {
     qDebug() << "Select Employee";
     actualView = VIEW_EMPLOYEE;
-    dataBase->openDB(dataBaseName);
+    dataContext->openDB(dataContextName);
     auto *edm = new EmployeeDataModel;
     tableModel = edm->initializeRelationalModel();
     int idx = edm->LastNameIndex();
@@ -127,7 +127,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     QModelIndex qmi = QModelIndex();
     auto *eia = new EmployeeInputArea(ui->scrollArea, qmi);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
     QSize AdjustSize = eia->size();
     AdjustSize.width();
     eia->setMinimumSize(AdjustSize);
@@ -144,7 +144,7 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow() {
-  dataBase->~DataContext();
+  dataContext->~DataContext();
   delete ui;
 }
 
@@ -201,14 +201,14 @@ void MainWindow::writeSettings() {
                     m_actualData);
   settings.endGroup();
 
-  // Database settings
-  settings.beginGroup(QLatin1String(Settings::Groups::DATABASE));
-  settings.setValue(QLatin1String(Settings::Database::TYPE), dbType);
-  settings.setValue(QLatin1String(Settings::Database::CONNECTION),
+  // dataContext settings
+  settings.beginGroup(QLatin1String(Settings::Groups::dataContext));
+  settings.setValue(QLatin1String(Settings::dataContext::TYPE), dbType);
+  settings.setValue(QLatin1String(Settings::dataContext::CONNECTION),
                     dbConnection);
-  settings.setValue(QLatin1String(Settings::Database::HOSTNAME), dbHostname);
-  settings.setValue(QLatin1String(Settings::Database::USERNAME), dbUsername);
-  settings.setValue(QLatin1String(Settings::Database::PASSWORD), dbPassword);
+  settings.setValue(QLatin1String(Settings::dataContext::HOSTNAME), dbHostname);
+  settings.setValue(QLatin1String(Settings::dataContext::USERNAME), dbUsername);
+  settings.setValue(QLatin1String(Settings::dataContext::PASSWORD), dbPassword);
   settings.endGroup();
 }
 
@@ -232,27 +232,27 @@ void MainWindow::readSettings() {
 
   settings.endGroup();
 
-  // Database settings
+  // dataContext settings
 
-  QString dataBaseDir =
+  QString dataContextDir =
       QStandardPaths::writableLocation(QStandardPaths::DataLocation);
 
-  settings.beginGroup(QLatin1String(Settings::Groups::DATABASE));
+  settings.beginGroup(QLatin1String(Settings::Groups::dataContext));
   dbType =
-      settings.value(QLatin1String(Settings::Database::TYPE), SQLITE).toInt();
+      settings.value(QLatin1String(Settings::dataContext::TYPE), SQLITE).toInt();
   dbConnection =
-      settings.value(QLatin1String(Settings::Database::CONNECTION), dataBaseDir)
+      settings.value(QLatin1String(Settings::dataContext::CONNECTION), dataContextDir)
           .toString();
   dbHostname = settings
-                   .value(QLatin1String(Settings::Database::HOSTNAME),
+                   .value(QLatin1String(Settings::dataContext::HOSTNAME),
                           QLatin1String("localhost"))
                    .toString();
   dbUsername = settings
-                   .value(QLatin1String(Settings::Database::USERNAME),
+                   .value(QLatin1String(Settings::dataContext::USERNAME),
                           QLatin1String("jmbde"))
                    .toString();
   dbPassword = settings
-                   .value(QLatin1String(Settings::Database::PASSWORD),
+                   .value(QLatin1String(Settings::dataContext::PASSWORD),
                           QLatin1String("jmbde"))
                    .toString();
 }
@@ -260,16 +260,16 @@ void MainWindow::readSettings() {
 void MainWindow::on_actionNew_triggered() {
   int ret = QMessageBox::warning(
       this, qApp->applicationDisplayName(),
-      tr("This action create a new database. if you have an database\n"
+      tr("This action create a new dataContext. if you have an dataContext\n"
          "with data you lost this.\n"
-         "Proceed for create a new database ?"),
+         "Proceed for create a new dataContext ?"),
       QMessageBox::Cancel | QMessageBox::Yes);
 
   if (ret == QMessageBox::Yes) {
     // TODO: Implement Create a new DB
-    // dataBase->initDb();
+    // dataContext->initDb();
     QMessageBox::information(this, qApp->applicationDisplayName(),
-                             tr("The new database is created"));
+                             tr("The new dataContext is created"));
   }
 }
 
@@ -292,50 +292,50 @@ void MainWindow::on_actionPrint_triggered() {
   switch (actualView) {
   case VIEW_EMPLOYEE: {
     qDebug() << "Print Employee !";
-    dataBase->openDB(dataBaseName);
-    tableModel->database().commit();
+    dataContext->openDB(dataContextName);
+    tableModel->dataContext().commit();
     auto *edm = new EmployeeDataModel;
     QString style = edm->setOutTableStyle();
     QString text = edm->generateTableString(tableModel, tr("Employee"));
 
     doc.setHtml(style + text);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } break;
 
   case VIEW_COMPUTER: {
     qDebug() << "Print Computer !";
-    dataBase->openDB(dataBaseName);
-    tableModel->database().commit();
+    dataContext->openDB(dataContextName);
+    tableModel->dataContext().commit();
     auto *cdm = new ComputerDataModel;
     QString style = cdm->setOutTableStyle();
     QString text = cdm->generateTableString(tableModel, tr("Computer"));
 
     doc.setHtml(style + text);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } break;
 
   case VIEW_PRINTER: {
     qDebug() << "Print Printer !";
-    dataBase->openDB(dataBaseName);
-    tableModel->database().commit();
+    dataContext->openDB(dataContextName);
+    tableModel->dataContext().commit();
     auto *pdm = new PrinterDataModel;
     QString style = pdm->setOutTableStyle();
     QString text = pdm->generateTableString(tableModel, tr("Printer"));
 
     doc.setHtml(style + text);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } break;
 
   case VIEW_PHONE: {
     qDebug() << "Print Printer !";
-    dataBase->openDB(dataBaseName);
-    tableModel->database().commit();
+    dataContext->openDB(dataContextName);
+    tableModel->dataContext().commit();
     auto *pdm = new PhoneDataModel;
     QString style = pdm->setOutTableStyle();
     QString text = pdm->generateTableString(tableModel, tr("Phone"));
 
     doc.setHtml(style + text);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } break;
 
   default:
@@ -362,56 +362,56 @@ void MainWindow::on_action_Export_Pdf_triggered() {
   case VIEW_EMPLOYEE: {
     qDebug() << "Print Employee !";
 
-    dataBase->openDB(dataBaseName);
-    tableModel->database().commit();
+    dataContext->openDB(dataContextName);
+    tableModel->dataContext().commit();
 
     auto *edm = new EmployeeDataModel;
     QString style = edm->setOutTableStyle();
     QString text = edm->generateTableString(tableModel, tr("Employee"));
 
     doc.setHtml(style + text);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } break;
 
   case VIEW_COMPUTER: {
     qDebug() << "Print Computer !";
 
-    dataBase->openDB(dataBaseName);
-    tableModel->database().commit();
+    dataContext->openDB(dataContextName);
+    tableModel->dataContext().commit();
 
     auto *cdm = new ComputerDataModel;
     QString style = cdm->setOutTableStyle();
     QString text = cdm->generateTableString(tableModel, tr("Computer"));
 
     doc.setHtml(style + text);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } break;
 
   case VIEW_PRINTER: {
     qDebug() << "Print Printer !";
-    dataBase->openDB(dataBaseName);
-    tableModel->database().commit();
+    dataContext->openDB(dataContextName);
+    tableModel->dataContext().commit();
 
     auto *pdm = new PrinterDataModel;
     QString style = pdm->setOutTableStyle();
     QString text = pdm->generateTableString(tableModel, tr("Printer"));
 
     doc.setHtml(style + text);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } break;
 
   case VIEW_PHONE: {
     qDebug() << "Print Printer !";
 
-    dataBase->openDB(dataBaseName);
-    tableModel->database().commit();
+    dataContext->openDB(dataContextName);
+    tableModel->dataContext().commit();
 
     auto *pdm = new PhoneDataModel;
     QString style = pdm->setOutTableStyle();
     QString text = pdm->generateTableString(tableModel, tr("Phone"));
 
     doc.setHtml(style + text);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } break;
 
   default:
@@ -447,57 +447,57 @@ void MainWindow::on_actionPrint_Preview_triggered() {
   case VIEW_EMPLOYEE: {
     qDebug() << "Print Employee !";
 
-    dataBase->openDB(dataBaseName);
-    tableModel->database().commit();
+    dataContext->openDB(dataContextName);
+    tableModel->dataContext().commit();
 
     auto *edm = new EmployeeDataModel;
     QString style = edm->setOutTableStyle();
     QString text = edm->generateTableString(tableModel, tr("Employee"));
 
     doc.setHtml(style + text);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } break;
 
   case VIEW_COMPUTER: {
     qDebug() << "Print Computer !";
 
-    dataBase->openDB(dataBaseName);
-    tableModel->database().commit();
+    dataContext->openDB(dataContextName);
+    tableModel->dataContext().commit();
 
     auto *cdm = new ComputerDataModel;
     QString style = cdm->setOutTableStyle();
     QString text = cdm->generateTableString(tableModel, tr("Computer"));
 
     doc.setHtml(style + text);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } break;
 
   case VIEW_PRINTER: {
     qDebug() << "Print Printer !";
 
-    dataBase->openDB(dataBaseName);
-    tableModel->database().commit();
+    dataContext->openDB(dataContextName);
+    tableModel->dataContext().commit();
 
     auto *pdm = new PrinterDataModel;
     QString style = pdm->setOutTableStyle();
     QString text = pdm->generateTableString(tableModel, tr("Printer"));
 
     doc.setHtml(style + text);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } break;
 
   case VIEW_PHONE: {
     qDebug() << "Print Printer !";
 
-    dataBase->openDB(dataBaseName);
-    tableModel->database().commit();
+    dataContext->openDB(dataContextName);
+    tableModel->dataContext().commit();
 
     auto *pdm = new PhoneDataModel;
     QString style = pdm->setOutTableStyle();
     QString text = pdm->generateTableString(tableModel, tr("Phone"));
 
     doc.setHtml(style + text);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } break;
 
   default:
@@ -574,7 +574,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index) {
     qDebug() << "Select Employee";
     actualView = VIEW_EMPLOYEE;
 
-    dataBase->openDB(dataBaseName);
+    dataContext->openDB(dataContextName);
     auto *edm = new EmployeeDataModel;
 
     tableModel = edm->initializeRelationalModel();
@@ -590,13 +590,13 @@ void MainWindow::onClickedTreeView(const QModelIndex &index) {
     eia->setMinimumSize(AdjustSize);
     ui->scrollArea->setWidgetResizable(true);
     ui->scrollArea->setWidget(eia);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } else if (selected == tr("Function")) {
     qDebug() << "Select Function";
 
     actualView = VIEW_FUNCTION;
 
-    dataBase->openDB(dataBaseName);
+    dataContext->openDB(dataContextName);
     auto *fdm = new FunctionDataModel;
 
     tableModel = fdm->initializeRelationalModel();
@@ -607,13 +607,13 @@ void MainWindow::onClickedTreeView(const QModelIndex &index) {
     QModelIndex qmi = QModelIndex();
     auto *fia = new FunctionInputArea(ui->scrollArea, qmi);
     ui->scrollArea->setWidget(fia);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } else if (selected == tr("Department")) {
     qDebug() << "Select Department";
 
     actualView = VIEW_DEPARTMENT;
 
-    dataBase->openDB(dataBaseName);
+    dataContext->openDB(dataContextName);
     auto *dpm = new DepartmentDataModel;
 
     tableModel = dpm->initializeRelationalModel();
@@ -624,13 +624,13 @@ void MainWindow::onClickedTreeView(const QModelIndex &index) {
     QModelIndex qmi = QModelIndex();
     auto *dia = new DepartmentInputArea(ui->scrollArea, qmi);
     ui->scrollArea->setWidget(dia);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } else if (selected == tr("Title")) {
     qDebug() << "Select Title";
 
     actualView = VIEW_TITLE;
 
-    dataBase->openDB(dataBaseName);
+    dataContext->openDB(dataContextName);
     auto *tdm = new TitleDataModel;
 
     tableModel = tdm->initializeRelationalModel();
@@ -642,14 +642,14 @@ void MainWindow::onClickedTreeView(const QModelIndex &index) {
     QModelIndex qmi = QModelIndex();
     auto *tia = new TitleInputArea(ui->scrollArea, qmi);
     ui->scrollArea->setWidget(tia);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
     // Tree -> Device
   } else if (selected == tr("Computer")) {
     qDebug() << "Select Computer";
 
     actualView = VIEW_COMPUTER;
 
-    dataBase->openDB(dataBaseName);
+    dataContext->openDB(dataContextName);
     auto *cdm = new ComputerDataModel;
 
     tableModel = cdm->initializeRelationalModel();
@@ -661,13 +661,13 @@ void MainWindow::onClickedTreeView(const QModelIndex &index) {
     QModelIndex qmi = QModelIndex();
     auto *cia = new ComputerInputArea(ui->scrollArea, qmi);
     ui->scrollArea->setWidget(cia);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } else if (selected == tr("Processor")) {
     qDebug() << "Select Processor";
 
     actualView = VIEW_PROCESSOR;
 
-    dataBase->openDB(dataBaseName);
+    dataContext->openDB(dataContextName);
     auto *pdm = new ProcessorDataModel;
 
     tableModel = pdm->initializeRelationalModel();
@@ -679,13 +679,13 @@ void MainWindow::onClickedTreeView(const QModelIndex &index) {
     QModelIndex qmi = QModelIndex();
     auto *pia = new ProcessorInputArea(ui->scrollArea, qmi);
     ui->scrollArea->setWidget(pia);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } else if (selected == tr("Operation System")) {
     qDebug() << "Select Operation System";
 
     actualView = VIEW_OS;
 
-    dataBase->openDB(dataBaseName);
+    dataContext->openDB(dataContextName);
     auto *odm = new OSDataModel;
 
     tableModel = odm->initializeRelationalModel();
@@ -697,13 +697,13 @@ void MainWindow::onClickedTreeView(const QModelIndex &index) {
     QModelIndex qmi = QModelIndex();
     auto *oia = new OSInputArea(ui->scrollArea, qmi);
     ui->scrollArea->setWidget(oia);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } else if (selected == tr("Software")) {
     qDebug() << "Select Software";
 
     actualView = VIEW_SOFTWARE;
 
-    dataBase->openDB(dataBaseName);
+    dataContext->openDB(dataContextName);
     auto *sdm = new SoftwareDataModel;
 
     tableModel = sdm->initializeRelationalModel();
@@ -715,13 +715,13 @@ void MainWindow::onClickedTreeView(const QModelIndex &index) {
     QModelIndex qmi = QModelIndex();
     auto *sia = new SoftwareInputArea(ui->scrollArea, qmi);
     ui->scrollArea->setWidget(sia);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } else if (selected == tr("Printer")) {
     qDebug() << "Select Printer";
 
     actualView = VIEW_PRINTER;
 
-    dataBase->openDB(dataBaseName);
+    dataContext->openDB(dataContextName);
     auto *pdm = new PrinterDataModel;
 
     tableModel = pdm->initializeRelationalModel();
@@ -733,14 +733,14 @@ void MainWindow::onClickedTreeView(const QModelIndex &index) {
     QModelIndex qmi = QModelIndex();
     auto *pia = new PrinterInputArea(ui->scrollArea, qmi);
     ui->scrollArea->setWidget(pia);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
     // Tree -> Communication
   } else if (selected == tr("Phone")) {
     qDebug() << "Select Phone";
 
     actualView = VIEW_PHONE;
 
-    dataBase->openDB(dataBaseName);
+    dataContext->openDB(dataContextName);
     auto *phdm = new PhoneDataModel;
 
     tableModel = phdm->initializeRelationalModel();
@@ -752,13 +752,13 @@ void MainWindow::onClickedTreeView(const QModelIndex &index) {
     QModelIndex qmi = QModelIndex();
     auto *pia = new PhoneInputArea(ui->scrollArea, qmi);
     ui->scrollArea->setWidget(pia);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } else if (selected == tr("Mobile")) {
     qDebug() << "Select Mobile";
 
     actualView = VIEW_MOBILE;
 
-    dataBase->openDB(dataBaseName);
+    dataContext->openDB(dataContextName);
     auto *phdm = new MobileDataModel;
 
     tableModel = phdm->initializeRelationalModel();
@@ -770,14 +770,14 @@ void MainWindow::onClickedTreeView(const QModelIndex &index) {
     QModelIndex qmi = QModelIndex();
     auto *mia = new MobileInputArea(ui->scrollArea, qmi);
     ui->scrollArea->setWidget(mia);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
     // Tree -> Misc
   } else if (selected == tr("Manufacturer")) {
     qDebug() << "Select Manufacturer";
 
     actualView = VIEW_MANUFACTURER;
 
-    dataBase->openDB(dataBaseName);
+    dataContext->openDB(dataContextName);
     auto *mdm = new ManufacturerDataModel;
 
     tableModel = mdm->initializeRelationalModel();
@@ -789,13 +789,13 @@ void MainWindow::onClickedTreeView(const QModelIndex &index) {
     QModelIndex qmi = QModelIndex();
     auto *mia = new ManufacturerInputArea(ui->scrollArea, qmi);
     ui->scrollArea->setWidget(mia);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } else if (selected == tr("City")) {
     qDebug() << "Select Zip City";
 
     actualView = VIEW_CITY;
 
-    dataBase->openDB(dataBaseName);
+    dataContext->openDB(dataContextName);
     auto *cnm = new CityNameDataModel;
 
     tableModel = cnm->initializeRelationalModel();
@@ -807,13 +807,13 @@ void MainWindow::onClickedTreeView(const QModelIndex &index) {
     QModelIndex qmi = QModelIndex();
     auto *cia = new CityInputArea(ui->scrollArea, qmi);
     ui->scrollArea->setWidget(cia);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } else if (selected == tr("Chipcard")) {
     qDebug() << "Select Chipcard";
 
     actualView = VIEW_CHIPCARD;
 
-    dataBase->openDB(dataBaseName);
+    dataContext->openDB(dataContextName);
     auto *ccdm = new ChipCardDataModel;
 
     tableModel = ccdm->initializeRelationalModel();
@@ -825,7 +825,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index) {
     QModelIndex qmi = QModelIndex();
     auto *cia = new ChipCardInputArea(ui->scrollArea, qmi);
     ui->scrollArea->setWidget(cia);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } else {
     Not_Available_Message();
   }
@@ -840,7 +840,7 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index) {
   case VIEW_EMPLOYEE: {
     qDebug() << "Employee Table Row (" << index.row() << ") clicked";
 
-    dataBase->openDB(dataBaseName);
+    dataContext->openDB(dataContextName);
     auto *eia = new EmployeeInputArea(nullptr, index);
 
     QSize AdjustSize = eia->size();
@@ -848,12 +848,12 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index) {
     eia->setMinimumSize(AdjustSize);
     ui->scrollArea->setWidgetResizable(true);
     ui->scrollArea->setWidget(eia);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } break;
 
   case VIEW_FUNCTION: {
 
-    dataBase->openDB(dataBaseName);
+    dataContext->openDB(dataContextName);
     auto *fia = new FunctionInputArea(nullptr, index);
 
     QSize AdjustSize = fia->size();
@@ -861,12 +861,12 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index) {
     fia->setMinimumSize(AdjustSize);
     ui->scrollArea->setWidgetResizable(true);
     ui->scrollArea->setWidget(fia);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } break;
 
   case VIEW_DEPARTMENT: {
 
-    dataBase->openDB(dataBaseName);
+    dataContext->openDB(dataContextName);
     auto *dia = new DepartmentInputArea(nullptr, index);
 
     QSize AdjustSize = dia->size();
@@ -874,12 +874,12 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index) {
     dia->setMinimumSize(AdjustSize);
     ui->scrollArea->setWidgetResizable(true);
     ui->scrollArea->setWidget(dia);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } break;
 
   case VIEW_TITLE: {
 
-    dataBase->openDB(dataBaseName);
+    dataContext->openDB(dataContextName);
     auto *fia = new FunctionInputArea(nullptr, index);
 
     QSize AdjustSize = fia->size();
@@ -887,13 +887,13 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index) {
     fia->setMinimumSize(AdjustSize);
     ui->scrollArea->setWidgetResizable(true);
     ui->scrollArea->setWidget(fia);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } break;
 
   case VIEW_COMPUTER: {
     qDebug() << "Computer Table Row (" << index.row() << ") clicked";
 
-    dataBase->openDB(dataBaseName);
+    dataContext->openDB(dataContextName);
     auto *cia = new ComputerInputArea(nullptr, index);
 
     QSize AdjustSize = cia->size();
@@ -901,12 +901,12 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index) {
     cia->setMinimumSize(AdjustSize);
     ui->scrollArea->setWidgetResizable(true);
     ui->scrollArea->setWidget(cia);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } break;
 
   case VIEW_PROCESSOR: {
 
-    dataBase->openDB(dataBaseName);
+    dataContext->openDB(dataContextName);
     auto *pia = new ProcessorInputArea(nullptr, index);
 
     QSize AdjustSize = pia->size();
@@ -914,12 +914,12 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index) {
     pia->setMinimumSize(AdjustSize);
     ui->scrollArea->setWidgetResizable(true);
     ui->scrollArea->setWidget(pia);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } break;
 
   case VIEW_OS: {
 
-    dataBase->openDB(dataBaseName);
+    dataContext->openDB(dataContextName);
     auto *oia = new OSInputArea(nullptr, index);
 
     QSize AdjustSize = oia->size();
@@ -927,12 +927,12 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index) {
     oia->setMinimumSize(AdjustSize);
     ui->scrollArea->setWidgetResizable(true);
     ui->scrollArea->setWidget(oia);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } break;
 
   case VIEW_SOFTWARE: {
 
-    dataBase->openDB(dataBaseName);
+    dataContext->openDB(dataContextName);
     auto *sia = new SoftwareInputArea(nullptr, index);
 
     QSize AdjustSize = sia->size();
@@ -940,12 +940,12 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index) {
     sia->setMinimumSize(AdjustSize);
     ui->scrollArea->setWidgetResizable(true);
     ui->scrollArea->setWidget(sia);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } break;
 
   case VIEW_PRINTER: {
 
-    dataBase->openDB(dataBaseName);
+    dataContext->openDB(dataContextName);
     auto *pia = new PrinterInputArea(nullptr, index);
 
     QSize AdjustSize = pia->size();
@@ -953,12 +953,12 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index) {
     pia->setMinimumSize(AdjustSize);
     ui->scrollArea->setWidgetResizable(true);
     ui->scrollArea->setWidget(pia);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } break;
 
   case VIEW_PHONE: {
 
-    dataBase->openDB(dataBaseName);
+    dataContext->openDB(dataContextName);
     auto *pia = new PhoneInputArea(nullptr, index);
 
     QSize AdjustSize = pia->size();
@@ -966,12 +966,12 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index) {
     pia->setMinimumSize(AdjustSize);
     ui->scrollArea->setWidgetResizable(true);
     ui->scrollArea->setWidget(pia);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } break;
 
   case VIEW_MOBILE: {
 
-    dataBase->openDB(dataBaseName);
+    dataContext->openDB(dataContextName);
     auto *mia = new MobileInputArea(nullptr, index);
 
     QSize AdjustSize = mia->size();
@@ -979,12 +979,12 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index) {
     mia->setMinimumSize(AdjustSize);
     ui->scrollArea->setWidgetResizable(true);
     ui->scrollArea->setWidget(mia);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } break;
 
   case VIEW_MANUFACTURER: {
 
-    dataBase->openDB(dataBaseName);
+    dataContext->openDB(dataContextName);
     auto *mia = new ManufacturerInputArea(nullptr, index);
 
     QSize AdjustSize = mia->size();
@@ -992,12 +992,12 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index) {
     mia->setMinimumSize(AdjustSize);
     ui->scrollArea->setWidgetResizable(true);
     ui->scrollArea->setWidget(mia);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } break;
 
   case VIEW_CITY: {
 
-    dataBase->openDB(dataBaseName);
+    dataContext->openDB(dataContextName);
     auto *cia = new CityInputArea(nullptr, index);
 
     QSize AdjustSize = cia->size();
@@ -1005,14 +1005,14 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index) {
     cia->setMinimumSize(AdjustSize);
     ui->scrollArea->setWidgetResizable(true);
     ui->scrollArea->setWidget(cia);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   }
 
   break;
 
   case VIEW_CHIPCARD: {
 
-    dataBase->openDB(dataBaseName);
+    dataContext->openDB(dataContextName);
     auto *ccia = new ChipCardInputArea(nullptr, index);
 
     QSize AdjustSize = ccia->size();
@@ -1020,7 +1020,7 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index) {
     ccia->setMinimumSize(AdjustSize);
     ui->scrollArea->setWidgetResizable(true);
     ui->scrollArea->setWidget(ccia);
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } break;
   default:
     Not_Available_Message();
@@ -1037,7 +1037,7 @@ void MainWindow::onPressedListViewRow(const QModelIndex &index) {
   case VIEW_EMPLOYEE: {
     qDebug() << "Employee Table Row (" << index.row() << ") clicked";
 
-    dataBase->openDB(dataBaseName);
+    dataContext->openDB(dataContextName);
     auto *eia = new EmployeeInputArea(nullptr, index);
 
     QSize AdjustSize = eia->size();
@@ -1046,7 +1046,7 @@ void MainWindow::onPressedListViewRow(const QModelIndex &index) {
     ui->scrollArea->setWidgetResizable(true);
     ui->scrollArea->setWidget(eia);
     qDebug() << "Delete index : " << index;
-    dataBase->closeConnection();
+    dataContext->closeConnection();
   } break;
   }
 }

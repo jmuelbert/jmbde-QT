@@ -99,8 +99,10 @@ QString ChipCardDataModel::generateTableString(QAbstractTableModel *model,
   int columnCount = model->columnCount();
   int rowCount = model->rowCount();
 
-  qDebug() << "Header : " << header << " Columns : " << columnCount
-           << " Rows : " << rowCount;
+  qCDebug(chipCardDataModel, "Header: %s ( Columns: %i - Rows: %i ) ",
+          header.toUtf8().constData(),
+          columnCount,
+          rowCount);
 
   QList<int> set;
 
@@ -114,7 +116,6 @@ QString ChipCardDataModel::generateTableString(QAbstractTableModel *model,
   outString += QLatin1String("<thead> <tr>");
 
   for (const auto i : set) {
-    qDebug() << "int i = " << i;
     outString += QLatin1String("<th>");
     outString.append(model->headerData(i, Qt::Horizontal).toString());
     outString += QLatin1String("</th>");
@@ -129,8 +130,10 @@ QString ChipCardDataModel::generateFormularString(QAbstractTableModel *model,
   int columnCount = model->columnCount();
   int rowCount = model->rowCount();
 
-  qDebug() << "Header : " << header << " Columns : " << columnCount
-           << " Rows : " << rowCount;
+  qCDebug(chipCardDataModel, "Header: %s ( Columns: %i - Rows: %i ) ",
+          header.toUtf8().constData(),
+          columnCount,
+          rowCount);
 
   QList<int> set;
 

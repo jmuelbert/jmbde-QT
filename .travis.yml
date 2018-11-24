@@ -7,17 +7,19 @@ env:
   global:
      # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
     #   via the "travis encrypt" command using the project repo's public key
-    - secure: p3rN5l2i/w21LhRkGtn50lqhkrFXF9z0PTnip969B6bs5AWznG/zlNSTWckDAZpr5B0xuoysZg9/0on4pAUdludKoYQ7PKS1NFzjSH2yLcTuVy+HY6vkR21o7/rQxOJkH+ftOKnpe8Sv/0tRdGXYHVrAKh4XVTY0MQBrqXu2bQWMmgoi9P2CcvFzIukLqIk5LKDM5zin4sndPfipsT5eXPpQgAqD5XnGKdDqvX7WlSJOMcTVMDem3OIw/sM06u4kIsipQUdXD8yUhMMTflM39lsHcY/JYl+m6Fn6p0OLt1SY/euBvAKDmvMKMA6Wq7iLQprft7PL9dj2iNoerDKazL5hilY1lAgd1RWtTvn/YZXo/SaS1sVYmsUKJUFBRpU2SYCBnvuPiEYZ2WkeBCBzYziVJ2FoJrl4J/hXJnWd7O2MQPErREBXqv7nt55VMYrMj3s1tdJKvF8t6TOkPuR1YMDDlweYNXhCWGNqZressSDZX32evH8Mnt7VCWsgbUUFjK1k6f9ZmG//kssR320oPiF0bW28jJMVfqmAUcsCLIgF1+fsxUgn+ui0LtR6feV3QmUPWTmIvqpMuTvj/gLTQRZ5Bb0cD/zlc8BAgZJHGjWy9ZcXDrzDKBNtoP58JiVTTTRWrhrJFYx1BN0IJElv/pVGnf+VS3lJNHhFV9sDplI=
+    - secure: "s4QQWXDZuEjbmtnkN9ELGWWki29CkpFXRxIIrD/lxx/o+nfqLRou6j6yKc+Lzn/qMccuvpIfqSYTJCAlHKG8inkjc2hLVlM4i2hna1cKnXxKkMs4pD2oiTe7NdedXYDcXupsWx9CsypeqO91siIzf5k8hqyzima7a7cfrqSJBlBmw6/7Gqo68YwjjLqo/uDIrCCDhaf8igV0X/NwMjQq5ocLT5VB36gq6dtXCrWu6edNC1eT0guYyv7j5qNLw2+Y3Vc6LfwwWXYmwIqd3C+HOmnwQoTC+HqZtBzsmPjpa7+oNRmdG2hS8S0B/rzVlnUmgaPBLPVGfSmD9BKXLS8j405M3ZuSWIHujLPdZBGHUW3cxNAw+QYIY5PITmJel0Wj0vYSdRjlDYptR80AjrjTtLZkYcj986QFd+gTUEVioJVdL6ufm78iyRcoxIUOc/v4aFh3NEtnHyC+EnCqiDwujA8JpOcZKlV7ULvve+N0ZKaLAmOIuS/9r8nbODxpJzbCyuUuHZ6z73CEePhq89VKGGLEv9C18rk5SANNeedtGIPVshsTT3vScIbANnWWwvY+E8LGj+AjbduQSAJQ14WfHKfJwBbgBHim5SasB9z4/lOMcOp6i4JVP2e48Z2kSNTGPWUhoO5030IqzThghqWy5FQXeU9oNOtjwpzW+s+7ZHM="
+before_install:
+  - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
 
-  addons:
-    coverity_scan:
-      project:
-        name: jmuelbert/jmbde-QT
-        description: A little BDE tool
-      notification_email: juergen.muelbert@gmail.com
-      build_command_prepend: qmake
-      build_command: make
-      branch_pattern: coverity_scan
+addons:
+  coverity_scan:
+    project:
+      name: "jmuelbert/jmbde-QT"
+      description: "A little BDE Tool"
+    notification_email: juergen.muelbert@gmail.com
+    build_command_prepend: qmake
+    build_command: make
+    branch_pattern: coverity_scan
 
 matrix:
   include:
@@ -125,7 +127,7 @@ matrix:
       - qbs config profiles.qt.baseProfile xcode-macosx-x86_64
       - qbs config defaultProfile qt
       - qbs install --install-root install config:release project.JMBde.version:$JMBDE_VERSION
-      - $HOME/Qt/5.11.2/clang_64/bin/macdeployqt install/jmbde.app -appstore-compliant 
+      - $HOME/Qt/5.11.2/clang_64/bin/macdeployqt install/jmbde.app/Contents/MacOS/jmbde -appstore-compliant 
       - pushd install
       - ruby ../dist/mac/fixup-install-names.rb
       - popd

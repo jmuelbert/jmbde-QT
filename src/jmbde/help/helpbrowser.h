@@ -57,10 +57,12 @@ class QHelpEngineCore;
 
 //! The jmbde Help System
 /*!
+  \page Help Help
   The first implenmentation of the help-system
 */
 class HelpBrowser : public QTextBrowser {
   Q_OBJECT
+  Q_LOGGING_CATEGORY(helpSystem, "jmbde.help")
 
 public:
     //! The HelpBrowser Constructor.

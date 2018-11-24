@@ -39,7 +39,7 @@
 ** unter der Lizenz sind dem Lizenztext zu entnehmen.
 **
 **************************************************************************/
-/**
+/*!
  * \page Data Account
  *
  * The Account Table
@@ -51,22 +51,6 @@
  *     + password - the password for login in the foreign system
  *     + systemdata_id - the foreign table for the extern systems
  *     + last_update - TIMESTAMP of the last modification.
- *
- * The Systemdata Table
- * --------------------
- *
- * This Table contains a list of systems with accounts
- * i.e. AD-Server, Mail Server, WebPortals, ...
- *
- * - The systemdata Table
- *     + systemdata_id - the autoincrement number of the account
- *     + name - the name of the external system
- *     + local - boolean (yes or no) is a own system
- *     + account_id - reverse to the account table
- *     + address_id - address to the external system
- *     + last_update - TIMESTAMP of the last modification.
- *
- *
  */
 
 #ifndef ACCOUNTDATAMODEL_H
@@ -83,7 +67,9 @@
 #include "definitions.h"
 #include "models/commondatamodel.h"
 
-/**
+/*! The Account Data Model
+ * \page Data Account
+ *
  * \class AccountDataModel
  * \brief The AccountDataModel class
  * \details In this is handlet all Accounts from the Employees
@@ -94,7 +80,7 @@
  */
 class AccountDataModel : public CommonDataModel {
   Q_OBJECT
-
+  Q_LOGGING_CATEGORY(accountModel, "jmbde.models.account")
 public:
     //! Constructor AccountDataModel
     /*!

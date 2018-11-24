@@ -224,7 +224,7 @@ private:
   QSqlRelationalTableModel *model;
   QSqlTableModel *tableModel;
   QString dataBaseName;
-  DataContext *dataBase;
+  DataContext *dataContext;
   int dbType = 0;
   QString dbConnection;
   QString dbHostname;

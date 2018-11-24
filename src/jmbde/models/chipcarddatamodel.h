@@ -54,11 +54,29 @@
 #include "definitions.h"
 #include "models/commondatamodel.h"
 
+//!
+//! The ChipCardDataModel class
+/*!
+    \class ChipCardDataModel
+    \details in this class is handled the coins for the room access system.
+    \author Jürgen Mülbert
+    \version 0.4
+    \date 23.11.2018
+    \copyright EUPL V1.2
+ */
 class ChipCardDataModel : public CommonDataModel {
   Q_OBJECT
+      Q_LOGGING_CATEGORY(chipCardDataModel, "jmbde.models.chipcarddata")
+
 public:
+    //! Constructor ChipCardDataModel
+    /*!
+     \brief ChipCardDataModel
+     \param parent
+    */
   explicit ChipCardDataModel(QObject *parent = nullptr);
 
+    //! Destructor ChipCardDataModel
   ~ChipCardDataModel();
 
   // implement the virtuals
@@ -105,11 +123,35 @@ public:
                                          QString header);
 
   // Getter
+    /*!
+   * \brief ChipCardIdIndex
+   * \return
+   */
   int ChipCardIdIndex() const { return m_ChipCardIdIndex; }
+  /*!
+   * \brief NumberIndex
+   * \return
+   */
   int NumberIndex() const { return m_NumberIndex; }
+  /*!
+   * \brief ChipCardDoorIdIndex
+   * \return
+   */
   int ChipCardDoorIdIndex() const { return m_ChipCardDoorIdIndex; }
+  /*!
+   * \brief ChipCardProfileIdIndex
+   * \return
+   */
   int ChipCardProfileIdIndex() const { return m_ChipCardProfileIdIndex; }
+  /*!
+   * \brief EmployeeIdIndex
+   * \return
+   */
   int EmployeeIdIndex() const { return m_EmployeeIdIndex; }
+  /*!
+   * \brief LastUpdateIndex
+   * \return
+   */
   int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
@@ -118,11 +160,29 @@ private:
    * @
    */
   const QString m_tableName = QLatin1String("chip_card");
+  /*!
+   * \brief m_ChipCardIdIndex
+   */
   int m_ChipCardIdIndex;
+  /*!
+   * \brief m_NumberIndex
+   */
   int m_NumberIndex;
+  /*!
+   * \brief m_ChipCardDoorIdIndex
+   */
   int m_ChipCardDoorIdIndex;
+  /*!
+   * \brief m_ChipCardProfileIdIndex
+   */
   int m_ChipCardProfileIdIndex;
+  /*!
+   * \brief m_EmployeeIdIndex
+   */
   int m_EmployeeIdIndex;
+  /*!
+   * \brief m_LastUpdateIndex
+   */
   int m_LastUpdateIndex;
 };
 

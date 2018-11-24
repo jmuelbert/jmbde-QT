@@ -90,6 +90,7 @@ SOURCES += \
     models/companydatamodel.cpp \
     models/computerdatamodel.cpp \
     models/computersoftwaredatamodel.cpp \
+    models/datacontext.cpp \
     models/datamodel.cpp \
     models/departmentdatamodel.cpp \
     models/devicenamedatamodel.cpp \
@@ -146,6 +147,7 @@ HEADERS += \
     models/companydatamodel.h \
     models/computerdatamodel.h \
     models/computersoftwaredatamodel.h \
+    models/datacontext.h \
     models/datamodel.h \
     models/departmentdatamodel.h \
     models/devicenamedatamodel.h \
