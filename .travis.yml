@@ -2,26 +2,21 @@ language: cpp
 sudo: required
 dist: trusty
 python: 3.6
-
 env:
   global:
-     # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
-    #   via the "travis encrypt" command using the project repo's public key
-    - secure: "s4QQWXDZuEjbmtnkN9ELGWWki29CkpFXRxIIrD/lxx/o+nfqLRou6j6yKc+Lzn/qMccuvpIfqSYTJCAlHKG8inkjc2hLVlM4i2hna1cKnXxKkMs4pD2oiTe7NdedXYDcXupsWx9CsypeqO91siIzf5k8hqyzima7a7cfrqSJBlBmw6/7Gqo68YwjjLqo/uDIrCCDhaf8igV0X/NwMjQq5ocLT5VB36gq6dtXCrWu6edNC1eT0guYyv7j5qNLw2+Y3Vc6LfwwWXYmwIqd3C+HOmnwQoTC+HqZtBzsmPjpa7+oNRmdG2hS8S0B/rzVlnUmgaPBLPVGfSmD9BKXLS8j405M3ZuSWIHujLPdZBGHUW3cxNAw+QYIY5PITmJel0Wj0vYSdRjlDYptR80AjrjTtLZkYcj986QFd+gTUEVioJVdL6ufm78iyRcoxIUOc/v4aFh3NEtnHyC+EnCqiDwujA8JpOcZKlV7ULvve+N0ZKaLAmOIuS/9r8nbODxpJzbCyuUuHZ6z73CEePhq89VKGGLEv9C18rk5SANNeedtGIPVshsTT3vScIbANnWWwvY+E8LGj+AjbduQSAJQ14WfHKfJwBbgBHim5SasB9z4/lOMcOp6i4JVP2e48Z2kSNTGPWUhoO5030IqzThghqWy5FQXeU9oNOtjwpzW+s+7ZHM="
+  - secure: jssKn0IlcchBM738tNjwGBajmOZaW2yuYfoBsOCrConoJB/ptmc1d4XsK8q6gyi0Kr/dO1IcAgW083hquPhpkhI39Hsqvn+KBiE8ahcZqG9g653JQciBkY50KZfDFAHQPHBeA4NWybK5YrDCPaEi46RdrekzckZ80TxB61pISwW292jFOmMMR0MKDg0AmTz5+7QnIwOLzwE9dC2FeT6ZmgKlBm2Kdl5fTrHsVXzriJ5i2qdrPjo3yEMjpqN4J+ynXIrNFlpnKoLi42p69OLBSO97dDnMYNAcUIz7cZv65FmdTSFWGxoFqtgkfxAbjZ3VGVlZo9+KTOQUOKZJXEQnmGSuRyLmyFQaGbYExr7z4v30LGcne/GO/mgd/aNLDUqtW6D7d45x2MncNSc/kOQJZDjV3Ss3tmo7LNesEYzY1zfdCkUMnUCatjmfKFsjImQ+5qIlYUPDskkKQYjItjsCe5yAqi90JQR+utKWlLKcZc1e++h9Jiy+a0BIjSleEY+xemE5PPYQ3Uy7UxqxDNL6t6DJi1BSFShHVJct+r3ghYTZX6OPOvIvrl36OXi73GhVfZheHyy0bFRlzLK4eHsU+5ilZXGmcTNiFoDreQxlcWDkV2yeG8tYWj++4xbcwp2SDy2l6P1kFg7P2mlHJNULnqHkeAKNfPd7VWrn/2hoh6U=
 before_install:
-  - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
-
+- echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN
+  CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
 addons:
   coverity_scan:
     project:
-      name: "jmuelbert/jmbde-QT"
-      description: "A little BDE Tool"
+      name: jmuelbert/jmbde-QT
+      description: A little BDE Tool
     notification_email: juergen.muelbert@gmail.com
     build_command_prepend: qmake
     build_command: make
-    branch_pattern: master 
-    #coverity_scan
-
+    branch_pattern: master
 matrix:
   include:
   - os: linux
@@ -33,46 +28,51 @@ matrix:
         packages:
         - g++-7
     env:
-      - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+    - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
     before_install:
-      - eval "${MATRIX_EVAL}"
-      - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
-      - sudo add-apt-repository --yes ppa:beineri/opt-qt595-trusty
-#     - sudo add-apt-repository --yes ppa:beineri/opt-qt-5.10.1-trusty
-      - sudo apt-get update -qq
+    - eval "${MATRIX_EVAL}"
+    - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
+    - sudo add-apt-repository --yes ppa:beineri/opt-qt595-trusty
+    - sudo apt-get update -qq
     install:
-      - sudo apt-get -y install qt59base qt59script qt59svg qt59imageformats qt59tools binutils zlib1g-dev
-      - source /opt/qt59/bin/qt59-env.sh
-      - source ./scripts/ci/linux/setup-qbs.sh
+    - sudo apt-get -y install qt59base qt59script qt59svg qt59imageformats qt59tools
+      binutils zlib1g-dev
+    - source /opt/qt59/bin/qt59-env.sh
+    - source ./scripts/ci/linux/setup-qbs.sh
     script:
-      - qbs --version
-      - qbs setup-toolchains --detect
-      - qbs setup-qt --detect
-      - qbs config defaultProfile qt-5-9-5
-      - qbs install --install-root jmbde/usr config:release projects.JMBde.version:$JMBDE_VERSION
-      - cp LICENSE* *md jmbde/
+    - qbs --version
+    - qbs setup-toolchains --detect
+    - qbs setup-qt --detect
+    - qbs config defaultProfile qt-5-9-5
+    - qbs install --install-root jmbde/usr config:release projects.JMBde.version:$JMBDE_VERSION
+    - cp LICENSE* *md jmbde/
     after_success:
-      - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" -O linuxdeployqt 
-      - chmod a+x linuxdeployqt 
-      - unset QTDIR; unset QT_PLUGIN_PATH; unset LD_LIBRARY_PATH 
-      - ./linuxdeployqt ./jmbde/usr/share/applications/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.4m.so.1.0 -verbose=2 
-      - ./linuxdeployqt ./jmbde/usr/share/applications/io.github.jmuelbert.jmbde.desktop -exclude-libs=libpython3.4m.so.1.0 -appimage 
-      - find ./jmbde -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq 
-      - mv jmbde-x86_64.AppImage jmbde-$JMBDE_VERSION-x86_64.AppImage
+    - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
+      -O linuxdeployqt
+    - chmod a+x linuxdeployqt
+    - unset QTDIR; unset QT_PLUGIN_PATH; unset LD_LIBRARY_PATH
+    - "./linuxdeployqt ./jmbde/usr/share/applications/io.github.jmuelbert.jmbde.desktop
+      -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.4m.so.1.0
+      -verbose=2"
+    - "./linuxdeployqt ./jmbde/usr/share/applications/io.github.jmuelbert.jmbde.desktop
+      -exclude-libs=libpython3.4m.so.1.0 -appimage"
+    - find ./jmbde -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d
+      " " -f 2-3 | sort | uniq
+    - mv jmbde-x86_64.AppImage jmbde-$JMBDE_VERSION-x86_64.AppImage
     deploy:
-      - provider: releases
-        skip_cleanup: true
-        draft: true    
-        tag_name: "$TRAVIS_TAG"    
-        api_key:
-          secure: pNq/95/zTpPX25pAF3ACjoIQAnvxp6xZQYCgKhKkXhuSMCSBMl7ZIrRw0BNuM1JSHe3bRV68pfF3tgTJDWtDjFj/JHAWDOAKWhc1DeEmBXVESoizaY2Hk4yrnxjFfk+XMOFgqO+iMExap4OW+kZWXP3tltjKUYzBROMU33rey6NBiYne+UNVlzC5vgy47mj7ResrS4YBl/s3nifuE9Bigp4yDYHh4/4UgXCLXuFup+PwYRQPfwZKKiac5Bk3nHXxW+8WK3b6anboyHb+eqdZMqtu5xjqOpjwroGPPuUQsRm7c4hT93yx3IIBoIHl29hdhkWJlCOQxdhnbV0Ch9E4gombkwfHGlTFAwD3SQZFkCLdtF+1hbMgp4jta09hLgSobOIHhpGjqw+CxB5epYCM7E3WC6iKSrE7yMiSEqg6V+cf3LV+B2MlSzr1HtwLe6B7542WhFoJiF0mJCCGt//Ztp2m5174s4ZwvsiXqYMgs5x5kyp1HS5NqqllxmL3dDdPlhscKWLr7zbwDG/hhDfUpfpjefmadwf6BramK66En7fe2iol/supO86alL6/WNpCtyFaTLve/DHtWfDt+XquivGZwzCAz+0XyopJc3E7Ebxi8C49dyvdrQRi+ej1s44Cm1l/qCtS90d3WyqSfp8moepbi4pwd08vw/TD5zi8+x4=
-        file: j*.AppImage
-        file_glob: true
-        on:
-          repo: jmuelbert/jmbde-QT
-          tags: true   
+    - provider: releases
+      skip_cleanup: true
+      draft: true
+      tag_name: "$TRAVIS_TAG"
+      api_key:
+        secure: pNq/95/zTpPX25pAF3ACjoIQAnvxp6xZQYCgKhKkXhuSMCSBMl7ZIrRw0BNuM1JSHe3bRV68pfF3tgTJDWtDjFj/JHAWDOAKWhc1DeEmBXVESoizaY2Hk4yrnxjFfk+XMOFgqO+iMExap4OW+kZWXP3tltjKUYzBROMU33rey6NBiYne+UNVlzC5vgy47mj7ResrS4YBl/s3nifuE9Bigp4yDYHh4/4UgXCLXuFup+PwYRQPfwZKKiac5Bk3nHXxW+8WK3b6anboyHb+eqdZMqtu5xjqOpjwroGPPuUQsRm7c4hT93yx3IIBoIHl29hdhkWJlCOQxdhnbV0Ch9E4gombkwfHGlTFAwD3SQZFkCLdtF+1hbMgp4jta09hLgSobOIHhpGjqw+CxB5epYCM7E3WC6iKSrE7yMiSEqg6V+cf3LV+B2MlSzr1HtwLe6B7542WhFoJiF0mJCCGt//Ztp2m5174s4ZwvsiXqYMgs5x5kyp1HS5NqqllxmL3dDdPlhscKWLr7zbwDG/hhDfUpfpjefmadwf6BramK66En7fe2iol/supO86alL6/WNpCtyFaTLve/DHtWfDt+XquivGZwzCAz+0XyopJc3E7Ebxi8C49dyvdrQRi+ej1s44Cm1l/qCtS90d3WyqSfp8moepbi4pwd08vw/TD5zi8+x4=
+      file: j*.AppImage
+      file_glob: true
+      on:
+        repo: jmuelbert/jmbde-QT
+        tags: true
   - os: linux
-    compiler: gcc  
+    compiler: gcc
     addons:
       apt:
         sources:
@@ -80,71 +80,72 @@ matrix:
         packages:
         - g++-7
     env:
-      - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
-      - QMAKESPEC=linux-g++
-      - MAKEFLAGS=-j2
+    - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+    - QMAKESPEC=linux-g++
+    - MAKEFLAGS=-j2
     before_install:
-      - eval "${MATRIX_EVAL}"
-      - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
-      - sudo add-apt-repository --yes ppa:beineri/opt-qt595-trusty
-#     - sudo add-apt-repository --yes ppa:beineri/opt-qt-5.10.1-trusty
-      - sudo apt-get update -qq
-
+    - eval "${MATRIX_EVAL}"
+    - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
+    - sudo add-apt-repository --yes ppa:beineri/opt-qt595-trusty
+    - sudo apt-get update -qq
     install:
-      - sudo apt-get -y install qt59base qt59script qt59svg qt59imageformats qt59tools binutils zlib1g-dev cppcheck
-      - source /opt/qt59/bin/qt59-env.sh
-      - qmake -version
-
+    - sudo apt-get -y install qt59base qt59script qt59svg qt59imageformats qt59tools
+      binutils zlib1g-dev cppcheck
+    - source /opt/qt59/bin/qt59-env.sh
+    - qmake -version
     script:
-      - qmake 
-      - make
-      - pushd tests/
-      - qmake
-      - make
-      - for test in `find -executable -type f`; do pushd `dirname $test`; xvfb-run -a ./`basename $test`||exit 1; popd; done
-      - popd
-
+    - qmake
+    - make
+    - pushd tests/
+    - qmake
+    - make
+    - for test in `find -executable -type f`; do pushd `dirname $test`; xvfb-run -a
+      ./`basename $test`||exit 1; popd; done
+    - popd
     after_success:
-      - echo "All success."
+    - echo "All success."
     after_script:
-      - cppcheck --enable=all -q -Isrc/libjmbde `git ls-files src/\*.cpp`
+    - cppcheck --enable=all -q -Isrc/libjmbde `git ls-files src/\*.cpp`
   - os: osx
     env:
-        - INSTALLER_NAME="qt-opensource-mac-x64-5.11.2"
-        - QT_CI_PACKAGES="qt.qt5.5112.clang_64"
+    - INSTALLER_NAME="qt-opensource-mac-x64-5.11.2"
+    - QT_CI_PACKAGES="qt.qt5.5112.clang_64"
     before_install:
-      - brew update
-      - brew install qbs
-      - curl -L https://raw.githubusercontent.com/benlau/qtci/master/bin/extract-qt-installer --output extract-qt-installer
-      - chmod +x extract-qt-installer
-      - curl -L https://download.qt.io/official_releases/qt/5.11/5.11.2/${INSTALLER_NAME}.dmg --output ${INSTALLER_NAME}.dmg
-      - hdiutil attach ${INSTALLER_NAME}.dmg
-      - ./extract-qt-installer /Volumes/${INSTALLER_NAME}/${INSTALLER_NAME}.app/Contents/MacOS/${INSTALLER_NAME} $HOME/Qt
-      - hdiutil detach /Volumes/${INSTALLER_NAME}
+    - brew update
+    - brew install qbs
+    - curl -L https://raw.githubusercontent.com/benlau/qtci/master/bin/extract-qt-installer
+      --output extract-qt-installer
+    - chmod +x extract-qt-installer
+    - curl -L https://download.qt.io/official_releases/qt/5.11/5.11.2/${INSTALLER_NAME}.dmg
+      --output ${INSTALLER_NAME}.dmg
+    - hdiutil attach ${INSTALLER_NAME}.dmg
+    - "./extract-qt-installer /Volumes/${INSTALLER_NAME}/${INSTALLER_NAME}.app/Contents/MacOS/${INSTALLER_NAME}
+      $HOME/Qt"
+    - hdiutil detach /Volumes/${INSTALLER_NAME}
     script:
-      - qbs --version
-      - qbs setup-toolchains --detect
-      - qbs setup-qt $HOME/Qt/5.11.2/clang_64/bin/qmake qt
-      - qbs config profiles.qt.baseProfile xcode-macosx-x86_64
-      - qbs config defaultProfile qt
-      - qbs install --install-root install config:release project.JMBde.version:$JMBDE_VERSION
-      - $HOME/Qt/5.11.2/clang_64/bin/macdeployqt install/jmbde.app/Contents/MacOS/jmbde -appstore-compliant 
-      - pushd install
-      - ruby ../dist/mac/fixup-install-names.rb
-      - popd
+    - qbs --version
+    - qbs setup-toolchains --detect
+    - qbs setup-qt $HOME/Qt/5.11.2/clang_64/bin/qmake qt
+    - qbs config profiles.qt.baseProfile xcode-macosx-x86_64
+    - qbs config defaultProfile qt
+    - qbs install --install-root install config:release project.JMBde.version:$JMBDE_VERSION
+    - "$HOME/Qt/5.11.2/clang_64/bin/macdeployqt install/jmbde.app/Contents/MacOS/jmbde
+      -appstore-compliant"
+    - pushd install
+    - ruby ../dist/mac/fixup-install-names.rb
+    - popd
     deploy:
-      - provider: releases
-        skip_cleanup: true
-        draft: true        
-        api_key:
-          secure: pNq/95/zTpPX25pAF3ACjoIQAnvxp6xZQYCgKhKkXhuSMCSBMl7ZIrRw0BNuM1JSHe3bRV68pfF3tgTJDWtDjFj/JHAWDOAKWhc1DeEmBXVESoizaY2Hk4yrnxjFfk+XMOFgqO+iMExap4OW+kZWXP3tltjKUYzBROMU33rey6NBiYne+UNVlzC5vgy47mj7ResrS4YBl/s3nifuE9Bigp4yDYHh4/4UgXCLXuFup+PwYRQPfwZKKiac5Bk3nHXxW+8WK3b6anboyHb+eqdZMqtu5xjqOpjwroGPPuUQsRm7c4hT93yx3IIBoIHl29hdhkWJlCOQxdhnbV0Ch9E4gombkwfHGlTFAwD3SQZFkCLdtF+1hbMgp4jta09hLgSobOIHhpGjqw+CxB5epYCM7E3WC6iKSrE7yMiSEqg6V+cf3LV+B2MlSzr1HtwLe6B7542WhFoJiF0mJCCGt//Ztp2m5174s4ZwvsiXqYMgs5x5kyp1HS5NqqllxmL3dDdPlhscKWLr7zbwDG/hhDfUpfpjefmadwf6BramK66En7fe2iol/supO86alL6/WNpCtyFaTLve/DHtWfDt+XquivGZwzCAz+0XyopJc3E7Ebxi8C49dyvdrQRi+ej1s44Cm1l/qCtS90d3WyqSfp8moepbi4pwd08vw/TD5zi8+x4=
-        file: j*.dmg
-        file_glob: true
-        on:
-          tags: true
-
+    - provider: releases
+      skip_cleanup: true
+      draft: true
+      api_key:
+        secure: pNq/95/zTpPX25pAF3ACjoIQAnvxp6xZQYCgKhKkXhuSMCSBMl7ZIrRw0BNuM1JSHe3bRV68pfF3tgTJDWtDjFj/JHAWDOAKWhc1DeEmBXVESoizaY2Hk4yrnxjFfk+XMOFgqO+iMExap4OW+kZWXP3tltjKUYzBROMU33rey6NBiYne+UNVlzC5vgy47mj7ResrS4YBl/s3nifuE9Bigp4yDYHh4/4UgXCLXuFup+PwYRQPfwZKKiac5Bk3nHXxW+8WK3b6anboyHb+eqdZMqtu5xjqOpjwroGPPuUQsRm7c4hT93yx3IIBoIHl29hdhkWJlCOQxdhnbV0Ch9E4gombkwfHGlTFAwD3SQZFkCLdtF+1hbMgp4jta09hLgSobOIHhpGjqw+CxB5epYCM7E3WC6iKSrE7yMiSEqg6V+cf3LV+B2MlSzr1HtwLe6B7542WhFoJiF0mJCCGt//Ztp2m5174s4ZwvsiXqYMgs5x5kyp1HS5NqqllxmL3dDdPlhscKWLr7zbwDG/hhDfUpfpjefmadwf6BramK66En7fe2iol/supO86alL6/WNpCtyFaTLve/DHtWfDt+XquivGZwzCAz+0XyopJc3E7Ebxi8C49dyvdrQRi+ej1s44Cm1l/qCtS90d3WyqSfp8moepbi4pwd08vw/TD5zi8+x4=
+      file: j*.dmg
+      file_glob: true
+      on:
+        tags: true
 before_script:
-  - if [[ "$TRAVIS_TAG" ]]; then export JMBDE_RELEASE=true ; fi
-  - if [[ "$TRAVIS_TAG" ]]; then export JMBDE_VERSION=${TRAVIS_TAG:1} ; fi
-  - if [[ "$TRAVIS_TAG" == "" ]]; then export JMBDE_VERSION=$(date "+%Y.%m.%d") ; fi
-  - if [[ "$TRAVIS_BRANCH" == "snapshot" ]]; then export JMBDE_SNAPSHOT=true ; fi
+- if [[ "$TRAVIS_TAG" ]]; then export JMBDE_RELEASE=true ; fi
+- if [[ "$TRAVIS_TAG" ]]; then export JMBDE_VERSION=${TRAVIS_TAG:1} ; fi
+- if [[ "$TRAVIS_TAG" == "" ]]; then export JMBDE_VERSION=$(date "+%Y.%m.%d") ; fi
+- if [[ "$TRAVIS_BRANCH" == "snapshot" ]]; then export JMBDE_SNAPSHOT=true ; fi
