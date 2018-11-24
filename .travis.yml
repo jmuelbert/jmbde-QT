@@ -19,7 +19,8 @@ addons:
     notification_email: juergen.muelbert@gmail.com
     build_command_prepend: qmake
     build_command: make
-    branch_pattern: coverity_scan
+    branch_pattern: master 
+    #coverity_scan
 
 matrix:
   include:
