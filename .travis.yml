@@ -5,9 +5,9 @@ python: 3.6
 env:
   global:
   - secure: jssKn0IlcchBM738tNjwGBajmOZaW2yuYfoBsOCrConoJB/ptmc1d4XsK8q6gyi0Kr/dO1IcAgW083hquPhpkhI39Hsqvn+KBiE8ahcZqG9g653JQciBkY50KZfDFAHQPHBeA4NWybK5YrDCPaEi46RdrekzckZ80TxB61pISwW292jFOmMMR0MKDg0AmTz5+7QnIwOLzwE9dC2FeT6ZmgKlBm2Kdl5fTrHsVXzriJ5i2qdrPjo3yEMjpqN4J+ynXIrNFlpnKoLi42p69OLBSO97dDnMYNAcUIz7cZv65FmdTSFWGxoFqtgkfxAbjZ3VGVlZo9+KTOQUOKZJXEQnmGSuRyLmyFQaGbYExr7z4v30LGcne/GO/mgd/aNLDUqtW6D7d45x2MncNSc/kOQJZDjV3Ss3tmo7LNesEYzY1zfdCkUMnUCatjmfKFsjImQ+5qIlYUPDskkKQYjItjsCe5yAqi90JQR+utKWlLKcZc1e++h9Jiy+a0BIjSleEY+xemE5PPYQ3Uy7UxqxDNL6t6DJi1BSFShHVJct+r3ghYTZX6OPOvIvrl36OXi73GhVfZheHyy0bFRlzLK4eHsU+5ilZXGmcTNiFoDreQxlcWDkV2yeG8tYWj++4xbcwp2SDy2l6P1kFg7P2mlHJNULnqHkeAKNfPd7VWrn/2hoh6U=
+  - secure: phAkW9nYVFAxY1ue/kiNc4mtud+VdT7XB/6h9lSjsdDZcJNyR62KYKwLDxFlTdbgwj88JQ+ovTtf638POml5+n+kSYJMYBB0dj7dxbek4GECUA8gobCvTaBMP1hS0qIfWAp35ZESUspq1KfXC+DrvH3K+IqIxHAJiWAC1p5pYUinFA3eRjUqYOAzVJnHtEQ6K0P0Z6RxafcBqd6KzWfPJH7tuoPX+Rl+C5J3wAZzshrw0cYzh/Et42c7dU9J/cHdXdji7nXzNkYUripVZPqSDhcJ7iF65USkDJQZGEEQ+eAmsHys/ApRMd6UCQrqr+uiBjjPf3JdQcyLaBsDJQF2fzRNe1S4JqWdFvXeUjggB+lcGV/MKrL78nW8blANsFy1dalYmMX7opJS1OWXMIrJrG8IDenj5fyIhFq4h3XY+USlEPKaHpCPl3rZDlSxMnpqt47tvxNXYxayR0jDHgO2nRamhQ0ILE8EGnTZugeIJG2J9bYOlawUW/XSvLwUeLQPnNPn213w5eZSsupjJ7W3w7q8RNPxcgybYp21DPx3/nxhQeKRqssjhM344JKouMx6o5IRkT5UpkiZxEW1dJ6IiAZ+ioVenW1QNJc6CXs35JB+cQG33gnLt8vCUcTTMCz6Cnzp+xdyLe4yDxRm5IB+eLSBqaNfNsvbYWxol2pyIJs=
 before_install:
-- echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN
-  CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+  - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
 addons:
   coverity_scan:
     project:
@@ -99,8 +99,7 @@ matrix:
     - pushd tests/
     - qmake
     - make
-    - for test in `find -executable -type f`; do pushd `dirname $test`; xvfb-run -a
-      ./`basename $test`||exit 1; popd; done
+    # - for test in `find -executable -type f`; do pushd `dirname $test`; xvfb-run -a ./`basename $test`||exit 1; popd; done
     - popd
     after_success:
     - echo "All success."
