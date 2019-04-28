@@ -26,5 +26,25 @@ DynamicLibrary {
 
     Properties {
         condition: qbs.targetOS.contains("macos")
+        bundle.isBundle: false
         cpp.cxxFlags: ["-Wno-unknown-pragmas"]
     }
+
+    Group {
+        qbs.install: true
+        qbs.installDir: {
+            if (qbs.targetOS.contains("windows") || project.linuxArchive) 
+                return "plugins/jmbde"
+            else if (qbs.targetOS.contains("macos"))
+                return "jmbde.app/Contents/PlugIns";
+            else
+                return "lib/jmbde/plugins"
+        }
+        fileTagsFilter; "dynamiclibrary"
+    }
+
+    FileTagger {
+        patterns: "plugin.json"
+        fileTags: ["qt_plugin_metadata"]
+    }
+}

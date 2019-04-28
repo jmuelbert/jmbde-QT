@@ -1,6 +1,7 @@
 ## Ignore temporary files
 ## build results
 ## generated databases
+venv/
 
 linuxdeployqt 
 *.AppImage

@@ -26,8 +26,11 @@ DynamicLibrary {
         cpp.cxxFlags: ["-Wno-unknown-pragmas"]
     }
 
-    bundle.isBundle: false
-    cpp.sonamePrefix: qbs.targetOS.contains("darwin") ? "@rpath" : undefined
+    Properties {
+        condition: qbs.targetOS.contains("darwin")
+        bundle.isBundle: false
+        cpp.sonamePrefix: "@rpath"
+    }
 
     files: [
         "libdata_global.h",
@@ -54,12 +57,11 @@ DynamicLibrary {
     }
 
     Group {
+        condition: !qbs.targetOS.contains("darwin")
         qbs.install: true
         qbs.installDir: {
             if (qbs.targetOS.contains("windows"))
                 return ""
-            else if (qbs.targetOS.contains("darwin"))
-                return "jmbde.app/Contents/Frameworks"
             else
                 return "lib"
         }

@@ -1,7 +1,7 @@
 %global app_id com.github.jmuelbert.jmbde-QT
 
 Name:           jmbde
-Version:        0.4.22
+Version:        0.4.23
 Epoch:          1
 Release:        1%{?dist}
 Summary:        A BDE Tool

@@ -8,7 +8,7 @@ Project {
 
     name: "JMBde"
 
-    property string version: Environment.getEnv("JMBDE_VERSION") || "0.4.22";
+    property string version: Environment.getEnv("JMBDE_VERSION") || "0.4.23";
     property bool snapshot: Environment.getEnv("JMBDE_SNAPSHOT")
     property bool release: Environment.getEnv("JMBDE_RELEASE")
 
@@ -71,6 +71,11 @@ Project {
             "LICENSE.*",
             "NEWS.md"
         ]
+    }
+
+       SubProject {
+        filePath: "dist/mac/dmg.qbs"
+
     }
 
 }

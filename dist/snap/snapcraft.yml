@@ -3,7 +3,7 @@ version: git
 version-script: git describe | cut -c 2-
 summary: A BDE tool.
 description: |
-  jmbde is a free bde tool. 
+  jmbde is a free bde tool.
 grade: stable
 confinement: strict
 
@@ -12,7 +12,7 @@ apps:
     command: desktop-launch ${SNAP}/usr/bin/jmbde
     desktop: usr/share/applications/com.github.jmuelbet/jmbde.desktop
     plugs: [network]
-  
+
 parts:
   jmbde:
     plugin: qmake
@@ -22,10 +22,11 @@ parts:
       - CONFIG+=release
     source: .
     build-packages:
-    # FIXME: Python plugin compiles and loads, but can't find platform libraries
-    #  - pkg-config
-    #  - python-dev
+      # FIXME: Python plugin compiles and loads, but
+      # an't find platform libraries
+      #  - pkg-config
+      #  - python-dev
       - qttools5-dev-tools
-    #stage-packages:
+    # tage-packages:
     #  - libpython2.7
     after: [desktop-qt5]

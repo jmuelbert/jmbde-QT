@@ -1,4 +1,5 @@
-import qbs  1.0
+import qbs 1.0
+import qbs.File
 import qbs.FileInfo
 import qbs.TextFile
 
@@ -10,7 +11,7 @@ QtGuiApplication {
     Depends { name: "libjmbde" }
     Depends { name: "translations" }
     Depends { name: "qtsingleapplication" }
-    Depends { name: "ib"; condition: qbs.targetOS.contains("macos") }
+    Depends { name: "ib"; condition: qbs.hostOS.contains("macos") }
     Depends { name: "Qt"; submodules: ["core", "widgets", "network", "sql", "printsupport", "help" ] }
 
     property bool qtcRunnable: true
@@ -63,6 +64,7 @@ QtGuiApplication {
  
     files: [
         "main.cpp",
+        "jmbde.qrc",
         "help/helpbrowser.cpp",
         "help/helpbrowser.h",
         "models/accountdatamodel.cpp",
@@ -192,13 +194,14 @@ QtGuiApplication {
         "views/titleinputarea.ui",
     ]
 
-   
+
     Properties {
         condition: qbs.targetOS.contains("darwin")
         cpp.cxxFlags: ["-Wno-unknown-pragmas"]        
         bundle.identifierPrefix: "io.github.jmuelbert"
         bundle.identifier: "io.github.jmuelbert.jmBDE"
         ib.appIconName: "jmbde-icon-mac"
+        targetName: "jmbde"
     }
 
    Group {
@@ -226,7 +229,7 @@ QtGuiApplication {
     Group {
         name: "macOS (icons)"
         condition: qbs.targetOS.contains("macos")
-        files: ["images/jmbde.xcassets"]
+        files: ["images/jmbde.iconset"]
     }
 
     Group {
@@ -276,6 +279,32 @@ QtGuiApplication {
         qbs.installDir: "share/icons/hicolor/scalable/apps"
         files: [ "images/scalable/jmbde.svg" ]
     }
+
+   // This is necessary to install the app bundle (OS X)
+   Group {
+       fileTagsFilter: ["bundle.content"]
+       qbs.install: true
+       qbs.installDir: "."
+       qbs.installSourceBase: product.buildDirectory
+   }
+
+   // Include libtiled.dylib in the app bundle
+   Rule {
+       condition: qbs.targetOS.contains("darwin")
+       inputsFromDependencies: "dynamiclibrary"
+       prepare: {
+           var cmd = new JavaScriptCommand();
+           cmd.description = "preparing " + input.fileName + " for inclusion in " + product.targetName + ".app";
+           cmd.sourceCode = function() { File.copy(input.filePath, output.filePath); };
+           return cmd;
+       }
+
+       Artifact {
+           filePath: input.fileName
+           fileTags: "bundle.input"
+           bundle._bundleFilePath: product.destinationDirectory + "/" + product.targetName + ".app/Contents/Frameworks/" + input.fileName
+       }
+   }
 
     // Generate the tiled.rc file in order to dynamically specify the version
     Group {

@@ -47,7 +47,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'JMBde'
-copyright = '2013-2018, JMBde Documentation Writers'
+copyright = '2013-2019, JMBde Documentation Writers'
 author = 'Jürgen Mülbert'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -102,6 +102,7 @@ html_static_path = ['_static']
 
 def setup(app):
     app.add_stylesheet('css/custom.css')
+
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
@@ -159,7 +160,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'tiled', 'Tiled Documentation',
+    (master_doc, 'JMBde', 'JMBde Documentation',
      [author], 1)
 ]
 
@@ -170,8 +171,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'Tiled', 'Tiled Documentation',
-     author, 'Tiled', 'One line description of project.',
+    (master_doc, 'JMBde', 'JMBde Documentation',
+     author, 'JMBde', 'One line description of project.',
      'Miscellaneous'),
 ]
-

@@ -5,10 +5,9 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/mq9qt36e588dk7ui?svg=true)](https://ci.appveyor.com/project/jmuelbert/jmbde-qt)
 [![Build Status](https://travis-ci.org/jmuelbert/jmbde-QT.svg?branch=master)](https://travis-ci.org/jmuelbert/jmbde-QT)
 
-
 jmbde is a program to collect data for the IT. The database contains employees, departments, functions, phones, mobiles, computers, printers, faxes and accounts.
 
-jmbde uese the cross-platform framework [Qt](http://www.qt.io/download-open-source/),
+jmbde use the cross-platform framework [Qt](http://www.qt.io/download-open-source/),
 which means it works with the most operating systems.
 
 ## Supported Platforms
@@ -23,24 +22,25 @@ The standalone binary packages support the following platforms:
 
 The master branch represents the latest pre-release code.
 
-- [Releases](https://github.com/jmuelbert/jmbde-QT/releases)
+* [Releases](https://github.com/jmuelbert/jmbde-QT/releases)
 
-- [Milestones](https://github.com/jmuelbert/jmbde-QT/milestones)
+* [Milestones](https://github.com/jmuelbert/jmbde-QT/milestones)
 
 ## Requests and Bug reports
 
-- [GitHub issues (preferred)](https://github.com/jmuelbert/jmbde-QT/issues)
+* [GitHub issues (preferred)](https://github.com/jmuelbert/jmbde-QT/issues)
 
 ## Questions or Comments
 
 ## Wiki
 
-- [Main Page](https://github.com/jmuelbert/jmbde-QT/wiki)
-- [User Manual](http://jmuelbert.github.io/jmbde-QT/)
+* [Main Page](https://github.com/jmuelbert/jmbde-QT/wiki)
+* [User Manual](http://jmuelbert.github.io/jmbde-QT/)
 
 ## Compiling jmbde
 
-### On macOS 
+### On macOS
+ 
     The latest Xcode.
 
     brew install qt5
@@ -60,14 +60,15 @@ Run `qbs` to build jmbde:
     For the debug version:
 
         qbs -d build --all-products config:debug
-  
+
 * Alternatively, you can [download Qt here](https://www.qt.io/download-qt-installer)
 
 ### On Windows
-    + You many tools install with choco
-    + choco install qbs
-    + Visual Studio 2017 or later
-    + qbs
+ 
+    You many tools install with choco
+    choco install qbs
+    Visual Studio 2017 or later
+    qbs
 
 ### On Linux
 
@@ -79,21 +80,20 @@ The installed toolchains have to match the one Qt was compiled with.
 
 Next, compile by running:
 
-    $ qmake (or qmake-qt5 on some systems)
-    $ make 
+    qmake (or qmake-qt5 on some systems)
+    make
 
 To perform a shadow build, run qmake from a different directory and refer
 it to jmbde.pro. For example:
 
-    $ mkdir build
-    $ cd build 
-    $ qmake ../jmdbde.pro
-    $ make
+    mkdir build
+    cd build
+    qmake ../jmdbde.pro
+    make
 
 You can now run jmbde using the executable in `bin/jmbde``
 
-
-## Installing 
+## Installing
 
 To install jmbde, run `make install`from terminal. By default, jmbde will
 install itself to `/usr/local`.
@@ -102,7 +102,7 @@ The installation prefix fan be changed when running qmake, or by changing thr
 install root when running `make install`. For example, to use an installation
 prefix of `/usr`instead of `/usr/local`:
 
-    $ qmake -r PREFIX=/usr
+    qmake -r PREFIX=/usr
 
 Note: The -r recursive flag is required if you've run qmake before, as this
 command will affect nested pro files.

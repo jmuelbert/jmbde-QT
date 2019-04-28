@@ -19,7 +19,7 @@ Product {
             if (qbs.targetOS.contains("windows") || project.linuxArchive)
                 return "translations"
             else if (qbs.targetOS.contains("macos"))
-                return "jmbde.app/Contents/Translations"
+                return "jmbde.app/Contents/Resources/Translations"
             else
                 return "share/jmbde/translations"
         }

@@ -1,11 +1,21 @@
 # ChangeLog
+
+<a name="0.4.23"></a>
+
+## 0.4.23 A BDE tool (2019-04-27)
+
+- Update the UI for Datainput
+- Add a .coafile
+- Upgrade to Version to 0.4.23
+- Make readme.md better
+
 <a name="0.4.22"></a>
 ## 0.4.22 A BDE tool (2018-11-01)
 
 ## 0.4.9 (2018-03-17)
 
 - Add Dialogs for Printer and Chipcards
-- Make all inputareas working. 
+- Make all inputareas working.
 - Create all translation ts-files.
 
 Thu Mar 15 21:53:04 2018 +0100 - develop@juergen-muelbert.de
@@ -15,65 +25,65 @@ Thu Mar 15 21:53:04 2018 +0100 - develop@juergen-muelbert.de
 -------------------------------------------------------------------
 Tue Feb 27 22:28:01 - develop@juergen-muelbert.de
 
-- Remove unused files. 
+- Remove unused files.
 - Correct CONTRIBUTING
 
 -------------------------------------------------------------------
-Sat Feb 17 11:17:13 2018 +0100 - develop@juergen-muelbert.de 
+Sat Feb 17 11:17:13 2018 +0100 - develop@juergen-muelbert.de
 
 - Create License
 
 -------------------------------------------------------------------
-Sun Feb 11 11:14:06 2018 +0100 - develop@juergen-muelbert.de 
+Sun Feb 11 11:14:06 2018 +0100 - develop@juergen-muelbert.de
 
 - Remove win build errors
 
 -------------------------------------------------------------------
-Tue Feb 6 22:23:54 2018 +0100  - develop@juergen-muelbert.de 
+Tue Feb 6 22:23:54 2018 +0100  - develop@juergen-muelbert.de
 
 - Remove deploy from source.
 
 -------------------------------------------------------------------
-Sat Jan 27 19:44:45 2018 +0100 - develop@juergen-muelbert.de 
+Sat Jan 27 19:44:45 2018 +0100 - develop@juergen-muelbert.de
 
-- Change Project-Structure. 
+- Change Project-Structure.
 - Change Deploy,
 
 -------------------------------------------------------------------
-Thu Jan 11 23:03:26 2018 +0100 - develop@juergen-muelbert.de 
+Thu Jan 11 23:03:26 2018 +0100 - develop@juergen-muelbert.de
 
-- Add qbs build system. 
+- Add qbs build system.
 - Change Copyright Header.
 
 -------------------------------------------------------------------
-Sun Dec 31 12:15:13 2017 +0100- develop@juergen-muelbert.de 
+Sun Dec 31 12:15:13 2017 +0100- develop@juergen-muelbert.de
 
 - Create WiX-Installer
 
 -------------------------------------------------------------------
-Wed Dec 20 20:38:46 2017 +0100 - develop@juergen-muelbert.de 
+Wed Dec 20 20:38:46 2017 +0100 - develop@juergen-muelbert.de
 
 - Create consistent DataModell Classes.
 - Change the connections in mainwindow.cpp.
 
 -------------------------------------------------------------------
-Sun Dec 10 14:47:56 2017 +0100 - develop@juergen-muelbert.de 
+Sun Dec 10 14:47:56 2017 +0100 - develop@juergen-muelbert.de
 
 - Upgrade ISS-File
 
 -------------------------------------------------------------------
-Sat Dec 9 19:14:27 2017 +0100 - develop@juergen-muelbert.de 
+Sat Dec 9 19:14:27 2017 +0100 - develop@juergen-muelbert.de
 
 - Update project files add installer innosetup script.
 - Test with Win64 and wrote ISS Installscript
 
 -------------------------------------------------------------------
-Wed Dec 6 21:14:51 2017 +0100 - develop@juergen-muelbert.de 
+Wed Dec 6 21:14:51 2017 +0100 - develop@juergen-muelbert.de
 
 - resolve merge conflicts
 
 -------------------------------------------------------------------
-Sun Dec 3 11:27:21 2017 +0100 - develop@juergen-muelbert.de 
+Sun Dec 3 11:27:21 2017 +0100 - develop@juergen-muelbert.de
 
 - New Database structure
 - New Project structure
@@ -95,10 +105,10 @@ Sat Nov 11 16:48:12 2017 +0100 - develop@juergen-muelbert.de
 Sun Nov 5 22:00:42 2017 +0100 - develop@juergen-muelbert.de
 
 - Add the last missing gui elements for this version.
-- Add Manufacturer and City. 
+- Add Manufacturer and City.
 - Began with restore the last views.
 - Add Manufacturer and City.
-- Add the last missing gui elements for this version. 
+- Add the last missing gui elements for this version.
 
 -------------------------------------------------------------------
 Wed Nov 1 18:01:29 2017 +0100 - develop@juergen-muelbert.de
@@ -108,11 +118,11 @@ Wed Nov 1 18:01:29 2017 +0100 - develop@juergen-muelbert.de
 -------------------------------------------------------------------
 Sat Oct 28 17:39:08 2017 +0200 - develop@juergen-muelbert.de
 
-- Update License to EUPL 1.2  
-- Uncrustify all source files. 
+- Update License to EUPL 1.2
+- Uncrustify all source files.
 - Update the Menus.
 - changed to treeview selector
-- Add Modell Classes. 
+- Add Modell Classes.
 - View all Classes in the Listbox
 
 -------------------------------------------------------------------
@@ -126,7 +136,7 @@ Sat Sep 30 19:02:00 2017 +0200 - develop@juergen-muelbert.de
 - Delete index.html
 - Delete README, must be README.md
 - Update README.md
-- Delete _config.yml  
+- Delete _config.yml
 - Delete index.md
 - Use gh-pages
 - little corrections
@@ -157,7 +167,7 @@ Tue Sep 5 21:50:14 2017 +0200 - develop@juergen-muelbert.de
 -------------------------------------------------------------------
 Sun Sep 3 11:44:43 2017 +0200 - develop@juergen-muelbert.de
 
-- Add autoresize for splittview. 
+- Add autoresize for splittview.
 - And correct the employee listview.
 
 -------------------------------------------------------------------
@@ -180,7 +190,7 @@ Sun Apr 9 00:09:43 2017 +0200 - develop@juergen-muelbert.de
 Sun Apr 2 16:51:13 2017 +0200 - develop@juergen-muelbert.de
 
 - Add Diagram for Database.
-- Minor corrections. 
+- Minor corrections.
 - Update Copyright.
 
 -------------------------------------------------------------------

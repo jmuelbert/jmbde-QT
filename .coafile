@@ -1,12 +1,53 @@
-[Default]
-bears = SpaceConsistencyBear
-files = **.cpp, **.h, **.ui
-use_spaces = true
-default_actions = SpaceConsistencyBear: ApplyPatchAction
+[all]
 
-[DOCS]
-bears = SpaceConsistencyBear
-files = *.md
+max_line_length = 80
+use_spaces = True
 
-[commit]
+[all.python]
+# Patches may conflict with autopep8 so putting them in own section so they
+# will be executed sequentially; also we need the LineLengthBear to double
+# check the line length because PEP8Bear sometimes isn't able to correct the
+# linelength.
+files = *.py
+bears = SpaceConsistencyBear, PyUnusedCodeBear, PyDocStyleBear,PyFlakesBear,PyLintBear
+
+[all.c]
+language = c++
+# cppcheckbear
+bears =  CPPCleanBear, CPPLintBear, CPDBear
+files = **.c, **.cpp, **.h
+
+[all.quotes]
+bears = QuotesBear
+language = Python
+preferred_quotation = '
+ignore += tests/**
+
+[all.autopep8]
+bears = PEP8Bear, PycodestyleBear
+pycodestyle_ignore = E121, E123, E126, E226, E252, W503, W504, W605
+
+[all.linelength]  # Sometimes autopep8 makes too long lines, need to check after!
+bears = LineLengthBear
+
+[all.linelength]  # Sometimes autopep8 makes too long lines, need to check after!
+bears = LineLengthBear
+
+[all.commit]
 bears = GitCommitBear
+shortlog_trailing_period = False
+shortlog_regex = ([^:]*|[^:]+[^ ]: [A-Z0-9*].*)
+
+
+[all.security]
+bears = BanditBear
+files = **/*.py
+
+[all.markdown]
+bears = MarkdownBear
+files = *.md, .github/*.md
+
+[all.yml]
+bears = YAMLLintBear
+files = *.yml, dist/**/*.yml
+

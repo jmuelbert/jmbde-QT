@@ -54,6 +54,9 @@ MainWindow::MainWindow(QWidget *parent)
   title.append(qApp->applicationVersion());
   setWindowTitle(title);
 
+  ui->splitter->setStretchFactor(0,1);
+  ui->splitter->setStretchFactor(1,1);
+
   ui->scrollArea->setWidgetResizable(true);
 
   readSettings();

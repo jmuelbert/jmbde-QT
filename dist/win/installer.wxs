@@ -169,47 +169,47 @@
             <Directory Id="dir3BE8642E1807402AB1BF376DED175FD3" Name="translations">
                 <Component Id="Translations" Guid="{EA6DC1E2-A2EB-4130-A482-231583226C08}">
                     <!-- JMBde translations -->
-                    <File Id="fil125043B921544D97A9C9B35E838E330D" Source="$(var.InstallRoot)\translations\jmbde_ar_DZ.qm" />
-                    <File Id="filB9CAC0F1D9E041C798E10802471B7893" Source="$(var.InstallRoot)\translations\jmbde_bg.qm" />
-                    <File Id="fil3487C65DBB5F4CECB77B9B08EEECBCDF" Source="$(var.InstallRoot)\translations\jmbde_cs.qm" />
-                    <File Id="fil227A695620B0415EAD680D1DB07A4666" Source="$(var.InstallRoot)\translations\jmbde_de.qm" />
-                    <File Id="fil989B721233754D2C858392C5598B01C9" Source="$(var.InstallRoot)\translations\jmbde_en.qm" />
-                    <File Id="filCE2A01FC1BD741D3A2BA3C880A1E2BEF" Source="$(var.InstallRoot)\translations\jmbde_es.qm" />
-                    <File Id="fil5377BE96799C4555A2486D3BA27A739D" Source="$(var.InstallRoot)\translations\jmbde_fr.qm" />
-                    <File Id="fil452E190314674ACB853074DB7B6BD16F" Source="$(var.InstallRoot)\translations\jmbde_he.qm" />
-                    <File Id="fil3FC4904C751E4C88AC0BACA478B80286" Source="$(var.InstallRoot)\translations\jmbde_it.qm" />
-                    <File Id="filFB8E1E06032C4CEDA35A509674E86C0B" Source="$(var.InstallRoot)\translations\jmbde_ja.qm" />
-                    <File Id="fil5AF90D8A70BC45A4ABCF48664BA64013" Source="$(var.InstallRoot)\translations\jmbde_nb.qm" />
-                    <File Id="fil3E1780C64464486ABBD672CAAA64F05F" Source="$(var.InstallRoot)\translations\jmbde_nl.qm" />
-                    <File Id="filCABA8F87B8904EE8BE9076C475AA8B73" Source="$(var.InstallRoot)\translations\jmbde_pl.qm" />
-                    <File Id="fil3F1BA9748D01494DA9D8EA8C89A0490B" Source="$(var.InstallRoot)\translations\jmbde_pt.qm" />
-                    <File Id="filDE5F2D1A83A3425AB53A877134486FFC" Source="$(var.InstallRoot)\translations\jmbde_pt_PT.qm" />
-                    <File Id="fil310F9F72CEEA4BC2B47961693FEBD11B" Source="$(var.InstallRoot)\translations\jmbde_ru.qm" />
-                    <File Id="filE80B994D188347C8B4AB8F5EB4A9712F" Source="$(var.InstallRoot)\translations\jmbde_tr.qm" />
-                    <File Id="fil8AB5FFFA5DFF4A2486F40AECBA2EA8E9" Source="$(var.InstallRoot)\translations\jmbde_zh.qm" />
-                    <File Id="filA64DE22795444E69A4817D9BE6FAB382" Source="$(var.InstallRoot)\translations\jmbde_zh_TW.qm" />
+                    <File Id="fil125043B921544D97A9C9B35E838E330D" Source="$(var.InstallRoot)\translations\jmbde_ar_DZ.qm"/>
+                    <File Id="filB9CAC0F1D9E041C798E10802471B7893" Source="$(var.InstallRoot)\translations\jmbde_bg.qm"/>
+                    <File Id="fil3487C65DBB5F4CECB77B9B08EEECBCDF" Source="$(var.InstallRoot)\translations\jmbde_cs.qm"/>
+                    <File Id="fil227A695620B0415EAD680D1DB07A4666" Source="$(var.InstallRoot)\translations\jmbde_de.qm"/>
+                    <File Id="fil989B721233754D2C858392C5598B01C9" Source="$(var.InstallRoot)\translations\jmbde_en.qm"/>
+                    <File Id="filCE2A01FC1BD741D3A2BA3C880A1E2BEF" Source="$(var.InstallRoot)\translations\jmbde_es.qm"/>
+                    <File Id="fil5377BE96799C4555A2486D3BA27A739D" Source="$(var.InstallRoot)\translations\jmbde_fr.qm"/>
+                    <File Id="fil452E190314674ACB853074DB7B6BD16F" Source="$(var.InstallRoot)\translations\jmbde_he.qm"/>
+                    <File Id="fil3FC4904C751E4C88AC0BACA478B80286" Source="$(var.InstallRoot)\translations\jmbde_it.qm"/>
+                    <File Id="filFB8E1E06032C4CEDA35A509674E86C0B" Source="$(var.InstallRoot)\translations\jmbde_ja.qm"/>
+                    <File Id="fil5AF90D8A70BC45A4ABCF48664BA64013" Source="$(var.InstallRoot)\translations\jmbde_nb.qm"/>
+                    <File Id="fil3E1780C64464486ABBD672CAAA64F05F" Source="$(var.InstallRoot)\translations\jmbde_nl.qm"/>
+                    <File Id="filCABA8F87B8904EE8BE9076C475AA8B73" Source="$(var.InstallRoot)\translations\jmbde_pl.qm"/>
+                    <File Id="fil3F1BA9748D01494DA9D8EA8C89A0490B" Source="$(var.InstallRoot)\translations\jmbde_pt.qm"/>
+                    <File Id="filDE5F2D1A83A3425AB53A877134486FFC" Source="$(var.InstallRoot)\translations\jmbde_pt_PT.qm"/>
+                    <File Id="fil310F9F72CEEA4BC2B47961693FEBD11B" Source="$(var.InstallRoot)\translations\jmbde_ru.qm"/>
+                    <File Id="filE80B994D188347C8B4AB8F5EB4A9712F" Source="$(var.InstallRoot)\translations\jmbde_tr.qm"/>
+                    <File Id="fil8AB5FFFA5DFF4A2486F40AECBA2EA8E9" Source="$(var.InstallRoot)\translations\jmbde_zh.qm"/>
+                    <File Id="filA64DE22795444E69A4817D9BE6FAB382" Source="$(var.InstallRoot)\translations\jmbde_zh_TW.qm"/>
 
                     <!-- Qt translations -->
-                    <File Id="qt_ar" Source="$(var.InstallRoot)\translations\qt_ar.qm" />
-                    <File Id="qt_bg" Source="$(var.InstallRoot)\translations\qt_bg.qm" />
-                    <File Id="qt_ca" Source="$(var.InstallRoot)\translations\qt_ca.qm" />
-                    <File Id="qt_cs" Source="$(var.InstallRoot)\translations\qt_cs.qm" />
-                    <File Id="qt_da" Source="$(var.InstallRoot)\translations\qt_da.qm" />
-                    <File Id="qt_de" Source="$(var.InstallRoot)\translations\qt_de.qm" />
-                    <File Id="qt_en" Source="$(var.InstallRoot)\translations\qt_en.qm" />
-                    <File Id="qt_es" Source="$(var.InstallRoot)\translations\qt_es.qm" />
-                    <File Id="qt_fi" Source="$(var.InstallRoot)\translations\qt_fi.qm" />                    
-                    <File Id="qt_fr" Source="$(var.InstallRoot)\translations\qt_fr.qm" />
-                    <File Id="qt_he" Source="$(var.InstallRoot)\translations\qt_he.qm" />
-                    <File Id="qt_hu" Source="$(var.InstallRoot)\translations\qt_hu.qm" /> 
-                    <File Id="qt_it" Source="$(var.InstallRoot)\translations\qt_it.qm" />                   
-                    <File Id="qt_ja" Source="$(var.InstallRoot)\translations\qt_ja.qm" />
-                    <File Id="qt_ko" Source="$(var.InstallRoot)\translations\qt_ko.qm" />
-                    <File Id="qt_lv" Source="$(var.InstallRoot)\translations\qt_lv.qm" />
-                    <File Id="qt_pl" Source="$(var.InstallRoot)\translations\qt_pl.qm" />
-                    <File Id="qt_ru" Source="$(var.InstallRoot)\translations\qt_ru.qm" />
-                    <File Id="qt_sk" Source="$(var.InstallRoot)\translations\qt_sk.qm" />
-                    <File Id="qt_uk" Source="$(var.InstallRoot)\translations\qt_uk.qm" />                        
+                    <File Id="qt_ar" Source="$(var.InstallRoot)\translations\qt_ar.qm"/>
+                    <File Id="qt_bg" Source="$(var.InstallRoot)\translations\qt_bg.qm"/>
+                    <File Id="qt_ca" Source="$(var.InstallRoot)\translations\qt_ca.qm"/>
+                    <File Id="qt_cs" Source="$(var.InstallRoot)\translations\qt_cs.qm"/>
+                    <File Id="qt_da" Source="$(var.InstallRoot)\translations\qt_da.qm"/>
+                    <File Id="qt_de" Source="$(var.InstallRoot)\translations\qt_de.qm"/>
+                    <File Id="qt_en" Source="$(var.InstallRoot)\translations\qt_en.qm"/>
+                    <File Id="qt_es" Source="$(var.InstallRoot)\translations\qt_es.qm"/>
+                    <File Id="qt_fi" Source="$(var.InstallRoot)\translations\qt_fi.qm"/>                    
+                    <File Id="qt_fr" Source="$(var.InstallRoot)\translations\qt_fr.qm"/>
+                    <File Id="qt_he" Source="$(var.InstallRoot)\translations\qt_he.qm"/>
+                    <File Id="qt_hu" Source="$(var.InstallRoot)\translations\qt_hu.qm"/> 
+                    <File Id="qt_it" Source="$(var.InstallRoot)\translations\qt_it.qm"/>                   
+                    <File Id="qt_ja" Source="$(var.InstallRoot)\translations\qt_ja.qm"/>
+                    <File Id="qt_ko" Source="$(var.InstallRoot)\translations\qt_ko.qm"/>
+                    <File Id="qt_lv" Source="$(var.InstallRoot)\translations\qt_lv.qm"/>
+                    <File Id="qt_pl" Source="$(var.InstallRoot)\translations\qt_pl.qm"/>
+                    <File Id="qt_ru" Source="$(var.InstallRoot)\translations\qt_ru.qm"/>
+                    <File Id="qt_sk" Source="$(var.InstallRoot)\translations\qt_sk.qm"/>
+                    <File Id="qt_uk" Source="$(var.InstallRoot)\translations\qt_uk.qm"/>                        
                 </Component>
             </Directory>
           <!-- /Directory -->
@@ -225,7 +225,7 @@
       <Directory Id="DesktopFolder" Name="Desktop" />
     </Directory>
 
-    <Feature Id='Complete' Level='1' Title="JMBde" Description="The complete package." ConfigurableDirectory='INSTALLDIR' AllowAdvertise='no' Absent='disallow'>
+    <Feature Id="Complete" Level="1" Title="JMBde" Description="The complete package." ConfigurableDirectory="INSTALLDIR" AllowAdvertise="no" Absent="disallow">
       <!-->
       <?if $(var.Platform) = x64 ?>
         <ComponentRef Id="redist_vc140_x64" />
@@ -233,20 +233,20 @@
         <ComponentRef Id="redist_vc140_x86" />
       <?endif ?>
       -->
-      <ComponentRef Id='MainExecutable' />
-      <ComponentRef Id='Translations' />
-      <ComponentRef Id='PlatformPlugins' />
-      <ComponentRef Id='IconEnginesPlugins' />
-      <ComponentRef Id='ImageFormatPlugins' />
-      <ComponentRef Id='PrintSupportPlugins' />
-      <ComponentRef Id='SqlDriversPlugins' />
-      <ComponentRef Id='StylesPlugins' />
-      <ComponentRef Id='ProgramMenuDir' />
+      <ComponentRef Id="MainExecutable"/>
+      <ComponentRef Id="Translations"/>
+      <ComponentRef Id="PlatformPlugins"/>
+      <ComponentRef Id="IconEnginesPlugins"/>
+      <ComponentRef Id="ImageFormatPlugins"/>
+      <ComponentRef Id="PrintSupportPlugins"/>
+      <ComponentRef Id="SqlDriversPlugins"/>
+      <ComponentRef Id="StylesPlugins"/>
+      <ComponentRef Id="ProgramMenuDir"/>
     </Feature>
 
     <!-- Set up ARPINSTALLLOCATION property (http://blogs.technet.com/b/alexshev/archive/2008/02/09/from-msi-to-wix-part-2.aspx) -->
-    <CustomAction Id="SetARPINSTALLLOCATION" Property="ARPINSTALLLOCATION" Value="[INSTALLDIR]" />
-    <CustomAction Id='LaunchApplication' FileKey='JMBdeEXE' ExeCommand='' Return='asyncNoWait' />
+    <CustomAction Id="SetARPINSTALLLOCATION" Property="ARPINSTALLLOCATION" Value="[INSTALLDIR]"/>
+    <CustomAction Id="LaunchApplication" FileKey="JMBdeEXE" ExeCommand="" Return="asyncNoWait"/>
 
     <Property Id="WIXUI_INSTALLDIR">INSTALLDIR</Property>
     <UIRef Id="WixUI_InstallDir" />
@@ -260,9 +260,9 @@
 
     <InstallExecuteSequence>
       <!-- Determine the install location after the install path has been validated by the installer -->
-      <Custom Action="SetARPINSTALLLOCATION" After="InstallValidate"></Custom>
-      <Custom Action='LaunchApplication' After='InstallFinalize'>NOT Installed</Custom>
+      <Custom Action="SetARPINSTALLLOCATION" After="InstallValidate"/>
+      <Custom Action="LaunchApplication" After="InstallFinalize">NOT Installed</Custom>
     </InstallExecuteSequence>
 
   </Product>
-</Wix>         
+</Wix>

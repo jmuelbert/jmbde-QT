@@ -1,5 +1,5 @@
 # Initialize the version
-isEmpty(JMBDE_VERSION):JMBDE_VERSION = "0.4.22"
+isEmpty(JMBDE_VERSION):JMBDE_VERSION = "0.4.23"
 
 # See the README file for instructions about setting the install prefix.
 isEmpty(PREFIX):PREFIX = /usr/local
