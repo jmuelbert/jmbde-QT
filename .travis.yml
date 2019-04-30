@@ -120,6 +120,7 @@ matrix:
       - sudo apt-get install --yes qt512svg
       - sudo apt-get install --yes qt512imageformats
       - sudo apt-get install --yes qt512tools
+      - source /opt/qt512/bin/qt512-env.sh
     
     script:
       - qmake
@@ -147,7 +148,8 @@ matrix:
       - curl -L https://raw.githubusercontent.com/benlau/qtci/master/bin/extract-qt-installer --output extract-qt-installer
       - chmod +x extract-qt-installer
       - curl -L https://download.qt.io/official_releases/qt/5.11/5.11.2/${INSTALLER_NAME}.dmg --output ${INSTALLER_NAME}.dmg
-      - hdiutil attach ${INSTALLER_NAME}.dmg - "./extract-qt-installer /Volumes/${INSTALLER_NAME}/${INSTALLER_NAME}.app/Contents/MacOS/${INSTALLER_NAME} $HOME/Qt"
+      - hdiutil attach ${INSTALLER_NAME}.dmg 
+      - "./extract-qt-installer /Volumes/${INSTALLER_NAME}/${INSTALLER_NAME}.app/Contents/MacOS/${INSTALLER_NAME} $HOME/Qt"
       - hdiutil detach /Volumes/${INSTALLER_NAME}
     
     script:

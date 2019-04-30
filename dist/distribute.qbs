@@ -293,7 +293,7 @@ Product {
         files: {
             var list = [
                 "LICENSE",
-                "LICENSE.EUPL_1_2",
+                "LICENSE.DE",
                 "AUTHORS",
                 "README.md",
                 "NEWS.md",
