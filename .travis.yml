@@ -41,7 +41,7 @@ matrix:
       - eval "${MATRIX_EVAL}"
 
       # Qt 5.12.3
-      - sudo add-apt-repository --yes ppa:beineri/opt-qt-5.11.3-xenial
+      - sudo add-apt-repository --yes ppa:beineri/opt-qt-5.12.3-xenial
 
       # Update
       - sudo apt-get update -qq
@@ -108,7 +108,7 @@ matrix:
  
     before_install:
       # Qt 5.12.3
-      - sudo add-apt-repository --yes ppa:beineri/opt-qt-5.11.3-xenial
+      - sudo add-apt-repository --yes ppa:beineri/opt-qt-5.12.3-xenial
 
       # Update
       - sudo apt-get update -qq
