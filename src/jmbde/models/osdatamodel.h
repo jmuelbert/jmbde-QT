@@ -1,6 +1,6 @@
 /**************************************************************************
 **
-** Copyright (c) 2013-2018 Jürgen Mülbert. All rights reserved.
+** Copyright (c) 2013-2019 Jürgen Mülbert. All rights reserved.
 **
 ** This file is part of jmbde
 **
@@ -56,7 +56,7 @@
 
 class OSDataModel : public CommonDataModel {
 public:
-  explicit OSDataModel(QObject *parent = 0);
+  explicit OSDataModel(QObject *parent = nullptr);
 
   ~OSDataModel();
 

@@ -1,6 +1,6 @@
 /**************************************************************************
 **
-** Copyright (c) 2013-2018 Jürgen Mülbert. All rights reserved.
+** Copyright (c) 2013-2019 Jürgen Mülbert. All rights reserved.
 **
 ** This file is part of jmbde
 **
@@ -68,7 +68,7 @@ public:
    * @param parent
    * @param index
    */
-  explicit OSInputArea(QWidget *parent = 0,
+  explicit OSInputArea(QWidget *parent = nullptr,
                        const QModelIndex index = QModelIndex());
 
   /**

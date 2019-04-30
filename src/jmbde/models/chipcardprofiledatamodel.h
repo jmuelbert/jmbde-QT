@@ -1,6 +1,6 @@
 /**************************************************************************
 **
-** Copyright (c) 2013-2018 Jürgen Mülbert. All rights reserved.
+** Copyright (c) 2013-2019 Jürgen Mülbert. All rights reserved.
 **
 ** This file is part of jmbde
 **
@@ -58,7 +58,7 @@ class ChipCardProfileDataModel : public CommonDataModel {
   Q_OBJECT
 
 public:
-  explicit ChipCardProfileDataModel(QObject *parent = 0);
+  explicit ChipCardProfileDataModel(QObject *parent = nullptr);
 
   ~ChipCardProfileDataModel();
 

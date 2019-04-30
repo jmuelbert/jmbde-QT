@@ -1,6 +1,6 @@
 /**************************************************************************
 **
-** Copyright (c) 2013-2018 Jürgen Mülbert. All rights reserved.
+** Copyright (c) 2013-2019 Jürgen Mülbert. All rights reserved.
 **
 ** This file is part of jmbde
 **
@@ -52,7 +52,7 @@ class AboutDialog : public QDialog {
   Q_OBJECT
 
 public:
-  explicit AboutDialog(QWidget *parent = 0);
+  explicit AboutDialog(QWidget *parent = nullptr);
   ~AboutDialog();
 
 private:

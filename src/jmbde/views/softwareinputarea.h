@@ -68,7 +68,7 @@ public:
    * @param parent
    * @param index
    */
-  explicit SoftwareInputArea(QWidget *parent = 0,
+  explicit SoftwareInputArea(QWidget *parent = nullptr,
                              const QModelIndex index = QModelIndex());
 
   /**

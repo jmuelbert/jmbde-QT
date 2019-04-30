@@ -1,6 +1,6 @@
 /**************************************************************************
 **
-** Copyright (c) 2013-2018 Jürgen Mülbert. All rights reserved.
+** Copyright (c) 2013-2019 Jürgen Mülbert. All rights reserved.
 **
 ** This file is part of jmbde
 **
@@ -55,7 +55,7 @@
 
 class ZipCodeModel : public CommonDataModel {
 public:
-  explicit ZipCodeModel(QObject *parent = 0);
+  explicit ZipCodeModel(QObject *parent = nullptr);
 
   virtual ~ZipCodeModel();
 

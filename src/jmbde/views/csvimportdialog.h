@@ -1,6 +1,6 @@
 /**************************************************************************
 **
-** Copyright (c) 2013-2018 Jürgen Mülbert. All rights reserved.
+** Copyright (c) 2013-2019 Jürgen Mülbert. All rights reserved.
 **
 ** This file is part of jmbde
 **
@@ -69,7 +69,7 @@ public:
    * @brief CsvImportDialog::CsvImportDialog
    * @param parent
    */
-  explicit CsvImportDialog(QWidget *parent = 0);
+  explicit CsvImportDialog(QWidget *parent = nullptr);
 
   /**
    * @brief CsvImportDialog::~CsvImportDialog

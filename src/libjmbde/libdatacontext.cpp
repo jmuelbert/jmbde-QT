@@ -1,6 +1,6 @@
 /**************************************************************************
 **
-** Copyright (c) 2013-2018 Jürgen Mülbert. All rights reserved.
+** Copyright (c) 2013-2019 Jürgen Mülbert. All rights reserved.
 **
 ** This file is part of jmbde
 **
@@ -142,7 +142,6 @@ LibDataContext::LibDataContext(const QString &name, QObject *parent)
   settings.endGroup();
 
   if (dbType == SQLITE) {
-
     const auto targetFileAndPath = this->getSqliteName();
     QFile f(targetFileAndPath);
     if (!f.exists()) {
