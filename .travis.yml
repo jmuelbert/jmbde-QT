@@ -61,8 +61,8 @@ matrix:
 
     script:
       - qbs --version
-      - qbs setup-toolchains /opt/qt512/bin/qmake qt-5-12-3
-      - qbs setup-qt --detect
+      - qbs setup-toolchains --detect
+      - qbs setup-qt /opt/qt512/bin/qmake qt-5-12-3
       - qbs config defaultProfile qt-5-12-3
       - qbs install --install-root jmbde/usr config:release projects.JMBde.version:$JMBDE_VERSION
       - cp LICENSE* *md jmbde/
