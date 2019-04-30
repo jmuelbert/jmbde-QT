@@ -49,11 +49,11 @@ matrix:
     install:
 
       # Qt 5.12.3
-      - sudo qpt-get install --yes qt512base
-      - sudo qpt-get install --yes qt512script
-      - sudo qpt-get install --yes qt512svg
-      - sudo qpt-get install --yes qt512imageformats
-      - sudo qpt-get install --yes qt512tools
+      - sudo apt-get install --yes qt512base
+      - sudo apt-get install --yes qt512script
+      - sudo apt-get install --yes qt512svg
+      - sudo apt-get install --yes qt512imageformats
+      - sudo apt-get install --yes qt512tools
 
       # Qbs 1.13
       - source /opt/qt512/bin/qt512-env.sh
@@ -114,12 +114,12 @@ matrix:
       - sudo apt-get update -qq
 
     install:
-     # Qt 5.12.3
-      - sudo qpt-get install --yes qt512base
-      - sudo qpt-get install --yes qt512script
-      - sudo qpt-get install --yes qt512svg
-      - sudo qpt-get install --yes qt512imageformats
-      - sudo qpt-get install --yes qt512tools
+      # Qt 5.12.3
+      - sudo apt-get install --yes qt512base
+      - sudo apt-get install --yes qt512script
+      - sudo apt-get install --yes qt512svg
+      - sudo apt-get install --yes qt512imageformats
+      - sudo apt-get install --yes qt512tools
     
     script:
       - qmake
