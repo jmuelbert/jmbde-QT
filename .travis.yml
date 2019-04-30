@@ -147,7 +147,7 @@ matrix:
       - brew install qbs
       - curl -L https://raw.githubusercontent.com/benlau/qtci/master/bin/extract-qt-installer --output extract-qt-installer
       - chmod +x extract-qt-installer
-      - curl -L https://download.qt.io/official_releases/qt/5.11/5.11.2/${INSTALLER_NAME}.dmg --output ${INSTALLER_NAME}.dmg
+      - curl -L https://download.qt.io/official_releases/qt/5.12/5.12.3/${INSTALLER_NAME}.dmg --output ${INSTALLER_NAME}.dmg
       - hdiutil attach ${INSTALLER_NAME}.dmg 
       - "./extract-qt-installer /Volumes/${INSTALLER_NAME}/${INSTALLER_NAME}.app/Contents/MacOS/${INSTALLER_NAME} $HOME/Qt"
       - hdiutil detach /Volumes/${INSTALLER_NAME}
