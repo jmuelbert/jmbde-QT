@@ -65,27 +65,26 @@ class HelpBrowser : public QTextBrowser {
   Q_LOGGING_CATEGORY(helpSystem, "jmbde.help")
 
 public:
-    //! The HelpBrowser Constructor.
-    /*!
-     * \brief HelpBrowser
-     * \param parent
-     */
-    explicit HelpBrowser(QWidget *parent = nullptr);
+  //! The HelpBrowser Constructor.
+  /*!
+   * \brief HelpBrowser
+   * \param parent
+   */
+  explicit HelpBrowser(QWidget *parent = nullptr);
 
-    //! The ContextHelp Fuction
-    /*!
-     * \brief showHelpForKeyWord
-     * \param id
-     */
-    void showHelpForKeyWord(const QString &id);
-
+  //! The ContextHelp Fuction
+  /*!
+   * \brief showHelpForKeyWord
+   * \param id
+   */
+  void showHelpForKeyWord(const QString &id);
 
 signals:
 
 public slots:
 
 private:
-    /*!
+  /*!
    * \brief loadResource
    * \param type
    * \param name

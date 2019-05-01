@@ -54,8 +54,8 @@ MainWindow::MainWindow(QWidget *parent)
   title.append(qApp->applicationVersion());
   setWindowTitle(title);
 
-  ui->splitter->setStretchFactor(0,1);
-  ui->splitter->setStretchFactor(1,1);
+  ui->splitter->setStretchFactor(0, 1);
+  ui->splitter->setStretchFactor(1, 1);
 
   ui->scrollArea->setWidgetResizable(true);
 
@@ -243,7 +243,8 @@ void MainWindow::readSettings() {
   dbType =
       settings.value(QLatin1String(Settings::Database::TYPE), SQLITE).toInt();
   dbConnection =
-      settings.value(QLatin1String(Settings::Database::CONNECTION), dataContextDir)
+      settings
+          .value(QLatin1String(Settings::Database::CONNECTION), dataContextDir)
           .toString();
   dbHostname = settings
                    .value(QLatin1String(Settings::Database::HOSTNAME),

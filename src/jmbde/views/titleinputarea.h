@@ -62,7 +62,7 @@ class TitleInputArea;
 class TitleInputArea : public QGroupBox {
   Q_OBJECT
 
- public:
+public:
   /**
    * @brief TitleInputArea
    * @param parent

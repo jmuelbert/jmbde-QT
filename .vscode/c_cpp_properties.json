@@ -1,26 +1,23 @@
 {
-    "configurations": [
-        {
+    "configurations": [{
             "name": "Mac",
             "includePath": [
-                "${workspaceRoot}",
-                "/usr/include",
-                "~/Qt/5.11.2/clang_64/lib/QtCore.framework/Headers"
+                "${workspaceRoot}"
             ],
             "defines": [],
             "intelliSenseMode": "clang-x64",
             "browse": {
-                "path": [    
-                    "/usr/include",
-                    "/usr/local/include",
-                    "/usr/local/include/QtCore",
-                    "/usr/local/include/QtGui",
-                    "/usr/local/include/QtHelp",
-                    "/usr/local/include/QtSql",
-                    "/usr/local/include/QtSvg",
-                    "/usr/local/include/QtTest",
-                    "/usr/local/include/QtWidgets",
-                    "/usr/local/include/QtXml",
+                "path": [
+                    "/Library/Developer/CommandLineTools/usr/include",
+                    "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include",
+                    "~/Qt/5.12.3/clang_64/lib/QtCore.framework/Headers",
+                    "~/Qt/5.12.3/clang_64/lib/QtGui.framework/Headers",
+                    "~/Qt/5.12.3/clang_64/lib/QtHelp.framework/Headers",
+                    "~/Qt/5.12.3/clang_64/lib/QtSql.framework/Headers",
+                    "~/Qt/5.12.3/clang_64/lib/QtSvg.framework/Headers",
+                    "~/Qt/5.12.3/clang_64/lib/QtTest.framework/Headers",
+                    "~/Qt/5.12.3/clang_64/lib/QtWidgets.framework/Headers",
+                    "~/Qt/5.12.3/clang_64/lib/QtXml.framework/Headers",
                     "${workspaceRoot}"
                 ],
                 "limitSymbolsToIncludedHeaders": true,

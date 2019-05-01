@@ -110,19 +110,20 @@ matrix:
  
     before_install:
       # Qt 5.12.3
-      - sudo add-apt-repository --yes ppa:beineri/opt-qt-5.12.3-xenial
+      - sudo add-apt-repository --yes ppa:beineri/opt-qt563-xenial
 
       # Update
       - sudo apt-get update -qq
 
     install:
       # Qt 5.12.3
-      - sudo apt-get install --yes qt512base
-      - sudo apt-get install --yes qt512script
-      - sudo apt-get install --yes qt512svg
-      - sudo apt-get install --yes qt512imageformats
-      - sudo apt-get install --yes qt512tools
-      - source /opt/qt512/bin/qt512-env.sh
+      - sudo apt-get install --yes qt563base
+      - sudo apt-get install --yes qt563script
+      - sudo apt-get install --yes qt563svg
+      - sudo apt-get install --yes qt563imageformats
+      - sudo apt-get install --yes qt563tools
+      - source /opt/qt56/bin/qt56-env.sh
+      - qmake --version
     
     script:
       - qmake
@@ -161,7 +162,7 @@ matrix:
       - qbs config profiles.qt.baseProfile xcode-macosx-x86_64
       - qbs config defaultProfile qt
       - qbs install --install-root install config:release project.JMBde.version:$JMBDE_VERSION
-      - "$HOME/Qt/5.11.2/clang_64/bin/macdeployqt install/jmbde.app/Contents/MacOS/jmbde -appstore-compliant"
+      - "$HOME/Qt/5.12.3/clang_64/bin/macdeployqt install/jmbde.app/Contents/MacOS/jmbde -appstore-compliant"
       - pushd install
       - ruby ../dist/mac/fixup-install-names.rb
       - popd

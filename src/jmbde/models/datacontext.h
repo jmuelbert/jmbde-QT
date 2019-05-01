@@ -134,7 +134,7 @@ public:
   bool execQuery(const QString &queryText);
 
   /* basic public actions */
-  void prepareDB() ;
+  void prepareDB();
   bool check_existence(const QString &tableNmae, const QString &searchId,
                        const QString &serach);
 

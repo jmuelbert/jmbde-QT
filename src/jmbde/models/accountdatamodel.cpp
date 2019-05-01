@@ -95,10 +95,8 @@ QString AccountDataModel::generateTableString(QAbstractTableModel *model,
   int columnCount = model->columnCount();
   int rowCount = model->rowCount();
 
-  qCDebug(accountModel,"Header: %s ( Columns: %i - Rows: %i )",
-          header.toUtf8().constData(),
-          columnCount,
-          rowCount);
+  qCDebug(accountModel, "Header: %s ( Columns: %i - Rows: %i )",
+          header.toUtf8().constData(), columnCount, rowCount);
 
   QList<int> set;
 
@@ -126,10 +124,8 @@ QString AccountDataModel::generateFormularString(QAbstractTableModel *model,
   int columnCount = model->columnCount();
   int rowCount = model->rowCount();
 
-  qCDebug(accountModel,"Header: %s ( Columns: %i - Rows: %i )",
-          header.toUtf8().constData(),
-          columnCount,
-          rowCount);
+  qCDebug(accountModel, "Header: %s ( Columns: %i - Rows: %i )",
+          header.toUtf8().constData(), columnCount, rowCount);
 
   // Document Title
   outString = QLatin1String("<h1>");

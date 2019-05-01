@@ -48,8 +48,6 @@
 
 DataContext::DataContext(QObject *parent) : QObject(parent) {
   this->name = QUuid::createUuid().toString();
-
-
 }
 
 DataContext::DataContext(const QString &name, QObject *parent)
@@ -65,10 +63,10 @@ DataContext::DataContext(const QString &name, QObject *parent)
     QFile f(targetFileAndPath);
     if (!f.exists()) {
       qInfo("Create Sqlite Database: %s", qUtf8Printable(name));
-        m_db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"));
-        m_db.setDatabaseName(targetFileAndPath);
-        m_db.open();
-        this->prepareDB();
+      m_db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"));
+      m_db.setDatabaseName(targetFileAndPath);
+      m_db.open();
+      this->prepareDB();
     } else {
       qInfo("Open Sqlite Database: %s", qUtf8Printable(name));
       m_db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"));
@@ -104,10 +102,10 @@ DataContext::~DataContext() {
 
 void DataContext::closeConnection() { qDebug("Closing Database"); }
 
-void DataContext::prepareDB()  {
+void DataContext::prepareDB() {
   if (!this->m_db.isValid()) {
-     this->m_db = QSqlDatabase::database(this->name);
-    }
+    this->m_db = QSqlDatabase::database(this->name);
+  }
 
   QSqlQuery query(this->m_db);
 

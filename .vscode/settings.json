@@ -1,5 +1,5 @@
 {
-    "editor.formatOnType": true, 
+    "editor.formatOnType": true,
 
     "clang-format.executable": "/usr/local/bin"
 }

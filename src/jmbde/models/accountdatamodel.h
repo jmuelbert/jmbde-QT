@@ -82,20 +82,20 @@ class AccountDataModel : public CommonDataModel {
   Q_OBJECT
   Q_LOGGING_CATEGORY(accountModel, "jmbde.models.account")
 public:
-    //! Constructor AccountDataModel
-    /*!
+  //! Constructor AccountDataModel
+  /*!
    * \brief AccountDataModel
    * \param parent
    */
   explicit AccountDataModel(QObject *parent = nullptr);
 
-   //! Destructor AccountDataModel
+  //! Destructor AccountDataModel
   ~AccountDataModel() override;
 
   // implement the virtuals
 
-    //! setIndexes
-    /*!
+  //! setIndexes
+  /*!
    * \brief setIndexes
    */
   void setIndexes();
@@ -128,7 +128,8 @@ public:
    * \param header
    * \return
    */
-  QString generateTableString(QAbstractTableModel *model, const QString &header);
+  QString generateTableString(QAbstractTableModel *model,
+                              const QString &header);
 
   //! generateFormularString
   /*!
@@ -137,7 +138,8 @@ public:
    * \param header
    * \return
    */
-  QString generateFormularString(QAbstractTableModel *model, const QString &header);
+  QString generateFormularString(QAbstractTableModel *model,
+                                 const QString &header);
 
   // Getter
   //! AccountIdIndex

@@ -1,6 +1,5 @@
 TEMPLATE = subdirs
 
 SUBDIRS = \
-    auto-cpp 
-
-#    auto-qml
+    auto-cpp \ 
+    auto-qml

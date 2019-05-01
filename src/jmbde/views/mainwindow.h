@@ -85,8 +85,8 @@
 #include "softwareinputarea.h"
 #include "titleinputarea.h"
 
-#include "models/datacontext.h"
 #include "models/citynamedatamodel.h"
+#include "models/datacontext.h"
 #include "models/departmentdatamodel.h"
 #include "models/functiondatamodel.h"
 #include "models/manufacturerdatamodel.h"

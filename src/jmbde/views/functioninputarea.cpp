@@ -147,6 +147,8 @@ void FunctionInputArea::on_pushButton_EditFinish_clicked() {
     }
   } break;
 
-  default: { qDebug() << "Error"; }
+  default: {
+    qDebug() << "Error";
+  }
   }
 }

@@ -66,17 +66,17 @@
  */
 class ChipCardDataModel : public CommonDataModel {
   Q_OBJECT
-      Q_LOGGING_CATEGORY(chipCardDataModel, "jmbde.models.chipcarddata")
+  Q_LOGGING_CATEGORY(chipCardDataModel, "jmbde.models.chipcarddata")
 
 public:
-    //! Constructor ChipCardDataModel
-    /*!
-     \brief ChipCardDataModel
-     \param parent
-    */
+  //! Constructor ChipCardDataModel
+  /*!
+   \brief ChipCardDataModel
+   \param parent
+  */
   explicit ChipCardDataModel(QObject *parent = nullptr);
 
-    //! Destructor ChipCardDataModel
+  //! Destructor ChipCardDataModel
   ~ChipCardDataModel();
 
   // implement the virtuals
@@ -123,7 +123,7 @@ public:
                                          QString header);
 
   // Getter
-    /*!
+  /*!
    * \brief ChipCardIdIndex
    * \return
    */
