@@ -117,11 +117,11 @@ matrix:
 
     install:
       # Qt 5.12.3
-      - sudo apt-get install --yes qt563base
-      - sudo apt-get install --yes qt563script
-      - sudo apt-get install --yes qt563svg
-      - sudo apt-get install --yes qt563imageformats
-      - sudo apt-get install --yes qt563tools
+      - sudo apt-get install --yes qt56base
+      - sudo apt-get install --yes qt56script
+      - sudo apt-get install --yes qt56svg
+      - sudo apt-get install --yes qt56imageformats
+      - sudo apt-get install --yes qt56tools
       - source /opt/qt56/bin/qt56-env.sh
       - qmake --version
     
