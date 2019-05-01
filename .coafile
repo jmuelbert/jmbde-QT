@@ -30,14 +30,10 @@ pycodestyle_ignore = E121, E123, E126, E226, E252, W503, W504, W605
 [all.linelength]  # Sometimes autopep8 makes too long lines, need to check after!
 bears = LineLengthBear
 
-[all.linelength]  # Sometimes autopep8 makes too long lines, need to check after!
-bears = LineLengthBear
-
 [all.commit]
 bears = GitCommitBear
 shortlog_trailing_period = False
 shortlog_regex = ([^:]*|[^:]+[^ ]: [A-Z0-9*].*)
-
 
 [all.security]
 bears = BanditBear

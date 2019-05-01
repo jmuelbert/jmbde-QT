@@ -4,6 +4,7 @@ Project {
     name: "Tests"
     references: [
         "auto-cpp/auto-cpp.qbs",
+        "auto-qml/auto-qml.qbs",
     ]
 
     AutotestRunner {
