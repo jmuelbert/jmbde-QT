@@ -87,6 +87,9 @@
        <property name="selectionBehavior">
         <enum>QAbstractItemView::SelectItems</enum>
        </property>
+       <attribute name="headerVisible">
+        <bool>false</bool>
+       </attribute>
       </widget>
       <widget class="QListView" name="listView">
        <property name="sizePolicy">
@@ -202,7 +205,7 @@
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionPreferences">
    <property name="icon">
-    <iconset>
+    <iconset resource="../jmbde.qrc">
      <normaloff>:/images/contact-new.png</normaloff>:/images/contact-new.png</iconset>
    </property>
    <property name="text">

@@ -201,6 +201,11 @@ private:
   Ui::MainWindow *ui;
 
   /**
+    @brief initOutline
+    */
+  void initOutline();
+
+  /**
    * @brief readSettings
    */
   void readSettings();

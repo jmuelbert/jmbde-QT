@@ -54,60 +54,14 @@ MainWindow::MainWindow(QWidget *parent)
   title.append(qApp->applicationVersion());
   setWindowTitle(title);
 
-  ui->splitter->setStretchFactor(0, 1);
-  ui->splitter->setStretchFactor(1, 1);
 
   ui->scrollArea->setWidgetResizable(true);
 
   readSettings();
 
-  m_treeviewModel = new QStandardItemModel(this);
-  QStandardItem *parentItem = m_treeviewModel->invisibleRootItem();
-  QStandardItem *header;
-  QStandardItem *item;
+  initOutline();
 
-  header = new QStandardItem(tr("Person"));
-  parentItem->appendRow(header);
-  item = new QStandardItem(tr("Employee"));
-  header->appendRow(item);
-  item = new QStandardItem(tr("Function"));
-  header->appendRow(item);
-  item = new QStandardItem(tr("Department"));
-  header->appendRow(item);
-  item = new QStandardItem(tr("Title"));
-  header->appendRow(item);
 
-  header = new QStandardItem(tr("Device"));
-  parentItem->appendRow(header);
-  item = new QStandardItem(tr("Computer"));
-  header->appendRow(item);
-  item = new QStandardItem(tr("Processor"));
-  header->appendRow(item);
-  item = new QStandardItem(tr("Operation System"));
-  header->appendRow(item);
-  item = new QStandardItem(tr("Software"));
-  header->appendRow(item);
-  item = new QStandardItem(tr("Printer"));
-  header->appendRow(item);
-
-  header = new QStandardItem(tr("Communication"));
-  parentItem->appendRow(header);
-  item = new QStandardItem(tr("Phone"));
-  header->appendRow(item);
-  item = new QStandardItem(tr("Mobile"));
-  header->appendRow(item);
-
-  header = new QStandardItem(tr("Misc"));
-  parentItem->appendRow(header);
-  item = new QStandardItem(tr("Manufacturer"));
-  header->appendRow(item);
-  item = new QStandardItem(tr("City"));
-  header->appendRow(item);
-  item = new QStandardItem(tr("Chipcard"));
-  header->appendRow(item);
-
-  ui->treeView->setModel(m_treeviewModel);
-  ui->treeView->expandAll();
 
   this->dataBaseName = QString(QStringLiteral("jmbde"));
   this->dataContext = new DataContext(this->dataBaseName);
@@ -185,6 +139,48 @@ void MainWindow::on_actionAbout_triggered() {
 
   aboutDialog = new AboutDialog();
   aboutDialog->show();
+}
+
+void MainWindow::initOutline() {
+
+    QMap<QString, QList<QString>> outlineData;
+
+    QList<QString> subEntries = { tr("Employee"), tr("Function"), tr("Deparment"), tr("Title")};
+    outlineData.insert(tr("Person"), subEntries);
+
+    subEntries = { tr("Computer"), tr("Processor"), tr("Operation System"), tr("Software"), tr("Printer")};
+    outlineData.insert(tr("Device"), subEntries);
+
+    subEntries = { tr("Phone"), tr("Mobile")};
+    outlineData.insert(tr("Communication"), subEntries);
+
+    subEntries = { tr("Manufacturer"), tr("City"), tr("Chipcard")};
+    outlineData.insert(tr("Misc"), subEntries);
+
+    m_treeviewModel = new QStandardItemModel(this);
+    QStandardItem *parentItem = m_treeviewModel->invisibleRootItem();
+    QStandardItem *header;
+    QStandardItem *item;
+
+    QList<QString> od;
+    QMapIterator<QString, QList<QString>> i(outlineData);
+    while (i.hasNext()) {
+        i.next();
+        header = new QStandardItem(i.key());
+        parentItem->appendRow(header);
+        qDebug() << i.key() << ": " << i.value() << endl;
+
+        od = i.value();
+        for (int i = 0; i < od.size(); ++i) {
+            item = new QStandardItem(od.value(i));
+            header->appendRow(item);
+            qDebug() << "Found " << od.value(i) << " at position " << i << endl;
+        }
+
+    }
+
+    ui->treeView->setModel(m_treeviewModel);
+    ui->treeView->expandAll();
 }
 
 void MainWindow::writeSettings() {
