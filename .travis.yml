@@ -41,8 +41,8 @@ matrix:
     before_install:
       - eval "${MATRIX_EVAL}"
 
-      # Qt 5.9.7     
-      - sudo add-apt-repository --yes ppa:beineri/opt-qt597-xenial
+      # Qt 5.12.3     
+      - sudo add-apt-repository --yes ppa:beineri/opt-qt-5.12.3-xenial
 
       # Update
       - sudo apt-get update -qq
@@ -50,22 +50,21 @@ matrix:
     install:
 
       # Qt 597
-      - sudo apt-get install --yes qt59base
-      - sudo apt-get install --yes qt59script
-      - sudo apt-get install --yes qt59svg
-      - sudo apt-get install --yes qt59imageformats
-      - sudo apt-get install --yes qt59tools
+      - sudo apt-get -y install qt512base 
+      - sudo apt-get -y install qt512script 
+      - sudo apt-get -y install qt512svg 
+      - sudo apt-get -y install qt512imageformats 
+      - sudo apt-get -y install qt512tools
 
       # Qbs 1.11
-      - source /opt/qt59/bin/qt59-env.sh
+      - source /opt/qt512/bin/qt512-env.sh
       - source ./dist/linux/setup-qbs.sh
 
     script:
       - qbs --version
       - qbs setup-toolchains --detect
-      - qbs setup-qt /opt/qt512/bin/qmake qt-5-9-7
-      - qbs config defaultProfile qt-5-9-7
-      - qbs install --install-root jmbde/usr config:release projects.JMBde.version:$JMBDE_VERSION
+      - qbs config defaultProfile gcc
+      - qbs install --install-root jmbde config:release qbs.installPrefix:/usr projects.JMBde.version:$JMBDE_VERSION
       - cp LICENSE* *md jmbde/
 
     after_success:
@@ -108,14 +107,14 @@ matrix:
     - MAKEFLAGS=-j2
  
     before_install:
-      # Qt 5.12.3
+      # Qt 5.6
       - sudo add-apt-repository --yes ppa:beineri/opt-qt563-xenial
 
       # Update
       - sudo apt-get update -qq
 
     install:
-      # Qt 5.12.3
+      # Qt 5.6
       - sudo apt-get install --yes qt56base
       - sudo apt-get install --yes qt56script
       - sudo apt-get install --yes qt56svg
@@ -145,25 +144,23 @@ matrix:
       - QT_CI_PACKAGES="qt.qt5.5123.clang_64"
 
     before_install:
-      - brew update
-      - brew install qbs
-      - curl -L https://raw.githubusercontent.com/benlau/qtci/master/bin/extract-qt-installer --output extract-qt-installer
+      - curl -L https://raw.githubusercontent.com/benlau/qtci/master/recipes/install-qt --output install-qt
+      - curl -L https://raw.githubusercontent.com/benlau/qtci/master/bin/extract-qt-installe --output extract-qt-installer
+      - chmod +x install-qt
       - chmod +x extract-qt-installer
-      - curl -L https://download.qt.io/official_releases/qt/5.12/5.12.3/${INSTALLER_NAME}.dmg --output ${INSTALLER_NAME}.dmg
-      - hdiutil attach ${INSTALLER_NAME}.dmg 
-      - "./extract-qt-installer /Volumes/${INSTALLER_NAME}/${INSTALLER_NAME}.app/Contents/MacOS/${INSTALLER_NAME} $HOME/Qt"
-      - hdiutil detach /Volumes/${INSTALLER_NAME}
+      - export PATH=$PATH:$PWD
+      - QT_CI_PACKAGES=qt.qt5.5123.clang_64,qt.qt5.5123.qtscript QT_CI_DOWNLOADER="wget -c -nv -N" install-qt 5.12.3
+      - source qt-5.12.3.env
+      - source ./dist/linux/setup-qbs.sh
     
     script:
       - qbs --version
       - qbs setup-toolchains --detect
-      - qbs setup-qt $HOME/Qt/5.12.3/clang_64/bin/qmake qt
-      - qbs config profiles.qt.baseProfile xcode-macosx-x86_64
-      - qbs config defaultProfile qt
-      - qbs install --install-root install config:release project.JMBde.version:$JMBDE_VERSION
-      - "$HOME/Qt/5.12.3/clang_64/bin/macdeployqt install/usr/local/jmbde.app/Contents/MacOS/jmbde -appstore-compliant"
-      - pushd install/usr/local
-      - ruby ../../../dist/mac/fixup-install-names.rb
+      - qbs config defaultProfile xcode
+      - qbs install --install-root install config:release  qbs.installPrefix:"" project.JMBde.version:$JMBDE_VERSION
+      - macdeployqt install/jmbde.app -appstore-compliant
+      - pushd install
+      - ruby ../dist/mac/fixup-install-names.rb
       - popd
 
     deploy:

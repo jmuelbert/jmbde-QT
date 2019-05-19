@@ -10,6 +10,15 @@ environment:
   my_secret:
     secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
   matrix:
+    - QTDIR: C:\Qt\5.12\mingw73_64
+      PYTHONHOME: C:\Python37-x64
+      MINGW: C:\Qt\Tools\mingw730_64
+      PUSH_RELEASE: true
+
+    - QTDIR: C:\Qt\5.12\mingw73_32
+      PYTHONHOME: C:\Python37
+      MINGW: C:\Qt\Tools\mingw730_32
+
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       QT_PROFILE: msvc2015
       QTDIR: C:\Qt\5.10.1\msvc2015
@@ -33,13 +42,15 @@ environment:
 #    QTDIR: C:\Qt\5.10.1\winrt_x64_msvc2017
 #    QBS_PROFILE: MSVC2017-x86_x64
 
-configuration: release
+configuration: Release
 
 init:
-  - set PATH=%QTDIR%\bin;%WIX%\bin;%PATH%
+    - set PATH=%PATH%;%QTDIR%\bin;%MINGW%\bin;%WIX%\bin;%PATH%
 install:
-  - choco install -y qbs --version 1.12.0
+  - choco install -y qbs --version 1.12.1
+  - nuget install secure-file -ExcludeVersion
   - choco install -y wixtoolset
+
 before_build:
   - FOR /F "tokens=*" %%i in ('git describe') do SET COMMITNOW=%%i
   - set VERSION_DATE=%DATE:~10,4%.%DATE:~4,2%.%DATE:~7,2%
@@ -51,16 +62,16 @@ before_build:
 
   - qbs --version
   - qbs setup-toolchains --detect
-  - qbs setup-qt %QTDIR%\bin\qmake.exe appveyor-qt5
-  - qbs config profiles.appveyor-qt5.baseProfile %QBS_PROFILE%
-  - qbs config defaultProfile appveyor-qt5
+  - qbs setup-qt %QTDIR%\bin\qmake.exe qt
+  - qbs config defaultProfile qt
 
 build_script:
-  - qbs build config:release 
+  - qbs build --all-products config:release projects.JMBde.windowsInstaller:true
+
 
 after_build:
   - cd release
-  - cd install-root
+  - cd installer*
   - windeployqt jmbde.exe
   - candle.exe -arch %MY_PLATFORM% -ext WixUIExtension ../../dist/win/installer.wxs -dInstallRoot=. -dQtDir=%QTDIR% -dRootDir=../../ -dVersion=%JMBDE_VERSION% -dPlatform=%MY_PLATFORM%
   - light.exe -ext WixUIExtension installer.wixobj -out jmbde-%JMBDE_VERSION%-win_%MY_PLATFORM%.msi
