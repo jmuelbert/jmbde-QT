@@ -219,11 +219,12 @@
   </action>
   <action name="actionNew">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>:/icons/tango/icons/tango/16x16/document-new.png</normaloff>:/icons/tango/icons/tango/16x16/document-new.png</iconset>
+     <normalon>:/icons/tango/images/tango/16x16/document-new.png</normalon>
+    </iconset>
    </property>
    <property name="text">
     <string>New</string>
@@ -239,11 +240,12 @@
   </action>
   <action name="actionOpen">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
-     <normaloff>:/icons/tango/icons/tango/16x16/document-open.png</normaloff>:/icons/tango/icons/tango/16x16/document-open.png</iconset>
+    <iconset resource="../jmbde.qrc">
+     <normaloff>:/icons/tango/images/tango/16x16/document-open.png</normaloff>
+     <normalon>:/icons/tango/images/tango/16x16/document-open.png</normalon>:/icons/tango/images/tango/16x16/document-open.png</iconset>
    </property>
    <property name="text">
     <string>Open...</string>
@@ -271,7 +273,8 @@
   <action name="actionPrint">
    <property name="icon">
     <iconset>
-     <normaloff>:/icons/tango/icons/tango/16x16/document-print.png</normaloff>:/icons/tango/icons/tango/16x16/document-print.png</iconset>
+     <normaloff>:/icons/tango/icons/tango/16x16/document-print.png</normaloff>
+     <normalon>:/icons/tango/images/tango/16x16/document-print.png</normalon>:/icons/tango/icons/tango/16x16/document-print.png</iconset>
    </property>
    <property name="text">
     <string>Print...</string>
