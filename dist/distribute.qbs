@@ -57,7 +57,7 @@ Product {
                     "Qt5Network" + postfix,
                     "Qt5Svg" + postfix,
                     "Qt5Widgets" + postfix,
-                    "Qt5Sql" + postfix,
+                    "Qt5Sql" + postfix
                 );
             }
 
