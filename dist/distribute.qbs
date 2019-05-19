@@ -57,7 +57,10 @@ Product {
                     "Qt5Network" + postfix,
                     "Qt5Svg" + postfix,
                     "Qt5Widgets" + postfix,
-                    "Qt5Sql" + postfix
+                    "Qt5Sql" + postfix,
+                    "QtPrintSupport" + postfix,
+                    "QtHelp" + postfix,
+                    "QtQml" + postfix
                 );
             }
 
@@ -85,7 +88,7 @@ Product {
             return list;
         }
 
-        qbs.install: false;
+        qbs.install: true;
         qbs.installDir: qbs.targetOS.contains("windows") ? "" : "lib"
     }
 
@@ -252,12 +255,14 @@ Product {
                 return "C:/windows/SysWOW64/"
         }
         files: {
+            var list[]
             if (qbs.toolchain.contains("mingw")) {
-                return [
-                    "libgcc_s_dw2-1.dll",
-                    "libstdc++-6.dll",
-                    "libwinpthread-1.dll",
-                ]
+                list.push("libstdc++-6.dll",
+                               "libwinpthread-1.dll")
+                if (qbs.architecture == "x86_64")
+                      list.push("libgcc_s_seh-1.dll")
+                  else
+                      list.push("libgcc_s_dw2-1.dll")
             } else {
                 return [
                     "MSVCP120.DLL",
@@ -299,6 +304,10 @@ Product {
                 "NEWS.md",
             ];
 
+            if (qbs.targetOS.contains("windows"))
+                 list.push("dist/win/qt.conf");
+             else if (qbs.targetOS.contains("linux"))
+                 list.push("dist/linux/qt.conf");
             return list;
         }
         qbs.install: true

@@ -6,7 +6,7 @@ raise "No application at #{binAppDir}" unless File.directory? binAppDir
 
 # Modify plugins to use Qt frameworks contained within the app bundle (is there some way to get macdeployqt to do this?)
 Dir["jmbde.app/**/*.dylib" ].each do |library| 
-    ["QtCore", "QtGui", "QtWidgets", "QtNetwork"].each do |qtlib|
+    ["QtCore", "QtGui", "QtWidgets", "QtNetwork", "QtSql", "QtPrintSupoort", "QtHelp", "QtQml"].each do |qtlib|
         #find any qt dependencies within this library
         qtdependency = `otool -L "#{library}" | grep #{qtlib}`.split(' ')[0]
         next unless qtdependency

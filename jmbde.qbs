@@ -52,10 +52,55 @@ Project {
     Product {
         name: "Script files"
         files: [
-            "scripts/*.bat",
-            "scripts/*.sh",
-            "scripts/*.py",
-            "scripts/*.rb"
+            "scripts/**/*.bat",
+            "scripts/**/*.sh",
+            "scripts/**/*.py",
+            "scripts/**/*.rb",
+            "scripts/**/s*.ps1",
+            "dist/**/*.bat",
+            "dist/**/*.sh",
+            "dist/**/*.py",
+            "dist/**/*.rb",
+            "dist/**/*.ps1"
+        ]
+    }
+
+    Product {
+        name: "Installer Files"
+        files: [
+            "dist/**/*.nuspec",
+            "dist/**/*.spec",
+            "dist/**/*.appdata.*",
+            "dist/**/*.desktop",
+            "dist/**/*.ronn",
+            "dist/**/*.1",
+            "dist/**/*.conf",
+            "dist/**/snapcraft*",
+            "dist/**/*.wxs",
+
+        ]
+    }
+
+    Product {
+        name: "Docs"
+        files: [
+            "docs/**/*.py",
+            "docs/**/*.rst",
+            "docs/Makefile",
+            "Doxyfile"
+        ]
+    }
+
+    Product {
+        name: "CI Files"
+        files: [
+            ".travis.yml",
+            "Appveyor.yml",
+            ".clang-format",
+            ".clog.toml",
+            ".coafile",
+            ".linthub.yml",
+            ".mailmap"
         ]
     }
 
@@ -65,11 +110,13 @@ Project {
             "AUTHORS",
             "README.md",
             "CHANGELOG.md",
+            "CODE_OF_CONDUCT.md",
             "CONTRIBUTING.md",
             "CONTRIBUTORS",
             "LICENSE",
             "LICENSE.*",
-            "NEWS.md"
+            "NEWS.md",
+            "dist/**/*.rtf"
         ]
     }
 
