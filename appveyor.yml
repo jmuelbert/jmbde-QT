@@ -72,7 +72,8 @@ build_script:
 after_build:
   - cd release
   - cd installer*
-  - windeployqt jmbde.exe
+  # - windeployqt jmbde.exe
+  - dir
   - candle.exe -arch %MY_PLATFORM% -ext WixUIExtension ../../dist/win/installer.wxs -dInstallRoot=. -dQtDir=%QTDIR% -dRootDir=../../ -dVersion=%JMBDE_VERSION% -dPlatform=%MY_PLATFORM%
   - light.exe -ext WixUIExtension installer.wixobj -out jmbde-%JMBDE_VERSION%-win_%MY_PLATFORM%.msi
   - dir

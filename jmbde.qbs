@@ -86,7 +86,7 @@ Project {
         name: "CI Files"
         files: [
             ".travis.yml",
-            "Appveyor.yml",
+            "appveyor.yml",
             ".clang-format",
             ".clog.toml",
             ".coafile",
