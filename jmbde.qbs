@@ -81,15 +81,6 @@ Project {
         ]
     }
 
-    Product {
-        name: "Docs"
-        files: [
-            "docs/**/*.py",
-            "docs/**/*.rst",
-            "docs/Makefile",
-            "Doxyfile"
-        ]
-    }
 
     Product {
         name: "CI Files"
