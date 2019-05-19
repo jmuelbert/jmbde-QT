@@ -58,9 +58,6 @@ Product {
                     "Qt5Svg" + postfix,
                     "Qt5Widgets" + postfix,
                     "Qt5Sql" + postfix,
-                    "QtPrintSupport" + postfix,
-                    "QtHelp" + postfix,
-                    "QtQml" + postfix
                 );
             }
 

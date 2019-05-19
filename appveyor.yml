@@ -21,13 +21,13 @@ environment:
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       QT_PROFILE: msvc2015
-      QTDIR: C:\Qt\5.10.1\msvc2015
+      QTDIR: C:\Qt\5.12.2\msvc2015
       QBS_PROFILE: MSVC2015-x86
       MY_PLATFORM: x86
       PUSH_RELEASE: true
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       QT_PROFILE: msvc2017_64
-      QTDIR: C:\Qt\5.10.1\msvc2017_64
+      QTDIR: C:\Qt\5.12.2\msvc2017_64
       QBS_PROFILE: MSVC2017-x86_x64
       MY_PLATFORM: x64
       PUSH_RELEASE: true
