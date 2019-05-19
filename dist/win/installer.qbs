@@ -63,9 +63,7 @@ WindowsInstallerPackage {
     ]
 
     files: [
-        "installer.wxs",
-        "redist_vc140_x64.wxs",
-        "redist_vc140_x86.wxs"
+        "installer.wxs"
         ]
 
     // This is a clever hack to make the rule that compiles the installer
