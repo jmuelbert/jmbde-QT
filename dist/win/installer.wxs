@@ -80,7 +80,7 @@
             <File Id="jmbde_dll" Source="$(var.InstallRoot)\jmbde.dll" />
 
             <!-- Qt Main Part -->
-            <File Id="qt_conf"Source="$(var.RootDir)\dist\win\qt.conf" />
+            <File Id="qt_conf" Source="$(var.RootDir)\dist\win\qt.conf" />
             <File Id="Qt5Core_dll" Source="$(var.QtDir)\bin\Qt5Core.dll"/>
             <File Id="Qt5Gui_dll" Source="$(var.QtDir)\bin\\Qt5Gui.dll"/>
             <File Id="Qt5PrintSupport_dll" Source="$(var.QtDir)\bin\Qt5PrintSupport.dll"/>
@@ -211,11 +211,11 @@
 
     <Feature Id="Complete" Level="1" Title="JMBde" Description="The complete package." ConfigurableDirectory="INSTALLDIR" AllowAdvertise="no" Absent="disallow">
       <!-->
-                        <?if $(var.Platform) = x64 ?>
+                              <?if $(var.Platform) = x64 ?>
       <ComponentRef Id="redist_vc140_x64" />
-                        <?else ?>
+                              <?else ?>
       <ComponentRef Id="redist_vc140_x86" />
-                        <?endif ?>
+                              <?endif ?>
       -->
       <ComponentRef Id="MainExecutable"/>
       <ComponentRef Id="Translations"/>
