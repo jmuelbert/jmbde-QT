@@ -7,12 +7,20 @@ Product {
         'autotest',
         ]
 
-    Depends {
-        name: 'Qt'
+    Depends { 
+        name: "Qt" 
         submodules: [
-            'qmltest',
-        ]    
+            "core", 
+            "widgets", 
+            "network", 
+            "sql", 
+            "printsupport", 
+            "help",
+            "qml", 
+            "qmltest"
+        ] 
     }
+
 
     Group {
         fileTagsFilter: "application"

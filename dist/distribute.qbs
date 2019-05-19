@@ -255,7 +255,7 @@ Product {
                 return "C:/windows/SysWOW64/"
         }
         files: {
-            var list[]
+            var list[];
             if (qbs.toolchain.contains("mingw")) {
                 list.push("libstdc++-6.dll",
                                "libwinpthread-1.dll")

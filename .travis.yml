@@ -145,7 +145,7 @@ matrix:
 
     before_install:
       - curl -L https://raw.githubusercontent.com/benlau/qtci/master/recipes/install-qt --output install-qt
-      - curl -L https://raw.githubusercontent.com/benlau/qtci/master/bin/extract-qt-installe --output extract-qt-installer
+      - curl -L https://raw.githubusercontent.com/benlau/qtci/master/bin/extract-qt-installer --output extract-qt-installer
       - chmod +x install-qt
       - chmod +x extract-qt-installer
       - export PATH=$PATH:$PWD
