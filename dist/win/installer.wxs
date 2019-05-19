@@ -120,7 +120,7 @@
           <!-- Directory Id="dirC9BB3CDAF59A4E6BA9AFCBA87D7C8B18" Name="plugins" -->
           <Directory Id="platformPlugins" Name="platforms">
             <Component Id="PlatformPlugins" Guid="{07E910ED-1861-446D-A465-CD2436E58546}">
-              <File Id="qwindows_dll" Source="$(var.InstallRoot)\platforms\qwindows.dll"/>
+              <File Id="qwindows_dll" Source="$(var.QtDir)\plugins\platforms\qwindows.dll"/>
             </Component>
           </Directory>
           <Directory Id="iconEnginesPlugins" Name="iconengines">
@@ -211,11 +211,11 @@
 
     <Feature Id="Complete" Level="1" Title="JMBde" Description="The complete package." ConfigurableDirectory="INSTALLDIR" AllowAdvertise="no" Absent="disallow">
       <!-->
-                              <?if $(var.Platform) = x64 ?>
+                                    <?if $(var.Platform) = x64 ?>
       <ComponentRef Id="redist_vc140_x64" />
-                              <?else ?>
+                                    <?else ?>
       <ComponentRef Id="redist_vc140_x86" />
-                              <?endif ?>
+                                    <?endif ?>
       -->
       <ComponentRef Id="MainExecutable"/>
       <ComponentRef Id="Translations"/>
