@@ -135,7 +135,7 @@ int main(int argc, char *argv[]) {
 
   QGuiApplication::setApplicationDisplayName(QLatin1String("jmbde"));
   QCoreApplication::setOrganizationName(QLatin1String("jmbde"));
-  QCoreApplication::setOrganizationDomain(QLatin1String("de.juergen.muelbert"));
+  QCoreApplication::setOrganizationDomain(QLatin1String("io.jmuelbert.github"));
 
 #ifdef GIT_REVISION
   QCoreApplication::setApplicationVersion(

@@ -143,7 +143,7 @@ void MainWindow::on_actionAbout_triggered() {
 
 void MainWindow::initOutline() {
 
-    QMap<QString, QList<QString>> outlineData;
+    QHash<QString, QList<QString>> outlineData;
 
     QList<QString> subEntries = { tr("Employee"), tr("Function"), tr("Deparment"), tr("Title")};
     outlineData.insert(tr("Person"), subEntries);
@@ -163,7 +163,7 @@ void MainWindow::initOutline() {
     QStandardItem *item;
 
     QList<QString> od;
-    QMapIterator<QString, QList<QString>> i(outlineData);
+    QHashIterator<QString, QList<QString>> i(outlineData);
     while (i.hasNext()) {
         i.next();
         header = new QStandardItem(i.key());

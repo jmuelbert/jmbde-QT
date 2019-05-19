@@ -24,7 +24,6 @@ matrix:
   - os: linux
     compiler: 
       - gcc
-      - clang
 
     addons:
       apt:
@@ -42,30 +41,30 @@ matrix:
     before_install:
       - eval "${MATRIX_EVAL}"
 
-      # Qt 5.12.3
-      - sudo add-apt-repository --yes ppa:beineri/opt-qt-5.12.3-xenial
+      # Qt 5.9.7     
+      - sudo add-apt-repository --yes ppa:beineri/opt-qt597-xenial
 
       # Update
       - sudo apt-get update -qq
 
     install:
 
-      # Qt 5.12.3
-      - sudo apt-get install --yes qt512base
-      - sudo apt-get install --yes qt512script
-      - sudo apt-get install --yes qt512svg
-      - sudo apt-get install --yes qt512imageformats
-      - sudo apt-get install --yes qt512tools
+      # Qt 597
+      - sudo apt-get install --yes qt59base
+      - sudo apt-get install --yes qt59script
+      - sudo apt-get install --yes qt59svg
+      - sudo apt-get install --yes qt59imageformats
+      - sudo apt-get install --yes qt59tools
 
-      # Qbs 1.13
-      - source /opt/qt512/bin/qt512-env.sh
+      # Qbs 1.11
+      - source /opt/qt59/bin/qt59-env.sh
       - source ./dist/linux/setup-qbs.sh
 
     script:
       - qbs --version
       - qbs setup-toolchains --detect
-      - qbs setup-qt /opt/qt512/bin/qmake qt-5-12-3
-      - qbs config defaultProfile qt-5-12-3
+      - qbs setup-qt /opt/qt512/bin/qmake qt-5-9-7
+      - qbs config defaultProfile qt-5-9-7
       - qbs install --install-root jmbde/usr config:release projects.JMBde.version:$JMBDE_VERSION
       - cp LICENSE* *md jmbde/
 
@@ -162,9 +161,9 @@ matrix:
       - qbs config profiles.qt.baseProfile xcode-macosx-x86_64
       - qbs config defaultProfile qt
       - qbs install --install-root install config:release project.JMBde.version:$JMBDE_VERSION
-      - "$HOME/Qt/5.12.3/clang_64/bin/macdeployqt install/jmbde.app/Contents/MacOS/jmbde -appstore-compliant"
-      - pushd install
-      - ruby ../dist/mac/fixup-install-names.rb
+      - "$HOME/Qt/5.12.3/clang_64/bin/macdeployqt install/usr/local/jmbde.app/Contents/MacOS/jmbde -appstore-compliant"
+      - pushd install/usr/local
+      - ruby ../../../dist/mac/fixup-install-names.rb
       - popd
 
     deploy:
