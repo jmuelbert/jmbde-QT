@@ -99,11 +99,7 @@
             <File Id="libwinpthread_1_dll" Source="$(var.MingwDir)\bin\libwinpthread-1.dll"/>
             <?else?>
             <?ifdef VcUniversalCRT ?>
-            <File Source="$(var.VcInstallDir)\msvcp140.dll"/>
-            <?else?>
-            <File Source="$(var.VcInstallDir)\redist\$(var.Platform)\Microsoft.VC120.CRT\msvcp120.dll"/>
-            <File Source="$(var.VcInstallDir)\redist\$(var.Platform)\Microsoft.VC120.CRT\msvcr120.dll"/>
-            <?endif?>
+
             <?endif?>
 
             <File Id="LICENSE" Name="LICENSE.txt" Source="$(var.RootDir)\LICENSE"/>
@@ -183,16 +179,16 @@
               <File Id="filA64DE22795444E69A4817D9BE6FAB382" Source="$(var.InstallRoot)\translations\jmbde_zh_TW.qm"/>
 
               <!-- Qt translations -->
-              <File Id="qt_cs" Source="$(var.QtDir)\translations\qt_cs.qm"/>
-              <File Id="qt_de" Source="$(var.QtDir)\translations\qt_de.qm"/>
-              <File Id="qt_es" Source="$(var.QtDir)\translations\qt_es.qm"/>
-              <File Id="qt_fr" Source="$(var.QtDir)\translations\qt_fr.qm"/>
-              <File Id="qt_he" Source="$(var.QtDir)\translations\qt_he.qm"/>
-              <File Id="qt_ja" Source="$(var.QtDir)\translations\qt_ja.qm"/>
-              <File Id="qt_pt" Source="$(var.QtDir)\translations\qt_pt.qm"/>
-              <File Id="qt_ru" Source="$(var.QtDir)\translations\qt_ru.qm"/>
-              <File Id="qt_zh_CN" Source="$(var.QtDir)\translations\qt_zh_CN.qm"/>
-              <File Id="qt_zh_TW" Source="$(var.QtDir)\translations\qt_zh_TW.qm"/>
+              <File Id="qt_cs" Source="$(var.InstallRoot)\translations\qt_cs.qm"/>
+              <File Id="qt_de" Source="$(var.InstallRoot)\translations\qt_de.qm"/>
+              <File Id="qt_es" Source="$(var.InstallRoot)\translations\qt_es.qm"/>
+              <File Id="qt_fr" Source="$(var.InstallRoot)\translations\qt_fr.qm"/>
+              <File Id="qt_he" Source="$(var.InstallRoot)\translations\qt_he.qm"/>
+              <File Id="qt_ja" Source="$(var.InstallRoot)\translations\qt_ja.qm"/>
+              <File Id="qt_pt" Source="$(var.InstallRoot)\translations\qt_pt.qm"/>
+              <File Id="qt_ru" Source="$(var.InstallRoot)\translations\qt_ru.qm"/>
+              <File Id="qt_zh_CN" Source="$(var.InstallRoot)\translations\qt_zh_CN.qm"/>
+              <File Id="qt_zh_TW" Source="$(var.InstallRoot)\translations\qt_zh_TW.qm"/>
 
             </Component>
           </Directory>
@@ -211,11 +207,11 @@
 
     <Feature Id="Complete" Level="1" Title="JMBde" Description="The complete package." ConfigurableDirectory="INSTALLDIR" AllowAdvertise="no" Absent="disallow">
       <!-->
-                                          <?if $(var.Platform) = x64 ?>
+                                                      <?if $(var.Platform) = x64 ?>
       <ComponentRef Id="redist_vc140_x64" />
-                                          <?else ?>
+                                                      <?else ?>
       <ComponentRef Id="redist_vc140_x86" />
-                                          <?endif ?>
+                                                      <?endif ?>
       -->
       <ComponentRef Id="MainExecutable"/>
       <ComponentRef Id="Translations"/>

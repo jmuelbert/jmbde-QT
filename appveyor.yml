@@ -50,7 +50,7 @@ after_build:
   - cd Release\install-root
   - windeployqt jmbde.exe
   - dir
-  - SET
+  - dir translations
   - candle.exe -arch %PLATFORM% -ext WixUIExtension ../../dist/win/installer.wxs ../../dist/win/redist_vc140_x64.wxs ../../dist/win/redist_vc140_x86.wxs  -dInstallRoot=. -dQtDir=%QTDIR% -dRootDir=../../ -dVersion=%JMBDE_VERSION% -dPlatform=%MY_PLATFORM%
   - light.exe -ext WixUIExtension installer.wixobj -out jmbde-%JMBDE_VERSION%-win_%MY_PLATFORM%.msi
   - move jmbde-*.msi %APPVEYOR_BUILD_FOLDER%
