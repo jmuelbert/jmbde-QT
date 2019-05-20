@@ -36,7 +36,7 @@ DynamicLibrary {
         "libdata_global.h",
         "libdatacontext.cpp",
         "libdatacontext.h",
-        // "libdatacontext.qrc"
+        "libdatacontext.qrc"
     ]
 
     Group {
