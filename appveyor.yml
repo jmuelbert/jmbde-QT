@@ -51,8 +51,8 @@ build_script:
 
 
 after_build:
-  - cd release
-  - cd installer*
+  - dir
+  - cd Install-Root
   - windeployqt jmbde.exe
   - dir
   - SET
