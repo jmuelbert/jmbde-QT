@@ -6,7 +6,6 @@
     <?endif?>
     <Fragment>
         <ComponentGroup Id="VcRedist" />
-        <PropertyRef Id="vcredist_msvc2017_x86" />
         <!-- vcredist 2015 x86 -->
         <util:ProductSearch Id="vcredist_msvc2017_x86" UpgradeCode="65E5BD06-6392-3027-8C26-853107D3CF1A" Result="version" Variable="vcredist_msvc2017_x86" />
 
