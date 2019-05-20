@@ -23,6 +23,7 @@ configuration: Release
 
 init:
     - set PATH=%PATH%;%QTDIR%\bin;%WIX%\bin;
+    - set VCINSTALLDIR="%ProgramFiles(x86)%\Microsoft Visual Studio 14\VC"
 install:
   - choco install -y qbs --version 1.12.1
   - nuget install secure-file -ExcludeVersion
@@ -52,7 +53,7 @@ after_build:
   - dir
   - dir translations
   - candle.exe -arch %PLATFORM% -ext WixUIExtension ../../dist/win/installer.wxs ../../dist/win/redist_vc140_x64.wxs ../../dist/win/redist_vc140_x86.wxs  -dInstallRoot=. -dQtDir=%QTDIR% -dRootDir=../../ -dVersion=%JMBDE_VERSION% -dPlatform=%MY_PLATFORM%
-  - light.exe -ext WixUIExtension installer.wixobj -out jmbde-%JMBDE_VERSION%-win_%MY_PLATFORM%.msi
+  - light.exe -ext WixUIExtension installer.wixobj redist_vc140_x64.wixobj redist_vc140_x86.wixobj -out jmbde-%JMBDE_VERSION%-win_%MY_PLATFORM%.msi
   - move jmbde-*.msi %APPVEYOR_BUILD_FOLDER%
   
 artifacts:
