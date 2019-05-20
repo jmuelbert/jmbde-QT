@@ -10,37 +10,18 @@ environment:
   my_secret:
     secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
   matrix:
-    - QTDIR: C:\Qt\5.12.2\mingw73_64
-      PYTHONHOME: C:\Python37-x64
-      MINGW: C:\Qt\Tools\mingw730_64
-      PUSH_RELEASE: true
-
-    - QTDIR: C:\Qt\5.12\mingw73_32
-      PYTHONHOME: C:\Python37
-      MINGW: C:\Qt\Tools\mingw730_32
-
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      QT_PROFILE: msvc2015
-      QTDIR: C:\Qt\5.12.2\msvc2015
-      QBS_PROFILE: MSVC2015-x86
-      MY_PLATFORM: x86
-      PUSH_RELEASE: true
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      QT_PROFILE: msvc2017_64
+    - GENERATOR : "Visual Studio 15 2017 Win64"
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       QTDIR: C:\Qt\5.12.2\msvc2017_64
-      QBS_PROFILE: MSVC2017-x86_x64
-      MY_PLATFORM: x64
-      PUSH_RELEASE: true
-
-# FIXME: WinRT builds are disabled due to linker issues
-#  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-#    QT_PROFILE: winrt_x86_msvc2017
-#    QTDIR: C:\Qt\5.10.1\winrt_x86_msvc2017
-#    QBS_PROFILE: MSVC2017-x86
-#  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-#    QT_PROFILE: winrt_x64_msvc2017
-#    QTDIR: C:\Qt\5.10.1\winrt_x64_msvc2017
-#    QBS_PROFILE: MSVC2017-x86_x64
+      PLATFORM: x64
+    - GENERATOR : "Visual Studio 15 2017"
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      QTDIR: C:\Qt\5.12.2\msvc2017
+      PLATFORM: Win32
+    - GENERATOR : "MinGW Makefiles"
+      QTDIR: C:\Qt\5.11.3\mingw53_32
+      PLATFORM: x86
+      CMAKE_CXX_FLAGS_INIT: -DCATCH_CONFIG_NO_CPP11_TO_STRING
 
 configuration: Release
 
@@ -66,13 +47,15 @@ before_build:
   - qbs config defaultProfile qt
 
 build_script:
-  - qbs build --all-products config:release projects.JMBde.windowsInstaller:true
+  - qbs build --all-products config:release projects.JMBde.windowsInstaller:false
 
 
 after_build:
   - cd release
   - cd installer*
-  # - windeployqt jmbde.exe
+  - windeployqt jmbde.exe
+  - dir
+  - SET
   - candle.exe -arch %MY_PLATFORM% -ext WixUIExtension ../../dist/win/installer.wxs -dInstallRoot=. -dQtDir=%QTDIR% -dRootDir=../../ -dVersion=%JMBDE_VERSION% -dPlatform=%MY_PLATFORM%
   - light.exe -ext WixUIExtension installer.wixobj -out jmbde-%JMBDE_VERSION%-win_%MY_PLATFORM%.msi
   - move jmbde-*.msi %APPVEYOR_BUILD_FOLDER%

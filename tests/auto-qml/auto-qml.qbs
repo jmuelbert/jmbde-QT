@@ -11,12 +11,8 @@ Product {
         name: "Qt" 
         submodules: [
             "core", 
-            "widgets", 
-            "network", 
-            "sql", 
-            "printsupport", 
-            "help",
-            "qml", 
+            "quick",
+            "testlib",
             "qmltest"
         ] 
     }
