@@ -8,7 +8,7 @@
         <ComponentGroup Id="VcRedist" />
         <util:ProductSearch Id="vcredist_msvc2017_x64" UpgradeCode="36F68A90-239C-34DF-B58C-64B30153CE35" Result="version" Variable="vcredist_msvc2017_x64" />
         <PackageGroup Id="vcredist_msvc2017_x64">
-            <ExePackage Id="vcredist_msvc2017_x64_exe" Cache="yes" PerMachine="yes" Permanent="yes" Vital="yes" Compressed="yes" SourceFile="$(var.QtDir)\vcredist\vcredist_msvc2017_x64.exe" InstallCommand="/quiet /norestart" DetectCondition="(vcredist_msvc2017_x64 &gt;= v14.15.26706)" />
+            <ExePackage Id="vcredist_msvc2017_x64_exe" Cache="yes" PerMachine="yes" Permanent="yes" Vital="yes" Compressed="yes" SourceFile="C:\Qt\vcredist\vcredist_msvc2017_x64.exe" InstallCommand="/quiet /norestart" DetectCondition="(vcredist_msvc2017_x64 &gt;= v14.15.26706)" />
         </PackageGroup>
     </Fragment>
 </Wix>
