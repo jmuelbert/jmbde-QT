@@ -64,6 +64,8 @@ matrix:
       - qbs --version
       - qbs setup-toolchains --detect
       - qbs config defaultProfile gcc
+      - qbs setup-qt /opt/qt512/bin/qmake qt512
+      - qbs config defaultProfile qt512
       - qbs install --install-root jmbde config:release qbs.installPrefix:/usr projects.JMBde.version:$JMBDE_VERSION
       - cp LICENSE* *md jmbde/
 

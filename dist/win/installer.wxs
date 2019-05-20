@@ -212,7 +212,7 @@
     </Directory>
 
     <Feature Id="Complete" Level="1" Title="JMBde" Description="The complete package." ConfigurableDirectory="INSTALLDIR" AllowAdvertise="no" Absent="disallow">
-      <ComponentRef Id="redist_vc140" />
+      <ComponentRef Id="VcRedist" />
       <ComponentRef Id="MainExecutable"/>
       <ComponentRef Id="Translations"/>
       <ComponentRef Id="PlatformPlugins"/>
