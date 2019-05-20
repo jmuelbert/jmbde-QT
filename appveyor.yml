@@ -26,7 +26,7 @@ environment:
 configuration: Release
 
 init:
-    - set PATH=%PATH%;%QTDIR%\bin;%MINGW%\bin;%WIX%\bin;%PATH%
+    - set PATH=%PATH%;%QTDIR%\bin;%MINGW%\bin;%WIX%\bin;
 install:
   - choco install -y qbs --version 1.12.1
   - nuget install secure-file -ExcludeVersion
@@ -52,7 +52,9 @@ build_script:
 
 after_build:
   - dir
-  - cd Install-Root
+  - dir Release
+  - dir ../
+  - cd Release
   - windeployqt jmbde.exe
   - dir
   - SET
