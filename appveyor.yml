@@ -53,7 +53,7 @@ build_script:
 after_build:
   - dir
   - dir Release
-  - dir Release\install-roor
+  - dir Release\install-root
   - dir ..\
   - cd Release\install-root
   - windeployqt jmbde.exe
