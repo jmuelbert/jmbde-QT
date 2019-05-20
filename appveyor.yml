@@ -10,11 +10,11 @@ environment:
   my_secret:
     secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
   matrix:
-    - GENERATOR : "Visual Studio 15 2017 Win64"
+    - GENERATOR: "Visual Studio 15 2017 Win64"
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       QTDIR: C:\Qt\5.12.2\msvc2017_64
       PLATFORM: x64
-    - GENERATOR : "Visual Studio 15 2017"
+    - GENERATOR: "Visual Studio 15 2017"
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       QTDIR: C:\Qt\5.12.2\msvc2017
       PLATFORM: Win32
@@ -22,8 +22,8 @@ environment:
 configuration: Release
 
 init:
-    - set PATH=%PATH%;%QTDIR%\bin;%WIX%\bin;
-    - set VCINSTALLDIR="%ProgramFiles(x86)%\Microsoft Visual Studio 14\VC"
+  - set PATH=%PATH%;%QTDIR%\bin;%WIX%\bin;
+  - set VCINSTALLDIR="%ProgramFiles(x86)%\Microsoft Visual Studio\2017\BuildTools\VC"
 install:
   - choco install -y qbs --version 1.12.1
   - nuget install secure-file -ExcludeVersion
@@ -36,7 +36,7 @@ before_build:
   - if defined JMBDE_RELEASE set JMBDE_VERSION=%APPVEYOR_REPO_TAG_NAME:~1%
   - if defined JMBDE_RELEASE echo Building JMBDE %JMBDE_VERSION%... (from %COMMITNOW%)
   - if defined JMBDE_SNAPSHOT set JMBDE_VERSION=%APPVEYOR_BUILD_VERSION%
-  - if defined JMBDE_SNAPSHOT echo Building JMBDE snapshot %JMBDE_VERSION%... (from %COMMITNOW%) 
+  - if defined JMBDE_SNAPSHOT echo Building JMBDE snapshot %JMBDE_VERSION%... (from %COMMITNOW%)
 
   - qbs --version
   - qbs setup-toolchains --detect
@@ -44,31 +44,30 @@ before_build:
   - qbs config defaultProfile qt
 
 build_script:
-  - qbs build --all-products config:release 
-
+  - qbs build --all-products config:release
 
 after_build:
   - cd Release\install-root
   - windeployqt jmbde.exe
   - dir
   - dir translations
-  - candle.exe -arch %PLATFORM% -ext WixUIExtension ../../dist/win/installer.wxs ../../dist/win/redist_vc140_x64.wxs ../../dist/win/redist_vc140_x86.wxs  -dInstallRoot=. -dQtDir=%QTDIR% -dRootDir=../../ -dVersion=%JMBDE_VERSION% -dPlatform=%MY_PLATFORM%
-  - light.exe -ext WixUIExtension installer.wixobj redist_vc140_x64.wixobj redist_vc140_x86.wixobj -out jmbde-%JMBDE_VERSION%-win_%MY_PLATFORM%.msi
+  - candle.exe -arch %PLATFORM% -ext WixUIExtension ../../dist/win/installer.wxs  -dInstallRoot=. -dQtDir=%QTDIR% -dRootDir=../../ -dVersion=%JMBDE_VERSION% -dPlatform=%MY_PLATFORM%
+  - light.exe -ext WixUIExtension installer.wixobj -out jmbde-%JMBDE_VERSION%-win_%MY_PLATFORM%.msi
   - move jmbde-*.msi %APPVEYOR_BUILD_FOLDER%
-  
+
 artifacts:
   - name: Installer
-    path: 'jmbde-*.msi'
+    path: "jmbde-*.msi"
   - name: Archive
-    path: 'jmbde-*.7z'
+    path: "jmbde-*.7z"
 
 deploy:
   - provider: GitHub
     release: $(APPVEYOR_REPO_TAG_NAME)
     auth_token:
-      secure:  NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
+      secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
     artifact: /.*\.msi/
     draft: true
     on:
       appveyor_repo_tag: true
-      push_release: true    
+      push_release: true
