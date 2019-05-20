@@ -90,7 +90,7 @@
             <File Id="Qt5Widgets_dll" Source="$(var.InstallRoot)\Qt5Widgets.dll"/>
 
             <!-- Runtime DLL's -->
-            <File Id="D3Dcompiler_47_dll" Source="$(var.RootDir)\D3Dcompiler_47.dll"/>
+            <File Id="d3dcompiler_47_dll" Source="$(var.RootDir)\d3dcompiler_47.dll"/>
             <File Id="libEGL_dll" Source="$(var.RootDir)\libEGL.dll"/>
             <File Id="libGLESV2_dll" Source="$(var.RootDir)\libGLESV2.dll"/>
             <File Id="opengl32sw_dll" Source="$(var.RootDir)\opengl32sw.dll" />

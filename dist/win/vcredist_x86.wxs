@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='windows-1252'?>
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi' 
+    xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+    <?ifndef QtDir ?>
+    <?error QtDir must be defined ?>
+    <?endif?>
+    <Fragment>
+        <ComponentGroup Id="VcRedist" />
+        <PropertyRef Id="vcredist_msvc2017_x86" />
+        <!-- vcredist 2015 x86 -->
+        <util:ProductSearch Id="vcredist_msvc2017_x86" UpgradeCode="65E5BD06-6392-3027-8C26-853107D3CF1A" Result="version" Variable="vcredist_msvc2017_x86" />
+
+        <PackageGroup Id="vcredist_msvc2017_x86">
+            <ExePackage Id="vcredist_msvc2017_x86" Cache="yes" PerMachine="yes" Permanent="yes" Vital="yes" Compressed="yes" SourceFile="$(var.QtDir)\vcredist\vcredist_msvc2017_x86.exe" InstallCommand="/quiet /norestart" DetectCondition="(vcredist_msvc2017_x86 &gt;= v14.0.23506)" />
+        </PackageGroup>
+    </Fragment>
+</Wix>
+
