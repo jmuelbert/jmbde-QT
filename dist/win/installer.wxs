@@ -86,7 +86,6 @@
             <File Id="Qt5PrintSupport_dll" Source="$(var.InstallRoot)\Qt5PrintSupport.dll"/>
             <File Id="Qt5Sql_dll" Source="$(var.InstallRoot)\Qt5Sql.dll"/>
             <File Id="Qt5Svg_dll" Source="$(var.InstallRoot)\Qt5Svg.dll"/>
-            <File Id="Qt5Qml_dll" Source="$(var.InstallRoot)\Qt5Qml.dll"/>
             <File Id="Qt5Widgets_dll" Source="$(var.InstallRoot)\Qt5Widgets.dll"/>
 
             <!-- Runtime DLL's -->
