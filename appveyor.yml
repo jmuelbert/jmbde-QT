@@ -51,8 +51,9 @@ after_build:
   - windeployqt jmbde.exe
   - dir
   - dir translations
-  - candle.exe -arch %PLATFORM% -ext WixUIExtension ../../dist/win/installer.wxs  -dInstallRoot=. -dQtDir=%QTDIR% -dRootDir=../../ -dVersion=%JMBDE_VERSION% -dPlatform=%MY_PLATFORM%
-  - light.exe -ext WixUIExtension installer.wixobj -out jmbde-%JMBDE_VERSION%-win_%MY_PLATFORM%.msi
+  - candle.exe -arch %PLATFORM% -ext WixUIExtension -ext WixUtilExtension ../../dist/win/redist_vc140_%PLATFORM%.wxs -dInstallRoot=.  
+  - candle.exe -arch %PLATFORM% -ext WixUIExtension -ext WixUtilExtension ../../dist/win/installer.wxs  -dInstallRoot=. -dQtDir=%QTDIR% -dRootDir=../../ -dVersion=%JMBDE_VERSION% -dPlatform=%PLATFORM%
+  - light.exe -ext WixUIExtension -ext WixUtilExtension installer.wixob redist_vc140_%PLATFORM%.wixobj -out jmbde-%JMBDE_VERSION%-win_%MY_PLATFORM%.msi
   - move jmbde-*.msi %APPVEYOR_BUILD_FOLDER%
 
 artifacts:
