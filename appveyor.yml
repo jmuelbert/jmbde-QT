@@ -53,7 +53,7 @@ after_build:
   - dir translations
   - candle.exe -arch %PLATFORM% -ext WixUIExtension -ext WixUtilExtension ../../dist/win/vcredist_%PLATFORM%.wxs -dInstallRoot=.  -dQtDir=%QTDIR%
   - candle.exe -arch %PLATFORM% -ext WixUIExtension -ext WixUtilExtension ../../dist/win/installer.wxs  -dInstallRoot=. -dQtDir=%QTDIR% -dRootDir=../../ -dVersion=%JMBDE_VERSION% -dPlatform=%PLATFORM%
-  - light.exe -ext WixUIExtension -ext WixUtilExtension installer.wixob redist_vc140_%PLATFORM%.wixobj -out jmbde-%JMBDE_VERSION%-win_%MY_PLATFORM%.msi
+  - light.exe -ext WixUIExtension -ext WixUtilExtension installer.wixobj redist_vc140_%PLATFORM%.wixobj -out jmbde-%JMBDE_VERSION%-win_%MY_PLATFORM%.msi
   - move jmbde-*.msi %APPVEYOR_BUILD_FOLDER%
 
 artifacts:
