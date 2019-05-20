@@ -80,7 +80,7 @@
             <File Id="jmbde_dll" Source="$(var.InstallRoot)\jmbde.dll" />
 
             <!-- Qt Main Part -->
-            <File Id="qt_conf" Source="$(var.RootDir)\dist\win\qt.conf" />
+            <!-- File Id="qt_conf" Source="$(var.RootDir)\dist\win\qt.conf" / -->
             <File Id="Qt5Core_dll" Source="$(var.InstallRoot)\Qt5Core.dll"/>
             <File Id="Qt5Gui_dll" Source="$(var.InstallRoot)\Qt5Gui.dll"/>
             <File Id="Qt5PrintSupport_dll" Source="$(var.InstallRoot)\Qt5PrintSupport.dll"/>
@@ -89,18 +89,11 @@
             <File Id="Qt5Qml_dll" Source="$(var.InstallRoot)\Qt5Qml.dll"/>
             <File Id="Qt5Widgets_dll" Source="$(var.InstallRoot)\Qt5Widgets.dll"/>
 
-            <?ifdef MingwDir ?>
-            <?if $(var.Platform) = x64 ?>
-            <File Id="libgcc_s_seh_1_dll" Source="$(var.MingwDir)\bin\libgcc_s_seh-1.dll"/>
-            <?else ?>
-            <File Id="libgcc_s_dw2_1_dll" Source="$(var.MingwDir)\bin\libgcc_s_dw2-1.dll"/>
-            <?endif ?>
-            <File Id="libstdc___6_dll" Source="$(var.MingwDir)\bin\libstdc++-6.dll"/>
-            <File Id="libwinpthread_1_dll" Source="$(var.MingwDir)\bin\libwinpthread-1.dll"/>
-            <?else?>
-            <?ifdef VcUniversalCRT ?>
-
-            <?endif?>
+            <!-- Runtime DLL's -->
+            <File Id="D3Dcompiler_47_dll" Source="$(var.RootDir)\D3Dcompiler_47.dll"/>
+            <File Id="libEGL_dll" Source="$(var.RootDir)\libEGL.dll"/>
+            <File Id="libGLESV2_dll" Source="$(var.RootDir)\libGLESV2.dll"/>
+            <File Id="opengl32sw_dll" Source="$(var.RootDir)\opengl32sw.dll" />
 
             <File Id="LICENSE" Name="LICENSE.txt" Source="$(var.RootDir)\LICENSE"/>
             <File Id="LICENSE.DE" Name="LICENSE.DE.txt" Source="$(var.RootDir)\LICENSE.DE"/>
@@ -164,8 +157,10 @@
               <File Id="fil227A695620B0415EAD680D1DB07A4666" Source="$(var.InstallRoot)\translations\jmbde_de.qm"/>
               <File Id="fil989B721233754D2C858392C5598B01C9" Source="$(var.InstallRoot)\translations\jmbde_en.qm"/>
               <File Id="filCE2A01FC1BD741D3A2BA3C880A1E2BEF" Source="$(var.InstallRoot)\translations\jmbde_es.qm"/>
+              <File Id="fil9a4616e2383b4af3a81d5b5707718f26" Source="$(var.InstallRoot)\translations\jmbde_fi.qm"/>
               <File Id="fil5377BE96799C4555A2486D3BA27A739D" Source="$(var.InstallRoot)\translations\jmbde_fr.qm"/>
               <File Id="fil452E190314674ACB853074DB7B6BD16F" Source="$(var.InstallRoot)\translations\jmbde_he.qm"/>
+              <File Id="fild7595ee11e80497186eafdc41b13b751" Source="$(var.InstallRoot)\translations\jmbde_hu.qm"/>
               <File Id="fil3FC4904C751E4C88AC0BACA478B80286" Source="$(var.InstallRoot)\translations\jmbde_it.qm"/>
               <File Id="filFB8E1E06032C4CEDA35A509674E86C0B" Source="$(var.InstallRoot)\translations\jmbde_ja.qm"/>
               <File Id="fil5AF90D8A70BC45A4ABCF48664BA64013" Source="$(var.InstallRoot)\translations\jmbde_nb.qm"/>
@@ -175,21 +170,32 @@
               <File Id="filDE5F2D1A83A3425AB53A877134486FFC" Source="$(var.InstallRoot)\translations\jmbde_pt_PT.qm"/>
               <File Id="fil310F9F72CEEA4BC2B47961693FEBD11B" Source="$(var.InstallRoot)\translations\jmbde_ru.qm"/>
               <File Id="filE80B994D188347C8B4AB8F5EB4A9712F" Source="$(var.InstallRoot)\translations\jmbde_tr.qm"/>
+              <File Id="fil6b859b86192640fb952fcf45ad3df268" Source="$(var.InstallRoot)\translations\jmbde_uk.qm"/>
               <File Id="fil8AB5FFFA5DFF4A2486F40AECBA2EA8E9" Source="$(var.InstallRoot)\translations\jmbde_zh.qm"/>
               <File Id="filA64DE22795444E69A4817D9BE6FAB382" Source="$(var.InstallRoot)\translations\jmbde_zh_TW.qm"/>
 
               <!-- Qt translations -->
+              <File Id="qt_ar" Source="$(var.InstallRoot)\translations\qt_ar.qm"/>
+              <File Id="qt_bg" Source="$(var.InstallRoot)\translations\qt_bg.qm"/>
+              <File Id="qt_ca" Source="$(var.InstallRoot)\translations\qt_ca.qm"/>
               <File Id="qt_cs" Source="$(var.InstallRoot)\translations\qt_cs.qm"/>
+              <File Id="qt_da" Source="$(var.InstallRoot)\translations\qt_da.qm"/>
               <File Id="qt_de" Source="$(var.InstallRoot)\translations\qt_de.qm"/>
+              <File Id="qt_en" Source="$(var.InstallRoot)\translations\qt_en.qm"/>
               <File Id="qt_es" Source="$(var.InstallRoot)\translations\qt_es.qm"/>
+              <File Id="qt_fi" Source="$(var.InstallRoot)\translations\qt_fi.qm"/>
               <File Id="qt_fr" Source="$(var.InstallRoot)\translations\qt_fr.qm"/>
+              <File Id="qt_gd" Source="$(var.InstallRoot)\translations\qt_gd.qm"/>
               <File Id="qt_he" Source="$(var.InstallRoot)\translations\qt_he.qm"/>
+              <File Id="qt_hu" Source="$(var.InstallRoot)\translations\qt_hu.qm"/>
+              <File Id="qt_it" Source="$(var.InstallRoot)\translations\qt_it.qm"/>
               <File Id="qt_ja" Source="$(var.InstallRoot)\translations\qt_ja.qm"/>
-              <File Id="qt_pt" Source="$(var.InstallRoot)\translations\qt_pt.qm"/>
+              <File Id="qt_ko" Source="$(var.InstallRoot)\translations\qt_ko.qm"/>
+              <File Id="qt_lv" Source="$(var.InstallRoot)\translations\qt_lv.qm"/>
+              <File Id="qt_pl" Source="$(var.InstallRoot)\translations\qt_pl.qm"/>
               <File Id="qt_ru" Source="$(var.InstallRoot)\translations\qt_ru.qm"/>
-              <File Id="qt_zh_CN" Source="$(var.InstallRoot)\translations\qt_zh_CN.qm"/>
-              <File Id="qt_zh_TW" Source="$(var.InstallRoot)\translations\qt_zh_TW.qm"/>
-
+              <File Id="qt_sk" Source="$(var.InstallRoot)\translations\qt_sk.qm"/>
+              <File Id="qt_uk" Source="$(var.InstallRoot)\translations\qt_uk.qm"/>
             </Component>
           </Directory>
           <!-- /Directory -->
@@ -207,11 +213,11 @@
 
     <Feature Id="Complete" Level="1" Title="JMBde" Description="The complete package." ConfigurableDirectory="INSTALLDIR" AllowAdvertise="no" Absent="disallow">
       <!-->
-                                                      <?if $(var.Platform) = x64 ?>
+                                                                                                      <?if $(var.Platform) = x64 ?>
       <ComponentRef Id="redist_vc140_x64" />
-                                                      <?else ?>
+                                                                                                      <?else ?>
       <ComponentRef Id="redist_vc140_x86" />
-                                                      <?endif ?>
+                                                                                                      <?endif ?>
       -->
       <ComponentRef Id="MainExecutable"/>
       <ComponentRef Id="Translations"/>
