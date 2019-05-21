@@ -64,23 +64,32 @@ before_build:
 
   - qbs --version
   - qbs setup-toolchains --detect
-  - qbs setup-qt %QTDIR%\bin\qmake.exe qt
-  - qbs config defaultProfile qt
+  - cmd: qbs setup-qt %QTDIR%\bin\qmake.exe qt
+  - cmd: qbs config defaultProfile qt
+  - sh: qbs config defaultProfile gcc
+  - sh: qbs setup-qt /opt/qt512/bin/qmake qt512
+  - sh: qbs config defaultProfile qt512
 
 build_script:
   - qbs build --all-products config:release
+  - sh: qbs install --install-root jmbde config:release qbs.installPrefix:/usr projects.JMBde.version:$JMBDE_VERSION
 
 after_build:
   - cmd: cd Release\install-root
   - cmd: windeployqt jmbde.exe
   - cmd: dir
   - cmd: dir translations
-  - cmd: dir VCINSTALLDIR="%ProgramFiles(x86)%"
-  - cmd: dir "%VCINSTALLDIR%"
+  - cmd: dir "%ProgramFiles(x86)%"
+  - cmd: dir "%ProgramFiles(x86)%\Microsoft Visual Studio"
+  - cmd: dir "%ProgramFiles(x86)%\Microsoft Visual Studio\2017"
+  - cmd: dir "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\BuildTools"
+  - cmd: dir "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\BuildTools\VC"
   - cmd: candle.exe -arch %PLATFORM% -ext WixUIExtension -ext WixUtilExtension ../../dist/win/vcredist_%PLATFORM%.wxs -dInstallRoot=.  -dQtDir=%QTDIR%
   - cmd: candle.exe -arch %PLATFORM% -ext WixUIExtension -ext WixUtilExtension ../../dist/win/installer.wxs  -dInstallRoot=. -dQtDir=%QTDIR% -dRootDir=../../ -dVersion=%JMBDE_VERSION% -dPlatform=%PLATFORM%
   - cmd: light.exe -ext WixUIExtension -ext WixUtilExtension installer.wixobj -out jmbde-%JMBDE_VERSION%-win_%MY_PLATFORM%.msi
   - cmd: move jmbde-*.msi %APPVEYOR_BUILD_FOLDER%
+  - sh: cp LICENSE* *md jmbde/
+
 # vcredist_%PLATFORM%.wixobj
 
 artifacts:
