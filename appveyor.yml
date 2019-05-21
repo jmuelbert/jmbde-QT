@@ -19,7 +19,7 @@ environment:
       QTDIR: C:\Qt\5.12.2\msvc2017
       PLATFORM: x86
 
-    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       MATRIX: "CC=gcc-7 && CXX=g++-7"
 
 
@@ -28,7 +28,7 @@ configuration: Release
 init:
   - cmd: set PATH=%PATH%;%QTDIR%\bin;%WIX%\bin;
   - cmd: set VCINSTALLDIR="%ProgramFiles(x86)%\Microsoft Visual Studio\2017\BuildTools\VC"
-  - sh: sudo add-apt-repository --yes ppa:beineri/opt-qt-5.12.3-bionic
+  - sh: sudo add-apt-repository --yes ppa:beineri/opt-qt-5.12.3-xenial
 
 install:
   # Windows
@@ -53,9 +53,6 @@ install:
   # Qbs 1.13
   - sh: source /opt/qt512/bin/qt512-env.sh
   - sh: source ./dist/linux/setup-qbs.sh
-
-  # linuxdeployqt
-  - sh: source ./dist/linux/setup-linuxdeployqt.sh
 
 before_build:
   - cmd: FOR /F "tokens=*" %%i in ('git describe') do SET COMMITNOW=%%i
