@@ -7,6 +7,7 @@ cache:
   - C:\ProgramData\chocolatey\lib -> appveyor.yml
 
 environment:
+  APPVEYOR_YML_DISABLE_PS_LINUX: true
   my_secret:
     secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
   matrix:
@@ -21,14 +22,12 @@ environment:
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
 
-matrix:
-  exclude:
 
 configuration: Release
 
-init:
-  - set PATH=%PATH%;%QTDIR%\bin;%WIX%\bin;
-  - set VCINSTALLDIR="%ProgramFiles(x86)%\Microsoft Visual Studio\2017\BuildTools\VC"
+init: |
+  - ps: $ENV:PATH = "$ENV:PATH;$ENV:QTDIR\bin;$ENV:WIX\bin;"
+  # - set VCINSTALLDIR="%ProgramFiles(x86)%\Microsoft Visual Studio\2017\BuildTools\VC"
 install:
   - choco install -y qbs --version 1.12.1
   - nuget install secure-file -ExcludeVersion
