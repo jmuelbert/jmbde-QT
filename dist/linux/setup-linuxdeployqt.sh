@@ -9,7 +9,7 @@ fi
 git clone --depth 1 https://github.com/probonopd/linuxdeployqt.git linuxdeployqt
 pushd linuxdeployqt
 # Then build in Qt Creator, or use
-export PATH=$(readlink -f /tmp/.mount_QtCreator-*-x86_64/*/gcc_64/bin/):$PATH
+export PATH=$(readlink -f /tmp/.mount_QtCreator-*-x86_64/*/gcc_64/bin/):$PATH \
 qmake -r linuxdeployqt.pro QMAKE_CXX=$CXX QMAKE_LINK=$CXX
                  && make
 export PATH=$PATH:$PWD/bin
