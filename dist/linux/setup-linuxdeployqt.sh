@@ -1,4 +1,4 @@
-f [ "$CXX" == "" ]
+if [ "$CXX" == "" ]
 then
     CXX=g++
 fi
