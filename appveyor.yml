@@ -1,10 +1,6 @@
 clone_depth: 200
 version: 1.0.{build}
 
-image:
-  - Visual Studio 2017
-  - Ubuntu1804
-
 cache:
   - C:\Users\appveyor\.m2
   - C:\ProgramData\chocolatey\bin -> appveyor.yml
@@ -22,6 +18,8 @@ environment:
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       QTDIR: C:\Qt\5.12.2\msvc2017
       PLATFORM: Win32
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
 
 configuration: Release
 
@@ -55,6 +53,7 @@ after_build:
   - windeployqt jmbde.exe
   - dir
   - dir translations
+  - dir %VCINSTALLDIR%
   - candle.exe -arch %PLATFORM% -ext WixUIExtension -ext WixUtilExtension ../../dist/win/vcredist_%PLATFORM%.wxs -dInstallRoot=.  -dQtDir=%QTDIR%
   - candle.exe -arch %PLATFORM% -ext WixUIExtension -ext WixUtilExtension ../../dist/win/installer.wxs  -dInstallRoot=. -dQtDir=%QTDIR% -dRootDir=../../ -dVersion=%JMBDE_VERSION% -dPlatform=%PLATFORM%
   - light.exe -ext WixUIExtension -ext WixUtilExtension installer.wixobj -out jmbde-%JMBDE_VERSION%-win_%MY_PLATFORM%.msi
