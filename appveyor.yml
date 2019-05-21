@@ -72,7 +72,7 @@ before_build:
   - sh: qbs config defaultProfile qt512
 
 build_script:
-  - qbs build --all-products config:release
+  - cmd: qbs build --all-products config:release
   - sh: qbs install --install-root jmbde config:release qbs.installPrefix:/usr projects.JMBde.version:$JMBDE_VERSION
 
 after_build:
