@@ -28,7 +28,7 @@ configuration: Release
 init:
   - cmd: set PATH=%PATH%;%QTDIR%\bin;%WIX%\bin;
   - cmd: set VCINSTALLDIR="%ProgramFiles(x86)%\Microsoft Visual Studio\2017\BuildTools\VC"
-  - sh: sudo add-apt-repository --yes ppa:beineri/opt-qt-5.12.3-xenial
+  - sh: sudo add-apt-repository --yes ppa:beineri/opt-qt-5.12.3-bionic
 
 install:
   # Windows
@@ -75,15 +75,9 @@ build_script:
   - sh: qbs install --install-root jmbde config:release qbs.installPrefix:/usr projects.JMBde.version:$JMBDE_VERSION
 
 after_build:
-  - cmd: cd Release\install-root
+  - cmd: cd Release\install-root 
+  # https://aka.ms/vs/16/release/VC_redist.x64.exe
   - cmd: windeployqt jmbde.exe
-  - cmd: dir
-  - cmd: dir translations
-  - cmd: dir "%ProgramFiles(x86)%"
-  - cmd: dir "%ProgramFiles(x86)%\Microsoft Visual Studio"
-  - cmd: dir "%ProgramFiles(x86)%\Microsoft Visual Studio\2017"
-  - cmd: dir "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\BuildTools"
-  - cmd: dir "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\BuildTools\VC"
   - cmd: candle.exe -arch %PLATFORM% -ext WixUIExtension -ext WixUtilExtension ../../dist/win/vcredist_%PLATFORM%.wxs -dInstallRoot=.  -dQtDir=%QTDIR%
   - cmd: candle.exe -arch %PLATFORM% -ext WixUIExtension -ext WixUtilExtension ../../dist/win/installer.wxs  -dInstallRoot=. -dQtDir=%QTDIR% -dRootDir=../../ -dVersion=%JMBDE_VERSION% -dPlatform=%PLATFORM%
   - cmd: light.exe -ext WixUIExtension -ext WixUtilExtension installer.wixobj -out jmbde-%JMBDE_VERSION%-win_%MY_PLATFORM%.msi
