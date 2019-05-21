@@ -17,7 +17,7 @@ environment:
     - GENERATOR: "Visual Studio 15 2017"
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       QTDIR: C:\Qt\5.12.2\msvc2017
-      PLATFORM: Win32
+      PLATFORM: x86
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
       MATRIX: "CC=gcc-7 && CXX=g++-7"
@@ -38,7 +38,7 @@ install:
   # Linux
   - sh: sudo apt-get update -qq
   - sh: sudo apt-get -y install binutils
-  - sh: sudo apt-get -y install g++7
+  - sh: sudo apt-get -y install gcc7
   - sh: sudo apt-get -y install libgl1-mesa-dev
   - sh: sudo apt-get -y install zlib1g-dev
   - sh: eval "${MATRIX_EVAL}"
