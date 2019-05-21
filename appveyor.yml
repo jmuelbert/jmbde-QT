@@ -54,6 +54,9 @@ install:
   - sh: source /opt/qt512/bin/qt512-env.sh
   - sh: source ./dist/linux/setup-qbs.sh
 
+  # linuxdeployqt
+  - sh: source ./dist/linux/setup-linuxdeployqt.sh
+
 before_build:
   - cmd: FOR /F "tokens=*" %%i in ('git describe') do SET COMMITNOW=%%i
   - cmd: set VERSION_DATE=%DATE:~10,4%.%DATE:~4,2%.%DATE:~7,2%
