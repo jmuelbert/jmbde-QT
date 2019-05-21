@@ -96,7 +96,6 @@ after_build:
   - sh: ./squashfs-root/usr/bin/appimagetool jmbde/
   - sh: find ./jmbde -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
   - sh: mv jmbde-x86_64.AppImage jmbde-$JMBDE_VERSION-x86_64.AppImage
-  - sh: mv jmbde-$JMBDE_VERSION-x86_64.AppImage ${APPVEYOR_BUILD_FOLDER}
 
 artifacts:
   - name: Installer
