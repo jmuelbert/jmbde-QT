@@ -21,6 +21,9 @@ environment:
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
 
+matrix:
+  exclude:
+
 configuration: Release
 
 init:
@@ -53,6 +56,7 @@ after_build:
   - windeployqt jmbde.exe
   - dir
   - dir translations
+  - dir VCINSTALLDIR="%ProgramFiles(x86)%"
   - dir %VCINSTALLDIR%
   - candle.exe -arch %PLATFORM% -ext WixUIExtension -ext WixUtilExtension ../../dist/win/vcredist_%PLATFORM%.wxs -dInstallRoot=.  -dQtDir=%QTDIR%
   - candle.exe -arch %PLATFORM% -ext WixUIExtension -ext WixUtilExtension ../../dist/win/installer.wxs  -dInstallRoot=. -dQtDir=%QTDIR% -dRootDir=../../ -dVersion=%JMBDE_VERSION% -dPlatform=%PLATFORM%
