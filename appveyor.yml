@@ -38,7 +38,8 @@ install:
   # Linux
   - sh: sudo apt-get update -qq
   - sh: sudo apt-get -y install binutils
-  - sh: sudo apt-get -y install gcc7
+  - sh: sudo apt-get -y install gcc
+  - sh: sudo apt-get -y install g++
   - sh: sudo apt-get -y install libgl1-mesa-dev
   - sh: sudo apt-get -y install zlib1g-dev
   - sh: eval "${MATRIX_EVAL}"
