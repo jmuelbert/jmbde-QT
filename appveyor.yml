@@ -20,6 +20,7 @@ environment:
       PLATFORM: Win32
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
+      MATRIX: "CC=gcc-7 && CXX=g++-7"
 
 
 configuration: Release
@@ -27,10 +28,30 @@ configuration: Release
 init:
   - cmd: set PATH=%PATH%;%QTDIR%\bin;%WIX%\bin;
   - cmd: set VCINSTALLDIR="%ProgramFiles(x86)%\Microsoft Visual Studio\2017\BuildTools\VC"
+  - sh: sudo add-apt-repository --yes ppa:beineri/opt-qt-5.12.3-xenial
+
 install:
+  # Windows
   - cmd: choco install -y qbs --version 1.12.1
   - cmd: nuget install secure-file -ExcludeVersion
   - cmd: choco install -y wixtoolset
+  # Linux
+  - sh: sudo apt-get update -qq
+  - sh: sudo apt-get -y install binutils
+  - sh: sudo apt-get -y install g++7
+  - sh: sudo apt-get -y install libgl1-mesa-dev
+  - sh: sudo apt-get -y install zlib1g-dev
+  - sh: eval "${MATRIX_EVAL}"
+ # Qt 512
+  - sh: sudo apt-get -y install qt512base 
+  - sh: sudo apt-get -y install qt512script 
+  - sh: sudo apt-get -y install qt512svg 
+  - sh: sudo apt-get -y install qt512imageformats 
+  - sh: sudo apt-get -y install qt512tools
+
+  # Qbs 1.13
+  - sh: source /opt/qt512/bin/qt512-env.sh
+  - sh: source ./dist/linux/setup-qbs.sh
 
 before_build:
   - cmd: FOR /F "tokens=*" %%i in ('git describe') do SET COMMITNOW=%%i
@@ -55,7 +76,7 @@ after_build:
   - cmd: dir
   - cmd: dir translations
   - cmd: dir VCINSTALLDIR="%ProgramFiles(x86)%"
-  - cmd: dir %VCINSTALLDIR%
+  - cmd: dir "%VCINSTALLDIR%"
   - cmd: candle.exe -arch %PLATFORM% -ext WixUIExtension -ext WixUtilExtension ../../dist/win/vcredist_%PLATFORM%.wxs -dInstallRoot=.  -dQtDir=%QTDIR%
   - cmd: candle.exe -arch %PLATFORM% -ext WixUIExtension -ext WixUtilExtension ../../dist/win/installer.wxs  -dInstallRoot=. -dQtDir=%QTDIR% -dRootDir=../../ -dVersion=%JMBDE_VERSION% -dPlatform=%PLATFORM%
   - cmd: light.exe -ext WixUIExtension -ext WixUtilExtension installer.wixobj -out jmbde-%JMBDE_VERSION%-win_%MY_PLATFORM%.msi
