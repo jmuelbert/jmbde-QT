@@ -3,7 +3,7 @@ import qbs
 Project {
     name: "Tests"
     references: [
-        "auto-cpp/auto-cpp.qbs",
+        "auto/ui/ui.qbs",
     ]
 
     AutotestRunner {

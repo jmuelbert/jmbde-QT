@@ -8,7 +8,7 @@ Project {
 
     name: "JMBde"
 
-    property string version: Environment.getEnv("JMBDE_VERSION") || "0.4.23";
+    property string version: Environment.getEnv("JMBDE_VERSION") || "0.4.25";
     property bool snapshot: Environment.getEnv("JMBDE_SNAPSHOT")
     property bool release: Environment.getEnv("JMBDE_RELEASE")
 
@@ -30,9 +30,10 @@ Project {
         "src/libjmbde",
         "src/plugins",
         "src/3rd-party/qtsingleapplication",
-        "src/jmbde/jmbde.qbs",
+        "src/jmbde",
+        "src/jmbdequick",
         "translations",
-        "tests/tests.qbs",
+        "tests",
     ]
 
 

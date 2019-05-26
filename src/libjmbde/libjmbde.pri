@@ -1,2 +1,2 @@
-INCLUDEPATH += $$PWD
+INCLUDEATH += $$PWD
 LIBS *= -ljmbde

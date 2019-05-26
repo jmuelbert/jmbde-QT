@@ -78,31 +78,39 @@
 #include <QString>
 #include <QStringList>
 #include <QTranslator>
+#include <QStyleFactory>
+#include <QCommandLineParser>
 
-#include <clocale>
 
 #include "views/mainwindow.h"
 
 #define STRINGIFY(x) #x
 #define AS_STRING(x) STRINGIFY(x)
 
-static QSettings *createUserSettings() {
-  return new QSettings(QSettings::IniFormat, QSettings::UserScope,
-                       QLatin1String("de.juergen-muelbert"),
-                       QLatin1String("jmbde"));
-}
+/*! \mainpage jmBDE
+ *
+ * \section intro_sec Introduction
+ * 
+ * jmbde is a tool to collect data for a company.
+ * 
+ * https://jmuelbert.github.io/jmbde-QT/
+ * 
+ * \section install_sec Installation
+ * 
+ * \subsection dependencies Dependencies
+ * 
+ * - jmBDE requieres Qt 5.12 or later
+ * - Linguist package is required to compile the translations.
+ * - For use of the fallback icons the SVG library is required.
+ * 
+ * \subsection source From source
+ * 
+ * On most *nix systems all you need is:
+ * 
+ * `qmake && make && make install``
+ */
 
-static inline QSettings *userSettings() {
-  QSettings *settings = createUserSettings();
-  const QString fromVariant = QLatin1String("jmbde");
-  if (fromVariant.isEmpty()) {
-    return settings;
-  }
 
-  // Make sure to use the copied settings
-  delete settings;
-  return createUserSettings();
-}
 
 /**
  * @brief main
@@ -122,40 +130,9 @@ int main(int argc, char *argv[]) {
   // Enable support for highres images (added in Qt 5.1, but off by default)
   QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 
-#if defined(Q_OS_MAC)
-  QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+  QGuiApplication::setAttribute(Qt::AA_DisableWindowContextHelpButton);
 #endif
-
-  // These settings needs to be set before any QSettings object
-#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
-  QCoreApplication::setApplicationName(QLatin1String("jmBDE"));
-#else
-  QCoreApplication::setApplicationName(QLatin1String("jmbde"));
-#endif
-
-  QGuiApplication::setApplicationDisplayName(QLatin1String("jmbde"));
-  QCoreApplication::setOrganizationName(QLatin1String("jmbde"));
-  QCoreApplication::setOrganizationDomain(QLatin1String("io.jmuelbert.github"));
-
-#ifdef GIT_REVISION
-  QCoreApplication::setApplicationVersion(
-      QSL("%1 (%2)").arg(JMBDE_VERSION, GIT_REVISION));
-#else
-  QCoreApplication::setApplicationVersion(QSL(AS_STRING(JMBDE_VERSION)));
-#endif
-
-#if defined(Q_OS_MAC)
-  QFileInfo appInfo(QString::fromUtf8(argv[0]));
-  QDir appDir(appInfo.absolutePath());
-  appDir.cdUp();
-  QCoreApplication::addLibraryPath(
-      appDir.absoluteFilePath(QLatin1Literal("plugins")));
-#elif defined(Q_OS_WIN)
-  QFileInfo appInfo(QString::fromUtf8(argv[0]));
-  QCoreApplication::addLibraryPath(appInfo.absolutePath());
-#endif
-
-  QGuiApplication::setDesktopSettingsAware(false);
 
 #ifndef USE_QUICKVIEW
   QApplication::setStyle(QStyleFactory::create(QLatin1Literal("Fusion")));
@@ -166,81 +143,50 @@ int main(int argc, char *argv[]) {
   QGuiApplication app(argc, argv);
 #endif
 
+QApplication::setOrganizationDomain(QLatin1String("jmuelbert.github.io"));
+
+
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+  QApplication::setApplicationName(QLatin1String("JMBde"));
+#else
+  QApplication::setApplicationName(QLatin1String("jmbde"));
+#endif
+
+QApplication::setApplicationDisplayName(QLatin1String("JMBde"));
+QApplication::setOrganizationName(QLatin1String("jmbde"));
+QApplication::setApplicationVersion(QLatin1String(AS_STRING(JMBDE_VERSION)));
+
+#if defined(Q_OS_MAC)
+  QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
+#endif
+
   QCommandLineParser parser;
   parser.setApplicationDescription(QLatin1String("jmbde - Commandline"));
   parser.addHelpOption();
   parser.addVersionOption();
+
   // Must be done before any QSettings class is created
   QSettings::setDefaultFormat(QSettings::IniFormat);
 
-  QSettings *settings = userSettings();
 
-  QSettings *globalSettings = new QSettings(
-      QSettings::IniFormat, QSettings::SystemScope,
-      QLatin1String("de.juergen-muelbert"), QLatin1String("jmbde"));
+  // Setup and load translator for localization-
+  QString locale = QLocale::system().name();
+   QTranslator qtTranslator;
+    qtTranslator.load(QLatin1String("qt_") + locale,
+            QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    QApplication::installTranslator(&qtTranslator);
 
-  QTranslator translator;
-  QTranslator qtTranslator;
-  QStringList uiLanguages;
+    QTranslator jmbdeTranslator;
+    jmbdeTranslator.load(QLatin1String("jmbde_") + locale);
+    QApplication::installTranslator(&jmbdeTranslator);
 
-  uiLanguages = QLocale::system().uiLanguages();
-  QString overideLanguage =
-      settings->value(QLatin1Literal("General/OverrideLanguage")).toString();
-  if (!overideLanguage.isEmpty()) {
-    uiLanguages.prepend(overideLanguage);
-  }
-
-  const QString &appDirPath = QCoreApplication::applicationDirPath();
-  QString translationFileAndPath;
-
-#ifdef Q_OS_MAC
-  QDir trPath(appDirPath);
-
-  trPath.cdUp();
-  const QString &creatorTrPath = trPath.path();
-
-  translationFileAndPath = QString(creatorTrPath);
-
-  translationFileAndPath.append(QDir::separator());
-  translationFileAndPath.append(QLatin1Literal("Resources"));
-#else
-  translationFileAndPath = QString(appDirPath);
-#endif
-
-  translationFileAndPath.append(QDir::separator());
-  translationFileAndPath.append(QLatin1String("translations"));
-
-  for (auto locale : uiLanguages) {
-    locale = QLocale(locale).name();
-    QString myLangId = QLatin1String("jmbde");
-    myLangId.append(QLatin1String("_"));
-    myLangId.append(locale);
-    if (translator.load(myLangId, translationFileAndPath)) {
-      const QString &qtTrPath =
-          QLibraryInfo::location(QLibraryInfo::TranslationsPath);
-      const QString &qtTrFile = QLatin1String("qt_") + locale;
-      // Binary installer puts Qt tr files into creatorTrPath
-      if (qtTranslator.load(qtTrFile, qtTrPath) ||
-          qtTranslator.load(qtTrFile, translationFileAndPath)) {
-        app.installTranslator(&translator);
-        app.installTranslator(&qtTranslator);
-        app.setProperty("jmbde_locale", locale);
-        break;
-      }
-      translator.load(QString()); // unload()
-    } else if (locale ==
-               QLatin1Literal("C") /* overrideLanguage == "English" */) {
-      // use built-in
-      break;
-    } else if (locale.startsWith(
-                   QLatin1Literal("en")) /* "English is built-in */) {
-      // use built-in
-      break;
-    }
-  }
+  app.setProperty("jmbde_locale", locale);
+  QApplication::setLayoutDirection(
+    QObject::tr("LTR") == QLatin1String("RTL") ? Qt::RightToLeft : Qt::LeftToRight);
 
   MainWindow w;
   w.show();
 
-  return app.exec();
+  return QApplication::exec();
 }
+

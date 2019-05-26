@@ -1,0 +1,12 @@
+#ifndef LIBJMBDE_GLOBAL_H
+#define LIBJMBDE_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(JMBDE_LIBRARY)
+#define LIBJMBDESHARED_DLLSPEC Q_DECL_EXPORT
+#else
+#define LIBJMBDESHARED_DLLSPEC Q_DECL_IMPORT
+#endif
+
+#endif // LIBJMBDE_GLOBAL_H
