@@ -1,6 +1,6 @@
 
 TEMPLATE = app
-QT          += core gui
+QT          += core gui widgets
 
 CONFIG      += C14
 LIBS        = -L"$$OUT_PWD/jmbde_gui/$(OBJECTS_DIR)" -ljmbde_gui $$LIBS
@@ -35,7 +35,7 @@ message($$MSG_PREFIX: lrelease executable name: \"$$LRELEASE_EXECUTABLE\".)
 
 
 macx {
-    TARGET = jmBDE
+    TARGET = JMBde
 } else {
     TAERGET = jmbde
 }
