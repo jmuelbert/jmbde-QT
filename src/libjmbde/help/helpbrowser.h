@@ -90,7 +90,7 @@ private:
    * \param name
    * \return
    */
-  QVariant loadResource(int type, const QUrl &name);
+   QVariant loadResource(int type, const QUrl &name) override;
   /*!
    * \brief m_helpEngine
    */

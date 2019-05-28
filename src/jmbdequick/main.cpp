@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("JMBde");
 
     QString qmlDir = QApplication::applicationDirPath();
-#if Q_OS_WIN
+#ifdef Q_OS_WIN
     qmlDir += QStringLiteral("/qml");
 #else
     qmlDir += QStringLiteral("../qml");
@@ -61,5 +61,5 @@ int main(int argc, char *argv[])
     engine.addImportPath(qmlDir);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
-    return app.exec();
+    return QApplication::exec();
 }

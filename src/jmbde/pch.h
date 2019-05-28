@@ -40,5 +40,3 @@
 #include <QFileDialog>
 #include <QPlainTextEdit>
 
-// libjmbde
-#include <libdatacontext.h>

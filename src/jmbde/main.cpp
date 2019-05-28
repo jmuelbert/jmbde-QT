@@ -87,7 +87,7 @@
 #define STRINGIFY(x) #x
 #define AS_STRING(x) STRINGIFY(x)
 
-/*! \mainpage jmBDE
+/*! \mainpage JMBde
  *
  * \section intro_sec Introduction
  * 
@@ -169,7 +169,7 @@ QApplication::setApplicationVersion(QLatin1String(AS_STRING(JMBDE_VERSION)));
   QSettings::setDefaultFormat(QSettings::IniFormat);
 
 
-  // Setup and load translator for localization-
+  // Setup and load translator for localization
   QString locale = QLocale::system().name();
    QTranslator qtTranslator;
     qtTranslator.load(QLatin1String("qt_") + locale,
