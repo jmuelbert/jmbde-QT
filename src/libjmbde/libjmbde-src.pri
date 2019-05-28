@@ -1,8 +1,7 @@
 INCLUDEPATH += $$PWD
 
 SOURCES += \         
-    $$PWD/jmbde.qrc \
-    $$PWD/models/datacontext.qrc",
+    $$PWD/models/datacontext.qrc,
 
     $$PWD/help/helpbrowser.cpp \
     $$PWD/models/accountdatamodel.cpp \
