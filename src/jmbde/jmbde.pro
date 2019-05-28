@@ -3,10 +3,10 @@ TEMPLATE = app
 QT          += core gui
 
 CONFIG      += C14
-LIBS        = -L"$$OUT_PWD/jmbde_gui/$(OBJECTS_DIR) -ljmbde_gui $$LIBS
-INCLUDEPATH = jmbde_gui
+LIBS        = -L"$$OUT_PWD/jmbde_gui/$(OBJECTS_DIR)" -ljmbde_gui $$LIBS
+INCLUDEPATH = jmbde
 
-MSG_PREFIX  = "jmBDE"
+MSG_PREFIX  = "JMBde"
 APP_TYPE    = "executable"
 
 win32 {
