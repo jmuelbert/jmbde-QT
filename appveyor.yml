@@ -81,7 +81,7 @@ after_build:
   - cmd: cd Release\install-root 
   # https://aka.ms/vs/16/release/VC_redist.x64.exe
   - dir
-  - cmd: windeployqt jmbde.exe
+  - cmd: windeployqt jmbde.exe jmbde.dll
   - cmd: candle.exe -arch %PLATFORM% -ext WixUIExtension -ext WixUtilExtension ../../dist/win/vcredist_%PLATFORM%.wxs -dInstallRoot=.  -dQtDir=%QTDIR%
   - cmd: candle.exe -arch %PLATFORM% -ext WixUIExtension -ext WixUtilExtension ../../dist/win/installer.wxs  -dInstallRoot=. -dQtDir=%QTDIR% -dRootDir=../../ -dVersion=%JMBDE_VERSION% -dPlatform=%PLATFORM%
   - cmd: light.exe -ext WixUIExtension -ext WixUtilExtension installer.wixobj -out jmbde-%JMBDE_VERSION%-win_%MY_PLATFORM%.msi

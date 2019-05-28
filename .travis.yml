@@ -59,6 +59,9 @@ matrix:
       - pushd tests/
       - qmake
       - make
+      - export DISPLAY=:0.0
+      - export XAUTHORITY=~/.Xauthority
+      - sh -e /etc/init.d/xvfb start
       - for test in `find -executable -type f`; do pushd `dirname $test`; xvfb-run -a ./`basename $test`||exit 1; popd; done
       - popd
     
