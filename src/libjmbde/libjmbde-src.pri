@@ -125,7 +125,7 @@ FORMS += \
         $$PWD/views/manufacturerinputarea.ui \
         $$PWD/views/mobileinputarea.ui \
         $$PWD/views/osinputarea.ui \
-        $$PWD/Views/phoneinputarea.ui \
+        $$PWD/views/phoneinputarea.ui \
         $$PWD/views/preferencesdialog.ui \
         $$PWD/views/printerinputarea.ui \
         $$PWD/views/processorinputarea.ui \
