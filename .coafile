@@ -9,12 +9,13 @@ use_spaces = True
 # check the line length because PEP8Bear sometimes isn't able to correct the
 # linelength.
 files = *.py
+use_spaces = true
 bears = SpaceConsistencyBear, PyUnusedCodeBear, PyDocStyleBear,PyFlakesBear,PyLintBear
 
 [all.c]
 language = c++
 # cppcheckbear
-bears =  CPPCleanBear, CPPLintBear, CPDBear
+bears =  CPPCleanBear, CPPLintBear, CPDBear, SpaceConsistencyBear
 files = **.c, **.cpp, **.h
 
 [all.quotes]

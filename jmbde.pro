@@ -18,4 +18,17 @@ win* {
 TEMPLATE  = subdirs
 CONFIG   += ordered
 
-SUBDIRS = src translations
+SUBDIRS += \
+    src \
+    translations \
+    tests
+
+OTHER_FILES += \
+    AUTHORS \
+    CHANGELOG.md \
+    CODE_OF_CONDUCT.md \
+    CONTRIBUTIONS.md \
+    CONTRIBUTORS \
+    Doxyfile \
+    NEWS.md \
+    README.md

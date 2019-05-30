@@ -64,9 +64,9 @@ void tst_employeeinputarea::input_Firstname()
     const QScopedPointer<EmployeeInputArea> e(
                 new EmployeeInputArea(nullptr, index));
 
-    QString input = "Hello";
+    QString *input = new QString(QLatin1String("Hello"));
 
-    QCOMPARE(input, input);
+    QCOMPARE(&input, &input);
 }
 
 QTEST_MAIN(tst_employeeinputarea)

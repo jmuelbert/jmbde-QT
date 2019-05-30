@@ -20,10 +20,12 @@ win32-g++* {
     QMAKE_LFLAGS += /LARGEADDRESSAWARE
 }
 
-CONFIG += depend_includepath c++17
+CONFIG += depend_includepath c++14
+DEFINES += QT_NO_CAST_FROM_ASCII \
+    QT_NO_CAST_TO_ASCII
 
 !isEmpty(USE_FHS_PLUGIN_PATH) {
-    DEFINES += JMBDE_PLUGIN_DIR=\\\"$${LIBDIR}/JMBDE/plugins/\\\"
+    DEFINES += JMBDE_PLUGIN_DIR=\\\"$${LIBDIR}/jmbde/plugins/\\\"
 }
 
 # Taken from Qt Creator project files

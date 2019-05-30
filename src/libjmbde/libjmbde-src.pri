@@ -1,8 +1,6 @@
 INCLUDEPATH += $$PWD
 
 SOURCES += \         
-    $$PWD/models/datacontext.qrc,
-
     $$PWD/help/helpbrowser.cpp \
     $$PWD/models/accountdatamodel.cpp \
     $$PWD/models/chipcarddatamodel.cpp \
@@ -10,6 +8,7 @@ SOURCES += \
     $$PWD/models/chipcardprofiledatamodel.cpp \
     $$PWD/models/chipcardprofiledoordatamodel.cpp \
     $$PWD/models/citynamedatamodel.cpp \
+    $$PWD/models/commondatamodel.cpp \
     $$PWD/models/companydatamodel.cpp \
     $$PWD/models/computerdatamodel.cpp \
     $$PWD/models/computersoftwaredatamodel.cpp \
@@ -20,7 +19,6 @@ SOURCES += \
     $$PWD/models/devicetypedatamodel.cpp \
     $$PWD/models/documentsdatamodel.cpp \
     $$PWD/models/employeeaccountdatamodel.cpp \
-    $$PWD/models/employeeaccountdatamodel.h \
     $$PWD/models/employeedatamodel.cpp \
     $$PWD/models/employeedocumentdatamodel.cpp \
     $$PWD/models/faxdatamodel.cpp \
@@ -53,10 +51,10 @@ SOURCES += \
     $$PWD/views/osinputarea.cpp \
     $$PWD/views/phoneinputarea.cpp \
     $$PWD/views/preferencesdialog.cpp \
-    $$PWD/views/printerinputarea.cpp \,
+    $$PWD/views/printerinputarea.cpp \
     $$PWD/views/processorinputarea.cpp \
     $$PWD/views/softwareinputarea.cpp \
-    $$PWD/views/titleinputarea.cpp 
+    $$PWD/views/titleinputarea.cpp
 
 HEADERS += \
     $$PWD/help/helpbrowser.h \
@@ -76,6 +74,7 @@ HEADERS += \
     $$PWD/models/devicenamedatamodel.h \
     $$PWD/models/devicetypedatamodel.h \
     $$PWD/models/documentsdatamodel.h \
+    $$PWD/models/employeeaccountdatamodel.h \
     $$PWD/models/employeedatamodel.H \
     $$PWD/models/employeedocumentdatamodel.h \
     $$PWD/models/faxdatamodel.h \
@@ -132,3 +131,6 @@ FORMS += \
         $$PWD/views/processorinputarea.ui \
         $$PWD/views/softwareinputarea.ui \
         $$PWD/views/titleinputarea.ui
+
+RESOURCES +=  \
+       $$PWD/models/datacontext.qrc
