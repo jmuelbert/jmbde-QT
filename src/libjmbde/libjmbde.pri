@@ -1,2 +1,0 @@
-INCLUDEATH += $$PWD
-LIBS *= -ljmbde
