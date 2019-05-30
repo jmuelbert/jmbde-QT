@@ -80,7 +80,7 @@ after_build:
   # vcredist_%PLATFORM%.wixobj 
   - cmd: cd Release\install-root 
   # https://aka.ms/vs/16/release/VC_redist.x64.exe
-  - cmd:dir
+  - cmd: dir
   - cmd: windeployqt jmbde.exe jmbde.dll
   - cmd: dir "%ProgramFiles(x86)%"
   - cmd: set

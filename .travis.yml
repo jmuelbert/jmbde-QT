@@ -58,7 +58,8 @@ matrix:
       - make
       - pushd tests/
       - ls
-      - ls install
+      - ls ../
+      - ls ../install
       - qmake
       - make
       - export DISPLAY=:0.0
