@@ -80,12 +80,14 @@ after_build:
   # vcredist_%PLATFORM%.wixobj 
   - cmd: cd Release\install-root 
   # https://aka.ms/vs/16/release/VC_redist.x64.exe
-  - dir
+  - cmd:dir
   - cmd: windeployqt jmbde.exe jmbde.dll
-  - dir "%ProgramFiles(x86)%"
-  - set
-  - dir "%ProgramFiles(x86)%\InnoSetup"
-  - cmd: iscc ../../dist/win/installer_%PLATFOM%.iss
+  - cmd: dir "%ProgramFiles(x86)%"
+  - cmd: set
+  - cmd: dir "%ProgramFiles(x86)%\Inno Setup 5"
+  - cmd: dir "%VS140COMNTOOLS%"
+  - cmd: dir "%VSSDK140Install%"
+   # - cmd: iscc ../../dist/win/installer_%PLATFOM%.iss
   - cmd: candle.exe -arch %PLATFORM% -ext WixUIExtension -ext WixUtilExtension ../../dist/win/vcredist_%PLATFORM%.wxs -dInstallRoot=.  -dQtDir=%QTDIR%
   - cmd: candle.exe -arch %PLATFORM% -ext WixUIExtension -ext WixUtilExtension ../../dist/win/installer.wxs  -dInstallRoot=. -dQtDir=%QTDIR% -dRootDir=../../ -dVersion=%JMBDE_VERSION% -dPlatform=%PLATFORM%
   - cmd: light.exe -ext WixUIExtension -ext WixUtilExtension installer.wixobj -out jmbde-%JMBDE_VERSION%-win_%MY_PLATFORM%.msi
