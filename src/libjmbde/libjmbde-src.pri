@@ -113,24 +113,24 @@ HEADERS += \
     $$PWD/views/titleinputarea.h
 
 FORMS += \
-        $$PWD/views/aboutdialog.ui \
-        $$PWD/views/chipcardinputarea.ui \
-        $$PWD/views/cityinputarea.ui \
-        $$PWD/views/computerinputarea.ui \
-        $$PWD/views/csvimportdialog.ui \
-        $$PWD/views/departmentinputarea.ui \
-        $$PWD/views/employeeinputarea.ui \
-        $$PWD/views/functioninputarea.ui \
-        $$PWD/views/mainwindow.ui \
-        $$PWD/views/manufacturerinputarea.ui \
-        $$PWD/views/mobileinputarea.ui \
-        $$PWD/views/osinputarea.ui \
-        $$PWD/views/phoneinputarea.ui \
-        $$PWD/views/preferencesdialog.ui \
-        $$PWD/views/printerinputarea.ui \
-        $$PWD/views/processorinputarea.ui \
-        $$PWD/views/softwareinputarea.ui \
-        $$PWD/views/titleinputarea.ui
+    $$PWD/views/aboutdialog.ui \
+    $$PWD/views/chipcardinputarea.ui \
+    $$PWD/views/cityinputarea.ui \
+    $$PWD/views/computerinputarea.ui \
+    $$PWD/views/csvimportdialog.ui \
+    $$PWD/views/departmentinputarea.ui \
+    $$PWD/views/employeeinputarea.ui \
+    $$PWD/views/functioninputarea.ui \
+    $$PWD/views/mainwindow.ui \
+    $$PWD/views/manufacturerinputarea.ui \
+    $$PWD/views/mobileinputarea.ui \
+    $$PWD/views/osinputarea.ui \
+    $$PWD/views/phoneinputarea.ui \
+    $$PWD/views/preferencesdialog.ui \
+    $$PWD/views/printerinputarea.ui \
+    $$PWD/views/processorinputarea.ui \
+    $$PWD/views/softwareinputarea.ui \
+    $$PWD/views/titleinputarea.ui
 
 RESOURCES +=  \
-       $$PWD/models/datacontext.qrc
+    $$PWD/models/datacontext.qrc
