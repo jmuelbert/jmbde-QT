@@ -83,7 +83,7 @@ after_build:
   - cmd: cd Release/install-root 
   - cmd: windeployqt jmbde.exe jmbde.dll
   - cmd: cp '%REDIST%' .
-  - cmd: cp ../../dist/win/installer.iss 
+  - cmd: cp ../../dist/win/installer.iss .
   - cmd: ISCC installer.iss
   - cmd: move jmbde-*.exe %APPVEYOR_BUILD_FOLDER%
   # Linux
