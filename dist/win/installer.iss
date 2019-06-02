@@ -80,13 +80,15 @@ Name: "ukrainian"; MessagesFile: "compiler:Languages\Ukrainian.isl"
 [Types]
 Name: "full"; Description: "{code:GetFullInstallation}"
 Name: "compact"; Description: "{code:GetCompactInstallation}"
-Name: "custom"; Description: "{code:GetCustomInstallation}"; Flags: iscustom[Tasks]
-Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+Name: "custom"; Description: "{code:GetCustomInstallation}"; Flags: iscustom
 
 [Components]
 Name: "program"; Description: "{cm:ProgramFiles}"; Types: full compact custom; Flags: fixed
 Name: "translations"; Description: "{cm:Translations}"; Types: full compact custom
 Name: "plugins"; Description: "{cm:Plugins}"; Types: full
+
+[Tasks]
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
 ; App
