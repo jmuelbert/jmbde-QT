@@ -65,7 +65,7 @@ matrix:
       - export DISPLAY=:0.0
       - export XAUTHORITY=~/.Xauthority
       - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:install/usr/lib:install/usr/local/lib
-      - for test in `find -executable -type f`; do pushd `dirname $test`; xvfb-run -a ./`basename $test`||exit 1; popd; done
+      # for test in `find -executable -type f`; do pushd `dirname $test`; xvfb-run -a ./`basename $test`||exit 1; popd; done
       - popd
     
     after_success:

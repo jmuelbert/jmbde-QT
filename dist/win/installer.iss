@@ -2,33 +2,50 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "jmbde"
-#define MyAppVersion "0.4.25"
 #define MyAppPublisher "Jürgen Mülbert"
 #define MyAppURL "https://jmuelbert.github.io/jmbde-QT"
 #define MyAppExeName "jmbde.exe"
 
 #define QtDir GetEnv('QTDIR')
+#define APP_VERSION GetEnv('JMBDE_VERSION')
+#define APP_FULL_VERSION GetEnv('JMBDE_VERSION')
+#define ISS_ARCH GetEnv('ARCH')
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
 ; Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{C64A2871-0C42-4A90-9071-D84DC30563BF}
+AppId={{287C76D9-CB3B-4D8C-9BFA-D9DDDC8A593B}
 AppName={#MyAppName}
-AppVersion={#MyAppVersion}
-;AppVerName={#MyAppName} {#MyAppVersion}
+AppVersion={#APP_VERSION}
+AppVerName={#MyAppName} {#APP_FULL_VERSION}
+;VersionInfoVersion={#APP_FULL_VERSION}
 AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
-LicenseFile=src\release\LICENSE.txt
-OutputBaseFilename=qtpass-{#MyAppVersion}
-PrivilegesRequired=lowest
-Compression=lzma
+LicenseFile=..\..\dist\win\License.rtf
+OutputDir=.
+OutputBaseFilename={#MyAppName}-{#APP_FULL_VERSION}-Windows_{#ISS_ARCH}-Setup
+Compression=lzma/ultra
 SolidCompression=yes
 ShowLanguageDialog=no
+; Win 7sp1 is the lowest supported version
+MinVersion=0,6.1.7601
+PrivilegesRequired=admin
+
+
+; "ArchitecturesAllowed=x64" specifies that Setup cannot run on
+; anything but x64.
+; The ${ISS_ARCH} var is substituted with "x64" or an empty string
+; ArchitecturesAllowed={#ISS_ARCH}
+; "ArchitecturesInstallIn64BitMode=x64" requests that the install be
+; done in "64-bit mode" on x64, meaning it should use the native
+; 64-bit Program Files directory and the 64-bit view of the registry.
+; The ${ISS_ARCH} var is substituted with "x64" or an empty string
+ArchitecturesInstallIn64BitMode={#ISS_ARCH}
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -63,20 +80,103 @@ Name: "ukrainian"; MessagesFile: "compiler:Languages\Ukrainian.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "{#QtDir}\bin\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#QtDir}\bin\Qt5Network.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#QtDir}\bin\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#QtDir}\bin\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#QtDir}\bin\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#QtDir}\bin\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#QtDir}\bin\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#QtDir}\bin\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#QtDir}\plugins\platforms\qwindows.dll"; DestDir: "{app}\platforms\"; Flags: ignoreversion
-Source: "{#QtDir}\plugins\iconengines\qsvgicon.dll"; DestDir: "{app}\iconengines\"; Flags: ignoreversion
+; App
+Source: "jmbde.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "jmbde.exe"; DestDir: "{app}"; Flags: ignoreversion
 
-Source: "main\release\jmbde.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "src\release\README.txt"; DestDir: "{app}"; Flags: ignoreversion
-Source: "src\release\LICENSE.txt"; DestDir: "{app}"; Flags: ignoreversion
+; VcRedist
+Source: vcredist.exe; DestDir: {tmp}
+
+; Qt libs
+Source: "d3dcompiler_47.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "opengl32sw.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "Qt5PrintSupport.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "Qt5Sql.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
+
+; Qt plugins
+; - iconengines
+Source: "iconengines\qsvgicon.dll"; DestDir: "{app}\iconengines"; Flags: ignoreversion
+; - imageformats
+Source: "imageformats\qgif.dll"; DestDir: "{app}\imageformats"; Flags: ignoreversion 
+Source: "imageformats\qicns.dll"; DestDir: "{app}\imageformats"; Flags: ignoreversion 
+Source: "imageformats\qico.dll"; DestDir: "{app}\imageformats"; Flags: ignoreversion 
+Source: "imageformats\qjpeg.dll"; DestDir: "{app}\imageformats"; Flags: ignoreversion 
+Source: "imageformats\qsvg.dll"; DestDir: "{app}\imageformats"; Flags: ignoreversion 
+Source: "imageformats\qtga.dll"; DestDir: "{app}\imageformats"; Flags: ignoreversion 
+Source: "imageformats\qtiff.dll"; DestDir: "{app}\imageformats"; Flags: ignoreversion 
+Source: "imageformats\qwbmp.dll"; DestDir: "{app}\imageformats"; Flags: ignoreversion 
+Source: "imageformats\qwebp.dll"; DestDir: "{app}\imageformats"; Flags: ignoreversion 
+; - platforms 
+Source: "platforms\qwindows.dll"; DestDir: "{app}\platforms"; Flags: ignoreversion 
+; - printsupport 
+Source: "printsupport\windowsprintersupport.dll"; DestDir: "{app}\printsupport"; Flags: ignoreversion 
+; - sqldrivers 
+Source: "sqldrivers\qsqlite.dll"; DestDir: "{app}\sqldrivers"; Flags: ignoreversion 
+Source: "sqldrivers\qsqlmysql.dll"; DestDir: "{app}\sqldrivers"; Flags: ignoreversion
+Source: "sqldrivers\qsqlodbc.dll"; DestDir: "{app}\sqldrivers"; Flags: ignoreversion
+Source: "sqldrivers\qsqlpsql.dll"; DestDir: "{app}\sqldrivers"; Flags: ignoreversion
+; - styles 
+Source: "styles\qwindowsvistastyle.dll"; DestDir: "{app}\styles"; Flags: ignoreversion 
+; - translations 
+Source: "translations\jmbde_ar_DZ.qm"; DestDir: "{app}\translations"; Flags: ignoreversion 
+Source: "translations\jmbde_bg.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\jmbde_cs.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\jmbde_de.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\jmbde_en.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\jmbde_es.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\jmbde_fi.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\jmbde_fr.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\jmbde_he.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\jmbde_hu.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\jmbde_it.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\jmbde_ja.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\jmbde_nb.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\jmbde_nl.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\jmbde_pl.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\jmbde_pt.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\jmbde_pt_PT.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\jmbde_ru.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\jmbde_tr.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\jmbde_uk.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\jmbde_zh.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\jmbde_zh_TW.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+; - qt translations
+Source: "translations\qt_ar.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\qt_bg.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\qt_ca.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\qt_cs.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\qt_da.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\qt_de.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\qt_en.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\qt_es.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\qt_fi.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\qt_fr.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\qt_gd.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\qt_he.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\qt_hu.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\qt_it.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\qt_ja.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\qt_ko.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\qt_lv.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\qt_pl.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\qt_ru.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\qt_sk.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+Source: "translations\qt_uk.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
+
+; Docs
+Source: "..\..\release\install-root\README.md"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\..\release\install-root\NEWS.md"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\..\release\install-root\AUTHORS"; DestDir: "{app}"; Flags: ignoreversion
+
+; Licenses
+Source: "..\..\release\install-root\LICENSE"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\..\release\install-root\LICENSE.DE"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
@@ -84,4 +184,164 @@ Name: "{group}\{cm:ProgramOnTheWeb,{#MyAppName}}"; Filename: "{#MyAppURL}"
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
 [Run]
-Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+; The following command detects whether or not the c++ runtime need to be installed.
+Filename: {tmp}\vcredist.exe; Check: NeedsVCRedistInstall; Parameters: "/passive /Q:a /c:""msiexec /qb /i vcredist.msi"" "; StatusMsg: Checking for VC++ RunTime ...
+
+
+[Code]
+function CompareVersion(V1, V2: string): Integer;
+
+// Compare version strings
+// Returns 0, if the versions are equal.
+// Returns -1, if the V1 is older than the V2.
+// Returns 1, if the V1 is newer than the V2.
+
+var
+
+  P, N1, N2: Integer;
+
+begin
+
+  Result := 0;
+
+  while (Result = 0) and ((V1 <> '') or (V2 <> '')) do
+
+  begin
+
+    P := Pos('.', V1);
+
+    if P > 0 then
+
+    begin
+
+      N1 := StrToInt(Copy(V1, 1, P - 1));
+
+      Delete(V1, 1, P);
+
+    end
+
+      else
+
+    if V1 <> '' then
+
+    begin
+
+      N1 := StrToInt(V1);
+
+      V1 := '';
+
+    end
+
+      else
+
+    begin
+
+      N1 := 0;
+
+    end;
+
+
+
+    P := Pos('.', V2);
+
+    if P > 0 then
+
+    begin
+
+      N2 := StrToInt(Copy(V2, 1, P - 1));
+
+      Delete(V2, 1, P);
+
+    end
+
+      else
+
+    if V2 <> '' then
+
+    begin
+
+      N2 := StrToInt(V2);
+
+      V2 := '';
+
+    end
+
+      else
+
+    begin
+
+      N2 := 0;
+
+    end;
+
+
+
+    if N1 < N2 then Result := -1
+
+      else
+
+    if N1 > N2 then Result := 1;
+
+  end;
+
+end;
+
+
+
+function NeedsVCRedistInstall: Boolean;
+
+// Return True if VC++ redist included with Sigil Installer needs to be installed.
+
+var
+
+  reg_key, installed_ver, min_ver: String;
+
+  R: Integer;
+
+begin
+
+  Result := True;
+
+  // Mimimum version of the VC++ Redistributable needed (currently VS2017 and later).
+
+  min_ver := '14.10.00000';
+
+  if IsWin64 and not Is64BitInstallMode then
+
+    // 32-bit version being installed on 64-bit machine
+
+    reg_key := 'SOFTWARE\WoW6432Node\Microsoft\DevDiv\vc\servicing\14.0\RuntimeMinimum'
+
+  else
+
+    reg_key := 'SOFTWARE\Microsoft\DevDiv\vc\servicing\14.0\RuntimeMinimum';
+
+
+
+  // If there's a compatible version of the 14.XX runtime already installed; use it.
+
+  if RegQueryStringValue(HKEY_LOCAL_MACHINE, reg_key, 'Version', installed_ver) then
+
+    begin
+
+      //MsgBox('Registry key: ' + reg_key, mbInformation, MB_OK);
+
+      //MsgBox('Installed version: ' + installed_ver, mbInformation, MB_OK);
+
+      //MsgBox('Minimum version: ' + min_ver, mbInformation, MB_OK);
+
+      R := CompareVersion(installed_ver, min_ver);
+
+      // If installed VC++ runtime version is equal or newer than
+
+      // the minimum version specified, then don't run
+
+      // the bundled VC++ redistributable installer
+
+      if R >= 0 then
+
+        Result := False;
+
+    end
+
+ end;

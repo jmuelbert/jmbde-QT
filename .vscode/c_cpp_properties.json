@@ -1,5 +1,6 @@
 {
-    "configurations": [{
+    "configurations": [
+        {
             "name": "Mac",
             "includePath": [
                 "${workspaceRoot}"
@@ -55,37 +56,30 @@
         },
         {
             "name": "Win32",
-            "includePath": [
-                "C:/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/VC/Tools/MSVC/14.12.25827/include/*",
-                "C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/um",
-                "C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/ucrt",
-                "C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/shared",
-                "C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/winrt",
-                "C:/Qt/5.9.3/msvc2015/include",
-                "${workspaceRoot}"
-            ],
             "defines": [
                 "_DEBUG",
-                "UNICODE"
+                "UNICODE",
+                "_UNICODE"
             ],
+            "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64/cl.exe",
+            "windowsSdkVersion": "10.0.17763.0",
             "intelliSenseMode": "msvc-x64",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
             "browse": {
                 "path": [
-                    "C:/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/VC/Tools/MSVC/14.12.25827/include/*",
-                    "C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/um",
-                    "C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/ucrt",
-                    "C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/shared",
-                    "C:/Program Files (x86)/Windows Kits/10/Include/10.0.16299.0/winrt",
-                    "C:/Qt/5.9.3/msvc2017_64",
+                    "C:/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/VC/Tools/MSVC/14.16.27023/include/QtCore/",
+                    "C:/Program Files (x86)/Windows Kits/10/Include/10.0.17763.0/um",
+                    "C:/Program Files (x86)/Windows Kits/10/Include/10.0.17763.0/ucrt",
+                    "C:/Program Files (x86)/Windows Kits/10/Include/10.0.17763.0/shared",
+                    "C:/Program Files (x86)/Windows Kits/10/Include/10.0.17763.0/winrt",
+                    "C:/Qt/5.12.2/msvc2017_64/include/*",
                     "${workspaceRoot}"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""
-            },
-            "cStandard": "c11",
-            "cppStandard": "c++17",
-            "compilerPath": "/usr/bin/clang"
+            }
         }
     ],
-    "version": 4
+    "version": 3
 }
