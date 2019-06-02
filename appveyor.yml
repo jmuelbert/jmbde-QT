@@ -32,7 +32,7 @@ configuration: Release
 
 init:
   - cmd: set /p RedistVersion=<"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt"  
-  - cmd: set PATH=%PATH%;%QTDIR%\bin;%WIX%\bin;
+  - cmd: set PATH=%PATH%;%QTDIR%\bin;%INNO%;
   - sh: sudo add-apt-repository --yes ppa:beineri/opt-qt-5.12.3-xenial
 
 install:
@@ -89,7 +89,7 @@ after_build:
   - cmd: cp '%REDIST%' .
   - cmd: cp ../../dist/win/installer.iss .
   - cmd: dir "C:/Program Files (x86)/Inno Setup 5"
-  - cmd: "C:/Program Files (x86)/Inno Setup 5/iscc installer.iss"
+  - cmd: iscc installer.iss
   - cmd: move jmbde-*.exe %APPVEYOR_BUILD_FOLDER%
   # Linux
   - sh: cp LICENSE* *md jmbde/
