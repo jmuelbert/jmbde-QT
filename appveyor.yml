@@ -88,7 +88,8 @@ after_build:
   - cmd: windeployqt jmbde.exe jmbde.dll
   - cmd: cp '%REDIST%' .
   - cmd: cp ../../dist/win/installer.iss .
-  - cmd: 'C:/Program Files (x86)/Inno Setup 5/iscc' installer.iss
+  - cmd: dir '%INNO%'
+  # cmd: 'C:/Program Files (x86)/Inno Setup 5/iscc' installer.iss
   - cmd: move jmbde-*.exe %APPVEYOR_BUILD_FOLDER%
   # Linux
   - sh: cp LICENSE* *md jmbde/
