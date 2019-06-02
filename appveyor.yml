@@ -66,7 +66,11 @@ before_build:
   - cmd: if defined JMBDE_RELEASE echo Building JMBDE %JMBDE_VERSION%... (from %COMMITNOW%)
   - cmd: if defined JMBDE_SNAPSHOT set JMBDE_VERSION=%APPVEYOR_BUILD_VERSION%
   - cmd: if defined JMBDE_SNAPSHOT echo Building JMBDE snapshot %JMBDE_VERSION%... (from %COMMITNOW%)
-
+  - sh: if [[ "$APPVEYOR_REPO_TAG" ]]; then export JMBDE_RELEASE=true ; fi
+  - sh: if [[ "$APPVEYOR_REPO_TAG" ]]; then export JMBDE_VERSION=${APPVEYOR_REPO_TAG_NAME} ; fi
+  - sh: if [[ "$APPVEYOR_REPO_TAG_NAME" == "" ]]; then export JMBDE_VERSION=$(date "+%Y.%m.%d") ; fi
+  - sh: if [[ "$APPVEYOR_REPO_BRANCH" == "snapshot" ]]; then export JMBDE_SNAPSHOT=true ; fi
+  
   - qbs --version
   - qbs setup-toolchains --detect
   - cmd: qbs setup-qt %QTDIR%\bin\qmake.exe qt
@@ -84,7 +88,7 @@ after_build:
   - cmd: windeployqt jmbde.exe jmbde.dll
   - cmd: cp '%REDIST%' .
   - cmd: cp ../../dist/win/installer.iss .
-  - cmd: '%INNO%'/iscc installer.iss
+  - cmd: 'C:/Program Files (x86)/Inno Setup 5/iscc' installer.iss
   - cmd: move jmbde-*.exe %APPVEYOR_BUILD_FOLDER%
   # Linux
   - sh: cp LICENSE* *md jmbde/
