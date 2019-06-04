@@ -50,7 +50,7 @@ PrivilegesRequired=admin
 ArchitecturesAllowed={#ISS_ARCH}
 ; "ArchitecturesInstallIn64BitMode=x64" requests that the install be
 ; done in "64-bit mode" on x64, meaning it should use the native
-; 64-bit Program Files directory and the 64-bit view of the registry.
+; 64-bit core Files directory and the 64-bit view of the registry.
 ; The ${ISS_ARCH} var is substituted with "x64" or an empty string
 ArchitecturesInstallIn64BitMode={#ISS_ARCH}
 
@@ -89,7 +89,7 @@ Name: "compact"; Description: "{code:GetCompactInstallation}"
 Name: "custom"; Description: "{code:GetCustomInstallation}"; Flags: iscustom
 
 [Components]
-Name: "program"; Description: "{cm:ProgramFiles}"; Types: full compact custom; Flags: fixed
+Name: "core"; Description: "{cm:coreFiles}"; Types: full compact custom; Flags: fixed
 Name: "translations"; Description: "{cm:Translations}"; Types: full compact custom
 Name: "plugins"; Description: "{cm:Plugins}"; Types: full
 
@@ -98,48 +98,48 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 ; App
-Source: "jmbde.dll"; DestDir: "{app}"; Components: program;Flags: ignoreversion
-Source: "jmbde.exe"; DestDir: "{app}"; Components: program; Flags: ignoreversion
+Source: "jmbde.dll"; DestDir: "{app}"; Components: core;Flags: ignoreversion
+Source: "jmbde.exe"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 
 ; VcRedist
-Source: vcredist_{#ISS_ARCH}.exe; Components: program; DestDir: {tmp}
+Source: vcredist_{#ISS_ARCH}.exe; Components: core; DestDir: {tmp}
 
 ; Qt libs
-Source: "d3dcompiler_47.dll"; DestDir: "{app}"; Components: program; Flags: ignoreversion
-Source: "libEGL.dll"; DestDir: "{app}"; Components: program; Flags: ignoreversion
-Source: "libGLESV2.dll"; DestDir: "{app}"; Components: program; Flags: ignoreversion
-Source: "opengl32sw.dll"; DestDir: "{app}"; Components: program; Flags: ignoreversion
-Source: "Qt5Core.dll"; DestDir: "{app}"; Components: program; Flags: ignoreversion
-Source: "Qt5Gui.dll"; DestDir: "{app}"; Components: program; Flags: ignoreversion
-Source: "Qt5PrintSupport.dll"; DestDir: "{app}"; Components: program; Flags: ignoreversion
-Source: "Qt5Sql.dll"; DestDir: "{app}"; Components: program; Flags: ignoreversion
-Source: "Qt5Svg.dll"; DestDir: "{app}"; Components: program; Flags: ignoreversion
-Source: "Qt5Widgets.dll"; DestDir: "{app}"; Components: program; Flags: ignoreversion
+Source: "d3dcompiler_47.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "libEGL.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "libGLESV2.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "opengl32sw.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "Qt5Core.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "Qt5Gui.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "Qt5PrintSupport.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "Qt5Sql.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "Qt5Svg.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "Qt5Widgets.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 
 ; Qt plugins
 ; - iconengines
-Source: "iconengines\qsvgicon.dll"; DestDir: "{app}\iconengines"; Components: program; Flags: ignoreversion
+Source: "iconengines\qsvgicon.dll"; DestDir: "{app}\iconengines"; Components: core; Flags: ignoreversion
 ; - imageformats
-Source: "imageformats\qgif.dll"; DestDir: "{app}\imageformats"; Components: program; Flags: ignoreversion 
-Source: "imageformats\qicns.dll"; DestDir: "{app}\imageformats"; Components: program; Flags: ignoreversion 
-Source: "imageformats\qico.dll"; DestDir: "{app}\imageformats"; Components: program; Flags: ignoreversion 
-Source: "imageformats\qjpeg.dll"; DestDir: "{app}\imageformats"; Components: program; Flags: ignoreversion 
-Source: "imageformats\qsvg.dll"; DestDir: "{app}\imageformats"; Components: program; Flags: ignoreversion 
-Source: "imageformats\qtga.dll"; DestDir: "{app}\imageformats"; Components: program; Flags: ignoreversion 
-Source: "imageformats\qtiff.dll"; DestDir: "{app}\imageformats"; Components: program; Flags: ignoreversion 
-Source: "imageformats\qwbmp.dll"; DestDir: "{app}\imageformats"; Components: program; Flags: ignoreversion 
-Source: "imageformats\qwebp.dll"; DestDir: "{app}\imageformats"; Components: program; Flags: ignoreversion 
+Source: "imageformats\qgif.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion 
+Source: "imageformats\qicns.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion 
+Source: "imageformats\qico.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion 
+Source: "imageformats\qjpeg.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion 
+Source: "imageformats\qsvg.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion 
+Source: "imageformats\qtga.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion 
+Source: "imageformats\qtiff.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion 
+Source: "imageformats\qwbmp.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion 
+Source: "imageformats\qwebp.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion 
 ; - platforms 
-Source: "platforms\qwindows.dll"; DestDir: "{app}\platforms"; Components: program; Flags: ignoreversion 
+Source: "platforms\qwindows.dll"; DestDir: "{app}\platforms"; Components: core; Flags: ignoreversion 
 ; - printsupport 
-Source: "printsupport\windowsprintersupport.dll"; DestDir: "{app}\printsupport"; Components: program; Flags: ignoreversion 
+Source: "printsupport\windowsprintersupport.dll"; DestDir: "{app}\printsupport"; Components: core; Flags: ignoreversion 
 ; - sqldrivers 
-Source: "sqldrivers\qsqlite.dll"; DestDir: "{app}\sqldrivers"; Components: program; Flags: ignoreversion 
-Source: "sqldrivers\qsqlmysql.dll"; DestDir: "{app}\sqldrivers"; Components: program; Flags: ignoreversion
-Source: "sqldrivers\qsqlodbc.dll"; DestDir: "{app}\sqldrivers"; Components: program; Flags: ignoreversion
-Source: "sqldrivers\qsqlpsql.dll"; DestDir: "{app}\sqldrivers"; Components: program; Flags: ignoreversion
+Source: "sqldrivers\qsqlite.dll"; DestDir: "{app}\sqldrivers"; Components: core; Flags: ignoreversion 
+Source: "sqldrivers\qsqlmysql.dll"; DestDir: "{app}\sqldrivers"; Components: core; Flags: ignoreversion
+Source: "sqldrivers\qsqlodbc.dll"; DestDir: "{app}\sqldrivers"; Components: core; Flags: ignoreversion
+Source: "sqldrivers\qsqlpsql.dll"; DestDir: "{app}\sqldrivers"; Components: core; Flags: ignoreversion
 ; - styles 
-Source: "styles\qwindowsvistastyle.dll"; DestDir: "{app}\styles"; Components: program; Flags: ignoreversion 
+Source: "styles\qwindowsvistastyle.dll"; DestDir: "{app}\styles"; Components: core; Flags: ignoreversion 
 ; - translations 
 Source: "translations\jmbde_ar_DZ.qm"; DestDir: "{app}\translations"; Components: translations;  Flags: ignoreversion 
 Source: "translations\jmbde_bg.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
@@ -187,12 +187,12 @@ Source: "translations\qt_sk.qm"; DestDir: "{app}\translations"; Components: tran
 Source: "translations\qt_uk.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 
 ; Docs
-Source: "..\..\release\install-root\*.md"; DestDir: "{app}"; Components: program; Flags: ignoreversion
-Source: "..\..\release\install-root\AUTHORS"; DestDir: "{app}"; Components: program; Flags: ignoreversion
+Source: "..\..\release\install-root\*.md"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "..\..\release\install-root\AUTHORS"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 
 ; Licenses
-Source: "..\..\release\install-root\LICENSE"; DestDir: "{app}"; Components: program; Flags: ignoreversion
-Source: "..\..\release\install-root\LICENSE.DE"; DestDir: "{app}"; Components: program; Flags: ignoreversion
+Source: "..\..\release\install-root\LICENSE"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "..\..\release\install-root\LICENSE.DE"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 
 ; VCREDIST
 Source: "{#VCREDIST_CRT_DIR}\*"; DestDir: "{tmp}"; Flags: recursesubdirs; Components: core;
@@ -200,8 +200,8 @@ Source: "{#VCREDIST_CXXAMP_DIR}\*"; DestDir: "{tmp}"; Flags: recursesubdirs; Com
 Source: "{#VCREDIST_OPENMP_DIR}\*"; DestDir: "{tmp}"; Flags: recursesubdirs; Components: core;
 
 [Icons]
-Name: "{group}\{cm:ProgramOnTheWeb,{#AppName}}"; Filename: "{#AppURL}"; Components: core;
-Name: "{group}\{cm:UninstallProgram, {#AppName}}"; Filename: "{uninstall.exe}"
+Name: "{group}\{cm:coreOnTheWeb,{#AppName}}"; Filename: "{#AppURL}"; Components: core;
+Name: "{group}\{cm:Uninstallcore, {#AppName}}"; Filename: "{uninstall.exe}"
 Name: "{group}\{#AppName}"; Filename: "{app}\{#AppExeName}"
 Name: "{commondesktop}\{#AppName}"; Filename: "{app}\{#AppExeName}"; Tasks: desktopicon: Components: core;
 Name: "{group}\jmbde Reference Manual"; Filename: "https://jmuelbert.github.io/jmbde-QT/";  Components: core
