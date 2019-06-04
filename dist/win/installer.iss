@@ -91,18 +91,18 @@ programOnTheWeb=OnWeb
 Unistallprogram=uninstall
 manualOnTheWeb=Manual
 
-de.ProgramFiles=Programm Dateien
-de.Translations=Übersetzungen
-de.Documents=Dokumente
+german.ProgramFiles=Programm Dateien
+german.Translations=Übersetzungen
+german.Documents=Dokumente
 
-es.ProgramFiles=Archivos de programa
-es.Plugins=Complementos
+catalan.ProgramFiles=Archivos de programa
+catalan.Plugins=Complementos
 
-it.ProgramFiles=File programma
-it.Translations=Traduzioni
+italian.ProgramFiles=File programma
+italian.Translations=Traduzioni
 
-cz.ProgramFiles=Soubory programu
-cz.Translations=Překlady
+czech.ProgramFiles=Soubory programu
+czech.Translations=Překlady
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
