@@ -207,7 +207,7 @@ Name: "{commondesktop}\{#AppName}"; Filename: "{app}\{#AppExeName}";
 Name: "{group}\jmbde Reference Manual"; Filename: "https://jmuelbert.github.io/jmbde-QT/";  Components: core
 
 [Tasks]
-Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; Flags: unceked;
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; Flags: unchecked
 
 
 [Run]
