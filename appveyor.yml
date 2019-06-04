@@ -16,6 +16,7 @@ environment:
       PLATFORM: x64
       INNO: C:\Program Files (x86)\Inno Setup 5
       REDIST: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\%RedistVersion%\vcredist_%PLATFORM%.exe
+      VCPKGDir: C:\Tools\vcpkg
 
     - GENERATOR: "Visual Studio 15 2017"
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
@@ -23,6 +24,7 @@ environment:
       PLATFORM: x86
       INNO: C:\Program Files (x86)\Inno Setup 5
       REDIST: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\%RedistVersion%\vcredist_%PLATFORM%.exe
+      VCPKGDir: C:\Tools\vcpkg
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       MATRIX: "CC=gcc-7 && CXX=g++-7"
@@ -31,7 +33,12 @@ environment:
 configuration: Release
 
 init:
-  - cmd: set /p RedistVersion=<"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt"  
+  - cmd: set JMBDE_HOME=%APPVEYOR_BUILD_FOLDER%
+  - cmd: set /p RedistVersion=<"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt"
+  - cmd: set VCREDIST_CRT_DIR=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CRT
+  - cmd: set VCREDIST_CXXAMP_DIR=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CXXAMP
+  - cmd: set VCREDIST_OPENMP_DIR=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.OpenMP
+
   - cmd: set PATH=%PATH%;%QTDIR%\bin;%INNO%;
   - sh: sudo add-apt-repository --yes ppa:beineri/opt-qt-5.12.3-xenial
 
@@ -88,7 +95,10 @@ after_build:
   - cmd: windeployqt jmbde.exe jmbde.dll
   - cmd: cp '%REDIST%' .
   - cmd: cp ../../dist/win/installer.iss .
-  - cmd: iscc installer.iss
+  - cmd: dir
+  - cmd: %APPVEYOR_BUILD_FOLDER%
+  - cmd: echo "%APPVEYOR_REPO_TAG_NAME:~1%"
+  - cmd: iscc /dVcpkgInstalledBinDir=%VCPKGDir%\\installed\\x64-windows\\bin\\  installer.iss
   - cmd: move jmbde-*.exe %APPVEYOR_BUILD_FOLDER%
   # Linux
   - sh: cp LICENSE* *md jmbde/
