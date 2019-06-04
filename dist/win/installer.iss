@@ -83,15 +83,39 @@ Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 Name: "turkish"; MessagesFile: "compiler:Languages\Turkish.isl"
 Name: "ukrainian"; MessagesFile: "compiler:Languages\Ukrainian.isl"
 
+[CustomMessages]
+en.ProgramFiles=Program Files
+en.Translations=Translations
+en.Documents=Documents
+en.programOnTheWeb=OnWeb
+en.Unistallprogram=uninstall
+en.manualOnTheWeb=Manual
+
+de.ProgramFiles=Programm Dateien
+de.Translations=Übersetzungen
+de.Documents=Dokumente
+
+es.ProgramFiles=Archivos de programa
+es.Plugins=Complementos
+
+it.ProgramFiles=File programma
+it.Translations=Traduzioni
+
+cz.ProgramFiles=Soubory programu
+cz.Translations=Překlady
+
+[Tasks]
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+
 [Types]
 Name: "full"; Description: "{code:GetFullInstallation}"
 Name: "compact"; Description: "{code:GetCompactInstallation}"
 Name: "custom"; Description: "{code:GetCustomInstallation}"; Flags: iscustom
 
 [Components]
-Name: "core"; Description: "{cm:coreFiles}"; Types: full compact custom; Flags: fixed
+Name: "core"; Description: "{cm:ProgramFiles}"; Types: full compact custom; Flags: fixed
 Name: "translations"; Description: "{cm:Translations}"; Types: full compact custom
-Name: "plugins"; Description: "{cm:Plugins}"; Types: full
+Name: "documents"; Description: "{cm:Documents}"; Types: full
 
 [Files]
 ; App
@@ -195,11 +219,11 @@ Source: "{#VCREDIST_CXXAMP_DIR}\*"; DestDir: "{tmp}"; Flags: recursesubdirs; Com
 Source: "{#VCREDIST_OPENMP_DIR}\*"; DestDir: "{tmp}"; Flags: recursesubdirs; Components: core;
 
 [Icons]
-Name: "{group}\{cm:coreOnTheWeb,{#AppName}}"; Filename: "{#AppURL}"; Components: core;
-Name: "{group}\{cm:Uninstallcore, {#AppName}}"; Filename: "{uninstallexe}"
+Name: "{group}\{cm:programOnTheWeb,{#AppName}}"; Filename: "{#AppURL}"; Components: core;
+Name: "{group}\{cm:Uninstallprogram, {#AppName}}"; Filename: "{uninstallexe}"
 Name: "{group}\{#AppName}"; Filename: "{app}\{#AppExeName}"
 Name: "{commondesktop}\{#AppName}"; Filename: "{app}\{#AppExeName}"; 
-Name: "{group}\jmbde Reference Manual"; Filename: "https://jmuelbert.github.io/jmbde-QT/";  Components: core
+Name: "{group}\{cm:manualOnTheWeb}"; Filename: "https://jmuelbert.github.io/jmbde-QT/";  Components: core
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
