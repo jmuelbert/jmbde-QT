@@ -2,34 +2,39 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define OUTPUT "."
-#define MyAppName "jmbde"
-#define MyAppPublisher "Jürgen Mülbert"
-#define MyAppURL "https://jmuelbert.github.io/jmbde-QT"
-#define MyAppExeName "jmbde.exe"
 
-#define QtDir GetEnv('QTDIR')
-#define APP_VERSION GetEnv('JMBDE_VERSION')
-#define APP_FULL_VERSION GetEnv('JMBDE_VERSION')
+#define AppName "jmbde"
+#define AppVersion "0"
+#define AppMinVersion GetEnv("JMBDE_VERSION")
+#define AppVeyorBuildNumber GetEnv("APPVEYOR_BUILD_NUMBER")
+#define AppPublisher "Jürgen Mülbert"
+#define AppURL "https://jmuelbert.github.io/jmbde-QT"
 #define ISS_ARCH GetEnv('ARCH')
 
+; Microsoft C/C++ runtime libraries.
+#define VCREDIST_CRT_DIR GetEnv("VCREDIST_CRT_DIR")
+#define VCREDIST_CXXAMP_DIR GetEnv("VCREDIST_CXXAMP_DIR")
+#define VCREDIST_OPENMP_DIR GetEnv("VCREDIST_OPENMP_DIR")
+
 [Setup]
+ChangesEnvironment=yes
 ; NOTE: The value of AppId uniquely identifies this application.
 ; Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{287C76D9-CB3B-4D8C-9BFA-D9DDDC8A593B}
-AppName={#MyAppName}
-AppVersion={#APP_VERSION}
-AppVerName={#MyAppName} {#APP_FULL_VERSION}
-;VersionInfoVersion={#APP_FULL_VERSION}
-AppPublisher={#MyAppPublisher}
-AppPublisherURL={#MyAppURL}
-AppSupportURL={#MyAppURL}
-AppUpdatesURL={#MyAppURL}
-DefaultDirName={pf}\{#MyAppName}
-DefaultGroupName={#MyAppName}
+AppName={#AppName}
+AppVersion={#AppVersion}
+AppVerName={#AppName} {#AppVersion}
+;VersionInfoVersion={#AppName}-{#AppMinVersion}
+AppPublisher={#AppPublisher}
+AppPublisherURL={#AppURL}
+AppSupportURL={#AppURL}
+AppUpdatesURL={#AppURL}
+DefaultDirName={pf}\{#AppName}
+DefaultGroupName={#AppName}
 LicenseFile=..\..\dist\win\License.rtf
 OutputDir={#OUTPUT}
-OutputBaseFilename={#MyAppName}-{#APP_FULL_VERSION}-Windows_{#ISS_ARCH}-Setup
+OutputBaseFilename={#AppName}-{#AppMinVersion}-{#AppVeyorBuildNumber}-win_{#ISS_ARCH}-Setup
 Compression=lzma/ultra
 SolidCompression=yes
 ShowLanguageDialog=no
@@ -181,22 +186,26 @@ Source: "translations\qt_sk.qm"; DestDir: "{app}\translations"; Components: tran
 Source: "translations\qt_uk.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 
 ; Docs
-Source: "..\..\release\install-root\README.md"; DestDir: "{app}"; Components: program; Flags: ignoreversion
-Source: "..\..\release\install-root\NEWS.md"; DestDir: "{app}"; Components: program; Flags: ignoreversion
+Source: "..\..\release\install-root\*.md"; DestDir: "{app}"; Components: program; Flags: ignoreversion
 Source: "..\..\release\install-root\AUTHORS"; DestDir: "{app}"; Components: program; Flags: ignoreversion
 
 ; Licenses
 Source: "..\..\release\install-root\LICENSE"; DestDir: "{app}"; Components: program; Flags: ignoreversion
 Source: "..\..\release\install-root\LICENSE.DE"; DestDir: "{app}"; Components: program; Flags: ignoreversion
 
+; VCREDIST
+Source: "{#VCREDIST_CRT_DIR}\*"; DestDir: "{tmp}"; Flags: recursesubdirs; Components: core;
+Source: "{#VCREDIST_CXXAMP_DIR}\*"; DestDir: "{tmp}"; Flags: recursesubdirs; Components: core;
+Source: "{#VCREDIST_OPENMP_DIR}\*"; DestDir: "{tmp}"; Flags: recursesubdirs; Components: core;
+
 [Icons]
-Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
-Name: "{group}\{cm:ProgramOnTheWeb,{#MyAppName}}"; Filename: "{#MyAppURL}"
-Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
+Name: "{group}\{#AppName}"; Filename: "{app}\{#AppExeName}"
+Name: "{group}\{cm:ProgramOnTheWeb,{#AppName}}"; Filename: "{#AppURL}"
+Name: "{commondesktop}\{#AppName}"; Filename: "{app}\{#AppExeName}"; Tasks: desktopicon
 
 [Run]
 ; The following command detects whether or not the c++ runtime need to be installed.
-Filename: {tmp}\vcredist_{#ISS_ARCH}.exe; Check: NeedsVCRedistInstall; Parameters: "/passive /Q:a /c:""msiexec /qb /i vcredist.msi"" "; StatusMsg: Checking for VC++ RunTime ...
+Filename: "{tmp}\vcredist_{#ISS_ARCH}.exe"; Check: NeedsVCRedistInstall; Parameters: "/passive /Q:a /c:""msiexec /qb /i vcredist_{#ISS_ARCH}.msi"" "; StatusMsg: Checking for VC++ RunTime ...
 
 
 [Code]
