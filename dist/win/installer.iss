@@ -23,6 +23,7 @@ ChangesEnvironment=yes
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{287C76D9-CB3B-4D8C-9BFA-D9DDDC8A593B}
 AppName={#AppName}
+AppExeName={#AppName}.exe
 AppVersion={#AppVersion}
 AppVerName={#AppName} {#AppVersion}
 ;VersionInfoVersion={#AppName}-{#AppMinVersion}
@@ -199,11 +200,13 @@ Source: "{#VCREDIST_CXXAMP_DIR}\*"; DestDir: "{tmp}"; Flags: recursesubdirs; Com
 Source: "{#VCREDIST_OPENMP_DIR}\*"; DestDir: "{tmp}"; Flags: recursesubdirs; Components: core;
 
 [Icons]
+Name: "{group}\{cm:ProgramOnTheWeb,{#AppName}}"; Filename: "{#AppURL}"; Components: core;
+Name: "{group}\{cm:UninstallProgram, {#AppName}}"; Filename: "{uninstall.exe}"
 Name: "{group}\{#AppName}"; Filename: "{app}\{#AppExeName}"
-Name: "{group}\{cm:ProgramOnTheWeb,{#AppName}}"; Filename: "{#AppURL}"
-Name: "{commondesktop}\{#AppName}"; Filename: "{app}\{#AppExeName}"; Tasks: desktopicon
+Name: "{commondesktop}\{#AppName}"; Filename: "{app}\{#AppExeName}"; Tasks: desktopicon: Components: core;
+Name: "{group}\jmbde Reference Manual"; Filename: "https://jmuelbert.github.io/jmbde-QT/";  Components: core
 
-[Run]
+[Tasks]
 ; The following command detects whether or not the c++ runtime need to be installed.
 Filename: "{tmp}\vcredist_{#ISS_ARCH}.exe"; Check: NeedsVCRedistInstall; Parameters: "/passive /Q:a /c:""msiexec /qb /i vcredist_{#ISS_ARCH}.msi"" "; StatusMsg: Checking for VC++ RunTime ...
 
