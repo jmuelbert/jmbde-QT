@@ -94,9 +94,10 @@ after_build:
   - cmd: cd Release/install-root 
   - cmd: windeployqt jmbde.exe jmbde.dll
   - cmd: cp '%REDIST%' .
+  - cmd: echo "%REDIST%"
   - cmd: cp ../../dist/win/installer.iss .
   - cmd: dir
-  - cmd: %APPVEYOR_BUILD_FOLDER%
+  - cmd: dir "%APPVEYOR_BUILD_FOLDER%"
   - cmd: echo "%APPVEYOR_REPO_TAG_NAME:~1%"
   - cmd: iscc /dVcpkgInstalledBinDir=%VCPKGDir%\\installed\\x64-windows\\bin\\  installer.iss
   - cmd: move jmbde-*.exe %APPVEYOR_BUILD_FOLDER%
