@@ -84,12 +84,12 @@ Name: "turkish"; MessagesFile: "compiler:Languages\Turkish.isl"
 Name: "ukrainian"; MessagesFile: "compiler:Languages\Ukrainian.isl"
 
 [CustomMessages]
-en.ProgramFiles=Program Files
-en.Translations=Translations
-en.Documents=Documents
-en.programOnTheWeb=OnWeb
-en.Unistallprogram=uninstall
-en.manualOnTheWeb=Manual
+ProgramFiles=Program Files
+Translations=Translations
+Documents=Documents
+programOnTheWeb=OnWeb
+Unistallprogram=uninstall
+manualOnTheWeb=Manual
 
 de.ProgramFiles=Programm Dateien
 de.Translations=Übersetzungen
