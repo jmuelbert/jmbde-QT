@@ -24,7 +24,6 @@ ChangesEnvironment=yes
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{287C76D9-CB3B-4D8C-9BFA-D9DDDC8A593B}
 AppName={#AppName}
-AppExeName={#AppExeName}
 AppVersion={#AppVersion}
 AppVerName={#AppName} {#AppVersion}
 ;VersionInfoVersion={#AppName}-{#AppMinVersion}
