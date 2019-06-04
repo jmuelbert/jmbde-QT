@@ -91,14 +91,14 @@ build_script:
   - sh: qbs install --install-root jmbde config:release qbs.installPrefix:/usr projects.JMBde.version:$JMBDE_VERSION
 
 after_build:
-  - cmd: cd Release/install-root 
+  - cmd: cd release/install-root 
   - cmd: windeployqt jmbde.exe jmbde.dll
   - cmd: cp '%REDIST%' .
   - cmd: echo "%REDIST%"
   - cmd: cp ../../dist/win/installer.iss .
   - cmd: dir
   - cmd: dir "%APPVEYOR_BUILD_FOLDER%"
-  - cmd: echo "%APPVEYOR_REPO_TAG_NAME:~1%"
+  - cmd: echo "%APPVEYOR_REPO_TAG_NAME%"
   - cmd: iscc /dVcpkgInstalledBinDir=%VCPKGDir%\\installed\\x64-windows\\bin\\  installer.iss
   - cmd: move jmbde-*.exe %APPVEYOR_BUILD_FOLDER%
   # Linux

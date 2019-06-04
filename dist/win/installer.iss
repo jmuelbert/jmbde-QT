@@ -96,7 +96,7 @@ Source: "jmbde.dll"; DestDir: "{app}"; Components: program;Flags: ignoreversion
 Source: "jmbde.exe"; DestDir: "{app}"; Components: program; Flags: ignoreversion
 
 ; VcRedist
-Source: vcredist.exe; Components: program; DestDir: {tmp}
+Source: vcredist_{#ISS_ARCH}.exe; Components: program; DestDir: {tmp}
 
 ; Qt libs
 Source: "d3dcompiler_47.dll"; DestDir: "{app}"; Components: program; Flags: ignoreversion
@@ -196,7 +196,7 @@ Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: 
 
 [Run]
 ; The following command detects whether or not the c++ runtime need to be installed.
-Filename: {tmp}\vcredist.exe; Check: NeedsVCRedistInstall; Parameters: "/passive /Q:a /c:""msiexec /qb /i vcredist.msi"" "; StatusMsg: Checking for VC++ RunTime ...
+Filename: {tmp}\vcredist_{#ISS_ARCH}.exe; Check: NeedsVCRedistInstall; Parameters: "/passive /Q:a /c:""msiexec /qb /i vcredist.msi"" "; StatusMsg: Checking for VC++ RunTime ...
 
 
 [Code]
