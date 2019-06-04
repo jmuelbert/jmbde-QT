@@ -206,7 +206,7 @@ Name: "{group}\{#AppName}"; Filename: "{app}\{#AppExeName}"
 Name: "{commondesktop}\{#AppName}"; Filename: "{app}\{#AppExeName}"; Tasks: desktopicon: Components: core;
 Name: "{group}\jmbde Reference Manual"; Filename: "https://jmuelbert.github.io/jmbde-QT/";  Components: core
 
-[Tasks]
+[Run]
 ; The following command detects whether or not the c++ runtime need to be installed.
 Filename: "{tmp}\vcredist_{#ISS_ARCH}.exe"; Check: NeedsVCRedistInstall; Parameters: "/passive /Q:a /c:""msiexec /qb /i vcredist_{#ISS_ARCH}.msi"" "; StatusMsg: Checking for VC++ RunTime ...
 
