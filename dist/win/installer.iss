@@ -201,7 +201,7 @@ Source: "{#VCREDIST_OPENMP_DIR}\*"; DestDir: "{tmp}"; Flags: recursesubdirs; Com
 
 [Icons]
 Name: "{group}\{cm:coreOnTheWeb,{#AppName}}"; Filename: "{#AppURL}"; Components: core;
-Name: "{group}\{cm:Uninstallcore, {#AppName}}"; Filename: "{uninstall.exe}"
+Name: "{group}\{cm:Uninstallcore, {#AppName}}"; Filename: "{uninstallexe}"
 Name: "{group}\{#AppName}"; Filename: "{app}\{#AppExeName}"
 Name: "{commondesktop}\{#AppName}"; Filename: "{app}\{#AppExeName}"; Tasks: desktopicon: Components: core;
 Name: "{group}\jmbde Reference Manual"; Filename: "https://jmuelbert.github.io/jmbde-QT/";  Components: core
