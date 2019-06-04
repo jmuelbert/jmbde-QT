@@ -93,16 +93,11 @@ Name: "core"; Description: "{cm:coreFiles}"; Types: full compact custom; Flags: 
 Name: "translations"; Description: "{cm:Translations}"; Types: full compact custom
 Name: "plugins"; Description: "{cm:Plugins}"; Types: full
 
-[Tasks]
-Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
-
 [Files]
 ; App
 Source: "jmbde.dll"; DestDir: "{app}"; Components: core;Flags: ignoreversion
 Source: "jmbde.exe"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 
-; VcRedist
-Source: vcredist_{#ISS_ARCH}.exe; Components: core; DestDir: {tmp}
 
 ; Qt libs
 Source: "d3dcompiler_47.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
@@ -207,8 +202,7 @@ Name: "{commondesktop}\{#AppName}"; Filename: "{app}\{#AppExeName}";
 Name: "{group}\jmbde Reference Manual"; Filename: "https://jmuelbert.github.io/jmbde-QT/";  Components: core
 
 [Tasks]
-Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; Flags: unchecked
-
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Run]
 ; The following command detects whether or not the c++ runtime need to be installed.
