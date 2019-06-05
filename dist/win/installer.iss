@@ -107,12 +107,8 @@ czech.Translations=Překlady
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
-[Types]
-Name: "full"; Description: "{code:GetFullInstallation}"
-Name: "compact"; Description: "{code:GetCompactInstallation}"
-Name: "custom"; Description: "{code:GetCustomInstallation}"; Flags: iscustom
-
 [Components]
+; Main files cannot be unchecked. Doesn't do anything, just here for show
 Name: "core"; Description: "{cm:ProgramFiles}"; Types: full compact custom; Flags: fixed
 Name: "translations"; Description: "{cm:Translations}"; Types: full compact custom
 Name: "documents"; Description: "{cm:Documents}"; Types: full
