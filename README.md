@@ -1,11 +1,10 @@
-
 # jmbde
 
 [![GitHub license](https://img.shields.io/badge/license-EUPL-blue.svg)](https://joinup.ec.europa.eu/page/eupl-text-11-12)
 [![Build status](https://ci.appveyor.com/api/projects/status/mq9qt36e588dk7ui?svg=true)](https://ci.appveyor.com/project/jmuelbert/jmbde-qt)
 [![Build Status](https://travis-ci.org/jmuelbert/jmbde-QT.svg?branch=master)](https://travis-ci.org/jmuelbert/jmbde-QT)
 
-jmbde is a program to collect data for the IT. The database contains employees, departments, functions, phones, mobiles, computers, printers, faxes and accounts.
+jmbde is a program for the management of resources in companies. with this program, employees and the equipment they need for their work can be recorded. These are computers, printers and telephones.
 
 jmbde use the cross-platform framework [Qt](http://www.qt.io/download-open-source/),
 which means it works with the most operating systems.
@@ -14,33 +13,33 @@ which means it works with the most operating systems.
 
 The standalone binary packages support the following platforms:
 
-* macOS 10.10 or later
-* Windows 7 or later
-* Linux
+- macOS 10.10 or later
+- Windows 7 or later
+- Linux
 
 ## Sources
 
 The master branch represents the latest pre-release code.
 
-* [Releases](https://github.com/jmuelbert/jmbde-QT/releases)
+- [Releases](https://github.com/jmuelbert/jmbde-QT/releases)
 
-* [Milestones](https://github.com/jmuelbert/jmbde-QT/milestones)
+- [Milestones](https://github.com/jmuelbert/jmbde-QT/milestones)
 
 ## Requests and Bug reports
 
-* [GitHub issues (preferred)](https://github.com/jmuelbert/jmbde-QT/issues)
+- [GitHub issues (preferred)](https://github.com/jmuelbert/jmbde-QT/issues)
 
 ## Questions or Comments
 
 ## Wiki
 
-* [Main Page](https://github.com/jmuelbert/jmbde-QT/wiki)
-* [User Manual](http://jmuelbert.github.io/jmbde-QT/)
+- [Main Page](https://github.com/jmuelbert/jmbde-QT/wiki)
+- [User Manual](http://jmuelbert.github.io/jmbde-QT/)
 
 ## Compiling jmbde
 
 ### On macOS
- 
+
     The latest Xcode.
 
     brew install qt5
@@ -61,10 +60,10 @@ Run `qbs` to build jmbde:
 
         qbs -d build --all-products config:debug
 
-* Alternatively, you can [download Qt here](https://www.qt.io/download-qt-installer)
+- Alternatively, you can [download Qt here](https://www.qt.io/download-qt-installer)
 
 ### On Windows
- 
+
     You many tools install with choco
     choco install qbs
     Visual Studio 2017 or later
@@ -72,9 +71,9 @@ Run `qbs` to build jmbde:
 
 ### On Linux
 
-* On Ubuntu/Debian: `apt-get install qt5-default qttools5-dev-tools zlib1g-dev`
-* On Fedora:        `sudo dnf builddep tiled`
-* On Arch Linux:    `pacman -S qt`
+- On Ubuntu/Debian: `apt-get install qt5-default qttools5-dev-tools zlib1g-dev`
+- On Fedora: `sudo dnf builddep tiled`
+- On Arch Linux: `pacman -S qt`
 
 The installed toolchains have to match the one Qt was compiled with.
 
