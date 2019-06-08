@@ -55,72 +55,72 @@
 #include "models/commondatamodel.h"
 
 class EmployeeDocumentDataModel : public CommonDataModel {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  explicit EmployeeDocumentDataModel(QObject *parent = nullptr);
+    explicit EmployeeDocumentDataModel(QObject *parent = nullptr);
 
-  ~EmployeeDocumentDataModel();
+    ~EmployeeDocumentDataModel();
 
-  // implement the virtuals
+    // implement the virtuals
 
-  /**
-   * @brief setIndexes
-   */
-  virtual void setIndexes();
+    /**
+     * @brief setIndexes
+     */
+    virtual void setIndexes();
 
-  /**
-   * @brief initializeRelationalModel
-   * @return
-   */
-  virtual QSqlRelationalTableModel *initializeRelationalModel();
+    /**
+     * @brief initializeRelationalModel
+     * @return
+     */
+    virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-  /**
-   * @brief initializeInputDataModel
-   * @return
-   */
-  virtual QSqlRelationalTableModel *initializeInputDataModel();
+    /**
+     * @brief initializeInputDataModel
+     * @return
+     */
+    virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-  /**
-   * @brief initializeViewModel
-   * @return
-   */
-  virtual QSqlTableModel *initializeViewModel();
+    /**
+     * @brief initializeViewModel
+     * @return
+     */
+    virtual QSqlTableModel *initializeViewModel();
 
-  /**
-   * @brief generateTableString
-   * @param model
-   * @param header
-   * @return
-   */
-  virtual QString generateTableString(QAbstractTableModel *model,
-                                      QString header);
+    /**
+     * @brief generateTableString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateTableString(QAbstractTableModel *model,
+                                        QString header);
 
-  /**
-   * @brief generateFormularString
-   * @param model
-   * @param header
-   * @return
-   */
-  virtual QString generateFormularString(QAbstractTableModel *model,
-                                         QString header);
+    /**
+     * @brief generateFormularString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateFormularString(QAbstractTableModel *model,
+                                           QString header);
 
-  // Getter
-  int EmployeeDocumentIdIndex() const { return m_EmployeeDocumentIdIndex; }
-  int EmployeeIdIndex() const { return m_EmployeeIdIndex; }
-  int DocumentIdIndex() const { return m_DocumentIdIndex; }
-  int LastUpdateIndex() const { return m_LastUpdateIndex; }
+    // Getter
+    int EmployeeDocumentIdIndex() const { return m_EmployeeDocumentIdIndex; }
+    int EmployeeIdIndex() const { return m_EmployeeIdIndex; }
+    int DocumentIdIndex() const { return m_DocumentIdIndex; }
+    int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-  /**
-   * @brief tableName - the name of the database table
-   * @
-   */
-  const QString m_tableName = QLatin1String("employee_document");
-  int m_EmployeeDocumentIdIndex;
-  int m_EmployeeIdIndex;
-  int m_DocumentIdIndex;
-  int m_LastUpdateIndex;
+    /**
+     * @brief tableName - the name of the database table
+     * @
+     */
+    const QString m_tableName = QLatin1String("employee_document");
+    int m_EmployeeDocumentIdIndex;
+    int m_EmployeeIdIndex;
+    int m_DocumentIdIndex;
+    int m_LastUpdateIndex;
 };
 
 #endif // EMPLOYEEDOCUMENTDATAMODEL_H

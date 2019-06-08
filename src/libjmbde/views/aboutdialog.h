@@ -49,14 +49,14 @@ class AboutDialog;
 }
 
 class AboutDialog : public QDialog {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  explicit AboutDialog(QWidget *parent = nullptr);
-  ~AboutDialog();
+    explicit AboutDialog(QWidget *parent = nullptr);
+    ~AboutDialog();
 
 private:
-  Ui::AboutDialog *ui;
+    Ui::AboutDialog *ui;
 
-  void donate();
+    void donate();
 };

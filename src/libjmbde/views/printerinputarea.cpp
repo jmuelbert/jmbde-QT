@@ -45,106 +45,106 @@
 
 PrinterInputArea::PrinterInputArea(QWidget *parent, const QModelIndex index)
     : QGroupBox(parent), ui(new Ui::PrinterInputArea) {
-  ui->setupUi(this);
+    ui->setupUi(this);
 
-  // Init UI
-  qDebug() << "Init ProcessorInputarea for Index : " << index.row();
+    // Init UI
+    qDebug() << "Init ProcessorInputarea for Index : " << index.row();
 
-  m_actualMode = Mode::Edit;
-  setViewOnlyMode(true);
+    m_actualMode = Mode::Edit;
+    setViewOnlyMode(true);
 
-  // Set the Model
-  m_model = new QSqlRelationalTableModel(this);
-  m_model->setTable(QLatin1String("printer"));
-  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    // Set the Model
+    m_model = new QSqlRelationalTableModel(this);
+    m_model->setTable(QLatin1String("printer"));
+    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-  m_model->select();
+    m_model->select();
 
-  // Set the mapper
-  m_mapper = new QDataWidgetMapper(this);
-  m_mapper->setModel(m_model);
-  m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
+    // Set the mapper
+    m_mapper = new QDataWidgetMapper(this);
+    m_mapper->setModel(m_model);
+    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
-  setMappings();
+    setMappings();
 
-  m_mapper->setCurrentIndex(index.row());
+    m_mapper->setCurrentIndex(index.row());
 }
 
 PrinterInputArea::~PrinterInputArea() { delete ui; }
 
 void PrinterInputArea::setMappings() {
-  m_mapper->addMapping(ui->checkBox_Active,
-                       m_model->fieldIndex(QLatin1String("active")));
-  m_mapper->addMapping(ui->checkBox_Color,
-                       m_model->fieldIndex(QLatin1String("color")));
-  m_mapper->addMapping(ui->checkBox_Replace,
-                       m_model->fieldIndex(QLatin1String("replace")));
-  m_mapper->addMapping(ui->comboBox_Computer,
-                       m_model->fieldIndex(QLatin1String("computer_id")));
-  m_mapper->addMapping(ui->comboBox_Department,
-                       m_model->fieldIndex(QLatin1String("department_id")));
+    m_mapper->addMapping(ui->checkBox_Active,
+                         m_model->fieldIndex(QLatin1String("active")));
+    m_mapper->addMapping(ui->checkBox_Color,
+                         m_model->fieldIndex(QLatin1String("color")));
+    m_mapper->addMapping(ui->checkBox_Replace,
+                         m_model->fieldIndex(QLatin1String("replace")));
+    m_mapper->addMapping(ui->comboBox_Computer,
+                         m_model->fieldIndex(QLatin1String("computer_id")));
+    m_mapper->addMapping(ui->comboBox_Department,
+                         m_model->fieldIndex(QLatin1String("department_id")));
 
-  m_mapper->addMapping(ui->comboBox_DeviceName,
-                       m_model->fieldIndex(QLatin1String("device_name_id")));
-  m_mapper->addMapping(ui->comboBox_DeviceType,
-                       m_model->fieldIndex(QLatin1String("device_type_id")));
-  m_mapper->addMapping(ui->comboBox_Employee,
-                       m_model->fieldIndex(QLatin1String("employe_id")));
-  m_mapper->addMapping(ui->comboBox_Inventory,
-                       m_model->fieldIndex(QLatin1String("inventory_id")));
-  m_mapper->addMapping(ui->comboBox_Manufacturer,
-                       m_model->fieldIndex(QLatin1String("manufacturer_id")));
+    m_mapper->addMapping(ui->comboBox_DeviceName,
+                         m_model->fieldIndex(QLatin1String("device_name_id")));
+    m_mapper->addMapping(ui->comboBox_DeviceType,
+                         m_model->fieldIndex(QLatin1String("device_type_id")));
+    m_mapper->addMapping(ui->comboBox_Employee,
+                         m_model->fieldIndex(QLatin1String("employe_id")));
+    m_mapper->addMapping(ui->comboBox_Inventory,
+                         m_model->fieldIndex(QLatin1String("inventory_id")));
+    m_mapper->addMapping(ui->comboBox_Manufacturer,
+                         m_model->fieldIndex(QLatin1String("manufacturer_id")));
 
-  m_mapper->addMapping(ui->comboBox_Papersize,
-                       m_model->fieldIndex(QLatin1String("paper_size_max")));
-  m_mapper->addMapping(ui->comboBox_Place,
-                       m_model->fieldIndex(QLatin1String("place_id")));
-  m_mapper->addMapping(ui->lineEdit_PrinterName,
-                       m_model->fieldIndex(QLatin1String("network_name")));
-  m_mapper->addMapping(
-      ui->lineEdit_IPAddress,
-      m_model->fieldIndex(QLatin1String("network_ip_address")));
-  m_mapper->addMapping(ui->lineEdit_Network,
-                       m_model->fieldIndex(QLatin1String("network")));
-  m_mapper->addMapping(ui->lineEdit_SerialNumber,
-                       m_model->fieldIndex(QLatin1String("serial_number")));
-  m_mapper->addMapping(ui->textEdit_Resources,
-                       m_model->fieldIndex(QLatin1String("resources")));
+    m_mapper->addMapping(ui->comboBox_Papersize,
+                         m_model->fieldIndex(QLatin1String("paper_size_max")));
+    m_mapper->addMapping(ui->comboBox_Place,
+                         m_model->fieldIndex(QLatin1String("place_id")));
+    m_mapper->addMapping(ui->lineEdit_PrinterName,
+                         m_model->fieldIndex(QLatin1String("network_name")));
+    m_mapper->addMapping(
+        ui->lineEdit_IPAddress,
+        m_model->fieldIndex(QLatin1String("network_ip_address")));
+    m_mapper->addMapping(ui->lineEdit_Network,
+                         m_model->fieldIndex(QLatin1String("network")));
+    m_mapper->addMapping(ui->lineEdit_SerialNumber,
+                         m_model->fieldIndex(QLatin1String("serial_number")));
+    m_mapper->addMapping(ui->textEdit_Resources,
+                         m_model->fieldIndex(QLatin1String("resources")));
 }
 
 void PrinterInputArea::setViewOnlyMode(bool mode) {
-  ui->checkBox_Active->setDisabled(mode);
-  ui->checkBox_Color->setDisabled(mode);
-  ui->checkBox_Replace->setDisabled(mode);
-  ui->comboBox_Computer->setDisabled(mode);
-  ui->comboBox_Department->setDisabled(mode);
-  ui->comboBox_DeviceName->setDisabled(mode);
-  ui->comboBox_DeviceType->setDisabled(mode);
-  ui->comboBox_Employee->setDisabled(mode);
-  ui->comboBox_Inventory->setDisabled(mode);
-  ui->comboBox_Manufacturer->setDisabled(mode);
-  ui->comboBox_Papersize->setDisabled(mode);
-  ui->comboBox_Place->setDisabled(mode);
-  ui->lineEdit_IPAddress->setDisabled(mode);
-  ui->lineEdit_Network->setDisabled(mode);
-  ui->lineEdit_PrinterName->setDisabled(mode);
-  ui->lineEdit_SerialNumber->setDisabled(mode);
-  ui->textEdit_Resources->setDisabled(mode);
+    ui->checkBox_Active->setDisabled(mode);
+    ui->checkBox_Color->setDisabled(mode);
+    ui->checkBox_Replace->setDisabled(mode);
+    ui->comboBox_Computer->setDisabled(mode);
+    ui->comboBox_Department->setDisabled(mode);
+    ui->comboBox_DeviceName->setDisabled(mode);
+    ui->comboBox_DeviceType->setDisabled(mode);
+    ui->comboBox_Employee->setDisabled(mode);
+    ui->comboBox_Inventory->setDisabled(mode);
+    ui->comboBox_Manufacturer->setDisabled(mode);
+    ui->comboBox_Papersize->setDisabled(mode);
+    ui->comboBox_Place->setDisabled(mode);
+    ui->lineEdit_IPAddress->setDisabled(mode);
+    ui->lineEdit_Network->setDisabled(mode);
+    ui->lineEdit_PrinterName->setDisabled(mode);
+    ui->lineEdit_SerialNumber->setDisabled(mode);
+    ui->textEdit_Resources->setDisabled(mode);
 }
 
 void PrinterInputArea::createDataset() {
-  qDebug() << "Create a new Dataset for Processor...";
+    qDebug() << "Create a new Dataset for Processor...";
 
-  // Set all inputfields to blank
-  m_mapper->toLast();
+    // Set all inputfields to blank
+    m_mapper->toLast();
 
-  int row = m_mapper->currentIndex();
-  if (row < 0)
-    row = 0;
+    int row = m_mapper->currentIndex();
+    if (row < 0)
+        row = 0;
 
-  m_mapper->submit();
-  m_model->insertRow(row);
-  m_mapper->setCurrentIndex(row);
+    m_mapper->submit();
+    m_model->insertRow(row);
+    m_mapper->setCurrentIndex(row);
 }
 
 void PrinterInputArea::retrieveDataset(const QModelIndex index) {}
@@ -154,42 +154,42 @@ void PrinterInputArea::updateDataset(const QModelIndex index) {}
 void PrinterInputArea::deleteDataset(const QModelIndex index) {}
 
 void PrinterInputArea::on_pushButton_Add_clicked() {
-  createDataset();
-  on_pushButton_EditFinish_clicked();
+    createDataset();
+    on_pushButton_EditFinish_clicked();
 }
 
 void PrinterInputArea::on_pushButton_EditFinish_clicked() {
-  switch (m_actualMode) {
-  case Mode::Edit: {
-    m_actualMode = Mode::Finish;
-    ui->pushButton_EditFinish->setText(tr("Finish"));
-    setViewOnlyMode(false);
+    switch (m_actualMode) {
+    case Mode::Edit: {
+        m_actualMode = Mode::Finish;
+        ui->pushButton_EditFinish->setText(tr("Finish"));
+        setViewOnlyMode(false);
 
-  } break;
+    } break;
 
-  case Mode::Finish: {
-    qDebug() << "Save Data...";
+    case Mode::Finish: {
+        qDebug() << "Save Data...";
 
-    m_actualMode = Mode::Edit;
-    ui->pushButton_EditFinish->setText(tr("Edit"));
-    setViewOnlyMode(false);
+        m_actualMode = Mode::Edit;
+        ui->pushButton_EditFinish->setText(tr("Edit"));
+        setViewOnlyMode(false);
 
-    m_mapper->submit();
-    m_model->database().transaction();
-    if (m_model->submitAll()) {
-      m_model->database().commit();
-      qDebug() << "Commit changes for Processor Databse Table";
-    } else {
-      m_model->database().rollback();
-      QMessageBox::warning(this, tr("jmbde"),
-                           tr("The database reported an error: %1")
-                               .arg(m_model->lastError().text()));
+        m_mapper->submit();
+        m_model->database().transaction();
+        if (m_model->submitAll()) {
+            m_model->database().commit();
+            qDebug() << "Commit changes for Processor Databse Table";
+        } else {
+            m_model->database().rollback();
+            QMessageBox::warning(this, tr("jmbde"),
+                                 tr("The database reported an error: %1")
+                                     .arg(m_model->lastError().text()));
+        }
+
+    } break;
+
+    default: {
+        qDebug() << "Error";
     }
-
-  } break;
-
-  default: {
-    qDebug() << "Error";
-  }
-  }
+    }
 }

@@ -58,71 +58,71 @@
 
 class DeviceTypeDataModel : public CommonDataModel {
 public:
-  /**
-   * @brief DeviceTypeDataModel::DeviceTypeDataModel
-   */
-  explicit DeviceTypeDataModel(QObject *parent = nullptr);
+    /**
+     * @brief DeviceTypeDataModel::DeviceTypeDataModel
+     */
+    explicit DeviceTypeDataModel(QObject *parent = nullptr);
 
-  /**
-   * @brief DeviceTypeDataModel::~DepartmentDataModel
-   */
-  ~DeviceTypeDataModel();
+    /**
+     * @brief DeviceTypeDataModel::~DepartmentDataModel
+     */
+    ~DeviceTypeDataModel();
 
-  // implement the virtuals
-  /**
-   * @brief setIndexes
-   */
-  virtual void setIndexes();
+    // implement the virtuals
+    /**
+     * @brief setIndexes
+     */
+    virtual void setIndexes();
 
-  /**
-   * @brief initializeRelationalModel
-   * @return
-   */
-  virtual QSqlRelationalTableModel *initializeRelationalModel();
+    /**
+     * @brief initializeRelationalModel
+     * @return
+     */
+    virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-  /**
-   * @brief initializeInputDataModel
-   * @return
-   */
-  virtual QSqlRelationalTableModel *initializeInputDataModel();
+    /**
+     * @brief initializeInputDataModel
+     * @return
+     */
+    virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-  /**
-   * @brief initializeViewModel
-   * @return
-   */
-  virtual QSqlTableModel *initializeViewModel();
+    /**
+     * @brief initializeViewModel
+     * @return
+     */
+    virtual QSqlTableModel *initializeViewModel();
 
-  /**
-   * @brief generateTableString
-   * @param model
-   * @param header
-   * @return
-   */
-  virtual QString generateTableString(QAbstractTableModel *model,
-                                      QString header);
+    /**
+     * @brief generateTableString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateTableString(QAbstractTableModel *model,
+                                        QString header);
 
-  /**
-   * @brief generateFormularString
-   * @param model
-   * @param header
-   * @return
-   */
-  virtual QString generateFormularString(QAbstractTableModel *model,
-                                         QString header);
+    /**
+     * @brief generateFormularString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateFormularString(QAbstractTableModel *model,
+                                           QString header);
 
-  int DeviceTypeIdIndex() const { return m_DeviceTypeIdIndex; }
-  int NameIndex() const { return m_NameIndex; }
-  int LastUpdateIndex() const { return m_LastUpdateIndex; }
+    int DeviceTypeIdIndex() const { return m_DeviceTypeIdIndex; }
+    int NameIndex() const { return m_NameIndex; }
+    int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-  /**
-   * @brief tableName - the name of the database table
-   * @
-   */
-  const QString m_tableName = QLatin1String("device_type");
-  int m_DeviceTypeIdIndex;
-  int m_NameIndex;
-  int m_LastUpdateIndex;
+    /**
+     * @brief tableName - the name of the database table
+     * @
+     */
+    const QString m_tableName = QLatin1String("device_type");
+    int m_DeviceTypeIdIndex;
+    int m_NameIndex;
+    int m_LastUpdateIndex;
 };
 
 #endif // DEVICETYPEDATAMODEL_H

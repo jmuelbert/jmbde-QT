@@ -50,49 +50,49 @@
 
 class IDataModel {
 public:
-  virtual ~IDataModel();
+    virtual ~IDataModel();
 
-  /**
-   * @brief setIndexes
-   */
-  virtual void setIndexes() = 0;
+    /**
+     * @brief setIndexes
+     */
+    virtual void setIndexes() = 0;
 
-  /**
-   * @brief initializeRelationalModel
-   * @param tableName
-   * @return RelationalTableModel
-   */
-  virtual QSqlRelationalTableModel *initializeRelationalModel() = 0;
+    /**
+     * @brief initializeRelationalModel
+     * @param tableName
+     * @return RelationalTableModel
+     */
+    virtual QSqlRelationalTableModel *initializeRelationalModel() = 0;
 
-  /**
-   * @brief initializeInputDataModel
-   * @return
-   */
-  virtual QSqlRelationalTableModel *initializeInputDataModel() = 0;
+    /**
+     * @brief initializeInputDataModel
+     * @return
+     */
+    virtual QSqlRelationalTableModel *initializeInputDataModel() = 0;
 
-  /**
-   * @brief initializeViewModel
-   * @return
-   */
-  virtual QSqlTableModel *initializeViewModel() = 0;
+    /**
+     * @brief initializeViewModel
+     * @return
+     */
+    virtual QSqlTableModel *initializeViewModel() = 0;
 
-  /**
-   * @brief generateTabletring
-   * @param model
-   * @param header
-   * @return
-   */
-  virtual QString generateTableString(QAbstractTableModel *model,
-                                      QString header) = 0;
+    /**
+     * @brief generateTabletring
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateTableString(QAbstractTableModel *model,
+                                        QString header) = 0;
 
-  /**
-   * @brief generateFormularString
-   * @param model
-   * @param header
-   * @return
-   */
-  virtual QString generateFormularString(QAbstractTableModel *model,
-                                         QString header) = 0;
+    /**
+     * @brief generateFormularString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateFormularString(QAbstractTableModel *model,
+                                           QString header) = 0;
 };
 
 #endif // _SRC_APP_MODELS_IDATAMODEL_H

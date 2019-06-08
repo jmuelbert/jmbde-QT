@@ -65,125 +65,125 @@
     \copyright EUPL V1.2
  */
 class ChipCardDataModel : public CommonDataModel {
-  Q_OBJECT
-  Q_LOGGING_CATEGORY(chipCardDataModel, "jmbde.models.chipcarddata")
+    Q_OBJECT
+    Q_LOGGING_CATEGORY(chipCardDataModel, "jmbde.models.chipcarddata")
 
 public:
-  //! Constructor ChipCardDataModel
-  /*!
-   \brief ChipCardDataModel
-   \param parent
-  */
-  explicit ChipCardDataModel(QObject *parent = nullptr);
+    //! Constructor ChipCardDataModel
+    /*!
+     \brief ChipCardDataModel
+     \param parent
+    */
+    explicit ChipCardDataModel(QObject *parent = nullptr);
 
-  //! Destructor ChipCardDataModel
-  ~ChipCardDataModel();
+    //! Destructor ChipCardDataModel
+    ~ChipCardDataModel();
 
-  // implement the virtuals
+    // implement the virtuals
 
-  /**
-   * @brief setIndexes
-   */
-  virtual void setIndexes();
+    /**
+     * @brief setIndexes
+     */
+    virtual void setIndexes();
 
-  /**
-   * @brief initializeRelationalModel
-   * @return
-   */
-  virtual QSqlRelationalTableModel *initializeRelationalModel();
+    /**
+     * @brief initializeRelationalModel
+     * @return
+     */
+    virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-  /**
-   * @brief initializeInputDataModel
-   * @return
-   */
-  virtual QSqlRelationalTableModel *initializeInputDataModel();
+    /**
+     * @brief initializeInputDataModel
+     * @return
+     */
+    virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-  /**
-   * @brief initializeViewModel
-   * @return
-   */
-  virtual QSqlTableModel *initializeViewModel();
+    /**
+     * @brief initializeViewModel
+     * @return
+     */
+    virtual QSqlTableModel *initializeViewModel();
 
-  /**
-   * @brief generateTableString
-   * @param model
-   * @param header
-   * @return
-   */
-  virtual QString generateTableString(QAbstractTableModel *model,
-                                      const QString header);
+    /**
+     * @brief generateTableString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateTableString(QAbstractTableModel *model,
+                                        const QString header);
 
-  /**
-   * @brief generateFormularString
-   * @param model
-   * @param header
-   * @return
-   */
-  virtual QString generateFormularString(QAbstractTableModel *model,
-                                         QString header);
+    /**
+     * @brief generateFormularString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateFormularString(QAbstractTableModel *model,
+                                           QString header);
 
-  // Getter
-  /*!
-   * \brief ChipCardIdIndex
-   * \return
-   */
-  int ChipCardIdIndex() const { return m_ChipCardIdIndex; }
-  /*!
-   * \brief NumberIndex
-   * \return
-   */
-  int NumberIndex() const { return m_NumberIndex; }
-  /*!
-   * \brief ChipCardDoorIdIndex
-   * \return
-   */
-  int ChipCardDoorIdIndex() const { return m_ChipCardDoorIdIndex; }
-  /*!
-   * \brief ChipCardProfileIdIndex
-   * \return
-   */
-  int ChipCardProfileIdIndex() const { return m_ChipCardProfileIdIndex; }
-  /*!
-   * \brief EmployeeIdIndex
-   * \return
-   */
-  int EmployeeIdIndex() const { return m_EmployeeIdIndex; }
-  /*!
-   * \brief LastUpdateIndex
-   * \return
-   */
-  int LastUpdateIndex() const { return m_LastUpdateIndex; }
+    // Getter
+    /*!
+     * \brief ChipCardIdIndex
+     * \return
+     */
+    int ChipCardIdIndex() const { return m_ChipCardIdIndex; }
+    /*!
+     * \brief NumberIndex
+     * \return
+     */
+    int NumberIndex() const { return m_NumberIndex; }
+    /*!
+     * \brief ChipCardDoorIdIndex
+     * \return
+     */
+    int ChipCardDoorIdIndex() const { return m_ChipCardDoorIdIndex; }
+    /*!
+     * \brief ChipCardProfileIdIndex
+     * \return
+     */
+    int ChipCardProfileIdIndex() const { return m_ChipCardProfileIdIndex; }
+    /*!
+     * \brief EmployeeIdIndex
+     * \return
+     */
+    int EmployeeIdIndex() const { return m_EmployeeIdIndex; }
+    /*!
+     * \brief LastUpdateIndex
+     * \return
+     */
+    int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-  /**
-   * @brief tableName - the name of the database table
-   * @
-   */
-  const QString m_tableName = QLatin1String("chip_card");
-  /*!
-   * \brief m_ChipCardIdIndex
-   */
-  int m_ChipCardIdIndex;
-  /*!
-   * \brief m_NumberIndex
-   */
-  int m_NumberIndex;
-  /*!
-   * \brief m_ChipCardDoorIdIndex
-   */
-  int m_ChipCardDoorIdIndex;
-  /*!
-   * \brief m_ChipCardProfileIdIndex
-   */
-  int m_ChipCardProfileIdIndex;
-  /*!
-   * \brief m_EmployeeIdIndex
-   */
-  int m_EmployeeIdIndex;
-  /*!
-   * \brief m_LastUpdateIndex
-   */
-  int m_LastUpdateIndex;
+    /**
+     * @brief tableName - the name of the database table
+     * @
+     */
+    const QString m_tableName = QLatin1String("chip_card");
+    /*!
+     * \brief m_ChipCardIdIndex
+     */
+    int m_ChipCardIdIndex;
+    /*!
+     * \brief m_NumberIndex
+     */
+    int m_NumberIndex;
+    /*!
+     * \brief m_ChipCardDoorIdIndex
+     */
+    int m_ChipCardDoorIdIndex;
+    /*!
+     * \brief m_ChipCardProfileIdIndex
+     */
+    int m_ChipCardProfileIdIndex;
+    /*!
+     * \brief m_EmployeeIdIndex
+     */
+    int m_EmployeeIdIndex;
+    /*!
+     * \brief m_LastUpdateIndex
+     */
+    int m_LastUpdateIndex;
 };
 
 #endif // CHIPCARDDATAMODEL_H

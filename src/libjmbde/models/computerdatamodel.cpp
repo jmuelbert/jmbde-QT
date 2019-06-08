@@ -45,117 +45,118 @@
 ComputerDataModel::ComputerDataModel(QObject *parent)
     : CommonDataModel(parent) {
 
-  // Set the Model
-  m_model = new QSqlRelationalTableModel(this);
-  m_model->setTable(this->m_tableName);
-  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    // Set the Model
+    m_model = new QSqlRelationalTableModel(this);
+    m_model->setTable(this->m_tableName);
+    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-  setIndexes();
+    setIndexes();
 }
 
 ComputerDataModel::~ComputerDataModel() = default;
 
 void ComputerDataModel::setIndexes() {
-  m_ComputerIdIndex = m_model->fieldIndex(QLatin1String("computer_id"));
-  m_DeviceNameIdIndex = m_model->fieldIndex(QLatin1String("device_name_id"));
-  m_SerialNumberIndex = m_model->fieldIndex(QLatin1String("serial_number"));
-  m_ServiceTagIndex = m_model->fieldIndex(QLatin1String("service_tag"));
-  m_ServiceNumberIndex = m_model->fieldIndex(QLatin1String("service_number"));
-  m_MemoryIndex = m_model->fieldIndex(QLatin1String("memory"));
-  m_NetworkIndex = m_model->fieldIndex(QLatin1String("network"));
-  m_NetworkNameIndex = m_model->fieldIndex(QLatin1String("network_name"));
-  m_NetworkIpAddressIndex =
-      m_model->fieldIndex(QLatin1String("network_ip_address"));
-  m_ActiveIndex = m_model->fieldIndex(QLatin1String("active"));
-  m_ReplaceIndex = m_model->fieldIndex(QLatin1String("replace"));
-  m_DeviceTypeIdIndex = m_model->fieldIndex(QLatin1String("device_type_id"));
-  m_EmployeeIdIndex = m_model->fieldIndex(QLatin1String("employe_id"));
-  m_PlaceIdIndex = m_model->fieldIndex(QLatin1String("place_id"));
-  m_DepartmentIdIndex = m_model->fieldIndex(QLatin1String("department_id"));
-  m_ManufacturerIdIndex = m_model->fieldIndex(QLatin1String("manufacturer_id"));
-  m_InventoryIdIndex = m_model->fieldIndex(QLatin1String("inventory_id"));
-  m_ProcessorIdIndex = m_model->fieldIndex(QLatin1String("processor_id"));
-  m_OSIdIndex = m_model->fieldIndex(QLatin1String("os_id"));
-  m_ComputerSoftwareIdIndex =
-      m_model->fieldIndex(QLatin1String("computer_software_id"));
-  m_PrinterIdIndex = m_model->fieldIndex(QLatin1String("printer_id"));
-  m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
+    m_ComputerIdIndex = m_model->fieldIndex(QLatin1String("computer_id"));
+    m_DeviceNameIdIndex = m_model->fieldIndex(QLatin1String("device_name_id"));
+    m_SerialNumberIndex = m_model->fieldIndex(QLatin1String("serial_number"));
+    m_ServiceTagIndex = m_model->fieldIndex(QLatin1String("service_tag"));
+    m_ServiceNumberIndex = m_model->fieldIndex(QLatin1String("service_number"));
+    m_MemoryIndex = m_model->fieldIndex(QLatin1String("memory"));
+    m_NetworkIndex = m_model->fieldIndex(QLatin1String("network"));
+    m_NetworkNameIndex = m_model->fieldIndex(QLatin1String("network_name"));
+    m_NetworkIpAddressIndex =
+        m_model->fieldIndex(QLatin1String("network_ip_address"));
+    m_ActiveIndex = m_model->fieldIndex(QLatin1String("active"));
+    m_ReplaceIndex = m_model->fieldIndex(QLatin1String("replace"));
+    m_DeviceTypeIdIndex = m_model->fieldIndex(QLatin1String("device_type_id"));
+    m_EmployeeIdIndex = m_model->fieldIndex(QLatin1String("employe_id"));
+    m_PlaceIdIndex = m_model->fieldIndex(QLatin1String("place_id"));
+    m_DepartmentIdIndex = m_model->fieldIndex(QLatin1String("department_id"));
+    m_ManufacturerIdIndex =
+        m_model->fieldIndex(QLatin1String("manufacturer_id"));
+    m_InventoryIdIndex = m_model->fieldIndex(QLatin1String("inventory_id"));
+    m_ProcessorIdIndex = m_model->fieldIndex(QLatin1String("processor_id"));
+    m_OSIdIndex = m_model->fieldIndex(QLatin1String("os_id"));
+    m_ComputerSoftwareIdIndex =
+        m_model->fieldIndex(QLatin1String("computer_software_id"));
+    m_PrinterIdIndex = m_model->fieldIndex(QLatin1String("printer_id"));
+    m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
 QSqlRelationalTableModel *ComputerDataModel::initializeRelationalModel() {
 
-  m_model = new QSqlRelationalTableModel(this);
+    m_model = new QSqlRelationalTableModel(this);
 
-  m_model->setTable(this->m_tableName);
-  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    m_model->setTable(this->m_tableName);
+    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-  m_model->select();
+    m_model->select();
 
-  return m_model;
+    return m_model;
 }
 
 QSqlRelationalTableModel *ComputerDataModel::initializeInputDataModel() {
 
-  m_model = new QSqlRelationalTableModel(this);
+    m_model = new QSqlRelationalTableModel(this);
 
-  m_model->setTable(this->m_tableName);
+    m_model->setTable(this->m_tableName);
 
-  return m_model;
+    return m_model;
 }
 
 QSqlTableModel *ComputerDataModel::initializeViewModel() {
 
-  m_model->select();
+    m_model->select();
 
-  return m_model;
+    return m_model;
 }
 
 QString ComputerDataModel::generateTableString(QAbstractTableModel *model,
                                                QString header) {
-  QString outString;
-  int columnCount = model->columnCount();
-  int rowCount = model->rowCount();
+    QString outString;
+    int columnCount = model->columnCount();
+    int rowCount = model->rowCount();
 
-  qDebug() << "Header : " << header << " Columns : " << columnCount
-           << " Rows : " << rowCount;
+    qDebug() << "Header : " << header << " Columns : " << columnCount
+             << " Rows : " << rowCount;
 
-  QList<int> set;
+    QList<int> set;
 
-  // Document Title
-  outString = QLatin1String("<h1>");
-  outString += header;
-  outString += QLatin1String("</h1>");
-  outString += QLatin1String("<hr />");
-  outString +=
-      QLatin1String(R"(<table width="100%" cellspacing="0" class="tbl">)");
-  outString += QLatin1String("<thead> <tr>");
+    // Document Title
+    outString = QLatin1String("<h1>");
+    outString += header;
+    outString += QLatin1String("</h1>");
+    outString += QLatin1String("<hr />");
+    outString +=
+        QLatin1String(R"(<table width="100%" cellspacing="0" class="tbl">)");
+    outString += QLatin1String("<thead> <tr>");
 
-  for (const auto i : set) {
-    qDebug() << "int i = " << i;
-    outString += QLatin1String("<th>");
-    outString.append(model->headerData(i, Qt::Horizontal).toString());
-    outString += QLatin1String("</th>");
-  }
+    for (const auto i : set) {
+        qDebug() << "int i = " << i;
+        outString += QLatin1String("<th>");
+        outString.append(model->headerData(i, Qt::Horizontal).toString());
+        outString += QLatin1String("</th>");
+    }
 
-  return outString;
+    return outString;
 }
 
 QString ComputerDataModel::generateFormularString(QAbstractTableModel *model,
                                                   QString header) {
-  QString outString;
-  int columnCount = model->columnCount();
-  int rowCount = model->rowCount();
+    QString outString;
+    int columnCount = model->columnCount();
+    int rowCount = model->rowCount();
 
-  qDebug() << "Header : " << header << " Columns : " << columnCount
-           << " Rows : " << rowCount;
+    qDebug() << "Header : " << header << " Columns : " << columnCount
+             << " Rows : " << rowCount;
 
-  QList<int> set;
+    QList<int> set;
 
-  // Document Title
-  outString = QLatin1String("<h1>");
-  outString += header;
-  outString += QLatin1String("</h1>");
-  outString += QLatin1String("<hr />");
+    // Document Title
+    outString = QLatin1String("<h1>");
+    outString += header;
+    outString += QLatin1String("</h1>");
+    outString += QLatin1String("<hr />");
 
-  return outString;
+    return outString;
 }

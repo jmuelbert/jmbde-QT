@@ -71,52 +71,52 @@ class EmployeeInputArea;
 class LIBJMBDESHARED_DLLSPEC EmployeeInputArea : public QGroupBox
 
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  /**
-   * @brief EmployeeInputArea
-   * @param parent
-   * @param index
-   */
-  explicit EmployeeInputArea(QWidget *parent, const QModelIndex index);
+    /**
+     * @brief EmployeeInputArea
+     * @param parent
+     * @param index
+     */
+    explicit EmployeeInputArea(QWidget *parent, const QModelIndex index);
 
-  /**
-   * @brief ~EmployeeInputArea
-   */
-  ~EmployeeInputArea();
+    /**
+     * @brief ~EmployeeInputArea
+     */
+    ~EmployeeInputArea();
 
 public slots:
 
 private slots:
 
-  void on_pushButton_EditFinish_clicked();
+    void on_pushButton_EditFinish_clicked();
 
-  void on_pushButton_Add_clicked();
+    void on_pushButton_Add_clicked();
 
 private:
-  Ui::EmployeeInputArea *ui;
+    Ui::EmployeeInputArea *ui;
 
-  enum Mode { Edit, Finish };
-  Mode m_actualMode;
-  int m_departmentIndex;
-  int m_functionIndex;
-  int m_computerIndex;
-  int m_printerIndex;
-  int m_phoneIndex;
-  int m_mobileIndex;
-  int m_faxIndex;
-  int m_chipCardIndex;
-  int m_employeeAccountIdx;
-  int m_employeeDocumentIdx;
-  QSqlRelationalTableModel *m_model;
-  QItemSelectionModel *m_selectionModel;
-  QDataWidgetMapper *m_mapper;
+    enum Mode { Edit, Finish };
+    Mode m_actualMode;
+    int m_departmentIndex;
+    int m_functionIndex;
+    int m_computerIndex;
+    int m_printerIndex;
+    int m_phoneIndex;
+    int m_mobileIndex;
+    int m_faxIndex;
+    int m_chipCardIndex;
+    int m_employeeAccountIdx;
+    int m_employeeDocumentIdx;
+    QSqlRelationalTableModel *m_model;
+    QItemSelectionModel *m_selectionModel;
+    QDataWidgetMapper *m_mapper;
 
-  void setMappings();
-  void setViewOnlyMode(bool mode = true);
-  void createDataset();
-  void retrieveDataset(const QModelIndex index);
-  void updateDataset(const QModelIndex index);
-  void deleteDataset(const QModelIndex index);
+    void setMappings();
+    void setViewOnlyMode(bool mode = true);
+    void createDataset();
+    void retrieveDataset(const QModelIndex index);
+    void updateDataset(const QModelIndex index);
+    void deleteDataset(const QModelIndex index);
 };

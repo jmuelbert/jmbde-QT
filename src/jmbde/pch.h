@@ -39,4 +39,3 @@
 
 #include <QFileDialog>
 #include <QPlainTextEdit>
-

@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 BUILDROOT="$(pwd)/tmp-buildroot/"
 rm -rf $BUILDROOT

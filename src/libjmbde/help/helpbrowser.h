@@ -61,40 +61,40 @@ class QHelpEngineCore;
   The first implenmentation of the help-system
 */
 class HelpBrowser : public QTextBrowser {
-  Q_OBJECT
-  Q_LOGGING_CATEGORY(helpSystem, "jmbde.help")
+    Q_OBJECT
+    Q_LOGGING_CATEGORY(helpSystem, "jmbde.help")
 
 public:
-  //! The HelpBrowser Constructor.
-  /*!
-   * \brief HelpBrowser
-   * \param parent
-   */
-  explicit HelpBrowser(QWidget *parent = nullptr);
+    //! The HelpBrowser Constructor.
+    /*!
+     * \brief HelpBrowser
+     * \param parent
+     */
+    explicit HelpBrowser(QWidget *parent = nullptr);
 
-  //! The ContextHelp Fuction
-  /*!
-   * \brief showHelpForKeyWord
-   * \param id
-   */
-  void showHelpForKeyWord(const QString &id);
+    //! The ContextHelp Fuction
+    /*!
+     * \brief showHelpForKeyWord
+     * \param id
+     */
+    void showHelpForKeyWord(const QString &id);
 
 signals:
 
 public slots:
 
 private:
-  /*!
-   * \brief loadResource
-   * \param type
-   * \param name
-   * \return
-   */
-   QVariant loadResource(int type, const QUrl &name) override;
-  /*!
-   * \brief m_helpEngine
-   */
-  QHelpEngine *m_helpEngine;
+    /*!
+     * \brief loadResource
+     * \param type
+     * \param name
+     * \return
+     */
+    QVariant loadResource(int type, const QUrl &name) override;
+    /*!
+     * \brief m_helpEngine
+     */
+    QHelpEngine *m_helpEngine;
 };
 
 #endif // HELPBROWSER_H

@@ -6,9 +6,14 @@ translations/*      linguist-vendored
 
 *                   text=auto
 
+# Source files
 *.cpp               text
 *.h                 text
 *.ui                text
+*.ts                linguist-language=XML
+
+# Don't count the translation files in the language stats
+translations/* linguist-vendored
 
 # fix bootstrap.sh on Windows MSYS
 *.sh                eol=lf

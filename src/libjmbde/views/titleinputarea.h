@@ -60,40 +60,40 @@ class TitleInputArea;
  * @brief The TitleInputArea class
  */
 class TitleInputArea : public QGroupBox {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  /**
-   * @brief TitleInputArea
-   * @param parent
-   * @param index
-   */
-  explicit TitleInputArea(QWidget *parent = nullptr,
-                          const QModelIndex index = QModelIndex());
+    /**
+     * @brief TitleInputArea
+     * @param parent
+     * @param index
+     */
+    explicit TitleInputArea(QWidget *parent = nullptr,
+                            const QModelIndex index = QModelIndex());
 
-  /**
-   * @brief ~TitleInputArea
-   */
-  ~TitleInputArea();
+    /**
+     * @brief ~TitleInputArea
+     */
+    ~TitleInputArea();
 
 private slots:
-  void on_pushButton_Add_clicked();
+    void on_pushButton_Add_clicked();
 
-  void on_pushButton_EditFinish_clicked();
+    void on_pushButton_EditFinish_clicked();
 
 private:
-  Ui::TitleInputArea *ui;
+    Ui::TitleInputArea *ui;
 
-  enum Mode { Edit, Finish };
-  Mode m_actualMode;
-  QSqlRelationalTableModel *m_model;
-  QItemSelectionModel *m_selectionModel;
-  QDataWidgetMapper *m_mapper;
+    enum Mode { Edit, Finish };
+    Mode m_actualMode;
+    QSqlRelationalTableModel *m_model;
+    QItemSelectionModel *m_selectionModel;
+    QDataWidgetMapper *m_mapper;
 
-  void setMappings();
-  void setViewOnlyMode(bool mode = true);
-  void createDataset();
-  void retrieveDataset(const QModelIndex index);
-  void updateDataset(const QModelIndex index);
-  void deleteDataset(const QModelIndex index);
+    void setMappings();
+    void setViewOnlyMode(bool mode = true);
+    void createDataset();
+    void retrieveDataset(const QModelIndex index);
+    void updateDataset(const QModelIndex index);
+    void deleteDataset(const QModelIndex index);
 };

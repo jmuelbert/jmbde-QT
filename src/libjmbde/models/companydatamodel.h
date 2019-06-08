@@ -55,88 +55,88 @@
 #include "definitions.h"
 
 class CompanyDataModel : public CommonDataModel {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  explicit CompanyDataModel(QObject *parent = nullptr);
+    explicit CompanyDataModel(QObject *parent = nullptr);
 
-  ~CompanyDataModel();
+    ~CompanyDataModel();
 
-  // implement the virtuals
+    // implement the virtuals
 
-  /**
-   * @brief setIndexes
-   */
-  virtual void setIndexes();
+    /**
+     * @brief setIndexes
+     */
+    virtual void setIndexes();
 
-  /**
-   * @brief initializeRelationalModel
-   * @return
-   */
-  virtual QSqlRelationalTableModel *initializeRelationalModel();
+    /**
+     * @brief initializeRelationalModel
+     * @return
+     */
+    virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-  /**
-   * @brief initializeInputDataModel
-   * @return
-   */
-  virtual QSqlRelationalTableModel *initializeInputDataModel();
+    /**
+     * @brief initializeInputDataModel
+     * @return
+     */
+    virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-  /**
-   * @brief initializeViewModel
-   * @return
-   */
-  virtual QSqlTableModel *initializeViewModel();
+    /**
+     * @brief initializeViewModel
+     * @return
+     */
+    virtual QSqlTableModel *initializeViewModel();
 
-  /**
-   * @brief generateTableString
-   * @param model
-   * @param header
-   * @return
-   */
-  virtual QString generateTableString(QAbstractTableModel *model,
-                                      QString header);
+    /**
+     * @brief generateTableString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateTableString(QAbstractTableModel *model,
+                                        QString header);
 
-  /**
-   * @brief generateFormularString
-   * @param model
-   * @param header
-   * @return
-   */
-  virtual QString generateFormularString(QAbstractTableModel *model,
-                                         QString header);
+    /**
+     * @brief generateFormularString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateFormularString(QAbstractTableModel *model,
+                                           QString header);
 
-  // Getter
-  int CompanyIdIndex() const { return m_CompanyIdIndex; }
-  int NameIndex() const { return m_NameIndex; }
-  int Name2Index() const { return m_Name2Index; }
-  int AddressIndex() const { return m_AddressIndex; }
-  int ZipCityIdIndex() const { return m_ZipCityIdIndex; }
-  int PhoneNumberIndex() const { return m_PhoneNumberIndex; }
-  int FaxNumberIndex() const { return m_FaxNumberIndex; }
-  int MobileNumberIndex() const { return m_MobileNumberIndex; }
-  int MailAddressIndex() const { return m_MailAddressIndex; }
-  int ActiceIndex() const { return m_ActiceIndex; }
-  int EmployeeIdIndex() const { return m_EmployeeIdIndex; }
-  int LastUpdateIndex() const { return m_LastUpdateIndex; }
+    // Getter
+    int CompanyIdIndex() const { return m_CompanyIdIndex; }
+    int NameIndex() const { return m_NameIndex; }
+    int Name2Index() const { return m_Name2Index; }
+    int AddressIndex() const { return m_AddressIndex; }
+    int ZipCityIdIndex() const { return m_ZipCityIdIndex; }
+    int PhoneNumberIndex() const { return m_PhoneNumberIndex; }
+    int FaxNumberIndex() const { return m_FaxNumberIndex; }
+    int MobileNumberIndex() const { return m_MobileNumberIndex; }
+    int MailAddressIndex() const { return m_MailAddressIndex; }
+    int ActiceIndex() const { return m_ActiceIndex; }
+    int EmployeeIdIndex() const { return m_EmployeeIdIndex; }
+    int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-  /**
-   * @brief tableName - the name of the database table
-   * @
-   */
-  const QString m_tableName = QLatin1String("company");
-  int m_CompanyIdIndex;
-  int m_NameIndex;
-  int m_Name2Index;
-  int m_AddressIndex;
-  int m_ZipCityIdIndex;
-  int m_PhoneNumberIndex;
-  int m_FaxNumberIndex;
-  int m_MobileNumberIndex;
-  int m_MailAddressIndex;
-  int m_ActiceIndex;
-  int m_EmployeeIdIndex;
-  int m_LastUpdateIndex;
+    /**
+     * @brief tableName - the name of the database table
+     * @
+     */
+    const QString m_tableName = QLatin1String("company");
+    int m_CompanyIdIndex;
+    int m_NameIndex;
+    int m_Name2Index;
+    int m_AddressIndex;
+    int m_ZipCityIdIndex;
+    int m_PhoneNumberIndex;
+    int m_FaxNumberIndex;
+    int m_MobileNumberIndex;
+    int m_MailAddressIndex;
+    int m_ActiceIndex;
+    int m_EmployeeIdIndex;
+    int m_LastUpdateIndex;
 };
 
 #endif // COMPANYDATAMODEL_H

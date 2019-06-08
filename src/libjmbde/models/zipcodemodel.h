@@ -55,68 +55,68 @@
 
 class ZipCodeModel : public CommonDataModel {
 public:
-  explicit ZipCodeModel(QObject *parent = nullptr);
+    explicit ZipCodeModel(QObject *parent = nullptr);
 
-  virtual ~ZipCodeModel();
+    virtual ~ZipCodeModel();
 
-  // implement the virtuals
+    // implement the virtuals
 
-  /**
-   * @brief setIndexes
-   */
-  virtual void setIndexes();
+    /**
+     * @brief setIndexes
+     */
+    virtual void setIndexes();
 
-  /**
-   * @brief initializeRelationalModel
-   * @return
-   */
-  virtual QSqlRelationalTableModel *initializeRelationalModel();
+    /**
+     * @brief initializeRelationalModel
+     * @return
+     */
+    virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-  /**
-   * @brief initializeInputDataModel
-   * @return
-   */
-  virtual QSqlRelationalTableModel *initializeInputDataModel();
+    /**
+     * @brief initializeInputDataModel
+     * @return
+     */
+    virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-  /**
-   * @brief initializeViewModel
-   * @return
-   */
-  virtual QSqlTableModel *initializeViewModel();
+    /**
+     * @brief initializeViewModel
+     * @return
+     */
+    virtual QSqlTableModel *initializeViewModel();
 
-  /**
-   * @brief generateTableString
-   * @param model
-   * @param header
-   * @return
-   */
-  virtual QString generateTableString(QAbstractTableModel *model,
-                                      QString header);
+    /**
+     * @brief generateTableString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateTableString(QAbstractTableModel *model,
+                                        QString header);
 
-  /**
-   * @brief generateFormularString
-   * @param model
-   * @param header
-   * @return
-   */
-  virtual QString generateFormularString(QAbstractTableModel *model,
-                                         QString header);
+    /**
+     * @brief generateFormularString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateFormularString(QAbstractTableModel *model,
+                                           QString header);
 
-  // Getter
-  int ZipCodeIdIndex() const { return m_ZipCodeIdIndex; }
-  int CodeIndex() const { return m_CodeIndex; }
-  int LastUpdateIndex() const { return m_LastUpdateIndex; }
+    // Getter
+    int ZipCodeIdIndex() const { return m_ZipCodeIdIndex; }
+    int CodeIndex() const { return m_CodeIndex; }
+    int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-  /**
-   * @brief tableName - the name of the database table
-   * @
-   */
-  const QString m_tableName = QLatin1String("zip_code");
+    /**
+     * @brief tableName - the name of the database table
+     * @
+     */
+    const QString m_tableName = QLatin1String("zip_code");
 
-  int m_ZipCodeIdIndex;
-  int m_CodeIndex;
-  int m_LastUpdateIndex;
+    int m_ZipCodeIdIndex;
+    int m_CodeIndex;
+    int m_LastUpdateIndex;
 };
 
 #endif // ZIPCODE_H

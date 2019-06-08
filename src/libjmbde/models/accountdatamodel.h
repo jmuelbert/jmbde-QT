@@ -79,124 +79,124 @@
  * \copyright EUPL V1.2
  */
 class AccountDataModel : public CommonDataModel {
-  Q_OBJECT
-  Q_LOGGING_CATEGORY(accountModel, "jmbde.models.account")
+    Q_OBJECT
+    Q_LOGGING_CATEGORY(accountModel, "jmbde.models.account")
 public:
-  //! Constructor AccountDataModel
-  /*!
-   * \brief AccountDataModel
-   * \param parent
-   */
-  explicit AccountDataModel(QObject *parent = nullptr);
+    //! Constructor AccountDataModel
+    /*!
+     * \brief AccountDataModel
+     * \param parent
+     */
+    explicit AccountDataModel(QObject *parent = nullptr);
 
-  //! Destructor AccountDataModel
-  ~AccountDataModel() override;
+    //! Destructor AccountDataModel
+    ~AccountDataModel() override;
 
-  // implement the virtuals
+    // implement the virtuals
 
-  //! setIndexes
-  /*!
-   * \brief setIndexes
-   */
-  void setIndexes();
+    //! setIndexes
+    /*!
+     * \brief setIndexes
+     */
+    void setIndexes();
 
-  //! initializeRelationalModel
-  /*!
-   * \brief initializeRelationalModel
-   * \return
-   */
-  QSqlRelationalTableModel *initializeRelationalModel();
+    //! initializeRelationalModel
+    /*!
+     * \brief initializeRelationalModel
+     * \return
+     */
+    QSqlRelationalTableModel *initializeRelationalModel();
 
-  //! initializeInputDataModel
-  /*!
-   * \brief initializeInputDataModel
-   * \return
-   */
-  QSqlRelationalTableModel *initializeInputDataModel();
+    //! initializeInputDataModel
+    /*!
+     * \brief initializeInputDataModel
+     * \return
+     */
+    QSqlRelationalTableModel *initializeInputDataModel();
 
-  //! initializeViewModel
-  /*!
-   * \brief initializeViewModel
-   * \return
-   */
-  QSqlTableModel *initializeViewModel();
+    //! initializeViewModel
+    /*!
+     * \brief initializeViewModel
+     * \return
+     */
+    QSqlTableModel *initializeViewModel();
 
-  //! generateTableString
-  /*!
-   * \brief generateTableString
-   * \param model
-   * \param header
-   * \return
-   */
-  QString generateTableString(QAbstractTableModel *model,
-                              const QString &header);
+    //! generateTableString
+    /*!
+     * \brief generateTableString
+     * \param model
+     * \param header
+     * \return
+     */
+    QString generateTableString(QAbstractTableModel *model,
+                                const QString &header);
 
-  //! generateFormularString
-  /*!
-   * \brief generateFormularString
-   * \param model
-   * \param header
-   * \return
-   */
-  QString generateFormularString(QAbstractTableModel *model,
-                                 const QString &header);
+    //! generateFormularString
+    /*!
+     * \brief generateFormularString
+     * \param model
+     * \param header
+     * \return
+     */
+    QString generateFormularString(QAbstractTableModel *model,
+                                   const QString &header);
 
-  // Getter
-  //! AccountIdIndex
-  /*!
-   * \brief AccountIdIndex
-   * \return
-   */
-  int AccountIdIndex() const { return m_AccountIdIndex; }
+    // Getter
+    //! AccountIdIndex
+    /*!
+     * \brief AccountIdIndex
+     * \return
+     */
+    int AccountIdIndex() const { return m_AccountIdIndex; }
 
-  //! UserNameIndex
-  /*!
-   * \brief UserNameIndex
-   * \return
-   */
-  int UserNameIndex() const { return m_UserNameIndex; }
+    //! UserNameIndex
+    /*!
+     * \brief UserNameIndex
+     * \return
+     */
+    int UserNameIndex() const { return m_UserNameIndex; }
 
-  //! PasswordIndex
-  /*!
-   * \brief PasswordIndex
-   * \return
-   */
-  int PasswordIndex() const { return m_PasswordIndex; }
+    //! PasswordIndex
+    /*!
+     * \brief PasswordIndex
+     * \return
+     */
+    int PasswordIndex() const { return m_PasswordIndex; }
 
-  //! SystemDataIndex
-  /*!
-   * \brief SystemDataIndex
-   * \return
-   */
-  int SystemDataIndex() const { return m_SystemDataIdIndex; }
+    //! SystemDataIndex
+    /*!
+     * \brief SystemDataIndex
+     * \return
+     */
+    int SystemDataIndex() const { return m_SystemDataIdIndex; }
 
-  //! LastUpdateIndex
-  /*!
-   * \brief LastUpdateIndex
-   * \return
-   */
-  int LastUpdateIndex() const { return m_LastUpdateIndex; }
+    //! LastUpdateIndex
+    /*!
+     * \brief LastUpdateIndex
+     * \return
+     */
+    int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-  /*!
-   * \brief m_tableName
-   */
-  const QString m_tableName = QLatin1String("account");
+    /*!
+     * \brief m_tableName
+     */
+    const QString m_tableName = QLatin1String("account");
 
-  //! The value of the AccountIdIndex
-  int m_AccountIdIndex{};
+    //! The value of the AccountIdIndex
+    int m_AccountIdIndex{};
 
-  //! The value of the UserNameIndex
-  int m_UserNameIndex{};
+    //! The value of the UserNameIndex
+    int m_UserNameIndex{};
 
-  //! The value of the PasswordIndex
-  int m_PasswordIndex{};
+    //! The value of the PasswordIndex
+    int m_PasswordIndex{};
 
-  //! The value of the SystemDataIdIndex
-  int m_SystemDataIdIndex{};
+    //! The value of the SystemDataIdIndex
+    int m_SystemDataIdIndex{};
 
-  //! The value of the LastUpdateIndex
-  int m_LastUpdateIndex{};
+    //! The value of the LastUpdateIndex
+    int m_LastUpdateIndex{};
 };
 
 #endif // ACCOUNTDATAMODEL_H

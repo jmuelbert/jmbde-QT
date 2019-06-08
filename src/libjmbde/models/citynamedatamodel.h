@@ -55,90 +55,90 @@
 #include "models/commondatamodel.h"
 
 class CityNameDataModel : public CommonDataModel {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  /**
-   * @brief CityNameDataModel
-   * @details The Datamodel for the CityNames
-   * @param parent
-   */
-  explicit CityNameDataModel(QObject *parent = nullptr);
+    /**
+     * @brief CityNameDataModel
+     * @details The Datamodel for the CityNames
+     * @param parent
+     */
+    explicit CityNameDataModel(QObject *parent = nullptr);
 
-  virtual ~CityNameDataModel();
+    virtual ~CityNameDataModel();
 
-  // implement the virtuals
+    // implement the virtuals
 
-  /**
-   * @brief setIndexes
-   */
-  virtual void setIndexes();
+    /**
+     * @brief setIndexes
+     */
+    virtual void setIndexes();
 
-  /**
-   * @brief initializeRelationalModel
-   * @return
-   */
-  virtual QSqlRelationalTableModel *initializeRelationalModel();
+    /**
+     * @brief initializeRelationalModel
+     * @return
+     */
+    virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-  /**
-   * @brief initializeInputDataModel
-   * @return
-   */
-  virtual QSqlRelationalTableModel *initializeInputDataModel();
+    /**
+     * @brief initializeInputDataModel
+     * @return
+     */
+    virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-  /**
-   * @brief initializeViewModel
-   * @return
-   */
-  virtual QSqlTableModel *initializeViewModel();
+    /**
+     * @brief initializeViewModel
+     * @return
+     */
+    virtual QSqlTableModel *initializeViewModel();
 
-  /**
-   * @brief generateTableString
-   * @param model
-   * @param header
-   * @return
-   */
-  virtual QString generateTableString(QAbstractTableModel *model,
-                                      QString header);
+    /**
+     * @brief generateTableString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateTableString(QAbstractTableModel *model,
+                                        QString header);
 
-  /**
-   * @brief generateFormularString
-   * @param model
-   * @param header
-   * @return
-   */
-  virtual QString generateFormularString(QAbstractTableModel *model,
-                                         QString header);
+    /**
+     * @brief generateFormularString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateFormularString(QAbstractTableModel *model,
+                                           QString header);
 
-  // Getter
+    // Getter
 
-  /**
-   * @brief CityNameIdIndex
-   * @return
-   */
-  int CityNameIdIndex() const { return m_CityNameIdIndex; }
+    /**
+     * @brief CityNameIdIndex
+     * @return
+     */
+    int CityNameIdIndex() const { return m_CityNameIdIndex; }
 
-  /**
-   * @brief NameIndex
-   * @return
-   */
-  int NameIndex() const { return m_NameIndex; }
+    /**
+     * @brief NameIndex
+     * @return
+     */
+    int NameIndex() const { return m_NameIndex; }
 
-  /**
-   * @brief LastUpdateIndex
-   * @return
-   */
-  int LastUpdateIndex() const { return m_LastUpdateIndex; }
+    /**
+     * @brief LastUpdateIndex
+     * @return
+     */
+    int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-  /**
-   * @brief tableName - the name of the database table
-   * @
-   */
-  QString m_tableName = QLatin1String("city_name");
-  int m_CityNameIdIndex;
-  int m_NameIndex;
-  int m_LastUpdateIndex;
+    /**
+     * @brief tableName - the name of the database table
+     * @
+     */
+    QString m_tableName = QLatin1String("city_name");
+    int m_CityNameIdIndex;
+    int m_NameIndex;
+    int m_LastUpdateIndex;
 };
 
 #endif // CITYNAME_H

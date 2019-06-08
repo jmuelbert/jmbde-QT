@@ -67,6 +67,7 @@
 #include <QGuiApplication>
 #endif
 
+#include <QCommandLineParser>
 #include <QCoreApplication>
 #include <QDir>
 #include <QFile>
@@ -77,10 +78,8 @@
 #include <QSettings>
 #include <QString>
 #include <QStringList>
-#include <QTranslator>
 #include <QStyleFactory>
-#include <QCommandLineParser>
-
+#include <QTranslator>
 
 #include "views/mainwindow.h"
 
@@ -90,27 +89,25 @@
 /*! \mainpage JMBde
  *
  * \section intro_sec Introduction
- * 
+ *
  * jmbde is a tool to collect data for a company.
- * 
+ *
  * https://jmuelbert.github.io/jmbde-QT/
- * 
+ *
  * \section install_sec Installation
- * 
+ *
  * \subsection dependencies Dependencies
- * 
+ *
  * - jmBDE requieres Qt 5.12 or later
  * - Linguist package is required to compile the translations.
  * - For use of the fallback icons the SVG library is required.
- * 
+ *
  * \subsection source From source
- * 
+ *
  * On most *nix systems all you need is:
- * 
+ *
  * `qmake && make && make install``
  */
-
-
 
 /**
  * @brief main
@@ -120,73 +117,72 @@
  */
 int main(int argc, char *argv[]) {
 
-  QLoggingCategory::setFilterRules(
-      QLatin1String("jmbde.*.debug=false\njmbde.*.info=false"));
+    QLoggingCategory::setFilterRules(
+        QLatin1String("jmbde.*.debug=false\njmbde.*.info=false"));
 
 #if QT_VERSION >= 0x050600
-  QGuiApplication::setFallbackSessionManagementEnabled(false);
+    QGuiApplication::setFallbackSessionManagementEnabled(false);
 #endif
 
-  // Enable support for highres images (added in Qt 5.1, but off by default)
-  QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+    // Enable support for highres images (added in Qt 5.1, but off by default)
+    QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
-  QGuiApplication::setAttribute(Qt::AA_DisableWindowContextHelpButton);
+    QGuiApplication::setAttribute(Qt::AA_DisableWindowContextHelpButton);
 #endif
 
 #ifndef USE_QUICKVIEW
-  QApplication::setStyle(QStyleFactory::create(QLatin1Literal("Fusion")));
-  // The QApplication MUST be created before the StelFileMgr is initialized.
-  QApplication app(argc, argv);
+    QApplication::setStyle(QStyleFactory::create(QLatin1Literal("Fusion")));
+    // The QApplication MUST be created before the StelFileMgr is initialized.
+    QApplication app(argc, argv);
 #else
-  QGuiApplication::setDesktopSettingsAware(false);
-  QGuiApplication app(argc, argv);
+    QGuiApplication::setDesktopSettingsAware(false);
+    QGuiApplication app(argc, argv);
 #endif
 
-QApplication::setOrganizationDomain(QLatin1String("jmuelbert.github.io"));
-
+    QApplication::setOrganizationDomain(QLatin1String("jmuelbert.github.io"));
 
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
-  QApplication::setApplicationName(QLatin1String("JMBde"));
+    QApplication::setApplicationName(QLatin1String("JMBde"));
 #else
-  QApplication::setApplicationName(QLatin1String("jmbde"));
+    QApplication::setApplicationName(QLatin1String("jmbde"));
 #endif
 
-QApplication::setApplicationDisplayName(QLatin1String("JMBde"));
-QApplication::setOrganizationName(QLatin1String("jmbde"));
-QApplication::setApplicationVersion(QLatin1String(AS_STRING(JMBDE_VERSION)));
+    QApplication::setApplicationDisplayName(QLatin1String("JMBde"));
+    QApplication::setOrganizationName(QLatin1String("jmbde"));
+    QApplication::setApplicationVersion(
+        QLatin1String(AS_STRING(JMBDE_VERSION)));
 
 #if defined(Q_OS_MAC)
-  QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
+    QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
 #endif
 
-  QCommandLineParser parser;
-  parser.setApplicationDescription(QLatin1String("jmbde - Commandline"));
-  parser.addHelpOption();
-  parser.addVersionOption();
+    QCommandLineParser parser;
+    parser.setApplicationDescription(QLatin1String("jmbde - Commandline"));
+    parser.addHelpOption();
+    parser.addVersionOption();
 
-  // Must be done before any QSettings class is created
-  QSettings::setDefaultFormat(QSettings::IniFormat);
+    // Must be done before any QSettings class is created
+    QSettings::setDefaultFormat(QSettings::IniFormat);
 
-
-  // Setup and load translator for localization
-  QString locale = QLocale::system().name();
-   QTranslator qtTranslator;
+    // Setup and load translator for localization
+    QString locale = QLocale::system().name();
+    QTranslator qtTranslator;
     qtTranslator.load(QLatin1String("qt_") + locale,
-            QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+                      QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     QApplication::installTranslator(&qtTranslator);
 
     QTranslator jmbdeTranslator;
     jmbdeTranslator.load(QLatin1String("jmbde_") + locale);
     QApplication::installTranslator(&jmbdeTranslator);
 
-  app.setProperty("jmbde_locale", locale);
-  QApplication::setLayoutDirection(
-    QObject::tr("LTR") == QLatin1String("RTL") ? Qt::RightToLeft : Qt::LeftToRight);
+    app.setProperty("jmbde_locale", locale);
+    QApplication::setLayoutDirection(QObject::tr("LTR") == QLatin1String("RTL")
+                                         ? Qt::RightToLeft
+                                         : Qt::LeftToRight);
 
-  MainWindow w;
-  w.show();
+    MainWindow w;
+    w.show();
 
-  return QApplication::exec();
+    return QApplication::exec();
 }
-

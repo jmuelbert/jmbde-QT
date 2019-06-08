@@ -45,88 +45,88 @@
 
 PhoneInputArea::PhoneInputArea(QWidget *parent, const QModelIndex index)
     : QGroupBox(parent), ui(new Ui::PhoneInputArea) {
-  ui->setupUi(this);
+    ui->setupUi(this);
 
-  // Init UI
-  qDebug() << "Init PhoneInputarea for Index : " << index;
+    // Init UI
+    qDebug() << "Init PhoneInputarea for Index : " << index;
 
-  m_actualMode = Mode::Edit;
-  setViewOnlyMode(true);
+    m_actualMode = Mode::Edit;
+    setViewOnlyMode(true);
 
-  // Set the Model
-  m_model = new QSqlRelationalTableModel(this);
-  m_model->setTable(QLatin1String("phone"));
-  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    // Set the Model
+    m_model = new QSqlRelationalTableModel(this);
+    m_model->setTable(QLatin1String("phone"));
+    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-  m_model->select();
+    m_model->select();
 
-  // Set the mapper
-  m_mapper = new QDataWidgetMapper(this);
-  m_mapper->setModel(m_model);
-  m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
+    // Set the mapper
+    m_mapper = new QDataWidgetMapper(this);
+    m_mapper->setModel(m_model);
+    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
-  setMappings();
+    setMappings();
 
-  m_mapper->setCurrentIndex(index.row());
+    m_mapper->setCurrentIndex(index.row());
 }
 
 PhoneInputArea::~PhoneInputArea() { delete ui; }
 
 void PhoneInputArea::setMappings() {
-  m_mapper->addMapping(ui->lineEdit_Number,
-                       m_model->fieldIndex(QLatin1String("number")));
-  m_mapper->addMapping(ui->lineEdit_Pin,
-                       m_model->fieldIndex(QLatin1String("pin")));
-  m_mapper->addMapping(ui->lineEdit_SerialNumber,
-                       m_model->fieldIndex(QLatin1String("serial_number")));
-  m_mapper->addMapping(ui->checkBox_Active,
-                       m_model->fieldIndex(QLatin1String("active")));
-  m_mapper->addMapping(ui->checkBox_Replace,
-                       m_model->fieldIndex(QLatin1String("replace")));
-  m_mapper->addMapping(ui->comboBox_Department,
-                       m_model->fieldIndex(QLatin1String("department_id")));
-  m_mapper->addMapping(ui->comboBox_DeviceName,
-                       m_model->fieldIndex(QLatin1String("device_name_id")));
-  m_mapper->addMapping(ui->comboBox_DeviceType,
-                       m_model->fieldIndex(QLatin1String("device_type_id")));
-  m_mapper->addMapping(ui->comboBox_Employee,
-                       m_model->fieldIndex(QLatin1String("employee_id")));
-  m_mapper->addMapping(ui->comboBox_Inventory,
-                       m_model->fieldIndex(QLatin1String("inventory_id")));
-  m_mapper->addMapping(ui->comboBox_Manufacturer,
-                       m_model->fieldIndex(QLatin1String("manufacturer_id")));
-  m_mapper->addMapping(ui->comboBox_Place,
-                       m_model->fieldIndex(QLatin1String("place_id")));
+    m_mapper->addMapping(ui->lineEdit_Number,
+                         m_model->fieldIndex(QLatin1String("number")));
+    m_mapper->addMapping(ui->lineEdit_Pin,
+                         m_model->fieldIndex(QLatin1String("pin")));
+    m_mapper->addMapping(ui->lineEdit_SerialNumber,
+                         m_model->fieldIndex(QLatin1String("serial_number")));
+    m_mapper->addMapping(ui->checkBox_Active,
+                         m_model->fieldIndex(QLatin1String("active")));
+    m_mapper->addMapping(ui->checkBox_Replace,
+                         m_model->fieldIndex(QLatin1String("replace")));
+    m_mapper->addMapping(ui->comboBox_Department,
+                         m_model->fieldIndex(QLatin1String("department_id")));
+    m_mapper->addMapping(ui->comboBox_DeviceName,
+                         m_model->fieldIndex(QLatin1String("device_name_id")));
+    m_mapper->addMapping(ui->comboBox_DeviceType,
+                         m_model->fieldIndex(QLatin1String("device_type_id")));
+    m_mapper->addMapping(ui->comboBox_Employee,
+                         m_model->fieldIndex(QLatin1String("employee_id")));
+    m_mapper->addMapping(ui->comboBox_Inventory,
+                         m_model->fieldIndex(QLatin1String("inventory_id")));
+    m_mapper->addMapping(ui->comboBox_Manufacturer,
+                         m_model->fieldIndex(QLatin1String("manufacturer_id")));
+    m_mapper->addMapping(ui->comboBox_Place,
+                         m_model->fieldIndex(QLatin1String("place_id")));
 }
 
 void PhoneInputArea::setViewOnlyMode(bool mode) {
-  ui->checkBox_Active->setDisabled(mode);
-  ui->checkBox_Replace->setDisabled(mode);
-  ui->comboBox_Department->setDisabled(mode);
-  ui->comboBox_DeviceName->setDisabled(mode);
-  ui->comboBox_DeviceType->setDisabled(mode);
-  ui->comboBox_Employee->setDisabled(mode);
-  ui->comboBox_Inventory->setDisabled(mode);
-  ui->comboBox_Manufacturer->setDisabled(mode);
-  ui->comboBox_Place->setDisabled(mode);
-  ui->lineEdit_Number->setDisabled(mode);
-  ui->lineEdit_Pin->setDisabled(mode);
-  ui->lineEdit_SerialNumber->setDisabled(mode);
+    ui->checkBox_Active->setDisabled(mode);
+    ui->checkBox_Replace->setDisabled(mode);
+    ui->comboBox_Department->setDisabled(mode);
+    ui->comboBox_DeviceName->setDisabled(mode);
+    ui->comboBox_DeviceType->setDisabled(mode);
+    ui->comboBox_Employee->setDisabled(mode);
+    ui->comboBox_Inventory->setDisabled(mode);
+    ui->comboBox_Manufacturer->setDisabled(mode);
+    ui->comboBox_Place->setDisabled(mode);
+    ui->lineEdit_Number->setDisabled(mode);
+    ui->lineEdit_Pin->setDisabled(mode);
+    ui->lineEdit_SerialNumber->setDisabled(mode);
 }
 
 void PhoneInputArea::createDataset() {
-  qDebug() << "Create a new Dataset for Phone...";
+    qDebug() << "Create a new Dataset for Phone...";
 
-  // Set all inputfields to blank
-  m_mapper->toLast();
+    // Set all inputfields to blank
+    m_mapper->toLast();
 
-  int row = m_mapper->currentIndex();
-  if (row < 0)
-    row = 0;
+    int row = m_mapper->currentIndex();
+    if (row < 0)
+        row = 0;
 
-  m_mapper->submit();
-  m_model->insertRow(row);
-  m_mapper->setCurrentIndex(row);
+    m_mapper->submit();
+    m_model->insertRow(row);
+    m_mapper->setCurrentIndex(row);
 }
 
 void PhoneInputArea::retrieveDataset(const QModelIndex index) {}
@@ -136,51 +136,51 @@ void PhoneInputArea::updateDataset(const QModelIndex index) {}
 void PhoneInputArea::deleteDataset(const QModelIndex index) {}
 
 void PhoneInputArea::on_pushButton_Add_clicked() {
-  createDataset();
-  on_pushButton_EditFinish_clicked();
+    createDataset();
+    on_pushButton_EditFinish_clicked();
 }
 
 void PhoneInputArea::on_pushButton_EditFinish_clicked() {
-  switch (m_actualMode) {
-  case Mode::Edit: {
-    m_actualMode = Mode::Finish;
-    ui->pushButton_EditFinish->setText(tr("Finish"));
-    setViewOnlyMode(false);
+    switch (m_actualMode) {
+    case Mode::Edit: {
+        m_actualMode = Mode::Finish;
+        ui->pushButton_EditFinish->setText(tr("Finish"));
+        setViewOnlyMode(false);
 
-  } break;
+    } break;
 
-  case Mode::Finish: {
-    qDebug() << "Save Data...";
+    case Mode::Finish: {
+        qDebug() << "Save Data...";
 
-    m_actualMode = Mode::Edit;
-    ui->pushButton_EditFinish->setText(tr("Edit"));
-    setViewOnlyMode(false);
+        m_actualMode = Mode::Edit;
+        ui->pushButton_EditFinish->setText(tr("Edit"));
+        setViewOnlyMode(false);
 
-    QString number = ui->lineEdit_Number->text();
-    qDebug() << "Number : " << number;
+        QString number = ui->lineEdit_Number->text();
+        qDebug() << "Number : " << number;
 
-    if (number.isEmpty()) {
-      QString message(tr("Please provide the number for the phone."));
+        if (number.isEmpty()) {
+            QString message(tr("Please provide the number for the phone."));
 
-      QMessageBox::information(this, tr("Add Phone"), message);
-    } else {
-      m_mapper->submit();
-      m_model->database().transaction();
-      if (m_model->submitAll()) {
-        m_model->database().commit();
+            QMessageBox::information(this, tr("Add Phone"), message);
+        } else {
+            m_mapper->submit();
+            m_model->database().transaction();
+            if (m_model->submitAll()) {
+                m_model->database().commit();
 
-        qDebug() << "Commit changes for Phone Databse Table";
-      } else {
-        m_model->database().rollback();
-        QMessageBox::warning(this, tr("jmbde"),
-                             tr("The database reported an error: %1")
-                                 .arg(m_model->lastError().text()));
-      }
+                qDebug() << "Commit changes for Phone Databse Table";
+            } else {
+                m_model->database().rollback();
+                QMessageBox::warning(this, tr("jmbde"),
+                                     tr("The database reported an error: %1")
+                                         .arg(m_model->lastError().text()));
+            }
+        }
+    } break;
+
+    default: {
+        // qDebug() << "Error";
     }
-  } break;
-
-  default: {
-    // qDebug() << "Error";
-  }
-  }
+    }
 }

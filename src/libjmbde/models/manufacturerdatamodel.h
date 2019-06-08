@@ -58,92 +58,92 @@
 
 class ManufacturerDataModel : public CommonDataModel {
 public:
-  /**
-   * @brief ManufacturerDataModel::ManufacturerDataModel
-   */
-  explicit ManufacturerDataModel(QObject *parent = nullptr);
+    /**
+     * @brief ManufacturerDataModel::ManufacturerDataModel
+     */
+    explicit ManufacturerDataModel(QObject *parent = nullptr);
 
-  /**
-   * @brief ~ManufacturerDataModel
-   */
-  ~ManufacturerDataModel();
+    /**
+     * @brief ~ManufacturerDataModel
+     */
+    ~ManufacturerDataModel();
 
-  // implement the virtuals
-  /**
-   * @brief setIndexes
-   */
-  virtual void setIndexes();
+    // implement the virtuals
+    /**
+     * @brief setIndexes
+     */
+    virtual void setIndexes();
 
-  /**
-   * @brief initializeRelationalModel
-   * @return
-   */
-  virtual QSqlRelationalTableModel *initializeRelationalModel();
+    /**
+     * @brief initializeRelationalModel
+     * @return
+     */
+    virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-  /**
-   * @brief initializeInputDataModel
-   * @return
-   */
-  virtual QSqlRelationalTableModel *initializeInputDataModel();
+    /**
+     * @brief initializeInputDataModel
+     * @return
+     */
+    virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-  /**
-   * @brief initializeViewModel
-   * @return
-   */
-  virtual QSqlTableModel *initializeViewModel();
+    /**
+     * @brief initializeViewModel
+     * @return
+     */
+    virtual QSqlTableModel *initializeViewModel();
 
-  /**
-   * @brief generateTableString
-   * @param model
-   * @param header
-   * @return
-   */
-  virtual QString generateTableString(QAbstractTableModel *model,
-                                      QString header);
+    /**
+     * @brief generateTableString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateTableString(QAbstractTableModel *model,
+                                        QString header);
 
-  /**
-   * @brief generateFormularString
-   * @param model
-   * @param header
-   * @return
-   */
-  virtual QString generateFormularString(QAbstractTableModel *model,
-                                         QString header);
+    /**
+     * @brief generateFormularString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateFormularString(QAbstractTableModel *model,
+                                           QString header);
 
-  // Getter
+    // Getter
 
-  int ManufacturerIdIndex() const { return m_ManufacturerIdIndex; }
-  int NameIndex() const { return m_NameIndex; }
-  int Name2Index() const { return m_Name2Index; }
-  int SupporterIndex() const { return m_SupporterIndex; }
-  int AddressIndex() const { return m_AddressIndex; }
-  int Address2Index() const { return m_Address2Index; }
-  int ZipCityIdIndex() const { return m_ZipCityIdIndex; }
-  int MailAddressIndex() const { return m_MailAddressIndex; }
-  int PhoneNumberIndex() const { return m_PhoneNumberIndex; }
-  int FaxNumberIndex() const { return m_FaxNumberIndex; }
-  int HotlineNumberIndex() const { return m_HotlineNumberIndex; }
-  int LastUpdateIndex() const { return m_LastUpdateIndex; }
+    int ManufacturerIdIndex() const { return m_ManufacturerIdIndex; }
+    int NameIndex() const { return m_NameIndex; }
+    int Name2Index() const { return m_Name2Index; }
+    int SupporterIndex() const { return m_SupporterIndex; }
+    int AddressIndex() const { return m_AddressIndex; }
+    int Address2Index() const { return m_Address2Index; }
+    int ZipCityIdIndex() const { return m_ZipCityIdIndex; }
+    int MailAddressIndex() const { return m_MailAddressIndex; }
+    int PhoneNumberIndex() const { return m_PhoneNumberIndex; }
+    int FaxNumberIndex() const { return m_FaxNumberIndex; }
+    int HotlineNumberIndex() const { return m_HotlineNumberIndex; }
+    int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-  /**
-   * @brief tableName - the name of the database table
-   * @
-   */
-  const QString m_tableName = QLatin1String("manufacturer");
+    /**
+     * @brief tableName - the name of the database table
+     * @
+     */
+    const QString m_tableName = QLatin1String("manufacturer");
 
-  int m_ManufacturerIdIndex;
-  int m_NameIndex;
-  int m_Name2Index;
-  int m_SupporterIndex;
-  int m_AddressIndex;
-  int m_Address2Index;
-  int m_ZipCityIdIndex;
-  int m_MailAddressIndex;
-  int m_PhoneNumberIndex;
-  int m_FaxNumberIndex;
-  int m_HotlineNumberIndex;
-  int m_LastUpdateIndex;
+    int m_ManufacturerIdIndex;
+    int m_NameIndex;
+    int m_Name2Index;
+    int m_SupporterIndex;
+    int m_AddressIndex;
+    int m_Address2Index;
+    int m_ZipCityIdIndex;
+    int m_MailAddressIndex;
+    int m_PhoneNumberIndex;
+    int m_FaxNumberIndex;
+    int m_HotlineNumberIndex;
+    int m_LastUpdateIndex;
 };
 
 #endif // MANUFACTURERDATAMODEL_H

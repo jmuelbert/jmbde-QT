@@ -44,52 +44,52 @@
 
 HelpBrowser::HelpBrowser(QWidget *parent) : QTextBrowser(parent) {
 #ifdef Q_OS_MAC
-  const QString &_creatorTrPath = QCoreApplication::applicationDirPath();
-  QDir trPath(_creatorTrPath);
+    const QString &_creatorTrPath = QCoreApplication::applicationDirPath();
+    QDir trPath(_creatorTrPath);
 
-  trPath.cdUp();
-  const QString &creatorTrPath = trPath.path();
-  QString helpFileAndPath = QString(creatorTrPath);
+    trPath.cdUp();
+    const QString &creatorTrPath = trPath.path();
+    QString helpFileAndPath = QString(creatorTrPath);
 
-  helpFileAndPath.append(QDir::separator());
-  helpFileAndPath.append(QLatin1String("Resources"));
+    helpFileAndPath.append(QDir::separator());
+    helpFileAndPath.append(QLatin1String("Resources"));
 #else
-  const QString &creatorTrPath = QCoreApplication::applicationDirPath();
-  QString helpFileAndPath = QString(creatorTrPath);
+    const QString &creatorTrPath = QCoreApplication::applicationDirPath();
+    QString helpFileAndPath = QString(creatorTrPath);
 #endif
 
-  QString collectionFile = helpFileAndPath + QLatin1String("/help/help.qch");
+    QString collectionFile = helpFileAndPath + QLatin1String("/help/help.qch");
 
-  qCDebug(helpSystem, "HelpPath: %s ", collectionFile.toUtf8().constData());
+    qCDebug(helpSystem, "HelpPath: %s ", collectionFile.toUtf8().constData());
 
-  m_helpEngine = new QHelpEngine(collectionFile, this);
-  if (!m_helpEngine->setupData()) {
-    delete m_helpEngine;
-    m_helpEngine = nullptr;
-  }
+    m_helpEngine = new QHelpEngine(collectionFile, this);
+    if (!m_helpEngine->setupData()) {
+        delete m_helpEngine;
+        m_helpEngine = nullptr;
+    }
 }
 
 void HelpBrowser::showHelpForKeyWord(const QString &id) {
-  if (m_helpEngine) {
-    QMap<QString, QUrl> links = m_helpEngine->linksForIdentifier(id);
-    if (links.count()) {
-      setSource(links.constBegin().value());
+    if (m_helpEngine) {
+        QMap<QString, QUrl> links = m_helpEngine->linksForIdentifier(id);
+        if (links.count()) {
+            setSource(links.constBegin().value());
+        }
     }
-  }
 }
 
 QVariant HelpBrowser::loadResource(int type, const QUrl &name) {
-  QByteArray ba;
+    QByteArray ba;
 
-  if (type < 4 && m_helpEngine) {
-    QUrl url(name);
+    if (type < 4 && m_helpEngine) {
+        QUrl url(name);
 
-    if (name.isRelative()) {
-      url = source().resolved(url);
+        if (name.isRelative()) {
+            url = source().resolved(url);
+        }
+
+        ba = m_helpEngine->fileData(url);
     }
 
-    ba = m_helpEngine->fileData(url);
-  }
-
-  return ba;
+    return ba;
 }

@@ -1,7 +1,7 @@
 %global app_id com.github.jmuelbert.jmbde-QT
 
 Name:           jmbde
-Version:        0.4.23
+Version: 0.3.408
 Epoch:          1
 Release:        1%{?dist}
 Summary:        A BDE Tool
@@ -15,7 +15,7 @@ BuildRequires:  qt5-qttools-devel
 BuildRequires:  desktop-file-utils
 
 %description
-A BDE Tool. jmbde is free software and written
+A BDE Tool. Tiled is free software and written
 in C++, using the Qt application framework.
 
 

@@ -62,38 +62,38 @@ class CsvImportDialog;
  * @brief The CsvImportDialog class
  */
 class CsvImportDialog : public QDialog {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  /**
-   * @brief CsvImportDialog::CsvImportDialog
-   * @param parent
-   */
-  explicit CsvImportDialog(QWidget *parent = nullptr);
+    /**
+     * @brief CsvImportDialog::CsvImportDialog
+     * @param parent
+     */
+    explicit CsvImportDialog(QWidget *parent = nullptr);
 
-  /**
-   * @brief CsvImportDialog::~CsvImportDialog
-   */
-  ~CsvImportDialog();
+    /**
+     * @brief CsvImportDialog::~CsvImportDialog
+     */
+    ~CsvImportDialog();
 
 private:
-  Ui::CsvImportDialog *ui;
-  QList<QStringList> csv;
-  QStandardItemModel *model;
+    Ui::CsvImportDialog *ui;
+    QList<QStringList> csv;
+    QStandardItemModel *model;
 
-  QList<QStandardItem *> standardItemList;
+    QList<QStandardItem *> standardItemList;
 
 private slots:
 
-  /**
-   * @brief CsvImportDialog::checkString
-   * @param temp
-   * @param character
-   */
-  void checkString(QString &temp, QChar character = 0);
+    /**
+     * @brief CsvImportDialog::checkString
+     * @param temp
+     * @param character
+     */
+    void checkString(QString &temp, QChar character = 0);
 
-  /**
-   * @brief CsvImportDialog::on_buttonBox_accepted
-   */
-  void on_buttonBox_accepted();
+    /**
+     * @brief CsvImportDialog::on_buttonBox_accepted
+     */
+    void on_buttonBox_accepted();
 };

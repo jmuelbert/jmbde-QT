@@ -90,112 +90,113 @@
  */
 
 class DataContext : public QObject {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  /**
-   * @brief DataContext
-   * @param parent
-   */
-  explicit DataContext(QObject *parent = nullptr);
+    /**
+     * @brief DataContext
+     * @param parent
+     */
+    explicit DataContext(QObject *parent = nullptr);
 
-  explicit DataContext(const QString &name = QString(),
-                       QObject *parent = nullptr);
+    explicit DataContext(const QString &name = QString(),
+                         QObject *parent = nullptr);
 
-  /**
-   * @brief ~DataContext
-   */
-  ~DataContext() override;
+    /**
+     * @brief ~DataContext
+     */
+    ~DataContext() override;
 
-  /**
-   * @brief DataContext::CreateConnection
-   * @return
-   *
-   * \todo init all tables
-   * \todo check database version
-   * \todo export and import all tables
-   */
-  bool CreateConnection();
+    /**
+     * @brief DataContext::CreateConnection
+     * @return
+     *
+     * \todo init all tables
+     * \todo check database version
+     * \todo export and import all tables
+     */
+    bool CreateConnection();
 
-  /**
-   * @brief getDatabase
-   * @return
-   */
-  QSqlDatabase getDatabase();
+    /**
+     * @brief getDatabase
+     * @return
+     */
+    QSqlDatabase getDatabase();
 
-  /**
-   * @brief initDb
-   *
-   * If the Database new then create the tables
-   */
-  QSqlError initDb();
+    /**
+     * @brief initDb
+     *
+     * If the Database new then create the tables
+     */
+    QSqlError initDb();
 
-  bool execQuery(QSqlQuery &query) const;
-  bool execQuery(const QString &queryText);
+    bool execQuery(QSqlQuery &query) const;
+    bool execQuery(const QString &queryText);
 
-  /* basic public actions */
-  void prepareDB();
-  bool check_existence(const QString &tableNmae, const QString &searchId,
-                       const QString &serach);
+    /* basic public actions */
+    void prepareDB();
+    bool check_existence(const QString &tableNmae, const QString &searchId,
+                         const QString &serach);
 
-  /* useful actions */
-  QSqlQuery getQuery(const QString &queryText);
-  bool openDB(const QString &name);
-  void renameDB(const QString &oldName, const QString &newName);
-  void deleteDB(const QString &name);
+    /* useful actions */
+    QSqlQuery getQuery(const QString &queryText);
+    bool openDB(const QString &name);
+    void renameDB(const QString &oldName, const QString &newName);
+    void deleteDB(const QString &name);
 
 private:
-  QString name;
+    QString name;
 
-  /**
-   * @brief db
-   */
-  QSqlDatabase m_db;
+    /**
+     * @brief db
+     */
+    QSqlDatabase m_db;
 
-  /**
-   * @brief m_dbType
-   */
-  int m_dbType;
+    /**
+     * @brief m_dbType
+     */
+    int m_dbType;
 
-  /**
-   * @brief m_dbHostName
-   */
-  QString m_dbHostName;
+    /**
+     * @brief m_dbHostName
+     */
+    QString m_dbHostName;
 
-  /**
-   * @brief m_dbUserName
-   */
-  QString m_dbUserName;
+    /**
+     * @brief m_dbUserName
+     */
+    QString m_dbUserName;
 
-  /**
-   * @brief m_dbPassWord
-   */
-  QString m_dbPassWord;
+    /**
+     * @brief m_dbPassWord
+     */
+    QString m_dbPassWord;
 
-  /**
-   * @brief setDataBaseAccount
-   */
-  void setDataBaseAccount();
+    /**
+     * @brief setDataBaseAccount
+     */
+    void setDataBaseAccount();
 
-  /**
-   * @brief checkDBVersion
-   * @return
-   */
-  bool checkDBVersion();
+    /**
+     * @brief checkDBVersion
+     * @return
+     */
+    bool checkDBVersion();
 
-  /* basic actions */
-  bool insert(const QString &tableName, const QVariantMap &insertData);
-  bool update(const QString &table, const QString &column,
-              const QVariant &newValue, const QVariant &op, const QString &id);
-  bool remove();
+    /* basic actions */
+    bool insert(const QString &tableName, const QVariantMap &insertData);
+    bool update(const QString &table, const QString &column,
+                const QVariant &newValue, const QVariant &op,
+                const QString &id);
+    bool remove();
 
-  QString getSqliteName();
+    QString getSqliteName();
 
 signals:
-  void DBActionFinished();
+    void DBActionFinished();
 
 public slots:
-  void closeConnection();
+    void closeConnection();
 };
 
 // Q_GLOBAL_STATIC(DataContext, db)

@@ -58,78 +58,78 @@
 
 class PlaceDataModel : public CommonDataModel {
 public:
-  /**
-   * @brief PlaceDataModel::PlaceDataModel
-   */
-  explicit PlaceDataModel(QObject *parent = nullptr);
+    /**
+     * @brief PlaceDataModel::PlaceDataModel
+     */
+    explicit PlaceDataModel(QObject *parent = nullptr);
 
-  /**
-   * @brief PlaceDataModel::~PlaceDataModel
-   */
-  ~PlaceDataModel();
+    /**
+     * @brief PlaceDataModel::~PlaceDataModel
+     */
+    ~PlaceDataModel();
 
-  // implement the virtuals
+    // implement the virtuals
 
-  /**
-   * @brief setIndexes
-   */
-  virtual void setIndexes();
+    /**
+     * @brief setIndexes
+     */
+    virtual void setIndexes();
 
-  /**
-   * @brief initializeRelationalModel
-   * @return
-   */
-  virtual QSqlRelationalTableModel *initializeRelationalModel();
+    /**
+     * @brief initializeRelationalModel
+     * @return
+     */
+    virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-  /**
-   * @brief initializeInputDataModel
-   * @return
-   */
-  virtual QSqlRelationalTableModel *initializeInputDataModel();
+    /**
+     * @brief initializeInputDataModel
+     * @return
+     */
+    virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-  /**
-   * @brief initializeViewModel
-   * @return
-   */
-  virtual QSqlTableModel *initializeViewModel();
+    /**
+     * @brief initializeViewModel
+     * @return
+     */
+    virtual QSqlTableModel *initializeViewModel();
 
-  /**
-   * @brief generateTableString
-   * @param model
-   * @param header
-   * @return
-   */
-  virtual QString generateTableString(QAbstractTableModel *model,
-                                      QString header);
+    /**
+     * @brief generateTableString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateTableString(QAbstractTableModel *model,
+                                        QString header);
 
-  /**
-   * @brief generateFormularString
-   * @param model
-   * @param header
-   * @return
-   */
-  virtual QString generateFormularString(QAbstractTableModel *model,
-                                         QString header);
+    /**
+     * @brief generateFormularString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateFormularString(QAbstractTableModel *model,
+                                           QString header);
 
-  // Getter
-  int PlaceIdIndex() const { return m_PlaceIdIndex; }
-  int NameIndex() const { return m_NameIndex; }
-  int RoomIndex() const { return m_RoomIndex; }
-  int DeskIndex() const { return m_DeskIndex; }
-  int LastUpdateIndex() const { return m_LastUpdateIndex; }
+    // Getter
+    int PlaceIdIndex() const { return m_PlaceIdIndex; }
+    int NameIndex() const { return m_NameIndex; }
+    int RoomIndex() const { return m_RoomIndex; }
+    int DeskIndex() const { return m_DeskIndex; }
+    int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-  /**
-   * @brief tableName - the name of the database table
-   * @
-   */
-  const QString m_tableName = QLatin1String("place");
+    /**
+     * @brief tableName - the name of the database table
+     * @
+     */
+    const QString m_tableName = QLatin1String("place");
 
-  int m_PlaceIdIndex;
-  int m_NameIndex;
-  int m_RoomIndex;
-  int m_DeskIndex;
-  int m_LastUpdateIndex;
+    int m_PlaceIdIndex;
+    int m_NameIndex;
+    int m_RoomIndex;
+    int m_DeskIndex;
+    int m_LastUpdateIndex;
 };
 
 #endif // PLACEDATAMODEL_H

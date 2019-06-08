@@ -57,72 +57,72 @@
 
 class TitleDataModel : public CommonDataModel {
 public:
-  explicit TitleDataModel(QObject *parent = nullptr);
+    explicit TitleDataModel(QObject *parent = nullptr);
 
-  ~TitleDataModel();
+    ~TitleDataModel();
 
-  // implement the virtuals
+    // implement the virtuals
 
-  /**
-   * @brief setIndexes
-   */
-  virtual void setIndexes();
+    /**
+     * @brief setIndexes
+     */
+    virtual void setIndexes();
 
-  /**
-   * @brief initializeRelationalModel
-   * @return
-   */
-  virtual QSqlRelationalTableModel *initializeRelationalModel();
+    /**
+     * @brief initializeRelationalModel
+     * @return
+     */
+    virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-  /**
-   * @brief initializeInputDataModel
-   * @return
-   */
-  virtual QSqlRelationalTableModel *initializeInputDataModel();
+    /**
+     * @brief initializeInputDataModel
+     * @return
+     */
+    virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-  /**
-   * @brief initializeViewModel
-   * @return
-   */
-  virtual QSqlTableModel *initializeViewModel();
+    /**
+     * @brief initializeViewModel
+     * @return
+     */
+    virtual QSqlTableModel *initializeViewModel();
 
-  /**
-   * @brief generateTableString
-   * @param model
-   * @param header
-   * @return
-   */
-  virtual QString generateTableString(QAbstractTableModel *model,
-                                      QString header);
+    /**
+     * @brief generateTableString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateTableString(QAbstractTableModel *model,
+                                        QString header);
 
-  /**
-   * @brief generateFormularString
-   * @param model
-   * @param header
-   * @return
-   */
-  virtual QString generateFormularString(QAbstractTableModel *model,
-                                         QString header);
+    /**
+     * @brief generateFormularString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateFormularString(QAbstractTableModel *model,
+                                           QString header);
 
-  // Getter
-  int TitleIdIndex() const { return m_TitleIdIndex; }
-  int NameIndex() const { return m_NameIndex; }
-  int FromDateIndex() const { return m_FromDateIndex; }
-  int ToDateIndex() const { return m_ToDateIndex; }
-  int LastUpdateIndex() const { return m_LastUpdateIndex; }
+    // Getter
+    int TitleIdIndex() const { return m_TitleIdIndex; }
+    int NameIndex() const { return m_NameIndex; }
+    int FromDateIndex() const { return m_FromDateIndex; }
+    int ToDateIndex() const { return m_ToDateIndex; }
+    int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-  /**
-   * @brief tableName - the name of the database table
-   * @
-   */
-  const QString m_tableName = QLatin1String("title");
+    /**
+     * @brief tableName - the name of the database table
+     * @
+     */
+    const QString m_tableName = QLatin1String("title");
 
-  int m_TitleIdIndex;
-  int m_NameIndex;
-  int m_FromDateIndex;
-  int m_ToDateIndex;
-  int m_LastUpdateIndex;
+    int m_TitleIdIndex;
+    int m_NameIndex;
+    int m_FromDateIndex;
+    int m_ToDateIndex;
+    int m_LastUpdateIndex;
 };
 
 #endif // TITLEDATAMODEL_H

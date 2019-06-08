@@ -60,40 +60,40 @@ class OSInputArea;
  * @brief The OSInputArea class
  */
 class OSInputArea : public QGroupBox {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  /**
-   * @brief OSInputArea
-   * @param parent
-   * @param index
-   */
-  explicit OSInputArea(QWidget *parent = nullptr,
-                       const QModelIndex index = QModelIndex());
+    /**
+     * @brief OSInputArea
+     * @param parent
+     * @param index
+     */
+    explicit OSInputArea(QWidget *parent = nullptr,
+                         const QModelIndex index = QModelIndex());
 
-  /**
-   * @brief ~OSInputArea
-   */
-  ~OSInputArea();
+    /**
+     * @brief ~OSInputArea
+     */
+    ~OSInputArea();
 
 private slots:
-  void on_pushButton_Add_clicked();
+    void on_pushButton_Add_clicked();
 
-  void on_pushButton_EditFinish_clicked();
+    void on_pushButton_EditFinish_clicked();
 
 private:
-  Ui::OSInputArea *ui;
+    Ui::OSInputArea *ui;
 
-  enum Mode { Edit, Finish };
-  Mode m_actualMode;
-  QSqlRelationalTableModel *m_model;
-  QItemSelectionModel *m_selectionModel;
-  QDataWidgetMapper *m_mapper;
+    enum Mode { Edit, Finish };
+    Mode m_actualMode;
+    QSqlRelationalTableModel *m_model;
+    QItemSelectionModel *m_selectionModel;
+    QDataWidgetMapper *m_mapper;
 
-  void setMappings();
-  void setViewOnlyMode(bool mode = true);
-  void createDataset();
-  void retrieveDataset(const QModelIndex index);
-  void updateDataset(const QModelIndex index);
-  void deleteDataset(const QModelIndex index);
+    void setMappings();
+    void setViewOnlyMode(bool mode = true);
+    void createDataset();
+    void retrieveDataset(const QModelIndex index);
+    void updateDataset(const QModelIndex index);
+    void deleteDataset(const QModelIndex index);
 };

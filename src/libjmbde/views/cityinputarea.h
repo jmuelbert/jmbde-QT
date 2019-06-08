@@ -58,40 +58,40 @@ class CityInputArea;
  * @brief The CityInputArea class
  */
 class CityInputArea : public QGroupBox {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  /**
-   * @brief CityInputArea
-   * @param parent
-   * @param index - the actual dataset
-   */
-  explicit CityInputArea(QWidget *parent = nullptr,
-                         const QModelIndex index = QModelIndex());
+    /**
+     * @brief CityInputArea
+     * @param parent
+     * @param index - the actual dataset
+     */
+    explicit CityInputArea(QWidget *parent = nullptr,
+                           const QModelIndex index = QModelIndex());
 
-  /**
-   * @brief ~CityInputArea
-   */
-  ~CityInputArea();
+    /**
+     * @brief ~CityInputArea
+     */
+    ~CityInputArea();
 
 private slots:
-  void on_pushButton_Add_clicked();
+    void on_pushButton_Add_clicked();
 
-  void on_pushButton_EditFinish_clicked();
+    void on_pushButton_EditFinish_clicked();
 
 private:
-  Ui::CityInputArea *ui;
+    Ui::CityInputArea *ui;
 
-  enum Mode { Edit, Finish };
-  Mode m_actualMode;
-  QSqlRelationalTableModel *m_model;
-  QItemSelectionModel *m_selectionModel;
-  QDataWidgetMapper *m_mapper;
+    enum Mode { Edit, Finish };
+    Mode m_actualMode;
+    QSqlRelationalTableModel *m_model;
+    QItemSelectionModel *m_selectionModel;
+    QDataWidgetMapper *m_mapper;
 
-  void setViewOnlyMode(bool mode = true);
-  void setMappings();
-  void createDataset();
-  void retrieveDataset(const QModelIndex index);
-  void updateDataset(const QModelIndex index);
-  void deleteDataset(const QModelIndex index);
+    void setViewOnlyMode(bool mode = true);
+    void setMappings();
+    void createDataset();
+    void retrieveDataset(const QModelIndex index);
+    void updateDataset(const QModelIndex index);
+    void deleteDataset(const QModelIndex index);
 };

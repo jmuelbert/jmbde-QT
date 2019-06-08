@@ -42,28 +42,28 @@
 #include <qtsingleapplication.h>
 
 class TextEdit : public QTextEdit {
-  Q_OBJECT
+    Q_OBJECT
 public:
-  TextEdit(QWidget *parent = 0) : QTextEdit(parent) {}
+    TextEdit(QWidget *parent = 0) : QTextEdit(parent) {}
 public slots:
-  void append(const QString &str) { QTextEdit::append(str); }
+    void append(const QString &str) { QTextEdit::append(str); }
 };
 
 #include "main.moc"
 
 int main(int argc, char **argv) {
-  QtSingleApplication instance(argc, argv);
-  if (instance.sendMessage("Wake up!"))
-    return 0;
+    QtSingleApplication instance(argc, argv);
+    if (instance.sendMessage("Wake up!"))
+        return 0;
 
-  TextEdit logview;
-  logview.setReadOnly(true);
-  logview.show();
+    TextEdit logview;
+    logview.setReadOnly(true);
+    logview.show();
 
-  instance.setActivationWindow(&logview);
+    instance.setActivationWindow(&logview);
 
-  QObject::connect(&instance, SIGNAL(messageReceived(const QString &)),
-                   &logview, SLOT(append(const QString &)));
+    QObject::connect(&instance, SIGNAL(messageReceived(const QString &)),
+                     &logview, SLOT(append(const QString &)));
 
-  return instance.exec();
+    return instance.exec();
 }

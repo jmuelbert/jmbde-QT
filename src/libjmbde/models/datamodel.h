@@ -91,83 +91,84 @@
  * @brief The DataModel class
  */
 class DataModel : public QObject {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  /**
-   * @brief DataModel
-   * @param parent
-   */
-  explicit DataModel(QObject *parent = nullptr);
+    /**
+     * @brief DataModel
+     * @param parent
+     */
+    explicit DataModel(QObject *parent = nullptr);
 
-  explicit DataModel(const QString &name = QString(),
-                     QObject *parent = nullptr);
+    explicit DataModel(const QString &name = QString(),
+                       QObject *parent = nullptr);
 
-  /**
-   * @brief ~DataModel
-   */
-  ~DataModel() override;
+    /**
+     * @brief ~DataModel
+     */
+    ~DataModel() override;
 
-  /**
-   * @brief DataModel::CreateConnection
-   * @return
-   *
-   * \todo init all tables
-   * \todo check database version
-   * \todo export and import all tables
-   */
-  bool CreateConnection();
+    /**
+     * @brief DataModel::CreateConnection
+     * @return
+     *
+     * \todo init all tables
+     * \todo check database version
+     * \todo export and import all tables
+     */
+    bool CreateConnection();
 
-  /**
-   * @brief getDatabase
-   * @return
-   */
-  QSqlDatabase getDatabase();
+    /**
+     * @brief getDatabase
+     * @return
+     */
+    QSqlDatabase getDatabase();
 
-  /**
-   * @brief initDb
-   *
-   * If the Database new then create the tables
-   */
-  QSqlError initDb();
+    /**
+     * @brief initDb
+     *
+     * If the Database new then create the tables
+     */
+    QSqlError initDb();
 
-  bool execQuery(QSqlQuery &query) const;
-  bool execQuery(const QString &queryText);
+    bool execQuery(QSqlQuery &query) const;
+    bool execQuery(const QString &queryText);
 
-  /* basic public actions */
-  void prepareDB() const;
-  bool check_existence(const QString &tableNmae, const QString &searchId,
-                       const QString &serach);
+    /* basic public actions */
+    void prepareDB() const;
+    bool check_existence(const QString &tableNmae, const QString &searchId,
+                         const QString &serach);
 
-  /* useful actions */
-  QSqlQuery getQuery(const QString &queryText);
-  void openDB(const QString &name);
+    /* useful actions */
+    QSqlQuery getQuery(const QString &queryText);
+    void openDB(const QString &name);
 
 private:
-  QString name;
+    QString name;
 
-  /**
-   * @brief db
-   */
-  QSqlDatabase m_db;
+    /**
+     * @brief db
+     */
+    QSqlDatabase m_db;
 
-  /**
-   * @brief checkDBVersion
-   * @return
-   */
-  bool checkDBVersion();
+    /**
+     * @brief checkDBVersion
+     * @return
+     */
+    bool checkDBVersion();
 
-  /* basic actions */
-  bool insert(const QString &tableName, const QVariantMap &insertData);
-  bool update(const QString &table, const QString &column,
-              const QVariant &newValue, const QVariant &op, const QString &id);
-  bool remove();
+    /* basic actions */
+    bool insert(const QString &tableName, const QVariantMap &insertData);
+    bool update(const QString &table, const QString &column,
+                const QVariant &newValue, const QVariant &op,
+                const QString &id);
+    bool remove();
 
 signals:
-  void DBActionFinished();
+    void DBActionFinished();
 
 public slots:
-  void closeConnection();
+    void closeConnection();
 };
 
 #endif // _SRC_APP_MODELS_DATAMODEL_H

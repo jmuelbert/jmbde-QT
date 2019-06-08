@@ -59,40 +59,40 @@ class PrinterInputArea;
  * @brief The PrinterInputArea class
  */
 class PrinterInputArea : public QGroupBox {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  /**
-   * @brief PrinterInputArea
-   * @param parent
-   * @param index
-   */
-  explicit PrinterInputArea(QWidget *parent = nullptr,
-                            const QModelIndex index = QModelIndex());
+    /**
+     * @brief PrinterInputArea
+     * @param parent
+     * @param index
+     */
+    explicit PrinterInputArea(QWidget *parent = nullptr,
+                              const QModelIndex index = QModelIndex());
 
-  /**
-   * @brief ~PrinterInputArea
-   */
-  ~PrinterInputArea();
+    /**
+     * @brief ~PrinterInputArea
+     */
+    ~PrinterInputArea();
 
 private slots:
-  void on_pushButton_Add_clicked();
+    void on_pushButton_Add_clicked();
 
-  void on_pushButton_EditFinish_clicked();
+    void on_pushButton_EditFinish_clicked();
 
 private:
-  Ui::PrinterInputArea *ui;
+    Ui::PrinterInputArea *ui;
 
-  enum Mode { Edit, Finish };
-  Mode m_actualMode;
-  QSqlRelationalTableModel *m_model;
-  QItemSelectionModel *m_selectionModel;
-  QDataWidgetMapper *m_mapper;
+    enum Mode { Edit, Finish };
+    Mode m_actualMode;
+    QSqlRelationalTableModel *m_model;
+    QItemSelectionModel *m_selectionModel;
+    QDataWidgetMapper *m_mapper;
 
-  void setMappings();
-  void setViewOnlyMode(bool mode = true);
-  void createDataset();
-  void retrieveDataset(const QModelIndex index);
-  void updateDataset(const QModelIndex index);
-  void deleteDataset(const QModelIndex index);
+    void setMappings();
+    void setViewOnlyMode(bool mode = true);
+    void createDataset();
+    void retrieveDataset(const QModelIndex index);
+    void updateDataset(const QModelIndex index);
+    void deleteDataset(const QModelIndex index);
 };

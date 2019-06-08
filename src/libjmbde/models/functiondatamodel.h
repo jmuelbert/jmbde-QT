@@ -59,77 +59,77 @@
 
 class FunctionDataModel : public CommonDataModel, public IDataModel {
 public:
-  /**
-   * @brief FunctionDataModel
-   * @param parent
-   */
-  explicit FunctionDataModel(QObject *parent = nullptr);
+    /**
+     * @brief FunctionDataModel
+     * @param parent
+     */
+    explicit FunctionDataModel(QObject *parent = nullptr);
 
-  /**
-   * @brief ~FunctionDataModel
-   */
-  ~FunctionDataModel() override;
+    /**
+     * @brief ~FunctionDataModel
+     */
+    ~FunctionDataModel() override;
 
-  // implement the virtuals
+    // implement the virtuals
 
-  /**
-   * @brief setIndexes
-   */
-  virtual void setIndexes() override;
+    /**
+     * @brief setIndexes
+     */
+    virtual void setIndexes() override;
 
-  /**
-   * @brief initializeRelationalModel
-   * @return
-   */
-  virtual QSqlRelationalTableModel *initializeRelationalModel() override;
+    /**
+     * @brief initializeRelationalModel
+     * @return
+     */
+    virtual QSqlRelationalTableModel *initializeRelationalModel() override;
 
-  /**
-   * @brief initializeInputDataModel
-   * @return
-   */
-  virtual QSqlRelationalTableModel *initializeInputDataModel() override;
+    /**
+     * @brief initializeInputDataModel
+     * @return
+     */
+    virtual QSqlRelationalTableModel *initializeInputDataModel() override;
 
-  /**
-   * @brief initializeViewModel
-   * @return
-   */
-  virtual QSqlTableModel *initializeViewModel() override;
+    /**
+     * @brief initializeViewModel
+     * @return
+     */
+    virtual QSqlTableModel *initializeViewModel() override;
 
-  /**
-   * @brief generateTableString
-   * @param model
-   * @param header
-   * @return
-   */
-  virtual QString generateTableString(QAbstractTableModel *model,
-                                      QString header) override;
+    /**
+     * @brief generateTableString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateTableString(QAbstractTableModel *model,
+                                        QString header) override;
 
-  /**
-   * @brief generateFormularString
-   * @param model
-   * @param header
-   * @return
-   */
-  virtual QString generateFormularString(QAbstractTableModel *model,
-                                         QString header) override;
+    /**
+     * @brief generateFormularString
+     * @param model
+     * @param header
+     * @return
+     */
+    virtual QString generateFormularString(QAbstractTableModel *model,
+                                           QString header) override;
 
-  // Getter
-  int FunctionIdIndex() const { return m_FunctionIdIndex; }
-  int NameIndex() const { return m_NameIndex; }
-  int PriorityIndex() const { return m_PriorityIndex; }
-  int LastUpdateIndex() const { return m_LastUpdateIndex; }
+    // Getter
+    int FunctionIdIndex() const { return m_FunctionIdIndex; }
+    int NameIndex() const { return m_NameIndex; }
+    int PriorityIndex() const { return m_PriorityIndex; }
+    int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-  /**
-   * @brief tableName - the name of the database table
-   * @
-   */
-  const QString m_tableName = QLatin1String("function");
+    /**
+     * @brief tableName - the name of the database table
+     * @
+     */
+    const QString m_tableName = QLatin1String("function");
 
-  int m_FunctionIdIndex;
-  int m_NameIndex;
-  int m_PriorityIndex;
-  int m_LastUpdateIndex;
+    int m_FunctionIdIndex;
+    int m_NameIndex;
+    int m_PriorityIndex;
+    int m_LastUpdateIndex;
 };
 
 #endif // FUNCTIONDATAMODEL_H

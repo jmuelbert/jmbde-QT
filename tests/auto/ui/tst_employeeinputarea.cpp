@@ -41,28 +41,26 @@
 **************************************************************************/
 
 #include <QCoreApplication>
-#include <QtWidgets>
 #include <QtTest>
+#include <QtWidgets>
 
 #include "views/employeeinputarea.h"
 
 /**
  * @brief The tst_employeeinputarea class is our first unit test
  */
-class tst_employeeinputarea: public QObject {
-  Q_OBJECT
+class tst_employeeinputarea : public QObject {
+    Q_OBJECT
 
 private Q_SLOTS:
-  void input_Firstname();
+    void input_Firstname();
 };
 
-
-void tst_employeeinputarea::input_Firstname()
-{
+void tst_employeeinputarea::input_Firstname() {
     QModelIndex index = QModelIndex();
 
     const QScopedPointer<EmployeeInputArea> e(
-                new EmployeeInputArea(nullptr, index));
+        new EmployeeInputArea(nullptr, index));
 
     QString *input = new QString(QLatin1String("Hello"));
 
