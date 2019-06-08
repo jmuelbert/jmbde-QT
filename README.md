@@ -65,7 +65,8 @@ Run `qbs` to build jmbde:
 
 ### On Windows
  
-    You many tools install with choco
+    you can [download Qt here](https://www.qt.io/download-qt-installer)
+    you can install many tools with choco
     choco install qbs
     Visual Studio 2017 or later
     qbs
