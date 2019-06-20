@@ -6,15 +6,25 @@
     "args": [
         "-c"
     ],
-    "options" : {
-        "taskname" : "qbs",
-        "args" : [ "qbs -"]
+    "options": {
+        "taskname": "qbs",
+        "args": ["qbs -"]
     },
-    "tasks": [ 
-        {
-            "label": "Build jmbde",
-            "type": "shell",
-            "command": "qbs -d build --all-products"
+    "tasks": [{
+        "label": "Build with Clang",
+        "type": "shell",
+        "command": "clang++",
+        "args": [
+            "-std=c++17",
+            "-stdlib=libc++",
+            "helloworld.cpp",
+            "-o",
+            "helloworld.out",
+            "--debug"
+        ],
+        "group": {
+            "kind": "build",
+            "isDefault": true
         }
-    ]
+    }]
 }

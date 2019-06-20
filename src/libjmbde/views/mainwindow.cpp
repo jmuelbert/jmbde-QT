@@ -40,6 +40,9 @@
 **
 **************************************************************************/
 
+#include <QQmlApplicationEngine>
+#include <QQuickWidget>
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -125,17 +128,21 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 }
 
 void MainWindow::on_actionPreferences_triggered() {
-    PreferencesDialog *settingsDialog;
 
-    settingsDialog = new PreferencesDialog();
-    settingsDialog->show();
+  QQuickWidget *view = new QQuickWidget;
+  view->setSource(QUrl(QLatin1String("qrc:/Preferences.qml")));
+  if (view->status() == QQuickWidget::Error)
+    return;
+  view->show();
 }
 
 void MainWindow::on_actionAbout_triggered() {
-    AboutDialog *aboutDialog;
 
-    aboutDialog = new AboutDialog();
-    aboutDialog->show();
+  QQuickWidget *view = new QQuickWidget;
+  view->setSource(QUrl(QLatin1String("qrc:/AboutBox.qml")));
+  if (view->status() == QQuickWidget::Error)
+            return;
+  view->show();
 }
 
 void MainWindow::initOutline() {
@@ -158,22 +165,22 @@ void MainWindow::initOutline() {
 
     m_treeviewModel = new QStandardItemModel(this);
     QStandardItem *parentItem = m_treeviewModel->invisibleRootItem();
-    QStandardItem *header;
+
     QStandardItem *item;
 
     QList<QString> od;
     QHashIterator<QString, QList<QString>> i(outlineData);
     while (i.hasNext()) {
         i.next();
-        header = new QStandardItem(i.key());
+        QStandardItem *header = new QStandardItem(i.key());
         parentItem->appendRow(header);
         qDebug() << i.key() << ": " << i.value() << endl;
 
         od = i.value();
-        for (int i = 0; i < od.size(); ++i) {
-            item = new QStandardItem(od.value(i));
+        for (int index = 0; index < od.size(); ++index) {
+            item = new QStandardItem(od.value(index));
             header->appendRow(item);
-            qDebug() << "Found " << od.value(i) << " at position " << i << endl;
+            qDebug() << "Found " << od.value(index) << " at position " << index << endl;
         }
     }
 
@@ -181,27 +188,36 @@ void MainWindow::initOutline() {
     ui->treeView->expandAll();
 }
 
+/**
+ * @brief MainWindow::writeSettings
+ *
+ *    category: "WindowState"
+ *        property alias window_x:    appWindow.x
+ *        property alias window_y:    appWindow.y
+ *        property alias window_width: appWindow.width
+ *        property alias window_height: appWindow.height
+ *
+ *    category: "Database"
+ *        property alias type: cbDatabaseType.currentIndex
+ *        property alias connection: textDBConnection.text
+ *        property alias hostname: textInputHostname.text
+ *        property alias username: textInputUsername.text
+ *        property alias password: textInputPassword.text
+ */
 void MainWindow::writeSettings() {
     QSettings settings;
 
-    settings.beginGroup(QLatin1String(Settings::Groups::MAINWINDOW));
-    settings.setValue(QLatin1String(Settings::MainWindow::SIZE), size());
-    settings.setValue(QLatin1String(Settings::MainWindow::POS), pos());
-    settings.setValue(QLatin1String(Settings::MainWindow::SPLITTER),
-                      ui->splitter->saveState());
-    qDebug() << "Settings:ActualViewRow : " << m_actualView;
-    settings.setValue(QLatin1String(Settings::MainWindow::LAST_VIEW),
-                      m_actualView);
-    qDebug() << "Settings:ActualDataRow : " << m_actualData;
-    settings.setValue(QLatin1String(Settings::MainWindow::LAST_DATA),
-                      m_actualData);
+    settings.beginGroup(QLatin1String(Settings::Groups::WINDOWSSTATE));
+    settings.setValue(QLatin1String(Settings::WindowState::WINDOW_X), ui->centralWidget->x());
+    settings.setValue(QLatin1String(Settings::WindowState::WINDOW_Y), ui->centralWidget->y());
+    settings.setValue(QLatin1String(Settings::WindowState::WINDOW_WIDTH),ui->centralWidget->width());
+    settings.setValue(QLatin1String(Settings::WindowState::WINDOW_HEIGHT), ui->centralWidget->height());
     settings.endGroup();
 
     // dataContext settings
     settings.beginGroup(QLatin1String(Settings::Groups::DATABASE));
     settings.setValue(QLatin1String(Settings::Database::TYPE), dbType);
-    settings.setValue(QLatin1String(Settings::Database::CONNECTION),
-                      dbConnection);
+    settings.setValue(QLatin1String(Settings::Database::CONNECTION), dbConnection);
     settings.setValue(QLatin1String(Settings::Database::HOSTNAME), dbHostname);
     settings.setValue(QLatin1String(Settings::Database::USERNAME), dbUsername);
     settings.setValue(QLatin1String(Settings::Database::PASSWORD), dbPassword);
@@ -211,24 +227,14 @@ void MainWindow::writeSettings() {
 void MainWindow::readSettings() {
     QSettings settings;
 
-    settings.beginGroup(QLatin1String(Settings::Groups::MAINWINDOW));
-    resize(
-        settings
-            .value(QLatin1String(Settings::MainWindow::SIZE), QSize(400, 400))
-            .toSize());
-    move(settings
-             .value(QLatin1String(Settings::MainWindow::POS), QPoint(200, 200))
-             .toPoint());
-    ui->splitter->restoreState(
-        settings.value(QLatin1String(Settings::MainWindow::SPLITTER))
-            .toByteArray());
-    m_actualView =
-        settings.value(QLatin1String(Settings::MainWindow::LAST_VIEW))
-            .toModelIndex();
-    m_actualView =
-        settings.value(QLatin1String(Settings::MainWindow::LAST_DATA))
-            .toModelIndex();
+    settings.beginGroup(QLatin1String(Settings::Groups::WINDOWSSTATE));
+    int window_x = settings.value(QLatin1String(Settings::WindowState::WINDOW_X),200).toInt();
+    int window_y = settings.value(QLatin1String(Settings::WindowState::WINDOW_Y),200).toInt();
+    int window_width = settings.value(QLatin1String(Settings::WindowState::WINDOW_WIDTH),800).toInt();
+    int window_height = settings.value(QLatin1String(Settings::WindowState::WINDOW_HEIGHT),600).toInt();
 
+    move(window_x, window_y);
+    resize(window_width, window_width);
     settings.endGroup();
 
     // dataContext settings

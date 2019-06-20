@@ -40,16 +40,17 @@
 **
 **************************************************************************/
 
-import QtQuick 2.4
-import QtQuick.Controls 1.3
+import QtQuick 2.12
+import QtQuick.Controls 2.12
 import QtQuick.Dialogs 1.2
-import QtQuick.Layouts 1.1
-import QtQuick.Window 2.2
-import jmuelbert.github.io.JMBDe as jmbde
-import Qt.labs.settings 1.0
+import QtQuick.Layouts 1.12
+import QtQuick.Window 2.12
+import Qt.labs.settings 1.1
+
+import "../Theme" as Theme
 
 ApplicationWindow {
-    id: Window
+    id: appWindow
 
     visible: true
     visibility: Window.FullScreen
@@ -62,7 +63,7 @@ ApplicationWindow {
         id: openAction
         text: qsTr("Open...")
         shortcut: StandardKey.Open
-        iconName: "document-open"
+        icon.name: "document-open"
         onTriggered: {
         }
     }

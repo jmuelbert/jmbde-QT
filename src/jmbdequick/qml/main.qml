@@ -40,89 +40,68 @@
 **
 **************************************************************************/
 
-import QtQuick 2.10
-import QtQuick.Controls 2.3
-import QtQuick.Layouts 1.3
-import Qt.labs.settings 1.0
+import QtQuick 2.12
+import QtQuick.Controls 2.12
+import QtQuick.Layouts 1.12
+import QtQuick.Dialogs 1.2
+import QtQuick.Window 2.12
+import QtQml 2.12
+import QtQml.Models 2.12
+import Qt.labs.settings 1.1
 import Qt.labs.platform 1.0 as Platform
 
 // For access to locals
-import "."
+// import "./MainMenu.qml"
+// import "./MainToolBar.qml"
+// import "./Actions.qml"
+import "./Theme" as Theme
 
 ApplicationWindow {
-    id: window
+    id: appWindow
     width: 1024
     height: 720
     minimumWidth: 480
     minimumHeight: 320
-    title: qsTr("JMBde Quick")
-    visible: true    
+    title: qsTr("jmbde Quick")
+    visible: true
+
+    // Connections {
+    //  target: mainController
+    //      onError: {
+    //          errorDialog.text = msg
+    //          errorDialog.open()
+    //      }
+    //  }
+
+    Settings {
+        category: "WindowState"
+        property alias window_x:    appWindow.x
+        property alias window_y:    appWindow.y
+        property alias window_width: appWindow.width
+        property alias window_height: appWindow.height
+    }
+
+    onClosing: { }
+
+    Actions {
+        id: actions
+    }
+
+    menuBar: MainMenu { }
+
+    header: MainToolBar {
+         visible: actions.showToolBarAction.checked
+       }
+
+    MessageDialog {
+           id: errorDialog
+           title: "QTodotTxt Error"
+           text: "Error message should be here!"
+       }
 
     Platform.MessageDialog {
         id: aboutBox
         title: qsTr("About JMBde Quick")
         text: qsTr("This is an experimental Qt Quick version of JMBde")
     }
-
-   Settings {
-        id: settings
-        property alias windowX: window.x
-        property alias windowY: window.y
-        property alias windowWidth: window.width
-        property alias windowHeight: window.height
-        property alias windowVisibility: window.visibility
-    }
-
-   Action {
-        id: openAction
-        text: qsTr("Open...")
-        shortcut: StandardKey.Open
-        onTriggered: {
-   
-        }
-    }
-
-    Action {
-        id: exitAction
-        text: qsTr("Exit")
-        shortcut: StandardKey.Quit
-        onTriggered: Qt.quit()
-    }
-
-        menuBar: MenuBar {
-        Menu {
-            title: qsTr("File")
-            MenuItem {
-                action: openAction
-                text: qsTr("Open...")
-                onTriggered: {
-
-                }
-            }
-            MenuSeparator {}
-            MenuItem {
-                text: qsTr("Exit")
-                action: exitAction
-                onTriggered: Qt.quit()
-            }
-        }
-        Menu {
-            title: qsTr("Help")
-            MenuItem {
-                text: qsTr("About Tiled Quick")
-                onTriggered: aboutBox.open()
-            }
-        }
-    }
-
-    header: ToolBar {
-        RowLayout {
-            anchors.fill: parent
-            ToolButton {
-                action: openAction
-
-            }
-        }
-    }
-
 }

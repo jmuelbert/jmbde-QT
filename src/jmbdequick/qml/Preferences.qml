@@ -1,127 +1,123 @@
 import QtQuick 2.12
 import QtQuick.Dialogs 1.2
-import QtQuick.Controls 1.4
-import Qt.labs.settings 1.0
+import QtQuick.Controls 2.12
+import QtQuick.Layouts 1.12
+import Qt.labs.settings 1.1
 
 Dialog {
     id: prefWindow
+    width: 600
+    height: 400
 
-  Settings {
-        category: "Preferences"
-        property alias databaseType: cbDatabaseType.currentText
-        property alias databaseConnection: textDBConnection.text
-        property alias databaseHostName: textInputHostname.text
-        property alias databaseUserName: textInputUsername.text
-        property alias databasePassword: textInputPassword.text
+    Settings {
+         category: "Database"
+         property alias type: cbDatabaseType.currentIndex
+         property alias connection: textDBConnection.text
+         property alias hostname: textInputHostname.text
+         property alias username: textInputUsername.text
+         property alias password: textInputPassword.text
 
-    }
+     }
 
-   ColumnLayout {
-        id: col
-        width: 200
-        height: 400
-        spacing: 6
-        anchors.fill: parent
+     ColumnLayout {
+         id: col
 
-        Text {
-            text: qsTr("Preferences")
-            font.bold: true
-            font.pointSize: 24
-            elide: Text.ElideRight
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            horizontalAlignment: Text.AlignLeft
+         spacing: 6
+         anchors.fill: parent
 
-        }
+         Text {
+             text: qsTr("Preferences")
+             font.bold: true
+             font.pointSize: 24
+             elide: Text.ElideRight
+             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+             horizontalAlignment: Text.AlignLeft
 
-        ComboBox {
-            id: cbDatabaseType
-            width: 200
-            currentIndex: 2
-            model: ["None", "SQLite", "mysql", "pgsql", "odbc"]
+         }
 
-            onCurrentIndexChanged: {
-                console.debug(cbDatabaseType.currentText)
-            }
+         ComboBox {
+             id: cbDatabaseType
+             width: 200
+             model: ["None", "SQLite", "mysql", "pgsql", "odbc"]
 
-        }
+             onCurrentIndexChanged: {
+                 console.debug(cbDatabaseType.currentText)
+             }
 
-        Label {
-            id: labelDatabaseConnection
-            text: qsTr("DB-Connection")
+         }
 
-            TextInput {
-                id: textDBConnection
-                x: 100
-                y: 0
-                width: 80
-                height: 20
-                text: qsTr("DB Connection")
-                font.family: "Tahoma"
-                font.pixelSize: 12
-            }
+         Label {
+             id: labelDatabaseConnection
+             text: qsTr("DB-Connection")
 
-            Button {
-                id: selectFile
-                x: 201
-                y: 0
-                text: "..."
-                onClicked:
-                    console.debug("Button clicked")
-            }
-        }
+             TextField {
+                 id: textDBConnection
+                 x: 100
+                 y: 0
+                 width: 350
+                 height: 20
+                 font.family: "Tahoma"
+                 font.pixelSize: 12
+             }
 
-        Label {
-            id: labelHostName
-            text: qsTr("Hostname")
+             Button {
+                 id: selectFile
+                 x: 470
+                 y: -9
+                 text: "..."
+                 onClicked:
+                     console.debug("Button clicked")
 
-            TextInput {
-                id: textInputHostname
-                x: 100
-                y: 0
-                width: 80
-                height: 20
-                text: qsTr("Hostname")
-                font.family: "Tahoma"
-                font.pixelSize: 12
-            }
-        }
+             }
+         }
 
-        Label {
-            id: labelUserName
-            text: qsTr("Username")
+         Label {
+             id: labelHostName
+             text: qsTr("Hostname")
 
-            TextInput {
-                id: textInputUsername
-                x: 100
-                y: 0
-                width: 80
-                height: 20
-                text: qsTr("Username")
-                font.family: "Tahoma"
-                font.pixelSize: 12
-            }
-        }
+             TextField {
+                 id: textInputHostname
+                 x: 100
+                 y: 0
+                 width: 350
+                 height: 20
+                 font.family: "Tahoma"
+                 font.pixelSize: 12
+             }
+         }
 
-        Label {
-            id: labelPassword
-            width: 62
-            text: qsTr("Password")
+         Label {
+             id: labelUserName
+             text: qsTr("Username")
 
-            TextInput {
-                id: textInputPassword
-                x: 100
-                y: 0
-                width: 80
-                height: 20
-                text: qsTr("Password")
-                cursorVisible: true
-                renderType: Text.NativeRendering
-                echoMode: TextInput.PasswordEchoOnEdit
-                font.pixelSize: 12
-            }
-        }
-    }
+             TextField {
+                 id: textInputUsername
+                 x: 100
+                 y: 0
+                 width: 350
+                 height: 20
+                 font.family: "Tahoma"
+                 font.pixelSize: 12
+             }
+         }
 
+         Label {
+             id: labelPassword
+             width: 62
+             text: qsTr("Password")
+
+             TextField {
+                 id: textInputPassword
+                 x: 100
+                 y: 0
+                 width: 350
+                 height: 20
+                 cursorVisible: true
+                 echoMode: TextInput.PasswordEchoOnEdit
+                 font.pixelSize: 12
+             }
+         }
+     }
 
     standardButtons: StandardButton.Ok
     onVisibleChanged: if (visible == false) destroy()

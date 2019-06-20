@@ -1,6 +1,6 @@
 /**************************************************************************
 **
-** Copyright (c) 2013-2018 Jürgen Mülbert. All rights reserved.
+** Copyright (c) 2013-2019 Jürgen Mülbert. All rights reserved.
 **
 ** This file is part of jmbde
 **
@@ -58,18 +58,33 @@
 #define QL1C(x) QLatin1Char(x)
 #endif
 
+/**
+ * @brief Definitions for Settings
+ *
+ *    category: "WindowState"
+ *        property alias window_x:    appWindow.x
+ *        property alias window_y:    appWindow.y
+ *        property alias window_width: appWindow.width
+ *        property alias window_height: appWindow.height
+ *
+ *    category: "Database"
+ *        property alias type: cbDatabaseType.currentIndex
+ *        property alias connection: textDBConnection.text
+ *        property alias hostname: textInputHostname.text
+ *        property alias username: textInputUsername.text
+ *        property alias password: textInputPassword.text
+ */
 namespace Settings {
 namespace Groups {
-const char MAINWINDOW[] = "MainWindow";
+const char WINDOWSSTATE[] = "WindowState";
 const char DATABASE[] = "Database";
 } // namespace Groups
 
-namespace MainWindow {
-const char SIZE[] = "size";
-const char POS[] = "pos";
-const char SPLITTER[] = "splitterSizes";
-const char LAST_VIEW[] = "last_view";
-const char LAST_DATA[] = "last_data";
+namespace WindowState {
+const char WINDOW_X[] = "window_x";
+const char WINDOW_Y[] = "window_y";
+const char WINDOW_WIDTH[] = "window_width";
+const char WINDOW_HEIGHT[] = "window_height";
 } // namespace MainWindow
 
 namespace Database {

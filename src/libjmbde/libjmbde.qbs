@@ -4,9 +4,22 @@ DynamicLibrary {
     targetName: "jmbde"
 
     Depends { name: "cpp" }
-     Depends { name: "Qt"; submodules: ["core", "widgets", "network", "sql", "printsupport", "help" ] }
+    Depends { name: "Qt"; submodules: [
+        "core", 
+        "quick", 
+        "quickwidgets",
+        "widgets", 
+        "network", 
+        "sql", 
+        "printsupport", 
+        "help" 
+        ] 
+    }
 
-       Properties {
+    // Additional import path used to resolve QML modules in Qt Creator's code model
+    property pathList qmlImportPaths: []
+
+    Properties {
         condition: !qbs.toolchain.contains("msvc")
         cpp.dynamicLibraries: base.concat(["z"])
     }
@@ -34,10 +47,15 @@ DynamicLibrary {
     }
 
     files: [
+        "libjmbde.qmlproject",
+        "definitions.h",
+        "qml/qml.qrc",
+        "qml/qtquickcontrols2.conf",
+        "images/res.qrc",
+        "images/icons/tango/tango-icon.theme",
         "libjmbde_global.h",
         "help/helpbrowser.cpp",
         "help/helpbrowser.h",
-
         "models/accountdatamodel.cpp",
         "models/accountdatamodel.h",
         "models/chipcarddatamodel.cpp",
@@ -109,9 +127,6 @@ DynamicLibrary {
         "models/zipcitymodel.h",
         "models/zipcodemodel.cpp",
         "models/zipcodemodel.h",
-        "views/aboutdialog.cpp",
-        "views/aboutdialog.h",
-        "views/aboutdialog.ui",
         "views/chipcardinputarea.cpp",
         "views/chipcardinputarea.h",
         "views/chipcardinputarea.ui",
@@ -148,9 +163,6 @@ DynamicLibrary {
         "views/phoneinputarea.cpp",
         "views/phoneinputarea.h",
         "views/phoneinputarea.ui",
-        "views/preferencesdialog.cpp",
-        "views/preferencesdialog.h",
-        "views/preferencesdialog.ui",
         "views/printerinputarea.cpp",
         "views/printerinputarea.h",
         "views/printerinputarea.ui",
@@ -175,14 +187,17 @@ DynamicLibrary {
         Export {
             Depends { name: "cpp" }
             Depends { name: "Qt"; 
-            submodules: ["core", 
-                        "widgets", 
-                        "network", 
-                        "sql", 
-                        "printsupport", 
-                        "help" 
-                        ] 
-                }
+            submodules: [
+                "core",
+                "quick",
+                "quickwidgets",
+                "widgets",
+                "network",
+                "sql",
+                "printsupport",
+                "help"
+                ]
+            }
 
             cpp.includePaths: "."
         }

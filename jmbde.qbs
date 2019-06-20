@@ -6,7 +6,7 @@ Project {
     minimumQbsVersion: "1.10.0"
     qbsSearchPaths: ["qbs-resources"]
 
-    name: "JMBde"
+    name: "jmbde"
 
     property string version: Environment.getEnv("JMBDE_VERSION") || "0.4.25";
     property bool snapshot: Environment.getEnv("JMBDE_SNAPSHOT")
@@ -91,7 +91,6 @@ Project {
             ".clang-format",
             ".clog.toml",
             ".coafile",
-            ".linthub.yml",
             ".mailmap"
         ]
     }

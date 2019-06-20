@@ -1,9 +1,9 @@
-import QtQuick 2.5
-import QtQuick.Controls 1.4
-import QtQuick.Dialogs 1.1
-import Qt.labs.settings 1.0
+import QtQuick 2.12
+import QtQuick.Controls 2.12
+import QtQuick.Dialogs 1.2
+import Qt.labs.settings 1.1
 
-import Theme 1.0
+import "./Theme" as Theme
 
 Item {
   id: actions
@@ -14,14 +14,14 @@ Item {
   }
 
     property Action fileNew: Action{
-            iconName: "document-new"
+            icon.name: "document-new"
             text: qsTr("New")
             //shortcut: StandardKey.New
             onTriggered: {        }
     }
 
     property Action fileOpen: Action {
-        iconName: "document-open"
+        icon.name: "document-open"
         text: qsTr("Open")
         shortcut: StandardKey.Open
         enabled: !taskListView.editing
@@ -32,8 +32,8 @@ Item {
     }
 
    property Action fileSave: Action{
-        iconName: "document-save"
-        iconSource: Theme.iconSource(iconName)
+        icon.name: "document-save"
+        icon.source: Theme.icon.source(icon.name)
         text: qsTr("Save")
         shortcut: StandardKey.Save
         enabled: !taskListView.editing
@@ -42,8 +42,8 @@ Item {
 
    property Action showToolBarAction: Action{
         id: showToolBarAction
-        iconName: "configure-toolbars"
-        iconSource: Theme.iconSource(iconName)
+        icon.name: "configure-toolbars"
+        icon.source: Theme.icon.source(icon.name)
         text: qsTr("Show ToolBar")
         shortcut: "Ctrl+T"
         checkable: true
@@ -51,15 +51,15 @@ Item {
     }
 
   property Action quitApp: Action{
-    iconName: "application-exit"
+    icon.name: "application-exit"
      text: qsTr("Exit")
      shortcut: StandardKey.Quit
      onTriggered: appWindow.close()
   }
 
     property Action helpShowAbout: Action{
-        iconName: "help-about"
-        iconSource: Theme.iconSource(iconName)
+        icon.name: "help-about"
+        icon.source: Theme.icon.source(icon.name)
         text: qsTr("About");
         shortcut: "F1"
         onTriggered: {
@@ -70,11 +70,9 @@ Item {
     }
 
     property Action helpShowShortcuts: Action{
-        iconName: "help-about"
+        icon.name: "help-about"
         text: qsTr("Shortcuts list");
         shortcut: "Ctrl+F1"
         onTriggered: aboutBox.open()
     }
-
-
 }

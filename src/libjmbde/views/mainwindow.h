@@ -69,9 +69,7 @@
 #include "help/helpbrowser.h"
 
 #include "csvimportdialog.h"
-#include "preferencesdialog.h"
 
-#include "aboutdialog.h"
 #include "chipcardinputarea.h"
 #include "cityinputarea.h"
 #include "computerinputarea.h"

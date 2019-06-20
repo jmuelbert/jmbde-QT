@@ -1,6 +1,6 @@
-import QtQuick 2.5
-import QtQuick.Controls 1.4
-import QtQml 2.2
+import QtQuick 2.12
+import QtQuick.Controls 2.12
+import QtQml 2.12
 
 MenuBar {
     Menu {
@@ -11,11 +11,12 @@ MenuBar {
         MenuSeparator {}
         MenuItem {
             text: qsTr("Preferences")
-            iconName: "configure"
+            icon.name: "configure"
             onTriggered: {
-                var component = Qt.createComponent("Preferences.qml")
-                var dialog = component.createObject(component.prefWindow)
-                dialog.open()
+//                var component = Qt.createComponent("Preferences.qml")
+//                var dialog = component.createObject(component.prefWindow)
+//                dialog.open()
+                  prefs.open()
             }
         }
         MenuSeparator {}
@@ -27,4 +28,7 @@ MenuBar {
         title: qsTr("Help")
         MenuItem { action: actions.helpShowAbout }
     }
+
+    Preferences { id: prefs }
+
 }

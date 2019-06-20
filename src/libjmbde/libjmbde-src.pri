@@ -37,7 +37,6 @@ SOURCES += \
     $$PWD/models/titledatamodel.cpp \
     $$PWD/models/zipcitymodel.cpp \
     $$PWD/models/zipcodemodel.cpp \
-    $$PWD/views/aboutdialog.cpp \
     $$PWD/views/chipcardinputarea.cpp \
     $$PWD/views/cityinputarea.cpp \
     $$PWD/views/computerinputarea.cpp \
@@ -50,7 +49,6 @@ SOURCES += \
     $$PWD/views/mobileinputarea.cpp \
     $$PWD/views/osinputarea.cpp \
     $$PWD/views/phoneinputarea.cpp \
-    $$PWD/views/preferencesdialog.cpp \
     $$PWD/views/printerinputarea.cpp \
     $$PWD/views/processorinputarea.cpp \
     $$PWD/views/softwareinputarea.cpp \
@@ -93,7 +91,6 @@ HEADERS += \
     $$PWD/models/titledatamodel.h \
     $$PWD/models/zipcitymodel.h \
     $$PWD/models/zipcodemodel.h \
-    $$PWD/views/aboutdialog.h \
     $$PWD/views/chipcardinputarea.h \
     $$PWD/views/cityinputarea.h \
     $$PWD/views/computerinputarea.h \
@@ -106,14 +103,12 @@ HEADERS += \
     $$PWD/views/mobileinputarea.h \
     $$PWD/views/osinputarea.h \
     $$PWD/views/phoneinputarea.h \
-    $$PWD/views/preferencesdialog.h \
     $$PWD/views/printerinputarea.h \
     $$PWD/views/processorinputarea.h \
     $$PWD/views/softwareinputarea.h \
     $$PWD/views/titleinputarea.h
 
 FORMS += \
-    $$PWD/views/aboutdialog.ui \
     $$PWD/views/chipcardinputarea.ui \
     $$PWD/views/cityinputarea.ui \
     $$PWD/views/computerinputarea.ui \
@@ -126,7 +121,6 @@ FORMS += \
     $$PWD/views/mobileinputarea.ui \
     $$PWD/views/osinputarea.ui \
     $$PWD/views/phoneinputarea.ui \
-    $$PWD/views/preferencesdialog.ui \
     $$PWD/views/printerinputarea.ui \
     $$PWD/views/processorinputarea.ui \
     $$PWD/views/softwareinputarea.ui \

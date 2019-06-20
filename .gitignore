@@ -3,10 +3,10 @@
 ## generated databases
 venv/
 
-linuxdeployqt 
+linuxdeployqt
 *.AppImage
 .build
-*.tar 
+*.tar
 *.gz
 # .qtmodules-travis
 
@@ -26,6 +26,7 @@ linuxdeployqt
 [Ll]ib/*.so*
 Makefile*
 qbs-build/
+temp*/
 
 # Compiled Object files, Static and Dynamic libs (Shared Objects)
 *.o
@@ -67,10 +68,8 @@ docs/build/doctrees/
 # Linux perf/debugging
 gmon.out
 
-
 # VS-Code
 *.db-*
-
 
 # This file is used to ignore files which are generated
 # ----------------------------------------------------------------------------
@@ -163,7 +162,6 @@ phony.c
 # Python byte code
 *.pyc
 
-
 # Qml caching files
 *.jsc
 *.qmlc
@@ -208,4 +206,3 @@ tmp/
 # qbs builds
 /*-debug/
 /*-release/
-

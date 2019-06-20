@@ -12,7 +12,17 @@ QtGuiApplication {
     Depends { name: "translations" }
     Depends { name: "qtsingleapplication" }
     Depends { name: "ib"; condition: qbs.hostOS.contains("macos") }
-    Depends { name: "Qt"; submodules: ["core", "widgets", "network", "sql", "printsupport", "help" ] }
+    Depends { name: "Qt"; submodules: [
+            "core",
+            "quick",
+            "quickwidgets",
+            "widgets",
+            "network",
+            "sql",
+            "printsupport",
+            "help"
+            ]
+    }
 
     property bool qtcRunnable: true
 
@@ -68,7 +78,6 @@ QtGuiApplication {
  
     files: [
         "main.cpp",
-        "jmbde.qrc",
     ]
 
 

@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
     QCoreApplication::setOrganizationDomain("jmuelbert.github.io");
-    QCoreApplication::setApplicationName("JMBde");
+    QCoreApplication::setApplicationName("jmbde");
 
     QString qmlDir = QApplication::applicationDirPath();
 #ifdef Q_OS_WIN

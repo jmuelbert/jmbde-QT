@@ -143,7 +143,7 @@ int main(int argc, char *argv[]) {
     QApplication::setOrganizationDomain(QLatin1String("jmuelbert.github.io"));
 
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
-    QApplication::setApplicationName(QLatin1String("JMBde"));
+    QApplication::setApplicationName(QLatin1String("jmbde"));
 #else
     QApplication::setApplicationName(QLatin1String("jmbde"));
 #endif
@@ -175,6 +175,10 @@ int main(int argc, char *argv[]) {
     QTranslator jmbdeTranslator;
     jmbdeTranslator.load(QLatin1String("jmbde_") + locale);
     QApplication::installTranslator(&jmbdeTranslator);
+
+    QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths() << QLatin1String(":tango"));
+    QIcon::setThemeName(QLatin1String( "tango" ));
+    qDebug() << QIcon::themeSearchPaths();
 
     app.setProperty("jmbde_locale", locale);
     QApplication::setLayoutDirection(QObject::tr("LTR") == QLatin1String("RTL")
