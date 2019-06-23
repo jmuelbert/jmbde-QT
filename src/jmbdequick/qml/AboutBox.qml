@@ -51,10 +51,12 @@ You may obtain a copy of the Licence at: <br />
           anchors.fill: parent
           acceptedButtons: Qt.NoButton
           cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+
+
       }
   }
     standardButtons: StandardButton.Ok
-  onVisibleChanged: if (visible === false) destroy()
+    onVisibleChanged: if (visible === false) destroy()
     Component.onDestruction: console.log("Tschüüüs.")
 }
 

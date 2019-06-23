@@ -7,6 +7,7 @@
 - Change the windows installer. now using Inno Setup
 - move the linux build to appveyer
 - reformat the code with clang-format
+- Begin change to cmake
 
 <a name="0.4.23"></a>
 

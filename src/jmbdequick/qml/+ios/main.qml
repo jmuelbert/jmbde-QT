@@ -39,60 +39,33 @@
 ** unter der Lizenz sind dem Lizenztext zu entnehmen.
 **
 **************************************************************************/
-#pragma once
 
-#include <QDebug>
+import QtQuick 2.12
+import QtQuick.Controls 2.12
+import QtQuick.Dialogs 1.2
+import QtQuick.Layouts 1.12
+import QtQuick.Window 2.12
+import Qt.labs.settings 1.1
 
-#include <QDataWidgetMapper>
-#include <QGroupBox>
-#include <QScrollArea>
-#include <QSqlRelationalDelegate>
-#include <QtSql>
+import "../Theme" as Theme
 
-#include <QMessageBox>
+ApplicationWindow {
+    id: appWindow
 
-namespace Ui {
-class FunctionInputArea;
+    visible: true
+    visibility: Window.FullScreen
+    width: 640
+    height: 480
+
+    title: qsTr("JMBde Quick")
+
+    Action {
+        id: openAction
+        text: qsTr("Open...")
+        shortcut: StandardKey.Open
+        icon.name: "document-open"
+        onTriggered: {
+        }
+    }
+
 }
-
-/**
- * @brief The FunctionInputArea class
- */
-class FunctionInputArea : public QGroupBox {
-    Q_OBJECT
-
-public:
-    /**
-     * @brief FunctionInputArea
-     * @param parent
-     * @param index
-     */
-    explicit FunctionInputArea(QWidget *parent = nullptr,
-                               const QModelIndex index = QModelIndex());
-
-    /**
-     * @brief ~FunctionInputArea
-     */
-    ~FunctionInputArea();
-
-private slots:
-    void on_pushButton_Add_clicked();
-
-    void on_pushButton_EditFinish_clicked();
-
-private:
-    Ui::FunctionInputArea *ui;
-
-    enum Mode { Edit, Finish };
-    Mode m_actualMode;
-    QSqlRelationalTableModel *m_model;
-    QItemSelectionModel *m_selectionModel;
-    QDataWidgetMapper *m_mapper;
-
-    void setMappings();
-    void setViewOnlyMode(bool mode = true);
-    void createDataset();
-    void retrieveDataset(const QModelIndex index);
-    void updateDataset(const QModelIndex index);
-    void deleteDataset(const QModelIndex index);
-};

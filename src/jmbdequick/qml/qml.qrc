@@ -1,15 +1,15 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>qtquickcontrols2.conf</file>
+		<file>+android/main.qml</file>
+        <file>+ios/main.qml</file>
+		<file>qtquickcontrols2.conf</file>
         <file>AboutBox.qml</file>
         <file>Actions.qml</file>
         <file>MainMenu.qml</file>
         <file>MainToolBar.qml</file>
         <file>Preferences.qml</file>
-        <file>qml.qrc</file>
         <file>ToolBarSeparator.qml</file>
-        <file>+android/main.qml</file>
         <file>Theme/qmldir</file>
         <file>Theme/res.qrc</file>
         <file>Theme/Theme.qml</file>

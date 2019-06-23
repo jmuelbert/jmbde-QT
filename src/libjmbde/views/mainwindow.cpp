@@ -123,8 +123,6 @@ void MainWindow::focusChanged(QWidget *, QWidget *now) {
 
 void MainWindow::closeEvent(QCloseEvent *event) {
     Q_UNUSED(event);
-
-    writeSettings();
 }
 
 void MainWindow::on_actionPreferences_triggered() {

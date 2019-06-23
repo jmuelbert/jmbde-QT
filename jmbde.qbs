@@ -30,7 +30,7 @@ Project {
         "src/libjmbde",
         "src/plugins",
         "src/3rd-party/qtsingleapplication",
-        "src/jmbde",
+        "src/app",
         "src/jmbdequick",
         "translations",
         "tests",
@@ -110,10 +110,4 @@ Project {
             "dist/**/*.rtf"
         ]
     }
-
-       SubProject {
-        filePath: "dist/mac/dmg.qbs"
-
-    }
-
 }
