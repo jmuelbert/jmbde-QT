@@ -201,7 +201,6 @@ Source: "translations\qt_hu.qm"; DestDir: "{app}\translations"; Components: tran
 Source: "translations\qt_it.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\qt_ja.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\qt_ko.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "translations\qt_lt.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\qt_lv.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\qt_pl.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\qt_pt.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
