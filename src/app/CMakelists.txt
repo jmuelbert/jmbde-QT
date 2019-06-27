@@ -37,27 +37,35 @@ endif()
 file(GLOB ${PROJECT_NAME}_Resources *.qrc)
 
 set(TS_FILES
-    ${CMAKE_SOURCE_DIR}/translations/app_ar_DZ.ts
+    ${CMAKE_SOURCE_DIR}/translations/app_ar.ts
     ${CMAKE_SOURCE_DIR}/translations/app_bg.ts
+    ${CMAKE_SOURCE_DIR}/translations/app_ca.ts
     ${CMAKE_SOURCE_DIR}/translations/app_cs.ts
+    ${CMAKE_SOURCE_DIR}/translations/app_da.ts
     ${CMAKE_SOURCE_DIR}/translations/app_de.ts
     ${CMAKE_SOURCE_DIR}/translations/app_en.ts
     ${CMAKE_SOURCE_DIR}/translations/app_es.ts
+    ${CMAKE_SOURCE_DIR}/translations/app_fa.ts
     ${CMAKE_SOURCE_DIR}/translations/app_fi.ts
     ${CMAKE_SOURCE_DIR}/translations/app_fr.ts
+    ${CMAKE_SOURCE_DIR}/translations/app_gd.ts
+    ${CMAKE_SOURCE_DIR}/translations/app_gl.ts
     ${CMAKE_SOURCE_DIR}/translations/app_he.ts
     ${CMAKE_SOURCE_DIR}/translations/app_hu.ts
     ${CMAKE_SOURCE_DIR}/translations/app_it.ts
     ${CMAKE_SOURCE_DIR}/translations/app_ja.ts
-    ${CMAKE_SOURCE_DIR}/translations/app_nb.ts
+    ${CMAKE_SOURCE_DIR}/translations/app_ko.ts
+    ${CMAKE_SOURCE_DIR}/translations/app_lt.ts
+    ${CMAKE_SOURCE_DIR}/translations/app_lv.ts
     ${CMAKE_SOURCE_DIR}/translations/app_nl.ts
     ${CMAKE_SOURCE_DIR}/translations/app_pl.ts
-    ${CMAKE_SOURCE_DIR}/translations/app_pt_PT.ts
+    ${CMAKE_SOURCE_DIR}/translations/app_pt.ts
     ${CMAKE_SOURCE_DIR}/translations/app_ru.ts
+    ${CMAKE_SOURCE_DIR}/translations/app_sk.ts   
     ${CMAKE_SOURCE_DIR}/translations/app_tr.ts
     ${CMAKE_SOURCE_DIR}/translations/app_uk.ts
+    ${CMAKE_SOURCE_DIR}/translations/app_zh_CN.ts
     ${CMAKE_SOURCE_DIR}/translations/app_zh_TW.ts
-    ${CMAKE_SOURCE_DIR}/translations/app_zh.ts
  )
 
 add_custom_target(translations)

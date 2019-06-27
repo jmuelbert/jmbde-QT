@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="nb_NO">
+<TS version="2.1" language="gd_GB">
 <context>
     <name>AboutBox</name>
     <message>
@@ -754,7 +754,7 @@ You may obtain a copy of the Licence at: &lt;br /&gt;
     <message>
         <location filename="../src/libjmbde/views/mainwindow.ui" line="181"/>
         <location filename="../src/libjmbde/views/mainwindow.ui" line="334"/>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="542"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="540"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
@@ -834,162 +834,162 @@ You may obtain a copy of the Licence at: &lt;br /&gt;
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="152"/>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="305"/>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="376"/>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="461"/>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="579"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="150"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="303"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="374"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="459"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="577"/>
         <source>Employee</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="152"/>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="600"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="150"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="598"/>
         <source>Function</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="153"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="151"/>
         <source>Deparment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="153"/>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="634"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="151"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="632"/>
         <source>Title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="154"/>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="568"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="152"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="566"/>
         <source>Person</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="156"/>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="317"/>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="390"/>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="475"/>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="653"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="154"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="315"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="388"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="473"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="651"/>
         <source>Computer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="156"/>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="671"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="154"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="669"/>
         <source>Processor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="156"/>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="689"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="154"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="687"/>
         <source>Operation System</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="157"/>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="707"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="155"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="705"/>
         <source>Software</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="157"/>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="329"/>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="403"/>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="489"/>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="725"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="155"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="327"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="401"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="487"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="723"/>
         <source>Printer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="158"/>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="570"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="156"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="568"/>
         <source>Device</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="160"/>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="341"/>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="417"/>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="503"/>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="744"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="158"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="339"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="415"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="501"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="742"/>
         <source>Phone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="160"/>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="762"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="158"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="760"/>
         <source>Mobile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="161"/>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="572"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="159"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="570"/>
         <source>Communication</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="163"/>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="781"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="161"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="779"/>
         <source>Manufacturer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="163"/>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="799"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="161"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="797"/>
         <source>City</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="163"/>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="817"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="161"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="815"/>
         <source>Chipcard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="164"/>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="574"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="162"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="572"/>
         <source>Misc</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="269"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="267"/>
         <source>This action create a new dataContext. if you have an dataContext
 with data you lost this.
 Proceed for create a new dataContext ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="278"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="276"/>
         <source>The new dataContext is created</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="357"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="355"/>
         <source>Print Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="528"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="526"/>
         <source>This action is not implemented
 in the version </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="532"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="530"/>
         <source>
 Please try a newer version, if any available
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="533"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="531"/>
         <source>you can check this on the project site:
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libjmbde/views/mainwindow.cpp" line="617"/>
+        <location filename="../src/libjmbde/views/mainwindow.cpp" line="615"/>
         <source>Department</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1631,7 +1631,7 @@ Please try a newer version, if any available
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/app/main.cpp" line="181"/>
+        <location filename="../src/app/main.cpp" line="180"/>
         <source>LTR</source>
         <translation type="unfinished"></translation>
     </message>

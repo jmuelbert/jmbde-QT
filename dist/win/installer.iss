@@ -156,27 +156,33 @@ Source: "sqldrivers\qsqlpsql.dll"; DestDir: "{app}\sqldrivers"; Components: core
 ; - styles 
 Source: "styles\qwindowsvistastyle.dll"; DestDir: "{app}\styles"; Components: core; Flags: ignoreversion 
 ; - translations 
-Source: "translations\app_ar_DZ.qm"; DestDir: "{app}\translations"; Components: translations;  Flags: ignoreversion 
+Source: "translations\app_ar.qm"; DestDir: "{app}\translations"; Components: translations;  Flags: ignoreversion 
 Source: "translations\app_bg.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "translations\app_ca.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\app_cs.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "translations\app_da.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\app_de.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\app_en.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\app_es.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "translations\app_fa.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\app_fi.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\app_fr.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "translations\app_gd.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "translations\app_gl.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\app_he.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\app_hu.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\app_it.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\app_ja.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "translations\app_nb.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "translations\app_lt.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "translations\app_lv.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\app_nl.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\app_pl.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\app_pt.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "translations\app_pt_PT.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\app_ru.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "translations\app_sk.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\app_tr.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\app_uk.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "translations\app_zh.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "translations\app_zh_CN.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\app_zh_TW.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 ; - qt translations
 Source: "translations\qt_ar.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
@@ -187,19 +193,26 @@ Source: "translations\qt_da.qm"; DestDir: "{app}\translations"; Components: tran
 Source: "translations\qt_de.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\qt_en.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\qt_es.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "translations\qt_fa.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\qt_fi.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\qt_fr.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\qt_gd.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "translations\qt_gl.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\qt_he.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\qt_hu.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\qt_it.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\qt_ja.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\qt_ko.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "translations\qt_lt.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\qt_lv.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\qt_pl.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "translations\qt_pt.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\qt_ru.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\qt_sk.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "translations\qt_uk.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "translations\qt_sl.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "translations\qt_sv.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "translations\qt_zh_CN.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "translations\qt_zh_TW.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 
 ; Docs
 Source: "..\..\release\install-root\*.md"; DestDir: "{app}"; Components: core; Flags: ignoreversion
