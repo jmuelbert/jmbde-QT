@@ -203,13 +203,9 @@ Source: "translations\qt_ja.qm"; DestDir: "{app}\translations"; Components: tran
 Source: "translations\qt_ko.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\qt_lv.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\qt_pl.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "translations\qt_pt.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\qt_ru.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\qt_sk.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "translations\qt_sl.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "translations\qt_sv.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "translations\qt_zh_CN.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "translations\qt_zh_TW.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "translations\qt_uk.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 
 ; Docs
 Source: "..\..\release\install-root\*.md"; DestDir: "{app}"; Components: core; Flags: ignoreversion
