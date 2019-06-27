@@ -109,6 +109,7 @@ gmon.out
 CMakeFiles/
 *.cmake
 CMakeCache.txt
+compile_commands.json
 Makefile*
 Thumbs.db
 core
@@ -124,7 +125,6 @@ wrapper.sh
 *.pyqtc.user*
 *.qbs.user*
 *.qmlproject.user*
-/src/app/Info.plist
 /src/plugins/**/*.json
 /src/plugins/coreplugin/ide_version.h
 app_version.h

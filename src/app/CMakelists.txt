@@ -39,7 +39,7 @@ file(GLOB ${PROJECT_NAME}_Resources *.qrc)
 set(TS_FILES
     ${CMAKE_SOURCE_DIR}/translations/app_ar_DZ.ts
     ${CMAKE_SOURCE_DIR}/translations/app_bg.ts
-    ${CMAKE_SOURCE_DIR}/translations/app_cd.ts
+    ${CMAKE_SOURCE_DIR}/translations/app_cs.ts
     ${CMAKE_SOURCE_DIR}/translations/app_de.ts
     ${CMAKE_SOURCE_DIR}/translations/app_en.ts
     ${CMAKE_SOURCE_DIR}/translations/app_es.ts
