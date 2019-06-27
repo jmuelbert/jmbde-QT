@@ -193,7 +193,6 @@ Source: "translations\qt_da.qm"; DestDir: "{app}\translations"; Components: tran
 Source: "translations\qt_de.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\qt_en.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\qt_es.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "translations\qt_fa.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\qt_fi.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\qt_fr.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "translations\qt_gd.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion

@@ -45,12 +45,12 @@ You may obtain a copy of the Licence at: &lt;br /&gt;
     <message>
         <location filename="../src/jmbdequick/qml/Actions.qml" line="18"/>
         <source>New</source>
-        <translation type="unfinished"></translation>
+        <translation>Neu</translation>
     </message>
     <message>
         <location filename="../src/jmbdequick/qml/Actions.qml" line="25"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Öffnen</translation>
     </message>
     <message>
         <location filename="../src/jmbdequick/qml/Actions.qml" line="37"/>
