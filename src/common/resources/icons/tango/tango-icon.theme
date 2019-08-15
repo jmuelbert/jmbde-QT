@@ -1,0 +1,14 @@
+[Icon Thema]
+Name=tango-icons
+Comment=Original tango icons
+Inherits=default
+Directories=16x16,22x22,32x32
+
+[16x16]
+Size=16
+
+[22x22]
+Size=16
+
+[32x32]
+Size=32

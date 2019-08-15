@@ -1,26 +1,64 @@
-if(NOT IS_DIRECTORY "${CMAKE_INSTALL_PREFIX}/man/man1")
-    return()
-endif()
+# Copyright (c) 2019 Jürgen Mülbert. All rights reserved.
+#
+# This file is part of jmbde
+#
+# Licensed under the EUPL, Version 1.2 or – as soon they
+# will be approved by the European Commission - subsequent
+# versions of the EUPL (the "Licence");
+# You may not use this work except in compliance with the
+# Licence.
+# You may obtain a copy of the Licence at:
+#
+# https://joinup.ec.europa.eu/page/eupl-text-11-12
+#
+# Unless required by applicable law or agreed to in
+# writing, software distributed under the Licence is
+# distributed on an "AS IS" basis,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+# express or implied.
+# See the Licence for the specific language governing
+# permissions and limitations under the Licence.
+#
+# Lizenziert unter der EUPL, Version 1.2 oder - sobald
+#  diese von der Europäischen Kommission genehmigt wurden -
+# Folgeversionen der EUPL ("Lizenz");
+# Sie dürfen dieses Werk ausschließlich gemäß
+# dieser Lizenz nutzen.
+# Eine Kopie der Lizenz finden Sie hier:
+#
+# https://joinup.ec.europa.eu/page/eupl-text-11-12
+#
+# Sofern nicht durch anwendbare Rechtsvorschriften
+# gefordert oder in schriftlicher Form vereinbart, wird
+# die unter der Lizenz verbreitete Software "so wie sie
+# ist", OHNE JEGLICHE GEWÄHRLEISTUNG ODER BEDINGUNGEN -
+# ausdrücklich oder stillschweigend - verbreitet.
+# Die sprachspezifischen Genehmigungen und Beschränkungen
+# unter der Lizenz sind dem Lizenztext zu entnehmen.
 
-# Manpage creation strongly based on example by Michael Wild in CMake mailing list in September 2010
-# https://cmake.org/pipermail/cmake/2010-September/039781.html
-set(MAN_PAGES_BASENAMES "${PROJECT_NAME}.1" )
-set(DOC_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
-set(MAN_FILES)
-find_program(PANDOC NAMES pandoc)
-foreach(basename ${MAN_PAGES_BASENAMES})
-    set(tgt "${basename}")
-    add_custom_command(
-        COMMAND "${PANDOC}" -s -t man "${DOC_DIR}/${basename}.md" -o "${CMAKE_CURRENT_BINARY_DIR}/${basename}"
-        COMMENT "Generating manpage from markdown doc: ${basename}"
-        DEPENDS "${DOC_DIR}/${basename}.md"
-        OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${basename}"
-    )
-    list(APPEND MAN_FILES "${CMAKE_CURRENT_BINARY_DIR}/${basename}")
-endforeach()
+# minimal requirements
+cmake_minimum_required(VERSION 3.13.3 FATAL_ERROR)
 
-add_custom_target(man ALL DEPENDS ${MAN_FILES})
-INSTALL(
-    FILES ${MAN_FILES}
-    DESTINATION "${CMAKE_INSTALL_PREFIX}/man/man1"
+find_package(Doxygen)
+set_package_properties(Doxygen PROPERTIES
+  TYPE OPTIONAL
+  DESCRIPTION "API Documentation system"
+  URL "http://www.doxygen.org"
+  PURPOSE "Needed to build the API documentation."
 )
+
+find_package(Sphinx)
+set_package_properties(Sphinx PROPERTIES
+  TYPE OPTIONAL
+  DESCRIPTION "Manual build system"
+  URL "http://www.sphinx-doc.org"
+  PURPOSE "Needed to build the manual."
+)
+
+if(SPHINX_EXECUTABLE AND OPTION_BUILD_MANUAL)
+  add_subdirectory(manual)
+endif()  
+
+if(DOXYGEN_FOUND AND OPTION_BUILD_API_DOCS)
+  add_subdirectory(api)  
+endif()

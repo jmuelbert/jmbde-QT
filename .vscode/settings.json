@@ -1,5 +1,8 @@
 {
     "editor.formatOnType": true,
     "clang-format.executable": "/usr/local/bin",
-    "cmake.cmakePath": "/usr/local/bin/cmake"
+    "cmake.cmakePath": "/usr/local/bin/cmake",
+    "files.associations": {
+        "typeinfo": "cpp"
+    }
 }

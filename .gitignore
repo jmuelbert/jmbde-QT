@@ -1,7 +1,8 @@
 ## Ignore temporary files
 ## build results
 ## generated databases
-venv/
+
+svenv/
 
 linuxdeployqt
 *.AppImage
@@ -27,6 +28,8 @@ linuxdeployqt
 Makefile*
 qbs-build/
 temp*/
+[Bb]uild-*
+project.json
 
 # Compiled Object files, Static and Dynamic libs (Shared Objects)
 *.o
@@ -107,7 +110,6 @@ gmon.out
 /.qmake.stash
 *.check_cache
 CMakeFiles/
-*.cmake
 CMakeCache.txt
 compile_commands.json
 Makefile*
@@ -207,3 +209,24 @@ tmp/
 # qbs builds
 /*-debug/
 /*-release/
+
+# general
+*.kdev4
+*~
+*.rej
+*.orig
+*.out
+CMakeSettings.json
+CMakeLists.txt.user
+*.qmlc
+callgrind.out.*
+perf.data*
+
+# from kdiff3
+*.BACKUP.*
+*.BASE.*
+*.LOCAL.*
+*.REMOTE.*
+
+# ts generation
+translations/plugin_meta_data.cpp

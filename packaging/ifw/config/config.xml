@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Installer>
+    <Name>jmbde</Name>
+    <Version>0.4.25</Version>
+    <Title>A BDE tool</Title>
+    <Publisher>Jürgen Mülbert juergen.muelbert@gmail.com</Publisher>
+    <ProductUrl>http://jmuelbert.github.io/jmbde-QT</ProductUrl>
+    <Logo>../../src/jmbde.png</Logo>
+    <InstallerApplicationIcon>../../src/jmbde</InstallerApplicationIcon>
+    <InstallerWindowIcon>../../src/jmbde.png</InstallerWindowIcon>
+    <Watermark></Watermark>
+    <ControlScript>control.js</ControlScript>
+    <RunProgramDescription></RunProgramDescription>
+    <AllowNonAsciiCharacters>true</AllowNonAsciiCharacters>
+    <Background></Background>
+    <StartMenuDir>jmbde</StartMenuDir>
+    <TargetDir>@rootDir@/jmbde</TargetDir>
+    <AdminTargetDir>@rootDir@/jmbde</AdminTargetDir>
+    <RepositorySettingsPageVisible>false</RepositorySettingsPageVisible>
+    <Translations>
+        <Translation>zh_CN.qm</Translation>
+    </Translations>
+</Installer>

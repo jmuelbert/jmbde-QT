@@ -771,7 +771,7 @@ You may obtain a copy of the Licence at: &lt;br /&gt;
     <message>
         <location filename="../src/libjmbde/views/mainwindow.ui" line="236"/>
         <source>New</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Neu</translation>
     </message>
     <message>
         <location filename="../src/libjmbde/views/mainwindow.ui" line="239"/>
@@ -1631,7 +1631,7 @@ Please try a newer version, if any available
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/app/main.cpp" line="180"/>
+        <location filename="../src/app/main.cpp" line="181"/>
         <source>LTR</source>
         <translation type="unfinished"></translation>
     </message>

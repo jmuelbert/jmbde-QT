@@ -1,1 +1,0 @@
-../linux/setup/qt-installer-script-base.qs

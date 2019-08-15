@@ -21,6 +21,7 @@ translations/* linguist-vendored
 
 *.png               binary
 
+.tag                export-subst
 .gitignore          export-ignore
 .gitattributes      export-ignore
 .mailmap            export-ignore

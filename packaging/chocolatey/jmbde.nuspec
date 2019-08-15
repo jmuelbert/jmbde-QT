@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Do not remove this test for UTF-8: if “Ω” doesn’t appear as greek uppercase omega letter enclosed in quotation marks, you should use an editor that supports UTF-8, not this one. -->
+<package
+    xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+    <metadata>
+        <id>jmbde</id>
+        <title>jmbde</title>
+        <authors>Qt Project</authors>
+        <owners>jmuelbert</owners>
+        <summary>A BDE tool</summary>
+        <description>A BDE tool.</description>
+        <projectUrl>http://jmuelbert.github.io/jmbde-QT</projectUrl>
+        <packageSourceUrl>https://github.com/jmuelbert/jmbde-QT.git</packageSourceUrl>
+        <projectSourceUrl>https://github.com/jmuelbert/jmbde-QT.git</projectSourceUrl>
+        <docsUrl>http://jmuelbert.github.io/jmbde-QT/</docsUrl>
+        <!-- mailingListUrl>http://lists.qt-project.org/mailman/listinfo/qbs</mailingListUrl -->
+        <bugTrackerUrl>https://github.com/jmuelbert/jmbde-QT/issues</bugTrackerUrl>
+        <tags>bde BDE qbs qt build</tags>
+        <copyright>© 2019 Jürgen Mülbert</copyright>
+        <licenseUrl>https://github.com/jmuelbert/jmbde-QT/blob/master/LICENSE</licenseUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <!-- iconUrl>**.png</iconUrl -->
+    </metadata>
+</package>

@@ -1,15 +1,30 @@
-# jmbde
+# jmbde #
 
 [![GitHub license](https://img.shields.io/badge/license-EUPL-blue.svg)](https://joinup.ec.europa.eu/page/eupl-text-11-12)
 [![Build status](https://ci.appveyor.com/api/projects/status/mq9qt36e588dk7ui?svg=true)](https://ci.appveyor.com/project/jmuelbert/jmbde-qt)
 [![Build Status](https://travis-ci.org/jmuelbert/jmbde-QT.svg?branch=master)](https://travis-ci.org/jmuelbert/jmbde-QT)
+[Wechseln zur deutschen Version](README_DE.md)
 
-jmbde is a program for the management of resources in companies. with this program, employees and the equipment they need for their work can be recorded. These are computers, printers and telephones.
+jmbde is a program for the management of resources in companies. with this 
+program, employees and the equipment they need for their work can be 
+recorded. These are computers, printers and telephones.
 
 jmbde use the cross-platform framework [Qt](http://www.qt.io/download-open-source/),
 which means it works with the most operating systems.
 
-## Supported Platforms
+## Setup ##
+
+The program uses the [QT library](https://www.qt.io). Therefore it can be used
+on almost any platform. It runs under MacOS, Linux and Windows. Basically, an
+installer should be used to install the program on a computer. This installer
+will install on the required QT libraries. For the use of the program with
+Windows as operating system this is absolutely necessary.
+With Linux and macOS you can use a different version.  QT can be installed
+centrally on these two operating systems. With these two operating systems, only
+the actual program files are then installed. But here, too, there are complete
+installation packages with everything, including QT.
+
+## Supported Platforms ##
 
 The standalone binary packages support the following platforms:
 
@@ -17,7 +32,40 @@ The standalone binary packages support the following platforms:
 - Windows 7 or later
 - Linux
 
-## Sources
+## Running ##
+
+The following are some helpful notes on how to run jmbde on your native platform.
+
+### Unix ###
+
+Unpack the files into a directory and run:
+
+- `bin/jmbde`
+
+### Windows ###
+
+Unpack the files into a directory, and then run jmbde.exe
+
+### macOS ###
+
+Drag jmbde to your applications folder, and then run jmbde.
+
+## Requests and Bug reports ##
+
+- [GitHub issues (preferred)](https://github.com/jmuelbert/jmbde-QT/issues)
+
+## Questions or Comments ##
+
+## Wiki ##
+
+- [Main Page](https://github.com/jmuelbert/jmbde-QT/wiki)
+- [User Manual](http://jmuelbert.github.io/jmbde-QT/)
+
+## Database Scheme ##
+
+- [Database Source SQL](docs/database-design.md)
+  
+## Sources ## 
 
 The master branch represents the latest pre-release code.
 
@@ -25,93 +73,105 @@ The master branch represents the latest pre-release code.
 
 - [Milestones](https://github.com/jmuelbert/jmbde-QT/milestones)
 
-## Requests and Bug reports
+## Compiling ##
 
-- [GitHub issues (preferred)](https://github.com/jmuelbert/jmbde-QT/issues)
+The following are instructions for developers on how to use jmbde on your
+native system. They are not complete guides, but are contain information
+on the necessary measures. Libraries, Compilation flags, etc.
 
-## Questions or Comments
+### Dependencies ###
 
-## Wiki
+- The program requires qt5 from version 5.10.0 on.
+- cmake version 3.13.3 and higher
+- ninja
+- c++ development system
 
-- [Main Page](https://github.com/jmuelbert/jmbde-QT/wiki)
-- [User Manual](http://jmuelbert.github.io/jmbde-QT/)
+### On macOS ###
 
-## Compiling
+- The latest Xcode.
+- Brew [installation guide](https://brew.sh)
 
-### On macOS
-
-    The latest Xcode.
-
+    brew install cmake
+    brew install ninja
     brew install qt5
     brew link qt5 --force
-    brew install qbs
-    qbs setup-toolchains --detect
-    qbs setup-qt /usr/local/opt/qt/bin/qmake qt-brew
-    qbs config profiles.qt-brew.baseProfile xcode-macosx-x86_64
-    qbs config defaultProfile qt-brew
-
-Run `qbs` to build jmbde:
-
-    For the release version:
-
-        qbs install --install-root install config:release project.JMBde.version:$JMBDE_VERSION
-
-    For the debug version:
-
-        qbs -d build --all-products config:debug
 
 - Alternatively, you can [download Qt here](https://www.qt.io/download-qt-installer)
 
-### On Windows
+Run `cmake` to build jmbde:
 
-    you can [download Qt here](https://www.qt.io/download-qt-installer)
-    you can install many tools with choco
-    choco install qbs
-    Visual Studio 2017 or later
-    qbs
+#### For the release version: ####
 
-### On Linux
+        mkdir build-macos
+        cd build-macos
+        cmake -G "Ninja" .. 
+        cmake --build . --target install
+        cpack .
 
-- On Ubuntu/Debian: `sudo apt install qt5-default qttools5-dev-tools zlib1g-dev qtdeclarative5-dev`
-- On Fedora: `sudo dnf builddep tiled`
-- On Arch Linux: `pacman -S qt`
+#### For the debug version: ####
+
+        mkdir build-macos
+        cd build-macos
+        cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Debug .. 
+        cmake --build .         
+
+### On Windows ###
+
+- Visual Studio 2017 or later
+- you can [download Qt here](https://www.qt.io/download-qt-installer)
+- you can install many tools with choco.[installation guide](https://chocolatey.org/install#installing-chocolatey)
+
+    choco install cmake
+    choco install ninja
+  
+#### For the release version: ####
+
+        mkdir build-win
+        cd build-win
+        cmake -G "Ninja" .. 
+        cmake --build . --target install
+        cpack .
+
+#### For the debug version: ####
+        mkdir build-win
+        cd build-win
+        cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Debug .. 
+        cmake --build .     
+
+### On Linux ###
+
+- On Ubuntu/Debian: `sudo apt install qt5-default qttools5-dev-tools zlib1g-dev qtdeclarative5-dev cmake ninja`
+- On Fedora: `sudo dnf builddep jmbde-QT cmake ninja`
+- On Arch Linux: `pacman -S qt cmake ninja`
 
 The installed toolchains have to match the one Qt was compiled with.
 
-Next, compile by running:
+- Next, compile by running:
 
-    qmake (or qmake-qt5 on some systems)
-    make
+#### For the release version: ####
 
-To perform a shadow build, run qmake from a different directory and refer
-it to jmbde.pro. For example:
+        mkdir build-linux
+        cd build-linux
+        cmake -G "Ninja" .. 
+        cmake --build . --target install
+        cpack .
 
-    mkdir build
-    cd build
-    qmake ../jmdbde.pro
-    make
+#### For the debug version: ####
 
-You can now run jmbde using the executable in `bin/jmbde``
+        mkdir build-linux
+        cd build-linux
+        cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Debug .. 
+        cmake --build .
 
-## Installing
+You can now run jmbde using the executable in `bin/jmbde`
 
-To install jmbde, run `make install`from terminal. By default, jmbde will
-install itself to `/usr/local`.
+## Installing ##
 
-The installation prefix fan be changed when running qmake, or by changing thr
-install root when running `make install`. For example, to use an installation
-prefix of `/usr`instead of `/usr/local`:
+## License ##
 
-    qmake -r PREFIX=/usr
+This package is released under [EUPL-1.2](https://joinup.ec.europa.eu/page/eupl-text-11-12)
 
-Note: The -r recursive flag is required if you've run qmake before, as this
-command will affect nested pro files.
-
-## License
-
-jmbde is free software; you can redistribute ot and/or modify ir under the terms
-of the [European Public License Version 1.2](https://joinup.ec.europa.eu/page/eupl-text-11-12).
-Please read the [LICENSE](https://github.com/jmuelbert/jmbde-QT/blob/master/LICENSE) for additional information.
+Qt is available under multiple [licenses](https://www.qt.io/licensing/)
 
 EUPL-1.2 © [Jürgen Mülbert](https:/github.com/jmuelbert/jmbde-QT)
 

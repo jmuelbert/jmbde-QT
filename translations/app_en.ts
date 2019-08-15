@@ -1631,7 +1631,7 @@ Please try a newer version, if any available
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/app/main.cpp" line="180"/>
+        <location filename="../src/app/main.cpp" line="181"/>
         <source>LTR</source>
         <translation type="unfinished"></translation>
     </message>
