@@ -247,7 +247,7 @@ bool Model::DataContext::checkDBVersion() {
     qCDebug(dataContextLC, "CheckDBVersion, try getversion %s" ,
             qUtf8Printable(m_db.lastError().text()));
 #else
-    qDebug("CheckDBVersion, try getversion %s" ,m_db.lastError().text());#endif
+    qDebug() << "CheckDBVersion, try getversion : "  << m_db.lastError().text();
 #endif
 
     while (query.next()) {
@@ -267,8 +267,10 @@ bool Model::DataContext::checkDBVersion() {
                 qUtf8Printable(patch),
                qUtf8Printable(lupdate.toString()));
 #else
-       qDebug("Check DBVersion: OK - Version: %s.%s.%s fron %s", 
-                version, revision, patch, lupdate.toString());
+       qDebug() << "Check DBVersion: OK - Version: " <<
+                version << "." << 
+                revision << "." << 
+                patch << " from " << lupdate.toString();
 
 #endif
         retValue = true;
@@ -282,9 +284,10 @@ bool Model::DataContext::checkDBVersion() {
                 qUtf8Printable(revision), 
                 Database::Version::Revision);
 #else
-            qCritical(
-                "Check DBVersion: Database to old. Version : %s  <> dbVersion : %s Revision : %s <> dbRevision : %s",
-                version, Database::Version::Version, revision, Database::Version::Revision);
+            qCritical() <<
+                "Check DBVersion: Database to old. Version : " << 
+                " Version : " << version << "  <> dbVersion : " <<  Database::Version::Version << 
+                " Revision : " << revision <<  "  <> dbRevision : " << Database::Version::Revision;
 #endif
         }
 
@@ -297,9 +300,10 @@ bool Model::DataContext::checkDBVersion() {
                 qUtf8Printable(revision), 
                 Database::Version::Revision);
 #else
-            qCritical(
-                "Check DBVersion: Database to old. Revision : %s  <> dbVersion : %s Revision : %s <> dbRevision : %s",
-                version, Database::Version::Version, revision, Database::Version::Revision);
+            qCritical() <<
+                "Check DBVersion: Database to old. Version : " << 
+                " Version : " << version << "  <> dbVersion : " <<  Database::Version::Version << 
+                " Revision : " << revision <<  "  <> dbRevision : " << Database::Version::Revision;
 #endif
         }
     }
@@ -327,11 +331,11 @@ bool Model::DataContext::check_existence(const QString &tableName,
             qUtf8Printable(search), 
             qUtf8Printable(query.lastError().text()));
 #else
-        qWarning(dataContextLC, "CheckExistence(%s, %s, %s) : %s",
-            tableName,
-            searchId,
-            search, 
-            qUtf8Printable(query.lastError().text()));
+        qWarning() << "CheckExistence( " << 
+            tableName <<  " , " <<
+            searchId << ", "  <<
+            search << " ) :  " << 
+            qUtf8Printable(query.lastError().text());
 #endif
     }
 
@@ -541,7 +545,7 @@ QString Model::DataContext::getSqliteName() {
             qCDebug(dataContextLC, "getSqliteName %s ",
                      qUtf8Printable(targetFileAndPath));
 #else
-            qCDebug(dataContextLC, "getSqliteName %s ",
+            qCDebug() <<  "getSqliteName :" <<
                      qUtf8Printable(targetFileAndPath);
 #endif
 

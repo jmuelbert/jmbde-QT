@@ -40,8 +40,7 @@
 **
 **************************************************************************/
 
-#ifndef DEVICETYPEDATAMODEL_H
-#define DEVICETYPEDATAMODEL_H
+#pragma once
 
 #include <QObject>
 
@@ -54,77 +53,159 @@
 #include <QSqlRelation>
 
 #include "definitions.h"
+#include "jmbde_common_export.h"
 #include "models/commondata.h"
+#include "models/idatamodel.h"
 
+/*!
+    \class DeviceType
+    \brief The DeviceType class
+    \details In this is handle all DeviceTypes
+    \author Jürgen Mülbert
+    \since 0.4
+    \version 0.4.25
+    \date 03.08.2019
+    \copyright EUPL V1.2
+    */
 namespace Model {
+class DeviceType : public CommonData {
+    /*!
+      \macro Q_OBJECT
+      \relates QObject
 
-class DeviceTypeDataModel : public CommonData {
+      The Q_OBJECT macro must appear in the private section
+      of a class definition that declares its own signals and
+      slots, or that uses other services provided by Qt's
+      meta-object system.
+
+      ...
+
+      \sa {Meta-Object System}, {Signals and Slots}, {QtsProperty System}
+  */
+    Q_OBJECT
+
+    /*!
+        \macro Q_LOGGING_CATEGORY
+        \relates QLogging
+
+        Defines the Logging Categorie for the class
+     */
+    Q_LOGGING_CATEGORY(deviceTypeLC, "jmbde.models.deviceType")
 public:
-    /**
-     * @brief DeviceTypeDataModel::DeviceTypeDataModel
-     */
-    explicit DeviceTypeDataModel(QObject *parent = nullptr);
+    /*!
+        \fn explicit DeviceName(QObject *parent = nullptr)
+        \brief The Constructor for the DeviceName
+    */
+    explicit DeviceType(QObject *parent = nullptr);
 
-    /**
-     * @brief DeviceTypeDataModel::~DepartmentDataModel
+    /*!
+        \fn  ~DeviceType() override;
+
+        \brief Destructor for DeviceType
      */
-    virtual ~DeviceTypeDataModel() = default;
+    virtual ~DeviceType() = default;
 
     // implement the virtuals
-    /**
-     * @brief setIndexes
+
+    /*!
+        \fn virtual void setIndexes()
+        \brief Set the fieldindexes from the datafieldnames of the db.
      */
     virtual void setIndexes();
 
-    /**
-     * @brief initializeRelationalModel
-     * @return
+    /*!
+        \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
+        \brief set the QSqlRelationalTableModel for the DataModel
+        Returns The QSqlRelationalTableModel
      */
     virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-    /**
-     * @brief initializeInputDataModel
-     * @return
+    /*!
+        \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
+        \brief Initialize the InputDataModel
+
+        Returns The QSqlRelationalTableModel
      */
     virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-    /**
-     * @brief initializeViewModel
-     * @return
+    /*!
+        \fn virtual QSqlTableModel *initializeViewModel()
+        \brief Initialize the ViewModel
+
+        Returns QSqlTableModel
      */
     virtual QSqlTableModel *initializeViewModel();
 
-    /**
-     * @brief generateTableString
-     * @param model
-     * @param header
-     * @return
+    /*!
+     * \fn virtual QString generateTableString(QAbstractTableModel *model,
+                                const QString &header)
+        \brief generateTableString
+
+        Returns a QString with the generated Table for Output
      */
     virtual QString generateTableString(QAbstractTableModel *model,
                                         QString header);
 
-    /**
-     * @brief generateFormularString
-     * @param model
-     * @param header
-     * @return
+    /*!
+        \fn virtual QString generateFormularString(QAbstractTableModel *model,
+                                   const QString &header)
+        \brief generateFormularString
+
+        Returns a QString with the generated Table for Output
      */
     virtual QString generateFormularString(QAbstractTableModel *model,
                                            QString header);
 
+    // Getter
+    /*!
+        \fn int DeviceTypeIdIndex()
+
+        \brief Get the index of the fieldname DeviceTypeId form the database
+
+        Returns the value of the index
+     */    
     int DeviceTypeIdIndex() const { return m_DeviceTypeIdIndex; }
+
+     /*!
+        \fn int NameIndex()
+
+        \brief Get the index of the fieldname Name form the database
+
+        Returns the value of the index
+     */    
     int NameIndex() const { return m_NameIndex; }
+
+    /*!
+        \fn  int LastUpdateIndex()
+
+        \brief Get the index of the fieldname LastUpdate form the database
+
+        Returns the value of the index
+     */    
     int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-    /**
-     * @brief tableName - the name of the database table
-     * @
+    /*!
+        \brief The Tablename in the database \e is const
      */
     const QString m_tableName = QLatin1String("device_type");
+
+     /*!
+        \var int m_DeviceTypeIdIndex
+        \brief The value of the DeviceTypeIdIndexx
+     */  
     int m_DeviceTypeIdIndex;
+
+    /*!
+        \var int m_NameIndex
+        \brief The value of the NameIndex
+     */ 
     int m_NameIndex;
+    
+    /*!
+        \var int m_LastUpdateIndex
+        \brief The value of the LastUpdateIndex
+    */     
     int m_LastUpdateIndex;
 };
 } // namespace Model
-#endif // DEVICETYPEDATAMODEL_H

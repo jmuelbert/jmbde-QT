@@ -42,7 +42,7 @@
 
 #include "models/devicetype.h"
 
-Model::DeviceTypeDataModel::DeviceTypeDataModel(QObject *parent)
+Model::DeviceType::DeviceType(QObject *parent)
     : CommonData(parent) {
 
     // Set the Model
@@ -53,14 +53,14 @@ Model::DeviceTypeDataModel::DeviceTypeDataModel(QObject *parent)
     setIndexes();
 }
 
-void Model::DeviceTypeDataModel::setIndexes() {
+void Model::DeviceType::setIndexes() {
     m_DeviceTypeIdIndex = m_model->fieldIndex(QLatin1String("device_type_id"));
     m_NameIndex = m_model->fieldIndex(QLatin1String("name"));
     m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
 QSqlRelationalTableModel *
-Model::DeviceTypeDataModel::initializeRelationalModel() {
+Model::DeviceType::initializeRelationalModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -73,7 +73,7 @@ Model::DeviceTypeDataModel::initializeRelationalModel() {
 }
 
 QSqlRelationalTableModel *
-Model::DeviceTypeDataModel::initializeInputDataModel() {
+Model::DeviceType::initializeInputDataModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -82,7 +82,7 @@ Model::DeviceTypeDataModel::initializeInputDataModel() {
     return m_model;
 }
 
-QSqlTableModel *Model::DeviceTypeDataModel::initializeViewModel() {
+QSqlTableModel *Model::DeviceType::initializeViewModel() {
 
     m_model->select();
 
@@ -90,14 +90,20 @@ QSqlTableModel *Model::DeviceTypeDataModel::initializeViewModel() {
 }
 
 QString
-Model::DeviceTypeDataModel::generateTableString(QAbstractTableModel *model,
+Model::DeviceType::generateTableString(QAbstractTableModel *model,
                                                 QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+ #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(deviceTypeLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
+
+#endif
+
 
     QList<int> set;
 
@@ -121,14 +127,19 @@ Model::DeviceTypeDataModel::generateTableString(QAbstractTableModel *model,
 }
 
 QString
-Model::DeviceTypeDataModel::generateFormularString(QAbstractTableModel *model,
+Model::DeviceType::generateFormularString(QAbstractTableModel *model,
                                                    QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(deviceTypeLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
+
+#endif
 
     QList<int> set;
 

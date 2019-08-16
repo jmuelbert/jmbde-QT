@@ -42,7 +42,7 @@
 
 #include "models/document.h"
 
-Model::DocumentsDataModel::DocumentsDataModel(QObject *parent)
+Model::Document::Document(QObject *parent)
     : CommonData(parent) {
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);
@@ -52,7 +52,7 @@ Model::DocumentsDataModel::DocumentsDataModel(QObject *parent)
     setIndexes();
 }
 
-void Model::DocumentsDataModel::setIndexes() {
+void Model::Document::setIndexes() {
     m_DocumentIdIndex = m_model->fieldIndex(QLatin1String("document_id"));
     m_NameIndex = m_model->fieldIndex(QLatin1String("name"));
     m_NameIndex = m_model->fieldIndex(QLatin1String("document_data"));
@@ -60,7 +60,7 @@ void Model::DocumentsDataModel::setIndexes() {
 }
 
 QSqlRelationalTableModel *
-Model::DocumentsDataModel::initializeRelationalModel() {
+Model::Document::initializeRelationalModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -73,7 +73,7 @@ Model::DocumentsDataModel::initializeRelationalModel() {
 }
 
 QSqlRelationalTableModel *
-Model::DocumentsDataModel::initializeInputDataModel() {
+Model::Document::initializeInputDataModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -82,7 +82,7 @@ Model::DocumentsDataModel::initializeInputDataModel() {
     return m_model;
 }
 
-QSqlTableModel *Model::DocumentsDataModel::initializeViewModel() {
+QSqlTableModel *Model::Document::initializeViewModel() {
 
     m_model->select();
 
@@ -90,14 +90,19 @@ QSqlTableModel *Model::DocumentsDataModel::initializeViewModel() {
 }
 
 QString
-Model::DocumentsDataModel::generateTableString(QAbstractTableModel *model,
+Model::Document::generateTableString(QAbstractTableModel *model,
                                                QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+ #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(documentLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
+
+#endif
 
     QList<int> set;
 
@@ -121,14 +126,19 @@ Model::DocumentsDataModel::generateTableString(QAbstractTableModel *model,
 }
 
 QString
-Model::DocumentsDataModel::generateFormularString(QAbstractTableModel *model,
+Model::Document::generateFormularString(QAbstractTableModel *model,
                                                   QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+ #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(documentLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
+
+#endif
 
     QList<int> set;
 

@@ -40,9 +40,9 @@ cmake_minimum_required(VERSION 3.13.3 FATAL_ERROR) # CONTRIBUTIONS WELCOME: Test
 
 find_package(Qt5 ${QT_MIN_VERSION} REQUIRED
     COMPONENTS
-    Core 
+    Core
     Gui 
-    Widgets 
+    Widgets
     Sql
     PrintSupport
     Qml
@@ -67,4 +67,12 @@ target_link_libraries(tst_test
     Qt5::Core 
     Qt5::Test
 )
-add_test("Test1" tst_cpp)
+
+set_target_properties(tst_test
+    PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+)
+
+add_test("Test1" "${CMAKE_BINARY_DIR}/bin/tst_test")

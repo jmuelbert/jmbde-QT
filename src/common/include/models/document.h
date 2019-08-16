@@ -40,8 +40,7 @@
 **
 **************************************************************************/
 
-#ifndef DOCUMENTSDATAMODEL_H
-#define DOCUMENTSDATAMODEL_H
+#pragma once
 
 #include <QObject>
 #include <QtSql>
@@ -51,76 +50,178 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
+#include "definitions.h"
+#include "jmbde_common_export.h"
 #include "models/commondata.h"
+#include "models/idatamodel.h"
+
+/*!
+    \class Document
+    \brief The Document class
+    \details In this is handle all Document
+    \author Jürgen Mülbert
+    \since 0.4
+    \version 0.4.25
+    \date 03.08.2019
+    \copyright EUPL V1.2
+    */
 
 namespace Model {
-class DocumentsDataModel : public CommonData {
+class Document : public CommonData {
+    /*!
+      \macro Q_OBJECT
+      \relates QObject
+
+      The Q_OBJECT macro must appear in the private section
+      of a class definition that declares its own signals and
+      slots, or that uses other services provided by Qt's
+      meta-object system.
+
+      ...
+
+      \sa {Meta-Object System}, {Signals and Slots}, {QtsProperty System}
+  */
     Q_OBJECT
 
-public:
-    explicit DocumentsDataModel(QObject *parent = nullptr);
+    /*!
+        \macro Q_LOGGING_CATEGORY
+        \relates QLogging
 
-    virtual ~DocumentsDataModel() = default;
+        Defines the Logging Categorie for the class
+     */
+    Q_LOGGING_CATEGORY(documentLC, "jmbde.models.document")
+
+public:
+    /*!
+        \fn explicit Document(QObject *parent = nullptr)
+        \brief The Constructor for the Document
+    */
+    explicit Document(QObject *parent = nullptr);
+
+    /*!
+        \fn  ~Document() override;
+
+        \brief Destructor forDocument
+     */
+    virtual ~Document() = default;
 
     // implement the virtuals
 
-    /**
-     * @brief setIndexes
+    /*!
+        \fn virtual void setIndexes()
+        \brief Set the fieldindexes from the datafieldnames of the db.
      */
     virtual void setIndexes();
 
-    /**
-     * @brief initializeRelationalModel
-     * @return
+    /*!
+        \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
+        \brief set the QSqlRelationalTableModel for the DataModel
+        Returns The QSqlRelationalTableModel
      */
     virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-    /**
-     * @brief initializeInputDataModel
-     * @return
+    /*!
+        \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
+        \brief Initialize the InputDataModel
+
+        Returns The QSqlRelationalTableModel
      */
     virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-    /**
-     * @brief initializeViewModel
-     * @return
+    /*!
+        \fn virtual QSqlTableModel *initializeViewModel()
+        \brief Initialize the ViewModel
+
+        Returns QSqlTableModel
      */
     virtual QSqlTableModel *initializeViewModel();
 
-    /**
-     * @brief generateTableString
-     * @param model
-     * @param header
-     * @return
+    /*!
+     * \fn virtual QString generateTableString(QAbstractTableModel *model,
+                                const QString &header)
+        \brief generateTableString
+
+        Returns a QString with the generated Table for Output
      */
     virtual QString generateTableString(QAbstractTableModel *model,
                                         QString header);
 
-    /**
-     * @brief generateFormularString
-     * @param model
-     * @param header
-     * @return
+   /*!
+        \fn virtual QString generateFormularString(QAbstractTableModel *model,
+                                   const QString &header)
+        \brief generateFormularString
+
+        Returns a QString with the generated Table for Output
      */
     virtual QString generateFormularString(QAbstractTableModel *model,
                                            QString header);
 
     // Getter
+
+    /*!
+        \fn int DocumentIdIndex()
+
+        \brief Get the index of the fieldname DocumentId form the database
+
+        Returns the value of the index
+     */        
     int DocumentIdIndex() const { return m_DocumentIdIndex; }
+
+     /*!
+        \fn int NameIndex()
+
+        \brief Get the index of the fieldname Name form the database
+
+        Returns the value of the index
+     */
     int NameIndex() const { return m_NameIndex; }
+
+     /*!
+        \fn int DocumentDataIndex()
+
+        \brief Get the index of the fieldname DocumentData form the database
+
+        Returns the value of the index
+     */
     int DocumentDataIndex() const { return m_DocumentDataIndex; }
+
+    /*!
+        \fn  int LastUpdateIndex()
+
+        \brief Get the index of the fieldname LastUpdate form the database
+
+        Returns the value of the index
+     */
     int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-    /**
-     * @brief tableName - the name of the database table
-     * @
+    /*!
+        \brief The Tablename in the database \e is const
      */
     const QString m_tableName = QLatin1String("document");
+
+     /*!
+        \var int m_DocumentIdIndex
+        \brief The value of the DocumentIdIndex
+     */       
     int m_DocumentIdIndex;
+
+    /*!
+        \var int m_NameIndex
+        \brief The value of the NameIndex
+     */        
     int m_NameIndex;
+    
+     /*!
+        \var int m_DocumentDataIndex
+        \brief The value of the DocumentDataIndex
+     */       
     int m_DocumentDataIndex;
+
+    /*!
+        \var int m_LastUpdateIndex
+        \brief The value of the LastUpdateIndex
+    */ 
     int m_LastUpdateIndex;
 };
 } // namespace Model
-#endif // DOCUMENTSDATAMODEL_H

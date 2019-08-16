@@ -39,9 +39,11 @@
 # minimal requirements
 cmake_minimum_required(VERSION 3.13.3 FATAL_ERROR)
 
-set (QT_MIN_VERSION "5.10.0")
+project(jmbdequick)
+
 
 # Version setup
+set (JMBDEQUICK_PROJECT_NAME "jmbdequick")
 set (JMBDEQUICK_APPLICATIONS_VERSION_MAJOR  "0")
 set (JMBDEQUICK_APPLICATIONS_VERSION_MINOR  "1")
 set (JMBDEQUICK_APPLICATIONS_VERSION_PATCH  "0")
@@ -52,9 +54,6 @@ set (JMBDEQUICKSOVERSION 4)
 
 # jmbde project
 project(jmbdequick VERSION ${JMBDEQUICK_APPLICATIONS_VERSION})
-
-# add the local cmake dir to the path
-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/ ${CMAKE_MODULE_PATH})
 
 # Qt5
 find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED Core DBus Widgets Sql)
@@ -80,33 +79,33 @@ get_target_property(QtCore_location Qt5::Core LOCATION)
 get_target_property(QtGui_location Qt5::Gui LOCATION)
 
 
-add_executable(jmbdequick
-)
+add_executable(${JMBDEQUICK_PROJECT_NAME})
 
-target_compile_features(jmbde_common
+target_compile_features(${JMBDEQUICK_PROJECT_NAME}
     PUBLIC cxx_auto_type
     PRIVATE          cxx_lambdas cxx_nullptr cxx_range_for cxx_raw_string_literals cxx_uniform_initialization
             cxx_variadic_templates cxx_rvalue_references cxx_defaulted_functions cxx_deleted_functions
             cxx_override cxx_final cxx_nonstatic_member_init)
 
-target_include_directories(jmbdequick
+target_include_directories(${JMBDEQUICK_PROJECT_NAME}
   PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/include" 
     "${CMAKE_CURRENT_BIN_DIR}/include" 
 
     )
 
-target_sources(jmbdequick
+target_sources(${JMBDEQUICK_PROJECT_NAME}
   PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/qml/qml.qrc
 
   )
 
-target_compile_definitions(jmbdequick PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+target_compile_definitions(${JMBDEQUICK_PROJECT_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
-target_link_libraries(jmbdequick PRIVATE
-    jmbde_common
+target_link_libraries(${JMBDEQUICK_PROJECT_NAME}
+    PRIVATE
+    JMBde::common
     Qt5::Core
     Qt5::Gui
     Qt5::Sql
@@ -116,3 +115,15 @@ target_link_libraries(jmbdequick PRIVATE
     Qt5::Quick
     Qt5::QuickWidgets
     )
+  
+set_target_properties(${JMBDEQUICK_PROJECT_NAME} PROPERTIES 
+      OUTPUT_NAME "${JMBDEQUICK_PROJECT_NAME}"
+      INSTALL_RPATH "@executable_path/../Frameworks"
+)
+
+if(APPLE)
+ set(BUNDLE_APP_NAME "${PROJECT_NAME}.app")
+endif() 
+
+
+install(TARGETS ${JMBDEQUICK_PROJECT_NAME} RUNTIME DESTINATION ${BIN_INSTALL_DIR})

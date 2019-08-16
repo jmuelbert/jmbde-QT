@@ -1,0 +1,3 @@
+#!/bin/sh
+# TODO: Tag the image
+docker run --rm -ti -v $(pwd):/mnt eeee9afb071e

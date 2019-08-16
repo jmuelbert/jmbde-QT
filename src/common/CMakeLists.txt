@@ -73,8 +73,9 @@ project(jmbde_common VERSION ${COMMON_LIB_VERSION}
 
 message(STATUS "Building ${PROJECT_NAME} ${COMMON_LIB_VERSION_STRING} in ${CMAKE_BUILD_TYPE} mode")
 
-
 add_library(jmbde_common SHARED )
+add_library(JMBde::common ALIAS jmbde_common)
+
 generate_export_header(jmbde_common)
 set_target_properties(jmbde_common PROPERTIES SOVERSION ${LIB_VERSION_STRING}
                       OUTPUT_NAME jmbde_common)
@@ -265,7 +266,6 @@ target_sources(jmbde_common
     include/views/softwareinputarea.h
     include/views/titleinputarea.h
     )
-
 
 
 install(TARGETS jmbde_common ${INSTALL_TARGETS_DEFAULT_ARGS})
