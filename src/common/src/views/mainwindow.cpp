@@ -64,7 +64,7 @@ MainWindow::MainWindow(QWidget *parent)
     initOutline();
 
     this->dataBaseName = QString(QStringLiteral("jmbde"));
-    this->dataContext = new Model::DataContext(this, this->dataBaseName);
+    this->dataContext = new Model::DataContext(this, QString(this->dataBaseName));
     qDebug() << "ActualViewRow : " << m_actualView;
 
     if (m_actualView.row() > 0) {

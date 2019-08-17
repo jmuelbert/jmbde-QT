@@ -102,7 +102,7 @@ public:
 
         \brief Destructor for  ComputerSoftware
      */
-    virtual ~ComputerSoftware() = default;
+    ~ComputerSoftware();
 
     // implement the virtuals
 
@@ -203,24 +203,24 @@ private:
         \var int m_ComputerSoftwareIdIndex
         \brief The value of the ComputerSoftwareIdIndex
     */
-    int m_ComputerSoftwareIdIndex;
+    int m_ComputerSoftwareIdIndex{0};
 
     /*!
         \var int m_ComputerIdIndex
         \brief The value of the ComputerIdIndex
     */
-    int m_ComputerIdIndex;
+    int m_ComputerIdIndex{0};
 
     /*!
         \var int m_SoftwareIdIndex
         \brief The value of the SoftwareIdIndex
     */
-    int m_SoftwareIdIndex;
+    int m_SoftwareIdIndex{0};
 
     /*!
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
     */
-    int m_LastUpdateIndex;
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model

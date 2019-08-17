@@ -53,6 +53,8 @@ Model::Employee::Employee(QObject *parent)
     setIndexes();
 }
 
+Model::Employee::~Employee() {}
+
 void Model::Employee::setIndexes() {
     m_EmployeeIdIndex = m_model->fieldIndex(QLatin1String("employee_id"));
     m_EmployeeNrIndex = m_model->fieldIndex(QLatin1String("employee_nr"));

@@ -40,8 +40,7 @@
 **
 **************************************************************************/
 
-#ifndef EMPLOYEEDOCUMENTDATAMODEL_H
-#define EMPLOYEEDOCUMENTDATAMODEL_H
+#pragma once
 
 #include <QObject>
 #include <QtSql>
@@ -52,75 +51,177 @@
 #include <QSqlRelation>
 
 #include "definitions.h"
+#include "jmbde_common_export.h"
 #include "models/commondata.h"
+#include "models/idatamodel.h"
+
+/*!
+    \class EmployeeDocument
+    \brief The EmployeeDocument class
+    \details In this is handle all EmployeeDocument
+    \author Jürgen Mülbert
+    \since 0.4
+    \version 0.4.25
+    \date 03.08.2019
+    \copyright EUPL V1.2
+    */
+
 namespace Model {
-class EmployeeDocumentDataModel : public CommonData {
+class EmployeeDocument : public CommonData {
+    /*!
+      \macro Q_OBJECT
+      \relates QObject
+
+      The Q_OBJECT macro must appear in the private section
+      of a class definition that declares its own signals and
+      slots, or that uses other services provided by Qt's
+      meta-object system.
+
+      ...
+
+      \sa {Meta-Object System}, {Signals and Slots}, {QtsProperty System}
+  */
     Q_OBJECT
 
-public:
-    explicit EmployeeDocumentDataModel(QObject *parent = nullptr);
+    /*!
+        \macro Q_LOGGING_CATEGORY
+        \relates QLogging
 
-    virtual ~EmployeeDocumentDataModel() = default;
+        Defines the Logging Categorie for the class
+     */
+    Q_LOGGING_CATEGORY(employeeDocumentLC, "jmbde.models.employeedocument")
+
+public:
+    /*!
+        \fn explicit EmployeeDocument(QObject *parent = nullptr)
+        \brief The Constructor for the EmployeeDocument
+    */
+    explicit EmployeeDocument(QObject *parent = nullptr);
+
+    /*!
+        \fn  ~EmployeeDocument() override;
+
+        \brief Destructor for EmployeeDocument
+     */
+    ~EmployeeDocument();
 
     // implement the virtuals
 
-    /**
-     * @brief setIndexes
+    /*!
+        \fn virtual void setIndexes()
+        \brief Set the fieldindexes from the datafieldnames of the db.
      */
     virtual void setIndexes();
 
-    /**
-     * @brief initializeRelationalModel
-     * @return
+    /*!
+        \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
+        \brief set the QSqlRelationalTableModel for the DataModel
+        Returns The QSqlRelationalTableModel
      */
     virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-    /**
-     * @brief initializeInputDataModel
-     * @return
+  /*!
+        \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
+        \brief Initialize the InputDataModel
+
+        Returns The QSqlRelationalTableModel
      */
     virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-    /**
-     * @brief initializeViewModel
-     * @return
+   /*!
+        \fn virtual QSqlTableModel *initializeViewModel()
+        \brief Initialize the ViewModel
+
+        Returns QSqlTableModel
      */
     virtual QSqlTableModel *initializeViewModel();
 
-    /**
-     * @brief generateTableString
-     * @param model
-     * @param header
-     * @return
+    /*!
+     * \fn virtual QString generateTableString(QAbstractTableModel *model,
+                                const QString &header)
+        \brief generateTableString
+
+        Returns a QString with the generated Table for Output
      */
     virtual QString generateTableString(QAbstractTableModel *model,
                                         QString header);
 
-    /**
-     * @brief generateFormularString
-     * @param model
-     * @param header
-     * @return
+   /*!
+        \fn virtual QString generateFormularString(QAbstractTableModel *model,
+                                   const QString &header)
+        \brief generateFormularString
+
+        Returns a QString with the generated Table for Output
      */
     virtual QString generateFormularString(QAbstractTableModel *model,
                                            QString header);
 
     // Getter
+
+    /*!
+        \fn int EmployeeDocumentIdIndex()
+
+        \brief Get the index of the fieldname EmployeeDocumentId form the database
+
+        Returns the value of the index
+     */ 
     int EmployeeDocumentIdIndex() const { return m_EmployeeDocumentIdIndex; }
+
+    /*!
+        \fn int EmployeeIdIndex()
+
+        \brief Get the index of the fieldname EmployeeId form the database
+
+        Returns the value of the index
+     */ 
     int EmployeeIdIndex() const { return m_EmployeeIdIndex; }
+
+    /*!
+        \fn int DocumentIdIndex()
+
+        \brief Get the index of the fieldname DocumentId form the database
+
+        Returns the value of the index
+     */
     int DocumentIdIndex() const { return m_DocumentIdIndex; }
+
+    /*!
+        \fn int LastUpdateIndex()
+
+        \brief Get the index of the fieldname LastUpdate form the database
+
+        Returns the value of the index
+     */
     int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-    /**
-     * @brief tableName - the name of the database table
-     * @
+    /*!
+        \brief The Tablename in the database \e is const
      */
     const QString m_tableName = QLatin1String("employee_document");
-    int m_EmployeeDocumentIdIndex;
-    int m_EmployeeIdIndex;
-    int m_DocumentIdIndex;
-    int m_LastUpdateIndex;
+   
+     /*!
+        \var int m_EmployeeDocumentIdIndex
+        \brief The value of the EmployeeDocumentIdIndex
+     */        
+    int m_EmployeeDocumentIdIndex{0};
+
+     /*!
+        \var int m_EmployeeIdIndex
+        \brief The value of the EmployeeIdIndex
+     */
+    int m_EmployeeIdIndex{0};
+
+     /*!
+        \var int m_DocumentIdIndex
+        \brief The value of the DocumentIdIndex
+     */
+    int m_DocumentIdIndex{0};
+
+    /*!
+        \var int m_LastUpdateIndex
+        \brief The value of the LastUpdateIndex
+    */  
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model
-#endif // EMPLOYEEDOCUMENTDATAMODEL_H

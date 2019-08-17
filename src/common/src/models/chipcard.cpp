@@ -51,6 +51,8 @@ Model::ChipCard::ChipCard(QObject *parent) : CommonData(parent) {
     setIndexes();
 }
 
+Model::ChipCard::~ChipCard() { }
+
 void Model::ChipCard::setIndexes() {
     m_ChipCardIdIndex = m_model->fieldIndex(QLatin1String("chip_card_id"));
     m_NumberIndex = m_model->fieldIndex(QLatin1String("number"));

@@ -131,7 +131,6 @@ class JMBDE_COMMON_EXPORT Employee : public CommonData {
      */
     Q_LOGGING_CATEGORY(employeeLC, "jmbde.models.employee")
 
-
 public:
     /*!
         \fn explicit Employee(QObject *parent = nullptr)
@@ -144,7 +143,7 @@ public:
 
         \brief Destructor for Employee
      */
-    virtual ~Employee() = default;
+     ~Employee();
 
     // implement the virtuals
 
@@ -480,181 +479,181 @@ private:
         \var int m_EmployeeIdIndex
         \brief The value of the EmployeeIdIndex
      */       
-    int m_EmployeeIdIndex;
+    int m_EmployeeIdIndex{0};
 
      /*!
         \var int m_EmployeeNrIndex
         \brief The value of the EmployeeNrIndex
      */       
-    int m_EmployeeNrIndex;
+    int m_EmployeeNrIndex{0};
 
      /*!
         \var int m_GenderIndex
         \brief The value of the GenderIndex
      */       
-    int m_GenderIndex;
+    int m_GenderIndex{0};
 
      /*!
         \var int m_TitleIdIndex
         \brief The value of the TitleIdIndex
      */    
-    int m_TitleIdIndex;
+    int m_TitleIdIndex{0};
 
      /*!
         \var int m_FirstNameIndex
         \brief The value of the FirstNameIndex
      */      
-    int m_FirstNameIndex;
+    int m_FirstNameIndex{0};
 
     /*!
         \var int m_LastNameIndex
         \brief The value of the LastNameIndex
      */    
-    int m_LastNameIndex;
+    int m_LastNameIndex{0};
 
     /*!
         \var int m_BirthDayIndex
         \brief The value of the BirthDayIndex
      */        
-    int m_BirthDayIndex;
+    int m_BirthDayIndex{0};
 
     /*!
         \var int m_AddressIndex
         \brief The value of the AddressIndex
      */        
-    int m_AddressIndex;
+    int m_AddressIndex{0};
 
     /*!
         \var int m_ZipCityIdIndex
         \brief The value of the ZipCityIdIndex
      */      
-    int m_ZipCityIdIndex;
+    int m_ZipCityIdIndex{0};
 
     /*!
         \var int m_HomePhoneIndex
         \brief The value of the HomePhoneIndex
      */      
-    int m_HomePhoneIndex;
+    int m_HomePhoneIndex{0};
 
     /*!
         \var int m_HomeMobileIndex
         \brief The value of the HomeMobileIndex
      */    
-    int m_HomeMobileIndex;
+    int m_HomeMobileIndex{0};
 
     /*!
         \var int m_HomeMailIndex
         \brief The value of the HomeMailIndex
      */      
-    int m_HomeMailIndex;
+    int m_HomeMailIndex{0};
 
     /*!
         \var int m_BusinessMailIndex
         \brief The value of the BusinessMailIndex
      */ 
-    int m_BusinessMailIndex;
+    int m_BusinessMailIndex{0};
 
     /*!
         \var int m_DataCareIndex
         \brief The value of the DataCareIndex
      */     
-    int m_DataCareIndex;
+    int m_DataCareIndex{0};
 
     /*!
         \var int m_ActiveIndex
         \brief The value of the ActiveIndex
      */ 
-    int m_ActiveIndex;
+    int m_ActiveIndex{0};
 
     /*!
         \var int m_PhotoIndex
         \brief The value of the PhotoIndex
      */     
-    int m_PhotoIndex;
+    int m_PhotoIndex{0};
 
     /*!
         \var int m_NotesIndex
         \brief The value of the NotesIndex
      */     
-    int m_NotesIndex;
+    int m_NotesIndex{0};
 
     /*!
         \var int m_HireDateIndex
         \brief The value of the HireDateIndex
      */     
-    int m_HireDateIndex;
+    int m_HireDateIndex{0};
 
     /*!
         \var int m_EndDateIndex
         \brief The value of the EndDateIndex
      */     
-    int m_EndDateIndex;
+    int m_EndDateIndex{0};
 
     /*!
         \var int m_DepartmentIdIndex
         \brief The value of the DepartmentIdIndex
      */         
-    int m_DepartmentIdIndex;
+    int m_DepartmentIdIndex{0};
 
     /*!
         \var int m_FunctionIdIndex
         \brief The value of the FunctionIdIndex
      */        
-    int m_FunctionIdIndex;
+    int m_FunctionIdIndex{0};
 
     /*!
         \var int m_ComputerIdIndex
         \brief The value of the ComputerIdIndex
      */        
-    int m_ComputerIdIndex;
+    int m_ComputerIdIndex{0};
 
     /*!
         \var int m_PrinterIdIndex
         \brief The value of the PrinterIdIndex
      */    
-    int m_PrinterIdIndex;
+    int m_PrinterIdIndex{0};
 
     /*!
         \var int m_PhoneIdIndex
         \brief The value of the PhoneIdIndex
      */  
-    int m_PhoneIdIndex;
+    int m_PhoneIdIndex{0};
 
     /*!
         \var int m_MobileIdIndex
         \brief The value of the MobileIdIndex
      */  
-    int m_MobileIdIndex;
+    int m_MobileIdIndex{0};
 
     /*!
         \var int m_FaxIdIndex
         \brief The value of the FaxIdIndex
      */ 
-    int m_FaxIdIndex;
+    int m_FaxIdIndex{0};
 
     /*!
         \var int m_EmployeeAccountIdIndex
         \brief The value of the EmployeeAccountIdIndex
      */
-    int m_EmployeeAccountIdIndex;
+    int m_EmployeeAccountIdIndex{0};
 
     /*!
         \var int m_EmployeeDocumentIdIndex
         \brief The value of the EmployeeDocumentIdIndex
      */    
-    int m_EmployeeDocumentIdIndex;
+    int m_EmployeeDocumentIdIndex{0};
 
     /*!
         \var int m_ChipCardIdIndex
         \brief The value of the ChipCardIdIndex
      */  
-    int m_ChipCardIdIndex;
+    int m_ChipCardIdIndex{0};
 
     /*!
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
     */ 
-    int m_LastUpdateIndex;
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model
 

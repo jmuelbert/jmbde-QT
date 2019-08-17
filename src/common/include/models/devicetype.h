@@ -68,7 +68,7 @@
     \copyright EUPL V1.2
     */
 namespace Model {
-class DeviceType : public CommonData {
+class JMBDE_COMMON_EXPORT DeviceType : public CommonData {
     /*!
       \macro Q_OBJECT
       \relates QObject
@@ -103,7 +103,7 @@ public:
 
         \brief Destructor for DeviceType
      */
-    virtual ~DeviceType() = default;
+     ~DeviceType();
 
     // implement the virtuals
 
@@ -194,18 +194,18 @@ private:
         \var int m_DeviceTypeIdIndex
         \brief The value of the DeviceTypeIdIndexx
      */  
-    int m_DeviceTypeIdIndex;
+    int m_DeviceTypeIdIndex{0};
 
     /*!
         \var int m_NameIndex
         \brief The value of the NameIndex
      */ 
-    int m_NameIndex;
+    int m_NameIndex{0};
     
     /*!
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
     */     
-    int m_LastUpdateIndex;
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model

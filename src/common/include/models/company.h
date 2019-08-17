@@ -105,7 +105,7 @@ public:
      *
      * \brief Destructor for Company()
      */
-    virtual ~Company() = default;
+    ~Company();
 
     // implement the virtuals
 
@@ -287,66 +287,66 @@ private:
     /*!
         \brief The value of the CompanyIdIndex
      */
-    int m_CompanyIdIndex;
+    int m_CompanyIdIndex{0};
 
     /*!
         \brief The value of the NameIndex
      */
-    int m_NameIndex;
+    int m_NameIndex{0};
 
     /*!
         \brief The value of the Name2Index
      */
-    int m_Name2Index;
+    int m_Name2Index{0};
 
     /*!
         \brief The value of the StreetIndex
      */
-    int m_StreetIndex;
+    int m_StreetIndex{0};
 
     /*!
         \brief The value of the CityIndex
      */
-    int m_CityIndex;
+    int m_CityIndex{0};
 
     /*!
         \brief The value of the ZipCodeIndex
      */
-    int m_ZipCodeIndex;
+    int m_ZipCodeIndex{0};
 
     /*!
         \brief The value of the PhoneNumberIndex
      */
-    int m_PhoneNumberIndex;
+    int m_PhoneNumberIndex{0};
 
     /*!
         \brief The value of the FaxNumberIndex
      */
-    int m_FaxNumberIndex;
+    int m_FaxNumberIndex{0};
 
     /*!
         \brief The value of the MobileNumberIndex
      */
-    int m_MobileNumberIndex;
+    int m_MobileNumberIndex{0};
 
     /*!
         \brief The value of the MailAddressIndex
      */
-    int m_MailAddressIndex;
+    int m_MailAddressIndex{0};
 
     /*!
         \brief The value of the ActiveIndex
      */
-    int m_ActiveIndex;
+    int m_ActiveIndex{0};
 
     /*!
         \brief The value of the EmployeeIdIndex
      */
-    int m_EmployeeIdIndex;
+    int m_EmployeeIdIndex{0};
 
     /*!
         \brief The value of the LastUpdateIndex
      */
-    int m_LastUpdateIndex;
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model

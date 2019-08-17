@@ -120,8 +120,8 @@ public:
     explicit DataContext(QObject *parent = nullptr);
 
     /*!
-        \fn DataContext(const QString &name = QString(),
-                         QObject *parent = nullptr);
+        \fn DataContext( QObject *parent = nullptr,
+                        const QString &name = QString() );
 
         \brief Constructor for the DataContext
         \details Contructur with a name for the database to use.
@@ -134,7 +134,7 @@ public:
           \brief Destructor for DataContext()
           \details Close the connection to the database.
        */
-    virtual ~DataContext();
+      ~DataContext();
 
     /*!
         \fn void prepareDB()

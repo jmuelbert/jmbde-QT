@@ -107,7 +107,7 @@ public:
 
         \brief Destructor for Computer
      */
-    virtual ~Computer() = default;
+    ~Computer();
 
     // implement the virtuals
 
@@ -380,61 +380,61 @@ private:
         \var   int m_ComputerIdIndex
         \brief The value of the ComputerIdIndex
      */
-    int m_ComputerIdIndex;
+    int m_ComputerIdIndex{0};
 
     /*!
         \var   int m_Name
         \brief The value of the NameIndex
      */
-    int m_NameIndex;
+    int m_NameIndex{0};
 
     /*!
        \var   int m_Name
        \brief The value of the NameIndex
     */
-    int m_SerialNumberIndex;
+    int m_SerialNumberIndex{0};
 
     /*!
        \var   int m_ServiceTagIndex
        \brief The value of the ServiceTagIndex
     */
-    int m_ServiceTagIndex;
+    int m_ServiceTagIndex{0};
 
     /*!
        \var   int m_ServiceNumberIndex
        \brief The value of the ServiceNumberIndex
     */
-    int m_ServiceNumberIndex;
+    int m_ServiceNumberIndex{0};
 
     /*!
         \var   int m_Name
         \brief The value of the NameIndex
      */
-    int m_MemoryIndex;
+    int m_MemoryIndex{0};
 
     /*!
         \var    int m_DriveSizeIndex
         \brief The value of the DriveSizeIndex
      */
-    int m_DriveSizeIndex;
+    int m_DriveSizeIndex{0};
 
     /*!
        \var   int m_DriveTypeIndex
        \brief The value of the DriveTypeInde
     */
-    int m_DriveTypeIndex;
+    int m_DriveTypeIndex{0};
 
     /*!
         \var   nt m_NetworkIndex
         \brief The value of the NetworkIndex
      */
-    int m_NetworkIndex;
+    int m_NetworkIndex{0};
 
     /*!
         \var   int m_ActiveIndex
         \brief The value of the ActiveIndex
      */
-    int m_ActiveIndex;
+    int m_ActiveIndex{0};
 
     /*!
         \var   int m_ReplaceIndex
@@ -446,72 +446,72 @@ private:
         \var   int m_DeviceNameIdIndex
         \brief The value of the DeviceNameIdIndex
      */
-    int m_DeviceNameIdIndex;
+    int m_DeviceNameIdIndex{0};
 
     /*!
        \var   int m_DeviceTypeIdIndex
        \brief The value of the DeviceTypeIdIndex
     */
-    int m_DeviceTypeIdIndex;
+    int m_DeviceTypeIdIndex{0};
 
     /*!
        \var   int m_EmployeeIdIndex
        \brief The value of the EmployeeIdIndexx
     */
-    int m_EmployeeIdIndex;
+    int m_EmployeeIdIndex{0};
 
     /*!
         \var   int m_Name
         \brief The value of the NameIndex
      */
-    int m_PlaceIdIndex;
+    int m_PlaceIdIndex{0};
 
     /*!
         \var   int m_DepartmentIdIndex
         \brief The value of the DepartmentIdIndex
      */
-    int m_DepartmentIdIndex;
+    int m_DepartmentIdIndex{0};
 
     /*!
         \var   int m_ManufacturerIdIndex
         \brief The value of the ManufacturerIdIndex
      */
-    int m_ManufacturerIdIndex;
+    int m_ManufacturerIdIndex{0};
 
     /*!
        \var   int m_InventoryIdIndex
        \brief The value of the InventoryIdIndex
     */
-    int m_InventoryIdIndex;
+    int m_InventoryIdIndex{0};
 
     /*!
        \var   int m_ProcessorIdIndex
        \brief The value of the ProcessorIdIndex
     */
-    int m_ProcessorIdIndex;
+    int m_ProcessorIdIndex{0};
 
     /*!
        \var   int m_OSIdIndex
        \brief The value of the OSIdIndex
     */
-    int m_OSIdIndex;
+    int m_OSIdIndex{0};
 
     /*!
         \var   int m_ComputerSoftwareIdIndex
         \brief The value of the ComputerSoftwareIdIndex
      */
-    int m_ComputerSoftwareIdIndex;
+    int m_ComputerSoftwareIdIndex{0};
 
     /*!
         \var   int m_PrinterIdIndex
         \brief The value of the PrinterIdIndex
      */
-    int m_PrinterIdIndex;
+    int m_PrinterIdIndex{0};
 
     /*!
        \var   int m_LastUpdateIndex
        \brief The value of the LastUpdateIndex
     */
-    int m_LastUpdateIndex;
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model

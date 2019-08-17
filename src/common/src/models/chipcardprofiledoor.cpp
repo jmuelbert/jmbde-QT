@@ -52,6 +52,9 @@ Model::ChipCardProfileDoor::ChipCardProfileDoor(QObject *parent)
     setIndexes();
 }
 
+
+Model::ChipCardProfileDoor::~ChipCardProfileDoor() { }
+
 void Model::ChipCardProfileDoor::setIndexes() {
     m_ChipCardProfileDoorIdIndex =
         m_model->fieldIndex(QLatin1String("chip_card_profile_door_id"));

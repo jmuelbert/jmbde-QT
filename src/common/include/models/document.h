@@ -103,7 +103,7 @@ public:
 
         \brief Destructor for Document
      */
-    virtual ~Document() = default;
+    ~Document();
 
     // implement the virtuals
 
@@ -204,24 +204,24 @@ private:
         \var int m_DocumentIdIndex
         \brief The value of the DocumentIdIndex
      */       
-    int m_DocumentIdIndex;
+    int m_DocumentIdIndex{0};
 
     /*!
         \var int m_NameIndex
         \brief The value of the NameIndex
      */        
-    int m_NameIndex;
+    int m_NameIndex{0};
     
      /*!
         \var int m_DocumentDataIndex
         \brief The value of the DocumentDataIndex
      */       
-    int m_DocumentDataIndex;
+    int m_DocumentDataIndex{0};
 
     /*!
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
     */ 
-    int m_LastUpdateIndex;
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model

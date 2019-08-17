@@ -51,6 +51,9 @@ Model::Account::Account(QObject *parent) : CommonData(parent) {
     setIndexes();
 }
 
+
+Model::Account::~Account() { }
+
 void Model::Account::setIndexes() {
     m_AccountIdIndex = m_model->fieldIndex(QLatin1String("account_id"));
     m_UserNameIndex = m_model->fieldIndex(QLatin1String("user_name"));

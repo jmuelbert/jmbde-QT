@@ -42,7 +42,7 @@
 
 #include "models/fax.h"
 
-Model::FaxDataModel::FaxDataModel(QObject *parent) : CommonData(parent) {
+Model::Fax::Fax(QObject *parent) : CommonData(parent) {
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);
     m_model->setTable(this->m_tableName);
@@ -51,7 +51,9 @@ Model::FaxDataModel::FaxDataModel(QObject *parent) : CommonData(parent) {
     setIndexes();
 }
 
-void Model::FaxDataModel::setIndexes() {
+Model::Fax::~Fax() {}
+
+void Model::Fax::setIndexes() {
     m_FaxIdIndex = m_model->fieldIndex(QLatin1String("fax_id"));
     m_DeviceNameIdIndex = m_model->fieldIndex(QLatin1String("device_name_id"));
     m_SerialNumberIndex = m_model->fieldIndex(QLatin1String("serial_number"));
@@ -69,7 +71,7 @@ void Model::FaxDataModel::setIndexes() {
     m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-QSqlRelationalTableModel *Model::FaxDataModel::initializeRelationalModel() {
+QSqlRelationalTableModel *Model::Fax::initializeRelationalModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -81,7 +83,7 @@ QSqlRelationalTableModel *Model::FaxDataModel::initializeRelationalModel() {
     return m_model;
 }
 
-QSqlRelationalTableModel *Model::FaxDataModel::initializeInputDataModel() {
+QSqlRelationalTableModel *Model::Fax::initializeInputDataModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -90,21 +92,26 @@ QSqlRelationalTableModel *Model::FaxDataModel::initializeInputDataModel() {
     return m_model;
 }
 
-QSqlTableModel *Model::FaxDataModel::initializeViewModel() {
+QSqlTableModel *Model::Fax::initializeViewModel() {
 
     m_model->select();
 
     return m_model;
 }
 
-QString Model::FaxDataModel::generateTableString(QAbstractTableModel *model,
+QString Model::Fax::generateTableString(QAbstractTableModel *model,
                                                  QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+ #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(faxLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
+
+#endif
 
     QList<int> set;
 
@@ -127,14 +134,19 @@ QString Model::FaxDataModel::generateTableString(QAbstractTableModel *model,
     return outString;
 }
 
-QString Model::FaxDataModel::generateFormularString(QAbstractTableModel *model,
+QString Model::Fax::generateFormularString(QAbstractTableModel *model,
                                                     QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+ #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(faxLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
+
+#endif
 
     QList<int> set;
 

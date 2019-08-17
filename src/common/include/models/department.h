@@ -106,7 +106,7 @@ public:
 
         \brief Destructor for Department
      */
-    virtual ~Department() = default;
+    ~Department();
 
     // implement the virtuals
 
@@ -224,36 +224,36 @@ private:
         \var  int m_DepartmentIdIndex
         \brief The value of the DepartmentIdIndex
     */    
-    int m_DepartmentIdIndex;
+    int m_DepartmentIdIndex{0};
     
      /*!
         \var int m_NameIndex
         \brief The value of the NameIndex
     */   
-    int m_NameIndex;
+    int m_NameIndex{0};
     
      /*!
         \var  int m_PriorityIndex
         \brief The value of the PriorityIndex
     */   
-    int m_PriorityIndex;
+    int m_PriorityIndex{0};
 
      /*!
         \var int m_PrinterIdIndex
         \brief The value of the PrinterIdIndex
     */   
-    int m_PrinterIdIndex;
+    int m_PrinterIdIndex{0};
     
     /*!
         \var int m_FaxIdIndex
         \brief The value of the FaxIdIndex
     */
-    int m_FaxIdIndex;
+    int m_FaxIdIndex{0};
 
      /*!
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
     */   
-    int m_LastUpdateIndex;
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model

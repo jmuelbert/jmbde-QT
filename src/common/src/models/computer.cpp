@@ -52,6 +52,9 @@ Model::Computer::Computer(QObject *parent) : CommonData(parent) {
     setIndexes();
 }
 
+
+Model::Computer::~Computer() {}
+
 void Model::Computer::setIndexes() {
     m_ComputerIdIndex = m_model->fieldIndex(QLatin1String("computer_id"));
     m_NameIndex = m_model->fieldIndex(QLatin1String("name"));

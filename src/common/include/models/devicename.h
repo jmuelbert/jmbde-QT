@@ -67,7 +67,7 @@
     */
 
 namespace Model {
-class DeviceName : public CommonData {
+class JMBDE_COMMON_EXPORT DeviceName : public CommonData {
     /*!
       \macro Q_OBJECT
       \relates QObject
@@ -102,7 +102,7 @@ public:
 
         \brief Destructor for DeviceName
      */
-    virtual ~DeviceName() = default;
+     ~DeviceName();
 
     // implement the virtuals
 
@@ -193,19 +193,19 @@ private:
         \var int m_DeviceNameIdIndex
         \brief The value of the DeviceNameIdIndexx
      */   
-    int m_DeviceNameIdIndex;
+    int m_DeviceNameIdIndex{0};
  
      /*!
         \var int m_NameIndex
         \brief The value of the NameIndex
      */    
-    int m_NameIndex;
+    int m_NameIndex{0};
 
     /*!
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
     */ 
-    int m_LastUpdateIndex;
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model
 

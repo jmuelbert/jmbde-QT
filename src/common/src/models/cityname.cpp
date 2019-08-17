@@ -52,6 +52,9 @@ Model::CityName::CityName(QObject *parent) : CommonData(parent) {
     setIndexes();
 }
 
+
+Model::CityName::~CityName() { }
+
 void Model::CityName::setIndexes() {
     m_CityNameIdIndex = m_model->fieldIndex(QLatin1String("city_name_id"));
     m_NameIndex = m_model->fieldIndex(QLatin1String("name"));

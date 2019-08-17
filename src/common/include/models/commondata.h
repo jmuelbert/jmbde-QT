@@ -84,7 +84,7 @@ public:
 
         \brief the Destructor for the CommonData
      */
-    virtual ~CommonData() = default;
+    ~CommonData();
 
     /*!
         \fn  QTextDocument *createSheet()
@@ -122,13 +122,13 @@ protected:
         \brief holds an initialised pointer to the Relationmodel
         \sa QSqlRelationalTableModel
      */
-    QSqlRelationalTableModel *m_model;
+    QSqlRelationalTableModel *m_model {nullptr};
 
     /*!
        \brief holds an initialised pointer to the ItemSelectioModel
        \sa QItemSelectionModel
     */
-    QItemSelectionModel *m_selectionModel;
+    QItemSelectionModel *m_selectionModel {nullptr};
 
 private:
 };

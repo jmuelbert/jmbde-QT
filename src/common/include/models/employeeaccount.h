@@ -90,72 +90,139 @@ class JMBDE_COMMON_EXPORT EmployeeAccount : public CommonData {
 
         Defines the Logging Categorie for the class
      */
-    Q_LOGGING_CATEGORY(employeeAccontLC, "jmbde.models.employeeaccont")
+    Q_LOGGING_CATEGORY(employeeAccountLC, "jmbde.models.employeeaccont")
 
 public:
+    /*!
+        \fn explicit EmployeeAccount(QObject *parent = nullptr)
+        \brief The Constructor for the EmployeeAccount
+    */
     explicit EmployeeAccount(QObject *parent = nullptr);
 
-    virtual ~EmployeeAccount() = default;
+    /*!
+        \fn  ~EmployeeAccount() override;
+
+        \brief Destructor for EmployeeAccount
+     */
+    ~EmployeeAccount();
 
     // implement the virtuals
 
-    /**
-     * @brief setIndexes
+    /*!
+        \fn virtual void setIndexes()
+        \brief Set the fieldindexes from the datafieldnames of the db.
      */
     virtual void setIndexes();
 
-    /**
-     * @brief initializeRelationalModel
-     * @return
+    /*!
+        \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
+        \brief set the QSqlRelationalTableModel for the DataModel
+        Returns The QSqlRelationalTableModel
      */
     virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-    /**
-     * @brief initializeInputDataModel
-     * @return
-     */
+  /*!
+        \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
+        \brief Initialize the InputDataModel
+
+        Returns The QSqlRelationalTableModel
+     */ 
     virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-    /**
-     * @brief initializeViewModel
-     * @return
+   /*!
+        \fn virtual QSqlTableModel *initializeViewModel()
+        \brief Initialize the ViewModel
+
+        Returns QSqlTableModel
      */
     virtual QSqlTableModel *initializeViewModel();
 
-    /**
-     * @brief generateTableString
-     * @param model
-     * @param header
-     * @return
+    /*!
+     * \fn virtual QString generateTableString(QAbstractTableModel *model,
+                                const QString &header)
+        \brief generateTableString
+
+        Returns a QString with the generated Table for Output
      */
     virtual QString generateTableString(QAbstractTableModel *model,
                                         QString header);
 
-    /**
-     * @brief generateFormularString
-     * @param model
-     * @param header
-     * @return
-     */
+   /*!
+        \fn virtual QString generateFormularString(QAbstractTableModel *model,
+                                   const QString &header)
+        \brief generateFormularString
 
+        Returns a QString with the generated Table for Output
+     */
     virtual QString generateFormularString(QAbstractTableModel *model,
                                            QString header);
 
     // Getter
+
+    /*!
+        \fn int EmployeeAccountIndex()
+
+        \brief Get the index of the fieldname EmployeeAccountId form the database
+
+        Returns the value of the index
+     */ 
     int EmployeeAccountIdIndex() const { return m_EmployeeAccountIdIndex; }
+
+    /*!
+        \fn  int EmployeeIdIndex()
+
+        \brief Get the index of the fieldname EmployeeId form the database
+
+        Returns the value of the index
+     */
     int EmployeeIdIndex() const { return m_EmployeeIdIndex; }
+
+    /*!
+        \fn int AccountIdIndex() 
+
+        \brief Get the index of the fieldname AccountId form the database
+
+        Returns the value of the index
+     */
     int AccountIdIndex() const { return m_AccountIdIndex; }
-    int LastUpdateIndex() const { return m_LastUpdateIndex; }
+
+    /*!
+        \fn  int LastUpdateIndex()
+
+        \brief Get the index of the fieldname LastUpdate form the database
+
+        Returns the value of the index
+     */
+   int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-    /**
-     * @brief tableName - the name of the database table
-     * @
+    /*!
+        \brief The Tablename in the database \e is const
      */
     const QString m_tableName = QLatin1String("employee_account");
-    int m_EmployeeAccountIdIndex;
-    int m_EmployeeIdIndex;
-    int m_AccountIdIndex;
-    int m_LastUpdateIndex;
+   
+     /*!
+        \var int m_EmployeeAccountIdIndex
+        \brief The value of the EmployeeAccountIdIndex
+     */        
+    int m_EmployeeAccountIdIndex{0};
+    
+     /*!
+        \var int m_EEmployeeIdIndex
+        \brief The value of the EmployeeIdIndex
+     */      
+    int m_EmployeeIdIndex{0};
+
+     /*!
+        \var int m_AccountIdIndex
+        \brief The value of the AccountIdIndex
+     */      
+    int m_AccountIdIndex{0};
+
+    /*!
+        \var int m_LastUpdateIndex
+        \brief The value of the LastUpdateIndex
+    */     
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model

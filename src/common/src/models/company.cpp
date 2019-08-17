@@ -51,6 +51,8 @@ Model::Company::Company(QObject *parent) : CommonData(parent) {
     setIndexes();
 }
 
+Model::Company::~Company() {}
+
 void Model::Company::setIndexes() {
     m_CompanyIdIndex = m_model->fieldIndex(QLatin1String("company_id"));
     m_NameIndex = m_model->fieldIndex(QLatin1String("name"));

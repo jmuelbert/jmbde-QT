@@ -53,6 +53,8 @@ Model::Department::Department(QObject *parent)
     setIndexes();
 }
 
+Model::Department::~Department() { }
+
 void Model::Department::setIndexes() {
     m_DepartmentIdIndex = m_model->fieldIndex(QLatin1String("department_id"));
     m_NameIndex = m_model->fieldIndex(QLatin1String("name"));

@@ -52,6 +52,8 @@ Model::Document::Document(QObject *parent)
     setIndexes();
 }
 
+Model::Document::~Document() {}
+
 void Model::Document::setIndexes() {
     m_DocumentIdIndex = m_model->fieldIndex(QLatin1String("document_id"));
     m_NameIndex = m_model->fieldIndex(QLatin1String("name"));

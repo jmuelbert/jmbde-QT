@@ -105,7 +105,7 @@ public:
      *
      * \brief Destructor for ChipCardDoor
      */
-    virtual ~ChipCardDoor() = default;
+    ~ChipCardDoor();
 
     // implement the virtuals
 
@@ -222,31 +222,31 @@ private:
     /*!
         \brief The value of the ChipCardDoorIdIndex
     */
-    int m_ChipCardDoorIdIndex;
+    int m_ChipCardDoorIdIndex{0};
 
     /*!
         \brief The value of the NumberIndex
     */
-    int m_NumberIndex;
+    int m_NumberIndex{0};
 
     /*!
         \brief The value of the PlaceIdIndex
     */
-    int m_PlaceIdIndex;
+    int m_PlaceIdIndex{0};
 
     /*!
         \brief The value of the DepartmetIdIndex
     */
-    int m_DepartmetIdIndex;
+    int m_DepartmetIdIndex{0};
 
     /*!
       \brief The value of the EmployeeIdIndex
   */
-    int m_EmployeeIdIndex;
+    int m_EmployeeIdIndex{0};
 
     /*!
         \brief The value of the LastUpdateIndex
     */
-    int m_LastUpdateIndex;
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model

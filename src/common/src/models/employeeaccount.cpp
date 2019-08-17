@@ -52,6 +52,8 @@ Model::EmployeeAccount::EmployeeAccount(QObject *parent)
     setIndexes();
 }
 
+Model::EmployeeAccount::~EmployeeAccount() {}
+
 void Model::EmployeeAccount::setIndexes() {
     m_EmployeeAccountIdIndex =
         m_model->fieldIndex(QLatin1String("employee_account_id"));
@@ -94,11 +96,16 @@ QString
 Model::EmployeeAccount::generateTableString(QAbstractTableModel *model,
                                                      QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+ #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(employeeAccountLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
+
+#endif
 
     QList<int> set;
 
@@ -124,11 +131,16 @@ Model::EmployeeAccount::generateTableString(QAbstractTableModel *model,
 QString Model::EmployeeAccount::generateFormularString(
     QAbstractTableModel *model, QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+ #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(employeeAccountLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
+
+#endif
 
     QList<int> set;
 

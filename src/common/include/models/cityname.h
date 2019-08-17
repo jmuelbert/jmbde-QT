@@ -105,7 +105,7 @@ public:
      *
      * \brief Destructor for  CityName
      */
-    virtual ~CityName() = default;
+    ~CityName();
 
     // implement the virtuals
 
@@ -196,16 +196,16 @@ private:
     /*!
          \brief The value of the CityNameIdIndex
      */
-    int m_CityNameIdIndex;
+    int m_CityNameIdIndex{0};
 
     /*!
         \brief The value of the NameIndex
     */
-    int m_NameIndex;
+    int m_NameIndex{0};
 
     /*!
          \brief The value of the LastUpdateIndex
      */
-    int m_LastUpdateIndex;
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model

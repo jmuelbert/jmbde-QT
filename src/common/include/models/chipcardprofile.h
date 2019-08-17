@@ -105,7 +105,7 @@ public:
 
         \brief The destructor for the ChipCardProfile()
      */
-    virtual ~ChipCardProfile() = default;
+    ~ChipCardProfile();
 
     /*!
         \fn virtual void setIndexes()
@@ -213,29 +213,29 @@ private:
     /*!
        \brief The value of the ChipCardProfileIdIndex
     */
-    int m_ChipCardProfileIdIndex;
+    int m_ChipCardProfileIdIndex{0};
 
     /*!
       \brief The value of the NumberIndex
    */
-    int m_NumberIndex;
+    int m_NumberIndex{0};
 
     /*!
         \variable int m_ChipCardDoorIdIndex
         \brief The value of the ChipCardDoorIdIndex
      */
-    int m_ChipCardDoorIdIndex;
+    int m_ChipCardDoorIdIndex{0};
 
     /*!
         \variable int m_EmployeeIdIndex
         \brief The value of the EmployeeIdIndex
      */
-    int m_EmployeeIdIndex;
+    int m_EmployeeIdIndex{0};
 
     /*!
         \variable  int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
     */
-    int m_LastUpdateIndex;
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model

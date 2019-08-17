@@ -104,7 +104,7 @@ public:
 
         \brief Destructor for  Account
      */
-    virtual ~Account() = default;
+     ~Account();
 
     /*!
         \fn virtual void setIndexes()
@@ -211,30 +211,30 @@ private:
         \var int m_AccountIdIndex
         \brief The value of the AccountIdIndex
      */
-    int m_AccountIdIndex;
+    int m_AccountIdIndex {0};
 
     /*!
         \var int m_UserNameIndex
         \brief The value of the UserNameIndex
     */
-    int m_UserNameIndex;
+    int m_UserNameIndex {0};
 
     /*!
          \var int m_PasswordIndex;
          \brief The value of the PasswordIndex
      */
-    int m_PasswordIndex;
+    int m_PasswordIndex {0};
 
     /*!
         \var int m_SystemDataIdIndex
         \brief The value of the SystemDataIdIndex
     */
-    int m_SystemDataIdIndex;
+    int m_SystemDataIdIndex {0};
 
     /*!
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
     */
-    int m_LastUpdateIndex;
+    int m_LastUpdateIndex {0};
 };
 } // namespace Model
