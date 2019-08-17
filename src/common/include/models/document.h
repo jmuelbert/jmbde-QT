@@ -67,7 +67,7 @@
     */
 
 namespace Model {
-class Document : public CommonData {
+class JMBDE_COMMON_EXPORT Document : public CommonData {
     /*!
       \macro Q_OBJECT
       \relates QObject
@@ -101,7 +101,7 @@ public:
     /*!
         \fn  ~Document() override;
 
-        \brief Destructor forDocument
+        \brief Destructor for Document
      */
     virtual ~Document() = default;
 

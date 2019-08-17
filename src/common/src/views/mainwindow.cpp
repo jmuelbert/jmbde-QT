@@ -64,7 +64,7 @@ MainWindow::MainWindow(QWidget *parent)
     initOutline();
 
     this->dataBaseName = QString(QStringLiteral("jmbde"));
-    this->dataContext = new Model::DataContext(this->dataBaseName);
+    this->dataContext = new Model::DataContext(this, this->dataBaseName);
     qDebug() << "ActualViewRow : " << m_actualView;
 
     if (m_actualView.row() > 0) {
@@ -74,7 +74,7 @@ MainWindow::MainWindow(QWidget *parent)
         qDebug() << "Select Employee";
         actualView = VIEW_EMPLOYEE;
         dataContext->openDB(dataBaseName);
-        auto *edm = new Model::EmployeeDataModel;
+        auto *edm = new Model::Employee;
         tableModel = edm->initializeRelationalModel();
         int idx = edm->LastNameIndex();
 
@@ -310,7 +310,7 @@ void MainWindow::on_actionPrint_triggered() {
         qDebug() << "Print Employee !";
         dataContext->openDB(dataBaseName);
         tableModel->database().commit();
-        auto *edm = new Model::EmployeeDataModel;
+        auto *edm = new Model::Employee;
         QString style = edm->setOutTableStyle();
         QString text = edm->generateTableString(tableModel, tr("Employee"));
 
@@ -381,7 +381,7 @@ void MainWindow::on_action_Export_Pdf_triggered() {
         dataContext->openDB(dataBaseName);
         tableModel->database().commit();
 
-        auto *edm = new Model::EmployeeDataModel;
+        auto *edm = new Model::Employee;
         QString style = edm->setOutTableStyle();
         QString text = edm->generateTableString(tableModel, tr("Employee"));
 
@@ -466,7 +466,7 @@ void MainWindow::on_actionPrint_Preview_triggered() {
         dataContext->openDB(dataBaseName);
         tableModel->database().commit();
 
-        auto *edm = new Model::EmployeeDataModel;
+        auto *edm = new Model::Employee;
         QString style = edm->setOutTableStyle();
         QString text = edm->generateTableString(tableModel, tr("Employee"));
 
@@ -577,7 +577,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index) {
         actualView = VIEW_EMPLOYEE;
 
         dataContext->openDB(dataBaseName);
-        auto *edm = new Model::EmployeeDataModel;
+        auto *edm = new Model::Employee;
 
         tableModel = edm->initializeRelationalModel();
         int idx = edm->LastNameIndex();

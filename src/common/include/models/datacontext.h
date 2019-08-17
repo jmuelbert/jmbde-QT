@@ -126,8 +126,7 @@ public:
         \brief Constructor for the DataContext
         \details Contructur with a name for the database to use.
      */
-    explicit DataContext(const QString &name = QString(),
-                         QObject *parent = nullptr);
+    explicit DataContext(QObject *parent = nullptr, const QString &name = QString());
 
     /*!
           \fn  ~DataContext() override;

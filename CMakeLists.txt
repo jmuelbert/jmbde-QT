@@ -111,7 +111,7 @@ option(OPTION_BUILD_TRANSLATIONS "Build translations"                           
 option(USE_GIT_VERSION        "Append Git HEAD to jmbde version (if exists)"            ON)
 
 set (QT_MIN_VERSION "5.10.0")
-set(LANGUAGES "All" CACHE STRING "A space-seperated list of translations to compile into QMPlay2 or \"All\"")
+set(LANGUAGES "All" CACHE STRING "A space-seperated list of translations to compile into jmbde or \"All\"")
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
@@ -156,9 +156,22 @@ endif()
 
 string(TOUPPER "${CMAKE_BUILD_TYPE}" UPPERCASE_CMAKE_BUILD_TYPE)
 
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wunused-const-variable)
+  add_compile_options(-Wsizeof-pointer-memaccess)
+  add_compile_options(-Wreorder)
+  add_compile_options(-Wformat-security)
+  add_compile_options(-Wunused-parameter)
+if (OPTION_BUILD_API_DOCS)
+  add_compile_options(-Wdocumentation)
+endif()
+endif()
+
 if (MSVC)
     # warning level 4 and all warnings as errors
     add_compile_options(/W3)
+    add_compile_options(/wd4244)
+    add_compile_options(/wd4267)
 else()
     # lots of warnings and all warnings as errors
     add_compile_options(-Wall -Wextra -pedantic)
@@ -181,6 +194,19 @@ endif()
 if(UPPERCASE_CMAKE_BUILD_TYPE MATCHES "^RELEASE$")
   add_definitions(-DQT_NO_DEBUG_OUTPUT)
 endif()
+
+macro(convert_to_relative_path _var)
+  # Make sure _var is a relative path
+  if(IS_ABSOLUTE "${${_var}}")
+    file(RELATIVE_PATH ${_var} "${CMAKE_INSTALL_PREFIX}" "${${_var}}")
+  endif()
+endmacro()
+
+macro(inverse_dir _var _prefix)
+  # strip out relative components, those break the following on OSX
+  get_filename_component(_clean_prefix "${CMAKE_INSTALL_PREFIX}/${_prefix}" ABSOLUTE)
+  file(RELATIVE_PATH ${_var} ${_clean_prefix} "${CMAKE_INSTALL_PREFIX}")
+endmacro()
 
 # install binary
 if(APPLE)
@@ -213,15 +239,23 @@ else()
   include(GNUInstallDirs)
 
   set(BIN_INSTALL_DIR "${CMAKE_INSTALL_BINDIR}") # relative, usually "bin"
+  convert_to_relative_path(BIN_INSTALL_DIR)
+
   set(LIB_INSTALL_DIR  "${CMAKE_INSTALL_LIBDIR}") # "lib" or "lib64"
+  convert_to_relative_path(LIB_INSTALL_DIR)
+
   set(INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}")
   set(CMAKECONFIG_INSTALL_DIR ${LIB_INSTALL_DIR}/cmake/${PROJECT_NAME})
   set(DATAROOTDIR "${CMAKE_INSTALL_DATAROOTDIR}" CACHE PATH "Define install directory for read-only architecture-independent data")
+  convert_to_relative_path(DATAROOTDIR)
+
   set(XDG_APPS_INSTALL_DIR "${DATAROOTDIR}/applications")
   set(APPDATA_INSTALL_DIR "${DATAROOTDIR}/appdata")
   set(ICON_INSTALL_DIR "${DATAROOTDIR}/icons")
   set(MAN_INSTALL_DIR "${DATAROOTDIR}/man/man1")
   set(QCH_INSTALL_DIR "${CMAKE_INSTALL_DOCDIR}" CACHE PATH "Install location of Qt Assistant help files.")
+  convert_to_relative_path(QCH_INSTALL_DIR)
+
   if(WIN32)
     set(PLUGIN_INSTALL_DIR "${BIN_INSTALL_DIR}/plugins/${PROJECT_NAME}")
     set(LIBEXEC_INSTALL_DIR "${BIN_INSTALL_DIR}")
@@ -278,7 +312,6 @@ add_subdirectory(src/app)
 
 # automatic unit tests
 if (OPTION_BUILD_TESTS)
-  # allow to report to a cdash dashboard
 
   # enable testing
   enable_testing()

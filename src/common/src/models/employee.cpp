@@ -42,7 +42,7 @@
 
 #include "models/employee.h"
 
-Model::EmployeeDataModel::EmployeeDataModel(QObject *parent)
+Model::Employee::Employee(QObject *parent)
     : CommonData(parent) {
 
     // Set the Model
@@ -53,7 +53,7 @@ Model::EmployeeDataModel::EmployeeDataModel(QObject *parent)
     setIndexes();
 }
 
-void Model::EmployeeDataModel::setIndexes() {
+void Model::Employee::setIndexes() {
     m_EmployeeIdIndex = m_model->fieldIndex(QLatin1String("employee_id"));
     m_EmployeeNrIndex = m_model->fieldIndex(QLatin1String("employee_nr"));
     m_GenderIndex = m_model->fieldIndex(QLatin1String("gender"));
@@ -90,7 +90,7 @@ void Model::EmployeeDataModel::setIndexes() {
 }
 
 QSqlRelationalTableModel *
-Model::EmployeeDataModel::initializeRelationalModel() {
+Model::Employee::initializeRelationalModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -102,7 +102,7 @@ Model::EmployeeDataModel::initializeRelationalModel() {
     return m_model;
 }
 
-QSqlRelationalTableModel *Model::EmployeeDataModel::initializeInputDataModel() {
+QSqlRelationalTableModel *Model::Employee::initializeInputDataModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -111,7 +111,7 @@ QSqlRelationalTableModel *Model::EmployeeDataModel::initializeInputDataModel() {
     return m_model;
 }
 
-QSqlTableModel *Model::EmployeeDataModel::initializeViewModel() {
+QSqlTableModel *Model::Employee::initializeViewModel() {
 
     m_model->select();
 
@@ -119,14 +119,19 @@ QSqlTableModel *Model::EmployeeDataModel::initializeViewModel() {
 }
 
 QString
-Model::EmployeeDataModel::generateTableString(QAbstractTableModel *model,
+Model::Employee::generateTableString(QAbstractTableModel *model,
                                               QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+ #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(employeeLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
+
+#endif
 
     QList<int> set;
 
@@ -150,14 +155,19 @@ Model::EmployeeDataModel::generateTableString(QAbstractTableModel *model,
 }
 
 QString
-Model::EmployeeDataModel::generateFormularString(QAbstractTableModel *model,
+Model::Employee::generateFormularString(QAbstractTableModel *model,
                                                  QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
+    
+ #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(employeeLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+#endif
 
     QList<int> set;
 

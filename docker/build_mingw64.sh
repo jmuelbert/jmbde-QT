@@ -22,4 +22,4 @@ cmake .. \
     -DCMAKE_RANLIB:FILEPATH=x86_64-w64-mingw3-ranlib \
     -DCMAKE_INSTALL_PREFIX=Program
 
-cmake --build . --target install
+cmake --build .

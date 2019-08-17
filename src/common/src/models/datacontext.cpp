@@ -53,7 +53,7 @@ Model::DataContext::DataContext(QObject *parent)
         CreateConnection();
     }
 
-Model::DataContext::DataContext(const QString &name, QObject *parent)
+Model::DataContext::DataContext(QObject *parent, const QString &name)
     : QObject(parent),
       m_Name(name.isEmpty() ? QUuid::createUuid().toString() : name) {
 

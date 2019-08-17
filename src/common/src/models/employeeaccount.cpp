@@ -42,7 +42,7 @@
 
 #include "models/employeeaccount.h"
 
-Model::EmployeeAccountDataModel::EmployeeAccountDataModel(QObject *parent)
+Model::EmployeeAccount::EmployeeAccount(QObject *parent)
     : CommonData(parent) {
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);
@@ -52,7 +52,7 @@ Model::EmployeeAccountDataModel::EmployeeAccountDataModel(QObject *parent)
     setIndexes();
 }
 
-void Model::EmployeeAccountDataModel::setIndexes() {
+void Model::EmployeeAccount::setIndexes() {
     m_EmployeeAccountIdIndex =
         m_model->fieldIndex(QLatin1String("employee_account_id"));
     m_EmployeeIdIndex = m_model->fieldIndex(QLatin1String("employe_id"));
@@ -61,7 +61,7 @@ void Model::EmployeeAccountDataModel::setIndexes() {
 }
 
 QSqlRelationalTableModel *
-Model::EmployeeAccountDataModel::initializeRelationalModel() {
+Model::EmployeeAccount::initializeRelationalModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -74,7 +74,7 @@ Model::EmployeeAccountDataModel::initializeRelationalModel() {
 }
 
 QSqlRelationalTableModel *
-Model::EmployeeAccountDataModel::initializeInputDataModel() {
+Model::EmployeeAccount::initializeInputDataModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -83,7 +83,7 @@ Model::EmployeeAccountDataModel::initializeInputDataModel() {
     return m_model;
 }
 
-QSqlTableModel *Model::EmployeeAccountDataModel::initializeViewModel() {
+QSqlTableModel *Model::EmployeeAccount::initializeViewModel() {
 
     m_model->select();
 
@@ -91,7 +91,7 @@ QSqlTableModel *Model::EmployeeAccountDataModel::initializeViewModel() {
 }
 
 QString
-Model::EmployeeAccountDataModel::generateTableString(QAbstractTableModel *model,
+Model::EmployeeAccount::generateTableString(QAbstractTableModel *model,
                                                      QString header) {
     QString outString;
     int columnCount = model->columnCount();
@@ -121,7 +121,7 @@ Model::EmployeeAccountDataModel::generateTableString(QAbstractTableModel *model,
     return outString;
 }
 
-QString Model::EmployeeAccountDataModel::generateFormularString(
+QString Model::EmployeeAccount::generateFormularString(
     QAbstractTableModel *model, QString header) {
     QString outString;
     int columnCount = model->columnCount();

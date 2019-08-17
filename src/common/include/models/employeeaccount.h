@@ -40,8 +40,7 @@
 **
 **************************************************************************/
 
-#ifndef EMPLOYEEACCOUNTDATAMODEL_H
-#define EMPLOYEEACCOUNTDATAMODEL_H
+#pragma once
 
 #include <QObject>
 #include <QtSql>
@@ -51,16 +50,52 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
-#include "commondata.h"
+#include "definitions.h"
+#include "jmbde_common_export.h"
+#include "models/commondata.h"
+#include "models/idatamodel.h"
+
+/*!
+    \class EmployeeAccount
+    \brief The EmployeeAccount class
+    \details In this is handle all EmployeeAccount
+    \author Jürgen Mülbert
+    \since 0.4
+    \version 0.4.25
+    \date 03.08.2019
+    \copyright EUPL V1.2
+    */
+
 
 namespace Model {
-class EmployeeAccountDataModel : public CommonData {
+class JMBDE_COMMON_EXPORT EmployeeAccount : public CommonData {
+    /*!
+      \macro Q_OBJECT
+      \relates QObject
+
+      The Q_OBJECT macro must appear in the private section
+      of a class definition that declares its own signals and
+      slots, or that uses other services provided by Qt's
+      meta-object system.
+
+      ...
+
+      \sa {Meta-Object System}, {Signals and Slots}, {QtsProperty System}
+  */
     Q_OBJECT
 
-public:
-    explicit EmployeeAccountDataModel(QObject *parent = nullptr);
+    /*!
+        \macro Q_LOGGING_CATEGORY
+        \relates QLogging
 
-    virtual ~EmployeeAccountDataModel() = default;
+        Defines the Logging Categorie for the class
+     */
+    Q_LOGGING_CATEGORY(employeeAccontLC, "jmbde.models.employeeaccont")
+
+public:
+    explicit EmployeeAccount(QObject *parent = nullptr);
+
+    virtual ~EmployeeAccount() = default;
 
     // implement the virtuals
 
@@ -124,4 +159,3 @@ private:
     int m_LastUpdateIndex;
 };
 } // namespace Model
-#endif // EMPLOYEEACCOUNTDATAMODEL_H
