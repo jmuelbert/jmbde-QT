@@ -75,4 +75,4 @@ set_target_properties(tst_test
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
 )
 
-add_test("Test1" "${CMAKE_BINARY_DIR}/bin/tst_test")
+add_test(NAME "Test1" COMMAND tst_test)

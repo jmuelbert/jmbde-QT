@@ -42,17 +42,6 @@
 
 #include "models/datacontext.h"
 
-Model::DataContext::DataContext(QObject *parent)
-    : QObject(parent), m_Name(QUuid::createUuid().toString()), m_dbType(SQLITE) {
-
-#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
-    qCDebug(dataContextLC, "Request Database : %s ", qUtf8Printable(this->m_Name));
-#else
-   qDebug("Ctr:Request Database : %s ", qUtf8Printable(this->m_Name));
-#endif
-        CreateConnection();
-    }
-
 Model::DataContext::DataContext(QObject *parent, const QString &name)
     : QObject(parent),
       m_Name(name.isEmpty() ? QUuid::createUuid().toString() : name) {

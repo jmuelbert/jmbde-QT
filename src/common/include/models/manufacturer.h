@@ -40,12 +40,9 @@
 **
 **************************************************************************/
 
-#ifndef MANUFACTURERDATAMODEL_H
-#define MANUFACTURERDATAMODEL_H
+#pragma once
 
 #include <QObject>
-
-#include <QStandardPaths>
 #include <QtSql>
 
 #include <QSqlDatabase>
@@ -58,95 +55,293 @@
 #include "models/commondata.h"
 #include "models/idatamodel.h"
 
-namespace Model {
-class JMBDE_COMMON_EXPORT ManufacturerDataModel : public CommonData {
-public:
-    /**
-     * @brief ManufacturerDataModel::ManufacturerDataModel
-     */
-    explicit ManufacturerDataModel(QObject *parent = nullptr);
+/*!
+    \class Manufacturer
+    \brief The Manufacturer class
+    \details In this is handle all Manufacturer
+    \author Jürgen Mülbert
+    \since 0.4
+    \version 0.4.25
+    \date 03.08.2019
+    \copyright EUPL V1.2
+    */
 
-    /**
-     * @brief ~ManufacturerDataModel
+namespace Model {
+class JMBDE_COMMON_EXPORT Manufacturer : public CommonData {
+    /*!
+      \macro Q_OBJECT
+      \relates QObject
+
+      The Q_OBJECT macro must appear in the private section
+      of a class definition that declares its own signals and
+      slots, or that uses other services provided by Qt's
+      meta-object system.
+
+      ...
+
+      \sa {Meta-Object System}, {Signals and Slots}, {QtsProperty System}
+  */
+    Q_OBJECT
+
+    /*!
+        \macro Q_LOGGING_CATEGORY
+        \relates QLogging
+
+        Defines the Logging Categorie for the class
      */
-    virtual ~ManufacturerDataModel() = default;
+    Q_LOGGING_CATEGORY(manufacturerLC, "jmbde.models.manufacturer")
+
+public:
+    /*!
+        \fn explicit Manufacturer(QObject *parent = nullptr)
+        \brief The Constructor for the Manufacturer
+    */
+    explicit Manufacturer(QObject *parent = nullptr);
+
+    /*!
+        \fn  ~Manufacturer();
+
+        \brief Destructor for Manufacturer
+     */
+    ~Manufacturer();
 
     // implement the virtuals
-    /**
-     * @brief setIndexes
+
+    /*!
+        \fn virtual void setIndexes()
+        \brief Set the fieldindexes from the datafieldnames of the db.
      */
     virtual void setIndexes();
 
-    /**
-     * @brief initializeRelationalModel
-     * @return
+    /*!
+        \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
+        \brief set the QSqlRelationalTableModel for the DataModel
+        Returns The QSqlRelationalTableModel
      */
     virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-    /**
-     * @brief initializeInputDataModel
-     * @return
-     */
+    /*!
+        \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
+        \brief Initialize the InputDataModel
+
+        Returns The QSqlRelationalTableModel
+     */ 
     virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-    /**
-     * @brief initializeViewModel
-     * @return
+   /*!
+        \fn virtual QSqlTableModel *initializeViewModel()
+        \brief Initialize the ViewModel
+
+        Returns QSqlTableModel
      */
     virtual QSqlTableModel *initializeViewModel();
 
-    /**
-     * @brief generateTableString
-     * @param model
-     * @param header
-     * @return
+    /*!
+     * \fn virtual QString generateTableString(QAbstractTableModel *model,
+                                const QString &header)
+        \brief generateTableString
+
+        Returns a QString with the generated Table for Output
      */
     virtual QString generateTableString(QAbstractTableModel *model,
                                         QString header);
 
-    /**
-     * @brief generateFormularString
-     * @param model
-     * @param header
-     * @return
+   /*!
+        \fn virtual QString generateFormularString(QAbstractTableModel *model,
+                                   const QString &header)
+        \brief generateFormularString
+
+        Returns a QString with the generated Table for Output
      */
     virtual QString generateFormularString(QAbstractTableModel *model,
                                            QString header);
 
     // Getter
 
+    /*!
+        \fn int ManufacturerIdIndex()
+
+        \brief Get the index of the fieldname ManufacturerId form the database
+
+        Returns the value of the index
+     */ 
     int ManufacturerIdIndex() const { return m_ManufacturerIdIndex; }
+
+    /*!
+        \fn int NameIndex()
+
+        \brief Get the index of the fieldname Name form the database
+
+        Returns the value of the index
+     */
     int NameIndex() const { return m_NameIndex; }
+
+    /*!
+        \fn int Name2Index()
+
+        \brief Get the index of the fieldname Name2 form the database
+
+        Returns the value of the index
+     */
     int Name2Index() const { return m_Name2Index; }
+
+    /*!
+        \fn int SupporterIndex()
+
+        \brief Get the index of the fieldname Supporter form the database
+
+        Returns the value of the index
+     */
     int SupporterIndex() const { return m_SupporterIndex; }
+
+    /*!
+        \fn int AddressIndex()
+
+        \brief Get the index of the fieldname Address form the database
+
+        Returns the value of the index
+     */
     int AddressIndex() const { return m_AddressIndex; }
+
+    /*!
+        \fn int Address2Index()
+
+        \brief Get the index of the fieldname Address2 form the database
+
+        Returns the value of the index
+     */    
     int Address2Index() const { return m_Address2Index; }
+
+    /*!
+        \fn int ZipCityIdIndex()
+
+        \brief Get the index of the fieldname ZipCityId form the database
+
+        Returns the value of the index
+     */    
     int ZipCityIdIndex() const { return m_ZipCityIdIndex; }
+
+    /*!
+        \fn int MailAddressIndex()
+
+        \brief Get the index of the fieldname MailAddress form the database
+
+        Returns the value of the index
+     */ 
     int MailAddressIndex() const { return m_MailAddressIndex; }
+
+    /*!
+        \fn int PhoneNumberIndex() 
+
+        \brief Get the index of the fieldname PhoneNumber form the database
+
+        Returns the value of the index
+     */ 
     int PhoneNumberIndex() const { return m_PhoneNumberIndex; }
+
+    /*!
+        \fn int FaxNumberIndex()
+
+        \brief Get the index of the fieldname FaxNumber form the database
+
+        Returns the value of the index
+     */ 
     int FaxNumberIndex() const { return m_FaxNumberIndex; }
+
+    /*!
+        \fn int HotlineNumberIndex()
+
+        \brief Get the index of the fieldname HotlineNumber form the database
+
+        Returns the value of the index
+     */ 
     int HotlineNumberIndex() const { return m_HotlineNumberIndex; }
+
+    /*!
+        \fn  int LastUpdateIndex()
+
+        \brief Get the index of the fieldname LastUpdate form the database
+
+        Returns the value of the index
+     */
     int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-    /**
-     * @brief tableName - the name of the database table
-     * @
+    /*!
+        \brief The Tablename in the database \e is const
      */
     const QString m_tableName = QLatin1String("manufacturer");
 
+     /*!
+        \var int m_ManufacturerIdIndex
+        \brief The value of the ManufacturerIdIndex
+     */   
     int m_ManufacturerIdIndex;
+
+     /*!
+        \var int m_NameIndex
+        \brief The value of the NameIndex
+     */   
     int m_NameIndex;
+
+     /*!
+        \var int m_Name2Index
+        \brief The value of the Name2Index
+     */     
     int m_Name2Index;
+
+    /*!
+        \var int m_SupporterIndex
+        \brief The value of the SupporterIndex
+     */      
     int m_SupporterIndex;
+
+    /*!
+        \var int m_AddressIndex
+        \brief The value of the AddressIndex
+     */    
     int m_AddressIndex;
+
+    /*!
+        \var int m_Address2Index
+        \brief The value of the Address2Index
+     */  
     int m_Address2Index;
+
+    /*!
+        \var int m_ZipCityIdIndex
+        \brief The value of the ZipCityIdIndex
+     */  
     int m_ZipCityIdIndex;
+
+    /*!
+        \var int m_MailAddressIndex
+        \brief The value of the MailAddressIndex
+     */
     int m_MailAddressIndex;
+
+    /*!
+        \var int m_PhoneNumberIndex
+        \brief The value of the PhoneNumberIndex
+     */
     int m_PhoneNumberIndex;
+
+    /*!
+        \var int m_FaxNumberIndex
+        \brief The value of the FaxNumberIndex
+     */
     int m_FaxNumberIndex;
+
+    /*!
+        \var int m_HotlineNumberIndex
+        \brief The value of the HotlineNumberIndex
+     */
     int m_HotlineNumberIndex;
+
+    /*!
+        \var int m_LastUpdateIndex
+        \brief The value of the LastUpdateIndex
+    */ 
     int m_LastUpdateIndex;
 };
 } // namespace Model
-#endif // MANUFACTURERDATAMODEL_H

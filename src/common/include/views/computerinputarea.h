@@ -56,7 +56,7 @@
 #include "models/computer.h"
 
 namespace Ui {
-class JMBDE_COMMON_EXPORT ComputerInputArea;
+class  ComputerInputArea;
 }
 
 /**

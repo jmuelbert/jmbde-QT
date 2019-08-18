@@ -42,7 +42,7 @@
 
 #include "models/function.h"
 
-Model::FunctionDataModel::FunctionDataModel(QObject *parent)
+Model::Function::Function(QObject *parent)
     : CommonData(parent) {
 
     // Set the Model
@@ -53,7 +53,9 @@ Model::FunctionDataModel::FunctionDataModel(QObject *parent)
     setIndexes();
 }
 
-void Model::FunctionDataModel::setIndexes() {
+Model::Function::~Function() {}
+
+void Model::Function::setIndexes() {
     m_FunctionIdIndex = m_model->fieldIndex(QLatin1String("function_id"));
     m_NameIndex = m_model->fieldIndex(QLatin1String("name"));
     m_PriorityIndex = m_model->fieldIndex(QLatin1String("priority"));
@@ -61,7 +63,7 @@ void Model::FunctionDataModel::setIndexes() {
 }
 
 QSqlRelationalTableModel *
-Model::FunctionDataModel::initializeRelationalModel() {
+Model::Function::initializeRelationalModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -73,7 +75,7 @@ Model::FunctionDataModel::initializeRelationalModel() {
     return m_model;
 }
 
-QSqlRelationalTableModel *Model::FunctionDataModel::initializeInputDataModel() {
+QSqlRelationalTableModel *Model::Function::initializeInputDataModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -82,7 +84,7 @@ QSqlRelationalTableModel *Model::FunctionDataModel::initializeInputDataModel() {
     return m_model;
 }
 
-QSqlTableModel *Model::FunctionDataModel::initializeViewModel() {
+QSqlTableModel *Model::Function::initializeViewModel() {
 
     m_model->select();
 
@@ -90,14 +92,19 @@ QSqlTableModel *Model::FunctionDataModel::initializeViewModel() {
 }
 
 QString
-Model::FunctionDataModel::generateTableString(QAbstractTableModel *model,
+Model::Function::generateTableString(QAbstractTableModel *model,
                                               QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+ #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(functionLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
+
+#endif
 
     QList<int> set;
 
@@ -121,14 +128,19 @@ Model::FunctionDataModel::generateTableString(QAbstractTableModel *model,
 }
 
 QString
-Model::FunctionDataModel::generateFormularString(QAbstractTableModel *model,
+Model::Function::generateFormularString(QAbstractTableModel *model,
                                                  QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+ #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(functionLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
+
+#endif
 
     QList<int> set;
 

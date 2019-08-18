@@ -1,6 +1,3 @@
-#ifndef _SRC_APP_MODELS_IDATAMODEL_H
-#define _SRC_APP_MODELS_IDATAMODEL_H
-
 /**************************************************************************
 **
 ** Copyright (c) 2013-2019 Jürgen Mülbert. All rights reserved.
@@ -42,65 +39,92 @@
 ** unter der Lizenz sind dem Lizenztext zu entnehmen.
 **
 **************************************************************************/
+#pragma once
+
+#include <QObject>
 
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRelation>
+
+/*!
+    \class IDataModel
+    \brief The IDataModel class
+    \details In this is the Interface for all Model Classes
+    \author Jürgen Mülbert
+    \since 0.4
+    \version 0.4.25
+    \date 03.08.2019
+    \copyright EUPL V1.2
+    */
+
 namespace Model {
 
 class IDataModel {
 public:
+    /*!
+        \fn explicit IDataModel()
+        \brief The Constructor is empty
+    */
     explicit IDataModel() {}
-    virtual ~IDataModel() = default;
+    
+    /*!
+        \fn ~IDataModel()
+        \brief the Destructor is empty
+    */
+    ~IDataModel() {};
 
-    void dummy() {
-        int i = 1;
-        if (i == 1)
-            i = 0;
-    }
+  
+    // definition of virtuals
 
-    /**
-     * @brief setIndexes
+    /*!
+        \fn virtual void setIndexes()
+        \brief Set the fieldindexes from the datafieldnames of the db.
      */
     virtual void setIndexes() = 0;
 
-    /**
-     * @brief initializeRelationalModel
-     * @param tableName
-     * @return RelationalTableModel
+    /*!
+        \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
+        \brief set the QSqlRelationalTableModel for the DataModel
+        Returns The QSqlRelationalTableModel
      */
     virtual QSqlRelationalTableModel *initializeRelationalModel() = 0;
 
-    /**
-     * @brief initializeInputDataModel
-     * @return
-     */
+  /*!
+        \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
+        \brief Initialize the InputDataModel
+
+        Returns The QSqlRelationalTableModel
+     */ 
     virtual QSqlRelationalTableModel *initializeInputDataModel() = 0;
 
-    /**
-     * @brief initializeViewModel
-     * @return
+   /*!
+        \fn virtual QSqlTableModel *initializeViewModel()
+        \brief Initialize the ViewModel
+
+        Returns QSqlTableModel
      */
     virtual QSqlTableModel *initializeViewModel() = 0;
 
-    /**
-     * @brief generateTabletring
-     * @param model
-     * @param header
-     * @return
+    /*!
+     * \fn virtual QString generateTableString(QAbstractTableModel *model,
+                                const QString &header)
+        \brief generateTableString
+
+        Returns a QString with the generated Table for Output
      */
     virtual QString generateTableString(QAbstractTableModel *model,
                                         QString header) = 0;
 
-    /**
-     * @brief generateFormularString
-     * @param model
-     * @param header
-     * @return
+   /*!
+        \fn virtual QString generateFormularString(QAbstractTableModel *model,
+                                   const QString &header)
+        \brief generateFormularString
+
+        Returns a QString with the generated Table for Output
      */
     virtual QString generateFormularString(QAbstractTableModel *model,
                                            QString header) = 0;
 };
 } // namespace Model
-#endif // _SRC_APP_MODELS_IDATAMODEL_H

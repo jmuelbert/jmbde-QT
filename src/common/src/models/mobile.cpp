@@ -42,7 +42,7 @@
 
 #include "models/mobile.h"
 
-Model::MobileDataModel::MobileDataModel(QObject *parent) : CommonData(parent) {
+Model::Mobile::Mobile(QObject *parent) : CommonData(parent) {
 
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);
@@ -52,7 +52,9 @@ Model::MobileDataModel::MobileDataModel(QObject *parent) : CommonData(parent) {
     setIndexes();
 }
 
-void Model::MobileDataModel::setIndexes() {
+Model::Mobile::~Mobile() {}
+
+void Model::Mobile::setIndexes() {
     m_MobileIdIndex = m_model->fieldIndex(QLatin1String("mobile_id"));
     m_DeviceNameIdIndex = m_model->fieldIndex(QLatin1String("device_name_id"));
     m_SerialNumberIndex = m_model->fieldIndex(QLatin1String("serial_number"));
@@ -71,7 +73,7 @@ void Model::MobileDataModel::setIndexes() {
     m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-QSqlRelationalTableModel *Model::MobileDataModel::initializeRelationalModel() {
+QSqlRelationalTableModel *Model::Mobile::initializeRelationalModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -83,7 +85,7 @@ QSqlRelationalTableModel *Model::MobileDataModel::initializeRelationalModel() {
     return m_model;
 }
 
-QSqlRelationalTableModel *Model::MobileDataModel::initializeInputDataModel() {
+QSqlRelationalTableModel *Model::Mobile::initializeInputDataModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -92,21 +94,26 @@ QSqlRelationalTableModel *Model::MobileDataModel::initializeInputDataModel() {
     return m_model;
 }
 
-QSqlTableModel *Model::MobileDataModel::initializeViewModel() {
+QSqlTableModel *Model::Mobile::initializeViewModel() {
 
     m_model->select();
 
     return m_model;
 }
 
-QString Model::MobileDataModel::generateTableString(QAbstractTableModel *model,
+QString Model::Mobile::generateTableString(QAbstractTableModel *model,
                                                     QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+ #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(mobileLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
+
+#endif
 
     QList<int> set;
 
@@ -130,14 +137,19 @@ QString Model::MobileDataModel::generateTableString(QAbstractTableModel *model,
 }
 
 QString
-Model::MobileDataModel::generateFormularString(QAbstractTableModel *model,
+Model::Mobile::generateFormularString(QAbstractTableModel *model,
                                                QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+ #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(mobileLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
+
+#endif
 
     QList<int> set;
 

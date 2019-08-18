@@ -42,7 +42,7 @@
 
 #include "models/inventory.h"
 
-Model::InventoryDataModel::InventoryDataModel(QObject *parent)
+Model::Inventory::Inventory(QObject *parent)
     : CommonData(parent) {
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);
@@ -52,7 +52,9 @@ Model::InventoryDataModel::InventoryDataModel(QObject *parent)
     setIndexes();
 }
 
-void Model::InventoryDataModel::setIndexes() {
+Model::Inventory::~Inventory() { }
+
+void Model::Inventory::setIndexes() {
     m_InventoryIdIndex = m_model->fieldIndex(QLatin1String("inventory_id"));
     m_NumberIndex = m_model->fieldIndex(QLatin1String("number"));
     m_DescriptionIndex = m_model->fieldIndex(QLatin1String("description"));
@@ -61,7 +63,7 @@ void Model::InventoryDataModel::setIndexes() {
 }
 
 QSqlRelationalTableModel *
-Model::InventoryDataModel::initializeRelationalModel() {
+Model::Inventory::initializeRelationalModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -74,7 +76,7 @@ Model::InventoryDataModel::initializeRelationalModel() {
 }
 
 QSqlRelationalTableModel *
-Model::InventoryDataModel::initializeInputDataModel() {
+Model::Inventory::initializeInputDataModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -83,7 +85,7 @@ Model::InventoryDataModel::initializeInputDataModel() {
     return m_model;
 }
 
-QSqlTableModel *Model::InventoryDataModel::initializeViewModel() {
+QSqlTableModel *Model::Inventory::initializeViewModel() {
 
     m_model->select();
 
@@ -91,14 +93,19 @@ QSqlTableModel *Model::InventoryDataModel::initializeViewModel() {
 }
 
 QString
-Model::InventoryDataModel::generateTableString(QAbstractTableModel *model,
+Model::Inventory::generateTableString(QAbstractTableModel *model,
                                                QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+ #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(inventoryLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
+
+#endif
 
     QList<int> set;
 
@@ -122,14 +129,19 @@ Model::InventoryDataModel::generateTableString(QAbstractTableModel *model,
 }
 
 QString
-Model::InventoryDataModel::generateFormularString(QAbstractTableModel *model,
+Model::Inventory::generateFormularString(QAbstractTableModel *model,
                                                   QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+ #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(inventoryLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
+
+#endif
 
     QList<int> set;
 

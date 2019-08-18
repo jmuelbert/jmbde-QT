@@ -72,7 +72,7 @@ if(NOT DEFINED CMAKE_MACOSX_RPATH)
 endif()
 
 if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
+  set(CMAKE_BUILD_TYPE "RelWithDebInfo" CACHE STRING "" FORCE)
 endif()
 
 message(STATUS "Building ${PROJECT_NAME} ${APPLICATION_VERSION} in ${CMAKE_BUILD_TYPE} mode")
@@ -147,13 +147,6 @@ set_package_properties(Qt5Widget PROPERTIES TYPE RECOMMENDED PURPOSE "Required f
 set_package_properties(Qt5Svg PROPERTIES TYPE OPTIONAL PURPOSE "Required for widget SVG export.")
 set_package_properties(Qt5PrintSupport PROPERTIES TYPE OPTIONAL PURPOSE "Required for widget PDF export.")
 
-# debug suffixes for qmake compatibility
-if(WIN32)
-  set(CMAKE_DEBUG_POSTFIX "d")
-elseif(APPLE)
-  set(CMAKE_DEBUG_POSTFIX "_debug")
-endif()
-
 string(TOUPPER "${CMAKE_BUILD_TYPE}" UPPERCASE_CMAKE_BUILD_TYPE)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
@@ -189,6 +182,13 @@ if (NOT WIN32)
 endif()
 if(WIN32)
   add_definitions(-DUNICODE -D_UNICODE -D_USING_V110_SDK71_=1)
+endif()
+
+# debug suffixes for qmake compatibility
+if(WIN32)
+  set(CMAKE_DEBUG_POSTFIX "d")
+elseif(APPLE)
+  set(CMAKE_DEBUG_POSTFIX "_debug")
 endif()
 
 if(UPPERCASE_CMAKE_BUILD_TYPE MATCHES "^RELEASE$")
@@ -348,7 +348,7 @@ set(BUILDNAME
     )
 
 set(LICENSE_FILE "LICENSE")
-set(README "README.md")
+set(README_FILE "README.md")
 list(APPEND DOCS ${LICENSE_FILE} ${README_FILE} "LICENSE.DE")
 if(NOT APPLE)
   if(UNIX AND APPLICATION_BUILD_UI)
@@ -361,7 +361,7 @@ endif()
 #
 # CMake package config file generation
 #
- include(CMakePackageConfigHelpers)
+include(CMakePackageConfigHelpers)
 configure_package_config_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/ApplicationConfig.cmake.in
   ${CMAKE_CURRENT_BINARY_DIR}/ApplicationConfig.cmake

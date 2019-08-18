@@ -111,13 +111,6 @@ class JMBDE_COMMON_EXPORT DataContext : public QObject {
 public:
     // TODO: Add Constructor: DataContext(const QString &name, + init for mySQL etc.)
     // TODO: Remove access of settings
-    /*!
-        \fn DataContext(QObject *parent = nullptr)
-
-        \brief Constructor for the DataContext
-        \details Constructor without a name for the database. This will create a uuid and connect with that the database.
-     */
-    explicit DataContext(QObject *parent = nullptr);
 
     /*!
         \fn DataContext( QObject *parent = nullptr,

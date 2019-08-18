@@ -54,7 +54,7 @@
 #include "jmbde_common_export.h"
 
 namespace Ui {
-class JMBDE_COMMON_EXPORT FunctionInputArea;
+class FunctionInputArea;
 }
 
 /**

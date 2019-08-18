@@ -66,7 +66,6 @@
     \copyright EUPL V1.2
     */
 
-
 namespace Model {
 class JMBDE_COMMON_EXPORT EmployeeAccount : public CommonData {
     /*!

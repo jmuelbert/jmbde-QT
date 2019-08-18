@@ -61,7 +61,7 @@
 #include "models/printer.h"
 
 namespace Ui {
-class JMBDE_COMMON_EXPORT EmployeeInputArea;
+class EmployeeInputArea;
 }
 
 /**

@@ -82,7 +82,7 @@ set_target_properties(jmbde_common PROPERTIES SOVERSION ${LIB_VERSION_STRING}
 
 target_compile_features(jmbde_common
     PUBLIC cxx_auto_type
-    PRIVATE          cxx_lambdas cxx_nullptr cxx_range_for cxx_raw_string_literals cxx_uniform_initialization
+    PRIVATE cxx_lambdas cxx_nullptr cxx_range_for cxx_raw_string_literals cxx_uniform_initialization
             cxx_variadic_templates cxx_rvalue_references cxx_defaulted_functions cxx_deleted_functions
             cxx_override cxx_final cxx_nonstatic_member_init)
 
@@ -212,7 +212,7 @@ target_sources(jmbde_common
     PUBLIC
     include/views/mainwindow.h
     src/views/mainwindow.cpp		
-    include/views/employeeinputarea.h 
+
     PRIVATE
     include/definitions.h
 
@@ -257,6 +257,7 @@ target_sources(jmbde_common
     include/views/csvimportdialog.h
     include/views/departmentinputarea.h
     include/views/functioninputarea.h
+    include/views/employeeinputarea.h 
     include/views/manufacturerinputarea.h
     include/views/mobileinputarea.h
     include/views/osinputarea.h

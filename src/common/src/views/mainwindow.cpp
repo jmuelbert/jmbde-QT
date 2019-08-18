@@ -64,7 +64,7 @@ MainWindow::MainWindow(QWidget *parent)
     initOutline();
 
     this->dataBaseName = QString(QStringLiteral("jmbde"));
-    this->dataContext = new Model::DataContext(this, QString(this->dataBaseName));
+    this->dataContext = new Model::DataContext(dynamic_cast<QObject *>(this), this->dataBaseName);
     qDebug() << "ActualViewRow : " << m_actualView;
 
     if (m_actualView.row() > 0) {
@@ -599,7 +599,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index) {
         actualView = VIEW_FUNCTION;
 
         dataContext->openDB(dataBaseName);
-        auto *fdm = new Model::FunctionDataModel;
+        auto *fdm = new Model::Function;
 
         tableModel = fdm->initializeRelationalModel();
 
@@ -688,7 +688,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index) {
         actualView = VIEW_OS;
 
         dataContext->openDB(dataBaseName);
-        auto *odm = new Model::OSDataModel;
+        auto *odm = new Model::OS;
 
         tableModel = odm->initializeRelationalModel();
         int idx = odm->NameIndex();
@@ -761,7 +761,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index) {
         actualView = VIEW_MOBILE;
 
         dataContext->openDB(dataBaseName);
-        auto *phdm = new Model::MobileDataModel;
+        auto *phdm = new Model::Mobile;
 
         tableModel = phdm->initializeRelationalModel();
         int idx = phdm->NumberIndex();
@@ -780,7 +780,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index) {
         actualView = VIEW_MANUFACTURER;
 
         dataContext->openDB(dataBaseName);
-        auto *mdm = new Model::ManufacturerDataModel;
+        auto *mdm = new Model::Manufacturer;
 
         tableModel = mdm->initializeRelationalModel();
         int idx = mdm->NameIndex();

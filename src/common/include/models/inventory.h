@@ -40,12 +40,9 @@
 **
 **************************************************************************/
 
-#ifndef INVENTORYDATAMODEL_H
-#define INVENTORYDATAMODEL_H
+#pragma once
 
 #include <QObject>
-
-#include <QStandardPaths>
 #include <QtSql>
 
 #include <QSqlDatabase>
@@ -54,81 +51,191 @@
 #include <QSqlRelation>
 
 #include "definitions.h"
+#include "jmbde_common_export.h"
 #include "models/commondata.h"
-namespace Model {
-class InventoryDataModel : public CommonData {
-public:
-    /**
-     * @brief InventoryDataModel::InventoryDataModel
-     */
-    explicit InventoryDataModel(QObject *parent = nullptr);
+#include "models/idatamodel.h"
 
-    /**
-     * @brief InventoryDataModel::~InventoryDataModel
+/*!
+    \class Inventory
+    \brief The Inventory class
+    \details In this is handle all Inventory
+    \author Jürgen Mülbert
+    \since 0.4
+    \version 0.4.25
+    \date 03.08.2019
+    \copyright EUPL V1.2
+    */
+namespace Model {
+class JMBDE_COMMON_EXPORT Inventory : public CommonData {
+    /*!
+      \macro Q_OBJECT
+      \relates QObject
+
+      The Q_OBJECT macro must appear in the private section
+      of a class definition that declares its own signals and
+      slots, or that uses other services provided by Qt's
+      meta-object system.
+
+      ...
+
+      \sa {Meta-Object System}, {Signals and Slots}, {QtsProperty System}
+  */
+    Q_OBJECT
+
+    /*!
+        \macro Q_LOGGING_CATEGORY
+        \relates QLogging
+
+        Defines the Logging Categorie for the class
      */
-    virtual ~InventoryDataModel() = default;
+    Q_LOGGING_CATEGORY(inventoryLC, "jmbde.models.inventory")
+
+public:
+    /*!
+        \fn explicit Inventory(QObject *parent = nullptr)
+        \brief The Constructor for the Inventory
+    */
+    explicit Inventory(QObject *parent = nullptr);
+
+    /*!
+        \fn  ~Inventory() override;
+
+        \brief Destructor for Inventory
+     */
+    ~Inventory();
 
     // implement the virtuals
 
-    /**
-     * @brief setIndexes
+    /*!
+        \fn virtual void setIndexes()
+        \brief Set the fieldindexes from the datafieldnames of the db.
      */
     virtual void setIndexes();
 
-    /**
-     * @brief initializeRelationalModel
-     * @return
+    /*!
+        \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
+        \brief set the QSqlRelationalTableModel for the DataModel
+        Returns The QSqlRelationalTableModel
      */
     virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-    /**
-     * @brief initializeInputDataModel
-     * @return
-     */
+    /*!
+            \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
+            \brief Initialize the InputDataModel
+
+            Returns The QSqlRelationalTableModel
+        */ 
     virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-    /**
-     * @brief initializeViewModel
-     * @return
+   /*!
+        \fn virtual QSqlTableModel *initializeViewModel()
+        \brief Initialize the ViewModel
+
+        Returns QSqlTableModel
      */
     virtual QSqlTableModel *initializeViewModel();
 
-    /**
-     * @brief generateTableString
-     * @param model
-     * @param header
-     * @return
+    /*!
+     * \fn virtual QString generateTableString(QAbstractTableModel *model,
+                                const QString &header)
+        \brief generateTableString
+
+        Returns a QString with the generated Table for Output
      */
     virtual QString generateTableString(QAbstractTableModel *model,
                                         QString header);
 
-    /**
-     * @brief generateFormularString
-     * @param model
-     * @param header
-     * @return
+   /*!
+        \fn virtual QString generateFormularString(QAbstractTableModel *model,
+                                   const QString &header)
+        \brief generateFormularString
+
+        Returns a QString with the generated Table for Output
      */
     virtual QString generateFormularString(QAbstractTableModel *model,
                                            QString header);
 
     // Getter
+
+    /*!
+        \fn int InventoryIdIndex()
+
+        \brief Get the index of the fieldname InventoryId form the database
+
+        Returns the value of the index
+     */ 
     int InventoryIdIndex() const { return m_InventoryIdIndex; }
+
+    /*!
+        \fn int NumberIndex()
+
+        \brief Get the index of the fieldname Number form the database
+
+        Returns the value of the index
+     */     
     int NumberIndex() const { return m_NumberIndex; }
+
+    /*!
+        \fn int DescriptionIndex()
+
+        \brief Get the index of the fieldname Description form the database
+
+        Returns the value of the index
+     */         
     int DescriptionIndex() const { return m_DescriptionIndex; }
+
+    /*!
+        \fn int ActiveIndex()
+
+        \brief Get the index of the fieldname Active form the database
+
+        Returns the value of the index
+     */  
     int ActiveIndex() const { return m_ActiveIndex; }
+
+    /*!
+        \fn  int LastUpdateIndex()
+
+        \brief Get the index of the fieldname LastUpdate form the database
+
+        Returns the value of the index
+     */
     int LastUpateIndex() const { return m_LastUpdateIndex; }
 
 private:
-    /**
-     * @brief tableName - the name of the database table
-     * @
+    /*!
+        \brief The Tablename in the database \e is const
      */
     const QString m_tableName = QLatin1String("inventory");
+
+     /*!
+        \var int m_InventoryIdIndex
+        \brief The value of the InventoryIdIndex
+     */        
     int m_InventoryIdIndex;
+
+     /*!
+        \var int m_NumberIndex
+        \brief The value of the NumberIndex
+     */        
     int m_NumberIndex;
+
+     /*!
+        \var int m_DescriptionIndex
+        \brief The value of the DescriptionIndex
+     */ 
     int m_DescriptionIndex;
+
+     /*!
+        \var int m_ActiveIndex
+        \brief The value of the ActiveIndex
+     */ 
     int m_ActiveIndex;
+
+    /*!
+        \var int m_LastUpdateIndex
+        \brief The value of the LastUpdateIndex
+    */     
     int m_LastUpdateIndex;
 };
 } // namespace Model
-#endif // INVENTORYDATAMODEL_H

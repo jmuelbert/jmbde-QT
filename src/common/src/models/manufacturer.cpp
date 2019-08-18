@@ -42,7 +42,7 @@
 
 #include "models/manufacturer.h"
 
-Model::ManufacturerDataModel::ManufacturerDataModel(QObject *parent)
+Model::Manufacturer::Manufacturer(QObject *parent)
     : CommonData(parent) {
 
     // Set the Model
@@ -53,7 +53,9 @@ Model::ManufacturerDataModel::ManufacturerDataModel(QObject *parent)
     setIndexes();
 }
 
-void Model::ManufacturerDataModel::setIndexes() {
+Model::Manufacturer::~Manufacturer() {}
+
+void Model::Manufacturer::setIndexes() {
     m_ManufacturerIdIndex =
         m_model->fieldIndex(QLatin1String("manufacturer_id"));
     m_NameIndex = m_model->fieldIndex(QLatin1String("name"));
@@ -70,7 +72,7 @@ void Model::ManufacturerDataModel::setIndexes() {
 }
 
 QSqlRelationalTableModel *
-Model::ManufacturerDataModel::initializeRelationalModel() {
+Model::Manufacturer::initializeRelationalModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -83,7 +85,7 @@ Model::ManufacturerDataModel::initializeRelationalModel() {
 }
 
 QSqlRelationalTableModel *
-Model::ManufacturerDataModel::initializeInputDataModel() {
+Model::Manufacturer::initializeInputDataModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -92,7 +94,7 @@ Model::ManufacturerDataModel::initializeInputDataModel() {
     return m_model;
 }
 
-QSqlTableModel *Model::ManufacturerDataModel::initializeViewModel() {
+QSqlTableModel *Model::Manufacturer::initializeViewModel() {
 
     m_model->select();
 
@@ -100,14 +102,19 @@ QSqlTableModel *Model::ManufacturerDataModel::initializeViewModel() {
 }
 
 QString
-Model::ManufacturerDataModel::generateTableString(QAbstractTableModel *model,
+Model::Manufacturer::generateTableString(QAbstractTableModel *model,
                                                   QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+ #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(manufacturerLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
+
+#endif
 
     QList<int> set;
 
@@ -131,14 +138,19 @@ Model::ManufacturerDataModel::generateTableString(QAbstractTableModel *model,
 }
 
 QString
-Model::ManufacturerDataModel::generateFormularString(QAbstractTableModel *model,
+Model::Manufacturer::generateFormularString(QAbstractTableModel *model,
                                                      QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+ #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(manufacturerLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
+
+#endif
 
     QList<int> set;
 
