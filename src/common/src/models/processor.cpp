@@ -42,7 +42,7 @@
 
 #include "models/processor.h"
 
-Model::ProcessorDataModel::ProcessorDataModel(QObject *parent)
+Model::Processor::Processor(QObject *parent)
     : CommonData(parent) {
 
     // Set the Model
@@ -53,7 +53,9 @@ Model::ProcessorDataModel::ProcessorDataModel(QObject *parent)
     setIndexes();
 }
 
-void Model::ProcessorDataModel::setIndexes() {
+Model::Processor::~Processor() { }
+
+void Model::Processor::setIndexes() {
     m_ProcessorIdIndex = m_model->fieldIndex(QLatin1String("processor_id"));
     m_NameIndex = m_model->fieldIndex(QLatin1String("name"));
     m_ClockRateIndex = m_model->fieldIndex(QLatin1String("clock_rate"));
@@ -62,7 +64,7 @@ void Model::ProcessorDataModel::setIndexes() {
 }
 
 QSqlRelationalTableModel *
-Model::ProcessorDataModel::initializeRelationalModel() {
+Model::Processor::initializeRelationalModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -75,7 +77,7 @@ Model::ProcessorDataModel::initializeRelationalModel() {
 }
 
 QSqlRelationalTableModel *
-Model::ProcessorDataModel::initializeInputDataModel() {
+Model::Processor::initializeInputDataModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -84,7 +86,7 @@ Model::ProcessorDataModel::initializeInputDataModel() {
     return m_model;
 }
 
-QSqlTableModel *Model::ProcessorDataModel::initializeViewModel() {
+QSqlTableModel *Model::Processor::initializeViewModel() {
 
     m_model->select();
 
@@ -92,14 +94,19 @@ QSqlTableModel *Model::ProcessorDataModel::initializeViewModel() {
 }
 
 QString
-Model::ProcessorDataModel::generateTableString(QAbstractTableModel *model,
+Model::Processor::generateTableString(QAbstractTableModel *model,
                                                QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+ #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(processorLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
+
+#endif
 
     QList<int> set;
 
@@ -123,14 +130,19 @@ Model::ProcessorDataModel::generateTableString(QAbstractTableModel *model,
 }
 
 QString
-Model::ProcessorDataModel::generateFormularString(QAbstractTableModel *model,
+Model::Processor::generateFormularString(QAbstractTableModel *model,
                                                   QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+ #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(processorLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
+
+#endif
 
     QList<int> set;
 

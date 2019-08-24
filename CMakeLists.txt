@@ -101,7 +101,7 @@ option(OPTION_BUILD_TESTS     "Build tests."                                    
 add_feature_info(TESTS ${OPTION_BUILD_TESTS} "Build and run the tests")
 option(OPTION_BUILD_MANUAL    "Build manual."                                           OFF)
 add_feature_info(MANUAL ${OPTION_BUILD_MANUAL} "Build the Documentation and man pages")
-option(OPTION_BUILD_API_DOCS  "Build the api-docs."                                     OFF)
+option(OPTION_BUILD_API_DOCS  "Build the api-docs."                                    ON)
 add_feature_info(API_DOCS ${OPTION_BUILD_API_DOCS} "Build the Documentation and man pages")
 option(OPTION_BUILD_EXAMPLES  "Build examples."                                         OFF)
 add_feature_info(EXAMPLES ${OPTION_BUILD_EXAMPLES} "Build the the examples")

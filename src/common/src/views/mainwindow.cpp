@@ -334,7 +334,7 @@ void MainWindow::on_actionPrint_triggered() {
         qDebug() << "Print Printer !";
         dataContext->openDB(dataBaseName);
         tableModel->database().commit();
-        auto *pdm = new Model::PrinterDataModel;
+        auto *pdm = new Model::Printer;
         QString style = pdm->setOutTableStyle();
         QString text = pdm->generateTableString(tableModel, tr("Printer"));
 
@@ -346,7 +346,7 @@ void MainWindow::on_actionPrint_triggered() {
         qDebug() << "Print Printer !";
         dataContext->openDB(dataBaseName);
         tableModel->database().commit();
-        auto *pdm = new Model::PhoneDataModel;
+        auto *pdm = new Model::Phone;
         QString style = pdm->setOutTableStyle();
         QString text = pdm->generateTableString(tableModel, tr("Phone"));
 
@@ -408,7 +408,7 @@ void MainWindow::on_action_Export_Pdf_triggered() {
         dataContext->openDB(dataBaseName);
         tableModel->database().commit();
 
-        auto *pdm = new Model::PrinterDataModel;
+        auto *pdm = new Model::Printer;
         QString style = pdm->setOutTableStyle();
         QString text = pdm->generateTableString(tableModel, tr("Printer"));
 
@@ -422,7 +422,7 @@ void MainWindow::on_action_Export_Pdf_triggered() {
         dataContext->openDB(dataBaseName);
         tableModel->database().commit();
 
-        auto *pdm = new Model::PhoneDataModel;
+        auto *pdm = new Model::Phone;
         QString style = pdm->setOutTableStyle();
         QString text = pdm->generateTableString(tableModel, tr("Phone"));
 
@@ -494,7 +494,7 @@ void MainWindow::on_actionPrint_Preview_triggered() {
         dataContext->openDB(dataBaseName);
         tableModel->database().commit();
 
-        auto *pdm = new Model::PrinterDataModel;
+        auto *pdm = new Model::Printer;
         QString style = pdm->setOutTableStyle();
         QString text = pdm->generateTableString(tableModel, tr("Printer"));
 
@@ -508,7 +508,7 @@ void MainWindow::on_actionPrint_Preview_triggered() {
         dataContext->openDB(dataBaseName);
         tableModel->database().commit();
 
-        auto *pdm = new Model::PhoneDataModel;
+        auto *pdm = new Model::Phone;
         QString style = pdm->setOutTableStyle();
         QString text = pdm->generateTableString(tableModel, tr("Phone"));
 
@@ -633,7 +633,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index) {
         actualView = VIEW_TITLE;
 
         dataContext->openDB(dataBaseName);
-        auto *tdm = new Model::TitleDataModel;
+        auto *tdm = new Model::Title;
 
         tableModel = tdm->initializeRelationalModel();
         int idx = tdm->NameIndex();
@@ -670,7 +670,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index) {
         actualView = VIEW_PROCESSOR;
 
         dataContext->openDB(dataBaseName);
-        auto *pdm = new Model::ProcessorDataModel;
+        auto *pdm = new Model::Processor;
 
         tableModel = pdm->initializeRelationalModel();
         int idx = pdm->NameIndex();
@@ -706,7 +706,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index) {
         actualView = VIEW_SOFTWARE;
 
         dataContext->openDB(dataBaseName);
-        auto *sdm = new Model::SoftwareDataModel;
+        auto *sdm = new Model::Software;
 
         tableModel = sdm->initializeRelationalModel();
         int idx = sdm->NameIndex();
@@ -724,7 +724,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index) {
         actualView = VIEW_PRINTER;
 
         dataContext->openDB(dataBaseName);
-        auto *pdm = new Model::PrinterDataModel;
+        auto *pdm = new Model::Printer;
 
         tableModel = pdm->initializeRelationalModel();
         int idx = pdm->NetworkNameIndex();
@@ -743,7 +743,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index) {
         actualView = VIEW_PHONE;
 
         dataContext->openDB(dataBaseName);
-        auto *phdm = new Model::PhoneDataModel;
+        auto *phdm = new Model::Phone;
 
         tableModel = phdm->initializeRelationalModel();
         int idx = phdm->NumberIndex();

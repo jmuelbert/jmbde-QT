@@ -42,7 +42,7 @@
 
 #include "models/system.h"
 
-Model::SystemDataModel::SystemDataModel(QObject *parent) : CommonData(parent) {
+Model::System::System(QObject *parent) : CommonData(parent) {
 
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);
@@ -52,15 +52,17 @@ Model::SystemDataModel::SystemDataModel(QObject *parent) : CommonData(parent) {
     setIndexes();
 }
 
-void Model::SystemDataModel::setIndexes() {
-    m_SystemDataIdIndex = m_model->fieldIndex(QLatin1String("ystem_data_id"));
+Model::System::~System() { }
+
+void Model::System::setIndexes() {
+    m_SystemIdIndex = m_model->fieldIndex(QLatin1String("system_id"));
     m_NameIndex = m_model->fieldIndex(QLatin1String("name"));
     m_LocalIndex = m_model->fieldIndex(QLatin1String("local"));
     m_CompanyIdIndex = m_model->fieldIndex(QLatin1String("company_id"));
     m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-QSqlRelationalTableModel *Model::SystemDataModel::initializeRelationalModel() {
+QSqlRelationalTableModel *Model::System::initializeRelationalModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -72,7 +74,7 @@ QSqlRelationalTableModel *Model::SystemDataModel::initializeRelationalModel() {
     return m_model;
 }
 
-QSqlRelationalTableModel *Model::SystemDataModel::initializeInputDataModel() {
+QSqlRelationalTableModel *Model::System::initializeInputDataModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -81,21 +83,26 @@ QSqlRelationalTableModel *Model::SystemDataModel::initializeInputDataModel() {
     return m_model;
 }
 
-QSqlTableModel *Model::SystemDataModel::initializeViewModel() {
+QSqlTableModel *Model::System::initializeViewModel() {
 
     m_model->select();
 
     return m_model;
 }
 
-QString Model::SystemDataModel::generateTableString(QAbstractTableModel *model,
+QString Model::System::generateTableString(QAbstractTableModel *model,
                                                     QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(systemLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
+
+#endif
 
     QList<int> set;
 
@@ -119,14 +126,19 @@ QString Model::SystemDataModel::generateTableString(QAbstractTableModel *model,
 }
 
 QString
-Model::SystemDataModel::generateFormularString(QAbstractTableModel *model,
+Model::System::generateFormularString(QAbstractTableModel *model,
                                                QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(systemLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
+
+#endif
 
     QList<int> set;
 

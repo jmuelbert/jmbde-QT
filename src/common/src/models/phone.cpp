@@ -42,7 +42,7 @@
 
 #include "models/phone.h"
 
-Model::PhoneDataModel::PhoneDataModel(QObject *parent) : CommonData(parent) {
+Model::Phone::Phone(QObject *parent) : CommonData(parent) {
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);
     m_model->setTable(this->m_tableName);
@@ -51,7 +51,9 @@ Model::PhoneDataModel::PhoneDataModel(QObject *parent) : CommonData(parent) {
     setIndexes();
 }
 
-void Model::PhoneDataModel::setIndexes() {
+Model::Phone::~Phone() { }
+
+void Model::Phone::setIndexes() {
     m_PhoneIdIndex = m_model->fieldIndex(QLatin1String("phone_id"));
     m_DeviceNameIdIndex = m_model->fieldIndex(QLatin1String("device_name_id"));
     m_SerialNumberIndex = m_model->fieldIndex(QLatin1String("serial_number"));
@@ -69,7 +71,7 @@ void Model::PhoneDataModel::setIndexes() {
     m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-QSqlRelationalTableModel *Model::PhoneDataModel::initializeRelationalModel() {
+QSqlRelationalTableModel *Model::Phone::initializeRelationalModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -81,7 +83,7 @@ QSqlRelationalTableModel *Model::PhoneDataModel::initializeRelationalModel() {
     return m_model;
 }
 
-QSqlRelationalTableModel *Model::PhoneDataModel::initializeInputDataModel() {
+QSqlRelationalTableModel *Model::Phone::initializeInputDataModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -90,21 +92,26 @@ QSqlRelationalTableModel *Model::PhoneDataModel::initializeInputDataModel() {
     return m_model;
 }
 
-QSqlTableModel *Model::PhoneDataModel::initializeViewModel() {
+QSqlTableModel *Model::Phone::initializeViewModel() {
 
     m_model->select();
 
     return m_model;
 }
 
-QString Model::PhoneDataModel::generateTableString(QAbstractTableModel *model,
+QString Model::Phone::generateTableString(QAbstractTableModel *model,
                                                    QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+ #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(phoneLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
+
+#endif
 
     QList<int> set;
 
@@ -128,14 +135,19 @@ QString Model::PhoneDataModel::generateTableString(QAbstractTableModel *model,
 }
 
 QString
-Model::PhoneDataModel::generateFormularString(QAbstractTableModel *model,
+Model::Phone::generateFormularString(QAbstractTableModel *model,
                                               QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+ #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(phoneLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
+
+#endif
 
     QList<int> set;
 

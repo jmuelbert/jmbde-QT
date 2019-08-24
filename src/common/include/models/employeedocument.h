@@ -67,7 +67,7 @@
     */
 
 namespace Model {
-class EmployeeDocument : public CommonData {
+class JMBDE_COMMON_EXPORT EmployeeDocument : public CommonData {
     /*!
       \macro Q_OBJECT
       \relates QObject

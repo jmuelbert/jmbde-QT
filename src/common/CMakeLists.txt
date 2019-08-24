@@ -249,6 +249,8 @@ target_sources(jmbde_common
     include/models/software.h
     include/models/system.h
     include/models/title.h
+    include/models/zipcity.h
+    include/models/zipcode.h
 
     # views
     include/views/chipcardinputarea.h

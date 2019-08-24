@@ -51,7 +51,6 @@ Model::Account::Account(QObject *parent) : CommonData(parent) {
     setIndexes();
 }
 
-
 Model::Account::~Account() { }
 
 void Model::Account::setIndexes() {

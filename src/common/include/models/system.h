@@ -40,9 +40,9 @@
 **
 **************************************************************************/
 
-#ifndef SYSTEMDATAMODEL_H
-#define SYSTEMDATAMODEL_H
+#pragma once
 
+#include <QLoggingCategory>
 #include <QObject>
 
 #include <QStandardPaths>
@@ -54,83 +54,194 @@
 #include <QSqlRelation>
 
 #include "definitions.h"
+#include "jmbde_common_export.h"
 #include "models/commondata.h"
-namespace Model {
-class SystemDataModel : public CommonData {
-public:
-    /**
-     * @brief SystemDataModel
-     * @param parent
-     */
-    explicit SystemDataModel(QObject *parent = nullptr);
+#include "models/idatamodel.h"
 
-    /**
-     * ~SystemDataModel
+/*!
+    \class System
+    \brief The System class
+    \details This Class is for the System
+    \author Jürgen Mülbert
+    \since 0.2
+    \version 0.4.25
+    \date 03.08.2019
+    \copyright EUPL V1.2
+ */
+
+namespace Model {
+class JMBDE_COMMON_EXPORT System : public CommonData {
+    /*!
+      \macro Q_OBJECT
+      \relates QObject
+
+      The Q_OBJECT macro must appear in the private section
+      of a class definition that declares its own signals and
+      slots, or that uses other services provided by Qt's
+      meta-object system.
+
+      ...
+
+      \sa {Meta-Object System}, {Signals and Slots}, {QtsProperty System}
+  */
+    Q_OBJECT
+
+    /*!
+        \macro Q_LOGGING_CATEGORY
+        \relates QLogging
+
+        Defines the Logging Categorie for the class
      */
-    virtual ~SystemDataModel() = default;
+    Q_LOGGING_CATEGORY(systemLC, "jmbde.models.system")
+
+public:
+    /*!
+        \fn  System(QObject *parent = nullptr)
+
+        \brief Constructor for the  System
+     */
+    explicit System(QObject *parent = nullptr);
+
+    /*!
+        \fn  ~System() override;
+
+        \brief Destructor for System
+     */
+    ~System();
 
     // implement the virtuals
 
-    /**
-     * @brief setIndexes
+    /*!
+        \fn virtual void setIndexes()
+        \brief Set the fieldindexes from the datafieldnames of the db.
      */
     virtual void setIndexes();
 
-    /**
-     * @brief initializeRelationalModel
-     * @return
+    /*!
+        \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
+        \brief set the QSqlRelationalTableModel for the DataModel
+        Returns The QSqlRelationalTableModel
      */
     virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-    /**
-     * @brief initializeInputDataModel
-     * @return
+    /*!
+        \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
+        \brief Initialize the InputDataModel
+
+        Returns The QSqlRelationalTableModel
      */
     virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-    /**
-     * @brief initializeViewModel
-     * @return
+    /*!
+        \fn virtual QSqlTableModel *initializeViewModel()
+        \brief Initialize the ViewModel
+
+        Returns QSqlTableModel
      */
     virtual QSqlTableModel *initializeViewModel();
 
-    /**
-     * @brief generateTableString
-     * @param model
-     * @param header
-     * @return
+    /*!
+     * \fn virtual QString generateTableString(QAbstractTableModel *model,
+                                const QString &header)
+        \brief generateTableString
+
+        Returns a QString with the generated Table for Output
      */
     virtual QString generateTableString(QAbstractTableModel *model,
                                         QString header);
 
-    /**
-     * @brief generateFormularString
-     * @param model
-     * @param header
-     * @return
+    /*!
+        \fn virtual QString generateFormularString(QAbstractTableModel *model,
+                                   const QString &header)
+        \brief generateFormularString
+
+        Returns a QString with the generated Table for Output
      */
     virtual QString generateFormularString(QAbstractTableModel *model,
                                            QString header);
 
     // Getter
-    int SystemDataIdIndex() const { return m_SystemDataIdIndex; }
+
+    /*!
+        \fn  int SystemIdIndex()
+
+        \brief Get the index of the fieldname SystemId from the database
+
+        Returns the value of the index
+     */
+    int SystemIdIndex() const { return m_SystemIdIndex; }
+
+    /*!
+        \fn  int NameIndex()
+
+        \brief Get the index of the fieldname Name from the database
+
+        Returns the value of the index
+     */
     int NameIndex() const { return m_NameIndex; }
+
+    /*!
+        \fn  int LocalIndex()
+
+        \brief Get the index of the fieldname Local from the database
+
+        Returns the value of the index
+     */
     int LocalIndex() const { return m_LocalIndex; }
+
+    /*!
+        \fn  int CompanyIdIndex()
+
+        \brief Get the index of the fieldname CompanyId from the database
+
+        Returns the value of the index
+     */
     int CompanyIdIndex() const { return m_CompanyIdIndex; }
+
+    /*!
+        \fn  int LastUpdateIndex()
+
+        \brief Get the index of the fieldname LastUpdate form the database
+
+        Returns the value of the index
+     */
     int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-    /**
-     * @brief tableName - the name of the database table
-     * @
+    /*!
+        \brief The Tablename in the database \e is const
      */
-    const QString m_tableName = QLatin1String("system_data");
+    const QString m_tableName = QLatin1String("system");
 
-    int m_SystemDataIdIndex;
-    int m_NameIndex;
-    int m_LocalIndex;
-    int m_CompanyIdIndex;
-    int m_LastUpdateIndex;
+    /*!
+        \var int m_SystemIdIndex
+        \brief The value of the SystemIdIndex
+     */
+    int m_SystemIdIndex{0};
+
+     /*!
+        \var int m_NameIndex
+        \brief The value of the NameIndex
+     */   
+    int m_NameIndex{0};
+
+     /*!
+        \var int m_LocalIndex
+        \brief The value of the LocalIndex
+     */   
+    int m_LocalIndex{0};
+
+     /*!
+        \var int m_CompanyIdIndex
+        \brief The value of the CompanyIdIndex
+     */
+    int m_CompanyIdIndex{0};
+
+    /*!
+        \var int m_LastUpdateIndex
+        \brief The value of the LastUpdateIndex
+    */
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model
-#endif // SYSTEMDATAMODEL_H
+

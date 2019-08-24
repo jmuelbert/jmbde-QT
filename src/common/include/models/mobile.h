@@ -129,15 +129,15 @@ public:
     virtual QSqlRelationalTableModel *initializeInputDataModel();
 
     /*!
-     * \fn virtual QSqlTableModel *initializeViewModel()
-     * \brief Initialize the ViewModel
-     *
-     * Returns QSqlTableModel
+      \fn virtual QSqlTableModel *initializeViewModel()
+      \brief Initialize the ViewModel
+   
+      Returns QSqlTableModel
      */
     virtual QSqlTableModel *initializeViewModel();
 
     /*!
-     * \fn virtual QString generateTableString(QAbstractTableModel *model,
+         \fn virtual QString generateTableString(QAbstractTableModel *model,
                                 const QString &header)
         \brief generateTableString
 
@@ -291,25 +291,99 @@ public:
     int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-    /**
-     * @brief tableName - the name of the database table
-     * @
+    /*!
+        \brief The Tablename in the database \e is const
      */
     const QString m_tableName = QLatin1String("mobile");
-    int m_MobileIdIndex;
-    int m_DeviceNameIdIndex;
-    int m_SerialNumberIndex;
-    int m_NumberIndex;
-    int m_PinIndex;
-    int m_CardNumberIndex;
-    int m_ActiveIndex;
-    int m_ReplaceIndex;
-    int m_DeviceTypeIdIndex;
-    int m_EmployeeIdIndex;
-    int m_PlaceIdIndex;
-    int m_DepartmentIdIndex;
-    int m_ManufacturerIdIndex;
-    int m_InventoryIdIndex;
-    int m_LastUpdateIndex;
+
+     /*!
+        \var int m_MobileIdIndex
+        \brief The value of the MobileIdIndex
+     */     
+    int m_MobileIdIndex{0};
+
+     /*!
+        \var int m_DeviceNameIdIndex
+        \brief The value of the DeviceNameIdIndex
+     */ 
+    int m_DeviceNameIdIndex{0};
+
+   /*!
+        \var int m_SerialNumberIndex
+        \brief The value of the SerialNumberIndex
+     */   
+    int m_SerialNumberIndex{0};
+
+     /*!
+        \var int m_NumberIndex
+        \brief The value of the NumberIndex
+     */     
+    int m_NumberIndex{0};
+
+     /*!
+        \var int m_PinIndex
+        \brief The value of the PinIndex
+     */        
+    int m_PinIndex{0};
+
+     /*!
+        \var int m_CardNumberIndex
+        \brief The value of the CardNumberIndex
+     */     
+    int m_CardNumberIndex{0};
+
+     /*!
+        \var int m_ActiveIndex
+        \brief The value of the ActiveIndex
+     */ 
+    int m_ActiveIndex{0};
+
+     /*!
+        \var int m_ReplaceIndex
+        \brief The value of the ReplaceIndex
+     */     
+    int m_ReplaceIndex{0};
+
+     /*!
+        \var int m_DeviceTypeIdIndex
+        \brief The value of the DeviceTypeIdIndex
+     */ 
+    int m_DeviceTypeIdIndex{0};
+
+     /*!
+        \var int m_EmployeeIdIndex
+        \brief The value of the EmployeeIdIndex
+     */ 
+    int m_EmployeeIdIndex{0};
+
+     /*!
+        \var int m_PlaceIdIndex
+        \brief The value of the PlaceIdIndex
+     */    
+    int m_PlaceIdIndex{0};
+
+     /*!
+        \var int m_DepartmentIdIndex
+        \brief The value of the DepartmentIdIndex
+     */
+    int m_DepartmentIdIndex{0};
+
+     /*!
+        \var int m_ManufacturerIdIndex
+        \brief The value of the ManufacturerIdIndex
+     */
+    int m_ManufacturerIdIndex{0};
+
+     /*!
+        \var int m_InventoryIdIndex
+        \brief The value of the InventoryIdIndex
+     */
+    int m_InventoryIdIndex{0};
+
+     /*!
+        \var int m_LastUpdateIndex
+        \brief The value of the LastUpdateIndex
+     */
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model

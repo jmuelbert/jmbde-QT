@@ -42,7 +42,7 @@
 
 #include "models/title.h"
 
-Model::TitleDataModel::TitleDataModel(QObject *parent) : CommonData(parent) {
+Model::Title::Title(QObject *parent) : CommonData(parent) {
 
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);
@@ -52,14 +52,16 @@ Model::TitleDataModel::TitleDataModel(QObject *parent) : CommonData(parent) {
     setIndexes();
 }
 
-void Model::TitleDataModel::setIndexes() {
+Model::Title::~Title() { }
+
+void Model::Title::setIndexes() {
     m_TitleIdIndex = m_model->fieldIndex(QLatin1String("title_id"));
     m_NameIndex = m_model->fieldIndex(QLatin1String("name "));
     m_FromDateIndex = m_model->fieldIndex(QLatin1String("from_date"));
     m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-QSqlRelationalTableModel *Model::TitleDataModel::initializeRelationalModel() {
+QSqlRelationalTableModel *Model::Title::initializeRelationalModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -71,7 +73,7 @@ QSqlRelationalTableModel *Model::TitleDataModel::initializeRelationalModel() {
     return m_model;
 }
 
-QSqlRelationalTableModel *Model::TitleDataModel::initializeInputDataModel() {
+QSqlRelationalTableModel *Model::Title::initializeInputDataModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -80,21 +82,26 @@ QSqlRelationalTableModel *Model::TitleDataModel::initializeInputDataModel() {
     return m_model;
 }
 
-QSqlTableModel *Model::TitleDataModel::initializeViewModel() {
+QSqlTableModel *Model::Title::initializeViewModel() {
 
     m_model->select();
 
     return m_model;
 }
 
-QString Model::TitleDataModel::generateTableString(QAbstractTableModel *model,
+QString Model::Title::generateTableString(QAbstractTableModel *model,
                                                    QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(titleLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
+
+#endif
 
     QList<int> set;
 
@@ -118,15 +125,19 @@ QString Model::TitleDataModel::generateTableString(QAbstractTableModel *model,
 }
 
 QString
-Model::TitleDataModel::generateFormularString(QAbstractTableModel *model,
+Model::Title::generateFormularString(QAbstractTableModel *model,
                                               QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
+    
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(titleLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
-
+#endif
     QList<int> set;
 
     // Document Title

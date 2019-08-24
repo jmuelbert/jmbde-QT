@@ -42,7 +42,7 @@
 
 #include "models/printer.h"
 
-Model::PrinterDataModel::PrinterDataModel(QObject *parent)
+Model::Printer::Printer(QObject *parent)
     : CommonData(parent) {
 
     // Set the Model
@@ -53,7 +53,9 @@ Model::PrinterDataModel::PrinterDataModel(QObject *parent)
     setIndexes();
 }
 
-void Model::PrinterDataModel::setIndexes() {
+Model::Printer::~Printer() { }
+
+void Model::Printer::setIndexes() {
     m_PrinterIdIndex = m_model->fieldIndex(QLatin1String("printer_id"));
     m_DeviceNameIdIndex = m_model->fieldIndex(QLatin1String("device_name_id"));
     m_SerialNumberIndex = m_model->fieldIndex(QLatin1String("lserial_number"));
@@ -77,7 +79,7 @@ void Model::PrinterDataModel::setIndexes() {
     m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-QSqlRelationalTableModel *Model::PrinterDataModel::initializeRelationalModel() {
+QSqlRelationalTableModel *Model::Printer::initializeRelationalModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -89,7 +91,7 @@ QSqlRelationalTableModel *Model::PrinterDataModel::initializeRelationalModel() {
     return m_model;
 }
 
-QSqlRelationalTableModel *Model::PrinterDataModel::initializeInputDataModel() {
+QSqlRelationalTableModel *Model::Printer::initializeInputDataModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -98,21 +100,26 @@ QSqlRelationalTableModel *Model::PrinterDataModel::initializeInputDataModel() {
     return m_model;
 }
 
-QSqlTableModel *Model::PrinterDataModel::initializeViewModel() {
+QSqlTableModel *Model::Printer::initializeViewModel() {
 
     m_model->select();
 
     return m_model;
 }
 
-QString Model::PrinterDataModel::generateTableString(QAbstractTableModel *model,
+QString Model::Printer::generateTableString(QAbstractTableModel *model,
                                                      QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+ #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(printerLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
+
+#endif
 
     QList<int> set;
 
@@ -136,14 +143,19 @@ QString Model::PrinterDataModel::generateTableString(QAbstractTableModel *model,
 }
 
 QString
-Model::PrinterDataModel::generateFormularString(QAbstractTableModel *model,
+Model::Printer::generateFormularString(QAbstractTableModel *model,
                                                 QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
+    
+ #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(printerLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+#endif
 
     QList<int> set;
 

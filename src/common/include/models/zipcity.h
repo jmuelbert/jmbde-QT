@@ -40,8 +40,7 @@
 **
 **************************************************************************/
 
-#ifndef ZIPCITY_H
-#define ZIPCITY_H
+#pragma once
 
 #include <QObject>
 #include <QtSql>
@@ -52,75 +51,177 @@
 #include <QSqlRelation>
 
 #include "definitions.h"
+#include "jmbde_common_export.h"
 #include "models/commondata.h"
+#include "models/idatamodel.h"
 
+/*!
+    \class ZipCity
+    \brief The ZipCity class
+    \details In this is handlet all ZipCity 
+    \author Jürgen Mülbert
+    \since 0.4
+    \version 0.4.25
+    \date 03.08.2019
+    \copyright EUPL V1.2
+    */
 namespace Model {
-class ZipCityModel : public CommonData {
-public:
-    explicit ZipCityModel(QObject *parent = nullptr);
+class JMBDE_COMMON_EXPORT ZipCity : public CommonData {
+    /*!
+      \macro Q_OBJECT
+      \relates QObject
 
-    virtual ~ZipCityModel() = default;
+      The Q_OBJECT macro must appear in the private section
+      of a class definition that declares its own signals and
+      slots, or that uses other services provided by Qt's
+      meta-object system.
+
+      ...
+
+      \sa {Meta-Object System}, {Signals and Slots}, {QtsProperty System}
+  */
+    Q_OBJECT
+
+    /*!
+        \macro Q_LOGGING_CATEGORY
+        \relates QLogging
+
+        Defines the Logging Categorie for the class
+     */
+    Q_LOGGING_CATEGORY(zipCityLC, "jmbde.models.zipcity")
+
+public:
+    /*!
+        \fn ZipCity(QObject *parent = nullptr)
+
+        \brief Constructor for the ZipCity
+     */
+    explicit ZipCity(QObject *parent = nullptr);
+
+    /*!
+        \fn  ~ZipCity();
+
+        \brief Destructor for ZipCity
+     */
+    ~ZipCity();
 
     // implement the virtuals
 
-    /**
-     * @brief setIndexes
+    /*!
+        \fn virtual void setIndexes()
+        \brief Set the fieldindexes from the datafieldnames of the db.
      */
     virtual void setIndexes();
 
-    /**
-     * @brief initializeRelationalModel
-     * @return
+    /*!
+        \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
+        \brief set the QSqlRelationalTableModel for the DataModel
+        Returns The QSqlRelationalTableModel
      */
     virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-    /**
-     * @brief initializeInputDataModel
-     * @return
+    /*!
+        \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
+        \brief Initialize the InputDataModel
+
+        Returns The QSqlRelationalTableModel
      */
     virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-    /**
-     * @brief initializeViewModel
-     * @return
+    /*!
+        \fn virtual QSqlTableModel *initializeViewModel()
+        \brief Initialize the ViewModel
+
+        Returns QSqlTableModel
      */
     virtual QSqlTableModel *initializeViewModel();
 
-    /**
-     * @brief generateTableString
-     * @param model
-     * @param header
-     * @return
+    /*!
+     * \fn virtual QString generateTableString(QAbstractTableModel *model,
+                                const QString &header)
+        \brief generateTableString
+
+        Returns a QString with the generated Table for Output
      */
     virtual QString generateTableString(QAbstractTableModel *model,
                                         QString header);
 
-    /**
-     * @brief generateFormularString
-     * @param model
-     * @param header
-     * @return
+    /*!
+        \fn virtual QString generateFormularString(QAbstractTableModel *model,
+                                   const QString &header)
+        \brief generateFormularString
+
+        Returns a QString with the generated Table for Output
      */
     virtual QString generateFormularString(QAbstractTableModel *model,
                                            QString header);
 
     // Getter
+
+    /*!
+        \fn  int ZipCityIdIndex()
+
+        \brief Get the index of the fieldname ZipCityId from the database
+
+        Returns the value of the index
+     */
     int ZipCityIdIndex() const { return m_ZipCityIdIndex; }
+
+    /*!
+        \fn  int ZipCodeIdIndex()
+
+        \brief Get the index of the fieldname ZipCodeId from the database
+
+        Returns the value of the index
+     */
     int ZipCodeIdIndex() const { return m_ZipCodeIdIndex; }
+
+     /*!
+        \fn  int CityIdIndex()
+
+        \brief Get the index of the fieldname CityId from the database
+
+        Returns the value of the index
+     */   
     int CityIdIndex() const { return m_CityIdIndex; }
+
+    /*!
+        \fn  int LastUpdateIndex()
+
+        \brief Get the index of the fieldname LastUpdate form the database
+
+        Returns the value of the index
+     */
     int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-    /**
-     * @brief tableName - the name of the database table
-     * @
+    /*!
+        \brief The Tablename in the database \e is const
      */
     const QString m_tableName = QLatin1String("zip_city");
 
-    int m_ZipCityIdIndex;
-    int m_ZipCodeIdIndex;
-    int m_CityIdIndex;
-    int m_LastUpdateIndex;
+    /*!
+        \var int m_ZipCityIdIndex
+        \brief The value of the ZipCityIdIndex
+     */
+    int m_ZipCityIdIndex{0};
+
+    /*!
+        \var int m_ZipCodeIdIndex
+        \brief The value of the ZipCodeIdIndex
+     */    
+    int m_ZipCodeIdIndex{0};
+
+    /*!
+        \var int m_CityIdIndex
+        \brief The value of the CityIdIndex
+     */  
+    int m_CityIdIndex{0};
+
+    /*!
+        \var int m_LastUpdateIndex
+        \brief The value of the LastUpdateIndex
+    */
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model
-#endif // ZIPCITY_H

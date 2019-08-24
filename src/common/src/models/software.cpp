@@ -42,7 +42,7 @@
 
 #include "models/software.h"
 
-Model::SoftwareDataModel::SoftwareDataModel(QObject *parent)
+Model::Software::Software(QObject *parent)
     : CommonData(parent) {
 
     // Set the Model
@@ -53,7 +53,9 @@ Model::SoftwareDataModel::SoftwareDataModel(QObject *parent)
     setIndexes();
 }
 
-void Model::SoftwareDataModel::setIndexes() {
+Model::Software::~Software() { }
+
+void Model::Software::setIndexes() {
     m_SoftwareIdIndex = m_model->fieldIndex(QLatin1String("software_id"));
     m_NameIndex = m_model->fieldIndex(QLatin1String("name"));
     m_VersionIndex = m_model->fieldIndex(QLatin1String("version"));
@@ -63,7 +65,7 @@ void Model::SoftwareDataModel::setIndexes() {
 }
 
 QSqlRelationalTableModel *
-Model::SoftwareDataModel::initializeRelationalModel() {
+Model::Software::initializeRelationalModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -75,7 +77,7 @@ Model::SoftwareDataModel::initializeRelationalModel() {
     return m_model;
 }
 
-QSqlRelationalTableModel *Model::SoftwareDataModel::initializeInputDataModel() {
+QSqlRelationalTableModel *Model::Software::initializeInputDataModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -84,7 +86,7 @@ QSqlRelationalTableModel *Model::SoftwareDataModel::initializeInputDataModel() {
     return m_model;
 }
 
-QSqlTableModel *Model::SoftwareDataModel::initializeViewModel() {
+QSqlTableModel *Model::Software::initializeViewModel() {
 
     m_model->select();
 
@@ -92,14 +94,19 @@ QSqlTableModel *Model::SoftwareDataModel::initializeViewModel() {
 }
 
 QString
-Model::SoftwareDataModel::generateTableString(QAbstractTableModel *model,
+Model::Software::generateTableString(QAbstractTableModel *model,
                                               QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+ #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(softwareLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
+
+#endif
 
     QList<int> set;
 
@@ -123,14 +130,19 @@ Model::SoftwareDataModel::generateTableString(QAbstractTableModel *model,
 }
 
 QString
-Model::SoftwareDataModel::generateFormularString(QAbstractTableModel *model,
+Model::Software::generateFormularString(QAbstractTableModel *model,
                                                  QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
+    
+  #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(softwareLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+#endif
 
     QList<int> set;
 

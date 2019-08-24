@@ -276,72 +276,72 @@ private:
         \var int m_ManufacturerIdIndex
         \brief The value of the ManufacturerIdIndex
      */   
-    int m_ManufacturerIdIndex;
+    int m_ManufacturerIdIndex{0};
 
      /*!
         \var int m_NameIndex
         \brief The value of the NameIndex
      */   
-    int m_NameIndex;
+    int m_NameIndex{0};
 
      /*!
         \var int m_Name2Index
         \brief The value of the Name2Index
      */     
-    int m_Name2Index;
+    int m_Name2Index{0};
 
     /*!
         \var int m_SupporterIndex
         \brief The value of the SupporterIndex
      */      
-    int m_SupporterIndex;
+    int m_SupporterIndex{0};
 
     /*!
         \var int m_AddressIndex
         \brief The value of the AddressIndex
      */    
-    int m_AddressIndex;
+    int m_AddressIndex{0};
 
     /*!
         \var int m_Address2Index
         \brief The value of the Address2Index
      */  
-    int m_Address2Index;
+    int m_Address2Index{0};
 
     /*!
         \var int m_ZipCityIdIndex
         \brief The value of the ZipCityIdIndex
      */  
-    int m_ZipCityIdIndex;
+    int m_ZipCityIdIndex{0};
 
     /*!
         \var int m_MailAddressIndex
         \brief The value of the MailAddressIndex
      */
-    int m_MailAddressIndex;
+    int m_MailAddressIndex{0};
 
     /*!
         \var int m_PhoneNumberIndex
         \brief The value of the PhoneNumberIndex
      */
-    int m_PhoneNumberIndex;
+    int m_PhoneNumberIndex{0};
 
     /*!
         \var int m_FaxNumberIndex
         \brief The value of the FaxNumberIndex
      */
-    int m_FaxNumberIndex;
+    int m_FaxNumberIndex{0};
 
     /*!
         \var int m_HotlineNumberIndex
         \brief The value of the HotlineNumberIndex
      */
-    int m_HotlineNumberIndex;
+    int m_HotlineNumberIndex{0};
 
     /*!
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
     */ 
-    int m_LastUpdateIndex;
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model

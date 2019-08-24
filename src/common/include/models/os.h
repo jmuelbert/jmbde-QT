@@ -221,36 +221,36 @@ private:
         \var int m_OSIdIndex
         \brief The value of the OSId
      */     
-    int m_OSIdIndex;
+    int m_OSIdIndex{0};
 
      /*!
         \var int m_NameIndex
         \brief The value of the Name
      */  
-    int m_NameIndex;
+    int m_NameIndex{0};
 
      /*!
         \var int m_VersionIndex
         \brief The value of the Version
      */
-    int m_VersionIndex;
+    int m_VersionIndex{0};
 
      /*!
         \var int m_RevisionIndex
         \brief The value of the Revision
      */
-    int m_RevisionIndex;
+    int m_RevisionIndex{0};
 
      /*!
         \var int m_FixIndex
         \brief The value of the Fix
      */
-    int m_FixIndex;
+    int m_FixIndex{0};
 
     /*!
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
     */  
-    int m_LastUpdateIndex;
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model

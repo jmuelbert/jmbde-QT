@@ -254,7 +254,7 @@ private:
         \var int m_dbType
         \brief The holder for the DB-Type
      */
-    int m_dbType;
+    int m_dbType{0};
 
     /*!
         \var  QString m_dbHostName

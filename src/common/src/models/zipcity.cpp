@@ -42,7 +42,7 @@
 
 #include "models/zipcity.h"
 
-Model::ZipCityModel::ZipCityModel(QObject *parent) : CommonData(parent) {
+Model::ZipCity::ZipCity(QObject *parent) : CommonData(parent) {
 
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);
@@ -52,14 +52,16 @@ Model::ZipCityModel::ZipCityModel(QObject *parent) : CommonData(parent) {
     setIndexes();
 }
 
-void Model::ZipCityModel::setIndexes() {
+Model::ZipCity::~ZipCity() { }
+
+void Model::ZipCity::setIndexes() {
     m_ZipCityIdIndex = m_model->fieldIndex(QLatin1String("zip_city_id"));
     m_ZipCodeIdIndex = m_model->fieldIndex(QLatin1String("zip_code_id"));
     m_CityIdIndex = m_model->fieldIndex(QLatin1String("city_id"));
     m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-QSqlRelationalTableModel *Model::ZipCityModel::initializeRelationalModel() {
+QSqlRelationalTableModel *Model::ZipCity::initializeRelationalModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -71,7 +73,7 @@ QSqlRelationalTableModel *Model::ZipCityModel::initializeRelationalModel() {
     return m_model;
 }
 
-QSqlRelationalTableModel *Model::ZipCityModel::initializeInputDataModel() {
+QSqlRelationalTableModel *Model::ZipCity::initializeInputDataModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -80,21 +82,26 @@ QSqlRelationalTableModel *Model::ZipCityModel::initializeInputDataModel() {
     return m_model;
 }
 
-QSqlTableModel *Model::ZipCityModel::initializeViewModel() {
+QSqlTableModel *Model::ZipCity::initializeViewModel() {
 
     m_model->select();
 
     return m_model;
 }
 
-QString Model::ZipCityModel::generateTableString(QAbstractTableModel *model,
+QString Model::ZipCity::generateTableString(QAbstractTableModel *model,
                                                  QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(zipCityLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
+
+#endif
 
     QList<int> set;
 
@@ -117,14 +124,19 @@ QString Model::ZipCityModel::generateTableString(QAbstractTableModel *model,
     return outString;
 }
 
-QString Model::ZipCityModel::generateFormularString(QAbstractTableModel *model,
+QString Model::ZipCity::generateFormularString(QAbstractTableModel *model,
                                                     QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(zipCityLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
+
+#endif
 
     QList<int> set;
 

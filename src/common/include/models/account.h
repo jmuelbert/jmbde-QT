@@ -91,6 +91,7 @@ class JMBDE_COMMON_EXPORT Account : public CommonData {
         Defines the Logging Categorie for the class
      */
     Q_LOGGING_CATEGORY(accountLC, "jmbde.models.account")
+
 public:
     /*!
         \fn Account(QObject *parent = nullptr)
@@ -100,11 +101,13 @@ public:
     explicit Account(QObject *parent = nullptr);
 
     /*!
-        \fn  ~Account() override;
+        \fn  ~Account();
 
         \brief Destructor for  Account
      */
      ~Account();
+
+    // implement the virtuals
 
     /*!
         \fn virtual void setIndexes()
@@ -156,6 +159,7 @@ public:
                                            const QString &header);
 
     // Getter
+
     /*!
         \fn  int AccountIdIndex()
 

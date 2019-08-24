@@ -440,7 +440,7 @@ private:
         \var   int m_ReplaceIndex
         \brief The value of the ReplaceIndex
      */
-    int m_ReplaceIndex;
+    int m_ReplaceIndex{0};
 
     /*!
         \var   int m_DeviceNameIdIndex

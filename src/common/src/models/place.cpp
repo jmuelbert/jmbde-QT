@@ -42,7 +42,7 @@
 
 #include "models/place.h"
 
-Model::PlaceDataModel::PlaceDataModel(QObject *parent) : CommonData(parent) {
+Model::Place::Place(QObject *parent) : CommonData(parent) {
 
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);
@@ -52,7 +52,9 @@ Model::PlaceDataModel::PlaceDataModel(QObject *parent) : CommonData(parent) {
     setIndexes();
 }
 
-void Model::PlaceDataModel::setIndexes() {
+Model::Place::~Place() { }
+
+void Model::Place::setIndexes() {
     m_PlaceIdIndex = m_model->fieldIndex(QLatin1String("place_id"));
     m_NameIndex = m_model->fieldIndex(QLatin1String("name"));
     m_RoomIndex = m_model->fieldIndex(QLatin1String("room"));
@@ -60,7 +62,7 @@ void Model::PlaceDataModel::setIndexes() {
     m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-QSqlRelationalTableModel *Model::PlaceDataModel::initializeRelationalModel() {
+QSqlRelationalTableModel *Model::Place::initializeRelationalModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -72,7 +74,7 @@ QSqlRelationalTableModel *Model::PlaceDataModel::initializeRelationalModel() {
     return m_model;
 }
 
-QSqlRelationalTableModel *Model::PlaceDataModel::initializeInputDataModel() {
+QSqlRelationalTableModel *Model::Place::initializeInputDataModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -81,21 +83,26 @@ QSqlRelationalTableModel *Model::PlaceDataModel::initializeInputDataModel() {
     return m_model;
 }
 
-QSqlTableModel *Model::PlaceDataModel::initializeViewModel() {
+QSqlTableModel *Model::Place::initializeViewModel() {
 
     m_model->select();
 
     return m_model;
 }
 
-QString Model::PlaceDataModel::generateTableString(QAbstractTableModel *model,
+QString Model::Place::generateTableString(QAbstractTableModel *model,
                                                    QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
+ 
+ #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(placeLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+#endif
 
     QList<int> set;
 
@@ -119,14 +126,19 @@ QString Model::PlaceDataModel::generateTableString(QAbstractTableModel *model,
 }
 
 QString
-Model::PlaceDataModel::generateFormularString(QAbstractTableModel *model,
+Model::Place::generateFormularString(QAbstractTableModel *model,
                                               QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
+    
+ #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(placeLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+#endif
 
     QList<int> set;
 

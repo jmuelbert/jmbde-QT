@@ -68,7 +68,7 @@
     */
 
 namespace Model {
-class Fax : public CommonData {
+class JMBDE_COMMON_EXPORT Fax : public CommonData {
     /*!
       \macro Q_OBJECT
       \relates QObject

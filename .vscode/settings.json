@@ -1,5 +1,8 @@
 {
     "editor.formatOnType": true,
+    "clang-format.language.c.enable": true,
+    "clang-format.language.cpp.enable": true,
+    "clang.completion.enable": true,
     "clang-format.executable": "/usr/local/bin",
     "cmake.cmakePath": "/usr/local/bin/cmake",
     "files.associations": {

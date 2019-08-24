@@ -40,8 +40,7 @@
 **
 **************************************************************************/
 
-#ifndef ZIPCODE_H
-#define ZIPCODE_H
+#pragma once
 
 #include <QObject>
 #include <QtSql>
@@ -51,73 +50,165 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
+#include "definitions.h"
+#include "jmbde_common_export.h"
 #include "models/commondata.h"
+#include "models/idatamodel.h"
+
+
+/*!
+    \class ZipCode
+    \brief The ZipCodet class
+    \details In this is handlet all ZipCode
+    \author Jürgen Mülbert
+    \since 0.4
+    \version 0.4.25
+    \date 03.08.2019
+    \copyright EUPL V1.2
+    */
 
 namespace Model {
-class ZipCodeModel : public CommonData {
-public:
-    explicit ZipCodeModel(QObject *parent = nullptr);
+class JMBDE_COMMON_EXPORT ZipCode : public CommonData {
+    /*!
+      \macro Q_OBJECT
+      \relates QObject
 
-    virtual ~ZipCodeModel() = default;
+      The Q_OBJECT macro must appear in the private section
+      of a class definition that declares its own signals and
+      slots, or that uses other services provided by Qt's
+      meta-object system.
+
+      ...
+
+      \sa {Meta-Object System}, {Signals and Slots}, {QtsProperty System}
+  */
+    Q_OBJECT
+
+    /*!
+        \macro Q_LOGGING_CATEGORY
+        \relates QLogging
+
+        Defines the Logging Categorie for the class
+     */
+    Q_LOGGING_CATEGORY(zipCodeLC, "jmbde.models.zipcode")
+
+public:
+    /*!
+        \fn ZipCode(QObject *parent = nullptr)
+
+        \brief Constructor for the ZipCode
+     */
+    explicit ZipCode(QObject *parent = nullptr);
+
+    /*!
+        \fn  ~ZipCode();
+
+        \brief Destructor for ZipCode
+     */
+    ~ZipCode();
 
     // implement the virtuals
 
-    /**
-     * @brief setIndexes
+    /*!
+        \fn virtual void setIndexes()
+        \brief Set the fieldindexes from the datafieldnames of the db.
      */
     virtual void setIndexes();
 
-    /**
-     * @brief initializeRelationalModel
-     * @return
+    /*!
+        \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
+        \brief set the QSqlRelationalTableModel for the DataModel
+        Returns The QSqlRelationalTableModel
      */
     virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-    /**
-     * @brief initializeInputDataModel
-     * @return
+    /*!
+        \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
+        \brief Initialize the InputDataModel
+
+        Returns The QSqlRelationalTableModel
      */
     virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-    /**
-     * @brief initializeViewModel
-     * @return
+    /*!
+        \fn virtual QSqlTableModel *initializeViewModel()
+        \brief Initialize the ViewModel
+
+        Returns QSqlTableModel
      */
     virtual QSqlTableModel *initializeViewModel();
 
-    /**
-     * @brief generateTableString
-     * @param model
-     * @param header
-     * @return
+    /*!
+     * \fn virtual QString generateTableString(QAbstractTableModel *model,
+                                const QString &header)
+        \brief generateTableString
+
+        Returns a QString with the generated Table for Output
      */
     virtual QString generateTableString(QAbstractTableModel *model,
                                         QString header);
 
-    /**
-     * @brief generateFormularString
-     * @param model
-     * @param header
-     * @return
+    /*!
+        \fn virtual QString generateFormularString(QAbstractTableModel *model,
+                                   const QString &header)
+        \brief generateFormularString
+
+        Returns a QString with the generated Table for Output
      */
     virtual QString generateFormularString(QAbstractTableModel *model,
                                            QString header);
 
     // Getter
+
+    /*!
+        \fn  int ZipCodeIdIndex()
+
+        \brief Get the index of the fieldname ZipCodeId from the database
+
+        Returns the value of the index
+     */
     int ZipCodeIdIndex() const { return m_ZipCodeIdIndex; }
+
+    /*!
+        \fn  int CodeIndex()
+
+        \brief Get the index of the fieldname Code from the database
+
+        Returns the value of the index
+     */
     int CodeIndex() const { return m_CodeIndex; }
+
+    /*!
+        \fn  int LastUpdateIndex()
+
+        \brief Get the index of the fieldname LastUpdate form the database
+
+        Returns the value of the index
+     */
     int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-    /**
-     * @brief tableName - the name of the database table
-     * @
+    /*!
+        \brief The Tablename in the database \e is const
      */
     const QString m_tableName = QLatin1String("zip_code");
 
-    int m_ZipCodeIdIndex;
-    int m_CodeIndex;
-    int m_LastUpdateIndex;
+    /*!
+        \var int m_ZipCodeIdIndex
+        \brief The value of the ZipCodeIdIndex
+     */
+    int m_ZipCodeIdIndex{0};
+
+     /*!
+        \var int m_CodeIndex
+        \brief The value of the CodeIndex
+     */   
+    int m_CodeIndex{0};
+
+    /*!
+        \var int m_LastUpdateIndex
+        \brief The value of the LastUpdateIndex
+    */    
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model
-#endif // ZIPCODE_H

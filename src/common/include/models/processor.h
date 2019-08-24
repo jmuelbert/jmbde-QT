@@ -40,12 +40,9 @@
 **
 **************************************************************************/
 
-#ifndef PROCESSORDATAMODEL_H
-#define PROCESSORDATAMODEL_H
+#pragma once
 
 #include <QObject>
-
-#include <QStandardPaths>
 #include <QtSql>
 
 #include <QSqlDatabase>
@@ -58,76 +55,185 @@
 #include "models/commondata.h"
 #include "models/idatamodel.h"
 
-namespace Model {
-class JMBDE_COMMON_EXPORT ProcessorDataModel : public CommonData {
-public:
-    explicit ProcessorDataModel(QObject *parent = nullptr);
+/*!
+    \class Mobile
+    \brief The Mobile is the class to handle the mobiles
+    \sa CommonDataModel
 
-    virtual ~ProcessorDataModel() = default;
+    \author Jürgen Mülbert
+    \since 0.4
+    \version 0.4.25
+    \date 03.08.2019
+    \copyright EUPL V1.2
+ */
+
+namespace Model {
+class JMBDE_COMMON_EXPORT Processor : public CommonData {
+    /*!
+      \macro Q_OBJECT
+      \relates QObject
+
+      The Q_OBJECT macro must appear in the private section
+      of a class definition that declares its own signals and
+      slots, or that uses other services provided by Qt's
+      meta-object system.
+
+      ...
+
+      \sa {Meta-Object System}, {Signals and Slots}, {QtsProperty System}
+  */
+    Q_OBJECT
+
+    /*!
+        \macro Q_LOGGING_CATEGORY
+        \relates QLogging
+
+        Defines the Logging Categorie for the class
+     */
+    Q_LOGGING_CATEGORY(processorLC, "jmbde.models.processor")
+
+public:
+    /*!
+        \fn explicit Processor(QObject *parent = nullptr)
+        \brief The Constructor for the Processor
+    */
+    explicit Processor(QObject *parent = nullptr);
+
+    /*!
+        \fn ~Processor
+        \brief The destructor for the Processor
+     */
+    ~Processor();
 
     // implement the virtuals
 
-    /**
-     * @brief setIndexes
+    /*!
+        \fn virtual void setIndexes()
+        \brief Set the fieldindexes from the datafieldnames of the db.
      */
     virtual void setIndexes();
 
-    /**
-     * @brief initializeRelationalModel
-     * @return
+    /*!
+        \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
+        \brief set the QSqlRelationalTableModel for the DataModel
+        Returns The QSqlRelationalTableModel
      */
     virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-    /**
-     * @brief initializeInputDataModel
-     * @return
-     */
+    /*!
+            \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
+            \brief Initialize the InputDataModel
+
+            Returns The QSqlRelationalTableModel
+        */ 
     virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-    /**
-     * @brief initializeViewModel
-     * @return
+    /*!
+      \fn virtual QSqlTableModel *initializeViewModel()
+      \brief Initialize the ViewModel
+   
+      Returns QSqlTableModel
      */
     virtual QSqlTableModel *initializeViewModel();
 
-    /**
-     * @brief generateTableString
-     * @param model
-     * @param header
-     * @return
+    /*!
+        \fn virtual QString generateTableString(QAbstractTableModel *model,
+                                const QString &header)
+        \brief generateTableString
+
+        Returns a QString with the generated Table for Output
      */
     virtual QString generateTableString(QAbstractTableModel *model,
                                         QString header);
 
-    /**
-     * @brief generateFormularString
-     * @param model
-     * @param header
-     * @return
+   /*!
+        \fn virtual QString generateFormularString(QAbstractTableModel *model,
+                                   const QString &header)
+        \brief generateFormularString
+
+        Returns a QString with the generated Table for Output
      */
     virtual QString generateFormularString(QAbstractTableModel *model,
                                            QString header);
 
     // Getter
 
+    /*!
+        \fn int ProcessorIdIndex()
+
+        \brief Get the index of the fieldname ProcessorId form the database
+
+        Returns the value of the index
+     */
     int ProcessorIdIndex() const { return m_ProcessorIdIndex; }
+
+     /*!
+        \fn int NameIndex()
+
+        \brief Get the index of the fieldname Name form the database
+
+        Returns the value of the index
+     */   
     int NameIndex() const { return m_NameIndex; }
+
+     /*!
+        \fn int ClockRateIndex()
+
+        \brief Get the index of the fieldname ClockRate form the database
+
+        Returns the value of the index
+     */       
     int ClockRateIndex() const { return m_ClockRateIndex; }
+
+     /*!
+        \fn int CoresIndex()
+
+        \brief Get the index of the fieldname Cores form the database
+
+        Returns the value of the index
+     */   
     int CoresIndex() const { return m_CoresIndex; }
+   
+    /*!
+        \var int m_LastUpdateIndex
+        \brief The value of the LastUpdateIndex
+    */     
     int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-    /**
-     * @brief tableName - the name of the database table
-     * @
+    /*!
+        \brief The Tablename in the database \e is const
      */
     const QString m_tableName = QLatin1String("processor");
 
-    int m_ProcessorIdIndex;
-    int m_NameIndex;
-    int m_ClockRateIndex;
-    int m_CoresIndex;
-    int m_LastUpdateIndex;
+     /*!
+        \var int m_ProcessorIdIndex
+        \brief The value of the ProcessorIdIndex
+     */
+    int m_ProcessorIdIndex{0};
+
+     /*!
+        \var int m_NameIndex
+        \brief The value of the Name
+     */
+    int m_NameIndex{0};
+
+     /*!
+        \var int m_ClockRateIndex
+        \brief The value of the ClockRate ndex
+     */
+    int m_ClockRateIndex{0};
+
+     /*!
+        \var int m_CoresIndex
+        \brief The value of the CoresIndex
+     */
+    int m_CoresIndex{0};
+
+     /*!
+        \var int m_LastUpdateIndex
+        \brief The value of the LastUpdateIndex
+     */
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model
-#endif // PROCESSORDATAMODEL_H

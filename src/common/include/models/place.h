@@ -40,12 +40,9 @@
 **
 **************************************************************************/
 
-#ifndef PLACEDATAMODEL_H
-#define PLACEDATAMODEL_H
+#pragma once
 
 #include <QObject>
-
-#include <QStandardPaths>
 #include <QtSql>
 
 #include <QSqlDatabase>
@@ -58,81 +55,180 @@
 #include "models/commondata.h"
 #include "models/idatamodel.h"
 
+/*!
+    \class Mobile
+    \brief The Mobile is the class to handle the mobiles
+    \sa CommonDataModel
+
+    \author Jürgen Mülbert
+    \since 0.4
+    \version 0.4.25
+    \date 03.08.2019
+    \copyright EUPL V1.2
+ */
 namespace Model {
-class PlaceDataModel : public CommonData {
+class JMBDE_COMMON_EXPORT Place : public CommonData {
+    /*!
+      \macro Q_OBJECT
+      \relates QObject
+
+      The Q_OBJECT macro must appear in the private section
+      of a class definition that declares its own signals and
+      slots, or that uses other services provided by Qt's
+      meta-object system.
+
+      ...
+
+      \sa {Meta-Object System}, {Signals and Slots}, {QtsProperty System}
+  */
+    Q_OBJECT
+
+    /*!
+        \macro Q_LOGGING_CATEGORY
+        \relates QLogging
+
+        Defines the Logging Categorie for the class
+     */
+    Q_LOGGING_CATEGORY(placeLC, "jmbde.models.place")
+
 public:
-    /**
-     * @brief PlaceDataModel::PlaceDataModel
+     /*!
+        \fn explicit Place(QObject *parent = nullptr)
+        \brief The Constructor for the Place
+    */
+    explicit Place(QObject *parent = nullptr);
+
+    /*!
+        \fn ~Place()
+        \brief The destructor for the Place
      */
-    explicit PlaceDataModel(QObject *parent = nullptr);
+    ~Place();
 
-    /**
-     * @brief PlaceDataModel::~PlaceDataModel
-     */
-    virtual ~PlaceDataModel() = default;
-
-    // implement the virtuals
-
-    /**
-     * @brief setIndexes
+    /*!
+        \fn virtual void setIndexes()
+        \brief Set the fieldindexes from the datafieldnames of the db.
      */
     virtual void setIndexes();
 
-    /**
-     * @brief initializeRelationalModel
-     * @return
+    /*!
+        \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
+        \brief set the QSqlRelationalTableModel for the DataModel
+        Returns The QSqlRelationalTableModel
      */
     virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-    /**
-     * @brief initializeInputDataModel
-     * @return
-     */
+    /*!
+            \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
+            \brief Initialize the InputDataModel
+
+            Returns The QSqlRelationalTableModel
+        */ 
     virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-    /**
-     * @brief initializeViewModel
-     * @return
+    /*!
+     * \fn virtual QSqlTableModel *initializeViewModel()
+     * \brief Initialize the ViewModel
+     *
+     * Returns QSqlTableModel
      */
     virtual QSqlTableModel *initializeViewModel();
 
-    /**
-     * @brief generateTableString
-     * @param model
-     * @param header
-     * @return
+    /*!
+     * \fn virtual QString generateTableString(QAbstractTableModel *model,
+                                const QString &header)
+        \brief generateTableString
+
+        Returns a QString with the generated Table for Output
      */
     virtual QString generateTableString(QAbstractTableModel *model,
                                         QString header);
 
-    /**
-     * @brief generateFormularString
-     * @param model
-     * @param header
-     * @return
+   /*!
+        \fn virtual QString generateFormularString(QAbstractTableModel *model,
+                                   const QString &header)
+        \brief generateFormularString
+
+        Returns a QString with the generated Table for Output
      */
     virtual QString generateFormularString(QAbstractTableModel *model,
                                            QString header);
 
-    // Getter
+    /*!
+        \fn int PlaceIdIndex()
+
+        \brief Get the index of the fieldname PlaceId form the database
+
+        Returns the value of the index
+     */
     int PlaceIdIndex() const { return m_PlaceIdIndex; }
+
+    /*!
+        \fn int NameIndex()
+
+        \brief Get the index of the fieldname Name form the database
+
+        Returns the value of the index
+     */      
     int NameIndex() const { return m_NameIndex; }
+
+    /*!
+        \fn int RoomIndex()
+
+        \brief Get the index of the fieldname Room form the database
+
+        Returns the value of the index
+     */   
     int RoomIndex() const { return m_RoomIndex; }
+
+    /*!
+        \fn int DeskIndex()
+
+        \brief Get the index of the fieldname Desk form the database
+
+        Returns the value of the index
+     */   
     int DeskIndex() const { return m_DeskIndex; }
+
+    /*!
+        \var int m_LastUpdateIndex
+        \brief The value of the LastUpdateIndex
+    */  
     int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-    /**
-     * @brief tableName - the name of the database table
-     * @
+    /*!
+        \brief The Tablename in the database \e is const
      */
     const QString m_tableName = QLatin1String("place");
 
-    int m_PlaceIdIndex;
-    int m_NameIndex;
-    int m_RoomIndex;
-    int m_DeskIndex;
-    int m_LastUpdateIndex;
+     /*!
+        \var int m_PlaceIdIndex
+        \brief The value of the PlaceIdIndex
+     */  
+    int m_PlaceIdIndex{0};
+
+     /*!
+        \var int m_NameIndex
+        \brief The value of the NameIndex
+     */
+    int m_NameIndex{0};
+
+     /*!
+        \var int m_RoomIndex
+        \brief The value of the RoomIndex
+     */
+    int m_RoomIndex{0};
+    
+      /*!
+        \var int m_DeskIndex
+        \brief The value of the DeskIndex
+     */   
+    int m_DeskIndex{0};
+
+     /*!
+        \var int m_LastUpdateIndex
+        \brief The value of the LastUpdateIndex
+     */
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model
-#endif // PLACEDATAMODEL_H

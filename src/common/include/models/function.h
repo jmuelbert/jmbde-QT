@@ -205,24 +205,24 @@ private:
         \var int m_FunctionIdIndex
         \brief The value of the FunctionIdIndex
      */  
-    int m_FunctionIdIndex;
+    int m_FunctionIdIndex{0};
 
      /*!
         \var int m_NameIndex
         \brief The value of the NameIndex
      */    
-    int m_NameIndex;
+    int m_NameIndex{0};
 
       /*!
         \var int m_PriorityIndex
         \brief The value of the PriorityIndexx
      */   
-    int m_PriorityIndex;
+    int m_PriorityIndex{0};
 
     /*!
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
     */     
-    int m_LastUpdateIndex;
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model

@@ -24,6 +24,7 @@ Table of Contents
     chapters/getting_started
     chapters/user_interface
     chapters/preferences
+    chapters/database
     chapters/appendix
     glossary
 

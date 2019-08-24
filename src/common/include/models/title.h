@@ -40,12 +40,9 @@
 **
 **************************************************************************/
 
-#ifndef TITLEDATAMODEL_H
-#define TITLEDATAMODEL_H
+#pragma once
 
 #include <QObject>
-
-#include <QStandardPaths>
 #include <QtSql>
 
 #include <QSqlDatabase>
@@ -58,75 +55,184 @@
 #include "models/commondata.h"
 #include "models/idatamodel.h"
 
-namespace Model {
-class JMBDE_COMMON_EXPORT TitleDataModel : public CommonData {
-public:
-    explicit TitleDataModel(QObject *parent = nullptr);
+/*!
+    \class Title
+    \brief The Title class
+    \details In this is handlet all Titles
+    \author Jürgen Mülbert
+    \since 0.4
+    \version 0.4.25
+    \date 03.08.2019
+    \copyright EUPL V1.2
+    */
 
-    virtual ~TitleDataModel() = default;
+namespace Model {
+class JMBDE_COMMON_EXPORT Title : public CommonData {
+    /*!
+      \macro Q_OBJECT
+      \relates QObject
+
+      The Q_OBJECT macro must appear in the private section
+      of a class definition that declares its own signals and
+      slots, or that uses other services provided by Qt's
+      meta-object system.
+
+      ...
+
+      \sa {Meta-Object System}, {Signals and Slots}, {QtsProperty System}
+  */
+    Q_OBJECT
+
+    /*!
+        \macro Q_LOGGING_CATEGORY
+        \relates QLogging
+
+        Defines the Logging Categorie for the class
+     */
+    Q_LOGGING_CATEGORY(titleLC, "jmbde.models.title")
+
+public:
+    /*!
+        \fn Title(QObject *parent = nullptr)
+
+        \brief Constructor for the Title
+     */
+    explicit Title(QObject *parent = nullptr);
+
+    /*!
+        \fn  ~Title();
+
+        \brief Destructor for Title
+     */
+    ~Title();
 
     // implement the virtuals
 
-    /**
-     * @brief setIndexes
+    /*!
+        \fn virtual void setIndexes()
+        \brief Set the fieldindexes from the datafieldnames of the db.
      */
     virtual void setIndexes();
 
-    /**
-     * @brief initializeRelationalModel
-     * @return
+    /*!
+        \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
+        \brief set the QSqlRelationalTableModel for the DataModel
+        Returns The QSqlRelationalTableModel
      */
     virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-    /**
-     * @brief initializeInputDataModel
-     * @return
+    /*!
+        \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
+        \brief Initialize the InputDataModel
+
+        Returns The QSqlRelationalTableModel
      */
     virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-    /**
-     * @brief initializeViewModel
-     * @return
+    /*!
+        \fn virtual QSqlTableModel *initializeViewModel()
+        \brief Initialize the ViewModel
+
+        Returns QSqlTableModel
      */
     virtual QSqlTableModel *initializeViewModel();
 
-    /**
-     * @brief generateTableString
-     * @param model
-     * @param header
-     * @return
+    /*!
+     * \fn virtual QString generateTableString(QAbstractTableModel *model,
+                                const QString &header)
+        \brief generateTableString
+
+        Returns a QString with the generated Table for Output
      */
     virtual QString generateTableString(QAbstractTableModel *model,
                                         QString header);
 
-    /**
-     * @brief generateFormularString
-     * @param model
-     * @param header
-     * @return
+    /*!
+        \fn virtual QString generateFormularString(QAbstractTableModel *model,
+                                   const QString &header)
+        \brief generateFormularString
+
+        Returns a QString with the generated Table for Output
      */
     virtual QString generateFormularString(QAbstractTableModel *model,
                                            QString header);
 
     // Getter
+
+    /*!
+        \fn  int TitleIdIndex()
+
+        \brief Get the index of the fieldname TitleId from the database
+
+        Returns the value of the index
+     */
     int TitleIdIndex() const { return m_TitleIdIndex; }
+
+      /*!
+        \fn  int NameIndex()
+
+        \brief Get the index of the fieldname Name from the database
+
+        Returns the value of the index
+     */  
     int NameIndex() const { return m_NameIndex; }
+
+      /*!
+        \fn  int FromDateIndex()
+
+        \brief Get the index of the fieldname FromDate from the database
+
+        Returns the value of the index
+     */      
     int FromDateIndex() const { return m_FromDateIndex; }
+
+      /*!
+        \fn  int ToDateIndex()
+
+        \brief Get the index of the fieldname ToDate from the database
+
+        Returns the value of the index
+     */    
     int ToDateIndex() const { return m_ToDateIndex; }
+
+    /*!
+        \fn  int LastUpdateIndex()
+
+        \brief Get the index of the fieldname LastUpdate form the database
+
+        Returns the value of the index
+     */
     int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-    /**
-     * @brief tableName - the name of the database table
-     * @
+    /*!
+        \brief The Tablename in the database \e is const
      */
     const QString m_tableName = QLatin1String("title");
 
-    int m_TitleIdIndex;
-    int m_NameIndex;
-    int m_FromDateIndex;
-    int m_ToDateIndex;
-    int m_LastUpdateIndex;
+    /*!
+        \var int m_TitleIdIndex
+        \brief The value of the TitleIdIndex
+     */
+    int m_TitleIdIndex{0};
+
+    /*!
+        \var int m_NameIndex
+        \brief The value of the NameIndex
+     */
+    int m_NameIndex{0};
+
+    /*!
+        \var int m_FromDateIndex
+        \brief The value of the FromDateIndex
+     */    
+    int m_FromDateIndex{0};
+
+    /*!
+        \var int m_ToDateIndex
+        \brief The value of the ToDatenIdex
+     */   
+    int m_ToDateIndex{0};
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model
-#endif // TITLEDATAMODEL_H

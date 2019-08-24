@@ -41,8 +41,8 @@ matrix:
 
     script:
       - mkdir build && cd build 
-      - cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_DIR=/usr ..
-      - cmake --build . --target install
+      - cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Release ..
+      - cmake --build .
       - ctest -C Release -VV
       - cpack .      
       - /usr/local/opt/qt5/bin/macdeployqt jmbde.app -appstore-compliant

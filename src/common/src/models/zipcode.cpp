@@ -42,7 +42,7 @@
 
 #include "models/zipcode.h"
 
-Model::ZipCodeModel::ZipCodeModel(QObject *parent) : CommonData(parent) {
+Model::ZipCode::ZipCode(QObject *parent) : CommonData(parent) {
 
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);
@@ -52,13 +52,15 @@ Model::ZipCodeModel::ZipCodeModel(QObject *parent) : CommonData(parent) {
     setIndexes();
 }
 
-void Model::ZipCodeModel::setIndexes() {
+Model::ZipCode::~ZipCode() { }
+
+void Model::ZipCode::setIndexes() {
     m_ZipCodeIdIndex = m_model->fieldIndex(QLatin1String("zip_code_id"));
     m_CodeIndex = m_model->fieldIndex(QLatin1String("code"));
     m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-QSqlRelationalTableModel *Model::ZipCodeModel::initializeRelationalModel() {
+QSqlRelationalTableModel *Model::ZipCode::initializeRelationalModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -70,7 +72,7 @@ QSqlRelationalTableModel *Model::ZipCodeModel::initializeRelationalModel() {
     return m_model;
 }
 
-QSqlRelationalTableModel *Model::ZipCodeModel::initializeInputDataModel() {
+QSqlRelationalTableModel *Model::ZipCode::initializeInputDataModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -79,21 +81,26 @@ QSqlRelationalTableModel *Model::ZipCodeModel::initializeInputDataModel() {
     return m_model;
 }
 
-QSqlTableModel *Model::ZipCodeModel::initializeViewModel() {
+QSqlTableModel *Model::ZipCode::initializeViewModel() {
 
     m_model->select();
 
     return m_model;
 }
 
-QString Model::ZipCodeModel::generateTableString(QAbstractTableModel *model,
+QString Model::ZipCode::generateTableString(QAbstractTableModel *model,
                                                  QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(zipCodeLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
+
+#endif
 
     QList<int> set;
 
@@ -116,14 +123,19 @@ QString Model::ZipCodeModel::generateTableString(QAbstractTableModel *model,
     return outString;
 }
 
-QString Model::ZipCodeModel::generateFormularString(QAbstractTableModel *model,
+QString Model::ZipCode::generateFormularString(QAbstractTableModel *model,
                                                     QString header) {
     QString outString;
-    int columnCount = model->columnCount();
-    int rowCount = model->rowCount();
+    
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(zipCodeLC, "Header: %s ( Columns: %i - Rows: %i )",
+            header.toUtf8().constData(), model->columnCount(),
+            model->rowCount());
+#else
+    qDebug() << "Header " << header.toUtf8().constData() << " ( Columns "
+             << model->columnCount() << " - Rows " << model->rowCount();
 
-    qDebug() << "Header : " << header << " Columns : " << columnCount
-             << " Rows : " << rowCount;
+#endif
 
     QList<int> set;
 

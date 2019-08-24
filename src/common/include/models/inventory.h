@@ -212,30 +212,30 @@ private:
         \var int m_InventoryIdIndex
         \brief The value of the InventoryIdIndex
      */        
-    int m_InventoryIdIndex;
+    int m_InventoryIdIndex{0};
 
      /*!
         \var int m_NumberIndex
         \brief The value of the NumberIndex
      */        
-    int m_NumberIndex;
+    int m_NumberIndex{0};
 
      /*!
         \var int m_DescriptionIndex
         \brief The value of the DescriptionIndex
      */ 
-    int m_DescriptionIndex;
+    int m_DescriptionIndex{0};
 
      /*!
         \var int m_ActiveIndex
         \brief The value of the ActiveIndex
      */ 
-    int m_ActiveIndex;
+    int m_ActiveIndex{0};
 
     /*!
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
     */     
-    int m_LastUpdateIndex;
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model

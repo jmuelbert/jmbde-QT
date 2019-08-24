@@ -101,8 +101,12 @@ for:
     - ctest -C $CONFIGURATION -VV
 
   artifacts:
-    - path: "*.appimage"
-    - path: "*.tar.gz"
+    - name: 'Linux-AppImage'
+      path: '*.appimage'
+    - name: 'Linux-Debian'
+      path: '*.deb'
+    - name: 'Linux-Archive'
+    - path: '*.tar.gz'
 
 ########## END UBUNTU SPECIFIC CONFIGURATION ##########
 
@@ -154,7 +158,7 @@ for:
 
   build_script:
 
-    - ps: cmake --build . --target install
+    - ps: cmake --build .
 
   after_build:
     - cd %APPVEYOR_BUILD_FOLDER%\build 
@@ -172,8 +176,10 @@ for:
     - ctest -C "$ENV:CONFIGURATION" -VV
 
   artifacts:
-    - path: "*.exe"
-    - path: "*.zip"
+    - name: Windows-Installer
+      path: 'jmbde*.exe'
+    - name: Windows-Archive
+    - path: 'jmbde-*.zip'
 
   on_finish:
     # Uncomment the following line if you don't want the build VM to be destroyed
@@ -195,11 +201,11 @@ on_finish:
 
 deploy:
   - provider: GitHub
-    release: $(APPVEYOR_REPO_TAG_NAME)
+    release: jmbde-QT $(JMBDE_VERSION)
     auth_token:
       secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
-      artifact: /.*\.*Update app/
-      draft: false
+      artifact: /.*\.(msi|7z|deb|exe)/
+      draft: true
       on:
         appveyor_repo_tag: true
         push_release: true
