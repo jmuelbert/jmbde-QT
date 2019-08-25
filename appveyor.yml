@@ -106,7 +106,7 @@ for:
     - name: 'Linux-Debian'
       path: '*.deb'
     - name: 'Linux-Archive'
-    - path: '*.tar.gz'
+      path: '*.tar.gz'
 
 ########## END UBUNTU SPECIFIC CONFIGURATION ##########
 
@@ -179,7 +179,7 @@ for:
     - name: Windows-Installer
       path: 'jmbde*.exe'
     - name: Windows-Archive
-    - path: 'jmbde-*.zip'
+      path: 'jmbde-*.zip'
 
   on_finish:
     # Uncomment the following line if you don't want the build VM to be destroyed

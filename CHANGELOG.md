@@ -1,8 +1,18 @@
-# ChangeLog
+# ChangeLog #
 
+<a name="0.4.26"></a>
+
+## 0.4.26 JMBDE (2019-08-25) ##
+
+- Change the build system to cmake
+- add api-doc comments to all model classes
+- docoument the database entities
+- check the c++ source with clang-tidy and make them better
+- check the c++ source with clazy for more quality
+  
 <a name="0.4.25"></a>
 
-## 0.4.25 JMBDE (2019-06-08)
+## 0.4.25 JMBDE (2019-06-08) ##
 
 - Change the windows installer. now using Inno Setup
 - move the linux build to appveyer
@@ -11,7 +21,7 @@
 
 <a name="0.4.23"></a>
 
-## 0.4.23 A BDE tool (2019-04-27)
+## 0.4.23 A BDE tool (2019-04-27) ##
 
 - Update the UI for Datainput
 - Add a .coafile
@@ -20,14 +30,23 @@
 
 <a name="0.4.22"></a>
 
-## 0.4.22 A BDE tool (2018-11-01)
+## 0.4.22 A BDE tool (2018-11-01) ##
 
-## 0.4.9 (2018-03-17)
+<a name="0.4.9"></a>
 
+## 0.4.9 (2018-03-17) ##
+
+- Add Qbs Build System
 - Add Dialogs for Printer and Chipcards
 - Make all inputareas working.
 - Create all translation ts-files.
 
+## Version 0.4.7 (03 December 2017) ##
+
+* New Database structure
+* New Project structure
+* New GUI
+  
 Thu Mar 15 21:53:04 2018 +0100 - develop@juergen-muelbert.de
 
 - Change Input Dialog Handling
