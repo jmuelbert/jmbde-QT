@@ -1,13 +1,17 @@
 language: cpp
-sudo: required
-dist: xenial
-python: 3.6
+dist: bionic
+sudo: true
+os:
+  - linux
+  - osx
+compiler:
+  - gcc
+  - clang
 env:
   global:
-  - secure: "phAkW9nYVFAxY1ue/kiNc4mtud+VdT7XB/6h9lSjsdDZcJNyR62KYKwLDxFlTdbgwj88JQ+ovTtf638POml5+n+kSYJMYBB0dj7dxbek4GECUA8gobCvTaBMP1hS0qIfWAp35ZESUspq1KfXC+DrvH3K+IqIxHAJiWAC1p5pYUinFA3eRjUqYOAzVJnHtEQ6K0P0Z6RxafcBqd6KzWfPJH7tuoPX+Rl+C5J3wAZzshrw0cYzh/Et42c7dU9J/cHdXdji7nXzNkYUripVZPqSDhcJ7iF65USkDJQZGEEQ+eAmsHys/ApRMd6UCQrqr+uiBjjPf3JdQcyLaBsDJQF2fzRNe1S4JqWdFvXeUjggB+lcGV/MKrL78nW8blANsFy1dalYmMX7opJS1OWXMIrJrG8IDenj5fyIhFq4h3XY+USlEPKaHpCPl3rZDlSxMnpqt47tvxNXYxayR0jDHgO2nRamhQ0ILE8EGnTZugeIJG2J9bYOlawUW/XSvLwUeLQPnNPn213w5eZSsupjJ7W3w7q8RNPxcgybYp21DPx3/nxhQeKRqssjhM344JKouMx6o5IRkT5UpkiZxEW1dJ6IiAZ+ioVenW1QNJc6CXs35JB+cQG33gnLt8vCUcTTMCz6Cnzp+xdyLe4yDxRm5IB+eLSBqaNfNsvbYWxol2pyIJs="
-
-before_install:
-  - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+    - LANG="en_US.UTF-8"
+    - CONFIGURATION=Release
+    - secure: "phAkW9nYVFAxY1ue/kiNc4mtud+VdT7XB/6h9lSjsdDZcJNyR62KYKwLDxFlTdbgwj88JQ+ovTtf638POml5+n+kSYJMYBB0dj7dxbek4GECUA8gobCvTaBMP1hS0qIfWAp35ZESUspq1KfXC+DrvH3K+IqIxHAJiWAC1p5pYUinFA3eRjUqYOAzVJnHtEQ6K0P0Z6RxafcBqd6KzWfPJH7tuoPX+Rl+C5J3wAZzshrw0cYzh/Et42c7dU9J/cHdXdji7nXzNkYUripVZPqSDhcJ7iF65USkDJQZGEEQ+eAmsHys/ApRMd6UCQrqr+uiBjjPf3JdQcyLaBsDJQF2fzRNe1S4JqWdFvXeUjggB+lcGV/MKrL78nW8blANsFy1dalYmMX7opJS1OWXMIrJrG8IDenj5fyIhFq4h3XY+USlEPKaHpCPl3rZDlSxMnpqt47tvxNXYxayR0jDHgO2nRamhQ0ILE8EGnTZugeIJG2J9bYOlawUW/XSvLwUeLQPnNPn213w5eZSsupjJ7W3w7q8RNPxcgybYp21DPx3/nxhQeKRqssjhM344JKouMx6o5IRkT5UpkiZxEW1dJ6IiAZ+ioVenW1QNJc6CXs35JB+cQG33gnLt8vCUcTTMCz6Cnzp+xdyLe4yDxRm5IB+eLSBqaNfNsvbYWxol2pyIJs="
 
 addons:
   coverity_scan:
@@ -19,44 +23,70 @@ addons:
     build_command: make
     branch_pattern: master
 
-matrix:
-  include:
-  - os: osx
-    install:
-      - brew tap kde-mac/kde
-      - brew install cppcheck
-      - brew install ccache
-      - brew install ninja
-      - brew install qt
-      - brew link --force qt5
-      - brew install kf5-extra-cmake-modules
-      - export Qt5_DIR=/usr/local/opt/qt5/lib/cmake
+before_install:
+  - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo add-apt-repository -y ppa:beineri/opt-qt-5.12.6-bionic; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test; fi
 
-    before_script:
-      - if [[ "$TRAVIS_TAG" ]]; then export JMBDE_RELEASE=true ; fi
-      - if [[ "$TRAVIS_TAG" ]]; then export JMBDE_VERSION=${TRAVIS_TAG:1} ; fi
-      - if [[ "$TRAVIS_TAG" == "" ]]; then export JMBDE_VERSION=$(date "+%Y.%m.%d") ; fi
-      - if [[ "$TRAVIS_BRANCH" == "snapshot" ]]; then export JMBDE_SNAPSHOT=true ; fi
+install:
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get -qq update; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get -qq install qt512base qt512tools qt512svg libgl1-mesa-dev; fi
+  - if [[ "$TRAVIS_OS_NAME" = "linux" && "$CC" = "gcc" ]]; then sudo apt-get -qq install g++-6 gcc-6; fi
+  - if [[ "$TRAVIS_OS_NAME" = "linux" && "$CC" = "gcc" ]]; then sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6; fi
+  - if [[ "$TRAVIS_OS_NAME" = "linux" && "$CC" = "gcc" ]]; then sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-6 90; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then npm install -g codecov; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then gem install coveralls-lcov; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get -qq install lcov; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew unlink node; brew install node; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew ls | grep -wq qt5 || brew install qt5; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew upgrade coreutils; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then export PATH=$PATH:/usr/local/opt/qt5/bin; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install pandoc; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then nvm install 12; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then nvm use 12; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then npm install -g appdmg; fi
 
+before_script:
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then source /opt/qt512/bin/qt512-env.sh; fi
+  - cmake -v
+#matrix:
+#  include:
+#  - os: osx
+#    install:
+#      - brew tap kde-mac/kde
+#      - brew install cppcheck
+#      - brew install ccache
+#      - brew install ninja
+#      - brew install qt
+#      - brew link --force qt5
+#      - brew install kf5-extra-cmake-modules
+#      - export Qt5_DIR=/usr/local/opt/qt5/lib/cmake
+#
+#    before_script:
+#      - if [[ "$TRAVIS_TAG" ]]; then export JMBDE_RELEASE=true ; fi
+#      - if [[ "$TRAVIS_TAG" ]]; then export JMBDE_VERSION=${TRAVIS_TAG:1} ; fi
+#      - if [[ "$TRAVIS_TAG" == "" ]]; then export JMBDE_VERSION=$(date "+%Y.%m.%d") ; fi
+#      - if [[ "$TRAVIS_BRANCH" == "snapshot" ]]; then export JMBDE_SNAPSHOT=true ; fi
 
-    script:
-      - mkdir build && cd build 
-      - cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Release ..
-      - cmake --build .
-      - ctest -C Release -VV
-      - cpack .      
-      - /usr/local/opt/qt5/bin/macdeployqt jmbde.app -appstore-compliant
-    
-    deploy:
-    - provider: releases
-      skip_cleanup: true
-      draft: true
-      tag_name: "$TRAVIS_TAG"
-      api_key:
-        secure: pNq/95/zTpPX25pAF3ACjoIQAnvxp6xZQYCgKhKkXhuSMCSBMl7ZIrRw0BNuM1JSHe3bRV68pfF3tgTJDWtDjFj/JHAWDOAKWhc1DeEmBXVESoizaY2Hk4yrnxjFfk+XMOFgqO+iMExap4OW+kZWXP3tltjKUYzBROMU33rey6NBiYne+UNVlzC5vgy47mj7ResrS4YBl/s3nifuE9Bigp4yDYHh4/4UgXCLXuFup+PwYRQPfwZKKiac5Bk3nHXxW+8WK3b6anboyHb+eqdZMqtu5xjqOpjwroGPPuUQsRm7c4hT93yx3IIBoIHl29hdhkWJlCOQxdhnbV0Ch9E4gombkwfHGlTFAwD3SQZFkCLdtF+1hbMgp4jta09hLgSobOIHhpGjqw+CxB5epYCM7E3WC6iKSrE7yMiSEqg6V+cf3LV+B2MlSzr1HtwLe6B7542WhFoJiF0mJCCGt//Ztp2m5174s4ZwvsiXqYMgs5x5kyp1HS5NqqllxmL3dDdPlhscKWLr7zbwDG/hhDfUpfpjefmadwf6BramK66En7fe2iol/supO86alL6/WNpCtyFaTLve/DHtWfDt+XquivGZwzCAz+0XyopJc3E7Ebxi8C49dyvdrQRi+ej1s44Cm1l/qCtS90d3WyqSfp8moepbi4pwd08vw/TD5zi8+x4=
-      file: j*.dmg
-      file_glob: true
-      on:
-        tags: true
+#
+#    script:
+#      - mkdir build && cd build
+#      - cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Release ..
+#      - cmake --build .
+#      - ctest -C Release -VV
+#      - cpack .
+#      - /usr/local/opt/qt5/bin/macdeployqt jmbde.app -appstore-compliant
+#
+#    deploy:
+#    - provider: releases
+#      skip_cleanup: true
+#      draft: true
+#      tag_name: "$TRAVIS_TAG"
+#      api_key:
+#        secure: pNq/95/zTpPX25pAF3ACjoIQAnvxp6xZQYCgKhKkXhuSMCSBMl7ZIrRw0BNuM1JSHe3bRV68pfF3tgTJDWtDjFj/JHAWDOAKWhc1DeEmBXVESoizaY2Hk4yrnxjFfk+XMOFgqO+iMExap4OW+kZWXP3tltjKUYzBROMU33rey6NBiYne+UNVlzC5vgy47mj7ResrS4YBl/s3nifuE9Bigp4yDYHh4/4UgXCLXuFup+PwYRQPfwZKKiac5Bk3nHXxW+8WK3b6anboyHb+eqdZMqtu5xjqOpjwroGPPuUQsRm7c4hT93yx3IIBoIHl29hdhkWJlCOQxdhnbV0Ch9E4gombkwfHGlTFAwD3SQZFkCLdtF+1hbMgp4jta09hLgSobOIHhpGjqw+CxB5epYCM7E3WC6iKSrE7yMiSEqg6V+cf3LV+B2MlSzr1HtwLe6B7542WhFoJiF0mJCCGt//Ztp2m5174s4ZwvsiXqYMgs5x5kyp1HS5NqqllxmL3dDdPlhscKWLr7zbwDG/hhDfUpfpjefmadwf6BramK66En7fe2iol/supO86alL6/WNpCtyFaTLve/DHtWfDt+XquivGZwzCAz+0XyopJc3E7Ebxi8C49dyvdrQRi+ej1s44Cm1l/qCtS90d3WyqSfp8moepbi4pwd08vw/TD5zi8+x4=
+#      file: j*.dmg
+#      file_glob: true
+#      on:
+#        tags: true
 
-    
