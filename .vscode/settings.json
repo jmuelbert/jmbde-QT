@@ -8,5 +8,6 @@
     "files.associations": {
         "typeinfo": "cpp",
         "random": "cpp"
-    }
+    },
+    "python.pythonPath": "/Users/juergen/miniconda/envs/develop/bin/python"
 }
