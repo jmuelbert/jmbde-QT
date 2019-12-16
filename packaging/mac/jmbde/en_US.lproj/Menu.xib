@@ -1,5 +1,5 @@
 
- 
+
 Pull requests
 Issues
 Marketplace
@@ -13,7 +13,7 @@ Branch: master Find file Copy path qbs/examples/cocoa-application/CocoaApplicati
 bb3f7fa  on 29 Oct 2013
  Christian Kandeler Add examples.
 0 contributors
-RawBlameHistory     
+RawBlameHistory
 4667 lines (4666 sloc)  302 KB
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">

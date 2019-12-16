@@ -1,43 +1,20 @@
-# Copyright (c) 2019 Jürgen Mülbert. All rights reserved.
 #
-# This file is part of jmbde
+#   jmbde a BDE Tool for companies
+#   Copyright (C) 2013-2019  Jürgen Mülbert
 #
-# Licensed under the EUPL, Version 1.2 or – as soon they
-# will be approved by the European Commission - subsequent
-# versions of the EUPL (the "Licence");
-# You may not use this work except in compliance with the
-# Licence.
-# You may obtain a copy of the Licence at:
+#   This program is free software: you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation, either version 3 of the License, or
+#   (at your option) any later version.
 #
-# https://joinup.ec.europa.eu/page/eupl-text-11-12
-#
-# Unless required by applicable law or agreed to in
-# writing, software distributed under the Licence is
-# distributed on an "AS IS" basis,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-# express or implied.
-# See the Licence for the specific language governing
-# permissions and limitations under the Licence.
-#
-# Lizenziert unter der EUPL, Version 1.2 oder - sobald
-#  diese von der Europäischen Kommission genehmigt wurden -
-# Folgeversionen der EUPL ("Lizenz");
-# Sie dürfen dieses Werk ausschließlich gemäß
-# dieser Lizenz nutzen.
-# Eine Kopie der Lizenz finden Sie hier:
-#
-# https://joinup.ec.europa.eu/page/eupl-text-11-12
-#
-# Sofern nicht durch anwendbare Rechtsvorschriften
-# gefordert oder in schriftlicher Form vereinbart, wird
-# die unter der Lizenz verbreitete Software "so wie sie
-# ist", OHNE JEGLICHE GEWÄHRLEISTUNG ODER BEDINGUNGEN -
-# ausdrücklich oder stillschweigend - verbreitet.
-# Die sprachspezifischen Genehmigungen und Beschränkungen
-# unter der Lizenz sind dem Lizenztext zu entnehmen.
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.13.3 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
 
 #
 # the jmbde application
@@ -46,7 +23,7 @@ project(jmbde)
 
 # collect icons
 set(JMBDE_ICONS_PNG
-    ${CMAKE_CURRENT_SOURCE_DIR}/icons/16-apps-jmbde.png  
+    ${CMAKE_CURRENT_SOURCE_DIR}/icons/16-apps-jmbde.png
   #  ${CMAKE_CURRENT_SOURCE_DIR}/icons/22-apps-jmbde.png
     ${CMAKE_CURRENT_SOURCE_DIR}/icons/32-apps-jmbde.png
   #  ${CMAKE_CURRENT_SOURCE_DIR}/icons/48-apps-jmbde.png
@@ -62,9 +39,6 @@ set(JMBDE_ICONS_SVG
 
 # add icons to application sources, to have them bundled
 # ecm_add_app_icon(JMBDE_APP_SRCS ICONS ${JMBDE_ICONS_PNG})
-
-# Qt5
-find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED Core DBus Widgets Sql)
 
 #
 # Finding Qt
@@ -87,14 +61,14 @@ add_executable(${PROJECT_NAME})
 
 target_compile_features(jmbde
     PUBLIC cxx_auto_type
-    PRIVATE          cxx_lambdas cxx_nullptr cxx_range_for cxx_raw_string_literals cxx_uniform_initialization
+    PRIVATE cxx_lambdas cxx_nullptr cxx_range_for cxx_raw_string_literals cxx_uniform_initialization
             cxx_variadic_templates cxx_rvalue_references cxx_defaulted_functions cxx_deleted_functions
             cxx_override cxx_final cxx_nonstatic_member_init)
-            
+
 target_include_directories(${PROJECT_NAME}
   PRIVATE
-    "${CMAKE_CURRENT_SOURCE_DIR}/include" 
-    "${CMAKE_CURRENT_BIN_DIR}/include" 
+    "${CMAKE_CURRENT_SOURCE_DIR}/include"
+    "${CMAKE_CURRENT_BIN_DIR}/include"
 
     )
 
@@ -131,7 +105,7 @@ endif()
 if(WIN32)
   # set rc file
   configure_file(
-   ${CMAKE_CURRENT_SOURCE_DIR}/winOS//app.rc.in 
+   ${CMAKE_CURRENT_SOURCE_DIR}/winOS//app.rc.in
    ${PROJECT_BINARY_DIR}/app.rc @ONLY)
 elseif(APPLE)
     # own plist template
@@ -157,17 +131,17 @@ elseif(APPLE)
 
   # Qt5
   set(QT_LIBS_DIR "${Qt5Widgets_DIR}/../..")
-  
+
 else()
   # executable
-  install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})  
-  
+  install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+
   # desktop files
   install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/Unix/io.github.jmuelbert.${PROJECT_NAME}.desktop DESTINATION  "${CMAKE_INSTALL_DATAROOTDIR}/applications")
 
   # icon
   install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/icons DESTINATION ${ICON_INSTALL_DIR})
-  
+
   # man page
     find_program(GZIP gzip)
     if(GZIP)

@@ -42,8 +42,7 @@
 
 #include "models/employeeaccount.h"
 
-Model::EmployeeAccount::EmployeeAccount(QObject *parent)
-    : CommonData(parent) {
+Model::EmployeeAccount::EmployeeAccount(QObject *parent) : CommonData(parent) {
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);
     m_model->setTable(this->m_tableName);
@@ -62,8 +61,7 @@ void Model::EmployeeAccount::setIndexes() {
     m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-QSqlRelationalTableModel *
-Model::EmployeeAccount::initializeRelationalModel() {
+QSqlRelationalTableModel *Model::EmployeeAccount::initializeRelationalModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -75,8 +73,7 @@ Model::EmployeeAccount::initializeRelationalModel() {
     return m_model;
 }
 
-QSqlRelationalTableModel *
-Model::EmployeeAccount::initializeInputDataModel() {
+QSqlRelationalTableModel *Model::EmployeeAccount::initializeInputDataModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -92,12 +89,11 @@ QSqlTableModel *Model::EmployeeAccount::initializeViewModel() {
     return m_model;
 }
 
-QString
-Model::EmployeeAccount::generateTableString(QAbstractTableModel *model,
-                                                     QString header) {
+QString Model::EmployeeAccount::generateTableString(QAbstractTableModel *model,
+                                                    QString header) {
     QString outString;
 
- #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
     qCDebug(employeeAccountLC, "Header: %s ( Columns: %i - Rows: %i )",
             header.toUtf8().constData(), model->columnCount(),
             model->rowCount());
@@ -128,11 +124,12 @@ Model::EmployeeAccount::generateTableString(QAbstractTableModel *model,
     return outString;
 }
 
-QString Model::EmployeeAccount::generateFormularString(
-    QAbstractTableModel *model, QString header) {
+QString
+Model::EmployeeAccount::generateFormularString(QAbstractTableModel *model,
+                                               QString header) {
     QString outString;
 
- #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
     qCDebug(employeeAccountLC, "Header: %s ( Columns: %i - Rows: %i )",
             header.toUtf8().constData(), model->columnCount(),
             model->rowCount());

@@ -59,4 +59,3 @@ You may obtain a copy of the Licence at: <br />
     onVisibleChanged: if (visible === false) destroy()
     Component.onDestruction: console.log("Tschüüüs.")
 }
-

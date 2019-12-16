@@ -58,7 +58,6 @@
 #include "models/commondata.h"
 #include "models/idatamodel.h"
 
-
 /*!
     \class Computer
     \brief The Computer class
@@ -102,11 +101,11 @@ public:
      */
     explicit Printer(QObject *parent = nullptr);
 
-     /*!
-        \fn  ~Printer() override;
+    /*!
+       \fn  ~Printer() override;
 
-        \brief Destructor for Printer
-     */
+       \brief Destructor for Printer
+    */
     ~Printer();
 
     // implement the virtuals
@@ -171,15 +170,13 @@ public:
      */
     int PrinterIdIndex() const { return m_PrinterIdIndex; }
 
-
-    
     /*!
        \fn  int ServiceNumberIndex()
 
        \brief Get the index of the fieldname ServiceNumber form the database
 
        Returns the value of the index
-    */    
+    */
     int SerialNumberIndex() const { return m_SerialNumberIndex; }
 
     /*!
@@ -206,7 +203,7 @@ public:
         \brief Get the index of the fieldname NetworkIpAddress form the database
 
         Returns the value of the index
-     */    
+     */
     int NetworkIpAddressIndex() const { return m_NetworkIpAddressIndex; }
 
     /*!
@@ -226,7 +223,7 @@ public:
         Returns the value of the index
      */
     int ReplaceIndex() const { return m_ReplaceIndex; }
-    
+
     /*!
         \fn int ResourcesIndex()
 
@@ -260,8 +257,8 @@ public:
         \brief Get the index of the fieldname DeviceName form the database
 
         Returns the value of the index
-     */    
-    int DeviceNameIdIndex() const { return m_DeviceNameIdIndex; }    
+     */
+    int DeviceNameIdIndex() const { return m_DeviceNameIdIndex; }
 
     /*!
         \fn int DeviceTypeIdIndex()
@@ -280,32 +277,32 @@ public:
         Returns the value of the index
      */
     int EmployeeIdIndex() const { return m_EmployeeIdIndex; }
-    
+
     /*!
         \fn  int PlaceIdIndex()
 
         \brief Get the index of the fieldname PlaceId form the database
 
         Returns the value of the index
-     */    
+     */
     int PlaceIdIndex() const { return m_PlaceIdIndex; }
-    
+
     /*!
       \fn int DepartmentIdIndex()
 
       \brief Get the index of the fieldname DepartmentId form the database
 
       Returns the value of the index
-   */    
+   */
     int DepartmentIdIndex() const { return m_DepartmentIdIndex; }
-    
+
     /*!
         \fn int ManufacturerIdIndex()
 
         \brief Get the index of the fieldname ManufacturerId form the database
 
         Returns the value of the index
-     */    
+     */
     int ManufacurerIdIndex() const { return m_ManufacurerIdIndex; }
 
     /*!
@@ -406,11 +403,11 @@ private:
         \brief The value of the DeviceNameIdIndex
      */
     int m_DeviceNameIdIndex{0};
-    
+
     /*!
        \var   int m_DeviceTypeIdIndex
        \brief The value of the DeviceTypeIdIndex
-    */    
+    */
     int m_DeviceTypeIdIndex{0};
 
     /*!

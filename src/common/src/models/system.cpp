@@ -52,7 +52,7 @@ Model::System::System(QObject *parent) : CommonData(parent) {
     setIndexes();
 }
 
-Model::System::~System() { }
+Model::System::~System() {}
 
 void Model::System::setIndexes() {
     m_SystemIdIndex = m_model->fieldIndex(QLatin1String("system_id"));
@@ -91,7 +91,7 @@ QSqlTableModel *Model::System::initializeViewModel() {
 }
 
 QString Model::System::generateTableString(QAbstractTableModel *model,
-                                                    QString header) {
+                                           QString header) {
     QString outString;
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
@@ -125,9 +125,8 @@ QString Model::System::generateTableString(QAbstractTableModel *model,
     return outString;
 }
 
-QString
-Model::System::generateFormularString(QAbstractTableModel *model,
-                                               QString header) {
+QString Model::System::generateFormularString(QAbstractTableModel *model,
+                                              QString header) {
     QString outString;
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)

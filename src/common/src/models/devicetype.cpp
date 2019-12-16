@@ -42,8 +42,7 @@
 
 #include "models/devicetype.h"
 
-Model::DeviceType::DeviceType(QObject *parent)
-    : CommonData(parent) {
+Model::DeviceType::DeviceType(QObject *parent) : CommonData(parent) {
 
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);
@@ -61,8 +60,7 @@ void Model::DeviceType::setIndexes() {
     m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-QSqlRelationalTableModel *
-Model::DeviceType::initializeRelationalModel() {
+QSqlRelationalTableModel *Model::DeviceType::initializeRelationalModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -74,8 +72,7 @@ Model::DeviceType::initializeRelationalModel() {
     return m_model;
 }
 
-QSqlRelationalTableModel *
-Model::DeviceType::initializeInputDataModel() {
+QSqlRelationalTableModel *Model::DeviceType::initializeInputDataModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -91,12 +88,11 @@ QSqlTableModel *Model::DeviceType::initializeViewModel() {
     return m_model;
 }
 
-QString
-Model::DeviceType::generateTableString(QAbstractTableModel *model,
-                                                QString header) {
+QString Model::DeviceType::generateTableString(QAbstractTableModel *model,
+                                               QString header) {
     QString outString;
 
- #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
     qCDebug(deviceTypeLC, "Header: %s ( Columns: %i - Rows: %i )",
             header.toUtf8().constData(), model->columnCount(),
             model->rowCount());
@@ -105,7 +101,6 @@ Model::DeviceType::generateTableString(QAbstractTableModel *model,
              << model->columnCount() << " - Rows " << model->rowCount();
 
 #endif
-
 
     QList<int> set;
 
@@ -128,9 +123,8 @@ Model::DeviceType::generateTableString(QAbstractTableModel *model,
     return outString;
 }
 
-QString
-Model::DeviceType::generateFormularString(QAbstractTableModel *model,
-                                                   QString header) {
+QString Model::DeviceType::generateFormularString(QAbstractTableModel *model,
+                                                  QString header) {
     QString outString;
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)

@@ -124,15 +124,15 @@ public:
             \brief Initialize the InputDataModel
 
             Returns The QSqlRelationalTableModel
-        */ 
+        */
     virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-   /*!
-        \fn virtual QSqlTableModel *initializeViewModel()
-        \brief Initialize the ViewModel
+    /*!
+         \fn virtual QSqlTableModel *initializeViewModel()
+         \brief Initialize the ViewModel
 
-        Returns QSqlTableModel
-     */
+         Returns QSqlTableModel
+      */
     virtual QSqlTableModel *initializeViewModel();
 
     /*!
@@ -145,13 +145,13 @@ public:
     virtual QString generateTableString(QAbstractTableModel *model,
                                         QString header);
 
-   /*!
-        \fn virtual QString generateFormularString(QAbstractTableModel *model,
-                                   const QString &header)
-        \brief generateFormularString
+    /*!
+         \fn virtual QString generateFormularString(QAbstractTableModel *model,
+                                    const QString &header)
+         \brief generateFormularString
 
-        Returns a QString with the generated Table for Output
-     */
+         Returns a QString with the generated Table for Output
+      */
     virtual QString generateFormularString(QAbstractTableModel *model,
                                            QString header);
 
@@ -163,7 +163,7 @@ public:
         \brief Get the index of the fieldname InventoryId form the database
 
         Returns the value of the index
-     */ 
+     */
     int InventoryIdIndex() const { return m_InventoryIdIndex; }
 
     /*!
@@ -172,7 +172,7 @@ public:
         \brief Get the index of the fieldname Number form the database
 
         Returns the value of the index
-     */     
+     */
     int NumberIndex() const { return m_NumberIndex; }
 
     /*!
@@ -181,7 +181,7 @@ public:
         \brief Get the index of the fieldname Description form the database
 
         Returns the value of the index
-     */         
+     */
     int DescriptionIndex() const { return m_DescriptionIndex; }
 
     /*!
@@ -190,7 +190,7 @@ public:
         \brief Get the index of the fieldname Active form the database
 
         Returns the value of the index
-     */  
+     */
     int ActiveIndex() const { return m_ActiveIndex; }
 
     /*!
@@ -208,34 +208,34 @@ private:
      */
     const QString m_tableName = QLatin1String("inventory");
 
-     /*!
-        \var int m_InventoryIdIndex
-        \brief The value of the InventoryIdIndex
-     */        
+    /*!
+       \var int m_InventoryIdIndex
+       \brief The value of the InventoryIdIndex
+    */
     int m_InventoryIdIndex{0};
 
-     /*!
-        \var int m_NumberIndex
-        \brief The value of the NumberIndex
-     */        
+    /*!
+       \var int m_NumberIndex
+       \brief The value of the NumberIndex
+    */
     int m_NumberIndex{0};
 
-     /*!
-        \var int m_DescriptionIndex
-        \brief The value of the DescriptionIndex
-     */ 
+    /*!
+       \var int m_DescriptionIndex
+       \brief The value of the DescriptionIndex
+    */
     int m_DescriptionIndex{0};
 
-     /*!
-        \var int m_ActiveIndex
-        \brief The value of the ActiveIndex
-     */ 
+    /*!
+       \var int m_ActiveIndex
+       \brief The value of the ActiveIndex
+    */
     int m_ActiveIndex{0};
 
     /*!
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
-    */     
+    */
     int m_LastUpdateIndex{0};
 };
 } // namespace Model

@@ -1,5 +1,5 @@
-.TH jmbde 1 "@APPLICATION_VERSION" "Jürgen Mülbert" "" 
-.SH NAME 
+.TH jmbde 1 "@APPLICATION_VERSION" "Jürgen Mülbert" ""
+.SH NAME
 jmbde \- A BDE Tool.
 .SH SYNOPSIS
 .B jmbde
@@ -7,20 +7,20 @@ jmbde \- A BDE Tool.
 .SH DESCRIPTION
 JMBde is a BDE Tool. JMBde is free software and written
 in C++, using the Qt application framework.
-.IP 
+.IP
 <https://github.com/jmuelbert/jmbde-QT/wiki/>
 .SH OPTIONS
-.TP 
+.TP
 \fB\-\-help\f
 Shows the help and the arguments
-.TP 
+.TP
 \fB\-\-version\f
 Shows the program version
 .TP
 \fB\-\-quit\f
 Only check validity of arguments
 ===========================
-.PP 
+.PP
 As a Qt application, JMBde also obey Qt command-line flags, see Qt
 documentation for complete list:
 .IP

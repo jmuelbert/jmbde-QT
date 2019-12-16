@@ -165,6 +165,9 @@ phony.c
 # Python byte code
 *.pyc
 
+# mypy
+.mypy_cache/
+
 # Qml caching files
 *.jsc
 *.qmlc

@@ -58,7 +58,7 @@
 /*!
     \class ZipCity
     \brief The ZipCity class
-    \details In this is handlet all ZipCity 
+    \details In this is handlet all ZipCity
     \author Jürgen Mülbert
     \since 0.4
     \version 0.4.25
@@ -176,13 +176,13 @@ public:
      */
     int ZipCodeIdIndex() const { return m_ZipCodeIdIndex; }
 
-     /*!
-        \fn  int CityIdIndex()
+    /*!
+       \fn  int CityIdIndex()
 
-        \brief Get the index of the fieldname CityId from the database
+       \brief Get the index of the fieldname CityId from the database
 
-        Returns the value of the index
-     */   
+       Returns the value of the index
+    */
     int CityIdIndex() const { return m_CityIdIndex; }
 
     /*!
@@ -209,13 +209,13 @@ private:
     /*!
         \var int m_ZipCodeIdIndex
         \brief The value of the ZipCodeIdIndex
-     */    
+     */
     int m_ZipCodeIdIndex{0};
 
     /*!
         \var int m_CityIdIndex
         \brief The value of the CityIdIndex
-     */  
+     */
     int m_CityIdIndex{0};
 
     /*!

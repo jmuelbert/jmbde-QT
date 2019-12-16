@@ -92,10 +92,10 @@ QSqlTableModel *Model::OS::initializeViewModel() {
 }
 
 QString Model::OS::generateTableString(QAbstractTableModel *model,
-                                                QString header) {
+                                       QString header) {
     QString outString;
 
- #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
     qCDebug(osLC, "Header: %s ( Columns: %i - Rows: %i )",
             header.toUtf8().constData(), model->columnCount(),
             model->rowCount());
@@ -127,10 +127,10 @@ QString Model::OS::generateTableString(QAbstractTableModel *model,
 }
 
 QString Model::OS::generateFormularString(QAbstractTableModel *model,
-                                                   QString header) {
+                                          QString header) {
     QString outString;
 
- #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
     qCDebug(osLC, "Header: %s ( Columns: %i - Rows: %i )",
             header.toUtf8().constData(), model->columnCount(),
             model->rowCount());

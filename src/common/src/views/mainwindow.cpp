@@ -1,44 +1,17 @@
-/**************************************************************************
-**
-** Copyright (c) 2013-2019 Jürgen Mülbert. All rights reserved.
-**
-** This file is part of jmbde
-**
-** Licensed under the EUPL, Version 1.2 or – as soon they
-** will be approved by the European Commission - subsequent
-** versions of the EUPL (the "Licence");
-** You may not use this work except in compliance with the
-** Licence.
-** You may obtain a copy of the Licence at:
-**
-** https://joinup.ec.europa.eu/page/eupl-text-11-12
-**
-** Unless required by applicable law or agreed to in
-** writing, software distributed under the Licence is
-** distributed on an "AS IS" basis,
-** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-** express or implied.
-** See the Licence for the specific language governing
-** permissions and limitations under the Licence.
-**
-** Lizenziert unter der EUPL, Version 1.2 oder - sobald
-**  diese von der Europäischen Kommission genehmigt wurden -
-** Folgeversionen der EUPL ("Lizenz");
-** Sie dürfen dieses Werk ausschließlich gemäß
-** dieser Lizenz nutzen.
-** Eine Kopie der Lizenz finden Sie hier:
-**
-** https://joinup.ec.europa.eu/page/eupl-text-11-12
-**
-** Sofern nicht durch anwendbare Rechtsvorschriften
-** gefordert oder in schriftlicher Form vereinbart, wird
-** die unter der Lizenz verbreitete Software "so wie sie
-** ist", OHNE JEGLICHE GEWÄHRLEISTUNG ODER BEDINGUNGEN -
-** ausdrücklich oder stillschweigend - verbreitet.
-** Die sprachspezifischen Genehmigungen und Beschränkungen
-** unter der Lizenz sind dem Lizenztext zu entnehmen.
-**
-**************************************************************************/
+ /*
+    jmbde a BDE Tool for companies
+    Copyright (C) 2013-2019  Jürgen Mülbert
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+*/
 
 #include <QQmlApplicationEngine>
 #include <QQuickWidget>
@@ -64,7 +37,8 @@ MainWindow::MainWindow(QWidget *parent)
     initOutline();
 
     this->dataBaseName = QString(QStringLiteral("jmbde"));
-    this->dataContext = new Model::DataContext(dynamic_cast<QObject *>(this), this->dataBaseName);
+    this->dataContext = new Model::DataContext(dynamic_cast<QObject *>(this),
+                                               this->dataBaseName);
     qDebug() << "ActualViewRow : " << m_actualView;
 
     if (m_actualView.row() > 0) {
@@ -105,7 +79,7 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event) {
-    Q_UNUSED(event);
+    Q_UNUSED(event)
 
     int width = ui->centralWidget->width() - 20;
     int height = ui->centralWidget->height() - 20;
@@ -116,12 +90,12 @@ void MainWindow::resizeEvent(QResizeEvent *event) {
 }
 
 void MainWindow::focusChanged(QWidget *, QWidget *now) {
-    Q_UNUSED(now);
+    Q_UNUSED(now)
 
     qDebug() << "Help :-)";
 }
 
-void MainWindow::closeEvent(QCloseEvent *event) { Q_UNUSED(event); }
+void MainWindow::closeEvent(QCloseEvent *event) { Q_UNUSED(event) }
 
 void MainWindow::on_actionPreferences_triggered() {
 
@@ -436,7 +410,7 @@ void MainWindow::on_action_Export_Pdf_triggered() {
 
 #ifndef QT_NO_PRINTER
 
-    //! [0]
+    // ! [0]
     QString fileName = QFileDialog::getSaveFileName(
         this, QLatin1String("Export PDF"), QString(), QLatin1String("*.pdf"));
 
@@ -452,7 +426,7 @@ void MainWindow::on_action_Export_Pdf_triggered() {
         doc.print(&printer);
     }
 
-//! [0]
+// ! [0]
 #endif
 }
 
@@ -547,9 +521,7 @@ void MainWindow::Not_Available_Message() {
                           QMessageBox::Cancel);
 }
 
-void MainWindow::on_actionHelp_triggered() {
-    Not_Available_Message();
-}
+void MainWindow::on_actionHelp_triggered() { Not_Available_Message(); }
 
 void MainWindow::onClickedTreeView(const QModelIndex &index) {
 

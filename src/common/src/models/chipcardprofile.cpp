@@ -51,8 +51,7 @@ Model::ChipCardProfile::ChipCardProfile(QObject *parent) : CommonData(parent) {
     setIndexes();
 }
 
-
-Model::ChipCardProfile::~ChipCardProfile() { }
+Model::ChipCardProfile::~ChipCardProfile() {}
 
 void Model::ChipCardProfile::setIndexes() {
     m_ChipCardProfileIdIndex =

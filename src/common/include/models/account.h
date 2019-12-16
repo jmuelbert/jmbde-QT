@@ -1,44 +1,17 @@
-/**************************************************************************
-**
-** Copyright (c) 2013-2019 Jürgen Mülbert. All rights reserved.
-**
-** This file is part of jmbde
-**
-** Licensed under the EUPL, Version 1.2 or – as soon they
-** will be approved by the European Commission - subsequent
-** versions of the EUPL (the "Licence");
-** You may not use this work except in compliance with the
-** Licence.
-** You may obtain a copy of the Licence at:
-**
-** https://joinup.ec.europa.eu/page/eupl-text-11-12
-**
-** Unless required by applicable law or agreed to in
-** writing, software distributed under the Licence is
-** distributed on an "AS IS" basis,
-** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-** express or implied.
-** See the Licence for the specific language governing
-** permissions and limitations under the Licence.
-**
-** Lizenziert unter der EUPL, Version 1.2 oder - sobald
-**  diese von der Europäischen Kommission genehmigt wurden -
-** Folgeversionen der EUPL ("Lizenz");
-** Sie dürfen dieses Werk ausschließlich gemäß
-** dieser Lizenz nutzen.
-** Eine Kopie der Lizenz finden Sie hier:
-**
-** https://joinup.ec.europa.eu/page/eupl-text-11-12
-**
-** Sofern nicht durch anwendbare Rechtsvorschriften
-** gefordert oder in schriftlicher Form vereinbart, wird
-** die unter der Lizenz verbreitete Software "so wie sie
-** ist", OHNE JEGLICHE GEWÄHRLEISTUNG ODER BEDINGUNGEN -
-** ausdrücklich oder stillschweigend - verbreitet.
-** Die sprachspezifischen Genehmigungen und Beschränkungen
-** unter der Lizenz sind dem Lizenztext zu entnehmen.
-**
-**************************************************************************/
+ /*
+    jmbde a BDE Tool for companies
+    Copyright (C) 2013-2019  Jürgen Mülbert
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+*/
 
 #pragma once
 
@@ -69,27 +42,26 @@
 namespace Model {
 
 class JMBDE_COMMON_EXPORT Account : public CommonData {
-    /*!
-      \macro Q_OBJECT
-      \relates QObject
-
-      The Q_OBJECT macro must appear in the private section
-      of a class definition that declares its own signals and
-      slots, or that uses other services provided by Qt's
-      meta-object system.
-
-      ...
-
-      \sa {Meta-Object System}, {Signals and Slots}, {QtsProperty System}
-  */
+    ///
+    ///  \macro Q_OBJECT
+    ///  \sa {QObject}
+    ///
+    ///  The Q_OBJECT macro must appear in the private section
+    ///  of a class definition that declares its own signals and
+    ///  slots, or that uses other services provided by Qt's
+    ///  meta-object system.
+    ///
+    ///
+    ///  \sa {Meta-Object System}, {Signals and Slots}, {QtsProperty System}
     Q_OBJECT
 
-    /*!
-        \macro Q_LOGGING_CATEGORY
-        \relates QLogging
-
-        Defines the Logging Categorie for the class
-     */
+    ///
+    ///    \macro Q_LOGGING_CATEGORY
+    ///    \sa {QLogging}
+    ///
+    ///    Defines the Logging Categorie for the class
+    ///
+    ///
     Q_LOGGING_CATEGORY(accountLC, "jmbde.models.account")
 
 public:
@@ -105,7 +77,7 @@ public:
 
         \brief Destructor for  Account
      */
-     ~Account();
+    ~Account();
 
     // implement the virtuals
 
@@ -118,7 +90,7 @@ public:
     /*!
         \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
         \brief set the QSqlRelationalTableModel for the DataModel
-        Returns The QSqlRelationalTableModel
+        \return The QSqlRelationalTableModel
      */
     virtual QSqlRelationalTableModel *initializeRelationalModel();
 
@@ -126,7 +98,7 @@ public:
         \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
         \brief Initialize the InputDataModel
 
-        Returns The QSqlRelationalTableModel
+         \return The QSqlRelationalTableModel
      */
     virtual QSqlRelationalTableModel *initializeInputDataModel();
 
@@ -134,7 +106,7 @@ public:
         \fn virtual QSqlTableModel *initializeViewModel()
         \brief Initialize the ViewModel
 
-        Returns QSqlTableModel
+        \return QSqlTableModel
      */
     virtual QSqlTableModel *initializeViewModel();
 
@@ -143,7 +115,7 @@ public:
                                 const QString &header)
         \brief generateTableString
 
-        Returns a QString with the generated Table for Output
+        \return a QString with the generated Table for Output
      */
     virtual QString generateTableString(QAbstractTableModel *model,
                                         const QString &header);
@@ -153,7 +125,7 @@ public:
                                    const QString &header)
         \brief generateFormularString
 
-        Returns a QString with the generated Table for Output
+        \return a QString with the generated Table for Output
      */
     virtual QString generateFormularString(QAbstractTableModel *model,
                                            const QString &header);
@@ -165,7 +137,7 @@ public:
 
         \brief Get the index of the fieldname AccountId from the database
 
-        Returns the value of the index
+        \return the value of the index
      */
     int AccountIdIndex() const { return m_AccountIdIndex; }
 
@@ -174,7 +146,7 @@ public:
 
         \brief Get the index of the fieldname UserName form the database
 
-        Returns the value of the index
+        \return the value of the index
      */
     int UserNameIndex() const { return m_UserNameIndex; }
 
@@ -183,7 +155,7 @@ public:
 
         \brief Get the index of the fieldname Password form the database
 
-        Returns the value of the index
+        \return the value of the index
      */
     int PasswordIndex() const { return m_PasswordIndex; }
 
@@ -192,7 +164,7 @@ public:
 
         \brief Get the index of the fieldname SystemData form the database
 
-        Returns the value of the index
+        \return the value of the index
      */
     int SystemDataIndex() const { return m_SystemDataIdIndex; }
 
@@ -201,7 +173,7 @@ public:
 
         \brief Get the index of the fieldname LastUpdate form the database
 
-        Returns the value of the index
+        \return the value of the index
      */
     int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
@@ -215,30 +187,30 @@ private:
         \var int m_AccountIdIndex
         \brief The value of the AccountIdIndex
      */
-    int m_AccountIdIndex {0};
+    int m_AccountIdIndex{0};
 
     /*!
         \var int m_UserNameIndex
         \brief The value of the UserNameIndex
     */
-    int m_UserNameIndex {0};
+    int m_UserNameIndex{0};
 
     /*!
          \var int m_PasswordIndex;
          \brief The value of the PasswordIndex
      */
-    int m_PasswordIndex {0};
+    int m_PasswordIndex{0};
 
     /*!
         \var int m_SystemDataIdIndex
         \brief The value of the SystemDataIdIndex
     */
-    int m_SystemDataIdIndex {0};
+    int m_SystemDataIdIndex{0};
 
     /*!
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
     */
-    int m_LastUpdateIndex {0};
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model

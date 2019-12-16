@@ -103,7 +103,7 @@ public:
 
         \brief Destructor for DeviceType
      */
-     ~DeviceType();
+    ~DeviceType();
 
     // implement the virtuals
 
@@ -163,16 +163,16 @@ public:
         \brief Get the index of the fieldname DeviceTypeId form the database
 
         Returns the value of the index
-     */    
+     */
     int DeviceTypeIdIndex() const { return m_DeviceTypeIdIndex; }
 
-     /*!
-        \fn int NameIndex()
+    /*!
+       \fn int NameIndex()
 
-        \brief Get the index of the fieldname Name form the database
+       \brief Get the index of the fieldname Name form the database
 
-        Returns the value of the index
-     */    
+       Returns the value of the index
+    */
     int NameIndex() const { return m_NameIndex; }
 
     /*!
@@ -181,7 +181,7 @@ public:
         \brief Get the index of the fieldname LastUpdate form the database
 
         Returns the value of the index
-     */    
+     */
     int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
@@ -190,22 +190,22 @@ private:
      */
     const QString m_tableName = QLatin1String("device_type");
 
-     /*!
-        \var int m_DeviceTypeIdIndex
-        \brief The value of the DeviceTypeIdIndexx
-     */  
+    /*!
+       \var int m_DeviceTypeIdIndex
+       \brief The value of the DeviceTypeIdIndexx
+    */
     int m_DeviceTypeIdIndex{0};
 
     /*!
         \var int m_NameIndex
         \brief The value of the NameIndex
-     */ 
+     */
     int m_NameIndex{0};
-    
+
     /*!
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
-    */     
+    */
     int m_LastUpdateIndex{0};
 };
 } // namespace Model

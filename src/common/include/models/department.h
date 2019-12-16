@@ -57,7 +57,6 @@
 #include "models/commondata.h"
 #include "models/idatamodel.h"
 
-
 /*!
     \class Department
     \brief The Department class
@@ -168,7 +167,7 @@ public:
         Returns the value of the index
      */
     int DepartmentIdIndex() const { return m_DepartmentIdIndex; }
-    
+
     /*!
         \fn  int NameIndex()
 
@@ -177,7 +176,7 @@ public:
         Returns the value of the index
      */
     int NameIndex() const { return m_NameIndex; }
-    
+
     /*!
         \fn int PriorityIndex()
 
@@ -186,7 +185,7 @@ public:
         Returns the value of the index
      */
     int PriorityIndex() const { return m_PriorityIndex; }
-    
+
     /*!
         \fn int PrinterIdIndex()
 
@@ -195,7 +194,7 @@ public:
         Returns the value of the index
      */
     int PrinterIdIndex() const { return m_PrinterIdIndex; }
-    
+
     /*!
         \fn  int LastUpdateIndex()
 
@@ -211,7 +210,7 @@ public:
         \brief Get the index of the fieldname LastUpdate form the database
 
         Returns the value of the index
-     */    
+     */
     int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
@@ -219,41 +218,41 @@ private:
         \brief The Tablename in the database \e is const
      */
     const QString m_tableName = QLatin1String("department");
-    
+
     /*!
         \var  int m_DepartmentIdIndex
         \brief The value of the DepartmentIdIndex
-    */    
+    */
     int m_DepartmentIdIndex{0};
-    
-     /*!
-        \var int m_NameIndex
-        \brief The value of the NameIndex
-    */   
+
+    /*!
+       \var int m_NameIndex
+       \brief The value of the NameIndex
+   */
     int m_NameIndex{0};
-    
-     /*!
-        \var  int m_PriorityIndex
-        \brief The value of the PriorityIndex
-    */   
+
+    /*!
+       \var  int m_PriorityIndex
+       \brief The value of the PriorityIndex
+   */
     int m_PriorityIndex{0};
 
-     /*!
-        \var int m_PrinterIdIndex
-        \brief The value of the PrinterIdIndex
-    */   
+    /*!
+       \var int m_PrinterIdIndex
+       \brief The value of the PrinterIdIndex
+   */
     int m_PrinterIdIndex{0};
-    
+
     /*!
         \var int m_FaxIdIndex
         \brief The value of the FaxIdIndex
     */
     int m_FaxIdIndex{0};
 
-     /*!
-        \var int m_LastUpdateIndex
-        \brief The value of the LastUpdateIndex
-    */   
+    /*!
+       \var int m_LastUpdateIndex
+       \brief The value of the LastUpdateIndex
+   */
     int m_LastUpdateIndex{0};
 };
 } // namespace Model

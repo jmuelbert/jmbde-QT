@@ -15,7 +15,7 @@ There are a variety of other resources where you can find out more:
 * **jmbde-QT Website**: For general information and updates, as well as the latest
   news on jmbde-QT, go to: `<https://jmuelbert.github.io/jmbde-QT/>`_
 
-* **jmbde-QT Wiki**: For up-to-date information, documentation and 
+* **jmbde-QT Wiki**: For up-to-date information, documentation and
     other tips and tricks, go to: `<https://github.com/jmuelbert/jmbde-QT/wiki/>`_
 
 * **jmbde-QT Source Code**: To download the source code for jmbde-QT, go to:
@@ -31,11 +31,11 @@ There are a variety of other resources where you can find out more:
 Application shortcuts
 =====================
 
-Shortcuts let you work more efficiently. Use these shortcuts to access features 
+Shortcuts let you work more efficiently. Use these shortcuts to access features
 available in the menu on top of the application window.
 
 ======================= =======================
-Function                Key 
+Function                Key
 ======================= =======================
 **File menu**
 ----------------------- -----------------------

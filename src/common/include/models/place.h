@@ -92,10 +92,10 @@ class JMBDE_COMMON_EXPORT Place : public CommonData {
     Q_LOGGING_CATEGORY(placeLC, "jmbde.models.place")
 
 public:
-     /*!
-        \fn explicit Place(QObject *parent = nullptr)
-        \brief The Constructor for the Place
-    */
+    /*!
+       \fn explicit Place(QObject *parent = nullptr)
+       \brief The Constructor for the Place
+   */
     explicit Place(QObject *parent = nullptr);
 
     /*!
@@ -122,7 +122,7 @@ public:
             \brief Initialize the InputDataModel
 
             Returns The QSqlRelationalTableModel
-        */ 
+        */
     virtual QSqlRelationalTableModel *initializeInputDataModel();
 
     /*!
@@ -143,13 +143,13 @@ public:
     virtual QString generateTableString(QAbstractTableModel *model,
                                         QString header);
 
-   /*!
-        \fn virtual QString generateFormularString(QAbstractTableModel *model,
-                                   const QString &header)
-        \brief generateFormularString
+    /*!
+         \fn virtual QString generateFormularString(QAbstractTableModel *model,
+                                    const QString &header)
+         \brief generateFormularString
 
-        Returns a QString with the generated Table for Output
-     */
+         Returns a QString with the generated Table for Output
+      */
     virtual QString generateFormularString(QAbstractTableModel *model,
                                            QString header);
 
@@ -168,7 +168,7 @@ public:
         \brief Get the index of the fieldname Name form the database
 
         Returns the value of the index
-     */      
+     */
     int NameIndex() const { return m_NameIndex; }
 
     /*!
@@ -177,7 +177,7 @@ public:
         \brief Get the index of the fieldname Room form the database
 
         Returns the value of the index
-     */   
+     */
     int RoomIndex() const { return m_RoomIndex; }
 
     /*!
@@ -186,13 +186,13 @@ public:
         \brief Get the index of the fieldname Desk form the database
 
         Returns the value of the index
-     */   
+     */
     int DeskIndex() const { return m_DeskIndex; }
 
     /*!
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
-    */  
+    */
     int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
@@ -201,34 +201,34 @@ private:
      */
     const QString m_tableName = QLatin1String("place");
 
-     /*!
-        \var int m_PlaceIdIndex
-        \brief The value of the PlaceIdIndex
-     */  
+    /*!
+       \var int m_PlaceIdIndex
+       \brief The value of the PlaceIdIndex
+    */
     int m_PlaceIdIndex{0};
 
-     /*!
-        \var int m_NameIndex
-        \brief The value of the NameIndex
-     */
+    /*!
+       \var int m_NameIndex
+       \brief The value of the NameIndex
+    */
     int m_NameIndex{0};
 
-     /*!
-        \var int m_RoomIndex
-        \brief The value of the RoomIndex
-     */
+    /*!
+       \var int m_RoomIndex
+       \brief The value of the RoomIndex
+    */
     int m_RoomIndex{0};
-    
-      /*!
-        \var int m_DeskIndex
-        \brief The value of the DeskIndex
-     */   
+
+    /*!
+      \var int m_DeskIndex
+      \brief The value of the DeskIndex
+   */
     int m_DeskIndex{0};
 
-     /*!
-        \var int m_LastUpdateIndex
-        \brief The value of the LastUpdateIndex
-     */
+    /*!
+       \var int m_LastUpdateIndex
+       \brief The value of the LastUpdateIndex
+    */
     int m_LastUpdateIndex{0};
 };
 } // namespace Model

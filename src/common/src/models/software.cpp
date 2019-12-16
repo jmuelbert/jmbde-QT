@@ -42,8 +42,7 @@
 
 #include "models/software.h"
 
-Model::Software::Software(QObject *parent)
-    : CommonData(parent) {
+Model::Software::Software(QObject *parent) : CommonData(parent) {
 
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);
@@ -53,7 +52,7 @@ Model::Software::Software(QObject *parent)
     setIndexes();
 }
 
-Model::Software::~Software() { }
+Model::Software::~Software() {}
 
 void Model::Software::setIndexes() {
     m_SoftwareIdIndex = m_model->fieldIndex(QLatin1String("software_id"));
@@ -64,8 +63,7 @@ void Model::Software::setIndexes() {
     m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-QSqlRelationalTableModel *
-Model::Software::initializeRelationalModel() {
+QSqlRelationalTableModel *Model::Software::initializeRelationalModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -93,12 +91,11 @@ QSqlTableModel *Model::Software::initializeViewModel() {
     return m_model;
 }
 
-QString
-Model::Software::generateTableString(QAbstractTableModel *model,
-                                              QString header) {
+QString Model::Software::generateTableString(QAbstractTableModel *model,
+                                             QString header) {
     QString outString;
 
- #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
     qCDebug(softwareLC, "Header: %s ( Columns: %i - Rows: %i )",
             header.toUtf8().constData(), model->columnCount(),
             model->rowCount());
@@ -129,12 +126,11 @@ Model::Software::generateTableString(QAbstractTableModel *model,
     return outString;
 }
 
-QString
-Model::Software::generateFormularString(QAbstractTableModel *model,
-                                                 QString header) {
+QString Model::Software::generateFormularString(QAbstractTableModel *model,
+                                                QString header) {
     QString outString;
-    
-  #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
     qCDebug(softwareLC, "Header: %s ( Columns: %i - Rows: %i )",
             header.toUtf8().constData(), model->columnCount(),
             model->rowCount());

@@ -52,7 +52,7 @@ Model::ZipCode::ZipCode(QObject *parent) : CommonData(parent) {
     setIndexes();
 }
 
-Model::ZipCode::~ZipCode() { }
+Model::ZipCode::~ZipCode() {}
 
 void Model::ZipCode::setIndexes() {
     m_ZipCodeIdIndex = m_model->fieldIndex(QLatin1String("zip_code_id"));
@@ -89,7 +89,7 @@ QSqlTableModel *Model::ZipCode::initializeViewModel() {
 }
 
 QString Model::ZipCode::generateTableString(QAbstractTableModel *model,
-                                                 QString header) {
+                                            QString header) {
     QString outString;
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
@@ -124,9 +124,9 @@ QString Model::ZipCode::generateTableString(QAbstractTableModel *model,
 }
 
 QString Model::ZipCode::generateFormularString(QAbstractTableModel *model,
-                                                    QString header) {
+                                               QString header) {
     QString outString;
-    
+
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
     qCDebug(zipCodeLC, "Header: %s ( Columns: %i - Rows: %i )",
             header.toUtf8().constData(), model->columnCount(),

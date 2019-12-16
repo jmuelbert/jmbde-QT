@@ -42,8 +42,7 @@
 
 #include "models/function.h"
 
-Model::Function::Function(QObject *parent)
-    : CommonData(parent) {
+Model::Function::Function(QObject *parent) : CommonData(parent) {
 
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);
@@ -62,8 +61,7 @@ void Model::Function::setIndexes() {
     m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-QSqlRelationalTableModel *
-Model::Function::initializeRelationalModel() {
+QSqlRelationalTableModel *Model::Function::initializeRelationalModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -91,12 +89,11 @@ QSqlTableModel *Model::Function::initializeViewModel() {
     return m_model;
 }
 
-QString
-Model::Function::generateTableString(QAbstractTableModel *model,
-                                              QString header) {
+QString Model::Function::generateTableString(QAbstractTableModel *model,
+                                             QString header) {
     QString outString;
 
- #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
     qCDebug(functionLC, "Header: %s ( Columns: %i - Rows: %i )",
             header.toUtf8().constData(), model->columnCount(),
             model->rowCount());
@@ -127,12 +124,11 @@ Model::Function::generateTableString(QAbstractTableModel *model,
     return outString;
 }
 
-QString
-Model::Function::generateFormularString(QAbstractTableModel *model,
-                                                 QString header) {
+QString Model::Function::generateFormularString(QAbstractTableModel *model,
+                                                QString header) {
     QString outString;
 
- #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
     qCDebug(functionLC, "Header: %s ( Columns: %i - Rows: %i )",
             header.toUtf8().constData(), model->columnCount(),
             model->rowCount());

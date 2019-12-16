@@ -42,8 +42,7 @@
 
 #include "models/processor.h"
 
-Model::Processor::Processor(QObject *parent)
-    : CommonData(parent) {
+Model::Processor::Processor(QObject *parent) : CommonData(parent) {
 
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);
@@ -53,7 +52,7 @@ Model::Processor::Processor(QObject *parent)
     setIndexes();
 }
 
-Model::Processor::~Processor() { }
+Model::Processor::~Processor() {}
 
 void Model::Processor::setIndexes() {
     m_ProcessorIdIndex = m_model->fieldIndex(QLatin1String("processor_id"));
@@ -63,8 +62,7 @@ void Model::Processor::setIndexes() {
     m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-QSqlRelationalTableModel *
-Model::Processor::initializeRelationalModel() {
+QSqlRelationalTableModel *Model::Processor::initializeRelationalModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -76,8 +74,7 @@ Model::Processor::initializeRelationalModel() {
     return m_model;
 }
 
-QSqlRelationalTableModel *
-Model::Processor::initializeInputDataModel() {
+QSqlRelationalTableModel *Model::Processor::initializeInputDataModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -93,12 +90,11 @@ QSqlTableModel *Model::Processor::initializeViewModel() {
     return m_model;
 }
 
-QString
-Model::Processor::generateTableString(QAbstractTableModel *model,
-                                               QString header) {
+QString Model::Processor::generateTableString(QAbstractTableModel *model,
+                                              QString header) {
     QString outString;
 
- #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
     qCDebug(processorLC, "Header: %s ( Columns: %i - Rows: %i )",
             header.toUtf8().constData(), model->columnCount(),
             model->rowCount());
@@ -129,12 +125,11 @@ Model::Processor::generateTableString(QAbstractTableModel *model,
     return outString;
 }
 
-QString
-Model::Processor::generateFormularString(QAbstractTableModel *model,
-                                                  QString header) {
+QString Model::Processor::generateFormularString(QAbstractTableModel *model,
+                                                 QString header) {
     QString outString;
 
- #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
     qCDebug(processorLC, "Header: %s ( Columns: %i - Rows: %i )",
             header.toUtf8().constData(), model->columnCount(),
             model->rowCount());

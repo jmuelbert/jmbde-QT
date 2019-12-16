@@ -52,7 +52,7 @@ Model::ZipCity::ZipCity(QObject *parent) : CommonData(parent) {
     setIndexes();
 }
 
-Model::ZipCity::~ZipCity() { }
+Model::ZipCity::~ZipCity() {}
 
 void Model::ZipCity::setIndexes() {
     m_ZipCityIdIndex = m_model->fieldIndex(QLatin1String("zip_city_id"));
@@ -90,7 +90,7 @@ QSqlTableModel *Model::ZipCity::initializeViewModel() {
 }
 
 QString Model::ZipCity::generateTableString(QAbstractTableModel *model,
-                                                 QString header) {
+                                            QString header) {
     QString outString;
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
@@ -125,7 +125,7 @@ QString Model::ZipCity::generateTableString(QAbstractTableModel *model,
 }
 
 QString Model::ZipCity::generateFormularString(QAbstractTableModel *model,
-                                                    QString header) {
+                                               QString header) {
     QString outString;
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)

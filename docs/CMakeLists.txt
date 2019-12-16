@@ -37,7 +37,7 @@
 # unter der Lizenz sind dem Lizenztext zu entnehmen.
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.13.3 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.12.4 FATAL_ERROR)
 
 find_package(Doxygen)
 set_package_properties(Doxygen PROPERTIES
@@ -57,8 +57,8 @@ set_package_properties(Sphinx PROPERTIES
 
 if(SPHINX_EXECUTABLE AND OPTION_BUILD_MANUAL)
   add_subdirectory(manual)
-endif()  
+endif()
 
 if(DOXYGEN_FOUND AND OPTION_BUILD_API_DOCS)
-  add_subdirectory(api)  
+  add_subdirectory(api)
 endif()

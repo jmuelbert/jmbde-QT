@@ -37,7 +37,7 @@
 # unter der Lizenz sind dem Lizenztext zu entnehmen.
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.13.3 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.12.4 FATAL_ERROR)
 
 project(jmbdequick)
 
@@ -89,8 +89,8 @@ target_compile_features(${JMBDEQUICK_PROJECT_NAME}
 
 target_include_directories(${JMBDEQUICK_PROJECT_NAME}
   PRIVATE
-    "${CMAKE_CURRENT_SOURCE_DIR}/include" 
-    "${CMAKE_CURRENT_BIN_DIR}/include" 
+    "${CMAKE_CURRENT_SOURCE_DIR}/include"
+    "${CMAKE_CURRENT_BIN_DIR}/include"
 
     )
 
@@ -115,15 +115,15 @@ target_link_libraries(${JMBDEQUICK_PROJECT_NAME}
     Qt5::Quick
     Qt5::QuickWidgets
     )
-  
-set_target_properties(${JMBDEQUICK_PROJECT_NAME} PROPERTIES 
+
+set_target_properties(${JMBDEQUICK_PROJECT_NAME} PROPERTIES
       OUTPUT_NAME "${JMBDEQUICK_PROJECT_NAME}"
       INSTALL_RPATH "@executable_path/../Frameworks"
 )
 
 if(APPLE)
  set(BUNDLE_APP_NAME "${PROJECT_NAME}.app")
-endif() 
+endif()
 
 
 install(TARGETS ${JMBDEQUICK_PROJECT_NAME} RUNTIME DESTINATION ${BIN_INSTALL_DIR})

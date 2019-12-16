@@ -67,8 +67,7 @@
     */
 
 namespace Model {
-class JMBDE_COMMON_EXPORT Function : public CommonData,
-                                              public IDataModel {
+class JMBDE_COMMON_EXPORT Function : public CommonData, public IDataModel {
     /*!
       \macro Q_OBJECT
       \relates QObject
@@ -121,20 +120,20 @@ public:
      */
     virtual QSqlRelationalTableModel *initializeRelationalModel() override;
 
-  /*!
-        \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
-        \brief Initialize the InputDataModel
+    /*!
+          \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
+          \brief Initialize the InputDataModel
 
-        Returns The QSqlRelationalTableModel
-     */ 
+          Returns The QSqlRelationalTableModel
+       */
     virtual QSqlRelationalTableModel *initializeInputDataModel() override;
 
-   /*!
-        \fn virtual QSqlTableModel *initializeViewModel()
-        \brief Initialize the ViewModel
+    /*!
+         \fn virtual QSqlTableModel *initializeViewModel()
+         \brief Initialize the ViewModel
 
-        Returns QSqlTableModel
-     */
+         Returns QSqlTableModel
+      */
     virtual QSqlTableModel *initializeViewModel() override;
 
     /*!
@@ -147,13 +146,13 @@ public:
     virtual QString generateTableString(QAbstractTableModel *model,
                                         QString header) override;
 
-   /*!
-        \fn virtual QString generateFormularString(QAbstractTableModel *model,
-                                   const QString &header)
-        \brief generateFormularString
+    /*!
+         \fn virtual QString generateFormularString(QAbstractTableModel *model,
+                                    const QString &header)
+         \brief generateFormularString
 
-        Returns a QString with the generated Table for Output
-     */
+         Returns a QString with the generated Table for Output
+      */
     virtual QString generateFormularString(QAbstractTableModel *model,
                                            QString header) override;
 
@@ -165,7 +164,7 @@ public:
         \brief Get the index of the fieldname FunctionId form the database
 
         Returns the value of the index
-     */ 
+     */
     int FunctionIdIndex() const { return m_FunctionIdIndex; }
 
     /*!
@@ -174,7 +173,7 @@ public:
         \brief Get the index of the fieldname NameIn form the database
 
         Returns the value of the index
-     */    
+     */
     int NameIndex() const { return m_NameIndex; }
 
     /*!
@@ -183,7 +182,7 @@ public:
         \brief Get the index of the fieldname Priority form the database
 
         Returns the value of the index
-     */    
+     */
     int PriorityIndex() const { return m_PriorityIndex; }
 
     /*!
@@ -201,28 +200,28 @@ private:
      */
     const QString m_tableName = QLatin1String("function");
 
-     /*!
-        \var int m_FunctionIdIndex
-        \brief The value of the FunctionIdIndex
-     */  
+    /*!
+       \var int m_FunctionIdIndex
+       \brief The value of the FunctionIdIndex
+    */
     int m_FunctionIdIndex{0};
 
-     /*!
-        \var int m_NameIndex
-        \brief The value of the NameIndex
-     */    
+    /*!
+       \var int m_NameIndex
+       \brief The value of the NameIndex
+    */
     int m_NameIndex{0};
 
-      /*!
-        \var int m_PriorityIndex
-        \brief The value of the PriorityIndexx
-     */   
+    /*!
+      \var int m_PriorityIndex
+      \brief The value of the PriorityIndexx
+   */
     int m_PriorityIndex{0};
 
     /*!
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
-    */     
+    */
     int m_LastUpdateIndex{0};
 };
 } // namespace Model

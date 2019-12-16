@@ -219,22 +219,22 @@ private:
      */
     int m_SystemIdIndex{0};
 
-     /*!
-        \var int m_NameIndex
-        \brief The value of the NameIndex
-     */   
+    /*!
+       \var int m_NameIndex
+       \brief The value of the NameIndex
+    */
     int m_NameIndex{0};
 
-     /*!
-        \var int m_LocalIndex
-        \brief The value of the LocalIndex
-     */   
+    /*!
+       \var int m_LocalIndex
+       \brief The value of the LocalIndex
+    */
     int m_LocalIndex{0};
 
-     /*!
-        \var int m_CompanyIdIndex
-        \brief The value of the CompanyIdIndex
-     */
+    /*!
+       \var int m_CompanyIdIndex
+       \brief The value of the CompanyIdIndex
+    */
     int m_CompanyIdIndex{0};
 
     /*!
@@ -244,4 +244,3 @@ private:
     int m_LastUpdateIndex{0};
 };
 } // namespace Model
-

@@ -52,7 +52,7 @@ Model::Place::Place(QObject *parent) : CommonData(parent) {
     setIndexes();
 }
 
-Model::Place::~Place() { }
+Model::Place::~Place() {}
 
 void Model::Place::setIndexes() {
     m_PlaceIdIndex = m_model->fieldIndex(QLatin1String("place_id"));
@@ -91,10 +91,10 @@ QSqlTableModel *Model::Place::initializeViewModel() {
 }
 
 QString Model::Place::generateTableString(QAbstractTableModel *model,
-                                                   QString header) {
+                                          QString header) {
     QString outString;
- 
- #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
     qCDebug(placeLC, "Header: %s ( Columns: %i - Rows: %i )",
             header.toUtf8().constData(), model->columnCount(),
             model->rowCount());
@@ -125,12 +125,11 @@ QString Model::Place::generateTableString(QAbstractTableModel *model,
     return outString;
 }
 
-QString
-Model::Place::generateFormularString(QAbstractTableModel *model,
-                                              QString header) {
+QString Model::Place::generateFormularString(QAbstractTableModel *model,
+                                             QString header) {
     QString outString;
-    
- #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
     qCDebug(placeLC, "Header: %s ( Columns: %i - Rows: %i )",
             header.toUtf8().constData(), model->columnCount(),
             model->rowCount());

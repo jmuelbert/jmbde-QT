@@ -146,13 +146,13 @@ public:
     virtual QString generateTableString(QAbstractTableModel *model,
                                         QString header);
 
-   /*!
-        \fn virtual QString generateFormularString(QAbstractTableModel *model,
-                                   const QString &header)
-        \brief generateFormularString
+    /*!
+         \fn virtual QString generateFormularString(QAbstractTableModel *model,
+                                    const QString &header)
+         \brief generateFormularString
 
-        Returns a QString with the generated Table for Output
-     */
+         Returns a QString with the generated Table for Output
+      */
     virtual QString generateFormularString(QAbstractTableModel *model,
                                            QString header);
 
@@ -164,25 +164,25 @@ public:
         \brief Get the index of the fieldname DocumentId form the database
 
         Returns the value of the index
-     */        
+     */
     int DocumentIdIndex() const { return m_DocumentIdIndex; }
 
-     /*!
-        \fn int NameIndex()
+    /*!
+       \fn int NameIndex()
 
-        \brief Get the index of the fieldname Name form the database
+       \brief Get the index of the fieldname Name form the database
 
-        Returns the value of the index
-     */
+       Returns the value of the index
+    */
     int NameIndex() const { return m_NameIndex; }
 
-     /*!
-        \fn int DocumentDataIndex()
+    /*!
+       \fn int DocumentDataIndex()
 
-        \brief Get the index of the fieldname DocumentData form the database
+       \brief Get the index of the fieldname DocumentData form the database
 
-        Returns the value of the index
-     */
+       Returns the value of the index
+    */
     int DocumentDataIndex() const { return m_DocumentDataIndex; }
 
     /*!
@@ -200,28 +200,28 @@ private:
      */
     const QString m_tableName = QLatin1String("document");
 
-     /*!
-        \var int m_DocumentIdIndex
-        \brief The value of the DocumentIdIndex
-     */       
+    /*!
+       \var int m_DocumentIdIndex
+       \brief The value of the DocumentIdIndex
+    */
     int m_DocumentIdIndex{0};
 
     /*!
         \var int m_NameIndex
         \brief The value of the NameIndex
-     */        
+     */
     int m_NameIndex{0};
-    
-     /*!
-        \var int m_DocumentDataIndex
-        \brief The value of the DocumentDataIndex
-     */       
+
+    /*!
+       \var int m_DocumentDataIndex
+       \brief The value of the DocumentDataIndex
+    */
     int m_DocumentDataIndex{0};
 
     /*!
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
-    */ 
+    */
     int m_LastUpdateIndex{0};
 };
 } // namespace Model

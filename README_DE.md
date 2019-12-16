@@ -145,7 +145,8 @@ Führen Sie `cmake` aus, um jmbde zu erstellen:
 
 ### Unter Linux
 
-- Auf Ubuntu/Debian: `sudo apt install qt5-default qttools5-dev-tools zlib1g-dev qtdeclarative5-dev cmake ninja`.
+- Auf Ubuntu/Debian:
+  `sudo apt install qt5-default qttools5-dev-tools zlib1g-dev qtdeclarative5-dev cmake ninja`.
 - Auf Fedora: `sudo dnf builddep jmbde-QT cmake ninja`
 - Auf Arch Linux: `pacman -S qt cmake ninja`
 

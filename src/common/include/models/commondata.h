@@ -122,13 +122,13 @@ protected:
         \brief holds an initialised pointer to the Relationmodel
         \sa QSqlRelationalTableModel
      */
-    QSqlRelationalTableModel *m_model {nullptr};
+    QSqlRelationalTableModel *m_model{nullptr};
 
     /*!
        \brief holds an initialised pointer to the ItemSelectioModel
        \sa QItemSelectionModel
     */
-    QItemSelectionModel *m_selectionModel {nullptr};
+    QItemSelectionModel *m_selectionModel{nullptr};
 
 private:
 };

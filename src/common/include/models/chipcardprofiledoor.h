@@ -101,7 +101,7 @@ public:
      *
      * \brief Destructor for ChipCardProfileDoor
      */
-     ~ChipCardProfileDoor();
+    ~ChipCardProfileDoor();
 
     // implement the virtuals
 

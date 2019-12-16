@@ -26,4 +26,3 @@ Version history:
      - Windows: Reimplemented. Fixed issue where crashed processes
      could hold on to a lock.
      - LGPL release.
-

@@ -43,11 +43,9 @@
 #include "models/commondata.h"
 
 Model::CommonData::CommonData(QObject *parent)
-    : m_model(nullptr), m_selectionModel(nullptr) {
+    : m_model(nullptr), m_selectionModel(nullptr) {}
 
-}
-
-Model::CommonData::~CommonData() { }
+Model::CommonData::~CommonData() {}
 
 QTextDocument *Model::CommonData::createSheet() {
     auto *document = new QTextDocument;

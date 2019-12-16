@@ -107,7 +107,7 @@ public:
 
         \brief Destructor for Software
      */
-     ~Software();
+    ~Software();
 
     // implement the virtuals
 
@@ -180,40 +180,40 @@ public:
      */
     int NameIndex() const { return m_NameIndex; }
 
-     /*!
-        \fn int VersionIndex()
+    /*!
+       \fn int VersionIndex()
 
-        \brief Get the index of the fieldname Version form the database
+       \brief Get the index of the fieldname Version form the database
 
-        Returns the value of the index
-     */ 
+       Returns the value of the index
+    */
     int VersionIndex() const { return m_VersionIndex; }
-    
-      /*!
-        \fn int RevisionIndex()
 
-        \brief Get the index of the fieldname Revision form the database
+    /*!
+      \fn int RevisionIndex()
 
-        Returns the value of the index
-     */     
+      \brief Get the index of the fieldname Revision form the database
+
+      Returns the value of the index
+   */
     int RevisionIndex() const { return m_RevisionIndex; }
 
-     /*!
-        \fn int FixIndex()
+    /*!
+       \fn int FixIndex()
 
-        \brief Get the index of the fieldname Fix form the database
+       \brief Get the index of the fieldname Fix form the database
 
-        Returns the value of the index
-     */  
+       Returns the value of the index
+    */
     int FixIndex() const { return m_FixIndex; }
- 
-      /*!
-        \fn  int LastUpdateIndex()
 
-        \brief Get the index of the fieldname LastUpdate form the database
+    /*!
+      \fn  int LastUpdateIndex()
 
-        Returns the value of the index
-     */ 
+      \brief Get the index of the fieldname LastUpdate form the database
+
+      Returns the value of the index
+   */
     int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
@@ -222,40 +222,40 @@ private:
      */
     const QString m_tableName = QLatin1String("software");
 
-     /*!
-        \var int m_SoftwareIdIndex
-        \brief The value of the SoftwareId
-     */    
+    /*!
+       \var int m_SoftwareIdIndex
+       \brief The value of the SoftwareId
+    */
     int m_SoftwareIdIndex{0};
 
-     /*!
-        \var int m_NameIndex
-        \brief The value of the Name
-     */  
+    /*!
+       \var int m_NameIndex
+       \brief The value of the Name
+    */
     int m_NameIndex{0};
 
-     /*!
-        \var int m_VersionIndex
-        \brief The value of the Version
-     */
+    /*!
+       \var int m_VersionIndex
+       \brief The value of the Version
+    */
     int m_VersionIndex{0};
 
-     /*!
-        \var int m_RevisionIndex
-        \brief The value of the Revision
-     */
+    /*!
+       \var int m_RevisionIndex
+       \brief The value of the Revision
+    */
     int m_RevisionIndex{0};
 
-     /*!
-        \var int m_FixIndex
-        \brief The value of the Fix
-     */
+    /*!
+       \var int m_FixIndex
+       \brief The value of the Fix
+    */
     int m_FixIndex{0};
 
     /*!
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
-    */  
+    */
     int m_LastUpdateIndex{0};
 };
 } // namespace Model

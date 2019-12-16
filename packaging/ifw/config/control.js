@@ -1,6 +1,6 @@
 //https://doc.qt.io/qtinstallerframework/noninteractive.html
 //https://doc.qt.io/qtinstallerframework/scripting-installer.html
-function Controller() 
+function Controller()
 {
     //installer.installationFinished.connect(onInstalled)
     installer.uninstallationFinished.connect(function(){

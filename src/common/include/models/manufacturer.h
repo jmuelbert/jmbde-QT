@@ -125,15 +125,15 @@ public:
         \brief Initialize the InputDataModel
 
         Returns The QSqlRelationalTableModel
-     */ 
+     */
     virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-   /*!
-        \fn virtual QSqlTableModel *initializeViewModel()
-        \brief Initialize the ViewModel
+    /*!
+         \fn virtual QSqlTableModel *initializeViewModel()
+         \brief Initialize the ViewModel
 
-        Returns QSqlTableModel
-     */
+         Returns QSqlTableModel
+      */
     virtual QSqlTableModel *initializeViewModel();
 
     /*!
@@ -146,13 +146,13 @@ public:
     virtual QString generateTableString(QAbstractTableModel *model,
                                         QString header);
 
-   /*!
-        \fn virtual QString generateFormularString(QAbstractTableModel *model,
-                                   const QString &header)
-        \brief generateFormularString
+    /*!
+         \fn virtual QString generateFormularString(QAbstractTableModel *model,
+                                    const QString &header)
+         \brief generateFormularString
 
-        Returns a QString with the generated Table for Output
-     */
+         Returns a QString with the generated Table for Output
+      */
     virtual QString generateFormularString(QAbstractTableModel *model,
                                            QString header);
 
@@ -164,7 +164,7 @@ public:
         \brief Get the index of the fieldname ManufacturerId form the database
 
         Returns the value of the index
-     */ 
+     */
     int ManufacturerIdIndex() const { return m_ManufacturerIdIndex; }
 
     /*!
@@ -209,7 +209,7 @@ public:
         \brief Get the index of the fieldname Address2 form the database
 
         Returns the value of the index
-     */    
+     */
     int Address2Index() const { return m_Address2Index; }
 
     /*!
@@ -218,7 +218,7 @@ public:
         \brief Get the index of the fieldname ZipCityId form the database
 
         Returns the value of the index
-     */    
+     */
     int ZipCityIdIndex() const { return m_ZipCityIdIndex; }
 
     /*!
@@ -227,16 +227,16 @@ public:
         \brief Get the index of the fieldname MailAddress form the database
 
         Returns the value of the index
-     */ 
+     */
     int MailAddressIndex() const { return m_MailAddressIndex; }
 
     /*!
-        \fn int PhoneNumberIndex() 
+        \fn int PhoneNumberIndex()
 
         \brief Get the index of the fieldname PhoneNumber form the database
 
         Returns the value of the index
-     */ 
+     */
     int PhoneNumberIndex() const { return m_PhoneNumberIndex; }
 
     /*!
@@ -245,7 +245,7 @@ public:
         \brief Get the index of the fieldname FaxNumber form the database
 
         Returns the value of the index
-     */ 
+     */
     int FaxNumberIndex() const { return m_FaxNumberIndex; }
 
     /*!
@@ -254,7 +254,7 @@ public:
         \brief Get the index of the fieldname HotlineNumber form the database
 
         Returns the value of the index
-     */ 
+     */
     int HotlineNumberIndex() const { return m_HotlineNumberIndex; }
 
     /*!
@@ -272,46 +272,46 @@ private:
      */
     const QString m_tableName = QLatin1String("manufacturer");
 
-     /*!
-        \var int m_ManufacturerIdIndex
-        \brief The value of the ManufacturerIdIndex
-     */   
+    /*!
+       \var int m_ManufacturerIdIndex
+       \brief The value of the ManufacturerIdIndex
+    */
     int m_ManufacturerIdIndex{0};
 
-     /*!
-        \var int m_NameIndex
-        \brief The value of the NameIndex
-     */   
+    /*!
+       \var int m_NameIndex
+       \brief The value of the NameIndex
+    */
     int m_NameIndex{0};
 
-     /*!
-        \var int m_Name2Index
-        \brief The value of the Name2Index
-     */     
+    /*!
+       \var int m_Name2Index
+       \brief The value of the Name2Index
+    */
     int m_Name2Index{0};
 
     /*!
         \var int m_SupporterIndex
         \brief The value of the SupporterIndex
-     */      
+     */
     int m_SupporterIndex{0};
 
     /*!
         \var int m_AddressIndex
         \brief The value of the AddressIndex
-     */    
+     */
     int m_AddressIndex{0};
 
     /*!
         \var int m_Address2Index
         \brief The value of the Address2Index
-     */  
+     */
     int m_Address2Index{0};
 
     /*!
         \var int m_ZipCityIdIndex
         \brief The value of the ZipCityIdIndex
-     */  
+     */
     int m_ZipCityIdIndex{0};
 
     /*!
@@ -341,7 +341,7 @@ private:
     /*!
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
-    */ 
+    */
     int m_LastUpdateIndex{0};
 };
 } // namespace Model

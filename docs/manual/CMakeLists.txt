@@ -41,7 +41,7 @@ cmake_minimum_required(VERSION 3.13.3 FATAL_ERROR)
 
 #
 # Part for sphinx
-# 
+#
 
 set(SPHINX_SOURCE ${CMAKE_CURRENT_SOURCE_DIR})
 set(SPHINX_BUILD ${CMAKE_CURRENT_BINARY_DIR})
@@ -52,7 +52,7 @@ set(SPHINX_THEME "alabaster")
 
 #Doxygen won't create this for us
 file(MAKE_DIRECTORY ${SPHINX_BUILD})
-  
+
 configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/conf.py.in"
     "${CMAKE_CURRENT_BINARY_DIR}/conf.py"
@@ -64,14 +64,14 @@ configure_file(
 # - The Sphinx config has been updated
 add_custom_command(OUTPUT ${SPHINX_INDEX_FILE}
                 COMMAND
-                ${SPHINX_EXECUTABLE} 
+                ${SPHINX_EXECUTABLE}
                     -b html
                     -c ${CMAKE_CURRENT_BINARY_DIR}
                 # Tell Breathe where to find the Doxygen output
-                # -Dbreathe_projects.Application=${DOXYGEN_OUTPUT_DIR}
+                -Dbreathe_projects.Application=${DOXYGEN_OUTPUT_DIR}
                 ${SPHINX_SOURCE} ${SPHINX_BUILD}
                 WORKING_DIRECTORY ${SPHINX_BUILD}
-                DEPENDS 
+                DEPENDS
                 # Othe docs files you want to track should go here (or in some variable)
                 ${SPHINX_SOURCE}/index.rst
                 MAIN_DEPENDENCY ${SPHINX_SOURCE}/conf.py.in

@@ -1,44 +1,18 @@
-/**************************************************************************
-**
-** Copyright (c) 2013-2019 Jürgen Mülbert. All rights reserved.
-**
-** This file is part of jmbde
-**
-** Licensed under the EUPL, Version 1.2 or – as soon they
-** will be approved by the European Commission - subsequent
-** versions of the EUPL (the "Licence");
-** You may not use this work except in compliance with the
-** Licence.
-** You may obtain a copy of the Licence at:
-**
-** https://joinup.ec.europa.eu/page/eupl-text-11-12
-**
-** Unless required by applicable law or agreed to in
-** writing, software distributed under the Licence is
-** distributed on an "AS IS" basis,
-** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-** express or implied.
-** See the Licence for the specific language governing
-** permissions and limitations under the Licence.
-**
-** Lizenziert unter der EUPL, Version 1.2 oder - sobald
-**  diese von der Europäischen Kommission genehmigt wurden -
-** Folgeversionen der EUPL ("Lizenz");
-** Sie dürfen dieses Werk ausschließlich gemäß
-** dieser Lizenz nutzen.
-** Eine Kopie der Lizenz finden Sie hier:
-**
-** https://joinup.ec.europa.eu/page/eupl-text-11-12
-**
-** Sofern nicht durch anwendbare Rechtsvorschriften
-** gefordert oder in schriftlicher Form vereinbart, wird
-** die unter der Lizenz verbreitete Software "so wie sie
-** ist", OHNE JEGLICHE GEWÄHRLEISTUNG ODER BEDINGUNGEN -
-** ausdrücklich oder stillschweigend - verbreitet.
-** Die sprachspezifischen Genehmigungen und Beschränkungen
-** unter der Lizenz sind dem Lizenztext zu entnehmen.
-**
-**************************************************************************/
+ /*
+    jmbde a BDE Tool for companies
+    Copyright (C) 2013-2019  Jürgen Mülbert
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+*/
+
 
 #pragma once
 
@@ -63,7 +37,7 @@
     \since 0.4
     \version 0.4.25
     \date 03.08.2019
-    \copyright EUPL V1.2
+    \copyright GPL V3
     */
 
 namespace Model {
@@ -97,6 +71,7 @@ public:
         \fn ChipCardDoor(QObject *parent = nullptr)
 
         \brief Constructor for the ChipCardDoor
+        \param parent The pointer to the parent Object
      */
     explicit ChipCardDoor(QObject *parent = nullptr);
 
@@ -118,7 +93,7 @@ public:
     /*!
         \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
         \brief set the QSqlRelationalTableModel for the DataModel
-        Returns The QSqlRelationalTableModel
+        \return The QSqlRelationalTableModel
      */
     virtual QSqlRelationalTableModel *initializeRelationalModel();
 
@@ -126,7 +101,7 @@ public:
         \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
         \brief Initialize the InputDataModel
 
-        Returns The QSqlRelationalTableModel
+        \return  The QSqlRelationalTableModel
      */
     virtual QSqlRelationalTableModel *initializeInputDataModel();
 
@@ -134,7 +109,7 @@ public:
         \fn virtual QSqlTableModel *initializeViewModel()
         \brief Initialize the ViewModel
 
-        Returns QSqlTableModel
+        \return  QSqlTableModel
      */
     virtual QSqlTableModel *initializeViewModel();
 
@@ -143,7 +118,7 @@ public:
                                 const QString &header)
         \brief generateTableString
 
-        Returns a QString with the generated Table for Output
+        \return  a QString with the generated Table for Output
      */
     virtual QString generateTableString(QAbstractTableModel *model,
                                         QString header);
@@ -153,7 +128,7 @@ public:
                                    const QString &header)
         \brief generateFormularString
 
-        Returns a QString with the generated Table for Output
+        \return  a QString with the generated Table for Output
      */
     virtual QString generateFormularString(QAbstractTableModel *model,
                                            QString header);
@@ -164,7 +139,7 @@ public:
 
         \brief Get the index of the fieldname ChipCardDoorId from the database
 
-        Returns the value of the index
+        \return  the value of the index
      */
     int ChipCardDoorIdIndex() const { return m_ChipCardDoorIdIndex; }
 
@@ -173,7 +148,7 @@ public:
 
         \brief Get the index of the fieldname Number form the database
 
-        Returns the value of the index
+        \return  the value of the index
      */
     int NumberIndex() const { return m_NumberIndex; }
 
@@ -182,7 +157,7 @@ public:
 
         \brief Get the index of the fieldname  PlaceId form the database
 
-        Returns the value of the index
+        \return  the value of the index
      */
     int PlaceIdIndex() const { return m_PlaceIdIndex; }
 
@@ -191,7 +166,7 @@ public:
 
         \brief Get the index of the fieldname DepartmetId form the database
 
-        Returns the value of the index
+        \return  the value of the index
      */
     int DepartmetIdIndex() const { return m_DepartmetIdIndex; }
 
@@ -200,7 +175,7 @@ public:
 
        \brief Get the index of the fieldname EmployeeIdform the database
 
-       Returns the value of the index
+       \return  the value of the index
     */
     int EmployeeIdIndex() const { return m_EmployeeIdIndex; }
 
@@ -209,7 +184,7 @@ public:
 
         \brief Get the index of the fieldname LastUpdate form the database
 
-        Returns the value of the index
+        \return  the value of the index
      */
     int LastUpdateIndex() const { return m_LastUpdateIndex; }
 

@@ -69,9 +69,9 @@
 
     This enum describes the available lock modes.
 
-    \value ReadLock A read lock.
-    \value WriteLock A write lock.
-    \value NoLock Neither a read lock nor a write lock.
+    @param ReadLock A read lock.
+    @param WriteLock A write lock.
+    @param NoLock Neither a read lock nor a write lock.
 */
 
 /*!

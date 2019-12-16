@@ -55,7 +55,6 @@
 #include "models/commondata.h"
 #include "models/idatamodel.h"
 
-
 /*!
     \class Fax
     \brief The Fax class
@@ -121,20 +120,20 @@ public:
      */
     virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-  /*!
-        \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
-        \brief Initialize the InputDataModel
+    /*!
+          \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
+          \brief Initialize the InputDataModel
 
-        Returns The QSqlRelationalTableModel
-     */
+          Returns The QSqlRelationalTableModel
+       */
     virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-   /*!
-        \fn virtual QSqlTableModel *initializeViewModel()
-        \brief Initialize the ViewModel
+    /*!
+         \fn virtual QSqlTableModel *initializeViewModel()
+         \brief Initialize the ViewModel
 
-        Returns QSqlTableModel
-     */
+         Returns QSqlTableModel
+      */
     virtual QSqlTableModel *initializeViewModel();
 
     /*!
@@ -147,13 +146,13 @@ public:
     virtual QString generateTableString(QAbstractTableModel *model,
                                         QString header);
 
-   /*!
-        \fn virtual QString generateFormularString(QAbstractTableModel *model,
-                                   const QString &header)
-        \brief generateFormularString
+    /*!
+         \fn virtual QString generateFormularString(QAbstractTableModel *model,
+                                    const QString &header)
+         \brief generateFormularString
 
-        Returns a QString with the generated Table for Output
-     */
+         Returns a QString with the generated Table for Output
+      */
     virtual QString generateFormularString(QAbstractTableModel *model,
                                            QString header);
 
@@ -165,25 +164,26 @@ public:
         \brief Get the index of the fieldname FaxId form the database
 
         Returns the value of the index
-     */ 
+     */
     int FaxIdIndex() const { return m_FaxIdIndex; }
-    
+
     /*!
         \fn int DeviceNameIdIndex()
 
         \brief Get the index of the fieldname DeviceNameId form the database
 
         Returns the value of the index
-     */    
+     */
     int DeviceNameIdIndex() const { return m_DeviceNameIdIndex; }
 
     /*!
         \fn int SerialNumberIndex()
 
-        \brief Get the index of the fieldname SerialNumberIndex form the database
+        \brief Get the index of the fieldname SerialNumberIndex form the
+       database
 
         Returns the value of the index
-     */   
+     */
     int SerialNumberIndex() const { return m_SerialNumberIndex; }
 
     /*!
@@ -192,43 +192,44 @@ public:
         \brief Get the index of the fieldname NumberIndex form the database
 
         Returns the value of the index
-     */ 
+     */
     int NumberIndex() const { return m_NumberIndex; }
-    
+
     /*!
         \fn int PinIndex()
 
         \brief Get the index of the fieldname PinIndex form the database
 
         Returns the value of the index
-     */    
+     */
     int PinIndex() const { return m_PinIndex; }
-    
-     /*!
-        \fn int ActiveIndex()
 
-        \brief Get the index of the fieldname ActiveIndex form the database
+    /*!
+       \fn int ActiveIndex()
 
-        Returns the value of the index
-     */     
+       \brief Get the index of the fieldname ActiveIndex form the database
+
+       Returns the value of the index
+    */
     int ActiveIndex() const { return m_ActiveIndex; }
-    
-     /*!
-        \fn int ReplaceIndex()
 
-        \brief Get the index of the fieldname ReplaceIndex form the database
+    /*!
+       \fn int ReplaceIndex()
 
-        Returns the value of the index
-     */    
+       \brief Get the index of the fieldname ReplaceIndex form the database
+
+       Returns the value of the index
+    */
     int ReplaceIndex() const { return m_ReplaceIndex; }
 
     /*!
         \fn int DeviceTypeIdIndex()
 
-        \brief Get the index of the fieldname DeviceTypeIdIndex form the database
+        \brief Get the index of the fieldname DeviceTypeIdIndex form the
+       database
 
         Returns the value of the index
-     */    
+     */
     int DeviceTypeIdIndex() const { return m_DeviceTypeIdIndex; }
 
     /*!
@@ -239,50 +240,52 @@ public:
         Returns the value of the index
      */
     int EmployeeIdIndex() const { return m_EmployeeIdIndex; }
-    
+
     /*!
         \fn int PlaceIdIndex()
 
         \brief Get the index of the fieldname PlaceIdIndex form the database
 
         Returns the value of the index
-     */    
+     */
     int PlaceIdIndex() const { return m_PlaceIdIndex; }
-    
+
     /*!
         \fn int DepartmentIdIndex()
 
-        \brief Get the index of the fieldname DepartmentIdIndex form the database
+        \brief Get the index of the fieldname DepartmentIdIndex form the
+       database
 
         Returns the value of the index
-     */     
+     */
     int DepartmentIdIndex() const { return m_DepartmentIdIndex; }
-    
+
     /*!
         \fn int ManufacturerIdIndex()
 
-        \brief Get the index of the fieldname ManufacturerIdIndex form the database
+        \brief Get the index of the fieldname ManufacturerIdIndex form the
+       database
 
         Returns the value of the index
-     */      
+     */
     int ManufacturerIdIndex() const { return m_ManufacturerIdIndex; }
-    
+
     /*!
         \fn int InventoryIdIndex()
 
         \brief Get the index of the fieldname InventoryIdIndex form the database
 
         Returns the value of the index
-     */       
+     */
     int InventoryIdIndex() const { return m_InventoryIdIndex; }
-    
+
     /*!
         \fn  int LastUpdateIndex()
 
         \brief Get the index of the fieldname LastUpdate form the database
 
         Returns the value of the index
-     */    
+     */
     int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
@@ -291,88 +294,88 @@ private:
      */
     const QString m_tableName = QLatin1String("fax");
 
-     /*!
-        \var int m_FaxIdIndex
-        \brief The value of the FaxIdIndex
-     */      
+    /*!
+       \var int m_FaxIdIndex
+       \brief The value of the FaxIdIndex
+    */
     int m_FaxIdIndex{0};
 
-     /*!
-        \var int m_DeviceNameIdIndex
-        \brief The value of the DeviceNameIdIndex
-     */     
+    /*!
+       \var int m_DeviceNameIdIndex
+       \brief The value of the DeviceNameIdIndex
+    */
     int m_DeviceNameIdIndex{0};
 
-     /*!
-        \var int m_SerialNumberIndex
-        \brief The value of the SerialNumberIndex
-     */     
+    /*!
+       \var int m_SerialNumberIndex
+       \brief The value of the SerialNumberIndex
+    */
     int m_SerialNumberIndex{0};
 
-     /*!
-        \var int m_NumberIndex
-        \brief The value of the NumberIndex
-     */  
+    /*!
+       \var int m_NumberIndex
+       \brief The value of the NumberIndex
+    */
     int m_NumberIndex{0};
 
-     /*!
-        \var int m_PinIndex
-        \brief The value of the PinIndex
-     */  
+    /*!
+       \var int m_PinIndex
+       \brief The value of the PinIndex
+    */
     int m_PinIndex{0};
 
-     /*!
-        \var int m_ActiveIndex
-        \brief The value of the ActiveIndex
-     */  
+    /*!
+       \var int m_ActiveIndex
+       \brief The value of the ActiveIndex
+    */
     int m_ActiveIndex{0};
 
-     /*!
-        \var int m_ReplaceIndex
-        \brief The value of the ReplaceIndex
-     */  
+    /*!
+       \var int m_ReplaceIndex
+       \brief The value of the ReplaceIndex
+    */
     int m_ReplaceIndex{0};
-    
-     /*!
-        \var int m_DeviceTypeIdIndex
-        \brief The value of the DeviceTypeIdIndex
-     */    
+
+    /*!
+       \var int m_DeviceTypeIdIndex
+       \brief The value of the DeviceTypeIdIndex
+    */
     int m_DeviceTypeIdIndex{0};
 
-     /*!
-        \var int m_EmployeeIdIndex
-        \brief The value of the EmployeeIdIndex
-     */   
+    /*!
+       \var int m_EmployeeIdIndex
+       \brief The value of the EmployeeIdIndex
+    */
     int m_EmployeeIdIndex{0};
 
     /*!
         \var int m_PlaceIdIndex
         \brief The value of the PlaceIdIndex
-     */ 
+     */
     int m_PlaceIdIndex{0};
 
     /*!
         \var int m_DepartmentIdIndex
         \brief The value of the DepartmentIdIndex
-     */ 
+     */
     int m_DepartmentIdIndex{0};
 
     /*!
         \var int m_ManufacturerIdIndex
         \brief The value of the ManufacturerIdIndex
-     */ 
+     */
     int m_ManufacturerIdIndex{0};
 
     /*!
         \var int m_nventoryIdIndex
         \brief The value of the nventoryIdIndex
-     */ 
+     */
     int m_InventoryIdIndex{0};
-     
-     /*!
-        \var int m_LastUpdateIndex
-        \brief The value of the LastUpdateIndex
-    */     
+
+    /*!
+       \var int m_LastUpdateIndex
+       \brief The value of the LastUpdateIndex
+   */
     int m_LastUpdateIndex{0};
 };
 } // namespace Model

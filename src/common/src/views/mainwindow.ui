@@ -283,14 +283,14 @@
   </action>
   <action name="actionPrint">
    <property name="icon">
-    <iconset theme="tango-icon">
-     <normaloff>:/icons/tango-icon/32x32/document-print.png</normaloff>
+    <iconset theme="tango-icon" resource="../../resources/res.qrc">
+     <normaloff>:/icons/tango/32x32/document-print.png</normaloff>
      <normalon>:/icons/tango-icon/32x32/document-print.png</normalon>
      <disabledoff>:/icons/tango-icon/32x32/document-print.png</disabledoff>
      <activeoff>:/icons/tango-icon/32x32/document-print.png</activeoff>
      <activeon>:/icons/tango-icon/32x32/document-print.png</activeon>
      <selectedoff>:/icons/tango-icon/32x32/document-print.png</selectedoff>
-     <selectedon>:/icons/tango-icon/32x32/document-print.png</selectedon>:/icons/tango-icon/32x32/document-print.png</iconset>
+     <selectedon>:/icons/tango-icon/32x32/document-print.png</selectedon>:/icons/tango/32x32/document-print.png</iconset>
    </property>
    <property name="text">
     <string>Print...</string>
@@ -318,6 +318,11 @@
    </property>
   </action>
   <action name="action_Export_Pdf">
+   <property name="icon">
+    <iconset resource="../../resources/res.qrc">
+     <normaloff>:/icons/tango/32x32/document-print-preview.png</normaloff>
+     <normalon>:/icons/tango/32x32/document-print-preview.png</normalon>:/icons/tango/32x32/document-print-preview.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;Export Pdf</string>
    </property>
@@ -336,8 +341,8 @@
   </action>
   <action name="actionEditAdd">
    <property name="icon">
-    <iconset>
-     <normaloff>:/icons/tango-icon/FileNew.png</normaloff>:/icons/tango-icon/FileNew.png</iconset>
+    <iconset resource="../../resources/res.qrc">
+     <normaloff>:/icons/tango/white/FileNew.png</normaloff>:/icons/tango/white/FileNew.png</iconset>
    </property>
    <property name="text">
     <string>Add</string>
@@ -345,8 +350,8 @@
   </action>
   <action name="actionEditEdit">
    <property name="icon">
-    <iconset>
-     <normaloff>:/icons/tango-icon/ActionSearch.png</normaloff>:/icons/tango-icon/ActionSearch.png</iconset>
+    <iconset resource="../../resources/res.qrc">
+     <normaloff>:/icons/tango/white/TaskEdit.png</normaloff>:/icons/tango/white/TaskEdit.png</iconset>
    </property>
    <property name="text">
     <string>Edit</string>
@@ -354,8 +359,8 @@
   </action>
   <action name="actionEditDelete">
    <property name="icon">
-    <iconset>
-     <normaloff>:/icons/tango-icon/TaskDelete.png</normaloff>:/icons/tango-icon/TaskDelete.png</iconset>
+    <iconset resource="../../resources/res.qrc">
+     <normaloff>:/icons/tango/white/TaskDelete.png</normaloff>:/icons/tango/white/TaskDelete.png</iconset>
    </property>
    <property name="text">
     <string>Delete</string>
@@ -363,6 +368,8 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="../../resources/res.qrc"/>
+ </resources>
  <connections/>
 </ui>

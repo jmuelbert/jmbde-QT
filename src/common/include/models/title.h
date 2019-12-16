@@ -168,31 +168,31 @@ public:
      */
     int TitleIdIndex() const { return m_TitleIdIndex; }
 
-      /*!
-        \fn  int NameIndex()
+    /*!
+      \fn  int NameIndex()
 
-        \brief Get the index of the fieldname Name from the database
+      \brief Get the index of the fieldname Name from the database
 
-        Returns the value of the index
-     */  
+      Returns the value of the index
+   */
     int NameIndex() const { return m_NameIndex; }
 
-      /*!
-        \fn  int FromDateIndex()
+    /*!
+      \fn  int FromDateIndex()
 
-        \brief Get the index of the fieldname FromDate from the database
+      \brief Get the index of the fieldname FromDate from the database
 
-        Returns the value of the index
-     */      
+      Returns the value of the index
+   */
     int FromDateIndex() const { return m_FromDateIndex; }
 
-      /*!
-        \fn  int ToDateIndex()
+    /*!
+      \fn  int ToDateIndex()
 
-        \brief Get the index of the fieldname ToDate from the database
+      \brief Get the index of the fieldname ToDate from the database
 
-        Returns the value of the index
-     */    
+      Returns the value of the index
+   */
     int ToDateIndex() const { return m_ToDateIndex; }
 
     /*!
@@ -225,13 +225,13 @@ private:
     /*!
         \var int m_FromDateIndex
         \brief The value of the FromDateIndex
-     */    
+     */
     int m_FromDateIndex{0};
 
     /*!
         \var int m_ToDateIndex
         \brief The value of the ToDatenIdex
-     */   
+     */
     int m_ToDateIndex{0};
     int m_LastUpdateIndex{0};
 };

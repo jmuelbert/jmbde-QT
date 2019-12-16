@@ -52,7 +52,6 @@ Model::Computer::Computer(QObject *parent) : CommonData(parent) {
     setIndexes();
 }
 
-
 Model::Computer::~Computer() {}
 
 void Model::Computer::setIndexes() {

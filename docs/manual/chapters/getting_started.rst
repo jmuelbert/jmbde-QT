@@ -24,5 +24,3 @@ jmbde add data...
   Click the jmbde icon in the applications menu or launcher of your desktop
   environment or perform a search for :file:`jmbde`. Alternatively type
   :command:`jmbde` into the terminal, then hit :kbd:`Return`.
- 
-

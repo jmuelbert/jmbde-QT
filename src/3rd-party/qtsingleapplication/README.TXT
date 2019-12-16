@@ -30,4 +30,3 @@ Version history:
      usage
      - Complete reimplementation. Visible changes:
      - LGPL release.
-

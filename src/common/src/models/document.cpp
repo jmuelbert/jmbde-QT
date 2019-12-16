@@ -42,8 +42,7 @@
 
 #include "models/document.h"
 
-Model::Document::Document(QObject *parent)
-    : CommonData(parent) {
+Model::Document::Document(QObject *parent) : CommonData(parent) {
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);
     m_model->setTable(this->m_tableName);
@@ -61,8 +60,7 @@ void Model::Document::setIndexes() {
     m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-QSqlRelationalTableModel *
-Model::Document::initializeRelationalModel() {
+QSqlRelationalTableModel *Model::Document::initializeRelationalModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -74,8 +72,7 @@ Model::Document::initializeRelationalModel() {
     return m_model;
 }
 
-QSqlRelationalTableModel *
-Model::Document::initializeInputDataModel() {
+QSqlRelationalTableModel *Model::Document::initializeInputDataModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -91,12 +88,11 @@ QSqlTableModel *Model::Document::initializeViewModel() {
     return m_model;
 }
 
-QString
-Model::Document::generateTableString(QAbstractTableModel *model,
-                                               QString header) {
+QString Model::Document::generateTableString(QAbstractTableModel *model,
+                                             QString header) {
     QString outString;
 
- #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
     qCDebug(documentLC, "Header: %s ( Columns: %i - Rows: %i )",
             header.toUtf8().constData(), model->columnCount(),
             model->rowCount());
@@ -127,12 +123,11 @@ Model::Document::generateTableString(QAbstractTableModel *model,
     return outString;
 }
 
-QString
-Model::Document::generateFormularString(QAbstractTableModel *model,
-                                                  QString header) {
+QString Model::Document::generateFormularString(QAbstractTableModel *model,
+                                                QString header) {
     QString outString;
 
- #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
     qCDebug(documentLC, "Header: %s ( Columns: %i - Rows: %i )",
             header.toUtf8().constData(), model->columnCount(),
             model->rowCount());

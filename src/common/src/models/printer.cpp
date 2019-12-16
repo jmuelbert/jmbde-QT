@@ -42,8 +42,7 @@
 
 #include "models/printer.h"
 
-Model::Printer::Printer(QObject *parent)
-    : CommonData(parent) {
+Model::Printer::Printer(QObject *parent) : CommonData(parent) {
 
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);
@@ -53,7 +52,7 @@ Model::Printer::Printer(QObject *parent)
     setIndexes();
 }
 
-Model::Printer::~Printer() { }
+Model::Printer::~Printer() {}
 
 void Model::Printer::setIndexes() {
     m_PrinterIdIndex = m_model->fieldIndex(QLatin1String("printer_id"));
@@ -108,10 +107,10 @@ QSqlTableModel *Model::Printer::initializeViewModel() {
 }
 
 QString Model::Printer::generateTableString(QAbstractTableModel *model,
-                                                     QString header) {
+                                            QString header) {
     QString outString;
 
- #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
     qCDebug(printerLC, "Header: %s ( Columns: %i - Rows: %i )",
             header.toUtf8().constData(), model->columnCount(),
             model->rowCount());
@@ -142,12 +141,11 @@ QString Model::Printer::generateTableString(QAbstractTableModel *model,
     return outString;
 }
 
-QString
-Model::Printer::generateFormularString(QAbstractTableModel *model,
-                                                QString header) {
+QString Model::Printer::generateFormularString(QAbstractTableModel *model,
+                                               QString header) {
     QString outString;
-    
- #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
     qCDebug(printerLC, "Header: %s ( Columns: %i - Rows: %i )",
             header.toUtf8().constData(), model->columnCount(),
             model->rowCount());

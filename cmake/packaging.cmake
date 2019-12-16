@@ -14,11 +14,20 @@ set(CPACK_PACKAGE_VERSION_MAJOR "${APPLICATION_VERSION_MAJOR}")
 set(CPACK_PACKAGE_VERSION_MINOR "${APPPLICATION_VERSION_MINOR}")
 set(CPACK_PACKAGE_VERSION_PATCH "${APPLICATION_VERSION_PATCH}")
 set(CPACK_PACKAGE_VERSION "${APPLICATION_VERSION}")
+########################################################################
+# File output
+set(CPACK_PACKAGE_INSTALL_DIRECTORY "${PROJECT_NAME}")
+set(CPACK_PACKAGE_CHECKSUM "SHA256")
 
 # Win
-if(WIN32)
+if(MSVC)
+	# HACKHACK: Update the following if vcpkg breaks compatibility for
+	# internal directories, scripts, or variables.
+	set(vcpkg_dir "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}")
+	find_program(windeployqt windeployqt.exe)
+
   set(ICONS_DIR "${CMAKE_SOURCE_DIR}/src/app/icons")
-  set(CPACK_GENERATOR "NSIS" "ZIP")
+  set(CPACK_GENERATOR "NSIS" "WIX" "ZIP")
   set(CPACK_PACKAGE_EXECUTABLES "${PROJECT_NAME}" "${PROJECT_NAME}")
   set(CPACK_PACKAGE_INSTALL_DIRECTORY "${PROJECT_NAME}")
   set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME} ${APPLICATION_VERSION}")
@@ -33,6 +42,34 @@ if(WIN32)
   #  "${README_FILE}" "Readme"
   # )
   set(CPACK_NSIS_MUI_FINISHPAGE_RUN "${CPACK_NSIS_INSTALLED_ICON_NAME}")
+
+  # WiX
+  set(CPACK_WIX_UPGRADE_GUID "178111DC-0B0C-4E3F-8C80-D756F742645F")
+  set(CPACK_WIX_PRODUCT_GUID "D936BC02-9157-4D86-9652-F8CB6D62BAAE")
+  set(CPACK_PACKAGE_NAME "${PROJECT_NAME}")
+  set(CPACK_PACKAGE_VENDOR "https://www.cms.bgu.tum.de/en/")
+  set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "OpenInfraPlatform")
+  set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}.${PROJECT_VERSION_TWEAK}")
+  set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
+  set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
+  set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
+  set(CPACK_PACKAGE_VERSION_TEWAK "${PROJECT_VERSION_TWEAK}}")
+
+  set(CPACK_PACKAGE_INSTALL_DIRECTORY "OpenInfraPlatform")
+  set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SOURCE_DIR}/LICENSE")
+  set(CPACK_RESOURCE_FILE_README "${PROJECT_SOURCE_DIR}/README.md")
+  # set(CPACK_WIX_UI_BANNER "${PROJECT_SOURCE_DIR}/Data/banner.bmp")
+  # set(CPACK_WIX_PRODUCT_ICON "${PROJECT_SOURCE_DIR}/src/OpenInfraPlatform/Resources/icons/icon.ico")
+  set(CPACK_WIX_PROGRAM_MENU_FOLDER "TUM OpenInfraPlatform")
+  set(CPACK_PACKAGE_EXECUTABLES OpenInfraPlatform.UI "TUM OpenInfraPlatform")
+
+  #set(CPACK_WIX_PROPERTY_AdvancedWelcomeEulaDlgTitle "Test")
+  #set(LOC_FILE "${PROJECT_SOURCE_DIR}/deploy/en-us.wxl")
+  set(CPACK_WIX_CULTURES "en-us")
+  #set(CPACK_WIX_LIGHT_EXTRA_FLAGS ${PROJECT_SOURCE_DIR}/deploy/en-us.wxl)
+  #set(CPACK_WIX_EXTRA_SOURCES ${PROJECT_SOURCE_DIR}/deploy/UI_colors.wxs)
+  #set(CPACK_WIX_EXTRA_OBJECTS ${PROJECT_SOURCE_DIR}/deploy/col.wixlib)
+
 elseif(APPLE)
   set(CPACK_GENERATOR "DragNDrop")
   set(CPACK_DMG_FORMAT "UDBZ")
@@ -69,7 +106,7 @@ SET(CPACK_DEBIAN_PACKAGE_CONFLICTS "Hello0-apps")
 # RPM specific configuration (minimum)
 # _____________________________________________________________________________
 #CPACK: RPM Specific Settings
-set(CPACK_RPM_PACKAGE_LICENSE "EUPL-1.2")
+set(CPACK_RPM_PACKAGE_LICENSE "GPL-V3")
 set(CPACK_RPM_PACKAGE_GROUP "Business/Tools")
 set(CPACK_RPM_PACKAGE_VERSION "${APPLICATION_VERSION}")
 set(CPACK_RPM_COMPONENT_INSTALL ON)   # necessary even if CPACK_COMPONENT_INSTALL set to ON. A bug in my opinion.
@@ -77,7 +114,7 @@ set(CPACK_RPM_COMPONENT_INSTALL ON)   # necessary even if CPACK_COMPONENT_INSTAL
 
 # OS X PackageMaker
 # _____________________________________________________________________________
-set(CPACK_OSX_PACKAGE_VERSION "10.5")
+set(CPACK_OSX_PACKAGE_VERSION "10.12")
 
 
 include(InstallRequiredSystemLibraries)

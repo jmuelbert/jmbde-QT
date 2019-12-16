@@ -121,4 +121,3 @@ function fullBuild ($7zipFileName, $zipFileName)
 
 # Entry point
 main
-

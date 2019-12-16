@@ -6,10 +6,10 @@
 jmbde |version| User Manual
 ***************************
 
-jmbde is a `free <https://www.gnu.org/philosophy/free-sw.html>` 
-software for Windows, macOS and Linux. 
-This program is easy to understand and easy to use. 
-With this software you can record and manage 
+jmbde is a `free <https://www.gnu.org/philosophy/free-sw.html>`
+software for Windows, macOS and Linux.
+This program is easy to understand and easy to use.
+With this software you can record and manage
 employees, hardware and accesses in a company.
 
 Table of Contents
@@ -27,6 +27,9 @@ Table of Contents
     chapters/database
     chapters/appendix
     glossary
+
+..  doxygenstruct:: jmbde
+    :members:
 
 Indices and tables
 ==================

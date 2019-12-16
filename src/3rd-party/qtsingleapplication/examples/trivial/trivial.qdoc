@@ -54,7 +54,7 @@
     The example has only the \c main entry point function.
     A QtSingleApplication object is created immediately.
 
-    \printuntil return 
+    \printuntil return
     If another instance of this application is already running,
     sendMessage() will succeed, and this instance just exits
     immediately.

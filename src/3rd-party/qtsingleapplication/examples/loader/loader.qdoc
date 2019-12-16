@@ -41,7 +41,7 @@
 /*! \page qtsingleapplication-example-loader.html
     \title Loading Documents
 
-    The application in this example loads or prints the documents 
+    The application in this example loads or prints the documents
     passed as commandline parameters to further instances of this
     application.
 

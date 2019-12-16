@@ -42,8 +42,7 @@
 
 #include "models/inventory.h"
 
-Model::Inventory::Inventory(QObject *parent)
-    : CommonData(parent) {
+Model::Inventory::Inventory(QObject *parent) : CommonData(parent) {
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);
     m_model->setTable(this->m_tableName);
@@ -52,7 +51,7 @@ Model::Inventory::Inventory(QObject *parent)
     setIndexes();
 }
 
-Model::Inventory::~Inventory() { }
+Model::Inventory::~Inventory() {}
 
 void Model::Inventory::setIndexes() {
     m_InventoryIdIndex = m_model->fieldIndex(QLatin1String("inventory_id"));
@@ -62,8 +61,7 @@ void Model::Inventory::setIndexes() {
     m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-QSqlRelationalTableModel *
-Model::Inventory::initializeRelationalModel() {
+QSqlRelationalTableModel *Model::Inventory::initializeRelationalModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -75,8 +73,7 @@ Model::Inventory::initializeRelationalModel() {
     return m_model;
 }
 
-QSqlRelationalTableModel *
-Model::Inventory::initializeInputDataModel() {
+QSqlRelationalTableModel *Model::Inventory::initializeInputDataModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -92,12 +89,11 @@ QSqlTableModel *Model::Inventory::initializeViewModel() {
     return m_model;
 }
 
-QString
-Model::Inventory::generateTableString(QAbstractTableModel *model,
-                                               QString header) {
+QString Model::Inventory::generateTableString(QAbstractTableModel *model,
+                                              QString header) {
     QString outString;
 
- #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
     qCDebug(inventoryLC, "Header: %s ( Columns: %i - Rows: %i )",
             header.toUtf8().constData(), model->columnCount(),
             model->rowCount());
@@ -128,12 +124,11 @@ Model::Inventory::generateTableString(QAbstractTableModel *model,
     return outString;
 }
 
-QString
-Model::Inventory::generateFormularString(QAbstractTableModel *model,
-                                                  QString header) {
+QString Model::Inventory::generateFormularString(QAbstractTableModel *model,
+                                                 QString header) {
     QString outString;
 
- #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
     qCDebug(inventoryLC, "Header: %s ( Columns: %i - Rows: %i )",
             header.toUtf8().constData(), model->columnCount(),
             model->rowCount());

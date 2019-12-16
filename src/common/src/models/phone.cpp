@@ -51,7 +51,7 @@ Model::Phone::Phone(QObject *parent) : CommonData(parent) {
     setIndexes();
 }
 
-Model::Phone::~Phone() { }
+Model::Phone::~Phone() {}
 
 void Model::Phone::setIndexes() {
     m_PhoneIdIndex = m_model->fieldIndex(QLatin1String("phone_id"));
@@ -100,10 +100,10 @@ QSqlTableModel *Model::Phone::initializeViewModel() {
 }
 
 QString Model::Phone::generateTableString(QAbstractTableModel *model,
-                                                   QString header) {
+                                          QString header) {
     QString outString;
 
- #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
     qCDebug(phoneLC, "Header: %s ( Columns: %i - Rows: %i )",
             header.toUtf8().constData(), model->columnCount(),
             model->rowCount());
@@ -134,12 +134,11 @@ QString Model::Phone::generateTableString(QAbstractTableModel *model,
     return outString;
 }
 
-QString
-Model::Phone::generateFormularString(QAbstractTableModel *model,
-                                              QString header) {
+QString Model::Phone::generateFormularString(QAbstractTableModel *model,
+                                             QString header) {
     QString outString;
 
- #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
     qCDebug(phoneLC, "Header: %s ( Columns: %i - Rows: %i )",
             header.toUtf8().constData(), model->columnCount(),
             model->rowCount());

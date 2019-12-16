@@ -51,7 +51,7 @@ Model::ChipCardDoor::ChipCardDoor(QObject *parent) : CommonData(parent) {
     setIndexes();
 }
 
-Model::ChipCardDoor::~ChipCardDoor() { }
+Model::ChipCardDoor::~ChipCardDoor() {}
 
 void Model::ChipCardDoor::setIndexes() {
     m_ChipCardDoorIdIndex =

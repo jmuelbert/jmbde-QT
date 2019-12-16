@@ -1,19 +1,22 @@
 ---
-version: "{branch}-{build}"
+version: "0.4.{build}"
 skip_tags: true
 max_jobs: 1
 
 image:
-  - Visual Studio 2017
-  - Ubuntu1804
+  - Visual Studio 2019
+  - Ubuntu
+  - macOS
 
 configuration:
-  - Debug
-  - Release
+  - release-fastbuild
+  - release
+#  - debug
 
 platform:
   # Disable x86 builds since we only get one concurrent build on AppVeyor and x86
   # failures will be caught by Jenkins.
+  # - x86
   - x64
 
 pull_requests:
@@ -27,23 +30,23 @@ nuget:
 environment:
   my_secret:
     secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
-  MINGW_DIR: C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\mingw64\bin
-  MSYS2_DIR: C:\msys64\bin
   APPVEYOR_YML_DISABLE_PS_LINUX: true
 
 matrix:
   exclude:
     # Ubuntu doesn't support "release-fastbuild".
-    - image: Ubuntu1804
-      configuration: Debug
+    - image: Ubuntu
+      configuration: release-fastbuild
+    - image: macos
+      configuration: release-fastbuild
     # We only want "release-fastbuild" for Windows since "release" consumes too
     # much memory due to link-time code generation / whole-program optimization.
-    - image: Visual Studio 2017
-      configuration: Debug
+    - image: Visual Studio 2019
+      configuration: release
 
 skip_commits:
   files:
-    - doc/
+    - docs/
     - LICENCE
     - README
     - README.md
@@ -52,18 +55,69 @@ skip_commits:
     - CODE_OF_CONDUCT.md
 
 for:
+  ########## macOS SPECIFIC CONFIGURATION ##########
+  - matrix:
+      only:
+        - image: macOS
+
+    clone_folder: /Users/appveyor/projects/jmbde-QT
+    cache:
+      - ccache
+
+    install:
+      - brew update
+      - brew install ninja
+      - brew install qt
+      - brew install ccache
+      - brew upgrade
+      - brew link --force qt5
+      - sudo ln -s /usr/local/Cellar/qt/5.13.2/mkspecs /usr/local/mkspecs
+      - sudo ln -s /usr/local/Cellar/qt/5.13.2/plugins /usr/local/plugins
+
+    before_build:
+      - mkdir -p build; cd build
+      - cmake -GNinja -DCMAKE_INSTALL_PREFIX=usr -DCMAKE_BUILD_TYPE=$CONFIGURATION ..
+
+    build_script:
+      - cmake --build .
+
+    after_build:
+      - cpack .
+      - ls -la jmbde.app/Contents/Frameworks
+      - ls -la jmbde.app/Contents/Resources
+      # - macdeployqt jmbde.app
+
+    test_script:
+      - ctest -C $CONFIGURATION -VV
+
+    deploy:
+      - provider: GitHub
+        release: jmbde-QT $(VERSION)
+        auth_token:
+          secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
+        artifact: /.*\.(dmg)/
+        draft: false
+        on:
+          appveyor_repo_tag: true
+          push_release: true
+
+  ########## END macOS SPECIFIC CONFIGURATION ##########
+
   ########## UBUNTU SPECIFIC CONFIGURATION ##########
   - matrix:
       only:
-        - image: Ubuntu1804
+        - image: Ubuntu
 
     clone_folder: /home/appveyor/projects/jmbde-QT
+    cache: ccache
 
     install:
-      - sudo add-apt-repository --yes ppa:beineri/opt-qt-5.12.3-bionic
+      - sudo add-apt-repository --yes ppa:beineri/opt-qt-5.12.6-bionic
       # Linux
       - sudo apt-get update -qq
+      - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
       - sudo apt-get -y install binutils
+      - sudo apt-get -y install ccache
       - sudo apt-get -y install gcc
       - sudo apt-get -y install g++
       - sudo apt-get -y install libgl1-mesa-dev
@@ -84,97 +138,161 @@ for:
 
     after_build:
       - cpack .
-      # - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" -O linuxdeployqt
-      # - chmod a+x linuxdeployqt
-      # - unset QTDIR; unset QT_PLUGIN_PATH; unset LD_LIBRARY_PATH
-      # - "./linuxdeployqt ../src/app/Unix/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.54m.so.1.0 -verbose=2"
-      # - ./linuxdeployqt --appimage-extract
+      # Download AppImage QT deployment tool (local snapshot -- original at github/probono)
+      - wget -c "https://github.com/jimevins/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
+      - chmod a+x linuxdeployqt*.AppImage
+      - wget -c -nv "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+      - chmod a+x appimagetool-x86_64.AppImage
+      - cmake .. -DCMAKE_INSTALL_PREFIX:PATH=./appdir/usr -Wno-dev
+      - make install
+      - ls -la
+      - ls -la bin
+      - git rev-list master --count
+      #
+      # Create AppImage
+      #
+      - unset QTDIR; unset QT_PLUGIN_PATH; unset LD_LIBRARY_PATH
+      # - export VERSION=$(printf "`master`-`git rev-list HEAD --count`-` git -C . rev-parse --short HEAD`") #$(git rev-parse --short HEAD) # linuxdeployqt uses this for naming the file
+      - "./linuxdeployqt*.AppImage ./appdir/usr/share/applications/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.54m.so.1.0 -verbose=1"
+      - unlink appdir/AppRun
+      - rm -r appdir/usr/plugins/bearer;
+      - rm -r appdir/usr/plugins/platforminputcontexts;
+      - rm -r appdir/usr/plugins/printsupport;
+      - rm -r appdir/usr/plugins/sqldrivers;
+      - rm -r appdir/usr/plugins/xcbglintegrations;
+      - ./appimagetool-x86_64.AppImage appdir
+      - ls -la
+
       # - export PATH=$(readlink -f ./squashfs-root/usr/bin/):$PATH
-      # - ./squashfs-root/usr/bin/appimagetool usr/
-      # - find ./app -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
-      # - mv jmbde-x86_64.AppImage jmbde-$JMBDE_VERSION-x86_64.AppImage
+      # - ./squashfs-root/usr/bin/appimagetool jmbde/
+      # - ls ./jmbde
+      # - find ./jmbde -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
+      # - mv jmbde-x86_64.AppImage jmbde-$VERSION-x86_64.AppImage
 
     test_script:
       - ctest -C $CONFIGURATION -VV
 
-    artifacts:
-      - name: "Linux-AppImage"
-        path: "*.appimage"
-      - name: "Linux-Debian"
-        path: "*.deb"
-      - name: "Linux-Archive"
-        path: "*.tar.gz"
+    #    artifacts:
+    #      - name: "Linux-Debian"
+    #        path: "build/*.deb"
+    #      - name: "Linux-Archive"
+    #      path: "build/*.tar.gz"
+
+    deploy:
+      - provider: GitHub
+        release: jmbde-QT $(VERSION)
+        auth_token:
+          secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
+        artifact: /.*\.(msi|7z|deb|exe)/
+        draft: false
+        on:
+          appveyor_repo_tag: true
+          push_release: true
 
   ########## END UBUNTU SPECIFIC CONFIGURATION ##########
 
   ########## WINDOWS SPECIFIC CONFIGURATION ##########
   - matrix:
       only:
-        - image: Visual Studio 2017
+        - image: Visual Studio 2019
       fast_finish: false # set this flag to true to immediately finish build once one of the jobs fails.
+
+    cache:
+      - C:\tools\vcpkg\installed -> .appveyor.yml
+      - C:\Users\appveyor\clcache -> .appveyor.yml, build_msvc\**, **\Makefile.am, **\*.vcxproj.in
 
     init:
       - git config --global core.autocrlf input
-    # Uncomment the following line to show RDP info at beginning of job
-    #    - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+      # Uncomment the following line to show RDP info at beginning of job
+      #    - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
     clone_folder: c:\projects\jmbde-QT
 
     install:
       # Windows
       - cinst ninja
-      -  # cinst wget
       - nuget install secure-file -ExcludeVersion
       - call set ENVIRONMENT_NAME=%%ENVIRONMENT_NAME:PLATFORM=%platform%%%
       - call set ENVIRONMENT_NAME=%%ENVIRONMENT_NAME:CONFIGURATION=%configuration%%%
-      - call set PLATFORM="x64"
-      - call set QTDIR="C:\Qt\5.13.0\msvc2017_64"
-      - call set /p RedistVersion=<"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt"
-      - call set VCREDIST_CRT_DIR=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CRT
-      - call set VCREDIST_CXXAMP_DIR=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CXXAMP
-      - call set VCREDIST_OPENMP_DIR=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.OpenMP
-      - call set REDIST="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\%RedistVersion%\vcredist_%PLATFORM%.exe"
-      - call set PATH=%QTDIR%\bin;%INNO%;%PATH%
-      # - call set CMAKE_GENERATOR="Visual Studio 15 2017 Win64"
-      - call set CMAKE_GENERATOR="Ninja"
-      - call set VCVARSALL="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat"
-      # - call set CMAKE_GENERATOR="MinGW Makefiles"
-      # - call set QTDIR="C:\Qt\5.12.2\mingw73_64"
-      - call set VCPKGDir="C:\Tools\vcpkg"
+      - ps: $ENV:PLATFORM="x64"
+      - ps: $ENV:QTDIR="C:\Qt\5.13\msvc2017_64"
+      - ps: $ENV:INNO="C:\Program Files (x86)\Inno Setup 6"
+      - ps: $ENV:VCPKGDir="C:\Tools\vcpkg"
+      - ps: $ENV:VCPKGToolChainFile = $ENV:VCPKGDir + "\scripts\buildsystems\vcpkg.cmake"
+      - call set /p RedistVersion=<"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt"
+      - ps: $ENV:VCREDIST_CRT_DIR="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CRT"
+      - ps: $ENV:VCREDIST_CXXAMP_DIR="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CXXAMP"
+      - ps: $ENV:VCREDIST_OPENMP_DIR="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.OpenMP"
+      - ps: $ENV:REDIST="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\vcredist_%PLATFORM%.exe"
+      - ps: $ENV:CMAKE_GENERATOR="Ninja"
+      - ps: $ENV:VCVARSALL="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat"
+      - ps: $ENV:Path += ";" + $ENV:QTDIR + "\bin"
+      - ps: $ENV:Path += ";" + $ENV:VCPKDIR
+      - ps: $ENV:Path += ";" + $ENV:INNO
       - echo QTDIR=%QTDIR%
 
     before_build:
-      - call %VCVARSALL% x64
+      - ps: Get-ChildItem ENV:PATH
+      - call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
       - call %QTDIR%\bin\qtenv2.bat
-      - cd %APPVEYOR_BUILD_FOLDER%
-      - mkdir build
-      - cd build
-      - ps: Write-Host "Generate the Project for $ENV:CMAKE_GENERATOR with $ENV:CONFIGURATION"
+      - cmd: chdir %APPVEYOR_BUILD_FOLDER%
+      - ps: New-Item -itemtype directory -path ./build
+      - cmd: chdir build
+      - ps: Write-Host "Generate the Project for $ENV:CMAKE_GENERATOR with $ENV:CONFIGURATION and $ENV:VCPKGToolChainFile"
       - ps: cmake -G "$ENV:CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE="$ENV:CONFIGURATION"  ..
+      - cmd: echo set(VCPKG_BUILD_TYPE release) >> C:\tools\vcpkg\triplets\%PLATFORM%-windows-static.cmake
+      - cmd: vcpkg remove --outdated --recurse
+      # - cmd: vcpkg install --triplet %PLATFORM%-windows-static %PACKAGES% > NUL
 
     build_script:
-      - ps: cmake --build .
+      - ps: cmake -G "Ninja" .. -DCMAKE_PREFIX_PATH=%QTDIR%
+      # -DCMAKE_TOOLCHAIN_FILE=$ENV:VCPKGToolChainFile
+      - ps: cmake --build . --config Release
 
     after_build:
       - cd %APPVEYOR_BUILD_FOLDER%\build
-      - dir
-      - dir "%APPVEYOR_BUILD_FOLDER%"
       - ps: Write-Host "$ENV:APPVEYOR_REPO_TAG_NAME"
-      - cpack .
-      -  # windeployqt jmbde.exe libjmbde.dll
-      -  # cmd: cp %REDIST% .
-      -  # cp %APPVEYOR_BUILD_FOLDER%/dist/win/installer.iss .
-      -  # iscc /dVcpkgInstalledBinDir=%VCPKGDir%\\installed\\x64-windows\\bin\\  installer.iss
-      -  # move jmbde-*.exe %APPVEYOR_BUILD_FOLDER%
+      - ps: cpack -C $ENV:CONFIGURATION -G NSIS64
+      - ps: Get-ChildItem
+      - cd %APPVEYOR_BUILD_FOLDER%\build
+      - ps: Get-ChildItem
+      - ps: windeployqt bin/jmbde.exe bin/jmbde_common.dll
+      - ps: Get-ChildItem bin
+      - cp %APPVEYOR_BUILD_FOLDER%/packaging/win/installer_%PLATFORM%.iss .
+      - ps: $installerfile="installer_" + $ENV:PLATFORM + ".iss"
+      - ps: iscc $installerfile
+      - ps: Get-ChildItem
+      - ps: Get-ChildItem ../
+      # - ps: iscc /dVcpkgInstalledBinDir=$ENV:VCPKGDir + "\installed\" + $ENV:PLATFORM + "-windows\bin\"  "installer_" + $ENV:PLATFORM + ".iss"
+      - move jmbde-*_%PLATFORM%-Setup.exe %APPVEYOR_BUILD_FOLDER%
 
     test_script:
       - ctest -C "$ENV:CONFIGURATION" -VV
 
     artifacts:
-      - name: Windows-Installer
-        path: "jmbde*.exe"
+      - name: Windows-Installer_x64
+        path: "build/jmbde*_x64-Setup.exe"
       - name: Windows-Archive
-        path: "jmbde-*.zip"
+        path: "build/jmbde*.zip"
+
+    deploy:
+      - provider: GitHub
+        release: jmbde-QT $(VERSION)
+        auth_token:
+          secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
+        artifact: Windows-Installer
+        draft: false
+        prerelease: false
+        force_update: true
+        on:
+          appveyor_repo_tag: true
+          push_release: true
+
+      - provider: NuGet
+        server: https://www.nuget.org
+        api_key: oy2k6l6mbqzqz4yxasnarz3dwqvesbpefewkyg4bi5uqz4
+        secure: m49OJ7+Jdt9an3jPcTukHA==
+        artifact: /.*\.nupkg/
 
     on_finish:
       # Uncomment the following line if you don't want the build VM to be destroyed
@@ -192,19 +310,3 @@ on_failure:
 
 on_finish:
   - echo "*** DONE ***"
-#deploy:
-#  - provider: GitHub
-#    release: jmbde-QT $(JMBDE_VERSION)
-#    auth_token:
-#      secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
-#      artifact: /.*\.(msi|7z|deb|exe)/
-#      draft: true
-#      on:
-#        appveyor_repo_tag: true
-#        push_release: true#
-#
-#  - provider: NuGet
-#    server:  https://www.nuget.org
-#    api_key: oy2k6l6mbqzqz4yxasnarz3dwqvesbpefewkyg4bi5uqz4
-#    secure: m49OJ7+Jdt9an3jPcTukHA==
-#    artifact: /.*\.nupkg/

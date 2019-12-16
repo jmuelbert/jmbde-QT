@@ -102,10 +102,10 @@ QSqlTableModel *Model::Mobile::initializeViewModel() {
 }
 
 QString Model::Mobile::generateTableString(QAbstractTableModel *model,
-                                                    QString header) {
+                                           QString header) {
     QString outString;
 
- #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
     qCDebug(mobileLC, "Header: %s ( Columns: %i - Rows: %i )",
             header.toUtf8().constData(), model->columnCount(),
             model->rowCount());
@@ -136,12 +136,11 @@ QString Model::Mobile::generateTableString(QAbstractTableModel *model,
     return outString;
 }
 
-QString
-Model::Mobile::generateFormularString(QAbstractTableModel *model,
-                                               QString header) {
+QString Model::Mobile::generateFormularString(QAbstractTableModel *model,
+                                              QString header) {
     QString outString;
 
- #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
     qCDebug(mobileLC, "Header: %s ( Columns: %i - Rows: %i )",
             header.toUtf8().constData(), model->columnCount(),
             model->rowCount());

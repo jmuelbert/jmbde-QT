@@ -120,20 +120,20 @@ public:
      */
     virtual QSqlRelationalTableModel *initializeRelationalModel();
 
-  /*!
-        \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
-        \brief Initialize the InputDataModel
+    /*!
+          \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
+          \brief Initialize the InputDataModel
 
-        Returns The QSqlRelationalTableModel
-     */
+          Returns The QSqlRelationalTableModel
+       */
     virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-   /*!
-        \fn virtual QSqlTableModel *initializeViewModel()
-        \brief Initialize the ViewModel
+    /*!
+         \fn virtual QSqlTableModel *initializeViewModel()
+         \brief Initialize the ViewModel
 
-        Returns QSqlTableModel
-     */
+         Returns QSqlTableModel
+      */
     virtual QSqlTableModel *initializeViewModel();
 
     /*!
@@ -146,13 +146,13 @@ public:
     virtual QString generateTableString(QAbstractTableModel *model,
                                         QString header);
 
-   /*!
-        \fn virtual QString generateFormularString(QAbstractTableModel *model,
-                                   const QString &header)
-        \brief generateFormularString
+    /*!
+         \fn virtual QString generateFormularString(QAbstractTableModel *model,
+                                    const QString &header)
+         \brief generateFormularString
 
-        Returns a QString with the generated Table for Output
-     */
+         Returns a QString with the generated Table for Output
+      */
     virtual QString generateFormularString(QAbstractTableModel *model,
                                            QString header);
 
@@ -161,10 +161,11 @@ public:
     /*!
         \fn int EmployeeDocumentIdIndex()
 
-        \brief Get the index of the fieldname EmployeeDocumentId form the database
+        \brief Get the index of the fieldname EmployeeDocumentId form the
+       database
 
         Returns the value of the index
-     */ 
+     */
     int EmployeeDocumentIdIndex() const { return m_EmployeeDocumentIdIndex; }
 
     /*!
@@ -173,7 +174,7 @@ public:
         \brief Get the index of the fieldname EmployeeId form the database
 
         Returns the value of the index
-     */ 
+     */
     int EmployeeIdIndex() const { return m_EmployeeIdIndex; }
 
     /*!
@@ -199,29 +200,29 @@ private:
         \brief The Tablename in the database \e is const
      */
     const QString m_tableName = QLatin1String("employee_document");
-   
-     /*!
-        \var int m_EmployeeDocumentIdIndex
-        \brief The value of the EmployeeDocumentIdIndex
-     */        
+
+    /*!
+       \var int m_EmployeeDocumentIdIndex
+       \brief The value of the EmployeeDocumentIdIndex
+    */
     int m_EmployeeDocumentIdIndex{0};
 
-     /*!
-        \var int m_EmployeeIdIndex
-        \brief The value of the EmployeeIdIndex
-     */
+    /*!
+       \var int m_EmployeeIdIndex
+       \brief The value of the EmployeeIdIndex
+    */
     int m_EmployeeIdIndex{0};
 
-     /*!
-        \var int m_DocumentIdIndex
-        \brief The value of the DocumentIdIndex
-     */
+    /*!
+       \var int m_DocumentIdIndex
+       \brief The value of the DocumentIdIndex
+    */
     int m_DocumentIdIndex{0};
 
     /*!
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
-    */  
+    */
     int m_LastUpdateIndex{0};
 };
 } // namespace Model

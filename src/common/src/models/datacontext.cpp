@@ -47,12 +47,13 @@ Model::DataContext::DataContext(QObject *parent, const QString &name)
       m_Name(name.isEmpty() ? QUuid::createUuid().toString() : name) {
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
-    qCDebug(dataContextLC, "Request Database : %s ", qUtf8Printable(this->m_Name));
+    qCDebug(dataContextLC, "Request Database : %s ",
+            qUtf8Printable(this->m_Name));
 #else
-   qDebug("Ctr:Request Database : %s ", qUtf8Printable(this->m_Name));
+    qDebug("Ctr:Request Database : %s ", qUtf8Printable(this->m_Name));
 #endif
-        CreateConnection();
-      }
+    CreateConnection();
+}
 
 Model::DataContext::~DataContext() {
     this->m_db.close();
@@ -61,7 +62,6 @@ Model::DataContext::~DataContext() {
 #else
     qDebug("~DataContext()");
 #endif
-
 }
 
 void Model::DataContext::CreateConnection() {
@@ -73,7 +73,8 @@ void Model::DataContext::CreateConnection() {
         QFile f(targetFileAndPath);
         if (!f.exists()) {
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
-            qCInfo(dataContextLC, "Create Sqlite Database: %s", qUtf8Printable(m_Name));
+            qCInfo(dataContextLC, "Create Sqlite Database: %s",
+                   qUtf8Printable(m_Name));
 #else
             qInfo("Create Sqlite Database: %s", qUtf8Printable(m_Name));
 #endif
@@ -83,18 +84,22 @@ void Model::DataContext::CreateConnection() {
             this->prepareDB();
         } else {
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
-            qCInfo(dataContextLC, "Open Sqlite Database: %s", qUtf8Printable(m_Name));
+            qCInfo(dataContextLC, "Open Sqlite Database: %s",
+                   qUtf8Printable(m_Name));
 #else
             qInfo("Open Sqlite Database: %s", qUtf8Printable(m_Name));
-#endif        
+#endif
             m_db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"));
             m_db.setDatabaseName(targetFileAndPath);
         }
     } else if (m_dbType == MYSQL) {
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
-        qCInfo(dataContextLC, "Open MySQL Database: %s on host %s", qUtf8Printable(this->m_Name), qUtf8Printable(this->m_dbHostName));
+        qCInfo(dataContextLC, "Open MySQL Database: %s on host %s",
+               qUtf8Printable(this->m_Name),
+               qUtf8Printable(this->m_dbHostName));
 #else
-        qInfo("Open MySQL Database: %s on host %s", qUtf8Printable(this->m_Name), qUtf8Printable(this->m_dbHostName));        
+        qInfo("Open MySQL Database: %s on host %s",
+              qUtf8Printable(this->m_Name), qUtf8Printable(this->m_dbHostName));
 #endif
         m_db = QSqlDatabase::addDatabase(QStringLiteral("QMYSQL"));
         m_db.setHostName(this->m_dbHostName);
@@ -103,9 +108,12 @@ void Model::DataContext::CreateConnection() {
         m_db.setPassword(this->m_dbPassWord);
     } else if (m_dbType == ODBC) {
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
-        qCInfo(dataContextLC, "Open ODBC Database: %s on host %s", qUtf8Printable(this->m_Name), qUtf8Printable(this->m_dbHostName));
+        qCInfo(dataContextLC, "Open ODBC Database: %s on host %s",
+               qUtf8Printable(this->m_Name),
+               qUtf8Printable(this->m_dbHostName));
 #else
-        qInfo("Open ODBC Database: %s on host %s", qUtf8Printable(this->m_Name), qUtf8Printable(this->m_dbHostName));        
+        qInfo("Open ODBC Database: %s on host %s", qUtf8Printable(this->m_Name),
+              qUtf8Printable(this->m_dbHostName));
 #endif
         m_db = QSqlDatabase::addDatabase(QStringLiteral("QODBC"));
         m_db.setHostName(this->m_dbHostName);
@@ -114,9 +122,12 @@ void Model::DataContext::CreateConnection() {
         m_db.setPassword(this->m_dbPassWord);
     } else if (m_dbType == POSTGRESQL) {
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
-        qCInfo(dataContextLC, "Open PostgreSQL Database: %s on host %s", qUtf8Printable(this->m_Name), qUtf8Printable(this->m_dbHostName));
+        qCInfo(dataContextLC, "Open PostgreSQL Database: %s on host %s",
+               qUtf8Printable(this->m_Name),
+               qUtf8Printable(this->m_dbHostName));
 #else
-        qInfo("Open PostgreSQL Database: %s on host %s", qUtf8Printable(this->m_Name), qUtf8Printable(this->m_dbHostName));        
+        qInfo("Open PostgreSQL Database: %s on host %s",
+              qUtf8Printable(this->m_Name), qUtf8Printable(this->m_dbHostName));
 #endif
         m_db = QSqlDatabase::addDatabase(QStringLiteral("QPSQL"));
         m_db.setHostName(this->m_dbHostName);
@@ -125,14 +136,14 @@ void Model::DataContext::CreateConnection() {
         m_db.setPassword(this->m_dbPassWord);
     } else {
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
-       qCCritical(dataContextLC, "Unknown DB-Type!");
-#else       
-       qCritical("Unknown DB-Type!");
+        qCCritical(dataContextLC, "Unknown DB-Type!");
+#else
+        qCritical("Unknown DB-Type!");
 #endif
     }
 }
 
-void Model::DataContext::closeConnection() { }
+void Model::DataContext::closeConnection() {}
 
 void Model::DataContext::prepareDB() {
     if (!this->m_db.isValid()) {
@@ -141,27 +152,31 @@ void Model::DataContext::prepareDB() {
 
     QSqlQuery query(this->m_db);
 
-    QFile file(QStringLiteral(":/script.sql"));
+    QFile file(QStringLiteral(":/data/script.sql"));
 
     if (!file.exists()) {
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
-       qCCritical(dataContextLC,"Fatal error on build database. The file '%s' for database and "
-               "tables creation query cannot be not found!",
-               qUtf8Printable(file.fileName()));
+        qCCritical(
+            dataContextLC,
+            "Fatal error on build database. The file '%s' for database and "
+            "tables creation query cannot be not found!",
+            qUtf8Printable(file.fileName()));
 #else
-       qCritical("Fatal error on build database. The file '%s' for database and "
-               "tables creation query cannot be not found!",
-               qUtf8Printable(file.fileName()));
-#endif   
+        qCritical(
+            "Fatal error on build database. The file '%s' for database and "
+            "tables creation query cannot be not found!",
+            qUtf8Printable(file.fileName()));
+#endif
     }
 
     if (!file.open(QIODevice::ReadOnly)) {
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
-        qCCritical(dataContextLC,
+        qCCritical(
+            dataContextLC,
             "Fatal error on try to create database! The file with sql queries "
             "for database creation cannot be opened!");
 #else
-      qCritical(
+        qCritical(
             "Fatal error on try to create database! The file with sql queries "
             "for database creation cannot be opened!");
 #endif
@@ -199,24 +214,24 @@ void Model::DataContext::prepareDB() {
             if (!query.exec(line)) {
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
                 qCCritical(dataContextLC, "exec failed at line <%s>: %s, %s",
-                         qUtf8Printable(line),
-                         qUtf8Printable(query.lastQuery()),
-                          qUtf8Printable(query.lastError().text()));
+                           qUtf8Printable(line),
+                           qUtf8Printable(query.lastQuery()),
+                           qUtf8Printable(query.lastError().text()));
 #else
                 qCritical() << "exec failed" << line << query.lastQuery()
-                         << query.lastError();
+                            << query.lastError();
 
 #endif
             }
 
         } else {
-#if QT_VERSION >= QT_VERSION_CHECK(5,12, 2)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
             qCCritical(dataContextLC, "exec wrong at line <%s>: %s",
-                     qUtf8Printable(line),
-                     qUtf8Printable(query.lastError().text()));
+                       qUtf8Printable(line),
+                       qUtf8Printable(query.lastError().text()));
 #else
             qDebug() << "exec wrong" << line << query.lastError();
-#endif 
+#endif
         }
     }
     file.close();
@@ -232,11 +247,11 @@ bool Model::DataContext::checkDBVersion() {
     QSqlQuery query(QLatin1String(
         "SELECT version, revision, patch, last_update FROM database_version"));
 
-#if QT_VERSION >= QT_VERSION_CHECK(5,12, 2)
-    qCDebug(dataContextLC, "CheckDBVersion, try getversion %s" ,
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+    qCDebug(dataContextLC, "CheckDBVersion, try getversion %s",
             qUtf8Printable(m_db.lastError().text()));
 #else
-    qDebug() << "CheckDBVersion, try getversion : "  << m_db.lastError().text();
+    qDebug() << "CheckDBVersion, try getversion : " << m_db.lastError().text();
 #endif
 
     while (query.next()) {
@@ -249,50 +264,47 @@ bool Model::DataContext::checkDBVersion() {
 
     if (version == QLatin1String(Database::Version::Version) &&
         revision == QLatin1String(Database::Version::Revision)) {
- #if QT_VERSION >= QT_VERSION_CHECK(5,12, 2)   
-        qCDebug(dataContextLC, "Check DBVersion: OK - Version: %s.%s.%s fron %s", 
-                qUtf8Printable(version), 
-                qUtf8Printable(revision),
-                qUtf8Printable(patch),
-               qUtf8Printable(lupdate.toString()));
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+        qCDebug(dataContextLC,
+                "Check DBVersion: OK - Version: %s.%s.%s fron %s",
+                qUtf8Printable(version), qUtf8Printable(revision),
+                qUtf8Printable(patch), qUtf8Printable(lupdate.toString()));
 #else
-       qDebug() << "Check DBVersion: OK - Version: " <<
-                version << "." << 
-                revision << "." << 
-                patch << " from " << lupdate.toString();
+        qDebug() << "Check DBVersion: OK - Version: " << version << "."
+                 << revision << "." << patch << " from " << lupdate.toString();
 
 #endif
         retValue = true;
     } else {
         if (version < QLatin1String(Database::Version::Version)) {
-#if QT_VERSION >= QT_VERSION_CHECK(5,12, 2) 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
             qCCritical(dataContextLC,
-                "Check DBVersion: Database to old. Version : %s  <> dbVersion : %s Revision : %s <> dbRevision : %s",
-                qUtf8Printable(version), 
-                Database::Version::Version, 
-                qUtf8Printable(revision), 
-                Database::Version::Revision);
+                       "Check DBVersion: Database to old. Version : %s  <> "
+                       "dbVersion : %s Revision : %s <> dbRevision : %s",
+                       qUtf8Printable(version), Database::Version::Version,
+                       qUtf8Printable(revision), Database::Version::Revision);
 #else
-            qCritical() <<
-                "Check DBVersion: Database to old. Version : " << 
-                " Version : " << version << "  <> dbVersion : " <<  Database::Version::Version << 
-                " Revision : " << revision <<  "  <> dbRevision : " << Database::Version::Revision;
+            qCritical() << "Check DBVersion: Database to old. Version : "
+                        << " Version : " << version
+                        << "  <> dbVersion : " << Database::Version::Version
+                        << " Revision : " << revision
+                        << "  <> dbRevision : " << Database::Version::Revision;
 #endif
         }
 
         if (revision < QLatin1String(Database::Version::Revision)) {
-#if QT_VERSION >= QT_VERSION_CHECK(5,12, 2) 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
             qCCritical(dataContextLC,
-                "Check DBVersion: Database to old. Revision : %s  <> dbVersion : %s Revision : %s <> dbRevision : %s",
-                qUtf8Printable(version), 
-                Database::Version::Version, 
-                qUtf8Printable(revision), 
-                Database::Version::Revision);
+                       "Check DBVersion: Database to old. Revision : %s  <> "
+                       "dbVersion : %s Revision : %s <> dbRevision : %s",
+                       qUtf8Printable(version), Database::Version::Version,
+                       qUtf8Printable(revision), Database::Version::Revision);
 #else
-            qCritical() <<
-                "Check DBVersion: Database to old. Version : " << 
-                " Version : " << version << "  <> dbVersion : " <<  Database::Version::Version << 
-                " Revision : " << revision <<  "  <> dbRevision : " << Database::Version::Revision;
+            qCritical() << "Check DBVersion: Database to old. Version : "
+                        << " Version : " << version
+                        << "  <> dbVersion : " << Database::Version::Version
+                        << " Revision : " << revision
+                        << "  <> dbRevision : " << Database::Version::Revision;
 #endif
         }
     }
@@ -313,18 +325,15 @@ bool Model::DataContext::check_existence(const QString &tableName,
         if (query.next())
             return true;
     } else {
-#if QT_VERSION >= QT_VERSION_CHECK(5,12, 2) 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
         qCWarning(dataContextLC, "CheckExistence(%s, %s, %s) : %s",
-            qUtf8Printable(tableName),
-            qUtf8Printable(searchId),
-            qUtf8Printable(search), 
-            qUtf8Printable(query.lastError().text()));
+                  qUtf8Printable(tableName), qUtf8Printable(searchId),
+                  qUtf8Printable(search),
+                  qUtf8Printable(query.lastError().text()));
 #else
-        qWarning() << "CheckExistence( " << 
-            tableName <<  " , " <<
-            searchId << ", "  <<
-            search << " ) :  " << 
-            qUtf8Printable(query.lastError().text());
+        qWarning() << "CheckExistence( " << tableName << " , " << searchId
+                   << ", " << search
+                   << " ) :  " << qUtf8Printable(query.lastError().text());
 #endif
     }
 
@@ -334,16 +343,18 @@ bool Model::DataContext::check_existence(const QString &tableName,
 bool Model::DataContext::insert(const QString &tableName,
                                 const QVariantMap &insertData) {
     if (tableName.isEmpty()) {
-#if QT_VERSION >= QT_VERSION_CHECK(5,12, 2)         
-       qCCritical(dataContextLC, "Fatal error on insert! The table m_Name is empty!");
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+        qCCritical(dataContextLC,
+                   "Fatal error on insert! The table m_Name is empty!");
 #else
-       qCritical("Fatal error on insert! The table m_Name is empty!");
+        qCritical("Fatal error on insert! The table m_Name is empty!");
 #endif
     } else if (insertData.isEmpty()) {
-#if QT_VERSION >= QT_VERSION_CHECK(5,12, 2) 
-       qCCritical(dataContextLC, "Fatal error on insert! The insertData is empty!");
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+        qCCritical(dataContextLC,
+                   "Fatal error on insert! The insertData is empty!");
 #else
-       qCritical("Fatal error on insert! The insertData is empty!");
+        qCritical("Fatal error on insert! The insertData is empty!");
 #endif
     }
 
@@ -406,12 +417,14 @@ bool Model::DataContext::openDB(const QString &m_Name) {
     const auto dbFile = getSqliteName();
     if (!QSqlDatabase::contains(m_Name)) {
 
-#if QT_VERSION >= QT_VERSION_CHECK(5,12, 2) 
-        qCDebug(dataContextLC,"openDB:Set default DB : %s", qUtf8Printable(m_Name));
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+        qCDebug(dataContextLC, "openDB:Set default DB : %s",
+                qUtf8Printable(m_Name));
 #else
         qDebug("openDB:Set default DB : %s", qUtf8Printable(m_Name));
 #endif
-        this->m_db = QSqlDatabase::addDatabase(QStringLiteral("QSQLITE"), m_Name);
+        this->m_db =
+            QSqlDatabase::addDatabase(QStringLiteral("QSQLITE"), m_Name);
         this->m_db.setDatabaseName(dbFile);
         return true;
     }
@@ -423,9 +436,9 @@ bool Model::DataContext::openDB(const QString &m_Name) {
     if (!this->m_db.isOpen()) {
         if (!this->m_db.open()) {
         } else {
-#if QT_VERSION >= QT_VERSION_CHECK(5,12, 2) 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
             qCWarning(dataContextLC, "openDB:DB yet open %s ",
-                     qUtf8Printable(m_db.databaseName()));
+                      qUtf8Printable(m_db.databaseName()));
 #else
             qWarning("openDB:DB yet open %s ",
                      qUtf8Printable(m_db.databaseName()));
@@ -460,8 +473,6 @@ void Model::DataContext::deleteDB(const QString &m_Name) {
         f.remove();
     }
 }
-
-
 
 QSqlDatabase Model::DataContext::getDatabase() { return m_db; }
 
@@ -529,13 +540,11 @@ QString Model::DataContext::getSqliteName() {
     targetFileAndPath.append(this->m_Name);
     targetFileAndPath.append(QLatin1Literal(".sqlite"));
 
-
-#if (QT_VERSION >= QT_VERSION_CHECK(5,12, 2)) 
-            qCDebug(dataContextLC, "getSqliteName %s ",
-                     qUtf8Printable(targetFileAndPath));
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 12, 2))
+    qCDebug(dataContextLC, "getSqliteName %s ",
+            qUtf8Printable(targetFileAndPath));
 #else
-            qCDebug() <<  "getSqliteName :" <<
-                     qUtf8Printable(targetFileAndPath);
+    qCDebug() << "getSqliteName :" << qUtf8Printable(targetFileAndPath);
 #endif
 
     return targetFileAndPath;

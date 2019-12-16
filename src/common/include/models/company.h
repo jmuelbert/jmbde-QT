@@ -1,44 +1,17 @@
-/**************************************************************************
-**
-** Copyright (c) 2013-2019 Jürgen Mülbert. All rights reserved.
-**
-** This file is part of jmbde
-**
-** Licensed under the EUPL, Version 1.2 or – as soon they
-** will be approved by the European Commission - subsequent
-** versions of the EUPL (the "Licence");
-** You may not use this work except in compliance with the
-** Licence.
-** You may obtain a copy of the Licence at:
-**
-** https://joinup.ec.europa.eu/page/eupl-text-11-12
-**
-** Unless required by applicable law or agreed to in
-** writing, software distributed under the Licence is
-** distributed on an "AS IS" basis,
-** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-** express or implied.
-** See the Licence for the specific language governing
-** permissions and limitations under the Licence.
-**
-** Lizenziert unter der EUPL, Version 1.2 oder - sobald
-**  diese von der Europäischen Kommission genehmigt wurden -
-** Folgeversionen der EUPL ("Lizenz");
-** Sie dürfen dieses Werk ausschließlich gemäß
-** dieser Lizenz nutzen.
-** Eine Kopie der Lizenz finden Sie hier:
-**
-** https://joinup.ec.europa.eu/page/eupl-text-11-12
-**
-** Sofern nicht durch anwendbare Rechtsvorschriften
-** gefordert oder in schriftlicher Form vereinbart, wird
-** die unter der Lizenz verbreitete Software "so wie sie
-** ist", OHNE JEGLICHE GEWÄHRLEISTUNG ODER BEDINGUNGEN -
-** ausdrücklich oder stillschweigend - verbreitet.
-** Die sprachspezifischen Genehmigungen und Beschränkungen
-** unter der Lizenz sind dem Lizenztext zu entnehmen.
-**
-**************************************************************************/
+/*
+    jmbde a BDE Tool for companies
+    Copyright (C) 2013-2019  Jürgen Mülbert
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+*/
 
 #pragma once
 
@@ -278,75 +251,19 @@ public:
     int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-    /*!
-        \variable  const QString m_tableName
-        \brief The Tablename in the database \e is const
-     */
-    const QString m_tableName = QLatin1String("company");
-
-    /*!
-        \brief The value of the CompanyIdIndex
-     */
-    int m_CompanyIdIndex{0};
-
-    /*!
-        \brief The value of the NameIndex
-     */
-    int m_NameIndex{0};
-
-    /*!
-        \brief The value of the Name2Index
-     */
-    int m_Name2Index{0};
-
-    /*!
-        \brief The value of the StreetIndex
-     */
-    int m_StreetIndex{0};
-
-    /*!
-        \brief The value of the CityIndex
-     */
-    int m_CityIndex{0};
-
-    /*!
-        \brief The value of the ZipCodeIndex
-     */
-    int m_ZipCodeIndex{0};
-
-    /*!
-        \brief The value of the PhoneNumberIndex
-     */
-    int m_PhoneNumberIndex{0};
-
-    /*!
-        \brief The value of the FaxNumberIndex
-     */
-    int m_FaxNumberIndex{0};
-
-    /*!
-        \brief The value of the MobileNumberIndex
-     */
-    int m_MobileNumberIndex{0};
-
-    /*!
-        \brief The value of the MailAddressIndex
-     */
-    int m_MailAddressIndex{0};
-
-    /*!
-        \brief The value of the ActiveIndex
-     */
-    int m_ActiveIndex{0};
-
-    /*!
-        \brief The value of the EmployeeIdIndex
-     */
-    int m_EmployeeIdIndex{0};
-
-    /*!
-        \brief The value of the LastUpdateIndex
-     */
-    int m_LastUpdateIndex{0};
+    const QString m_tableName = QLatin1String("company");   ///< QString m_tableName
+    int m_CompanyIdIndex{0};                                ///< int CompanyIdIndex
+    int m_NameIndex{0};                                     ///< int NameIndex
+    int m_Name2Index{0};                                    ///< int Name2Index
+    int m_StreetIndex{0};                                   ///< int m_StreetIndex
+    int m_CityIndex{0};                                     ///< int CityIndex
+    int m_ZipCodeIndex{0};                                  ///< int ZipCodeIndex
+    int m_PhoneNumberIndex{0};                              ///< int PhoneNumberIndex
+    int m_FaxNumberIndex{0};                                ///< int FaxNumberIndex
+    int m_MobileNumberIndex{0};                             ///< int MobileNumberIndex
+    int m_MailAddressIndex{0};                              ///< int MailAddressIndex
+    int m_ActiveIndex{0};                                   ///< int ActiveIndex
+    int m_EmployeeIdIndex{0};                               ///< int EmployeeIdIndex
+    int m_LastUpdateIndex{0};                               ///< int LastUpdateIndex
 };
 } // namespace Model

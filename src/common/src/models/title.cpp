@@ -52,7 +52,7 @@ Model::Title::Title(QObject *parent) : CommonData(parent) {
     setIndexes();
 }
 
-Model::Title::~Title() { }
+Model::Title::~Title() {}
 
 void Model::Title::setIndexes() {
     m_TitleIdIndex = m_model->fieldIndex(QLatin1String("title_id"));
@@ -90,7 +90,7 @@ QSqlTableModel *Model::Title::initializeViewModel() {
 }
 
 QString Model::Title::generateTableString(QAbstractTableModel *model,
-                                                   QString header) {
+                                          QString header) {
     QString outString;
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
@@ -124,11 +124,10 @@ QString Model::Title::generateTableString(QAbstractTableModel *model,
     return outString;
 }
 
-QString
-Model::Title::generateFormularString(QAbstractTableModel *model,
-                                              QString header) {
+QString Model::Title::generateFormularString(QAbstractTableModel *model,
+                                             QString header) {
     QString outString;
-    
+
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
     qCDebug(titleLC, "Header: %s ( Columns: %i - Rows: %i )",
             header.toUtf8().constData(), model->columnCount(),

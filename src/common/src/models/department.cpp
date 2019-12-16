@@ -42,8 +42,7 @@
 
 #include "models/department.h"
 
-Model::Department::Department(QObject *parent)
-    : CommonData(parent) {
+Model::Department::Department(QObject *parent) : CommonData(parent) {
 
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);
@@ -53,7 +52,7 @@ Model::Department::Department(QObject *parent)
     setIndexes();
 }
 
-Model::Department::~Department() { }
+Model::Department::~Department() {}
 
 void Model::Department::setIndexes() {
     m_DepartmentIdIndex = m_model->fieldIndex(QLatin1String("department_id"));
@@ -64,8 +63,7 @@ void Model::Department::setIndexes() {
     m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-QSqlRelationalTableModel *
-Model::Department::initializeRelationalModel() {
+QSqlRelationalTableModel *Model::Department::initializeRelationalModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -77,8 +75,7 @@ Model::Department::initializeRelationalModel() {
     return m_model;
 }
 
-QSqlRelationalTableModel *
-Model::Department::initializeInputDataModel() {
+QSqlRelationalTableModel *Model::Department::initializeInputDataModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -94,12 +91,11 @@ QSqlTableModel *Model::Department::initializeViewModel() {
     return m_model;
 }
 
-QString
-Model::Department::generateTableString(QAbstractTableModel *model,
-                                                QString header) {
+QString Model::Department::generateTableString(QAbstractTableModel *model,
+                                               QString header) {
     QString outString;
 
- #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
     qCDebug(departmentLC, "Header: %s ( Columns: %i - Rows: %i )",
             header.toUtf8().constData(), model->columnCount(),
             model->rowCount());
@@ -130,11 +126,10 @@ Model::Department::generateTableString(QAbstractTableModel *model,
     return outString;
 }
 
-QString
-Model::Department::generateFormularString(QAbstractTableModel *model,
-                                                   QString header) {
+QString Model::Department::generateFormularString(QAbstractTableModel *model,
+                                                  QString header) {
     QString outString;
-    
+
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
     qCDebug(departmentLC, "Header: %s ( Columns: %i - Rows: %i )",
             header.toUtf8().constData(), model->columnCount(),

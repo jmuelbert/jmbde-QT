@@ -1,44 +1,18 @@
-/**************************************************************************
-**
-** Copyright (c) 2013-2019 Jürgen Mülbert. All rights reserved.
-**
-** This file is part of jmbde
-**
-** Licensed under the EUPL, Version 1.2 or – as soon they
-** will be approved by the European Commission - subsequent
-** versions of the EUPL (the "Licence");
-** You may not use this work except in compliance with the
-** Licence.
-** You may obtain a copy of the Licence at:
-**
-** https://joinup.ec.europa.eu/page/eupl-text-11-12
-**
-** Unless required by applicable law or agreed to in
-** writing, software distributed under the Licence is
-** distributed on an "AS IS" basis,
-** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-** express or implied.
-** See the Licence for the specific language governing
-** permissions and limitations under the Licence.
-**
-** Lizenziert unter der EUPL, Version 1.2 oder - sobald
-**  diese von der Europäischen Kommission genehmigt wurden -
-** Folgeversionen der EUPL ("Lizenz");
-** Sie dürfen dieses Werk ausschließlich gemäß
-** dieser Lizenz nutzen.
-** Eine Kopie der Lizenz finden Sie hier:
-**
-** https://joinup.ec.europa.eu/page/eupl-text-11-12
-**
-** Sofern nicht durch anwendbare Rechtsvorschriften
-** gefordert oder in schriftlicher Form vereinbart, wird
-** die unter der Lizenz verbreitete Software "so wie sie
-** ist", OHNE JEGLICHE GEWÄHRLEISTUNG ODER BEDINGUNGEN -
-** ausdrücklich oder stillschweigend - verbreitet.
-** Die sprachspezifischen Genehmigungen und Beschränkungen
-** unter der Lizenz sind dem Lizenztext zu entnehmen.
-**
-**************************************************************************/
+/*
+    jmbde a BDE Tool for companies
+    Copyright (C) 2013-2019  Jürgen Mülbert
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+*/
+
 
 #pragma once
 
@@ -109,7 +83,8 @@ class JMBDE_COMMON_EXPORT DataContext : public QObject {
      */
     Q_LOGGING_CATEGORY(dataContextLC, "jmbde.models.datacontext")
 public:
-    // TODO: Add Constructor: DataContext(const QString &name, + init for mySQL etc.)
+    // TODO: Add Constructor: DataContext(const QString &name, + init for mySQL
+    // etc.)
     // TODO: Remove access of settings
 
     /*!
@@ -119,7 +94,8 @@ public:
         \brief Constructor for the DataContext
         \details Contructur with a name for the database to use.
      */
-    explicit DataContext(QObject *parent = nullptr, const QString &name = QString());
+    explicit DataContext(QObject *parent = nullptr,
+                         const QString &name = QString());
 
     /*!
           \fn  ~DataContext() override;
@@ -127,12 +103,12 @@ public:
           \brief Destructor for DataContext()
           \details Close the connection to the database.
        */
-      ~DataContext();
+    ~DataContext();
 
     /*!
         \fn void prepareDB()
 
-        \brief Create the database from sql  
+        \brief Create the database from sql
      */
     void prepareDB();
 
@@ -141,34 +117,34 @@ public:
 
         \brief Get the ref for the opened database
 
-        \Returns the referenz
+        \return the referenz
      */
     QSqlDatabase getDatabase();
 
     /*!
         \fn QSqlError initDb()
         \brief initDb get the db.lastError()
-     
+
         Returns The last error from the Database
      */
     QSqlError initDb();
 
     /*!
         \fn bool execQuery(QSqlQuery &query) const
-        
+
         \brief exec the QSqlQuery
 
-        Returns true if the execution succesful
+        \return true if the execution succesful
      */
     bool execQuery(QSqlQuery &query) const;
 
     /*!
         \fn bool execQuery(QString &queryText) const
-        
+
         \brief exec the QString
 
-        Returns true if the execution succesful
-     */    
+        \return true if the execution succesful
+     */
     bool execQuery(const QString &queryText);
 
     /* basic public actions */
@@ -177,13 +153,13 @@ public:
                          const QString &serach);
 
     /* useful actions */
-    
+
     /*!
         \fn QSqlQuery getQuery(const QString &queryText)
 
         \brief get the query by the given queryText
 
-        Return QSqlQuery
+        \return QSqlQuery
 
         \sa QSqlQuery
      */
@@ -194,7 +170,7 @@ public:
 
         \brief Open the Database with the given name
 
-        Returns true ist the database succesful opened.
+        \return true ist the database succesful opened.
      */
     bool openDB(const QString &name);
 
@@ -222,7 +198,7 @@ private:
                  will Create for the four OS DB's the Connection.
                  By using sqlite is the system depend user directory
                  used.
-     
+
         \todo init all tables
         \todo check database version
         \todo export and import all tables
@@ -233,7 +209,7 @@ private:
         \fn void CloseConnection()
 
         \brief Close the connection to the database
-        \details \edoes nothing
+        \details \e does nothing
 
      */
     void CloseConnection();
@@ -262,16 +238,16 @@ private:
      */
     QString m_dbHostName;
 
-   /*!
-        \var  QString m_dbUserName
-        \brief The holder for the DB-Username
-     */
+    /*!
+         \var  QString m_dbUserName
+         \brief The holder for the DB-Username
+      */
     QString m_dbUserName;
 
-   /*!
-        \var  QString m_dbPassWord
-        \brief The holder for the DB-Password
-     */
+    /*!
+         \var  QString m_dbPassWord
+         \brief The holder for the DB-Password
+      */
     QString m_dbPassWord;
 
     /*!
@@ -285,8 +261,8 @@ private:
     /*!
         \fn bool checkDBVersion()
         \brief Check the Version of the DB
-        
-        Returns False has the DB a wrong version
+
+        \return False has the DB a wrong version
      */
     bool checkDBVersion();
 
@@ -294,7 +270,7 @@ private:
         \fn bool insert(const QString &tableName, const QVariantMap &insertData)
         \brief insert the VariantMap in the table
 
-        Returns true is successfull
+        \return true is successfull
 
         \sa QVariantMap
      */
@@ -306,7 +282,7 @@ private:
                 const QString &id)
         \brief Update the Data in the table
 
-        Returns true is successfull
+        \return true is successfull
      */
     bool update(const QString &table, const QString &column,
                 const QVariant &newValue, const QVariant &op,

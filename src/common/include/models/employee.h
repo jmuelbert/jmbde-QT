@@ -66,7 +66,7 @@
 /*!
     \class Employee
     \brief The Employee class
-    
+
     \details
         ## The Datafields ##
         - The title is Dr., Ing. and so on
@@ -88,7 +88,7 @@
         - the foreign key to the fax
         - the foreign key to the table of accounts
         - the foreign key to the table of documents
- 
+
 digraph g {
     graph [
         rankdir = "LR";
@@ -143,7 +143,7 @@ public:
 
         \brief Destructor for Employee
      */
-     ~Employee();
+    ~Employee();
 
     // implement the virtuals
 
@@ -168,12 +168,12 @@ public:
      */
     virtual QSqlRelationalTableModel *initializeInputDataModel();
 
-   /*!
-        \fn virtual QSqlTableModel *initializeViewModel()
-        \brief Initialize the ViewModel
+    /*!
+         \fn virtual QSqlTableModel *initializeViewModel()
+         \brief Initialize the ViewModel
 
-        Returns QSqlTableModel
-     */
+         Returns QSqlTableModel
+      */
     virtual QSqlTableModel *initializeViewModel();
 
     /*!
@@ -186,13 +186,13 @@ public:
     virtual QString generateTableString(QAbstractTableModel *model,
                                         QString header);
 
-   /*!
-        \fn virtual QString generateFormularString(QAbstractTableModel *model,
-                                   const QString &header)
-        \brief generateFormularString
+    /*!
+         \fn virtual QString generateFormularString(QAbstractTableModel *model,
+                                    const QString &header)
+         \brief generateFormularString
 
-        Returns a QString with the generated Table for Output
-     */
+         Returns a QString with the generated Table for Output
+      */
     virtual QString generateFormularString(QAbstractTableModel *model,
                                            QString header);
 
@@ -204,7 +204,7 @@ public:
         \brief Get the index of the fieldname EmployeeId form the database
 
         Returns the value of the index
-     */    
+     */
     int EmployeeIdIndex() const { return m_EmployeeIdIndex; }
 
     /*!
@@ -270,40 +270,40 @@ public:
      */
     int AddressIndex() const { return m_AddressIndex; }
 
-     /*!
-        \fn int ZipCityIdIndex()
+    /*!
+       \fn int ZipCityIdIndex()
 
-        \brief Get the index of the fieldname ZipCityId form the database
+       \brief Get the index of the fieldname ZipCityId form the database
 
-        Returns the value of the index
-     */
+       Returns the value of the index
+    */
     int ZipCityIdIndex() const { return m_ZipCityIdIndex; }
 
-     /*!
-        \fn int HomePhoneIndex()
+    /*!
+       \fn int HomePhoneIndex()
 
-        \brief Get the index of the fieldname HomePhone form the database
+       \brief Get the index of the fieldname HomePhone form the database
 
-        Returns the value of the index
-     */
+       Returns the value of the index
+    */
     int HomePhoneIndex() const { return m_HomePhoneIndex; }
 
-     /*!
-        \fn int HomeMobileIndex()
+    /*!
+       \fn int HomeMobileIndex()
 
-        \brief Get the index of the fieldname HomeMobile form the database
+       \brief Get the index of the fieldname HomeMobile form the database
 
-        Returns the value of the index
-     */
+       Returns the value of the index
+    */
     int HomeMobileIndex() const { return m_HomeMobileIndex; }
 
-     /*!
-        \fn int HomeMailIndex()
+    /*!
+       \fn int HomeMailIndex()
 
-        \brief Get the index of the fieldname HomeMail form the database
+       \brief Get the index of the fieldname HomeMail form the database
 
-        Returns the value of the index
-     */
+       Returns the value of the index
+    */
     int HomeMailIndex() const { return m_HomeMailIndex; }
 
     /*!
@@ -435,7 +435,8 @@ public:
     /*!
         \fn int EmployeeAccountIdIndex()
 
-        \brief Get the index of the fieldname EmployeeAccountId form the database
+        \brief Get the index of the fieldname EmployeeAccountId form the
+       database
 
         Returns the value of the index
      */
@@ -444,7 +445,8 @@ public:
     /*!
         \fn int EmployeeDocumentIdIndex()
 
-        \brief Get the index of the fieldname EmployeeDocumentId form the database
+        \brief Get the index of the fieldname EmployeeDocumentId form the
+       database
 
         Returns the value of the index
      */
@@ -475,160 +477,160 @@ private:
      */
     const QString m_tableName = QLatin1String("employee");
 
-     /*!
-        \var int m_EmployeeIdIndex
-        \brief The value of the EmployeeIdIndex
-     */       
+    /*!
+       \var int m_EmployeeIdIndex
+       \brief The value of the EmployeeIdIndex
+    */
     int m_EmployeeIdIndex{0};
 
-     /*!
-        \var int m_EmployeeNrIndex
-        \brief The value of the EmployeeNrIndex
-     */       
+    /*!
+       \var int m_EmployeeNrIndex
+       \brief The value of the EmployeeNrIndex
+    */
     int m_EmployeeNrIndex{0};
 
-     /*!
-        \var int m_GenderIndex
-        \brief The value of the GenderIndex
-     */       
+    /*!
+       \var int m_GenderIndex
+       \brief The value of the GenderIndex
+    */
     int m_GenderIndex{0};
 
-     /*!
-        \var int m_TitleIdIndex
-        \brief The value of the TitleIdIndex
-     */    
+    /*!
+       \var int m_TitleIdIndex
+       \brief The value of the TitleIdIndex
+    */
     int m_TitleIdIndex{0};
 
-     /*!
-        \var int m_FirstNameIndex
-        \brief The value of the FirstNameIndex
-     */      
+    /*!
+       \var int m_FirstNameIndex
+       \brief The value of the FirstNameIndex
+    */
     int m_FirstNameIndex{0};
 
     /*!
         \var int m_LastNameIndex
         \brief The value of the LastNameIndex
-     */    
+     */
     int m_LastNameIndex{0};
 
     /*!
         \var int m_BirthDayIndex
         \brief The value of the BirthDayIndex
-     */        
+     */
     int m_BirthDayIndex{0};
 
     /*!
         \var int m_AddressIndex
         \brief The value of the AddressIndex
-     */        
+     */
     int m_AddressIndex{0};
 
     /*!
         \var int m_ZipCityIdIndex
         \brief The value of the ZipCityIdIndex
-     */      
+     */
     int m_ZipCityIdIndex{0};
 
     /*!
         \var int m_HomePhoneIndex
         \brief The value of the HomePhoneIndex
-     */      
+     */
     int m_HomePhoneIndex{0};
 
     /*!
         \var int m_HomeMobileIndex
         \brief The value of the HomeMobileIndex
-     */    
+     */
     int m_HomeMobileIndex{0};
 
     /*!
         \var int m_HomeMailIndex
         \brief The value of the HomeMailIndex
-     */      
+     */
     int m_HomeMailIndex{0};
 
     /*!
         \var int m_BusinessMailIndex
         \brief The value of the BusinessMailIndex
-     */ 
+     */
     int m_BusinessMailIndex{0};
 
     /*!
         \var int m_DataCareIndex
         \brief The value of the DataCareIndex
-     */     
+     */
     int m_DataCareIndex{0};
 
     /*!
         \var int m_ActiveIndex
         \brief The value of the ActiveIndex
-     */ 
+     */
     int m_ActiveIndex{0};
 
     /*!
         \var int m_PhotoIndex
         \brief The value of the PhotoIndex
-     */     
+     */
     int m_PhotoIndex{0};
 
     /*!
         \var int m_NotesIndex
         \brief The value of the NotesIndex
-     */     
+     */
     int m_NotesIndex{0};
 
     /*!
         \var int m_HireDateIndex
         \brief The value of the HireDateIndex
-     */     
+     */
     int m_HireDateIndex{0};
 
     /*!
         \var int m_EndDateIndex
         \brief The value of the EndDateIndex
-     */     
+     */
     int m_EndDateIndex{0};
 
     /*!
         \var int m_DepartmentIdIndex
         \brief The value of the DepartmentIdIndex
-     */         
+     */
     int m_DepartmentIdIndex{0};
 
     /*!
         \var int m_FunctionIdIndex
         \brief The value of the FunctionIdIndex
-     */        
+     */
     int m_FunctionIdIndex{0};
 
     /*!
         \var int m_ComputerIdIndex
         \brief The value of the ComputerIdIndex
-     */        
+     */
     int m_ComputerIdIndex{0};
 
     /*!
         \var int m_PrinterIdIndex
         \brief The value of the PrinterIdIndex
-     */    
+     */
     int m_PrinterIdIndex{0};
 
     /*!
         \var int m_PhoneIdIndex
         \brief The value of the PhoneIdIndex
-     */  
+     */
     int m_PhoneIdIndex{0};
 
     /*!
         \var int m_MobileIdIndex
         \brief The value of the MobileIdIndex
-     */  
+     */
     int m_MobileIdIndex{0};
 
     /*!
         \var int m_FaxIdIndex
         \brief The value of the FaxIdIndex
-     */ 
+     */
     int m_FaxIdIndex{0};
 
     /*!
@@ -640,20 +642,19 @@ private:
     /*!
         \var int m_EmployeeDocumentIdIndex
         \brief The value of the EmployeeDocumentIdIndex
-     */    
+     */
     int m_EmployeeDocumentIdIndex{0};
 
     /*!
         \var int m_ChipCardIdIndex
         \brief The value of the ChipCardIdIndex
-     */  
+     */
     int m_ChipCardIdIndex{0};
 
     /*!
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
-    */ 
+    */
     int m_LastUpdateIndex{0};
 };
 } // namespace Model
-

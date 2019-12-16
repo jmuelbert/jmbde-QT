@@ -1,92 +1,180 @@
 language: cpp
-dist: bionic
-sudo: true
-os:
-  - linux
-  - osx
-compiler:
-  - gcc
-  - clang
-env:
-  global:
-    - LANG="en_US.UTF-8"
-    - CONFIGURATION=Release
-    - secure: "phAkW9nYVFAxY1ue/kiNc4mtud+VdT7XB/6h9lSjsdDZcJNyR62KYKwLDxFlTdbgwj88JQ+ovTtf638POml5+n+kSYJMYBB0dj7dxbek4GECUA8gobCvTaBMP1hS0qIfWAp35ZESUspq1KfXC+DrvH3K+IqIxHAJiWAC1p5pYUinFA3eRjUqYOAzVJnHtEQ6K0P0Z6RxafcBqd6KzWfPJH7tuoPX+Rl+C5J3wAZzshrw0cYzh/Et42c7dU9J/cHdXdji7nXzNkYUripVZPqSDhcJ7iF65USkDJQZGEEQ+eAmsHys/ApRMd6UCQrqr+uiBjjPf3JdQcyLaBsDJQF2fzRNe1S4JqWdFvXeUjggB+lcGV/MKrL78nW8blANsFy1dalYmMX7opJS1OWXMIrJrG8IDenj5fyIhFq4h3XY+USlEPKaHpCPl3rZDlSxMnpqt47tvxNXYxayR0jDHgO2nRamhQ0ILE8EGnTZugeIJG2J9bYOlawUW/XSvLwUeLQPnNPn213w5eZSsupjJ7W3w7q8RNPxcgybYp21DPx3/nxhQeKRqssjhM344JKouMx6o5IRkT5UpkiZxEW1dJ6IiAZ+ioVenW1QNJc6CXs35JB+cQG33gnLt8vCUcTTMCz6Cnzp+xdyLe4yDxRm5IB+eLSBqaNfNsvbYWxol2pyIJs="
 
-addons:
-  coverity_scan:
-    project:
-      name: jmuelbert/jmbde-QT
-      description: A little BDE Tool
-    notification_email: juergen.muelbert@gmail.com
-    build_command_prepend: cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_DIR=/usr
-    build_command: make
-    branch_pattern: master
+matrix:
+  include:
+    - name: "Linux (gcc)"
+      os: linux
+      dist: bionic
+      sudo: required
+      compiler: clang
+      services:
+        - docker
+      env:
+        - CMAKE_BUILD_TYPE: Release
+        - QT_PPA: beineri/opt-qt5.12.6-bionic
+        - QT_VER: 512
+
+    - name: "macOS (xcode 11.2)"
+      os: osx
+      osx_image: xcode11.2
+      env:
+        - CMAKE_BUILD_TYPE: Release
+    - name: Windows (VS2017 Win32)
+      os: windows
+      env:
+        - PLATFORM: Win32
+        - CMAKE_BUILD_TYPE: Release
+        - PYTHON_BASE_DIR: "'/c/Python37'"
+        - PYTHON_PACKAGE: "'python3 --version 3.7.0 --forcex86'"
+        - QT5_BASE_DIR: "'/c/Qt/5.13/msvc2017'"
+        - WIX_PATH: "'/c/Program Files (x86)/WiX Toolset v3.11/bin'"
+        - MSBUILD_PATH: "'/c/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/MSBuild/15.0/Bin'"
+
+    - name: Windows (VS2017 x64)
+      os: windows
+      env:
+        - PLATFORM: x64
+        - CMAKE_BUILD_TYPE: Release
+        - PYTHON_BASE_DIR: "'/c/Python37'"
+        - PYTHON_PACKAGE: "'python3 --version 3.7.0'"
+        - QT5_BASE_DIR: "'/c/Qt/5.13/msvc2017_64'"
+        - WIX_PATH: "'/c/Program Files (x86)/WiX Toolset v3.11/bin'"
+        - MSBUILD_PATH: "'/c/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/MSBuild/15.0/Bin'"
 
 before_install:
-  - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo add-apt-repository -y ppa:beineri/opt-qt-5.12.6-bionic; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+    sudo apt-get update -qq;
+    sudo apt-get install apt-transport-https ca-certificates gnupg software-properties-common wget;
+    wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | sudo apt-key add -;
+    sudo add-apt-repository --yes ppa:beineri/opt-qt-5.12.6-bionic;
+    sudo apt-add-repository --yes 'deb https://apt.kitware.com/ubuntu/ bionic main';
+    sudo apt-get update -qq;
+    CMAKE_URL="https://cmake.org/files/v3.16/cmake-3.16.0-Linux-x86_64.sh";
+    CMAKE_INSTALLER="cmake-3.5.2-Linux-x86_64.sh";
+    wget --no-check-certificate --quiet -O ${CMAKE_INSTALLER} - ${CMAKE_URL};
+    sh ${CMAKE_INSTALLER} --prefix=$HOME --exclude-subdir;
+    fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+    brew update;
+    fi
+  - if [[ "$TRAVIS_OS_NAME" == "x-windows" ]]; then
+    export PLATFORM=${PLATFORM};
+    export PATH=$PATH:${QT5_BASE_DIR}/bin:${MSBUILD_PATH}:${WIX_PATH};
+    export PYTHON_PACKAGE=${PYTHON_PACKAGE};
+    export CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE};
+    fi
 
 install:
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get -qq update; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get -qq install qt512base qt512tools qt512svg libgl1-mesa-dev; fi
-  - if [[ "$TRAVIS_OS_NAME" = "linux" && "$CC" = "gcc" ]]; then sudo apt-get -qq install g++-6 gcc-6; fi
-  - if [[ "$TRAVIS_OS_NAME" = "linux" && "$CC" = "gcc" ]]; then sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6; fi
-  - if [[ "$TRAVIS_OS_NAME" = "linux" && "$CC" = "gcc" ]]; then sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-6 90; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then npm install -g codecov; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then gem install coveralls-lcov; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get -qq install lcov; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew unlink node; brew install node; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew ls | grep -wq qt5 || brew install qt5; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew upgrade coreutils; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then export PATH=$PATH:/usr/local/opt/qt5/bin; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install pandoc; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then nvm install 12; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then nvm use 12; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then npm install -g appdmg; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+    sudo apt-get install -y build-essential cmake ninja-build zlib1g-dev libssl-dev libffi-dev libx11-dev libgl1-mesa-dev mesa-common-dev;
+    sudo apt-get install -y qt${QT_VER}-meta-minimal qt${QT_VER}declarative qt${QT_VER}imageformats qt${QT_VER}multimedia qt${QT_VER}tools qt${QT_VER}svg qt${QT_VER}x11extras qt${QT_VER}xmlpatterns;
+    fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+    brew install qt quazip ccache;
+    export PATH="$(brew --prefix qt)/bin:$PATH";
+    fi
+  - if [[ "$TRAVIS_OS_NAME" == "x-windows" ]]; then
+    powershell Install-WindowsFeature Net-Framework-Core;
+    cinst -y --no-progress ${PYTHON_PACKAGE};
+    cinst -y --no-progress wixtoolset;
+    export PATH="$(powershell -Command '("Process", "Machine" | % {
+    [Environment]::GetEnvironmentVariable("PATH", $_) -Split ";" -Replace "\\$", ""
+    } | Select -Unique | % { cygpath $_ }) -Join ":"')";
+    echo "PATH=$PATH";
+    scripts/travis-install-qt-windows.sh;
+    cmake . -DCMAKE_INSTALL_PREFIX=$(pwd) -DCMAKE_GENERATOR_PLATFORM=${PLATFORM};
+    cmake --build . --config $CMAKE_BUILD_TYPE --target install;
+    fi
 
 before_script:
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then source /opt/qt512/bin/qt512-env.sh; fi
-  - cmake -v
-#matrix:
-#  include:
-#  - os: osx
-#    install:
-#      - brew tap kde-mac/kde
-#      - brew install cppcheck
-#      - brew install ccache
-#      - brew install ninja
-#      - brew install qt
-#      - brew link --force qt5
-#      - brew install kf5-extra-cmake-modules
-#      - export Qt5_DIR=/usr/local/opt/qt5/lib/cmake
-#
-#    before_script:
-#      - if [[ "$TRAVIS_TAG" ]]; then export JMBDE_RELEASE=true ; fi
-#      - if [[ "$TRAVIS_TAG" ]]; then export JMBDE_VERSION=${TRAVIS_TAG:1} ; fi
-#      - if [[ "$TRAVIS_TAG" == "" ]]; then export JMBDE_VERSION=$(date "+%Y.%m.%d") ; fi
-#      - if [[ "$TRAVIS_BRANCH" == "snapshot" ]]; then export JMBDE_SNAPSHOT=true ; fi
+  - git fetch --unshallow # restore repository depth to properly count commits in auto versioning
+  - git checkout master # re-attach to master to satisfy auto versioning fi
 
-#
-#    script:
-#      - mkdir build && cd build
-#      - cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Release ..
-#      - cmake --build .
-#      - ctest -C Release -VV
-#      - cpack .
-#      - /usr/local/opt/qt5/bin/macdeployqt jmbde.app -appstore-compliant
-#
-#    deploy:
-#    - provider: releases
-#      skip_cleanup: true
-#      draft: true
-#      tag_name: "$TRAVIS_TAG"
-#      api_key:
-#        secure: pNq/95/zTpPX25pAF3ACjoIQAnvxp6xZQYCgKhKkXhuSMCSBMl7ZIrRw0BNuM1JSHe3bRV68pfF3tgTJDWtDjFj/JHAWDOAKWhc1DeEmBXVESoizaY2Hk4yrnxjFfk+XMOFgqO+iMExap4OW+kZWXP3tltjKUYzBROMU33rey6NBiYne+UNVlzC5vgy47mj7ResrS4YBl/s3nifuE9Bigp4yDYHh4/4UgXCLXuFup+PwYRQPfwZKKiac5Bk3nHXxW+8WK3b6anboyHb+eqdZMqtu5xjqOpjwroGPPuUQsRm7c4hT93yx3IIBoIHl29hdhkWJlCOQxdhnbV0Ch9E4gombkwfHGlTFAwD3SQZFkCLdtF+1hbMgp4jta09hLgSobOIHhpGjqw+CxB5epYCM7E3WC6iKSrE7yMiSEqg6V+cf3LV+B2MlSzr1HtwLe6B7542WhFoJiF0mJCCGt//Ztp2m5174s4ZwvsiXqYMgs5x5kyp1HS5NqqllxmL3dDdPlhscKWLr7zbwDG/hhDfUpfpjefmadwf6BramK66En7fe2iol/supO86alL6/WNpCtyFaTLve/DHtWfDt+XquivGZwzCAz+0XyopJc3E7Ebxi8C49dyvdrQRi+ej1s44Cm1l/qCtS90d3WyqSfp8moepbi4pwd08vw/TD5zi8+x4=
-#      file: j*.dmg
-#      file_glob: true
-#      on:
-#        tags: true
+script:
+  - mkdir build
+  - cd build
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+    cmake ../ -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=ON;
+    cmake --build . --config $CMAKE_BUILD_TYPE;
+    elif [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+    cmake ../ -DCMAKE_PREFIX_PATH="$(brew --prefix qt)" -DBUILD_SHARED_LIBS=ON;
+    sudo cmake --build . --config $CMAKE_BUILD_TYPE --target install;
+    elif [[ "$TRAVIS_OS_NAME" == "x-windows" ]]; then
+    cmake ../ -DCMAKE_INSTALL_PREFIX=$(pwd) -DCMAKE_GENERATOR_PLATFORM=${PLATFORM} -DBUILD_SHARED_LIBS=ON;
+    cmake --build . --config $CMAKE_BUILD_TYPE --target install;
+    fi
 
+after_success:
+  - export VERSION=$TRAVIS_TAG
+  - if [ -z "$VERSION" ]; then
+    export VERSION=$(git rev-parse --short HEAD);
+    fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+    mkdir appbuild;
+    mkdir appdir;
+    cd appbuild;
+    cmake -S ..-DCMAKE_INSTALL_PREFIX:PATH=../appdir/usr -Wno-dev
+    make install
+    cd ..
+    git rev-list master --count
+    wget -c "https://github.com/jimevins/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
+    chmod a+x linuxdeployqt*.AppImage
+    wget -c -nv "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage";
+    chmod a+x appimagetool-x86_64.AppImage;
+    unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH;
+    - ./linuxdeployqt*.AppImage ./appdir/Unix/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.54m.so.1.0 -verbose=2;
+    unlink appdir/AppRun;
+    rm -r appdir/usr/plugins/bearer;
+    rm -r appdir/usr/plugins/platforminputcontexts;
+    rm -r appdir/usr/plugins/printsupport;
+    rm -r appdir/usr/plugins/sqldrivers;
+    rm -r appdir/usr/plugins/xcbglintegrations;
+    ./appimagetool-x86_64.AppImage appdir;
+    mkdir .snapcraft;
+    mkdir snap;
+    cp ../packaging/snap/snapcraft.yaml snap/snapcraft.yaml;
+    docker run -v $(pwd):$(pwd) -t ubuntu:18.04 sh -c "apt update -qq && apt install -y snapcraft && cd $(pwd) && snapcraft";
+    curl -F file=@$(ls | grep jmbde | grep .snap) https://file.io;
+    curl -F file=@$(ls | grep jmbde | grep .AppImage) https://file.io;
+    export DEPLOYPATH=$(pwd);
+    elif [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+    sudo make install;
+    sudo macdeployqt jmbde.app -verbose=3;
+    sudo chown -R $(id -nu)jmbde.app;
+    mkdir -p dmgdir/jmbde.app;
+    cp -r jmbde.app/* dmgdir/jmbde.app/;
+    ln -s /Applications dmgdir/Applications;
+    hdiutil create -volname jmbde-$VERSION -srcfolder dmgdir -ov -format UDZO jmbde-$VERSION.dmg;
+    curl -F file=jmbde-$VERSION.dmg https://file.io;
+    curl --upload-file ./jmbde-$VERSION.dmg https://transfer.sh/jmbde.dmg;
+    export DEPLOYPATH=$(pwd);
+    elif [[ "$TRAVIS_OS_NAME" == "windows" ]]; then
+    cmake --build . --config $CMAKE_BUILD_TYPE --target install;
+    curl --upload-file ./jmbde*.msi https://transfer.sh/jmbde.msi;
+    export DEPLOYPATH=$(pwd);
+    fi
+#deploy:
+#  provider: releases
+#  api_key:
+#    secure: xY0hOHsO6oztTs/fyKAl4FrA+6ylke3QXsAHzntIEHOt7sgVGQW/4QzJQYPwmAQAkVOssjZWdaJrFXQMFw+lYUpwZGSycPB+fDnosKYlxXFHG4rIliyG+az6ODzA0YeugFwlYAcHXx1qzBJ8gh3tHhB16ur7OQ62VdunCpG7NDtaINGMojzL4DmSfyiyOMPM4p6EcD+qaKd6dxBePXkmZ5J+YOvgfLcd1mJ94V7+WnQ66KltIaFZPewaansw/p6KAUxPXcTMyMepjcjQFQyucs4rN+9EmAaA5d0rzaucbTra1nJbJel0qWC+hcH8WF86ez8nTPFY1MGjRPZmfFGesvwUkzc3IH2w5j82BmP5x7IP+TZQ4qddM/eeWIX4WeTUKoVHHt/+iZNe6kZ7Qv8ZEzQS8/G0WHz0AyoWCKSztMFBs2XZvLPjEjhCr1HKH8ueX2zXFVRf9mpp23kjGyLzacTzSC+6xjrcp27s/fY+NH3kXw67c2tB815BqtYvWMoEZVNF1+7v0nbBOs6SaDAErLqRKOP4GKgEG+J3GvokuVmQpSzwk+v4EX4ixJm3pI6C+yFaDRc7CEtkXRFIPxesMeP2w8thIuWWNaNzRAKlxR4Dx9h4bLunsx5HDfwA9h0CszcOU2ewvrR60QExZ7fjTrIoqC/UWwjoCqFv+TlyGLU=
+#  file_glob: true
+#  file: $DEPLOYPATH/*.{dmg,snap,AppImage,msi}
+#  skip_cleanup: true
+#  on:
+#    repo: olav-st/screencloud
+#    tags: true
+
+git:
+  depth: 5
+
+services:
+  # Virtual X is needed for the test
+  - xvfb
+
+addons:
+  homebrew:
+    update: true
+    packages:
+      - qt5
+      - cmake
+      - ninja

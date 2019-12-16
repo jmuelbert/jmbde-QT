@@ -1,10 +1,9 @@
+#include "db/jmbdedb.h"
+#include <QLibrary>
 #include <QString>
 #include <QtTest>
-#include <QLibrary>
-#include "db/jmbdedb.h"
 
-class Data_Test : public QObject
-{
+class Data_Test : public QObject {
     Q_OBJECT
 
 public:
@@ -19,32 +18,25 @@ private Q_SLOTS:
 
 Data_Test::Data_Test() = default;
 
-void Data_Test::initTestCase()
-{
+void Data_Test::initTestCase() {}
 
-}
+void Data_Test::cleanupTestCase() {}
 
-void Data_Test::cleanupTestCase()
-{
-}
-
-
-void Data_Test::CheckExistence_data()
-{
+void Data_Test::CheckExistence_data() {
     QTest::addColumn<QString>("table");
     QTest::addColumn<QString>("value1");
     QTest::addColumn<QString>("value2");
     QTest::addColumn<bool>("retValue");
 
-    QTest::newRow("database_version") << "database_version" << "version" << "90" << true;
+    QTest::newRow("database_version") << "database_version"
+                                      << "version"
+                                      << "90" << true;
 }
 
-void Data_Test::CheckExistence()
-{
+void Data_Test::CheckExistence() {
 
-    JmBdeDB* testDB = new JmBdeDB("Test");
+    JmBdeDB *testDB = new JmBdeDB("Test");
     testDB->openDB("Test");
-
 
     QFETCH(QString, table);
     QFETCH(QString, value1);
@@ -55,7 +47,6 @@ void Data_Test::CheckExistence()
 
     testDB->closeConnection();
 }
-
 
 QTEST_APPLESS_MAIN(Data_Test)
 

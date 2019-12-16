@@ -5,8 +5,8 @@
 Introduction to jmbde
 *********************
 
-jmbde is a program for the management of resources in companies. with this 
-program, employees and the equipment they need for their work can be 
+jmbde is a program for the management of resources in companies. with this
+program, employees and the equipment they need for their work can be
 recorded. These are computers, printers and telephones.
 
 jmbde use the cross-platform framework [Qt](http://www.qt.io/download-open-source/),

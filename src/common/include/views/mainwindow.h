@@ -1,44 +1,17 @@
-/**************************************************************************
-**
-** Copyright (c) 2013-2019 Jürgen Mülbert. All rights reserved.
-**
-** This file is part of jmbde
-**
-** Licensed under the EUPL, Version 1.2 or – as soon they
-** will be approved by the European Commission - subsequent
-** versions of the EUPL (the "Licence");
-** You may not use this work except in compliance with the
-** Licence.
-** You may obtain a copy of the Licence at:
-**
-** https://joinup.ec.europa.eu/page/eupl-text-11-12
-**
-** Unless required by applicable law or agreed to in
-** writing, software distributed under the Licence is
-** distributed on an "AS IS" basis,
-** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-** express or implied.
-** See the Licence for the specific language governing
-** permissions and limitations under the Licence.
-**
-** Lizenziert unter der EUPL, Version 1.2 oder - sobald
-**  diese von der Europäischen Kommission genehmigt wurden -
-** Folgeversionen der EUPL ("Lizenz");
-** Sie dürfen dieses Werk ausschließlich gemäß
-** dieser Lizenz nutzen.
-** Eine Kopie der Lizenz finden Sie hier:
-**
-** https://joinup.ec.europa.eu/page/eupl-text-11-12
-**
-** Sofern nicht durch anwendbare Rechtsvorschriften
-** gefordert oder in schriftlicher Form vereinbart, wird
-** die unter der Lizenz verbreitete Software "so wie sie
-** ist", OHNE JEGLICHE GEWÄHRLEISTUNG ODER BEDINGUNGEN -
-** ausdrücklich oder stillschweigend - verbreitet.
-** Die sprachspezifischen Genehmigungen und Beschränkungen
-** unter der Lizenz sind dem Lizenztext zu entnehmen.
-**
-**************************************************************************/
+ /*
+    jmbde a BDE Tool for companies
+    Copyright (C) 2013-2019  Jürgen Mülbert
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+*/
 
 #pragma once
 
@@ -97,6 +70,7 @@ class MainWindow;
 }
 
 /**
+ * \class MainWindow
  * @brief The MainWindow class
  */
 class MainWindow : public QMainWindow {
@@ -105,7 +79,7 @@ class MainWindow : public QMainWindow {
 public:
     /**
      * @brief MainWindow
-     * @param parent
+     * @param parent The parent widget
      */
     explicit MainWindow(QWidget *parent = nullptr);
 
@@ -117,10 +91,14 @@ public:
 protected:
     /**
      * @brief closeEvent
-     * @param event
+     * @param event The recived event
      */
     void closeEvent(QCloseEvent *event);
 
+    /**
+     * @brief resizeEvent
+     * @param event Tehe recived event
+     */
     void resizeEvent(QResizeEvent *event);
 
 private slots:
@@ -149,9 +127,10 @@ private slots:
 
     /**
      * @brief focusChanged
-     * @param now
+     * @param from The old focus widget
+     * @param now The actual focus widget
      */
-    void focusChanged(QWidget *, QWidget *now);
+    void focusChanged(QWidget *from, QWidget *now);
 
     /**
      * \fn on_actionOpen_triggered()
@@ -187,11 +166,29 @@ private slots:
      */
     void on_actionPrint_Preview_triggered();
 
+    /**
+     * @brief on_actionHelp_triggered
+     */
     void on_actionHelp_triggered();
 
+    /**
+     * @brief onClickedTreeView
+     * @param index The QModelIndex of the TreeView to displayed
+     *
+     * \see QModelIndex::QModelIndex
+     */
     void onClickedTreeView(const QModelIndex &index);
 
+    /**
+     * @brief onClickedListViewRow
+     * @param index The QModelIndex of the ListViewRow to displayed
+     */
     void onClickedListViewRow(const QModelIndex &index);
+
+    /**
+     * @brief onPressedListViewRow
+     * @param index The QModelIndex of the ListViewRow to displayed
+     */
     void onPressedListViewRow(const QModelIndex &index);
 
 private:
@@ -215,7 +212,6 @@ private:
      */
     void writeSettings();
 
-
     /**
      * \fn void Not_Available_Message()
      * \brief Not_Available_Message
@@ -223,21 +219,73 @@ private:
     void Not_Available_Message();
 
     /**
-     * @brief em
+     * @brief model
      */
     QSqlRelationalTableModel *model;
+
+    /**
+     * @brief tableModel
+     */
     QSqlTableModel *tableModel;
+
+    /**
+     * @brief dataBaseName
+     */
     QString dataBaseName;
+
+    /**
+     * @brief dataContext
+     */
     Model::DataContext *dataContext;
+
+    /**
+     * @brief dbType
+     */
     int dbType = 0;
+
+    /**
+     * @brief dbConnection
+     */
     QString dbConnection;
+
+    /**
+     * @brief dbHostname
+     */
     QString dbHostname;
+
+    /**
+     * @brief dbUsername
+     */
     QString dbUsername;
+
+    /**
+     * @brief dbPassword
+     */
     QString dbPassword;
+
+    /**
+     * @brief m_splitter
+     */
     QSplitter *m_splitter;
+
+    /**
+     * @brief m_treeView
+     */
     QTreeView *m_treeView;
+
+    /**
+     * @brief m_listView
+     */
     QListView *m_listView;
+
+    /**
+     * @brief m_treeviewModel
+     */
     QStandardItemModel *m_treeviewModel;
+
+    /**
+     * @brief The ViewData enum
+     */
     enum ViewData {
         VIEW_EMPLOYEE,
         VIEW_FUNCTION,
@@ -254,7 +302,19 @@ private:
         VIEW_CITY,
         VIEW_CHIPCARD,
     };
+
+    /**
+     * @brief actualView
+     */
     int actualView;
+
+    /**
+     * @brief m_actualView
+     */
     QModelIndex m_actualView;
+
+    /**
+     * @brief m_actualData
+     */
     QModelIndex m_actualData;
 };

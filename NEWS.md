@@ -14,14 +14,14 @@
 - move the linux build to appveyer
 - reformat the code with clang-format
 - Begin change to cmake
-  
+
 ## 0.4.23 A BDE tool (2019-04-27) ##
 
 - Update the UI for Datainput
 - Add a .coafile
 - Upgrade to Version to 0.4.23
 - Make readme.md better
-  
+
 ## 0.4.22 A BDE tool (2018-11-01) ##
 
 ## Version 0.4.10 (17 March 2018) ##
@@ -52,4 +52,3 @@
 - A little usable
 - Tables: Employee, Computer, Printer and Phone can save as PDF.
 - Tables: Employee, Computer, Printer and Phone can print.
-  

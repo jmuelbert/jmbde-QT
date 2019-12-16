@@ -62,8 +62,7 @@ void Model::EmployeeDocument::setIndexes() {
     m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-QSqlRelationalTableModel *
-Model::EmployeeDocument::initializeRelationalModel() {
+QSqlRelationalTableModel *Model::EmployeeDocument::initializeRelationalModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -75,8 +74,7 @@ Model::EmployeeDocument::initializeRelationalModel() {
     return m_model;
 }
 
-QSqlRelationalTableModel *
-Model::EmployeeDocument::initializeInputDataModel() {
+QSqlRelationalTableModel *Model::EmployeeDocument::initializeInputDataModel() {
 
     m_model = new QSqlRelationalTableModel(this);
 
@@ -92,11 +90,11 @@ QSqlTableModel *Model::EmployeeDocument::initializeViewModel() {
     return m_model;
 }
 
-QString Model::EmployeeDocument::generateTableString(
-    QAbstractTableModel *model, QString header) {
+QString Model::EmployeeDocument::generateTableString(QAbstractTableModel *model,
+                                                     QString header) {
     QString outString;
 
- #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
     qCDebug(employeeDocumentLC, "Header: %s ( Columns: %i - Rows: %i )",
             header.toUtf8().constData(), model->columnCount(),
             model->rowCount());
@@ -127,11 +125,12 @@ QString Model::EmployeeDocument::generateTableString(
     return outString;
 }
 
-QString Model::EmployeeDocument::generateFormularString(
-    QAbstractTableModel *model, QString header) {
+QString
+Model::EmployeeDocument::generateFormularString(QAbstractTableModel *model,
+                                                QString header) {
     QString outString;
-    
- #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 2)
     qCDebug(employeeDocumentLC, "Header: %s ( Columns: %i - Rows: %i )",
             header.toUtf8().constData(), model->columnCount(),
             model->rowCount());
