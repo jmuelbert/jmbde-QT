@@ -79,12 +79,12 @@ for:
       - cmake -GNinja -DCMAKE_INSTALL_PREFIX=usr -DCMAKE_BUILD_TYPE=$CONFIGURATION ..
 
     build_script:
-      - cmake --build .
+      - cmake --build . --config $CONFIGURATION --target install
 
     after_build:
       - cpack .
       - ls -la jmbde.app/Contents/Frameworks
-      - ls -la jmbde.app/Contents/Resources
+      - ls -la jmbde.app/Contents
       # - macdeployqt jmbde.app
 
     test_script:
@@ -134,7 +134,7 @@ for:
       - cmake -DCMAKE_INSTALL_PREFIX=usr -DCMAKE_BUILD_TYPE=$CONFIGURATION ..
 
     build_script:
-      - cmake --build .
+     - cmake --build . --config $CONFIGURATION --target install
 
     after_build:
       - cpack .
@@ -247,7 +247,7 @@ for:
     build_script:
       - ps: cmake -G "Ninja" .. -DCMAKE_PREFIX_PATH=%QTDIR%
       # -DCMAKE_TOOLCHAIN_FILE=$ENV:VCPKGToolChainFile
-      - ps: cmake --build . --config Release
+      - ps: cmake --build . --config %CONFIGURATION%s --target install
 
     after_build:
       - cd %APPVEYOR_BUILD_FOLDER%\build
