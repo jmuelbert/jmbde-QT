@@ -1,6 +1,5 @@
 ---
 version: "0.4.{build}"
-skip_tags: true
 max_jobs: 1
 
 image:
@@ -31,6 +30,7 @@ environment:
   my_secret:
     secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
   APPVEYOR_YML_DISABLE_PS_LINUX: true
+  Appveyor: true
 
 matrix:
   exclude:
@@ -44,15 +44,17 @@ matrix:
     - image: Visual Studio 2019
       configuration: release
 
+skip_tags: true
+skip_branch_with_pr: true
 skip_commits:
+
   files:
-    - docs/
-    - LICENCE
+    - "**/*.md"
+    - docs/*
+    - LICENSE
     - README
-    - README.md
     - CHANGELOG
     - COPYING
-    - CODE_OF_CONDUCT.md
 
 for:
   ########## macOS SPECIFIC CONFIGURATION ##########
@@ -134,7 +136,7 @@ for:
       - cmake -DCMAKE_INSTALL_PREFIX=usr -DCMAKE_BUILD_TYPE=$CONFIGURATION ..
 
     build_script:
-     - cmake --build . --config $CONFIGURATION --target install
+      - cmake --build . --config $CONFIGURATION --target install
 
     after_build:
       - cpack .
@@ -205,13 +207,6 @@ for:
       - git config --global core.autocrlf input
       # Uncomment the following line to show RDP info at beginning of job
       #    - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
-
-    clone_folder: c:\projects\jmbde-QT
-
-    install:
-      # Windows
-      - cinst ninja
-      - nuget install secure-file -ExcludeVersion
       - call set ENVIRONMENT_NAME=%%ENVIRONMENT_NAME:PLATFORM=%platform%%%
       - call set ENVIRONMENT_NAME=%%ENVIRONMENT_NAME:CONFIGURATION=%configuration%%%
       - ps: $ENV:PLATFORM="x64"
@@ -219,7 +214,6 @@ for:
       - ps: $ENV:INNO="C:\Program Files (x86)\Inno Setup 6"
       - ps: $ENV:VCPKGDir="C:\Tools\vcpkg"
       - ps: $ENV:VCPKGToolChainFile = $ENV:VCPKGDir + "\scripts\buildsystems\vcpkg.cmake"
-      - call set /p RedistVersion=<"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt"
       - ps: $ENV:VCREDIST_CRT_DIR="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CRT"
       - ps: $ENV:VCREDIST_CXXAMP_DIR="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CXXAMP"
       - ps: $ENV:VCREDIST_OPENMP_DIR="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.OpenMP"
@@ -229,7 +223,17 @@ for:
       - ps: $ENV:Path += ";" + $ENV:QTDIR + "\bin"
       - ps: $ENV:Path += ";" + $ENV:VCPKDIR
       - ps: $ENV:Path += ";" + $ENV:INNO
+      - call set /p RedistVersion=<"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt"
       - echo QTDIR=%QTDIR%
+
+    clone_folder: c:\projects\jmbde-QT
+
+    install:
+      # Windows
+      - cinst ninja
+      - nuget install secure-file -ExcludeVersion
+
+
 
     before_build:
       - ps: Get-ChildItem ENV:PATH
@@ -263,15 +267,13 @@ for:
       - ps: iscc $installerfile
       - ps: Get-ChildItem
       - ps: Get-ChildItem ../
-      # - ps: iscc /dVcpkgInstalledBinDir=$ENV:VCPKGDir + "\installed\" + $ENV:PLATFORM + "-windows\bin\"  "installer_" + $ENV:PLATFORM + ".iss"
-      - move jmbde-*_%PLATFORM%-Setup.exe %APPVEYOR_BUILD_FOLDER%
 
     test_script:
       - ctest -C "$ENV:CONFIGURATION" -VV
 
     artifacts:
       - name: Windows-Installer_x64
-        path: "build/jmbde*_x64-Setup.exe"
+        path: "build/jmbde*.exe"
       - name: Windows-Archive
         path: "build/jmbde*.zip"
 
@@ -293,6 +295,12 @@ for:
         api_key: oy2k6l6mbqzqz4yxasnarz3dwqvesbpefewkyg4bi5uqz4
         secure: m49OJ7+Jdt9an3jPcTukHA==
         artifact: /.*\.nupkg/
+        draft: false
+        prerelease: false
+        force_update: true
+        on:
+          appveyor_repo_tag: true
+          push_release: true
 
     on_finish:
       # Uncomment the following line if you don't want the build VM to be destroyed
