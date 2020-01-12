@@ -42,19 +42,20 @@
 
 #include "models/employee.h"
 
-Model::Employee::Employee(QObject *parent) : CommonData(parent) {
+Model::EmployeeTableModel::EmployeeTableModel(QAbstractTableModel *parent) : QAbstractTableModel(parent) {
+
 
     // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
+    m_model = new QSqlRelationalTableModel();
     m_model->setTable(this->m_tableName);
     m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
     setIndexes();
 }
 
-Model::Employee::~Employee() {}
+Model::EmployeeTableModel::~EmployeeTableModel() {}
 
-void Model::Employee::setIndexes() {
+void Model::EmployeeTableModel::setIndexes() {
     m_EmployeeIdIndex = m_model->fieldIndex(QLatin1String("employee_id"));
     m_EmployeeNrIndex = m_model->fieldIndex(QLatin1String("employee_nr"));
     m_GenderIndex = m_model->fieldIndex(QLatin1String("gender"));
@@ -90,9 +91,9 @@ void Model::Employee::setIndexes() {
     m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-QSqlRelationalTableModel *Model::Employee::initializeRelationalModel() {
+QSqlRelationalTableModel *Model::EmployeeTableModel::initializeRelationalModel() {
 
-    m_model = new QSqlRelationalTableModel(this);
+    m_model = new QSqlRelationalTableModel();
 
     m_model->setTable(this->m_tableName);
     m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
@@ -102,23 +103,23 @@ QSqlRelationalTableModel *Model::Employee::initializeRelationalModel() {
     return m_model;
 }
 
-QSqlRelationalTableModel *Model::Employee::initializeInputDataModel() {
+QSqlRelationalTableModel *Model::EmployeeTableModel::initializeInputDataModel() {
 
-    m_model = new QSqlRelationalTableModel(this);
+    m_model = new QSqlRelationalTableModel();
 
     m_model->setTable(this->m_tableName);
 
     return m_model;
 }
 
-QSqlTableModel *Model::Employee::initializeViewModel() {
+QSqlTableModel *Model::EmployeeTableModel::initializeViewModel() {
 
     m_model->select();
 
     return m_model;
 }
 
-QString Model::Employee::generateTableString(QAbstractTableModel *model,
+QString Model::EmployeeTableModel::generateTableString(QAbstractTableModel *model,
                                              QString header) {
     QString outString;
 
@@ -153,7 +154,7 @@ QString Model::Employee::generateTableString(QAbstractTableModel *model,
     return outString;
 }
 
-QString Model::Employee::generateFormularString(QAbstractTableModel *model,
+QString Model::EmployeeTableModel::generateFormularString(QAbstractTableModel *model,
                                                 QString header) {
     QString outString;
 
@@ -176,4 +177,35 @@ QString Model::Employee::generateFormularString(QAbstractTableModel *model,
     outString += QLatin1String("<hr />");
 
     return outString;
+}
+
+QTextDocument *Model::EmployeeTableModel::createSheet() {
+    auto *document = new QTextDocument;
+
+    return document;
+}
+
+QString Model::EmployeeTableModel::setOutTableStyle() {
+    QString css;
+
+    css = QLatin1String("<style type=\"text/css\">");
+    css += QLatin1String("H1 { color: #f00;}");
+    css += QLatin1String(
+        "table.tbl {border-width: 1px;border-style: "
+        "solid;border-color: black;margin-top: 0px;margin-bottom: "
+        "0px;color: black; font-size: small; }");
+    css += QLatin1String("table.tbl td {padding: 3px;}");
+    css += QLatin1String("table.tbl th {padding: 3px;}");
+    css += QLatin1String("</style>");
+
+    return css;
+}
+
+QString Model::EmployeeTableModel::setOutFormularStyle() {
+    QString css;
+
+    css = QLatin1String("<style type=\"text/css\">");
+    css += QLatin1String("H1 { color: #f00;}");
+
+    return css;
 }

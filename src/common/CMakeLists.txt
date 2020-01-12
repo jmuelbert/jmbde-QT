@@ -120,10 +120,6 @@ QT5_WRAP_UI(
     src/views/titleinputarea.ui
 )
 
-QT5_ADD_RESOURCES(
-  Resources_SRCS
-  resources/res.qrc
-)
 
 target_sources(jmbde_common
     PUBLIC
@@ -190,7 +186,6 @@ target_sources(jmbde_common
     src/views/phoneinputarea.cpp
     src/views/titleinputarea.cpp
     ${UiGenerated_SRCS}
-    ${Resources_SRCS}
 
 
     # models

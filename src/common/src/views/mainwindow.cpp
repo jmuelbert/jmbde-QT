@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent)
         qDebug() << "Select Employee";
         actualView = VIEW_EMPLOYEE;
         dataContext->openDB(dataBaseName);
-        auto *edm = new Model::Employee;
+        auto *edm = new Model::EmployeeTableModel;
         tableModel = edm->initializeRelationalModel();
         int idx = edm->LastNameIndex();
 
@@ -284,7 +284,7 @@ void MainWindow::on_actionPrint_triggered() {
         qDebug() << "Print Employee !";
         dataContext->openDB(dataBaseName);
         tableModel->database().commit();
-        auto *edm = new Model::Employee;
+        auto *edm = new Model::EmployeeTableModel;
         QString style = edm->setOutTableStyle();
         QString text = edm->generateTableString(tableModel, tr("Employee"));
 
@@ -355,7 +355,7 @@ void MainWindow::on_action_Export_Pdf_triggered() {
         dataContext->openDB(dataBaseName);
         tableModel->database().commit();
 
-        auto *edm = new Model::Employee;
+        auto *edm = new Model::EmployeeTableModel;
         QString style = edm->setOutTableStyle();
         QString text = edm->generateTableString(tableModel, tr("Employee"));
 
@@ -440,7 +440,7 @@ void MainWindow::on_actionPrint_Preview_triggered() {
         dataContext->openDB(dataBaseName);
         tableModel->database().commit();
 
-        auto *edm = new Model::Employee;
+        auto *edm = new Model::EmployeeTableModel;
         QString style = edm->setOutTableStyle();
         QString text = edm->generateTableString(tableModel, tr("Employee"));
 
@@ -549,7 +549,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index) {
         actualView = VIEW_EMPLOYEE;
 
         dataContext->openDB(dataBaseName);
-        auto *edm = new Model::Employee;
+        auto *edm = new Model::EmployeeTableModel;
 
         tableModel = edm->initializeRelationalModel();
         int idx = edm->LastNameIndex();

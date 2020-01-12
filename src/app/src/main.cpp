@@ -16,12 +16,10 @@
 #include <QDebug>
 #include <QObject>
 
-#ifndef USE_QUICKVIEW
+
 #include <QApplication>
-#include <QMessageBox>
-#else
-#include <QGuiApplication>
-#endif
+#include <QQmlApplicationEngine>
+
 
 #include <QCommandLineParser>
 #include <QCoreApplication>
@@ -36,6 +34,7 @@
 #include <QStringList>
 #include <QStyleFactory>
 #include <QTranslator>
+#include <QQmlApplicationEngine>
 
 #ifndef Q_OS_WIN
 #include <unistd.h>
@@ -43,6 +42,7 @@
 #include <iostream>
 
 #include "views/mainwindow.h"
+#include "models/employee.h"
 
 #include "jmbde_common_export.h"
 
@@ -145,8 +145,13 @@ int main(int argc, char *argv[]) {
                                          ? Qt::RightToLeft
                                          : Qt::LeftToRight);
 
-    MainWindow w;
-    w.show();
+    qmlRegisterType<Model::EmployeeTableModel>("EmployeeTableModel", 0, 1, "EmployeeTableModel");
 
-    return QApplication::exec();
+    QQmlApplicationEngine engine;
+    engine.addImportPath("qrc:/");
+    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+
+
+    return app.exec();
+
 }

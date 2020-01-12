@@ -11,6 +11,6 @@ Project {
         directory: "qml"
     }
     ImageFiles {
-        directory: "qml"
+        directory: "../resources/icons/tango/white"
     }
 }

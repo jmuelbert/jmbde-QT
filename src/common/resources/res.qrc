@@ -62,7 +62,8 @@
         <file>icons/tango/white/TaskPriorityIncrease.png</file>
         <file>data/script.sql</file>
     </qresource>
-    <qresource prefix="data">
+    <qresource prefix="/data">
         <file>data/script.sql</file>
     </qresource>
+    <qresource prefix="/qml"/>
 </RCC>

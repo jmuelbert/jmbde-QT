@@ -72,9 +72,16 @@ target_include_directories(${PROJECT_NAME}
 
     )
 
+QT5_ADD_RESOURCES(
+    QML_Resources_SRCS
+    ${CMAKE_CURRENT_SOURCE_DIR}/qml/qml.qrc
+    ${CMAKE_CURRENT_SOURCE_DIR}/qml/Theme/res.qrc
+    )
+
 target_sources(${PROJECT_NAME}
   PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
+  ${QML_Resources_SRCS}
   )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)

@@ -58,9 +58,11 @@
 #include <QTableView>
 #include <QTextDocument>
 
+#include <QAbstractTableModel>
+
+
 #include "definitions.h"
 #include "jmbde_common_export.h"
-#include "models/commondata.h"
 #include "models/idatamodel.h"
 
 /*!
@@ -107,7 +109,7 @@ digraph g {
  */
 
 namespace Model {
-class JMBDE_COMMON_EXPORT Employee : public CommonData {
+class JMBDE_COMMON_EXPORT EmployeeTableModel : public QAbstractTableModel {
     /*!
       \macro Q_OBJECT
       \relates QObject
@@ -133,17 +135,44 @@ class JMBDE_COMMON_EXPORT Employee : public CommonData {
 
 public:
     /*!
-        \fn explicit Employee(QObject *parent = nullptr)
+        \fn explicit EmployeeTableModel(QAbstractTaableModel *parent = nullptr)
         \brief The Constructor for the Employee
     */
-    explicit Employee(QObject *parent = nullptr);
+    explicit EmployeeTableModel(QAbstractTableModel *parent = nullptr);
 
     /*!
         \fn  ~Employee() override;
 
         \brief Destructor for Employee
      */
-    ~Employee();
+    ~EmployeeTableModel();
+
+    // Implement the functions
+    int rowCount(const QModelIndex & = QModelIndex()) const override
+    {
+        return 200;
+    }
+
+    int columnCount(const QModelIndex & = QModelIndex()) const override
+    {
+        return 200;
+    }
+
+    QVariant data(const QModelIndex &index, int role) const override
+    {
+        switch (role) {
+        case Qt::DisplayRole:
+            return QString("%1, %2").arg(index.column()).arg(index.row());
+        default:
+            break;
+        }
+        return QVariant();
+    }
+
+    QHash<int, QByteArray> roleNames() const override
+    {
+        return { {Qt::DisplayRole, "display"} };
+    }
 
     // implement the virtuals
 
@@ -470,8 +499,43 @@ public:
      */
     int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
+    /*!
+        \fn QString setOutFormularStyle()
+        \brief Initialize a String with the css-style for the output formular
+        \details This is now just the Header
+
+        Returns The initialized QString
+
+        \sa QString
+     */
+     QString setOutFormularStyle();
+
+     /*!
+        \fn QString setOutTableStyle()
+        \brief Initialize a String with the css-style for the output table
+
+        Returns The initialized QString
+
+        \sa QString
+      */
+      QString setOutTableStyle();
+
+
 protected:
 private:
+    /*!
+        \fn  QTextDocument *createSheet()
+        \brief Create a TextDocument for the Output to the Printer
+
+    Returns The Pointer to the generated TextDocument
+
+        \sa  QTextDocument
+            */
+        QTextDocument *createSheet();
+
+
+
+
     /*!
         \brief The Tablename in the database \e is const
      */
@@ -656,5 +720,18 @@ private:
         \brief The value of the LastUpdateIndex
     */
     int m_LastUpdateIndex{0};
+
+    /*!
+        \brief holds an initialised pointer to the Relationmodel
+        \sa QSqlRelationalTableModel
+     */
+    QSqlRelationalTableModel *m_model{nullptr};
+
+    /*!
+       \brief holds an initialised pointer to the ItemSelectioModel
+       \sa QItemSelectionModel
+    */
+    QItemSelectionModel *m_selectionModel{nullptr};
+
 };
 } // namespace Model
