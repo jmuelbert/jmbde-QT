@@ -18,14 +18,16 @@ cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
 #
 # the COMMON shared library
 #
+set(JMBDELIB_VERSION 0.5.1)
+set(JMBDELIB_SOVERSION 0.5.1)
 
 # Version setup
-set (COMMON_LIB_VERSION_MAJOR  "0")
-set (COMMON_LIB_VERSION_MINOR  "4")
-set (COMMON_LIB_VERSION_PATCH  "25")
-set (COMMON_LIB_VERSION "${COMMON_LIB_VERSION_MAJOR}.${COMMON_LIB_VERSION_MINOR}.${COMMON_LIB_VERSION_PATCH}")
-set (COMMON_LIB_VERSION_STRING "${COMMON_LIB_VERSION}")
-set (LIB_VERSION_STRING "${COMMON_LIB_VERSION_STRING}")
+# set project version
+ecm_setup_version(${JMBDELIB_VERSION}
+    VARIABLE_PREFIX JMBDE_LIB
+    SOVERSION ${JMBDELIB_VERSION}
+    VERSION_HEADER ${CMAKE_CURRENT_BINARY_DIR}/jmbdelib-version.h)
+
 
 # Enable Generate all Symbols for Windows!
 set(WINDOWS_EXPORT_ALL_SYMBOLS ON)
@@ -46,17 +48,27 @@ if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
 endif()
 
 # COMMON project
-project(jmbde_common VERSION ${COMMON_LIB_VERSION}
+project(jmbde_common VERSION ${JMBDE_LIB_SOVERSION}
       DESCRIPTION "${PROJECT_NAME} UI and Datacontext Library")
 
-message(STATUS "Building ${PROJECT_NAME} ${COMMON_LIB_VERSION_STRING} in ${CMAKE_BUILD_TYPE} mode")
+message(STATUS "Building ${PROJECT_NAME} ${JMBDELIB_VERSION} ${JMBDELIB_SOVERSION} in ${CMAKE_BUILD_TYPE} mode")
+
+ecm_qt_declare_logging_category(jmbde_common
+    HEADER loggingcategory.h
+    IDENTIFIER JMBDELog
+    CATEGORY_NAME jmuelbert.jmbde
+    DEFAULT_SEVERITY Warning
+)
 
 add_library(jmbde_common SHARED )
+generate_export_header(jmbde_common)
 add_library(JMBde::common ALIAS jmbde_common)
 
-generate_export_header(jmbde_common)
-set_target_properties(jmbde_common PROPERTIES SOVERSION ${LIB_VERSION_STRING}
-                      OUTPUT_NAME jmbde_common)
+set_target_properties(jmbde_common PROPERTIES 
+      VERSION   ${JMBDE_LIB_VERSION_STRING}
+      SOVERSION ${JMBDE_LIB_SOVERSION}
+      EXPORT_NAME "jmbdelib"
+      )
 
 target_compile_features(jmbde_common
     PUBLIC cxx_auto_type
@@ -84,6 +96,12 @@ target_link_libraries( jmbde_common
     Qt5::Quick
     Qt5::QuickWidgets
     )
+ecm_generate_headers(jmbdelib_HEADERS
+    HEADER_NAMES
+    include/views/mainwindow
+
+    REQUIRED_HEADERS jmbdelib_HEADERS
+)
 
 #
 # Finding Qt
@@ -246,8 +264,7 @@ target_sources(jmbde_common
     include/views/softwareinputarea.h
     include/views/titleinputarea.h
     )
-
-
+# install(EXPORT jmbde_common FILENAME jmbdelib.cmake DESTINATION "${CMAKECONFIG_INSTALL_DIR}")
 install(TARGETS jmbde_common ${INSTALL_TARGETS_DEFAULT_ARGS})
 if(MSVC)
   install(FILES "$<TARGET_PDB_FILE_DIR:jmbde_common>/$<TARGET_PDB_FILE_NAME:jmbde_common>" DESTINATION ${BIN_INSTALL_DIR} CONFIGURATIONS Debug RelWithDebInfo)

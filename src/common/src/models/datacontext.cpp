@@ -196,7 +196,7 @@ void Model::DataContext::prepareDB() {
         strings.clear();
         while (!hasText) {
             readLine = file.readLine();
-            cleanedLine = QLatin1Literal(readLine.trimmed());
+            cleanedLine = QLatin1String(readLine.trimmed());
             strings = cleanedLine.split(QStringLiteral("--"));
             cleanedLine = strings.at(0);
             if (!cleanedLine.startsWith(QStringLiteral("--")) &&
@@ -367,10 +367,10 @@ bool Model::DataContext::insert(const QString &tableName,
     }
 
     QString sqlQueryString =
-        QLatin1Literal("INSERT INTO ") + tableName + QLatin1Literal(" (") +
+        QLatin1String("INSERT INTO ") + tableName + QLatin1String(" (") +
         QString(fields.join(QStringLiteral(","))) +
-        QLatin1Literal(") VALUES(") +
-        QString(strValues.join(QStringLiteral(","))) + QLatin1Literal(")");
+        QLatin1String(") VALUES(") +
+        QString(strValues.join(QStringLiteral(","))) + QLatin1String(")");
     QSqlQuery query(this->m_db);
     query.prepare(sqlQueryString);
 
@@ -481,21 +481,21 @@ QSqlError Model::DataContext::initDb() { return m_db.lastError(); }
 void Model::DataContext::setDataBaseAccount() {
     QSettings settings;
     settings.beginGroup(QLatin1String(Settings::Groups::DATABASE));
-    m_dbType = settings.value(QLatin1Literal(Settings::Database::TYPE), SQLITE)
+    m_dbType = settings.value(QLatin1String(Settings::Database::TYPE), SQLITE)
                    .toInt();
 
     m_dbHostName = settings
-                       .value(QLatin1Literal(Settings::Database::HOSTNAME),
+                       .value(QLatin1String(Settings::Database::HOSTNAME),
                               QLatin1String("localhost"))
                        .toString();
 
     m_dbUserName = settings
-                       .value(QLatin1Literal(Settings::Database::USERNAME),
+                       .value(QLatin1String(Settings::Database::USERNAME),
                               QLatin1String("localhost"))
                        .toString();
 
     m_dbPassWord = settings
-                       .value(QLatin1Literal(Settings::Database::PASSWORD),
+                       .value(QLatin1String(Settings::Database::PASSWORD),
                               QLatin1String("localhost"))
                        .toString();
 
@@ -508,14 +508,14 @@ QString Model::DataContext::getSqliteName() {
         QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
     dbDataPath.append(QDir::separator());
     // TODO: Set this from above
-    dbDataPath.append(QLatin1Literal("io.github.jmuelbert.jmbde"));
+    dbDataPath.append(QLatin1String("io.github.jmuelbert.jmbde"));
 
     QSettings settings;
     settings.beginGroup(QLatin1String(Settings::Groups::DATABASE));
 
     const QString dbConnectionString =
         settings
-            .value(QLatin1Literal(Settings::Database::CONNECTION), dbDataPath)
+            .value(QLatin1String(Settings::Database::CONNECTION), dbDataPath)
             .toString();
 
     // Application Directory +
@@ -538,7 +538,7 @@ QString Model::DataContext::getSqliteName() {
     // Append the Datafile on the Path
     targetFileAndPath.append(QDir::separator());
     targetFileAndPath.append(this->m_Name);
-    targetFileAndPath.append(QLatin1Literal(".sqlite"));
+    targetFileAndPath.append(QLatin1String(".sqlite"));
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 12, 2))
     qCDebug(dataContextLC, "getSqliteName %s ",

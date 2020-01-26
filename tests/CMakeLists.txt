@@ -36,6 +36,7 @@ set_package_properties(Qt5Test PROPERTIES
     PURPOSE "Required to build the unit tests")
 
 if(NOT Qt5Test_FOUND)
+    message(STATUS "Qt5Test not found, autotests will not be built.")
     return()
 endif()
 
@@ -54,3 +55,9 @@ set_target_properties(tst_test
 )
 
 add_test(NAME "Test1" COMMAND tst_test)
+
+# QML Tests
+add_test(NAME qmltests COMMAND qmltestrunner WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+set_property(TEST qmltests PROPERTY ENVIRONMENT
+    "QML2_IMPORT_PATH=${CMAKE_BINARY_DIR}/bin")
+

@@ -21,24 +21,47 @@ cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
 #
 project(jmbde)
 
+# set project version
+ecm_setup_version(${JMBDE_VERSION}
+    VARIABLE_PREFIX JMBDE
+    VERSION_HEADER ${CMAKE_CURRENT_BINARY_DIR}/jmbde-version.h
+    PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/JMBDE-ConfigVersion.cmake"
+    )
+
+set(JMBDE_APP_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
+
+ecm_qt_declare_logging_category(JMBDE_APP_SRCS
+    HEADER loggingcategory.h
+    IDENTIFIER APP
+    CATEGORY_NAME jmuelbert.jmbde
+    DEFAULT_SEVERITY Warning
+)
+
 # collect icons
-set(JMBDE_ICONS_PNG
+set(JMBDE_PNG_ICONS
     ${CMAKE_CURRENT_SOURCE_DIR}/icons/16-apps-jmbde.png
   #  ${CMAKE_CURRENT_SOURCE_DIR}/icons/22-apps-jmbde.png
     ${CMAKE_CURRENT_SOURCE_DIR}/icons/32-apps-jmbde.png
-  #  ${CMAKE_CURRENT_SOURCE_DIR}/icons/48-apps-jmbde.png
-  #  ${CMAKE_CURRENT_SOURCE_DIR}/icons/64-apps-jmbde.png
+  #  ${CMAKE_CURRENT_SOURCE_DIR}/icons/48-jmbde.png
+  #  ${CMAKE_CURRENT_SOURCE_DIR}/icons/64-jmbde.png
     ${CMAKE_CURRENT_SOURCE_DIR}/icons/128-apps-jmbde.png
     ${CMAKE_CURRENT_SOURCE_DIR}/icons/256-apps-jmbde.png
     ${CMAKE_CURRENT_SOURCE_DIR}/icons/512-apps-jmbde.png
 )
 
-set(JMBDE_ICONS_SVG
-   ${CMAKE_CURRENT_SOURCE_DIR}/icons/sc-apps-jmbde.sgvz
+set(JMBDE_SVG_ICONS
+   ${CMAKE_CURRENT_SOURCE_DIR}/icons/sc-apps-jmbde.svg
+)
+
+ecm_install_icons(
+  ICONS
+    ${JMBDE_PNG_ICONS}
+    ${JMBDE_SVG_ICONS}
+    DESTINATION "${ICON_INSTALL_DIR}"
 )
 
 # add icons to application sources, to have them bundled
-# ecm_add_app_icon(JMBDE_APP_SRCS ICONS ${JMBDE_ICONS_PNG})
+ecm_add_app_icon(${PROJECT_NAME} ICONS ${JMBDE_PNG_ICONS})
 
 #
 # Finding Qt
@@ -73,17 +96,17 @@ target_include_directories(${PROJECT_NAME}
     )
 
 target_sources(${PROJECT_NAME}
-  PRIVATE
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
+  PRIVATE ${JMBDE_APP_SRCS}
+
   )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
 target_link_libraries(${PROJECT_NAME}
     PUBLIC
+    Qt5::Core
     JMBde::common
     PRIVATE
-    Qt5::Core
     Qt5::Widgets
     Qt5::PrintSupport
     Qt5::Sql
@@ -121,13 +144,13 @@ elseif(APPLE)
     set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_LONG_VERSION_STRING "jmbde ${JMBDE_APPLICATIONS_VERSION}")
     set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_SHORT_VERSION_STRING "${JMBDE_APPLICATIONS_VERSION_MAJOR}.${JMBDE_APPLICATIONS_VERSION_MINOR}")
     set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_BUNDLE_VERSION "${JMBDE_APPLICATIONS_VERSION}")
-    set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_COPYRIGHT "2013-2019 Jürgen Mülbert")
+    set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_COPYRIGHT "2013-2020 Jürgen Mülbert")
 endif()
 
 if(WIN32)
   install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${BIN_INSTALL_DIR} CONFIGURATIONS Debug RelWithDebInfo)
 elseif(APPLE)
-  install(TARGETS ${PROJECT_NAME} ${INSTALL_TARGETS_DEFAULT_ARGS})
+    install(TARGETS ${PROJECT_NAME} ${INSTALL_TARGETS_DEFAULT_ARGS})
 
   # Qt5
   set(QT_LIBS_DIR "${Qt5Widgets_DIR}/../..")
@@ -160,3 +183,5 @@ else()
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde.appdata.xml
             DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/metainfo)
 endif()
+
+set(QML_IMPORT_PATH ${CMAKE_BINARY_DIR}/bin CACHE INTERNAL "qml import path" FORCE)

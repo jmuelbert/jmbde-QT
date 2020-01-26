@@ -22,5 +22,7 @@ if(NOT APPLICATION_OUTPUT_PREFIX)
   set(APPLICATION_OUTPUT_PREFIX ${PROJECT_BINARY_DIR})
 endif()
 
-include("${CMAKE_CURRENT_LIST_DIR}/ApplicationTarget.cmake")
-include("${CMAKE_CURRENT_LIST_DIR}/ApplicationMacros.cmake")
+set_and_check(JMBDE_INCLUDE_DIR "@PACKAGE_INCLUDE_INSTALL_DIR@")
+set_and_check(JMBDE_SYSCONFIG_DIR "@PACKAGE_SYSCONFIG_INSTALL_DIR@")
+
+check_required_components(JMBDE)

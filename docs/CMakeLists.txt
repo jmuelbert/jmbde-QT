@@ -55,10 +55,10 @@ set_package_properties(Sphinx PROPERTIES
   PURPOSE "Needed to build the manual."
 )
 
-if(SPHINX_EXECUTABLE AND OPTION_BUILD_MANUAL)
+if(SPHINX_EXECUTABLE AND BUILD_MANUAL)
   add_subdirectory(manual)
 endif()
 
-if(DOXYGEN_FOUND AND OPTION_BUILD_API_DOCS)
+if(DOXYGEN_FOUND AND BUILD_API_DOCS)
   add_subdirectory(api)
 endif()

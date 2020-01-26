@@ -13,15 +13,18 @@
     GNU General Public License for more details.
 */
 
+#include "jmbde-version.h"
+// #include "jmbde-settings.h"
+#include "jmbde_common_export.h"
+#include "views/mainwindow.h"
+
 #include <QDebug>
 #include <QObject>
 
-#ifndef USE_QUICKVIEW
 #include <QApplication>
 #include <QMessageBox>
-#else
 #include <QGuiApplication>
-#endif
+
 
 #include <QCommandLineParser>
 #include <QCoreApplication>
@@ -37,14 +40,28 @@
 #include <QStyleFactory>
 #include <QTranslator>
 
+#include <QStandardPaths>
+#include <QQmlApplicationEngine>
+#include <QQmlFileSelector>
+#include <QQmlContext>
+
+
 #ifndef Q_OS_WIN
 #include <unistd.h>
 #endif
 #include <iostream>
 
-#include "views/mainwindow.h"
+#if defined Qt5AndroidExtras_FOUND && Qt5AndroidExtras_FOUND
+#include <QAndroidService>
+#endif
 
-#include "jmbde_common_export.h"
+#include <memory>
+
+#if defined Qt5AndroidExtras_FOUND && Qt5AndroidExtras_FOUND
+#include <QAndroidJniObject>
+#include <QtAndroid>
+#endif
+
 
 /**
  * @brief main
@@ -52,7 +69,25 @@
  * @param argv The arg Strings
  * @return 0 is exceuted sucessfull
  */
-int main(int argc, char *argv[]) {
+#if defined Q_OS_ANDROID
+int __attribute__((visibility("default"))) main(int argc, char *argv[])
+#else
+int main(int argc, char *argv[])
+#endif
+{
+#if defined Q_OS_ANDROID
+    if(argc > 1 && strcmp(argv[1], "-service") == 0){
+        QAndroidService app(argc, argv);
+        qInfo() << "Service starting...";
+
+        // My service stuff
+
+        return app.exec();
+    }
+
+    qInfo() << "Application starting...";
+#endif
+
 
     QLoggingCategory::setFilterRules(
         QLatin1String("jmbde.*.debug=false\njmbde.*.info=false"));
@@ -73,10 +108,12 @@ int main(int argc, char *argv[]) {
         }
     }
 #endif
+
     /**
-     * init resources from our static lib
+     * enable high dpi support
      */
-    // Q_INIT_RESOURCE(jmbde);
+    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     /**
      * Create application first
@@ -89,15 +126,10 @@ int main(int argc, char *argv[]) {
     QApplication::setApplicationName(QStringLiteral("jmbde"));
 
     /**
-     * enable high dpi support
-     */
-    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-
-    /**
      * set the program icon
      */
     QApplication::setWindowIcon(
-        QIcon::fromTheme(QStringLiteral("jmbde"), app.windowIcon()));
+        QIcon::fromTheme(QStringLiteral("jmbde")));
     QApplication::setOrganizationDomain(QStringLiteral("jmuelbert.github.io"));
 
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
@@ -109,7 +141,7 @@ int main(int argc, char *argv[]) {
 
     QApplication::setApplicationDisplayName(QStringLiteral("jmbde"));
     QApplication::setOrganizationName(QStringLiteral("jmuelbert.github.io"));
-    QApplication::setApplicationVersion(QLatin1String("0.4.25"));
+    QApplication::setApplicationVersion(QLatin1String(JMBDE_VERSION_STRING));
 
     /**
      * Create command line parser and feed it with known options
@@ -124,6 +156,11 @@ int main(int argc, char *argv[]) {
      * do the command line parsing
      */
     parser.process(app);
+  
+    // Quick Settings
+    QQmlApplicationEngine engine;
+    engine.addImportPath(QStringLiteral("qrc:/imports"));
+    // engine.rootContext()->setContextObject(new jmbdeLocalizedContext(&engine));
 
     // Setup and load translator for localization
     QString locale = QLocale::system().name();

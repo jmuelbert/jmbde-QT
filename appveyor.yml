@@ -67,14 +67,16 @@ for:
       - ccache
 
     install:
+      - brew tap kde-mac/kde
       - brew update
       - brew install ninja
       - brew install qt
       - brew install ccache
+      - brew install kf5-extra-cmake-modules
       - brew upgrade
       - brew link --force qt5
-      - sudo ln -s /usr/local/Cellar/qt/5.13.2/mkspecs /usr/local/mkspecs
-      - sudo ln -s /usr/local/Cellar/qt/5.13.2/plugins /usr/local/plugins
+      - sudo ln -s /usr/local/Cellar/qt/5.14.0/mkspecs /usr/local/mkspecs
+      - sudo ln -s /usr/local/Cellar/qt/5.14.0/plugins /usr/local/plugins
 
     before_build:
       - mkdir -p build; cd build
@@ -131,15 +133,15 @@ for:
       - sudo apt-get -y install qt512imageformats
       - sudo apt-get -y install qt512tools
       - source /opt/qt512/bin/qt512-env.sh
-    before_build:
-      - mkdir -p build; cd build
-      - cmake -DCMAKE_INSTALL_PREFIX=usr -DCMAKE_BUILD_TYPE=$CONFIGURATION ..
-
-    build_script:
-      - cmake --build . --config $CONFIGURATION --target install
-
-    after_build:
-      - cpack .
+      # Install ECM
+      - git clone git://anongit.kde.org/extra-cmake-modules
+      - cd extra-cmake-modules
+      - mkdir build
+      - cd build
+      - cmake .. # or run: cmake -DCMAKE_INSTALL_PREFIX=/usr .. &&
+      - make
+      - sudo make install
+      - cd ../..
       # Download AppImage QT deployment tool (local snapshot -- original at github/probono)
       - wget -c "https://github.com/jimevins/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
       - chmod a+x linuxdeployqt*.AppImage
@@ -150,6 +152,17 @@ for:
       - ls -la
       - ls -la bin
       - git rev-list master --count
+
+    before_build:
+      - set -e # Exit immediately if anything fails
+      - mkdir -p build; cd build
+
+    build_script:
+      - cmake -DCMAKE_INSTALL_PREFIX=usr -DCMAKE_BUILD_TYPE=$CONFIGURATION -DAPPIMAGE_BUILD=ON ..
+      - cmake --build . --config $CONFIGURATION --target install
+
+    after_build:
+      - cpack .
       #
       # Create AppImage
       #
@@ -232,7 +245,15 @@ for:
       # Windows
       - cinst ninja
       - nuget install secure-file -ExcludeVersion
-
+      # Install ECM
+      - git clone git://anongit.kde.org/extra-cmake-modules
+      - cd extra-cmake-modules
+      - mkdir build
+      - cd build
+      - cmake .. # or run: cmake -DCMAKE_INSTALL_PREFIX=/usr .. &&
+      - make
+      - make install
+      - cd ../..
 
 
     before_build:
