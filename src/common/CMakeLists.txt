@@ -60,7 +60,7 @@ ecm_qt_declare_logging_category(jmbde_common
     DEFAULT_SEVERITY Warning
 )
 
-add_library(jmbde_common SHARED )
+add_library(jmbde_common)
 generate_export_header(jmbde_common)
 add_library(JMBde::common ALIAS jmbde_common)
 

@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ManufacturerInputArea</class>
+ <widget class="QGroupBox" name="ManufacturerInputArea">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>730</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Manufacturer</string>
+  </property>
+  <property name="accessibleName">
+   <string>ManufacturerInputDialog</string>
+  </property>
+  <property name="title">
+   <string>Manufacturer</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_3">
+   <item>
+    <widget class="QWidget" name="formLayoutWidget" native="true">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QLabel" name="label_Header">
+          <property name="font">
+           <font>
+            <pointsize>16</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Manufacturer</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Preferred</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="11" column="2">
+         <widget class="QLabel" name="label_Phone">
+          <property name="text">
+           <string>Phone Number</string>
+          </property>
+          <property name="buddy">
+           <cstring>lineEdit_Phone</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="4">
+         <widget class="QComboBox" name="comboBox_ZipCode"/>
+        </item>
+        <item row="9" column="2">
+         <widget class="QLabel" name="label_MailAddress">
+          <property name="text">
+           <string>Mail Address</string>
+          </property>
+          <property name="buddy">
+           <cstring>lineEdit_MailAddress</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="11" column="4">
+         <widget class="QLineEdit" name="lineEdit_Phone"/>
+        </item>
+        <item row="3" column="2">
+         <widget class="QLabel" name="label_Name2">
+          <property name="text">
+           <string>Name2</string>
+          </property>
+          <property name="buddy">
+           <cstring>lineEdit_Name2</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="12" column="4">
+         <widget class="QLineEdit" name="lineEdit_Fax"/>
+        </item>
+        <item row="3" column="4">
+         <widget class="QLineEdit" name="lineEdit_Name2"/>
+        </item>
+        <item row="8" column="2">
+         <widget class="QLabel" name="label_ZipCode">
+          <property name="text">
+           <string>Zip Code</string>
+          </property>
+          <property name="buddy">
+           <cstring>comboBox_ZipCode</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="12" column="2">
+         <widget class="QLabel" name="label_Fax">
+          <property name="text">
+           <string>Fax Number</string>
+          </property>
+          <property name="buddy">
+           <cstring>lineEdit_Fax</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="2">
+         <widget class="QLabel" name="label_Address2">
+          <property name="text">
+           <string>Address2</string>
+          </property>
+          <property name="buddy">
+           <cstring>lineEdit_Address2</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="4">
+         <widget class="QLineEdit" name="lineEdit_Address"/>
+        </item>
+        <item row="7" column="4">
+         <widget class="QLineEdit" name="lineEdit_Address2"/>
+        </item>
+        <item row="4" column="4">
+         <widget class="QLineEdit" name="lineEdit_Supporter"/>
+        </item>
+        <item row="6" column="2">
+         <widget class="QLabel" name="label_Address">
+          <property name="text">
+           <string>Address</string>
+          </property>
+          <property name="buddy">
+           <cstring>lineEdit_Address</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="4">
+         <widget class="QLineEdit" name="lineEdit_MailAddress"/>
+        </item>
+        <item row="1" column="4">
+         <widget class="QLineEdit" name="lineEdit_Name"/>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLabel" name="label_Name">
+          <property name="text">
+           <string>Name</string>
+          </property>
+          <property name="buddy">
+           <cstring>lineEdit_Name</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="2">
+         <widget class="QLabel" name="label_Supporter">
+          <property name="text">
+           <string>Supporter</string>
+          </property>
+          <property name="buddy">
+           <cstring>lineEdit_Supporter</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="2">
+         <widget class="QLabel" name="label_Hotline">
+          <property name="text">
+           <string>Hotline Number</string>
+          </property>
+          <property name="buddy">
+           <cstring>lineEdit_Hotline</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="4">
+         <widget class="QLineEdit" name="lineEdit_Hotline"/>
+        </item>
+        <item row="8" column="5">
+         <widget class="QLabel" name="label_City">
+          <property name="text">
+           <string>City</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QPushButton" name="pushButton_Add">
+          <property name="text">
+           <string>+</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_EditFinish">
+          <property name="text">
+           <string>Edit</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>lineEdit_Name</tabstop>
+  <tabstop>lineEdit_Name2</tabstop>
+  <tabstop>lineEdit_Supporter</tabstop>
+  <tabstop>lineEdit_Address</tabstop>
+  <tabstop>lineEdit_Address2</tabstop>
+  <tabstop>comboBox_ZipCode</tabstop>
+  <tabstop>lineEdit_MailAddress</tabstop>
+  <tabstop>lineEdit_Hotline</tabstop>
+  <tabstop>lineEdit_Phone</tabstop>
+  <tabstop>lineEdit_Fax</tabstop>
+  <tabstop>pushButton_Add</tabstop>
+  <tabstop>pushButton_EditFinish</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

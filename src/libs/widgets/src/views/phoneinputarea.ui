@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PhoneInputArea</class>
+ <widget class="QGroupBox" name="PhoneInputArea">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>730</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Phone</string>
+  </property>
+  <property name="accessibleName">
+   <string>PhoneInputDialog</string>
+  </property>
+  <property name="title">
+   <string>Phone</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_3">
+   <item>
+    <widget class="QWidget" name="formLayoutWidget" native="true">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QLabel" name="label_Header">
+          <property name="font">
+           <font>
+            <pointsize>16</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Phone</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Preferred</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_Department">
+          <property name="text">
+           <string>Department</string>
+          </property>
+          <property name="buddy">
+           <cstring>comboBox_Department</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_Number">
+          <property name="text">
+           <string>Number</string>
+          </property>
+          <property name="buddy">
+           <cstring>lineEdit_Number</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="2">
+         <widget class="QLabel" name="label_Place">
+          <property name="text">
+           <string>Place</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+          </property>
+          <property name="buddy">
+           <cstring>comboBox_Place</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="1">
+         <widget class="QComboBox" name="comboBox_DeviceName"/>
+        </item>
+        <item row="8" column="0">
+         <widget class="QLabel" name="label_Manufacturer">
+          <property name="text">
+           <string>Manufacturer</string>
+          </property>
+          <property name="buddy">
+           <cstring>comboBox_Manufacturer</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="2">
+         <widget class="QLabel" name="label_DeviceType">
+          <property name="text">
+           <string>Devicetype</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+          </property>
+          <property name="buddy">
+           <cstring>comboBox_DeviceType</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="lineEdit_SerialNumber"/>
+        </item>
+        <item row="6" column="3">
+         <widget class="QComboBox" name="comboBox_DeviceType"/>
+        </item>
+        <item row="8" column="1">
+         <widget class="QComboBox" name="comboBox_Manufacturer"/>
+        </item>
+        <item row="1" column="3">
+         <widget class="QLineEdit" name="lineEdit_Pin">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_Employee">
+          <property name="text">
+           <string>Employee</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+          </property>
+          <property name="buddy">
+           <cstring>comboBox_Employee</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="1">
+         <widget class="QCheckBox" name="checkBox_Replace">
+          <property name="text">
+           <string>Replace</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="lineEdit_Number">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QComboBox" name="comboBox_Department"/>
+        </item>
+        <item row="4" column="3">
+         <widget class="QComboBox" name="comboBox_Place"/>
+        </item>
+        <item row="3" column="1">
+         <widget class="QComboBox" name="comboBox_Employee"/>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLabel" name="label_Pin">
+          <property name="text">
+           <string>Pin</string>
+          </property>
+          <property name="buddy">
+           <cstring>lineEdit_Pin</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="label_DeviceName">
+          <property name="text">
+           <string>Devicename</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+          </property>
+          <property name="buddy">
+           <cstring>comboBox_DeviceName</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="0">
+         <widget class="QCheckBox" name="checkBox_Active">
+          <property name="text">
+           <string>Active</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="2">
+         <widget class="QLabel" name="label_Inventory">
+          <property name="text">
+           <string>Inventory</string>
+          </property>
+          <property name="buddy">
+           <cstring>comboBox_Inventory</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="3">
+         <widget class="QComboBox" name="comboBox_Inventory"/>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_SerialNumber">
+          <property name="text">
+           <string>Serial Number</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QPushButton" name="pushButton_Add">
+          <property name="text">
+           <string>+</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_EditFinish">
+          <property name="text">
+           <string>Edit</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>pushButton_Add</tabstop>
+  <tabstop>pushButton_EditFinish</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

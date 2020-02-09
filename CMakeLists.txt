@@ -30,6 +30,9 @@
 # -DBUILD_COVERAGE
 # Build with coverage information
 #
+# -DBUILD_SHARED_LIBS
+# Build shared libs and not static libs
+#
 # -DENABLE_CLANG_TIDY
 #  Test quality of source with clang tidy
 #
@@ -159,6 +162,8 @@ option(BUILD_TRANSLATIONS "Build translations" ON)
 add_feature_info(TRANSL ${BUILD_TRANSLATIONS} "Build the translations")
 option(BUILD_COVERAGE "Add coverage information." ON)
 add_feature_info(COVERAGE ${BUILD_COVERAGE} "Build with caverage informations.")
+option(BUILD_SHARED_LIBS "Build shared libs" ON)
+add_feature_info(SHARED_LIBS ${BUILD_SHARED_LIBS} "Build shared libs")
 option(ENABLE_TESTS "ENABLE tests." ON)
 add_feature_info(TESTS ${ENABLE_TESTS} "Build and run the tests")
 option(ENABLE_CLANG_TIDY "activate clang tidy messages" ON)
@@ -225,8 +230,7 @@ if(ENABLE_CLANG_TIDY)
   find_program (CLANG_TIDY_EXE NAMES "clang-tidy" PATHS /usr/bin)
   if (CLANG_TIDY_EXE)    
     message(STATUS "Clang-tidy supported, found and enabled: ${CLANG_TIDY_EXE}")
-    set(CLANG_TIDY_CHECKS "modernize-*,clang-analyzer-*,-clang-analyzer-cplusplus*")
-    set(CMAKE_CXX_CLANG_TIDY "${CLANG_TIDY_EXE};-checks=${CLANG_TIDY_CHECKS};-header-filter='${CMAKE_SOURCE_DIR}/*'"
+    set(CMAKE_CXX_CLANG_TIDY "${CLANG_TIDY_EXE}"
         CACHE STRING "" FORCE)
   else()
     message(AUTHOR_WARNING "clang-tidy not found!")
@@ -386,13 +390,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY
     ${APPLICATION_OUTPUT_PREFIX}/${BIN_INSTALL_DIR})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY
     ${APPLICATION_OUTPUT_PREFIX}/${LIB_INSTALL_DIR})
-
-    message("RUNTIME : ${BIN_INSTALL_DIR}")
-    message("LIBRARY : ${LIB_INSTALL_DIR}")
-    message("ARCHIVE : ${LIB_INSTALL_DIR}")
-    message("DEVEL   : ${BUNDLE_INSTALL_DIR}")
-    message("Bundle  : ${BUNDLE_INSTALL_DIR}")
-
   
 set(INSTALL_TARGETS_DEFAULT_ARGS
     RUNTIME DESTINATION ${BIN_INSTALL_DIR}
@@ -412,6 +409,9 @@ if(NOT APPLE AND NOT WIN32)
     uninstall COMMAND ${CMAKE_COMMAND} -P
                       "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
 endif()
+
+# libs
+add_subdirectory(src/libs)
 
 # jmbdelib
 add_subdirectory(src/common)

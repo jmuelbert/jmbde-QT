@@ -8,7 +8,7 @@
             "macFrameworkPath": [
                 "/System/Library/Frameworks",
                 "/Library/Frameworks",
-                "~/Qt/5.13.2/clang- 64/lib"
+                "~/Qt/5.14.0/clang- 64/lib"
             ],
             "compilerPath": "/usr/bin/clang",
             "cStandard": "c11",
@@ -74,7 +74,8 @@
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""
-            }
+            },
+            "configurationProvider": "vector-of-bool.cmake-tools"
         }
     ],
     "version": 4
