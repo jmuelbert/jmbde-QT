@@ -1,9 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>qtquickcontrols2.conf</file>
-        <file>Theme/Theme.qml</file>
-        <file>Theme/qmldir</file>
-        <file>AboutBox.qml</file>
-        <file>Preferences.qml</file>
-    </qresource>
-</RCC>

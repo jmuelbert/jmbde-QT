@@ -174,7 +174,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONF
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
-    JMBde::common
+    jmbde::models
     Qt5::Core
     Qt5::Gui
     Qt5::Sql

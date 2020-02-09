@@ -414,7 +414,7 @@ endif()
 add_subdirectory(src/libs)
 
 # jmbdelib
-add_subdirectory(src/common)
+# add_subdirectory(src/common)
 
 # jmbde
 add_subdirectory(src/app)

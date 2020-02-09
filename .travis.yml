@@ -11,7 +11,7 @@ matrix:
         - docker
       env:
         - CMAKE_BUILD_TYPE: Release
-        - QT_PPA: beineri/opt-qt5.12.6-bionic
+        - QT_PPA: beineri/opt-qt5.14.0-bionic
         - QT_VER: 512
 
     - name: "macOS (xcode 11.2)"
@@ -46,7 +46,7 @@ before_install:
     sudo apt-get update -qq;
     sudo apt-get install apt-transport-https ca-certificates gnupg software-properties-common wget;
     wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | sudo apt-key add -;
-    sudo add-apt-repository --yes ppa:beineri/opt-qt-5.12.6-bionic;
+    sudo add-apt-repository --yes ppa:beineri/opt-qt-5.14.0-bionic;
     sudo apt-add-repository --yes 'deb https://apt.kitware.com/ubuntu/ bionic main';
     sudo apt-get update -qq;
     CMAKE_URL="https://cmake.org/files/v3.16/cmake-3.16.0-Linux-x86_64.sh";
@@ -68,6 +68,9 @@ install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
     sudo apt-get install -y build-essential cmake ninja-build zlib1g-dev libssl-dev libffi-dev libx11-dev libgl1-mesa-dev mesa-common-dev;
     sudo apt-get install -y qt${QT_VER}-meta-minimal qt${QT_VER}declarative qt${QT_VER}imageformats qt${QT_VER}multimedia qt${QT_VER}tools qt${QT_VER}svg qt${QT_VER}x11extras qt${QT_VER}xmlpatterns;
+    git clone git://anongit.kde.org/extra-cmake-modules;
+    cd extra-cmake-modules; mkdir build;cd build; 
+    cmake ..;make; sudo make install; cd ../..;
     fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
     brew install qt quazip ccache;

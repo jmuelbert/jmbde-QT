@@ -105,7 +105,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONF
 target_link_libraries(${PROJECT_NAME}
     PUBLIC
     Qt5::Core
-    JMBde::common
+    jmbde::widgets
     PRIVATE
     Qt5::Widgets
     Qt5::PrintSupport

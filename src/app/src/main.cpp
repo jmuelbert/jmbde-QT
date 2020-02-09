@@ -15,7 +15,8 @@
 
 #include "jmbde-version.h"
 // #include "jmbde-settings.h"
-#include "jmbde_common_export.h"
+// #include "jmbdemodels_export.h"
+#include "jmbdewidgets_export.h"
 #include "views/mainwindow.h"
 
 #include <QDebug>

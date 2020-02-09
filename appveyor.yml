@@ -72,11 +72,11 @@ for:
       - brew install ninja
       - brew install qt
       - brew install ccache
-      - brew install kf5-extra-cmake-modules
       - brew upgrade
+      - brew install kf5-extra-cmake-modules
       - brew link --force qt5
-      - sudo ln -s /usr/local/Cellar/qt/5.14.0/mkspecs /usr/local/mkspecs
-      - sudo ln -s /usr/local/Cellar/qt/5.14.0/plugins /usr/local/plugins
+      - sudo ln -s /usr/local/Cellar/qt/5.14.1/mkspecs /usr/local/mkspecs
+      - sudo ln -s /usr/local/Cellar/qt/5.14.1/plugins /usr/local/plugins
 
     before_build:
       - mkdir -p build; cd build
@@ -147,8 +147,8 @@ for:
       - chmod a+x linuxdeployqt*.AppImage
       - wget -c -nv "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
       - chmod a+x appimagetool-x86_64.AppImage
-      - cmake .. -DCMAKE_INSTALL_PREFIX:PATH=./appdir/usr -Wno-dev
-      - make install
+      # - cmake .. -DCMAKE_INSTALL_PREFIX:PATH=./appdir/usr -Wno-dev
+      # - make install
       - ls -la
       - ls -la bin
       - git rev-list master --count
@@ -223,7 +223,7 @@ for:
       - call set ENVIRONMENT_NAME=%%ENVIRONMENT_NAME:PLATFORM=%platform%%%
       - call set ENVIRONMENT_NAME=%%ENVIRONMENT_NAME:CONFIGURATION=%configuration%%%
       - ps: $ENV:PLATFORM="x64"
-      - ps: $ENV:QTDIR="C:\Qt\5.13\msvc2017_64"
+      - ps: $ENV:QTDIR="C:\Qt\5.14\msvc2017_64"
       - ps: $ENV:INNO="C:\Program Files (x86)\Inno Setup 6"
       - ps: $ENV:VCPKGDir="C:\Tools\vcpkg"
       - ps: $ENV:VCPKGToolChainFile = $ENV:VCPKGDir + "\scripts\buildsystems\vcpkg.cmake"
