@@ -33,6 +33,8 @@ ecm_setup_version(${JMBDEWIDGETS_VERSION}
 set(WINDOWS_EXPORT_ALL_SYMBOLS ON)
 cmake_policy(SET CMP0076 NEW)
 
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
 # COMMON project
 project(jmbdewidgets VERSION ${JMBDEWIDGETS_SOVERSION}
       DESCRIPTION "${PROJECT_NAME} WIDGETS-UI Library")
@@ -50,7 +52,7 @@ add_library(jmbdewidgets)
 generate_export_header(jmbdewidgets)
 add_library(jmbde::widgets ALIAS jmbdewidgets)
 
-set_target_properties(jmbdewidgets PROPERTIES 
+set_target_properties(jmbdewidgets PROPERTIES
       VERSION   ${JMBDEWIDGETS_VERSION_STRING}
       SOVERSION ${JMBDEWIDGETS_SOVERSION}
       EXPORT_NAME "jmbdewidgets"
@@ -83,12 +85,6 @@ target_link_libraries( jmbdewidgets
     Qt5::Quick
     Qt5::QuickWidgets
     )
-ecm_generate_headers(jmbdewidgets_HEADERS
-    HEADER_NAMES
-    include/views/mainwindow
-
-    REQUIRED_HEADERS jmbdewidgets_HEADERS
-)
 
 #
 # Finding Qt
@@ -132,12 +128,9 @@ QT5_ADD_RESOURCES(
 
 target_sources(jmbdewidgets
     PUBLIC
-    include/views/mainwindow.h
-
+    include/views/mainwindow.h    
+    
     PRIVATE
-    loggingcategory.h
-    include/definitions.h
-
     loggingcategory.cpp
     # Views ----
     src/views/chipcardinputarea.cpp
@@ -175,9 +168,13 @@ target_sources(jmbdewidgets
     include/views/processorinputarea.h
     include/views/softwareinputarea.h
     include/views/titleinputarea.h
+
+    loggingcategory.h
+    include/definitions.h
     )
 
 install(TARGETS jmbdewidgets ${INSTALL_TARGETS_DEFAULT_ARGS})
-if(MSVC)
-  install(FILES "$<TARGET_PDB_FILE_DIR:jmbdewidgets>/$<TARGET_PDB_FILE_NAME:jmbde_common>" DESTINATION ${BIN_INSTALL_DIR} CONFIGURATIONS Debug RelWithDebInfo)
+
+if(MSVC AND BUILD_SHARED_LIBS)
+  install(FILES "$<TARGET_PDB_FILE_DIR:jmbdewidgets>/$<TARGET_PDB_FILE_NAME:jmbdewidgets>" DESTINATION ${BIN_INSTALL_DIR} CONFIGURATIONS Debug RelWithDebInfo)
 endif()

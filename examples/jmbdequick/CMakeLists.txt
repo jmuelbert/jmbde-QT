@@ -13,9 +13,9 @@
 #   GNU General Public License for more details.
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 
-project(jmbdequick      
+project(jmbdequick
   DESCRIPTION "A BDE Tool"
   HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
   LANGUAGES CXX C)
@@ -41,7 +41,7 @@ if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
    message(FATAL_ERROR "${PROJECT_NAME} requires an out of source build. Please create a separate build directory and run 'cmake path_to_kirigami [options]' there.")
 endif()
 
-list(APPEND CMAKE_PREFIX_PATH 
+list(APPEND CMAKE_PREFIX_PATH
   "${CMAKE_MODULE_PATH}"
   "../../src/common/"
   )

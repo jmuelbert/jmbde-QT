@@ -1,5 +1,5 @@
 ---
-version: "0.4.{build}"
+version: "0.5.{build}"
 max_jobs: 1
 
 image:
@@ -31,6 +31,9 @@ environment:
     secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
   APPVEYOR_YML_DISABLE_PS_LINUX: true
   Appveyor: true
+  QT_PPA: beineri/opt-qt-5.14.1-bionic
+  QT_VER: 514
+  QT_VERSION: 5.14.1
 
 matrix:
   exclude:
@@ -67,30 +70,45 @@ for:
       - ccache
 
     install:
-      - brew tap kde-mac/kde
-      - brew update
       - brew install ninja
       - brew install qt
+      - brew install quazip
       - brew install ccache
       - brew upgrade
-      - brew install kf5-extra-cmake-modules
       - brew link --force qt5
-      - sudo ln -s /usr/local/Cellar/qt/5.14.1/mkspecs /usr/local/mkspecs
-      - sudo ln -s /usr/local/Cellar/qt/5.14.1/plugins /usr/local/plugins
-
+      - export PATH="$(brew --prefix qt)/bin:$PATH"
+      - sudo ln -s "/usr/local/Cellar/qt/${QT_VERSION}/mkspecs /usr/local/mkspecs"
+      - sudo ln -s "/usr/local/Cellar/qt/${QT_VERSION}/plugins /usr/local/plugins"
+      # Install ECM
+      - git clone git://anongit.kde.org/extra-cmake-modules
+      - cd extra-cmake-modules
+      - mkdir build
+      - cd build
+      - cmake .. # or run: cmake -DCMAKE_INSTALL_PREFIX=/usr .. &&
+      - make
+      - sudo make install
+      - cd ../..
+ 
     before_build:
       - mkdir -p build; cd build
-      - cmake -GNinja -DCMAKE_INSTALL_PREFIX=usr -DCMAKE_BUILD_TYPE=$CONFIGURATION ..
+      - cmake -GNinja -DCMAKE_PREFIX_PATH="$(brew --prefix qt)" -DBUILD_SHARED_LIBS=ON ..
+      
 
     build_script:
-      - cmake --build . --config $CONFIGURATION --target install
+      - sudo cmake --build . --config $CONFIGURATION --target install
 
     after_build:
-      - cpack .
-      - ls -la jmbde.app/Contents/Frameworks
-      - ls -la jmbde.app/Contents
-      # - macdeployqt jmbde.app
-
+      - sudo cpack .
+      - if [ -z "$VERSION" ]; then
+          export VERSION=$(git rev-parse --short HEAD);
+        fi
+      - sudo macdeployqt jmbde.app -verbose=2
+      - sudo chown -R $(id -nu) jmbde.app
+      - mkdir -p dmgdir/jmbde.app
+      - cp -r jmbde.app/* dmgdir/jmbde.app/
+      - ln -s /Applications dmgdir/Applications
+      - hdiutil create -volname jmbde-$VERSION -srcfolder dmgdir -ov -format UDZO jmbde-$VERSION.dmg;     
+      - ls
     test_script:
       - ctest -C $CONFIGURATION -VV
 
@@ -116,23 +134,29 @@ for:
     cache: ccache
 
     install:
-      - sudo add-apt-repository --yes ppa:beineri/opt-qt-5.12.6-bionic
-      # Linux
-      - sudo apt-get update -qq
+      # Add Repostories
       - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+      - sudo add-apt-repository --yes ppa:${QT_PPA}
+      - sudo apt-get update -qq
+      - sudo apt remove 
+      - sudo apt-get -y install apt-transport-https ca-certificates
+      - sudo apt-get -y install gnupg software-properties-common
+      - sudo apt-get -y install ninja-build
+      - sudo apt-get -y install libquazip-dev zlib1g-dev libssl-dev
+      - sudo apt-get -y install libffi-dev libx11-dev
       - sudo apt-get -y install binutils
       - sudo apt-get -y install ccache
-      - sudo apt-get -y install gcc
-      - sudo apt-get -y install g++
       - sudo apt-get -y install libgl1-mesa-dev
       - sudo apt-get -y install zlib1g-dev
-      # Qt 512 on Linux
-      - sudo apt-get -y install qt512base
-      - sudo apt-get -y install qt512script
-      - sudo apt-get -y install qt512svg
-      - sudo apt-get -y install qt512imageformats
-      - sudo apt-get -y install qt512tools
-      - source /opt/qt512/bin/qt512-env.sh
+      # Qt 514 on Linux
+      - sudo apt-get -y install qt${QT_VER}base
+      - sudo apt-get -y install qt${QT_VER}script
+      - sudo apt-get -y install qt${QT_VER}svg
+      - sudo apt-get -y install qt${QT_VER}imageformats
+      - sudo apt-get -y install qt${QT_VER}translations
+      - sudo apt-get -y install qt${QT_VER}tools
+      - source /opt/qt${QT_VER}/bin/qt${QT_VER}-env.sh
+
       # Install ECM
       - git clone git://anongit.kde.org/extra-cmake-modules
       - cd extra-cmake-modules
@@ -142,47 +166,43 @@ for:
       - make
       - sudo make install
       - cd ../..
-      # Download AppImage QT deployment tool (local snapshot -- original at github/probono)
-      - wget -c "https://github.com/jimevins/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-      - chmod a+x linuxdeployqt*.AppImage
-      - wget -c -nv "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
-      - chmod a+x appimagetool-x86_64.AppImage
-      # - cmake .. -DCMAKE_INSTALL_PREFIX:PATH=./appdir/usr -Wno-dev
-      # - make install
-      - ls -la
-      - ls -la bin
-      - git rev-list master --count
 
     before_build:
       - set -e # Exit immediately if anything fails
-      - mkdir -p build; cd build
+      - mkdir -p build
+      - mkdir -p appbuild
+      - mkdir -p appdir
 
     build_script:
-      - cmake -DCMAKE_INSTALL_PREFIX=usr -DCMAKE_BUILD_TYPE=$CONFIGURATION -DAPPIMAGE_BUILD=ON ..
-      - cmake --build . --config $CONFIGURATION --target install
-
+        - cd build
+        - cmake .. -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_INSTALL_PREFIX:PATH=/usr -DBUILD_SHARED_LIBS=ON -DENABLE_TESTING=ON
+        - make
+        - ctest -V
+        - cd ../appbuild
+        - cmake -DCMAKE_INSTALL_PREFIX:PATH=../appdir/usr -Wno-dev ..
+        - make install
+        - cd ..
+        - export LD_LIBRARY_PATH=$APPVEYOR_BUILD_FOLDER/appdir/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+        - git rev-list master --count
+        - wget -c "https://github.com/jimevins/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
+        - chmod a+x linuxdeployqt*.AppImage
+        - wget -c -nv "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+        - chmod a+x appimagetool-x86_64.AppImage
+        # - export VERSION=$(printf "`master`-`git rev-list HEAD --count`-` git -C . rev-parse --short HEAD`")    #$(git rev-parse --short HEAD) # linuxdeployqt uses this for naming the file
+        - ./linuxdeployqt*.AppImage appdir/usr/share/applications/*.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.54m.so.1.0 -verbose=2 -appimage
+      
     after_build:
-      - cpack .
+      # - sudo cpack .
       #
       # Create AppImage
       #
-      - unset QTDIR; unset QT_PLUGIN_PATH; unset LD_LIBRARY_PATH
-      # - export VERSION=$(printf "`master`-`git rev-list HEAD --count`-` git -C . rev-parse --short HEAD`") #$(git rev-parse --short HEAD) # linuxdeployqt uses this for naming the file
-      - "./linuxdeployqt*.AppImage ./appdir/usr/share/applications/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.54m.so.1.0 -verbose=1"
-      - unlink appdir/AppRun
-      - rm -r appdir/usr/plugins/bearer;
-      - rm -r appdir/usr/plugins/platforminputcontexts;
-      - rm -r appdir/usr/plugins/printsupport;
-      - rm -r appdir/usr/plugins/sqldrivers;
-      - rm -r appdir/usr/plugins/xcbglintegrations;
-      - ./appimagetool-x86_64.AppImage appdir
-      - ls -la
-
+      # - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
+      # - ./linuxdeployqt*.AppImage ./appdir/usr/share/applications/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.54m.so.1.0 -verbose=2
+      # - ./linuxdeployqt*.AppImage --appimage-extract
       # - export PATH=$(readlink -f ./squashfs-root/usr/bin/):$PATH
-      # - ./squashfs-root/usr/bin/appimagetool jmbde/
-      # - ls ./jmbde
-      # - find ./jmbde -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
-      # - mv jmbde-x86_64.AppImage jmbde-$VERSION-x86_64.AppImage
+      #  - ./squashfs-root/usr/bin/appimagetool appdir/
+      - ls -la
+      - find appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
 
     test_script:
       - ctest -C $CONFIGURATION -VV
@@ -207,6 +227,7 @@ for:
   ########## END UBUNTU SPECIFIC CONFIGURATION ##########
 
   ########## WINDOWS SPECIFIC CONFIGURATION ##########
+
   - matrix:
       only:
         - image: Visual Studio 2019
@@ -244,53 +265,57 @@ for:
     install:
       # Windows
       - cinst ninja
+      - cinst png2ico
       - nuget install secure-file -ExcludeVersion
+      # Install ECM
+      - vcpkg install ecm
+      - vcpkg upgrade
+      - vcpkg list
       # Install ECM
       - git clone git://anongit.kde.org/extra-cmake-modules
       - cd extra-cmake-modules
       - mkdir build
       - cd build
-      - cmake .. # or run: cmake -DCMAKE_INSTALL_PREFIX=/usr .. &&
-      - make
-      - make install
+      - cmake -G Ninja .. # or run: cmake -DCMAKE_INSTALL_PREFIX=/usr .. &&
+      - cmake --build . --target install
       - cd ../..
-
 
     before_build:
       - ps: Get-ChildItem ENV:PATH
       - call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
-      - call %QTDIR%\bin\qtenv2.bat
-      - cmd: chdir %APPVEYOR_BUILD_FOLDER%
+      - call "%QTDIR%\bin\qtenv2.bat"
+      - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER"
       - ps: New-Item -itemtype directory -path ./build
-      - cmd: chdir build
+      - ps: Set-Location "build"
       - ps: Write-Host "Generate the Project for $ENV:CMAKE_GENERATOR with $ENV:CONFIGURATION and $ENV:VCPKGToolChainFile"
-      - ps: cmake -G "$ENV:CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE="$ENV:CONFIGURATION"  ..
+      #- ps: cmake -G "$ENV:CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE="$ENV:CONFIGURATION"  ..
       - cmd: echo set(VCPKG_BUILD_TYPE release) >> C:\tools\vcpkg\triplets\%PLATFORM%-windows-static.cmake
       - cmd: vcpkg remove --outdated --recurse
+      - ps: Get-ChildItem "C:\tools\vcpkg\triplets"
       # - cmd: vcpkg install --triplet %PLATFORM%-windows-static %PACKAGES% > NUL
 
     build_script:
-      - ps: cmake -G "Ninja" .. -DCMAKE_PREFIX_PATH=%QTDIR%
-      # -DCMAKE_TOOLCHAIN_FILE=$ENV:VCPKGToolChainFile
-      - ps: cmake --build . --config %CONFIGURATION%s --target install
+      - ps: New-Item -itemtype directory -path ./program
+      # - ps: cmake -G "$ENV:CMAKE_GENERATOR" -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DCMAKE_INSTALL_PREFIX=program -DCMAKE_TOOLCHAIN_FILE="$ENV:VCPKGToolChainFile" ..
+      # - ps: cmake --build . --config "$ENV:CONFIGURATION" --target install 
 
     after_build:
-      - cd %APPVEYOR_BUILD_FOLDER%\build
+      - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER\build"
       - ps: Write-Host "$ENV:APPVEYOR_REPO_TAG_NAME"
-      - ps: cpack -C $ENV:CONFIGURATION -G NSIS64
+      # - ps: cpack -C $ENV:CONFIGURATION -G NSIS64
       - ps: Get-ChildItem
-      - cd %APPVEYOR_BUILD_FOLDER%\build
+      - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER\build"
       - ps: Get-ChildItem
-      - ps: windeployqt bin/jmbde.exe bin/jmbde_common.dll
-      - ps: Get-ChildItem bin
-      - cp %APPVEYOR_BUILD_FOLDER%/packaging/win/installer_%PLATFORM%.iss .
-      - ps: $installerfile="installer_" + $ENV:PLATFORM + ".iss"
-      - ps: iscc $installerfile
-      - ps: Get-ChildItem
+      # - ps: windeployqt program/jmbde.exe program/jmbdewidgets.dll program/jmbdemodels.dll
+      # - ps: Get-ChildItem bin
+      # - cp %APPVEYOR_BUILD_FOLDER%/packaging/win/installer_%PLATFORM%.iss .
+      # - ps: $installerfile="installer_" + $ENV:PLATFORM + ".iss"
+      #  - ps: iscc $installerfile
+      # - ps: Get-ChildItem
       - ps: Get-ChildItem ../
 
     test_script:
-      - ctest -C "$ENV:CONFIGURATION" -VV
+      # - ctest -C "$ENV:CONFIGURATION" -VV
 
     artifacts:
       - name: Windows-Installer_x64

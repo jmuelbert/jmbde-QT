@@ -1,0 +1,5 @@
+ [requires]
+ ECM/5.66
+
+ [generators]
+ cmake

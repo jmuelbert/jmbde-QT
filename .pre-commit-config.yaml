@@ -76,10 +76,10 @@ repos:
     hooks:
       - id: docker-compose-check
 
-  # - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
+  #- repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
   #  rev: v2.1.0
   #  hooks:
-  #    - id: commitlint
+      # - id: commitlint
 
   - repo: https://github.com/milin/giticket
     rev: 6f166c66f2423e8e27898b39385d1166f9b643a3

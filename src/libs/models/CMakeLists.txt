@@ -51,7 +51,7 @@ add_library(jmbdemodels)
 generate_export_header(jmbdemodels)
 add_library(jmbde::models ALIAS jmbdemodels)
 
-set_target_properties(jmbdemodels PROPERTIES 
+set_target_properties(jmbdemodels PROPERTIES
       VERSION   ${JMBDEMODELS_VERSION_STRING}
       SOVERSION ${JMBDEMODELS_SOVERSION}
       EXPORT_NAME "jmbdemodels"
@@ -64,11 +64,11 @@ target_compile_features(jmbdemodels
             cxx_override cxx_final cxx_nonstatic_member_init)
 
 target_include_directories(jmbdemodels PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include>
-    PRIVATE src)
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+    "$<INSTALL_INTERFACE:include/jmbdemodels>"
+    )
 
 target_compile_definitions(jmbdemodels PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
@@ -186,12 +186,13 @@ target_sources(jmbdemodels
 
     include/models/commondata.h
     include/models/idatamodel.h
-    
+
     loggingcategory.h
 
     )
 
 install(TARGETS jmbdemodels ${INSTALL_TARGETS_DEFAULT_ARGS})
-if(MSVC)
-  install(FILES "$<TARGET_PDB_FILE_DIR:jmbdemodels>/$<TARGET_PDB_FILE_NAME:jmbde_common>" DESTINATION ${BIN_INSTALL_DIR} CONFIGURATIONS Debug RelWithDebInfo)
+
+if(MSVC AND BUILD_SHARED_LIBS)
+  install(FILES "$<TARGET_PDB_FILE_DIR:jmbdemodels>/$<TARGET_PDB_FILE_NAME:jmbdemodels>" DESTINATION ${BIN_INSTALL_DIR} CONFIGURATIONS Debug RelWithDebInfo)
 endif()

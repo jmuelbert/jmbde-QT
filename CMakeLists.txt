@@ -81,6 +81,8 @@ if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
    message(FATAL_ERROR "${PROJECT_NAME} requires an out of source build. Please create a separate build directory and run 'cmake path_to_kirigami [options]' there.")
 endif()
 
+message(STATUS "1 - Using toolchain file: ${CMAKE_TOOLCHAIN_FILE}.")
+
 list(APPEND CMAKE_PREFIX_PATH "${CMAKE_MODULE_PATH}")
 
 if(APPLE AND EXISTS /usr/local/opt/qt5)
@@ -109,6 +111,13 @@ endif()
 # load helper modules
 include(CheckFunctionExists)
 include(InstallRequiredSystemLibraries)
+if (NOT UNIX)
+  set(KDE_INSTALL_PREFIX_SCRIPT FALSE)
+endif()
+if (WIN32)
+  set(KDE_INSTALL_USE_QT_SYS_PATHS TRUE)
+endif()
+include(KDEInstallDirs)
 
 include(GenerateExportHeader)
 include(ECMSetupVersion)
@@ -118,7 +127,7 @@ include(CMakePackageConfigHelpers)
 include(ECMPoQmTools)
 include(ECMQMLModules)
 include(ECMGenerateQmlTypes)
-include(KDEInstallDirs)
+
 include(KDECMakeSettings)
 include(ECMQtDeclareLoggingCategory)
 include(KDECompilerSettings NO_POLICY_SCOPE)
@@ -142,13 +151,13 @@ message(
   STATUS
     "Building ${PROJECT_NAME} ${JMBDE_VERSION} in ${CMAKE_BUILD_TYPE} mode"
 )
-
+message(STATUS "Using toolchain file: ${CMAKE_TOOLCHAIN_FILE}.")
 #
 # Project configuration options
 #
 
 # Project options
-option(BUILD_EXAMPLES "Build examples." ON)
+option(BUILD_EXAMPLES "Build examples." OFF)
 add_feature_info(EXAMPLES ${BUILD_EXAMPLES} "Build the the examples")
 option(BUILD_MANUAL "Build manual." OFF)
 add_feature_info(MANUAL ${BUILD_MANUAL}
@@ -160,15 +169,15 @@ add_feature_info(API_DOCS ${BUILD_API_DOCS}
 add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
 option(BUILD_TRANSLATIONS "Build translations" ON)
 add_feature_info(TRANSL ${BUILD_TRANSLATIONS} "Build the translations")
-option(BUILD_COVERAGE "Add coverage information." ON)
+option(BUILD_COVERAGE "Add coverage information." OFF)
 add_feature_info(COVERAGE ${BUILD_COVERAGE} "Build with caverage informations.")
 option(BUILD_SHARED_LIBS "Build shared libs" ON)
 add_feature_info(SHARED_LIBS ${BUILD_SHARED_LIBS} "Build shared libs")
 option(ENABLE_TESTS "ENABLE tests." ON)
 add_feature_info(TESTS ${ENABLE_TESTS} "Build and run the tests")
-option(ENABLE_CLANG_TIDY "activate clang tidy messages" ON)
+option(ENABLE_CLANG_TIDY "activate clang tidy messages" OFF)
 add_feature_info(CLANG_TIDY ${ENABLE_CLANG_TIDY} "Check the source with clang tidy")
-option(ENABLE_CLANG_FORMAT "activate clang format" ON)
+option(ENABLE_CLANG_FORMAT "activate clang format" OFF)
 add_feature_info(CLANG_FORMAT ${ENABLE_CLANG_FORMAT} "Format the source with clang format")
 option(ENABLE_CCACHE "prefix each compile command with ccache" OFF)
 add_feature_info(CCACHE ${ENABLE_CCACHE} "Compile with ccache")
@@ -176,7 +185,6 @@ option(USE_GIT_VERSION "Append Git HEAD to jmbde version (if exists)" ON)
 
 # forbid some old things
 add_definitions(-DQT_NO_FOREACH)
-add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x060000)
 add_definitions(-DQT_USE_FAST_OPERATOR_PLUS)
 add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
 
@@ -228,7 +236,7 @@ endif()
 # clang tidy static analysis
 if(ENABLE_CLANG_TIDY)
   find_program (CLANG_TIDY_EXE NAMES "clang-tidy" PATHS /usr/bin)
-  if (CLANG_TIDY_EXE)    
+  if (CLANG_TIDY_EXE)
     message(STATUS "Clang-tidy supported, found and enabled: ${CLANG_TIDY_EXE}")
     set(CMAKE_CXX_CLANG_TIDY "${CLANG_TIDY_EXE}"
         CACHE STRING "" FORCE)
@@ -270,6 +278,9 @@ if(BUILD_API_DOCS AND CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 remove_definitions(-DQT_NO_SIGNALS_SLOTS_KEYWORDS)
+if(APPLE)
+set(CMAKE_MACOSX_BUNDLE OFF)
+endif()
 
 # debug suffixes for qmake compatibility
 if(WIN32)
@@ -306,6 +317,7 @@ set_package_properties(Qt5Svg PROPERTIES TYPE OPTIONAL PURPOSE
                        "Required for widget SVG export.")
 set_package_properties(Qt5PrintSupport PROPERTIES TYPE OPTIONAL PURPOSE
                        "Required for widget PDF export.")
+
 
 #
 # Setup path handling
@@ -390,7 +402,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY
     ${APPLICATION_OUTPUT_PREFIX}/${BIN_INSTALL_DIR})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY
     ${APPLICATION_OUTPUT_PREFIX}/${LIB_INSTALL_DIR})
-  
+
 set(INSTALL_TARGETS_DEFAULT_ARGS
     RUNTIME DESTINATION ${BIN_INSTALL_DIR}
     LIBRARY DESTINATION ${LIB_INSTALL_DIR}
@@ -398,17 +410,6 @@ set(INSTALL_TARGETS_DEFAULT_ARGS
     BUNDLE DESTINATION ${BUNDLE_INSTALL_DIR})
 
 include(QtInstallPaths) #to set QT_INSTALL_FOO variables
-
-if(NOT APPLE AND NOT WIN32)
-  # uninstall target
-  configure_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/uninstall.cmake.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake" IMMEDIATE @ONLY)
-
-  add_custom_target(
-    uninstall COMMAND ${CMAKE_COMMAND} -P
-                      "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
-endif()
 
 # libs
 add_subdirectory(src/libs)
@@ -496,7 +497,7 @@ endif()
 #
 configure_package_config_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/ApplicationConfig.cmake.in
-  ${CMAKE_CURRENT_BINARY_DIR}/ApplicationConfig.cmake 
+  ${CMAKE_CURRENT_BINARY_DIR}/ApplicationConfig.cmake
   INSTALL_DESTINATION "${CMAKECONFIG_INSTALL_DIR}" PATH_VARS INCLUDE_INSTALL_DIR)
 
 write_basic_package_version_file(

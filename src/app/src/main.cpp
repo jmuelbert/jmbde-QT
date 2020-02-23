@@ -157,7 +157,7 @@ int main(int argc, char *argv[])
      * do the command line parsing
      */
     parser.process(app);
-  
+
     // Quick Settings
     QQmlApplicationEngine engine;
     engine.addImportPath(QStringLiteral("qrc:/imports"));

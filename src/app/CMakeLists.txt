@@ -49,19 +49,6 @@ set(JMBDE_PNG_ICONS
     ${CMAKE_CURRENT_SOURCE_DIR}/icons/512-apps-jmbde.png
 )
 
-set(JMBDE_SVG_ICONS
-   ${CMAKE_CURRENT_SOURCE_DIR}/icons/sc-apps-jmbde.svg
-)
-
-ecm_install_icons(
-  ICONS
-    ${JMBDE_PNG_ICONS}
-    ${JMBDE_SVG_ICONS}
-    DESTINATION "${ICON_INSTALL_DIR}"
-)
-
-# add icons to application sources, to have them bundled
-ecm_add_app_icon(${PROJECT_NAME} ICONS ${JMBDE_PNG_ICONS})
 
 #
 # Finding Qt
@@ -127,10 +114,15 @@ endif()
 # own plist magic for mac os
 if(WIN32)
   # set rc file
+  
   configure_file(
    ${CMAKE_CURRENT_SOURCE_DIR}/winOS//app.rc.in
    ${PROJECT_BINARY_DIR}/app.rc @ONLY)
 elseif(APPLE)
+    # Icons
+    # add icons to application sources, to have them bundled
+    ecm_add_app_icon(${PROJECT_NAME} ICONS ${JMBDE_PNG_ICONS})
+
     # own plist template
     set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/macOS/MacOSXBundleInfo.plist.in)
 
@@ -156,6 +148,17 @@ elseif(APPLE)
   set(QT_LIBS_DIR "${Qt5Widgets_DIR}/../..")
 
 else()
+  # Icons
+  set(JMBDE_SVG_ICONS
+     ${CMAKE_CURRENT_SOURCE_DIR}/icons/sc-apps-jmbde.svg
+  )
+
+  ecm_install_icons(
+    ICONS
+    ${JMBDE_PNG_ICONS}
+    ${JMBDE_SVG_ICONS}
+    DESTINATION "${ICON_INSTALL_DIR}"
+  )
   # executable
   install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 

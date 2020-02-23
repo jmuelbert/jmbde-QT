@@ -14,15 +14,15 @@
 
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 
 # This is the build for the models
 add_subdirectory(models)
 
 #
-# This is only for the QML/Quickversion 
+# This is only for the QML/Quickversion
 add_subdirectory(quick)
 
-# 
+#
 # This is only for the Widgetversion
 add_subdirectory(widgets)

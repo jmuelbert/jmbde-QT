@@ -114,6 +114,3 @@ set(CPACK_RPM_COMPONENT_INSTALL ON)   # necessary even if CPACK_COMPONENT_INSTAL
 # OS X PackageMaker
 # _____________________________________________________________________________
 set(CPACK_OSX_PACKAGE_VERSION "10.12")
-
-
-

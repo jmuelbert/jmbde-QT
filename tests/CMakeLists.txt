@@ -14,7 +14,7 @@
 
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 
 find_package(Qt5 ${QT_MIN_VERSION} REQUIRED
     COMPONENTS
@@ -57,7 +57,6 @@ set_target_properties(tst_test
 add_test(NAME "Test1" COMMAND tst_test)
 
 # QML Tests
-add_test(NAME qmltests COMMAND qmltestrunner WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-set_property(TEST qmltests PROPERTY ENVIRONMENT
-    "QML2_IMPORT_PATH=${CMAKE_BINARY_DIR}/bin")
-
+# add_test(NAME qmltests COMMAND qmltestrunner WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+# set_property(TEST qmltests PROPERTY ENVIRONMENT
+#    "QML2_IMPORT_PATH=${CMAKE_BINARY_DIR}/bin")
