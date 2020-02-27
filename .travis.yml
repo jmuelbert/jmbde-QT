@@ -82,8 +82,6 @@ matrix:
         # - ./linuxdeployqt*.AppImage --appimage-extract
         # - export PATH=$(readlink -f ./squashfs-root/usr/bin/):$PATH
         # - ./squashfs-root/usr/bin/appimagetool appdir/
-      - ls -la
-      - find appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
       - find appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
     
       deploy:

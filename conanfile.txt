@@ -1,5 +1,6 @@
  [requires]
- ECM/5.66
+ qt/5.14.1@bincrafters/stable
 
  [generators]
  cmake
+ txt

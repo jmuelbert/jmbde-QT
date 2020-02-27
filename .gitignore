@@ -233,3 +233,6 @@ perf.data*
 
 # ts generation
 translations/plugin_meta_data.cpp
+.vscode/.conan_tools/info.log
+ecm_uninstall.cmake
+prefix.sh

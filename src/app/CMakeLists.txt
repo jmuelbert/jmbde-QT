@@ -100,6 +100,7 @@ target_link_libraries(${PROJECT_NAME}
     Qt5::Qml
     Qt5::Quick
     Qt5::QuickWidgets
+    ${CONAN_LIBS}
     )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES

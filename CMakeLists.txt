@@ -81,8 +81,6 @@ if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
    message(FATAL_ERROR "${PROJECT_NAME} requires an out of source build. Please create a separate build directory and run 'cmake path_to_kirigami [options]' there.")
 endif()
 
-message(STATUS "1 - Using toolchain file: ${CMAKE_TOOLCHAIN_FILE}.")
-
 list(APPEND CMAKE_PREFIX_PATH "${CMAKE_MODULE_PATH}")
 
 if(APPLE AND EXISTS /usr/local/opt/qt5)
@@ -93,7 +91,6 @@ endif()
 include(FeatureSummary)
 find_package(ECM ${KF5_MIN_VERSION} QUIET REQUIRED NO_MODULE)
 feature_summary(WHAT REQUIRED_PACKAGES_NOT_FOUND FATAL_ON_MISSING_REQUIRED_PACKAGES)
-
 
 set(CMAKE_MODULE_PATH "${ECM_MODULE_PATH}"
     "${CMAKE_MODULE_PATH}")
@@ -144,6 +141,10 @@ include(ECMAddAppIcon)
 
 # Make CPack available to easy generate binary packages
 include(CPack)
+
+# conan setup
+# include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+# conan_basic_setup()
 
 ##################################################
 
