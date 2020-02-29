@@ -23,8 +23,7 @@ jobs:
       - name: Package
         run: |
           export VERSION=$(git rev-parse --short HEAD);
-          pwd
-          ls
+          cd build
           macdeployqt install/jmbde.app -verbose=2
           mkdir -p dmgdir/jmbde.app;
           cp -r install/jmbde.app/* dmgdir/jmbde.app/
