@@ -28,9 +28,9 @@ jobs:
           mkdir -p dmgdir/jmbde.app;
           cp -r install/jmbde.app/* dmgdir/jmbde.app/
           ln -s /Applications dmgdir/Applications;
-          hdiutil create -volname jmbde-$VERSION -srcfolder dmgdir -ov -format UDZO jmbde-$VERSION.dmg
+          hdiutil create -volname jmbde-$VERSION -srcfolder dmgdir -ov -format UDZO jmbde.dmg
       - uses: actions/upload-artifact@v1
         with:
-          name: jmbde*.dmg
-          path: jmbde*.dmg
+          name: jmbde.dmg
+          path: build/install/jmbde.dmg
 

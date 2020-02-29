@@ -302,7 +302,8 @@ for:
 
     build_script:
       - ps: New-Item -itemtype directory -path ./program
-      - ps: cmake -G "$ENV:CMAKE_GENERATOR" -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DCMAKE_INSTALL_PREFIX=program -DCMAKE_TOOLCHAIN_FILE="$ENV:VCPKGToolChainFile" ..
+      - ps: cmake -G "$ENV:CMAKE_GENERATOR"  -DCMAKE_BUILD_TYPE=$ENV:CONFIGURATION  -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DBUILD_SHARED_LIBS=ON -DENABLE_TESTING=OFF ..
+      # -DCMAKE_TOOLCHAIN_FILE="$ENV:VCPKGToolChainFile" ..
       - ps: cmake --build . --config "$ENV:CONFIGURATION" --target install 
 
     after_build:
