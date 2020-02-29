@@ -1,4 +1,5 @@
-<RCC>
+<!DOCTYPE RCC>
+<RCC version="1.0">
     <qresource prefix="/">
         <file>icons/tango/16x16/accessories-text-editor.png</file>
         <file>icons/tango/16x16/document-new.png</file>

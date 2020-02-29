@@ -1,9 +1,14 @@
 # jmbde
 
-[![GitHub license](https://img.shields.io/badge/license-EUPL-blue.svg)](https://joinup.ec.europa.eu/page/eupl-text-11-12)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
 [![Build status](https://ci.appveyor.com/api/projects/status/mq9qt36e588dk7ui?svg=true)](https://ci.appveyor.com/project/jmuelbert/jmbde-qt)
 [![Build Status](https://travis-ci.org/jmuelbert/jmbde-QT.svg?branch=master)](https://travis-ci.org/jmuelbert/jmbde-QT)
 [Wechseln zur deutschen Version](README_DE.md)
+
+![Compile on latest Ubuntu](https://github.com/jmuelbert/jmbde-QT/workflows/Compile%20on%20latest%20Ubuntu/badge.svg)
+
+![Compile on latest macOS](https://github.com/jmuelbert/jmbde-QT/workflows/Compile%20on%20latest%20macOS/badge.svg)
 
 jmbde is a program for the management of resources in companies. with this
 program, employees and the equipment they need for their work can be
@@ -185,6 +190,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/gpl-3.0.txt>.
 
 Qt is available under multiple [licenses](https://www.qt.io/licensing/)
 
-EUPL-1.2 © [Jürgen Mülbert](https:/github.com/jmuelbert/jmbde-QT)
+GPL V3 © [Jürgen Mülbert](https:/github.com/jmuelbert/jmbde-QT)
 
 [Return to top](#top)

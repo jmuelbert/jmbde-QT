@@ -244,20 +244,27 @@ for:
       - call set ENVIRONMENT_NAME=%%ENVIRONMENT_NAME:PLATFORM=%platform%%%
       - call set ENVIRONMENT_NAME=%%ENVIRONMENT_NAME:CONFIGURATION=%configuration%%%
       - ps: $ENV:PLATFORM="x64"
-      - ps: $ENV:QTDIR="C:\Qt\5.14\msvc2017_64"
+      # MSVC
+      # - ps: $ENV:QTDIR="C:\Qt\5.14\msvc2017_64"
+      # - ps: $ENV:VCPKGDir="C:\Tools\vcpkg"
+      # - ps: $ENV:VCPKGToolChainFile = $ENV:VCPKGDir + "\scripts\buildsystems\vcpkg.cmake"
+      # - ps: $ENV:VCREDIST_CRT_DIR="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CRT"
+      # - ps: $ENV:VCREDIST_CXXAMP_DIR="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CXXAMP"
+      # - ps: $ENV:VCREDIST_OPENMP_DIR="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.OpenMP"
+      # - ps: $ENV:REDIST="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\vcredist_%PLATFORM%.exe"
+      # - ps: $ENV:VCVARSALL="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat"
+      # - call set /p RedistVersion=<"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt"
+      # - ps: $ENV:Path += ";" + $ENV:VCPKDIR
+      # MINGW
+      - ps: $ENV:MINGW="C:\mingw-w64\x86_64-7.3.0-posix-seh-rt_v5-rev0"
+      - ps: $ENV:QTDIR="C:\Qt\5.14\mingw73_64"
+      - ps: $ENV:QTTOOLS="C:\Qt\Tools\mingw730_32"
+      - ps: $ENV:PATH += ";" + $ENV:MINGW + $ENV:QTTOOLS
       - ps: $ENV:INNO="C:\Program Files (x86)\Inno Setup 6"
-      - ps: $ENV:VCPKGDir="C:\Tools\vcpkg"
-      - ps: $ENV:VCPKGToolChainFile = $ENV:VCPKGDir + "\scripts\buildsystems\vcpkg.cmake"
-      - ps: $ENV:VCREDIST_CRT_DIR="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CRT"
-      - ps: $ENV:VCREDIST_CXXAMP_DIR="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CXXAMP"
-      - ps: $ENV:VCREDIST_OPENMP_DIR="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.OpenMP"
-      - ps: $ENV:REDIST="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\vcredist_%PLATFORM%.exe"
+      - ps: $ENV:NSIS="C:\Program Files (x86)\NSIS"
       - ps: $ENV:CMAKE_GENERATOR="Ninja"
-      - ps: $ENV:VCVARSALL="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat"
       - ps: $ENV:Path += ";" + $ENV:QTDIR + "\bin"
-      - ps: $ENV:Path += ";" + $ENV:VCPKDIR
-      - ps: $ENV:Path += ";" + $ENV:INNO
-      - call set /p RedistVersion=<"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt"
+      - ps: $ENV:Path += ";" + $ENV:INNO + ";" + $ENV:NSIS
       - echo QTDIR=%QTDIR%
 
     clone_folder: c:\projects\jmbde-QT
@@ -268,9 +275,9 @@ for:
       - cinst png2ico
       - nuget install secure-file -ExcludeVersion
       # Install ECM
-      - vcpkg install ecm
-      - vcpkg upgrade
-      - vcpkg list
+      # - vcpkg install ecm
+      # - vcpkg upgrade
+      # - vcpkg list
       # Install ECM
       - git clone git://anongit.kde.org/extra-cmake-modules
       - cd extra-cmake-modules
@@ -296,26 +303,26 @@ for:
 
     build_script:
       - ps: New-Item -itemtype directory -path ./program
-      # - ps: cmake -G "$ENV:CMAKE_GENERATOR" -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DCMAKE_INSTALL_PREFIX=program -DCMAKE_TOOLCHAIN_FILE="$ENV:VCPKGToolChainFile" ..
-      # - ps: cmake --build . --config "$ENV:CONFIGURATION" --target install 
+      - ps: cmake -G "$ENV:CMAKE_GENERATOR" -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DCMAKE_INSTALL_PREFIX=program -DCMAKE_TOOLCHAIN_FILE="$ENV:VCPKGToolChainFile" ..
+      - ps: cmake --build . --config "$ENV:CONFIGURATION" --target install 
 
     after_build:
       - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER\build"
       - ps: Write-Host "$ENV:APPVEYOR_REPO_TAG_NAME"
-      # - ps: cpack -C $ENV:CONFIGURATION -G NSIS64
+      - ps: cpack -C $ENV:CONFIGURATION -G NSIS64
       - ps: Get-ChildItem
       - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER\build"
       - ps: Get-ChildItem
-      # - ps: windeployqt program/jmbde.exe program/jmbdewidgets.dll program/jmbdemodels.dll
-      # - ps: Get-ChildItem bin
-      # - cp %APPVEYOR_BUILD_FOLDER%/packaging/win/installer_%PLATFORM%.iss .
-      # - ps: $installerfile="installer_" + $ENV:PLATFORM + ".iss"
-      #  - ps: iscc $installerfile
-      # - ps: Get-ChildItem
+      - ps: windeployqt program/jmbde.exe program/jmbdewidgets.dll program/jmbdemodels.dll
+      - ps: Get-ChildItem bin
+      - cp %APPVEYOR_BUILD_FOLDER%/packaging/win/installer_%PLATFORM%.iss .
+      - ps: $installerfile="installer_" + $ENV:PLATFORM + ".iss"
+      - ps: iscc $installerfile
+      - ps: Get-ChildItem
       - ps: Get-ChildItem ../
 
     test_script:
-      # - ctest -C "$ENV:CONFIGURATION" -VV
+      - ctest -C "$ENV:CONFIGURATION" -VV
 
     artifacts:
       - name: Windows-Installer_x64

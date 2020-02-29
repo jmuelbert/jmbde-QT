@@ -17,6 +17,13 @@ jobs:
         sudo apt-get -y install ninja-build 
         sudo apt-get -y install libgl1-mesa-dev
         sudo apt install qt5-default libqt5svg5-dev qttools5-dev-tools zlib1g-dev qtdeclarative5-dev qtdeclarative5-private-dev qbs python3-dev
+        git clone git://anongit.kde.org/extra-cmake-modules
+        cd extra-cmake-modules
+        mkdir -p build; cd build
+        cmake ..
+        make
+        sudo make install
+        cd ../..
     - name: build
       run: |
           mkdir -p build
