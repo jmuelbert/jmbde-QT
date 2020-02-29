@@ -91,7 +91,7 @@ for:
  
     before_build:
       - mkdir -p build; cd build
-      - cmake -GNinja -DCMAKE_PREFIX_PATH="$(brew --prefix qt)" -DBUILD_SHARED_LIBS=ON -DENABLE_TEST=ON ..
+      - cmake -GNinja -DCMAKE_PREFIX_PATH="$(brew --prefix qt)" -DBUILD_SHARED_LIBS=ON -DENABLE_TESTS=ON ..
       
 
     build_script:
@@ -175,7 +175,7 @@ for:
 
     build_script:
         - cd build
-        - cmake .. -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_INSTALL_PREFIX:PATH=/usr -DBUILD_SHARED_LIBS=ON -DENABLE_TEST=ON
+        - cmake .. -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_INSTALL_PREFIX:PATH=/usr -DBUILD_SHARED_LIBS=ON -DENABLE_TESTS=ON
         - make
         - ctest -V
         - cd ../appbuild
@@ -293,7 +293,7 @@ for:
       - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER"
       - ps: New-Item -itemtype directory -path ./build
       - ps: Set-Location "build"
-      - ps: Write-Host "Generate the Project for $ENV:CMAKE_GENERATOR with $ENV:CONFIGURATION and $ENV:VCPKGToolChainFile"
+      - ps: Write-Host "Generate the Project with the $ENV:CMAKE_GENERATOR gnerator and the configuration $ENV:CONFIGURATION and $ENV:VCPKGToolChainFile"
       #- cmd: echo set(VCPKG_BUILD_TYPE release) >> C:\tools\vcpkg\triplets\%PLATFORM%-windows-static.cmake
       # - cmd: vcpkg remove --outdated --recurse
       # - ps: Get-ChildItem "C:\tools\vcpkg\triplets"
@@ -301,10 +301,9 @@ for:
 
     build_script:
       - ps: New-Item -itemtype directory -path ./program
-      - ps: cmake -G "$ENV:CMAKE_GENERATOR"  -DCMAKE_BUILD_TYPE=$ENV:CONFIGURATION  -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DBUILD_SHARED_LIBS=ON -DENABLE_TEST=OFF ..
-      # -DCMAKE_TOOLCHAIN_FILE="$ENV:VCPKGToolChainFile" ..
-      - ps:cmake --build . --config $ENV:CONFIGURATION --target install
-
+      - ps: cmake -G "$ENV:CMAKE_GENERATOR"  -DCMAKE_BUILD_TYPE=$ENV:CONFIGURATION  -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DBUILD_SHARED_LIBS=ON -DENABLE_TESTS=OFF ..
+      - ps: cmake --build . --config $ENV:CONFIGURATION --target install
+    
     after_build:
       - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER\build"
       - ps: Write-Host "$ENV:APPVEYOR_REPO_TAG_NAME"
