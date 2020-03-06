@@ -13,14 +13,14 @@
     GNU General Public License for more details.
 */
 
-#include "views/chipcardinputarea.h"
-#include "ui_chipcardinputarea.h"
+#include <views/chipcardinputarea.h>
+#include <ui_chipcardinputarea.h>
 
 ChipCardInputArea::ChipCardInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent), ui(new Ui::ChipCardInputArea) {
     ui->setupUi(this);
 
-    qCDebug(jmbdewidgetsLog, "Init ChipCardInputArea for Index : %l ", index);
+     qCDebug(jmbdewidgetsLog, "Init ChipCardInputArea for Index : %d ", index.column());
 
     m_actualMode = Mode::Edit;
     setViewOnlyMode(true);
@@ -128,7 +128,7 @@ void ChipCardInputArea::on_pushButton_EditFinish_clicked() {
     } break;
 
     default: {
-        qCDebug(jmbdewidgetsLog, "Error");
+        qCCritical(jmbdewidgetsLog, "Unknown Mode!");
     }
     }
 }

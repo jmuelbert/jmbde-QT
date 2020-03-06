@@ -1,6 +1,6 @@
 /*
    jmbde a BDE Tool for companies
-   Copyright (C) 2013-2019  Jürgen Mülbert
+   Copyright (C) 2013-2020  Jürgen Mülbert
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -29,6 +29,11 @@
 #include <jmbdemodels_export.h>
 #include "idatamodel.h"
 
+
+
+namespace Model
+{
+
 /*!
     \class CommonData
 
@@ -41,8 +46,6 @@
     \copyright EUPL V1.2
     */
 
-namespace Model
-{
 class JMBDEMODELS_EXPORT CommonData : public QObject
 {
 public:
@@ -57,7 +60,7 @@ public:
 
         \brief the Destructor for the CommonData
      */
-    ~CommonData();
+    virtual ~CommonData() = 0;
 
     /*!
         \fn  QTextDocument *createSheet()

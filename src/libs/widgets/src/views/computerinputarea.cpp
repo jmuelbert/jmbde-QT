@@ -20,7 +20,7 @@ ComputerInputArea::ComputerInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent), ui(new Ui::ComputerInputArea) {
     ui->setupUi(this);
 
-    qCDebug(jmbdewidgetsLog, "Init ComputerInputArea for Index : %s", index);
+    qCDebug(jmbdewidgetsLog, "Init ComputerInputArea for Index : %i", index.column());
 
     m_actualMode = Mode::Edit;
     setViewOnlyMode(true);

@@ -1,6 +1,6 @@
 /*
    jmbde a BDE Tool for companies
-   Copyright (C) 2013-2019  Jürgen Mülbert
+   Copyright (C) 2013-2020  Jürgen Mülbert
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -29,6 +29,11 @@
 #include "models/commondata.h"
 #include "models/idatamodel.h"
 
+
+
+namespace Model
+{
+
 /*!
     \class ChipCard
     \brief The ChipDataModel class
@@ -39,9 +44,6 @@
     \date 23.11.2018
     \copyright GPL V3
  */
-
-namespace Model
-{
 class JMBDEMODELS_EXPORT ChipCard : public CommonData
 {
     /*!
@@ -80,7 +82,7 @@ public:
         \fn virtual void setIndexes()
         \brief Set the fieldindexes from the datafieldnames of the db.
      */
-    virtual void setIndexes();
+    virtual void setIndexes() final;
 
     /*!
         \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
@@ -106,22 +108,22 @@ public:
     virtual QSqlTableModel *initializeViewModel();
 
     /*!
-     * \fn virtual QString generateTableString(QAbstractTableModel *model,
-                                const QString &header)
+     * \fn virtual auto generateTableString(
+                                const QString &header) -> QString
         \brief generateTableString
 
         \return a QString with the generated Table for Output
      */
-    virtual QString generateTableString(QAbstractTableModel *model, const QString header);
+    virtual auto generateTableString(const QString &header) -> QString;
 
     /*!
-        \fn virtual QString generateFormularString(QAbstractTableModel *model,
-                                   const QString &header)
+        \fn virtual auto generateFormularString(
+                                   const QString &header) -> QString
         \brief generateFormularString
 
         \return a QString with the generated Table for Output
      */
-    virtual QString generateFormularString(QAbstractTableModel *model, QString header);
+    virtual auto generateFormularString(const QString &header) -> QString;
 
     // Getter
     /*!

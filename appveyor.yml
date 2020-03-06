@@ -174,25 +174,12 @@ for:
       - mkdir -p appdir
 
     build_script:
-        - cd build
-        - cmake .. -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_INSTALL_PREFIX:PATH=/usr -DBUILD_SHARED_LIBS=ON -DENABLE_TESTS=ON
-        - make
-        - ctest -V
-        - cd ../appbuild
-        - cmake -DCMAKE_INSTALL_PREFIX:PATH=../appdir/usr -Wno-dev ..
-        - make install
-        - cd ..
-        - export LD_LIBRARY_PATH=$APPVEYOR_BUILD_FOLDER/appdir/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
-        - git rev-list master --count
-        - wget -c "https://github.com/jimevins/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-        - chmod a+x linuxdeployqt*.AppImage
-        - wget -c -nv "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
-        - chmod a+x appimagetool-x86_64.AppImage
-        # - export VERSION=$(printf "`master`-`git rev-list HEAD --count`-` git -C . rev-parse --short HEAD`")    #$(git rev-parse --short HEAD) # linuxdeployqt uses this for naming the file
-        - ./linuxdeployqt*.AppImage appdir/usr/share/applications/*.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.54m.so.1.0 -verbose=2 -appimage
-      
+      - cd build
+      - cmake .. -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_INSTALL_PREFIX:PATH=/usr -DBUILD_SHARED_LIBS=ON -DENABLE_TESTS=ON
+      - make
+      - ctest -V
+
     after_build:
-      # - sudo cpack .
       #
       # Create AppImage
       #
@@ -201,8 +188,21 @@ for:
       # - ./linuxdeployqt*.AppImage --appimage-extract
       # - export PATH=$(readlink -f ./squashfs-root/usr/bin/):$PATH
       #  - ./squashfs-root/usr/bin/appimagetool appdir/
-      - ls -la
+      - cd ../appbuild
+      - cmake -DCMAKE_INSTALL_PREFIX:PATH=../appdir/usr -Wno-dev ..
+      - make install
+      - cd ..
+      - export LD_LIBRARY_PATH=$APPVEYOR_BUILD_FOLDER/appdir/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+      - git rev-list master --count
+      - wget -c "https://github.com/jimevins/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
+      - chmod a+x linuxdeployqt*.AppImage
+      - wget -c -nv "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+      - chmod a+x appimagetool-x86_64.AppImage
+      # - export VERSION=$(printf "`master`-`git rev-list HEAD --count`-` git -C . rev-parse --short HEAD`")    #$(git rev-parse --short HEAD) # linuxdeployqt uses this for naming the file
+      - ./linuxdeployqt*.AppImage appdir/usr/share/applications/*.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.54m.so.1.0 -verbose=2 -appimage
       - find appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
+      - sudo cpack .
+      - ls -la
 
     test_script:
       - ctest -C $CONFIGURATION -VV
@@ -245,21 +245,20 @@ for:
       - call set ENVIRONMENT_NAME=%%ENVIRONMENT_NAME:CONFIGURATION=%configuration%%%
       - ps: $ENV:PLATFORM="x64"
       # MSVC
-      # - ps: $ENV:QTDIR="C:\Qt\5.14\msvc2017_64"
-      # - ps: $ENV:VCPKGDir="C:\Tools\vcpkg"
-      # - ps: $ENV:VCPKGToolChainFile = $ENV:VCPKGDir + "\scripts\buildsystems\vcpkg.cmake"
-      # - ps: $ENV:VCREDIST_CRT_DIR="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CRT"
-      # - ps: $ENV:VCREDIST_CXXAMP_DIR="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CXXAMP"
-      # - ps: $ENV:VCREDIST_OPENMP_DIR="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.OpenMP"
-      # - ps: $ENV:REDIST="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\vcredist_%PLATFORM%.exe"
-      # - ps: $ENV:VCVARSALL="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat"
-      # - call set /p RedistVersion=<"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt"
-      # - ps: $ENV:Path += ";" + $ENV:VCPKDIR
+      - ps: $ENV:QTDIR="C:\Qt\5.14\msvc2017_64"
+      - ps: $ENV:VCPKGDir="C:\Tools\vcpkg"
+      - ps: $ENV:VCPKGToolChainFile = $ENV:VCPKGDir + "\scripts\buildsystems\vcpkg.cmake"
+      - ps: $ENV:VCREDIST_CRT_DIR="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CRT"
+      - ps: $ENV:VCREDIST_CXXAMP_DIR="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CXXAMP"
+      - ps: $ENV:VCREDIST_OPENMP_DIR="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.OpenMP"
+      - ps: $ENV:REDIST="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\vcredist_%PLATFORM%.exe"
+      - ps: $ENV:VCVARSALL="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat"
+      - call set /p RedistVersion=<"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt"
+      - ps: $ENV:Path += ";" + $ENV:VCPKDIR
       # MINGW
-      - ps: $ENV:MINGW="C:\mingw-w64\x86_64-7.3.0-posix-seh-rt_v5-rev0"
-      - ps: $ENV:QTDIR="C:\Qt\5.14\mingw73_64"
-      - ps: $ENV:QTTOOLS="C:\Qt\Tools\mingw730_32"
-      - ps: $ENV:PATH += ";" + $ENV:MINGW + $ENV:QTTOOLS
+      # - ps: $ENV:MINGW="C:\mingw-w64\x86_64-7.3.0-posix-seh-rt_v5-rev0"
+      # - ps: $ENV:QTDIR="C:\Qt\5.14\mingw73_64"
+      # - ps: $ENV:PATH += ";" + $ENV:MINGW + ";"
       - ps: $ENV:INNO="C:\Program Files (x86)\Inno Setup 6"
       - ps: $ENV:NSIS="C:\Program Files (x86)\NSIS"
       - ps: $ENV:CMAKE_GENERATOR="Ninja"
@@ -274,9 +273,9 @@ for:
       - cinst png2ico
       - nuget install secure-file -ExcludeVersion
       # Install ECM
-      # - vcpkg install ecm
-      # - vcpkg upgrade
-      # - vcpkg list
+      - vcpkg install ecm
+      - vcpkg upgrade
+      - vcpkg list
       # Install ECM
       - git clone git://anongit.kde.org/extra-cmake-modules
       - cd extra-cmake-modules
@@ -288,20 +287,20 @@ for:
 
     before_build:
       - ps: Get-ChildItem ENV:PATH
-      # - call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
+      - call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
       - call "%QTDIR%\bin\qtenv2.bat"
       - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER"
       - ps: New-Item -itemtype directory -path ./build
       - ps: Set-Location "build"
       - ps: Write-Host "Generate the Project with the $ENV:CMAKE_GENERATOR gnerator and the configuration $ENV:CONFIGURATION and $ENV:VCPKGToolChainFile"
-      #- cmd: echo set(VCPKG_BUILD_TYPE release) >> C:\tools\vcpkg\triplets\%PLATFORM%-windows-static.cmake
-      # - cmd: vcpkg remove --outdated --recurse
-      # - ps: Get-ChildItem "C:\tools\vcpkg\triplets"
-      # - cmd: vcpkg install --triplet %PLATFORM%-windows-static %PACKAGES% > NUL
+      - cmd: echo set(VCPKG_BUILD_TYPE release) >> C:\tools\vcpkg\triplets\%PLATFORM%-windows-static.cmake
+      - cmd: vcpkg remove --outdated --recurse
+      - ps: Get-ChildItem "C:\tools\vcpkg\triplets"
+      - cmd: vcpkg install --triplet %PLATFORM%-windows-static %PACKAGES% > NUL
 
     build_script:
       - ps: New-Item -itemtype directory -path ./program
-      - ps: cmake -G "$ENV:CMAKE_GENERATOR"  -DCMAKE_BUILD_TYPE=$ENV:CONFIGURATION  -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DBUILD_SHARED_LIBS=ON -DENABLE_TESTS=OFF ..
+      - ps: cmake -G "$ENV:CMAKE_GENERATOR"  -DCMAKE_BUILD_TYPE=$ENV:CONFIGURATION  -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DBUILD_SHARED_LIBS=OFF -DENABLE_TESTS=OFF ..
       - ps: cmake --build . --config $ENV:CONFIGURATION --target install
     
     after_build:

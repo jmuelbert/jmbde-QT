@@ -283,10 +283,9 @@ void MainWindow::on_actionPrint_triggered() {
     case VIEW_EMPLOYEE: {
         qDebug() << "Print Employee !";
         dataContext->openDB(dataBaseName);
-        tableModel->database().commit();
         auto *edm = new Model::Employee;
         QString style = edm->setOutTableStyle();
-        QString text = edm->generateTableString(tableModel, tr("Employee"));
+        QString text = edm->generateTableString( tr("Employee"));
 
         doc.setHtml(style + text);
         dataContext->closeConnection();
@@ -295,10 +294,9 @@ void MainWindow::on_actionPrint_triggered() {
     case VIEW_COMPUTER: {
         qDebug() << "Print Computer !";
         dataContext->openDB(dataBaseName);
-        tableModel->database().commit();
         auto *cdm = new Model::Computer;
         QString style = cdm->setOutTableStyle();
-        QString text = cdm->generateTableString(tableModel, tr("Computer"));
+        QString text = cdm->generateTableString(tr("Computer"));
 
         doc.setHtml(style + text);
         dataContext->closeConnection();
@@ -307,10 +305,9 @@ void MainWindow::on_actionPrint_triggered() {
     case VIEW_PRINTER: {
         qDebug() << "Print Printer !";
         dataContext->openDB(dataBaseName);
-        tableModel->database().commit();
         auto *pdm = new Model::Printer;
         QString style = pdm->setOutTableStyle();
-        QString text = pdm->generateTableString(tableModel, tr("Printer"));
+        QString text = pdm->generateTableString( tr("Printer"));
 
         doc.setHtml(style + text);
         dataContext->closeConnection();
@@ -319,10 +316,9 @@ void MainWindow::on_actionPrint_triggered() {
     case VIEW_PHONE: {
         qDebug() << "Print Printer !";
         dataContext->openDB(dataBaseName);
-        tableModel->database().commit();
         auto *pdm = new Model::Phone;
         QString style = pdm->setOutTableStyle();
-        QString text = pdm->generateTableString(tableModel, tr("Phone"));
+        QString text = pdm->generateTableString( tr("Phone"));
 
         doc.setHtml(style + text);
         dataContext->closeConnection();
@@ -353,11 +349,11 @@ void MainWindow::on_action_Export_Pdf_triggered() {
         qDebug() << "Print Employee !";
 
         dataContext->openDB(dataBaseName);
-        tableModel->database().commit();
+
 
         auto *edm = new Model::Employee;
         QString style = edm->setOutTableStyle();
-        QString text = edm->generateTableString(tableModel, tr("Employee"));
+        QString text = edm->generateTableString(tr("Employee"));
 
         doc.setHtml(style + text);
         dataContext->closeConnection();
@@ -367,11 +363,10 @@ void MainWindow::on_action_Export_Pdf_triggered() {
         qDebug() << "Print Computer !";
 
         dataContext->openDB(dataBaseName);
-        tableModel->database().commit();
 
         auto *cdm = new Model::Computer;
         QString style = cdm->setOutTableStyle();
-        QString text = cdm->generateTableString(tableModel, tr("Computer"));
+        QString text = cdm->generateTableString(tr("Computer"));
 
         doc.setHtml(style + text);
         dataContext->closeConnection();
@@ -380,11 +375,11 @@ void MainWindow::on_action_Export_Pdf_triggered() {
     case VIEW_PRINTER: {
         qDebug() << "Print Printer !";
         dataContext->openDB(dataBaseName);
-        tableModel->database().commit();
+
 
         auto *pdm = new Model::Printer;
         QString style = pdm->setOutTableStyle();
-        QString text = pdm->generateTableString(tableModel, tr("Printer"));
+        QString text = pdm->generateTableString( tr("Printer"));
 
         doc.setHtml(style + text);
         dataContext->closeConnection();
@@ -394,11 +389,11 @@ void MainWindow::on_action_Export_Pdf_triggered() {
         qDebug() << "Print Printer !";
 
         dataContext->openDB(dataBaseName);
-        tableModel->database().commit();
+
 
         auto *pdm = new Model::Phone;
         QString style = pdm->setOutTableStyle();
-        QString text = pdm->generateTableString(tableModel, tr("Phone"));
+        QString text = pdm->generateTableString(tr("Phone"));
 
         doc.setHtml(style + text);
         dataContext->closeConnection();
@@ -438,11 +433,11 @@ void MainWindow::on_actionPrint_Preview_triggered() {
         qDebug() << "Print Employee !";
 
         dataContext->openDB(dataBaseName);
-        tableModel->database().commit();
+
 
         auto *edm = new Model::Employee;
         QString style = edm->setOutTableStyle();
-        QString text = edm->generateTableString(tableModel, tr("Employee"));
+        QString text = edm->generateTableString(tr("Employee"));
 
         doc.setHtml(style + text);
         dataContext->closeConnection();
@@ -452,11 +447,11 @@ void MainWindow::on_actionPrint_Preview_triggered() {
         qDebug() << "Print Computer !";
 
         dataContext->openDB(dataBaseName);
-        tableModel->database().commit();
+
 
         auto *cdm = new Model::Computer;
         QString style = cdm->setOutTableStyle();
-        QString text = cdm->generateTableString(tableModel, tr("Computer"));
+        QString text = cdm->generateTableString( tr("Computer"));
 
         doc.setHtml(style + text);
         dataContext->closeConnection();
@@ -466,11 +461,11 @@ void MainWindow::on_actionPrint_Preview_triggered() {
         qDebug() << "Print Printer !";
 
         dataContext->openDB(dataBaseName);
-        tableModel->database().commit();
+
 
         auto *pdm = new Model::Printer;
         QString style = pdm->setOutTableStyle();
-        QString text = pdm->generateTableString(tableModel, tr("Printer"));
+        QString text = pdm->generateTableString( tr("Printer"));
 
         doc.setHtml(style + text);
         dataContext->closeConnection();
@@ -480,11 +475,10 @@ void MainWindow::on_actionPrint_Preview_triggered() {
         qDebug() << "Print Printer !";
 
         dataContext->openDB(dataBaseName);
-        tableModel->database().commit();
 
         auto *pdm = new Model::Phone;
         QString style = pdm->setOutTableStyle();
-        QString text = pdm->generateTableString(tableModel, tr("Phone"));
+        QString text = pdm->generateTableString(tr("Phone"));
 
         doc.setHtml(style + text);
         dataContext->closeConnection();

@@ -1,6 +1,6 @@
 /*
     jmbde a BDE Tool for companies
-    Copyright (C) 2013-2019  Jürgen Mülbert
+    Copyright (C) 2013-2020  Jürgen Mülbert
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

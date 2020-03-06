@@ -1,6 +1,6 @@
 /*
    jmbde a BDE Tool for companies
-   Copyright (C) 2013-2019  Jürgen Mülbert
+   Copyright (C) 2013-2020  Jürgen Mülbert
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -22,6 +22,10 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
+
+
+namespace Model
+{
 /*!
     \class IDataModel
     \brief The IDataModel class
@@ -32,9 +36,6 @@
     \date 03.08.2019
     \copyright GPL V3
     */
-
-namespace Model
-{
 class IDataModel
 {
 public:
@@ -85,25 +86,23 @@ public:
     virtual QSqlTableModel *initializeViewModel() = 0;
 
     /*!
-     * \fn virtual QString generateTableString(QAbstractTableModel *model,
-                                const QString &header)
+     * \fn virtual auto generateTableString(
+                                const QString &header) -> QString
         \brief generateTableString
-        \param model The pointer to to QAbstractTableModel
         \param header The String for the table header
 
         \return a QString with the generated Table for Output
      */
-    virtual QString generateTableString(QAbstractTableModel *model, QString header) = 0;
+    virtual auto generateTableString( const QString &header) -> QString = 0;
 
     /*!
-         \fn virtual QString generateFormularString(QAbstractTableModel *model,
-                                    const QString &header)
+         \fn virtual auto generateFormularString(
+                                    const QString &header) -> QString
          \brief generateFormularString
-         \param model The pointer to to QAbstractTableModel
          \param header The String for the table header
 
          \return a QString with the generated Table for Output
       */
-    virtual QString generateFormularString(QAbstractTableModel *model, QString header) = 0;
+    virtual auto generateFormularString(const QString &header) -> QString = 0;
 };
 } // namespace Model

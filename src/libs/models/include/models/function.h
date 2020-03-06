@@ -1,6 +1,6 @@
 /*
    jmbde a BDE Tool for companies
-   Copyright (C) 2013-2019  Jürgen Mülbert
+   Copyright (C) 2013-2020  Jürgen Mülbert
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -29,10 +29,15 @@
 #include "models/commondata.h"
 #include "models/idatamodel.h"
 
+
+
+namespace Model
+{
+
 /*!
-    \class EmployeeAccount
-    \brief The EmployeeAccount class
-    \details In this is handle all EmployeeAccount
+    \class function
+    \brief The Function class
+    \details In this is handle all Function
     \author Jürgen Mülbert
     \since 0.4
     \version 0.4.25
@@ -40,8 +45,6 @@
     \copyright EUPL V1.2
     */
 
-namespace Model
-{
 class JMBDEMODELS_EXPORT Function : public CommonData, public IDataModel
 {
     /*!
@@ -105,22 +108,22 @@ public:
     virtual QSqlTableModel *initializeViewModel() override;
 
     /*!
-     * \fn virtual QString generateTableString(QAbstractTableModel *model,
-                                const QString &header)
+     * \fn virtual auto generateTableString(
+                                const QString &header) -> QString
         \brief generateTableString
 
         Returns a QString with the generated Table for Output
      */
-    virtual QString generateTableString(QAbstractTableModel *model, QString header) override;
+    virtual auto generateTableString(const QString &header) -> QString override;
 
     /*!
-         \fn virtual QString generateFormularString(QAbstractTableModel *model,
-                                    const QString &header)
+         \fn virtual auto generateFormularString(
+                                    const QString &header) -> QString
          \brief generateFormularString
 
          Returns a QString with the generated Table for Output
       */
-    virtual QString generateFormularString(QAbstractTableModel *model, QString header) override;
+    virtual auto generateFormularString(const QString &header) -> QString override;
 
     // Getter
 

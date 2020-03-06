@@ -70,10 +70,8 @@ get_target_property(QtGui_location Qt5::Gui LOCATION)
 add_executable(${PROJECT_NAME})
 
 target_compile_features(jmbde
-    PUBLIC cxx_auto_type
-    PRIVATE cxx_lambdas cxx_nullptr cxx_range_for cxx_raw_string_literals cxx_uniform_initialization
-            cxx_variadic_templates cxx_rvalue_references cxx_defaulted_functions cxx_deleted_functions
-            cxx_override cxx_final cxx_nonstatic_member_init)
+    PRIVATE cxx_auto_type
+  )
 
 target_include_directories(${PROJECT_NAME}
   PRIVATE

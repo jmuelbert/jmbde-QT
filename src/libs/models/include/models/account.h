@@ -1,6 +1,6 @@
 /*
    jmbde a BDE Tool for companies
-   Copyright (C) 2013-2019  Jürgen Mülbert
+   Copyright (C) 2013-2020  Jürgen Mülbert
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -29,6 +29,10 @@
 #include "commondata.h"
 #include "idatamodel.h"
 
+
+
+namespace Model
+{
 /*!
     \class Account
     \brief The Account class
@@ -38,10 +42,7 @@
     \version 0.4.25
     \date 03.08.2019
     \copyright EUPL V1.2
-    */
-
-namespace Model
-{
+    */    
 class JMBDEMODELS_EXPORT Account : public CommonData
 {
     ///
@@ -78,7 +79,7 @@ public:
         \fn virtual void setIndexes()
         \brief Set the fieldindexes from the datafieldnames of the db.
      */
-    virtual void setIndexes();
+    virtual void setIndexes() final;
 
     /*!
         \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
@@ -104,22 +105,22 @@ public:
     virtual QSqlTableModel *initializeViewModel();
 
     /*!
-     * \fn virtual QString generateTableString(QAbstractTableModel *model,
+     * \fn virtual QString generateTableString(
                                 const QString &header)
         \brief generateTableString
 
         \return a QString with the generated Table for Output
      */
-    virtual QString generateTableString(QAbstractTableModel *model, const QString &header);
+    virtual auto generateTableString(const QString &header) -> QString;
 
     /*!
-        \fn virtual QString generateFormularString(QAbstractTableModel *model,
+        \fn virtual QString generateFormularString(
                                    const QString &header)
         \brief generateFormularString
 
         \return a QString with the generated Table for Output
      */
-    virtual QString generateFormularString(QAbstractTableModel *model, const QString &header);
+    virtual auto generateFormularString(const QString &header) -> QString;
 
     // Getter
 

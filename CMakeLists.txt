@@ -68,13 +68,6 @@ set(QT_MIN_VERSION "5.12.5")
 # Set my app version
 set(JMBDE_VERSION 0.5.0)
 
-# Set C and CXX Standards
-set(CMAKE_C_STANDARD 99)
-set(CMAKE_C_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-
 ################# Disallow in-source build #################
 
 if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
@@ -97,13 +90,6 @@ set(CMAKE_MODULE_PATH "${ECM_MODULE_PATH}"
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake"
     "${CMAKE_MODULE_PATH}")
-
-# own submodules
-if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE
-      "RelWithDebInfo"
-      CACHE STRING "" FORCE)
-endif()
 
 # load helper modules
 include(CheckFunctionExists)
@@ -139,8 +125,10 @@ include(ECMAddTests)
 include(ECMMarkNonGuiExecutable)
 include(ECMAddAppIcon)
 
+include(QtInstallPaths)
 # Make CPack available to easy generate binary packages
 include(CPack)
+include(PackageIFW)
 
 # conan setup
 # include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
@@ -172,10 +160,12 @@ option(BUILD_TRANSLATIONS "Build translations" ON)
 add_feature_info(TRANSL ${BUILD_TRANSLATIONS} "Build the translations")
 option(BUILD_COVERAGE "Add coverage information." OFF)
 add_feature_info(COVERAGE ${BUILD_COVERAGE} "Build with caverage informations.")
-option(BUILD_SHARED_LIBS "Build shared libs" ON)
+option(BUILD_SHARED_LIBS "Build shared libs" OFF)
 add_feature_info(SHARED_LIBS ${BUILD_SHARED_LIBS} "Build shared libs")
-option(ENABLE_TESTS "ENABLE tests." ON)
-add_feature_info(TESTS ${ENABLE_TESTS} "Build and run the tests")
+option(BUILD_TESTING "Build tests." ON)
+add_feature_info(TESTS ${BUILD_TESTING} "Build and run the tests")
+option(ENABLE_CLAZY "Enable clazy" ON)
+add_feature_info(CLAZY ${ENABLE_CLAZY} "Build with clazy hints")
 option(ENABLE_CLANG_TIDY "activate clang tidy messages" OFF)
 add_feature_info(CLANG_TIDY ${ENABLE_CLANG_TIDY} "Check the source with clang tidy")
 option(ENABLE_CLANG_FORMAT "activate clang format" OFF)
@@ -186,8 +176,6 @@ option(USE_GIT_VERSION "Append Git HEAD to jmbde version (if exists)" ON)
 
 # forbid some old things
 add_definitions(-DQT_NO_FOREACH)
-add_definitions(-DQT_USE_FAST_OPERATOR_PLUS)
-add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
 
 # Allow adding Qt resource files with `add_executable` or `target_sources` instead of
 # `qt5_add_resources`. See https://cmake.org/cmake/help/v3.0/manual/cmake-qt.7.html#autorcc.
@@ -198,9 +186,6 @@ if(NOT DEFINED CMAKE_SKIP_BUILD_RPATH)
 endif()
 if(NOT DEFINED CMAKE_BUILD_WITH_INSTALL_RPATH)
   set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
-endif()
-if(NOT DEFINED CMAKE_INSTALL_RPATH_USE_LINK_PATH)
-  set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 endif()
 if(NOT DEFINED CMAKE_MACOSX_RPATH)
   set(CMAKE_MACOSX_RPATH TRUE)
@@ -279,6 +264,7 @@ if(BUILD_API_DOCS AND CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 remove_definitions(-DQT_NO_SIGNALS_SLOTS_KEYWORDS)
+
 if(APPLE)
 set(CMAKE_MACOSX_BUNDLE OFF)
 endif()
@@ -307,18 +293,6 @@ macro(inverse_dir _var _prefix)
                          ABSOLUTE)
   file(RELATIVE_PATH ${_var} ${_clean_prefix} "${CMAKE_INSTALL_PREFIX}")
 endmacro()
-
-set_package_properties(Qt5 PROPERTIES URL "https://qt.io/")
-set_package_properties(Qt5Concurrent PROPERTIES TYPE RECOMMENDED PURPOSE
-                       "Required for the GammaRay launcher process list.")
-set_package_properties(
-  Qt5Widget PROPERTIES TYPE RECOMMENDED PURPOSE
-  "Required for the GammaRay client UI and widget-related tools.")
-set_package_properties(Qt5Svg PROPERTIES TYPE OPTIONAL PURPOSE
-                       "Required for widget SVG export.")
-set_package_properties(Qt5PrintSupport PROPERTIES TYPE OPTIONAL PURPOSE
-                       "Required for widget PDF export.")
-
 
 #
 # Setup path handling
@@ -410,19 +384,15 @@ set(INSTALL_TARGETS_DEFAULT_ARGS
     ARCHIVE DESTINATION ${LIB_INSTALL_DIR} COMPONENT Devel
     BUNDLE DESTINATION ${BUNDLE_INSTALL_DIR})
 
-include(QtInstallPaths) #to set QT_INSTALL_FOO variables
 
 # libs
 add_subdirectory(src/libs)
-
-# jmbdelib
-# add_subdirectory(src/common)
 
 # jmbde
 add_subdirectory(src/app)
 
 # automatic unit tests
-if(ENABLE_TESTS)
+if(BUILD_TESTING)
 
   # enable testing
   enable_testing()

@@ -1,6 +1,6 @@
 /*
-   jmbde a BDE Tool for companies
-   Copyright (C) 2013-2019  Jürgen Mülbert
+   jmbde a BDE Tool for datacontext
+   Copyright (C) 2013-2020  Jürgen Mülbert
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -137,7 +137,7 @@ void Model::DataContext::prepareDB()
     file.close();
 }
 
-auto Model::DataContext::checkDBVersion(const QString &actualVersion, const QString &actualRevision, const QString & /*actualBuild*/) -> bool
+auto Model::DataContext::checkDBVersion(const QString &actualVersion, const QString &actualRevision, const QString &actualBuild) -> bool
 {
     QString version;
     QString revision;
@@ -167,9 +167,9 @@ auto Model::DataContext::checkDBVersion(const QString &actualVersion, const QStr
                        "Check DBVersion: Database to old. Version : %s  <> "
                        "dbVersion : %s Revision : %s <> dbRevision : %s",
                        qUtf8Printable(version),
-                       &actualVersion,
+                       qUtf8Printable(actualVersion),
                        qUtf8Printable(revision),
-                       &actualRevision);
+                       qUtf8Printable(actualRevision));
         }
 
         if (revision < actualRevision) {
@@ -177,9 +177,9 @@ auto Model::DataContext::checkDBVersion(const QString &actualVersion, const QStr
                        "Check DBVersion: Database to old. Revision : %s  <> "
                        "dbVersion : %s Revision : %s <> dbRevision : %s",
                        qUtf8Printable(version),
-                       &actualVersion,
+                       qUtf8Printable(actualVersion),
                        qUtf8Printable(revision),
-                       &actualRevision);
+                       qUtf8Printable(actualRevision));
         }
     }
 
@@ -292,6 +292,11 @@ void Model::DataContext::renameDB(const QString &oldName, const QString &newName
 {
     this->m_Name = newName;
     const QString newDBName = this->getSqliteName();
+
+    qCDebug(jmbdemodelsLog, "Database Name: %s -> new Name %s",
+            qUtf8Printable(newName),
+            qUtf8Printable(newDBName)
+            );
 
     if (!this->m_db.isValid()) {
         this->m_db = QSqlDatabase::database(oldName);

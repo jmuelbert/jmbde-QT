@@ -1,6 +1,6 @@
 /*
    jmbde a BDE Tool for companies
-   Copyright (C) 2013-2019  Jürgen Mülbert
+   Copyright (C) 2013-2020 Jürgen Mülbert
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -66,11 +66,11 @@ auto Model::EmployeeDocument::initializeViewModel() -> QSqlTableModel *
     return m_model;
 }
 
-auto Model::EmployeeDocument::generateTableString(QAbstractTableModel *model, QString header) -> QString
+auto Model::EmployeeDocument::generateTableString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdemodelsLog, "Header: %s ( Columns: %i - Rows: %i )", header.toUtf8().constData(), model->columnCount(), model->rowCount());
+    qCDebug(jmbdemodelsLog, "Header: %s ( Columns: %i - Rows: %i )", header.toUtf8().constData(), m_model->columnCount(), m_model->rowCount());
 
     QList<int> set;
 
@@ -85,18 +85,18 @@ auto Model::EmployeeDocument::generateTableString(QAbstractTableModel *model, QS
     for (const auto i : set) {
         qDebug() << "int i = " << i;
         outString += QLatin1String("<th>");
-        outString.append(model->headerData(i, Qt::Horizontal).toString());
+        outString.append(m_model->headerData(i, Qt::Horizontal).toString());
         outString += QLatin1String("</th>");
     }
 
     return outString;
 }
 
-auto Model::EmployeeDocument::generateFormularString(QAbstractTableModel *model, QString header) -> QString
+auto Model::EmployeeDocument::generateFormularString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdemodelsLog, "Header: %s ( Columns: %i - Rows: %i )", header.toUtf8().constData(), model->columnCount(), model->rowCount());
+    qCDebug(jmbdemodelsLog, "Header: %s ( Columns: %i - Rows: %i )", header.toUtf8().constData(), m_model->columnCount(), m_model->rowCount());
 
     QList<int> set;
 

@@ -48,58 +48,6 @@ ecm_qt_declare_logging_category(jmbdewidgets
     DEFAULT_SEVERITY Warning
 )
 
-add_library(jmbdewidgets)
-generate_export_header(jmbdewidgets)
-add_library(jmbde::widgets ALIAS jmbdewidgets)
-
-set_target_properties(jmbdewidgets PROPERTIES
-      VERSION   ${JMBDEWIDGETS_VERSION_STRING}
-      SOVERSION ${JMBDEWIDGETS_SOVERSION}
-      EXPORT_NAME "jmbdewidgets"
-      )
-
-target_compile_features(jmbdewidgets
-    PUBLIC cxx_auto_type
-    PRIVATE cxx_lambdas cxx_nullptr cxx_range_for cxx_raw_string_literals cxx_uniform_initialization
-            cxx_variadic_templates cxx_rvalue_references cxx_defaulted_functions cxx_deleted_functions
-            cxx_override cxx_final cxx_nonstatic_member_init)
-
-target_include_directories(jmbdewidgets PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include>
-    PRIVATE src)
-
-target_compile_definitions(jmbdewidgets PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
-
-target_link_libraries( jmbdewidgets
-    LINK_PUBLIC
-    Qt5::Core
-    jmbde::models
-    LINK_PRIVATE
-    Qt5::Widgets
-    Qt5::PrintSupport
-    Qt5::Sql
-    Qt5::Qml
-    Qt5::Quick
-    Qt5::QuickWidgets
-    )
-
-#
-# Finding Qt
-#
-find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED
-    COMPONENTS
-    Core
-    Widgets
-    Sql
-    PrintSupport
-    Qml
-    Quick
-    QuickWidgets
-)
-
 QT5_WRAP_UI(
     UiGenerated_SRCS
     # ui-files
@@ -126,11 +74,7 @@ QT5_ADD_RESOURCES(
   resources/res.qrc
 )
 
-target_sources(jmbdewidgets
-    PUBLIC
-    include/views/mainwindow.h    
-    
-    PRIVATE
+set(SRCS
     loggingcategory.cpp
     # Views ----
     src/views/chipcardinputarea.cpp
@@ -151,27 +95,86 @@ target_sources(jmbdewidgets
     src/views/titleinputarea.cpp
     ${UiGenerated_SRCS}
     ${Resources_SRCS}
+)
 
-    # views
+set(HDRS
     include/views/chipcardinputarea.h
-    include/views/cityinputarea.h
-    include/views/computerinputarea.h
-    include/views/csvimportdialog.h
     include/views/departmentinputarea.h
-    include/views/functioninputarea.h
-    include/views/employeeinputarea.h
+    include/views/mainwindow.h
     include/views/manufacturerinputarea.h
-    include/views/mobileinputarea.h
-    include/views/osinputarea.h
-    include/views/phoneinputarea.h
     include/views/printerinputarea.h
+    include/views/cityinputarea.h
+    include/views/employeeinputarea.h
+    include/views/mobileinputarea.h
     include/views/processorinputarea.h
+    include/views/computerinputarea.h
+    include/views/functioninputarea.h
+    include/views/osinputarea.h
     include/views/softwareinputarea.h
+    include//views/csvimportdialog.h
+    include/views/phoneinputarea.h
     include/views/titleinputarea.h
-
-    loggingcategory.h
-    include/definitions.h
     )
+
+add_library(jmbdewidgets
+    ${SRCS}
+    ${HDRS}
+    ${UiGenerated_SRCS}
+    ${Resources_SRCS}
+)
+
+generate_export_header(jmbdewidgets)
+add_library(jmbde::widgets ALIAS jmbdewidgets)
+
+set_target_properties(jmbdewidgets PROPERTIES
+      VERSION   ${JMBDEWIDGETS_VERSION_STRING}
+      SOVERSION ${JMBDEWIDGETS_SOVERSION}
+      EXPORT_NAME "jmbdewidgets"
+      )
+
+#Set target properties
+target_include_directories(jmbdewidgets 
+    PUBLIC
+        $<INSTALL_INTERFACE:include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/views
+        ${CMAKE_CURRENT_BINARY_DIR}
+    )
+
+target_compile_features(jmbdewidgets
+    PRIVATE cxx_auto_type
+)
+
+target_compile_definitions(jmbdewidgets PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+
+target_link_libraries( jmbdewidgets
+    LINK_PUBLIC
+    Qt5::Core
+    LINK_PRIVATE
+    Qt5::Widgets
+    Qt5::PrintSupport
+    Qt5::Sql
+    Qt5::Qml
+    Qt5::Quick
+    Qt5::QuickWidgets
+    JMBDE::models
+    )
+
+#
+# Finding Qt
+#
+find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED
+    COMPONENTS
+    Core
+    Widgets
+    Sql
+    PrintSupport
+    Qml
+    Quick
+    QuickWidgets
+)
 
 install(TARGETS jmbdewidgets ${INSTALL_TARGETS_DEFAULT_ARGS})
 

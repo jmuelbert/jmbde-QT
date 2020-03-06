@@ -1,6 +1,6 @@
 /*
    jmbde a BDE Tool for companies
-   Copyright (C) 2013-2019  Jürgen Mülbert
+   Copyright (C) 2013-2020  Jürgen Mülbert
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -29,6 +29,10 @@
 #include "commondata.h"
 #include "idatamodel.h"
 
+
+
+namespace Model
+{
 /*!
     \class ChipCardDoor
     \brief The ChipCardDoor class
@@ -39,9 +43,6 @@
     \date 03.08.2019
     \copyright GPL V3
     */
-
-namespace Model
-{
 class JMBDEMODELS_EXPORT ChipCardDoor : public CommonData
 {
     /*!
@@ -107,22 +108,22 @@ public:
     virtual QSqlTableModel *initializeViewModel();
 
     /*!
-     * \fn virtual QString generateTableString(QAbstractTableModel *model,
-                                const QString &header)
+     * \fn virtual QString generateTableString(
+                                const QString &header) -> QString
         \brief generateTableString
 
         \return  a QString with the generated Table for Output
      */
-    virtual QString generateTableString(QAbstractTableModel *model, QString header);
+    virtual auto generateTableString(const QString &header) -> QString;
 
     /*!
-        \fn virtual QString generateFormularString(QAbstractTableModel *model,
-                                   const QString &header)
+        \fn virtual auto generateFormularString(
+                                   const QString &header) -> QString
         \brief generateFormularString
 
         \return  a QString with the generated Table for Output
      */
-    virtual QString generateFormularString(QAbstractTableModel *model, QString header);
+    virtual auto generateFormularString(const QString &header) -> QString;
 
     // Getter
     /*!
