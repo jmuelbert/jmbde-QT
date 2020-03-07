@@ -300,7 +300,7 @@ for:
 
     build_script:
       - ps: New-Item -itemtype directory -path ./program
-      - ps: cmake -G "$ENV:CMAKE_GENERATOR"  -DCMAKE_BUILD_TYPE=$ENV:CONFIGURATION  -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DBUILD_SHARED_LIBS=OFF -DENABLE_TESTS=OFF ..
+      - cmd: cmake -G "%CMAKE_GENERATOR%"  -DCMAKE_BUILD_TYPE="%CONFIGURATION%"  -DCMAKE_PREFIX_PATH="%QTDIR%" -DBUILD_SHARED_LIBS=OFF ..
       - ps: cmake --build . --config $ENV:CONFIGURATION --target install
     
     after_build:
