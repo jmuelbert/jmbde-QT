@@ -296,7 +296,7 @@ for:
       - cmd: echo set(VCPKG_BUILD_TYPE release) >> C:\tools\vcpkg\triplets\%PLATFORM%-windows-static.cmake
       - cmd: vcpkg remove --outdated --recurse
       - ps: Get-ChildItem "C:\tools\vcpkg\triplets"
-      - cmd: vcpkg install --triplet %PLATFORM%-windows-static %PACKAGES% > NUL
+      # - cmd: vcpkg install --triplet %PLATFORM%-windows-static %PACKAGES% > NUL
 
     build_script:
       - ps: New-Item -itemtype directory -path ./program

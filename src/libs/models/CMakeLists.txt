@@ -1,6 +1,6 @@
 #
 #   jmbde a BDE Tool for companies
-#   Copyright (C) 2013-2020  Jürgen Mülbert
+#   Copyright (C) 2013-2019  Jürgen Mülbert
 #
 #   This program is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -28,10 +28,15 @@ ecm_setup_version(${JMBDEMODELS_VERSION}
     SOVERSION ${JMBDEMODELS_VERSION}
     VERSION_HEADER ${CMAKE_CURRENT_BINARY_DIR}/jmbdemodels-version.h)
 
+
+# Enable Generate all Symbols for Windows!
+set(WINDOWS_EXPORT_ALL_SYMBOLS ON)
+cmake_policy(SET CMP0076 NEW)
+
+
 # JMBDEMODELS project
 project(jmbdemodels VERSION ${JMBDEMODELS_SOVERSION}
-      DESCRIPTION "${PROJECT_NAME} Datacontext Library"
-      LANGUAGES CXX)
+      DESCRIPTION "${PROJECT_NAME} Datacontext Library")
 
 message(STATUS "Building ${PROJECT_NAME} ${JMBDEMODELS_VERSION} ${JMBDEMODELS_SOVERSION} in ${CMAKE_BUILD_TYPE} mode")
 
@@ -42,6 +47,43 @@ ecm_qt_declare_logging_category(jmbdemodels
     DEFAULT_SEVERITY Warning
 )
 
+add_library(jmbdemodels)
+generate_export_header(jmbdemodels)
+add_library(jmbde::models ALIAS jmbdemodels)
+
+set_target_properties(jmbdemodels PROPERTIES
+      VERSION   ${JMBDEMODELS_VERSION_STRING}
+      SOVERSION ${JMBDEMODELS_SOVERSION}
+      EXPORT_NAME "jmbdemodels"
+      )
+
+target_compile_features(jmbdemodels
+    PUBLIC cxx_auto_type
+    PRIVATE cxx_lambdas cxx_nullptr cxx_range_for cxx_raw_string_literals cxx_uniform_initialization
+            cxx_variadic_templates cxx_rvalue_references cxx_defaulted_functions cxx_deleted_functions
+            cxx_override cxx_final cxx_nonstatic_member_init)
+
+target_include_directories(jmbdemodels PUBLIC
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+    "$<INSTALL_INTERFACE:include/jmbdemodels>"
+    )
+
+target_compile_definitions(jmbdemodels PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+
+target_link_libraries( jmbdemodels
+    LINK_PUBLIC
+    Qt5::Core
+    LINK_PRIVATE
+    Qt5::Widgets
+    Qt5::PrintSupport
+    Qt5::Sql
+    Qt5::Qml
+    Qt5::Quick
+    Qt5::QuickWidgets
+    )
+
 #
 # Finding Qt
 #
@@ -50,17 +92,21 @@ find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED
     Core
     Widgets
     Sql
+    PrintSupport
+    Qml
+    Quick
+    QuickWidgets
 )
+
 
 QT5_ADD_RESOURCES(
   Resources_SRCS
   resources/res.qrc
 )
 
-set(HDRS
-    # Headers
-    # PUBLIC
-    jmbdemodels-version.h
+target_sources(jmbdemodels
+    PUBLIC
+    # jmbdemodels-version.h
     # models
     include/models/account.h
     include/models/chipcard.h
@@ -94,16 +140,9 @@ set(HDRS
     include/models/title.h
     include/models/zipcity.h
     include/models/zipcode.h
-    include/models/commondata.h
-    include/models/idatamodel.h
 
-    loggingcategory.h
-    )
-
-add_library(jmbdemodels
-    # PRIVATE
+    PRIVATE
     # Models
-    ${HDRS}
     loggingcategory.cpp
     src/models/account.cpp
     src/models/chipcard.cpp
@@ -145,117 +184,15 @@ add_library(jmbdemodels
 
     ${Resources_SRCS}
 
+    include/models/commondata.h
+    include/models/idatamodel.h
 
+    loggingcategory.h
 
     )
 
-generate_export_header( jmbdemodels)
-
-add_library(JMBDE::models ALIAS jmbdemodels)
-
-#Set target properties
-target_include_directories(jmbdemodels 
-    PUBLIC
-        $<INSTALL_INTERFACE:include>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/src
-        ${CMAKE_CURRENT_BINARY_DIR}
-    )
-
-target_compile_features(jmbdemodels
-    PRIVATE cxx_auto_type
-)
-
-target_compile_definitions(jmbdemodels 
-    PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>
-    )
-
-target_link_libraries( jmbdemodels
-    PRIVATE
-    Qt5::Core
-    Qt5::Widgets
-    Qt5::Sql
-    )
-
-##############################################
-# Installation instructions
-
-#include (GNUInstallDirs)
-set (INSTALL_CONFIG_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/jmbdemodels)
-
-install(TARGETS jmbdemodels
-    EXPORT jmbdemodels-targets
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    )
-
-set_target_properties(jmbdemodels PROPERTIES
-    VERSION   ${JMBDEMODELS_VERSION_STRING}
-    SOVERSION ${JMBDEMODELS_SOVERSION}
-    EXPORT_NAME "jmbdemodels"
-    )
-
-# This is required so that the exported target has the name JMBDEmodels and not jmbdemodels
-set_target_properties(jmbdemodels PROPERTIES EXPORT_NAME JMBDEmodels)
-
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-
-# Export the targets to a script
-install(EXPORT jmbdemodels-targets
-    FILE
-        JMBDEmodelsTargets.cmake
-    NAMESPACE
-        JMBDEmodels::
-    DESTINATION
-        ${INSTALL_CONFIG_DIR}
-    )
-
-# Create a ConfigVersion.cmake file
-include(CMakePackageConfigHelpers)
-write_basic_package_version_file(
-    ${CMAKE_CURRENT_BINARY_DIR}/JMBDEmodelsConfigVersion.cmake
-    VERSION ${PROJECT_VERSION}
-    COMPATIBILITY AnyNewerVersion
-    )
-
-configure_package_config_file(
-    ${CMAKE_CURRENT_LIST_DIR}/cmake/JMBDEmodelsConfig.cmake.in
-    ${CMAKE_CURRENT_BINARY_DIR}/JMBDEmodelsConfig.cmake
-    INSTALL_DESTINATION ${INSTALL_CONFIG_DIR}
-    )
-
-# Install the config, configversion and custom find modules
-install(FILES
-    # ${CMAKE_CURRENT_LIST_DIR}/cmake/FindQt.cmake
-    ${CMAKE_CURRENT_BINARY_DIR}/JMBDEmodelsConfig.cmake
-    ${CMAKE_CURRENT_BINARY_DIR}/JMBDEmodelsConfigVersion.cmake
-    DESTINATION ${INSTALL_CONFIG_DIR}
-)
-
-##############################################
-## Exporting from the build tree
-# configure_file(
-#     ${CMAKE_CURRENT_LIST_DIR}/cmake/Qt.cmake
-#    ${CMAKE_CURRENT_BINARY_DIR}/cmake/Qt.cmake
-#    COPYONLY
-#    )
-
-export(EXPORT jmbdemodels-targets
-    FILE ${CMAKE_CURRENT_BINARY_DIR}/JMBDEmodels.cmake
-    NAMESPACE JMBDE::
-    )
-
-# Register package in user's package registry
-export(PACKAGE jmbdemodels)
+install(TARGETS jmbdemodels ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 if(MSVC AND BUILD_SHARED_LIBS)
   install(FILES "$<TARGET_PDB_FILE_DIR:jmbdemodels>/$<TARGET_PDB_FILE_NAME:jmbdemodels>" DESTINATION ${BIN_INSTALL_DIR} CONFIGURATIONS Debug RelWithDebInfo)
-endif()
-
-##############################################
-## Add test
-if(ENABLE_TESTS)
-    enable_testing()
-    add_subdirectory(tests)
 endif()

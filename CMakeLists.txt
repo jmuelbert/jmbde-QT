@@ -24,7 +24,7 @@
 # -DBUILD_TRANSLATIONS=[true|false]
 # Build the translations.
 #
-# -DENABLE_TESTS=[true|false]
+# -DBUILD_TESTING=[true|false]
 #  Build and run the tests
 #
 # -DBUILD_COVERAGE
@@ -38,6 +38,9 @@
 #
 # -DENABLE_CLANG_FORMAT
 #  Format the sources with clang format
+#
+# -DENABLE_CLAZY
+# Enable Clazy hints
 #
 # -DENABLE_CCACHE
 #  Enable ccache for fast build
