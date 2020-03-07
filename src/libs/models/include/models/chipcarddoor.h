@@ -58,7 +58,7 @@ class JMBDEMODELS_EXPORT ChipCardDoor : public CommonData
 
       \sa {Meta-Object System}, {Signals and Slots}, {QtsProperty System}
   */
-    Q_OBJECT
+   // Q_OBJECT
 
 public:
     /*!
