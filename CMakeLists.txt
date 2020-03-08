@@ -64,8 +64,8 @@ project(jmbde
 
 
 # Set the dependencies versions
-set(KF5_VERSION "5.67.0")
-set(KF5_MIN_VERSION "5.66.0")
+set(KF5_VERSION "5.64.0")
+set(KF5_DEP_VERSION "5.64.0")
 set(QT_MIN_VERSION "5.12.5")
 
 # Set my app version
@@ -85,14 +85,14 @@ endif()
 
 # we need some parts of the ECM CMake helpers
 include(FeatureSummary)
-find_package(ECM ${KF5_MIN_VERSION} QUIET REQUIRED NO_MODULE)
+find_package(ECM ${KF5_DEP_VERSION} QUIET REQUIRED NO_MODULE)
 feature_summary(WHAT REQUIRED_PACKAGES_NOT_FOUND FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
-set(CMAKE_MODULE_PATH "${ECM_MODULE_PATH}"
-    "${CMAKE_MODULE_PATH}")
+# We append to the module path so modules can be overridden from the command line.
+list(APPEND CMAKE_MODULE_PATH "${ECM_MODULE_PATH}")
 
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake"
-    "${CMAKE_MODULE_PATH}")
+# Add the local module path to the search path
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 # load helper modules
 include(CheckFunctionExists)
@@ -162,7 +162,7 @@ add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format (for e.g. Qt 
 option(BUILD_TRANSLATIONS "Build translations" ON)
 add_feature_info(TRANSL ${BUILD_TRANSLATIONS} "Build the translations")
 option(BUILD_COVERAGE "Add coverage information." OFF)
-add_feature_info(COVERAGE ${BUILD_COVERAGE} "Build with caverage informations.")
+add_feature_info(COVERAGE ${BUILD_COVERAGE} "Build with coverage informations.")
 option(BUILD_SHARED_LIBS "Build shared libs" OFF)
 add_feature_info(SHARED_LIBS ${BUILD_SHARED_LIBS} "Build shared libs")
 option(BUILD_TESTING "Build tests." ON)
@@ -183,16 +183,11 @@ add_definitions(-DQT_NO_FOREACH)
 # Allow adding Qt resource files with `add_executable` or `target_sources` instead of
 # `qt5_add_resources`. See https://cmake.org/cmake/help/v3.0/manual/cmake-qt.7.html#autorcc.
 set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
 
-if(NOT DEFINED CMAKE_SKIP_BUILD_RPATH)
-  set(CMAKE_SKIP_BUILD_RPATH ON)
-endif()
-if(NOT DEFINED CMAKE_BUILD_WITH_INSTALL_RPATH)
-  set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
-endif()
-if(NOT DEFINED CMAKE_MACOSX_RPATH)
-  set(CMAKE_MACOSX_RPATH TRUE)
-endif()
+# Required here so that the version comparison below works
+find_package(Qt5Widgets ${QT_MIN_VERSION} CONFIG REQUIRED)
+
 
 set(LANGUAGES
     "All"
@@ -268,9 +263,6 @@ endif()
 
 remove_definitions(-DQT_NO_SIGNALS_SLOTS_KEYWORDS)
 
-if(APPLE)
-set(CMAKE_MACOSX_BUNDLE OFF)
-endif()
 
 # debug suffixes for qmake compatibility
 if(WIN32)
@@ -283,146 +275,28 @@ if(UPPERCASE_CMAKE_BUILD_TYPE MATCHES "^RELEASE$")
   add_definitions(-DQT_NO_DEBUG_OUTPUT)
 endif()
 
-macro(convert_to_relative_path _var)
-  # Make sure _var is a relative path
-  if(IS_ABSOLUTE "${${_var}}")
-    file(RELATIVE_PATH ${_var} "${CMAKE_INSTALL_PREFIX}" "${${_var}}")
-  endif()
-endmacro()
-
-macro(inverse_dir _var _prefix)
-  # strip out relative components, those break the following on OSX
-  get_filename_component(_clean_prefix "${CMAKE_INSTALL_PREFIX}/${_prefix}"
-                         ABSOLUTE)
-  file(RELATIVE_PATH ${_var} ${_clean_prefix} "${CMAKE_INSTALL_PREFIX}")
-endmacro()
-
-#
-# Setup path handling
-#
-if(APPLE)
-
-  set(BUNDLE_APP_NAME "${PROJECT_NAME}.app")
-
-  if (NOT KDE_INSTALL_LAYOUT)
-
-    # Make sure default prefix on mac is /Applications, dunnow why but it does not
-    # default to it probably because we do not enabled built in bundle support in
-    # the main project
-    string(COMPARE EQUAL "${CMAKE_INSTALL_PREFIX}" "/usr/local" CMP_RESULT)
-    if(CMP_RESULT)
-      set(CMAKE_INSTALL_PREFIX "/Applications")
-    endif()
-
-    set(BUNDLE_INSTALL_DIR ".")
-    set(RESOURCES_INSTALL_DIR
-      "${BUNDLE_INSTALL_DIR}/${BUNDLE_APP_NAME}/Contents/Resources")
-    set(BIN_INSTALL_DIR "${BUNDLE_INSTALL_DIR}/${BUNDLE_APP_NAME}/Contents/MacOS")
-    set(LIB_INSTALL_DIR
-      "${BUNDLE_INSTALL_DIR}/${BUNDLE_APP_NAME}/Contents/Frameworks")
-    set(PLUGIN_INSTALL_DIR
-      "${BUNDLE_INSTALL_DIR}/${BUNDLE_APP_NAME}/Contents/PlugIns/${PROJECT_NAME}")
-    set(LIBEXEC_INSTALL_DIR "${BIN_INSTALL_DIR}")
-    set(MAN_INSTALL_DIR "${RESOURCES_INSTALL_DIR}/man/man1")
-    set(DOC_INSTALL_DIR "${RESOURCES_INSTALL_DIR}/docs")
-    set(QCH_INSTALL_DIR "${RESOURCES_INSTALL_DIR}/docs")
-    set(TRANSLATION_INSTALL_DIR "${RESOURCES_INSTALL_DIR}/translations")
-    set(INCLUDE_INSTALL_DIR "${RESOURCES_INSTALL_DIR}/include/${PROJECT_NAME}")
-    set(CMAKECONFIG_INSTALL_DIR "${RESOURCES_INSTALL_DIR}/cmake/${PROJECT_NAME}")
-    set(ECM_MKSPECS_INSTALL_DIR
-        "${RESOURCES_INSTALL_DIR}/${ECM_MKSPECS_INSTALL_DIR}")
-  endif()
-else()
-  # Set installation paths This takes care of installing into "lib64" on distros
-  # that use that, for instance, by setting CMAKE_INSTALL_FULL_LIBDIR.
-
-  set(BIN_INSTALL_DIR "${CMAKE_INSTALL_BINDIR}") # relative, usually "bin"
-  convert_to_relative_path(BIN_INSTALL_DIR)
-
-  set(LIB_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}") # "lib" or "lib64"
-  convert_to_relative_path(LIB_INSTALL_DIR)
-
-  set(INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}")
-  set(CMAKECONFIG_INSTALL_DIR "${LIB_INSTALL_DIR}/cmake/${PROJECT_NAME}")
-  set(DATAROOTDIR
-      "${CMAKE_INSTALL_DATAROOTDIR}"
-      CACHE
-        PATH
-        "Define install directory for read-only architecture-independent data")
-  convert_to_relative_path(DATAROOTDIR)
-
-  set(XDG_APPS_INSTALL_DIR "${DATAROOTDIR}/applications")
-  set(APPDATA_INSTALL_DIR "${DATAROOTDIR}/appdata")
-  set(ICON_INSTALL_DIR "${DATAROOTDIR}/icons")
-  set(MAN_INSTALL_DIR "${DATAROOTDIR}/man/man1")
-  set(QCH_INSTALL_DIR
-      "${CMAKE_INSTALL_DOCDIR}"
-      CACHE PATH "Install location of Qt Assistant help files.")
-  convert_to_relative_path(QCH_INSTALL_DIR)
-
-  if(WIN32)
-    set(PLUGIN_INSTALL_DIR "${BIN_INSTALL_DIR}/plugins/${PROJECT_NAME}")
-    set(LIBEXEC_INSTALL_DIR "${BIN_INSTALL_DIR}")
-    set(DOC_INSTALL_DIR .)
-    set(TRANSLATION_INSTALL_DIR "translations")
-  else()
-    set(PLUGIN_INSTALL_DIR "${LIB_INSTALL_DIR}/${PROJECT_NAME}")
-    set(LIBEXEC_INSTALL_DIR "${LIB_INSTALL_DIR}/${PROJECT_NAME}/libexec")
-    set(DOC_INSTALL_DIR "${DATAROOTDIR}/doc/${PROJECT_NAME}/")
-    set(TRANSLATION_INSTALL_DIR "${DATAROOTDIR}/${PROJECT_NAME}/translations")
-  endif()
-endif()
-
-if(NOT APPLICATION_OUTPUT_PREFIX) # set by multibuild
-  set(APPLICATION_OUTPUT_PREFIX ${PROJECT_BINARY_DIR})
-endif()
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY
-    ${APPLICATION_OUTPUT_PREFIX}/${BIN_INSTALL_DIR})
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY
-    ${APPLICATION_OUTPUT_PREFIX}/${LIB_INSTALL_DIR})
-
-set(INSTALL_TARGETS_DEFAULT_ARGS
-    RUNTIME DESTINATION ${BIN_INSTALL_DIR}
-    LIBRARY DESTINATION ${LIB_INSTALL_DIR}
-    ARCHIVE DESTINATION ${LIB_INSTALL_DIR} COMPONENT Devel
-    BUNDLE DESTINATION ${BUNDLE_INSTALL_DIR})
-
+# 3rd-party
+ecm_optional_add_subdirectory(src/3rd-party/qtsingleapplication)
 
 # libs
-add_subdirectory(src/libs)
+ecm_optional_add_subdirectory(src/libs)
 
-# jmbde
-add_subdirectory(src/app)
+# jmbde-widget
+ecm_optional_add_subdirectory(src/app)
 
-# automatic unit tests
-if(BUILD_TESTING)
+# jmbde-quick
+ecm_optional_add_subdirectory(src/appquick)
 
-  # enable testing
-  enable_testing()
+# docs
 
-  add_subdirectory(tests)
-
-endif()
-
-# jmbde-Quick
-if(BUILD_EXAMPLES)
-  add_subdirectory(examples/jmbdequick)
-endif()
 
 # if translation/doc host tools are missing, the Qt5 cmake config files throw
 # errors...
 if(BUILD_API_DOCS OR BUILD_MANUAL)
   find_package(Qt5 NO_MODULE QUIET OPTIONAL_COMPONENTS Help LinguistTools)
-
-  add_subdirectory(docs)
+  ecm_optional_add_subdirectory(docs)
 endif()
 
-if(BUILD_TRANSLATIONS)
-  find_package(Qt5 OPTIONAL_COMPONENTS LinguistTools)
-  if(Qt5LinguistTools_FOUND)
-    add_subdirectory(translations)
-  endif()
-endif()
 
 # set cdash buildname
 set(BUILDNAME
@@ -465,26 +339,6 @@ if(CPPCHECK_EXECUTABLE)
     COMMENT "Running the cppcheck static code checker"
   )
 endif()
-
-#
-# CMake package config file generation
-#
-configure_package_config_file(
-  ${CMAKE_CURRENT_SOURCE_DIR}/ApplicationConfig.cmake.in
-  ${CMAKE_CURRENT_BINARY_DIR}/ApplicationConfig.cmake
-  INSTALL_DESTINATION "${CMAKECONFIG_INSTALL_DIR}" PATH_VARS INCLUDE_INSTALL_DIR)
-
-write_basic_package_version_file(
-  ${CMAKE_CURRENT_BINARY_DIR}/ApplicationConfigVersion.cmake
-  VERSION ${JMBDE_VERSION}
-  COMPATIBILITY SameMajorVersion)
-
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/ApplicationConfig.cmake
-              ${CMAKE_CURRENT_BINARY_DIR}/ApplicationConfigVersion.cmake
-        DESTINATION  "${CMAKECONFIG_INSTALL_DIR}")
-
-# install( EXPORT ApplicationTargets DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
-# FILE ApplicationTarget.cmake NAMESPACE jmbde:: )
 
 # tell about our features (and what is missing)
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)

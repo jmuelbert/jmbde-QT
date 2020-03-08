@@ -12,33 +12,35 @@
 #   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #   GNU General Public License for more details.
 
-
 # minimal requirements
-cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 
-#
-# the jmbde application
-#
-project(jmbde)
+set(JMBDE_QUICK_VERSION 0.1.0)
+
+project(jmbdequick
+  DESCRIPTION "A BDE Tool"
+  HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
+  LANGUAGES CXX C)
+
 
 # set project version
 
-ecm_setup_version(${JMBDE_VERSION}
-    VARIABLE_PREFIX JMBDE
-    VERSION_HEADER ${CMAKE_CURRENT_BINARY_DIR}/jmbde-version.h
-    PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/JMBDE-ConfigVersion.cmake"
+ecm_setup_version(${JMBDE_QUICK_VERSION}
+    VARIABLE_PREFIX JMBDEQUICK
+    VERSION_HEADER ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick-version.h
+    PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/JMBDEQUICK-ConfigVersion.cmake"
     )
 
-ecm_qt_declare_logging_category(JMBDE_APP_SRCS
+ecm_qt_declare_logging_category(${PROJECT_NAME}
     HEADER loggingcategory.h
-    IDENTIFIER APP
-    CATEGORY_NAME jmuelbert.jmbde
+    IDENTIFIER ${PROJECT_NAME}
+    CATEGORY_NAME jmuelbert.jmbdequick
     DEFAULT_SEVERITY Warning
-)
+  )
 
 message(
   STATUS
-    "Building ${PROJECT_NAME} ${JMBDE_VERSION} in ${CMAKE_BUILD_TYPE} mode"
+    "Building ${PROJECT_NAME} ${JMBDE_QUICK_VERSION} in ${CMAKE_BUILD_TYPE} mode"
 )
 
 add_executable(${PROJECT_NAME} "")
@@ -56,15 +58,10 @@ find_package(Qt5 ${QT_MIN_VERSION}
     REQUIRED
     COMPONENTS
     Core
-    Widgets
-    PrintSupport
-    Sql
-    Qml
-    Quick
     QuickWidgets
 )
 
-target_compile_features(jmbde
+target_compile_features(jmbdequick
     PRIVATE cxx_auto_type
   )
 
@@ -78,20 +75,17 @@ target_include_directories(${PROJECT_NAME}
 target_sources(${PROJECT_NAME}
   PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/qml/qml.qrc
+
   )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
 target_link_libraries(${PROJECT_NAME}
-    PUBLIC
-    Qt5::Core
     PRIVATE
-    jmbde::widgets
-    Qt5::Widgets
-    Qt5::PrintSupport
-    Qt5::Sql
-    Qt5::Qml
-    Qt5::Quick
+    jmbde::models
+    jmbde::qtsingleapp
+    Qt5::Core
     Qt5::QuickWidgets
     ${CONAN_LIBS}
     )
@@ -114,6 +108,7 @@ target_sources(
   PRIVATE
   loggingcategory.cpp
   src/main.cpp
+  qml/qml.qrc
 )
 
 if(BUILD_TRANSLATIONS)
@@ -146,10 +141,10 @@ elseif(APPLE)
   # so has to be set for all targets in this cmake file
   set(MACOSX_BUNDLE_DISPLAY_NAME ${PROJECT_NAME})
   set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_GUI_IDENTIFIER "io.github.jmuelbert.jmbde")
-  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME "jmbde")
-  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_DISPLAY_NAME "jmbde")
-  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_INFO_STRING "jmbde - A little BDE program")
-  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_LONG_VERSION_STRING "jmbde ${JMBDE_APPLICATIONS_VERSION}")
+  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME "jmbdequick")
+  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_DISPLAY_NAME "jmbdequick")
+  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_INFO_STRING "jmbdequick - A little BDE program")
+  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_LONG_VERSION_STRING "jmbdequick ${JMBDE_APPLICATIONS_VERSION}")
   set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_SHORT_VERSION_STRING "${JMBDE_APPLICATIONS_VERSION_MAJOR}.${JMBDE_APPLICATIONS_VERSION_MINOR}")
   set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_BUNDLE_VERSION "${JMBDE_APPLICATIONS_VERSION}")
   set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_COPYRIGHT "2013-2020 Jürgen Mülbert")

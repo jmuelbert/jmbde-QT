@@ -7,8 +7,10 @@ svenv/
 linuxdeployqt
 *.AppImage
 .build
+/build*/
 *.tar
 *.gz
+*~swp
 # .qtmodules-travis
 
 # Sqlite-DB
@@ -220,7 +222,7 @@ tmp/
 *.orig
 *.out
 CMakeSettings.json
-CMakeLists.txt.user
+CMakeLists.txt.user*
 *.qmlc
 callgrind.out.*
 perf.data*
