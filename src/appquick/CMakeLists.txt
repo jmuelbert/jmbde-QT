@@ -13,14 +13,14 @@
 #   GNU General Public License for more details.
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
 
 set(JMBDE_QUICK_VERSION 0.1.0)
 
 project(jmbdequick
   DESCRIPTION "A BDE Tool"
   HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
-  LANGUAGES CXX C)
+  LANGUAGES CXX)
 
 
 # set project version
@@ -81,14 +81,19 @@ target_sources(${PROJECT_NAME}
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
+
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
     jmbde::models
-    jmbde::qtsingleapp
     Qt5::Core
     Qt5::QuickWidgets
     ${CONAN_LIBS}
     )
+
+# Use a single application on MacOS + Windows instead of dbus.
+if(APPLE OR WIN32)
+  target_link_libraries(${PROJECT_NAME} PRIVATE jmbde::qtsingleapp)
+endif()
 
 set(ICONS_PNG
   ${CMAKE_CURRENT_SOURCE_DIR}/icons/16-apps-jmbde.png
@@ -98,10 +103,19 @@ set(ICONS_PNG
   ${CMAKE_CURRENT_SOURCE_DIR}/icons/512-apps-jmbde.png
   )
 
-set(ICONS_SVG ${CMAKE_CURRENT_SOURCE_DUR}/icons/sc-apps-jmbde.svgz)
+set(ICONS_SVG ${CMAKE_CURRENT_SOURCE_DIR}/icons/sc-apps-jmbde.svgz)
+
+ecm_install_icons(
+    ICONS ${ICONS_PNG} ${ICONS_SVG}
+    DESTINATION ${ICON_INSTALL_DIR}
+    THEME hicolor
+  )
+
+# Add icon files to the application's source files to have CMake bundle them in the executable.
+ecm_add_app_icon(APP_ICON ICONS ${ICONS_PNG})
 
 
-target_sources(${PROJECT_NAME} PRIVATE ${ICONS_SOURCES})
+target_sources(${PROJECT_NAME} PRIVATE ${ICONS_SOURCES} ${APP_ICON})
 
 target_sources(
   ${PROJECT_NAME}
@@ -128,9 +142,6 @@ if(WIN32)
 
 # See https://cmake.org/cmake/help/v3.15/prop_tgt/MACOSX_BUNDLE_INFO_PLIST.html
 elseif(APPLE)
-
-  # Add icon files to the application's source files to have CMake bundle them in the executable.
-  ecm_add_app_icon(ICONS_SOURCES ICONS ${ICONS_PNG})
   
   set_property(
     TARGET ${PROJECT_NAME}
@@ -144,23 +155,21 @@ elseif(APPLE)
   set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME "jmbdequick")
   set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_DISPLAY_NAME "jmbdequick")
   set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_INFO_STRING "jmbdequick - A little BDE program")
-  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_LONG_VERSION_STRING "jmbdequick ${JMBDE_APPLICATIONS_VERSION}")
-  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_SHORT_VERSION_STRING "${JMBDE_APPLICATIONS_VERSION_MAJOR}.${JMBDE_APPLICATIONS_VERSION_MINOR}")
-  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_BUNDLE_VERSION "${JMBDE_APPLICATIONS_VERSION}")
+  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_LONG_VERSION_STRING "jmbdequick ${JMBDE_QUICK_VERSION}")
+  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_SHORT_VERSION_STRING "${JMBDE_QUICK_VERSION_MAJOR}.${JMBDE_QUICK_VERSION_MINOR}")
+  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_BUNDLE_VERSION "${JMBDE_QUICK_VERSION}")
+  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_ICON_FILE "${APP_ICON}.icns")
   set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_COPYRIGHT "2013-2020 Jürgen Mülbert")
 
   install(TARGETS ${PROJECT_NAME}
     BUNDLE DESTINATION . ${KDE_INSTALL_TARGETS_DEFAULT})
+  install(FILES ${})
 elseif(LINUX)
 
   install(TARGETS ${PROJECT_NAME} ${KDE_INSTALL_TARGETS_DEFAULT})
 
 
-  ecm_install_icons(
-    ICONS ${ICONS_PNG} ${ICONS_SVG}
-    DESTINATION ${ICON_INSTALL_DIR}
-    THEME hicolor
-  )
+
 
   # appdata
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/jmbdequick.appdata.xml.in ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick.appdata.xml @ONLY)

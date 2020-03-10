@@ -129,6 +129,10 @@ include(ECMMarkNonGuiExecutable)
 include(ECMAddAppIcon)
 
 include(QtInstallPaths)
+
+include(WriteBasicConfigVersionFile)
+include(CheckFunctionExists)
+
 # Make CPack available to easy generate binary packages
 include(CPack)
 include(PackageIFW)

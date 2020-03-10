@@ -91,11 +91,11 @@ for:
  
     before_build:
       - mkdir -p build; cd build
-      - cmake -GNinja -DCMAKE_PREFIX_PATH="$(brew --prefix qt)" -DBUILD_SHARED_LIBS=ON -DENABLE_TESTS=ON ..
+      - cmake -GNinja -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_PREFIX_PATH="$(brew --prefix qt)" -DCMAKE_INSTALL_PREFIX:PATH=. -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=ON ..
       
 
     build_script:
-      - sudo cmake --build . --config $CONFIGURATION --target install
+      - sudo cmake --build . --target install
 
     after_build:
       - sudo cpack .
@@ -175,7 +175,7 @@ for:
 
     build_script:
       - cd build
-      - cmake .. -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_INSTALL_PREFIX:PATH=/usr -DBUILD_SHARED_LIBS=ON -DENABLE_TESTS=ON
+      - cmake .. -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_INSTALL_PREFIX:PATH=/usr -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=ON
       - make
       - ctest -V
 

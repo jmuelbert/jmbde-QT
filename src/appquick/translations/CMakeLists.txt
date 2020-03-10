@@ -79,6 +79,8 @@ endforeach()
 
 if(WIN32)
     install(FILES ${QM_FILES} DESTINATION "${KDE_INSTALL_LOCALEDIR}")
+elseif(APPLE)
+    install(FILES ${QM_FILES} DESTINATION "${KDE_DATAROOTDIR}/locale")
 else()
     install(FILES ${QM_FILES} DESTINATION "${KDE_INSTALL_LOCALEDIR}")
 endif()
