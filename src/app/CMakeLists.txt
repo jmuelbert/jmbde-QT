@@ -168,14 +168,14 @@ elseif(LINUX)
   )
 
   # appdata
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/jmbdequick.appdata.xml.in ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick.appdata.xml @ONLY)
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/jmbde.appdata.xml.in ${CMAKE_CURRENT_BINARY_DIR}/jmbde.appdata.xml @ONLY)
   install(
-    FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/io.github.jmuelbert.jmbdequick.appdata.xml
+    FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/io.github.jmuelbert.jmbde.appdata.xml
     DESTINATION ${KDE_INSTALL_METAINFODIR}
   )
 
   install(
-    FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/io.github.jmuelbert.jmbdequick.desktop
+    FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/io.github.jmuelbert.jmbde.desktop
     DESTNATION ${KDE_INSTALL_APPDIR}
   )
   
