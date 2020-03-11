@@ -48,7 +48,7 @@ ecm_qt_declare_logging_category(jmbdewidgets
     DEFAULT_SEVERITY Warning
 )
 
-add_library(jmbdewidgets)
+add_library(jmbdewidgets "")
 generate_export_header(jmbdewidgets)
 add_library(jmbde::widgets ALIAS jmbdewidgets)
 
@@ -127,7 +127,8 @@ QT5_ADD_RESOURCES(
 )
 
 target_sources(jmbdewidgets
-  
+    PUBLIC
+    include/views/mainwindow.h    
     
     PRIVATE
     loggingcategory.cpp
@@ -150,6 +151,26 @@ target_sources(jmbdewidgets
     src/views/titleinputarea.cpp
     ${UiGenerated_SRCS}
     ${Resources_SRCS}
+
+    # views
+    include/views/chipcardinputarea.h
+    include/views/cityinputarea.h
+    include/views/computerinputarea.h
+    include/views/csvimportdialog.h
+    include/views/departmentinputarea.h
+    include/views/functioninputarea.h
+    include/views/employeeinputarea.h
+    include/views/manufacturerinputarea.h
+    include/views/mobileinputarea.h
+    include/views/osinputarea.h
+    include/views/phoneinputarea.h
+    include/views/printerinputarea.h
+    include/views/processorinputarea.h
+    include/views/softwareinputarea.h
+    include/views/titleinputarea.h
+
+    loggingcategory.h
+    include/definitions.h
     )
 
 install(TARGETS jmbdewidgets ${INSTALL_TARGETS_DEFAULT_ARGS})
