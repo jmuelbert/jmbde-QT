@@ -7,5 +7,3 @@ PUSHD build
 conan install ..
 cmake .. -G "%CMAKE_GENERATOR%"
 cmake --build . --config Release
-
-bin\md5.exe
