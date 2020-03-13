@@ -104,7 +104,7 @@ set(ICONS_PNG
   ${CMAKE_CURRENT_SOURCE_DIR}/icons/512-apps-jmbde.png
   )
 
-set(ICONS_SVG ${CMAKE_CURRENT_SOURCE_DUR}/icons/sc-apps-jmbde.svgz)
+set(ICONS_SVG ${CMAKE_CURRENT_SOURCE_DIR}/icons/sc-apps-jmbde.svgz)
 
 
 target_sources(${PROJECT_NAME} PRIVATE ${ICONS_SOURCES})
@@ -156,7 +156,8 @@ elseif(APPLE)
 
   install(TARGETS ${PROJECT_NAME}
     BUNDLE DESTINATION . ${KDE_INSTALL_TARGETS_DEFAULT})
-elseif(LINUX)
+
+elseif(UNIX)
 
   install(TARGETS ${PROJECT_NAME} ${KDE_INSTALL_TARGETS_DEFAULT})
 
@@ -170,13 +171,13 @@ elseif(LINUX)
   # appdata
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/jmbde.appdata.xml.in ${CMAKE_CURRENT_BINARY_DIR}/jmbde.appdata.xml @ONLY)
   install(
-    FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/io.github.jmuelbert.jmbde.appdata.xml
-    DESTINATION ${KDE_INSTALL_METAINFODIR}
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde.appdata.xml
+    DESTINATION ${XDG_APPS_INSTALL_DIR}
   )
 
   install(
     FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/io.github.jmuelbert.jmbde.desktop
-    DESTNATION ${KDE_INSTALL_APPDIR}
+    DESTINATION ${KDE_INSTALL_APPDIR}
   )
   
   # man page
