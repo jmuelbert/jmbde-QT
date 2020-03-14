@@ -35,6 +35,7 @@ cmake_policy(SET CMP0076 NEW)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+
 # COMMON project
 project(jmbdewidgets VERSION ${JMBDEWIDGETS_SOVERSION}
       DESCRIPTION "${PROJECT_NAME} WIDGETS-UI Library")
@@ -128,7 +129,8 @@ QT5_ADD_RESOURCES(
 
 target_sources(jmbdewidgets
     PUBLIC
-    include/views/mainwindow.h    
+
+    include/views/mainwindow.h
     
     PRIVATE
     loggingcategory.cpp

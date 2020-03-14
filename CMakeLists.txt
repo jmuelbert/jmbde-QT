@@ -56,6 +56,11 @@
 # minimal requirements
 cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
 
+if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+  set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+      CACHE STRING "")
+endif()
+
 # jmbde project
 project(jmbde
         DESCRIPTION "A BDE Tool"
@@ -81,6 +86,10 @@ list(APPEND CMAKE_PREFIX_PATH "${CMAKE_MODULE_PATH}")
 
 if(APPLE AND EXISTS /usr/local/opt/qt5)
   list(APPEND CMAKE_PREFIX_PATH "/usr/local/opt/qt5")
+endif()
+
+if (WIN32 AND EXISTS "C:/tools/vcpkg/packages/ecm_x86-windows/share/ECM")
+    list(APPEND CMAKE_PREFIX_PATH "C:/tools/vcpkg/packages/ecm_x86-windows/share/ECM")
 endif()
 
 # we need some parts of the ECM CMake helpers

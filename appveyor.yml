@@ -286,7 +286,7 @@ for:
       - cd ../..
 
     before_build:
-      - ps: Get-ChildItem ENV:PATH
+      - ps: Get-ChildItem $ENV:PATH
       - call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
       - call "%QTDIR%\bin\qtenv2.bat"
       - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER"

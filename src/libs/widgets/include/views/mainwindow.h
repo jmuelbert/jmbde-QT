@@ -76,7 +76,7 @@ class MainWindow;
  * \class MainWindow
  * @brief The MainWindow class
  */
-class JMBDEWIDGETS_EXPORT MainWindow : public QMainWindow {
+class  MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
@@ -84,12 +84,12 @@ public:
      * @brief MainWindow
      * @param parent The parent widget
      */
-    explicit MainWindow(QWidget *parent = nullptr);
+    explicit JMBDEWIDGETS_EXPORT MainWindow(QWidget *parent = nullptr);
 
     /**
      * @brief MainWindow::~MainWindow
      */
-    ~MainWindow();
+    JMBDEWIDGETS_EXPORT ~MainWindow();
 
 protected:
     /**
@@ -109,70 +109,70 @@ private slots:
     /**
      * @brief on_actionPreferences_triggered
      */
-    void on_actionPreferences_triggered();
+    void JMBDEWIDGETS_EXPORT on_actionPreferences_triggered();
 
     /**
      * @brief on_actionAbout_triggered
      */
-    void on_actionAbout_triggered();
+    void JMBDEWIDGETS_EXPORT on_actionAbout_triggered();
 
     /**
      * \fn void on_actionNew_triggered()
      * \brief on_actionNew_triggered
      */
-    void on_actionNew_triggered();
+    void JMBDEWIDGETS_EXPORT on_actionNew_triggered();
 
     /**
      * \fn on_actionQuit_triggered()
      * \brief on_actionQuit_triggered
      */
-    void on_actionQuit_triggered();
+    void JMBDEWIDGETS_EXPORT on_actionQuit_triggered();
 
     /**
      * @brief focusChanged
      * @param from The old focus widget
      * @param now The actual focus widget
      */
-    void focusChanged(QWidget *from, QWidget *now);
+    void JMBDEWIDGETS_EXPORT focusChanged(QWidget *from, QWidget *now);
 
     /**
      * \fn on_actionOpen_triggered()
      * \brief on_actionOpen_triggered
      */
-    void on_actionOpen_triggered();
+    void JMBDEWIDGETS_EXPORT on_actionOpen_triggered();
 
     /**
      * \fn on_actionImport_triggered()
      * \brief on_actionImport_triggered
      */
-    void on_actionImport_triggered();
+    void JMBDEWIDGETS_EXPORT on_actionImport_triggered();
 
     /**
      * @brief on_actionExport_triggered
      */
-    void on_actionExport_triggered();
+    void JMBDEWIDGETS_EXPORT on_actionExport_triggered();
 
     /**
      * @brief on_actionPrint_triggered
      */
-    void on_actionPrint_triggered();
+    void JMBDEWIDGETS_EXPORT on_actionPrint_triggered();
 
     /**
      * \fn void on_action_Export_Pdf_triggered()
      * \brief on_action_Export_Pdf_triggered
      */
-    void on_action_Export_Pdf_triggered();
+    void JMBDEWIDGETS_EXPORT on_action_Export_Pdf_triggered();
 
     /**
      * \fn void on_actionPrint_Preview_triggered()
      * \brief on_actionPrint_Preview_triggered
      */
-    void on_actionPrint_Preview_triggered();
+    void JMBDEWIDGETS_EXPORT on_actionPrint_Preview_triggered();
 
     /**
      * @brief on_actionHelp_triggered
      */
-    void on_actionHelp_triggered();
+    void JMBDEWIDGETS_EXPORT on_actionHelp_triggered();
 
     /**
      * @brief onClickedTreeView
@@ -180,19 +180,19 @@ private slots:
      *
      * \see QModelIndex::QModelIndex
      */
-    void onClickedTreeView(const QModelIndex &index);
+    void JMBDEWIDGETS_EXPORT onClickedTreeView(const QModelIndex &index);
 
     /**
      * @brief onClickedListViewRow
      * @param index The QModelIndex of the ListViewRow to displayed
      */
-    void onClickedListViewRow(const QModelIndex &index);
+    void JMBDEWIDGETS_EXPORT onClickedListViewRow(const QModelIndex &index);
 
     /**
      * @brief onPressedListViewRow
      * @param index The QModelIndex of the ListViewRow to displayed
      */
-    void onPressedListViewRow(const QModelIndex &index);
+    void JMBDEWIDGETS_EXPORT onPressedListViewRow(const QModelIndex &index);
 
 private:
     /**
