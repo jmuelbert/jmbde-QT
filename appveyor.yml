@@ -297,20 +297,20 @@ for:
       - ps: cmake --build . --config $ENV:CONFIGURATION --target install
     
     after_build:
-      - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER\build"
+      - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER\build/program"
       - ps: Write-Host "$ENV:APPVEYOR_REPO_TAG_NAME"
-      - ps: cpack -C $ENV:CONFIGURATION -G NSIS64
+      # - ps: cpack -C $ENV:CONFIGURATION -G NSIS64
+      # - ps: Get-ChildItem
+      # - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER\build"
       - ps: Get-ChildItem
-      - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER\build"
-      - ps: Get-ChildItem
-      - ps: windeployqt program/jmbde.exe program/jmbdewidgets.dll program/jmbdemodels.dll
+      - ps: windeployqt bin/jmbde.exe bin/jmbdewidgets.dll bin/jmbdemodels.dll
       - ps: Get-ChildItem bin
       - cp %APPVEYOR_BUILD_FOLDER%/packaging/win/installer_%PLATFORM%.iss .
       - ps: $installerfile="installer_" + $ENV:PLATFORM + ".iss"
       - ps: iscc $installerfile
       - ps: Get-ChildItem
       - ps: Get-ChildItem ../
-      - ps: cpack .
+      # - ps: cpack .
 
     test_script:
       - ctest -C "$ENV:CONFIGURATION" -VV
