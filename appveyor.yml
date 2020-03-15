@@ -50,7 +50,6 @@ matrix:
     - image: Visual Studio 2019
       configuration: release
 
-skip_tags: true
 skip_branch_with_pr: true
 skip_commits:
 
