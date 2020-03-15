@@ -96,13 +96,13 @@ protected:
      * @brief closeEvent
      * @param event The recived event
      */
-    void closeEvent(QCloseEvent *event);
+    void JMBDEWIDGETS_EXPORT closeEvent(QCloseEvent *event);
 
     /**
      * @brief resizeEvent
      * @param event Tehe recived event
      */
-    void resizeEvent(QResizeEvent *event);
+    void JMBDEWIDGETS_EXPORT resizeEvent(QResizeEvent *event);
 
 private slots:
 
