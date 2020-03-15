@@ -124,7 +124,6 @@ for:
         draft: true
         on:
           appveyor_repo_tag: true
-          push_release: true
 
 
   ########## END macOS SPECIFIC CONFIGURATION ##########
@@ -197,14 +196,13 @@ for:
       - make install
       - cd ..
       - export LD_LIBRARY_PATH=$APPVEYOR_BUILD_FOLDER/appdir/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
-      - git rev-list master --count
+      - if [ -z "$VERSION" ]; then
+        export VERSION=$(git rev-parse --short HEAD);
+        fi
       - wget -c "https://github.com/jimevins/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
       - chmod a+x linuxdeployqt*.AppImage
       - wget -c -nv "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
       - chmod a+x appimagetool-x86_64.AppImage
-      - if [ -z "$VERSION" ]; then
-        export VERSION=$(git rev-parse --short HEAD);
-        fi
       - ./linuxdeployqt*.AppImage appdir/usr/share/applications/*.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.54m.so.1.0 -verbose=2 -appimage
       - find appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
       - # sudo cpack .
@@ -228,7 +226,6 @@ for:
         draft: true
         on:
           appveyor_repo_tag: true
-          push_release: true
 
   ########## END UBUNTU SPECIFIC CONFIGURATION ##########
 
@@ -336,7 +333,6 @@ for:
         draft: true
         on:
           appveyor_repo_tag: true
-          push_release: true
 
       - provider: NuGet
         server: https://www.nuget.org
