@@ -20,9 +20,12 @@ platform:
 
 pull_requests:
   do_not_increment_build_number: true
+
 branches:
   only:
     - master
+    - production
+
 nuget:
   disable_publish_on_pr: true
 
@@ -121,7 +124,7 @@ for:
         draft: false
         on:
           appveyor_repo_tag: true
-          push_release: true
+
 
   ########## END macOS SPECIFIC CONFIGURATION ##########
 
@@ -222,7 +225,7 @@ for:
         draft: false
         on:
           appveyor_repo_tag: true
-          push_release: true
+
 
   ########## END UBUNTU SPECIFIC CONFIGURATION ##########
 
@@ -332,7 +335,7 @@ for:
         force_update: true
         on:
           appveyor_repo_tag: true
-          push_release: true
+
 
       - provider: NuGet
         server: https://www.nuget.org
@@ -344,7 +347,7 @@ for:
         force_update: true
         on:
           appveyor_repo_tag: true
-          push_release: true
+
 
     on_finish:
       # Uncomment the following line if you don't want the build VM to be destroyed
