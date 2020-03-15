@@ -317,7 +317,7 @@ for:
 
     artifacts:
       - name: Windows-Installer_x64
-        path: "build/jmbde*.exe"
+        path: "build/program/jmbde*.exe"
       - name: Windows-Archive
         path: "build/jmbde*.zip"
 
