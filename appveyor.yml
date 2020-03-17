@@ -137,7 +137,7 @@ for:
 
     artifacts:
       - path: build/*.dmg
-      - name: jmbde
+        name: jmbde
 
     deploy:
       - provider: GitHub
