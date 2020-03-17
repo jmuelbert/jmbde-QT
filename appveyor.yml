@@ -9,6 +9,7 @@ branches:
   only:
     - master
     - production
+    - /v\d*\.\d*\.\d*/
   # blacklist
   except:
     - gh-pages
