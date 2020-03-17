@@ -4,11 +4,12 @@
 
 [![Build status](https://ci.appveyor.com/api/projects/status/mq9qt36e588dk7ui?svg=true)](https://ci.appveyor.com/project/jmuelbert/jmbde-qt)
 [![Build Status](https://travis-ci.org/jmuelbert/jmbde-QT.svg?branch=master)](https://travis-ci.org/jmuelbert/jmbde-QT)
-[Wechseln zur deutschen Version](README_DE.md)
 
 ![Compile on latest Ubuntu](https://github.com/jmuelbert/jmbde-QT/workflows/Compile%20on%20latest%20Ubuntu/badge.svg)
 
 ![Compile on latest macOS](https://github.com/jmuelbert/jmbde-QT/workflows/Compile%20on%20latest%20macOS/badge.svg)
+
+[Wechseln zur deutschen Version](README_DE.md)
 
 jmbde is a program for the management of resources in companies. with this
 program, employees and the equipment they need for their work can be

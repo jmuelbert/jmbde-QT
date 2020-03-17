@@ -1,5 +1,24 @@
 ---
+# version format
 version: "0.5.{build}"
+
+
+# branches to build
+branches:
+  # whitelist
+  only:
+    - master
+    - production
+  # blacklist
+  except:
+    - gh-pages
+
+
+# Do not build feature branch with open Pull Requests
+pull_requests:
+  do_not_increment_build_number: true
+
+# Maximum number of concurrent jobs for the project
 max_jobs: 1
 
 image:
@@ -18,18 +37,18 @@ platform:
   # - x86
   - x64
 
-pull_requests:
-  do_not_increment_build_number: true
-
-branches:
-  only:
-    - master
-    - production
-
 nuget:
   disable_publish_on_pr: true
 
 environment:
+  # matrix:
+  #  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+  #    MY_VAR: value1
+  #  - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+  #    MY_VAR: value3
+  #  - APPVEYOR_BUILD_WORKER_IMAGE: macOS
+  #    MY_VAR: value4
+
   my_secret:
     secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
   APPVEYOR_YML_DISABLE_PS_LINUX: true
@@ -110,20 +129,26 @@ for:
       - mkdir -p dmgdir/jmbde.app
       - cp -r jmbde.app/* dmgdir/jmbde.app/
       - ln -s /Applications dmgdir/Applications
-      - hdiutil create -volname jmbde-$VERSION -srcfolder dmgdir -ov -format UDZO jmbde-$VERSION.dmg;     
+      - hdiutil create -volname jmbde-$VERSION -srcfolder dmgdir -ov -format UDZO jmbde-$VERSION.dmg;
       - ls
+      
     test_script:
       - ctest -C $CONFIGURATION -VV
 
+    artifacts:
+      - path: build/*.dmg
+      - name: jmbde
+
     deploy:
       - provider: GitHub
-        release: jmbde-QT $(VERSION)
         auth_token:
           secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
         artifact: /.*\.(dmg)/
-        draft: true
+        draft: false
+        prerelease: false
         on:
-          appveyor_repo_tag: true
+          branch: master            # release from master branch only
+          APPVEYOR_REPO_TAG: true   # deploy on tag push only
 
 
   ########## END macOS SPECIFIC CONFIGURATION ##########
@@ -211,21 +236,24 @@ for:
     test_script:
       - ctest -C $CONFIGURATION -VV
 
-    #    artifacts:
-    #      - name: "Linux-Debian"
-    #        path: "build/*.deb"
-    #      - name: "Linux-Archive"
-    #      path: "build/*.tar.gz"
+    artifacts:
+      - name: "Linux-Debian"
+        path: build/*.deb
+      - name: "Linux-Archive"
+        path: build/*.tar.gz
+      - name: "Linux-AppImage"
+        path: jmbde*.AppImage
 
     deploy:
       - provider: GitHub
-        release: jmbde-QT $(VERSION)
         auth_token:
           secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
         artifact: /.*\.(msi|7z|deb|exe)/
-        draft: true
+        draft: false
+        prerelease: false
         on:
-          appveyor_repo_tag: true
+          branch: master            # release from master branch only
+          APPVEYOR_REPO_TAG: true   # deploy on tag push only
 
   ########## END UBUNTU SPECIFIC CONFIGURATION ##########
 
@@ -326,13 +354,14 @@ for:
 
     deploy:
       - provider: GitHub
-        release: jmbde-QT $(VERSION)
         auth_token:
           secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
-        artifact: Windows-Installer
-        draft: true
+        artifact: /.*\.(exe)/
+        draft: false
+        prerelease: false
         on:
-          appveyor_repo_tag: true
+          branch: master            # release from master branch only
+          APPVEYOR_REPO_TAG: true   # deploy on tag push only
 
       - provider: NuGet
         server: https://www.nuget.org
