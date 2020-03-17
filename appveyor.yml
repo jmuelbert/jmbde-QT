@@ -210,12 +210,6 @@ for:
     after_build:
       #
       # Create AppImage
-      #
-      # - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
-      # - ./linuxdeployqt*.AppImage ./appdir/usr/share/applications/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.54m.so.1.0 -verbose=2
-      # - ./linuxdeployqt*.AppImage --appimage-extract
-      # - export PATH=$(readlink -f ./squashfs-root/usr/bin/):$PATH
-      #  - ./squashfs-root/usr/bin/appimagetool appdir/
       - cd ../appbuild
       - cmake -DCMAKE_INSTALL_PREFIX:PATH=../appdir/usr -Wno-dev ..
       - make install

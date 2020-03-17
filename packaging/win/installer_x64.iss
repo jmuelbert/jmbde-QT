@@ -160,7 +160,6 @@ Source: "bin\platforms\qwindows.dll"; DestDir: "{app}\platforms"; Components: co
 Source: "bin\printsupport\windowsprintersupport.dll"; DestDir: "{app}\printsupport"; Components: core; Flags: ignoreversion
 ; - sqldrivers
 Source: "bin\sqldrivers\qsqlite.dll"; DestDir: "{app}\sqldrivers"; Components: core; Flags: ignoreversion
-; Source: "bin\sqldrivers\qsqlmysql.dll"; DestDir: "{app}\sqldrivers"; Components: core; Flags: ignoreversion
 Source: "bin\sqldrivers\qsqlodbc.dll"; DestDir: "{app}\sqldrivers"; Components: core; Flags: ignoreversion
 Source: "bin\sqldrivers\qsqlpsql.dll"; DestDir: "{app}\sqldrivers"; Components: core; Flags: ignoreversion
 ; - styles
