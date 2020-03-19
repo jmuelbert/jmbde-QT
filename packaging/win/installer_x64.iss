@@ -147,7 +147,7 @@ Source: "bin\Qt5Widgets.dll"; DestDir: "{app}"; Components: core; Flags: ignorev
 
 ; Qt plugins
 ; - bearer
-Source: "bin\bearer\qgenericbearer.dll.dll"; DestDir: "{app}\bearer"; Components: core; Flags: ignoreversion
+Source: "bin\bearer\qgenericbearer.dll"; DestDir: "{app}\bearer"; Components: core; Flags: ignoreversion
 
 ; - iconengines
 Source: "bin\iconengines\qsvgicon.dll"; DestDir: "{app}\iconengines"; Components: core; Flags: ignoreversion
