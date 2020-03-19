@@ -138,7 +138,7 @@ Source: "bin\Qt5Gui.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversi
 Source: "bin\Qt5Network.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "bin\Qt5PrintSupport.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "bin\Qt5Qml.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "bin\Qt5QmlModells.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "bin\Qt5QmlModels.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "bin\Qt5Quick.dll  "; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "bin\Qt5QuickWidgets.dll   "; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "bin\Qt5Sql.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
