@@ -42,13 +42,6 @@ nuget:
   disable_publish_on_pr: true
 
 environment:
-  # matrix:
-  #  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-  #    MY_VAR: value1
-  #  - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-  #    MY_VAR: value3
-  #  - APPVEYOR_BUILD_WORKER_IMAGE: macOS
-  #    MY_VAR: value4
 
   my_secret:
     secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
