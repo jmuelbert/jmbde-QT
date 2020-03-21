@@ -95,6 +95,16 @@ for:
       - export PATH="$(brew --prefix qt)/bin:$PATH"
       - sudo ln -s "/usr/local/Cellar/qt/${QT_VERSION}/mkspecs /usr/local/mkspecs"
       - sudo ln -s "/usr/local/Cellar/qt/${QT_VERSION}/plugins /usr/local/plugins"
+
+      # Install vcpkg
+      - git clone https://github.com/Microsoft/vcpkg.git
+      - cd vcpkg
+      - ./bootstrap-vcpkg.sh
+      - ./vcpkg integrate install
+      - ./vcpkg install ecm
+      - export VCPKGToolChainFile=$APPVEYOR_BUILD_FOLDER/vcpkg/scripts/buildsystems/vcpkg.cmake
+      - cd ..
+      
       # Install ECM
       - git clone git://anongit.kde.org/extra-cmake-modules
       - cd extra-cmake-modules
@@ -186,7 +196,7 @@ for:
       - ./bootstrap-vcpkg.sh
       - ./vcpkg integrate install
       - ./vcpkg install ecm
-      - export VCPKGToolChainFile=$APPVEYOR_BILD/vcpkg/scripts/buildsystems/vcpkg.cmake
+      - export VCPKGToolChainFile=$APPVEYOR_BUILD_FOLDER/vcpkg/scripts/buildsystems/vcpkg.cmake
       - cd ..
 
     before_build:
