@@ -116,7 +116,7 @@ for:
     after_build:
       - sudo cpack .
       - if [ -z "$VERSION" ]; then
-          export VERSION=$(git rev-parse --short HEAD);
+          export VERSION=$APPVEYOR_BUILD_VERSION;
         fi
       - sudo macdeployqt jmbde.app -verbose=2
       - sudo chown -R $(id -nu) jmbde.app
@@ -163,6 +163,7 @@ for:
       - sudo apt remove 
       - sudo apt-get -y install apt-transport-https ca-certificates
       - sudo apt-get -y install gnupg software-properties-common
+      - sudo apt-get -y install curl
       - sudo apt-get -y install ninja-build
       - sudo apt-get -y install libquazip-dev zlib1g-dev libssl-dev
       - sudo apt-get -y install libffi-dev libx11-dev
@@ -179,15 +180,14 @@ for:
       - sudo apt-get -y install qt${QT_VER}tools
       - source /opt/qt${QT_VER}/bin/qt${QT_VER}-env.sh
 
-      # Install ECM
-      - git clone git://anongit.kde.org/extra-cmake-modules
-      - cd extra-cmake-modules
-      - mkdir build
-      - cd build
-      - cmake .. # or run: cmake -DCMAKE_INSTALL_PREFIX=/usr .. &&
-      - make
-      - sudo make install
-      - cd ../..
+      # Install vcpkg
+      - git clone https://github.com/Microsoft/vcpkg.git
+      - cd vcpkg
+      - ./bootstrap-vcpkg.sh
+      - ./vcpkg integrate install
+      - ./vcpkg install ecm
+      - export VCPKGToolChainFile=$APPVEYOR_BILD/vcpkg/scripts/buildsystems/vcpkg.cmake
+      - cd ..
 
     before_build:
       - set -e # Exit immediately if anything fails
@@ -197,20 +197,18 @@ for:
 
     build_script:
       - cd build
-      - cmake .. -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_INSTALL_PREFIX:PATH=/usr -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=ON
+      - cmake -DCMAKE_BUILD_TYPE="$CONFIGURATION"  -DCMAKE_INSTALL_PREFIX:PATH=../appdir -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=ON -DCMAKE_TOOLCHAIN_FILE="$VCPKGToolChainFile" -DBUILD_SHARED_LIBS=ON ..
       - make
       - ctest -V
 
     after_build:
       #
       # Create AppImage
-      - cd ../appbuild
-      - cmake -DCMAKE_INSTALL_PREFIX:PATH=../appdir/usr -Wno-dev ..
       - make install
       - cd ..
       - export LD_LIBRARY_PATH=$APPVEYOR_BUILD_FOLDER/appdir/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
       - if [ -z "$VERSION" ]; then
-        export VERSION=$(git rev-parse --short HEAD);
+        export VERSION=$APPVEYOR_BUILD_VERSION;
         fi
       - wget -c "https://github.com/jimevins/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
       - chmod a+x linuxdeployqt*.AppImage
