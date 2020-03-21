@@ -293,9 +293,12 @@ for:
       # Install ECM
       - cmd: vcpkg integrate install
       - cmd: vcpkg install ecm
-      - vcpkg upgrade
-      - vcpkg list
-
+      - cmd: vcpkg install 7zip
+      - cmd: vcpkg upgrade
+      - cmd: vcpkg list
+      # - cmd: echo set(VCPKG_BUILD_TYPE release) >> C:\tools\vcpkg\triplets\%PLATFORM%-windows-static.cmake
+      - cmd: vcpkg remove --outdated --recurse
+    
     before_build:
       - call "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
       - call "%QTDIR%\bin\qtenv2.bat"
@@ -303,8 +306,7 @@ for:
       - ps: New-Item -itemtype directory -path ./build
       - ps: Set-Location "build"
       - ps: Write-Host "Generate the Project with the $ENV:CMAKE_GENERATOR gnerator and the configuration $ENV:CONFIGURATION and $ENV:VCPKGToolChainFile"
-      # - cmd: echo set(VCPKG_BUILD_TYPE release) >> C:\tools\vcpkg\triplets\%PLATFORM%-windows-static.cmake
-      - cmd: vcpkg remove --outdated --recurse
+
       - ps: Get-ChildItem "C:\tools\vcpkg\triplets"
 
     build_script:
