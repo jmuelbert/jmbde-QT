@@ -175,7 +175,7 @@ target_sources(jmbdewidgets
     include/definitions.h
     )
 
-install(TARGETS jmbdewidgets ${INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS jmbdewidgets ${KDE_INSTALL_TARGETS_DEFAULT})
 
 if(MSVC AND BUILD_SHARED_LIBS)
   install(FILES "$<TARGET_PDB_FILE_DIR:jmbdewidgets>/$<TARGET_PDB_FILE_NAME:jmbdewidgets>" DESTINATION ${BIN_INSTALL_DIR} CONFIGURATIONS Debug RelWithDebInfo)

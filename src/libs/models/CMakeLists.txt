@@ -191,7 +191,7 @@ target_sources(jmbdemodels
 
     )
 
-install(TARGETS jmbdemodels ${INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS jmbdemodels ${KDE_INSTALL_TARGETS_DEFAULT})
 
 if(MSVC AND BUILD_SHARED_LIBS)
   install(FILES "$<TARGET_PDB_FILE_DIR:jmbdemodels>/$<TARGET_PDB_FILE_NAME:jmbdemodels>" DESTINATION ${BIN_INSTALL_DIR} CONFIGURATIONS Debug RelWithDebInfo)
