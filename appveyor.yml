@@ -118,19 +118,25 @@ for:
       - if [ -z "$VERSION" ]; then
           export VERSION=$APPVEYOR_BUILD_VERSION;
         fi
+      # prepare jmbde
       - sudo macdeployqt jmbde.app -verbose=2
       - sudo chown -R $(id -nu) jmbde.app
       - mkdir -p dmgdir/jmbde.app
       - cp -r jmbde.app/* dmgdir/jmbde.app/
+      # prepare jmbdequick
+      - sudo macdeployqt jmbdequick.app -verbose=2
+      - sudo chown -R $(id -nu) jmbdequick.app
+      - mkdir -p dmgdir/jmbdequick.app
+      - cp -r jmbdequick.app/* dmgdir/jmbdequick.app/
+      # build dmg
       - ln -s /Applications dmgdir/Applications
       - hdiutil create -volname jmbde-$VERSION -srcfolder dmgdir -ov -format UDZO jmbde-$VERSION.dmg;
-      - ls
       
     test_script:
       - ctest -C $CONFIGURATION -VV
 
     artifacts:
-      - path: build/*.dmg
+      - path: build/jmbde*.(dmg|sh|tar.gz)
         name: jmbde
 
     deploy:
@@ -235,7 +241,7 @@ for:
         auth_token:
           secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
         artifact: /.*\.(msi|7z|deb|exe)/
-        draft: false
+        draft: true
         prerelease: false
         on:
           branch: master            # release from master branch only
@@ -293,7 +299,6 @@ for:
       # Install ECM
       - cmd: vcpkg integrate install
       - cmd: vcpkg install ecm
-      - cmd: vcpkg install 7zip
       - cmd: vcpkg upgrade
       - cmd: vcpkg list
       # - cmd: echo set(VCPKG_BUILD_TYPE release) >> C:\tools\vcpkg\triplets\%PLATFORM%-windows-static.cmake
