@@ -29,7 +29,7 @@ image:
 
 configuration:
   - release-fastbuild
-  - release
+  - Release
 #  - debug
 
 platform:
@@ -272,6 +272,7 @@ for:
       - ps: $ENV:VCPKGROOT="C:\tools\vcpkg"
       - ps: $ENV:VCPKGDir="C:\Tools\vcpkg"
       - ps: $ENV:VCPKGToolChainFile = "C:/Tools/vcpkg/scripts/buildsystems/vcpkg.cmake"
+      - ps: $ENV:VCPKG_BUILD_TYPE=$ENV:CONFIGURATION
       - ps: $ENV:VCREDIST_CRT_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CRT"
       - ps: $ENV:VCREDIST_CXXAMP_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CXXAMP"
       - ps: $ENV:VCREDIST_OPENMP_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.OpenMP"
