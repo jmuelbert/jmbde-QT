@@ -42,14 +42,17 @@ nuget:
   disable_publish_on_pr: true
 
 environment:
-
-  my_secret:
+  global:
+    my_secret:
     secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
-  APPVEYOR_YML_DISABLE_PS_LINUX: true
-  Appveyor: true
-  QT_PPA: beineri/opt-qt-5.14.1-bionic
-  QT_VER: 514
-  QT_VERSION: 5.14.1
+    APPVEYOR_YML_DISABLE_PS_LINUX: true
+    Appveyor: true
+    QT_PPA: beineri/opt-qt-5.14.1-bionic
+    QT_VER: 514
+    QT_VERSION: 5.14.1
+    ENV_SETUP_BAT: C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\VsDevCmd.bat
+    ENV_SETUP_ARG: -host_arch=amd64
+    PATH: C:\Python37-x64\bin:%PATH%    
 
 matrix:
   exclude:
@@ -254,6 +257,12 @@ for:
   - matrix:
       only:
         - image: Visual Studio 2019
+          TOOLCHAIN: "Visual Studio 2019 Clang/LLVM 9.0.0"
+          GENERATOR: Visual Studio 16 2019
+          PATH: C:\Program Files\LLVM\bin;%PATH%
+          CMAKE_ARGS: -DCMAKE_C_COMPILER=clang-cl.exe -DCMAKE_CXX_COMPILER=clang-cl.exe -DCMAKE_LINKER="lld-link.exe"
+          CLANG_URL: https://releases.llvm.org/9.0.0/LLVM-9.0.0-win64.exe
+
       fast_finish: false # set this flag to true to immediately finish build once one of the jobs fails.
 
     cache:
@@ -304,7 +313,13 @@ for:
       - cmd: vcpkg list
       # - cmd: echo set(VCPKG_BUILD_TYPE release) >> C:\tools\vcpkg\triplets\%PLATFORM%-windows-static.cmake
       - cmd: vcpkg remove --outdated --recurse
-    
+      - echo "Downloading conan"
+      - python -m pip install -U pip
+      - conan user
+      - if defined CLANG_URL appveyor DownloadFile %CLANG_URL% -FileName llvm-installer.exe
+      - if defined CLANG_URL START /WAIT llvm-installer.exe /S /D=C:\"Program Files\LLVM"
+      - cmake --version
+
     before_build:
       - call "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
       - call "%QTDIR%\bin\qtenv2.bat"
@@ -316,9 +331,14 @@ for:
       - ps: Get-ChildItem "C:\tools\vcpkg\triplets"
 
     build_script:
+      - call "%ENV_SETUP_BAT%" %ENV_SETUP_ARG%
       - ps: New-Item -itemtype directory -path ./program
       - ps: cmake -G "$ENV:CMAKE_GENERATOR"  -DCMAKE_BUILD_TYPE="$ENV:CONFIGURATION"  -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DCMAKE_INSTALL_PREFIX:PATH=./program -DBUILD_SHARED_LIBS=ON ..
       - ps: cmake --build . --config $ENV:CONFIGURATION --target install
+      - set CC=clang-cl.exe
+      - set CXX=clang-cl.exe
+      - cmake %CMAKE_ARGS% --configure -DCMAKE_BUILD_TYPE=%CONFIGURATION% -G "%GENERATOR%" c:\projects\source
+      - cmake --build . --config %CONFIGURATION%
     
     after_build:
       - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER/build/program"

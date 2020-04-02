@@ -8,5 +8,18 @@
         "typeinfo": "cpp",
         "random": "cpp"
     },
-    "python.pythonPath": "/Users/juergen/miniconda/envs/develop/bin/python"
+    "python.pythonPath": "/Users/juergen/miniconda/envs/develop/bin/python",
+    "python.linting.flake8Enabled": false,
+    "python.linting.mypyEnabled": true,
+    "python.linting.pycodestyleEnabled": false,
+    "python.linting.pylamaEnabled": false,
+    "python.linting.enabled": true,
+    "python.testing.pytestArgs": [
+        "test_package"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "conan.installCommand": "conan install ..",
+    "conan.buildCommand": "conan build .."
 }
