@@ -49,9 +49,9 @@ matrix:
       script:
         - mkdir build && cd build
         - conan remote add bincrafters "https://api.bintray.com/conan/bincrafters/public-conan"
+        - conan create ../conan/ECM
         - conan install ..
         - conan profile update settings.compiler.libcxx=libstdc++11 default
-        - conan create ../conan/ECM
         - conan remote list
         - conan search
         - cmake --configure .. -DCMAKE_BUILD_TYPE=debug
@@ -102,7 +102,8 @@ matrix:
       os: osx
       osx_image: xcode11.0
       compiler:
-        - apple-clang
+        - g++
+        - gcc
 
       addons:
         homebrew:
@@ -131,8 +132,8 @@ matrix:
       script:
         - mkdir build && cd build
         - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
-        - conan install ..
         - conan create ../conan/ECM
+        - conan install ..
         - conan remote list
         - cmake --configure .. -DCMAKE_INSTALL_PREFIX=install -DBUILD_SHARED_LIBS=ON ..
         - sudo cmake --build . --config $CMAKE_BUILD_TYPE --target install
