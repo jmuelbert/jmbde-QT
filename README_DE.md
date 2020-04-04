@@ -1,6 +1,7 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+**Table of Contents** _generated with [DocToc](https://github.com/thlorenz/doctoc)_
 
 - [jmbde](#jmbde)
   - [Setup](#setup)
@@ -162,7 +163,7 @@ Führen Sie `cmake` aus, um jmbde zu erstellen:
 ### Unter Windows
 
 - Visual Studio 2017 oder höher
-- Sie können Qt hier herunterladen](https://www.qt.io/download-qt-installer)
+- Sie können [Qt hier herunterladen](https://www.qt.io/download-qt-installer)
 - Sie können viele Werkzeuge mit choco installieren. [Installationsanleitung](https://chocolatey.org/install#installing-chocolatey)
 
   choco install cmake
@@ -214,9 +215,7 @@ Du kannst jmbde nun mit der ausführbaren Datei in `bin/jmbde` ausführen.
 
 ## Installation
 
-## License
-
-## License
+## Lizenz
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

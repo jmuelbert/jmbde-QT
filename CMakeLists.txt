@@ -82,11 +82,10 @@ list(APPEND CMAKE_PREFIX_PATH "${CMAKE_MODULE_PATH}")
 
 # For ECM-CONAN
 if(EXISTS "${CONAN_ECM_ROOT}")
-  list(APPEND CMAKE_PREFIX_PATH "${CONAN_ECM_ROOT}")
-endif()
+  list(APPEND CMAKE_PREFIX_PATH "${CONAN_ECM_ROOT}/share/ECM/cmake")
 
 # For VCPKG on Appveyor
-if(WIN32 AND EXISTS "C:/tools/vcpkg/packages/ecm_x86-windows/share/ECM")
+elseif(WIN32 AND EXISTS "C:/tools/vcpkg/packages/ecm_x86-windows/share/ECM")
   list(APPEND CMAKE_PREFIX_PATH
               "C:/tools/vcpkg/packages/ecm_x86-windows/share/ECM")
 endif()

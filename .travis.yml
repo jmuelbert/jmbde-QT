@@ -117,14 +117,12 @@ matrix:
         - CMAKE_BUILD_TYPE: Release
 
       before_install:
-        - printenv
         - brew tap kde-mac/kde
         - brew install qt
         - brew link qt5 --force
         - export PATH="$(brew --prefix qt)/bin:$PATH"
         - brew install kf5-extra-cmake-modules
-        - brew install gcc
-        - printenv
+
 
       install:
         - cmake --version
