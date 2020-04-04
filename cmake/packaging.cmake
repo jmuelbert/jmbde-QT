@@ -98,7 +98,7 @@ elseif(APPLE)
   # set(CPACK_DMG_DS_STORE "${ICONS_DIR}/CharmDSStore")
   # set(CPACK_DMG_BACKGROUND_IMAGE "${ICONS_DIR}/${PROJECT_NAME}Background.png")
 elseif(UNIX)
-  set(CPACK_SYSTEM_NAME "${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR}")  
+  set(CPACK_SYSTEM_NAME "${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR}")
 endif()
 
 ########################################################################

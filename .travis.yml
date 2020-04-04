@@ -13,7 +13,7 @@ matrix:
       sudo: required
       language: python
       python: "3.7"
-      compiler: 
+      compiler:
         - clang
         - gcc
       services:
@@ -28,8 +28,8 @@ matrix:
         - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
         - sudo add-apt-repository -y ppa:${QT_PPA}
         - sudo apt-get -q update
-        - sudo apt-get -y install cmake 
-        - sudo apt-get -y install ninja-build 
+        - sudo apt-get -y install cmake
+        - sudo apt-get -y install ninja-build
         - sudo apt-get -y install libgl1-mesa-dev
         - echo "Install QT ${QT_VERSION} from ppa:${beineri/opt-qt-5.14.1-bionic}"
         - sudo apt-get -y install qt${QT_VER}base;
@@ -43,16 +43,17 @@ matrix:
 
       install:
         - pip install conan
+        - conan profile update settings.compiler.libcxx=libstdc++11 default
         - curl -sSL https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2-Linux-x86_64.tar.gz | sudo tar -xzC /opt
 
       script:
+        - mkdir build && cd build
         - conan remote add bincrafters "https://api.bintray.com/conan/bincrafters/public-conan"
         - conan install ..
         - conan create ../conan/ECM
         - conan remote list
         - conan search
-        - mkdir build && cd build && 
-        - cmake --configure .. -DCMAKE_BUILD_TYPE=debug 
+        - cmake --configure .. -DCMAKE_BUILD_TYPE=debug
         - cmake --build .
         - ctest --verbose .
         - mkdir -p build
@@ -76,14 +77,14 @@ matrix:
         - chmod a+x appimagetool-x86_64.AppImage
         # - export VERSION=$(printf "`master`-`git rev-list HEAD --count`-` git -C . rev-parse --short HEAD`")    #$(git rev-parse --short HEAD) # linuxdeployqt uses this for naming the file
         - ./linuxdeployqt*.AppImage appdir/usr/share/applications/*.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.54m.so.1.0 -verbose=2 -appimage
-      
+
       after_success:
         # - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
         # - ./linuxdeployqt*.AppImage --appimage-extract
         # - export PATH=$(readlink -f ./squashfs-root/usr/bin/):$PATH
         # - ./squashfs-root/usr/bin/appimagetool appdir/
       - find appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
-    
+
       deploy:
         provider: releases
         skip_cleanup: true
@@ -102,12 +103,13 @@ matrix:
       addons:
         homebrew:
           packages:
-            - cmake 
-            - ninja 
+            - cmake
+            - ninja
             - ccache
+            - conan
           update: true
 
-      env: 
+      env:
         - CMAKE_BUILD_TYPE: Release
 
       before_install:
@@ -122,15 +124,15 @@ matrix:
         - conan --version
 
       script:
-        - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan 
+        - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
         - conan install ..
         - conan create ../conan/ECM
         - conan remote list
-        - mkdir build && cd build 
+        - mkdir build && cd build
         - cmake --configure .. -DCMAKE_INSTALL_PREFIX=install -DBUILD_SHARED_LIBS=ON ..
         - sudo cmake --build . --config $CMAKE_BUILD_TYPE --target install
         - ctest --verbose .
- 
+
       after_success:
         - if [ -z "$VERSION" ]; then
           export VERSION=$(git rev-parse --short HEAD);
@@ -145,7 +147,7 @@ matrix:
       deploy:
       provider: releases
       skip_cleanup: true
-      draft: true 
+      draft: true
       api_key:
         secure: pNq/95/zTpPX25pAF3ACjoIQAnvxp6xZQYCgKhKkXhuSMCSBMl7ZIrRw0BNuM1JSHe3bRV68pfF3tgTJDWtDjFj/JHAWDOAKWhc1DeEmBXVESoizaY2Hk4yrnxjFfk+XMOFgqO+iMExap4OW+kZWXP3tltjKUYzBROMU33rey6NBiYne+UNVlzC5vgy47mj7ResrS4YBl/s3nifuE9Bigp4yDYHh4/4UgXCLXuFup+PwYRQPfwZKKiac5Bk3nHXxW+8WK3b6anboyHb+eqdZMqtu5xjqOpjwroGPPuUQsRm7c4hT93yx3IIBoIHl29hdhkWJlCOQxdhnbV0Ch9E4gombkwfHGlTFAwD3SQZFkCLdtF+1hbMgp4jta09hLgSobOIHhpGjqw+CxB5epYCM7E3WC6iKSrE7yMiSEqg6V+cf3LV+B2MlSzr1HtwLe6B7542WhFoJiF0mJCCGt//Ztp2m5174s4ZwvsiXqYMgs5x5kyp1HS5NqqllxmL3dDdPlhscKWLr7zbwDG/hhDfUpfpjefmadwf6BramK66En7fe2iol/supO86alL6/WNpCtyFaTLve/DHtWfDt+XquivGZwzCAz+0XyopJc3E7Ebxi8C49dyvdrQRi+ej1s44Cm1l/qCtS90d3WyqSfp8moepbi4pwd08vw/TD5zi8+x4=
       file_glob: true

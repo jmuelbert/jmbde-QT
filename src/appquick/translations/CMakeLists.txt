@@ -42,7 +42,7 @@ add_custom_target(appquick-ts)
 foreach(LANG ${LANGUAGES})
     add_custom_target(
             ts_appquick_${LANG}
-            COMMAND Qt5::lupdate 
+            COMMAND Qt5::lupdate
                 ${PROJECT_SOURCE_DIR}/..
                 ${PROJECT_SOURCE_DIR}/../../libs/models
                 ${PROJECT_SOURCE_DIR}/../../libs/quick

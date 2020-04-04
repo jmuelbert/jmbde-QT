@@ -131,7 +131,7 @@ target_sources(jmbdewidgets
     PUBLIC
 
     include/views/mainwindow.h
-    
+
     PRIVATE
     loggingcategory.cpp
     # Views ----

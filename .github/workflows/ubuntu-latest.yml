@@ -13,8 +13,8 @@ jobs:
     - name: install dependencies
       run: |
         sudo apt update
-        sudo apt-get -y install cmake 
-        sudo apt-get -y install ninja-build 
+        sudo apt-get -y install cmake
+        sudo apt-get -y install ninja-build
         sudo apt-get -y install libgl1-mesa-dev
         sudo apt install qt5-default libqt5svg5-dev qttools5-dev-tools zlib1g-dev qtdeclarative5-dev qtdeclarative5-private-dev qbs python3-dev
         git clone git://anongit.kde.org/extra-cmake-modules
@@ -45,4 +45,3 @@ jobs:
           chmod a+x appimagetool-x86_64.AppImage
           ./linuxdeployqt*.AppImage appdir/usr/share/applications/*.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.54m.so.1.0 -verbose=2 -appimage
           find appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
-          

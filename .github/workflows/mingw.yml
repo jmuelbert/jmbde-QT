@@ -21,7 +21,7 @@ jobs:
         run: |
             pip install bincrafters_package_tools
             conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
-      - name: run  
+      - name: run
         env:
             CONAN_BUILD_TYPES: ${{matrix.buildType}}
             MINGW_CONFIGURATIONS: ${{matrix.mingwVersion}}@${{matrix.arch}}@${{matrix.exceptions}}@${{matrix.threads}}
@@ -29,4 +29,4 @@ jobs:
             CONAN_OPTIONS: "harfbuzz:with_glib=False"
             CONAN_BUILD_POLICY: "outdated"
         run: |
-            bincrafters-package-tools --auto         
+            bincrafters-package-tools --auto

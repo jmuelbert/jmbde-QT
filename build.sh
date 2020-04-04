@@ -2,17 +2,31 @@
 
 set -e
 set -x
+export CMAKE_BUILD_TYPE=Release
 
 rm -rf build
 mkdir build
 pushd build
+mkdir install
 
 # conan remote add bincrafters "https://api.bintray.com/conan/bincrafters/public-conan"
 conan create ../conan/ECM
 # conan build ../src/libs/models
 conan install ..
 
-cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=ON -DCMAKE_INSTALL_PREFIX:PATH=instdir
-make all
-make install
+cmake -GNinja .. \
+    -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+    -DBUILD_SHARED_LIBS=ON \
+    -DBUILD_TRANSLATIONS=ON \
+    -DENABLE_CLANG_TIDY=ON \
+    -DENABLE_CLANG_FORMAT=TRUE \
+    -DENABLE_CCACHE=TRUE \
+    -DUSE_GIT_VERSION=ON \
+    -DBUILD_EXAMPLES=ON \
+    -DBUILD_MANUAL=ON \
+    -DBUILD_API_DOCS=ON \
+    -DBUILD_TESTING=ON \
+    -DCMAKE_INSTALL_PREFIX=install
+cmake --build . --config $CMAKE_BUILD_TYPE --target install
+ctest --verbose .
 cpack .

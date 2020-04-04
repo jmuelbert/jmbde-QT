@@ -51,8 +51,8 @@ endif()
 #
 # Finding Qt
 #
-find_package(Qt5 ${QT_MIN_VERSION} 
-    QUIET 
+find_package(Qt5 ${QT_MIN_VERSION}
+    QUIET
     REQUIRED
     COMPONENTS
     Core
@@ -136,7 +136,7 @@ elseif(APPLE)
 
   # Add icon files to the application's source files to have CMake bundle them in the executable.
   ecm_add_app_icon(ICONS_SOURCES ICONS ${ICONS_PNG})
-  
+
   set_property(
     TARGET ${PROJECT_NAME}
     PROPERTY MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/data/MacOSXBundleInfo.plist.in
@@ -179,7 +179,7 @@ elseif(UNIX)
     FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/io.github.jmuelbert.jmbde.desktop
     DESTINATION ${KDE_INSTALL_APPDIR}
   )
-  
+
   # man page
   find_program(GZIP gzip)
   if(GZIP)

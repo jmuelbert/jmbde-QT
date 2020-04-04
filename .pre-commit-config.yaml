@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v2.4.0
+    rev: v2.5.0
     hooks:
       - id: check-yaml
       - id: check-added-large-files
@@ -21,7 +21,6 @@ repos:
       - id: end-of-file-fixer
       - id: file-contents-sorter
       - id: fix-encoding-pragma
-      - id: flake8
       - id: forbid-new-submodules
       - id: mixed-line-ending
       # - id: no-commit-to-branch
@@ -29,7 +28,7 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/jumanjihouse/pre-commit-hooks
-    rev: 1.11.2
+    rev: 2.0.0
     hooks:
       # - id: git-check
       - id: git-dirty
@@ -62,17 +61,19 @@ repos:
       - id: detect-missing-css-classes
       - id: html-tags-blacklist
       - id: html-attributes-blacklist
+
   # - repo: https://github.com/Lucas-C/pre-commit-hooks-markup
   #  rev: v1.0.0
   #  hooks:
   #    - id: rst-linter
+
   # - repo: https://github.com/Lucas-C/pre-commit-hooks-nodejs
   #  rev: v1.1.0
   #  hooks:
   # - id: dockerfile_lint
 
   - repo: https://github.com/IamTheFij/docker-pre-commit
-    rev: v1.0.0
+    rev: v1.0.1
     hooks:
       - id: docker-compose-check
 
@@ -87,7 +88,7 @@ repos:
       - id: giticket
 
   - repo: https://github.com/homebysix/pre-commit-macadmin
-    rev: v1.5.2
+    rev: v1.6.2
     hooks:
       - id: check-autopkg-recipe-list
       - id: check-autopkg-recipes
@@ -107,13 +108,3 @@ repos:
   #  rev: 0.6.0
   #  hooks:
   #    - id: cppcheck
-
-  - repo: https://github.com/pocc/pre-commit-hooks
-    rev: v0.2.0
-    hooks:
-      #    - id: clang-format
-      #      args: [--style=LLVM]
-      # - id: clang-tidy
-      #  args: [-checks=*, -warnings-as-errors=*]
-      - id: oclint
-        args: [-enable-clang-static-analyzer, -enable-global-analysis]

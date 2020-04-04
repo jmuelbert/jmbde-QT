@@ -43,7 +43,7 @@ cd build
 Echo "Generate the Project with the %CMAKE_GENERATOR% generator and the configuration %CONFIGURATION% and %VCPKGToolChainFile%"
 REM cmd /c "set(VCPKG_BUILD_TYPE release) >> C:\tools\vcpkg\triplets\%PLATFORM%-windows-static.cmake"
 vcpkg remove --outdated --recurse
-REM vcpkg install --triplet %PLATFORM%-windows-static %PACKAGES% 
+REM vcpkg install --triplet %PLATFORM%-windows-static %PACKAGES%
 
 REM Build
 REM New-Item -itemtype directory ./program

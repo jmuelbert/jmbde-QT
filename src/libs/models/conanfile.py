@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from conans import ConanFile, CMake
 
 
@@ -14,7 +15,7 @@ class JmbdemodelsConan(ConanFile):
     default_options = {"shared": False}
     generators = "cmake"
     exports_sources = "models/*"
-    requires="qt/5.14.1@bincrafters/stable"
+    requires = "qt/5.14.1@bincrafters/stable"
 
     def source(self):
         self.run('git clone https://github.com/jmuelbert/jmbdemodels.git')

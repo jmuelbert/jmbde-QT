@@ -4,8 +4,8 @@ add_library(jmbde::qtsingleapp ALIAS qtsingleapplication-lib)
 #
 # Finding Qt
 #
-find_package(Qt5 ${QT_MIN_VERSION} 
-    QUIET 
+find_package(Qt5 ${QT_MIN_VERSION}
+    QUIET
     REQUIRED
     COMPONENTS
     Core
@@ -40,16 +40,16 @@ target_link_libraries(
 if(APPLE OR WIN32)
 
     target_sources(
-        qtsingleapplication-lib  
+        qtsingleapplication-lib
         PRIVATE
         src/qtlocalpeer.cpp
         src/qtsingleapplication.cpp
-        src/qtlockedfile.cpp             
+        src/qtlockedfile.cpp
     )
 
     if(WIN32)
         target_sources(qtsingleapplication-lib PRIVATE src/qtlockedfile_win.cpp)
     else()
-        target_sources(qtsingleapplication-lib PRIVATE src/qtlockedfile_unix.cpp)        
+        target_sources(qtsingleapplication-lib PRIVATE src/qtlockedfile_unix.cpp)
     endif()
 endif()

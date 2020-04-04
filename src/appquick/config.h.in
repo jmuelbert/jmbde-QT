@@ -5,4 +5,3 @@
 #define JMBDEQUICK_VERSION "${RELEASE_SERVICE_VERSION}"
 
 #cmakedefine KF5Activities_FOUND
-

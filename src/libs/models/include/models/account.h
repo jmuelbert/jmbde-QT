@@ -42,7 +42,7 @@ namespace Model
     \version 0.4.25
     \date 03.08.2019
     \copyright EUPL V1.2
-    */    
+    */
 class JMBDEMODELS_EXPORT Account : public CommonData
 {
 

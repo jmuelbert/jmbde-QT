@@ -41,7 +41,7 @@ Set-Location "build"
 Write-Host "Generate the Project with the $ENV:CMAKE_GENERATOR gnerator and the configuration $ENV:CONFIGURATION and $ENV:VCPKGToolChainFile"
 cmd /c "set(VCPKG_BUILD_TYPE release) >> C:\tools\vcpkg\triplets\%PLATFORM%-windows-static.cmake"
 vcpkg remove --outdated --recurse
-vcpkg install --triplet %PLATFORM%-windows-static %PACKAGES% 
+vcpkg install --triplet %PLATFORM%-windows-static %PACKAGES%
 
 # Build
 New-Item -itemtype directory ./program

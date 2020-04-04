@@ -7,7 +7,7 @@ environment:
     CONAN_USERNAME: "user"
     CONAN_LOGIN_USERNAME: "user"
     CONAN_CHANNEL: "channel"
-    
+
     matrix:
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
           CONAN_VISUAL_VERSIONS: 12

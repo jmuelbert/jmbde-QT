@@ -53,8 +53,8 @@ endif()
 #
 # Finding Qt
 #
-find_package(Qt5 ${QT_MIN_VERSION} 
-    QUIET 
+find_package(Qt5 ${QT_MIN_VERSION}
+    QUIET
     REQUIRED
     COMPONENTS
     Core
@@ -142,7 +142,7 @@ if(WIN32)
 
 # See https://cmake.org/cmake/help/v3.15/prop_tgt/MACOSX_BUNDLE_INFO_PLIST.html
 elseif(APPLE)
-  
+
   set_property(
     TARGET ${PROJECT_NAME}
     PROPERTY MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/data/MacOSXBundleInfo.plist.in
@@ -182,7 +182,7 @@ elseif(LINUX)
     FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/io.github.jmuelbert.jmbdequick.desktop
     DESTNATION ${KDE_INSTALL_APPDIR}
   )
-  
+
   # man page
   find_program(GZIP gzip)
   if(GZIP)

@@ -52,7 +52,7 @@ environment:
     QT_VERSION: 5.14.1
     ENV_SETUP_BAT: C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\VsDevCmd.bat
     ENV_SETUP_ARG: -host_arch=amd64
-    PATH: C:\Python37-x64\bin:%PATH%    
+    PATH: C:\Python37-x64\bin:%PATH%
 
 matrix:
   exclude:
@@ -107,11 +107,11 @@ for:
       - ./vcpkg install ecm
       - export VCPKGToolChainFile=$APPVEYOR_BUILD_FOLDER/vcpkg/scripts/buildsystems/vcpkg.cmake
       - cd ..
- 
+
     before_build:
       - mkdir -p build; cd build
       - cmake -GNinja -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_PREFIX_PATH="$(brew --prefix qt)" -DCMAKE_INSTALL_PREFIX:PATH=. -DCMAKE_TOOLCHAIN_FILE="$VCPKGToolChainFile" -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=ON ..
-      
+
 
     build_script:
       - sudo cmake --build . --target install
@@ -134,7 +134,7 @@ for:
       # build dmg
       - ln -s /Applications dmgdir/Applications
       - hdiutil create -volname jmbde-$VERSION -srcfolder dmgdir -ov -format UDZO jmbde-$VERSION.dmg;
-      
+
     test_script:
       - ctest -C $CONFIGURATION -VV
 
@@ -169,7 +169,7 @@ for:
       - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
       - sudo add-apt-repository --yes ppa:${QT_PPA}
       - sudo apt-get update -qq
-      - sudo apt remove 
+      - sudo apt remove
       - sudo apt-get -y install apt-transport-https ca-certificates
       - sudo apt-get -y install gnupg software-properties-common
       - sudo apt-get -y install curl
@@ -339,7 +339,7 @@ for:
       - set CXX=clang-cl.exe
       - cmake %CMAKE_ARGS% --configure -DCMAKE_BUILD_TYPE=%CONFIGURATION% -G "%GENERATOR%" c:\projects\source
       - cmake --build . --config %CONFIGURATION%
-    
+
     after_build:
       - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER/build/program"
       - ps: Write-Host "$ENV:APPVEYOR_REPO_TAG_NAME"
