@@ -131,8 +131,6 @@ matrix:
         - conan install ..
         - conan create ../conan/ECM
         - conan remote list
-        - conan profile update settings.compiler.libcxx=libstdc++
-        - conan profile update settings.compiler=apple-clang
         - cmake --configure .. -DCMAKE_INSTALL_PREFIX=install -DBUILD_SHARED_LIBS=ON ..
         - sudo cmake --build . --config $CMAKE_BUILD_TYPE --target install
         - ctest --verbose .
