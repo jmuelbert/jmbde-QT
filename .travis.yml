@@ -43,8 +43,8 @@ matrix:
 
       install:
         - pip install conan
-        - conan profile new mynewprofile --detect
-
+        - conan user
+        - conan profile show default
         - curl -sSL https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2-Linux-x86_64.tar.gz | sudo tar -xzC /opt
 
       script:
@@ -124,6 +124,8 @@ matrix:
       install:
         - cmake --version
         - conan --version
+        - conan user
+        - conan profile show default
 
       script:
         - mkdir build && cd build
