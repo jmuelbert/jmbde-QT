@@ -43,13 +43,15 @@ matrix:
 
       install:
         - pip install conan
-        - conan profile update settings.compiler.libcxx=libstdc++11 default
+        - conan profile new mynewprofile --detect
+
         - curl -sSL https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2-Linux-x86_64.tar.gz | sudo tar -xzC /opt
 
       script:
         - mkdir build && cd build
         - conan remote add bincrafters "https://api.bintray.com/conan/bincrafters/public-conan"
         - conan install ..
+        - conan profile update settings.compiler.libcxx=libstdc++11 default
         - conan create ../conan/ECM
         - conan remote list
         - conan search
@@ -124,11 +126,14 @@ matrix:
         - conan --version
 
       script:
+        - mkdir build && cd build
         - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
         - conan install ..
+        - conan
         - conan create ../conan/ECM
         - conan remote list
-        - mkdir build && cd build
+        - conan profile update settings.compiler.libcxx=libstdc++
+        - conan profile update settings.compiler=apple-clang
         - cmake --configure .. -DCMAKE_INSTALL_PREFIX=install -DBUILD_SHARED_LIBS=ON ..
         - sudo cmake --build . --config $CMAKE_BUILD_TYPE --target install
         - ctest --verbose .
