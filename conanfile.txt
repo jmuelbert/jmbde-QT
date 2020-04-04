@@ -1,6 +1,7 @@
- [requires]
- qt/5.11.2@bincrafters/stable
+[requires]
+qt/5.14.1@bincrafters/stable
+ECM/5.64.0
 
- [generators]
- cmake
- txt
+[generators]
+cmake
+txt

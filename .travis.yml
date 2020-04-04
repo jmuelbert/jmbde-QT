@@ -3,7 +3,7 @@ env:
   global:
       - QT_PPA: beineri/opt-qt-5.14.1-bionic
       - QT_VER: 514
-      - QT_VERSION: 5.14.1
+      - QT_VERSION: 5.14.
 
 matrix:
   include:
@@ -26,7 +26,7 @@ matrix:
       before_install:
         - eval "${MATRIX_EVAL}"
         - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-        # - sudo add-apt-repository -y ppa:${QT_PPA}
+        - sudo add-apt-repository -y ppa:${QT_PPA}
         - sudo apt-get -q update
         - sudo apt-get -y install cmake 
         - sudo apt-get -y install ninja-build 
@@ -40,21 +40,20 @@ matrix:
         - sudo apt-get -y install qt${QT_VER}tools
         - source /opt/qt${QT_VER}/bin/qt${QT_VER}-env.sh
         - cmake --version
-        - git clone git://anongit.kde.org/extra-cmake-modules
-        - cd extra-cmake-modules
-        - mkdir -p build; cd build
-        - cmake ..
-        - make
-        - sudo make install
-        - cd ../..
+
       install:
         - pip install conan
         - curl -sSL https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2-Linux-x86_64.tar.gz | sudo tar -xzC /opt
 
       script:
-        - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan 
+        - conan remote add bincrafters "https://api.bintray.com/conan/bincrafters/public-conan"
+        - conan install ..
+        - conan create ../conan/ECM
         - conan remote list
-        - mkdir build && cd build && cmake --configure .. -DCMAKE_BUILD_TYPE=debug && cmake --build .
+        - conan search
+        - mkdir build && cd build && 
+        - cmake --configure .. -DCMAKE_BUILD_TYPE=debug 
+        - cmake --build .
         - ctest --verbose .
         - mkdir -p build
         - mkdir -p appbuild
@@ -124,6 +123,8 @@ matrix:
 
       script:
         - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan 
+        - conan install ..
+        - conan create ../conan/ECM
         - conan remote list
         - mkdir build && cd build 
         - cmake --configure .. -DCMAKE_INSTALL_PREFIX=install -DBUILD_SHARED_LIBS=ON ..

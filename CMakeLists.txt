@@ -89,13 +89,10 @@ endif()
 
 list(APPEND CMAKE_PREFIX_PATH "${CMAKE_MODULE_PATH}")
 
-#if(APPLE AND EXISTS /usr/local/opt/qt5)
-#  list(APPEND CMAKE_PREFIX_PATH "/usr/local/opt/qt5")
-#endif()
 
-#if (WIN32 AND EXISTS "C:/tools/vcpkg/packages/ecm_x86-windows/share/ECM")
-#    list(APPEND CMAKE_PREFIX_PATH "C:/tools/vcpkg/packages/ecm_x86-windows/share/ECM")
-#endif()
+if (WIN32 AND EXISTS "C:/tools/vcpkg/packages/ecm_x86-windows/share/ECM")
+    list(APPEND CMAKE_PREFIX_PATH "C:/tools/vcpkg/packages/ecm_x86-windows/share/ECM")
+endif()
 
 # we need some parts of the ECM CMake helpers
 include(FeatureSummary)

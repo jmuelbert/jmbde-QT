@@ -7,9 +7,12 @@ set -x
 rm -rf build
 mkdir build
 pushd build
+pwd
 
-# conan add update bincrafters "https://api.bintray.com/conan/bincrafters/public-conan"
-# conan install ..
+# conan remote add bincrafters "https://api.bintray.com/conan/bincrafters/public-conan"
+conan create ../conan/ECM
+# conan build ../src/libs/models
+conan install ..
 # Activate all options
 export CMAKE_BUILD_TYPE=Debug
 
