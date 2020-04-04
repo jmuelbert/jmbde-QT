@@ -1,3 +1,43 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Database Design](#database-design)
+  - [Account Table](#account-table)
+  - [ChipCard Table](#chipcard-table)
+  - [ChipCardDoor Table](#chipcarddoor-table)
+  - [ChipcardProfile Table](#chipcardprofile-table)
+  - [ChipCardProfileDoor Table](#chipcardprofiledoor-table)
+  - [CityName Table](#cityname-table)
+  - [Company Table](#company-table)
+  - [Computer Table](#computer-table)
+  - [ComputerSoftware Table](#computersoftware-table)
+  - [Department Table](#department-table)
+  - [DeviceName Table](#devicename-table)
+  - [DeviceType Table](#devicetype-table)
+  - [Document Table](#document-table)
+  - [EmployeeAccount Table](#employeeaccount-table)
+  - [Employee Table](#employee-table)
+  - [EmployeeDocument Table](#employeedocument-table)
+  - [Fax Table](#fax-table)
+  - [Function Table](#function-table)
+  - [Inventory Table](#inventory-table)
+  - [Manufacturer Table](#manufacturer-table)
+  - [Mobile Table](#mobile-table)
+  - [Os Table](#os-table)
+  - [Phone Table](#phone-table)
+  - [Place Table](#place-table)
+  - [Printer Table](#printer-table)
+  - [Processor Table](#processor-table)
+  - [Software Table](#software-table)
+  - [SystemData Table](#systemdata-table)
+  - [Title Table](#title-table)
+  - [ZipCity Table](#zipcity-table)
+  - [ZipCode Table](#zipcode-table)
+  - [DatabaseVersion](#databaseversion)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Database Design #
 
 ## Account Table ##

@@ -1,7 +1,7 @@
 {
-    "recommendations": [
-        "ms-vscode.cpptools",
-        "twxs.cmake",
-        "DavidAnson.vscode-markdownlint"
-    ]
+  "recommendations": [
+    "ms-vscode.cpptools",
+    "twxs.cmake",
+    "DavidAnson.vscode-markdownlint"
+  ]
 }

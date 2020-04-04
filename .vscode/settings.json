@@ -1,25 +1,25 @@
 {
-    "editor.formatOnType": true,
-    "clang-format.language.c.enable": true,
-    "clang-format.language.cpp.enable": true,
-    "clang.completion.enable": true,
-    "clang-format.executable": "/usr/local/bin",
-    "files.associations": {
-        "typeinfo": "cpp",
-        "random": "cpp"
-    },
-    "python.pythonPath": "/Users/juergen/miniconda/envs/develop/bin/python",
-    "python.linting.flake8Enabled": false,
-    "python.linting.mypyEnabled": true,
-    "python.linting.pycodestyleEnabled": false,
-    "python.linting.pylamaEnabled": false,
-    "python.linting.enabled": true,
-    "python.testing.pytestArgs": [
-        "test_package"
-    ],
-    "python.testing.unittestEnabled": false,
-    "python.testing.nosetestsEnabled": false,
-    "python.testing.pytestEnabled": true,
-    "conan.installCommand": "conan install ..",
-    "conan.buildCommand": "conan build .."
+  "clang-format.executable": "/usr/local/bin",
+  "clang-format.language.c.enable": true,
+  "clang-format.language.cpp.enable": true,
+  "clang.completion.enable": true,
+  "conan.buildCommand": "conan build ..",
+  "conan.installCommand": "conan install ..",
+  "editor.formatOnType": true,
+  "files.associations": {
+    "random": "cpp",
+    "typeinfo": "cpp"
+  },
+  "python.linting.enabled": true,
+  "python.linting.flake8Enabled": false,
+  "python.linting.mypyEnabled": true,
+  "python.linting.pycodestyleEnabled": false,
+  "python.linting.pylamaEnabled": false,
+  "python.pythonPath": "/Users/juergen/miniconda/envs/develop/bin/python",
+  "python.testing.nosetestsEnabled": false,
+  "python.testing.pytestArgs": [
+    "test_package"
+  ],
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false
 }

@@ -1,3 +1,19 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [News](#news)
+  - [0.4.26 JMBDE (2019-08-25)](#0426-jmbde-2019-08-25)
+  - [0.4.25 JMBDE (2019-06-08)](#0425-jmbde-2019-06-08)
+  - [0.4.23 A BDE tool (2019-04-27)](#0423-a-bde-tool-2019-04-27)
+  - [0.4.22 A BDE tool (2018-11-01)](#0422-a-bde-tool-2018-11-01)
+  - [Version 0.4.10 (17 March 2018)](#version-0410-17-march-2018)
+  - [0.4.9 (2018-03-17)](#049-2018-03-17)
+  - [Version 0.4.7 (03 December 2017)](#version-047-03-december-2017)
+  - [Version 0.3.4 (03 Februar 2014)](#version-034-03-februar-2014)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # News #
 
 ## 0.4.26 JMBDE (2019-08-25) ##

@@ -5,8 +5,8 @@
 # `pacman -Scc --noconfirm` responds 'N' by default to removing the cache, hence
 # the echo mechanism.
 
-FROM base/archlinux:latest
-MAINTAINER Wouter Haffmans <wouter@simply-life.net>
+FROM archlinux:latest
+# MAINTAINER Wouter Haffmans <wouter@simply-life.net>
 
 # Update base system
 RUN    pacman -Sy --noconfirm --noprogressbar archlinux-keyring \

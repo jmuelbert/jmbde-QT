@@ -1,3 +1,35 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [jmbde](#jmbde)
+  - [Setup](#setup)
+  - [Supported Platforms](#supported-platforms)
+  - [Running](#running)
+    - [Unix](#unix)
+    - [Windows](#windows)
+    - [macOS](#macos)
+  - [Requests and Bug reports](#requests-and-bug-reports)
+  - [Questions or Comments](#questions-or-comments)
+  - [Wiki](#wiki)
+  - [Database Scheme](#database-scheme)
+  - [Sources](#sources)
+  - [Compiling](#compiling)
+    - [Dependencies](#dependencies)
+    - [On macOS](#on-macos)
+      - [For the release version:](#for-the-release-version)
+      - [For the debug version:](#for-the-debug-version)
+    - [On Windows](#on-windows)
+      - [For the release version:](#for-the-release-version-1)
+      - [For the debug version:](#for-the-debug-version-1)
+    - [On Linux](#on-linux)
+      - [For the release version:](#for-the-release-version-2)
+      - [For the debug version:](#for-the-debug-version-2)
+  - [Installing](#installing)
+  - [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # jmbde
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)

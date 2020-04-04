@@ -8,7 +8,7 @@ endmacro()
 
 macro(_qmake_addDefine define)
   if("${define}" MATCHES "\\$<\\$<BOOL:True>:(.+)>")
-     list(APPEND DEFINES "${CMAKE_MATCH_1}")
+    list(APPEND DEFINES "${CMAKE_MATCH_1}")
   elseif(NOT ("${define}" MATCHES "\\$<[A-Z_]+:.+>"))
     list(APPEND DEFINES "${define}")
   endif()
@@ -33,7 +33,8 @@ macro(_qmake_addLib lib)
 endmacro()
 
 function(GenerateQMake targets)
-  set(QMAKE "TARGET = ossia-score
+  set(QMAKE
+      "TARGET = ossia-score
 TEMPLATE = app
 CONFIG += c++1z object_parallel_to_source warn_off debug
 QT+=core widgets gui network xml svg websockets quick
@@ -69,13 +70,13 @@ QT+=core widgets gui network xml svg websockets quick
     set(QMAKE "${QMAKE}\n")
 
     foreach(include ${_includes})
-      _qmake_addInclude("${include}")
+      _qmake_addinclude("${include}")
     endforeach()
     list(APPEND INCLUDES "${_srcdir}")
     list(APPEND INCLUDES "${_bindir}")
 
     foreach(define ${_defines})
-      _qmake_addDefine("${define}")
+      _qmake_adddefine("${define}")
     endforeach()
 
     foreach(lib ${_libs})
@@ -104,25 +105,25 @@ QT+=core widgets gui network xml svg websockets quick
         if(NOT ${_libtype} MATCHES "INTERFACE_LIBRARY")
           get_target_property(_lib ${lib} IMPORTED_LOCATION)
           if(_lib)
-            _qmake_addLib(${_lib})
+            _qmake_addlib(${_lib})
           endif()
         endif()
 
         if(_includes)
-          _qmake_addInclude(${_includes})
+          _qmake_addinclude(${_includes})
         endif()
 
         if(_defines)
-          _qmake_addDefine(${_defines})
+          _qmake_adddefine(${_defines})
         endif()
 
         if(_libs)
-          _qmake_addLib(${_libs})
+          _qmake_addlib(${_libs})
         endif()
 
       endif()
     else()
-      _qmake_addLib("${lib}")
+      _qmake_addlib("${lib}")
     endif()
   endforeach()
 
@@ -138,12 +139,13 @@ QT+=core widgets gui network xml svg websockets quick
     set(QMAKE "${QMAKE}DEFINES += ${define}\n")
   endforeach()
 
-
-  set(QMAKE "${QMAKE}" PARENT_SCOPE)
+  set(QMAKE
+      "${QMAKE}"
+      PARENT_SCOPE)
 endfunction()
 
 set(ALL_LIBS "${SCORE_LIBRARIES_LIST};${SCORE_PLUGINS_LIST};jmbde")
 list(REMOVE_DUPLICATES ALL_LIBS)
 
-GenerateQMake("${ALL_LIBS}")
+generateqmake("${ALL_LIBS}")
 score_write_file("${CMAKE_BINARY_DIR}/srcs.pro" "${QMAKE}")
