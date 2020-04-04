@@ -2,7 +2,7 @@
 # version format
 version: "0.5.{build}"
 
-# to disable automatic builds
+# Disable MSBuild
 build: off
 
 # branches to build
@@ -329,7 +329,6 @@ for:
       - ps: New-Item -itemtype directory -path ./build
       - ps: Set-Location "build"
       - ps: Write-Host "Generate the Project with the $ENV:CMAKE_GENERATOR gnerator and the configuration $ENV:CONFIGURATION and $ENV:VCPKGToolChainFile"
-
       - ps: Get-ChildItem "C:\tools\vcpkg\triplets"
 
     build_script:

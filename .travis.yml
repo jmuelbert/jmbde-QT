@@ -98,9 +98,12 @@ matrix:
           repo: jmuelbert/jmbde-QT
           tags: true
 
-    - name: "macos (xcode11.2)"
+    - name: "macos (xcode11.0)"
       os: osx
-      osx_image: xcode11.2
+      osx_image: xcode11.0
+      compiler:
+        - apple-clang
+
       addons:
         homebrew:
           packages:
