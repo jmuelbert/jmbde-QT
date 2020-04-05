@@ -82,7 +82,7 @@ target_link_libraries(${PROJECT_NAME}
   PRIVATE jmbde::models 
           Qt5::Core
           Qt5::Sql
-          Qt5::Controls2
+          Qt5::QuickControls2
           ${CONAN_LIBS})
 
 # Use a single application on MacOS + Windows instead of dbus.
