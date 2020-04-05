@@ -61,7 +61,8 @@ endif()
 #
 find_package(Qt5 ${QT_MIN_VERSION} 
   QUIET REQUIRED COMPONENTS 
-  Core 
+  Core
+  Sql
   QuickWidgets)
 
 target_compile_features(jmbdequick PRIVATE cxx_auto_type)
@@ -80,7 +81,6 @@ target_compile_definitions(
 target_link_libraries(${PROJECT_NAME} 
   PRIVATE jmbde::models 
           Qt5::Core
-          Qt5::PrintSupport
           Qt5::Sql
           Qt5::QuickWidgets
           ${CONAN_LIBS})

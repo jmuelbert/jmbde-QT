@@ -121,14 +121,14 @@ matrix:
       install:
         - cmake --version
         - conan --version
-        - conan user
+        # - conan user
 
       script:
         - mkdir build && cd build
-        - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
-        - conan create ../conan/ECM
-        - conan install .. -s compiler=g++ compiler.version=11.0 compiler.libcxx=libc++ --build missing
-        - conan remote list
+        # - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+        # - conan create ../conan/ECM
+        # - conan install .. -s compiler=g++ compiler.version=11.0 compiler.libcxx=libc++ --build missing
+        # - conan remote list
         - cmake --configure .. -DCMAKE_INSTALL_PREFIX=install -DBUILD_SHARED_LIBS=ON ..
         - sudo cmake --build . --config $CMAKE_BUILD_TYPE --target install
         - ctest --verbose .
