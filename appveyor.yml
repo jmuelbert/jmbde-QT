@@ -304,7 +304,7 @@ for:
       - nuget install secure-file -ExcludeVersion
       # Install ECM
       - cmd: vcpkg integrate install
-      - cmd: vcpkg install ecm
+      - cmd: vcpkg install ecm:x64-windows
       - cmd: vcpkg upgrade
       - cmd: vcpkg list
       - cmd: echo set(VCPKG_BUILD_TYPE release) >> C:\tools\vcpkg\triplets\%PLATFORM%-windows.cmake
