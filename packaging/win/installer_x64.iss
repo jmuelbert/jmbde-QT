@@ -124,7 +124,7 @@ Source: "bin\msvcp140.dll"; DestDir: "{app}"; Components: core; Flags: ignorever
 Source: "bin\vcruntime140.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "bin\vcruntime140_1.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "bin\concrt140.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "bin\vc_redist.x64.exe"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+; Source: "bin\vc_redist.x64.exe"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 
 ; Qt VS libs
 Source: "bin\d3dcompiler_47.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion

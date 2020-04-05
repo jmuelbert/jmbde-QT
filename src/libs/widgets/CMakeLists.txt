@@ -12,7 +12,7 @@
 # details.
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 #
 # the COMMON shared library
 #
