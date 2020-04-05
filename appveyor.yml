@@ -253,14 +253,8 @@ for:
   - matrix:
       only:
         - image: Visual Studio 2019
-          TOOLCHAIN: "Visual Studio 2019 Clang/LLVM 9.0.0"
-          GENERATOR: Visual Studio 16 2019
-          PATH: C:\Python37-x64\bin;C:\Program Files\LLVM\bin;%PATH%
-          CMAKE_ARGS: -DCMAKE_C_COMPILER=clang-cl.exe -DCMAKE_CXX_COMPILER=clang-cl.exe -DCMAKE_LINKER="lld-link.exe"
-          CLANG_URL: https://releases.llvm.org/9.0.0/LLVM-9.0.0-win64.exe
-          ENV_SETUP_BAT: C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\VsDevCmd.bat
-          ENV_SETUP_ARG: -host_arch=amd64
-          fast_finish: false # set this flag to true to immediately finish build once one of the jobs fails.
+      
+      fast_finish: false # set this flag to true to immediately finish build once one of the jobs fails.
 
     cache:
       - C:\tools\vcpkg\installed -> .appveyor.yml
@@ -273,6 +267,12 @@ for:
       - call set ENVIRONMENT_NAME=%%ENVIRONMENT_NAME:PLATFORM=%platform%%%
       - call set ENVIRONMENT_NAME=%%ENVIRONMENT_NAME:CONFIGURATION=%configuration%%%
       - ps: $ENV:PLATFORM="x64"
+      - ps: $ENV:PYTHON="C:\Python37-x64\bin"
+      - ps: $ENV:LLVM="${ENV:ProgramFiles}\LLVM\bin"
+      - ps: $ENV:CMAKE_ARGS= "-DCMAKE_C_COMPILER=clang-cl.exe -DCMAKE_CXX_COMPILER=clang-cl.exe -DCMAKE_LINKER=lld-link.exe"
+      - ps: $ENV:CLANG_URL="https://releases.llvm.org/9.0.0/LLVM-9.0.0-win64.exe"
+      - ps: $ENV:VSDEVCMD="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\Common7\Tools\VsDevCmd.bat"
+          ENV_SETUP_ARG: -host_arch=amd64
       # MSVC
       - ps: $ENV:QTDIR="C:\Qt\5.14\msvc2017_64"
       - ps: $ENV:VCPKGROOT="C:\tools\vcpkg"
@@ -283,15 +283,15 @@ for:
       - ps: $ENV:VCREDIST_CXXAMP_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CXXAMP"
       - ps: $ENV:VCREDIST_OPENMP_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.OpenMP"
       - ps: $ENV:REDIST="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\vcredist_%PLATFORM%.exe"
-      - ps: $ENV:VCVARSALL="C${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat"
+      - ps: $ENV:VCVARSALL="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat"
       - call set /p RedistVersion=<"%ProgramFiles(x86)%\\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt"
       - ps: $ENV:Path += ";" + $ENV:VCPKDIR
       # MINGW
       # - ps: $ENV:MINGW="C:\mingw-w64\x86_64-7.3.0-posix-seh-rt_v5-rev0"
       # - ps: $ENV:QTDIR="C:\Qt\5.14\mingw73_64"
       # - ps: $ENV:PATH += ";" + $ENV:MINGW + ";"
-      - ps: $ENV:INNO="C:\Program Files (x86)\Inno Setup 6"
-      - ps: $ENV:NSIS="C:\Program Files (x86)\NSIS"
+      - ps: $ENV:INNO="${ENV:ProgramFiles(x86)}\Inno Setup 6"
+      - ps: $ENV:NSIS="${ENV:ProgramFiles(x86)}\NSIS"
       - ps: $ENV:CMAKE_GENERATOR="Ninja"
       - ps: $ENV:Path += ";" + $ENV:QTDIR + "\bin"
       - ps: $ENV:Path += ";" + $ENV:INNO + ";" + $ENV:NSIS
@@ -313,8 +313,8 @@ for:
       - echo "Downloading conan"
       - python -m pip install -U pip
       - conan user
-      - if defined CLANG_URL appveyor DownloadFile %CLANG_URL% -FileName llvm-installer.exe
-      - if defined CLANG_URL START /WAIT llvm-installer.exe /S /D=C:\"Program Files\LLVM"
+      - if defined %CLANG_URL% appveyor DownloadFile %CLANG_URL% -FileName llvm-installer.exe
+      - if defined %CLANG_URL% START /WAIT llvm-installer.exe /S /D=C:\"Program Files\LLVM"
       - cmake --version
 
     before_build:
