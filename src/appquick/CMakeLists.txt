@@ -63,7 +63,7 @@ find_package(Qt5 ${QT_MIN_VERSION}
   QUIET REQUIRED COMPONENTS 
   Core
   Sql
-  QuickWidgets)
+  QuickControls2)
 
 target_compile_features(jmbdequick PRIVATE cxx_auto_type)
 
@@ -82,7 +82,7 @@ target_link_libraries(${PROJECT_NAME}
   PRIVATE jmbde::models 
           Qt5::Core
           Qt5::Sql
-          Qt5::QuickWidgets
+          Qt5::Controls2
           ${CONAN_LIBS})
 
 # Use a single application on MacOS + Windows instead of dbus.

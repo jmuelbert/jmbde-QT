@@ -61,7 +61,7 @@ find_package(
              Widgets
              PrintSupport
              Sql
-             QuickWidgets)
+             QuickControls2)
 
 target_compile_features(jmbde PRIVATE cxx_auto_type)
 
@@ -82,7 +82,7 @@ target_link_libraries(
           Qt5::Widgets
           Qt5::PrintSupport
           Qt5::Sql
-          Qt5::QuickWidgets
+          Qt5::Controls2
           ${CONAN_LIBS})
 
 set(ICONS_PNG

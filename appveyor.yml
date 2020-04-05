@@ -307,7 +307,7 @@ for:
       - cmd: vcpkg install ecm
       - cmd: vcpkg upgrade
       - cmd: vcpkg list
-      # - cmd: echo set(VCPKG_BUILD_TYPE release) >> C:\tools\vcpkg\triplets\%PLATFORM%-windows-static.cmake
+      - cmd: echo set(VCPKG_BUILD_TYPE release) >> C:\tools\vcpkg\triplets\%PLATFORM%-windows.cmake
       - cmd: vcpkg remove --outdated --recurse
       - cmake --version
 
