@@ -2,9 +2,6 @@
 # version format
 version: "0.5.{build}"
 
-# Disable MSBuild
-build: off
-
 # branches to build
 branches:
   # whitelist
@@ -44,7 +41,7 @@ nuget:
   disable_publish_on_pr: true
 
 environment:
-  global:
+
     my_secret:
     secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
     APPVEYOR_YML_DISABLE_PS_LINUX: true
@@ -52,9 +49,6 @@ environment:
     QT_PPA: beineri/opt-qt-5.14.1-bionic
     QT_VER: 514
     QT_VERSION: 5.14.1
-    ENV_SETUP_BAT: C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\VsDevCmd.bat
-    ENV_SETUP_ARG: -host_arch=amd64
-    PATH: C:\Python37-x64\bin:%PATH%
 
 matrix:
   exclude:
@@ -264,8 +258,10 @@ for:
           PATH: C:\Program Files\LLVM\bin;%PATH%
           CMAKE_ARGS: -DCMAKE_C_COMPILER=clang-cl.exe -DCMAKE_CXX_COMPILER=clang-cl.exe -DCMAKE_LINKER="lld-link.exe"
           CLANG_URL: https://releases.llvm.org/9.0.0/LLVM-9.0.0-win64.exe
-
-      fast_finish: false # set this flag to true to immediately finish build once one of the jobs fails.
+          ENV_SETUP_BAT: C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\VsDevCmd.bat
+          ENV_SETUP_ARG: -host_arch=amd64
+          PATH: C:\Python37-x64\bin:%PATH%
+          fast_finish: false # set this flag to true to immediately finish build once one of the jobs fails.
 
     cache:
       - C:\tools\vcpkg\installed -> .appveyor.yml
