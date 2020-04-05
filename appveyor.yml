@@ -311,9 +311,9 @@ for:
       - cmd: vcpkg remove --outdated --recurse
       - echo "Downloading conan"
       - python -m pip install -U pip
-      - conan user
-      - if defined %CLANG_URL% appveyor DownloadFile %CLANG_URL% -FileName llvm-installer.exe
-      - if defined %CLANG_URL% START /WAIT llvm-installer.exe /S /D=C:\"Program Files\LLVM"
+      # - conan user
+      # - if defined %CLANG_URL% appveyor DownloadFile %CLANG_URL% -FileName llvm-installer.exe
+      # - if defined %CLANG_URL% START /WAIT llvm-installer.exe /S /D=C:\"Program Files\LLVM"
       - cmake --version
 
     before_build:
@@ -330,10 +330,10 @@ for:
       - ps: New-Item -itemtype directory -path ./program
       - ps: cmake -G "$ENV:CMAKE_GENERATOR"  -DCMAKE_BUILD_TYPE="$ENV:CONFIGURATION"  -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DCMAKE_INSTALL_PREFIX:PATH=./program -DBUILD_SHARED_LIBS=ON ..
       - ps: cmake --build . --config $ENV:CONFIGURATION --target install
-      - set CC=clang-cl.exe
-      - set CXX=clang-cl.exe
-      - cmake %CMAKE_ARGS% --configure -DCMAKE_BUILD_TYPE=%CONFIGURATION% -G "%GENERATOR%" c:\projects\source
-      - cmake --build . --config %CONFIGURATION%
+      # - set CC=clang-cl.exe
+      # - set CXX=clang-cl.exe
+      # - cmake %CMAKE_ARGS% --configure -DCMAKE_BUILD_TYPE=%CONFIGURATION% -G "%GENERATOR%" c:\projects\source
+      - ps: cmake --build . --config $ENV:CONFIGURATION
 
     after_build:
       - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER/build/program"
