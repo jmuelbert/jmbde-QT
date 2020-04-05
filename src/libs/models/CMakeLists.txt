@@ -8,7 +8,7 @@
 #
 # This program is distributed in the hope that it will be useful, but WITHOUT
 # ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+# FOR A PARTICULAR PURPOSE.  See the GNU General Pub          Qt5::Qmllic License for more
 # details.
 
 # minimal requirements
@@ -31,7 +31,7 @@ ecm_setup_version(
 
 # Enable Generate all Symbols for Windows!
 set(WINDOWS_EXPORT_ALL_SYMBOLS ON)
-cmake_policy(SET CMP0076 NEW)
+# cmake_policy(SET CMP0076 NEW)
 
 # JMBDEMODELS project
 project(
