@@ -61,7 +61,6 @@ find_package(
              Widgets
              PrintSupport
              Sql
-             Quick
              QuickWidgets)
 
 target_compile_features(jmbde PRIVATE cxx_auto_type)
@@ -83,8 +82,6 @@ target_link_libraries(
           Qt5::Widgets
           Qt5::PrintSupport
           Qt5::Sql
-          Qt5::Qml
-          Qt5::Quick
           Qt5::QuickWidgets
           ${CONAN_LIBS})
 

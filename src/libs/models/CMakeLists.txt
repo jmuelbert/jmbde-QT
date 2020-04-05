@@ -100,7 +100,6 @@ target_link_libraries(
   Qt5::Widgets
   Qt5::PrintSupport
   Qt5::Sql
-  Qt5::Quick
   Qt5::QuickWidgets)
 
 #
@@ -112,7 +111,6 @@ find_package(
              Widgets
              Sql
              PrintSupport
-             Quick
              QuickWidgets)
 
 qt5_add_resources(Resources_SRCS resources/res.qrc)

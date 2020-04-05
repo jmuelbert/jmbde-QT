@@ -21,8 +21,6 @@ find_package(
              Widgets
              Sql
              PrintSupport
-             Qml
-             Quick
              QuickWidgets
              Test)
 

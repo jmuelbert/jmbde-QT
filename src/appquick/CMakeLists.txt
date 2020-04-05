@@ -77,8 +77,13 @@ target_compile_definitions(
   ${PROJECT_NAME}
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE jmbde::models Qt5::Core
-                                              Qt5::QuickWidgets ${CONAN_LIBS})
+target_link_libraries(${PROJECT_NAME} 
+  PRIVATE jmbde::models 
+          Qt5::Core
+          Qt5::PrintSupport
+          Qt5::Sql
+          Qt5::QuickWidgets
+          ${CONAN_LIBS})
 
 # Use a single application on MacOS + Windows instead of dbus.
 if(APPLE OR WIN32)
