@@ -104,7 +104,9 @@ target_link_libraries(
   Qt5::Widgets
   Qt5::PrintSupport
   Qt5::Sql
-  Qt5::QuickControls2)
+  Qt5::Qml
+  Qt5::QuickWidgets
+  )
 
 #
 # Finding Qt
@@ -115,7 +117,9 @@ find_package(
              Widgets
              Sql
              PrintSupport
-             QuickControls2)
+             Qml
+             QuickWidgets
+  )
 
 qt5_wrap_ui(
   UiGenerated_SRCS
