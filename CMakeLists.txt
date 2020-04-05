@@ -85,10 +85,8 @@ if(EXISTS "${CONAN_ECM_ROOT}")
   list(APPEND CMAKE_PREFIX_PATH "${CONAN_ECM_ROOT}/share/ECM")
   message(STATUS "Setting ECM-DIR to ${CONAN_ECM_ROOT}/share/ECM")
 # For VCPKG on Appveyor
-elseif(WIN32 AND EXISTS "C:/tools/vcpkg/packages/ecm_x86-windows/share/ECM")
-  list(APPEND CMAKE_PREFIX_PATH
-              "C:/tools/vcpkg/packages/ecm_x86-windows/share/ECM")
-    message(STATUS "C:/tools/vcpkg/packages/ecm_x86-windows/share/ECM")
+elseif()
+    message(STATUS "Using VCPKG (on appveyor)")
 endif()
 
 # we need some parts of the ECM CMake helpers

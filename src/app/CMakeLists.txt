@@ -61,7 +61,6 @@ find_package(
              Widgets
              PrintSupport
              Sql
-             Qml
              Quick
              QuickWidgets)
 

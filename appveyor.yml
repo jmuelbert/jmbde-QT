@@ -326,7 +326,6 @@ for:
       - ps: Get-ChildItem "C:\tools\vcpkg\triplets"
 
     build_script:
-      - call "%ENV_SETUP_BAT%" %ENV_SETUP_ARG%
       - ps: New-Item -itemtype directory -path ./program
       - ps: cmake -G "$ENV:CMAKE_GENERATOR"  -DCMAKE_BUILD_TYPE="$ENV:CONFIGURATION"  -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DCMAKE_INSTALL_PREFIX:PATH=./program -DBUILD_SHARED_LIBS=ON ..
       - ps: cmake --build . --config $ENV:CONFIGURATION --target install

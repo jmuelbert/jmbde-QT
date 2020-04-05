@@ -59,7 +59,10 @@ endif()
 #
 # Finding Qt
 #
-find_package(Qt5 ${QT_MIN_VERSION} QUIET REQUIRED COMPONENTS Core QuickWidgets)
+find_package(Qt5 ${QT_MIN_VERSION} 
+  QUIET REQUIRED COMPONENTS 
+  Core 
+  QuickWidgets)
 
 target_compile_features(jmbdequick PRIVATE cxx_auto_type)
 
