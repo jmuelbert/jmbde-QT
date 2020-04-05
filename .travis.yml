@@ -91,11 +91,9 @@ matrix:
           repo: jmuelbert/jmbde-QT
           tags: true
 
-    - name: "macos (xcode11.0)"
+    - name: "macos (xcode11.2)"
       os: osx
-      osx_image: xcode11.0
-      compiler:
-        - clang
+      osx_image: xcode11.2
 
       addons:
         homebrew:
@@ -108,8 +106,9 @@ matrix:
 
       env:
         - CMAKE_BUILD_TYPE: Release
-        - CONAN_COMPILER: clang
+        - CONAN_COMPILER: g++
         - CONAN_COMPILER_VERSION: 11.0
+        - CONAN_COMPILER_LIBCXX: libc++
 
       before_install:
         - brew tap kde-mac/kde
@@ -128,7 +127,7 @@ matrix:
         - mkdir build && cd build
         - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
         - conan create ../conan/ECM
-        - conan install -s compiler=apple-clang .. --build missing
+        - conan install .. --build missing
         - conan remote list
         - cmake --configure .. -DCMAKE_INSTALL_PREFIX=install -DBUILD_SHARED_LIBS=ON ..
         - sudo cmake --build . --config $CMAKE_BUILD_TYPE --target install

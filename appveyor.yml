@@ -272,7 +272,6 @@ for:
       - ps: $ENV:CMAKE_ARGS= "-DCMAKE_C_COMPILER=clang-cl.exe -DCMAKE_CXX_COMPILER=clang-cl.exe -DCMAKE_LINKER=lld-link.exe"
       - ps: $ENV:CLANG_URL="https://releases.llvm.org/9.0.0/LLVM-9.0.0-win64.exe"
       - ps: $ENV:VSDEVCMD="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\Common7\Tools\VsDevCmd.bat"
-          ENV_SETUP_ARG: -host_arch=amd64
       # MSVC
       - ps: $ENV:QTDIR="C:\Qt\5.14\msvc2017_64"
       - ps: $ENV:VCPKGROOT="C:\tools\vcpkg"
