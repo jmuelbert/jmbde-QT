@@ -60,6 +60,14 @@ project(
   HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
   LANGUAGES CXX C)
 
+  # CMP0076 introduced in 3.13
+if (POLICY CMP0076) 
+  cmake_policy(SET CMP0076 NEW)
+endif()
+
+# warn about deprecated stuff so that we may try fixing it
+SET(CMAKE_WARN_DEPRECATED 1)
+
 # Set the dependencies versions
 set(KF5_VERSION "5.64.0")
 set(KF5_DEP_VERSION "5.64.0")

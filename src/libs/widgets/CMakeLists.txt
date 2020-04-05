@@ -31,7 +31,14 @@ ecm_setup_version(
 
 # Enable Generate all Symbols for Windows!
 set(WINDOWS_EXPORT_ALL_SYMBOLS ON)
-cmake_policy(SET CMP0076 NEW)
+
+# CMP0076 introduced in 3.13
+if (POLICY CMP0076) 
+  cmake_policy(SET CMP0076 NEW)
+endif()
+
+# warn about deprecated stuff so that we may try fixing it
+SET(CMAKE_WARN_DEPRECATED 1)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
