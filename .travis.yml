@@ -108,6 +108,8 @@ matrix:
 
       env:
         - CMAKE_BUILD_TYPE: Release
+        - CONAN_COMPILER: clang
+        - CONAN_COMPILER_VERSION: 11.0
 
       before_install:
         - brew tap kde-mac/kde
@@ -126,7 +128,7 @@ matrix:
         - mkdir build && cd build
         - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
         - conan create ../conan/ECM
-        - conan install .. -g cmake
+        - conan install -s compiler=apple-clang .. --build missing
         - conan remote list
         - cmake --configure .. -DCMAKE_INSTALL_PREFIX=install -DBUILD_SHARED_LIBS=ON ..
         - sudo cmake --build . --config $CMAKE_BUILD_TYPE --target install

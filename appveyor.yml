@@ -255,12 +255,11 @@ for:
         - image: Visual Studio 2019
           TOOLCHAIN: "Visual Studio 2019 Clang/LLVM 9.0.0"
           GENERATOR: Visual Studio 16 2019
-          PATH: C:\Program Files\LLVM\bin;%PATH%
+          PATH: C:\Python37-x64\bin;C:\Program Files\LLVM\bin;%PATH%
           CMAKE_ARGS: -DCMAKE_C_COMPILER=clang-cl.exe -DCMAKE_CXX_COMPILER=clang-cl.exe -DCMAKE_LINKER="lld-link.exe"
           CLANG_URL: https://releases.llvm.org/9.0.0/LLVM-9.0.0-win64.exe
           ENV_SETUP_BAT: C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\VsDevCmd.bat
           ENV_SETUP_ARG: -host_arch=amd64
-          PATH: C:\Python37-x64\bin:%PATH%
           fast_finish: false # set this flag to true to immediately finish build once one of the jobs fails.
 
     cache:
