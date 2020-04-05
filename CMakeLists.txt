@@ -73,7 +73,7 @@ if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
   )
 endif()
 
-if(EXISTS ${CMAKE_BINARY_DIR}/cononbuildinfo.cmake)
+if(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
   include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
   conan_basic_setup()
 endif()
