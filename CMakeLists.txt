@@ -367,6 +367,11 @@ if(CPPCHECK_EXECUTABLE)
     COMMENT "Running the cppcheck static code checker")
 endif()
 
+if(BUILD_TESTING)
+  enable_testing()
+  add_subdirectory(tests)
+endif()
+
 # tell about our features (and what is missing)
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES
                 FATAL_ON_MISSING_REQUIRED_PACKAGES)

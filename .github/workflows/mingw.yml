@@ -19,8 +19,11 @@ jobs:
       - uses: actions/checkout@v1
       - name: install
         run: |
+            pip install conan
+            conan user
+            conan remote add bincrafters "https://api.bintray.com/conan/bincrafters/public-conan"
             pip install bincrafters_package_tools
-            conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+            conan create ../conan/ECM
       - name: run
         env:
             CONAN_BUILD_TYPES: ${{matrix.buildType}}

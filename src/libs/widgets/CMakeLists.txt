@@ -76,19 +76,7 @@ set_target_properties(
 
 target_compile_features(
   jmbdewidgets
-  PUBLIC cxx_auto_type
-  PRIVATE cxx_lambdas
-          cxx_nullptr
-          cxx_range_for
-          cxx_raw_string_literals
-          cxx_uniform_initialization
-          cxx_variadic_templates
-          cxx_rvalue_references
-          cxx_defaulted_functions
-          cxx_deleted_functions
-          cxx_override
-          cxx_final
-          cxx_nonstatic_member_init)
+  PUBLIC cxx_std_17)
 
 target_include_directories(
   jmbdewidgets
@@ -192,7 +180,17 @@ target_sources(
           loggingcategory.h
           include/definitions.h)
 
-install(TARGETS jmbdewidgets ${KDE_INSTALL_TARGETS_DEFAULT})
+#
+# Install
+#
+install(TARGETS jmbdewidgets
+    EXPORT jmbdeModelsTargets
+    ARCHIVE DESTINATION ${KDE_INSTALL_LIB_DIR}
+    LIBRARY DESTINATION ${KDE_INSTALL_LIB_DIR}
+    RUNTIME DESTINATION ${KDE_INSTALL_BIN_DIR}
+    INCLUDES DESTINATION $CMAKE_INSTALL_INCLUDE_DIR}
+    )
+
 
 if(MSVC AND BUILD_SHARED_LIBS)
   install(
@@ -200,4 +198,9 @@ if(MSVC AND BUILD_SHARED_LIBS)
       "$<TARGET_PDB_FILE_DIR:jmbdewidgets>/$<TARGET_PDB_FILE_NAME:jmbdewidgets>"
     DESTINATION ${BIN_INSTALL_DIR}
     CONFIGURATIONS Debug RelWithDebInfo)
+endif()
+
+if(BUILD_TESTING)
+  enable_testing()
+  # add_subdirectory(tests)
 endif()

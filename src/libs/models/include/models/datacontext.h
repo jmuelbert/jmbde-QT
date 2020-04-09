@@ -44,6 +44,10 @@
 #include "jmbdemodels_export.h"
 #include "loggingcategory.h"
 
+
+
+namespace Model
+{
 /**
   \class DataContext
   \brief The Main Database class
@@ -51,14 +55,11 @@
   \author Jürgen Mülbert
   \version 0.4
   \date 14.12.2017
-  \copyright EUPL V1.2
+  \copyright GPL_3
 
   \todo Remove UI for Testing
   \todo Move Code for every Table in his own class
  */
-
-namespace Model
-{
 class JMBDEMODELS_EXPORT DataContext : public QObject
 {
 

@@ -18,7 +18,12 @@ jobs:
         sudo apt-get update
         sudo apt-get install clang-format-9
     - name: "Format Codes"
-      run: clang-format-9 -i src/*.cpp src/*/*.cpp include/*.h include/*/*.h
+      run: clang-format-9 -i  src/app/src/*.cpp \
+                              src/appquick/src/*.cpp \
+                              src/libs/models/src/*.cpp \
+                              src/libs/models/include/*.h
+                              src/libs/widgets/src/*.cpp \
+                              src/libs/widgets/include/*.h
     - name: Commit files
       run: |
         git config --local user.email "jmbde_bot@126.com"
