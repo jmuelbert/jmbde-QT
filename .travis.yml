@@ -48,12 +48,7 @@ matrix:
         - mkdir -p appbuild
         - mkdir -p appdir
         - cd build
-        # - conan remote add bincrafters "https://api.bintray.com/conan/bincrafters/public-conan"
-        - conan create ../conan/ECM
-        - conan install ..
-        - conan profile update settings.compiler.libcxx=libstdc++11 default
-        - conan remote list
-        - conan search
+        - conan create ./conan/ECM
         - cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr -DBUILD_SHARED_LIBS=ON -DENABLE_TESTING=ON
         - make
         - ctest -V

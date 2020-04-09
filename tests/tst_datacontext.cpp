@@ -12,9 +12,12 @@ class DataContext_Test : public QObject
     Q_OBJECT
 
 public:
-    DataContext_Test() {}
-    ~DataContext_Test() {}
-
+    DataContext_Test()
+    {
+    }
+    ~DataContext_Test()
+    {
+    }
 
 private:
     QSqlDatabase sdb;
@@ -30,7 +33,6 @@ private slots:
     void DeleteDatabase();
 };
 
-
 void DataContext_Test::initTestCase()
 {
     QLatin1Literal driverName("QSQLITE");
@@ -39,11 +41,9 @@ void DataContext_Test::initTestCase()
     if (!QSqlDatabase::drivers().contains(driverName))
         QFAIL("This test requires the SQLITE database driver");
 
-    QSqlDatabase sdb = QSqlDatabase::addDatabase(driverName);
-    sdb.setDatabaseName(inMemory);
+    QSqlDatabase sdb = QSqlDatabase::addDatabase(driverName, inMemory);
 
-    if (!sdb.open())
-    {
+    if (!sdb.open()) {
         QFAIL(sdb.lastError().text().toStdString().c_str());
     }
 }
@@ -51,8 +51,7 @@ void DataContext_Test::initTestCase()
 void DataContext_Test::cleanupTestCase()
 {
     {
-        if (sdb.isOpen())
-        {
+        if (sdb.isOpen()) {
             sdb.close();
         }
     }
@@ -62,8 +61,7 @@ void DataContext_Test::cleanupTestCase()
 
 void DataContext_Test::CheckExistence_data()
 {
-    if (!sdb.open())
-    {
+    if (!sdb.open()) {
         QFAIL(sdb.lastError().text().toStdString().c_str());
     } else {
         QTest::addColumn<QString>("table");
@@ -72,18 +70,17 @@ void DataContext_Test::CheckExistence_data()
         QTest::addColumn<bool>("retValue");
 
         QTest::newRow("database_version") << "database_version"
-                                      << "revision"
-                                      << "90" << true;
+                                          << "revision"
+                                          << "90" << true;
         QTest::newRow("database_version") << "database_version"
-                                      << "version"
-                                      << "1" << false;
+                                          << "version"
+                                          << "1" << false;
     }
 }
 
 void DataContext_Test::OpenDatabase()
 {
-    if (!sdb.open())
-    {
+    if (!sdb.open()) {
         QFAIL(sdb.lastError().text().toStdString().c_str());
     } else {
         QString name = QStringLiteral("Test");
@@ -104,11 +101,9 @@ void DataContext_Test::OpenDatabase()
 
 void DataContext_Test::CheckExistence()
 {
-    if (!sdb.open())
-    {
+    if (!sdb.open()) {
         QFAIL(sdb.lastError().text().toStdString().c_str());
     } else {
-
         QString name = QStringLiteral("Test");
         QString app = QStringLiteral("App");
         auto *testDB = new Model::DataContext(nullptr, name, app);
@@ -126,26 +121,23 @@ void DataContext_Test::CheckExistence()
 
 void DataContext_Test::RenameDatabase()
 {
-    if (!sdb.open())
-    {
+    if (!sdb.open()) {
         QFAIL(sdb.lastError().text().toStdString().c_str());
     } else {
-     QString name = QStringLiteral("Test");
-     QString app = QStringLiteral("App");
-     auto *testDB = new Model::DataContext(nullptr, name, app);
+        QString name = QStringLiteral("Test");
+        QString app = QStringLiteral("App");
+        auto *testDB = new Model::DataContext(nullptr, name, app);
 
-     const QString newName = QStringLiteral("Rest");
-     testDB->renameDB(name, newName);
+        const QString newName = QStringLiteral("Rest");
+        testDB->renameDB(name, newName);
     }
 }
 
 void DataContext_Test::DeleteDatabase()
 {
-    if (!sdb.open())
-    {
+    if (!sdb.open()) {
         QFAIL(sdb.lastError().text().toStdString().c_str());
     } else {
-
         QString name = QStringLiteral("Test");
         QString app = QStringLiteral("App");
         auto *testDB = new Model::DataContext(nullptr, name, app);

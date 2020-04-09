@@ -123,6 +123,12 @@ jobs:
         key: ${{ matrix.config.os }}-${{ matrix.qt_version }}-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
         restore-keys: |
           ${{ matrix.config.os }}-${{ matrix.qt_version }}-ccache-
+    - name:
+      id: conan_and_ECM
+      run: |
+        python -m pip install conan
+        conan user
+        conan create ./conan/ECM
     - name: Configure CMake
       shell: cmake -P {0}
       run: |
