@@ -42,13 +42,14 @@ matrix:
       install:
         - pip install conan
         - conan user
-
+        - conan create ./conan/ECM
+        
       script:
         - mkdir -p build
         - mkdir -p appbuild
         - mkdir -p appdir
         - cd build
-        - conan create ./conan/ECM
+        - conan install ..
         - cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr -DBUILD_SHARED_LIBS=ON -DENABLE_TESTING=ON
         - make
         - ctest -V
