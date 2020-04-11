@@ -258,11 +258,11 @@ Source: "bin\translations\qt_uk.qm"; DestDir: "{app}\translations"; Components: 
 Source: "bin\translations\qt_zh_TW.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 
 ; Docs
-Source: "..\*.md"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "..\AUTHORS"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "..\..\*.md"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "..\..\AUTHORS"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 
 ; Licenses
-Source: "..\LICENSE"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "..\..\LICENSE"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 
 ; VCREDIST
 ; Source: "{#VCREDIST_CRT_DIR}\*"; DestDir: "{tmp}"; Flags: recursesubdirs; Components: core;

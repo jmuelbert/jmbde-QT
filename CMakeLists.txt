@@ -134,7 +134,6 @@ include(ECMQMLModules)
 include(ECMGenerateQmlTypes)
 include(ECMGeneratePriFile)
 
-
 include(ECMQtDeclareLoggingCategory)
 include(KDECompilerSettings NO_POLICY_SCOPE)
 include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
@@ -345,8 +344,11 @@ if(APPLE)
   set(ECM_MKSPECS_INSTALL_DIR
       "${RESOURCES_INSTALL_DIR}/${ECM_MKSPECS_INSTALL_DIR}")
 else()
-  # Use GnuInstallDirs
-  include(GnuInstallDirs)
+  # Set installation paths
+  # This takes care of installing into "lib64" on distros that use that, for instance,
+  # by setting CMAKE_INSTALL_FULL_LIBDIR.
+  include(GNUInstallDirs)
+  
   set(BIN_INSTALL_DIR "${CMAKE_INSTALL_BINDIR}") # relative, usually "bin"
   set(LIB_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}") # "lib" or "lib64"
   set(INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_INCLUDE_DIR}/cmake/${PROJECT_NAME}")

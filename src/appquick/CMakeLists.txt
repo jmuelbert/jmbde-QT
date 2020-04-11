@@ -197,9 +197,11 @@ elseif(UNIX AND NOT APPLE)
                    ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick.1 @ONLY)
     add_custom_command(
       OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick.1.gz
-      COMMAND ${GZIP} -c ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick.1 > jmbdequick.1.gz
+      COMMAND ${GZIP} -c ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick.1 >
+              jmbdequick.1.gz
       DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick.1)
-    add_custom_target(man_jmbdequick ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick.1.gz)
+    add_custom_target(man_jmbdequick ALL
+                      DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick.1.gz)
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick.1.gz
             DESTINATION ${MAN_INSTALL_DIR}/man1/)
   endif()
