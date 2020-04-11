@@ -181,8 +181,7 @@ elseif(UNIX AND NOT APPLE)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/jmbdequick.appdata.xml.in
                  ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick.appdata.xml @ONLY)
   install(
-    FILES
-      ${CMAKE_CURRENT_SOURCE_DIR}/jmbdequick.appdata.xml
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick.appdata.xml
     DESTINATION ${APPDATA_INSTALL_DIR})
 
   install(
