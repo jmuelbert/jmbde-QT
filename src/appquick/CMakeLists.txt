@@ -188,7 +188,7 @@ elseif(UNIX AND NOT APPLE)
   install(
     FILES
       ${CMAKE_CURRENT_SOURCE_DIR}/data/io.github.jmuelbert.jmbdequick.desktop
-      DESTNATION ${XDG_APPS_INSTALL_DIR})
+      DESTINATION ${XDG_APPS_INSTALL_DIR})
 
   # man page
   find_program(GZIP gzip)

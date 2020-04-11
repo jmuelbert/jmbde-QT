@@ -190,7 +190,7 @@ option(BUILD_SHARED_LIBS "Build shared libs" OFF)
 add_feature_info(SHARED_LIBS ${BUILD_SHARED_LIBS} "Build shared libs")
 option(BUILD_TESTING "Build tests." ON)
 add_feature_info(TESTS ${BUILD_TESTING} "Build and run the tests")
-option(ENABLE_CLAZY "Enable clazy" ON)
+option(ENABLE_CLAZY "Enable clazy" OFF)
 add_feature_info(CLAZY ${ENABLE_CLAZY} "Build with clazy hints")
 option(ENABLE_CLANG_TIDY "activate clang tidy messages" OFF)
 add_feature_info(CLANG_TIDY ${ENABLE_CLANG_TIDY}
@@ -348,7 +348,7 @@ else()
   # This takes care of installing into "lib64" on distros that use that, for instance,
   # by setting CMAKE_INSTALL_FULL_LIBDIR.
   include(GNUInstallDirs)
-  
+
   set(BIN_INSTALL_DIR "${CMAKE_INSTALL_BINDIR}") # relative, usually "bin"
   set(LIB_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}") # "lib" or "lib64"
   set(INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_INCLUDE_DIR}/cmake/${PROJECT_NAME}")
