@@ -54,9 +54,6 @@ cmake_policy(SET CMP0043 NEW)
 if(POLICY CMP0053)
   cmake_policy(SET CMP0053 NEW)
 endif()
-if(POLICY CMP0063)
-  cmake_policy(SET CMP0063 NEW)
-endif()
 if(POLICY CMP0068)
   cmake_policy(SET CMP0068 NEW)
 endif()
@@ -136,8 +133,8 @@ include(ECMPoQmTools)
 include(ECMQMLModules)
 include(ECMGenerateQmlTypes)
 include(ECMGeneratePriFile)
-set(KDE_SKIP_RPATH_SETTINGS ON)
-include(KDECMakeSettings)
+
+
 include(ECMQtDeclareLoggingCategory)
 include(KDECompilerSettings NO_POLICY_SCOPE)
 include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
@@ -217,7 +214,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 if(NOT DEFINED CMAKE_SKIP_BUILD_RPATH)
-  set(CMAKE_SKIP_BUILD_RPATH OFF)
+  set(CMAKE_SKIP_BUILD_RPATH ON)
 endif()
 if(NOT DEFINED CMAKE_BUILD_WITH_INSTALL_RPATH)
   set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
@@ -394,6 +391,9 @@ set(INSTALL_TARGETS_DEFAULT_ARGS
     BUNDLE
     DESTINATION
     ${BUNDLE_INSTALL_DIR})
+
+# Set the RPATH
+include(KDECMakeSettings)
 
 # 3rd-party
 ecm_optional_add_subdirectory(src/3rd-party/qtsingleapplication)

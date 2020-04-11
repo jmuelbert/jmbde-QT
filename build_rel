@@ -2,7 +2,7 @@
 
 set -e
 set -x
-export CMAKE_BUILD_TYPE=Release
+export BUILD_TYPE=Release
 
 rm -rf build
 mkdir build
@@ -26,7 +26,8 @@ cmake -GNinja .. \
 	-DBUILD_MANUAL=ON \
 	-DBUILD_API_DOCS=ON \
 	-DBUILD_TESTING=ON \
-	-DCMAKE_INSTALL_PREFIX=install
-cmake --build . --config $CMAKE_BUILD_TYPE --target install
+	-DCMAKE_INSTALL_PREFIX=install \
+	-DCMAKE_BUILD_TYPE=Release
+cmake --build . --config $BUILD_TYPE --target install
 ctest --verbose .
 cpack .
