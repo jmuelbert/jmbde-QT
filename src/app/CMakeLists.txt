@@ -61,14 +61,8 @@ endif()
 #
 # Finding Qt
 #
-find_package(
-  Qt5 ${QT_MIN_VERSION} QUIET REQUIRED
-  COMPONENTS Core
-             Widgets
-             PrintSupport
-             Sql
-             Qml
-             )
+find_package(Qt5 ${QT_MIN_VERSION} QUIET REQUIRED
+             COMPONENTS Core Widgets PrintSupport Sql Qml)
 
 target_compile_features(jmbde PUBLIC cxx_std_17)
 
@@ -85,11 +79,7 @@ target_compile_definitions(
 target_link_libraries(
   ${PROJECT_NAME}
   PUBLIC Qt5::Core
-  PRIVATE jmbde::widgets
-          Qt5::Widgets
-          Qt5::PrintSupport
-          Qt5::Sql
-          Qt5::Qml
+  PRIVATE jmbde::widgets Qt5::Widgets Qt5::PrintSupport Qt5::Sql Qt5::Qml
           ${CONAN_LIBS})
 
 # Use a single application on MacOS + Windows instead of dbus.
@@ -130,10 +120,10 @@ if(WIN32)
   # See
   # https://cmake.org/cmake/help/v3.15/prop_tgt/MACOSX_BUNDLE_INFO_PLIST.html
 elseif(APPLE)
-  set_target_properties(${PROJECT_NAME} PROPERTIES
-    OUTPUT_NAME "${PROJECT_NAME}"
-    INSTALL_RPATH "@executable_path/../Frameworks"
-    )
+  set_target_properties(
+    ${PROJECT_NAME}
+    PROPERTIES OUTPUT_NAME "${PROJECT_NAME}" INSTALL_RPATH
+                                             "@executable_path/../Frameworks")
   # Add icon files to the application's source files to have CMake bundle them
   # in the executable.
   ecm_add_app_icon(ICONS_SOURCES ICONS ${ICONS_PNG})
@@ -171,7 +161,7 @@ elseif(APPLE)
                                                    "2013-2020 Jürgen Mülbert")
 
   install(TARGETS ${PROJECT_NAME} BUNDLE DESTINATION .
-                                          ${INSTALL_TARGETS_DEFAULT_ARGS})
+                                         ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 elseif(UNIX AND NOT APPLE)
 

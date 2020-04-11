@@ -1,6 +1,6 @@
 name: jmbde-QT Windows Installer
 
-on: 
+on:
   push:
   release:
     types: [prereleased]
@@ -12,7 +12,7 @@ jobs:
         qt_version: [5.14.2]
         platform: [windows-latest]
         arch: [x86, x64]
-        include: 
+        include:
           - platform: windows-latest
             arch: x86
             qtarch: win32_msvc2017
@@ -20,12 +20,12 @@ jobs:
             arch: x64
             qtarch: win64_msvc2017_64
       fail-fast: false
-        
+
     runs-on: ${{ matrix.platform }}
     env:
       _JMBDE_QT_BUILD_INFO_: "jmbde-QT built from Github Action"
       _JMBDE_QT_BUILD_EXTRA_INFO_: "qt${{ matrix.qt_version }}-${{ github.sha }}-ci.${{ matrix.platform }}"
-    
+
     steps:
       - name: Get the version
         id: get_version
@@ -43,7 +43,7 @@ jobs:
 # =========================================================================================================
       - name: Install MSVC compiler
         uses: ilammy/msvc-dev-cmd@v1
-        with: 
+        with:
           # 14.1 is for vs2017, 14.2 is vs2019, following the upstream vcpkg build from Qv2ray-deps repo
           toolset: 14.2
           arch: ${{ matrix.arch }}

@@ -33,12 +33,12 @@ ecm_setup_version(
 set(WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 # CMP0076 introduced in 3.13
-if (POLICY CMP0076) 
+if(POLICY CMP0076)
   cmake_policy(SET CMP0076 NEW)
 endif()
 
 # warn about deprecated stuff so that we may try fixing it
-SET(CMAKE_WARN_DEPRECATED 1)
+set(CMAKE_WARN_DEPRECATED 1)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -74,9 +74,7 @@ set_target_properties(
              SOVERSION ${JMBDEWIDGETS_SOVERSION}
              EXPORT_NAME "jmbdewidgets")
 
-target_compile_features(
-  jmbdewidgets
-  PUBLIC cxx_std_17)
+target_compile_features(jmbdewidgets PUBLIC cxx_std_17)
 
 target_include_directories(
   jmbdewidgets
@@ -100,21 +98,13 @@ target_link_libraries(
   Qt5::PrintSupport
   Qt5::Sql
   Qt5::Qml
-  Qt5::QuickWidgets
-  )
+  Qt5::QuickWidgets)
 
 #
 # Finding Qt
 #
-find_package(
-  Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED
-  COMPONENTS Core
-             Widgets
-             Sql
-             PrintSupport
-             Qml
-             QuickWidgets
-  )
+find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED
+             COMPONENTS Core Widgets Sql PrintSupport Qml QuickWidgets)
 
 qt5_wrap_ui(
   UiGenerated_SRCS
@@ -183,11 +173,10 @@ target_sources(
 #
 # Install
 #
-install(TARGETS jmbdewidgets
-    EXPORT jmbdeModelsTargets
-    ${INSTALL_TARGETS_DEFAULT_ARGS}
-    )
-
+install(
+  TARGETS jmbdewidgets
+  EXPORT jmbdeModelsTargets
+  ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 if(MSVC AND BUILD_SHARED_LIBS)
   install(

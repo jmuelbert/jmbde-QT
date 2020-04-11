@@ -8,8 +8,8 @@
 #
 # This program is distributed in the hope that it will be useful, but WITHOUT
 # ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-# FOR A PARTICULAR PURPOSE.  See the GNU General Pub          Qt5::Qmllic License for more
-# details.
+# FOR A PARTICULAR PURPOSE.  See the GNU General Pub          Qt5::Qmllic
+# License for more details.
 
 # minimal requirements
 cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
@@ -33,12 +33,12 @@ ecm_setup_version(
 set(WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 # CMP0076 introduced in 3.13
-if (POLICY CMP0076) 
+if(POLICY CMP0076)
   cmake_policy(SET CMP0076 NEW)
 endif()
 
 # warn about deprecated stuff so that we may try fixing it
-SET(CMAKE_WARN_DEPRECATED 1)
+set(CMAKE_WARN_DEPRECATED 1)
 
 # JMBDEMODELS project
 project(
@@ -72,9 +72,7 @@ set_target_properties(
              SOVERSION ${JMBDEMODELS_SOVERSION}
              EXPORT_NAME "jmbdemodels")
 
-target_compile_features(
-  jmbdemodels
-  PUBLIC cxx_std_17)
+target_compile_features(jmbdemodels PUBLIC cxx_std_17)
 
 target_include_directories(
   jmbdemodels
@@ -94,19 +92,13 @@ target_link_libraries(
   LINK_PRIVATE
   Qt5::Widgets
   Qt5::PrintSupport
-  Qt5::Sql
-  )
+  Qt5::Sql)
 
 #
 # Finding Qt
 #
-find_package(
-  Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED
-  COMPONENTS Core
-             Widgets
-             Sql
-             PrintSupport
-    )
+find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS Core Widgets Sql
+                                                              PrintSupport)
 
 qt5_add_resources(Resources_SRCS resources/res.qrc)
 
@@ -189,10 +181,10 @@ target_sources(
 #
 # Install
 #
-install(TARGETS jmbdemodels 
-    EXPORT jmbdeModelsTargets
-    ${INSTALL_TARGETS_DEFAULT_ARGS}
-    )
+install(
+  TARGETS jmbdemodels
+  EXPORT jmbdeModelsTargets
+  ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 if(MSVC AND BUILD_SHARED_LIBS)
   install(

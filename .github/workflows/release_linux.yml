@@ -54,7 +54,7 @@ jobs:
         mv jmbde.png jmbde.png.png
         ./linuxdeployqt*.AppImage ./jmbde -appimage -qmake=/opt/qt512/bin/qmake
         mv JMBDE-${{steps.get_version.outputs.VERSION }}-x86_64.AppImage jmbde-${{ steps.get_version.outputs.VERSION }}-x86_64.AppImage
-    
+
     - name: Package the complete Source
       run: |
         wget https://raw.githubusercontent.com/Kentzo/git-archive-all/master/git_archive_all.py

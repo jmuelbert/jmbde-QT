@@ -61,10 +61,10 @@ if(POLICY CMP0068)
   cmake_policy(SET CMP0068 NEW)
 endif()
 if(POLICY CMP0077)
-  cmake_policy(SET CMP0077 NEW)  # CMake 3.13+: option() honors normal variables.
+  cmake_policy(SET CMP0077 NEW) # CMake 3.13+: option() honors normal variables.
 endif()
 # CMP0076 introduced in 3.13
-if (POLICY CMP0076) 
+if(POLICY CMP0076)
   cmake_policy(SET CMP0076 NEW)
 endif()
 
@@ -76,7 +76,7 @@ project(
   LANGUAGES CXX C)
 
 # warn about deprecated stuff so that we may try fixing it
-SET(CMAKE_WARN_DEPRECATED 1)
+set(CMAKE_WARN_DEPRECATED 1)
 
 # Set the dependencies versions
 set(KF5_VERSION "5.64.0")
@@ -106,9 +106,9 @@ endif()
 if(EXISTS "${CONAN_ECM_ROOT}")
   list(APPEND CMAKE_PREFIX_PATH "${CONAN_ECM_ROOT}/share/ECM")
   message(STATUS "Setting ECM-DIR to ${CONAN_ECM_ROOT}/share/ECM")
-# For VCPKG on Appveyor
+  # For VCPKG on Appveyor
 elseif()
-    message(STATUS "Using VCPKG (on appveyor)")
+  message(STATUS "Using VCPKG (on appveyor)")
 endif()
 
 # we need some parts of the ECM CMake helpers
@@ -127,11 +127,6 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 # load helper modules
 include(CheckFunctionExists)
 include(InstallRequiredSystemLibraries)
-if(NOT UNIX)
-  set(KDE_INSTALL_PREFIX_SCRIPT FALSE)
-endif()
-set(KDE_INSTALL_USE_QT_SYS_PATHS OFF)
-include(KDEInstallDirs)
 include(GenerateExportHeader)
 include(ECMSetupVersion)
 include(ECMGenerateExportHeader)
@@ -145,7 +140,6 @@ include(KDECMakeSettings)
 include(ECMQtDeclareLoggingCategory)
 include(KDECompilerSettings NO_POLICY_SCOPE)
 include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
-include(KDEPackageAppTemplates)
 include(KDEClangFormat)
 
 include(ECMOptionalAddSubdirectory)
@@ -325,39 +319,52 @@ if(UPPERCASE_CMAKE_BUILD_TYPE MATCHES "^RELEASE$")
 endif()
 
 if(APPLE)
-    set(BUNDLE_APP_NAME "${PROJECT_NAME}.app")
-    # Make sure default prefix on mac is /Applications, dunnow why but it does not default to it
-    # probably because we do not enabled built in bundle support in the main project
-    string(COMPARE EQUAL "${CMAKE_INSTALL_PREFIX}" "/usr/local" CMP_RESULT)
-    if(CMP_RESULT)
-      set(CMAKE_INSTALL_PREFIX "/Applications")
-    endif()
+  set(BUNDLE_APP_NAME "${PROJECT_NAME}.app")
+  # Make sure default prefix on mac is /Applications, dunnow why but it does not
+  # default to it probably because we do not enabled built in bundle support in
+  # the main project
+  string(COMPARE EQUAL "${CMAKE_INSTALL_PREFIX}" "/usr/local" CMP_RESULT)
+  if(CMP_RESULT)
+    set(CMAKE_INSTALL_PREFIX "/Applications")
+  endif()
 
-    set(BUNDLE_INSTALL_DIR ".")
-    set(RESOURCES_INSTALL_DIR "${BUNDLE_INSTALL_DIR}/${BUNDLE_APP_NAME}/Contents/Resources")
-    set(BIN_INSTALL_DIR "${BUNDLE_INSTALL_DIR}/${BUNDLE_APP_NAME}/Contents/MacOS")
-    set(LIB_INSTALL_DIR "${BUNDLE_INSTALL_DIR}/${BUNDLE_APP_NAME}/Contents/Frameworks")
-    set(PLUGIN_INSTALL_DIR "${BUNDLE_INSTALL_DIR}/${BUNDLE_APP_NAME}/Contents/PlugIns/${PROJECT_NAME}")
-    set(LIBEXEC_INSTALL_DIR "${BIN_INSTALL_DIR}")
-    set(MAN_INSTALL_DIR "${RESOURCES_INSTALL_DIR}/man/man1")
-    set(DOC_INSTALL_DIR "${RESOURCES_INSTALL_DIR}/docs")
-    set(QCH_INSTALL_DIR "${RESOURCES_INSTALL_DIR}/docs")
-    set(TRANSLATION_INSTALL_DIR "${RESOURCES_INSTALL_DIR}/translations")
-     set(INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_INCLUDE_DIR}/cmake/${PROJECT_NAME}")
-    set(CMAKECONFIG_INSTALL_DIR "${RESOURCES_INSTALL_DIR}/cmake/${PROJECT_NAME}")
-    set(ECM_MKSPECS_INSTALL_DIR "${RESOURCES_INSTALL_DIR}/${ECM_MKSPECS_INSTALL_DIR}")
+  set(BUNDLE_INSTALL_DIR ".")
+  set(RESOURCES_INSTALL_DIR
+      "${BUNDLE_INSTALL_DIR}/${BUNDLE_APP_NAME}/Contents/Resources")
+  set(BIN_INSTALL_DIR "${BUNDLE_INSTALL_DIR}/${BUNDLE_APP_NAME}/Contents/MacOS")
+  set(LIB_INSTALL_DIR
+      "${BUNDLE_INSTALL_DIR}/${BUNDLE_APP_NAME}/Contents/Frameworks")
+  set(PLUGIN_INSTALL_DIR
+      "${BUNDLE_INSTALL_DIR}/${BUNDLE_APP_NAME}/Contents/PlugIns/${PROJECT_NAME}"
+  )
+  set(LIBEXEC_INSTALL_DIR "${BIN_INSTALL_DIR}")
+  set(MAN_INSTALL_DIR "${RESOURCES_INSTALL_DIR}/man/man1")
+  set(DOC_INSTALL_DIR "${RESOURCES_INSTALL_DIR}/docs")
+  set(QCH_INSTALL_DIR "${RESOURCES_INSTALL_DIR}/docs")
+  set(TRANSLATION_INSTALL_DIR "${RESOURCES_INSTALL_DIR}/translations")
+  set(INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_INCLUDE_DIR}/cmake/${PROJECT_NAME}")
+  set(CMAKECONFIG_INSTALL_DIR "${RESOURCES_INSTALL_DIR}/cmake/${PROJECT_NAME}")
+  set(ECM_MKSPECS_INSTALL_DIR
+      "${RESOURCES_INSTALL_DIR}/${ECM_MKSPECS_INSTALL_DIR}")
 else()
-  # Use KDEInstallDirs
-  set(BIN_INSTALL_DIR "${KDE_INSTALL_BINDIR}") # relative, usually "bin"
-  set(LIB_INSTALL_DIR "${KDE_INSTALL_LIBDIR}") # "lib" or "lib64"
+  # Use GnuInstallDirs
+  include(GnuInstallDirs)
+  set(BIN_INSTALL_DIR "${CMAKE_INSTALL_BINDIR}") # relative, usually "bin"
+  set(LIB_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}") # "lib" or "lib64"
   set(INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_INCLUDE_DIR}/cmake/${PROJECT_NAME}")
   set(CMAKECONFIG_INSTALL_DIR "${LIB_INSTALL_DIR}/cmake/${PROJECT_NAME}")
-  set(DATAROOTDIR "${KDE_INSTALL_DATAROOTDIR}" CACHE PATH "Define install directory for read-only architecture-independent data")  
+  set(DATAROOTDIR
+      "${CMAKE_INSTALL_DATAROOTDIR}"
+      CACHE
+        PATH
+        "Define install directory for read-only architecture-independent data")
   set(XDG_APPS_INSTALL_DIR "${DATAROOTDIR}/applications")
   set(APPDATA_INSTALL_DIR "${DATAROOTDIR}/appdata")
   set(ICON_INSTALL_DIR "${DATAROOTDIR}/icons")
   set(MAN_INSTALL_DIR "${DATAROOTDIR}/man/man1")
-  set(QCH_INSTALL_DIR "${CMAKE_INSTALL_DOCDIR}" CACHE PATH "Install location of Qt Assistant help files.")
+  set(QCH_INSTALL_DIR
+      "${CMAKE_INSTALL_DOCDIR}"
+      CACHE PATH "Install location of Qt Assistant help files.")
   if(WIN32)
     set(PLUGIN_INSTALL_DIR "plugins/${PROEJECT_NAME}")
     set(LIBEXEC_INSTALL_DIR "${BIN_INSTALL_DIR}")
@@ -367,17 +374,25 @@ else()
     set(PLUGIN_INSTALL_DIR "${LIB_INSTALL_DIR}/${PROEJECT_NAME}")
     set(LIBEXEC_INSTALL_DIR "${LIB_INSTALL_DIR}/${PROJECT_NAME}/libexec")
     set(DOC_INSTALL_DIR "${DATAROOTDIR}/doc/${PROJECT_NAME}")
-    set(TRANSLATION_INSTALL_DIR "${DATAROOTDIR}/${PROJECT_NAME}/translations")   
-  endif()   
-endif()  
+    set(TRANSLATION_INSTALL_DIR "${DATAROOTDIR}/${PROJECT_NAME}/translations")
+  endif()
+endif()
 
-set(
-  INSTALL_TARGETS_DEFAULT_ARGS
-  RUNTIME DESTINATION ${BIN_INSTALL_DIR}
-  LIBRARY DESTINATION ${LIB_INSTALL_DIR}
-  ARCHIVE DESTINATION ${LIB_INSTALL_DIR} COMPONENT Devel
-  BUNDLE DESTINATION ${BUNDLE_INSTALL_DIR}
-)
+set(INSTALL_TARGETS_DEFAULT_ARGS
+    RUNTIME
+    DESTINATION
+    ${BIN_INSTALL_DIR}
+    LIBRARY
+    DESTINATION
+    ${LIB_INSTALL_DIR}
+    ARCHIVE
+    DESTINATION
+    ${LIB_INSTALL_DIR}
+    COMPONENT
+    Devel
+    BUNDLE
+    DESTINATION
+    ${BUNDLE_INSTALL_DIR})
 
 # 3rd-party
 ecm_optional_add_subdirectory(src/3rd-party/qtsingleapplication)
@@ -408,20 +423,14 @@ set(BUILDNAME
 set(LICENSE_FILE "LICENSE")
 set(README_FILE "README.md")
 list(APPEND DOCS ${LICENSE_FILE} ${README_FILE})
-if(NOT APPLE) 
-  if(UNIX AND APPLICATION_BUILD_UI) 
-    install(FILES
-      ${PROJECT_NAME}.desktop 
-      DESTINATION 
-      ${XDG_APPS_INSTALL_DIR}) 
-    
-    install(FILES
-      ${PROJECT_NAME}.appdata.xml 
-      DESTINATION 
-      ${APPDATA_INSTALL_DIR}) 
+if(NOT APPLE)
+  if(UNIX AND APPLICATION_BUILD_UI)
+    install(FILES ${PROJECT_NAME}.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
+
+    install(FILES ${PROJECT_NAME}.appdata.xml
+            DESTINATION ${APPDATA_INSTALL_DIR})
   endif()
-  install(FILES ${DOCS} 
-    DESTINATION ${DOC_INSTALL_DIR}) 
+  install(FILES ${DOCS} DESTINATION ${DOC_INSTALL_DIR})
 endif()
 
 #
@@ -449,8 +458,6 @@ if(CPPCHECK_EXECUTABLE)
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     COMMENT "Running the cppcheck static code checker")
 endif()
-
-
 
 if(BUILD_TESTING)
   enable_testing()

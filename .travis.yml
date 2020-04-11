@@ -43,7 +43,7 @@ matrix:
         - pip install conan
         - conan user
         - conan create ./conan/ECM
-        
+
       script:
         - mkdir -p build
         - mkdir -p appbuild

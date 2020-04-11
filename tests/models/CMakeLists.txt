@@ -43,13 +43,8 @@ if(NOT Qt5Test_FOUND)
 endif()
 
 add_executable(tst_test tst_datacontext.cpp)
-target_link_libraries(tst_test 
-  PUBLIC 
-    Qt5::Core 
-    Qt5::Sql
-    Qt5::Test
-    jmbde::models
-    )
+target_link_libraries(tst_test PUBLIC Qt5::Core Qt5::Sql Qt5::Test
+                                      jmbde::models)
 
 set_target_properties(
   tst_test

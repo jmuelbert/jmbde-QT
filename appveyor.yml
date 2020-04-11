@@ -253,7 +253,7 @@ for:
   - matrix:
       only:
         - image: Visual Studio 2019
-      
+
       fast_finish: false # set this flag to true to immediately finish build once one of the jobs fails.
 
     cache:
