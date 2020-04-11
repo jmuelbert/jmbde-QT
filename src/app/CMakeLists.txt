@@ -172,7 +172,7 @@ elseif(UNIX AND NOT APPLE)
     ${ICONS_PNG}
     ${ICONS_SVG}
     DESTINATION
-    ${KDE_INSTALL_ICONDIR}
+    ${ICON_INSTALL_DIR}
     THEME
     hicolor)
 
