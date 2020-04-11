@@ -279,7 +279,7 @@ Name: "{group}\{cm:manualOnTheWeb}"; Filename: "https://jmuelbert.github.io/jmbd
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
-; [Run]
+[Run]
 ; The following command detects whether or not the c++ runtime need to be installed.
 Filename: "bin\vcredist_{#ISS_ARCH}.exe"; Check: NeedsVCRedistInstall; Parameters: "/passive /Q:a /c:""msiexec /qb /i vcredist_{#ISS_ARCH}.msi"" "; StatusMsg: Checking for VC++ RunTime ...
 
