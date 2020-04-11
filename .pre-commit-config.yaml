@@ -83,27 +83,27 @@ repos:
       - id: rst-linter
 
   - repo: https://github.com/Lucas-C/pre-commit-hooks-nodejs
-    rev: v1.1.0
+    rev: v1.1.1
     hooks:
       - id: dockerfile_lint
 
   - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
-    sha: v1.1.0
+    rev: v1.1.0
     hooks:
       - id: python-safety-dependencies-check
 
   - repo: https://github.com/jstewmon/check-swagger
-    sha: v0.1.4
+    rev: v0.1.4
     hooks:
       - id: check-swagger
 
   - repo: https://github.com/thlorenz/doctoc
-    sha: v1.4.0  # substitute a tagged version
+    rev: v1.4.0  # substitute a tagged version
     hooks:
       - id: doctoc
 
   - repo: https://github.com/noahsark769/xcodeproj-sort-pre-commit-hook
-    sha: v1.1.0
+    rev: v1.1.0
     hooks:
       - id: xcodeproj-sort
 
@@ -114,7 +114,7 @@ repos:
         stages: [commit]
 
   - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
-    rev: v2.1.0
+    rev: v2.2.2
     hooks:
       - id: commitlint
 
@@ -171,6 +171,6 @@ repos:
 
 
   - repo: https://github.com/iconmaster5326/cmake-format-pre-commit-hook
-    rev: master
+    rev: v0.6.5
     hooks:
       - id: cmake-format
