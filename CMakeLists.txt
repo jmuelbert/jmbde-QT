@@ -49,8 +49,23 @@ if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
       CACHE STRING "")
 endif()
 
+cmake_policy(SET CMP0020 NEW)
+cmake_policy(SET CMP0043 NEW)
+if(POLICY CMP0053)
+  cmake_policy(SET CMP0053 NEW)
+endif()
+if(POLICY CMP0063)
+  cmake_policy(SET CMP0063 NEW)
+endif()
+if(POLICY CMP0068)
+  cmake_policy(SET CMP0068 NEW)
+endif()
 if(POLICY CMP0077)
   cmake_policy(SET CMP0077 NEW)  # CMake 3.13+: option() honors normal variables.
+endif()
+# CMP0076 introduced in 3.13
+if (POLICY CMP0076) 
+  cmake_policy(SET CMP0076 NEW)
 endif()
 
 # jmbde project
@@ -59,11 +74,6 @@ project(
   DESCRIPTION "A BDE Tool"
   HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
   LANGUAGES CXX C)
-
-  # CMP0076 introduced in 3.13
-if (POLICY CMP0076) 
-  cmake_policy(SET CMP0076 NEW)
-endif()
 
 # warn about deprecated stuff so that we may try fixing it
 SET(CMAKE_WARN_DEPRECATED 1)
@@ -85,12 +95,12 @@ if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
   )
 endif()
 
+list(APPEND CMAKE_PREFIX_PATH "${CMAKE_MODULE_PATH}")
+
 if(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
   include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
   conan_basic_setup()
 endif()
-
-list(APPEND CMAKE_PREFIX_PATH "${CMAKE_MODULE_PATH}")
 
 # For ECM-CONAN
 if(EXISTS "${CONAN_ECM_ROOT}")
@@ -120,11 +130,8 @@ include(InstallRequiredSystemLibraries)
 if(NOT UNIX)
   set(KDE_INSTALL_PREFIX_SCRIPT FALSE)
 endif()
-if(WIN32)
-  set(KDE_INSTALL_USE_QT_SYS_PATHS TRUE)
-endif()
+set(KDE_INSTALL_USE_QT_SYS_PATHS OFF)
 include(KDEInstallDirs)
-
 include(GenerateExportHeader)
 include(ECMSetupVersion)
 include(ECMGenerateExportHeader)
@@ -133,7 +140,7 @@ include(CMakePackageConfigHelpers)
 include(ECMPoQmTools)
 include(ECMQMLModules)
 include(ECMGenerateQmlTypes)
-
+include(ECMGeneratePriFile)
 include(KDECMakeSettings)
 include(ECMQtDeclareLoggingCategory)
 include(KDECompilerSettings NO_POLICY_SCOPE)
@@ -156,9 +163,6 @@ include(CheckFunctionExists)
 # Make CPack available to easy generate binary packages
 include(CPack)
 include(PackageIFW)
-
-# conan setup include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-# conan_basic_setup()
 
 # ##############################################################################
 
@@ -215,7 +219,20 @@ add_definitions(-DQT_NO_FOREACH)
 # https://cmake.org/cmake/help/v3.0/manual/cmake-qt.7.html#autorcc.
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
-
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+if(NOT DEFINED CMAKE_SKIP_BUILD_RPATH)
+  set(CMAKE_SKIP_BUILD_RPATH ON)
+endif()
+if(NOT DEFINED CMAKE_BUILD_WITH_INSTALL_RPATH)
+  set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
+endif()
+if(NOT DEFINED CMAKE_INSTALL_RPATH_USE_LINK_PATH)
+  set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+endif()
+if(NOT DEFINED CMAKE_MACOSX_RPATH)
+  set(CMAKE_MACOSX_RPATH TRUE)
+endif()
 # Required here so that the version comparison below works
 find_package(Qt5Widgets ${QT_MIN_VERSION} CONFIG REQUIRED)
 
@@ -307,6 +324,61 @@ if(UPPERCASE_CMAKE_BUILD_TYPE MATCHES "^RELEASE$")
   add_definitions(-DQT_NO_DEBUG_OUTPUT)
 endif()
 
+if(APPLE)
+    set(BUNDLE_APP_NAME "${PROJECT_NAME}.app")
+    # Make sure default prefix on mac is /Applications, dunnow why but it does not default to it
+    # probably because we do not enabled built in bundle support in the main project
+    string(COMPARE EQUAL "${CMAKE_INSTALL_PREFIX}" "/usr/local" CMP_RESULT)
+    if(CMP_RESULT)
+      set(CMAKE_INSTALL_PREFIX "/Applications")
+    endif()
+
+    set(BUNDLE_INSTALL_DIR ".")
+    set(RESOURCES_INSTALL_DIR "${BUNDLE_INSTALL_DIR}/${BUNDLE_APP_NAME}/Contents/Resources")
+    set(BIN_INSTALL_DIR "${BUNDLE_INSTALL_DIR}/${BUNDLE_APP_NAME}/Contents/MacOS")
+    set(LIB_INSTALL_DIR "${BUNDLE_INSTALL_DIR}/${BUNDLE_APP_NAME}/Contents/Frameworks")
+    set(PLUGIN_INSTALL_DIR "${BUNDLE_INSTALL_DIR}/${BUNDLE_APP_NAME}/Contents/PlugIns/${PROJECT_NAME}")
+    set(LIBEXEC_INSTALL_DIR "${BIN_INSTALL_DIR}")
+    set(MAN_INSTALL_DIR "${RESOURCES_INSTALL_DIR}/man/man1")
+    set(DOC_INSTALL_DIR "${RESOURCES_INSTALL_DIR}/docs")
+    set(QCH_INSTALL_DIR "${RESOURCES_INSTALL_DIR}/docs")
+    set(TRANSLATION_INSTALL_DIR "${RESOURCES_INSTALL_DIR}/translations")
+     set(INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_INCLUDE_DIR}/cmake/${PROJECT_NAME}")
+    set(CMAKECONFIG_INSTALL_DIR "${RESOURCES_INSTALL_DIR}/cmake/${PROJECT_NAME}")
+    set(ECM_MKSPECS_INSTALL_DIR "${RESOURCES_INSTALL_DIR}/${ECM_MKSPECS_INSTALL_DIR}")
+else()
+  # Use KDEInstallDirs
+  set(BIN_INSTALL_DIR "${KDE_INSTALL_BINDIR}") # relative, usually "bin"
+  set(LIB_INSTALL_DIR "${KDE_INSTALL_LIBDIR}") # "lib" or "lib64"
+  set(INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_INCLUDE_DIR}/cmake/${PROJECT_NAME}")
+  set(CMAKECONFIG_INSTALL_DIR "${LIB_INSTALL_DIR}/cmake/${PROJECT_NAME}")
+  set(DATAROOTDIR "${KDE_INSTALL_DATAROOTDIR}" CACHE PATH "Define install directory for read-only architecture-independent data")  
+  set(XDG_APPS_INSTALL_DIR "${DATAROOTDIR}/applications")
+  set(APPDATA_INSTALL_DIR "${DATAROOTDIR}/appdata")
+  set(ICON_INSTALL_DIR "${DATAROOTDIR}/icons")
+  set(MAN_INSTALL_DIR "${DATAROOTDIR}/man/man1")
+  set(QCH_INSTALL_DIR "${CMAKE_INSTALL_DOCDIR}" CACHE PATH "Install location of Qt Assistant help files.")
+  if(WIN32)
+    set(PLUGIN_INSTALL_DIR "plugins/${PROEJECT_NAME}")
+    set(LIBEXEC_INSTALL_DIR "${BIN_INSTALL_DIR}")
+    set(DOC_INSTALL_DIR ".")
+    set(TRANSLATION_INSTALL_DIR "translations")
+  else()
+    set(PLUGIN_INSTALL_DIR "${LIB_INSTALL_DIR}/${PROEJECT_NAME}")
+    set(LIBEXEC_INSTALL_DIR "${LIB_INSTALL_DIR}/${PROJECT_NAME}/libexec")
+    set(DOC_INSTALL_DIR "${DATAROOTDIR}/doc/${PROJECT_NAME}")
+    set(TRANSLATION_INSTALL_DIR "${DATAROOTDIR}/${PROJECT_NAME}/translations")   
+  endif()   
+endif()  
+
+set(
+  INSTALL_TARGETS_DEFAULT_ARGS
+  RUNTIME DESTINATION ${BIN_INSTALL_DIR}
+  LIBRARY DESTINATION ${LIB_INSTALL_DIR}
+  ARCHIVE DESTINATION ${LIB_INSTALL_DIR} COMPONENT Devel
+  BUNDLE DESTINATION ${BUNDLE_INSTALL_DIR}
+)
+
 # 3rd-party
 ecm_optional_add_subdirectory(src/3rd-party/qtsingleapplication)
 
@@ -336,10 +408,21 @@ set(BUILDNAME
 set(LICENSE_FILE "LICENSE")
 set(README_FILE "README.md")
 list(APPEND DOCS ${LICENSE_FILE} ${README_FILE})
-# if(NOT APPLE) if(UNIX AND APPLICATION_BUILD_UI) install(FILES
-# ${PROJECT_NAME}.desktop DESTINATION ${XDG_APPS_INSTALL_DIR}) install(FILES
-# ${PROJECT_NAME}.appdata.xml DESTINATION ${APPDATA_INSTALL_DIR}) endif()
-# install(FILES ${DOCS} DESTINATION ${DOC_INSTALL_DIR}) endif()
+if(NOT APPLE) 
+  if(UNIX AND APPLICATION_BUILD_UI) 
+    install(FILES
+      ${PROJECT_NAME}.desktop 
+      DESTINATION 
+      ${XDG_APPS_INSTALL_DIR}) 
+    
+    install(FILES
+      ${PROJECT_NAME}.appdata.xml 
+      DESTINATION 
+      ${APPDATA_INSTALL_DIR}) 
+  endif()
+  install(FILES ${DOCS} 
+    DESTINATION ${DOC_INSTALL_DIR}) 
+endif()
 
 #
 # cppcheck
@@ -366,6 +449,8 @@ if(CPPCHECK_EXECUTABLE)
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     COMMENT "Running the cppcheck static code checker")
 endif()
+
+
 
 if(BUILD_TESTING)
   enable_testing()

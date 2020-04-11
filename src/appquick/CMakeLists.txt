@@ -16,6 +16,9 @@ cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 
 set(JMBDE_QUICK_VERSION 0.1.0)
 
+#
+# the jmbde application
+#
 project(
   jmbdequick
   DESCRIPTION "A BDE Tool"
@@ -67,7 +70,7 @@ find_package(Qt5 ${QT_MIN_VERSION}
   Qml
   )
 
-target_compile_features(jmbdequick PRIVATE cxx_auto_type)
+target_compile_features(jmbdequick PUBLIC cxx_std_17)
 
 target_include_directories(
   ${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include"
@@ -102,15 +105,6 @@ set(ICONS_PNG
 
 set(ICONS_SVG ${CMAKE_CURRENT_SOURCE_DIR}/icons/sc-apps-jmbde.svgz)
 
-ecm_install_icons(
-  ICONS
-  ${ICONS_PNG}
-  ${ICONS_SVG}
-  DESTINATION
-  ${ICON_INSTALL_DIR}
-  THEME
-  hicolor)
-
 # Add icon files to the application's source files to have CMake bundle them in
 # the executable.
 ecm_add_app_icon(APP_ICON ICONS ${ICONS_PNG})
@@ -131,11 +125,19 @@ if(WIN32)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/app.rc.in
                  ${PROJECT_BINARY_DIR}/app.rc @ONLY)
 
-  install(TARGETS ${PROJECT_NAME} ${KDE_INSTALL_TARGETS_DEFAULT})
+  install(TARGETS ${PROJECT_NAME} ${INSTALL_TARGETS_DEFAULT_ARGS})
 
   # See
   # https://cmake.org/cmake/help/v3.15/prop_tgt/MACOSX_BUNDLE_INFO_PLIST.html
 elseif(APPLE)
+  set_target_properties(${PROJECT_NAME} PROPERTIES
+    OUTPUT_NAME "${PROJECT_NAME}"
+    INSTALL_RPATH "@executable_path/../Frameworks"
+    )
+  
+  # Add icon files to the application's source files to have CMake bundle them
+  # in the executable.
+  ecm_add_app_icon(ICONS_SOURCES ICONS ${ICONS_PNG})
 
   set_property(
     TARGET ${PROJECT_NAME}
@@ -170,11 +172,18 @@ elseif(APPLE)
                                                    "2013-2020 Jürgen Mülbert")
 
   install(TARGETS ${PROJECT_NAME} BUNDLE DESTINATION .
-                                         ${KDE_INSTALL_TARGETS_DEFAULT})
-  install(FILES ${})
-elseif(LINUX)
+                                        ${INSTALL_TARGETS_DEFAULT_ARGS})
+elseif(UNIX AND NOT APPLE)
 
-  install(TARGETS ${PROJECT_NAME} ${KDE_INSTALL_TARGETS_DEFAULT})
+  install(TARGETS ${PROJECT_NAME} ${INSTALL_TARGETS_DEFAULT_ARGS})
+
+  ecm_install_icons(ICONS
+            ${ICONS_PNG}
+            ${ICONS_SVG}
+            DESTINATION
+            ${ICON_INSTALL_DIR}
+            THEME
+            hicolor)
 
   # appdata
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/jmbdequick.appdata.xml.in
@@ -182,12 +191,12 @@ elseif(LINUX)
   install(
     FILES
       ${CMAKE_CURRENT_SOURCE_DIR}/data/io.github.jmuelbert.jmbdequick.appdata.xml
-    DESTINATION ${KDE_INSTALL_METAINFODIR})
+    DESTINATION ${APPDATA_INSTALL_DIR})
 
   install(
     FILES
       ${CMAKE_CURRENT_SOURCE_DIR}/data/io.github.jmuelbert.jmbdequick.desktop
-      DESTNATION ${KDE_INSTALL_APPDIR})
+      DESTNATION ${XDG_APPS_INSTALL_DIR})
 
   # man page
   find_program(GZIP gzip)

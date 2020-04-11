@@ -17,7 +17,7 @@ cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 # the COMMON shared library
 #
 set(JMBDEWIDGETS_VERSION 0.1.0)
-set(JMBDELIB_SOVERSION 0)
+set(JMBDEWIDGETS_SOVERSION 0)
 
 # Version setup set project version
 ecm_setup_version(
@@ -25,7 +25,7 @@ ecm_setup_version(
   VARIABLE_PREFIX
   JMBDEWIDGETS
   SOVERSION
-  ${JMBDEWIDGETS_VERSION}
+  ${JMBDEWIDGETS_SOVERSION}
   VERSION_HEADER
   ${CMAKE_CURRENT_BINARY_DIR}/jmbdewidgets-version.h)
 
@@ -185,10 +185,7 @@ target_sources(
 #
 install(TARGETS jmbdewidgets
     EXPORT jmbdeModelsTargets
-    ARCHIVE DESTINATION ${KDE_INSTALL_LIB_DIR}
-    LIBRARY DESTINATION ${KDE_INSTALL_LIB_DIR}
-    RUNTIME DESTINATION ${KDE_INSTALL_BIN_DIR}
-    INCLUDES DESTINATION $CMAKE_INSTALL_INCLUDE_DIR}
+    ${INSTALL_TARGETS_DEFAULT_ARGS}
     )
 
 

@@ -14,10 +14,16 @@
 # minimal requirements
 cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 
+set(JMBDE_VERSION 0.5.0)
+
 #
 # the jmbde application
 #
-project(jmbde)
+project(
+  jmbde
+  DESCRIPTION "A BDE Tool"
+  HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
+  LANGUAGES CXX)
 
 # set project version
 
@@ -64,7 +70,7 @@ find_package(
              Qml
              )
 
-target_compile_features(jmbde PRIVATE cxx_auto_type)
+target_compile_features(jmbde PUBLIC cxx_std_17)
 
 target_include_directories(
   ${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include"
@@ -86,6 +92,11 @@ target_link_libraries(
           Qt5::Qml
           ${CONAN_LIBS})
 
+# Use a single application on MacOS + Windows instead of dbus.
+if(APPLE OR WIN32)
+  target_link_libraries(${PROJECT_NAME} PRIVATE jmbde::qtsingleapp)
+endif()
+
 set(ICONS_PNG
     ${CMAKE_CURRENT_SOURCE_DIR}/icons/16-apps-jmbde.png
     ${CMAKE_CURRENT_SOURCE_DIR}/icons/32-apps-jmbde.png
@@ -94,6 +105,10 @@ set(ICONS_PNG
     ${CMAKE_CURRENT_SOURCE_DIR}/icons/512-apps-jmbde.png)
 
 set(ICONS_SVG ${CMAKE_CURRENT_SOURCE_DIR}/icons/sc-apps-jmbde.svgz)
+
+# Add icon files to the application's source files to have CMake bundle them in
+# the executable.
+ecm_add_app_icon(APP_ICON ICONS ${ICONS_PNG})
 
 target_sources(${PROJECT_NAME} PRIVATE ${ICONS_SOURCES})
 
@@ -110,12 +125,15 @@ if(WIN32)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/app.rc.in
                  ${PROJECT_BINARY_DIR}/app.rc @ONLY)
 
-  install(TARGETS ${PROJECT_NAME} ${KDE_INSTALL_TARGETS_DEFAULT})
+  install(TARGETS ${PROJECT_NAME} ${INSTALL_TARGETS_DEFAULT_ARGS})
 
   # See
   # https://cmake.org/cmake/help/v3.15/prop_tgt/MACOSX_BUNDLE_INFO_PLIST.html
 elseif(APPLE)
-
+  set_target_properties(${PROJECT_NAME} PROPERTIES
+    OUTPUT_NAME "${PROJECT_NAME}"
+    INSTALL_RPATH "@executable_path/../Frameworks"
+    )
   # Add icon files to the application's source files to have CMake bundle them
   # in the executable.
   ecm_add_app_icon(ICONS_SOURCES ICONS ${ICONS_PNG})
@@ -153,18 +171,18 @@ elseif(APPLE)
                                                    "2013-2020 Jürgen Mülbert")
 
   install(TARGETS ${PROJECT_NAME} BUNDLE DESTINATION .
-                                         ${KDE_INSTALL_TARGETS_DEFAULT})
+                                          ${INSTALL_TARGETS_DEFAULT_ARGS})
 
-elseif(UNIX)
+elseif(UNIX AND NOT APPLE)
 
-  install(TARGETS ${PROJECT_NAME} ${KDE_INSTALL_TARGETS_DEFAULT})
+  install(TARGETS ${PROJECT_NAME} ${INSTALL_TARGETS_DEFAULT_ARGS})
 
   ecm_install_icons(
     ICONS
     ${ICONS_PNG}
     ${ICONS_SVG}
     DESTINATION
-    ${ICON_INSTALL_DIR}
+    ${KDE_INSTALL_ICONDIR}
     THEME
     hicolor)
 
@@ -172,11 +190,11 @@ elseif(UNIX)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/jmbde.appdata.xml.in
                  ${CMAKE_CURRENT_BINARY_DIR}/jmbde.appdata.xml @ONLY)
   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde.appdata.xml
-          DESTINATION ${XDG_APPS_INSTALL_DIR})
+          DESTINATION ${APPDATA_INSTALL_DIR})
 
   install(
     FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/io.github.jmuelbert.jmbde.desktop
-    DESTINATION ${KDE_INSTALL_APPDIR})
+    DESTINATION ${XDG_APPS_INSTALL_DIR})
 
   # man page
   find_program(GZIP gzip)

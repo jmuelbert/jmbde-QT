@@ -32,4 +32,4 @@ jobs:
             CONAN_OPTIONS: "harfbuzz:with_glib=False"
             CONAN_BUILD_POLICY: "outdated"
         run: |
-            bincrafters-package-tools --auto
+# bincrafters-package-tools --auto

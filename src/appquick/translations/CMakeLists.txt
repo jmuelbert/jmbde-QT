@@ -85,7 +85,7 @@ foreach(LANG ${LANGUAGES})
   add_custom_target(appquick_${LANG}_qm ALL
                     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick_${LANG}.qm)
   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick_${LANG}.qm
-          DESTINATION ${KDE_INSTALL_LOCALEDIR})
+          DESTINATION ${TRANSLATION_INSTALL_DIR})
 endforeach()
 
 # message merging (manual target, affects source dir)
@@ -101,9 +101,9 @@ foreach(LANG ${LANGUAGES})
 endforeach()
 
 if(WIN32)
-  install(FILES ${QM_FILES} DESTINATION "${KDE_INSTALL_LOCALEDIR}")
+  install(FILES ${QM_FILES} DESTINATION "${TRANSLATION_INSTALL_DIR}")
 elseif(APPLE)
-  install(FILES ${QM_FILES} DESTINATION "${KDE_DATAROOTDIR}/locale")
+  install(FILES ${QM_FILES} DESTINATION "${TRANSLATION_INSTALL_DIR}")
 else()
-  install(FILES ${QM_FILES} DESTINATION "${KDE_INSTALL_LOCALEDIR}")
+  install(FILES ${QM_FILES} DESTINATION "${TRANSLATION_INSTALL_DIR}")
 endif()
