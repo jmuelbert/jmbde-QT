@@ -60,8 +60,9 @@ namespace Model
   \todo Remove UI for Testing
   \todo Move Code for every Table in his own class
  */
-class JMBDEMODELS_EXPORT DataContext : public QObject
+class DataContext : public QObject
 {
+    Q_OBJECT
 
 public:
     // TODO: Add Constructor: DataContext(const QString &name, + init for mySQL
@@ -75,7 +76,7 @@ public:
         \brief Constructor for the DataContext
         \details Contructur with a name for the database to use.
      */
-    explicit DataContext(QObject *parent = nullptr, const QString &name = QString(), const QString &appID = QString());
+    explicit JMBDEMODELS_EXPORT DataContext(QObject *parent = nullptr, const QString &name = QString(), const QString &appID = QString());
 
     /*!
           \fn  ~DataContext() override;
@@ -83,14 +84,14 @@ public:
           \brief Destructor for DataContext()
           \details Close the connection to the database.
        */
-    ~DataContext();
+    JMBDEMODELS_EXPORT ~DataContext();
 
     /*!
         \fn void prepareDB()
 
         \brief Create the database from sql
      */
-    void prepareDB();
+    JMBDEMODELS_EXPORT void prepareDB();
 
     /*!
         \fn  QSqlDatabase getDatabase()
@@ -99,7 +100,7 @@ public:
 
         \return the referenz
      */
-    QSqlDatabase getDatabase();
+   JMBDEMODELS_EXPORT QSqlDatabase getDatabase();
 
     /*!
         \fn QSqlError initDb()
@@ -107,7 +108,7 @@ public:
 
         Returns The last error from the Database
      */
-    QSqlError initDb();
+    JMBDEMODELS_EXPORT QSqlError initDb();
 
     /*!
         \fn bool execQuery(QSqlQuery &query) const
@@ -116,7 +117,7 @@ public:
 
         \return true if the execution succesful
      */
-    static bool execQuery(QSqlQuery &query);
+    JMBDEMODELS_EXPORT static bool execQuery(QSqlQuery &query);
 
     /*!
         \fn bool execQuery(QString &queryTxt) const
@@ -125,11 +126,11 @@ public:
 
         \return true if the execution succesful
      */
-    bool execQuery(const QString &queryText);
+    JMBDEMODELS_EXPORT bool execQuery(const QString &queryText);
 
     /* basic public actions */
 
-    auto check_existence(const QString &tableName, const QString &searchId, const QString &search) -> bool;
+    JMBDEMODELS_EXPORT auto check_existence(const QString &tableName, const QString &searchId, const QString &search) -> bool;
 
     /* useful actions */
 
@@ -142,7 +143,7 @@ public:
 
         \sa QSqlQuery
      */
-    QSqlQuery getQuery(const QString &queryText);
+    JMBDEMODELS_EXPORT QSqlQuery getQuery(const QString &queryText);
 
     /*!
         \fn bool openDB(const QString &name)
@@ -151,26 +152,31 @@ public:
 
         \return true ist the database succesful opened.
      */
-    bool openDB(const QString &name);
+    JMBDEMODELS_EXPORT bool openDB(const QString &name);
 
     /*!
         \fn   void renameDB(const QString &oldName, const QString &newName)
 
         \brief Rename the database to newName
      */
-    void renameDB(const QString &oldName, const QString &newName);
+    JMBDEMODELS_EXPORT void renameDB(const QString &oldName, const QString &newName);
 
     /*!
         \fn void deleteDB(const QString &name)
 
         \brief delete the database with the given name.
      */
-    void deleteDB(const QString &name);
+    JMBDEMODELS_EXPORT void deleteDB(const QString &name);
 
-    void SetConnectionString(const QString &connect)
+    /*!
+     * \brief SetConnectionString
+     * \param connect
+     */
+    JMBDEMODELS_EXPORT void SetConnectionString(const QString &connect)
     {
         m_connectionString = connect;
     }
+
 
 private:
     /*!
@@ -196,7 +202,8 @@ private:
         \details \e does nothing
 
      */
-    void CloseConnection();
+     void CloseConnection();
+
 
     /*!
         \var QString m_Name
@@ -287,14 +294,14 @@ signals:
         \fn void DBActionFinished()
         \brief Signal for the DB-ACtion finished
      */
-    void DBActionFinished();
+    JMBDEMODELS_EXPORT void DBActionFinished();
 
 public slots:
     /*!
         \fn void closeConnection()
         \brief Slot for close connection.
     */
-    void closeConnection();
+    JMBDEMODELS_EXPORT void closeConnection();
 };
 } // namespace Model
 

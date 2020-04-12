@@ -43,9 +43,9 @@ namespace Model
     \date 03.08.2019
     \copyright EUPL V1.2
     */
-class JMBDEMODELS_EXPORT Account : public CommonData
+class Account : public CommonData
 {
-
+    Q_OBJECT
 
 public:
     /*!
@@ -53,14 +53,14 @@ public:
 
         \brief Constructor for the Account
      */
-    explicit Account(QObject *parent = nullptr);
+    explicit JMBDEMODELS_EXPORT Account(QObject *parent = nullptr);
 
     /*!
         \fn  ~Account();
 
         \brief Destructor for  Account
      */
-    ~Account();
+    JMBDEMODELS_EXPORT ~Account();
 
     // implement the virtuals
 
@@ -68,14 +68,14 @@ public:
         \fn virtual void setIndexes()
         \brief Set the fieldindexes from the datafieldnames of the db.
      */
-    virtual void setIndexes() final;
+    virtual JMBDEMODELS_EXPORT void setIndexes() final;
 
     /*!
         \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
         \brief set the QSqlRelationalTableModel for the DataModel
         \return The QSqlRelationalTableModel
      */
-    virtual QSqlRelationalTableModel *initializeRelationalModel();
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel();
 
     /*!
         \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
@@ -83,7 +83,7 @@ public:
 
          \return The QSqlRelationalTableModel
      */
-    virtual QSqlRelationalTableModel *initializeInputDataModel();
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel();
 
     /*!
         \fn virtual QSqlTableModel *initializeViewModel()
@@ -91,7 +91,7 @@ public:
 
         \return QSqlTableModel
      */
-    virtual QSqlTableModel *initializeViewModel();
+    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel();
 
     /*!
      * \fn virtual QString generateTableString(
@@ -100,7 +100,7 @@ public:
 
         \return a QString with the generated Table for Output
      */
-    virtual auto generateTableString(const QString &header) -> QString;
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString;
 
     /*!
         \fn virtual QString generateFormularString(
@@ -109,7 +109,7 @@ public:
 
         \return a QString with the generated Table for Output
      */
-    virtual auto generateFormularString(const QString &header) -> QString;
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString;
 
     // Getter
 
@@ -120,7 +120,7 @@ public:
 
         \return the value of the index
      */
-    int AccountIdIndex() const
+    JMBDEMODELS_EXPORT int AccountIdIndex() const
     {
         return m_AccountIdIndex;
     }
@@ -132,7 +132,7 @@ public:
 
         \return the value of the index
      */
-    int UserNameIndex() const
+    JMBDEMODELS_EXPORT int UserNameIndex() const
     {
         return m_UserNameIndex;
     }
@@ -144,7 +144,7 @@ public:
 
         \return the value of the index
      */
-    int PasswordIndex() const
+    JMBDEMODELS_EXPORT int PasswordIndex() const
     {
         return m_PasswordIndex;
     }
@@ -156,7 +156,7 @@ public:
 
         \return the value of the index
      */
-    int SystemDataIndex() const
+    JMBDEMODELS_EXPORT int SystemDataIndex() const
     {
         return m_SystemDataIdIndex;
     }
@@ -168,7 +168,7 @@ public:
 
         \return the value of the index
      */
-    int LastUpdateIndex() const
+    JMBDEMODELS_EXPORT int LastUpdateIndex() const
     {
         return m_LastUpdateIndex;
     }

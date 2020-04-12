@@ -16,7 +16,7 @@ cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 #
 # the COMMON shared library
 #
-set(JMBDEMODELS_VERSION 0.1.0)
+set(JMBDEMODELS_VERSION 0.1.1)
 set(JMBDEMODELS_SOVERSION 0)
 
 # Version setup set project version
@@ -62,7 +62,7 @@ ecm_qt_declare_logging_category(
   DEFAULT_SEVERITY
   Warning)
 
-add_library(jmbdemodels)
+add_library(jmbdemodels "")
 generate_export_header(jmbdemodels)
 add_library(jmbde::models ALIAS jmbdemodels)
 
@@ -76,10 +76,12 @@ target_compile_features(jmbdemodels PUBLIC cxx_std_17)
 
 target_include_directories(
   jmbdemodels
-  PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>"
-         "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
-         "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-         "$<INSTALL_INTERFACE:include/jmbdemodels>")
+    PUBLIC 
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+    "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
+  )
 
 target_compile_definitions(
   jmbdemodels
@@ -87,12 +89,13 @@ target_compile_definitions(
 
 target_link_libraries(
   jmbdemodels
-  LINK_PUBLIC
-  Qt5::Core
   LINK_PRIVATE
-  Qt5::Widgets
-  Qt5::PrintSupport
-  Qt5::Sql)
+    Qt5::Core
+    Qt5::Gui
+    Qt5::Widgets
+    Qt5::PrintSupport
+    Qt5::Sql
+  )
 
 #
 # Finding Qt
@@ -185,6 +188,24 @@ install(
   TARGETS jmbdemodels
   EXPORT jmbdeModelsTargets
   ${INSTALL_TARGETS_DEFAULT_ARGS})
+
+configure_package_config_file(
+    ${CMAKE_CURRENT_LIST_DIR}/cmake/config.cmake.in
+    JMBDEModelsConfig.cmake
+    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/jmbdemodels/cmake
+)
+
+write_basic_package_version_file(
+     JMBDEModelsConfigVersion.cmake
+    VERSION ${JMBDEMODELS_VERSION}
+    COMPATIBILITY AnyNewerVersion
+)
+
+export(
+    EXPORT jmbdeModelsTargets
+    FILE ${CMAKE_CURRENT_BINARY_DIR}/jmbdeModelsTargets.cmake
+    NAMESPACE jmbde::
+)
 
 if(MSVC AND BUILD_SHARED_LIBS)
   install(

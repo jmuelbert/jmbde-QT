@@ -46,21 +46,21 @@ namespace Model
     \copyright EUPL V1.2
     */
 
-class JMBDEMODELS_EXPORT CommonData : public QObject
+class CommonData : public QObject
 {
 public:
     /*!
         \fn  CommonData(QObject *parent = nullptr)
         \brief The Constructor for the CommonData
      */
-    explicit CommonData(QObject *parent = nullptr);
+    explicit JMBDEMODELS_EXPORT CommonData(QObject *parent = nullptr);
 
     /*!
         \fn ~CommonData()
 
         \brief the Destructor for the CommonData
      */
-    virtual ~CommonData() = 0;
+    virtual JMBDEMODELS_EXPORT ~CommonData() = 0;
 
     /*!
         \fn  QTextDocument *createSheet()
@@ -70,7 +70,7 @@ public:
 
         \sa  QTextDocument
      */
-    static QTextDocument *createSheet();
+    static JMBDEMODELS_EXPORT QTextDocument *createSheet();
 
     /*!
         \fn QString setOutTableStyle()
@@ -80,7 +80,7 @@ public:
 
         \sa QString
      */
-    static QString setOutTableStyle();
+    static JMBDEMODELS_EXPORT QString setOutTableStyle();
 
     /*!
         \fn QString setOutFormularStyle()
@@ -91,7 +91,7 @@ public:
 
         \sa QString
      */
-    static QString setOutFormularStyle();
+    static JMBDEMODELS_EXPORT QString setOutFormularStyle();
 
 protected:
     /*!

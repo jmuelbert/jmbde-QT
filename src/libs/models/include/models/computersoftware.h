@@ -40,9 +40,9 @@ namespace Model
    relation. \author Jürgen Mülbert \since 0.4 \version 0.4.25 \date 03.08.2019
     \copyright EUPL V1.2
     */
-class JMBDEMODELS_EXPORT ComputerSoftware : public CommonData
+class ComputerSoftware : public CommonData
 {
-
+    Q_OBJECT
 
 public:
     /*!
@@ -50,14 +50,14 @@ public:
 
         \brief Constructor for the ComputerSoftware
      */
-    explicit ComputerSoftware(QObject *parent = nullptr);
+    explicit JMBDEMODELS_EXPORT ComputerSoftware(QObject *parent = nullptr);
 
     /*!
         \fn  ~ComputerSoftware() override;
 
         \brief Destructor for  ComputerSoftware
      */
-    ~ComputerSoftware();
+    JMBDEMODELS_EXPORT ~ComputerSoftware();
 
     // implement the virtuals
 
@@ -65,14 +65,14 @@ public:
        \fn virtual void setIndexes()
        \brief Set the fieldindexes from the datafieldnames of the db.
     */
-    virtual void setIndexes();
+    virtual JMBDEMODELS_EXPORT void setIndexes();
 
     /*!
         \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
         \brief set the QSqlRelationalTableModel for the DataModel
         Returns The QSqlRelationalTableModel
      */
-    virtual QSqlRelationalTableModel *initializeRelationalModel();
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel();
 
     /*!
         \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
@@ -80,7 +80,7 @@ public:
 
         Returns The QSqlRelationalTableModel
      */
-    virtual QSqlRelationalTableModel *initializeInputDataModel();
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel();
 
     /*!
         \fn virtual QSqlTableModel *initializeViewModel()
@@ -88,7 +88,7 @@ public:
 
         Returns QSqlTableModel
       */
-    virtual QSqlTableModel *initializeViewModel();
+    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel();
 
     /*!
      * \fn virtual auto generateTableString(
@@ -97,7 +97,7 @@ public:
 
         Returns a QString with the generated Table for Output
      */
-    virtual auto generateTableString(const QString &header) -> QString;
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString;
 
     /*!
         \fn virtual auto generateFormularString(
@@ -106,7 +106,7 @@ public:
 
         Returns a QString with the generated Table for Output
      */
-    virtual auto generateFormularString(const QString &header) -> QString;
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString;
 
     // Getter
     /*!
@@ -117,7 +117,7 @@ public:
 
          Returns the value of the index
      */
-    int ComputerSoftwareIdIndex() const
+    JMBDEMODELS_EXPORT int ComputerSoftwareIdIndex() const
     {
         return m_ComputerSoftwareIdIndex;
     }
@@ -129,7 +129,7 @@ public:
 
         Returns the value of the index
      */
-    int ComputerIdIndex() const
+    JMBDEMODELS_EXPORT int ComputerIdIndex() const
     {
         return m_ComputerIdIndex;
     }
@@ -141,7 +141,7 @@ public:
 
         Returns the value of the index
      */
-    int SoftwareIdIndex() const
+    JMBDEMODELS_EXPORT int SoftwareIdIndex() const
     {
         return m_SoftwareIdIndex;
     }
@@ -153,7 +153,7 @@ public:
 
         Returns the value of the index
      */
-    int LastUpdateIndex() const
+    JMBDEMODELS_EXPORT int LastUpdateIndex() const
     {
         return m_LastUpdateIndex;
     }

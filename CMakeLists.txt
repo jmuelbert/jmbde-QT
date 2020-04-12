@@ -76,8 +76,8 @@ project(
 set(CMAKE_WARN_DEPRECATED 1)
 
 # Set the dependencies versions
-set(KF5_VERSION "5.64.0")
-set(KF5_DEP_VERSION "5.64.0")
+set(KF5_VERSION "5.66.0")
+set(KF5_DEP_VERSION "5.66.0")
 set(QT_MIN_VERSION "5.12.5")
 
 # Set my app version
@@ -160,7 +160,6 @@ include(PackageIFW)
 message(
   STATUS "Building ${PROJECT_NAME} ${JMBDE_VERSION} in ${CMAKE_BUILD_TYPE} mode"
 )
-message(STATUS "Using toolchain file: ${CMAKE_TOOLCHAIN_FILE}.")
 #
 # Project configuration options
 #
@@ -186,7 +185,7 @@ option(BUILD_TRANSLATIONS "Build translations" ON)
 add_feature_info(TRANSL ${BUILD_TRANSLATIONS} "Build the translations")
 option(BUILD_COVERAGE "Add coverage information." OFF)
 add_feature_info(COVERAGE ${BUILD_COVERAGE} "Build with coverage informations.")
-option(BUILD_SHARED_LIBS "Build shared libs" OFF)
+option(BUILD_SHARED_LIBS "Build shared libs" ON)
 add_feature_info(SHARED_LIBS ${BUILD_SHARED_LIBS} "Build shared libs")
 option(BUILD_TESTING "Build tests." ON)
 add_feature_info(TESTS ${BUILD_TESTING} "Build and run the tests")
@@ -213,7 +212,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 if(NOT DEFINED CMAKE_SKIP_BUILD_RPATH)
-  set(CMAKE_SKIP_BUILD_RPATH ON)
+  set(CMAKE_SKIP_BUILD_RPATH OFF)
 endif()
 if(NOT DEFINED CMAKE_BUILD_WITH_INSTALL_RPATH)
   set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
@@ -224,6 +223,15 @@ endif()
 if(NOT DEFINED CMAKE_MACOSX_RPATH)
   set(CMAKE_MACOSX_RPATH TRUE)
 endif()
+
+if (APPLE)
+    set(APPLE_SUPPRESS_X11_WARNING TRUE)
+    set(KDE_SKIP_RPATH_SETTINGS TRUE)
+    set(CMAKE_MACOSX_RPATH OFF)
+    set(BUILD_WITH_INSTALL_RPATH 1)
+    add_definitions(-mmacosx-version-min=10.12 -Wno-macro-redefined -Wno-deprecated-register)
+endif()
+
 # Required here so that the version comparison below works
 find_package(Qt5Widgets ${QT_MIN_VERSION} CONFIG REQUIRED)
 

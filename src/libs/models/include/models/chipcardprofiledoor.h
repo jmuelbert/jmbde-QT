@@ -40,6 +40,7 @@ namespace Model
 {
 class JMBDEMODELS_EXPORT ChipCardProfileDoor : public CommonData
 {
+    Q_OBJECT
 
 public:
     /*!
@@ -47,14 +48,14 @@ public:
 
         \brief Constructor for the ChipCardProfileDoor
      */
-    explicit ChipCardProfileDoor(QObject *parent = nullptr);
+    explicit JMBDEMODELS_EXPORT ChipCardProfileDoor(QObject *parent = nullptr);
 
     /*!
      * \fn ~ChipCardProfileDoor() override;
      *
      * \brief Destructor for ChipCardProfileDoor
      */
-    ~ChipCardProfileDoor();
+    JMBDEMODELS_EXPORT ~ChipCardProfileDoor();
 
     // implement the virtuals
 
@@ -62,14 +63,14 @@ public:
         \fn virtual void setIndexes()
         \brief Set the fieldindexes from the datafieldnames of the db.
      */
-    virtual void setIndexes();
+    virtual JMBDEMODELS_EXPORT void setIndexes();
 
     /*!
         \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
         \brief set the QSqlRelationalTableModel for the DataModel
         Returns The QSqlRelationalTableModel
      */
-    virtual QSqlRelationalTableModel *initializeRelationalModel();
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel();
 
     /*!
         \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
@@ -77,7 +78,7 @@ public:
 
         Returns The QSqlRelationalTableModel
      */
-    virtual QSqlRelationalTableModel *initializeInputDataModel();
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel();
 
     /*!
         \fn virtual QSqlTableModel *initializeViewModel()
@@ -85,7 +86,7 @@ public:
 
         Returns QSqlTableModel
      */
-    virtual QSqlTableModel *initializeViewModel();
+    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel();
 
     /*!
      * \fn virtual auto generateTableString(
@@ -94,7 +95,7 @@ public:
 
         Returns a QString with the generated Table for Output
      */
-    virtual auto generateTableString(const QString &header) -> QString;
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString;
 
     /*!
         \fn virtual auto generateFormularString(
@@ -103,7 +104,7 @@ public:
 
         Returns a QString with the generated Table for Output
      */
-    virtual auto generateFormularString(const QString &header) -> QString;
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString;
 
     // Getter
     /*!
@@ -114,7 +115,7 @@ public:
 
         Returns the value of the index
      */
-    int ChipCardProfileDoorIdIndex() const
+    JMBDEMODELS_EXPORT int ChipCardProfileDoorIdIndex() const
     {
         return m_ChipCardProfileDoorIdIndex;
     }
@@ -127,7 +128,7 @@ public:
 
         Returns the value of the index
      */
-    int ChipCardProfileIdIndex() const
+    JMBDEMODELS_EXPORT int ChipCardProfileIdIndex() const
     {
         return m_ChipCardProfileIdIndex;
     }
@@ -139,7 +140,7 @@ public:
 
         Returns the value of the index
      */
-    int ChipCardDoorsIdIndex() const
+    JMBDEMODELS_EXPORT int ChipCardDoorsIdIndex() const
     {
         return m_ChipCardDoorsIdIndex;
     }
@@ -151,7 +152,7 @@ public:
 
         Returns the value of the index
      */
-    int LastUpdateIndex() const
+    JMBDEMODELS_EXPORT int LastUpdateIndex() const
     {
         return m_LastUpdateIndex;
     }
