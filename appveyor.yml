@@ -298,7 +298,7 @@ for:
       - cinst png2ico
       - nuget install secure-file -ExcludeVersion
       # Install conan
-      - pip install conan
+      - pip3 install conan
       - conan user
       - conan create .\conan\ECM
  
