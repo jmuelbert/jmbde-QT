@@ -273,21 +273,18 @@ for:
       - ps: $ENV:VSDEVCMD="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\Common7\Tools\VsDevCmd.bat"
       # MSVC
       - ps: $ENV:QTDIR="C:\Qt\5.14\msvc2017_64"
-      - ps: $ENV:VCPKGROOT="C:\tools\vcpkg"
-      - ps: $ENV:VCPKGDir="C:\Tools\vcpkg"
-      - ps: $ENV:VCPKGToolChainFile = "C:/Tools/vcpkg/scripts/buildsystems/vcpkg.cmake"
-      - ps: $ENV:VCPKG_BUILD_TYPE=$ENV:CONFIGURATION
       - ps: $ENV:VCREDIST_CRT_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CRT"
       - ps: $ENV:VCREDIST_CXXAMP_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CXXAMP"
       - ps: $ENV:VCREDIST_OPENMP_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.OpenMP"
       - ps: $ENV:REDIST="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\vcredist_%PLATFORM%.exe"
       - ps: $ENV:VCVARSALL="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat"
       - call set /p RedistVersion=<"%ProgramFiles(x86)%\\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt"
-      - ps: $ENV:Path =  $ENV:PYTHON + ";" + $ENV:PYTHON + "/Scripts" + ";" + $ENV:PATH
+
       # MINGW
       # - ps: $ENV:MINGW="C:\mingw-w64\x86_64-7.3.0-posix-seh-rt_v5-rev0"
       # - ps: $ENV:QTDIR="C:\Qt\5.14\mingw73_64"
       # - ps: $ENV:PATH += ";" + $ENV:MINGW + ";"
+      - ps: $ENV:Path =  $ENV:PYTHON + ";" + $ENV:PYTHON + "/Scripts" + ";" + $ENV:PATH
       - ps: $ENV:INNO="${ENV:ProgramFiles(x86)}\Inno Setup 6"
       - ps: $ENV:NSIS="${ENV:ProgramFiles(x86)}\NSIS"
       - ps: $ENV:CMAKE_GENERATOR="Ninja"
@@ -317,7 +314,7 @@ for:
     build_script:
       - ps: New-Item -itemtype directory -path ./program
       - ps: conan install ..
-      - ps: cmake -G "$ENV:CMAKE_GENERATOR"  -DCMAKE_BUILD_TYPE=Release  -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DCMAKE_INSTALL_PREFIX:PATH=./program -DCMAKE_TOOLCHAIN_FILE="$ENV:VCPKGToolChainFile" -DVCPKG_TARGET_TRIPLET=x64-windows -DBUILD_SHARED_LIBS=ON ..
+      - ps: cmake -G "$ENV:CMAKE_GENERATOR"  -DCMAKE_BUILD_TYPE=Release  -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DCMAKE_INSTALL_PREFIX:PATH=./program -DBUILD_SHARED_LIBS=ON ..
       - ps: cmake --build . --config Release --target install
 
     after_build:
