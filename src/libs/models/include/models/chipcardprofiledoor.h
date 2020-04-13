@@ -23,22 +23,23 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
+#include "commondata.h"
+#include "idatamodel.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 #include "loggingcategory.h"
-#include "commondata.h"
-#include "idatamodel.h"
 
-/*!
+
+namespace Model
+{
+    /*!
     \class ChipCardProfileDoor
     \brief The ChipCardProfileDoor class
     \details In this is handlet all ChipCardProfileDoor Data and create a many
    to many relation \author Jürgen Mülbert \since 0.4 \version 0.4.25 \date
    03.08.2019 \copyright EUPL V1.2
     */
-namespace Model
-{
-class JMBDEMODELS_EXPORT ChipCardProfileDoor : public CommonData
+class ChipCardProfileDoor : public CommonData
 {
     Q_OBJECT
 
@@ -60,51 +61,51 @@ public:
     // implement the virtuals
 
     /*!
-        \fn virtual void setIndexes()
+        \fn virtual void setIndexes() final
         \brief Set the fieldindexes from the datafieldnames of the db.
      */
-    virtual JMBDEMODELS_EXPORT void setIndexes();
+    virtual JMBDEMODELS_EXPORT void setIndexes() final;
 
     /*!
         \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
         \brief set the QSqlRelationalTableModel for the DataModel
         Returns The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel();
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel() final;
 
     /*!
-        \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
+        \fn virtual QSqlRelationalTableModel *initializeInputDataModel() final
         \brief Initialize the InputDataModel
 
         Returns The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel();
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel() final;
 
     /*!
-        \fn virtual QSqlTableModel *initializeViewModel()
+        \fn virtual QSqlTableModel *initializeViewModel() final
         \brief Initialize the ViewModel
 
         Returns QSqlTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel();
+    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
 
     /*!
      * \fn virtual auto generateTableString(
-                                const QString &header) -> QString
+                                const QString &header) -> QString final
         \brief generateTableString
 
         Returns a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString;
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString final;
 
     /*!
         \fn virtual auto generateFormularString(
-                                   const QString &header) -> QString
+                                   const QString &header) -> QString final
         \brief generateFormularString
 
         Returns a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString;
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
 
     // Getter
     /*!

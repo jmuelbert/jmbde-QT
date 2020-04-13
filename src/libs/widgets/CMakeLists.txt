@@ -64,9 +64,11 @@ ecm_qt_declare_logging_category(
   DEFAULT_SEVERITY
   Warning)
 
+# find_package(jmbdemodels REQUIRED)
+
 add_library(jmbdewidgets "")
 generate_export_header(jmbdewidgets)
-add_library(jmbde::widgets ALIAS jmbdewidgets)
+add_library(jmuelbert::jmbdewidgets ALIAS jmbdewidgets)
 
 set_target_properties(
   jmbdewidgets
@@ -92,7 +94,7 @@ target_link_libraries(
   jmbdewidgets
   LINK_PUBLIC
   Qt5::Core
-  jmbde::models
+  jmuelbert::jmbdemodels
   LINK_PRIVATE
   Qt5::Widgets
   Qt5::PrintSupport

@@ -33,7 +33,6 @@
 
 namespace Model
 {
-
 /*!
     \class ChipCard
     \brief The ChipDataModel class
@@ -66,42 +65,42 @@ public:
     // implement the virtuals
 
     /*!
-        \fn virtual void setIndexes()
+        \fn virtual void setIndexes() final
         \brief Set the fieldindexes from the datafieldnames of the db.
      */
     virtual JMBDEMODELS_EXPORT void setIndexes() final;
 
     /*!
-        \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
+        \fn virtual QSqlRelationalTableModel *initializeRelationalModel() final
         \brief set the QSqlRelationalTableModel for the DataModel
         \return The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel  *initializeRelationalModel();
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel  *initializeRelationalModel() final;
 
     /*!
-        \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
+        \fn virtual QSqlRelationalTableModel *initializeInputDataModel() final
         \brief Initialize the InputDataModel
 
         \return The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel  *initializeInputDataModel();
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel  *initializeInputDataModel() final;
 
     /*!
-        \fn virtual QSqlTableModel *initializeViewModel()
+        \fn virtual QSqlTableModel *initializeViewModel() final
         \brief Initialize the ViewModel
 
         \return QSqlTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel();
+    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
 
     /*!
      * \fn virtual auto generateTableString(
-                                const QString &header) -> QString
+                                const QString &header) -> QString final
         \brief generateTableString
 
         \return a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString;
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString final;
 
     /*!
         \fn virtual auto generateFormularString(
@@ -110,7 +109,7 @@ public:
 
         \return a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString;
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
 
     // Getter
     /*!

@@ -23,13 +23,11 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
+#include "commondata.h"
+#include "idatamodel.h"
 #include <jmbdemodels-version.h>
 #include <jmbdemodels_export.h>
 #include <loggingcategory.h>
-#include "commondata.h"
-#include "idatamodel.h"
-
-
 
 namespace Model
 {
@@ -71,50 +69,50 @@ public:
     virtual JMBDEMODELS_EXPORT void setIndexes() final;
 
     /*!
-        \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
+        \fn virtual QSqlRelationalTableModel *initializeRelationalModel() final
         \brief set the QSqlRelationalTableModel for the DataModel
         \return The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel();
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel() final;
 
     /*!
-        \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
+        \fn virtual QSqlRelationalTableModel *initializeInputDataModel() final
         \brief Initialize the InputDataModel
 
          \return The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel();
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel() final;
 
     /*!
-        \fn virtual QSqlTableModel *initializeViewModel()
+        \fn virtual QSqlTableModel *initializeViewModel() final
         \brief Initialize the ViewModel
 
         \return QSqlTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel();
+    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
 
     /*!
-     * \fn virtual QString generateTableString(
-                                const QString &header)
+     * \fn virtual auto generateTableString(
+                                const QString &header) final
         \brief generateTableString
 
         \return a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString;
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString final;
 
     /*!
-        \fn virtual QString generateFormularString(
-                                   const QString &header)
+        \fn virtual auto generateFormularString(
+                                   const QString &header) final
         \brief generateFormularString
 
         \return a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString;
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
 
     // Getter
 
     /*!
-        \fn  int AccountIdIndex()
+        \fn int AccountIdIndex() const
 
         \brief Get the index of the fieldname AccountId from the database
 
@@ -126,7 +124,7 @@ public:
     }
 
     /*!
-        \fn int UserNameIndex()
+        \fn int UserNameIndex() const
 
         \brief Get the index of the fieldname UserName form the database
 
@@ -138,7 +136,7 @@ public:
     }
 
     /*!
-        \fn int PasswordIndex()
+        \fn int PasswordIndex() const
 
         \brief Get the index of the fieldname Password form the database
 

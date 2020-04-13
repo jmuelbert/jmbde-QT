@@ -84,46 +84,46 @@ digraph g {
     \date 03.08.2019
     \copyright EUPL V1.2
  */
-class JMBDEMODELS_EXPORT Employee : public CommonData
+class Employee : public CommonData
 {
-
+    Q_OBJECT
 
 public:
     /*!
         \fn explicit Employee(QObject *parent = nullptr)
         \brief The Constructor for the Employee
     */
-    explicit Employee(QObject *parent = nullptr);
+    explicit JMBDEMODELS_EXPORT Employee(QObject *parent = nullptr);
 
     /*!
         \fn  ~Employee() override;
 
         \brief Destructor for Employee
      */
-    ~Employee();
+    JMBDEMODELS_EXPORT  ~Employee();
 
     // implement the virtuals
 
     /*!
-        \fn virtual void setIndexes()
+        \fn virtual void setIndexes() final
         \brief Set the fieldindexes from the datafieldnames of the db.
      */
-    virtual void setIndexes();
+    virtual JMBDEMODELS_EXPORT  void setIndexes() final;
 
     /*!
-        \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
+        \fn virtual QSqlRelationalTableModel *initializeRelationalModel() final
         \brief set the QSqlRelationalTableModel for the DataModel
         Returns The QSqlRelationalTableModel
      */
-    virtual QSqlRelationalTableModel *initializeRelationalModel();
+    virtual JMBDEMODELS_EXPORT  QSqlRelationalTableModel *initializeRelationalModel() final;
 
     /*!
-        \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
+        \fn virtual QSqlRelationalTableModel *initializeInputDataModel() final
         \brief Initialize the InputDataModel
 
         Returns The QSqlRelationalTableModel
      */
-    virtual QSqlRelationalTableModel *initializeInputDataModel();
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel() final;
 
     /*!
          \fn virtual QSqlTableModel *initializeViewModel()
@@ -131,25 +131,25 @@ public:
 
          Returns QSqlTableModel
       */
-    virtual QSqlTableModel *initializeViewModel();
+    virtual JMBDEMODELS_EXPORT  QSqlTableModel *initializeViewModel() final;
 
     /*!
      * \fn virtual auto generateTableString(
-                                const QString &header) -> QString
+                                const QString &header) -> QString final
         \brief generateTableString
 
         Returns a QString with the generated Table for Output
      */
-    virtual auto generateTableString(const QString &header) -> QString;
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString final;
 
     /*!
          \fn virtual auto generateFormularString(
-                                    const QString &header) -> QString
+                                    const QString &header) -> QString final
          \brief generateFormularString
 
          Returns a QString with the generated Table for Output
       */
-    virtual auto generateFormularString(const QString &header) -> QString;
+    virtual JMBDEMODELS_EXPORT  auto generateFormularString(const QString &header) -> QString final;
 
     // Getter
 
@@ -160,7 +160,7 @@ public:
 
         Returns the value of the index
      */
-    int EmployeeIdIndex() const
+    JMBDEMODELS_EXPORT  int EmployeeIdIndex() const
     {
         return m_EmployeeIdIndex;
     }
@@ -172,7 +172,7 @@ public:
 
         Returns the value of the index
      */
-    int EmployeeNrIndex() const
+    JMBDEMODELS_EXPORT  int EmployeeNrIndex() const
     {
         return m_EmployeeNrIndex;
     }
@@ -184,7 +184,7 @@ public:
 
         Returns the value of the index
      */
-    int GenderIndex() const
+    JMBDEMODELS_EXPORT  int GenderIndex() const
     {
         return m_GenderIndex;
     }
@@ -196,7 +196,7 @@ public:
 
         Returns the value of the index
      */
-    int TitleIdIndex() const
+    JMBDEMODELS_EXPORT  int TitleIdIndex() const
     {
         return m_TitleIdIndex;
     }
@@ -208,7 +208,7 @@ public:
 
         Returns the value of the index
      */
-    int FirstNameIndex() const
+    JMBDEMODELS_EXPORT  int FirstNameIndex() const
     {
         return m_FirstNameIndex;
     }
@@ -220,7 +220,7 @@ public:
 
         Returns the value of the index
      */
-    int LastNameIndex() const
+    JMBDEMODELS_EXPORT  int LastNameIndex() const
     {
         return m_LastNameIndex;
     }
@@ -232,7 +232,7 @@ public:
 
         Returns the value of the index
      */
-    int BirthDayIndex() const
+    JMBDEMODELS_EXPORT int BirthDayIndex() const
     {
         return m_BirthDayIndex;
     }
@@ -244,7 +244,7 @@ public:
 
         Returns the value of the index
      */
-    int AddressIndex() const
+    JMBDEMODELS_EXPORT int AddressIndex() const
     {
         return m_AddressIndex;
     }
@@ -256,7 +256,7 @@ public:
 
        Returns the value of the index
     */
-    int ZipCityIdIndex() const
+    JMBDEMODELS_EXPORT int ZipCityIdIndex() const
     {
         return m_ZipCityIdIndex;
     }
@@ -268,7 +268,7 @@ public:
 
        Returns the value of the index
     */
-    int HomePhoneIndex() const
+    JMBDEMODELS_EXPORT int HomePhoneIndex() const
     {
         return m_HomePhoneIndex;
     }
@@ -280,7 +280,7 @@ public:
 
        Returns the value of the index
     */
-    int HomeMobileIndex() const
+    JMBDEMODELS_EXPORT int HomeMobileIndex() const
     {
         return m_HomeMobileIndex;
     }
@@ -292,7 +292,7 @@ public:
 
        Returns the value of the index
     */
-    int HomeMailIndex() const
+    JMBDEMODELS_EXPORT int HomeMailIndex() const
     {
         return m_HomeMailIndex;
     }
@@ -304,7 +304,7 @@ public:
 
         Returns the value of the index
      */
-    int BusinessMailIndex() const
+    JMBDEMODELS_EXPORT int BusinessMailIndex() const
     {
         return m_BusinessMailIndex;
     }
@@ -316,7 +316,7 @@ public:
 
         Returns the value of the index
      */
-    int DataCareIndex() const
+    JMBDEMODELS_EXPORT int DataCareIndex() const
     {
         return m_DataCareIndex;
     }
@@ -328,7 +328,7 @@ public:
 
         Returns the value of the index
      */
-    int ActiveIndex() const
+    JMBDEMODELS_EXPORT int ActiveIndex() const
     {
         return m_ActiveIndex;
     }
@@ -340,7 +340,7 @@ public:
 
         Returns the value of the index
      */
-    int PhotoIndex() const
+    JMBDEMODELS_EXPORT int PhotoIndex() const
     {
         return m_PhotoIndex;
     }
@@ -352,7 +352,7 @@ public:
 
         Returns the value of the index
      */
-    int NotesIndex() const
+    JMBDEMODELS_EXPORT int NotesIndex() const
     {
         return m_NotesIndex;
     }
@@ -364,7 +364,7 @@ public:
 
         Returns the value of the index
      */
-    int HireDateIndex() const
+    JMBDEMODELS_EXPORT int HireDateIndex() const
     {
         return m_HireDateIndex;
     }
@@ -376,7 +376,7 @@ public:
 
         Returns the value of the index
      */
-    int EndDateIndex() const
+    JMBDEMODELS_EXPORT int EndDateIndex() const
     {
         return m_EndDateIndex;
     }
@@ -388,7 +388,7 @@ public:
 
         Returns the value of the index
      */
-    int DepartmentIdIndex() const
+    JMBDEMODELS_EXPORT int DepartmentIdIndex() const
     {
         return m_DepartmentIdIndex;
     }
@@ -400,7 +400,7 @@ public:
 
         Returns the value of the index
      */
-    int FunctionIdIndex() const
+    JMBDEMODELS_EXPORT int FunctionIdIndex() const
     {
         return m_FunctionIdIndex;
     }
@@ -412,7 +412,7 @@ public:
 
         Returns the value of the index
      */
-    int ComputerIdIndex() const
+    JMBDEMODELS_EXPORT int ComputerIdIndex() const
     {
         return m_ComputerIdIndex;
     }
@@ -424,7 +424,7 @@ public:
 
         Returns the value of the index
      */
-    int PrinterIdIndex() const
+    JMBDEMODELS_EXPORT int PrinterIdIndex() const
     {
         return m_PrinterIdIndex;
     }
@@ -436,7 +436,7 @@ public:
 
         Returns the value of the index
      */
-    int PhoneIdIndex() const
+    JMBDEMODELS_EXPORT int PhoneIdIndex() const
     {
         return m_PhoneIdIndex;
     }
@@ -448,7 +448,7 @@ public:
 
         Returns the value of the index
      */
-    int MobileIdIndex() const
+    JMBDEMODELS_EXPORT int MobileIdIndex() const
     {
         return m_MobileIdIndex;
     }
@@ -460,7 +460,7 @@ public:
 
         Returns the value of the index
      */
-    int FaxIdIndex() const
+    JMBDEMODELS_EXPORT int FaxIdIndex() const
     {
         return m_FaxIdIndex;
     }
@@ -473,7 +473,7 @@ public:
 
         Returns the value of the index
      */
-    int EmployeeAccountIdIndex() const
+    JMBDEMODELS_EXPORT int EmployeeAccountIdIndex() const
     {
         return m_EmployeeAccountIdIndex;
     }
@@ -486,7 +486,7 @@ public:
 
         Returns the value of the index
      */
-    int EmployeeDocumentIdIndex() const
+    JMBDEMODELS_EXPORT int EmployeeDocumentIdIndex() const
     {
         return m_EmployeeDocumentIdIndex;
     }
@@ -498,7 +498,7 @@ public:
 
         Returns the value of the index
      */
-    int ChipCardIdIndex() const
+    JMBDEMODELS_EXPORT int ChipCardIdIndex() const
     {
         return m_ChipCardIdIndex;
     }
@@ -510,7 +510,7 @@ public:
 
         Returns the value of the index
      */
-    int LastUpdateIndex() const
+    JMBDEMODELS_EXPORT int LastUpdateIndex() const
     {
         return m_LastUpdateIndex;
     }

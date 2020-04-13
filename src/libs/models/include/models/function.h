@@ -45,72 +45,72 @@ namespace Model
     \copyright EUPL V1.2
     */
 
-class JMBDEMODELS_EXPORT Function : public CommonData, public IDataModel
+class Function : public CommonData, public IDataModel
 {
 
-
+    Q_OBJECT
 public:
     /*!
         \fn explicit Function(QObject *parent = nullptr)
         \brief The Constructor for the EmployeeAccount
     */
-    explicit Function(QObject *parent = nullptr);
+    explicit JMBDEMODELS_EXPORT Function(QObject *parent = nullptr);
 
     /*!
         \fn ~Function;
 
         \brief Destructor for ~Function
      */
-    ~Function();
+    JMBDEMODELS_EXPORT ~Function();
 
     // implement the virtuals
 
     /*!
-        \fn virtual void setIndexes()
+        \fn virtual void setIndexes() final
         \brief Set the fieldindexes from the datafieldnames of the db.
      */
-    virtual void setIndexes() override;
+    virtual JMBDEMODELS_EXPORT  void setIndexes() final;
 
     /*!
         \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
         \brief set the QSqlRelationalTableModel for the DataModel
         Returns The QSqlRelationalTableModel
      */
-    virtual QSqlRelationalTableModel *initializeRelationalModel() override;
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel() final;
 
     /*!
-          \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
+          \fn virtual QSqlRelationalTableModel *initializeInputDataModel() final
           \brief Initialize the InputDataModel
 
           Returns The QSqlRelationalTableModel
        */
-    virtual QSqlRelationalTableModel *initializeInputDataModel() override;
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel() final;
 
     /*!
-         \fn virtual QSqlTableModel *initializeViewModel()
+         \fn virtual QSqlTableModel *initializeViewModel() final
          \brief Initialize the ViewModel
 
          Returns QSqlTableModel
       */
-    virtual QSqlTableModel *initializeViewModel() override;
+    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
 
     /*!
      * \fn virtual auto generateTableString(
-                                const QString &header) -> QString
+                                const QString &header) -> QString final
         \brief generateTableString
 
         Returns a QString with the generated Table for Output
      */
-    virtual auto generateTableString(const QString &header) -> QString override;
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString final;
 
     /*!
          \fn virtual auto generateFormularString(
-                                    const QString &header) -> QString
+                                    const QString &header) -> QString final
          \brief generateFormularString
 
          Returns a QString with the generated Table for Output
       */
-    virtual auto generateFormularString(const QString &header) -> QString override;
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
 
     // Getter
 
@@ -121,7 +121,7 @@ public:
 
         Returns the value of the index
      */
-    int FunctionIdIndex() const
+    JMBDEMODELS_EXPORT int FunctionIdIndex() const
     {
         return m_FunctionIdIndex;
     }
@@ -133,7 +133,7 @@ public:
 
         Returns the value of the index
      */
-    int NameIndex() const
+    JMBDEMODELS_EXPORT int NameIndex() const
     {
         return m_NameIndex;
     }
@@ -145,7 +145,7 @@ public:
 
         Returns the value of the index
      */
-    int PriorityIndex() const
+    JMBDEMODELS_EXPORT int PriorityIndex() const
     {
         return m_PriorityIndex;
     }
@@ -157,7 +157,7 @@ public:
 
         Returns the value of the index
      */
-    int LastUpdateIndex() const
+    JMBDEMODELS_EXPORT int LastUpdateIndex() const
     {
         return m_LastUpdateIndex;
     }

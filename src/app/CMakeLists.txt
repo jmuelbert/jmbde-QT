@@ -79,7 +79,7 @@ target_compile_definitions(
 target_link_libraries(
   ${PROJECT_NAME}
   PUBLIC Qt5::Core
-  PRIVATE jmbde::widgets Qt5::Widgets Qt5::PrintSupport Qt5::Sql Qt5::Qml
+  PRIVATE jmuelbert::jmbdewidgets Qt5::Widgets Qt5::PrintSupport Qt5::Sql Qt5::Qml
           ${CONAN_LIBS})
 
 # Use a single application on MacOS + Windows instead of dbus.

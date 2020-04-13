@@ -16,7 +16,7 @@ cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 #
 # the COMMON shared library
 #
-set(JMBDEMODELS_VERSION 0.1.1)
+set(JMBDEMODELS_VERSION 0.1.2)
 set(JMBDEMODELS_SOVERSION 0)
 
 # Version setup set project version
@@ -64,7 +64,7 @@ ecm_qt_declare_logging_category(
 
 add_library(jmbdemodels "")
 generate_export_header(jmbdemodels)
-add_library(jmbde::models ALIAS jmbdemodels)
+add_library(jmuelbert::jmbdemodels ALIAS jmbdemodels)
 
 set_target_properties(
   jmbdemodels

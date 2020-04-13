@@ -48,6 +48,7 @@ namespace Model
 
 class CommonData : public QObject
 {
+
 public:
     /*!
         \fn  CommonData(QObject *parent = nullptr)

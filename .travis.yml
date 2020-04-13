@@ -52,7 +52,7 @@ matrix:
         - conan install ..
         - cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr -DBUILD_SHARED_LIBS=ON -DENABLE_TESTING=ON
         - make
-        - ctest -V
+        - ctest -VV
         - cd ../appbuild
         - cmake -DCMAKE_INSTALL_PREFIX:PATH=../appdir/usr -Wno-dev ..
         - make install

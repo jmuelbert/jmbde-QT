@@ -219,6 +219,7 @@ tmp/
 
 # general
 *.kdev4
+*.kate-swp
 *~
 *.rej
 *.orig

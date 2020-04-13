@@ -43,71 +43,72 @@ namespace Model
     \copyright EUPL V1.2
     */
 
-class JMBDEMODELS_EXPORT Inventory : public CommonData
+class Inventory : public CommonData
 {
+    Q_OBJECT
 
 public:
     /*!
         \fn explicit Inventory(QObject *parent = nullptr)
         \brief The Constructor for the Inventory
     */
-    explicit Inventory(QObject *parent = nullptr);
+    explicit JMBDEMODELS_EXPORT Inventory(QObject *parent = nullptr);
 
     /*!
         \fn  ~Inventory() override;
 
         \brief Destructor for Inventory
      */
-    ~Inventory();
+    JMBDEMODELS_EXPORT ~Inventory();
 
     // implement the virtuals
 
     /*!
-        \fn virtual void setIndexes()
+        \fn virtual void setIndexes() final
         \brief Set the fieldindexes from the datafieldnames of the db.
      */
-    virtual void setIndexes();
+    virtual JMBDEMODELS_EXPORT void setIndexes() final;
 
     /*!
-        \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
+        \fn virtual QSqlRelationalTableModel *initializeRelationalModel() final
         \brief set the QSqlRelationalTableModel for the DataModel
         Returns The QSqlRelationalTableModel
      */
-    virtual QSqlRelationalTableModel *initializeRelationalModel();
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel() final;
 
     /*!
-            \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
+            \fn virtual QSqlRelationalTableModel *initializeInputDataModel() final
             \brief Initialize the InputDataModel
 
             Returns The QSqlRelationalTableModel
         */
-    virtual QSqlRelationalTableModel *initializeInputDataModel();
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel() final;
 
     /*!
-         \fn virtual QSqlTableModel *initializeViewModel()
+         \fn virtual QSqlTableModel *initializeViewModel() final
          \brief Initialize the ViewModel
 
          Returns QSqlTableModel
       */
-    virtual QSqlTableModel *initializeViewModel();
+    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
 
     /*!
      * \fn virtual auto generateTableString(
-                                const QString &header) -> QString
+                                const QString &header) -> QString final
         \brief generateTableString
 
         Returns a QString with the generated Table for Output
      */
-    virtual auto generateTableString(const QString &header) -> QString;
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString final;
 
     /*!
          \fn virtual auto generateFormularString(
-                                    const QString &header) -> QString
+                                    const QString &header) -> QString final
          \brief generateFormularString
 
          Returns a QString with the generated Table for Output
       */
-    virtual auto generateFormularString(const QString &header) -> QString;
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
 
     // Getter
 
@@ -118,7 +119,7 @@ public:
 
         Returns the value of the index
      */
-    int InventoryIdIndex() const
+    JMBDEMODELS_EXPORT int InventoryIdIndex() const
     {
         return m_InventoryIdIndex;
     }
@@ -130,7 +131,7 @@ public:
 
         Returns the value of the index
      */
-    int NumberIndex() const
+    JMBDEMODELS_EXPORT int NumberIndex() const
     {
         return m_NumberIndex;
     }
@@ -142,7 +143,7 @@ public:
 
         Returns the value of the index
      */
-    int DescriptionIndex() const
+    JMBDEMODELS_EXPORT int DescriptionIndex() const
     {
         return m_DescriptionIndex;
     }
@@ -154,7 +155,7 @@ public:
 
         Returns the value of the index
      */
-    int ActiveIndex() const
+    JMBDEMODELS_EXPORT int ActiveIndex() const
     {
         return m_ActiveIndex;
     }
@@ -166,7 +167,7 @@ public:
 
         Returns the value of the index
      */
-    int LastUpateIndex() const
+    JMBDEMODELS_EXPORT int LastUpateIndex() const
     {
         return m_LastUpdateIndex;
     }

@@ -87,25 +87,21 @@ for:
     install:
       - brew install ninja
       - brew install qt
-      - brew install quazip
       - brew install ccache
       - brew upgrade
       - brew link --force qt5
+      - brew install conan
       - export PATH="$(brew --prefix qt)/bin:$PATH"
       - sudo ln -s "/usr/local/Cellar/qt/${QT_VERSION}/mkspecs /usr/local/mkspecs"
       - sudo ln -s "/usr/local/Cellar/qt/${QT_VERSION}/plugins /usr/local/plugins"
 
-      # Install vcpkg
-      - git clone https://github.com/Microsoft/vcpkg.git
-      - cd vcpkg
-      - ./bootstrap-vcpkg.sh
-      - ./vcpkg integrate install
-      - ./vcpkg install ecm
-      - export VCPKGToolChainFile=$APPVEYOR_BUILD_FOLDER/vcpkg/scripts/buildsystems/vcpkg.cmake
-      - cd ..
+      # Init conan
+      - conan user
+      - conan create ./conan/ECM
 
     before_build:
       - mkdir -p build; cd build
+      - conan install ..
       - cmake -GNinja -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_PREFIX_PATH="$(brew --prefix qt)" -DCMAKE_INSTALL_PREFIX:PATH=. -DCMAKE_TOOLCHAIN_FILE="$VCPKGToolChainFile" -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=ON ..
 
 
@@ -185,14 +181,10 @@ for:
       - sudo apt-get -y install qt${QT_VER}tools
       - source /opt/qt${QT_VER}/bin/qt${QT_VER}-env.sh
 
-      # Install vcpkg
-      - git clone https://github.com/Microsoft/vcpkg.git
-      - cd vcpkg
-      - ./bootstrap-vcpkg.sh
-      - ./vcpkg integrate install
-      - ./vcpkg install ecm
-      - export VCPKGToolChainFile=$APPVEYOR_BUILD_FOLDER/vcpkg/scripts/buildsystems/vcpkg.cmake
-      - cd ..
+      # Install conan
+      - pip install conan
+      - conan user
+      - conan create ./conan/ECM
 
     before_build:
       - set -e # Exit immediately if anything fails
@@ -202,6 +194,7 @@ for:
 
     build_script:
       - cd build
+      - conan install ..
       - cmake -DCMAKE_BUILD_TYPE="$CONFIGURATION"  -DCMAKE_INSTALL_PREFIX:PATH=../appdir/usr -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=ON -DCMAKE_TOOLCHAIN_FILE="$VCPKGToolChainFile" -DBUILD_SHARED_LIBS=ON ..
       - make
       - ctest -V
@@ -302,15 +295,11 @@ for:
       # Windows
       - cinst png2ico
       - nuget install secure-file -ExcludeVersion
-      # Install ECM
-      - cmd: vcpkg integrate install
-      - cmd: vcpkg install ecm:x64-windows
-      - cmd: vcpkg upgrade
-      - cmd: vcpkg list
-      - cmd: echo set(VCPKG_BUILD_TYPE release) >> C:\tools\vcpkg\triplets\%PLATFORM%-windows.cmake
-      - cmd: vcpkg remove --outdated --recurse
-      - cmake --version
-
+      # Install conan
+      - pip3.exe install conan
+      - conan user
+      - conan create .\conan\ECM
+ 
     before_build:
       - call "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
       - call "%QTDIR%\bin\qtenv2.bat"
@@ -318,10 +307,10 @@ for:
       - ps: New-Item -itemtype directory -path ./build
       - ps: Set-Location "build"
       - ps: Write-Host "Generate the Project with the $ENV:CMAKE_GENERATOR gnerator and the configuration $ENV:CONFIGURATION and $ENV:VCPKGToolChainFile"
-      - ps: Get-ChildItem "C:\tools\vcpkg\triplets"
-
+ 
     build_script:
       - ps: New-Item -itemtype directory -path ./program
+      - ps: conan install ..
       - ps: cmake -G "$ENV:CMAKE_GENERATOR"  -DCMAKE_BUILD_TYPE=Release  -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DCMAKE_INSTALL_PREFIX:PATH=./program -DCMAKE_TOOLCHAIN_FILE="$ENV:VCPKGToolChainFile" -DVCPKG_TARGET_TRIPLET=x64-windows -DBUILD_SHARED_LIBS=ON ..
       - ps: cmake --build . --config Release --target install
 

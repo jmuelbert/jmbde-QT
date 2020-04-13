@@ -47,46 +47,47 @@ namespace Model
     \date 03.08.2019
     \copyright EUPL V1.2
  */
-class JMBDEMODELS_EXPORT Software : public CommonData
+class  Software : public CommonData
 {
-
+   Q_OBJECT
+   
 public:
     /*!
         \fn Software(QObject *parent = nullptr)
 
         \brief Constructor for the Software
      */
-    explicit Software(QObject *parent = nullptr);
+    explicit JMBDEMODELS_EXPORT Software(QObject *parent = nullptr);
 
     /*!
         \fn  ~Software();
 
         \brief Destructor for Software
      */
-    ~Software();
+    JMBDEMODELS_EXPORT ~Software();
 
     // implement the virtuals
 
     /*!
-        \fn virtual void setIndexes()
+        \fn virtual void setIndexes() final
         \brief Set the fieldindexes from the datafieldnames of the db.
      */
-    virtual void setIndexes();
+    virtual JMBDEMODELS_EXPORT void setIndexes() final;
 
     /*!
         \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
         \brief set the QSqlRelationalTableModel for the DataModel
         Returns The QSqlRelationalTableModel
      */
-    virtual QSqlRelationalTableModel *initializeRelationalModel();
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel() final;
 
     /*!
-        \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
+        \fn virtual QSqlRelationalTableModel *initializeInputDataModel() final
         \brief Initialize the InputDataModel
 
         Returns The QSqlRelationalTableModel
      */
-    virtual QSqlRelationalTableModel *initializeInputDataModel();
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel() final;
 
     /*!
         \fn virtual QSqlTableModel *initializeViewModel()
@@ -94,16 +95,16 @@ public:
 
         Returns QSqlTableModel
      */
-    virtual QSqlTableModel *initializeViewModel();
+    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
 
     /*!
      * \fn virtual auto generateTableString(
-                                const QString &header) ->QString
+                                const QString &header) ->QString final
         \brief generateTableString
 
         Returns a QString with the generated Table for Output
      */
-    virtual auto generateTableString(const QString &header) -> QString;
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString final;
 
     /*!
         \fn virtual auto generateFormularString(
@@ -112,7 +113,7 @@ public:
 
         Returns a QString with the generated Table for Output
      */
-    virtual auto generateFormularString(const QString &header) -> QString;
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
 
     // Getter
 
@@ -123,7 +124,7 @@ public:
 
         Returns the value of the index
      */
-    int SoftwareIdIndex() const
+    JMBDEMODELS_EXPORT int SoftwareIdIndex() const
     {
         return m_SoftwareIdIndex;
     }
@@ -135,7 +136,7 @@ public:
 
         Returns the value of the index
      */
-    int NameIndex() const
+    JMBDEMODELS_EXPORT int NameIndex() const
     {
         return m_NameIndex;
     }
@@ -147,7 +148,7 @@ public:
 
        Returns the value of the index
     */
-    int VersionIndex() const
+    JMBDEMODELS_EXPORT int VersionIndex() const
     {
         return m_VersionIndex;
     }
@@ -159,7 +160,7 @@ public:
 
       Returns the value of the index
    */
-    int RevisionIndex() const
+    JMBDEMODELS_EXPORT int RevisionIndex() const
     {
         return m_RevisionIndex;
     }
@@ -171,7 +172,7 @@ public:
 
        Returns the value of the index
     */
-    int FixIndex() const
+    JMBDEMODELS_EXPORT int FixIndex() const
     {
         return m_FixIndex;
     }
@@ -183,7 +184,7 @@ public:
 
       Returns the value of the index
    */
-    int LastUpdateIndex() const
+    JMBDEMODELS_EXPORT int LastUpdateIndex() const
     {
         return m_LastUpdateIndex;
     }

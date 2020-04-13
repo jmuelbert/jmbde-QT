@@ -68,20 +68,20 @@ public:
     // implement the virtuals
 
     /*!
-        \fn virtual void setIndexes()
+        \fn virtual void setIndexes() final
         \brief Set the fieldindexes from the datafieldnames of the db.
      */
-    virtual JMBDEMODELS_EXPORT void setIndexes();
+    virtual JMBDEMODELS_EXPORT void setIndexes() final;
 
     /*!
-        \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
+        \fn virtual QSqlRelationalTableModel *initializeRelationalModel() final
         \brief set the QSqlRelationalTableModel for the DataModel
         Returns The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel();
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel() final;
 
     /*!
-        \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
+        \fn virtual QSqlRelationalTableModel *initializeInputDataModel() final
         \brief Initialize the InputDataModel
 
         Returns The QSqlRelationalTableModel
@@ -97,22 +97,22 @@ public:
     virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel();
 
     /*!
-     * \fn virtual auto generateTableString(c
-                                const QString &header) -> QString
+     * \fn virtual auto generateTableString(
+                                const QString &header) -> QString final
         \brief generateTableString
 
         Returns a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT  auto generateTableString(const QString &header) -> QString;
+    virtual JMBDEMODELS_EXPORT  auto generateTableString(const QString &header) -> QString final;
 
     /*!
-        \fn virtual auto generateFormularString(c
-                                   const QString &header) -> QString
+        \fn virtual auto generateFormularString(
+                                   const QString &header) -> QString final
         \brief generateFormularString
 
         Returns a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateFormularString( const QString &header) -> QString;
+    virtual JMBDEMODELS_EXPORT auto generateFormularString( const QString &header) -> QString final;
 
     // Getter
 
