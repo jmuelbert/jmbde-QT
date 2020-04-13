@@ -26,6 +26,22 @@ image:
   - Ubuntu
   - macOS
 
+stack: python 3
+
+environment:
+  PY_DIR: C:\Python37-x64
+  my_secret:
+  secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
+  APPVEYOR_YML_DISABLE_PS_LINUX: true
+  Appveyor: true
+  QT_PPA: beineri/opt-qt-5.14.1-bionic
+  QT_VER: 514
+  QT_VERSION: 5.14.1
+
+clone_depth: 25
+
+build: off
+
 configuration:
   - release-fastbuild
   - Release
@@ -39,16 +55,6 @@ platform:
 
 nuget:
   disable_publish_on_pr: true
-
-environment:
-
-    my_secret:
-    secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
-    APPVEYOR_YML_DISABLE_PS_LINUX: true
-    Appveyor: true
-    QT_PPA: beineri/opt-qt-5.14.1-bionic
-    QT_VER: 514
-    QT_VERSION: 5.14.1
 
 matrix:
   exclude:
@@ -152,7 +158,6 @@ for:
   - matrix:
       only:
         - image: Ubuntu
-          stack: Python 3
 
     clone_folder: /home/appveyor/projects/jmbde-QT
     cache: ccache
@@ -181,7 +186,6 @@ for:
       - sudo apt-get -y install qt${QT_VER}translations
       - sudo apt-get -y install qt${QT_VER}tools
       - source /opt/qt${QT_VER}/bin/qt${QT_VER}-env.sh
-      # Python 37
 
       # Install conan
       - pip install conan
