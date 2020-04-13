@@ -152,6 +152,7 @@ for:
   - matrix:
       only:
         - image: Ubuntu
+          stack: Python 3
 
     clone_folder: /home/appveyor/projects/jmbde-QT
     cache: ccache
@@ -180,6 +181,7 @@ for:
       - sudo apt-get -y install qt${QT_VER}translations
       - sudo apt-get -y install qt${QT_VER}tools
       - source /opt/qt${QT_VER}/bin/qt${QT_VER}-env.sh
+      # Python 37
 
       # Install conan
       - pip install conan
@@ -277,7 +279,7 @@ for:
       - ps: $ENV:REDIST="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\vcredist_%PLATFORM%.exe"
       - ps: $ENV:VCVARSALL="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat"
       - call set /p RedistVersion=<"%ProgramFiles(x86)%\\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt"
-      - ps: $ENV:Path += ";" + $ENV:VCPKDIR
+      - ps: $ENV:Path += ";" + $ENV:PYTHON
       # MINGW
       # - ps: $ENV:MINGW="C:\mingw-w64\x86_64-7.3.0-posix-seh-rt_v5-rev0"
       # - ps: $ENV:QTDIR="C:\Qt\5.14\mingw73_64"
@@ -296,7 +298,7 @@ for:
       - cinst png2ico
       - nuget install secure-file -ExcludeVersion
       # Install conan
-      - pip3.exe install conan
+      - pip install conan
       - conan user
       - conan create .\conan\ECM
  
