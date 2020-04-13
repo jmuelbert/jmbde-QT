@@ -283,7 +283,7 @@ for:
       - ps: $ENV:REDIST="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\vcredist_%PLATFORM%.exe"
       - ps: $ENV:VCVARSALL="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat"
       - call set /p RedistVersion=<"%ProgramFiles(x86)%\\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt"
-      - ps: $ENV:Path += ";" + $ENV:PYTHON + ";" + $ENV:PYTHON + "/Scripts"
+      - ps: $ENV:Path =   $ENV:PYTHON + ";" + $ENV:PYTHON + "/Scripts" + ";" + $ENV:PATH
       # MINGW
       # - ps: $ENV:MINGW="C:\mingw-w64\x86_64-7.3.0-posix-seh-rt_v5-rev0"
       # - ps: $ENV:QTDIR="C:\Qt\5.14\mingw73_64"
