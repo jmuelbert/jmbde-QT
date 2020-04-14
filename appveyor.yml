@@ -201,9 +201,10 @@ for:
     build_script:
       - cd build
       - conan install ..
-      - cmake -DCMAKE_BUILD_TYPE="$CONFIGURATION"  -DCMAKE_INSTALL_PREFIX:PATH=../appdir/usr -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=ON -DCMAKE_TOOLCHAIN_FILE="$VCPKGToolChainFile" -DBUILD_SHARED_LIBS=ON ..
+      - cmake -DCMAKE_BUILD_TYPE="$CONFIGURATION"  -DCMAKE_INSTALL_PREFIX:PATH=../appdir/usr -DBUILD_TESTING=ON -DBUILD_SHARED_LIBS=ON ..
       - make
-      - ctest -V
+      - export LD_LIBRARY_PATH=$APPVEYOR_BUILD_FOLDER/build/bin:$LD_LIBRARY_PATH
+      - ctest -VV .
 
     after_build:
       #
@@ -287,7 +288,7 @@ for:
       - ps: $ENV:Path =  $ENV:PYTHON + ";" + $ENV:PYTHON + "/Scripts" + ";" + $ENV:PATH
       - ps: $ENV:INNO="${ENV:ProgramFiles(x86)}\Inno Setup 6"
       - ps: $ENV:NSIS="${ENV:ProgramFiles(x86)}\NSIS"
-      - ps: $ENV:CMAKE_GENERATOR="Ninja"
+      - ps: $ENV:CMAKE_GENERATOR="Visual Studio 16 2019" # Ninja 
       - ps: $ENV:Path += ";" + $ENV:QTDIR + "\bin"
       - ps: $ENV:Path += ";" + $ENV:INNO + ";" + $ENV:NSIS
       - echo QTDIR=%QTDIR%
@@ -309,12 +310,12 @@ for:
       - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER"
       - ps: New-Item -itemtype directory -path ./build
       - ps: Set-Location "build"
-      - ps: Write-Host "Generate the Project with the $ENV:CMAKE_GENERATOR gnerator and the configuration $ENV:CONFIGURATION and $ENV:VCPKGToolChainFile"
+      - ps: Write-Host "Generate the Project with the $ENV:CMAKE_GENERATOR gnerator and the configuration $ENV:CONFIGURATION"
  
     build_script:
       - ps: New-Item -itemtype directory -path ./program
       - ps: conan install ..
-      - ps: cmake -G "$ENV:CMAKE_GENERATOR"  -DCMAKE_BUILD_TYPE=Release  -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DCMAKE_INSTALL_PREFIX:PATH=./program -DBUILD_SHARED_LIBS=ON ..
+      - ps: cmake -G "$ENV:CMAKE_GENERATOR" -A $ENV:PLATFORM -DCMAKE_BUILD_TYPE=Release  -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DCMAKE_INSTALL_PREFIX:PATH=./program -DBUILD_TESTING=ON -DBUILD_SHARED_LIBS=ON ..
       - ps: cmake --build . --config Release --target install
 
     after_build:
