@@ -15,6 +15,27 @@
 # minimal requirements
 cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 
+# Tell CMake to run moc when necessary:
+set(CMAKE_AUTOMOC ON)
+
+# As moc files are generated in the binary dir, tell CMake
+# to always look for includes there:
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+# use, i.e. don't skip the full RPATH for the build tree
+SET(CMAKE_SKIP_BUILD_RPATH  FALSE)
+
+# when building, don't use the install RPATH already
+# (but later on when installing)
+SET(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
+
+# the RPATH to be used when installing
+SET(CMAKE_INSTALL_RPATH "")
+
+# don't add the automatically determined parts of the RPATH
+# which point to directories outside the build tree to the install RPATH
+SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH FALSE)
+
 find_package(
   Qt5 ${QT_MIN_VERSION} REQUIRED
   COMPONENTS Core
@@ -42,17 +63,27 @@ if(NOT Qt5Test_FOUND)
   return()
 endif()
 
-add_executable(tst_test tst_datacontext.cpp)
-target_link_libraries(tst_test PUBLIC Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Sql Qt5::Test
-                                      jmuelbert::jmbdemodels)
 
-set_target_properties(
-  tst_test
-  PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
-             LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
-             RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
-add_test(NAME "Test1" COMMAND tst_test)
+
+foreach(test_name
+  tst_datacontext
+)
+  add_executable(${test_name} ${test_name}.cpp)
+  target_link_libraries(${test_name} PRIVATE
+    Qt5::Core 
+    Qt5::Gui 
+    Qt5::Widgets 
+    Qt5::Sql 
+    Qt5::Test
+    jmuelbert::jmbdemodels
+    )
+  add_test(
+    NAME ${test_name}
+  COMMAND 
+    $<TARGET_FILE:${test_name}> -maxwarnings 0
+  )
+endforeach()
 
 # QML Tests add_test(NAME qmltests COMMAND qmltestrunner WORKING_DIRECTORY
 # ${CMAKE_CURRENT_SOURCE_DIR}) set_property(TEST qmltests PROPERTY ENVIRONMENT
