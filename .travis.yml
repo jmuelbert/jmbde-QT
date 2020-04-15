@@ -51,7 +51,6 @@ matrix:
         - conan install ..
         - cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr -DBUILD_SHARED_LIBS=ON -DENABLE_TESTING=ON
         - make
-        - ctest -VV
         - cd ../appbuild
         - cmake -DCMAKE_INSTALL_PREFIX:PATH=../appdir/usr -Wno-dev ..
         - make install
@@ -65,14 +64,15 @@ matrix:
         - wget -c -nv "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
         - chmod a+x appimagetool-x86_64.AppImage
         # - export VERSION=$(printf "`master`-`git rev-list HEAD --count`-` git -C . rev-parse --short HEAD`")    #$(git rev-parse --short HEAD) # linuxdeployqt uses this for naming the file
-        - ./linuxdeployqt*.AppImage appdir/usr/share/applications/*.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.54m.so.1.0 -verbose=2 -appimage
+        - ./linuxdeployqt*.AppImage $TRAVIS_BUILD_DIR/appdir/usr/share/applications/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.54m.so.1.0 -verbose=2 -appimage
 
       after_success:
         # - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
         # - ./linuxdeployqt*.AppImage --appimage-extract
         # - export PATH=$(readlink -f ./squashfs-root/usr/bin/):$PATH
         # - ./squashfs-root/usr/bin/appimagetool appdir/
-      - find appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
+        - find appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
+        - cd $TRAVIS_BUILD_DIR/build
 
       deploy:
         provider: releases

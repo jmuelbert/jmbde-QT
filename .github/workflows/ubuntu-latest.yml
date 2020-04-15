@@ -25,8 +25,8 @@ jobs:
         sudo add-apt-repository ppa:beineri/opt-qt-5.12.7-bionic -y
         sudo apt-get update -qq
         sudo apt-get -y install qt512base libgl1-mesa-dev qt512svg qt512imageformats
-        bash /opt/qt*/bin/qt*-env.sh
-        sudo pip3 install conan
+        source /opt/qt*/bin/qt*-env.sh
+        pip install conan
         conan user
         conan create ./conan/ECM
     - name: build
@@ -37,7 +37,6 @@ jobs:
           cd build
           cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr -DBUILD_SHARED_LIBS=ON -DENABLE_TESTING=ON
           make
-          ctest -V
           cd ../appbuild
           cmake -DCMAKE_INSTALL_PREFIX:PATH=../appdir/usr -Wno-dev ..
           make install

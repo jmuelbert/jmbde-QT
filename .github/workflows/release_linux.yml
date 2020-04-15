@@ -13,6 +13,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Install Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+
     - name: Fetch submodules
       run: git submodule update --init --recursive
 
@@ -21,7 +26,7 @@ jobs:
         sudo add-apt-repository ppa:beineri/opt-qt-5.12.7-bionic -y
         sudo apt-get update -qq
         sudo apt-get -y install qt512base libgl1-mesa-dev qt512svg qt512imageformats
-        bash /opt/qt*/bin/qt*-env.sh
+        source /opt/qt*/bin/qt*-env.sh
         pip install conan
         conan user
         conan create ../conan/ECM
@@ -29,6 +34,7 @@ jobs:
       run: |
         mkdir build
         cd build
+        conan install ..
         cmake .. -DCMAKE_BUILD_TYPE=Release
         cmake --build .
     - name: Get the version
@@ -44,7 +50,7 @@ jobs:
         fi
     - name: Pack to AppImage
       run: |
-        bash /opt/qt*/bin/qt*-env.sh
+        source /opt/qt*/bin/qt*-env.sh
         cd build
         wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
         chmod a+x linuxdeployqt*.AppImage

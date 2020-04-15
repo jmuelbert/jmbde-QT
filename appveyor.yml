@@ -204,7 +204,6 @@ for:
       - cmake -DCMAKE_BUILD_TYPE="$CONFIGURATION"  -DCMAKE_INSTALL_PREFIX:PATH=../appdir/usr -DBUILD_TESTING=ON -DBUILD_SHARED_LIBS=ON ..
       - make
       - export LD_LIBRARY_PATH=$APPVEYOR_BUILD_FOLDER/build/bin:$LD_LIBRARY_PATH
-      - ctest -VV .
 
     after_build:
       #
@@ -225,6 +224,7 @@ for:
       - ls -la
 
     test_script:
+      - cd $APPVEYOR_BUILD_FOLDER/build
       - ctest -C $CONFIGURATION -VV
 
     artifacts:
