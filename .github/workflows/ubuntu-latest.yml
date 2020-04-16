@@ -1,44 +1,186 @@
 
 name: Compile on latest Ubuntu
 
-on: [push, pull_request]
+on:
+  push:
+    paths-ignore:
+      - '*.md'
+      - '*/*.md'
+      - '*/*/*.md'
+  pull_request:
+    paths-ignore:
+      - '*.md'
+      - '*/*.md'
+      - '*/*/*.md'
+
+env:
+  CMAKE_VERSION: 3.16.4
+  NINJA_VERSION: 1.10.0
+  BUILD_TYPE: Release
+  CCACHE_VERSION: 3.7.7
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
+    name: "${{ matrix.config.os }} Qt ${{ matrix.qt_version }}"
+    strategy:
+      fail-fast: false
+      matrix:
+        qt_version: [5.12.7, 5.14.1]
+        config:
+        - {
+            os: ubuntu-latest,
+            cc: "gcc", cxx: "g++",
+            binary: 'jmbde'
+          }     
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
+
+    - name: Fetch submodules
+      run: git submodule update --init --recursive
 
     - name: Install Python 3.7
       uses: actions/setup-python@v1
       with:
         python-version: 3.7
 
-    - name: install dependencies
+    - name: Fetch submodules
+      run: git submodule update --init --recursive
+
+    - name: Install Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+
+    - name: Restore Qt from cache
+      id: cache-qt
+      uses: actions/cache@v1
+      with:
+        path: ../Qt
+        key: Qt-${{ matrix.config.os }}-${{ matrix.qt_version }}
+
+    - name: Set up Qt environment
+      uses: jurplel/install-qt-action@v2
+      with:
+        cached: ${{ steps.cache-qt.outputs.cache-hit }}
+        version: ${{ matrix.qt_version }}
+
+    - name: Download Ninja and CMake
+      id: cmake_and_ninja
+      shell: cmake -P {0}
       run: |
-        sudo apt update
-        sudo apt-get -y install cmake
-        sudo apt-get -y install ninja-build
-        sudo apt-get -y install libgl1-mesa-dev
-        sudo add-apt-repository ppa:beineri/opt-qt-5.12.7-bionic -y
-        sudo apt-get update -qq
-        sudo apt-get -y install qt512base libgl1-mesa-dev qt512svg qt512imageformats
-        source /opt/qt*/bin/qt*-env.sh
-        pip install conan
+        set(cmake_version $ENV{CMAKE_VERSION})
+        set(ninja_version $ENV{NINJA_VERSION})
+        message(STATUS "Using host CMake version: ${CMAKE_VERSION}")
+        set(ninja_suffix "linux.zip")
+        set(cmake_suffix "Linux-x86_64.tar.gz")
+        set(cmake_dir "cmake-${cmake_version}-Linux-x86_64/bin")
+        set(ninja_url "https://github.com/ninja-build/ninja/releases/download/v${ninja_version}/ninja-${ninja_suffix}")
+        file(DOWNLOAD "${ninja_url}" ./ninja.zip SHOW_PROGRESS)
+        execute_process(COMMAND ${CMAKE_COMMAND} -E tar xvf ./ninja.zip)
+        set(cmake_url "https://github.com/Kitware/CMake/releases/download/v${cmake_version}/cmake-${cmake_version}-${cmake_suffix}")
+        file(DOWNLOAD "${cmake_url}" ./cmake.zip SHOW_PROGRESS)
+        execute_process(COMMAND ${CMAKE_COMMAND} -E tar xvf ./cmake.zip)
+        # Save the path for other steps
+        file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/${cmake_dir}" cmake_dir)
+        message("::set-output name=cmake_dir::${cmake_dir}")
+        execute_process(
+          COMMAND chmod +x ninja
+          COMMAND chmod +x ${cmake_dir}/cmake
+        )
+    - name: Download ccache
+      id: ccache
+      shell: cmake -P {0}
+      run: |
+        set(ccache_url "https://github.com/cristianadam/ccache/releases/download/v$ENV{CCACHE_VERSION}/${{ runner.os }}.tar.xz")
+        file(DOWNLOAD "${ccache_url}" ./ccache.tar.xz SHOW_PROGRESS)
+        execute_process(COMMAND ${CMAKE_COMMAND} -E tar xvf ./ccache.tar.xz)
+    - name: Prepare ccache timestamp
+      id: ccache_cache_timestamp
+      shell: cmake -P {0}
+      run: |
+        string(TIMESTAMP current_date "%Y-%m-%d-%H;%M;%S" UTC)
+        message("::set-output name=timestamp::${current_date}")
+    - name: Restore ccache cache files
+      uses: actions/cache@v1
+      with:
+        path: .ccache
+        key: ${{ matrix.config.os }}-${{ matrix.qt_version }}-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
+        restore-keys: |
+          ${{ matrix.config.os }}-${{ matrix.qt_version }}-ccache-
+    - name: conan_and_ECM
+      id: conan_and_ECM
+      run: |
+        python -m pip install conan
         conan user
         conan create ./conan/ECM
-    - name: build
+        mkdir build && cd build
+        conan install ..
+        cd ..
+      - name: Configure CMake
+      shell: cmake -P {0}
       run: |
-          mkdir -p build
-          mkdir -p appbuild
-          mkdir -p appdir
+        mkdir appdir
+        set(ENV{CC} ${{ matrix.config.cc }})
+        set(ENV{CXX} ${{ matrix.config.cxx }})
+        if ("${{ runner.os }}" STREQUAL "Windows" AND NOT "x${{ matrix.config.environment_script }}" STREQUAL "x")
+          execute_process(
+            COMMAND "${{ matrix.config.environment_script }}" && set
+            OUTPUT_FILE environment_script_output.txt
+          )
+          file(STRINGS environment_script_output.txt output_lines)
+          foreach(line IN LISTS output_lines)
+            if (line MATCHES "^([a-zA-Z0-9_-]+)=(.*)$")
+              set(ENV{${CMAKE_MATCH_1}} "${CMAKE_MATCH_2}")
+            endif()
+          endforeach()
+        endif()
+        set(path_separator ":")
+        if ("${{ runner.os }}" STREQUAL "Windows")
+          set(path_separator ";")
+        endif()
+        set(ENV{PATH} "$ENV{GITHUB_WORKSPACE}${path_separator}$ENV{PATH}")
+        execute_process(
+          COMMAND ${{ steps.cmake_and_ninja.outputs.cmake_dir }}/cmake
+            -S .
+            -B build
+            -D CMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
+            -G Ninja
+            -D CMAKE_MAKE_PROGRAM=ninja
+            -D CMAKE_C_COMPILER_LAUNCHER=ccache
+            -D CMAKE_CXX_COMPILER_LAUNCHER=ccache
+            -DCMAKE_INSTALL_PREFIX:PATH=../appdir/usr
+            -DBUILD_SHARED_LIBS=ON
+          RESULT_VARIABLE result
+        )
+        if (NOT result EQUAL 0)
+          message(FATAL_ERROR "Bad exit status")
+        endif()
+    - name: Build
+      shell: cmake -P {0}
+      run: |
+        set(ENV{NINJA_STATUS} "[%f/%t %o/sec] ")
+        set(path_separator ":")
+        set(ENV{PATH} "$ENV{GITHUB_WORKSPACE}${path_separator}$ENV{PATH}")
+        file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}" ccache_basedir)
+        set(ENV{CCACHE_BASEDIR} "${ccache_basedir}")
+        set(ENV{CCACHE_DIR} "${ccache_basedir}/.ccache")
+        set(ENV{CCACHE_COMPRESS} "true")
+        set(ENV{CCACHE_COMPRESSLEVEL} "6")
+        set(ENV{CCACHE_MAXSIZE} "100M")
+        execute_process(COMMAND ccache -p)
+        execute_process(COMMAND ccache -z)
+        execute_process(
+          COMMAND ${{ steps.cmake_and_ninja.outputs.cmake_dir }}/cmake --build build
+          RESULT_VARIABLE result
+        )
+        if (NOT result EQUAL 0)
+          message(FATAL_ERROR "Bad exit status")
+        endif()
+        execute_process(COMMAND ccache -s)
+    - name: Build AppImage
+      run: |
           cd build
-          cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr -DBUILD_SHARED_LIBS=ON -DENABLE_TESTING=ON
-          make
-          cd ../appbuild
-          cmake -DCMAKE_INSTALL_PREFIX:PATH=../appdir/usr -Wno-dev ..
           make install
           cd ..
           export LD_LIBRARY_PATH=$TRAVIS_BUILD_DIR/appdir/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH

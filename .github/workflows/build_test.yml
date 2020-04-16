@@ -134,7 +134,7 @@ jobs:
         cd ..
     - name: Install png2ico on Windows
       id: png2ico
-      if: ("${{ runner.os }}" STREQUAL "Windows")
+      if: (matrix.config.os == 'windows-latest'
       uses: crazy-max/ghaction-chocolatey@v1
       with:
         args: 'install png2ico'
@@ -213,8 +213,8 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v1
       with:
-        name: "cpeditor-${{ matrix.config.os }}-${{ matrix.qt_version }}-${{ github.sha }}"
-        path: build/${{ matrix.config.binary }}
+        name: "jmbde-${{ matrix.config.os }}-${{ matrix.qt_version }}-${{ github.sha }}"
+        path: bin/${{ matrix.config.binary }}
 
     - name: Get the version
       if: startsWith(github.ref, 'refs/tags') && (matrix.qt_version == '5.12.7')
