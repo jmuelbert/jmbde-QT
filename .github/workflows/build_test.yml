@@ -132,14 +132,12 @@ jobs:
         mkdir build && cd build
         conan install ..
         cd ..
-    - name: png2ico
+    - name: Install png2ico on Windows
       id: png2ico
-      run: |
-        if ("${{ runner.os }}" STREQUAL "Windows")
-            uses: crazy-max/ghaction-chocolatey@v1
-            with:
-            args: 'install png2ico'
-        endif()
+      if: ("${{ runner.os }}" STREQUAL "Windows")
+      uses: crazy-max/ghaction-chocolatey@v1
+      with:
+        args: 'install png2ico'
     - name: Configure CMake
       shell: cmake -P {0}
       run: |

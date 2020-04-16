@@ -66,7 +66,7 @@ jobs:
         run: |
          choco install -y ninja
          pip install conan
-         conan up
+         conan user
          conan create conan/ECM
 # curl -o ./libs/jmbde_QT-deps-grpc-${{ matrix.arch }}-windows.7z -L https://github.com/jmuelbert/jmbde-QT/jmbde-QT-deps/releases/download/release/Qv2ray-deps-grpc-${{ matrix.arch }}-windows.7z
       # - name: Win-${{ matrix.arch }} - Build preparation - Extract Dependencies
