@@ -44,7 +44,9 @@
 #include "ui_titleinputarea.h"
 
 TitleInputArea::TitleInputArea(QWidget *parent, const QModelIndex index)
-    : QGroupBox(parent), ui(new Ui::TitleInputArea) {
+    : QGroupBox(parent)
+    , ui(new Ui::TitleInputArea)
+{
     ui->setupUi(this);
 
     // Init UI
@@ -70,24 +72,27 @@ TitleInputArea::TitleInputArea(QWidget *parent, const QModelIndex index)
     m_mapper->setCurrentIndex(index.row());
 }
 
-TitleInputArea::~TitleInputArea() { delete ui; }
-
-void TitleInputArea::setMappings() {
-    m_mapper->addMapping(ui->lineEdit_Title,
-                         m_model->fieldIndex(QLatin1String("name")));
-    m_mapper->addMapping(ui->dateEdit_From,
-                         m_model->fieldIndex(QLatin1String("from_date")));
-    m_mapper->addMapping(ui->dateEdit_To,
-                         m_model->fieldIndex(QLatin1String("to_date")));
+TitleInputArea::~TitleInputArea()
+{
+    delete ui;
 }
 
-void TitleInputArea::setViewOnlyMode(bool mode) {
+void TitleInputArea::setMappings()
+{
+    m_mapper->addMapping(ui->lineEdit_Title, m_model->fieldIndex(QLatin1String("name")));
+    m_mapper->addMapping(ui->dateEdit_From, m_model->fieldIndex(QLatin1String("from_date")));
+    m_mapper->addMapping(ui->dateEdit_To, m_model->fieldIndex(QLatin1String("to_date")));
+}
+
+void TitleInputArea::setViewOnlyMode(bool mode)
+{
     ui->dateEdit_From->setDisabled(mode);
     ui->dateEdit_To->setDisabled(mode);
     ui->lineEdit_Title->setDisabled(mode);
 }
 
-void TitleInputArea::createDataset() {
+void TitleInputArea::createDataset()
+{
     qDebug() << "Create a new Dataset for Title...";
 
     // Set all inputfields to blank
@@ -102,18 +107,26 @@ void TitleInputArea::createDataset() {
     m_mapper->setCurrentIndex(row);
 }
 
-void TitleInputArea::retrieveDataset(const QModelIndex index) {}
+void TitleInputArea::retrieveDataset(const QModelIndex index)
+{
+}
 
-void TitleInputArea::updateDataset(const QModelIndex index) {}
+void TitleInputArea::updateDataset(const QModelIndex index)
+{
+}
 
-void TitleInputArea::deleteDataset(const QModelIndex index) {}
+void TitleInputArea::deleteDataset(const QModelIndex index)
+{
+}
 
-void TitleInputArea::on_pushButton_Add_clicked() {
+void TitleInputArea::on_pushButton_Add_clicked()
+{
     createDataset();
     on_pushButton_EditFinish_clicked();
 }
 
-void TitleInputArea::on_pushButton_EditFinish_clicked() {
+void TitleInputArea::on_pushButton_EditFinish_clicked()
+{
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
@@ -143,9 +156,7 @@ void TitleInputArea::on_pushButton_EditFinish_clicked() {
                 qDebug() << "Commit changes for Title Databse Table";
             } else {
                 m_model->database().rollback();
-                QMessageBox::warning(this, tr("jmbde"),
-                                     tr("The database reported an error: %1")
-                                         .arg(m_model->lastError().text()));
+                QMessageBox::warning(this, tr("jmbde"), tr("The database reported an error: %1").arg(m_model->lastError().text()));
             }
         }
     } break;

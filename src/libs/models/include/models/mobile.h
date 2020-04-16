@@ -29,11 +29,8 @@
 #include "models/commondata.h"
 #include "models/idatamodel.h"
 
-
-
 namespace Model
 {
-
 /*!
     \class Mobile
     \brief The Mobile is the class to handle the mobiles
@@ -48,7 +45,7 @@ namespace Model
 
 class Mobile : public CommonData
 {
-   Q_OBJECT
+    Q_OBJECT
 
 public:
     /*!
@@ -101,7 +98,7 @@ public:
 
         Returns a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT  auto generateTableString(const QString &header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString final;
 
     /*!
          \fn virtual auto generateFormularString(
@@ -110,7 +107,7 @@ public:
 
          Returns a QString with the generated Table for Output
       */
-   virtual JMBDEMODELS_EXPORT auto generateFormularString(QString &header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(QString &header) -> QString final;
 
     // Getter
 
@@ -121,7 +118,7 @@ public:
 
         Returns the value of the index
      */
-   JMBDEMODELS_EXPORT  int MobileIdIndex() const
+    JMBDEMODELS_EXPORT int MobileIdIndex() const
     {
         return m_MobileIdIndex;
     }
@@ -133,7 +130,7 @@ public:
 
         Returns the value of the index
      */
-   JMBDEMODELS_EXPORT  int DeviceNameIdIndex() const
+    JMBDEMODELS_EXPORT int DeviceNameIdIndex() const
     {
         return m_DeviceNameIdIndex;
     }
@@ -145,7 +142,7 @@ public:
 
         Returns the value of the index
      */
-   JMBDEMODELS_EXPORT  int SerialNumberIndex() const
+    JMBDEMODELS_EXPORT int SerialNumberIndex() const
     {
         return m_SerialNumberIndex;
     }
@@ -157,7 +154,7 @@ public:
 
         Returns the value of the index
      */
-   JMBDEMODELS_EXPORT  int NumberIndex() const
+    JMBDEMODELS_EXPORT int NumberIndex() const
     {
         return m_NumberIndex;
     }
@@ -169,7 +166,7 @@ public:
 
         Returns the value of the index
      */
-   JMBDEMODELS_EXPORT  int PinIndex() const
+    JMBDEMODELS_EXPORT int PinIndex() const
     {
         return m_PinIndex;
     }
@@ -181,7 +178,7 @@ public:
 
         Returns the value of the index
      */
-   JMBDEMODELS_EXPORT  int CardNumberIndex() const
+    JMBDEMODELS_EXPORT int CardNumberIndex() const
     {
         return m_CardNumberIndex;
     }
@@ -193,7 +190,7 @@ public:
 
        Returns the value of the index
     */
-   JMBDEMODELS_EXPORT  int ActiveIndex() const
+    JMBDEMODELS_EXPORT int ActiveIndex() const
     {
         return m_ActiveIndex;
     }
@@ -205,7 +202,7 @@ public:
 
        Returns the value of the index
     */
-   JMBDEMODELS_EXPORT  int ReplaceIndex() const
+    JMBDEMODELS_EXPORT int ReplaceIndex() const
     {
         return m_ReplaceIndex;
     }
@@ -217,7 +214,7 @@ public:
 
        Returns the value of the index
     */
-   JMBDEMODELS_EXPORT  int DeviceTypeIdIndex() const
+    JMBDEMODELS_EXPORT int DeviceTypeIdIndex() const
     {
         return m_DeviceTypeIdIndex;
     }
@@ -229,7 +226,7 @@ public:
 
        Returns the value of the index
     */
-   JMBDEMODELS_EXPORT  int EmployeeIdIndex() const
+    JMBDEMODELS_EXPORT int EmployeeIdIndex() const
     {
         return m_EmployeeIdIndex;
     }
@@ -241,7 +238,7 @@ public:
 
        Returns the value of the index
     */
-   JMBDEMODELS_EXPORT  int PlaceIdIndex() const
+    JMBDEMODELS_EXPORT int PlaceIdIndex() const
     {
         return m_PlaceIdIndex;
     }
@@ -253,7 +250,7 @@ public:
 
        Returns the value of the index
     */
-   JMBDEMODELS_EXPORT  int DepartmentIdIndex() const
+    JMBDEMODELS_EXPORT int DepartmentIdIndex() const
     {
         return m_DepartmentIdIndex;
     }
@@ -265,7 +262,7 @@ public:
 
        Returns the value of the index
     */
-   JMBDEMODELS_EXPORT  int ManufacturerIdIndex() const
+    JMBDEMODELS_EXPORT int ManufacturerIdIndex() const
     {
         return m_ManufacturerIdIndex;
     }
@@ -277,7 +274,7 @@ public:
 
        Returns the value of the index
     */
-   JMBDEMODELS_EXPORT  int InventoryIdIndex() const
+    JMBDEMODELS_EXPORT int InventoryIdIndex() const
     {
         return m_InventoryIdIndex;
     }
@@ -286,7 +283,7 @@ public:
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
     */
-   JMBDEMODELS_EXPORT  int LastUpdateIndex() const
+    JMBDEMODELS_EXPORT int LastUpdateIndex() const
     {
         return m_LastUpdateIndex;
     }

@@ -293,10 +293,7 @@ void Model::DataContext::renameDB(const QString &oldName, const QString &newName
     this->m_Name = newName;
     const QString newDBName = this->getSqliteName();
 
-    qCDebug(jmbdemodelsLog, "Database Name: %s -> new Name %s",
-            qUtf8Printable(newName),
-            qUtf8Printable(newDBName)
-            );
+    qCDebug(jmbdemodelsLog, "Database Name: %s -> new Name %s", qUtf8Printable(newName), qUtf8Printable(newDBName));
 
     if (!this->m_db.isValid()) {
         this->m_db = QSqlDatabase::database(oldName);

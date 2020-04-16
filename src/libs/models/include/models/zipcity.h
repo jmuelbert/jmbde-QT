@@ -29,7 +29,6 @@
 #include "models/commondata.h"
 #include "models/idatamodel.h"
 
-
 namespace Model
 {
 /*!
@@ -44,7 +43,6 @@ namespace Model
     */
 class ZipCity : public CommonData
 {
-
 public:
     /*!
         \fn ZipCity(QObject *parent = nullptr)

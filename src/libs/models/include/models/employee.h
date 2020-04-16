@@ -37,11 +37,8 @@
 #include "models/commondata.h"
 #include "models/idatamodel.h"
 
-
-
 namespace Model
 {
-
 /*!
     \class Employee
     \brief The Employee class
@@ -100,7 +97,7 @@ public:
 
         \brief Destructor for Employee
      */
-    JMBDEMODELS_EXPORT  ~Employee();
+    JMBDEMODELS_EXPORT ~Employee();
 
     // implement the virtuals
 
@@ -108,14 +105,14 @@ public:
         \fn virtual void setIndexes() final
         \brief Set the fieldindexes from the datafieldnames of the db.
      */
-    virtual JMBDEMODELS_EXPORT  void setIndexes() final;
+    virtual JMBDEMODELS_EXPORT void setIndexes() final;
 
     /*!
         \fn virtual QSqlRelationalTableModel *initializeRelationalModel() final
         \brief set the QSqlRelationalTableModel for the DataModel
         Returns The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT  QSqlRelationalTableModel *initializeRelationalModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel() final;
 
     /*!
         \fn virtual QSqlRelationalTableModel *initializeInputDataModel() final
@@ -131,7 +128,7 @@ public:
 
          Returns QSqlTableModel
       */
-    virtual JMBDEMODELS_EXPORT  QSqlTableModel *initializeViewModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
 
     /*!
      * \fn virtual auto generateTableString(
@@ -149,7 +146,7 @@ public:
 
          Returns a QString with the generated Table for Output
       */
-    virtual JMBDEMODELS_EXPORT  auto generateFormularString(const QString &header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
 
     // Getter
 
@@ -160,7 +157,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT  int EmployeeIdIndex() const
+    JMBDEMODELS_EXPORT int EmployeeIdIndex() const
     {
         return m_EmployeeIdIndex;
     }
@@ -172,7 +169,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT  int EmployeeNrIndex() const
+    JMBDEMODELS_EXPORT int EmployeeNrIndex() const
     {
         return m_EmployeeNrIndex;
     }
@@ -184,7 +181,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT  int GenderIndex() const
+    JMBDEMODELS_EXPORT int GenderIndex() const
     {
         return m_GenderIndex;
     }
@@ -196,7 +193,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT  int TitleIdIndex() const
+    JMBDEMODELS_EXPORT int TitleIdIndex() const
     {
         return m_TitleIdIndex;
     }
@@ -208,7 +205,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT  int FirstNameIndex() const
+    JMBDEMODELS_EXPORT int FirstNameIndex() const
     {
         return m_FirstNameIndex;
     }
@@ -220,7 +217,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT  int LastNameIndex() const
+    JMBDEMODELS_EXPORT int LastNameIndex() const
     {
         return m_LastNameIndex;
     }

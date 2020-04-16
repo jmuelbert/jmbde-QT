@@ -29,8 +29,6 @@
 #include "models/commondata.h"
 #include "models/idatamodel.h"
 
-
-
 namespace Model
 {
 /*!
@@ -82,7 +80,7 @@ public:
 
             Returns The QSqlRelationalTableModel
         */
-    virtual JMBDEMODELS_EXPORT  QSqlRelationalTableModel *initializeInputDataModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel() final;
 
     /*!
          \fn virtual QSqlTableModel *initializeViewModel() final

@@ -30,8 +30,6 @@
 #include "models/commondata.h"
 #include "models/idatamodel.h"
 
-
-
 namespace Model
 {
 /*!
@@ -46,7 +44,6 @@ namespace Model
     */
 class ZipCode : public CommonData
 {
-
 public:
     /*!
         \fn ZipCode(QObject *parent = nullptr)

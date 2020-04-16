@@ -1,16 +1,16 @@
- /*
-    jmbde a BDE Tool for companies
-    Copyright (C) 2013-2019  Jürgen Mülbert
+/*
+   jmbde a BDE Tool for companies
+   Copyright (C) 2013-2019  Jürgen Mülbert
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 */
 
 #pragma once
@@ -29,14 +29,16 @@
 #include "jmbdewidgets_export.h"
 #include "loggingcategory.h"
 
-namespace Ui {
+namespace Ui
+{
 class ManufacturerInputArea;
 }
 
 /**
  * @brief The ManufacturerInputArea class
  */
-class JMBDEWIDGETS_EXPORT ManufacturerInputArea : public QGroupBox {
+class JMBDEWIDGETS_EXPORT ManufacturerInputArea : public QGroupBox
+{
     Q_OBJECT
 
 public:
@@ -45,8 +47,7 @@ public:
         @param parent The pointer to the parent object
         @param index The index for view the data
      */
-    explicit ManufacturerInputArea(QWidget *parent = nullptr,
-                                   const QModelIndex index = QModelIndex());
+    explicit ManufacturerInputArea(QWidget *parent = nullptr, const QModelIndex index = QModelIndex());
 
     /**
      * @brief ~ManufacturerInputArea

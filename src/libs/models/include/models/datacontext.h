@@ -44,8 +44,6 @@
 #include "jmbdemodels_export.h"
 #include "loggingcategory.h"
 
-
-
 namespace Model
 {
 /**
@@ -100,7 +98,7 @@ public:
 
         \return the referenz
      */
-   JMBDEMODELS_EXPORT QSqlDatabase getDatabase();
+    JMBDEMODELS_EXPORT QSqlDatabase getDatabase();
 
     /*!
         \fn QSqlError initDb()
@@ -177,7 +175,6 @@ public:
         m_connectionString = connect;
     }
 
-
 private:
     /*!
         \fn void CreateConnection()
@@ -202,8 +199,7 @@ private:
         \details \e does nothing
 
      */
-     void CloseConnection();
-
+    void CloseConnection();
 
     /*!
         \var QString m_Name

@@ -29,8 +29,6 @@
 #include "models/commondata.h"
 #include "models/idatamodel.h"
 
-
-
 namespace Model
 {
 /*!
@@ -46,7 +44,7 @@ namespace Model
 class Title : public CommonData
 {
     Q_OBJECT
-    
+
 public:
     /*!
         \fn Title(QObject *parent = nullptr)
@@ -75,7 +73,7 @@ public:
         \brief set the QSqlRelationalTableModel for the DataModel
         Returns The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT  QSqlRelationalTableModel *initializeRelationalModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel() final;
 
     /*!
         \fn virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel() final

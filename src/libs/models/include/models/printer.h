@@ -32,7 +32,6 @@
 #include "models/commondata.h"
 #include "models/idatamodel.h"
 
-
 namespace Model
 {
 /*!
@@ -47,7 +46,6 @@ namespace Model
  */
 class Printer : public CommonData
 {
-
 public:
     /*!
         \fn Computer(QObject *parent = nullptr)

@@ -136,9 +136,10 @@ jobs:
       id: png2ico
       run: |
         if ("${{ runner.os }}" STREQUAL "Windows")
-        uses: crazy-max/ghaction-chocolatey@v1
-        with:
-          args: 'install png2ico'
+            uses: crazy-max/ghaction-chocolatey@v1
+            with:
+            args: 'install png2ico'
+        endif()
     - name: Configure CMake
       shell: cmake -P {0}
       run: |

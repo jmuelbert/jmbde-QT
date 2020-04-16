@@ -1,16 +1,16 @@
- /*
-    jmbde a BDE Tool for companies
-    Copyright (C) 2013-2019  Jürgen Mülbert
+/*
+   jmbde a BDE Tool for companies
+   Copyright (C) 2013-2019  Jürgen Mülbert
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 */
 
 #include "jmbde-version.h"
@@ -23,9 +23,8 @@
 #include <QObject>
 
 #include <QApplication>
-#include <QMessageBox>
 #include <QGuiApplication>
-
+#include <QMessageBox>
 
 #include <QCommandLineParser>
 #include <QCoreApplication>
@@ -41,11 +40,10 @@
 #include <QStyleFactory>
 #include <QTranslator>
 
-#include <QStandardPaths>
 #include <QQmlApplicationEngine>
-#include <QQmlFileSelector>
 #include <QQmlContext>
-
+#include <QQmlFileSelector>
+#include <QStandardPaths>
 
 #ifndef Q_OS_WIN
 #include <unistd.h>
@@ -63,7 +61,6 @@
 #include <QtAndroid>
 #endif
 
-
 /**
  * @brief main
  * @param argc The count of args
@@ -77,7 +74,7 @@ int main(int argc, char *argv[])
 #endif
 {
 #if defined Q_OS_ANDROID
-    if(argc > 1 && strcmp(argv[1], "-service") == 0){
+    if (argc > 1 && strcmp(argv[1], "-service") == 0) {
         QAndroidService app(argc, argv);
         qInfo() << "Service starting...";
 
@@ -89,9 +86,7 @@ int main(int argc, char *argv[])
     qInfo() << "Application starting...";
 #endif
 
-
-    QLoggingCategory::setFilterRules(
-        QLatin1String("jmbde.*.debug=false\njmbde.*.info=false"));
+    QLoggingCategory::setFilterRules(QLatin1String("jmbde.*.debug=false\njmbde.*.info=false"));
 
 #ifndef Q_OS_WIN
     // Prohibit using sudo or kdesu (but allow using the root user directly)
@@ -129,8 +124,7 @@ int main(int argc, char *argv[])
     /**
      * set the program icon
      */
-    QApplication::setWindowIcon(
-        QIcon::fromTheme(QStringLiteral("jmbde")));
+    QApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("jmbde")));
     QApplication::setOrganizationDomain(QStringLiteral("jmuelbert.github.io"));
 
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
@@ -166,22 +160,18 @@ int main(int argc, char *argv[])
     // Setup and load translator for localization
     QString locale = QLocale::system().name();
     QTranslator qtTranslator;
-    qtTranslator.load(QLatin1String("qt_") + locale,
-                      QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    qtTranslator.load(QLatin1String("qt_") + locale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     QApplication::installTranslator(&qtTranslator);
 
     QTranslator jmbdeTranslator;
     jmbdeTranslator.load(QLatin1String("app_") + locale);
     QApplication::installTranslator(&jmbdeTranslator);
 
-    QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths()
-                                  << QLatin1String(":tango"));
+    QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths() << QLatin1String(":tango"));
     QIcon::setThemeName(QLatin1String("tango"));
 
     app.setProperty("jmbde_locale", locale);
-    QApplication::setLayoutDirection(QObject::tr("LTR") == QLatin1String("RTL")
-                                         ? Qt::RightToLeft
-                                         : Qt::LeftToRight);
+    QApplication::setLayoutDirection(QObject::tr("LTR") == QLatin1String("RTL") ? Qt::RightToLeft : Qt::LeftToRight);
 
     MainWindow w;
     w.show();

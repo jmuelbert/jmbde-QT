@@ -29,8 +29,6 @@
 #include "models/commondata.h"
 #include "models/idatamodel.h"
 
-
-
 namespace Model
 {
 /*!
@@ -119,7 +117,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT  int FaxIdIndex() const
+    JMBDEMODELS_EXPORT int FaxIdIndex() const
     {
         return m_FaxIdIndex;
     }

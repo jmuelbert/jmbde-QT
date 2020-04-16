@@ -65,6 +65,9 @@ jobs:
         shell: bash
         run: |
          choco install -y ninja
+         pip install conan
+         conan up
+         conan create conan/ECM
 # curl -o ./libs/jmbde_QT-deps-grpc-${{ matrix.arch }}-windows.7z -L https://github.com/jmuelbert/jmbde-QT/jmbde-QT-deps/releases/download/release/Qv2ray-deps-grpc-${{ matrix.arch }}-windows.7z
       # - name: Win-${{ matrix.arch }} - Build preparation - Extract Dependencies
         # uses: DuckSoft/extract-7z-action@v1.0
@@ -80,6 +83,7 @@ jobs:
         run: |
           mkdir build
           cd build
+          conan install ..
           cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DBUILD_NSIS=ON
           cmake --build . --target package --parallel $(nproc)
       - name: Windows - Get package name

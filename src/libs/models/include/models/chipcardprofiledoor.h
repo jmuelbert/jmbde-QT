@@ -29,16 +29,15 @@
 #include "jmbdemodels_export.h"
 #include "loggingcategory.h"
 
-
 namespace Model
 {
-    /*!
-    \class ChipCardProfileDoor
-    \brief The ChipCardProfileDoor class
-    \details In this is handlet all ChipCardProfileDoor Data and create a many
-   to many relation \author Jürgen Mülbert \since 0.4 \version 0.4.25 \date
-   03.08.2019 \copyright EUPL V1.2
-    */
+/*!
+\class ChipCardProfileDoor
+\brief The ChipCardProfileDoor class
+\details In this is handlet all ChipCardProfileDoor Data and create a many
+to many relation \author Jürgen Mülbert \since 0.4 \version 0.4.25 \date
+03.08.2019 \copyright EUPL V1.2
+*/
 class ChipCardProfileDoor : public CommonData
 {
     Q_OBJECT

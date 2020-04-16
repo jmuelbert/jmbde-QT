@@ -1,23 +1,25 @@
- /*
-    jmbde a BDE Tool for companies
-    Copyright (C) 2013-2019  Jürgen Mülbert
+/*
+   jmbde a BDE Tool for companies
+   Copyright (C) 2013-2019  Jürgen Mülbert
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 */
 
 #include "views/cityinputarea.h"
 #include "ui_cityinputarea.h"
 
 CityInputArea::CityInputArea(QWidget *parent, const QModelIndex index)
-    : QGroupBox(parent), ui(new Ui::CityInputArea) {
+    : QGroupBox(parent)
+    , ui(new Ui::CityInputArea)
+{
     ui->setupUi(this);
 
     qCDebug(jmbdewidgetsLog, "Init CityInputArea for Index : %l", index);
@@ -42,19 +44,24 @@ CityInputArea::CityInputArea(QWidget *parent, const QModelIndex index)
     m_mapper->setCurrentIndex(index.row());
 }
 
-CityInputArea::~CityInputArea() { delete ui; }
-
-void CityInputArea::setMappings() {
-    m_mapper->addMapping(ui->lineEdit_CityName,
-                         m_model->fieldIndex(QLatin1String("name")));
+CityInputArea::~CityInputArea()
+{
+    delete ui;
 }
 
-void CityInputArea::setViewOnlyMode(bool mode) {
+void CityInputArea::setMappings()
+{
+    m_mapper->addMapping(ui->lineEdit_CityName, m_model->fieldIndex(QLatin1String("name")));
+}
+
+void CityInputArea::setViewOnlyMode(bool mode)
+{
     ui->comboBox_ZipCode->setDisabled(mode);
     ui->lineEdit_CityName->setDisabled(mode);
 }
 
-void CityInputArea::createDataset() {
+void CityInputArea::createDataset()
+{
     qCDebug(jmbdewidgetsLog, "Create a new Dataset for City...");
 
     m_mapper->toLast();
@@ -68,18 +75,26 @@ void CityInputArea::createDataset() {
     m_mapper->setCurrentIndex(row);
 }
 
-void CityInputArea::retrieveDataset(const QModelIndex index) {}
+void CityInputArea::retrieveDataset(const QModelIndex index)
+{
+}
 
-void CityInputArea::updateDataset(const QModelIndex index) {}
+void CityInputArea::updateDataset(const QModelIndex index)
+{
+}
 
-void CityInputArea::deleteDataset(const QModelIndex index) {}
+void CityInputArea::deleteDataset(const QModelIndex index)
+{
+}
 
-void CityInputArea::on_pushButton_Add_clicked() {
+void CityInputArea::on_pushButton_Add_clicked()
+{
     createDataset();
     on_pushButton_EditFinish_clicked();
 }
 
-void CityInputArea::on_pushButton_EditFinish_clicked() {
+void CityInputArea::on_pushButton_EditFinish_clicked()
+{
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
@@ -109,9 +124,7 @@ void CityInputArea::on_pushButton_EditFinish_clicked() {
                 qCDebug(jmbdewidgetsLog, "Commit changes for Computer Databse Table");
             } else {
                 m_model->database().rollback();
-                QMessageBox::warning(this, tr("jmbde"),
-                                     tr("The database reported an error: %1")
-                                         .arg(m_model->lastError().text()));
+                QMessageBox::warning(this, tr("jmbde"), tr("The database reported an error: %1").arg(m_model->lastError().text()));
             }
         }
     } break;

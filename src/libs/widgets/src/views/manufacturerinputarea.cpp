@@ -43,9 +43,10 @@
 #include "views/manufacturerinputarea.h"
 #include "ui_manufacturerinputarea.h"
 
-ManufacturerInputArea::ManufacturerInputArea(QWidget *parent,
-                                             const QModelIndex index)
-    : QGroupBox(parent), ui(new Ui::ManufacturerInputArea) {
+ManufacturerInputArea::ManufacturerInputArea(QWidget *parent, const QModelIndex index)
+    : QGroupBox(parent)
+    , ui(new Ui::ManufacturerInputArea)
+{
     ui->setupUi(this);
 
     // Init UI
@@ -71,33 +72,27 @@ ManufacturerInputArea::ManufacturerInputArea(QWidget *parent,
     m_mapper->setCurrentIndex(index.row());
 }
 
-ManufacturerInputArea::~ManufacturerInputArea() { delete ui; }
-
-void ManufacturerInputArea::setMappings() {
-
-    m_mapper->addMapping(ui->lineEdit_Address,
-                         m_model->fieldIndex(QLatin1String("address")));
-    m_mapper->addMapping(ui->lineEdit_Address2,
-                         m_model->fieldIndex(QLatin1String("address2")));
-    m_mapper->addMapping(ui->lineEdit_Fax,
-                         m_model->fieldIndex(QLatin1String("fax_number")));
-    m_mapper->addMapping(ui->lineEdit_Hotline,
-                         m_model->fieldIndex(QLatin1String("hotline_number")));
-    m_mapper->addMapping(ui->lineEdit_MailAddress,
-                         m_model->fieldIndex(QLatin1String("mail_address")));
-    m_mapper->addMapping(ui->lineEdit_Name,
-                         m_model->fieldIndex(QLatin1String("name")));
-    m_mapper->addMapping(ui->lineEdit_Name2,
-                         m_model->fieldIndex(QLatin1String("name2")));
-    m_mapper->addMapping(ui->lineEdit_Phone,
-                         m_model->fieldIndex(QLatin1String("phone_number")));
-    m_mapper->addMapping(ui->lineEdit_Supporter,
-                         m_model->fieldIndex(QLatin1String("supporter")));
-    m_mapper->addMapping(ui->comboBox_ZipCode,
-                         m_model->fieldIndex(QLatin1String("zip_city_id")));
+ManufacturerInputArea::~ManufacturerInputArea()
+{
+    delete ui;
 }
 
-void ManufacturerInputArea::setViewOnlyMode(bool mode) {
+void ManufacturerInputArea::setMappings()
+{
+    m_mapper->addMapping(ui->lineEdit_Address, m_model->fieldIndex(QLatin1String("address")));
+    m_mapper->addMapping(ui->lineEdit_Address2, m_model->fieldIndex(QLatin1String("address2")));
+    m_mapper->addMapping(ui->lineEdit_Fax, m_model->fieldIndex(QLatin1String("fax_number")));
+    m_mapper->addMapping(ui->lineEdit_Hotline, m_model->fieldIndex(QLatin1String("hotline_number")));
+    m_mapper->addMapping(ui->lineEdit_MailAddress, m_model->fieldIndex(QLatin1String("mail_address")));
+    m_mapper->addMapping(ui->lineEdit_Name, m_model->fieldIndex(QLatin1String("name")));
+    m_mapper->addMapping(ui->lineEdit_Name2, m_model->fieldIndex(QLatin1String("name2")));
+    m_mapper->addMapping(ui->lineEdit_Phone, m_model->fieldIndex(QLatin1String("phone_number")));
+    m_mapper->addMapping(ui->lineEdit_Supporter, m_model->fieldIndex(QLatin1String("supporter")));
+    m_mapper->addMapping(ui->comboBox_ZipCode, m_model->fieldIndex(QLatin1String("zip_city_id")));
+}
+
+void ManufacturerInputArea::setViewOnlyMode(bool mode)
+{
     ui->comboBox_ZipCode->setDisabled(mode);
     ui->lineEdit_Address->setDisabled(mode);
     ui->lineEdit_Address2->setDisabled(mode);
@@ -110,7 +105,8 @@ void ManufacturerInputArea::setViewOnlyMode(bool mode) {
     ui->lineEdit_Supporter->setDisabled(mode);
 }
 
-void ManufacturerInputArea::createDataset() {
+void ManufacturerInputArea::createDataset()
+{
     qDebug() << "Create a new Dataset for Manufacturer...";
 
     // Set all inputfields to blank
@@ -125,18 +121,26 @@ void ManufacturerInputArea::createDataset() {
     m_mapper->setCurrentIndex(row);
 }
 
-void ManufacturerInputArea::retrieveDataset(const QModelIndex index) {}
+void ManufacturerInputArea::retrieveDataset(const QModelIndex index)
+{
+}
 
-void ManufacturerInputArea::updateDataset(const QModelIndex index) {}
+void ManufacturerInputArea::updateDataset(const QModelIndex index)
+{
+}
 
-void ManufacturerInputArea::deleteDataset(const QModelIndex index) {}
+void ManufacturerInputArea::deleteDataset(const QModelIndex index)
+{
+}
 
-void ManufacturerInputArea::on_pushButton_Add_clicked() {
+void ManufacturerInputArea::on_pushButton_Add_clicked()
+{
     createDataset();
     on_pushButton_EditFinish_clicked();
 }
 
-void ManufacturerInputArea::on_pushButton_EditFinish_clicked() {
+void ManufacturerInputArea::on_pushButton_EditFinish_clicked()
+{
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
@@ -166,9 +170,7 @@ void ManufacturerInputArea::on_pushButton_EditFinish_clicked() {
                 qDebug() << "Commit changes for Computer Databse Table";
             } else {
                 m_model->database().rollback();
-                QMessageBox::warning(this, tr("jmbde"),
-                                     tr("The database reported an error: %1")
-                                         .arg(m_model->lastError().text()));
+                QMessageBox::warning(this, tr("jmbde"), tr("The database reported an error: %1").arg(m_model->lastError().text()));
             }
         }
     } break;

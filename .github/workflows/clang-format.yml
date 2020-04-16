@@ -19,18 +19,16 @@ jobs:
         sudo apt-get install clang-format-9
     - name: "Format Codes"
       run: |
-        ls /usr/bin/cl*
-        clang-format-9 --help
         clang-format-9 -i  src/app/src/*.cpp \
                               src/appquick/src/*.cpp \
-                              src/libs/models/src/*.cpp \
-                              src/libs/models/include/*.h
-                              src/libs/widgets/src/*.cpp \
-                              src/libs/widgets/include/*.h
+                              src/libs/models/src/models/*.cpp \
+                              src/libs/models/include/models/*.h \
+                              src/libs/widgets/src/views/*.cpp \
+                              src/libs/widgets/include/views/*.h
     - name: Commit files
       run: |
-        git config --local user.email "jmbde_bot@126.com"
-        git config --local user.name "jmbde-bot"
+        git config --local user.email "juergen.muelbert@gmail.com"
+        git config --local user.name "jmuelbert"
         git diff-index --quiet HEAD || git commit -am "style: Format codes"
     - name: Push changes
       uses: ad-m/github-push-action@master

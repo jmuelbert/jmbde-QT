@@ -44,7 +44,9 @@
 #include "ui_processorinputarea.h"
 
 ProcessorInputArea::ProcessorInputArea(QWidget *parent, const QModelIndex index)
-    : QGroupBox(parent), ui(new Ui::ProcessorInputArea) {
+    : QGroupBox(parent)
+    , ui(new Ui::ProcessorInputArea)
+{
     ui->setupUi(this);
 
     // Init UI
@@ -70,24 +72,27 @@ ProcessorInputArea::ProcessorInputArea(QWidget *parent, const QModelIndex index)
     m_mapper->setCurrentIndex(index.row());
 }
 
-ProcessorInputArea::~ProcessorInputArea() { delete ui; }
-
-void ProcessorInputArea::setMappings() {
-    m_mapper->addMapping(ui->doubleSpinBox_ClockRate,
-                         m_model->fieldIndex(QLatin1String("clock_rate")));
-    m_mapper->addMapping(ui->lineEdit_Name,
-                         m_model->fieldIndex(QLatin1String("name")));
-    m_mapper->addMapping(ui->spinBox_Cores,
-                         m_model->fieldIndex(QLatin1String("cores")));
+ProcessorInputArea::~ProcessorInputArea()
+{
+    delete ui;
 }
 
-void ProcessorInputArea::setViewOnlyMode(bool mode) {
+void ProcessorInputArea::setMappings()
+{
+    m_mapper->addMapping(ui->doubleSpinBox_ClockRate, m_model->fieldIndex(QLatin1String("clock_rate")));
+    m_mapper->addMapping(ui->lineEdit_Name, m_model->fieldIndex(QLatin1String("name")));
+    m_mapper->addMapping(ui->spinBox_Cores, m_model->fieldIndex(QLatin1String("cores")));
+}
+
+void ProcessorInputArea::setViewOnlyMode(bool mode)
+{
     ui->doubleSpinBox_ClockRate->setDisabled(mode);
     ui->lineEdit_Name->setDisabled(mode);
     ui->spinBox_Cores->setDisabled(mode);
 }
 
-void ProcessorInputArea::createDataset() {
+void ProcessorInputArea::createDataset()
+{
     qDebug() << "Create a new Dataset for Processor...";
 
     // Set all inputfields to blank
@@ -102,18 +107,26 @@ void ProcessorInputArea::createDataset() {
     m_mapper->setCurrentIndex(row);
 }
 
-void ProcessorInputArea::retrieveDataset(const QModelIndex index) {}
+void ProcessorInputArea::retrieveDataset(const QModelIndex index)
+{
+}
 
-void ProcessorInputArea::updateDataset(const QModelIndex index) {}
+void ProcessorInputArea::updateDataset(const QModelIndex index)
+{
+}
 
-void ProcessorInputArea::deleteDataset(const QModelIndex index) {}
+void ProcessorInputArea::deleteDataset(const QModelIndex index)
+{
+}
 
-void ProcessorInputArea::on_pushButton_Add_clicked() {
+void ProcessorInputArea::on_pushButton_Add_clicked()
+{
     createDataset();
     on_pushButton_EditFinish_clicked();
 }
 
-void ProcessorInputArea::on_pushButton_EditFinish_clicked() {
+void ProcessorInputArea::on_pushButton_EditFinish_clicked()
+{
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
@@ -143,9 +156,7 @@ void ProcessorInputArea::on_pushButton_EditFinish_clicked() {
                 qDebug() << "Commit changes for Processor Databse Table";
             } else {
                 m_model->database().rollback();
-                QMessageBox::warning(this, tr("jmbde"),
-                                     tr("The database reported an error: %1")
-                                         .arg(m_model->lastError().text()));
+                QMessageBox::warning(this, tr("jmbde"), tr("The database reported an error: %1").arg(m_model->lastError().text()));
             }
         }
     } break;

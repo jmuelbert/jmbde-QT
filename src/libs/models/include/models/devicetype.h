@@ -31,7 +31,6 @@
 #include "models/commondata.h"
 #include "models/idatamodel.h"
 
-
 namespace Model
 {
 /*!

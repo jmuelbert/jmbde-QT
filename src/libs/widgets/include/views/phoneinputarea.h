@@ -29,14 +29,16 @@
 #include "jmbdewidgets_export.h"
 #include "loggingcategory.h"
 
-namespace Ui {
+namespace Ui
+{
 class PhoneInputArea;
 }
 
 /**
  * @brief The PhoneInputArea class
  */
-class JMBDEWIDGETS_EXPORT PhoneInputArea : public QGroupBox {
+class JMBDEWIDGETS_EXPORT PhoneInputArea : public QGroupBox
+{
     Q_OBJECT
 
 public:
@@ -45,14 +47,12 @@ public:
         @param parent The pointer to the parent object
         @param index The index for view the data
      */
-    explicit PhoneInputArea(QWidget *parent = nullptr,
-                            const QModelIndex index = QModelIndex());
+    explicit PhoneInputArea(QWidget *parent = nullptr, const QModelIndex index = QModelIndex());
 
     /**
      * @brief ~PhoneInputArea
      */
     ~PhoneInputArea();
-
 
 private slots:
     /**
@@ -64,7 +64,6 @@ private slots:
      * @brief on_pushButton_EditFinish_clicked
      */
     void on_pushButton_EditFinish_clicked();
-
 
 private:
     /**

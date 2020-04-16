@@ -22,8 +22,6 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
-
-
 namespace Model
 {
 /*!
@@ -93,7 +91,7 @@ public:
 
         \return a QString with the generated Table for Output
      */
-    virtual auto generateTableString( const QString &header) -> QString = 0;
+    virtual auto generateTableString(const QString &header) -> QString = 0;
 
     /*!
          \fn virtual auto generateFormularString(

@@ -31,19 +31,17 @@
 #include "models/commondata.h"
 #include "models/idatamodel.h"
 
-
-
 namespace Model
 {
-    /*!
-    \class Department
-    \brief The Department class
-    \details In this is handlet all Departments in the Company
-    \author Jürgen Mülbert
-    \since 0.4
-    \version 0.4.25
-    \date 03.08.2019
-    \copyright EUPL V1.2
+/*!
+\class Department
+\brief The Department class
+\details In this is handlet all Departments in the Company
+\author Jürgen Mülbert
+\since 0.4
+\version 0.4.25
+\date 03.08.2019
+\copyright EUPL V1.2
 */
 class Department : public CommonData
 {

@@ -25,15 +25,12 @@
 #include <QSqlRelation>
 #include <QTextDocument>
 
+#include "idatamodel.h"
 #include <jmbdemodels-version.h>
 #include <jmbdemodels_export.h>
-#include "idatamodel.h"
-
-
 
 namespace Model
 {
-
 /*!
     \class CommonData
 
@@ -48,7 +45,6 @@ namespace Model
 
 class CommonData : public QObject
 {
-
 public:
     /*!
         \fn  CommonData(QObject *parent = nullptr)

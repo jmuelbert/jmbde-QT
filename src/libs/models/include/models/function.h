@@ -29,11 +29,8 @@
 #include "models/commondata.h"
 #include "models/idatamodel.h"
 
-
-
 namespace Model
 {
-
 /*!
     \class function
     \brief The Function class
@@ -47,7 +44,6 @@ namespace Model
 
 class Function : public CommonData, public IDataModel
 {
-
     Q_OBJECT
 public:
     /*!
@@ -69,7 +65,7 @@ public:
         \fn virtual void setIndexes() final
         \brief Set the fieldindexes from the datafieldnames of the db.
      */
-    virtual JMBDEMODELS_EXPORT  void setIndexes() final;
+    virtual JMBDEMODELS_EXPORT void setIndexes() final;
 
     /*!
         \fn virtual QSqlRelationalTableModel *initializeRelationalModel()

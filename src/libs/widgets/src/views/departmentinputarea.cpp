@@ -16,9 +16,10 @@
 #include "views/departmentinputarea.h"
 #include "ui_departmentinputarea.h"
 
-DepartmentInputArea::DepartmentInputArea(QWidget *parent,
-                                         const QModelIndex index)
-    : QGroupBox(parent), ui(new Ui::DepartmentInputArea) {
+DepartmentInputArea::DepartmentInputArea(QWidget *parent, const QModelIndex index)
+    : QGroupBox(parent)
+    , ui(new Ui::DepartmentInputArea)
+{
     ui->setupUi(this);
 
     // Init UI
@@ -44,20 +45,21 @@ DepartmentInputArea::DepartmentInputArea(QWidget *parent,
     m_mapper->setCurrentIndex(index.row());
 }
 
-DepartmentInputArea::~DepartmentInputArea() { delete ui; }
-
-void DepartmentInputArea::setMappings() {
-    m_mapper->addMapping(ui->comboBox_Fax,
-                         m_model->fieldIndex(QLatin1String("fax_id")));
-    m_mapper->addMapping(ui->comboBox_Printer,
-                         m_model->fieldIndex(QLatin1String("printer_id")));
-    m_mapper->addMapping(ui->spinBox_Priority,
-                         m_model->fieldIndex(QLatin1String("priority")));
-    m_mapper->addMapping(ui->lineEdit_Name,
-                         m_model->fieldIndex(QLatin1String("name")));
+DepartmentInputArea::~DepartmentInputArea()
+{
+    delete ui;
 }
 
-void DepartmentInputArea::setViewOnlyMode(bool mode) {
+void DepartmentInputArea::setMappings()
+{
+    m_mapper->addMapping(ui->comboBox_Fax, m_model->fieldIndex(QLatin1String("fax_id")));
+    m_mapper->addMapping(ui->comboBox_Printer, m_model->fieldIndex(QLatin1String("printer_id")));
+    m_mapper->addMapping(ui->spinBox_Priority, m_model->fieldIndex(QLatin1String("priority")));
+    m_mapper->addMapping(ui->lineEdit_Name, m_model->fieldIndex(QLatin1String("name")));
+}
+
+void DepartmentInputArea::setViewOnlyMode(bool mode)
+{
     ui->comboBox_Fax->setDisabled(mode);
     ui->comboBox_Printer->setDisabled(mode);
     ui->dial_Priority->setDisabled(mode);
@@ -65,7 +67,8 @@ void DepartmentInputArea::setViewOnlyMode(bool mode) {
     ui->lineEdit_Name->setDisabled(mode);
 }
 
-void DepartmentInputArea::createDataset() {
+void DepartmentInputArea::createDataset()
+{
     qDebug() << "Create a new Dataset for Employee...";
 
     // Set all inputfields to blank
@@ -80,18 +83,26 @@ void DepartmentInputArea::createDataset() {
     m_mapper->setCurrentIndex(row);
 }
 
-void DepartmentInputArea::retrieveDataset(const QModelIndex index) {}
+void DepartmentInputArea::retrieveDataset(const QModelIndex index)
+{
+}
 
-void DepartmentInputArea::updateDataset(const QModelIndex index) {}
+void DepartmentInputArea::updateDataset(const QModelIndex index)
+{
+}
 
-void DepartmentInputArea::deleteDataset(const QModelIndex index) {}
+void DepartmentInputArea::deleteDataset(const QModelIndex index)
+{
+}
 
-void DepartmentInputArea::on_pushButton_Add_clicked() {
+void DepartmentInputArea::on_pushButton_Add_clicked()
+{
     createDataset();
     on_pushButton_EditFinish_clicked();
 }
 
-void DepartmentInputArea::on_pushButton_EditFinish_clicked() {
+void DepartmentInputArea::on_pushButton_EditFinish_clicked()
+{
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
@@ -121,9 +132,7 @@ void DepartmentInputArea::on_pushButton_EditFinish_clicked() {
                 qDebug() << "Commit changes for Computer Databse Table";
             } else {
                 m_model->database().rollback();
-                QMessageBox::warning(this, tr("jmbde"),
-                                     tr("The database reported an error: %1")
-                                         .arg(m_model->lastError().text()));
+                QMessageBox::warning(this, tr("jmbde"), tr("The database reported an error: %1").arg(m_model->lastError().text()));
             }
         }
     } break;

@@ -32,11 +32,8 @@
 #include "models/commondata.h"
 #include "models/idatamodel.h"
 
-
-
 namespace Model
 {
-
 /*!
     \class Software
     \brief The Software class
@@ -47,10 +44,10 @@ namespace Model
     \date 03.08.2019
     \copyright EUPL V1.2
  */
-class  Software : public CommonData
+class Software : public CommonData
 {
-   Q_OBJECT
-   
+    Q_OBJECT
+
 public:
     /*!
         \fn Software(QObject *parent = nullptr)

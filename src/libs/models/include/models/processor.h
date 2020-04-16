@@ -29,8 +29,6 @@
 #include "models/commondata.h"
 #include "models/idatamodel.h"
 
-
-
 namespace Model
 {
 /*!
@@ -46,7 +44,6 @@ namespace Model
     */
 class Processor : public CommonData
 {
-
 public:
     /*!
         \fn explicit Processor(QObject *parent = nullptr)

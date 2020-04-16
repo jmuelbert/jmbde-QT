@@ -17,14 +17,15 @@
 #include "ui_csvimportdialog.h"
 
 CsvImportDialog::CsvImportDialog(QWidget *parent)
-    : QDialog(parent), ui(new Ui::CsvImportDialog) {
+    : QDialog(parent)
+    , ui(new Ui::CsvImportDialog)
+{
     ui->setupUi(this);
     model = new QStandardItemModel(this);
     ui->tableView->setModel(model);
 
 #if QT_VERSION >= 0x050000
-    QStringList dataDirList =
-        QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
+    QStringList dataDirList = QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
 
     // Use user space
     QString dataBaseDirAndFile = dataDirList.at(0);
@@ -32,9 +33,7 @@ CsvImportDialog::CsvImportDialog(QWidget *parent)
     QString dataBaseDirAndFile = QDir::homePath();
 #endif
 
-    QString fileName = QFileDialog::getOpenFileName(
-        nullptr, tr("open CSV file"), dataBaseDirAndFile,
-        QLatin1String("CSV (*.csv)"));
+    QString fileName = QFileDialog::getOpenFileName(nullptr, tr("open CSV file"), dataBaseDirAndFile, QLatin1String("CSV (*.csv)"));
     QFile file(fileName);
 
     if (file.open(QFile::Text | QIODevice::ReadOnly)) {
@@ -64,12 +63,15 @@ CsvImportDialog::CsvImportDialog(QWidget *parent)
     }
 }
 
-CsvImportDialog::~CsvImportDialog() { delete ui; }
+CsvImportDialog::~CsvImportDialog()
+{
+    delete ui;
+}
 
-void CsvImportDialog::checkString(QString &temp, QChar character) {
+void CsvImportDialog::checkString(QString &temp, QChar character)
+{
     if (temp.count(QLatin1String("\"")) % 2 == 0) {
-        if (temp.startsWith(QLatin1Char('\"')) &&
-            temp.endsWith(QLatin1Char('\"'))) {
+        if (temp.startsWith(QLatin1Char('\"')) && temp.endsWith(QLatin1Char('\"'))) {
             temp.remove(QRegExp(QLatin1String("^\"")));
             temp.remove(QRegExp(QLatin1String("\"$")));
         }
@@ -91,19 +93,19 @@ void CsvImportDialog::checkString(QString &temp, QChar character) {
     }
 }
 
-void CsvImportDialog::on_buttonBox_accepted() {
+void CsvImportDialog::on_buttonBox_accepted()
+{
     int columnCount = model->columnCount();
     int rowCount = model->rowCount();
 
-    qCDebug(jmbdewidgetsLog,"Columns : %s   Rows : %s", columnCount, rowCount);
+    qCDebug(jmbdewidgetsLog, "Columns : %s   Rows : %s", columnCount, rowCount);
     QString tempString;
 
     for (int i = 0; i < rowCount; i++) {
         for (int j = 0; j < columnCount; j++) {
             QModelIndex ind(model->index(i, j));
 
-            tempString.append(ind.data(Qt::DisplayRole).toString() +
-                              QLatin1String(", "));
+            tempString.append(ind.data(Qt::DisplayRole).toString() + QLatin1String(", "));
         }
 
         qCDebug(jmbdewidgetsLog, "SqlState : %s", tempString.toUtf8().constData());

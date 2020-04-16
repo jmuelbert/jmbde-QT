@@ -29,20 +29,19 @@
 #include "models/commondata.h"
 #include "models/idatamodel.h"
 
-
 namespace Model
 {
-    /*!
-    \class Mobile
-    \brief The Mobile is the class to handle the mobiles
-    \sa CommonDataModel
+/*!
+\class Mobile
+\brief The Mobile is the class to handle the mobiles
+\sa CommonDataModel
 
-    \author Jürgen Mülbert
-    \since 0.4
-    \version 0.4.25
-    \date 03.08.2019
-    \copyright EUPL V1.2
- */
+\author Jürgen Mülbert
+\since 0.4
+\version 0.4.25
+\date 03.08.2019
+\copyright EUPL V1.2
+*/
 class Place : public CommonData
 {
     Q_OBJECT
@@ -71,7 +70,7 @@ public:
         \brief set the QSqlRelationalTableModel for the DataModel
         Returns The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT  QSqlRelationalTableModel *initializeRelationalModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel() final;
 
     /*!
             \fn virtual QSqlRelationalTableModel *initializeInputDataModel() final
@@ -79,7 +78,7 @@ public:
 
             Returns The QSqlRelationalTableModel
         */
-    virtual JMBDEMODELS_EXPORT  QSqlRelationalTableModel *initializeInputDataModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel() final;
 
     /*!
      * \fn virtual QSqlTableModel *initializeViewModel() final

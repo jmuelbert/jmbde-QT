@@ -76,7 +76,7 @@ auto Model::Phone::initializeViewModel() -> QSqlTableModel *
     return m_model;
 }
 
-auto Model::Phone::generateTableString( const QString &header) -> QString
+auto Model::Phone::generateTableString(const QString &header) -> QString
 {
     QString outString;
 

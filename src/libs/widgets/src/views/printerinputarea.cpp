@@ -44,7 +44,9 @@
 #include "ui_printerinputarea.h"
 
 PrinterInputArea::PrinterInputArea(QWidget *parent, const QModelIndex index)
-    : QGroupBox(parent), ui(new Ui::PrinterInputArea) {
+    : QGroupBox(parent)
+    , ui(new Ui::PrinterInputArea)
+{
     ui->setupUi(this);
 
     // Init UI
@@ -70,49 +72,36 @@ PrinterInputArea::PrinterInputArea(QWidget *parent, const QModelIndex index)
     m_mapper->setCurrentIndex(index.row());
 }
 
-PrinterInputArea::~PrinterInputArea() { delete ui; }
-
-void PrinterInputArea::setMappings() {
-    m_mapper->addMapping(ui->checkBox_Active,
-                         m_model->fieldIndex(QLatin1String("active")));
-    m_mapper->addMapping(ui->checkBox_Color,
-                         m_model->fieldIndex(QLatin1String("color")));
-    m_mapper->addMapping(ui->checkBox_Replace,
-                         m_model->fieldIndex(QLatin1String("replace")));
-    m_mapper->addMapping(ui->comboBox_Computer,
-                         m_model->fieldIndex(QLatin1String("computer_id")));
-    m_mapper->addMapping(ui->comboBox_Department,
-                         m_model->fieldIndex(QLatin1String("department_id")));
-
-    m_mapper->addMapping(ui->comboBox_DeviceName,
-                         m_model->fieldIndex(QLatin1String("device_name_id")));
-    m_mapper->addMapping(ui->comboBox_DeviceType,
-                         m_model->fieldIndex(QLatin1String("device_type_id")));
-    m_mapper->addMapping(ui->comboBox_Employee,
-                         m_model->fieldIndex(QLatin1String("employe_id")));
-    m_mapper->addMapping(ui->comboBox_Inventory,
-                         m_model->fieldIndex(QLatin1String("inventory_id")));
-    m_mapper->addMapping(ui->comboBox_Manufacturer,
-                         m_model->fieldIndex(QLatin1String("manufacturer_id")));
-
-    m_mapper->addMapping(ui->comboBox_Papersize,
-                         m_model->fieldIndex(QLatin1String("paper_size_max")));
-    m_mapper->addMapping(ui->comboBox_Place,
-                         m_model->fieldIndex(QLatin1String("place_id")));
-    m_mapper->addMapping(ui->lineEdit_PrinterName,
-                         m_model->fieldIndex(QLatin1String("network_name")));
-    m_mapper->addMapping(
-        ui->lineEdit_IPAddress,
-        m_model->fieldIndex(QLatin1String("network_ip_address")));
-    m_mapper->addMapping(ui->lineEdit_Network,
-                         m_model->fieldIndex(QLatin1String("network")));
-    m_mapper->addMapping(ui->lineEdit_SerialNumber,
-                         m_model->fieldIndex(QLatin1String("serial_number")));
-    m_mapper->addMapping(ui->textEdit_Resources,
-                         m_model->fieldIndex(QLatin1String("resources")));
+PrinterInputArea::~PrinterInputArea()
+{
+    delete ui;
 }
 
-void PrinterInputArea::setViewOnlyMode(bool mode) {
+void PrinterInputArea::setMappings()
+{
+    m_mapper->addMapping(ui->checkBox_Active, m_model->fieldIndex(QLatin1String("active")));
+    m_mapper->addMapping(ui->checkBox_Color, m_model->fieldIndex(QLatin1String("color")));
+    m_mapper->addMapping(ui->checkBox_Replace, m_model->fieldIndex(QLatin1String("replace")));
+    m_mapper->addMapping(ui->comboBox_Computer, m_model->fieldIndex(QLatin1String("computer_id")));
+    m_mapper->addMapping(ui->comboBox_Department, m_model->fieldIndex(QLatin1String("department_id")));
+
+    m_mapper->addMapping(ui->comboBox_DeviceName, m_model->fieldIndex(QLatin1String("device_name_id")));
+    m_mapper->addMapping(ui->comboBox_DeviceType, m_model->fieldIndex(QLatin1String("device_type_id")));
+    m_mapper->addMapping(ui->comboBox_Employee, m_model->fieldIndex(QLatin1String("employe_id")));
+    m_mapper->addMapping(ui->comboBox_Inventory, m_model->fieldIndex(QLatin1String("inventory_id")));
+    m_mapper->addMapping(ui->comboBox_Manufacturer, m_model->fieldIndex(QLatin1String("manufacturer_id")));
+
+    m_mapper->addMapping(ui->comboBox_Papersize, m_model->fieldIndex(QLatin1String("paper_size_max")));
+    m_mapper->addMapping(ui->comboBox_Place, m_model->fieldIndex(QLatin1String("place_id")));
+    m_mapper->addMapping(ui->lineEdit_PrinterName, m_model->fieldIndex(QLatin1String("network_name")));
+    m_mapper->addMapping(ui->lineEdit_IPAddress, m_model->fieldIndex(QLatin1String("network_ip_address")));
+    m_mapper->addMapping(ui->lineEdit_Network, m_model->fieldIndex(QLatin1String("network")));
+    m_mapper->addMapping(ui->lineEdit_SerialNumber, m_model->fieldIndex(QLatin1String("serial_number")));
+    m_mapper->addMapping(ui->textEdit_Resources, m_model->fieldIndex(QLatin1String("resources")));
+}
+
+void PrinterInputArea::setViewOnlyMode(bool mode)
+{
     ui->checkBox_Active->setDisabled(mode);
     ui->checkBox_Color->setDisabled(mode);
     ui->checkBox_Replace->setDisabled(mode);
@@ -132,7 +121,8 @@ void PrinterInputArea::setViewOnlyMode(bool mode) {
     ui->textEdit_Resources->setDisabled(mode);
 }
 
-void PrinterInputArea::createDataset() {
+void PrinterInputArea::createDataset()
+{
     qDebug() << "Create a new Dataset for Processor...";
 
     // Set all inputfields to blank
@@ -147,18 +137,26 @@ void PrinterInputArea::createDataset() {
     m_mapper->setCurrentIndex(row);
 }
 
-void PrinterInputArea::retrieveDataset(const QModelIndex index) {}
+void PrinterInputArea::retrieveDataset(const QModelIndex index)
+{
+}
 
-void PrinterInputArea::updateDataset(const QModelIndex index) {}
+void PrinterInputArea::updateDataset(const QModelIndex index)
+{
+}
 
-void PrinterInputArea::deleteDataset(const QModelIndex index) {}
+void PrinterInputArea::deleteDataset(const QModelIndex index)
+{
+}
 
-void PrinterInputArea::on_pushButton_Add_clicked() {
+void PrinterInputArea::on_pushButton_Add_clicked()
+{
     createDataset();
     on_pushButton_EditFinish_clicked();
 }
 
-void PrinterInputArea::on_pushButton_EditFinish_clicked() {
+void PrinterInputArea::on_pushButton_EditFinish_clicked()
+{
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
@@ -181,9 +179,7 @@ void PrinterInputArea::on_pushButton_EditFinish_clicked() {
             qDebug() << "Commit changes for Processor Databse Table";
         } else {
             m_model->database().rollback();
-            QMessageBox::warning(this, tr("jmbde"),
-                                 tr("The database reported an error: %1")
-                                     .arg(m_model->lastError().text()));
+            QMessageBox::warning(this, tr("jmbde"), tr("The database reported an error: %1").arg(m_model->lastError().text()));
         }
 
     } break;

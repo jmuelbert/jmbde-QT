@@ -29,14 +29,16 @@
 #include "jmbdewidgets_export.h"
 #include "loggingcategory.h"
 
-namespace Ui {
+namespace Ui
+{
 class SoftwareInputArea;
 }
 
 /**
  * @brief The SoftwareInputArea class
  */
-class JMBDEWIDGETS_EXPORT SoftwareInputArea : public QGroupBox {
+class JMBDEWIDGETS_EXPORT SoftwareInputArea : public QGroupBox
+{
     Q_OBJECT
 
 public:
@@ -45,8 +47,7 @@ public:
         @param parent The pointer to the parent object
         @param index The index for view the data
      */
-    explicit SoftwareInputArea(QWidget *parent = nullptr,
-                               const QModelIndex index = QModelIndex());
+    explicit SoftwareInputArea(QWidget *parent = nullptr, const QModelIndex index = QModelIndex());
 
     /**
      * @brief ~SoftwareInputArea
@@ -63,7 +64,6 @@ private slots:
      * @brief on_pushButton_EditFinish_clicked
      */
     void on_pushButton_EditFinish_clicked();
-
 
 private:
     /**

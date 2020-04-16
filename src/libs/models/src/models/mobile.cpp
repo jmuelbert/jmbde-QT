@@ -103,7 +103,7 @@ auto Model::Mobile::generateTableString(const QString &header) -> QString
     return outString;
 }
 
-auto Model::Mobile::generateFormularString( QString &header) -> QString
+auto Model::Mobile::generateFormularString(QString &header) -> QString
 {
     QString outString;
 

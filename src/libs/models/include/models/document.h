@@ -29,8 +29,6 @@
 #include "models/commondata.h"
 #include "models/idatamodel.h"
 
-
-
 namespace Model
 {
 /*!
@@ -45,8 +43,7 @@ namespace Model
     */
 class Document : public CommonData
 {
-        Q_OBJECT
-
+    Q_OBJECT
 
 public:
     /*!

@@ -1,16 +1,16 @@
- /*
-    jmbde a BDE Tool for companies
-    Copyright (C) 2013-2019  Jürgen Mülbert
+/*
+   jmbde a BDE Tool for companies
+   Copyright (C) 2013-2019  Jürgen Mülbert
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 */
 
 #include <QQmlApplicationEngine>
@@ -20,8 +20,9 @@
 #include "views/mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow) {
-
+    : QMainWindow(parent)
+    , ui(new Ui::MainWindow)
+{
     ui->setupUi(this);
 
     QString title;
@@ -37,8 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
     initOutline();
 
     this->dataBaseName = QString(QStringLiteral("jmbde"));
-    this->dataContext = new Model::DataContext(dynamic_cast<QObject *>(this),
-                                               this->dataBaseName);
+    this->dataContext = new Model::DataContext(dynamic_cast<QObject *>(this), this->dataBaseName);
     qDebug() << "ActualViewRow : " << m_actualView;
 
     if (m_actualView.row() > 0) {
@@ -65,20 +65,19 @@ MainWindow::MainWindow(QWidget *parent)
         ui->scrollArea->setWidget(eia);
     }
 
-    connect(ui->treeView, SIGNAL(clicked(QModelIndex)), this,
-            SLOT(onClickedTreeView(QModelIndex)));
-    connect(ui->listView, SIGNAL(clicked(QModelIndex)), this,
-            SLOT(onClickedListViewRow(QModelIndex)));
-    connect(ui->listView, SIGNAL(pressed(QModelIndex)), this,
-            SLOT(onPressedListViewRow(QModelIndex)));
+    connect(ui->treeView, SIGNAL(clicked(QModelIndex)), this, SLOT(onClickedTreeView(QModelIndex)));
+    connect(ui->listView, SIGNAL(clicked(QModelIndex)), this, SLOT(onClickedListViewRow(QModelIndex)));
+    connect(ui->listView, SIGNAL(pressed(QModelIndex)), this, SLOT(onPressedListViewRow(QModelIndex)));
 }
 
-MainWindow::~MainWindow() {
+MainWindow::~MainWindow()
+{
     dataContext->~DataContext();
     delete ui;
 }
 
-void MainWindow::resizeEvent(QResizeEvent *event) {
+void MainWindow::resizeEvent(QResizeEvent *event)
+{
     Q_UNUSED(event)
 
     int width = ui->centralWidget->width() - 20;
@@ -89,16 +88,20 @@ void MainWindow::resizeEvent(QResizeEvent *event) {
     ui->splitter->resize(width, height);
 }
 
-void MainWindow::focusChanged(QWidget *, QWidget *now) {
+void MainWindow::focusChanged(QWidget *, QWidget *now)
+{
     Q_UNUSED(now)
 
     qDebug() << "Help :-)";
 }
 
-void MainWindow::closeEvent(QCloseEvent *event) { Q_UNUSED(event) }
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    Q_UNUSED(event)
+}
 
-void MainWindow::on_actionPreferences_triggered() {
-
+void MainWindow::on_actionPreferences_triggered()
+{
     QQuickWidget *view = new QQuickWidget;
     view->setSource(QUrl(QLatin1String("qrc:/Preferences.qml")));
     if (view->status() == QQuickWidget::Error)
@@ -106,8 +109,8 @@ void MainWindow::on_actionPreferences_triggered() {
     view->show();
 }
 
-void MainWindow::on_actionAbout_triggered() {
-
+void MainWindow::on_actionAbout_triggered()
+{
     QQuickWidget *view = new QQuickWidget;
     view->setSource(QUrl(QLatin1String("qrc:/AboutBox.qml")));
     if (view->status() == QQuickWidget::Error)
@@ -115,16 +118,14 @@ void MainWindow::on_actionAbout_triggered() {
     view->show();
 }
 
-void MainWindow::initOutline() {
-
+void MainWindow::initOutline()
+{
     QHash<QString, QList<QString>> outlineData;
 
-    QList<QString> subEntries = {tr("Employee"), tr("Function"),
-                                 tr("Deparment"), tr("Title")};
+    QList<QString> subEntries = {tr("Employee"), tr("Function"), tr("Deparment"), tr("Title")};
     outlineData.insert(tr("Person"), subEntries);
 
-    subEntries = {tr("Computer"), tr("Processor"), tr("Operation System"),
-                  tr("Software"), tr("Printer")};
+    subEntries = {tr("Computer"), tr("Processor"), tr("Operation System"), tr("Software"), tr("Printer")};
     outlineData.insert(tr("Device"), subEntries);
 
     subEntries = {tr("Phone"), tr("Mobile")};
@@ -150,8 +151,7 @@ void MainWindow::initOutline() {
         for (int index = 0; index < od.size(); ++index) {
             item = new QStandardItem(od.value(index));
             header->appendRow(item);
-            qDebug() << "Found " << od.value(index) << " at position " << index
-                     << endl;
+            qDebug() << "Found " << od.value(index) << " at position " << index << endl;
         }
     }
 
@@ -175,47 +175,36 @@ void MainWindow::initOutline() {
  *        property alias username: textInputUsername.text
  *        property alias password: textInputPassword.text
  */
-void MainWindow::writeSettings() {
+void MainWindow::writeSettings()
+{
     QSettings settings;
 
     settings.beginGroup(QLatin1String(Settings::Groups::WINDOWSSTATE));
-    settings.setValue(QLatin1String(Settings::WindowState::WINDOW_X),
-                      ui->centralWidget->x());
-    settings.setValue(QLatin1String(Settings::WindowState::WINDOW_Y),
-                      ui->centralWidget->y());
-    settings.setValue(QLatin1String(Settings::WindowState::WINDOW_WIDTH),
-                      ui->centralWidget->width());
-    settings.setValue(QLatin1String(Settings::WindowState::WINDOW_HEIGHT),
-                      ui->centralWidget->height());
+    settings.setValue(QLatin1String(Settings::WindowState::WINDOW_X), ui->centralWidget->x());
+    settings.setValue(QLatin1String(Settings::WindowState::WINDOW_Y), ui->centralWidget->y());
+    settings.setValue(QLatin1String(Settings::WindowState::WINDOW_WIDTH), ui->centralWidget->width());
+    settings.setValue(QLatin1String(Settings::WindowState::WINDOW_HEIGHT), ui->centralWidget->height());
     settings.endGroup();
 
     // dataContext settings
     settings.beginGroup(QLatin1String(Settings::Groups::DATABASE));
     settings.setValue(QLatin1String(Settings::Database::TYPE), dbType);
-    settings.setValue(QLatin1String(Settings::Database::CONNECTION),
-                      dbConnection);
+    settings.setValue(QLatin1String(Settings::Database::CONNECTION), dbConnection);
     settings.setValue(QLatin1String(Settings::Database::HOSTNAME), dbHostname);
     settings.setValue(QLatin1String(Settings::Database::USERNAME), dbUsername);
     settings.setValue(QLatin1String(Settings::Database::PASSWORD), dbPassword);
     settings.endGroup();
 }
 
-void MainWindow::readSettings() {
+void MainWindow::readSettings()
+{
     QSettings settings;
 
     settings.beginGroup(QLatin1String(Settings::Groups::WINDOWSSTATE));
-    int window_x =
-        settings.value(QLatin1String(Settings::WindowState::WINDOW_X), 200)
-            .toInt();
-    int window_y =
-        settings.value(QLatin1String(Settings::WindowState::WINDOW_Y), 200)
-            .toInt();
-    int window_width =
-        settings.value(QLatin1String(Settings::WindowState::WINDOW_WIDTH), 800)
-            .toInt();
-    int window_height =
-        settings.value(QLatin1String(Settings::WindowState::WINDOW_HEIGHT), 600)
-            .toInt();
+    int window_x = settings.value(QLatin1String(Settings::WindowState::WINDOW_X), 200).toInt();
+    int window_y = settings.value(QLatin1String(Settings::WindowState::WINDOW_Y), 200).toInt();
+    int window_width = settings.value(QLatin1String(Settings::WindowState::WINDOW_WIDTH), 800).toInt();
+    int window_height = settings.value(QLatin1String(Settings::WindowState::WINDOW_HEIGHT), 600).toInt();
 
     move(window_x, window_y);
     resize(window_width, window_height);
@@ -223,60 +212,56 @@ void MainWindow::readSettings() {
 
     // dataContext settings
 
-    QString dataContextDir =
-        QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+    QString dataContextDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
 
     settings.beginGroup(QLatin1String(Settings::Groups::DATABASE));
-    dbType =
-        settings.value(QLatin1String(Settings::Database::TYPE), SQLITE).toInt();
-    dbConnection = settings
-                       .value(QLatin1String(Settings::Database::CONNECTION),
-                              dataContextDir)
-                       .toString();
-    dbHostname = settings
-                     .value(QLatin1String(Settings::Database::HOSTNAME),
-                            QLatin1String("localhost"))
-                     .toString();
-    dbUsername = settings
-                     .value(QLatin1String(Settings::Database::USERNAME),
-                            QLatin1String("jmbde"))
-                     .toString();
-    dbPassword = settings
-                     .value(QLatin1String(Settings::Database::PASSWORD),
-                            QLatin1String("jmbde"))
-                     .toString();
+    dbType = settings.value(QLatin1String(Settings::Database::TYPE), SQLITE).toInt();
+    dbConnection = settings.value(QLatin1String(Settings::Database::CONNECTION), dataContextDir).toString();
+    dbHostname = settings.value(QLatin1String(Settings::Database::HOSTNAME), QLatin1String("localhost")).toString();
+    dbUsername = settings.value(QLatin1String(Settings::Database::USERNAME), QLatin1String("jmbde")).toString();
+    dbPassword = settings.value(QLatin1String(Settings::Database::PASSWORD), QLatin1String("jmbde")).toString();
 }
 
-void MainWindow::on_actionNew_triggered() {
-    int ret = QMessageBox::warning(
-        this, qApp->applicationDisplayName(),
-        tr("This action create a new dataContext. if you have an dataContext\n"
-           "with data you lost this.\n"
-           "Proceed for create a new dataContext ?"),
-        QMessageBox::Cancel | QMessageBox::Yes);
+void MainWindow::on_actionNew_triggered()
+{
+    int ret = QMessageBox::warning(this,
+                                   qApp->applicationDisplayName(),
+                                   tr("This action create a new dataContext. if you have an dataContext\n"
+                                      "with data you lost this.\n"
+                                      "Proceed for create a new dataContext ?"),
+                                   QMessageBox::Cancel | QMessageBox::Yes);
 
     if (ret == QMessageBox::Yes) {
         // TODO: Implement Create a new DB
         // dataContext->initDb();
-        QMessageBox::information(this, qApp->applicationDisplayName(),
-                                 tr("The new dataContext is created"));
+        QMessageBox::information(this, qApp->applicationDisplayName(), tr("The new dataContext is created"));
     }
 }
 
-void MainWindow::on_actionQuit_triggered() { qApp->quit(); }
+void MainWindow::on_actionQuit_triggered()
+{
+    qApp->quit();
+}
 
-void MainWindow::on_actionOpen_triggered() { Not_Available_Message(); }
+void MainWindow::on_actionOpen_triggered()
+{
+    Not_Available_Message();
+}
 
-void MainWindow::on_actionImport_triggered() {
+void MainWindow::on_actionImport_triggered()
+{
     CsvImportDialog *csvImport = new CsvImportDialog();
 
     csvImport->show();
 }
 
-void MainWindow::on_actionExport_triggered() { Not_Available_Message(); }
+void MainWindow::on_actionExport_triggered()
+{
+    Not_Available_Message();
+}
 
-void MainWindow::on_actionPrint_triggered() {
-
+void MainWindow::on_actionPrint_triggered()
+{
     QTextDocument doc;
 
     switch (actualView) {
@@ -285,7 +270,7 @@ void MainWindow::on_actionPrint_triggered() {
         dataContext->openDB(dataBaseName);
         auto *edm = new Model::Employee;
         QString style = edm->setOutTableStyle();
-        QString text = edm->generateTableString( tr("Employee"));
+        QString text = edm->generateTableString(tr("Employee"));
 
         doc.setHtml(style + text);
         dataContext->closeConnection();
@@ -307,7 +292,7 @@ void MainWindow::on_actionPrint_triggered() {
         dataContext->openDB(dataBaseName);
         auto *pdm = new Model::Printer;
         QString style = pdm->setOutTableStyle();
-        QString text = pdm->generateTableString( tr("Printer"));
+        QString text = pdm->generateTableString(tr("Printer"));
 
         doc.setHtml(style + text);
         dataContext->closeConnection();
@@ -318,7 +303,7 @@ void MainWindow::on_actionPrint_triggered() {
         dataContext->openDB(dataBaseName);
         auto *pdm = new Model::Phone;
         QString style = pdm->setOutTableStyle();
-        QString text = pdm->generateTableString( tr("Phone"));
+        QString text = pdm->generateTableString(tr("Phone"));
 
         doc.setHtml(style + text);
         dataContext->closeConnection();
@@ -341,7 +326,8 @@ void MainWindow::on_actionPrint_triggered() {
 #endif
 }
 
-void MainWindow::on_action_Export_Pdf_triggered() {
+void MainWindow::on_action_Export_Pdf_triggered()
+{
     QTextDocument doc;
 
     switch (actualView) {
@@ -349,7 +335,6 @@ void MainWindow::on_action_Export_Pdf_triggered() {
         qDebug() << "Print Employee !";
 
         dataContext->openDB(dataBaseName);
-
 
         auto *edm = new Model::Employee;
         QString style = edm->setOutTableStyle();
@@ -376,10 +361,9 @@ void MainWindow::on_action_Export_Pdf_triggered() {
         qDebug() << "Print Printer !";
         dataContext->openDB(dataBaseName);
 
-
         auto *pdm = new Model::Printer;
         QString style = pdm->setOutTableStyle();
-        QString text = pdm->generateTableString( tr("Printer"));
+        QString text = pdm->generateTableString(tr("Printer"));
 
         doc.setHtml(style + text);
         dataContext->closeConnection();
@@ -389,7 +373,6 @@ void MainWindow::on_action_Export_Pdf_triggered() {
         qDebug() << "Print Printer !";
 
         dataContext->openDB(dataBaseName);
-
 
         auto *pdm = new Model::Phone;
         QString style = pdm->setOutTableStyle();
@@ -406,8 +389,7 @@ void MainWindow::on_action_Export_Pdf_triggered() {
 #ifndef QT_NO_PRINTER
 
     // ! [0]
-    QString fileName = QFileDialog::getSaveFileName(
-        this, QLatin1String("Export PDF"), QString(), QLatin1String("*.pdf"));
+    QString fileName = QFileDialog::getSaveFileName(this, QLatin1String("Export PDF"), QString(), QLatin1String("*.pdf"));
 
     if (!fileName.isEmpty()) {
         if (QFileInfo(fileName).suffix().isEmpty())
@@ -425,7 +407,8 @@ void MainWindow::on_action_Export_Pdf_triggered() {
 #endif
 }
 
-void MainWindow::on_actionPrint_Preview_triggered() {
+void MainWindow::on_actionPrint_Preview_triggered()
+{
     QTextDocument doc;
 
     switch (actualView) {
@@ -433,7 +416,6 @@ void MainWindow::on_actionPrint_Preview_triggered() {
         qDebug() << "Print Employee !";
 
         dataContext->openDB(dataBaseName);
-
 
         auto *edm = new Model::Employee;
         QString style = edm->setOutTableStyle();
@@ -448,10 +430,9 @@ void MainWindow::on_actionPrint_Preview_triggered() {
 
         dataContext->openDB(dataBaseName);
 
-
         auto *cdm = new Model::Computer;
         QString style = cdm->setOutTableStyle();
-        QString text = cdm->generateTableString( tr("Computer"));
+        QString text = cdm->generateTableString(tr("Computer"));
 
         doc.setHtml(style + text);
         dataContext->closeConnection();
@@ -462,10 +443,9 @@ void MainWindow::on_actionPrint_Preview_triggered() {
 
         dataContext->openDB(dataBaseName);
 
-
         auto *pdm = new Model::Printer;
         QString style = pdm->setOutTableStyle();
-        QString text = pdm->generateTableString( tr("Printer"));
+        QString text = pdm->generateTableString(tr("Printer"));
 
         doc.setHtml(style + text);
         dataContext->closeConnection();
@@ -496,29 +476,32 @@ void MainWindow::on_actionPrint_Preview_triggered() {
 
     doc.print(&printer);
 
-    connect(&preview, SIGNAL(paintRequested(QPrinter *)),
-            SLOT(printPreview(QPrinter *)));
+    connect(&preview, SIGNAL(paintRequested(QPrinter *)), SLOT(printPreview(QPrinter *)));
     preview.exec();
 #endif
 }
 
-void MainWindow::Not_Available_Message() {
-    QString message = tr("This action is not implemented\n"
-                         "in the version ");
+void MainWindow::Not_Available_Message()
+{
+    QString message =
+        tr("This action is not implemented\n"
+           "in the version ");
 
     message.append(qApp->applicationVersion());
     message.append(tr("\nPlease try a newer version, if any available\n"));
     message.append(tr("you can check this on the project site:\n"));
     message.append(qApp->organizationDomain());
 
-    QMessageBox::critical(this, qApp->applicationDisplayName(), message,
-                          QMessageBox::Cancel);
+    QMessageBox::critical(this, qApp->applicationDisplayName(), message, QMessageBox::Cancel);
 }
 
-void MainWindow::on_actionHelp_triggered() { Not_Available_Message(); }
+void MainWindow::on_actionHelp_triggered()
+{
+    Not_Available_Message();
+}
 
-void MainWindow::onClickedTreeView(const QModelIndex &index) {
-
+void MainWindow::onClickedTreeView(const QModelIndex &index)
+{
     const QStandardItem *item = m_treeviewModel->itemFromIndex(index);
     const QString selected = item->text();
 
@@ -799,8 +782,8 @@ void MainWindow::onClickedTreeView(const QModelIndex &index) {
     }
 }
 
-void MainWindow::onClickedListViewRow(const QModelIndex &index) {
-
+void MainWindow::onClickedListViewRow(const QModelIndex &index)
+{
     m_actualData = index;
     qDebug() << "Clicked: ActualDataRow : " << index;
 
@@ -820,7 +803,6 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index) {
     } break;
 
     case VIEW_FUNCTION: {
-
         dataContext->openDB(dataBaseName);
         auto *fia = new FunctionInputArea(nullptr, index);
 
@@ -833,7 +815,6 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index) {
     } break;
 
     case VIEW_DEPARTMENT: {
-
         dataContext->openDB(dataBaseName);
         auto *dia = new DepartmentInputArea(nullptr, index);
 
@@ -846,7 +827,6 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index) {
     } break;
 
     case VIEW_TITLE: {
-
         dataContext->openDB(dataBaseName);
         auto *fia = new FunctionInputArea(nullptr, index);
 
@@ -873,7 +853,6 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index) {
     } break;
 
     case VIEW_PROCESSOR: {
-
         dataContext->openDB(dataBaseName);
         auto *pia = new ProcessorInputArea(nullptr, index);
 
@@ -886,7 +865,6 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index) {
     } break;
 
     case VIEW_OS: {
-
         dataContext->openDB(dataBaseName);
         auto *oia = new OSInputArea(nullptr, index);
 
@@ -899,7 +877,6 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index) {
     } break;
 
     case VIEW_SOFTWARE: {
-
         dataContext->openDB(dataBaseName);
         auto *sia = new SoftwareInputArea(nullptr, index);
 
@@ -912,7 +889,6 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index) {
     } break;
 
     case VIEW_PRINTER: {
-
         dataContext->openDB(dataBaseName);
         auto *pia = new PrinterInputArea(nullptr, index);
 
@@ -925,7 +901,6 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index) {
     } break;
 
     case VIEW_PHONE: {
-
         dataContext->openDB(dataBaseName);
         auto *pia = new PhoneInputArea(nullptr, index);
 
@@ -938,7 +913,6 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index) {
     } break;
 
     case VIEW_MOBILE: {
-
         dataContext->openDB(dataBaseName);
         auto *mia = new MobileInputArea(nullptr, index);
 
@@ -951,7 +925,6 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index) {
     } break;
 
     case VIEW_MANUFACTURER: {
-
         dataContext->openDB(dataBaseName);
         auto *mia = new ManufacturerInputArea(nullptr, index);
 
@@ -964,7 +937,6 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index) {
     } break;
 
     case VIEW_CITY: {
-
         dataContext->openDB(dataBaseName);
         auto *cia = new CityInputArea(nullptr, index);
 
@@ -979,7 +951,6 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index) {
     break;
 
     case VIEW_CHIPCARD: {
-
         dataContext->openDB(dataBaseName);
         auto *ccia = new ChipCardInputArea(nullptr, index);
 
@@ -996,8 +967,8 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index) {
     }
 }
 
-void MainWindow::onPressedListViewRow(const QModelIndex &index) {
-
+void MainWindow::onPressedListViewRow(const QModelIndex &index)
+{
     m_actualData = index;
     qDebug() << "Pressed: ActualDataRow for deleteting: " << index;
 

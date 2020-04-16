@@ -44,7 +44,9 @@
 #include "ui_osinputarea.h"
 
 OSInputArea::OSInputArea(QWidget *parent, const QModelIndex index)
-    : QGroupBox(parent), ui(new Ui::OSInputArea) {
+    : QGroupBox(parent)
+    , ui(new Ui::OSInputArea)
+{
     ui->setupUi(this);
 
     // Init UI
@@ -70,25 +72,28 @@ OSInputArea::OSInputArea(QWidget *parent, const QModelIndex index)
     m_mapper->setCurrentIndex(index.row());
 }
 
-OSInputArea::~OSInputArea() { delete ui; }
-
-void OSInputArea::setMappings() {
-    m_mapper->addMapping(ui->lineEdit_Fix,
-                         m_model->fieldIndex(QLatin1String("fix")));
-    m_mapper->addMapping(ui->lineEdit_Name,
-                         m_model->fieldIndex(QLatin1String("name")));
-    m_mapper->addMapping(ui->lineEdit_Revision,
-                         m_model->fieldIndex(QLatin1String("revision")));
+OSInputArea::~OSInputArea()
+{
+    delete ui;
 }
 
-void OSInputArea::setViewOnlyMode(bool mode) {
+void OSInputArea::setMappings()
+{
+    m_mapper->addMapping(ui->lineEdit_Fix, m_model->fieldIndex(QLatin1String("fix")));
+    m_mapper->addMapping(ui->lineEdit_Name, m_model->fieldIndex(QLatin1String("name")));
+    m_mapper->addMapping(ui->lineEdit_Revision, m_model->fieldIndex(QLatin1String("revision")));
+}
+
+void OSInputArea::setViewOnlyMode(bool mode)
+{
     ui->lineEdit_Fix->setDisabled(mode);
     ui->lineEdit_Name->setDisabled(mode);
     ui->lineEdit_Revision->setDisabled(mode);
     ui->lineEdit_Version->setDisabled(mode);
 }
 
-void OSInputArea::createDataset() {
+void OSInputArea::createDataset()
+{
     qDebug() << "Create a new Dataset for Operation System...";
 
     // Set all inputfields to blank
@@ -103,18 +108,26 @@ void OSInputArea::createDataset() {
     m_mapper->setCurrentIndex(row);
 }
 
-void OSInputArea::retrieveDataset(const QModelIndex index) {}
+void OSInputArea::retrieveDataset(const QModelIndex index)
+{
+}
 
-void OSInputArea::updateDataset(const QModelIndex index) {}
+void OSInputArea::updateDataset(const QModelIndex index)
+{
+}
 
-void OSInputArea::deleteDataset(const QModelIndex index) {}
+void OSInputArea::deleteDataset(const QModelIndex index)
+{
+}
 
-void OSInputArea::on_pushButton_Add_clicked() {
+void OSInputArea::on_pushButton_Add_clicked()
+{
     createDataset();
     on_pushButton_EditFinish_clicked();
 }
 
-void OSInputArea::on_pushButton_EditFinish_clicked() {
+void OSInputArea::on_pushButton_EditFinish_clicked()
+{
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
@@ -144,9 +157,7 @@ void OSInputArea::on_pushButton_EditFinish_clicked() {
                 qDebug() << "Commit changes for Operation System Databse Table";
             } else {
                 m_model->database().rollback();
-                QMessageBox::warning(this, tr("jmbde"),
-                                     tr("The database reported an error: %1")
-                                         .arg(m_model->lastError().text()));
+                QMessageBox::warning(this, tr("jmbde"), tr("The database reported an error: %1").arg(m_model->lastError().text()));
             }
         }
     } break;

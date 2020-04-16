@@ -44,7 +44,9 @@
 #include "ui_functioninputarea.h"
 
 FunctionInputArea::FunctionInputArea(QWidget *parent, const QModelIndex index)
-    : QGroupBox(parent), ui(new Ui::FunctionInputArea) {
+    : QGroupBox(parent)
+    , ui(new Ui::FunctionInputArea)
+{
     ui->setupUi(this);
 
     // Init UI
@@ -70,21 +72,25 @@ FunctionInputArea::FunctionInputArea(QWidget *parent, const QModelIndex index)
     m_mapper->setCurrentIndex(index.row());
 }
 
-FunctionInputArea::~FunctionInputArea() { delete ui; }
-
-void FunctionInputArea::setMappings() {
-    m_mapper->addMapping(ui->lineEdit_Name,
-                         m_model->fieldIndex(QLatin1String("name")));
-    m_mapper->addMapping(ui->spinBox_Priotity,
-                         m_model->fieldIndex(QLatin1String("prority")));
+FunctionInputArea::~FunctionInputArea()
+{
+    delete ui;
 }
 
-void FunctionInputArea::setViewOnlyMode(bool mode) {
+void FunctionInputArea::setMappings()
+{
+    m_mapper->addMapping(ui->lineEdit_Name, m_model->fieldIndex(QLatin1String("name")));
+    m_mapper->addMapping(ui->spinBox_Priotity, m_model->fieldIndex(QLatin1String("prority")));
+}
+
+void FunctionInputArea::setViewOnlyMode(bool mode)
+{
     ui->lineEdit_Name->setDisabled(mode);
     ui->spinBox_Priotity->setDisabled(mode);
 }
 
-void FunctionInputArea::createDataset() {
+void FunctionInputArea::createDataset()
+{
     qDebug() << "Create a new Dataset for Function...";
 
     // Set all inputfields to blank
@@ -99,18 +105,26 @@ void FunctionInputArea::createDataset() {
     m_mapper->setCurrentIndex(row);
 }
 
-void FunctionInputArea::retrieveDataset(const QModelIndex index) {}
+void FunctionInputArea::retrieveDataset(const QModelIndex index)
+{
+}
 
-void FunctionInputArea::updateDataset(const QModelIndex index) {}
+void FunctionInputArea::updateDataset(const QModelIndex index)
+{
+}
 
-void FunctionInputArea::deleteDataset(const QModelIndex index) {}
+void FunctionInputArea::deleteDataset(const QModelIndex index)
+{
+}
 
-void FunctionInputArea::on_pushButton_Add_clicked() {
+void FunctionInputArea::on_pushButton_Add_clicked()
+{
     createDataset();
     on_pushButton_EditFinish_clicked();
 }
 
-void FunctionInputArea::on_pushButton_EditFinish_clicked() {
+void FunctionInputArea::on_pushButton_EditFinish_clicked()
+{
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
@@ -140,9 +154,7 @@ void FunctionInputArea::on_pushButton_EditFinish_clicked() {
                 qDebug() << "Commit changes for Computer Databse Table";
             } else {
                 m_model->database().rollback();
-                QMessageBox::warning(this, tr("jmbde"),
-                                     tr("The database reported an error: %1")
-                                         .arg(m_model->lastError().text()));
+                QMessageBox::warning(this, tr("jmbde"), tr("The database reported an error: %1").arg(m_model->lastError().text()));
             }
         }
     } break;

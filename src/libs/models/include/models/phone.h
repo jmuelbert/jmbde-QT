@@ -29,8 +29,6 @@
 #include "models/commondata.h"
 #include "models/idatamodel.h"
 
-
-
 namespace Model
 {
 /*!
@@ -46,8 +44,8 @@ namespace Model
     */
 class Phone : public CommonData
 {
-   Q_OBJECT
-   
+    Q_OBJECT
+
 public:
     /*!
         \fn explicit Phone(QObject *parent = nullptr)
@@ -67,7 +65,7 @@ public:
         \fn virtual void setIndexes() final
         \brief Set the fieldindexes from the datafieldnames of the db.
      */
-    virtual JMBDEMODELS_EXPORT  void setIndexes() final;
+    virtual JMBDEMODELS_EXPORT void setIndexes() final;
 
     /*!
         \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
@@ -107,7 +105,7 @@ public:
 
          Returns a QString with the generated Table for Output
       */
-    virtual JMBDEMODELS_EXPORT auto generateFormularString( const QString &header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
 
     /*!
         \fn int PhoneIdIndex()
@@ -116,7 +114,7 @@ public:
 
         Returns the value of the index
      */
-   JMBDEMODELS_EXPORT int PhoneIdIndex() const
+    JMBDEMODELS_EXPORT int PhoneIdIndex() const
     {
         return m_PhoneIdIndex;
     }
@@ -128,7 +126,7 @@ public:
 
         Returns the value of the index
      */
-   JMBDEMODELS_EXPORT  int DeviceNameIdIndex() const
+    JMBDEMODELS_EXPORT int DeviceNameIdIndex() const
     {
         return m_DeviceNameIdIndex;
     }
@@ -140,7 +138,7 @@ public:
 
         Returns the value of the index
      */
-   JMBDEMODELS_EXPORT  int SerialNumberIndex() const
+    JMBDEMODELS_EXPORT int SerialNumberIndex() const
     {
         return m_SerialNumberIndex;
     }
@@ -152,7 +150,7 @@ public:
 
        Returns the value of the index
     */
-   JMBDEMODELS_EXPORT  int NumberIndex() const
+    JMBDEMODELS_EXPORT int NumberIndex() const
     {
         return m_NumberIndex;
     }
@@ -164,7 +162,7 @@ public:
 
         Returns the value of the index
      */
-   JMBDEMODELS_EXPORT  int PinIndex() const
+    JMBDEMODELS_EXPORT int PinIndex() const
     {
         return m_PinIndex;
     }
@@ -176,7 +174,7 @@ public:
 
        Returns the value of the index
     */
-   JMBDEMODELS_EXPORT  int ActiveIndex() const
+    JMBDEMODELS_EXPORT int ActiveIndex() const
     {
         return m_ActiveIndex;
     }
@@ -188,7 +186,7 @@ public:
 
        Returns the value of the index
     */
-   JMBDEMODELS_EXPORT  int ReplaceIndex() const
+    JMBDEMODELS_EXPORT int ReplaceIndex() const
     {
         return m_ReplaceIndex;
     }
@@ -200,7 +198,7 @@ public:
 
        Returns the value of the index
     */
-   JMBDEMODELS_EXPORT  int DeviceTypeIdIndex() const
+    JMBDEMODELS_EXPORT int DeviceTypeIdIndex() const
     {
         return m_DeviceTypeIdIndex;
     }
@@ -212,7 +210,7 @@ public:
 
        Returns the value of the index
     */
-   JMBDEMODELS_EXPORT  int EmployeeIdIndex() const
+    JMBDEMODELS_EXPORT int EmployeeIdIndex() const
     {
         return m_EmployeeIdIndex;
     }
@@ -224,7 +222,7 @@ public:
 
        Returns the value of the index
     */
-   JMBDEMODELS_EXPORT  int PlaceIdIndex() const
+    JMBDEMODELS_EXPORT int PlaceIdIndex() const
     {
         return m_PlaceIdIndex;
     }
@@ -236,7 +234,7 @@ public:
 
         Returns the value of the index
      */
-   JMBDEMODELS_EXPORT  int DepartmentIdIndex() const
+    JMBDEMODELS_EXPORT int DepartmentIdIndex() const
     {
         return m_DepartmentIdIndex;
     }
@@ -248,7 +246,7 @@ public:
 
        Returns the value of the index
     */
-   JMBDEMODELS_EXPORT  int ManufacturerIdIndex() const
+    JMBDEMODELS_EXPORT int ManufacturerIdIndex() const
     {
         return m_ManufacturerIdIndex;
     }
@@ -260,7 +258,7 @@ public:
 
        Returns the value of the index
     */
-   JMBDEMODELS_EXPORT  int InventoryIdIndex() const
+    JMBDEMODELS_EXPORT int InventoryIdIndex() const
     {
         return m_InventoryIdIndex;
     }
@@ -269,7 +267,7 @@ public:
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
     */
-   JMBDEMODELS_EXPORT  int LastUpdateIndex() const
+    JMBDEMODELS_EXPORT int LastUpdateIndex() const
     {
         return m_LastUpdateIndex;
     }
