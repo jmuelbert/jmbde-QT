@@ -55,7 +55,9 @@ public:
 
         \brief Destructor for ZipCode
      */
-    JMBDEMODELS_EXPORT ~ZipCode() {}
+    JMBDEMODELS_EXPORT ~ZipCode()
+    {
+    }
 
     // implement the virtuals
 

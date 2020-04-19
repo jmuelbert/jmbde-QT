@@ -26,7 +26,6 @@ Model::Function::Function(QObject *parent)
     setIndexes();
 }
 
-
 void Model::Function::setIndexes()
 {
     m_FunctionIdIndex = m_model->fieldIndex(QLatin1String("function_id"));

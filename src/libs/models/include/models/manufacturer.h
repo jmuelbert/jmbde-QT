@@ -56,7 +56,9 @@ public:
 
         \brief Destructor for Manufacturer
      */
-    JMBDEMODELS_EXPORT ~Manufacturer() {}
+    JMBDEMODELS_EXPORT ~Manufacturer()
+    {
+    }
 
     // implement the virtuals
 

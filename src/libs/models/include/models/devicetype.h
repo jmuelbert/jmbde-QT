@@ -58,7 +58,9 @@ public:
 
         \brief Destructor for DeviceType
      */
-    JMBDEMODELS_EXPORT ~DeviceType() {}
+    JMBDEMODELS_EXPORT ~DeviceType()
+    {
+    }
 
     // implement the virtuals
 

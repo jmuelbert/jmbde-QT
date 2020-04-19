@@ -56,7 +56,9 @@ public:
         \fn ~Place()
         \brief The destructor for the Place
      */
-    JMBDEMODELS_EXPORT ~Place() {}
+    JMBDEMODELS_EXPORT ~Place()
+    {
+    }
 
     /*!
         \fn virtual void setIndexes() final

@@ -56,7 +56,9 @@ public:
 
         \brief The destructor for the ChipCardProfile()
      */
-    JMBDEMODELS_EXPORT ~ChipCardProfile() {}
+    JMBDEMODELS_EXPORT ~ChipCardProfile()
+    {
+    }
 
     /*!
         \fn virtual void setIndexes()

@@ -54,7 +54,9 @@ public:
 
         \brief Destructor for  ComputerSoftware
      */
-    JMBDEMODELS_EXPORT ~ComputerSoftware() {}
+    JMBDEMODELS_EXPORT ~ComputerSoftware()
+    {
+    }
 
     // implement the virtuals
 

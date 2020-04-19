@@ -54,7 +54,9 @@ public:
         \fn ~Processor
         \brief The destructor for the Processor
      */
-    JMBDEMODELS_EXPORT ~Processor() {}
+    JMBDEMODELS_EXPORT ~Processor()
+    {
+    }
 
     // implement the virtuals
 

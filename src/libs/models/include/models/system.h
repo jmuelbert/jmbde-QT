@@ -60,7 +60,9 @@ public:
 
         \brief Destructor for System
      */
-    JMBDEMODELS_EXPORT ~System() {}
+    JMBDEMODELS_EXPORT ~System()
+    {
+    }
 
     // implement the virtuals
 

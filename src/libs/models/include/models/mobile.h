@@ -57,7 +57,9 @@ public:
         \fn ~Mobile
         \brief The destructor for the Mobile
      */
-    JMBDEMODELS_EXPORT ~Mobile() {}
+    JMBDEMODELS_EXPORT ~Mobile()
+    {
+    }
 
     // implement the virtuals
 

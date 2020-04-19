@@ -26,7 +26,6 @@ Model::ChipCard::ChipCard(QObject *parent)
     setIndexes();
 }
 
-
 void Model::ChipCard::setIndexes()
 {
     m_ChipCardIdIndex = m_model->fieldIndex(QLatin1String("chip_card_id"));

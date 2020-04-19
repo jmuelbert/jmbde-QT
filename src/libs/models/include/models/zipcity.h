@@ -55,7 +55,9 @@ public:
 
         \brief Destructor for ZipCity
      */
-    JMBDEMODELS_EXPORT ~ZipCity() {}
+    JMBDEMODELS_EXPORT ~ZipCity()
+    {
+    }
 
     // implement the virtuals
 

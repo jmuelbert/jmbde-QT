@@ -56,7 +56,9 @@ public:
 
         \brief Destructor for DeviceName
      */
-    JMBDEMODELS_EXPORT ~DeviceName() {}
+    JMBDEMODELS_EXPORT ~DeviceName()
+    {
+    }
 
     // implement the virtuals
 

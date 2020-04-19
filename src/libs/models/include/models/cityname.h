@@ -30,7 +30,6 @@
 #include "jmbdemodels_export.h"
 #include "loggingcategory.h"
 
-
 namespace Model
 {
 /*!
@@ -60,7 +59,9 @@ public:
      *
      * \brief Destructor for  CityName
      */
-    JMBDEMODELS_EXPORT ~CityName() {}
+    JMBDEMODELS_EXPORT ~CityName()
+    {
+    }
 
     // implement the virtuals
 

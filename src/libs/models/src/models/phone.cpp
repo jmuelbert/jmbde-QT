@@ -26,7 +26,6 @@ Model::Phone::Phone(QObject *parent)
     setIndexes();
 }
 
-
 void Model::Phone::setIndexes()
 {
     m_PhoneIdIndex = m_model->fieldIndex(QLatin1String("phone_id"));

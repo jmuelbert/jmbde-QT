@@ -57,7 +57,9 @@ public:
 
         \brief Destructor for Inventory
      */
-    JMBDEMODELS_EXPORT ~Inventory() {}
+    JMBDEMODELS_EXPORT ~Inventory()
+    {
+    }
 
     // implement the virtuals
 

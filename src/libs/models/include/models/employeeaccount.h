@@ -56,7 +56,9 @@ public:
 
         \brief Destructor for EmployeeAccount
      */
-    JMBDEMODELS_EXPORT ~EmployeeAccount() {}
+    JMBDEMODELS_EXPORT ~EmployeeAccount()
+    {
+    }
 
     // implement the virtuals
 
