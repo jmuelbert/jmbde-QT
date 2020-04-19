@@ -57,7 +57,9 @@ public:
 
         \brief Destructor for Title
      */
-    JMBDEMODELS_EXPORT ~Title() {}
+    JMBDEMODELS_EXPORT ~Title()
+    {
+    }
 
     // implement the virtuals
 

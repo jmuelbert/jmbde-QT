@@ -26,7 +26,6 @@ Model::Inventory::Inventory(QObject *parent)
     setIndexes();
 }
 
-
 void Model::Inventory::setIndexes()
 {
     m_InventoryIdIndex = m_model->fieldIndex(QLatin1String("inventory_id"));

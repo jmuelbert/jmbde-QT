@@ -96,7 +96,9 @@ public:
 
         \brief Destructor for Employee
      */
-    JMBDEMODELS_EXPORT ~Employee() {}
+    JMBDEMODELS_EXPORT ~Employee()
+    {
+    }
 
     // implement the virtuals
 

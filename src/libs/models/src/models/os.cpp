@@ -26,7 +26,6 @@ Model::OS::OS(QObject *parent)
     setIndexes();
 }
 
-
 void Model::OS::setIndexes()
 {
     m_OSIdIndex = m_model->fieldIndex(QLatin1String("os_id"));

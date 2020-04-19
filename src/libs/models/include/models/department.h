@@ -58,7 +58,9 @@ public:
 
         \brief Destructor for Department
      */
-    JMBDEMODELS_EXPORT ~Department() {}
+    JMBDEMODELS_EXPORT ~Department()
+    {
+    }
 
     // implement the virtuals
 

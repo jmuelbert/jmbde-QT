@@ -56,7 +56,9 @@ public:
 
         \brief Destructor for Document
      */
-    JMBDEMODELS_EXPORT ~Document() {}
+    JMBDEMODELS_EXPORT ~Document()
+    {
+    }
 
     // implement the virtuals
 

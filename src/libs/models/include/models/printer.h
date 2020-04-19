@@ -58,7 +58,9 @@ public:
 
        \brief Destructor for Printer
     */
-    JMBDEMODELS_EXPORT ~Printer() {}
+    JMBDEMODELS_EXPORT ~Printer()
+    {
+    }
 
     // implement the virtuals
 

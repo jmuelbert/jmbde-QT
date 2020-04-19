@@ -56,7 +56,9 @@ public:
 
         \brief Destructor for ~Function
      */
-    JMBDEMODELS_EXPORT ~Function() {}
+    JMBDEMODELS_EXPORT ~Function()
+    {
+    }
 
     // implement the virtuals
 

@@ -26,7 +26,6 @@ Model::Company::Company(QObject *parent)
     setIndexes();
 }
 
-
 void Model::Company::setIndexes()
 {
     m_CompanyIdIndex = m_model->fieldIndex(QLatin1String("company_id"));

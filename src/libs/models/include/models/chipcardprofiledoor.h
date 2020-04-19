@@ -54,7 +54,9 @@ public:
      *
      * \brief Destructor for ChipCardProfileDoor
      */
-    JMBDEMODELS_EXPORT ~ChipCardProfileDoor() {}
+    JMBDEMODELS_EXPORT ~ChipCardProfileDoor()
+    {
+    }
 
     // implement the virtuals
 

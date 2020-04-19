@@ -26,7 +26,6 @@ Model::Mobile::Mobile(QObject *parent)
     setIndexes();
 }
 
-
 void Model::Mobile::setIndexes()
 {
     m_MobileIdIndex = m_model->fieldIndex(QLatin1String("mobile_id"));

@@ -56,7 +56,9 @@ public:
         \fn ~Phone()
         \brief The destructor for the Phone
      */
-    JMBDEMODELS_EXPORT ~Phone() {}
+    JMBDEMODELS_EXPORT ~Phone()
+    {
+    }
 
     // implement the virtuals
 

@@ -56,7 +56,9 @@ public:
 
         \brief the Destructor for the CommonData
      */
-    virtual JMBDEMODELS_EXPORT ~CommonData() {}
+    virtual JMBDEMODELS_EXPORT ~CommonData()
+    {
+    }
 
     /*!
         \fn  QTextDocument *createSheet()

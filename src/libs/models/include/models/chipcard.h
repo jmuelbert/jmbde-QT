@@ -57,7 +57,9 @@ public:
 
         \brief Destructor for the ChipCard
      */
-    JMBDEMODELS_EXPORT ~ChipCard() {}
+    JMBDEMODELS_EXPORT ~ChipCard()
+    {
+    }
 
     // implement the virtuals
 
