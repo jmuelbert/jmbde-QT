@@ -50,6 +50,6 @@ foreach(test_name
     add_test(
         NAME ${test_name}
         COMMAND
-            $<TARGET_FILE:${test_name} -maxwarnings 0
+            $<TARGET_FILE:${test_name}> -maxwarnings 0
     )
 endforeach(test_name)

@@ -56,7 +56,7 @@ platform:
 nuget:
   disable_publish_on_pr: true
 
-matrix:
+# matrix:
   # exclude:
     # Ubuntu doesn't support "release-fastbuild".
     # - image: Ubuntu

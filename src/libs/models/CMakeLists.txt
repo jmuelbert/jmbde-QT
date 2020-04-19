@@ -12,7 +12,7 @@
 # License for more details.
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.13...3.16 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.12...3.16 FATAL_ERROR)
 #
 # the COMMON shared library
 #
