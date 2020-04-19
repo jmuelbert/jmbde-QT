@@ -26,9 +26,6 @@ Model::Function::Function(QObject *parent)
     setIndexes();
 }
 
-Model::Function::~Function()
-{
-}
 
 void Model::Function::setIndexes()
 {

@@ -24,7 +24,6 @@
 #include <QSqlRelation>
 
 #include "commondata.h"
-#include "idatamodel.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 #include "loggingcategory.h"
@@ -57,13 +56,13 @@ public:
 
         \brief The destructor for the ChipCardProfile()
      */
-    JMBDEMODELS_EXPORT ~ChipCardProfile();
+    JMBDEMODELS_EXPORT ~ChipCardProfile() {}
 
     /*!
         \fn virtual void setIndexes()
         \brief Set the fieldindexes from the datafieldnames of the db.
      */
-    virtual JMBDEMODELS_EXPORT void setIndexes();
+    virtual JMBDEMODELS_EXPORT void setIndexes() final;
 
     /*!
         \fn virtual QSqlRelationalTableModel *initializeRelationalModel() final

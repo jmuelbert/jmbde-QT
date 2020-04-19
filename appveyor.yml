@@ -43,7 +43,7 @@ clone_depth: 25
 build: off
 
 configuration:
-  - release-fastbuild
+  # - release-fastbuild
   - Release
 #  - debug
 
@@ -59,14 +59,14 @@ nuget:
 matrix:
   exclude:
     # Ubuntu doesn't support "release-fastbuild".
-    - image: Ubuntu
-      configuration: release-fastbuild
-    - image: macos
-      configuration: release-fastbuild
+    # - image: Ubuntu
+    #  configuration: release-fastbuild
+    # - image: macos
+    #  configuration: release-fastbuild
     # We only want "release-fastbuild" for Windows since "release" consumes too
     # much memory due to link-time code generation / whole-program optimization.
-    - image: Visual Studio 2019
-      configuration: release
+    # - image: Visual Studio 2019
+    #  configuration: release
 
 skip_branch_with_pr: true
 skip_commits:
@@ -280,10 +280,6 @@ for:
       - ps: $ENV:VCVARSALL="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat"
       - call set /p RedistVersion=<"%ProgramFiles(x86)%\\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt"
 
-      # MINGW
-      # - ps: $ENV:MINGW="C:\mingw-w64\x86_64-7.3.0-posix-seh-rt_v5-rev0"
-      # - ps: $ENV:QTDIR="C:\Qt\5.14\mingw73_64"
-      # - ps: $ENV:PATH += ";" + $ENV:MINGW + ";"
       - ps: $ENV:Path =  $ENV:PYTHON + ";" + $ENV:PYTHON + "/Scripts" + ";" + $ENV:PATH
       - ps: $ENV:INNO="${ENV:ProgramFiles(x86)}\Inno Setup 6"
       - ps: $ENV:NSIS="${ENV:ProgramFiles(x86)}\NSIS"
@@ -314,8 +310,8 @@ for:
     build_script:
       - ps: New-Item -itemtype directory -path ./program
       - ps: conan install ..
-      - ps: cmake -G "$ENV:CMAKE_GENERATOR" -A $ENV:PLATFORM -DCMAKE_BUILD_TYPE=Release  -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DCMAKE_INSTALL_PREFIX:PATH=./program -DBUILD_TESTING=ON -DBUILD_SHARED_LIBS=ON ..
-      - ps: cmake --build . --config Release --target install
+      - ps: cmake -G "$ENV:CMAKE_GENERATOR" -A $ENV:PLATFORM -DCMAKE_BUILD_TYPE=$ENV:CONFIGURATION  -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DCMAKE_INSTALL_PREFIX:PATH=./program -DBUILD_TESTING=ON -DBUILD_SHARED_LIBS=ON ..
+      - ps: cmake --build . --config $ENV:CONFIGURATION --target install
 
     after_build:
       - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER/build/program"

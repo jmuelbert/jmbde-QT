@@ -10,11 +10,11 @@ pushd build
 mkdir install
 
 # conan remote add bincrafters "https://api.bintray.com/conan/bincrafters/public-conan"
-conan create ../conan/ECM
+# conan create ../conan/ECM
 # conan build ../src/libs/models
 conan install ..
 
-cmake -GNinja .. \
+cmake  .. \
 	-DCMAKE_SKIP_BUILD_RPATH=OFF \
 	-DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
 	-DBUILD_SHARED_LIBS=ON \

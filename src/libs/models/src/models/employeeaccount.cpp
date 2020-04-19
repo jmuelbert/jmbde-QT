@@ -26,10 +26,6 @@ Model::EmployeeAccount::EmployeeAccount(QObject *parent)
     setIndexes();
 }
 
-Model::EmployeeAccount::~EmployeeAccount()
-{
-}
-
 void Model::EmployeeAccount::setIndexes()
 {
     m_EmployeeAccountIdIndex = m_model->fieldIndex(QLatin1String("employee_account_id"));

@@ -43,26 +43,10 @@
 # minimal requirements
 cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 
-if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
-  set(CMAKE_TOOLCHAIN_FILE
-      "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
-      CACHE STRING "")
-endif()
-
-cmake_policy(SET CMP0020 NEW)
-cmake_policy(SET CMP0043 NEW)
-if(POLICY CMP0053)
-  cmake_policy(SET CMP0053 NEW)
-endif()
-if(POLICY CMP0068)
-  cmake_policy(SET CMP0068 NEW)
-endif()
-if(POLICY CMP0077)
-  cmake_policy(SET CMP0077 NEW) # CMake 3.13+: option() honors normal variables.
-endif()
-# CMP0076 introduced in 3.13
-if(POLICY CMP0076)
-  cmake_policy(SET CMP0076 NEW)
+if (${CMAKE_VERSION} VERSION_LESS 3.17)
+  cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
+else()
+  cmake_policy(VERSION 3.17)
 endif()
 
 # jmbde project
@@ -70,7 +54,7 @@ project(
   jmbde
   DESCRIPTION "A BDE Tool"
   HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
-  LANGUAGES CXX C)
+  LANGUAGES CXX)
 
 # warn about deprecated stuff so that we may try fixing it
 set(CMAKE_WARN_DEPRECATED 1)
@@ -88,7 +72,7 @@ set(JMBDE_VERSION 0.5.0)
 if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
   message(
     FATAL_ERROR
-      "${PROJECT_NAME} requires an out of source build. Please create a separate build directory and run 'cmake path_to_kirigami [options]' there."
+      "${PROJECT_NAME} requires an out of source build. Please create a separate build directory and run 'cmake path_to_${PROJECT_NAME} [options]' there."
   )
 endif()
 
@@ -103,9 +87,6 @@ endif()
 if(EXISTS "${CONAN_ECM_ROOT}")
   list(APPEND CMAKE_PREFIX_PATH "${CONAN_ECM_ROOT}/share/ECM")
   message(STATUS "Setting ECM-DIR to ${CONAN_ECM_ROOT}/share/ECM")
-  # For VCPKG on Appveyor
-elseif()
-  message(STATUS "Using VCPKG (on appveyor)")
 endif()
 
 # we need some parts of the ECM CMake helpers
@@ -406,7 +387,7 @@ set(INSTALL_TARGETS_DEFAULT_ARGS
 include(KDECMakeSettings)
 
 # 3rd-party
-ecm_optional_add_subdirectory(src/3rd-party/qtsingleapplication)
+# ecm_optional_add_subdirectory(src/3rd-party/qtsingleapplication)
 
 # libs
 ecm_optional_add_subdirectory(src/libs)

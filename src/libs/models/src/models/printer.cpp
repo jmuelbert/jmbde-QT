@@ -26,10 +26,6 @@ Model::Printer::Printer(QObject *parent)
     setIndexes();
 }
 
-Model::Printer::~Printer()
-{
-}
-
 void Model::Printer::setIndexes()
 {
     m_PrinterIdIndex = m_model->fieldIndex(QLatin1String("printer_id"));

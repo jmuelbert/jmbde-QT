@@ -26,9 +26,6 @@ Model::Company::Company(QObject *parent)
     setIndexes();
 }
 
-Model::Company::~Company()
-{
-}
 
 void Model::Company::setIndexes()
 {

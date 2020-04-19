@@ -24,7 +24,6 @@
 #include <QSqlRelation>
 
 #include "commondata.h"
-#include "idatamodel.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 #include "loggingcategory.h"
@@ -44,6 +43,7 @@ namespace Model
 class ChipCardDoor : public CommonData
 {
     Q_OBJECT
+    
 public:
     /*!
         \fn ChipCardDoor(QObject *parent = nullptr)
@@ -58,7 +58,7 @@ public:
      *
      * \brief Destructor for ChipCardDoor
      */
-    JMBDEMODELS_EXPORT ~ChipCardDoor();
+    JMBDEMODELS_EXPORT ~ChipCardDoor() {}
 
     // implement the virtuals
 

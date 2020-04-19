@@ -26,9 +26,6 @@ Model::Inventory::Inventory(QObject *parent)
     setIndexes();
 }
 
-Model::Inventory::~Inventory()
-{
-}
 
 void Model::Inventory::setIndexes()
 {

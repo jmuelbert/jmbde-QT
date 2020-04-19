@@ -26,10 +26,6 @@ Model::Processor::Processor(QObject *parent)
     setIndexes();
 }
 
-Model::Processor::~Processor()
-{
-}
-
 void Model::Processor::setIndexes()
 {
     m_ProcessorIdIndex = m_model->fieldIndex(QLatin1String("processor_id"));

@@ -26,8 +26,6 @@ Model::Account::Account(QObject *parent)
     setIndexes();
 }
 
-Model::Account::~Account() = default;
-
 void Model::Account::setIndexes()
 {
     m_AccountIdIndex = m_model->fieldIndex(QLatin1String("account_id"));

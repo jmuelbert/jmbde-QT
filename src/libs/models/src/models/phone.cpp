@@ -26,9 +26,6 @@ Model::Phone::Phone(QObject *parent)
     setIndexes();
 }
 
-Model::Phone::~Phone()
-{
-}
 
 void Model::Phone::setIndexes()
 {

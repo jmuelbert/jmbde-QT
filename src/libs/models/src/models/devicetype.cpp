@@ -26,10 +26,6 @@ Model::DeviceType::DeviceType(QObject *parent)
     setIndexes();
 }
 
-Model::DeviceType::~DeviceType()
-{
-}
-
 void Model::DeviceType::setIndexes()
 {
     m_DeviceTypeIdIndex = m_model->fieldIndex(QLatin1String("device_type_id"));

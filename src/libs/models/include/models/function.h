@@ -23,11 +23,10 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
+#include "commondata.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 #include "loggingcategory.h"
-#include "models/commondata.h"
-#include "models/idatamodel.h"
 
 namespace Model
 {
@@ -42,7 +41,7 @@ namespace Model
     \copyright EUPL V1.2
     */
 
-class Function : public CommonData, public IDataModel
+class Function : public CommonData
 {
     Q_OBJECT
 public:
@@ -57,7 +56,7 @@ public:
 
         \brief Destructor for ~Function
      */
-    JMBDEMODELS_EXPORT ~Function();
+    JMBDEMODELS_EXPORT ~Function() {}
 
     // implement the virtuals
 

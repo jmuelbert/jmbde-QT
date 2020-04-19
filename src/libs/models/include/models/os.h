@@ -23,11 +23,10 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
+#include "commondata.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 #include "loggingcategory.h"
-#include "models/commondata.h"
-#include "models/idatamodel.h"
 
 namespace Model
 {
@@ -57,7 +56,7 @@ public:
 
         \brief Destructor for OS
      */
-    JMBDEMODELS_EXPORT ~OS();
+    JMBDEMODELS_EXPORT ~OS() {}
 
     // implement the virtuals
 

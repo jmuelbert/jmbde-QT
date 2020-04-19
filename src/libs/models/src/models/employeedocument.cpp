@@ -26,10 +26,6 @@ Model::EmployeeDocument::EmployeeDocument(QObject *parent)
     setIndexes();
 }
 
-Model::EmployeeDocument::~EmployeeDocument()
-{
-}
-
 void Model::EmployeeDocument::setIndexes()
 {
     m_EmployeeDocumentIdIndex = m_model->fieldIndex(QLatin1String("employee_document_id"));

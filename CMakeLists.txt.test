@@ -1,0 +1,168 @@
+cmake_minimum_required(VERSION 3.17)
+
+project(jmbde-QT)
+
+# warn about deprecated stuff so that we may try fixing it
+set(CMAKE_WARN_DEPRECATED 1)
+
+# Set the dependencies versions
+set(KF5_VERSION "5.66.0")
+set(KF5_DEP_VERSION "5.66.0")
+set(QT_MIN_VERSION "5.12.5")
+
+if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
+  message(
+    FATAL_ERROR
+      "${PROJECT_NAME} requires an out of source build. Please create a separate build directory and run 'cmake path_to_${PROJECT_NAME} [options]' there."
+  )
+endif()
+
+list(APPEND CMAKE_PREFIX_PATH "${CMAKE_MODULE_PATH}")
+
+if(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+  include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+  conan_basic_setup()
+endif()
+
+# For ECM-CONAN
+if(EXISTS "${CONAN_ECM_ROOT}")
+  list(APPEND CMAKE_PREFIX_PATH "${CONAN_ECM_ROOT}/share/ECM")
+  message(STATUS "Setting ECM-DIR to ${CONAN_ECM_ROOT}/share/ECM")
+endif()
+
+# we need some parts of the ECM CMake helpers
+include(FeatureSummary)
+find_package(ECM ${KF5_DEP_VERSION} QUIET REQUIRED NO_MODULE)
+feature_summary(WHAT REQUIRED_PACKAGES_NOT_FOUND
+                FATAL_ON_MISSING_REQUIRED_PACKAGES)
+
+# We append to the module path so modules can be overridden from the command
+# line.
+list(APPEND CMAKE_MODULE_PATH "${ECM_MODULE_PATH}")
+
+
+# load helper modules
+include(CheckFunctionExists)
+include(InstallRequiredSystemLibraries)
+include(GenerateExportHeader)
+include(ECMSetupVersion)
+include(ECMGenerateExportHeader)
+include(ECMGenerateHeaders)
+include(CMakePackageConfigHelpers)
+include(ECMPoQmTools)
+include(ECMQMLModules)
+include(ECMGenerateQmlTypes)
+include(ECMGeneratePriFile)
+
+include(ECMQtDeclareLoggingCategory)
+include(KDECompilerSettings NO_POLICY_SCOPE)
+include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
+include(KDEClangFormat)
+
+include(ECMOptionalAddSubdirectory)
+include(ECMInstallIcons)
+
+include(ECMAddTests)
+include(ECMMarkNonGuiExecutable)
+include(ECMAddAppIcon)
+
+# include(QtInstallPaths)
+
+include(WriteBasicConfigVersionFile)
+include(CheckFunctionExists)
+
+# Make CPack available to easy generate binary packages
+include(CPack)
+# include(PackageIFW)
+
+if(APPLE)
+  set(BUNDLE_APP_NAME "${PROJECT_NAME}.app")
+  # Make sure default prefix on mac is /Applications, dunnow why but it does not
+  # default to it probably because we do not enabled built in bundle support in
+  # the main project
+  string(COMPARE EQUAL "${CMAKE_INSTALL_PREFIX}" "/usr/local" CMP_RESULT)
+  if(CMP_RESULT)
+    set(CMAKE_INSTALL_PREFIX "/Applications")
+  endif()
+
+  set(BUNDLE_INSTALL_DIR ".")
+  set(RESOURCES_INSTALL_DIR
+      "${BUNDLE_INSTALL_DIR}/${BUNDLE_APP_NAME}/Contents/Resources")
+  set(BIN_INSTALL_DIR "${BUNDLE_INSTALL_DIR}/${BUNDLE_APP_NAME}/Contents/MacOS")
+  set(LIB_INSTALL_DIR
+      "${BUNDLE_INSTALL_DIR}/${BUNDLE_APP_NAME}/Contents/Frameworks")
+  set(PLUGIN_INSTALL_DIR
+      "${BUNDLE_INSTALL_DIR}/${BUNDLE_APP_NAME}/Contents/PlugIns/${PROJECT_NAME}"
+  )
+  set(LIBEXEC_INSTALL_DIR "${BIN_INSTALL_DIR}")
+  set(MAN_INSTALL_DIR "${RESOURCES_INSTALL_DIR}/man/man1")
+  set(DOC_INSTALL_DIR "${RESOURCES_INSTALL_DIR}/docs")
+  set(QCH_INSTALL_DIR "${RESOURCES_INSTALL_DIR}/docs")
+  set(TRANSLATION_INSTALL_DIR "${RESOURCES_INSTALL_DIR}/translations")
+  set(INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_INCLUDE_DIR}/cmake/${PROJECT_NAME}")
+  set(CMAKECONFIG_INSTALL_DIR "${RESOURCES_INSTALL_DIR}/cmake/${PROJECT_NAME}")
+  set(ECM_MKSPECS_INSTALL_DIR
+      "${RESOURCES_INSTALL_DIR}/${ECM_MKSPECS_INSTALL_DIR}")
+else()
+  # Set installation paths
+  # This takes care of installing into "lib64" on distros that use that, for instance,
+  # by setting CMAKE_INSTALL_FULL_LIBDIR.
+  include(GNUInstallDirs)
+
+  set(BIN_INSTALL_DIR "${CMAKE_INSTALL_BINDIR}") # relative, usually "bin"
+  set(LIB_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}") # "lib" or "lib64"
+  set(INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_INCLUDE_DIR}/cmake/${PROJECT_NAME}")
+  set(CMAKECONFIG_INSTALL_DIR "${LIB_INSTALL_DIR}/cmake/${PROJECT_NAME}")
+  set(DATAROOTDIR
+      "${CMAKE_INSTALL_DATAROOTDIR}"
+      CACHE
+        PATH
+        "Define install directory for read-only architecture-independent data")
+  set(XDG_APPS_INSTALL_DIR "${DATAROOTDIR}/applications")
+  set(APPDATA_INSTALL_DIR "${DATAROOTDIR}/appdata")
+  set(ICON_INSTALL_DIR "${DATAROOTDIR}/icons")
+  set(MAN_INSTALL_DIR "${DATAROOTDIR}/man/man1")
+  set(QCH_INSTALL_DIR
+      "${CMAKE_INSTALL_DOCDIR}"
+      CACHE PATH "Install location of Qt Assistant help files.")
+  if(WIN32)
+    set(PLUGIN_INSTALL_DIR "${BIN_INSTALL_DIR}/plugins/${PROEJECT_NAME}")
+    set(LIBEXEC_INSTALL_DIR "${BIN_INSTALL_DIR}")
+    set(DOC_INSTALL_DIR ".")
+    set(TRANSLATION_INSTALL_DIR "${BIN_INSTALL_DIR}/translations")
+  else()
+    set(PLUGIN_INSTALL_DIR "${LIB_INSTALL_DIR}/${PROEJECT_NAME}")
+    set(LIBEXEC_INSTALL_DIR "${LIB_INSTALL_DIR}/${PROJECT_NAME}/libexec")
+    set(DOC_INSTALL_DIR "${DATAROOTDIR}/doc/${PROJECT_NAME}")
+    set(TRANSLATION_INSTALL_DIR "${DATAROOTDIR}/${PROJECT_NAME}/translations")
+  endif()
+endif()
+
+set(INSTALL_TARGETS_DEFAULT_ARGS
+    RUNTIME
+    DESTINATION
+    ${BIN_INSTALL_DIR}
+    LIBRARY
+    DESTINATION
+    ${LIB_INSTALL_DIR}
+    ARCHIVE
+    DESTINATION
+    ${LIB_INSTALL_DIR}
+    COMPONENT
+    Devel
+    BUNDLE
+    DESTINATION
+    ${BUNDLE_INSTALL_DIR})
+
+# Set the RPATH
+include(KDECMakeSettings)
+
+# 3rd-party
+ecm_optional_add_subdirectory(src/3rd-party/qtsingleapplication)
+
+
+add_subdirectory(src/libs)
+
+add_subdirectory(src/app)
+
+add_subdirectory(tests)

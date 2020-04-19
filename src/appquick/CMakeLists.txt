@@ -56,7 +56,7 @@ add_executable(${PROJECT_NAME} "")
 
 # Use a single application on MacOS + Windows instead of dbus.
 if(APPLE OR WIN32)
-  target_compile_definitions(${PROJECT_NAME} PRIVATE USE_QT_SINGLE_APP)
+  # target_compile_definitions(${PROJECT_NAME} PRIVATE USE_QT_SINGLE_APP)
 endif()
 
 #
@@ -84,7 +84,7 @@ target_link_libraries(
 
 # Use a single application on MacOS + Windows instead of dbus.
 if(APPLE OR WIN32)
-  target_link_libraries(${PROJECT_NAME} PRIVATE jmbde::qtsingleapp)
+  # target_link_libraries(${PROJECT_NAME} PRIVATE jmbde::qtsingleapp)
 endif()
 
 set(ICONS_PNG

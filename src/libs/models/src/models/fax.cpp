@@ -26,10 +26,6 @@ Model::Fax::Fax(QObject *parent)
     setIndexes();
 }
 
-Model::Fax::~Fax()
-{
-}
-
 void Model::Fax::setIndexes()
 {
     m_FaxIdIndex = m_model->fieldIndex(QLatin1String("fax_id"));

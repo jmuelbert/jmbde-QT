@@ -26,10 +26,6 @@ Model::ChipCardProfile::ChipCardProfile(QObject *parent)
     setIndexes();
 }
 
-Model::ChipCardProfile::~ChipCardProfile()
-{
-}
-
 void Model::ChipCardProfile::setIndexes()
 {
     m_ChipCardProfileIdIndex = m_model->fieldIndex(QLatin1String("chip_card_profile_id"));

@@ -40,6 +40,7 @@
 #include <QStandardPaths>
 #include <QUuid>
 
+#include "commondata.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 #include "loggingcategory.h"

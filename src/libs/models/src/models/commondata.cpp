@@ -21,10 +21,6 @@ Model::CommonData::CommonData(QObject * /*parent*/)
 {
 }
 
-Model::CommonData::~CommonData()
-{
-}
-
 auto Model::CommonData::createSheet() -> QTextDocument *
 {
     auto *document = new QTextDocument;

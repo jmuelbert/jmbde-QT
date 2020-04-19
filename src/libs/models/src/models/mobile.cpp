@@ -26,9 +26,6 @@ Model::Mobile::Mobile(QObject *parent)
     setIndexes();
 }
 
-Model::Mobile::~Mobile()
-{
-}
 
 void Model::Mobile::setIndexes()
 {

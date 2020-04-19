@@ -26,10 +26,6 @@ Model::Software::Software(QObject *parent)
     setIndexes();
 }
 
-Model::Software::~Software()
-{
-}
-
 void Model::Software::setIndexes()
 {
     m_SoftwareIdIndex = m_model->fieldIndex(QLatin1String("software_id"));

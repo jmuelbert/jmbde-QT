@@ -23,11 +23,10 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 
+#include "commondata.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 #include "loggingcategory.h"
-#include "models/commondata.h"
-#include "models/idatamodel.h"
 
 namespace Model
 {
@@ -56,7 +55,7 @@ public:
 
         \brief Destructor for ZipCity
      */
-    JMBDEMODELS_EXPORT ~ZipCity();
+    JMBDEMODELS_EXPORT ~ZipCity() {}
 
     // implement the virtuals
 

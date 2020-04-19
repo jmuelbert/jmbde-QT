@@ -24,7 +24,6 @@
 #include <QSqlRelation>
 
 #include "commondata.h"
-#include "idatamodel.h"
 #include <jmbdemodels-version.h>
 #include <jmbdemodels_export.h>
 #include <loggingcategory.h>
@@ -58,7 +57,9 @@ public:
 
         \brief Destructor for  Account
      */
-    JMBDEMODELS_EXPORT ~Account();
+    JMBDEMODELS_EXPORT ~Account()
+    {
+    }
 
     // implement the virtuals
 

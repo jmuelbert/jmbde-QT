@@ -26,10 +26,6 @@ Model::Manufacturer::Manufacturer(QObject *parent)
     setIndexes();
 }
 
-Model::Manufacturer::~Manufacturer()
-{
-}
-
 void Model::Manufacturer::setIndexes()
 {
     m_ManufacturerIdIndex = m_model->fieldIndex(QLatin1String("manufacturer_id"));

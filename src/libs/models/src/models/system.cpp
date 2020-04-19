@@ -26,10 +26,6 @@ Model::System::System(QObject *parent)
     setIndexes();
 }
 
-Model::System::~System()
-{
-}
-
 void Model::System::setIndexes()
 {
     m_SystemIdIndex = m_model->fieldIndex(QLatin1String("system_id"));

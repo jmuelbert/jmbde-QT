@@ -26,10 +26,6 @@ Model::Title::Title(QObject *parent)
     setIndexes();
 }
 
-Model::Title::~Title()
-{
-}
-
 void Model::Title::setIndexes()
 {
     m_TitleIdIndex = m_model->fieldIndex(QLatin1String("title_id"));

@@ -26,10 +26,6 @@ Model::ZipCode::ZipCode(QObject *parent)
     setIndexes();
 }
 
-Model::ZipCode::~ZipCode()
-{
-}
-
 void Model::ZipCode::setIndexes()
 {
     m_ZipCodeIdIndex = m_model->fieldIndex(QLatin1String("zip_code_id"));

@@ -12,7 +12,7 @@
 # License for more details.
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.13...3.16 FATAL_ERROR)
 #
 # the COMMON shared library
 #
@@ -32,10 +32,6 @@ ecm_setup_version(
 # Enable Generate all Symbols for Windows!
 set(WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
-# CMP0076 introduced in 3.13
-if(POLICY CMP0076)
-  cmake_policy(SET CMP0076 NEW)
-endif()
 
 # warn about deprecated stuff so that we may try fixing it
 set(CMAKE_WARN_DEPRECATED 1)
@@ -44,11 +40,13 @@ set(CMAKE_WARN_DEPRECATED 1)
 project(
   jmbdemodels
   VERSION ${JMBDEMODELS_SOVERSION}
-  DESCRIPTION "${PROJECT_NAME} Datacontext Library")
+  DESCRIPTION "${PROJECT_NAME} Datacontext Library"
+  LANGUAGES CXX
+  )
 
 message(
   STATUS
-    "Building ${PROJECT_NAME} ${JMBDEMODELS_VERSION} ${JMBDEMODELS_SOVERSION} in ${CMAKE_BUILD_TYPE} mode"
+    "Building ${PROJECT_NAME} Version ${JMBDEMODELS_VERSION} SO_Version ${JMBDEMODELS_SOVERSION} in ${CMAKE_BUILD_TYPE} mode"
 )
 
 ecm_qt_declare_logging_category(
@@ -76,12 +74,11 @@ target_compile_features(jmbdemodels PUBLIC cxx_std_17)
 
 target_include_directories(
   jmbdemodels
-    PUBLIC 
-    "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>"
-    "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
-    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-    "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
-  )
+  PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+         $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
+         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+         $<INSTALL_INTERFACE:include>
+  PRIVATE src)
 
 target_compile_definitions(
   jmbdemodels
@@ -89,8 +86,9 @@ target_compile_definitions(
 
 target_link_libraries(
   jmbdemodels
-  LINK_PRIVATE
+  PUBLIC
     Qt5::Core
+  PRIVATE
     Qt5::Gui
     Qt5::Widgets
     Qt5::PrintSupport
@@ -107,40 +105,41 @@ qt5_add_resources(Resources_SRCS resources/res.qrc)
 
 target_sources(
   jmbdemodels
-  PUBLIC # jmbdemodels-version.h models
-         include/models/account.h
-         include/models/chipcard.h
-         include/models/chipcarddoor.h
-         include/models/chipcardprofile.h
-         include/models/chipcardprofiledoor.h
-         include/models/cityname.h
-         include/models/company.h
-         include/models/computer.h
-         include/models/computersoftware.h
-         include/models/datacontext.h
-         include/models/department.h
-         include/models/devicename.h
-         include/models/devicetype.h
-         include/models/document.h
-         include/models/employeeaccount.h
-         include/models/employee.h
-         include/models/employeedocument.h
-         include/models/fax.h
-         include/models/function.h
-         include/models/inventory.h
-         include/models/manufacturer.h
-         include/models/mobile.h
-         include/models/os.h
-         include/models/phone.h
-         include/models/place.h
-         include/models/printer.h
-         include/models/processor.h
-         include/models/software.h
-         include/models/system.h
-         include/models/title.h
-         include/models/zipcity.h
-         include/models/zipcode.h
-  PRIVATE # Models
+  PRIVATE
+  # jmbdemodels-version.h models
+    include/models/account.h
+    include/models/chipcard.h
+    include/models/chipcarddoor.h
+    include/models/chipcardprofile.h
+    include/models/chipcardprofiledoor.h
+    include/models/cityname.h
+    include/models/company.h
+    include/models/computer.h
+    include/models/computersoftware.h
+    include/models/datacontext.h
+    include/models/department.h
+    include/models/devicename.h
+    include/models/devicetype.h
+    include/models/document.h
+    include/models/employeeaccount.h
+    include/models/employee.h
+    include/models/employeedocument.h
+    include/models/fax.h
+    include/models/function.h
+    include/models/inventory.h
+    include/models/manufacturer.h
+    include/models/mobile.h
+    include/models/os.h
+    include/models/phone.h
+    include/models/place.h
+    include/models/printer.h
+    include/models/processor.h
+    include/models/software.h
+    include/models/system.h
+    include/models/title.h
+    include/models/zipcity.h
+    include/models/zipcode.h
+  PRIVATE # CPP's
           loggingcategory.cpp
           src/models/account.cpp
           src/models/chipcard.cpp
@@ -162,7 +161,6 @@ target_sources(
           src/models/employeedocument.cpp
           src/models/fax.cpp
           src/models/function.cpp
-          src/models/idatamodel.cpp
           src/models/inventory.cpp
           src/models/manufacturer.cpp
           src/models/mobile.cpp
@@ -178,34 +176,70 @@ target_sources(
           src/models/zipcode.cpp
           ${Resources_SRCS}
           include/models/commondata.h
-          include/models/idatamodel.h
           loggingcategory.h)
 
 #
-# Install
+# Install instructions
 #
+include(GNUInstallDirs)
+set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/JMBDEModels)
+
 install(
   TARGETS jmbdemodels
-  EXPORT jmbdeModelsTargets
-  ${INSTALL_TARGETS_DEFAULT_ARGS})
+  EXPORT jmbdeModels-targets
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  )
 
-configure_package_config_file(
-    ${CMAKE_CURRENT_LIST_DIR}/cmake/config.cmake.in
-    JMBDEModelsConfig.cmake
-    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/jmbdemodels/cmake
+#This is required so that the exported target has the name JMBDEModels and not jmbdemodels
+set_target_properties(jmbdemodels PROPERTIES EXPORT_NAME JMBDEModels)
+
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+# Export the targets to a script
+install(EXPORT jmbdeModels-targets
+    FILE JMBDEModelsTargets.cmake
+    NAMESPACE jmbde::
+    DESTINATION ${INSTALL_CONFIGDIR} 
 )
 
+#Create a ConfigVersion.cmake file
+include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
-     JMBDEModelsConfigVersion.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/JMBDEModelsConfigVersion.cmake
     VERSION ${JMBDEMODELS_VERSION}
     COMPATIBILITY AnyNewerVersion
 )
 
-export(
-    EXPORT jmbdeModelsTargets
-    FILE ${CMAKE_CURRENT_BINARY_DIR}/jmbdeModelsTargets.cmake
-    NAMESPACE jmbde::
+
+configure_package_config_file(
+    ${CMAKE_CURRENT_LIST_DIR}/cmake/config.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/JMBDEModelsConfig.cmake
+    INSTALL_DESTINATION ${INSTALL_CONFIGDIR}
 )
+
+#Install the config, configversion and custom find modules
+install(FILES
+    ${CMAKE_CURRENT_LIST_DIR}/cmake/FindJMBDEModels.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/JMBDEModelsConfig.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/JMBDEModelsConfigVersion.cmake
+    DESTINATION ${INSTALL_CONFIGDIR}
+)
+
+##############################################
+## Exporting from the build tree
+configure_file(
+  ${CMAKE_CURRENT_LIST_DIR}/cmake/FindJMBDEModels.cmake
+  ${CMAKE_CURRENT_BINARY_DIR}/FindJMBDEModels.cmake
+  COPYONLY
+  )
+
+export(
+    EXPORT jmbdeModels-targets
+    FILE ${CMAKE_CURRENT_BINARY_DIR}/JMBDEModelsTargets.cmake
+    NAMESPACE jmuelbert::
+)
+
 
 if(MSVC AND BUILD_SHARED_LIBS)
   install(
@@ -215,7 +249,7 @@ if(MSVC AND BUILD_SHARED_LIBS)
     CONFIGURATIONS Debug RelWithDebInfo)
 endif()
 
-if(BUILD_TESTING_COMMENTED_OUT)
+if(BUILD_TESTING)
   enable_testing()
   add_subdirectory(tests)
 endif()

@@ -26,10 +26,6 @@ Model::ChipCardDoor::ChipCardDoor(QObject *parent)
     setIndexes();
 }
 
-Model::ChipCardDoor::~ChipCardDoor()
-{
-}
-
 void Model::ChipCardDoor::setIndexes()
 {
     m_ChipCardDoorIdIndex = m_model->fieldIndex(QLatin1String("chip_card_door_id"));

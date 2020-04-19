@@ -26,10 +26,6 @@ Model::Place::Place(QObject *parent)
     setIndexes();
 }
 
-Model::Place::~Place()
-{
-}
-
 void Model::Place::setIndexes()
 {
     m_PlaceIdIndex = m_model->fieldIndex(QLatin1String("place_id"));

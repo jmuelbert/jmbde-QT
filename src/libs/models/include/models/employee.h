@@ -31,11 +31,10 @@
 #include <QTableView>
 #include <QTextDocument>
 
+#include "commondata.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 #include "loggingcategory.h"
-#include "models/commondata.h"
-#include "models/idatamodel.h"
 
 namespace Model
 {
@@ -97,7 +96,7 @@ public:
 
         \brief Destructor for Employee
      */
-    JMBDEMODELS_EXPORT ~Employee();
+    JMBDEMODELS_EXPORT ~Employee() {}
 
     // implement the virtuals
 

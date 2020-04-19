@@ -26,9 +26,6 @@ Model::OS::OS(QObject *parent)
     setIndexes();
 }
 
-Model::OS::~OS()
-{
-}
 
 void Model::OS::setIndexes()
 {

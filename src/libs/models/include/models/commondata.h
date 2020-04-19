@@ -25,7 +25,6 @@
 #include <QSqlRelation>
 #include <QTextDocument>
 
-#include "idatamodel.h"
 #include <jmbdemodels-version.h>
 #include <jmbdemodels_export.h>
 
@@ -57,7 +56,7 @@ public:
 
         \brief the Destructor for the CommonData
      */
-    virtual JMBDEMODELS_EXPORT ~CommonData() = 0;
+    virtual JMBDEMODELS_EXPORT ~CommonData() {}
 
     /*!
         \fn  QTextDocument *createSheet()

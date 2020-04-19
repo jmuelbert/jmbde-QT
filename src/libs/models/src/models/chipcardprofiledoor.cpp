@@ -26,9 +26,6 @@ Model::ChipCardProfileDoor::ChipCardProfileDoor(QObject *parent)
     setIndexes();
 }
 
-Model::ChipCardProfileDoor::~ChipCardProfileDoor()
-{
-}
 
 void Model::ChipCardProfileDoor::setIndexes()
 {

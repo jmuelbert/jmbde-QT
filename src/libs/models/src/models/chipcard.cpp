@@ -26,7 +26,6 @@ Model::ChipCard::ChipCard(QObject *parent)
     setIndexes();
 }
 
-Model::ChipCard::~ChipCard() = default;
 
 void Model::ChipCard::setIndexes()
 {

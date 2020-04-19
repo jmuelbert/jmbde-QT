@@ -116,7 +116,6 @@ jobs:
         conan create ./conan/ECM
         mkdir build && cd build
         conan install ..
-        cd ..
       - name: Configure CMake
       shell: cmake -P {0}
       run: |
