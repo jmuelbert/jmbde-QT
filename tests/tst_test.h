@@ -42,10 +42,11 @@
 
 #include <QtTest/QtTest>
 
-class tst_test : public QObject {
-  Q_OBJECT
+class tst_test : public QObject
+{
+    Q_OBJECT
 
 private slots:
-  void toUpper_data();
-  void toUpper();
+    void toUpper_data();
+    void toUpper();
 };

@@ -28,7 +28,8 @@
 #include <jmbdemodels-version.h>
 #include <jmbdemodels_export.h>
 
-namespace Model {
+namespace Model
+{
 /*!
     \class CommonData
 
@@ -41,64 +42,67 @@ namespace Model {
     \copyright EUPL V1.2
     */
 
-class CommonData : public QObject {
+class CommonData : public QObject
+{
 public:
-  /*!
-      \fn  CommonData(QObject *parent = nullptr)
-      \brief The Constructor for the CommonData
-   */
-  explicit JMBDEMODELS_EXPORT CommonData(QObject *parent = nullptr);
+    /*!
+        \fn  CommonData(QObject *parent = nullptr)
+        \brief The Constructor for the CommonData
+     */
+    explicit JMBDEMODELS_EXPORT CommonData(QObject *parent = nullptr);
 
-  /*!
-      \fn ~CommonData()
+    /*!
+        \fn ~CommonData()
 
-      \brief the Destructor for the CommonData
-   */
-  virtual JMBDEMODELS_EXPORT ~CommonData() {}
+        \brief the Destructor for the CommonData
+     */
+    virtual JMBDEMODELS_EXPORT ~CommonData()
+    {
+    }
 
-  /*!
-      \fn  QTextDocument *createSheet()
-      \brief Create a TextDocument for the Output to the Printer
+    /*!
+        \fn  QTextDocument *createSheet()
+        \brief Create a TextDocument for the Output to the Printer
 
-      Returns The Pointer to the generated TextDocument
+        Returns The Pointer to the generated TextDocument
 
-      \sa  QTextDocument
-   */
-  static JMBDEMODELS_EXPORT QTextDocument *createSheet();
+        \sa  QTextDocument
+     */
+    static JMBDEMODELS_EXPORT QTextDocument *createSheet();
 
-  /*!
-      \fn QString setOutTableStyle()
-      \brief Initialize a String with the css-style for the output table
+    /*!
+        \fn QString setOutTableStyle()
+        \brief Initialize a String with the css-style for the output table
 
-      Returns The initialized QString
+        Returns The initialized QString
 
-      \sa QString
-   */
-  static JMBDEMODELS_EXPORT QString setOutTableStyle();
+        \sa QString
+     */
+    static JMBDEMODELS_EXPORT QString setOutTableStyle();
 
-  /*!
-      \fn QString setOutFormularStyle()
-      \brief Initialize a String with the css-style for the output formular
-      \details This is now just the Header
+    /*!
+        \fn QString setOutFormularStyle()
+        \brief Initialize a String with the css-style for the output formular
+        \details This is now just the Header
 
-      Returns The initialized QString
+        Returns The initialized QString
 
-      \sa QString
-   */
-  static JMBDEMODELS_EXPORT QString setOutFormularStyle();
+        \sa QString
+     */
+    static JMBDEMODELS_EXPORT QString setOutFormularStyle();
 
 protected:
-  /*!
-      \brief holds an initialised pointer to the Relationmodel
-      \sa QSqlRelationalTableModel
-   */
-  QSqlRelationalTableModel *m_model{nullptr};
+    /*!
+        \brief holds an initialised pointer to the Relationmodel
+        \sa QSqlRelationalTableModel
+     */
+    QSqlRelationalTableModel *m_model {nullptr};
 
-  /*!
-     \brief holds an initialised pointer to the ItemSelectioModel
-     \sa QItemSelectionModel
-  */
-  QItemSelectionModel *m_selectionModel{nullptr};
+    /*!
+       \brief holds an initialised pointer to the ItemSelectioModel
+       \sa QItemSelectionModel
+    */
+    QItemSelectionModel *m_selectionModel {nullptr};
 
 private:
 };

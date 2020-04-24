@@ -28,7 +28,8 @@
 #include "jmbdemodels_export.h"
 #include "loggingcategory.h"
 
-namespace Model {
+namespace Model
+{
 /*!
     \class Phone
     \brief The Phone is the class to handle the phones
@@ -40,296 +41,327 @@ namespace Model {
     \date 03.08.2019
     \copyright EUPL V1.2
     */
-class Phone : public CommonData {
-  Q_OBJECT
+class Phone : public CommonData
+{
+    Q_OBJECT
 
 public:
-  /*!
-      \fn explicit Phone(QObject *parent = nullptr)
-      \brief The Constructor for the Phone
-  */
-  explicit JMBDEMODELS_EXPORT Phone(QObject *parent = nullptr);
-
-  /*!
-      \fn ~Phone()
-      \brief The destructor for the Phone
-   */
-  JMBDEMODELS_EXPORT ~Phone() {}
-
-  // implement the virtuals
-
-  /*!
-      \fn virtual void setIndexes() final
-      \brief Set the fieldindexes from the datafieldnames of the db.
-   */
-  virtual JMBDEMODELS_EXPORT void setIndexes() final;
-
-  /*!
-      \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
-      \brief set the QSqlRelationalTableModel for the DataModel
-      Returns The QSqlRelationalTableModel
-   */
-  virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *
-  initializeRelationalModel() final;
-
-  /*!
-          \fn virtual QSqlRelationalTableModel *initializeInputDataModel() final
-
-          Returns The QSqlRelationalTableModel
-      */
-  virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *
-  initializeInputDataModel() final;
-
-  /*!
-   * \fn virtual QSqlTableModel *initializeViewModel() final
-   * \brief Initialize the ViewModel
-   *
-   * Returns QSqlTableModel
-   */
-  virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
-
-  /*!
-   * \fn virtual auto generateTableString(
-                              const QString &header) -> QString final
-      \brief generateTableString
-
-      Returns a QString with the generated Table for Output
-   */
-  virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header)
-      -> QString final;
-
-  /*!
-       \fn virtual auto generateFormularString(
-                                  const QString &header) -> QString final
-       \brief generateFormularString
-
-       Returns a QString with the generated Table for Output
+    /*!
+        \fn explicit Phone(QObject *parent = nullptr)
+        \brief The Constructor for the Phone
     */
-  virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header)
-      -> QString final;
+    explicit JMBDEMODELS_EXPORT Phone(QObject *parent = nullptr);
 
-  /*!
-      \fn int PhoneIdIndex()
+    /*!
+        \fn ~Phone()
+        \brief The destructor for the Phone
+     */
+    JMBDEMODELS_EXPORT ~Phone()
+    {
+    }
 
-      \brief Get the index of the fieldname PhoneId form the database
+    // implement the virtuals
 
-      Returns the value of the index
-   */
-  JMBDEMODELS_EXPORT int PhoneIdIndex() const { return m_PhoneIdIndex; }
+    /*!
+        \fn virtual void setIndexes() final
+        \brief Set the fieldindexes from the datafieldnames of the db.
+     */
+    virtual JMBDEMODELS_EXPORT void setIndexes() final;
 
-  /*!
-      \fn int DeviceNameIdIndex()
+    /*!
+        \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
+        \brief set the QSqlRelationalTableModel for the DataModel
+        Returns The QSqlRelationalTableModel
+     */
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel() final;
 
-      \brief Get the index of the fieldname DeviceNameId form the database
+    /*!
+            \fn virtual QSqlRelationalTableModel *initializeInputDataModel() final
 
-      Returns the value of the index
-   */
-  JMBDEMODELS_EXPORT int DeviceNameIdIndex() const {
-    return m_DeviceNameIdIndex;
-  }
+            Returns The QSqlRelationalTableModel
+        */
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel() final;
 
-  /*!
-      \fn int SerialNumberIndex()
+    /*!
+     * \fn virtual QSqlTableModel *initializeViewModel() final
+     * \brief Initialize the ViewModel
+     *
+     * Returns QSqlTableModel
+     */
+    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
 
-      \brief Get the index of the fieldname SerialNumber form the database
+    /*!
+     * \fn virtual auto generateTableString(
+                                const QString &header) -> QString final
+        \brief generateTableString
 
-      Returns the value of the index
-   */
-  JMBDEMODELS_EXPORT int SerialNumberIndex() const {
-    return m_SerialNumberIndex;
-  }
+        Returns a QString with the generated Table for Output
+     */
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString final;
 
-  /*!
-     \fn int NumberIndex()
+    /*!
+         \fn virtual auto generateFormularString(
+                                    const QString &header) -> QString final
+         \brief generateFormularString
 
-     \brief Get the index of the fieldname Number form the database
+         Returns a QString with the generated Table for Output
+      */
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
 
-     Returns the value of the index
-  */
-  JMBDEMODELS_EXPORT int NumberIndex() const { return m_NumberIndex; }
+    /*!
+        \fn int PhoneIdIndex()
 
-  /*!
-      \fn int PinIndex()
+        \brief Get the index of the fieldname PhoneId form the database
 
-      \brief Get the index of the fieldname Pin form the database
+        Returns the value of the index
+     */
+    JMBDEMODELS_EXPORT int PhoneIdIndex() const
+    {
+        return m_PhoneIdIndex;
+    }
 
-      Returns the value of the index
-   */
-  JMBDEMODELS_EXPORT int PinIndex() const { return m_PinIndex; }
+    /*!
+        \fn int DeviceNameIdIndex()
 
-  /*!
-     \fn int ActiveIndex()
+        \brief Get the index of the fieldname DeviceNameId form the database
 
-     \brief Get the index of the fieldname Active form the database
+        Returns the value of the index
+     */
+    JMBDEMODELS_EXPORT int DeviceNameIdIndex() const
+    {
+        return m_DeviceNameIdIndex;
+    }
 
-     Returns the value of the index
-  */
-  JMBDEMODELS_EXPORT int ActiveIndex() const { return m_ActiveIndex; }
+    /*!
+        \fn int SerialNumberIndex()
 
-  /*!
-     \fn int ReplaceIndex()
+        \brief Get the index of the fieldname SerialNumber form the database
 
-     \brief Get the index of the fieldname Replace form the database
+        Returns the value of the index
+     */
+    JMBDEMODELS_EXPORT int SerialNumberIndex() const
+    {
+        return m_SerialNumberIndex;
+    }
 
-     Returns the value of the index
-  */
-  JMBDEMODELS_EXPORT int ReplaceIndex() const { return m_ReplaceIndex; }
+    /*!
+       \fn int NumberIndex()
 
-  /*!
-     \fn int DeviceTypeIdIndex()
+       \brief Get the index of the fieldname Number form the database
 
-     \brief Get the index of the fieldname DeviceTypeId form the database
+       Returns the value of the index
+    */
+    JMBDEMODELS_EXPORT int NumberIndex() const
+    {
+        return m_NumberIndex;
+    }
 
-     Returns the value of the index
-  */
-  JMBDEMODELS_EXPORT int DeviceTypeIdIndex() const {
-    return m_DeviceTypeIdIndex;
-  }
+    /*!
+        \fn int PinIndex()
 
-  /*!
-     \fn int EmployeeIdIndex()
+        \brief Get the index of the fieldname Pin form the database
 
-     \brief Get the index of the fieldname EmployeeId form the database
+        Returns the value of the index
+     */
+    JMBDEMODELS_EXPORT int PinIndex() const
+    {
+        return m_PinIndex;
+    }
 
-     Returns the value of the index
-  */
-  JMBDEMODELS_EXPORT int EmployeeIdIndex() const { return m_EmployeeIdIndex; }
+    /*!
+       \fn int ActiveIndex()
 
-  /*!
-     \fn int PlaceIdIndex()
+       \brief Get the index of the fieldname Active form the database
 
-     \brief Get the index of the fieldname PlaceId form the database
+       Returns the value of the index
+    */
+    JMBDEMODELS_EXPORT int ActiveIndex() const
+    {
+        return m_ActiveIndex;
+    }
 
-     Returns the value of the index
-  */
-  JMBDEMODELS_EXPORT int PlaceIdIndex() const { return m_PlaceIdIndex; }
+    /*!
+       \fn int ReplaceIndex()
 
-  /*!
-      \fn int DepartmentIdIndex()
+       \brief Get the index of the fieldname Replace form the database
 
-      \brief Get the index of the fieldname DepartmentId form the database
+       Returns the value of the index
+    */
+    JMBDEMODELS_EXPORT int ReplaceIndex() const
+    {
+        return m_ReplaceIndex;
+    }
 
-      Returns the value of the index
-   */
-  JMBDEMODELS_EXPORT int DepartmentIdIndex() const {
-    return m_DepartmentIdIndex;
-  }
+    /*!
+       \fn int DeviceTypeIdIndex()
 
-  /*!
-     \fn int ManufacturerIdIndex()
+       \brief Get the index of the fieldname DeviceTypeId form the database
 
-     \brief Get the index of the fieldname ManufacturerId form the database
+       Returns the value of the index
+    */
+    JMBDEMODELS_EXPORT int DeviceTypeIdIndex() const
+    {
+        return m_DeviceTypeIdIndex;
+    }
 
-     Returns the value of the index
-  */
-  JMBDEMODELS_EXPORT int ManufacturerIdIndex() const {
-    return m_ManufacturerIdIndex;
-  }
+    /*!
+       \fn int EmployeeIdIndex()
 
-  /*!
-     \fn int InventoryIdIndex()
+       \brief Get the index of the fieldname EmployeeId form the database
 
-     \brief Get the index of the fieldname InventoryId form the database
+       Returns the value of the index
+    */
+    JMBDEMODELS_EXPORT int EmployeeIdIndex() const
+    {
+        return m_EmployeeIdIndex;
+    }
 
-     Returns the value of the index
-  */
-  JMBDEMODELS_EXPORT int InventoryIdIndex() const { return m_InventoryIdIndex; }
+    /*!
+       \fn int PlaceIdIndex()
 
-  /*!
-      \var int m_LastUpdateIndex
-      \brief The value of the LastUpdateIndex
-  */
-  JMBDEMODELS_EXPORT int LastUpdateIndex() const { return m_LastUpdateIndex; }
+       \brief Get the index of the fieldname PlaceId form the database
+
+       Returns the value of the index
+    */
+    JMBDEMODELS_EXPORT int PlaceIdIndex() const
+    {
+        return m_PlaceIdIndex;
+    }
+
+    /*!
+        \fn int DepartmentIdIndex()
+
+        \brief Get the index of the fieldname DepartmentId form the database
+
+        Returns the value of the index
+     */
+    JMBDEMODELS_EXPORT int DepartmentIdIndex() const
+    {
+        return m_DepartmentIdIndex;
+    }
+
+    /*!
+       \fn int ManufacturerIdIndex()
+
+       \brief Get the index of the fieldname ManufacturerId form the database
+
+       Returns the value of the index
+    */
+    JMBDEMODELS_EXPORT int ManufacturerIdIndex() const
+    {
+        return m_ManufacturerIdIndex;
+    }
+
+    /*!
+       \fn int InventoryIdIndex()
+
+       \brief Get the index of the fieldname InventoryId form the database
+
+       Returns the value of the index
+    */
+    JMBDEMODELS_EXPORT int InventoryIdIndex() const
+    {
+        return m_InventoryIdIndex;
+    }
+
+    /*!
+        \var int m_LastUpdateIndex
+        \brief The value of the LastUpdateIndex
+    */
+    JMBDEMODELS_EXPORT int LastUpdateIndex() const
+    {
+        return m_LastUpdateIndex;
+    }
 
 private:
-  /**
-   * @brief tableName - the name of the database table
-   * @
-   */
-  const QString m_tableName = QLatin1String("phone");
+    /**
+     * @brief tableName - the name of the database table
+     * @
+     */
+    const QString m_tableName = QLatin1String("phone");
 
-  /*!
-     \var int m_PhoneIdIndex
-     \brief The value of the PhoneIdIndex
-  */
-  int m_PhoneIdIndex{0};
-
-  /*!
-     \var int m_DeviceNameIdIndex
-     \brief The value of the DeviceNameIdIndex
-  */
-  int m_DeviceNameIdIndex{0};
-
-  /*!
-       \var int m_SerialNumberIndex
-       \brief The value of the SerialNumberIndex
+    /*!
+       \var int m_PhoneIdIndex
+       \brief The value of the PhoneIdIndex
     */
-  int m_SerialNumberIndex{0};
+    int m_PhoneIdIndex {0};
 
-  /*!
-     \var int m_NumberIndex
-     \brief The value of the NumberIndex
-  */
-  int m_NumberIndex{0};
+    /*!
+       \var int m_DeviceNameIdIndex
+       \brief The value of the DeviceNameIdIndex
+    */
+    int m_DeviceNameIdIndex {0};
 
-  /*!
-     \var int m_PinIndex
-     \brief The value of the PinIndex
-  */
-  int m_PinIndex{0};
+    /*!
+         \var int m_SerialNumberIndex
+         \brief The value of the SerialNumberIndex
+      */
+    int m_SerialNumberIndex {0};
 
-  /*!
-     \var int m_ActiveIndex
-     \brief The value of the ActiveIndex
-  */
-  int m_ActiveIndex{0};
+    /*!
+       \var int m_NumberIndex
+       \brief The value of the NumberIndex
+    */
+    int m_NumberIndex {0};
 
-  /*!
-     \var int m_ReplaceIndex
-     \brief The value of the ReplaceIndex
-  */
-  int m_ReplaceIndex{0};
+    /*!
+       \var int m_PinIndex
+       \brief The value of the PinIndex
+    */
+    int m_PinIndex {0};
 
-  /*!
-     \var int m_DeviceTypeIdIndex
-     \brief The value of the DeviceTypeIdIndex
-  */
-  int m_DeviceTypeIdIndex{0};
+    /*!
+       \var int m_ActiveIndex
+       \brief The value of the ActiveIndex
+    */
+    int m_ActiveIndex {0};
 
-  /*!
-     \var int m_EmployeeIdIndex
-     \brief The value of the EmployeeIdIndex
-  */
-  int m_EmployeeIdIndex{0};
+    /*!
+       \var int m_ReplaceIndex
+       \brief The value of the ReplaceIndex
+    */
+    int m_ReplaceIndex {0};
 
-  /*!
-     \var int m_PlaceIdIndex
-     \brief The value of the PlaceIdIndex
-  */
-  int m_PlaceIdIndex{0};
+    /*!
+       \var int m_DeviceTypeIdIndex
+       \brief The value of the DeviceTypeIdIndex
+    */
+    int m_DeviceTypeIdIndex {0};
 
-  /*!
-     \var int m_DepartmentIdIndex
-     \brief The value of the DepartmentIdIndex
-  */
-  int m_DepartmentIdIndex{0};
+    /*!
+       \var int m_EmployeeIdIndex
+       \brief The value of the EmployeeIdIndex
+    */
+    int m_EmployeeIdIndex {0};
 
-  /*!
-     \var int m_ManufacturerIdIndex
-     \brief The value of the ManufacturerIdIndex
-  */
-  int m_ManufacturerIdIndex{0};
+    /*!
+       \var int m_PlaceIdIndex
+       \brief The value of the PlaceIdIndex
+    */
+    int m_PlaceIdIndex {0};
 
-  /*!
-     \var int m_InventoryIdIndex
-     \brief The value of the InventoryIdIndex
-  */
-  int m_InventoryIdIndex{0};
+    /*!
+       \var int m_DepartmentIdIndex
+       \brief The value of the DepartmentIdIndex
+    */
+    int m_DepartmentIdIndex {0};
 
-  /*!
-     \var int m_LastUpdateIndex
-     \brief The value of the LastUpdateIndex
-  */
-  int m_LastUpdateIndex{0};
+    /*!
+       \var int m_ManufacturerIdIndex
+       \brief The value of the ManufacturerIdIndex
+    */
+    int m_ManufacturerIdIndex {0};
+
+    /*!
+       \var int m_InventoryIdIndex
+       \brief The value of the InventoryIdIndex
+    */
+    int m_InventoryIdIndex {0};
+
+    /*!
+       \var int m_LastUpdateIndex
+       \brief The value of the LastUpdateIndex
+    */
+    int m_LastUpdateIndex {0};
 };
 } // namespace Model

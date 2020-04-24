@@ -42,23 +42,25 @@
 
 #include "tst_widgetstest.h"
 
-void tst_widgetstest::toUpper_data() {
-  QTest::addColumn<QString>("string");
-  QTest::addColumn<QString>("result");
+void tst_widgetstest::toUpper_data()
+{
+    QTest::addColumn<QString>("string");
+    QTest::addColumn<QString>("result");
 
-  QTest::newRow("all lower") << "hello"
-                             << "HELLO";
-  QTest::newRow("mixed") << "Hello"
-                         << "HELLO";
-  QTest::newRow("all upper") << "HELLO"
-                             << "HELLO";
+    QTest::newRow("all lower") << "hello"
+                               << "HELLO";
+    QTest::newRow("mixed") << "Hello"
+                           << "HELLO";
+    QTest::newRow("all upper") << "HELLO"
+                               << "HELLO";
 }
 
-void tst_widgetstest::toUpper() {
-  QFETCH(QString, string);
-  QFETCH(QString, result);
+void tst_widgetstest::toUpper()
+{
+    QFETCH(QString, string);
+    QFETCH(QString, result);
 
-  QCOMPARE(string.toUpper(), result);
+    QCOMPARE(string.toUpper(), result);
 }
 
 QTEST_MAIN(tst_widgetstest)

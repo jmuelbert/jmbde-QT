@@ -28,7 +28,8 @@
 #include "jmbdemodels_export.h"
 #include "loggingcategory.h"
 
-namespace Model {
+namespace Model
+{
 /*!
     \class ComputerSoftware
     \brief The ComputerSoftware class
@@ -36,145 +37,154 @@ namespace Model {
    relation. \author Jürgen Mülbert \since 0.4 \version 0.4.25 \date 03.08.2019
     \copyright EUPL V1.2
     */
-class ComputerSoftware : public CommonData {
-  Q_OBJECT
+class ComputerSoftware : public CommonData
+{
+    Q_OBJECT
 
 public:
-  /*!
-      \fn ComputerSoftware(QObject *parent = nullptr)
+    /*!
+        \fn ComputerSoftware(QObject *parent = nullptr)
 
-      \brief Constructor for the ComputerSoftware
-   */
-  explicit JMBDEMODELS_EXPORT ComputerSoftware(QObject *parent = nullptr);
+        \brief Constructor for the ComputerSoftware
+     */
+    explicit JMBDEMODELS_EXPORT ComputerSoftware(QObject *parent = nullptr);
 
-  /*!
-      \fn  ~ComputerSoftware() override;
+    /*!
+        \fn  ~ComputerSoftware() override;
 
-      \brief Destructor for  ComputerSoftware
-   */
-  JMBDEMODELS_EXPORT ~ComputerSoftware() {}
+        \brief Destructor for  ComputerSoftware
+     */
+    JMBDEMODELS_EXPORT ~ComputerSoftware()
+    {
+    }
 
-  // implement the virtuals
+    // implement the virtuals
 
-  /*!
-     \fn virtual void setIndexes() final
-     \brief Set the fieldindexes from the datafieldnames of the db.
-  */
-  virtual JMBDEMODELS_EXPORT void setIndexes() final;
-
-  /*!
-      \fn virtual QSqlRelationalTableModel *initializeRelationalModel() final
-      \brief set the QSqlRelationalTableModel for the DataModel
-      Returns The QSqlRelationalTableModel
-   */
-  virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *
-  initializeRelationalModel() final;
-
-  /*!
-      \fn virtual QSqlRelationalTableModel *initializeInputDataModel() final
-      \brief Initialize the InputDataModel
-
-      Returns The QSqlRelationalTableModel
-   */
-  virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *
-  initializeInputDataModel() final;
-
-  /*!
-      \fn virtual QSqlTableModel *initializeViewModel() final
-      \brief Initialize the ViewModel
-
-      Returns QSqlTableModel
+    /*!
+       \fn virtual void setIndexes() final
+       \brief Set the fieldindexes from the datafieldnames of the db.
     */
-  virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
+    virtual JMBDEMODELS_EXPORT void setIndexes() final;
 
-  /*!
-   * \fn virtual auto generateTableString(
-                              const QString &header) -> QString final
-      \brief generateTableString
+    /*!
+        \fn virtual QSqlRelationalTableModel *initializeRelationalModel() final
+        \brief set the QSqlRelationalTableModel for the DataModel
+        Returns The QSqlRelationalTableModel
+     */
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel() final;
 
-      Returns a QString with the generated Table for Output
-   */
-  virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header)
-      -> QString final;
+    /*!
+        \fn virtual QSqlRelationalTableModel *initializeInputDataModel() final
+        \brief Initialize the InputDataModel
 
-  /*!
-      \fn virtual auto generateFormularString(
-                                 const QString &header) -> QString final
-      \brief generateFormularString
+        Returns The QSqlRelationalTableModel
+     */
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel() final;
 
-      Returns a QString with the generated Table for Output
-   */
-  virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header)
-      -> QString final;
+    /*!
+        \fn virtual QSqlTableModel *initializeViewModel() final
+        \brief Initialize the ViewModel
 
-  // Getter
-  /*!
-      \fn int ComputerSoftwareIdIndex()
+        Returns QSqlTableModel
+      */
+    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
 
-       \brief Get the index of the fieldname ComputerSoftwareId from the
-     database
+    /*!
+     * \fn virtual auto generateTableString(
+                                const QString &header) -> QString final
+        \brief generateTableString
 
-       Returns the value of the index
-   */
-  JMBDEMODELS_EXPORT int ComputerSoftwareIdIndex() const {
-    return m_ComputerSoftwareIdIndex;
-  }
+        Returns a QString with the generated Table for Output
+     */
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString final;
 
-  /*!
-      \fn int ComputerIdIndex()
+    /*!
+        \fn virtual auto generateFormularString(
+                                   const QString &header) -> QString final
+        \brief generateFormularString
 
-      \brief Get the index of the fieldname ComputerId form the database
+        Returns a QString with the generated Table for Output
+     */
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
 
-      Returns the value of the index
-   */
-  JMBDEMODELS_EXPORT int ComputerIdIndex() const { return m_ComputerIdIndex; }
+    // Getter
+    /*!
+        \fn int ComputerSoftwareIdIndex()
 
-  /*!
-      \fn int SoftwareIdIndex()
+         \brief Get the index of the fieldname ComputerSoftwareId from the
+       database
 
-      \brief Get the index of the fieldname SoftwareId form the database
+         Returns the value of the index
+     */
+    JMBDEMODELS_EXPORT int ComputerSoftwareIdIndex() const
+    {
+        return m_ComputerSoftwareIdIndex;
+    }
 
-      Returns the value of the index
-   */
-  JMBDEMODELS_EXPORT int SoftwareIdIndex() const { return m_SoftwareIdIndex; }
+    /*!
+        \fn int ComputerIdIndex()
 
-  /*!
-      \fn  int LastUpdateIndex()
+        \brief Get the index of the fieldname ComputerId form the database
 
-      \brief Get the index of the fieldname LastUpdate form the database
+        Returns the value of the index
+     */
+    JMBDEMODELS_EXPORT int ComputerIdIndex() const
+    {
+        return m_ComputerIdIndex;
+    }
 
-      Returns the value of the index
-   */
-  JMBDEMODELS_EXPORT int LastUpdateIndex() const { return m_LastUpdateIndex; }
+    /*!
+        \fn int SoftwareIdIndex()
+
+        \brief Get the index of the fieldname SoftwareId form the database
+
+        Returns the value of the index
+     */
+    JMBDEMODELS_EXPORT int SoftwareIdIndex() const
+    {
+        return m_SoftwareIdIndex;
+    }
+
+    /*!
+        \fn  int LastUpdateIndex()
+
+        \brief Get the index of the fieldname LastUpdate form the database
+
+        Returns the value of the index
+     */
+    JMBDEMODELS_EXPORT int LastUpdateIndex() const
+    {
+        return m_LastUpdateIndex;
+    }
 
 private:
-  /*!
-        \brief The Tablename in the database \e is const
-     */
-  const QString m_tableName = QLatin1String("computer_software");
+    /*!
+          \brief The Tablename in the database \e is const
+       */
+    const QString m_tableName = QLatin1String("computer_software");
 
-  /*!
-      \var int m_ComputerSoftwareIdIndex
-      \brief The value of the ComputerSoftwareIdIndex
-  */
-  int m_ComputerSoftwareIdIndex{0};
+    /*!
+        \var int m_ComputerSoftwareIdIndex
+        \brief The value of the ComputerSoftwareIdIndex
+    */
+    int m_ComputerSoftwareIdIndex {0};
 
-  /*!
-      \var int m_ComputerIdIndex
-      \brief The value of the ComputerIdIndex
-  */
-  int m_ComputerIdIndex{0};
+    /*!
+        \var int m_ComputerIdIndex
+        \brief The value of the ComputerIdIndex
+    */
+    int m_ComputerIdIndex {0};
 
-  /*!
-      \var int m_SoftwareIdIndex
-      \brief The value of the SoftwareIdIndex
-  */
-  int m_SoftwareIdIndex{0};
+    /*!
+        \var int m_SoftwareIdIndex
+        \brief The value of the SoftwareIdIndex
+    */
+    int m_SoftwareIdIndex {0};
 
-  /*!
-      \var int m_LastUpdateIndex
-      \brief The value of the LastUpdateIndex
-  */
-  int m_LastUpdateIndex{0};
+    /*!
+        \var int m_LastUpdateIndex
+        \brief The value of the LastUpdateIndex
+    */
+    int m_LastUpdateIndex {0};
 };
 } // namespace Model

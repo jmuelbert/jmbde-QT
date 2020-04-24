@@ -28,7 +28,8 @@
 #include "jmbdemodels_export.h"
 #include "loggingcategory.h"
 
-namespace Model {
+namespace Model
+{
 /*!
     \class ChipCard
     \brief The ChipDataModel class
@@ -39,172 +40,185 @@ namespace Model {
     \date 23.11.2018
     \copyright GPL V3
  */
-class ChipCard : public CommonData {
-  Q_OBJECT
+class ChipCard : public CommonData
+{
+    Q_OBJECT
 
 public:
-  /*!
-      \fn ChipCard(QObject *parent = nullptr)
+    /*!
+        \fn ChipCard(QObject *parent = nullptr)
 
-      \brief Contructor forChipCard
-  */
-  explicit JMBDEMODELS_EXPORT ChipCard(QObject *parent = nullptr);
+        \brief Contructor forChipCard
+    */
+    explicit JMBDEMODELS_EXPORT ChipCard(QObject *parent = nullptr);
 
-  /*!
-      \fn ~ChipCard() override
+    /*!
+        \fn ~ChipCard() override
 
-      \brief Destructor for the ChipCard
-   */
-  JMBDEMODELS_EXPORT ~ChipCard() {}
+        \brief Destructor for the ChipCard
+     */
+    JMBDEMODELS_EXPORT ~ChipCard()
+    {
+    }
 
-  // implement the virtuals
+    // implement the virtuals
 
-  /*!
-      \fn virtual void setIndexes() final
-      \brief Set the fieldindexes from the datafieldnames of the db.
-   */
-  virtual JMBDEMODELS_EXPORT void setIndexes() final;
+    /*!
+        \fn virtual void setIndexes() final
+        \brief Set the fieldindexes from the datafieldnames of the db.
+     */
+    virtual JMBDEMODELS_EXPORT void setIndexes() final;
 
-  /*!
-      \fn virtual QSqlRelationalTableModel *initializeRelationalModel() final
-      \brief set the QSqlRelationalTableModel for the DataModel
-      \return The QSqlRelationalTableModel
-   */
-  virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *
-  initializeRelationalModel() final;
+    /*!
+        \fn virtual QSqlRelationalTableModel *initializeRelationalModel() final
+        \brief set the QSqlRelationalTableModel for the DataModel
+        \return The QSqlRelationalTableModel
+     */
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel() final;
 
-  /*!
-      \fn virtual QSqlRelationalTableModel *initializeInputDataModel() final
-      \brief Initialize the InputDataModel
+    /*!
+        \fn virtual QSqlRelationalTableModel *initializeInputDataModel() final
+        \brief Initialize the InputDataModel
 
-      \return The QSqlRelationalTableModel
-   */
-  virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *
-  initializeInputDataModel() final;
+        \return The QSqlRelationalTableModel
+     */
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel() final;
 
-  /*!
-      \fn virtual QSqlTableModel *initializeViewModel() final
-      \brief Initialize the ViewModel
+    /*!
+        \fn virtual QSqlTableModel *initializeViewModel() final
+        \brief Initialize the ViewModel
 
-      \return QSqlTableModel
-   */
-  virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
+        \return QSqlTableModel
+     */
+    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
 
-  /*!
-   * \fn virtual auto generateTableString(
-                              const QString &header) -> QString final
-      \brief generateTableString
+    /*!
+     * \fn virtual auto generateTableString(
+                                const QString &header) -> QString final
+        \brief generateTableString
 
-      \return a QString with the generated Table for Output
-   */
-  virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header)
-      -> QString final;
+        \return a QString with the generated Table for Output
+     */
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString final;
 
-  /*!
-      \fn virtual auto generateFormularString(
-                                 const QString &header) -> QString
-      \brief generateFormularString
+    /*!
+        \fn virtual auto generateFormularString(
+                                   const QString &header) -> QString
+        \brief generateFormularString
 
-      \return a QString with the generated Table for Output
-   */
-  virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header)
-      -> QString final;
+        \return a QString with the generated Table for Output
+     */
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
 
-  // Getter
-  /*!
-      \fn int ChipCardIdIndex()
+    // Getter
+    /*!
+        \fn int ChipCardIdIndex()
 
-      \brief Get the index of the fieldname ChipCardId from the database
+        \brief Get the index of the fieldname ChipCardId from the database
 
-      \return the value of the index
-   */
-  JMBDEMODELS_EXPORT int ChipCardIdIndex() const { return m_ChipCardIdIndex; }
+        \return the value of the index
+     */
+    JMBDEMODELS_EXPORT int ChipCardIdIndex() const
+    {
+        return m_ChipCardIdIndex;
+    }
 
-  /*!
-      \fn int NumberIndex()
+    /*!
+        \fn int NumberIndex()
 
-      \brief Get the index of the fieldname Number from the database
+        \brief Get the index of the fieldname Number from the database
 
-      \return the value of the index
-   */
-  JMBDEMODELS_EXPORT int NumberIndex() const { return m_NumberIndex; }
+        \return the value of the index
+     */
+    JMBDEMODELS_EXPORT int NumberIndex() const
+    {
+        return m_NumberIndex;
+    }
 
-  /*!
-      \fn  int ChipCardDoorIdIndex()
+    /*!
+        \fn  int ChipCardDoorIdIndex()
 
-      \brief Get the index of the fieldname ChipCardDoorId from the database
+        \brief Get the index of the fieldname ChipCardDoorId from the database
 
-      \return the value of the index
-   */
-  JMBDEMODELS_EXPORT int ChipCardDoorIdIndex() const {
-    return m_ChipCardDoorIdIndex;
-  }
+        \return the value of the index
+     */
+    JMBDEMODELS_EXPORT int ChipCardDoorIdIndex() const
+    {
+        return m_ChipCardDoorIdIndex;
+    }
 
-  /*!
-      \fn  int ChipCardProfileIdIndex()
+    /*!
+        \fn  int ChipCardProfileIdIndex()
 
-      \brief Get the index of the fieldname ChipCardProfileId from the
-     database
+        \brief Get the index of the fieldname ChipCardProfileId from the
+       database
 
-      \return the value of the index
-   */
-  JMBDEMODELS_EXPORT int ChipCardProfileIdIndex() const {
-    return m_ChipCardProfileIdIndex;
-  }
+        \return the value of the index
+     */
+    JMBDEMODELS_EXPORT int ChipCardProfileIdIndex() const
+    {
+        return m_ChipCardProfileIdIndex;
+    }
 
-  /*!
-      \fn  int EmployeeIdIndex()
+    /*!
+        \fn  int EmployeeIdIndex()
 
-      \brief Get the index of the fieldname EmployeeId from the database
+        \brief Get the index of the fieldname EmployeeId from the database
 
-      \return the value of the index
-   */
-  JMBDEMODELS_EXPORT int EmployeeIdIndex() const { return m_EmployeeIdIndex; }
+        \return the value of the index
+     */
+    JMBDEMODELS_EXPORT int EmployeeIdIndex() const
+    {
+        return m_EmployeeIdIndex;
+    }
 
-  /*!
-      \fn  int LastUpdateIndex()
+    /*!
+        \fn  int LastUpdateIndex()
 
-      \brief Get the index of the fieldname LastUpdate form the database
+        \brief Get the index of the fieldname LastUpdate form the database
 
-      \return the value of the index
-   */
-  JMBDEMODELS_EXPORT int LastUpdateIndex() const { return m_LastUpdateIndex; }
+        \return the value of the index
+     */
+    JMBDEMODELS_EXPORT int LastUpdateIndex() const
+    {
+        return m_LastUpdateIndex;
+    }
 
 private:
-  /*!
-      \brief The Tablename in the database \e is const
-   */
-  const QString m_tableName = QLatin1String("chip_card");
+    /*!
+        \brief The Tablename in the database \e is const
+     */
+    const QString m_tableName = QLatin1String("chip_card");
 
-  /*!
-      \brief The value of the ChipCardIdIndex
-   */
-  int m_ChipCardIdIndex{0};
+    /*!
+        \brief The value of the ChipCardIdIndex
+     */
+    int m_ChipCardIdIndex {0};
 
-  /*!
-      \brief The value of the NumberIndex
-   */
-  int m_NumberIndex{0};
+    /*!
+        \brief The value of the NumberIndex
+     */
+    int m_NumberIndex {0};
 
-  /*!
-      \brief The value of the ChipCardDoorIdIndex
-   */
-  int m_ChipCardDoorIdIndex{0};
+    /*!
+        \brief The value of the ChipCardDoorIdIndex
+     */
+    int m_ChipCardDoorIdIndex {0};
 
-  /*!
-      \brief The value of the hipCardProfileIdIndex
-   */
-  int m_ChipCardProfileIdIndex{0};
+    /*!
+        \brief The value of the hipCardProfileIdIndex
+     */
+    int m_ChipCardProfileIdIndex {0};
 
-  /*!
-      \brief The value of the EmployeeIdIndex
-   */
-  int m_EmployeeIdIndex{0};
+    /*!
+        \brief The value of the EmployeeIdIndex
+     */
+    int m_EmployeeIdIndex {0};
 
-  /*!
-        \brief The value of the LastUpdateIndex
-    */
-  int m_LastUpdateIndex{0};
+    /*!
+          \brief The value of the LastUpdateIndex
+      */
+    int m_LastUpdateIndex {0};
 };
 
 } // namespace Model
