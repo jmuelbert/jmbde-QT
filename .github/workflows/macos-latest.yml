@@ -1,19 +1,24 @@
-name: Compile on latest macOS
+name: MacOSX-CI
 on: [push, pull_request]
 
 jobs:
-  build:
-
+  macosx-build:
     runs-on: macos-latest
-
     steps:
+      - name: Checkout sources
       - uses: actions/checkout@v1
-      - name: Install dependencies
+      - name: Brew update-reset
+        run: brew update-reset
+      - name: Brew update
+        run: brew update
+      - name: Brew install kf5-extra-cmake-modules
         run: |
           brew tap kde-mac/kde
-          brew install qt cmake ninja
-          brew link qt5 --force
           brew install kf5-extra-cmake-modules
+      - name: Upgrade cmake
+        run: brew upgrade cmake
+      - name: Install dependencies with homebrew
+        run: brew install freetype cmake python3 qt5
       - name: Build
         run: |
           export JMBDE_VERSION=$(git describe | cut -c 2-)

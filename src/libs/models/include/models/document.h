@@ -28,8 +28,7 @@
 #include "jmbdemodels_export.h"
 #include "loggingcategory.h"
 
-namespace Model
-{
+namespace Model {
 /*!
     \class Document
     \brief The Document class
@@ -40,153 +39,144 @@ namespace Model
     \date 03.08.2019
     \copyright EUPL V1.2
     */
-class Document : public CommonData
-{
-    Q_OBJECT
+class Document : public CommonData {
+  Q_OBJECT
 
 public:
-    /*!
-        \fn explicit Document(QObject *parent = nullptr)
-        \brief The Constructor for the Document
+  /*!
+      \fn explicit Document(QObject *parent = nullptr)
+      \brief The Constructor for the Document
+  */
+  explicit JMBDEMODELS_EXPORT Document(QObject *parent = nullptr);
+
+  /*!
+      \fn  ~Document() override;
+
+      \brief Destructor for Document
+   */
+  JMBDEMODELS_EXPORT ~Document() {}
+
+  // implement the virtuals
+
+  /*!
+      \fn virtual void setIndexes() final
+      \brief Set the fieldindexes from the datafieldnames of the db.
+   */
+  virtual JMBDEMODELS_EXPORT void setIndexes() final;
+
+  /*!
+      \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
+      \brief set the QSqlRelationalTableModel for the DataModel
+      Returns The QSqlRelationalTableModel
+   */
+  virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *
+  initializeRelationalModel() final;
+
+  /*!
+      \fn virtual QSqlRelationalTableModel *initializeInputDataModel() final
+      \brief Initialize the InputDataModel
+
+      Returns The QSqlRelationalTableModel
+   */
+  virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *
+  initializeInputDataModel() final;
+
+  /*!
+      \fn virtual QSqlTableModel *initializeViewModel()
+      \brief Initialize the ViewModel
+
+      Returns QSqlTableModel
+   */
+  virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
+
+  /*!
+   * \fn virtual auto generateTableString(
+                              const QString &header) -> QString final
+      \brief generateTableString
+
+      Returns a QString with the generated Table for Output
+   */
+  virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header)
+      -> QString final;
+
+  /*!
+       \fn virtual auto generateFormularString(
+                                  const QString &header) -> QString final
+       \brief generateFormularString
+
+       Returns a QString with the generated Table for Output
     */
-    explicit JMBDEMODELS_EXPORT Document(QObject *parent = nullptr);
+  virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header)
+      -> QString final;
 
-    /*!
-        \fn  ~Document() override;
+  // Getter
 
-        \brief Destructor for Document
-     */
-    JMBDEMODELS_EXPORT ~Document()
-    {
-    }
+  /*!
+      \fn int DocumentIdIndex()
 
-    // implement the virtuals
+      \brief Get the index of the fieldname DocumentId form the database
 
-    /*!
-        \fn virtual void setIndexes() final
-        \brief Set the fieldindexes from the datafieldnames of the db.
-     */
-    virtual JMBDEMODELS_EXPORT void setIndexes() final;
+      Returns the value of the index
+   */
+  JMBDEMODELS_EXPORT int DocumentIdIndex() const { return m_DocumentIdIndex; }
 
-    /*!
-        \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
-        \brief set the QSqlRelationalTableModel for the DataModel
-        Returns The QSqlRelationalTableModel
-     */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel() final;
+  /*!
+     \fn int NameIndex()
 
-    /*!
-        \fn virtual QSqlRelationalTableModel *initializeInputDataModel() final
-        \brief Initialize the InputDataModel
+     \brief Get the index of the fieldname Name form the database
 
-        Returns The QSqlRelationalTableModel
-     */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel() final;
+     Returns the value of the index
+  */
+  JMBDEMODELS_EXPORT int NameIndex() const { return m_NameIndex; }
 
-    /*!
-        \fn virtual QSqlTableModel *initializeViewModel()
-        \brief Initialize the ViewModel
+  /*!
+     \fn int DocumentDataIndex()
 
-        Returns QSqlTableModel
-     */
-    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
+     \brief Get the index of the fieldname DocumentData form the database
 
-    /*!
-     * \fn virtual auto generateTableString(
-                                const QString &header) -> QString final
-        \brief generateTableString
+     Returns the value of the index
+  */
+  JMBDEMODELS_EXPORT int DocumentDataIndex() const {
+    return m_DocumentDataIndex;
+  }
 
-        Returns a QString with the generated Table for Output
-     */
-    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString final;
+  /*!
+      \fn  int LastUpdateIndex()
 
-    /*!
-         \fn virtual auto generateFormularString(
-                                    const QString &header) -> QString final
-         \brief generateFormularString
+      \brief Get the index of the fieldname LastUpdate form the database
 
-         Returns a QString with the generated Table for Output
-      */
-    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
-
-    // Getter
-
-    /*!
-        \fn int DocumentIdIndex()
-
-        \brief Get the index of the fieldname DocumentId form the database
-
-        Returns the value of the index
-     */
-    JMBDEMODELS_EXPORT int DocumentIdIndex() const
-    {
-        return m_DocumentIdIndex;
-    }
-
-    /*!
-       \fn int NameIndex()
-
-       \brief Get the index of the fieldname Name form the database
-
-       Returns the value of the index
-    */
-    JMBDEMODELS_EXPORT int NameIndex() const
-    {
-        return m_NameIndex;
-    }
-
-    /*!
-       \fn int DocumentDataIndex()
-
-       \brief Get the index of the fieldname DocumentData form the database
-
-       Returns the value of the index
-    */
-    JMBDEMODELS_EXPORT int DocumentDataIndex() const
-    {
-        return m_DocumentDataIndex;
-    }
-
-    /*!
-        \fn  int LastUpdateIndex()
-
-        \brief Get the index of the fieldname LastUpdate form the database
-
-        Returns the value of the index
-     */
-    JMBDEMODELS_EXPORT int LastUpdateIndex() const
-    {
-        return m_LastUpdateIndex;
-    }
+      Returns the value of the index
+   */
+  JMBDEMODELS_EXPORT int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-    /*!
-        \brief The Tablename in the database \e is const
-     */
-    const QString m_tableName = QLatin1String("document");
+  /*!
+      \brief The Tablename in the database \e is const
+   */
+  const QString m_tableName = QLatin1String("document");
 
-    /*!
-       \var int m_DocumentIdIndex
-       \brief The value of the DocumentIdIndex
-    */
-    int m_DocumentIdIndex {0};
+  /*!
+     \var int m_DocumentIdIndex
+     \brief The value of the DocumentIdIndex
+  */
+  int m_DocumentIdIndex{0};
 
-    /*!
-        \var int m_NameIndex
-        \brief The value of the NameIndex
-     */
-    int m_NameIndex {0};
+  /*!
+      \var int m_NameIndex
+      \brief The value of the NameIndex
+   */
+  int m_NameIndex{0};
 
-    /*!
-       \var int m_DocumentDataIndex
-       \brief The value of the DocumentDataIndex
-    */
-    int m_DocumentDataIndex {0};
+  /*!
+     \var int m_DocumentDataIndex
+     \brief The value of the DocumentDataIndex
+  */
+  int m_DocumentDataIndex{0};
 
-    /*!
-        \var int m_LastUpdateIndex
-        \brief The value of the LastUpdateIndex
-    */
-    int m_LastUpdateIndex {0};
+  /*!
+      \var int m_LastUpdateIndex
+      \brief The value of the LastUpdateIndex
+  */
+  int m_LastUpdateIndex{0};
 };
 } // namespace Model

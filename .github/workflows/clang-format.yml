@@ -23,8 +23,18 @@ jobs:
                               src/appquick/src/*.cpp \
                               src/libs/models/src/models/*.cpp \
                               src/libs/models/include/models/*.h \
+                              src/libs/models/tests/*.cpp \
+                              src/libs/quick/src/quick/*.cpp \
+                              src/libs/quick/include/quick/*.h \
+                              src/libs/quick/tests/*.h \
+                              src/libs/quick/tests/*.cpp \
                               src/libs/widgets/src/views/*.cpp \
-                              src/libs/widgets/include/views/*.h
+                              src/libs/widgets/include/views/*.h \
+                              src/libs/widgets/tests/*.h \
+                              src/libs/widgets/tests/*.cpp \
+                              tests/tst_test.cpp \
+                              tests/tst_test.h
+
     - name: Commit files
       run: |
         git config --local user.email "juergen.muelbert@gmail.com"

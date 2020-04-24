@@ -1,7 +1,6 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
 - [jmbde](#jmbde)
   - [Setup](#setup)
   - [Unterstützte Plattformen](#unterst%C3%BCtzte-plattformen)
@@ -17,14 +16,14 @@
   - [Programm erstellen](#programm-erstellen)
     - [Abhängigkeiten](#abh%C3%A4ngigkeiten)
       - [Auf macOS](#auf-macos)
-      - [Für die Release-Version:](#f%C3%BCr-die-release-version)
-      - [Für die Debug-Version:](#f%C3%BCr-die-debug-version)
+      - [Für die Release-Version](#f%C3%BCr-die-release-version)
+      - [Für die Debug-Version](#f%C3%BCr-die-debug-version)
     - [Unter Windows](#unter-windows)
-      - [Für die Release-Version:](#f%C3%BCr-die-release-version-1)
-      - [Für die Debug-Version:](#f%C3%BCr-die-debug-version-1)
+      - [Für die Release-Version](#f%C3%BCr-die-release-version-1)
+      - [Für die Debug-Version](#f%C3%BCr-die-debug-version-1)
     - [Unter Linux](#unter-linux)
-      - [Für die Release-Version:](#f%C3%BCr-die-release-version-2)
-      - [Für die Debug-Version:](#f%C3%BCr-die-debug-version-2)
+      - [Für die Release-Version](#f%C3%BCr-die-release-version-2)
+      - [Für die Debug-Version](#f%C3%BCr-die-debug-version-2)
   - [Installation](#installation)
   - [Lizenz](#lizenz)
 
@@ -134,29 +133,35 @@ Kompilierungs-Flags, etc.
 - Die neueste Xcode Version.
 - Brew [Installationsanleitung](https://brew.sh)
 
+```
   brew install cmake
   brew install ninja
   brew install qt5
   brew link qt5 --force
+```
 
 - Alternativ können Sie auch[Qt hier herunterladen](https://www.qt.io/download-qt-installer)
 
 Führen Sie `cmake` aus, um jmbde zu erstellen:
 
-#### Für die Release-Version:
+#### Für die Release-Version
 
+```
         mkdir build-macos
         cd build-macos
         cmake -G "Ninja" ..
         cmake --build . --target install
         cpack .
+```
 
-#### Für die Debug-Version:
+#### Für die Debug-Version
 
+```
         mkdir build-macos
         cd build-macos
         cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Debug ..
         cmake --build .
+```
 
 ### Unter Windows
 
@@ -164,23 +169,29 @@ Führen Sie `cmake` aus, um jmbde zu erstellen:
 - Sie können [Qt hier herunterladen](https://www.qt.io/download-qt-installer)
 - Sie können viele Werkzeuge mit choco installieren. [Installationsanleitung](https://chocolatey.org/install#installing-chocolatey)
 
+```
   choco install cmake
   choco install ninja
+```
 
-#### Für die Release-Version:
+#### Für die Release-Version
 
+```
         mkdir build-win
         cd build-win
         cmake -G "Ninja" ....
         cmake --build . --target install
         cpack .
+```
 
-#### Für die Debug-Version:
+#### Für die Debug-Version
 
+```
         mkdir build-win
         cd build-wind-Win
         cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Debug ..
         cmake --build .
+```
 
 ### Unter Linux
 
@@ -194,20 +205,24 @@ kompiliert wurde.
 
 - Als nächstes kompilieren Sie durch Ausführen:
 
-#### Für die Release-Version:
+#### Für die Release-Version
 
+```
         mkdir build-linux
         cd build-linux
         cmake -G "Ninja" ..
         cmake --build . --target install
         cpack .
+```
 
-#### Für die Debug-Version:
+#### Für die Debug-Version
 
+```
         mkdir build-linux
         cd build-linux
         cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Debug ..
         cmake --build .
+```
 
 Du kannst jmbde nun mit der ausführbaren Datei in `bin/jmbde` ausführen.
 

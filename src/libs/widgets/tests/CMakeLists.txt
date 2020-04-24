@@ -1,36 +1,43 @@
-# see /opt/local/share/cmake-3.16/Modules/FindGTest.cmake
-find_package(GTest QUIET)
+#
 
-# NOTE: the upper case GTEST! CK
-if(NOT GTEST_FOUND)
-  # Download and unpack googletest at configure time but only if needed! CK
-  configure_file(${CMAKE_SOURCE_DIR}/cmake/GoogleTest-CMakeLists.txt.in
-                 ${CMAKE_BINARY_DIR}/googletest-download/CMakeLists.txt)
-  execute_process(
-    COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
-    RESULT_VARIABLE result
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download)
-  if(result)
-    message(FATAL_ERROR "CMake step for googletest failed: ${result}")
-  endif()
+# jmbde a BDE Tool for companies Copyright (C) 2013-2019  Jürgen Mülbert
+#
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+# details.
 
-  execute_process(
-    COMMAND ${CMAKE_COMMAND} --build .
-    RESULT_VARIABLE result
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download)
-  if(result)
-    message(FATAL_ERROR "Build step for googletest failed: ${result}")
-  endif()
+# minimal requirements
+cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 
-  # Add googletest directly to our build. This defines the gtest and gtest_main
-  # targets.
-  add_subdirectory(${CMAKE_BINARY_DIR}/googletest-src
-                   ${CMAKE_BINARY_DIR}/googletest-build EXCLUDE_FROM_ALL)
+find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core Test)
+
+set_package_properties(
+  Qt5Test
+  PROPERTIES
+  DESCRIPTION
+  "Qt5 Unit testing framework"
+  URL
+  "https://www.qt.io"
+  TYPE
+  OPTIONAL
+  PURPOSE
+  "Required to build the unit tests")
+
+if(NOT Qt5Test_FOUND)
+  message(STATUS "Qt5Test not found, autotests will not be built.")
+  return()
 endif()
 
-# Now simply link against gtest as needed. Eg
-add_executable(jmbde_utils_test src/main.cpp)
-target_compile_features(jmbde_utils_test PRIVATE cxx_auto_type)
-target_link_libraries(jmbde_utils_test gtest_main JMBDE::models)
+foreach(test_name tst_widgetstest)
 
-add_test(NAME jmbde_utils_test COMMAND jmbde_utils_test)
+  add_executable(${test_name} ${test_name}.cpp)
+  target_link_libraries(${test_name} PRIVATE Qt5::Test)
+
+  add_test(NAME ${test_name} COMMAND $<TARGET_FILE:${test_name}> -maxwarnings 0)
+endforeach(test_name)

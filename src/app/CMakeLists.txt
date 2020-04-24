@@ -79,8 +79,8 @@ target_compile_definitions(
 target_link_libraries(
   ${PROJECT_NAME}
   PUBLIC Qt5::Core
-  PRIVATE jmuelbert::jmbdewidgets Qt5::Widgets Qt5::PrintSupport Qt5::Sql Qt5::Qml
-          ${CONAN_LIBS})
+  PRIVATE jmuelbert::jmbdewidgets Qt5::Widgets Qt5::PrintSupport Qt5::Sql
+          Qt5::Qml ${CONAN_LIBS})
 
 # Use a single application on MacOS + Windows instead of dbus.
 if(APPLE OR WIN32)
@@ -121,9 +121,8 @@ if(WIN32)
   # https://cmake.org/cmake/help/v3.15/prop_tgt/MACOSX_BUNDLE_INFO_PLIST.html
 elseif(APPLE)
   set_target_properties(
-    ${PROJECT_NAME}
-    PROPERTIES OUTPUT_NAME "${PROJECT_NAME}" INSTALL_RPATH
-                                             "@executable_path/../Frameworks")
+    ${PROJECT_NAME} PROPERTIES OUTPUT_NAME "${PROJECT_NAME}"
+                               INSTALL_RPATH "@executable_path/../Frameworks")
   # Add icon files to the application's source files to have CMake bundle them
   # in the executable.
   ecm_add_app_icon(ICONS_SOURCES ICONS ${ICONS_PNG})

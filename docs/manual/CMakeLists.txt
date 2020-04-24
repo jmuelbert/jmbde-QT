@@ -55,9 +55,6 @@ add_custom_command(
   OUTPUT ${SPHINX_INDEX_FILE}
   COMMAND
     ${SPHINX_EXECUTABLE} -b html -c ${CMAKE_CURRENT_BINARY_DIR}
-
-
-
     # Tell Breathe where to find the Doxygen output
     -Dbreathe_projects.Application=${DOXYGEN_OUTPUT_DIR} ${SPHINX_SOURCE}
     ${SPHINX_BUILD}

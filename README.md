@@ -1,6 +1,5 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [jmbde](#jmbde)
   - [Setup](#setup)
@@ -17,14 +16,14 @@
   - [Compiling](#compiling)
     - [Dependencies](#dependencies)
     - [On macOS](#on-macos)
-      - [For the release version:](#for-the-release-version)
-      - [For the debug version:](#for-the-debug-version)
+      - [For the release version](#for-the-release-version)
+      - [For the debug version](#for-the-debug-version)
     - [On Windows](#on-windows)
       - [For the release version:](#for-the-release-version-1)
       - [For the debug version:](#for-the-debug-version-1)
     - [On Linux](#on-linux)
-      - [For the release version:](#for-the-release-version-2)
-      - [For the debug version:](#for-the-debug-version-2)
+      - [For the release version](#for-the-release-version-2)
+      - [For the debug version](#for-the-debug-version-2)
   - [Installing](#installing)
   - [License](#license)
 
@@ -138,20 +137,24 @@ on the necessary measures. Libraries, Compilation flags, etc.
 
 Run `cmake` to build jmbde:
 
-#### For the release version:
+#### For the release version
 
+```
         mkdir build-macos
         cd build-macos
         cmake -G "Ninja" ..
         cmake --build . --target install
         cpack .
+```
 
-#### For the debug version:
+#### For the debug version
 
+```
         mkdir build-macos
         cd build-macos
         cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Debug ..
         cmake --build .
+```
 
 ### On Windows
 
@@ -159,27 +162,38 @@ Run `cmake` to build jmbde:
 - you can [download Qt here](https://www.qt.io/download-qt-installer)
 - you can install many tools with choco.[installation guide](https://chocolatey.org/install#installing-chocolatey)
 
+```
   choco install cmake
   choco install ninja
+```
 
 #### For the release version:
 
+```
         mkdir build-win
         cd build-win
         cmake -G "Ninja" ..
         cmake --build . --target install
         cpack .
+```
 
 #### For the debug version:
 
+```
         mkdir build-win
         cd build-win
         cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Debug ..
         cmake --build .
+```
 
 ### On Linux
 
-- On Ubuntu/Debian: `sudo apt install qt5-default qttools5-dev-tools zlib1g-dev qtdeclarative5-dev cmake ninja`
+- On Ubuntu/Debian:
+
+```bash
+   sudo apt install qt5-default qttools5-dev-tools zlib1g-dev qtdeclarative5-dev cmake ninja
+```
+
 - On Fedora: `sudo dnf builddep jmbde-QT cmake ninja`
 - On Arch Linux: `pacman -S qt cmake ninja`
 
@@ -187,22 +201,30 @@ The installed toolchains have to match the one Qt was compiled with.
 
 - Next, compile by running:
 
-#### For the release version:
+#### For the release version
 
+```bash
         mkdir build-linux
         cd build-linux
         cmake -G "Ninja" ..
         cmake --build . --target install
         cpack .
+```
 
-#### For the debug version:
+#### For the debug version
 
+```bash
         mkdir build-linux
         cd build-linux
         cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Debug ..
         cmake --build .
+```
 
-You can now run jmbde using the executable in `bin/jmbde`
+You can now run jmbde using the executable in
+
+```bash
+  bin/jmbde
+```
 
 ## Installing
 

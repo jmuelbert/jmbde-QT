@@ -41,9 +41,9 @@
 #
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.12...3.16 FATAL_ERROR)
 
-if (${CMAKE_VERSION} VERSION_LESS 3.17)
+if(${CMAKE_VERSION} VERSION_LESS 3.17)
   cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 else()
   cmake_policy(VERSION 3.17)
@@ -56,16 +56,16 @@ project(
   HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
   LANGUAGES CXX)
 
-# warn about deprecated stuff so that we may try fixing it
-set(CMAKE_WARN_DEPRECATED 1)
+# Set my app version
+set(JMBDE_VERSION 0.5.0)
 
 # Set the dependencies versions
 set(KF5_VERSION "5.66.0")
 set(KF5_DEP_VERSION "5.66.0")
 set(QT_MIN_VERSION "5.12.5")
 
-# Set my app version
-set(JMBDE_VERSION 0.5.0)
+# warn about deprecated stuff so that we may try fixing it
+set(CMAKE_WARN_DEPRECATED 1)
 
 # ################ Disallow in-source build #################
 
@@ -182,16 +182,10 @@ option(ENABLE_CCACHE "prefix each compile command with ccache" OFF)
 add_feature_info(CCACHE ${ENABLE_CCACHE} "Compile with ccache")
 option(USE_GIT_VERSION "Append Git HEAD to jmbde version (if exists)" ON)
 
-# forbid some old things
-add_definitions(-DQT_NO_FOREACH)
-
 # Allow adding Qt resource files with `add_executable` or `target_sources`
 # instead of `qt5_add_resources`. See
 # https://cmake.org/cmake/help/v3.0/manual/cmake-qt.7.html#autorcc.
 set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
 if(NOT DEFINED CMAKE_SKIP_BUILD_RPATH)
   set(CMAKE_SKIP_BUILD_RPATH OFF)
 endif()
@@ -205,12 +199,13 @@ if(NOT DEFINED CMAKE_MACOSX_RPATH)
   set(CMAKE_MACOSX_RPATH TRUE)
 endif()
 
-if (APPLE)
-    set(APPLE_SUPPRESS_X11_WARNING TRUE)
-    set(KDE_SKIP_RPATH_SETTINGS TRUE)
-    set(CMAKE_MACOSX_RPATH OFF)
-    set(BUILD_WITH_INSTALL_RPATH 1)
-    add_definitions(-mmacosx-version-min=10.12 -Wno-macro-redefined -Wno-deprecated-register)
+if(APPLE)
+  set(APPLE_SUPPRESS_X11_WARNING TRUE)
+  set(KDE_SKIP_RPATH_SETTINGS TRUE)
+  set(CMAKE_MACOSX_RPATH OFF)
+  set(BUILD_WITH_INSTALL_RPATH 1)
+  add_definitions(-mmacosx-version-min=10.12 -Wno-macro-redefined
+                  -Wno-deprecated-register)
 endif()
 
 # Required here so that the version comparison below works
@@ -291,6 +286,9 @@ if(BUILD_API_DOCS AND CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wdocumentation)
 endif()
 
+# forbid some old things
+add_definitions(-DQT_NO_FOREACH)
+# Need Signals and slots
 remove_definitions(-DQT_NO_SIGNALS_SLOTS_KEYWORDS)
 
 # debug suffixes for qmake compatibility
@@ -333,9 +331,8 @@ if(APPLE)
   set(ECM_MKSPECS_INSTALL_DIR
       "${RESOURCES_INSTALL_DIR}/${ECM_MKSPECS_INSTALL_DIR}")
 else()
-  # Set installation paths
-  # This takes care of installing into "lib64" on distros that use that, for instance,
-  # by setting CMAKE_INSTALL_FULL_LIBDIR.
+  # Set installation paths This takes care of installing into "lib64" on distros
+  # that use that, for instance, by setting CMAKE_INSTALL_FULL_LIBDIR.
   include(GNUInstallDirs)
 
   set(BIN_INSTALL_DIR "${CMAKE_INSTALL_BINDIR}") # relative, usually "bin"
@@ -386,8 +383,7 @@ set(INSTALL_TARGETS_DEFAULT_ARGS
 # Set the RPATH
 include(KDECMakeSettings)
 
-# 3rd-party
-# ecm_optional_add_subdirectory(src/3rd-party/qtsingleapplication)
+# 3rd-party ecm_optional_add_subdirectory(src/3rd-party/qtsingleapplication)
 
 # libs
 ecm_optional_add_subdirectory(src/libs)

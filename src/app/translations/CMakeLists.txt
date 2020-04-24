@@ -71,9 +71,6 @@ foreach(LANG ${LANGUAGES})
       ${PROJECT_SOURCE_DIR}/../../libs/models
       ${PROJECT_SOURCE_DIR}/../../libs/widgets -locations relative -no-ui-lines
       -no-obsolete -ts ${CMAKE_CURRENT_SOURCE_DIR}/jmbde_${LANG}.ts
-
-
-
       # WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
   )
   add_dependencies(ts ts_${LANG})
@@ -97,9 +94,8 @@ add_custom_target(tsmerge)
 foreach(LANG ${LANGUAGES})
   add_custom_target(
     tsmerge_${LANG}
-    COMMAND
-      ljsonupdate --merge --qm ${CMAKE_CURRENT_BINARY_DIR}/jmbde_${LANG}.qm
-      --lang ${LANG} ${jsons}
+    COMMAND ljsonupdate --merge --qm
+            ${CMAKE_CURRENT_BINARY_DIR}/jmbde_${LANG}.qm --lang ${LANG} ${jsons}
     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbde_${LANG}.qm)
   add_dependencies(tsmerge tsmerge_${LANG})
 endforeach()

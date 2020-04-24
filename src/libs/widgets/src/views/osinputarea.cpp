@@ -44,126 +44,115 @@
 #include "ui_osinputarea.h"
 
 OSInputArea::OSInputArea(QWidget *parent, const QModelIndex index)
-    : QGroupBox(parent)
-    , ui(new Ui::OSInputArea)
-{
-    ui->setupUi(this);
+    : QGroupBox(parent), ui(new Ui::OSInputArea) {
+  ui->setupUi(this);
 
-    // Init UI
-    qDebug() << "Init EmployeeInputarea for Index : " << index.row();
+  // Init UI
+  qDebug() << "Init EmployeeInputarea for Index : " << index.row();
+
+  m_actualMode = Mode::Edit;
+  setViewOnlyMode(true);
+
+  // Set the Model
+  m_model = new QSqlRelationalTableModel(this);
+  m_model->setTable(QLatin1String("os"));
+  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+
+  m_model->select();
+
+  // Set the mapper
+  m_mapper = new QDataWidgetMapper(this);
+  m_mapper->setModel(m_model);
+  m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
+
+  setMappings();
+
+  m_mapper->setCurrentIndex(index.row());
+}
+
+OSInputArea::~OSInputArea() { delete ui; }
+
+void OSInputArea::setMappings() {
+  m_mapper->addMapping(ui->lineEdit_Fix,
+                       m_model->fieldIndex(QLatin1String("fix")));
+  m_mapper->addMapping(ui->lineEdit_Name,
+                       m_model->fieldIndex(QLatin1String("name")));
+  m_mapper->addMapping(ui->lineEdit_Revision,
+                       m_model->fieldIndex(QLatin1String("revision")));
+}
+
+void OSInputArea::setViewOnlyMode(bool mode) {
+  ui->lineEdit_Fix->setDisabled(mode);
+  ui->lineEdit_Name->setDisabled(mode);
+  ui->lineEdit_Revision->setDisabled(mode);
+  ui->lineEdit_Version->setDisabled(mode);
+}
+
+void OSInputArea::createDataset() {
+  qDebug() << "Create a new Dataset for Operation System...";
+
+  // Set all inputfields to blank
+  m_mapper->toLast();
+
+  int row = m_mapper->currentIndex();
+  if (row < 0)
+    row = 0;
+
+  m_mapper->submit();
+  m_model->insertRow(row);
+  m_mapper->setCurrentIndex(row);
+}
+
+void OSInputArea::retrieveDataset(const QModelIndex index) {}
+
+void OSInputArea::updateDataset(const QModelIndex index) {}
+
+void OSInputArea::deleteDataset(const QModelIndex index) {}
+
+void OSInputArea::on_pushButton_Add_clicked() {
+  createDataset();
+  on_pushButton_EditFinish_clicked();
+}
+
+void OSInputArea::on_pushButton_EditFinish_clicked() {
+  switch (m_actualMode) {
+  case Mode::Edit: {
+    m_actualMode = Mode::Finish;
+    ui->pushButton_EditFinish->setText(tr("Finish"));
+    setViewOnlyMode(false);
+
+  } break;
+
+  case Mode::Finish: {
+    qDebug() << "Save Data...";
 
     m_actualMode = Mode::Edit;
-    setViewOnlyMode(true);
+    ui->pushButton_EditFinish->setText(tr("Edit"));
+    setViewOnlyMode(false);
 
-    // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(QLatin1String("os"));
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    QString name = ui->lineEdit_Name->text();
 
-    m_model->select();
+    if (name.isEmpty()) {
+      QString message(tr("Please provide the name of the os."));
 
-    // Set the mapper
-    m_mapper = new QDataWidgetMapper(this);
-    m_mapper->setModel(m_model);
-    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
-
-    setMappings();
-
-    m_mapper->setCurrentIndex(index.row());
-}
-
-OSInputArea::~OSInputArea()
-{
-    delete ui;
-}
-
-void OSInputArea::setMappings()
-{
-    m_mapper->addMapping(ui->lineEdit_Fix, m_model->fieldIndex(QLatin1String("fix")));
-    m_mapper->addMapping(ui->lineEdit_Name, m_model->fieldIndex(QLatin1String("name")));
-    m_mapper->addMapping(ui->lineEdit_Revision, m_model->fieldIndex(QLatin1String("revision")));
-}
-
-void OSInputArea::setViewOnlyMode(bool mode)
-{
-    ui->lineEdit_Fix->setDisabled(mode);
-    ui->lineEdit_Name->setDisabled(mode);
-    ui->lineEdit_Revision->setDisabled(mode);
-    ui->lineEdit_Version->setDisabled(mode);
-}
-
-void OSInputArea::createDataset()
-{
-    qDebug() << "Create a new Dataset for Operation System...";
-
-    // Set all inputfields to blank
-    m_mapper->toLast();
-
-    int row = m_mapper->currentIndex();
-    if (row < 0)
-        row = 0;
-
-    m_mapper->submit();
-    m_model->insertRow(row);
-    m_mapper->setCurrentIndex(row);
-}
-
-void OSInputArea::retrieveDataset(const QModelIndex index)
-{
-}
-
-void OSInputArea::updateDataset(const QModelIndex index)
-{
-}
-
-void OSInputArea::deleteDataset(const QModelIndex index)
-{
-}
-
-void OSInputArea::on_pushButton_Add_clicked()
-{
-    createDataset();
-    on_pushButton_EditFinish_clicked();
-}
-
-void OSInputArea::on_pushButton_EditFinish_clicked()
-{
-    switch (m_actualMode) {
-    case Mode::Edit: {
-        m_actualMode = Mode::Finish;
-        ui->pushButton_EditFinish->setText(tr("Finish"));
-        setViewOnlyMode(false);
-
-    } break;
-
-    case Mode::Finish: {
-        qDebug() << "Save Data...";
-
-        m_actualMode = Mode::Edit;
-        ui->pushButton_EditFinish->setText(tr("Edit"));
-        setViewOnlyMode(false);
-
-        QString name = ui->lineEdit_Name->text();
-
-        if (name.isEmpty()) {
-            QString message(tr("Please provide the name of the os."));
-
-            QMessageBox::information(this, tr("Add Operation System"), message);
-        } else {
-            m_mapper->submit();
-            m_model->database().transaction();
-            if (m_model->submitAll()) {
-                m_model->database().commit();
-                qDebug() << "Commit changes for Operation System Databse Table";
-            } else {
-                m_model->database().rollback();
-                QMessageBox::warning(this, tr("jmbde"), tr("The database reported an error: %1").arg(m_model->lastError().text()));
-            }
-        }
-    } break;
-
-    default: {
-        qDebug() << "Error";
+      QMessageBox::information(this, tr("Add Operation System"), message);
+    } else {
+      m_mapper->submit();
+      m_model->database().transaction();
+      if (m_model->submitAll()) {
+        m_model->database().commit();
+        qDebug() << "Commit changes for Operation System Databse Table";
+      } else {
+        m_model->database().rollback();
+        QMessageBox::warning(this, tr("jmbde"),
+                             tr("The database reported an error: %1")
+                                 .arg(m_model->lastError().text()));
+      }
     }
-    }
+  } break;
+
+  default: {
+    qDebug() << "Error";
+  }
+  }
 }

@@ -44,126 +44,115 @@
 #include "ui_softwareinputarea.h"
 
 SoftwareInputArea::SoftwareInputArea(QWidget *parent, const QModelIndex index)
-    : QGroupBox(parent)
-    , ui(new Ui::SoftwareInputArea)
-{
-    ui->setupUi(this);
+    : QGroupBox(parent), ui(new Ui::SoftwareInputArea) {
+  ui->setupUi(this);
 
-    // Init UI
-    qDebug() << "Init SoftwareInputarea for Index : " << index.row();
+  // Init UI
+  qDebug() << "Init SoftwareInputarea for Index : " << index.row();
+
+  m_actualMode = Mode::Edit;
+  setViewOnlyMode(true);
+
+  // Set the Model
+  m_model = new QSqlRelationalTableModel(this);
+  m_model->setTable(QLatin1String("software"));
+  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+
+  m_model->select();
+
+  // Set the mapper
+  m_mapper = new QDataWidgetMapper(this);
+  m_mapper->setModel(m_model);
+  m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
+
+  setMappings();
+
+  m_mapper->setCurrentIndex(index.row());
+}
+
+SoftwareInputArea::~SoftwareInputArea() { delete ui; }
+
+void SoftwareInputArea::setMappings() {
+  m_mapper->addMapping(ui->lineEdit_Fix,
+                       m_model->fieldIndex(QLatin1String("fix")));
+  m_mapper->addMapping(ui->lineEdit_Name,
+                       m_model->fieldIndex(QLatin1String("name")));
+  m_mapper->addMapping(ui->lineEdit_Revision,
+                       m_model->fieldIndex(QLatin1String("revision")));
+}
+
+void SoftwareInputArea::setViewOnlyMode(bool mode) {
+  ui->lineEdit_Fix->setDisabled(mode);
+  ui->lineEdit_Name->setDisabled(mode);
+  ui->lineEdit_Revision->setDisabled(mode);
+  ui->lineEdit_Version->setDisabled(mode);
+}
+
+void SoftwareInputArea::createDataset() {
+  qDebug() << "Create a new Dataset for Software...";
+
+  // Set all inputfields to blank
+  m_mapper->toLast();
+
+  int row = m_mapper->currentIndex();
+  if (row < 0)
+    row = 0;
+
+  m_mapper->submit();
+  m_model->insertRow(row);
+  m_mapper->setCurrentIndex(row);
+}
+
+void SoftwareInputArea::retrieveDataset(const QModelIndex index) {}
+
+void SoftwareInputArea::updateDataset(const QModelIndex index) {}
+
+void SoftwareInputArea::deleteDataset(const QModelIndex index) {}
+
+void SoftwareInputArea::on_pushButton_Add_clicked() {
+  createDataset();
+  on_pushButton_EditFinish_clicked();
+}
+
+void SoftwareInputArea::on_pushButton_EditFinish_clicked() {
+  switch (m_actualMode) {
+  case Mode::Edit: {
+    m_actualMode = Mode::Finish;
+    ui->pushButton_EditFinish->setText(tr("Finish"));
+    setViewOnlyMode(false);
+
+  } break;
+
+  case Mode::Finish: {
+    qDebug() << "Save Data...";
 
     m_actualMode = Mode::Edit;
-    setViewOnlyMode(true);
+    ui->pushButton_EditFinish->setText(tr("Edit"));
+    setViewOnlyMode(false);
 
-    // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(QLatin1String("software"));
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    QString name = ui->lineEdit_Name->text();
 
-    m_model->select();
+    if (name.isEmpty()) {
+      QString message(tr("Please provide the name for the software."));
 
-    // Set the mapper
-    m_mapper = new QDataWidgetMapper(this);
-    m_mapper->setModel(m_model);
-    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
-
-    setMappings();
-
-    m_mapper->setCurrentIndex(index.row());
-}
-
-SoftwareInputArea::~SoftwareInputArea()
-{
-    delete ui;
-}
-
-void SoftwareInputArea::setMappings()
-{
-    m_mapper->addMapping(ui->lineEdit_Fix, m_model->fieldIndex(QLatin1String("fix")));
-    m_mapper->addMapping(ui->lineEdit_Name, m_model->fieldIndex(QLatin1String("name")));
-    m_mapper->addMapping(ui->lineEdit_Revision, m_model->fieldIndex(QLatin1String("revision")));
-}
-
-void SoftwareInputArea::setViewOnlyMode(bool mode)
-{
-    ui->lineEdit_Fix->setDisabled(mode);
-    ui->lineEdit_Name->setDisabled(mode);
-    ui->lineEdit_Revision->setDisabled(mode);
-    ui->lineEdit_Version->setDisabled(mode);
-}
-
-void SoftwareInputArea::createDataset()
-{
-    qDebug() << "Create a new Dataset for Software...";
-
-    // Set all inputfields to blank
-    m_mapper->toLast();
-
-    int row = m_mapper->currentIndex();
-    if (row < 0)
-        row = 0;
-
-    m_mapper->submit();
-    m_model->insertRow(row);
-    m_mapper->setCurrentIndex(row);
-}
-
-void SoftwareInputArea::retrieveDataset(const QModelIndex index)
-{
-}
-
-void SoftwareInputArea::updateDataset(const QModelIndex index)
-{
-}
-
-void SoftwareInputArea::deleteDataset(const QModelIndex index)
-{
-}
-
-void SoftwareInputArea::on_pushButton_Add_clicked()
-{
-    createDataset();
-    on_pushButton_EditFinish_clicked();
-}
-
-void SoftwareInputArea::on_pushButton_EditFinish_clicked()
-{
-    switch (m_actualMode) {
-    case Mode::Edit: {
-        m_actualMode = Mode::Finish;
-        ui->pushButton_EditFinish->setText(tr("Finish"));
-        setViewOnlyMode(false);
-
-    } break;
-
-    case Mode::Finish: {
-        qDebug() << "Save Data...";
-
-        m_actualMode = Mode::Edit;
-        ui->pushButton_EditFinish->setText(tr("Edit"));
-        setViewOnlyMode(false);
-
-        QString name = ui->lineEdit_Name->text();
-
-        if (name.isEmpty()) {
-            QString message(tr("Please provide the name for the software."));
-
-            QMessageBox::information(this, tr("Add Software"), message);
-        } else {
-            m_mapper->submit();
-            m_model->database().transaction();
-            if (m_model->submitAll()) {
-                m_model->database().commit();
-                qDebug() << "Commit changes for software Databse Table";
-            } else {
-                m_model->database().rollback();
-                QMessageBox::warning(this, tr("jmbde"), tr("The database reported an error: %1").arg(m_model->lastError().text()));
-            }
-        }
-    } break;
-
-    default: {
-        qDebug() << "Error";
+      QMessageBox::information(this, tr("Add Software"), message);
+    } else {
+      m_mapper->submit();
+      m_model->database().transaction();
+      if (m_model->submitAll()) {
+        m_model->database().commit();
+        qDebug() << "Commit changes for software Databse Table";
+      } else {
+        m_model->database().rollback();
+        QMessageBox::warning(this, tr("jmbde"),
+                             tr("The database reported an error: %1")
+                                 .arg(m_model->lastError().text()));
+      }
     }
-    }
+  } break;
+
+  default: {
+    qDebug() << "Error";
+  }
+  }
 }

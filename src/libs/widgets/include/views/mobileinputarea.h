@@ -29,103 +29,102 @@
 #include "jmbdewidgets_export.h"
 #include "loggingcategory.h"
 
-namespace Ui
-{
+namespace Ui {
 class MobileInputArea;
 }
 
 /**
  * @brief The MobileInputArea class
  */
-class JMBDEWIDGETS_EXPORT MobileInputArea : public QGroupBox
-{
-    Q_OBJECT
+class JMBDEWIDGETS_EXPORT MobileInputArea : public QGroupBox {
+  Q_OBJECT
 
 public:
-    /**
-        @brief MobileInputArea
-        @param parent The pointer to the parent object
-        @param index The index for view the data
-     */
-    explicit MobileInputArea(QWidget *parent = nullptr, const QModelIndex index = QModelIndex());
+  /**
+      @brief MobileInputArea
+      @param parent The pointer to the parent object
+      @param index The index for view the data
+   */
+  explicit MobileInputArea(QWidget *parent = nullptr,
+                           const QModelIndex index = QModelIndex());
 
-    /**
-     * @brief ~MobileInputArea
-     */
-    ~MobileInputArea();
+  /**
+   * @brief ~MobileInputArea
+   */
+  ~MobileInputArea();
 
 private slots:
-    /**
-     * @brief on_pushButton_Add_clicked
-     */
-    void on_pushButton_Add_clicked();
+  /**
+   * @brief on_pushButton_Add_clicked
+   */
+  void on_pushButton_Add_clicked();
 
-    /**
-     * @brief on_pushButton_EditFinish_clicked
-     */
-    void on_pushButton_EditFinish_clicked();
+  /**
+   * @brief on_pushButton_EditFinish_clicked
+   */
+  void on_pushButton_EditFinish_clicked();
 
 private:
-    /**
-     * @brief ui
-     */
-    Ui::MobileInputArea *ui;
+  /**
+   * @brief ui
+   */
+  Ui::MobileInputArea *ui;
 
-    /**
-     * @brief The Mode enum
-     */
-    enum Mode { Edit, Finish };
+  /**
+   * @brief The Mode enum
+   */
+  enum Mode { Edit, Finish };
 
-    /**
-     * @brief m_actualMode
-     */
-    Mode m_actualMode;
+  /**
+   * @brief m_actualMode
+   */
+  Mode m_actualMode;
 
-    /**
-     * @brief m_model
-     */
-    QSqlRelationalTableModel *m_model;
+  /**
+   * @brief m_model
+   */
+  QSqlRelationalTableModel *m_model;
 
-    /**
-     * @brief m_selectionModel
-     */
-    QItemSelectionModel *m_selectionModel;
+  /**
+   * @brief m_selectionModel
+   */
+  QItemSelectionModel *m_selectionModel{};
 
-    /**
-     * @brief m_mapper
-     */
-    QDataWidgetMapper *m_mapper;
+  /**
+   * @brief m_mapper
+   */
+  QDataWidgetMapper *m_mapper;
 
-    /**
-     * @brief setMappings
-     */
-    void setMappings();
-    /**
-     * @brief setViewOnlyMode
-     * @param mode Set the ViewMode boolean
-     */
-    void setViewOnlyMode(bool mode = true);
+  /**
+   * @brief setMappings
+   */
+  void setMappings();
+  /**
+   * @brief setViewOnlyMode
+   * @param mode Set the ViewMode boolean
+   */
+  void setViewOnlyMode(bool mode = true);
 
-    /**
-     * @brief createDataset
-     */
-    void createDataset();
+  /**
+   * @brief createDataset
+   */
+  void createDataset();
 
-    /**
-     * @brief retrieveDataset
-     * @param index Get the data for the ModelIndex
-     */
-    void retrieveDataset(const QModelIndex index);
+  /**
+   * @brief retrieveDataset
+   * @param index Get the data for the ModelIndex
+   */
+  void retrieveDataset(const QModelIndex index);
 
-    /**
-     * @brief updateDataset
-     * @param index Update the Data for the ModelIndex
-     */
-    void updateDataset(const QModelIndex index);
+  /**
+   * @brief updateDataset
+   * @param index Update the Data for the ModelIndex
+   */
+  void updateDataset(const QModelIndex index);
 
-    /**
-     * @brief deleteDataset
-     * @param index Delete the data for the ModelIndex
-     */
-    void deleteDataset(const QModelIndex index);
+  /**
+   * @brief deleteDataset
+   * @param index Delete the data for the ModelIndex
+   */
+  void deleteDataset(const QModelIndex index);
 };

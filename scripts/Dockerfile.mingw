@@ -5,7 +5,7 @@
 # `pacman -Scc --noconfirm` responds 'N' by default to removing the cache, hence
 # the echo mechanism.
 
-FROM archlinux:latest
+FROM archlinux
 # MAINTAINER Wouter Haffmans <wouter@simply-life.net>
 
 # Update base system

@@ -15,7 +15,8 @@
       "program": "${workspaceFolder}/helloworld.out",
       "request": "launch",
       "stopAtEntry": true,
-      "type": "cppdbg"
+      "type": "cppdbg",
+      "visualizerFile": "/Users/juergen/Library/Application Support/Code/User/workspaceStorage/e7fa4b8c4e24069da8af01d76c159cab/tonka3000.qtvsctools/qt.natvis.xml"
     }
   ],
   "version": "0.2.0"

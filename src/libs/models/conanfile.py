@@ -14,8 +14,8 @@ class JmbdemodelsConan(ConanFile):
     options = {"shared": [True, False]}
     default_options = {"shared": False}
     generators = "cmake"
-    exports_sources = "models/*"
-    requires = "qt/5.14.1@bincrafters/stable"
+    exports_sources = "src/*"
+    requires="qt/5.14.2@bincrafters/stable"
 
     def source(self):
         self.run('git clone https://github.com/jmuelbert/jmbdemodels.git')
@@ -29,7 +29,7 @@ class JmbdemodelsConan(ConanFile):
 
     def build(self):
         cmake = CMake(self)
-        cmake.configure(source_folder=".")
+        cmake.configure(source_folder="src")
         cmake.build()
 
         # Explicit way:

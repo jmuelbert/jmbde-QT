@@ -283,7 +283,7 @@ for:
       - ps: $ENV:Path =  $ENV:PYTHON + ";" + $ENV:PYTHON + "/Scripts" + ";" + $ENV:PATH
       - ps: $ENV:INNO="${ENV:ProgramFiles(x86)}\Inno Setup 6"
       - ps: $ENV:NSIS="${ENV:ProgramFiles(x86)}\NSIS"
-      - ps: $ENV:CMAKE_GENERATOR="Visual Studio 16 2019" # Ninja 
+      - ps: $ENV:CMAKE_GENERATOR="Visual Studio 16 2019" # Ninja
       - ps: $ENV:Path += ";" + $ENV:QTDIR + "\bin"
       - ps: $ENV:Path += ";" + $ENV:INNO + ";" + $ENV:NSIS
       - echo QTDIR=%QTDIR%
@@ -298,7 +298,7 @@ for:
       - pip install conan
       - conan user
       - conan create .\conan\ECM
- 
+
     before_build:
       - call "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
       - call "%QTDIR%\bin\qtenv2.bat"
@@ -306,7 +306,7 @@ for:
       - ps: New-Item -itemtype directory -path ./build
       - ps: Set-Location "build"
       - ps: Write-Host "Generate the Project with the $ENV:CMAKE_GENERATOR gnerator and the configuration $ENV:CONFIGURATION"
- 
+
     build_script:
       - ps: New-Item -itemtype directory -path ./program
       - ps: conan install ..

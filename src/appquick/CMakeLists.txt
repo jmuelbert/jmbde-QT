@@ -14,13 +14,13 @@
 # minimal requirements
 cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 
-set(JMBDE_QUICK_VERSION 0.1.0)
+set(JMBDE_APP_QUICK_VERSION 0.1.0)
 
 #
 # the jmbde application
 #
 project(
-  jmbdequick
+  jmbdeappquick
   DESCRIPTION "A BDE Tool"
   HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
   LANGUAGES CXX)
@@ -28,13 +28,13 @@ project(
 # set project version
 
 ecm_setup_version(
-  ${JMBDE_QUICK_VERSION}
+  ${JMBDE_APP_QUICK_VERSION}
   VARIABLE_PREFIX
-  JMBDEQUICK
+  JMBDEAPPQUICK
   VERSION_HEADER
-  ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick-version.h
+  ${CMAKE_CURRENT_BINARY_DIR}/jmbdeappquick-version.h
   PACKAGE_VERSION_FILE
-  "${CMAKE_CURRENT_BINARY_DIR}/JMBDEQUICK-ConfigVersion.cmake")
+  "${CMAKE_CURRENT_BINARY_DIR}/JMBDEAPPQUICK-ConfigVersion.cmake")
 
 ecm_qt_declare_logging_category(
   ${PROJECT_NAME}
@@ -43,13 +43,13 @@ ecm_qt_declare_logging_category(
   IDENTIFIER
   ${PROJECT_NAME}
   CATEGORY_NAME
-  jmuelbert.jmbdequick
+  jmuelbert.jmbdeappquick
   DEFAULT_SEVERITY
   Warning)
 
 message(
   STATUS
-    "Building ${PROJECT_NAME} ${JMBDE_QUICK_VERSION} in ${CMAKE_BUILD_TYPE} mode"
+    "Building ${PROJECT_NAME} ${JMBDE_APP_QUICK_VERSION} in ${CMAKE_BUILD_TYPE} mode"
 )
 
 add_executable(${PROJECT_NAME} "")
@@ -65,22 +65,21 @@ endif()
 find_package(Qt5 ${QT_MIN_VERSION} QUIET REQUIRED COMPONENTS Core Widgets Sql
                                                              Qml)
 
-target_compile_features(jmbdequick PUBLIC cxx_std_17)
+target_compile_features(jmbdeappquick PUBLIC cxx_std_17)
 
 target_include_directories(
   ${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include"
                           "${CMAKE_CURRENT_BIN_DIR}/include")
 
-target_sources(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
-                                       ${CMAKE_CURRENT_SOURCE_DIR}/qml/qml.qrc)
+target_sources(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 
 target_compile_definitions(
   ${PROJECT_NAME}
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
 target_link_libraries(
-  ${PROJECT_NAME} PRIVATE jmuelbert::jmbdemodels Qt5::Widgets Qt5::Core Qt5::Sql
-                          Qt5::Qml ${CONAN_LIBS})
+  ${PROJECT_NAME} PRIVATE jmuelbert::jmbdequick jmuelbert::jmbdemodels Qt5::Widgets Qt5::Core
+                          Qt5::Sql Qt5::Qml ${CONAN_LIBS})
 
 # Use a single application on MacOS + Windows instead of dbus.
 if(APPLE OR WIN32)
@@ -102,8 +101,7 @@ ecm_add_app_icon(APP_ICON ICONS ${ICONS_PNG})
 
 target_sources(${PROJECT_NAME} PRIVATE ${ICONS_SOURCES} ${APP_ICON})
 
-target_sources(${PROJECT_NAME} PRIVATE loggingcategory.cpp src/main.cpp
-                                       qml/qml.qrc)
+target_sources(${PROJECT_NAME} PRIVATE loggingcategory.cpp src/main.cpp)
 
 if(BUILD_TRANSLATIONS)
   find_package(Qt5 OPTIONAL_COMPONENTS LinguistTools)
@@ -122,9 +120,8 @@ if(WIN32)
   # https://cmake.org/cmake/help/v3.15/prop_tgt/MACOSX_BUNDLE_INFO_PLIST.html
 elseif(APPLE)
   set_target_properties(
-    ${PROJECT_NAME}
-    PROPERTIES OUTPUT_NAME "${PROJECT_NAME}" INSTALL_RPATH
-                                             "@executable_path/../Frameworks")
+    ${PROJECT_NAME} PROPERTIES OUTPUT_NAME "${PROJECT_NAME}"
+                               INSTALL_RPATH "@executable_path/../Frameworks")
 
   # Add icon files to the application's source files to have CMake bundle them
   # in the executable.
@@ -180,14 +177,13 @@ elseif(UNIX AND NOT APPLE)
   # appdata
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/jmbdequick.appdata.xml.in
                  ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick.appdata.xml @ONLY)
-  install(
-    FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick.appdata.xml
-    DESTINATION ${APPDATA_INSTALL_DIR})
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick.appdata.xml
+          DESTINATION ${APPDATA_INSTALL_DIR})
 
   install(
     FILES
       ${CMAKE_CURRENT_SOURCE_DIR}/data/io.github.jmuelbert.jmbdequick.desktop
-      DESTINATION ${XDG_APPS_INSTALL_DIR})
+    DESTINATION ${XDG_APPS_INSTALL_DIR})
 
   # man page
   find_program(GZIP gzip)

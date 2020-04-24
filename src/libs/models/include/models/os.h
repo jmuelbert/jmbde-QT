@@ -28,8 +28,7 @@
 #include "jmbdemodels_export.h"
 #include "loggingcategory.h"
 
-namespace Model
-{
+namespace Model {
 /*!
     \class OS
     \brief The OS class
@@ -40,189 +39,172 @@ namespace Model
     \date 03.08.2019
     \copyright EUPL V1.2
     */
-class OS : public CommonData
-{
-    Q_OBJECT
+class OS : public CommonData {
+  Q_OBJECT
 
 public:
-    /*!
-        \fn explicit OS(QObject *parent = nullptr)
-        \brief The Constructor for the Inventory
-    */
-    explicit JMBDEMODELS_EXPORT OS(QObject *parent = nullptr);
+  /*!
+      \fn explicit OS(QObject *parent = nullptr)
+      \brief The Constructor for the Inventory
+  */
+  explicit JMBDEMODELS_EXPORT OS(QObject *parent = nullptr);
 
-    /*!
-        \fn  ~OS();
+  /*!
+      \fn  ~OS();
 
-        \brief Destructor for OS
-     */
-    JMBDEMODELS_EXPORT ~OS()
-    {
-    }
+      \brief Destructor for OS
+   */
+  JMBDEMODELS_EXPORT ~OS() {}
 
-    // implement the virtuals
+  // implement the virtuals
 
-    /*!
-        \fn virtual void setIndexes() final
-        \brief Set the fieldindexes from the datafieldnames of the db.
-     */
-    virtual JMBDEMODELS_EXPORT void setIndexes() final;
+  /*!
+      \fn virtual void setIndexes() final
+      \brief Set the fieldindexes from the datafieldnames of the db.
+   */
+  virtual JMBDEMODELS_EXPORT void setIndexes() final;
 
-    /*!
-        \fn virtual QSqlRelationalTableModel *initializeRelationalModel() final
-        \brief set the QSqlRelationalTableModel for the DataModel
-        Returns The QSqlRelationalTableModel
-     */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel() final;
+  /*!
+      \fn virtual QSqlRelationalTableModel *initializeRelationalModel() final
+      \brief set the QSqlRelationalTableModel for the DataModel
+      Returns The QSqlRelationalTableModel
+   */
+  virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *
+  initializeRelationalModel() final;
 
-    /*!
-            \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
-            \brief Initialize the InputDataModel
+  /*!
+          \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
+          \brief Initialize the InputDataModel
 
-            Returns The QSqlRelationalTableModel
-        */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel() final;
-
-    /*!
-         \fn virtual QSqlTableModel *initializeViewModel() final
-         \brief Initialize the ViewModel
-
-         Returns QSqlTableModel
+          Returns The QSqlRelationalTableModel
       */
-    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
+  virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *
+  initializeInputDataModel() final;
 
-    /*!
-     * \fn virtual auto generateTableString(
-                                const QString &header) -> QString
-        \brief generateTableString
+  /*!
+       \fn virtual QSqlTableModel *initializeViewModel() final
+       \brief Initialize the ViewModel
 
-        Returns a QString with the generated Table for Output
-     */
-    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString final;
-
-    /*!
-         \fn virtual auto generateFormularString(
-                                    const QString &header) -> QString final
-         \brief generateFormularString
-
-         Returns a QString with the generated Table for Output
-      */
-    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
-
-    // Getter
-
-    /*!
-        \fn int OSIdIndex()
-
-        \brief Get the index of the fieldname OSId form the database
-
-        Returns the value of the index
-     */
-    JMBDEMODELS_EXPORT int OSIdIndex() const
-    {
-        return m_OSIdIndex;
-    }
-
-    /*!
-        \fn int NumberIndex()
-
-        \brief Get the index of the fieldname Number form the database
-
-        Returns the value of the index
-     */
-    JMBDEMODELS_EXPORT int NameIndex() const
-    {
-        return m_NameIndex;
-    }
-
-    /*!
-       \fn int VersionIndex()
-
-       \brief Get the index of the fieldname Version form the database
-
-       Returns the value of the index
+       Returns QSqlTableModel
     */
-    JMBDEMODELS_EXPORT int VersionIndex() const
-    {
-        return m_VersionIndex;
-    }
+  virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
 
-    /*!
-       \fn int RevisionIndex()
+  /*!
+   * \fn virtual auto generateTableString(
+                              const QString &header) -> QString
+      \brief generateTableString
 
-       \brief Get the index of the fieldname Revision form the database
+      Returns a QString with the generated Table for Output
+   */
+  virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header)
+      -> QString final;
 
-       Returns the value of the index
+  /*!
+       \fn virtual auto generateFormularString(
+                                  const QString &header) -> QString final
+       \brief generateFormularString
+
+       Returns a QString with the generated Table for Output
     */
-    JMBDEMODELS_EXPORT int RevisionIndex() const
-    {
-        return m_RevisionIndex;
-    }
+  virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header)
+      -> QString final;
 
-    /*!
-       \fn int FixIndex()
+  // Getter
 
-       \brief Get the index of the fieldname Fix form the database
+  /*!
+      \fn int OSIdIndex()
 
-       Returns the value of the index
-    */
-    JMBDEMODELS_EXPORT int FixIndex() const
-    {
-        return m_FixIndex;
-    }
+      \brief Get the index of the fieldname OSId form the database
 
-    /*!
-       \fn  int LastUpdateIndex()
+      Returns the value of the index
+   */
+  JMBDEMODELS_EXPORT int OSIdIndex() const { return m_OSIdIndex; }
 
-       \brief Get the index of the fieldname LastUpdate form the database
+  /*!
+      \fn int NumberIndex()
 
-       Returns the value of the index
-    */
-    JMBDEMODELS_EXPORT int LastUpdateIndex() const
-    {
-        return m_LastUpdateIndex;
-    }
+      \brief Get the index of the fieldname Number form the database
+
+      Returns the value of the index
+   */
+  JMBDEMODELS_EXPORT int NameIndex() const { return m_NameIndex; }
+
+  /*!
+     \fn int VersionIndex()
+
+     \brief Get the index of the fieldname Version form the database
+
+     Returns the value of the index
+  */
+  JMBDEMODELS_EXPORT int VersionIndex() const { return m_VersionIndex; }
+
+  /*!
+     \fn int RevisionIndex()
+
+     \brief Get the index of the fieldname Revision form the database
+
+     Returns the value of the index
+  */
+  JMBDEMODELS_EXPORT int RevisionIndex() const { return m_RevisionIndex; }
+
+  /*!
+     \fn int FixIndex()
+
+     \brief Get the index of the fieldname Fix form the database
+
+     Returns the value of the index
+  */
+  JMBDEMODELS_EXPORT int FixIndex() const { return m_FixIndex; }
+
+  /*!
+     \fn  int LastUpdateIndex()
+
+     \brief Get the index of the fieldname LastUpdate form the database
+
+     Returns the value of the index
+  */
+  JMBDEMODELS_EXPORT int LastUpdateIndex() const { return m_LastUpdateIndex; }
 
 private:
-    /*!
-        \brief The Tablename in the database \e is const
-     */
-    const QString m_tableName = QLatin1String("os");
+  /*!
+      \brief The Tablename in the database \e is const
+   */
+  const QString m_tableName = QLatin1String("os");
 
-    /*!
-       \var int m_OSIdIndex
-       \brief The value of the OSId
-    */
-    int m_OSIdIndex {0};
+  /*!
+     \var int m_OSIdIndex
+     \brief The value of the OSId
+  */
+  int m_OSIdIndex{0};
 
-    /*!
-       \var int m_NameIndex
-       \brief The value of the Name
-    */
-    int m_NameIndex {0};
+  /*!
+     \var int m_NameIndex
+     \brief The value of the Name
+  */
+  int m_NameIndex{0};
 
-    /*!
-       \var int m_VersionIndex
-       \brief The value of the Version
-    */
-    int m_VersionIndex {0};
+  /*!
+     \var int m_VersionIndex
+     \brief The value of the Version
+  */
+  int m_VersionIndex{0};
 
-    /*!
-       \var int m_RevisionIndex
-       \brief The value of the Revision
-    */
-    int m_RevisionIndex {0};
+  /*!
+     \var int m_RevisionIndex
+     \brief The value of the Revision
+  */
+  int m_RevisionIndex{0};
 
-    /*!
-       \var int m_FixIndex
-       \brief The value of the Fix
-    */
-    int m_FixIndex {0};
+  /*!
+     \var int m_FixIndex
+     \brief The value of the Fix
+  */
+  int m_FixIndex{0};
 
-    /*!
-        \var int m_LastUpdateIndex
-        \brief The value of the LastUpdateIndex
-    */
-    int m_LastUpdateIndex {0};
+  /*!
+      \var int m_LastUpdateIndex
+      \brief The value of the LastUpdateIndex
+  */
+  int m_LastUpdateIndex{0};
 };
 } // namespace Model

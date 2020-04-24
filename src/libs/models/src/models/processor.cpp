@@ -15,93 +15,91 @@
 
 #include "models/processor.h"
 
-Model::Processor::Processor(QObject *parent)
-    : CommonData(parent)
-{
-    // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+Model::Processor::Processor(QObject *parent) : CommonData(parent) {
+  // Set the Model
+  m_model = new QSqlRelationalTableModel(this);
+  m_model->setTable(this->m_tableName);
+  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-    setIndexes();
+  setIndexes();
 }
 
-void Model::Processor::setIndexes()
-{
-    m_ProcessorIdIndex = m_model->fieldIndex(QLatin1String("processor_id"));
-    m_NameIndex = m_model->fieldIndex(QLatin1String("name"));
-    m_ClockRateIndex = m_model->fieldIndex(QLatin1String("clock_rate"));
-    m_CoresIndex = m_model->fieldIndex(QLatin1String("cores"));
-    m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
+void Model::Processor::setIndexes() {
+  m_ProcessorIdIndex = m_model->fieldIndex(QLatin1String("processor_id"));
+  m_NameIndex = m_model->fieldIndex(QLatin1String("name"));
+  m_ClockRateIndex = m_model->fieldIndex(QLatin1String("clock_rate"));
+  m_CoresIndex = m_model->fieldIndex(QLatin1String("cores"));
+  m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-auto Model::Processor::initializeRelationalModel() -> QSqlRelationalTableModel *
-{
-    m_model = new QSqlRelationalTableModel(this);
+auto Model::Processor::initializeRelationalModel()
+    -> QSqlRelationalTableModel * {
+  m_model = new QSqlRelationalTableModel(this);
 
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+  m_model->setTable(this->m_tableName);
+  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-    m_model->select();
+  m_model->select();
 
-    return m_model;
+  return m_model;
 }
 
-auto Model::Processor::initializeInputDataModel() -> QSqlRelationalTableModel *
-{
-    m_model = new QSqlRelationalTableModel(this);
+auto Model::Processor::initializeInputDataModel()
+    -> QSqlRelationalTableModel * {
+  m_model = new QSqlRelationalTableModel(this);
 
-    m_model->setTable(this->m_tableName);
+  m_model->setTable(this->m_tableName);
 
-    return m_model;
+  return m_model;
 }
 
-auto Model::Processor::initializeViewModel() -> QSqlTableModel *
-{
-    m_model->select();
+auto Model::Processor::initializeViewModel() -> QSqlTableModel * {
+  m_model->select();
 
-    return m_model;
+  return m_model;
 }
 
-auto Model::Processor::generateTableString(const QString &header) -> QString
-{
-    QString outString;
+auto Model::Processor::generateTableString(const QString &header) -> QString {
+  QString outString;
 
-    qCDebug(jmbdemodelsLog, "Header: %s ( Columns: %i - Rows: %i )", header.toUtf8().constData(), m_model->columnCount(), m_model->rowCount());
+  qCDebug(jmbdemodelsLog) << "Header:" << header
+                          << "( Columns: " << m_model->columnCount()
+                          << " Rows: " << m_model->rowCount() << " )";
 
-    QList<int> set;
+  QList<int> set;
 
-    // Document Title
-    outString = QLatin1String("<h1>");
-    outString += header;
-    outString += QLatin1String("</h1>");
-    outString += QLatin1String("<hr />");
-    outString += QLatin1String("<table width=\"100%\" cellspacing=\"0\" class=\"tbl\">");
-    outString += QLatin1String("<thead> <tr>");
+  // Document Title
+  outString = QLatin1String("<h1>");
+  outString += header;
+  outString += QLatin1String("</h1>");
+  outString += QLatin1String("<hr />");
+  outString +=
+      QLatin1String(R"(<table width="100%" cellspacing="0" class="tbl">)");
+  outString += QLatin1String("<thead> <tr>");
 
-    for (const auto i : set) {
-        qDebug() << "int i = " << i;
-        outString += QLatin1String("<th>");
-        outString.append(m_model->headerData(i, Qt::Horizontal).toString());
-        outString += QLatin1String("</th>");
-    }
+  for (const auto i : set) {
+    qDebug() << "int i = " << i;
+    outString += QLatin1String("<th>");
+    outString.append(m_model->headerData(i, Qt::Horizontal).toString());
+    outString += QLatin1String("</th>");
+  }
 
-    return outString;
+  return outString;
 }
 
-auto Model::Processor::generateFormularString(const QString &header) -> QString
-{
-    QString outString;
+auto Model::Processor::generateFormularString(const QString &header)
+    -> QString {
+  QString outString;
 
-    qCDebug(jmbdemodelsLog, "Header: %s ( Columns: %i - Rows: %i )", header.toUtf8().constData(), m_model->columnCount(), m_model->rowCount());
+  qCDebug(jmbdemodelsLog) << "Header:" << header
+                          << "( Columns: " << m_model->columnCount()
+                          << " Rows: " << m_model->rowCount() << " )";
 
-    QList<int> set;
+  // Document Title
+  outString = QLatin1String("<h1>");
+  outString += header;
+  outString += QLatin1String("</h1>");
+  outString += QLatin1String("<hr />");
 
-    // Document Title
-    outString = QLatin1String("<h1>");
-    outString += header;
-    outString += QLatin1String("</h1>");
-    outString += QLatin1String("<hr />");
-
-    return outString;
+  return outString;
 }

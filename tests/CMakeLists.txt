@@ -15,41 +15,29 @@
 # minimal requirements
 cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 
-find_package(
-    Qt5 ${QT_MIN_VERSION} REQUIRED
-    COMPONENTS
-        Core
-        Test   
-    )
+find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core Test)
 
 set_package_properties(
-    Qt5Test
-    PROPERTIES
-    DESCRIPTION
-        "Qt5 Unit testing framework"
-    URL
-        "https://www.qt.io"
-    TYPE
-        OPTIONAL
-    PURPOSE
-        "Required to build the unit tests"
-    )
+  Qt5Test
+  PROPERTIES
+  DESCRIPTION
+  "Qt5 Unit testing framework"
+  URL
+  "https://www.qt.io"
+  TYPE
+  OPTIONAL
+  PURPOSE
+  "Required to build the unit tests")
 
 if(NOT Qt5Test_FOUND)
-    message(STATUS "Qt5Test not found, autotests will not be built.")
-    return()
+  message(STATUS "Qt5Test not found, autotests will not be built.")
+  return()
 endif()
 
-foreach(test_name
-    tst_test)
-    
-    add_executable(${test_name} ${test_name}.cpp)
-    target_link_libraries(${test_name} PRIVATE
-    Qt5::Test)
+foreach(test_name tst_test)
 
-    add_test(
-        NAME ${test_name}
-        COMMAND
-            $<TARGET_FILE:${test_name}> -maxwarnings 0
-    )
+  add_executable(${test_name} ${test_name}.cpp)
+  target_link_libraries(${test_name} PRIVATE Qt5::Test)
+
+  add_test(NAME ${test_name} COMMAND $<TARGET_FILE:${test_name}> -maxwarnings 0)
 endforeach(test_name)
