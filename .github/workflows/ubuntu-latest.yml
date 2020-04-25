@@ -171,7 +171,7 @@ jobs:
         execute_process(COMMAND ccache -p)
         execute_process(COMMAND ccache -z)
         execute_process(
-          COMMAND ${{ steps.cmake_and_ninja.outputs.cmake_dir }}/cmake --build build
+          COMMAND ${{ steps.cmake_and_ninja.outputs.cmake_dir }}/cmake --build build --target install
           RESULT_VARIABLE result
         )
         if (NOT result EQUAL 0)
@@ -180,13 +180,12 @@ jobs:
         execute_process(COMMAND ccache -s)
     - name: Build AppImage
       run: |
-          cd build
-          make install
-          export LD_LIBRARY_PATH=$TRAVIS_BUILD_DIR/appdir/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
-          git rev-list master --count
-          wget -c "https://github.com/jimevins/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-          chmod a+x linuxdeployqt*.AppImage
-          wget -c -nv "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
-          chmod a+x appimagetool-x86_64.AppImage
-          ./linuxdeployqt*.AppImage appdir/usr/share/applications/*.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.54m.so.1.0 -verbose=2 -appimage
-          find appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
+        cd build
+        export LD_LIBRARY_PATH=$TRAVIS_BUILD_DIR/appdir/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+        git rev-list master --count
+        wget -c "https://github.com/jimevins/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
+        chmod a+x linuxdeployqt*.AppImage
+        wget -c -nv "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+        chmod a+x appimagetool-x86_64.AppImage
+        ./linuxdeployqt*.AppImage appdir/usr/share/applications/*.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.54m.so.1.0 -verbose=2 -appimage
+        find appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
