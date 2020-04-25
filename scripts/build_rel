@@ -37,5 +37,6 @@ popd
 
 cp build/compile_commands.json .
 
+conda activate cpp_develop
 pre-commit autoupdate
 pre-commit run --all-files

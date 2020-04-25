@@ -394,6 +394,14 @@ ecm_optional_add_subdirectory(src/app)
 # jmbde-quick
 ecm_optional_add_subdirectory(src/appquick)
 
+# translations
+if(BUILD_TRANSLATIONS)
+  find_package(Qt5 OPTIONAL_COMPONENTS LinguistTools)
+  if(Qt5LinguistTools_FOUND)
+    ecm_optional_add_subdirectory(translations)
+  endif()
+endif()
+
 # docs
 
 # if translation/doc host tools are missing, the Qt5 cmake config files throw

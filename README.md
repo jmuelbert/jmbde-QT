@@ -3,29 +3,29 @@
 
 - [jmbde](#jmbde)
   - [Setup](#setup)
-  - [Supported Platforms](#supported-platforms)
-  - [Running](#running)
+  - [Unterstützte Plattformen](#unterst%C3%BCtzte-plattformen)
+  - [Ausführen](#ausf%C3%BChren)
     - [Unix](#unix)
     - [Windows](#windows)
-    - [macOS](#macos)
-  - [Requests and Bug reports](#requests-and-bug-reports)
-  - [Questions or Comments](#questions-or-comments)
+  - [macOS](#macos)
+  - [Anforderungen und Fehlerberichte](#anforderungen-und-fehlerberichte)
+  - [Fragen und Kommentare](#fragen-und-kommentare)
   - [Wiki](#wiki)
-  - [Database Scheme](#database-scheme)
-  - [Sources](#sources)
-  - [Compiling](#compiling)
-    - [Dependencies](#dependencies)
-    - [On macOS](#on-macos)
-      - [For the release version](#for-the-release-version)
-      - [For the debug version](#for-the-debug-version)
-    - [On Windows](#on-windows)
-      - [For the release version:](#for-the-release-version-1)
-      - [For the debug version:](#for-the-debug-version-1)
-    - [On Linux](#on-linux)
-      - [For the release version](#for-the-release-version-2)
-      - [For the debug version](#for-the-debug-version-2)
-  - [Installing](#installing)
-  - [License](#license)
+  - [Datenbank Schema](#datenbank-schema)
+  - [Code-Quellen](#code-quellen)
+  - [Programm erstellen](#programm-erstellen)
+    - [Abhängigkeiten](#abh%C3%A4ngigkeiten)
+      - [Auf macOS](#auf-macos)
+      - [Für die Release-Version](#f%C3%BCr-die-release-version)
+      - [Für die Debug-Version](#f%C3%BCr-die-debug-version)
+    - [Unter Windows](#unter-windows)
+      - [Für die Release-Version](#f%C3%BCr-die-release-version-1)
+      - [Für die Debug-Version](#f%C3%BCr-die-debug-version-1)
+    - [Unter Linux](#unter-linux)
+      - [Für die Release-Version](#f%C3%BCr-die-release-version-2)
+      - [Für die Debug-Version](#f%C3%BCr-die-debug-version-2)
+  - [Installation](#installation)
+  - [Lizenz](#lizenz)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -34,110 +34,117 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 [![Build status](https://ci.appveyor.com/api/projects/status/mq9qt36e588dk7ui?svg=true)](https://ci.appveyor.com/project/jmuelbert/jmbde-qt)
+
 [![Build Status](https://travis-ci.org/jmuelbert/jmbde-QT.svg?branch=master)](https://travis-ci.org/jmuelbert/jmbde-QT)
 
 ![Compile on latest Ubuntu](https://github.com/jmuelbert/jmbde-QT/workflows/Compile%20on%20latest%20Ubuntu/badge.svg)
 
 ![Compile on latest macOS](https://github.com/jmuelbert/jmbde-QT/workflows/Compile%20on%20latest%20macOS/badge.svg)
 
-[Wechseln zur deutschen Version](README_DE.md)
+[switch to english version](README.md)
 
-jmbde is a program for the management of resources in companies. with this
-program, employees and the equipment they need for their work can be
-recorded. These are computers, printers and telephones.
+jmbde ist ein Programm für das Management von Ressourcen in Unternehmen. Mit
+diesem Programm können die Mitarbeiter und die Ausrüstung, die sie für ihre Arbeit
+benötigen erfasst werden. Das sind Computer, Drucker und Telefone.
 
-jmbde use the cross-platform framework [Qt](http://www.qt.io/download-open-source/),
-which means it works with the most operating systems.
+jmbde verwendet das plattformübergreifende Framework[Qt](http://www.qt.io/download-open-source/),
+was bedeutet, dass es mit den meisten Betriebssystemen funktioniert.
 
 ## Setup
 
-The program uses the [QT library](https://www.qt.io). Therefore it can be used
-on almost any platform. It runs under MacOS, Linux and Windows. Basically, an
-installer should be used to install the program on a computer. This installer
-will install on the required QT libraries. For the use of the program with
-Windows as operating system this is absolutely necessary.
-With Linux and macOS you can use a different version. QT can be installed
-centrally on these two operating systems. With these two operating systems, only
-the actual program files are then installed. But here, too, there are complete
-installation packages with everything, including QT.
+Das Programm verwendet die [QT-Bibliothek](https://www.qt.io). Daher kann es auf
+fast jeder Plattform verwendet werden . Es läuft unter MacOS, Linux und
+Windows. Grundsätzlich sollte ein Installer für die Installation des Programms
+auf einem Computer verwendet werden. Dieses Installationsprogramm wird auf die
+benötigten QT-Bibliotheken mit installieren. Für die Nutzung des Programms bei
+Windows als Betriebssystem ist dies zwingend notwendig. Bei Linux und macOS kann
+auf eine andere Variante verwendet werden. Bei diesen beiden Betriebssystemen
+kann QT zentral installiert werden. Bei diesen beiden Betriebssystemen werden dann
+nur noch die eigentlichen Programmdateien installiert. Aber auch hier gibt es
+komplette Installationspakete mit allem, auch QT.
 
-## Supported Platforms
+## Unterstützte Plattformen
 
-The standalone binary packages support the following platforms:
+Die ausführbaren Programme und Installer werden für die folgenden Plattformen zur
+Verfügung gestellt:
 
-- macOS 10.10 or later
-- Windows 7 or later
+- macOS ab der Version 10.10
+- Windows ab der Version 7
 - Linux
 
-## Running
+## Ausführen
 
-The following are some helpful notes on how to run jmbde on your native platform.
+Im Folgenden finden Sie einige hilfreiche Hinweise, wie Sie jmbde auf Ihrer nativen
+Plattform ausführen können.
 
 ### Unix
 
-Unpack the files into a directory and run:
+Entpacken Sie die Dateien in ein Verzeichnis und führen Sie sie aus:
 
 - `bin/jmbde`
 
 ### Windows
 
-Unpack the files into a directory, and then run jmbde.exe
+Entpacken Sie die Dateien in ein Verzeichnis und führen Sie dann jmbde.exe aus.
 
-### macOS
+## macOS
 
-Drag jmbde to your applications folder, and then run jmbde.
+Ziehen Sie jmbde in Ihren Anwendungsordner und führen Sie jmbde aus.
 
-## Requests and Bug reports
+## Anforderungen und Fehlerberichte
 
 - [GitHub issues (preferred)](https://github.com/jmuelbert/jmbde-QT/issues)
 
-## Questions or Comments
+## Fragen und Kommentare
 
 ## Wiki
 
 - [Main Page](https://github.com/jmuelbert/jmbde-QT/wiki)
 - [User Manual](http://jmuelbert.github.io/jmbde-QT/)
 
-## Database Scheme
+## Datenbank Schema
 
-- [Database Source SQL](docs/database-design.md)
+- [Datenbank Quellcode SQL](docs/database-design.md)
 
-## Sources
+## Code-Quellen
 
-The master branch represents the latest pre-release code.
+In dem master branch befindet sich der aktuellste Pre-Release Code.
 
 - [Releases](https://github.com/jmuelbert/jmbde-QT/releases)
 
 - [Milestones](https://github.com/jmuelbert/jmbde-QT/milestones)
 
-## Compiling
+## Programm erstellen
 
-The following are instructions for developers on how to use jmbde on your
-native system. They are not complete guides, but are contain information
-on the necessary measures. Libraries, Compilation flags, etc.
+Im Folgenden finden Sie Hinweise für Entwickler, wie Sie jmbde auf Ihrem
+nativen System aufbauen können. Sie sind keine vollständigen Leitfäden, sondern
+enthalten Hinweise zu den notwendigen Maßnahmen. Bibliotheken,
+Kompilierungs-Flags, etc.
 
-### Dependencies
+### Abhängigkeiten
 
-- The program requires qt5 from version 5.10.0 on.
-- cmake version 3.13.3 and higher
+- Das Programm benötigt qt5 ab der Version 5.10.0
+- cmake ab der Version 3.13.3
 - ninja
-- c++ development system
+- c++ Entwicklungssystem
 
-### On macOS
+#### Auf macOS
 
-- The latest Xcode.
-- Brew [installation guide](https://brew.sh)
+- Die neueste Xcode Version.
+- Brew [Installationsanleitung](https://brew.sh)
 
+```
   brew install cmake
   brew install ninja
   brew install qt5
   brew link qt5 --force
+```
 
-- Alternatively, you can [download Qt here](https://www.qt.io/download-qt-installer)
+- Alternativ können Sie auch[Qt hier herunterladen](https://www.qt.io/download-qt-installer)
 
-Run `cmake` to build jmbde:
+Führen Sie `cmake` aus, um jmbde zu erstellen:
 
-#### For the release version
+#### Für die Release-Version
 
 ```
         mkdir build-macos
@@ -147,7 +154,7 @@ Run `cmake` to build jmbde:
         cpack .
 ```
 
-#### For the debug version
+#### Für die Debug-Version
 
 ```
         mkdir build-macos
@@ -156,54 +163,51 @@ Run `cmake` to build jmbde:
         cmake --build .
 ```
 
-### On Windows
+### Unter Windows
 
-- Visual Studio 2017 or later
-- you can [download Qt here](https://www.qt.io/download-qt-installer)
-- you can install many tools with choco.[installation guide](https://chocolatey.org/install#installing-chocolatey)
+- Visual Studio 2017 oder höher
+- Sie können [Qt hier herunterladen](https://www.qt.io/download-qt-installer)
+- Sie können viele Werkzeuge mit choco installieren. [Installationsanleitung](https://chocolatey.org/install#installing-chocolatey)
 
 ```
   choco install cmake
   choco install ninja
 ```
 
-#### For the release version:
+#### Für die Release-Version
 
 ```
         mkdir build-win
         cd build-win
-        cmake -G "Ninja" ..
+        cmake -G "Ninja" ....
         cmake --build . --target install
         cpack .
 ```
 
-#### For the debug version:
+#### Für die Debug-Version
 
 ```
         mkdir build-win
-        cd build-win
+        cd build-wind-Win
         cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Debug ..
         cmake --build .
 ```
 
-### On Linux
+### Unter Linux
 
-- On Ubuntu/Debian:
+- Auf Ubuntu/Debian:
+  `sudo apt install qt5-default qttools5-dev-tools zlib1g-dev qtdeclarative5-dev cmake ninja`.
+- Auf Fedora: `sudo dnf builddep jmbde-QT cmake ninja`
+- Auf Arch Linux: `pacman -S qt cmake ninja`
 
-```bash
-   sudo apt install qt5-default qttools5-dev-tools zlib1g-dev qtdeclarative5-dev cmake ninja
+Die installierten Toolchains müssen mit derjenigen übereinstimmen, mit der Qt
+kompiliert wurde.
+
+- Als nächstes kompilieren Sie durch Ausführen:
+
+#### Für die Release-Version
+
 ```
-
-- On Fedora: `sudo dnf builddep jmbde-QT cmake ninja`
-- On Arch Linux: `pacman -S qt cmake ninja`
-
-The installed toolchains have to match the one Qt was compiled with.
-
-- Next, compile by running:
-
-#### For the release version
-
-```bash
         mkdir build-linux
         cd build-linux
         cmake -G "Ninja" ..
@@ -211,24 +215,20 @@ The installed toolchains have to match the one Qt was compiled with.
         cpack .
 ```
 
-#### For the debug version
+#### Für die Debug-Version
 
-```bash
+```
         mkdir build-linux
         cd build-linux
         cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Debug ..
         cmake --build .
 ```
 
-You can now run jmbde using the executable in
+Du kannst jmbde nun mit der ausführbaren Datei in `bin/jmbde` ausführen.
 
-```bash
-  bin/jmbde
-```
+## Installation
 
-## Installing
-
-## License
+## Lizenz
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -243,7 +243,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/gpl-3.0.txt>.
 
-Qt is available under multiple [licenses](https://www.qt.io/licensing/)
+Qt ist unter mehreren[Lizenzen](https://www.qt.io/licensing/) verfügbar.
 
 GPL V3 © [Jürgen Mülbert](https:/github.com/jmuelbert/jmbde-QT)
 

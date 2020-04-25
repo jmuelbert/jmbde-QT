@@ -45,7 +45,8 @@
 #include "jmbdemodels_export.h"
 #include "loggingcategory.h"
 
-namespace Model {
+namespace Model
+{
 /**
   \class DataContext
   \brief The Main Database class
@@ -58,253 +59,246 @@ namespace Model {
   \todo Remove UI for Testing
   \todo Move Code for every Table in his own class
  */
-class DataContext : public QObject {
-  Q_OBJECT
+class DataContext : public QObject
+{
+    Q_OBJECT
 
 public:
-  // TODO: Add Constructor: DataContext(const QString &name, + init for mySQL
-  // etc.)
-  // TODO: Remove access of settings
+    // TODO: Add Constructor: DataContext(const QString &name, + init for mySQL
+    // etc.)
+    // TODO: Remove access of settings
 
-  /*!
-      \fn DataContext( QObject *parent = nullptr,
-                      const QString &name = QString() );
+    /*!
+        \fn DataContext( QObject *parent = nullptr,
+                        const QString &name = QString() );
 
-      \brief Constructor for the DataContext
-      \details Contructur with a name for the database to use.
-   */
-  explicit JMBDEMODELS_EXPORT DataContext(QObject *parent = nullptr,
-                                          const QString &name = QString(),
-                                          const QString &appID = QString());
-
-  /*!
-        \fn  ~DataContext() override;
-
-        \brief Destructor for DataContext()
-        \details Close the connection to the database.
+        \brief Constructor for the DataContext
+        \details Contructur with a name for the database to use.
      */
-  JMBDEMODELS_EXPORT ~DataContext();
+    explicit JMBDEMODELS_EXPORT DataContext(QObject *parent = nullptr, const QString &name = QString(), const QString &appID = QString());
 
-  /*!
-      \fn void prepareDB()
+    /*!
+          \fn  ~DataContext() override;
 
-      \brief Create the database from sql
-   */
-  JMBDEMODELS_EXPORT void prepareDB();
+          \brief Destructor for DataContext()
+          \details Close the connection to the database.
+       */
+    JMBDEMODELS_EXPORT ~DataContext();
 
-  /*!
-      \fn  QSqlDatabase getDatabase()
+    /*!
+        \fn bool prepareDB()
 
-      \brief Get the ref for the opened database
+        \brief Create the database from sql
+     */
+    JMBDEMODELS_EXPORT bool prepareDB();
 
-      \return the referenz
-   */
-  JMBDEMODELS_EXPORT QSqlDatabase getDatabase();
+    /*!
+        \fn  QSqlDatabase getDatabase()
 
-  /*!
-      \fn QSqlError initDb()
-      \brief initDb get the db.lastError()
+        \brief Get the ref for the opened database
 
-      Returns The last error from the Database
-   */
-  JMBDEMODELS_EXPORT QSqlError initDb();
+        \return the referenz
+     */
+    JMBDEMODELS_EXPORT QSqlDatabase getDatabase();
 
-  /*!
-      \fn bool execQuery(QSqlQuery &query) const
+    /*!
+        \fn QSqlError initDb()
+        \brief initDb get the db.lastError()
 
-      \brief exec the QSqlQuery
+        Returns The last error from the Database
+     */
+    JMBDEMODELS_EXPORT QSqlError initDb();
 
-      \return true if the execution succesful
-   */
-  JMBDEMODELS_EXPORT static bool execQuery(QSqlQuery &query);
+    /*!
+        \fn bool execQuery(QSqlQuery &query) const
 
-  /*!
-      \fn bool execQuery(QString &queryTxt) const
+        \brief exec the QSqlQuery
 
-      \brief exec the QString
+        \return true if the execution succesful
+     */
+    JMBDEMODELS_EXPORT static bool execQuery(QSqlQuery &query);
 
-      \return true if the execution succesful
-   */
-  JMBDEMODELS_EXPORT bool execQuery(const QString &queryText);
+    /*!
+        \fn bool execQuery(QString &queryTxt) const
 
-  /* basic public actions */
+        \brief exec the QString
 
-  JMBDEMODELS_EXPORT auto check_existence(const QString &tableName,
-                                          const QString &searchId,
-                                          const QString &search) -> bool;
+        \return true if the execution succesful
+     */
+    JMBDEMODELS_EXPORT bool execQuery(const QString &queryText);
 
-  /* useful actions */
+    /* basic public actions */
 
-  /*!
-      \fn QSqlQuery getQuery(const QString &queryText)
+    JMBDEMODELS_EXPORT auto check_existence(const QString &tableName, const QString &searchId, const QString &search) -> bool;
 
-      \brief get the query by the given queryText
+    /* useful actions */
 
-      \return QSqlQuery
+    /*!
+        \fn QSqlQuery getQuery(const QString &queryText)
 
-      \sa QSqlQuery
-   */
-  JMBDEMODELS_EXPORT QSqlQuery getQuery(const QString &queryText);
+        \brief get the query by the given queryText
 
-  /*!
-      \fn bool openDB(const QString &name)
+        \return QSqlQuery
 
-      \brief Open the Database with the given name
+        \sa QSqlQuery
+     */
+    JMBDEMODELS_EXPORT QSqlQuery getQuery(const QString &queryText);
 
-      \return true ist the database succesful opened.
-   */
-  JMBDEMODELS_EXPORT bool openDB(const QString &name);
+    /*!
+        \fn bool openDB(const QString &name)
 
-  /*!
-      \fn   void renameDB(const QString &oldName, const QString &newName)
+        \brief Open the Database with the given name
 
-      \brief Rename the database to newName
-   */
-  JMBDEMODELS_EXPORT void renameDB(const QString &oldName,
-                                   const QString &newName);
+        \return true ist the database succesful opened.
+     */
+    JMBDEMODELS_EXPORT bool openDB(const QString &name);
 
-  /*!
-      \fn void deleteDB(const QString &name)
+    /*!
+        \fn   void renameDB(const QString &oldName, const QString &newName)
 
-      \brief delete the database with the given name.
-   */
-  JMBDEMODELS_EXPORT void deleteDB(const QString &name);
+        \brief Rename the database to newName
+     */
+    JMBDEMODELS_EXPORT void renameDB(const QString &oldName, const QString &newName);
 
-  /*!
-   * \brief SetConnectionString
-   * \param connect
-   */
-  JMBDEMODELS_EXPORT void SetConnectionString(const QString &connect) {
-    m_connectionString = connect;
-  }
+    /*!
+        \fn void deleteDB(const QString &name)
+
+        \brief delete the database with the given name.
+     */
+    JMBDEMODELS_EXPORT void deleteDB(const QString &name);
+
+    /*!
+     * \brief SetConnectionString
+     * \param connect
+     */
+    JMBDEMODELS_EXPORT void SetConnectionString(const QString &connect)
+    {
+        m_connectionString = connect;
+    }
 
 private:
-  /*!
-      \fn void CreateConnection()
+    /*!
+        \fn void CreateConnection()
 
-      \brief Create the connection to the database
+        \brief Create the connection to the database
 
-      \details calls from constructor. The CreateConnection
-               will Create for the four OS DB's the Connection.
-               By using sqlite is the system depend user directory
-               used.
+        \details calls from constructor. The CreateConnection
+                 will Create for the four OS DB's the Connection.
+                 By using sqlite is the system depend user directory
+                 used.
 
-      \todo init all tables
-      \todo check database version
-      \todo export and import all tables
-   */
-  void CreateConnection();
+        \todo init all tables
+        \todo check database version
+        \todo export and import all tables
+     */
+    void CreateConnection();
 
-  /*!
-      \fn void CloseConnection()
+    /*!
+        \fn void CloseConnection()
 
-      \brief Close the connection to the database
-      \details \e does nothing
+        \brief Close the connection to the database
+        \details \e does nothing
 
-   */
-  void CloseConnection();
+     */
+    void CloseConnection();
 
-  /*!
-      \var QString m_Name
-      \brief The holder for the DB-Name
-   */
-  QString m_Name;
+    /*!
+        \var QString m_Name
+        \brief The holder for the DB-Name
+     */
+    QString m_Name;
 
-  QString m_connectionString;
+    QString m_connectionString;
 
-  /*!
-      \var QSqlDatabase m_db
-      \brief the holder for the DB-Connection
-   */
-  QSqlDatabase m_db;
+    /*!
+        \var QSqlDatabase m_db
+        \brief the holder for the DB-Connection
+     */
+    QSqlDatabase m_db;
 
-  /*!
-      \var int m_dbType
-      \brief The holder for the DB-Type
-   */
-  int m_dbType{0};
+    /*!
+        \var int m_dbType
+        \brief The holder for the DB-Type
+     */
+    int m_dbType {0};
 
-  QString m_AppID;
+    QString m_AppID;
 
-  /*!
-      \var  QString m_dbHostName
-      \brief The holder for the DB-Hostname
-   */
-  QString m_dbHostName;
+    /*!
+        \var  QString m_dbHostName
+        \brief The holder for the DB-Hostname
+     */
+    QString m_dbHostName;
 
-  /*!
-       \var  QString m_dbUserName
-       \brief The holder for the DB-Username
-    */
-  QString m_dbUserName;
+    /*!
+         \var  QString m_dbUserName
+         \brief The holder for the DB-Username
+      */
+    QString m_dbUserName;
 
-  /*!
-       \var  QString m_dbPassWord
-       \brief The holder for the DB-Password
-    */
-  QString m_dbPassWord;
+    /*!
+         \var  QString m_dbPassWord
+         \brief The holder for the DB-Password
+      */
+    QString m_dbPassWord;
 
-  /*!
-      \fn  void setDataBaseAccount()
-      \brief Provide the DB-Connection
-      \details Initial the Data for the Connection from
-          the Settings
-   */
-  void setDataBaseAccount(const QString &DBType, const QString &HostName,
-                          const QString &UserName, const QString &PassWord);
+    /*!
+        \fn  void setDataBaseAccount()
+        \brief Provide the DB-Connection
+        \details Initial the Data for the Connection from
+            the Settings
+     */
+    void setDataBaseAccount(const QString &DBType, const QString &HostName, const QString &UserName, const QString &PassWord);
 
-  /*!
-      \fn bool checkDBVersion()
-      \brief Check the Version of the DB
+    /*!
+        \fn bool checkDBVersion()
+        \brief Check the Version of the DB
 
-      \return False has the DB a wrong version
-   */
-  auto checkDBVersion(
-      const QString &actualVersion,
-      const QString &actualRevision /*, const QString &actualBuild */) -> bool;
+        \return False has the DB a wrong version
+     */
+    auto checkDBVersion(const QString &actualVersion, const QString &actualRevision /*, const QString &actualBuild */) -> bool;
 
-  /*!
-      \fn bool insert(const QString &tableName, const QVariantMap &insertData)
-      \brief insert the VariantMap in the table
+    /*!
+        \fn bool insert(const QString &tableName, const QVariantMap &insertData)
+        \brief insert the VariantMap in the table
 
-      \return true is successfull
+        \return true is successfull
 
-      \sa QVariantMap
-   */
-  bool insert(const QString &tableName, const QVariantMap &insertData);
+        \sa QVariantMap
+     */
+    bool insert(const QString &tableName, const QVariantMap &insertData);
 
-  /*!
-      \fn  bool update(const QString &table, const QString &column,
-              const QVariant &newValue, const QVariant &op,
-              const QString &id)
-      \brief Update the Data in the table
+    /*!
+        \fn  bool update(const QString &table, const QString &column,
+                const QVariant &newValue, const QVariant &op,
+                const QString &id)
+        \brief Update the Data in the table
 
-      \return true is successfull
-   */
-  bool update(const QString &table, const QString &column,
-              const QVariant &newValue, const QVariant &op, const QString &id);
+        \return true is successfull
+     */
+    bool update(const QString &table, const QString &column, const QVariant &newValue, const QVariant &op, const QString &id);
 
-  /*!
-      \fn QString getSqliteName()
-      \brief Generate the Connection-Strig for the sqlite Database.
-   */
-  auto getSqliteName() -> QString;
+    /*!
+        \fn QString getSqliteName()
+        \brief Generate the Connection-Strig for the sqlite Database.
+     */
+    auto getSqliteName() -> QString;
 
-  enum DBTypes { SQLITE, PGSQL, ODBC };
+    enum DBTypes { SQLITE, PGSQL, ODBC };
 
 signals:
-  /*!
-      \fn void DBActionFinished()
-      \brief Signal for the DB-ACtion finished
-   */
-  JMBDEMODELS_EXPORT void DBActionFinished();
+    /*!
+        \fn void DBActionFinished()
+        \brief Signal for the DB-ACtion finished
+     */
+    JMBDEMODELS_EXPORT void DBActionFinished();
 
 public slots:
-  /*!
-      \fn void closeConnection()
-      \brief Slot for close connection.
-  */
-  JMBDEMODELS_EXPORT void closeConnection();
+    /*!
+        \fn void closeConnection()
+        \brief Slot for close connection.
+    */
+    JMBDEMODELS_EXPORT void closeConnection();
 };
 } // namespace Model
 

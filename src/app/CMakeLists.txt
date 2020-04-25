@@ -104,12 +104,7 @@ target_sources(${PROJECT_NAME} PRIVATE ${ICONS_SOURCES})
 
 target_sources(${PROJECT_NAME} PRIVATE loggingcategory.cpp src/main.cpp)
 
-if(BUILD_TRANSLATIONS)
-  find_package(Qt5 OPTIONAL_COMPONENTS LinguistTools)
-  if(Qt5LinguistTools_FOUND)
-    ecm_optional_add_subdirectory(translations)
-  endif()
-endif()
+
 
 if(WIN32)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/app.rc.in
