@@ -15,86 +15,89 @@
 
 #include "models/zipcity.h"
 
-Model::ZipCity::ZipCity(QObject *parent) : CommonData(parent) {
-  // Set the Model
-  m_model = new QSqlRelationalTableModel(this);
-  m_model->setTable(this->m_tableName);
-  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+Model::ZipCity::ZipCity(QObject *parent)
+    : CommonData(parent)
+{
+    // Set the Model
+    m_model = new QSqlRelationalTableModel(this);
+    m_model->setTable(this->m_tableName);
+    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-  setIndexes();
+    setIndexes();
 }
 
-void Model::ZipCity::setIndexes() {
-  m_ZipCityIdIndex = m_model->fieldIndex(QLatin1String("zip_city_id"));
-  m_ZipCodeIdIndex = m_model->fieldIndex(QLatin1String("zip_code_id"));
-  m_CityIdIndex = m_model->fieldIndex(QLatin1String("city_id"));
-  m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
+void Model::ZipCity::setIndexes()
+{
+    m_ZipCityIdIndex = m_model->fieldIndex(QLatin1String("zip_city_id"));
+    m_ZipCodeIdIndex = m_model->fieldIndex(QLatin1String("zip_code_id"));
+    m_CityIdIndex = m_model->fieldIndex(QLatin1String("city_id"));
+    m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-auto Model::ZipCity::initializeRelationalModel() -> QSqlRelationalTableModel * {
-  m_model = new QSqlRelationalTableModel(this);
+auto Model::ZipCity::initializeRelationalModel() -> QSqlRelationalTableModel *
+{
+    m_model = new QSqlRelationalTableModel(this);
 
-  m_model->setTable(this->m_tableName);
-  m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    m_model->setTable(this->m_tableName);
+    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-  m_model->select();
+    m_model->select();
 
-  return m_model;
+    return m_model;
 }
 
-auto Model::ZipCity::initializeInputDataModel() -> QSqlRelationalTableModel * {
-  m_model = new QSqlRelationalTableModel(this);
+auto Model::ZipCity::initializeInputDataModel() -> QSqlRelationalTableModel *
+{
+    m_model = new QSqlRelationalTableModel(this);
 
-  m_model->setTable(this->m_tableName);
+    m_model->setTable(this->m_tableName);
 
-  return m_model;
+    return m_model;
 }
 
-auto Model::ZipCity::initializeViewModel() -> QSqlTableModel * {
-  m_model->select();
+auto Model::ZipCity::initializeViewModel() -> QSqlTableModel *
+{
+    m_model->select();
 
-  return m_model;
+    return m_model;
 }
 
-auto Model::ZipCity::generateTableString(const QString &header) -> QString {
-  QString outString;
+auto Model::ZipCity::generateTableString(const QString &header) -> QString
+{
+    QString outString;
 
-  qCDebug(jmbdemodelsLog) << "Header:" << header
-                          << "( Columns: " << m_model->columnCount()
-                          << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(jmbdemodelsLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
-  QList<int> set;
+    QList<int> set;
 
-  // Document Title
-  outString = QLatin1String("<h1>");
-  outString += header;
-  outString += QLatin1String("</h1>");
-  outString += QLatin1String("<hr />");
-  outString +=
-      QLatin1String(R"(<table width="100%" cellspacing="0" class="tbl">)");
-  outString += QLatin1String("<thead> <tr>");
+    // Document Title
+    outString = QLatin1String("<h1>");
+    outString += header;
+    outString += QLatin1String("</h1>");
+    outString += QLatin1String("<hr />");
+    outString += QLatin1String(R"(<table width="100%" cellspacing="0" class="tbl">)");
+    outString += QLatin1String("<thead> <tr>");
 
-  for (const auto i : set) {
-    outString += QLatin1String("<th>");
-    outString.append(m_model->headerData(i, Qt::Horizontal).toString());
-    outString += QLatin1String("</th>");
-  }
+    for (const auto i : set) {
+        outString += QLatin1String("<th>");
+        outString.append(m_model->headerData(i, Qt::Horizontal).toString());
+        outString += QLatin1String("</th>");
+    }
 
-  return outString;
+    return outString;
 }
 
-auto Model::ZipCity::generateFormularString(const QString &header) -> QString {
-  QString outString;
+auto Model::ZipCity::generateFormularString(const QString &header) -> QString
+{
+    QString outString;
 
-  qCDebug(jmbdemodelsLog) << "Header:" << header
-                          << "( Columns: " << m_model->columnCount()
-                          << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(jmbdemodelsLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
-  // Document Title
-  outString = QLatin1String("<h1>");
-  outString += header;
-  outString += QLatin1String("</h1>");
-  outString += QLatin1String("<hr />");
+    // Document Title
+    outString = QLatin1String("<h1>");
+    outString += header;
+    outString += QLatin1String("</h1>");
+    outString += QLatin1String("<hr />");
 
-  return outString;
+    return outString;
 }

@@ -74,112 +74,107 @@ int main(int argc, char *argv[])
 #endif
 {
 #if defined Q_OS_ANDROID
-  if (argc > 1 && strcmp(argv[1], "-service") == 0) {
-    QAndroidService app(argc, argv);
-    qInfo() << "Service starting...";
+    if (argc > 1 && strcmp(argv[1], "-service") == 0) {
+        QAndroidService app(argc, argv);
+        qInfo() << "Service starting...";
 
-    // My service stuff
+        // My service stuff
 
-    return app.exec();
-  }
+        return app.exec();
+    }
 
-  qInfo() << "Application starting...";
+    qInfo() << "Application starting...";
 #endif
 
-  QLoggingCategory::setFilterRules(
-      QLatin1String("jmbde.*.debug=false\njmbde.*.info=false"));
+    QLoggingCategory::setFilterRules(QLatin1String("jmbde.*.debug=false\njmbde.*.info=false"));
 
 #ifndef Q_OS_WIN
-  // Prohibit using sudo or kdesu (but allow using the root user directly)
-  if (getuid() == 0) {
-    if (!qEnvironmentVariableIsEmpty("SUDO_USER")) {
-      std::cout << "Executing jmbde with sudo is not possible due to "
-                   "unfixable security vulnerabilities."
-                << std::endl;
-      return EXIT_FAILURE;
-    } else if (!qEnvironmentVariableIsEmpty("KDESU_USER")) {
-      std::cout << "Executing jmbde with kdesu is not possible due to "
-                   "unfixable security vulnerabilities."
-                << std::endl;
-      return EXIT_FAILURE;
+    // Prohibit using sudo or kdesu (but allow using the root user directly)
+    if (getuid() == 0) {
+        if (!qEnvironmentVariableIsEmpty("SUDO_USER")) {
+            std::cout << "Executing jmbde with sudo is not possible due to "
+                         "unfixable security vulnerabilities."
+                      << std::endl;
+            return EXIT_FAILURE;
+        } else if (!qEnvironmentVariableIsEmpty("KDESU_USER")) {
+            std::cout << "Executing jmbde with kdesu is not possible due to "
+                         "unfixable security vulnerabilities."
+                      << std::endl;
+            return EXIT_FAILURE;
+        }
     }
-  }
 #endif
 
-  /**
-   * enable high dpi support
-   */
-  QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-  QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    /**
+     * enable high dpi support
+     */
+    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-  /**
-   * Create application first
-   */
-  QApplication app(argc, argv);
+    /**
+     * Create application first
+     */
+    QApplication app(argc, argv);
 
-  /**
-   * Enforce application name even if the executable is renamed
-   */
-  QApplication::setApplicationName(QStringLiteral("jmbde"));
+    /**
+     * Enforce application name even if the executable is renamed
+     */
+    QApplication::setApplicationName(QStringLiteral("jmbde"));
 
-  /**
-   * set the program icon
-   */
-  QApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("jmbde")));
-  QApplication::setOrganizationDomain(QStringLiteral("jmuelbert.github.io"));
+    /**
+     * set the program icon
+     */
+    QApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("jmbde")));
+    QApplication::setOrganizationDomain(QStringLiteral("jmuelbert.github.io"));
 
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
-  QApplication::setApplicationName(QStringLiteral("jmbde"));
-  QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
+    QApplication::setApplicationName(QStringLiteral("jmbde"));
+    QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
 #else
-  QApplication::setApplicationName(QStringLiteral("jmbde"));
+    QApplication::setApplicationName(QStringLiteral("jmbde"));
 #endif
 
-  QApplication::setApplicationDisplayName(QStringLiteral("jmbde"));
-  QApplication::setOrganizationName(QStringLiteral("jmuelbert.github.io"));
-  QApplication::setApplicationVersion(QLatin1String(JMBDE_VERSION_STRING));
+    QApplication::setApplicationDisplayName(QStringLiteral("jmbde"));
+    QApplication::setOrganizationName(QStringLiteral("jmuelbert.github.io"));
+    QApplication::setApplicationVersion(QLatin1String(JMBDE_VERSION_STRING));
 
-  /**
-   * Create command line parser and feed it with known options
-   */
-  QCommandLineParser parser;
+    /**
+     * Create command line parser and feed it with known options
+     */
+    QCommandLineParser parser;
 
-  parser.setApplicationDescription(QStringLiteral("jmbde - Commandline"));
-  parser.addHelpOption();
-  parser.addVersionOption();
+    parser.setApplicationDescription(QStringLiteral("jmbde - Commandline"));
+    parser.addHelpOption();
+    parser.addVersionOption();
 
-  /**
-   * do the command line parsing
-   */
-  parser.process(app);
+    /**
+     * do the command line parsing
+     */
+    parser.process(app);
 
-  // Quick Settings
-  QQmlApplicationEngine engine;
-  engine.addImportPath(QStringLiteral("qrc:/imports"));
-  // engine.rootContext()->setContextObject(new jmbdeLocalizedContext(&engine));
+    // Quick Settings
+    QQmlApplicationEngine engine;
+    engine.addImportPath(QStringLiteral("qrc:/imports"));
+    // engine.rootContext()->setContextObject(new jmbdeLocalizedContext(&engine));
 
-  // Setup and load translator for localization
-  QString locale = QLocale::system().name();
-  QTranslator qtTranslator;
-  qtTranslator.load(QLatin1String("qt_") + locale,
-                    QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-  QApplication::installTranslator(&qtTranslator);
+    // Setup and load translator for localization
+    QString locale = QLocale::system().name();
+    QTranslator qtTranslator;
+    qtTranslator.load(QLatin1String("qt_") + locale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    QApplication::installTranslator(&qtTranslator);
 
-  QTranslator jmbdeTranslator;
-  jmbdeTranslator.load(QLatin1String("app_") + locale);
-  QApplication::installTranslator(&jmbdeTranslator);
+    QTranslator jmbdeTranslator;
+    jmbdeTranslator.load(QLatin1String("app_") + locale);
+    QApplication::installTranslator(&jmbdeTranslator);
 
-  QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths()
-                                << QLatin1String(":tango"));
-  QIcon::setThemeName(QLatin1String("tango"));
+    QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths() << QLatin1String(":tango"));
+    QIcon::setThemeName(QLatin1String("tango"));
 
-  app.setProperty("jmbde_locale", locale);
-  QApplication::setLayoutDirection(QObject::tr("LTR") == QLatin1String("RTL")
-                                       ? Qt::RightToLeft
-                                       : Qt::LeftToRight);
+    app.setProperty("jmbde_locale", locale);
+    QApplication::setLayoutDirection(QObject::tr("LTR") == QLatin1String("RTL") ? Qt::RightToLeft : Qt::LeftToRight);
 
-  MainWindow w;
-  w.show();
+    MainWindow w;
+    w.show();
 
-  return QApplication::exec();
+    return QApplication::exec();
 }

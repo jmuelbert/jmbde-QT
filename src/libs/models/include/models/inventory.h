@@ -28,7 +28,8 @@
 #include "jmbdemodels_export.h"
 #include "loggingcategory.h"
 
-namespace Model {
+namespace Model
+{
 /*!
     \class Inventory
     \brief The Inventory class
@@ -40,157 +41,171 @@ namespace Model {
     \copyright EUPL V1.2
     */
 
-class Inventory : public CommonData {
-  Q_OBJECT
+class Inventory : public CommonData
+{
+    Q_OBJECT
 
 public:
-  /*!
-      \fn explicit Inventory(QObject *parent = nullptr)
-      \brief The Constructor for the Inventory
-  */
-  explicit JMBDEMODELS_EXPORT Inventory(QObject *parent = nullptr);
+    /*!
+        \fn explicit Inventory(QObject *parent = nullptr)
+        \brief The Constructor for the Inventory
+    */
+    explicit JMBDEMODELS_EXPORT Inventory(QObject *parent = nullptr);
 
-  /*!
-      \fn  ~Inventory() override;
+    /*!
+        \fn  ~Inventory() override;
 
-      \brief Destructor for Inventory
-   */
-  JMBDEMODELS_EXPORT ~Inventory() {}
+        \brief Destructor for Inventory
+     */
+    JMBDEMODELS_EXPORT ~Inventory()
+    {
+    }
 
-  // implement the virtuals
+    // implement the virtuals
 
-  /*!
-      \fn virtual void setIndexes() final
-      \brief Set the fieldindexes from the datafieldnames of the db.
-   */
-  virtual JMBDEMODELS_EXPORT void setIndexes() final;
+    /*!
+        \fn virtual void setIndexes() final
+        \brief Set the fieldindexes from the datafieldnames of the db.
+     */
+    virtual JMBDEMODELS_EXPORT void setIndexes() final;
 
-  /*!
-      \fn virtual QSqlRelationalTableModel *initializeRelationalModel() final
-      \brief set the QSqlRelationalTableModel for the DataModel
-      Returns The QSqlRelationalTableModel
-   */
-  virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *
-  initializeRelationalModel() final;
+    /*!
+        \fn virtual QSqlRelationalTableModel *initializeRelationalModel() final
+        \brief set the QSqlRelationalTableModel for the DataModel
+        Returns The QSqlRelationalTableModel
+     */
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel() final;
 
-  /*!
-          \fn virtual QSqlRelationalTableModel *initializeInputDataModel() final
-          \brief Initialize the InputDataModel
+    /*!
+            \fn virtual QSqlRelationalTableModel *initializeInputDataModel() final
+            \brief Initialize the InputDataModel
 
-          Returns The QSqlRelationalTableModel
+            Returns The QSqlRelationalTableModel
+        */
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel() final;
+
+    /*!
+         \fn virtual QSqlTableModel *initializeViewModel() final
+         \brief Initialize the ViewModel
+
+         Returns QSqlTableModel
       */
-  virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *
-  initializeInputDataModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
 
-  /*!
-       \fn virtual QSqlTableModel *initializeViewModel() final
-       \brief Initialize the ViewModel
+    /*!
+     * \fn virtual auto generateTableString(
+                                const QString &header) -> QString final
+        \brief generateTableString
 
-       Returns QSqlTableModel
-    */
-  virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
+        Returns a QString with the generated Table for Output
+     */
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString final;
 
-  /*!
-   * \fn virtual auto generateTableString(
-                              const QString &header) -> QString final
-      \brief generateTableString
+    /*!
+         \fn virtual auto generateFormularString(
+                                    const QString &header) -> QString final
+         \brief generateFormularString
 
-      Returns a QString with the generated Table for Output
-   */
-  virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header)
-      -> QString final;
+         Returns a QString with the generated Table for Output
+      */
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
 
-  /*!
-       \fn virtual auto generateFormularString(
-                                  const QString &header) -> QString final
-       \brief generateFormularString
+    // Getter
 
-       Returns a QString with the generated Table for Output
-    */
-  virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header)
-      -> QString final;
+    /*!
+        \fn int InventoryIdIndex()
 
-  // Getter
+        \brief Get the index of the fieldname InventoryId form the database
 
-  /*!
-      \fn int InventoryIdIndex()
+        Returns the value of the index
+     */
+    JMBDEMODELS_EXPORT int InventoryIdIndex() const
+    {
+        return m_InventoryIdIndex;
+    }
 
-      \brief Get the index of the fieldname InventoryId form the database
+    /*!
+        \fn int NumberIndex()
 
-      Returns the value of the index
-   */
-  JMBDEMODELS_EXPORT int InventoryIdIndex() const { return m_InventoryIdIndex; }
+        \brief Get the index of the fieldname Number form the database
 
-  /*!
-      \fn int NumberIndex()
+        Returns the value of the index
+     */
+    JMBDEMODELS_EXPORT int NumberIndex() const
+    {
+        return m_NumberIndex;
+    }
 
-      \brief Get the index of the fieldname Number form the database
+    /*!
+        \fn int DescriptionIndex()
 
-      Returns the value of the index
-   */
-  JMBDEMODELS_EXPORT int NumberIndex() const { return m_NumberIndex; }
+        \brief Get the index of the fieldname Description form the database
 
-  /*!
-      \fn int DescriptionIndex()
+        Returns the value of the index
+     */
+    JMBDEMODELS_EXPORT int DescriptionIndex() const
+    {
+        return m_DescriptionIndex;
+    }
 
-      \brief Get the index of the fieldname Description form the database
+    /*!
+        \fn int ActiveIndex()
 
-      Returns the value of the index
-   */
-  JMBDEMODELS_EXPORT int DescriptionIndex() const { return m_DescriptionIndex; }
+        \brief Get the index of the fieldname Active form the database
 
-  /*!
-      \fn int ActiveIndex()
+        Returns the value of the index
+     */
+    JMBDEMODELS_EXPORT int ActiveIndex() const
+    {
+        return m_ActiveIndex;
+    }
 
-      \brief Get the index of the fieldname Active form the database
+    /*!
+        \fn  int LastUpdateIndex()
 
-      Returns the value of the index
-   */
-  JMBDEMODELS_EXPORT int ActiveIndex() const { return m_ActiveIndex; }
+        \brief Get the index of the fieldname LastUpdate form the database
 
-  /*!
-      \fn  int LastUpdateIndex()
-
-      \brief Get the index of the fieldname LastUpdate form the database
-
-      Returns the value of the index
-   */
-  JMBDEMODELS_EXPORT int LastUpateIndex() const { return m_LastUpdateIndex; }
+        Returns the value of the index
+     */
+    JMBDEMODELS_EXPORT int LastUpateIndex() const
+    {
+        return m_LastUpdateIndex;
+    }
 
 private:
-  /*!
-      \brief The Tablename in the database \e is const
-   */
-  const QString m_tableName = QLatin1String("inventory");
+    /*!
+        \brief The Tablename in the database \e is const
+     */
+    const QString m_tableName = QLatin1String("inventory");
 
-  /*!
-     \var int m_InventoryIdIndex
-     \brief The value of the InventoryIdIndex
-  */
-  int m_InventoryIdIndex{0};
+    /*!
+       \var int m_InventoryIdIndex
+       \brief The value of the InventoryIdIndex
+    */
+    int m_InventoryIdIndex {0};
 
-  /*!
-     \var int m_NumberIndex
-     \brief The value of the NumberIndex
-  */
-  int m_NumberIndex{0};
+    /*!
+       \var int m_NumberIndex
+       \brief The value of the NumberIndex
+    */
+    int m_NumberIndex {0};
 
-  /*!
-     \var int m_DescriptionIndex
-     \brief The value of the DescriptionIndex
-  */
-  int m_DescriptionIndex{0};
+    /*!
+       \var int m_DescriptionIndex
+       \brief The value of the DescriptionIndex
+    */
+    int m_DescriptionIndex {0};
 
-  /*!
-     \var int m_ActiveIndex
-     \brief The value of the ActiveIndex
-  */
-  int m_ActiveIndex{0};
+    /*!
+       \var int m_ActiveIndex
+       \brief The value of the ActiveIndex
+    */
+    int m_ActiveIndex {0};
 
-  /*!
-      \var int m_LastUpdateIndex
-      \brief The value of the LastUpdateIndex
-  */
-  int m_LastUpdateIndex{0};
+    /*!
+        \var int m_LastUpdateIndex
+        \brief The value of the LastUpdateIndex
+    */
+    int m_LastUpdateIndex {0};
 };
 } // namespace Model

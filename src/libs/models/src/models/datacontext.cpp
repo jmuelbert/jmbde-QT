@@ -46,12 +46,14 @@ void Model::DataContext::CreateConnection()
             m_db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"));
             m_db.setDatabaseName(targetFileAndPath);
             m_db.open();
+
             if (this->prepareDB() == false) {
                 qCCritical(jmbdemodelsLog) << "Die Datenbank" << this->m_Name << "konnte nicht erzeugt werden";
                 return;
             }
         } else {
             qCInfo(jmbdemodelsLog) << "Öffne Sqlite Datenbank:" << this->m_Name;
+
             m_db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"));
             m_db.setDatabaseName(targetFileAndPath);
         }
@@ -68,11 +70,6 @@ void Model::DataContext::CreateConnection()
 
         m_db = QSqlDatabase::addDatabase(QLatin1String("QPSQL"));
         m_db.setHostName(this->m_dbHostName);
-        m_db.setDatabaseName(this->m_Name);
-        m_db.setUserName(this->m_dbUserName);
-        m_db.setPassword(this->m_dbPassWord);
-    } else {
-        qCCritical(jmbdemodelsLog) << "Unknown DB-Type!";
     }
 }
 

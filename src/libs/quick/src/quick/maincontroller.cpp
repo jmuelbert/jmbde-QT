@@ -18,13 +18,16 @@
 
 MainController::MainController(/* QObject *parent */) = default;
 
-MainController::~MainController() { delete mEngine; }
+MainController::~MainController()
+{
+    delete mEngine;
+}
 
-bool MainController::initialize() {
+bool MainController::initialize()
+{
+    mEngine = new QQmlApplicationEngine;
 
-  mEngine = new QQmlApplicationEngine;
-
-  // QQmlContext *ctxt = mEngine->rootContext();
+    // QQmlContext *ctxt = mEngine->rootContext();
 
 #if !defined(Q_OS_ANDROID) && !defined(Q_OS_IOS)
 //    qmlRegisterType<Notification>(URI, 1, 0, "Notification");
@@ -32,14 +35,14 @@ bool MainController::initialize() {
 //    App::self()->notofication());
 #endif
 
-  // ctxt->setContextObject(new KLocalizedContext(mEngine));
+    // ctxt->setContextObject(new KLocalizedContext(mEngine));
 
-  mEngine->load(QUrl(QLatin1String("qrc:/main.qml")));
-  mEngine->addImportPath(QLatin1String("qrc:/"));
+    mEngine->load(QUrl(QLatin1String("qrc:/main.qml")));
+    mEngine->addImportPath(QLatin1String("qrc:/"));
 
-  if (mEngine->rootObjects().isEmpty()) {
-    qCWarning(jmbdequickLog) << "Impossible to load object from main.qml";
-    return false;
-  }
-  return true;
+    if (mEngine->rootObjects().isEmpty()) {
+        qCWarning(jmbdequickLog) << "Impossible to load object from main.qml";
+        return false;
+    }
+    return true;
 }
