@@ -22,6 +22,7 @@ files: [
   # e.g. "/resources/en/*.json"
   #
   "source" : "/translations/de/*.ts",
+             "README.md",
 
   #
   # where translations live

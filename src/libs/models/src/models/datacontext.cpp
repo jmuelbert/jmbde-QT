@@ -85,7 +85,7 @@ bool Model::DataContext::prepareDB()
 
     QSqlQuery query(this->m_db);
 
-    QFile file(QLatin1String("/data/data/script.sql"));
+    QFile file(QLatin1String(":/data/script.sql"));
 
     if (!file.exists()) {
         qCCritical(jmbdemodelsLog) << "Kritischer Fehler bei der Initialisierung der Datenbank."
@@ -118,9 +118,9 @@ bool Model::DataContext::prepareDB()
             if (!cleanedLine.startsWith(QStringLiteral("--")) && !cleanedLine.startsWith(QStringLiteral("DROP")) && !cleanedLine.isEmpty()) {
                 line += cleanedLine;
             }
-            if (cleanedLine.endsWith(QStringLiteral(";")))
+            if (cleanedLine.endsWith(QLatin1String(";")))
                 break;
-            if (cleanedLine.startsWith(QStringLiteral("COMMIT"))) {
+            if (cleanedLine.startsWith(QLatin1String("COMMIT"))) {
                 hasText = true;
             }
         }
@@ -155,27 +155,27 @@ auto Model::DataContext::checkDBVersion(const QString &actualVersion, const QStr
 
     QSqlQuery query(QLatin1String("SELECT version, revision, patch, last_update FROM database_version"));
 
-    qCDebug(jmbdemodelsLog) << "CheckDBVersion, try getversion " << m_db.lastError().text();
+    qCDebug(jmbdemodelsLog) << "Prüfe Datenbank Version : " << m_db.lastError().text();
 
     while (query.next()) {
         version = query.value(0).toString();
-        qDebug() << "Version = " << version;
+        qCDebug(jmbdemodelsLog) << "Version = " << version;
         revision = query.value(1).toString();
         build = query.value(2).toString();
         lupdate = query.value(3).toDateTime();
     }
 
     if ((version == actualVersion) && (revision == actualRevision)) {
-        qCDebug(jmbdemodelsLog) << "Check DBVersion: OK - Version:" << version << "." << revision << "." << build << " from " << lupdate.toString();
+        qCDebug(jmbdemodelsLog) << "Prüfe Datenbank Version: OK - Version:" << version << "." << revision << "." << build << " von " << lupdate.toString();
 
         retValue = true;
     } else {
         if (version < actualVersion) {
-            qCCritical(jmbdemodelsLog) << "Check DBVersion: Database to old. Version : " << version << "  <> " << actualVersion << "dbVersion : " << revision << " <> dbRevision : " << actualRevision;
+            qCCritical(jmbdemodelsLog) << "Prüfe Datenbank Version: Datenbank zu alt. Version : " << version << "  <> " << actualVersion << "dbVersion : " << revision << " <> dbRevision : " << actualRevision;
         }
 
         if (revision < actualRevision) {
-            qCCritical(jmbdemodelsLog) << "Check DBVersion: Database to old. Version : " << version << "  <> " << actualVersion << "dbVersion : " << revision << " <> dbRevision : " << actualRevision;
+            qCCritical(jmbdemodelsLog) << "Prüfe Datenbank Version: Datenbank zu alt. Version : " << version << "  <> " << actualVersion << "dbVersion : " << revision << " <> dbRevision : " << actualRevision;
         }
     }
 
@@ -184,7 +184,7 @@ auto Model::DataContext::checkDBVersion(const QString &actualVersion, const QStr
 
 auto Model::DataContext::check_existence(const QString &tableName, const QString &searchId, const QString &search) -> bool
 {
-    auto queryStr = QString(QStringLiteral("SELECT %1 FROM %2 WHERE %3 = \"%4\"")).arg(searchId, tableName, searchId, search);
+    auto queryStr = QString(QLatin1String("SELECT %1 FROM %2 WHERE %3 = \"%4\"")).arg(searchId, tableName, searchId, search);
 
     auto query = this->getQuery(queryStr);
 
@@ -192,7 +192,7 @@ auto Model::DataContext::check_existence(const QString &tableName, const QString
         if (query.next())
             return true;
     } else {
-        qCWarning(jmbdemodelsLog) << "CheckExistence(" << tableName << ", " << searchId << ", " << search << ") : " << query.lastError().text();
+        qCWarning(jmbdemodelsLog) << "Prüfe Datenbank auf (" << tableName << ", " << searchId << ", " << search << ") : " << query.lastError().text();
     }
 
     return false;

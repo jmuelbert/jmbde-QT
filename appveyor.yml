@@ -124,11 +124,6 @@ for:
       - sudo chown -R $(id -nu) jmbde.app
       - mkdir -p dmgdir/jmbde.app
       - cp -r jmbde.app/* dmgdir/jmbde.app/
-      # prepare jmbdequick
-      - sudo macdeployqt jmbdequick.app -verbose=2
-      - sudo chown -R $(id -nu) jmbdequick.app
-      - mkdir -p dmgdir/jmbdequick.app
-      - cp -r jmbdequick.app/* dmgdir/jmbdequick.app/
       # build dmg
       - ln -s /Applications dmgdir/Applications
       - hdiutil create -volname jmbde-$VERSION -srcfolder dmgdir -ov -format UDZO jmbde-$VERSION.dmg;

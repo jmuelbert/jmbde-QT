@@ -63,29 +63,29 @@ repos:
       - id: shellcheck
       - id: shfmt
 
-  # - repo: https://github.com/Lucas-C/pre-commit-hooks-go
-  #   rev: v1.0.1
-  #   hooks:
-  #     - id: checkmake
+  - repo: https://github.com/Lucas-C/pre-commit-hooks-go
+    rev: v1.0.1
+    hooks:
+      - id: checkmake
 
-  # - repo: https://github.com/Lucas-C/pre-commit-hooks-java
-  #   rev: 1.3.9
-  #   hooks:
-  #     - id: validate-html
+  - repo: https://github.com/Lucas-C/pre-commit-hooks-java
+    rev: 1.3.9
+    hooks:
+      - id: validate-html
 
-  # - repo: https://github.com/Lucas-C/pre-commit-hooks-lxml
-  #   rev: v1.1.0
-  #   hooks:
-  #     - id: forbid-html-img-without-alt-text
-  #     - id: forbid-non-std-html-attributes
-  #     -   id: detect-missing-css-classes
-  #         args:
-  #         - --css-files-dir
-  #         - .
-  #         - --html-files-dir
-  #         - .
-  #     - id: html-tags-blacklist
-  #     - id: html-attributes-blacklist
+  - repo: https://github.com/Lucas-C/pre-commit-hooks-lxml
+    rev: v1.1.0
+    hooks:
+      - id: forbid-html-img-without-alt-text
+      - id: forbid-non-std-html-attributes
+      -   id: detect-missing-css-classes
+          args:
+          - --css-files-dir
+          - .
+          - --html-files-dir
+          - .
+      - id: html-tags-blacklist
+      - id: html-attributes-blacklist
 
   # - repo: https://github.com/Lucas-C/pre-commit-hooks-markup
   #   rev: v1.0.0
@@ -106,26 +106,26 @@ repos:
   #         # optional custom config:
   #         args: [--json, --verbose, --dockerfile]
 
-  # - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
-  #   rev: v1.1.0
-  #   hooks:
-  #     - id: python-safety-dependencies-check
+  - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
+    rev: v1.1.0
+    hooks:
+      - id: python-safety-dependencies-check
 
-  # - repo: https://github.com/jstewmon/check-swagger
-  #   rev: v0.1.4
-  #   hooks:
-  #     - id: check-swagger
+  - repo: https://github.com/jstewmon/check-swagger
+    rev: v0.1.4
+    hooks:
+      - id: check-swagger
 
-  # - repo: https://github.com/thlorenz/doctoc
-  #   rev: v1.4.0  # substitute a tagged version
-  #   hooks:
-  #     - id: doctoc
+  - repo: https://github.com/thlorenz/doctoc
+    rev: v1.4.0  # substitute a tagged version
+    hooks:
+      - id: doctoc
 
-  # - repo: https://github.com/noahsark769/xcodeproj-sort-pre-commit-hook
-  #   rev: v1.1.0
-  #   hooks:
-  #     - id: xcodeproj-sort
-  #       args: [--groups-position=above]
+  - repo: https://github.com/noahsark769/xcodeproj-sort-pre-commit-hook
+    rev: v1.1.0
+    hooks:
+      - id: xcodeproj-sort
+        args: [--groups-position=above]
 
   # - repo: https://github.com/pryorda/dockerfilelint-precommit-hooks
   #   rev: v0.1.0
@@ -172,18 +172,18 @@ repos:
   #     - id: forbid-autopkg-overrides
   #     - id: forbid-autopkg-trust-info
 
-  # - repo: https://github.com/pocc/pre-commit-hooks
-  #   rev: v1.1.1
-  #   hooks:
-  #     - id: clang-format
-  #       args: [-i, --style=LLVM]
-  #     - id: clang-tidy
-  #       args: [-checks=*]
-  #     - id: oclint
-  #       args: [-enable-clang-static-analyzer, -enable-global-analysis]
-  #     - id: uncrustify
-  #     - id: cppcheck
-  #       args: [--enable=all]
+  - repo: https://github.com/pocc/pre-commit-hooks
+    rev: v1.1.1
+    hooks:
+      - id: clang-format
+        args: [-i, -style=file]
+      - id: clang-tidy
+        args: [-checks=*]
+      # - id: oclint
+      #   args: [-enable-clang-static-analyzer, -enable-global-analysis]
+      # - id: uncrustify
+      # - id: cppcheck
+      #   args: [--enable=all]
 
 
   # - repo: https://github.com/iconmaster5326/cmake-format-pre-commit-hook
