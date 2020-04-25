@@ -21,15 +21,13 @@ files: [
   # Source files filter
   # e.g. "/resources/en/*.json"
   #
-  "source" : "/translations/*.ts",
-             "README.md",
+  "source" : "README.md",
 
   #
   # where translations live
   # e.g. "/resources/%two_letters_code%/%original_file_name%"
   #
-  "translation" : "/translations/%two_letters_code%/%original_file_name%",
-      "README_%two_letters_code%.md"
+  "translation" : "README_%two_letters_code%.md"
 
   #
   # files or directories for ignore
