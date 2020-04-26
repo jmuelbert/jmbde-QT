@@ -47,20 +47,24 @@
  *        property alias username: textInputUsername.text
  *        property alias password: textInputPassword.text
  */
-namespace Settings {
-namespace Groups {
+namespace Settings
+{
+namespace Groups
+{
 const char WINDOWSSTATE[] = "WindowState";
 const char DATABASE[] = "Database";
 } // namespace Groups
 
-namespace WindowState {
+namespace WindowState
+{
 const char WINDOW_X[] = "window_x";
 const char WINDOW_Y[] = "window_y";
 const char WINDOW_WIDTH[] = "window_width";
 const char WINDOW_HEIGHT[] = "window_height";
 } // namespace WindowState
 
-namespace Database {
+namespace Database
+{
 const char TYPE[] = "type";
 const char CONNECTION[] = "connection";
 const char HOSTNAME[] = "hostname";
@@ -73,15 +77,17 @@ const char PASSWORD[] = "password";
 
 enum DbType { SQLITE, MYSQL, ODBC, POSTGRESQL };
 
-namespace Database {
-
-namespace Version {
+namespace Database
+{
+namespace Version
+{
 const char Version[] = "0";
 const char Revision[] = "90";
 const char Patch[] = "0";
 } // namespace Version
 
-namespace Type {
+namespace Type
+{
 const char SQLITE[] = "SqLite";
 const char MYSQL[] = "MySql";
 const char ODBC[] = "ODBC";

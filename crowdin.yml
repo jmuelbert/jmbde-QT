@@ -3,7 +3,7 @@
 #
 "project_identifier" : "jmbde-qt"
 "api_key" : "87e89bbe696340b8616533b6d62cf374"
-"base_path" : "/translations"
+"base_path" : "./"
 #"base_url" : ""
 
 #
@@ -21,14 +21,37 @@ files: [
   # Source files filter
   # e.g. "/resources/en/*.json"
   #
-  "source" : "README.md",
+  "source" : "/translations/jmbde_*.ts",
+            "/README.md",
+            "/NEWS.md",
+            "/CONTRIBUTING.md",
+            "/CODE_OF_CONDUCT.md",
+            "/docs/manual/index.rst",
+            "/docs/manual/chapters/appindex.rst",
+            "/docs/manual/chapters/database.rst",
+            "/docs/manual/chapters/getting_involved.rst",
+            "/docs/manual/chapters/getting_started.rst",
+            "/docs/manual/chapters/introduction.rst",
+            "/docs/manual/chapters/preferences.rst",
+            "/docs/manual/chapters/user_interface.rst",
 
   #
   # where translations live
   # e.g. "/resources/%two_letters_code%/%original_file_name%"
   #
-  "translation" : "README_%two_letters_code%.md"
-
+  "translation" : "/translations/%original_file_name%",
+            "README_%two_letters_code%.md",
+            "/NEWS_%two_letters_code%.md",
+            "/CONTRIBUTING_%two_letters_code%.md",
+            "/CODE_OF_CONDUCT_%two_letters_code%.md",
+            "/docs/manual/index_%two_letters_code%.rst",
+            "/docs/manual/chapters/appindex_%two_letters_code%.rst",
+            "/docs/manual/chapters/database_%two_letters_code%.rst",
+            "/docs/manual/chapters/getting_involved_%two_letters_code%.rst",
+            "/docs/manual/chapters/getting_started_%two_letters_code%.rst",
+            "/docs/manual/chapters/introduction_%two_letters_code%.rst",
+            "/docs/manual/chapters/preferences_%two_letters_code%.rst",
+            "/docs/manual/chapters/user_interface_%two_letters_code%.rst",
   #
   # files or directories for ignore
   # e.g. ["/**/?.txt", "/**/[0-9].txt", "/**/*\?*.txt"]

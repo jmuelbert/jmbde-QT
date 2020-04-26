@@ -25,7 +25,8 @@
 
 #include "qtlockedfile.h"
 
-namespace SharedTools {
+namespace SharedTools
+{
 /*!
     \class QtLockedFile
     \brief The QtLockedFile class extends QFile with advisory locking functions.
@@ -57,12 +58,14 @@ namespace SharedTools {
     Constructs an unlocked \e QtLockedFile object. This constructor behaves in
    the same way as \e QFile::QFile(). \sa QFile::QFile()
 */
-QtLockedFile::QtLockedFile() : QFile() {
+QtLockedFile::QtLockedFile()
+    : QFile()
+{
 #ifdef Q_OS_WIN
-  m_semaphore_hnd = 0;
-  m_mutex_hnd = 0;
+    m_semaphore_hnd = 0;
+    m_mutex_hnd = 0;
 #endif
-  m_lock_mode = NoLock;
+    m_lock_mode = NoLock;
 }
 
 /*!
@@ -70,12 +73,14 @@ QtLockedFile::QtLockedFile() : QFile() {
    constructor behaves in the same way as \e QFile::QFile(const QString&). \sa
    QFile::QFile()
 */
-QtLockedFile::QtLockedFile(const QString &name) : QFile(name) {
+QtLockedFile::QtLockedFile(const QString &name)
+    : QFile(name)
+{
 #ifdef Q_OS_WIN
-  m_semaphore_hnd = 0;
-  m_mutex_hnd = 0;
+    m_semaphore_hnd = 0;
+    m_mutex_hnd = 0;
 #endif
-  m_lock_mode = NoLock;
+    m_lock_mode = NoLock;
 }
 
 /*!
@@ -83,13 +88,19 @@ QtLockedFile::QtLockedFile(const QString &name) : QFile(name) {
     otherwise returns \e false.
     \sa lockMode()
 */
-bool QtLockedFile::isLocked() const { return m_lock_mode != NoLock; }
+bool QtLockedFile::isLocked() const
+{
+    return m_lock_mode != NoLock;
+}
 
 /*!
     Returns the type of lock currently held by this object, or \e
    QtLockedFile::NoLock. \sa isLocked()
 */
-QtLockedFile::LockMode QtLockedFile::lockMode() const { return m_lock_mode; }
+QtLockedFile::LockMode QtLockedFile::lockMode() const
+{
+    return m_lock_mode;
+}
 
 /*!
     \fn bool QtLockedFile::lock(LockMode mode, bool block = true)

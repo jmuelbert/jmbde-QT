@@ -4,10 +4,16 @@ set -e
 set -x
 export BUILD_TYPE=Release
 
-rm -rf build
-mkdir build
+# rm -rf build
+if [ ! -d "build" ]; then
+	mkdir build
+fi
+
 pushd build
-mkdir install
+
+if [ ! -d "install" ]; then
+	mkdir install
+fi
 
 # conan remote add bincrafters "https://api.bintray.com/conan/bincrafters/public-conan"
 # conan create ../conan/ECM

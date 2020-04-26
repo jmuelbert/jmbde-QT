@@ -1,6 +1,7 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+
 - [jmbde](#jmbde)
   - [Setup](#setup)
   - [Supported Platforms](#supported-platforms)
@@ -19,11 +20,11 @@
       - [For the release version](#for-the-release-version)
       - [For the debug version](#for-the-debug-version)
     - [On Windows](#on-windows)
-      - [For the release version:](#for-the-release-version-1)
-      - [For the debug version:](#for-the-debug-version-1)
+      - [For the release version:](#for-the-release-version)
+      - [For the debug version:](#for-the-debug-version)
     - [On Linux](#on-linux)
-      - [For the release version](#for-the-release-version-2)
-      - [For the debug version](#for-the-debug-version-2)
+      - [For the release version](#for-the-release-version-1)
+      - [For the debug version](#for-the-debug-version-1)
   - [Installing](#installing)
   - [License](#license)
 

@@ -156,29 +156,28 @@ repos:
   #     - id: giticket
   #       args: ['--regex=PROJ-[0-9]', '--format={ticket} {commit_msg}']  # Optional
 
-  # - repo: https://github.com/homebysix/pre-commit-macadmin
-  #   rev: v1.6.2
-  #   hooks:
-  #     - id: check-autopkg-recipe-list
-  #     - id: check-autopkg-recipes
-  #     - id: check-jamf-extension-attributes
-  #     - id: check-jamf-scripts
-  #     - id: check-jamf-profiles
-  #     - id: check-munki-pkgsinfo
-  #     - id: check-munkiadmin-scripts
-  #     - id: check-munkipkg-buildinfo
-  #     - id: check-outset-scripts
-  #     - id: check-plists
-  #     - id: forbid-autopkg-overrides
-  #     - id: forbid-autopkg-trust-info
+  - repo: https://github.com/homebysix/pre-commit-macadmin
+    rev: v1.6.2
+    hooks:
+      - id: check-autopkg-recipe-list
+      - id: check-autopkg-recipes
+      - id: check-jamf-extension-attributes
+      - id: check-jamf-scripts
+      - id: check-jamf-profiles
+      - id: check-munki-pkgsinfo
+      - id: check-munkiadmin-scripts
+      - id: check-munkipkg-buildinfo
+      - id: check-outset-scripts
+      - id: check-plists
+      - id: forbid-autopkg-overrides
+      - id: forbid-autopkg-trust-info
 
   - repo: https://github.com/pocc/pre-commit-hooks
     rev: v1.1.1
     hooks:
       - id: clang-format
         args: [-i, -style=file]
-      - id: clang-tidy
-        args: [-checks=*]
+      # - id: clang-tidy
       # - id: oclint
       #   args: [-enable-clang-static-analyzer, -enable-global-analysis]
       # - id: uncrustify

@@ -43,26 +43,28 @@
 #define QT_QTLOCKEDFILE_EXPORT
 #endif
 
-namespace SharedTools {
-class QT_QTLOCKEDFILE_EXPORT QtLockedFile : public QFile {
+namespace SharedTools
+{
+class QT_QTLOCKEDFILE_EXPORT QtLockedFile : public QFile
+{
 public:
-  enum LockMode { NoLock = 0, ReadLock, WriteLock };
+    enum LockMode { NoLock = 0, ReadLock, WriteLock };
 
-  QtLockedFile();
-  QtLockedFile(const QString &name);
-  ~QtLockedFile();
+    QtLockedFile();
+    QtLockedFile(const QString &name);
+    ~QtLockedFile();
 
-  bool lock(LockMode mode, bool block = true);
-  bool unlock();
-  bool isLocked() const;
-  LockMode lockMode() const;
+    bool lock(LockMode mode, bool block = true);
+    bool unlock();
+    bool isLocked() const;
+    LockMode lockMode() const;
 
 private:
 #ifdef Q_OS_WIN
-  Qt::HANDLE m_semaphore_hnd;
-  Qt::HANDLE m_mutex_hnd;
+    Qt::HANDLE m_semaphore_hnd;
+    Qt::HANDLE m_mutex_hnd;
 #endif
-  LockMode m_lock_mode;
+    LockMode m_lock_mode;
 };
 
 } // namespace SharedTools
