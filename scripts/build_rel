@@ -21,6 +21,7 @@ fi
 # conan install ..
 
 cmake .. \
+	-DCMAKE_GENERATOR=Ninja \
 	-DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
 	-DBUILD_SHARED_LIBS=ON \
 	-DBUILD_TRANSLATIONS=ON \
@@ -41,8 +42,8 @@ cpack .
 
 popd
 
+rm compile_commands.json
 cp build/compile_commands.json .
 
-conda activate cpp_develop
 pre-commit autoupdate
 pre-commit run --all-files

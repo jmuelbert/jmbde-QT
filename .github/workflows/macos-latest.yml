@@ -6,7 +6,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Checkout sources
-      - uses: actions/checkout@v1
+        uses: actions/checkout@v1
       - name: Brew update-reset
         run: brew update-reset
       - name: Brew update

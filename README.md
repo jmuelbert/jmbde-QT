@@ -33,14 +33,9 @@
 # jmbde
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-
+![CI: Build Test](https://github.com/jmuelbert/jmbde-QT/workflows/CI:%20Build%20Test/badge.svg)
 [![Build status](https://ci.appveyor.com/api/projects/status/mq9qt36e588dk7ui?svg=true)](https://ci.appveyor.com/project/jmuelbert/jmbde-qt)
-
 [![Build Status](https://travis-ci.org/jmuelbert/jmbde-QT.svg?branch=master)](https://travis-ci.org/jmuelbert/jmbde-QT)
-
-![Compile on latest Ubuntu](https://github.com/jmuelbert/jmbde-QT/workflows/Compile%20on%20latest%20Ubuntu/badge.svg)
-
-![Compile on latest macOS](https://github.com/jmuelbert/jmbde-QT/workflows/Compile%20on%20latest%20macOS/badge.svg)
 
 [switch to english version](README.md)
 
@@ -48,7 +43,7 @@ jmbde ist ein Programm für das Management von Ressourcen in Unternehmen. Mit
 diesem Programm können die Mitarbeiter und die Ausrüstung, die sie für ihre Arbeit
 benötigen erfasst werden. Das sind Computer, Drucker und Telefone.
 
-jmbde verwendet das plattformübergreifende Framework[Qt](http://www.qt.io/download-open-source/),
+jmbde verwendet das plattformübergreifende Framework [Qt](http://www.qt.io/download-open-source/),
 was bedeutet, dass es mit den meisten Betriebssystemen funktioniert.
 
 ## Setup
@@ -82,7 +77,9 @@ Plattform ausführen können.
 
 Entpacken Sie die Dateien in ein Verzeichnis und führen Sie sie aus:
 
-- `bin/jmbde`
+```bash
+    bin/jmbde
+```
 
 ### Windows
 
@@ -124,7 +121,7 @@ Kompilierungs-Flags, etc.
 
 ### Abhängigkeiten
 
-- Das Programm benötigt qt5 ab der Version 5.10.0
+- Das Programm benötigt qt5 ab der Version 5.12.5
 - cmake ab der Version 3.13.3
 - ninja
 - c++ Entwicklungssystem
@@ -141,25 +138,25 @@ Kompilierungs-Flags, etc.
   brew link qt5 --force
 ```
 
-- Alternativ können Sie auch[Qt hier herunterladen](https://www.qt.io/download-qt-installer)
+- Alternativ können Sie auch [Qt hier herunterladen](https://www.qt.io/download-qt-installer)
 
 Führen Sie `cmake` aus, um jmbde zu erstellen:
 
 #### Für die Release-Version
 
-```
-        mkdir build-macos
-        cd build-macos
-        cmake -G "Ninja" ..
+```bash
+        mkdir build
+        cd build
+        cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Release ..
         cmake --build . --target install
         cpack .
 ```
 
 #### Für die Debug-Version
 
-```
-        mkdir build-macos
-        cd build-macos
+```bash
+        mkdir build
+        cd build
         cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Debug ..
         cmake --build .
 ```
@@ -170,16 +167,16 @@ Führen Sie `cmake` aus, um jmbde zu erstellen:
 - Sie können [Qt hier herunterladen](https://www.qt.io/download-qt-installer)
 - Sie können viele Werkzeuge mit choco installieren. [Installationsanleitung](https://chocolatey.org/install#installing-chocolatey)
 
-```
+```cmd
   choco install cmake
   choco install ninja
 ```
 
 #### Für die Release-Version
 
-```
-        mkdir build-win
-        cd build-win
+```cmd
+        mkdir build
+        cd build
         cmake -G "Ninja" ....
         cmake --build . --target install
         cpack .
@@ -187,9 +184,9 @@ Führen Sie `cmake` aus, um jmbde zu erstellen:
 
 #### Für die Debug-Version
 
-```
-        mkdir build-win
-        cd build-wind-Win
+```cmd
+        mkdir build
+        cd build
         cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Debug ..
         cmake --build .
 ```
@@ -208,24 +205,24 @@ kompiliert wurde.
 
 #### Für die Release-Version
 
-```
-        mkdir build-linux
-        cd build-linux
-        cmake -G "Ninja" ..
+```bash
+        mkdir build
+        cd build
+        cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Release ..
         cmake --build . --target install
         cpack .
 ```
 
 #### Für die Debug-Version
 
-```
-        mkdir build-linux
-        cd build-linux
+```bash
+        mkdir build
+        cd build
         cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Debug ..
         cmake --build .
 ```
 
-Du kannst jmbde nun mit der ausführbaren Datei in `bin/jmbde` ausführen.
+Sie können nun `jmbde` mit dem Befehl `bin/jmbde`  aus fer Kommandozeile starten.
 
 ## Installation
 
