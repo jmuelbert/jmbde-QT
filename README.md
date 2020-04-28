@@ -131,7 +131,7 @@ Kompilierungs-Flags, etc.
 - Die neueste Xcode Version.
 - Brew [Installationsanleitung](https://brew.sh)
 
-```
+```bash
   brew install cmake
   brew install ninja
   brew install qt5
@@ -241,7 +241,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/gpl-3.0.txt>.
 
-Qt ist unter mehreren[Lizenzen](https://www.qt.io/licensing/) verfügbar.
+Qt ist unter mehreren [Lizenzen](https://www.qt.io/licensing/) verfügbar.
 
 GPL V3 © [Jürgen Mülbert](https:/github.com/jmuelbert/jmbde-QT)
 

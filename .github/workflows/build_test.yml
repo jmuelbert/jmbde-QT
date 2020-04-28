@@ -233,7 +233,7 @@ jobs:
       if: matrix.config.os == 'macos-latest' && startsWith(github.ref, 'refs/tags') && (matrix.qt_version == '5.12.8')
       run: |
         cd build
-        ../../Qt/*/*/bin/macdeployqt jmbde.app
+        ../Qt/*/*/bin/macdeployqt jmbde.app
         cp .src/app/APP_ICON.icns jmbde.app/Contents/Resources
         hdiutil create -volname cpeditor-${{ steps.get_version.outputs.VERSION }}-x64 -srcfolder jmbde.app -ov -format UDZO jmbde-${{ steps.get_version.outputs.VERSION }}-x64.dmg
     - name: Release on Mac

@@ -22,7 +22,7 @@ Model::DataContext::DataContext(QObject *parent, const QString &name, const QStr
     , m_dbType(DBTypes::SQLITE)
     , m_AppID(appId.isEmpty() ? QUuid::createUuid().toString() : appId)
 {
-    qCDebug(jmbdemodelsLog) << "Angeforderte Datenbank : " << this->m_Name;
+    qCDebug(jmbdemodelsLog) << tr("Angeforderte Datenbank : ") << this->m_Name;
 
     CreateConnection();
 }
@@ -31,7 +31,7 @@ Model::DataContext::~DataContext()
 {
     this->m_db.close();
 
-    qCDebug(jmbdemodelsLog) << "~DataContext()";
+    qCDebug(jmbdemodelsLog) << tr("~DataContext()");
 }
 
 void Model::DataContext::CreateConnection()
@@ -41,24 +41,24 @@ void Model::DataContext::CreateConnection()
 
         QFile f(targetFileAndPath);
         if (!f.exists()) {
-            qCInfo(jmbdemodelsLog) << "Erzeuge Sqlite Datenbank: " << this->m_Name;
+            qCInfo(jmbdemodelsLog) << tr("Erzeuge Sqlite Datenbank: ") << this->m_Name;
 
             m_db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"));
             m_db.setDatabaseName(targetFileAndPath);
             m_db.open();
 
             if (this->prepareDB() == false) {
-                qCCritical(jmbdemodelsLog) << "Die Datenbank" << this->m_Name << "konnte nicht erzeugt werden";
+                qCCritical(jmbdemodelsLog) << tr("Die Datenbank") << this->m_Name << tr("konnte nicht erzeugt werden");
                 return;
             }
         } else {
-            qCInfo(jmbdemodelsLog) << "Öffne Sqlite Datenbank:" << this->m_Name;
+            qCInfo(jmbdemodelsLog) << tr("Öffne Sqlite Datenbank:") << this->m_Name;
 
             m_db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"));
             m_db.setDatabaseName(targetFileAndPath);
         }
     } else if (m_dbType == DBTypes::ODBC) {
-        qCInfo(jmbdemodelsLog) << "Öffne ODBC Datenbank: " << this->m_Name << " auf dem Server: " << this->m_dbHostName;
+        qCInfo(jmbdemodelsLog) << tr("Öffne ODBC Datenbank: ") << this->m_Name << tr(" auf dem Server: ") << this->m_dbHostName;
 
         m_db = QSqlDatabase::addDatabase(QLatin1String("QODBC"));
         m_db.setHostName(this->m_dbHostName);
@@ -66,7 +66,7 @@ void Model::DataContext::CreateConnection()
         m_db.setUserName(this->m_dbUserName);
         m_db.setPassword(this->m_dbPassWord);
     } else if (m_dbType == DBTypes::PGSQL) {
-        qCInfo(jmbdemodelsLog) << "Öffne PostgreSQL Datenbank: " << this->m_Name << " auf dem Server " << this->m_dbHostName;
+        qCInfo(jmbdemodelsLog) << tr("Öffne PostgreSQL Datenbank: ") << this->m_Name << tr(" auf dem Server ") << this->m_dbHostName;
 
         m_db = QSqlDatabase::addDatabase(QLatin1String("QPSQL"));
         m_db.setHostName(this->m_dbHostName);
@@ -88,16 +88,13 @@ bool Model::DataContext::prepareDB()
     QFile file(QLatin1String(":/data/script.sql"));
 
     if (!file.exists()) {
-        qCCritical(jmbdemodelsLog) << "Kritischer Fehler bei der Initialisierung der Datenbank."
-                                   << "Die Datei '" << file.fileName() << "' zum initialisieren der Datenbank "
-                                   << " und zum erzeugen der Tabellen konnten nicht gefunden werden.";
+        qCCritical(jmbdemodelsLog) << tr("Kritischer Fehler bei der Initialisierung der Datenbank.") << tr("Die Datei '") << file.fileName() << tr("' zum initialisieren der Datenbank ")
+                                   << tr(" und zum erzeugen der Tabellen konnten nicht gefunden werden.");
         return false;
     }
 
     if (!file.open(QIODevice::ReadOnly)) {
-        qCCritical(jmbdemodelsLog) << "Kritischer Fehler bei der Initialisierung der Datenbank."
-                                   << "Die Datei '" << file.fileName() << " zum initialisieren der Datenbank "
-                                   << "kann nicht geöffnet werden.";
+        qCCritical(jmbdemodelsLog) << tr("Kritischer Fehler bei der Initialisierung der Datenbank.") << tr("Die Datei '") << file.fileName() << tr(" zum initialisieren der Datenbank ") << tr("kann nicht geöffnet werden.");
         return false;
     }
 
@@ -126,21 +123,17 @@ bool Model::DataContext::prepareDB()
         }
         if (!line.isEmpty()) {
             if (!query.exec(line)) {
-                qCCritical(jmbdemodelsLog) << "Fehler beim Lesen der Datei zur Datenbank Erzeugung:"
-                                           << "Fehler in der Zeile <" << line << "> : "
-                                           << "Fehlermeldung: " << query.lastQuery() << " : " << query.lastError().text();
+                qCCritical(jmbdemodelsLog) << tr("Fehler beim Lesen der Datei zur Datenbank Erzeugung: ") << tr("Fehler in der Zeile <") << line << "> : " << tr("Fehlermeldung: ") << query.lastQuery() << " : " << query.lastError().text();
                 return false;
             }
 
         } else {
-            qCCritical(jmbdemodelsLog) << "Fehler beim Lesen der Datei zur Datenbank Erzeugung:"
-                                       << "Fehler in der Zeile <" << line << "> : "
-                                       << "Fehlermeldung: " << query.lastQuery() << " : " << query.lastError().text();
+            qCCritical(jmbdemodelsLog) << tr("Fehler beim Lesen der Datei zur Datenbank Erzeugung:") << tr("Fehler in der Zeile <") << line << "> : " << tr("Fehlermeldung: ") << query.lastQuery() << " : " << query.lastError().text();
         }
     }
     file.close();
 
-    qCDebug(jmbdemodelsLog) << "Datenbank erfolgreich erzeugt";
+    qCDebug(jmbdemodelsLog) << tr("Datenbank erfolgreich erzeugt");
     return true;
 }
 

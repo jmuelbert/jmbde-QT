@@ -1,5 +1,6 @@
 #include <QCoreApplication>
 #include <QLibrary>
+#include <QObject>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
@@ -20,29 +21,16 @@ public:
     ~DataContext_Test() override = default;
 
 private:
-    QSqlDatabase sdb;
-    QTemporaryDir tmpDir;
+    DataContext *datacontext;
 
 private slots:
     void initTestCase() // will run once before the first test
     {
-        QString driverName(QLatin1String("QSQLITE"));
-        QString testDBFile(QLatin1String("test.db3"));
-        QString testDBName(QLatin1String("db"));
-
-        // Check that the driver exists
-        QVERIFY2(QSqlDatabase::isDriverAvailable(driverName), "QSQLITE driver not found.");
-
-        // Set the database file
-        QString dbname = QDir(tmpDir.path()).absoluteFilePath(testDBFile);
-        QSqlDatabase db = QSqlDatabase::addDatabase(driverName, testDBName);
-        db.setDatabaseName(dbname);
+        datacontext = new DataContext(nullptr, QLatin1String("test.db"), QLatin1String("test_app"));
     }
 
     void cleanupTestCase()
     {
-        QString testDBName(QLatin1String("db"));
-        QSqlDatabase db = QSqlDatabase::database(testDBName, false);
     }
 
     // Test for the Model Library
@@ -51,14 +39,8 @@ private slots:
     void CheckExistence_data();
     void RenameDatabase();
     void DeleteDatabase();
-    void PrepareDB();
 };
 
-void DataContext_Test::PrepareDB()
-{
-    auto data_context = DataContext(nullptr, QLatin1String("testdb.db3"), QLatin1String("test"));
-    data_context.prepareDB();
-}
 void DataContext_Test::CheckExistence_data()
 {
 }

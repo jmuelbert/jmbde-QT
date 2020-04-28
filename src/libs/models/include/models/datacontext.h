@@ -86,13 +86,6 @@ public:
     JMBDEMODELS_EXPORT ~DataContext();
 
     /*!
-        \fn bool prepareDB()
-
-        \brief Create the database from sql
-     */
-    JMBDEMODELS_EXPORT bool prepareDB();
-
-    /*!
         \fn  QSqlDatabase getDatabase()
 
         \brief Get the ref for the opened database
@@ -192,6 +185,13 @@ private:
         \todo export and import all tables
      */
     void CreateConnection();
+
+    /*!
+        \fn bool prepareDB()
+
+        \brief Create the database from sql
+     */
+    bool prepareDB();
 
     /*!
         \fn void CloseConnection()
