@@ -115,7 +115,7 @@ gmon.out
 *.check_cache
 CMakeFiles/
 CMakeCache.txt
-compile_commands.json
+compile_commands*.json
 Makefile*
 Thumbs.db
 core

@@ -181,7 +181,7 @@ jobs:
     - name: Build AppImage
       run: |
         cd build
-        export LD_LIBRARY_PATH=$TRAVIS_BUILD_DIR/appdir/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+        export LD_LIBRARY_PATH=appdir/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
         git rev-list master --count
         wget -c "https://github.com/jimevins/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
         chmod a+x linuxdeployqt*.AppImage

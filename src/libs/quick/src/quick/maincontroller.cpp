@@ -23,7 +23,7 @@ MainController::~MainController()
     delete mEngine;
 }
 
-bool MainController::initialize()
+auto MainController::initialize() -> bool
 {
     mEngine = new QQmlApplicationEngine;
 

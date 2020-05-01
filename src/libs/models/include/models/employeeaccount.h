@@ -112,7 +112,7 @@ public:
     // Getter
 
     /*!
-        \fn int EmployeeAccountIndex()
+        \fn int EmployeeAccountIdIndex()
 
         \brief Get the index of the fieldname EmployeeAccountId form the
        database
@@ -173,7 +173,7 @@ private:
     int m_EmployeeAccountIdIndex {0};
 
     /*!
-       \var int m_EEmployeeIdIndex
+       \var int m_EmployeeIdIndex
        \brief The value of the EmployeeIdIndex
     */
     int m_EmployeeIdIndex {0};

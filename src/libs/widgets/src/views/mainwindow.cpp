@@ -1,6 +1,6 @@
 /*
    jmbde a BDE Tool for companies
-   Copyright (C) 2013-2019  Jürgen Mülbert
+   Copyright (C) 2013-2020  Jürgen Mülbert
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     initOutline();
 
-    this->dataBaseName = QString(QStringLiteral("jmbde"));
+    this->dataBaseName = QString(QLatin1String("jmbde"));
     this->dataContext = new Model::DataContext(dynamic_cast<QObject *>(this), this->dataBaseName);
     qDebug() << "ActualViewRow : " << m_actualView;
 
@@ -275,8 +275,8 @@ void MainWindow::on_actionPrint_triggered()
     case VIEW_EMPLOYEE: {
         qDebug() << "Print Employee !";
         dataContext->openDB(dataBaseName);
+        QString style = Model::Employee::setOutTableStyle();
         auto *edm = new Model::Employee;
-        QString style = edm->setOutTableStyle();
         QString text = edm->generateTableString(tr("Employee"));
 
         doc.setHtml(style + text);
@@ -286,8 +286,8 @@ void MainWindow::on_actionPrint_triggered()
     case VIEW_COMPUTER: {
         qDebug() << "Print Computer !";
         dataContext->openDB(dataBaseName);
+        QString style = Model::Computer::setOutTableStyle();
         auto *cdm = new Model::Computer;
-        QString style = cdm->setOutTableStyle();
         QString text = cdm->generateTableString(tr("Computer"));
 
         doc.setHtml(style + text);
@@ -297,8 +297,8 @@ void MainWindow::on_actionPrint_triggered()
     case VIEW_PRINTER: {
         qDebug() << "Print Printer !";
         dataContext->openDB(dataBaseName);
+        QString style = Model::Printer::setOutTableStyle();
         auto *pdm = new Model::Printer;
-        QString style = pdm->setOutTableStyle();
         QString text = pdm->generateTableString(tr("Printer"));
 
         doc.setHtml(style + text);
@@ -308,8 +308,8 @@ void MainWindow::on_actionPrint_triggered()
     case VIEW_PHONE: {
         qDebug() << "Print Printer !";
         dataContext->openDB(dataBaseName);
+        QString style = Model::Phone::setOutTableStyle();
         auto *pdm = new Model::Phone;
-        QString style = pdm->setOutTableStyle();
         QString text = pdm->generateTableString(tr("Phone"));
 
         doc.setHtml(style + text);
@@ -343,8 +343,8 @@ void MainWindow::on_action_Export_Pdf_triggered()
 
         dataContext->openDB(dataBaseName);
 
+        QString style = Model::Employee::setOutTableStyle();
         auto *edm = new Model::Employee;
-        QString style = edm->setOutTableStyle();
         QString text = edm->generateTableString(tr("Employee"));
 
         doc.setHtml(style + text);
@@ -356,8 +356,8 @@ void MainWindow::on_action_Export_Pdf_triggered()
 
         dataContext->openDB(dataBaseName);
 
+        QString style = Model::Computer::setOutTableStyle();
         auto *cdm = new Model::Computer;
-        QString style = cdm->setOutTableStyle();
         QString text = cdm->generateTableString(tr("Computer"));
 
         doc.setHtml(style + text);
@@ -368,8 +368,8 @@ void MainWindow::on_action_Export_Pdf_triggered()
         qDebug() << "Print Printer !";
         dataContext->openDB(dataBaseName);
 
+        QString style = Model::Printer::setOutTableStyle();
         auto *pdm = new Model::Printer;
-        QString style = pdm->setOutTableStyle();
         QString text = pdm->generateTableString(tr("Printer"));
 
         doc.setHtml(style + text);
@@ -381,8 +381,8 @@ void MainWindow::on_action_Export_Pdf_triggered()
 
         dataContext->openDB(dataBaseName);
 
+        QString style = Model::Phone::setOutTableStyle();
         auto *pdm = new Model::Phone;
-        QString style = pdm->setOutTableStyle();
         QString text = pdm->generateTableString(tr("Phone"));
 
         doc.setHtml(style + text);
@@ -424,8 +424,8 @@ void MainWindow::on_actionPrint_Preview_triggered()
 
         dataContext->openDB(dataBaseName);
 
+        QString style = Model::Employee::setOutTableStyle();
         auto *edm = new Model::Employee;
-        QString style = edm->setOutTableStyle();
         QString text = edm->generateTableString(tr("Employee"));
 
         doc.setHtml(style + text);
@@ -437,8 +437,8 @@ void MainWindow::on_actionPrint_Preview_triggered()
 
         dataContext->openDB(dataBaseName);
 
+        QString style = Model::Computer::setOutTableStyle();
         auto *cdm = new Model::Computer;
-        QString style = cdm->setOutTableStyle();
         QString text = cdm->generateTableString(tr("Computer"));
 
         doc.setHtml(style + text);
@@ -450,8 +450,8 @@ void MainWindow::on_actionPrint_Preview_triggered()
 
         dataContext->openDB(dataBaseName);
 
+        QString style = Model::Printer::setOutTableStyle();
         auto *pdm = new Model::Printer;
-        QString style = pdm->setOutTableStyle();
         QString text = pdm->generateTableString(tr("Printer"));
 
         doc.setHtml(style + text);
@@ -463,8 +463,8 @@ void MainWindow::on_actionPrint_Preview_triggered()
 
         dataContext->openDB(dataBaseName);
 
+        QString style = Model::Phone::setOutTableStyle();
         auto *pdm = new Model::Phone;
-        QString style = pdm->setOutTableStyle();
         QString text = pdm->generateTableString(tr("Phone"));
 
         doc.setHtml(style + text);

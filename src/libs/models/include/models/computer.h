@@ -405,7 +405,7 @@ private:
     int m_ComputerIdIndex {0};
 
     /*!
-        \var   int m_Name
+        \var   int  m_NameIndex
         \brief The value of the NameIndex
      */
     int m_NameIndex {0};
@@ -429,7 +429,7 @@ private:
     int m_ServiceNumberIndex {0};
 
     /*!
-        \var   int m_Name
+        \var   int m_MemoryIndex
         \brief The value of the NameIndex
      */
     int m_MemoryIndex {0};
@@ -483,7 +483,7 @@ private:
     int m_EmployeeIdIndex {0};
 
     /*!
-        \var   int m_Name
+        \var   int m_PlaceIdIndex
         \brief The value of the NameIndex
      */
     int m_PlaceIdIndex {0};

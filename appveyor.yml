@@ -132,8 +132,9 @@ for:
       - ctest -C $CONFIGURATION -VV
 
     artifacts:
-      - path: build/jmbde*.(dmg|sh|tar.gz)
-        name: jmbde
+      - name: jmbde
+        path: build/jmbde*.dmg
+
 
     deploy:
       - provider: GitHub
@@ -223,9 +224,9 @@ for:
 
     artifacts:
       - name: "Linux-Debian"
-        path: build/*.deb
+        path: jmbde*.deb
       - name: "Linux-Archive"
-        path: build/*.tar.gz
+        path: jmbde*.tar.gz
       - name: "Linux-AppImage"
         path: jmbde*.AppImage
 
@@ -233,7 +234,7 @@ for:
       - provider: GitHub
         auth_token:
           secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
-        artifact: /.*\.(msi|7z|deb|exe)/
+        artifact: /.*\.(msi|7z|deb|exe|dmg|tar.gz|AppImage)/
         draft: true
         prerelease: false
         on:

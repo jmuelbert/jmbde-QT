@@ -1,5 +1,5 @@
 #
-# jmbde a BDE Tool for companies Copyright (C) 2013-2019  Jürgen Mülbert
+# jmbde a BDE Tool for companies Copyright (C) 2013-2020  Jürgen Mülbert
 #
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -104,8 +104,6 @@ target_sources(${PROJECT_NAME} PRIVATE ${ICONS_SOURCES})
 
 target_sources(${PROJECT_NAME} PRIVATE loggingcategory.cpp src/main.cpp)
 
-
-
 if(WIN32)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/app.rc.in
                  ${PROJECT_BINARY_DIR}/app.rc @ONLY)
@@ -151,6 +149,8 @@ elseif(APPLE)
   set_target_properties(
     ${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_BUNDLE_VERSION
                                "${JMBDE_APPLICATIONS_VERSION}")
+  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_ICON_FILE
+                                                   "${APP_ICON}.icns")
   set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_COPYRIGHT
                                                    "2013-2020 Jürgen Mülbert")
 

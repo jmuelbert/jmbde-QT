@@ -1,3 +1,5 @@
+default_language_version:
+  python: python3
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v2.5.0
@@ -9,6 +11,7 @@ repos:
       - id: check-ast
       - id: check-builtin-literals
       - id: check-byte-order-marker
+        exclude: ^.*(\.cbproj|\.groupproj|\.props|\.sln|\.vcxproj|\.vcxproj.filters)$
       - id: check-case-conflict
       - id: detect-private-key
       - id: check-docstring-first
@@ -20,6 +23,9 @@ repos:
       - id: check-vcs-permalinks
       - id: check-xml
       - id: end-of-file-fixer
+        stages:
+        - commit
+        - manual
       - id: file-contents-sorter
       - id: fix-encoding-pragma
       - id: forbid-new-submodules
@@ -27,13 +33,16 @@ repos:
       - id: sort-simple-yaml
       - id: trailing-whitespace
         args: [--markdown-linebreak-ext=md]
-      # - id: no-commit-to-branch
-      #  args: [--branch, master]
+        stages:
+          - commit
+          - manual
+      - id: no-commit-to-branch
+        args: [--branch, develop]
       - id: pretty-format-json
         args: ['--autofix']
 
   - repo: https://github.com/jumanjihouse/pre-commit-hooks
-    rev: 2.0.0
+    rev: 2.0.1
     hooks:
       - id: bundler-audit
       # - id: check-mailmap
@@ -183,9 +192,3 @@ repos:
       # - id: uncrustify
       # - id: cppcheck
       #   args: [--enable=all]
-
-
-  # - repo: https://github.com/iconmaster5326/cmake-format-pre-commit-hook
-  #   rev: v0.6.9
-  #   hooks:
-  #     - id: cmake-format

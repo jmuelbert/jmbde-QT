@@ -124,7 +124,7 @@ public:
     }
 
     /*!
-        \fn int NumberIndex()
+        \fn int NameIndex() const
 
         \brief Get the index of the fieldname Number form the database
 

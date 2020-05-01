@@ -1,5 +1,5 @@
 #
-# jmbde a BDE Tool for companies Copyright (C) 2013-2019  Jürgen Mülbert
+# jmbde a BDE Tool for companies Copyright (C) 2013-2020  Jürgen Mülbert
 #
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -78,8 +78,14 @@ target_compile_definitions(
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
 target_link_libraries(
-  ${PROJECT_NAME} PRIVATE jmuelbert::jmbdequick jmuelbert::jmbdemodels Qt5::Widgets Qt5::Core
-                          Qt5::Sql Qt5::Qml ${CONAN_LIBS})
+  ${PROJECT_NAME}
+  PRIVATE jmuelbert::jmbdequick
+          jmuelbert::jmbdemodels
+          Qt5::Widgets
+          Qt5::Core
+          Qt5::Sql
+          Qt5::Qml
+          ${CONAN_LIBS})
 
 # Use a single application on MacOS + Windows instead of dbus.
 if(APPLE OR WIN32)

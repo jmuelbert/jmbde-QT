@@ -136,7 +136,7 @@ along with this program.  If not, see
         <location/>
         <location filename="../src/libs/widgets/src/views/chipcardinputarea.cpp" line="+114"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bearbeiten</translation>
     </message>
     <message>
         <location filename="../src/libs/widgets/src/views/chipcardinputarea.cpp" line="-9"/>
@@ -268,7 +268,7 @@ along with this program.  If not, see
     <message>
         <location/>
         <source>Employee</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mitarbeiter</translation>
     </message>
     <message>
         <location/>
@@ -344,7 +344,7 @@ along with this program.  If not, see
         <location/>
         <location filename="../src/libs/widgets/src/views/computerinputarea.cpp" line="+143"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bearbeiten</translation>
     </message>
     <message>
         <location filename="../src/libs/widgets/src/views/computerinputarea.cpp" line="-9"/>
@@ -431,7 +431,7 @@ along with this program.  If not, see
         <location/>
         <location filename="../src/libs/widgets/src/views/departmentinputarea.cpp" line="+118"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bearbeiten</translation>
     </message>
     <message>
         <location filename="../src/libs/widgets/src/views/departmentinputarea.cpp" line="-9"/>
@@ -464,7 +464,7 @@ along with this program.  If not, see
     <message>
         <location filename="../src/libs/widgets/src/views/employeeinputarea.ui"/>
         <source>Employee</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mitarbeiter</translation>
     </message>
     <message>
         <location/>
@@ -630,7 +630,7 @@ along with this program.  If not, see
         <location/>
         <location filename="../src/libs/widgets/src/views/employeeinputarea.cpp" line="+234"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bearbeiten</translation>
     </message>
     <message>
         <location filename="../src/libs/widgets/src/views/employeeinputarea.cpp" line="-9"/>
@@ -689,7 +689,7 @@ along with this program.  If not, see
         <location/>
         <location filename="../src/libs/widgets/src/views/functioninputarea.cpp" line="+140"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bearbeiten</translation>
     </message>
     <message>
         <location filename="../src/libs/widgets/src/views/functioninputarea.cpp" line="-9"/>
@@ -839,7 +839,7 @@ along with this program.  If not, see
         <location line="+81"/>
         <location line="+96"/>
         <source>Employee</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mitarbeiter</translation>
     </message>
     <message>
         <location line="-398"/>
@@ -1069,7 +1069,7 @@ Please try a newer version, if any available
         <location/>
         <location filename="../src/libs/widgets/src/views/manufacturerinputarea.cpp" line="+156"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bearbeiten</translation>
     </message>
     <message>
         <location filename="../src/libs/widgets/src/views/manufacturerinputarea.cpp" line="-9"/>
@@ -1127,7 +1127,7 @@ Please try a newer version, if any available
     <message>
         <location/>
         <source>Employee</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mitarbeiter</translation>
     </message>
     <message>
         <location/>
@@ -1183,7 +1183,7 @@ Please try a newer version, if any available
         <location/>
         <location filename="../src/libs/widgets/src/views/mobileinputarea.cpp" line="+162"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bearbeiten</translation>
     </message>
     <message>
         <location filename="../src/libs/widgets/src/views/mobileinputarea.cpp" line="-9"/>
@@ -1208,6 +1208,118 @@ Please try a newer version, if any available
     <message>
         <location line="+0"/>
         <source>The database reported an error: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Model::DataContext</name>
+    <message>
+        <location filename="../src/libs/models/src/models/datacontext.cpp" line="+25"/>
+        <source>Angeforderte Datenbank : </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>~DataContext()</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Erzeuge Sqlite Datenbank: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Die Datenbank</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>konnte nicht erzeugt werden</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Öffne Sqlite Datenbank:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Öffne ODBC Datenbank: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source> auf dem Server: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Öffne PostgreSQL Datenbank: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source> auf dem Server </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <location line="+6"/>
+        <source>Kritischer Fehler bei der Initialisierung der Datenbank.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-6"/>
+        <location line="+6"/>
+        <source>Die Datei &apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-6"/>
+        <source>&apos; zum initialisieren der Datenbank </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source> und zum erzeugen der Tabellen konnten nicht gefunden werden.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source> zum initialisieren der Datenbank </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>kann nicht geöffnet werden.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+29"/>
+        <source>Fehler beim Lesen der Datei zur Datenbank Erzeugung: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+5"/>
+        <source>Fehler in der Zeile &lt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-5"/>
+        <location line="+5"/>
+        <source>Fehlermeldung: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Fehler beim Lesen der Datei zur Datenbank Erzeugung:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Datenbank erfolgreich erzeugt</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1252,7 +1364,7 @@ Please try a newer version, if any available
         <location/>
         <location filename="../src/libs/widgets/src/views/osinputarea.cpp" line="+143"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bearbeiten</translation>
     </message>
     <message>
         <location filename="../src/libs/widgets/src/views/osinputarea.cpp" line="-9"/>
@@ -1320,7 +1432,7 @@ Please try a newer version, if any available
     <message>
         <location/>
         <source>Employee</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mitarbeiter</translation>
     </message>
     <message>
         <location/>
@@ -1361,7 +1473,7 @@ Please try a newer version, if any available
         <location/>
         <location filename="../src/libs/widgets/src/views/phoneinputarea.cpp" line="+160"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bearbeiten</translation>
     </message>
     <message>
         <location filename="../src/libs/widgets/src/views/phoneinputarea.cpp" line="-9"/>
@@ -1482,7 +1594,7 @@ Please try a newer version, if any available
     <message>
         <location/>
         <source>Employee</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mitarbeiter</translation>
     </message>
     <message>
         <location/>
@@ -1523,7 +1635,7 @@ Please try a newer version, if any available
         <location/>
         <location filename="../src/libs/widgets/src/views/printerinputarea.cpp" line="+172"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bearbeiten</translation>
     </message>
     <message>
         <location filename="../src/libs/widgets/src/views/printerinputarea.cpp" line="-9"/>
@@ -1582,7 +1694,7 @@ Please try a newer version, if any available
         <location/>
         <location filename="../src/libs/widgets/src/views/processorinputarea.cpp" line="+142"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bearbeiten</translation>
     </message>
     <message>
         <location filename="../src/libs/widgets/src/views/processorinputarea.cpp" line="-9"/>
@@ -1659,7 +1771,7 @@ Please try a newer version, if any available
         <location/>
         <location filename="../src/libs/widgets/src/views/softwareinputarea.cpp" line="+143"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bearbeiten</translation>
     </message>
     <message>
         <location filename="../src/libs/widgets/src/views/softwareinputarea.cpp" line="-9"/>
@@ -1718,7 +1830,7 @@ Please try a newer version, if any available
         <location/>
         <location filename="../src/libs/widgets/src/views/titleinputarea.cpp" line="+142"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bearbeiten</translation>
     </message>
     <message>
         <location filename="../src/libs/widgets/src/views/titleinputarea.cpp" line="-9"/>

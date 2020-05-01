@@ -161,7 +161,7 @@ public:
     }
 
     /*!
-        \fn  int LastUpdateIndex()
+        \fn  int int LastUpateIndex() const
 
         \brief Get the index of the fieldname LastUpdate form the database
 

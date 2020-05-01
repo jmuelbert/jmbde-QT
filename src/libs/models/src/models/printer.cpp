@@ -43,7 +43,7 @@ void Model::Printer::setIndexes()
     m_EmployeeIdIndex = m_model->fieldIndex(QLatin1String("employe_id"));
     m_PlaceIdIndex = m_model->fieldIndex(QLatin1String("place_id"));
     m_DepartmentIdIndex = m_model->fieldIndex(QLatin1String("department_id"));
-    m_ManufacurerIdIndex = m_model->fieldIndex(QLatin1String("manufacturer_id"));
+    m_ManufacturerIdIndex = m_model->fieldIndex(QLatin1String("manufacturer_id"));
     m_InventoryIdIndex = m_model->fieldIndex(QLatin1String("inventory_id"));
     m_ComputerIdIndex = m_model->fieldIndex(QLatin1String("computer_id"));
     m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));

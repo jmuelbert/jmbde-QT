@@ -48,7 +48,7 @@ class DeviceType : public CommonData
 
 public:
     /*!
-        \fn explicit DeviceName(QObject *parent = nullptr)
+        \fn explicit DeviceType(QObject *parent = nullptr)
         \brief The Constructor for the DeviceName
     */
     explicit JMBDEMODELS_EXPORT DeviceType(QObject *parent = nullptr);

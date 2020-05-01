@@ -21,12 +21,13 @@ public:
     ~DataContext_Test() override = default;
 
 private:
-    DataContext *datacontext;
+    DataContext *dataContext;
+    QString databaseName = QLatin1String("test.db");
 
 private slots:
     void initTestCase() // will run once before the first test
     {
-        datacontext = new DataContext(nullptr, QLatin1String("test.db"), QLatin1String("test_app"));
+        dataContext = new DataContext(nullptr, databaseName, QLatin1String("test_app"));
     }
 
     void cleanupTestCase()
@@ -34,32 +35,46 @@ private slots:
     }
 
     // Test for the Model Library
-    void OpenDatabase();
-    void CheckExistence();
-    void CheckExistence_data();
-    void RenameDatabase();
-    void DeleteDatabase();
+    void GetDatabase();
+    void InitDatabase();
+    // void GetQuery();
+    // void ExecQuery();
 };
 
-void DataContext_Test::CheckExistence_data()
+void DataContext_Test::GetDatabase()
 {
+    QSqlDatabase db = dataContext->getDatabase();
+
+    QString name = db.databaseName();
+    QVERIFY(name.length() > 0);
+    QVERIFY(db.isValid());
 }
 
-void DataContext_Test::OpenDatabase()
+void DataContext_Test::InitDatabase()
 {
+    QSqlError err = dataContext->initDb();
+
+    QVERIFY(err.type() == QSqlError::NoError);
 }
 
-void DataContext_Test::CheckExistence()
-{
-}
+// void DataContext_Test::GetQuery() {
+//    const QString queryString = QLatin1String("SELECT * FROM employee;");
 
-void DataContext_Test::RenameDatabase()
-{
-}
+//   dataContext->openDB(databaseName);
 
-void DataContext_Test::DeleteDatabase()
-{
-}
+//    QSqlQuery query = dataContext->getQuery(queryString);
+
+//    QVERIFY2(query.isValid(), "Test generated QUERY.");
+
+//}
+
+// void DataContext_Test::ExecQuery() {
+//    const QString queryString = QLatin1String("SELECT * FROM employee;");
+
+//   dataContext->openDB(databaseName);
+
+//    QVERIFY(dataContext->execQuery(queryString));
+//}
 
 QTEST_GUILESS_MAIN(DataContext_Test)
 

@@ -103,11 +103,11 @@ public:
     JMBDEMODELS_EXPORT QSqlError initDb();
 
     /*!
-        \fn bool execQuery(QSqlQuery &query) const
+        \fn static bool execQuery(QSqlQuery &query);
 
         \brief exec the QSqlQuery
 
-        \return true if the execution succesful
+        \return true if the execution success ful
      */
     JMBDEMODELS_EXPORT static bool execQuery(QSqlQuery &query);
 

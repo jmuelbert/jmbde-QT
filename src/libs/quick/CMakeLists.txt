@@ -94,12 +94,12 @@ target_link_libraries(
 #
 # Finding Qt
 #
-find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS Core  Qml)
+find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS Core Qml)
 
-if (Qt5QuickCompiler_FOUND AND NOT DISABLE_QTQUICK_COMPILER)
-    qtquick_compiler_add_resources(RuqolaResources qml/qml.qrc)
-else ()
-    qt5_add_resources(Resources_SRCS resources/qml/qml.qrc)
+if(Qt5QuickCompiler_FOUND AND NOT DISABLE_QTQUICK_COMPILER)
+  qtquick_compiler_add_resources(RuqolaResources qml/qml.qrc)
+else()
+  qt5_add_resources(Resources_SRCS resources/qml/qml.qrc)
 endif()
 
 target_sources(

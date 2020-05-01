@@ -1,6 +1,6 @@
 #
 
-# jmbde a BDE Tool for companies Copyright (C) 2013-2019  Jürgen Mülbert
+# jmbde a BDE Tool for companies Copyright (C) 2013-2020  Jürgen Mülbert
 #
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -62,14 +62,13 @@ if(NOT Qt5Test_FOUND)
   return()
 endif()
 
-foreach(test_name tst_datacontext)
-  add_executable(${test_name} ${test_name}.cpp)
-  target_link_libraries(
-    ${test_name} PRIVATE Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Sql Qt5::Test
-                         jmuelbert::jmbdemodels)
-  add_test(NAME ${test_name} COMMAND $<TARGET_FILE:${test_name}> -maxwarnings 0)
-endforeach()
-
-# QML Tests add_test(NAME qmltests COMMAND qmltestrunner WORKING_DIRECTORY
-# ${CMAKE_CURRENT_SOURCE_DIR}) set_property(TEST qmltests PROPERTY ENVIRONMENT
-# "QML2_IMPORT_PATH=${CMAKE_BINARY_DIR}/bin")
+ecm_add_tests(
+  tst_acount.cpp
+  tst_datacontext.cpp
+  LINK_LIBRARIES
+  Qt5::Core
+  Qt5::Gui
+  Qt5::Widgets
+  Qt5::Sql
+  Qt5::Test
+  jmuelbert::jmbdemodels)

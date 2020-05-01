@@ -359,8 +359,8 @@ private:
     int m_ManufacturerIdIndex {0};
 
     /*!
-        \var int m_nventoryIdIndex
-        \brief The value of the nventoryIdIndex
+        \var int m_InventoryIdIndex
+        \brief The value of the InventoryIdIndex
      */
     int m_InventoryIdIndex {0};
 

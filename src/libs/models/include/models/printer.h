@@ -47,7 +47,7 @@ class Printer : public CommonData
 {
 public:
     /*!
-        \fn Computer(QObject *parent = nullptr)
+        \fn Printer(QObject *parent = nullptr)
 
         \brief Constructor for the Account
      */
@@ -126,7 +126,7 @@ public:
     }
 
     /*!
-       \fn  int ServiceNumberIndex()
+       \fn  nt SerialNumberIndex() const
 
        \brief Get the index of the fieldname ServiceNumber form the database
 
@@ -294,7 +294,7 @@ public:
     }
 
     /*!
-        \fn int ManufacturerIdIndex()
+        \fn int ManufacurerIdIndex() const
 
         \brief Get the index of the fieldname ManufacturerId form the database
 
@@ -302,7 +302,7 @@ public:
      */
     JMBDEMODELS_EXPORT int ManufacurerIdIndex() const
     {
-        return m_ManufacurerIdIndex;
+        return m_ManufacturerIdIndex;
     }
 
     /*!
@@ -441,7 +441,7 @@ private:
         \var   int m_ManufacturerIdIndex
         \brief The value of the ManufacturerIdIndex
      */
-    int m_ManufacurerIdIndex {0};
+    int m_ManufacturerIdIndex {0};
 
     /*!
        \var   int m_InventoryIdIndex

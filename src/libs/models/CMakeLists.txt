@@ -230,7 +230,6 @@ else()
   # Set installation paths This takes care of installing into "lib64" on distros
   # that use that, for instance, by setting CMAKE_INSTALL_FULL_LIBDIR.
 
-
   set(BIN_INSTALL_DIR "${CMAKE_INSTALL_BINDIR}") # relative, usually "bin"
   set(LIB_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}") # "lib" or "lib64"
   set(INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_INCLUDE_DIR}/cmake/${PROJECT_NAME}")

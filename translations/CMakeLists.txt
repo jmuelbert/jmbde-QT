@@ -67,13 +67,10 @@ foreach(LANG ${LANGUAGES})
   add_custom_target(
     ts_${LANG}
     COMMAND
-      Qt5::lupdate ${PROJECT_SOURCE_DIR}/../src/app
-      ${PROJECT_SOURCE_DIR}/../src/libs/models
-      ${PROJECT_SOURCE_DIR}/../src/libs/quick
-      ${PROJECT_SOURCE_DIR}/../src/libs/widgets -locations relative -no-ui-lines
-      -no-obsolete -ts ${CMAKE_CURRENT_SOURCE_DIR}/jmbde_${LANG}.ts
-      # WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-  )
+      Qt5::lupdate src/app/src src/libs/models src/libs/quick src/libs/widgets
+      -locations relative -no-ui-lines -no-obsolete -ts
+      ${CMAKE_CURRENT_SOURCE_DIR}/jmbde_${LANG}.ts
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
   add_dependencies(ts ts_${LANG})
 endforeach()
 

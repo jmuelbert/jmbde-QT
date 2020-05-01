@@ -13,43 +13,54 @@
 # details.
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.12...3.16 FATAL_ERROR)
 
-find_package(
-    Qt5 ${QT_MIN_VERSION} REQUIRED
-    COMPONENTS
-        Core
-        Test
-    )
-
-set_package_properties(
-    Qt5Test
-    PROPERTIES
-    DESCRIPTION
-        "Qt5 Unit testing framework"
-    URL
-        "https://www.qt.io"
-    TYPE
-        OPTIONAL
-    PURPOSE
-        "Required to build the unit tests"
-    )
-
-if(NOT Qt5Test_FOUND)
-    message(STATUS "Qt5Test not found, autotests will not be built.")
-    return()
+if(${CMAKE_VERSION} VERSION_LESS 3.17)
+  cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
+else()
+  cmake_policy(VERSION 3.17)
 endif()
 
-foreach(test_name
-    tst_quicktest)
+# Tell CMake to run moc when necessary:
+set(CMAKE_AUTOMOC ON)
 
-    add_executable(${test_name} ${test_name}.cpp)
-    target_link_libraries(${test_name} PRIVATE
-    Qt5::Test)
+# As moc files are generated in the binary dir, tell CMake to always look for
+# includes there:
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-    add_test(
-        NAME ${test_name}
-        COMMAND
-            $<TARGET_FILE:${test_name}> -maxwarnings 0
-    )
-endforeach(test_name)
+# use, i.e. don't skip the full RPATH for the build tree
+set(CMAKE_SKIP_BUILD_RPATH FALSE)
+
+# when building, don't use the install RPATH already (but later on when
+# installing)
+set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
+
+# the RPATH to be used when installing
+set(CMAKE_INSTALL_RPATH "")
+
+# don't add the automatically determined parts of the RPATH which point to
+# directories outside the build tree to the install RPATH
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH FALSE)
+
+find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core Gui Widgets Sql
+                                                       PrintSupport Test)
+
+set_package_properties(
+  Qt5Test
+  PROPERTIES
+  DESCRIPTION
+  "Qt5 unit testing framework"
+  URL
+  "http://www.qt.io"
+  TYPE
+  OPTIONAL
+  PURPOSE
+  "Required to build the unit tests")
+
+if(NOT Qt5Test_FOUND)
+  message(STATUS "Qt5Test not found, autotests will not be built.")
+  return()
+endif()
+
+ecm_add_tests(tst_quicktest.cpp LINK_LIBRARIES Qt5::Core Qt5::Gui Qt5::Test
+              jmuelbert::jmbdemodels)

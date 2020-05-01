@@ -1212,6 +1212,118 @@ Please try a newer version, if any available
     </message>
 </context>
 <context>
+    <name>Model::DataContext</name>
+    <message>
+        <location filename="../src/libs/models/src/models/datacontext.cpp" line="+25"/>
+        <source>Angeforderte Datenbank : </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>~DataContext()</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Erzeuge Sqlite Datenbank: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Die Datenbank</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>konnte nicht erzeugt werden</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Öffne Sqlite Datenbank:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Öffne ODBC Datenbank: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source> auf dem Server: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Öffne PostgreSQL Datenbank: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source> auf dem Server </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <location line="+6"/>
+        <source>Kritischer Fehler bei der Initialisierung der Datenbank.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-6"/>
+        <location line="+6"/>
+        <source>Die Datei &apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-6"/>
+        <source>&apos; zum initialisieren der Datenbank </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source> und zum erzeugen der Tabellen konnten nicht gefunden werden.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source> zum initialisieren der Datenbank </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>kann nicht geöffnet werden.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+29"/>
+        <source>Fehler beim Lesen der Datei zur Datenbank Erzeugung: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+5"/>
+        <source>Fehler in der Zeile &lt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-5"/>
+        <location line="+5"/>
+        <source>Fehlermeldung: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Fehler beim Lesen der Datei zur Datenbank Erzeugung:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Datenbank erfolgreich erzeugt</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>OSInputArea</name>
     <message>
         <location filename="../src/libs/widgets/src/views/osinputarea.ui"/>
