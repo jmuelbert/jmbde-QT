@@ -38,7 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
     initOutline();
 
     this->dataBaseName = QString(QLatin1String("jmbde"));
-    this->dataContext = new Model::DataContext(dynamic_cast<QObject *>(this), this->dataBaseName);
+    this->dataContext = new Model::DataContext(dynamic_cast<QObject *>(this), this->dataBaseName, QApplication::organizationName());
     qDebug() << "ActualViewRow : " << m_actualView;
 
     if (m_actualView.row() > 0) {

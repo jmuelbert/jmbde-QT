@@ -22,18 +22,26 @@ public:
     ~Account_Test() override = default;
 
 private:
-    DataContext *datacontext;
-    Account *account;
+    DataContext *m_dataContext;
+    Account *m_Account;
+    const QString m_databaseName = QLatin1String("test");
+    const QString m_appName = QLatin1String("test_app");
 
 private slots:
     void initTestCase() // will run once before the first test
     {
-        datacontext = new DataContext(nullptr, QLatin1String("test.db"), QLatin1String("test_app"));
-        account = new Account();
+        qDebug() << "Init Testcase";
+        m_dataContext = new DataContext(nullptr, m_databaseName, m_appName);
+        m_Account = new Account();
     }
 
     void cleanupTestCase()
     {
+        QSqlDatabase db = m_dataContext->getDatabase();
+        QString dbName = db.databaseName();
+        qDebug() << "cleanup Testcase Database : " << dbName;
+
+        m_dataContext->deleteDB(dbName);
     }
 
     // Test for the Model Library
@@ -52,11 +60,12 @@ private slots:
 
 void Account_Test::SetIndexes()
 {
-    account->setIndexes();
+    m_Account->setIndexes();
 }
 
 void Account_Test::InitializeRelationalModel()
 {
+    auto accountModel = m_Account->initializeRelationalModel();
 }
 
 void Account_Test::InitializeInputDataModel()

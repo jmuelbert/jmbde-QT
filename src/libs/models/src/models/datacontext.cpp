@@ -14,7 +14,6 @@
 */
 
 #include "models/datacontext.h"
-#include <exception>
 
 Model::DataContext::DataContext(QObject *parent, const QString &name, const QString &appId)
     : QObject(parent)
@@ -22,7 +21,7 @@ Model::DataContext::DataContext(QObject *parent, const QString &name, const QStr
     , m_dbType(DBTypes::SQLITE)
     , m_AppID(appId.isEmpty() ? QUuid::createUuid().toString() : appId)
 {
-    qCDebug(jmbdemodelsLog) << tr("Angeforderte Datenbank : ") << this->m_Name;
+    qCDebug(jmbdemodelsLog) << tr("Angeforderte Datenbank : ") << this->m_Name << " mit der App-ID : " << this->m_AppID;
 
     CreateConnection();
 }
@@ -248,35 +247,36 @@ auto Model::DataContext::execQuery(const QString &queryText) -> bool
 
 auto Model::DataContext::getQuery(const QString &queryText) -> QSqlQuery
 {
-    QSqlQuery query(queryText, this->m_db);
+    QSqlQuery query(queryText);
     return query;
 }
 
-auto Model::DataContext::openDB(const QString &m_Name) -> bool
+auto Model::DataContext::openDB(const QString &dbName) -> bool
 {
     const auto dbFile = getSqliteName();
-    if (!QSqlDatabase::contains(m_Name)) {
-        qCDebug(jmbdemodelsLog) << tr("Öffne Datenbank : ") << m_Name;
+    if (!QSqlDatabase::contains(dbName)) {
+        qCDebug(jmbdemodelsLog) << tr("Öffne Datenbank : ") << dbName;
 
-        this->m_db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"), m_Name);
+        this->m_db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"), dbName);
         this->m_db.setDatabaseName(dbFile);
         return true;
     }
 
     if (!this->m_db.isValid()) {
-        this->m_db = QSqlDatabase::database(m_Name);
+        this->m_db = QSqlDatabase::database(dbName);
     }
 
     if (!this->m_db.isOpen()) {
         if (!this->m_db.open()) {
-        } else {
-            qCWarning(jmbdemodelsLog) << tr("Öffne Datenbank : ") << m_db.databaseName();
-
+            qCCritical(jmbdemodelsLog) << tr("Öffne Datenbank : ") << m_db.databaseName() << " Error : " << m_db.lastError();
             return false;
+        } else {
+            qCDebug(jmbdemodelsLog) << tr("Öffne Datenbank : ") << m_db.databaseName() << " Error : " << m_db.lastError();
+
+            return true;
         }
         return true;
     }
-
     return true;
 }
 
@@ -295,14 +295,23 @@ void Model::DataContext::renameDB(const QString &oldName, const QString &newName
     }
 }
 
-void Model::DataContext::deleteDB(const QString &m_Name)
+void Model::DataContext::deleteDB(const QString &dbName)
 {
+    qCDebug(jmbdemodelsLog) << tr("Lösche Datenbank") << dbName;
+
     if (!this->m_db.isValid()) {
-        this->m_db = QSqlDatabase::database(m_Name);
+        qCDebug(jmbdemodelsLog) << "DB ist nicht valide : " << this->m_db.isValid();
+        this->m_db = QSqlDatabase::database(dbName);
+    }
+
+    // Delete File only by SQLITE Database
+    if (m_dbType == DBTypes::SQLITE) {
         QString fileName = this->m_db.databaseName();
         QFile f(fileName);
-        QSqlDatabase::removeDatabase(m_Name);
-        f.remove();
+        QSqlDatabase::removeDatabase(dbName);
+        if (!f.remove()) {
+            qCCritical(jmbdemodelsLog) << tr("Datenbankdatei konnte nicht gelöscht werden!");
+        }
     }
 }
 

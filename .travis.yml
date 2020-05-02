@@ -3,7 +3,8 @@ env:
   global:
       - QT_PPA: beineri/opt-qt-5.14.1-bionic
       - QT_VER: 514
-      - QT_VERSION: 5.14.
+      - QT_VERSION: 5.14.1
+      - BUILD_TESTING: OFF
 
 matrix:
   include:
@@ -119,7 +120,6 @@ matrix:
         - mkdir build && cd build
         - cmake --configure .. -DCMAKE_INSTALL_PREFIX=install -DBUILD_SHARED_LIBS=ON ..
         - sudo cmake --build . --config $CMAKE_BUILD_TYPE --target install
-        - ctest --verbose .
 
       after_success:
         - if [ -z "$VERSION" ]; then
