@@ -37,32 +37,37 @@ MainWindow::MainWindow(QWidget *parent)
 
     initOutline();
 
-    this->dataBaseName = QString(QLatin1String("jmbde"));
+    this->dataBaseName = QString(QApplication::applicationName());
     this->dataContext = new Model::DataContext(dynamic_cast<QObject *>(this), this->dataBaseName, QApplication::organizationName());
-    qDebug() << "ActualViewRow : " << m_actualView;
+    qCDebug(jmbdewidgetsLog) << tr("ActualViewRow : ") << m_actualView;
 
     if (m_actualView.row() > 0) {
         ui->treeView->setCurrentIndex(m_actualView);
         onClickedTreeView(m_actualView);
     } else {
-        qDebug() << "Select Employee";
+        qCDebug(jmbdewidgetsLog) << tr("Setze aktuelle Ansicht: Mitarbeiter - Tabelle");
         actualView = VIEW_EMPLOYEE;
-        dataContext->openDB(dataBaseName);
-        auto *edm = new Model::Employee;
-        tableModel = edm->initializeRelationalModel();
-        int idx = edm->LastNameIndex();
+        if (dataContext->openDB(dataBaseName)) {
+            auto *edm = new Model::Employee;
+            tableModel = edm->initializeRelationalModel();
+            int idx = edm->LastNameIndex();
 
-        ui->listView->setModel(tableModel);
-        ui->listView->setModelColumn(idx);
+            ui->listView->setModel(tableModel);
+            ui->listView->setModelColumn(idx);
 
-        QModelIndex qmi = QModelIndex();
-        auto *eia = new EmployeeInputArea(ui->scrollArea, qmi);
-        dataContext->closeConnection();
-        QSize AdjustSize = eia->size();
-        AdjustSize.width();
-        eia->setMinimumSize(AdjustSize);
-        ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(eia);
+            QModelIndex qmi = QModelIndex();
+            auto employeeTable = new EmployeeTable(QLatin1String("employee"), tableModel, ui->scrollArea);
+            // auto *eia = new EmployeeInputArea(ui->scrollArea, qmi);
+            QSize AdjustSize = employeeTable->size();
+            AdjustSize.width();
+            employeeTable->setMinimumSize(AdjustSize);
+            ui->scrollArea->setWidgetResizable(true);
+            ui->scrollArea->setWidget(employeeTable);
+
+            dataContext->closeConnection();
+        } else {
+            // Problems with the Database!
+        }
     }
 
     connect(ui->treeView, SIGNAL(clicked(QModelIndex)), this, SLOT(onClickedTreeView(QModelIndex)));
@@ -526,23 +531,26 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
         qDebug() << "Select Employee";
         actualView = VIEW_EMPLOYEE;
 
-        dataContext->openDB(dataBaseName);
-        auto *edm = new Model::Employee;
+        if (dataContext->openDB(dataBaseName)) {
+            auto *edm = new Model::Employee;
 
-        tableModel = edm->initializeRelationalModel();
-        int idx = edm->LastNameIndex();
+            tableModel = edm->initializeRelationalModel();
+            int idx = edm->LastNameIndex();
 
-        ui->listView->setModel(tableModel);
-        ui->listView->setModelColumn(idx);
-        QModelIndex qmi = QModelIndex();
+            ui->listView->setModel(tableModel);
+            ui->listView->setModelColumn(idx);
+            QModelIndex qmi = QModelIndex();
 
-        auto *eia = new EmployeeInputArea(ui->scrollArea, qmi);
-        QSize AdjustSize = eia->size();
-        AdjustSize.width();
-        eia->setMinimumSize(AdjustSize);
-        ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(eia);
-        dataContext->closeConnection();
+            auto employeeInput = new EmployeeInputArea(ui->scrollArea, qmi);
+            QSize AdjustSize = employeeInput->size();
+            AdjustSize.width();
+            employeeInput->setMinimumSize(AdjustSize);
+            ui->scrollArea->setWidgetResizable(true);
+            ui->scrollArea->setWidget(employeeInput);
+            dataContext->closeConnection();
+        } else {
+            // TODO: Catch the error!
+        }
     } else if (selected == tr("Function")) {
         qDebug() << "Select Function";
 

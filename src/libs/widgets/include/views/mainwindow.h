@@ -45,6 +45,7 @@
 #include "views/csvimportdialog.h"
 #include "views/departmentinputarea.h"
 #include "views/employeeinputarea.h"
+#include "views/employeetable.h"
 #include "views/functioninputarea.h"
 #include "views/manufacturerinputarea.h"
 #include "views/mobileinputarea.h"

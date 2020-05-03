@@ -26,6 +26,79 @@ endif()
 set(JMBDEWIDGETS_VERSION 0.1.1)
 set(JMBDEWIDGETS_SOVERSION 0)
 
+# Set the dependencies versions
+set(KF5_VERSION "5.66.0")
+set(KF5_DEP_VERSION "5.66.0")
+set(QT_MIN_VERSION "5.12.5")
+
+# warn about deprecated stuff so that we may try fixing it
+set(CMAKE_WARN_DEPRECATED 1)
+
+# ################ Disallow in-source build #################
+
+if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
+  message(
+    FATAL_ERROR
+      "${PROJECT_NAME} requires an out of source build. Please create a separate build directory and run 'cmake path_to_${PROJECT_NAME} [options]' there."
+  )
+endif()
+
+list(APPEND CMAKE_PREFIX_PATH "${CMAKE_MODULE_PATH}")
+
+if(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+  include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+  conan_basic_setup()
+endif()
+
+# For ECM-CONAN
+if(EXISTS "${CONAN_ECM_ROOT}")
+  list(APPEND CMAKE_PREFIX_PATH "${CONAN_ECM_ROOT}/share/ECM")
+  message(STATUS "Setting ECM-DIR to ${CONAN_ECM_ROOT}/share/ECM")
+endif()
+
+# we need some parts of the ECM CMake helpers
+include(FeatureSummary)
+find_package(ECM ${KF5_DEP_VERSION} QUIET REQUIRED NO_MODULE)
+feature_summary(WHAT REQUIRED_PACKAGES_NOT_FOUND
+                FATAL_ON_MISSING_REQUIRED_PACKAGES)
+
+# We append to the module path so modules can be overridden from the command
+# line.
+list(APPEND CMAKE_MODULE_PATH "${ECM_MODULE_PATH}")
+
+# Add the local module path to the search path
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
+# load helper modules
+include(CheckFunctionExists)
+include(InstallRequiredSystemLibraries)
+include(GenerateExportHeader)
+include(ECMSetupVersion)
+include(ECMGenerateExportHeader)
+include(ECMGenerateHeaders)
+include(CMakePackageConfigHelpers)
+include(ECMPoQmTools)
+include(ECMQMLModules)
+include(ECMGenerateQmlTypes)
+include(ECMGeneratePriFile)
+
+include(ECMQtDeclareLoggingCategory)
+include(KDECompilerSettings NO_POLICY_SCOPE)
+include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
+include(KDEClangFormat)
+
+include(ECMOptionalAddSubdirectory)
+include(ECMInstallIcons)
+
+include(ECMAddTests)
+include(ECMMarkNonGuiExecutable)
+include(ECMAddAppIcon)
+
+include(QtInstallPaths)
+
+include(WriteBasicConfigVersionFile)
+include(CheckFunctionExists)
+
 # Version setup set project version
 ecm_setup_version(
   ${JMBDEWIDGETS_VERSION}
@@ -38,6 +111,41 @@ ecm_setup_version(
 
 # warn about deprecated stuff so that we may try fixing it
 set(CMAKE_WARN_DEPRECATED 1)
+
+
+# Allow adding Qt resource files with `add_executable` or `target_sources`
+# instead of `qt5_add_resources`. See
+# https://cmake.org/cmake/help/v3.0/manual/cmake-qt.7.html#autorcc.
+set(CMAKE_AUTOUIC ON)
+if(NOT DEFINED CMAKE_SKIP_BUILD_RPATH)
+  set(CMAKE_SKIP_BUILD_RPATH OFF)
+endif()
+if(NOT DEFINED CMAKE_BUILD_WITH_INSTALL_RPATH)
+  set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
+endif()
+if(NOT DEFINED CMAKE_INSTALL_RPATH_USE_LINK_PATH)
+  set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+endif()
+if(NOT DEFINED CMAKE_MACOSX_RPATH)
+  set(CMAKE_MACOSX_RPATH TRUE)
+endif()
+
+if(APPLE)
+  set(APPLE_SUPPRESS_X11_WARNING TRUE)
+  set(KDE_SKIP_RPATH_SETTINGS TRUE)
+  set(CMAKE_MACOSX_RPATH OFF)
+  set(BUILD_WITH_INSTALL_RPATH 1)
+  add_definitions(-mmacosx-version-min=10.12 -Wno-macro-redefined
+                  -Wno-deprecated-register)
+endif()
+
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+string(TOLOWER "${CMAKE_BUILD_TYPE}" CMAKE_BUILD_TYPE)
+
+# forbid some old things
+add_definitions(-DQT_NO_FOREACH)
+# Need Signals and slots
+remove_definitions(-DQT_NO_SIGNALS_SLOTS_KEYWORDS)
 
 # COMMON project
 project(
@@ -110,6 +218,7 @@ qt5_wrap_ui(
   src/views/printerinputarea.ui
   src/views/cityinputarea.ui
   src/views/employeeinputarea.ui
+  src/views/employeetable.ui
   src/views/mobileinputarea.ui
   src/views/processorinputarea.ui
   src/views/computerinputarea.ui
@@ -134,6 +243,7 @@ target_sources(
           include/views/departmentinputarea.h
           include/views/functioninputarea.h
           include/views/employeeinputarea.h
+          include/views/employeetable.h
           include/views/mainwindow.h
           include/views/manufacturerinputarea.h
           include/views/mobileinputarea.h
@@ -152,6 +262,7 @@ target_sources(
           src/views/printerinputarea.cpp
           src/views/cityinputarea.cpp
           src/views/employeeinputarea.cpp
+          src/views/employeetable.cpp
           src/views/mobileinputarea.cpp
           src/views/processorinputarea.cpp
           src/views/computerinputarea.cpp

@@ -18,7 +18,9 @@ jobs:
       - name: Upgrade cmake
         run: brew upgrade cmake
       - name: Install dependencies with homebrew
-        run: brew install freetype cmake python3 qt5
+        run: |
+          brew install freetype cmake python3 qt5
+          export PATH="$(brew --prefix qt)/bin:$PATH"
       - name: Build
         run: |
           export JMBDE_VERSION=$(git describe | cut -c 2-)
