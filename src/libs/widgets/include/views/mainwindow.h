@@ -219,10 +219,17 @@ private:
     void writeSettings();
 
     /**
-     * \fn void Not_Available_Message()
-     * \brief Not_Available_Message
+     *
+     *  / @brief dataBaseOpenError()
      */
-    void Not_Available_Message();
+    void dataBaseOpenError(const QString &callerName);
+
+    /**
+     * \fn void notAvailableMessage()
+     * \brief notAvailableMessage
+     *
+     */
+    void notAvailableMessage(const QString &functionName);
 
     /**
      * @brief model

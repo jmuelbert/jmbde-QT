@@ -1,6 +1,8 @@
 <!DOCTYPE RCC>
 <RCC version="1.0">
     <qresource prefix="/">
+        <file>qml/Preferences.qml</file>
+        <file>qml/AboutBox.qml</file>
         <file>icons/tango/16x16/accessories-text-editor.png</file>
         <file>icons/tango/16x16/document-new.png</file>
         <file>icons/tango/16x16/document-open.png</file>

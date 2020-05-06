@@ -55,9 +55,7 @@ MainWindow::MainWindow(QWidget *parent)
             ui->listView->setModel(tableModel);
             ui->listView->setModelColumn(idx);
 
-            QModelIndex qmi = QModelIndex();
-            auto employeeTable = new EmployeeTable(QLatin1String("employee"), tableModel, ui->scrollArea);
-            // auto *eia = new EmployeeInputArea(ui->scrollArea, qmi);
+            auto *employeeTable = new EmployeeTable(QLatin1String("employee"), tableModel, ui->scrollArea);
             QSize AdjustSize = employeeTable->size();
             AdjustSize.width();
             employeeTable->setMinimumSize(AdjustSize);
@@ -66,7 +64,9 @@ MainWindow::MainWindow(QWidget *parent)
 
             dataContext->closeConnection();
         } else {
-            // Problems with the Database!
+            const QString caller = tr("Mitarbeiter");
+            dataBaseOpenError(caller);
+            qCCritical(jmbdewidgetsLog) << tr("Die Datenbank lässt sich nicht für die Tabelle Mitarbeiter öffnen!");
         }
     }
 
@@ -90,27 +90,28 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     int width = ui->centralWidget->width() - OFFSET;
     int height = ui->centralWidget->height() - OFFSET;
 
-    qDebug() << "Resize...";
-    qDebug() << "width= " << width << " height= " << height;
+    qCDebug(jmbdewidgetsLog) << tr("Änderung der Fenstergröße: Breite = %i Höhe = %i").arg(width).arg(height);
     ui->splitter->resize(width, height);
 }
 
-void MainWindow::focusChanged(QWidget *, QWidget *now)
+void MainWindow::focusChanged(QWidget *qWidget, QWidget *now)
 {
+    Q_UNUSED(qWidget)
     Q_UNUSED(now)
 
-    qDebug() << "Help :-)";
+    qCDebug(jmbdewidgetsLog) << tr("Der Fokus hat sich geändert");
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     Q_UNUSED(event)
+    qCDebug(jmbdewidgetsLog) << tr("Der Close Event");
 }
 
 void MainWindow::on_actionPreferences_triggered()
 {
     auto *view = new QQuickWidget;
-    view->setSource(QUrl(QLatin1String("qrc:/Preferences.qml")));
+    view->setSource(QUrl(QStringLiteral("qrc:/qml/Preferences.qml")));
     if (view->status() == QQuickWidget::Error)
         return;
     view->show();
@@ -119,7 +120,7 @@ void MainWindow::on_actionPreferences_triggered()
 void MainWindow::on_actionAbout_triggered()
 {
     auto *view = new QQuickWidget;
-    view->setSource(QUrl(QLatin1String("qrc:/AboutBox.qml")));
+    view->setSource(QUrl(QStringLiteral("qrc:/qml/AboutBox.qml")));
     if (view->status() == QQuickWidget::Error)
         return;
     view->show();
@@ -129,17 +130,17 @@ void MainWindow::initOutline()
 {
     QHash<QString, QList<QString>> outlineData;
 
-    QList<QString> subEntries = {tr("Employee"), tr("Function"), tr("Deparment"), tr("Title")};
+    QList<QString> subEntries = {tr("Mitarbeiter"), tr("Funktion"), tr("Abteilung"), tr("Titel")};
     outlineData.insert(tr("Person"), subEntries);
 
-    subEntries = {tr("Computer"), tr("Processor"), tr("Operation System"), tr("Software"), tr("Printer")};
-    outlineData.insert(tr("Device"), subEntries);
+    subEntries = {tr("Computer"), tr("Prozessor"), tr("Betriebssystem"), tr("Software"), tr("Drucker")};
+    outlineData.insert(tr("Gerät"), subEntries);
 
-    subEntries = {tr("Phone"), tr("Mobile")};
-    outlineData.insert(tr("Communication"), subEntries);
+    subEntries = {tr("Telefon"), tr("Mobiltelefon")};
+    outlineData.insert(tr("Kommunikation"), subEntries);
 
-    subEntries = {tr("Manufacturer"), tr("City"), tr("Chipcard")};
-    outlineData.insert(tr("Misc"), subEntries);
+    subEntries = {tr("Hersteller"), tr("Stadt"), tr("Schlüsselchip")};
+    outlineData.insert(tr("Verschiedenes"), subEntries);
 
     m_treeviewModel = new QStandardItemModel(this);
     QStandardItem *parentItem = m_treeviewModel->invisibleRootItem();
@@ -152,13 +153,13 @@ void MainWindow::initOutline()
         i.next();
         auto *header = new QStandardItem(i.key());
         parentItem->appendRow(header);
-        qDebug() << i.key() << ": " << i.value() << endl;
+        qCDebug(jmbdewidgetsLog) << "initOutline(): (" << i.key() << ": " << i.value() << " )" << endl;
 
         od = i.value();
         for (int index = 0; index < od.size(); ++index) {
             item = new QStandardItem(od.value(index));
             header->appendRow(item);
-            qDebug() << "Found " << od.value(index) << " at position " << index << endl;
+            qCDebug(jmbdewidgetsLog) << "initOutline(): (Gefunden :" << od.value(index) << " an der Position)" << index << endl;
         }
     }
 
@@ -238,14 +239,14 @@ void MainWindow::on_actionNew_triggered()
 {
     int ret = QMessageBox::warning(this,
                                    QApplication::applicationDisplayName(),
-                                   tr("This action create a new dataContext. if you have an dataContext\n"
-                                      "with data you lost this.\n"
-                                      "Proceed for create a new dataContext ?"),
+                                   tr("Mit diesem Befehl wird einen neue Datenbank erzeugt\n"
+                                      "Wenn Sie hier fortsetzen verlieren Sie möglicherweise Daten\n"
+                                      "Möchten Sie die den Vorgang fortsetzen ?"),
                                    QMessageBox::Cancel | QMessageBox::Yes);
 
     if (ret == QMessageBox::Yes) {
-        // TODO: Implement Create a new DB
-        // dataContext->initDb();
+        QString message = tr("Noch nicht vollständig implementiert!");
+        notAvailableMessage(message);
         QMessageBox::information(this, qApp->applicationDisplayName(), tr("The new dataContext is created"));
     }
 }
@@ -257,7 +258,8 @@ void MainWindow::on_actionQuit_triggered()
 
 void MainWindow::on_actionOpen_triggered()
 {
-    Not_Available_Message();
+    QString message = tr("Menü: öffnen");
+    notAvailableMessage(message);
 }
 
 void MainWindow::on_actionImport_triggered()
@@ -265,11 +267,15 @@ void MainWindow::on_actionImport_triggered()
     auto *csvImport = new CsvImportDialog();
 
     csvImport->show();
+
+    QString message = tr("Menu: Import aus CSV");
+    notAvailableMessage(message);
 }
 
 void MainWindow::on_actionExport_triggered()
 {
-    Not_Available_Message();
+    QString message = tr("Menu: Export zu CSV");
+    notAvailableMessage(message);
 }
 
 void MainWindow::on_actionPrint_triggered()
@@ -278,18 +284,18 @@ void MainWindow::on_actionPrint_triggered()
 
     switch (actualView) {
     case VIEW_EMPLOYEE: {
-        qDebug() << "Print Employee !";
+        qCDebug(jmbdewidgetsLog) << tr("Drucke Mitarbeiter !");
         dataContext->openDB(dataBaseName);
         QString style = Model::Employee::setOutTableStyle();
         auto *edm = new Model::Employee;
-        QString text = edm->generateTableString(tr("Employee"));
+        QString text = edm->generateTableString(tr("Mitarbeiter"));
 
         doc.setHtml(style + text);
         dataContext->closeConnection();
     } break;
 
     case VIEW_COMPUTER: {
-        qDebug() << "Print Computer !";
+        qDebug(jmbdewidgetsLog) << tr("Drucke Computer !");
         dataContext->openDB(dataBaseName);
         QString style = Model::Computer::setOutTableStyle();
         auto *cdm = new Model::Computer;
@@ -300,29 +306,31 @@ void MainWindow::on_actionPrint_triggered()
     } break;
 
     case VIEW_PRINTER: {
-        qDebug() << "Print Printer !";
+        qCDebug(jmbdewidgetsLog) << tr("Drucke Drucker !");
         dataContext->openDB(dataBaseName);
         QString style = Model::Printer::setOutTableStyle();
         auto *pdm = new Model::Printer;
-        QString text = pdm->generateTableString(tr("Printer"));
+        QString text = pdm->generateTableString(tr("Drucker"));
 
         doc.setHtml(style + text);
         dataContext->closeConnection();
     } break;
 
     case VIEW_PHONE: {
-        qDebug() << "Print Printer !";
+        qCDebug(jmbdewidgetsLog) << "Drucke Telefone !";
         dataContext->openDB(dataBaseName);
         QString style = Model::Phone::setOutTableStyle();
         auto *pdm = new Model::Phone;
-        QString text = pdm->generateTableString(tr("Phone"));
+        QString text = pdm->generateTableString(tr("Telefon"));
 
         doc.setHtml(style + text);
         dataContext->closeConnection();
     } break;
 
     default:
-        Not_Available_Message();
+        QString message = tr("Drucken unbekanntes Submodul");
+        notAvailableMessage(message);
+        qCCritical(jmbdewidgetsLog) << tr("on_actionPrint_triggered(): Unbekanntes Sub-Modul");
     }
 
 #if !defined(QT_NO_PRINTER) && !defined(QT_NO_PRINTDIALOG)
@@ -331,7 +339,7 @@ void MainWindow::on_actionPrint_triggered()
     printer.setOrientation(QPrinter::Landscape);
     QPrintDialog *dlg = new QPrintDialog(&printer, this);
 
-    dlg->setWindowTitle(tr("Print Document"));
+    dlg->setWindowTitle(tr("Drucke Dokument"));
     if (dlg->exec() == QDialog::Accepted)
         doc.print(&printer);
     delete dlg;
@@ -344,20 +352,20 @@ void MainWindow::on_action_Export_Pdf_triggered()
 
     switch (actualView) {
     case VIEW_EMPLOYEE: {
-        qDebug() << "Print Employee !";
+        qCDebug(jmbdewidgetsLog) << tr("Drucke Mitarbeiter !");
 
         dataContext->openDB(dataBaseName);
 
         QString style = Model::Employee::setOutTableStyle();
         auto *edm = new Model::Employee;
-        QString text = edm->generateTableString(tr("Employee"));
+        QString text = edm->generateTableString(tr("Mitarbeiter"));
 
         doc.setHtml(style + text);
         dataContext->closeConnection();
     } break;
 
     case VIEW_COMPUTER: {
-        qDebug() << "Print Computer !";
+        qCDebug(jmbdewidgetsLog) << tr("Drucke Computer !");
 
         dataContext->openDB(dataBaseName);
 
@@ -370,32 +378,34 @@ void MainWindow::on_action_Export_Pdf_triggered()
     } break;
 
     case VIEW_PRINTER: {
-        qDebug() << "Print Printer !";
+        qCDebug(jmbdewidgetsLog) << tr("Drucke Drucker !");
         dataContext->openDB(dataBaseName);
 
         QString style = Model::Printer::setOutTableStyle();
         auto *pdm = new Model::Printer;
-        QString text = pdm->generateTableString(tr("Printer"));
+        QString text = pdm->generateTableString(tr("Drucker"));
 
         doc.setHtml(style + text);
         dataContext->closeConnection();
     } break;
 
     case VIEW_PHONE: {
-        qDebug() << "Print Printer !";
+        qCDebug(jmbdewidgetsLog) << tr("Drucke Telefone !");
 
         dataContext->openDB(dataBaseName);
 
         QString style = Model::Phone::setOutTableStyle();
         auto *pdm = new Model::Phone;
-        QString text = pdm->generateTableString(tr("Phone"));
+        QString text = pdm->generateTableString(tr("Telefon"));
 
         doc.setHtml(style + text);
         dataContext->closeConnection();
     } break;
 
     default:
-        Not_Available_Message();
+        QString message = tr("Drucken unbekanntes Submodul");
+        notAvailableMessage(message);
+        qCCritical(jmbdewidgetsLog) << tr("on_action_Export_Pdf_triggered(): Unbekanntes Sub-Modul");
     }
 
 #ifndef QT_NO_PRINTER
@@ -425,20 +435,20 @@ void MainWindow::on_actionPrint_Preview_triggered()
 
     switch (actualView) {
     case VIEW_EMPLOYEE: {
-        qDebug() << "Print Employee !";
+        qCDebug(jmbdewidgetsLog) << tr("Drucke Mitarbeiter !");
 
         dataContext->openDB(dataBaseName);
 
         QString style = Model::Employee::setOutTableStyle();
         auto *edm = new Model::Employee;
-        QString text = edm->generateTableString(tr("Employee"));
+        QString text = edm->generateTableString(tr("Mitarbeiter"));
 
         doc.setHtml(style + text);
         dataContext->closeConnection();
     } break;
 
     case VIEW_COMPUTER: {
-        qDebug() << "Print Computer !";
+        qCDebug(jmbdewidgetsLog) << tr("Drucke Computer !");
 
         dataContext->openDB(dataBaseName);
 
@@ -451,33 +461,35 @@ void MainWindow::on_actionPrint_Preview_triggered()
     } break;
 
     case VIEW_PRINTER: {
-        qDebug() << "Print Printer !";
+        qDebug(jmbdewidgetsLog) << tr("Drucke Drucker !");
 
         dataContext->openDB(dataBaseName);
 
         QString style = Model::Printer::setOutTableStyle();
         auto *pdm = new Model::Printer;
-        QString text = pdm->generateTableString(tr("Printer"));
+        QString text = pdm->generateTableString(tr("Drucker"));
 
         doc.setHtml(style + text);
         dataContext->closeConnection();
     } break;
 
     case VIEW_PHONE: {
-        qDebug() << "Print Printer !";
+        qDebug(jmbdewidgetsLog) << tr("Drucke Telefone !");
 
         dataContext->openDB(dataBaseName);
 
         QString style = Model::Phone::setOutTableStyle();
         auto *pdm = new Model::Phone;
-        QString text = pdm->generateTableString(tr("Phone"));
+        QString text = pdm->generateTableString(tr("Telefon"));
 
         doc.setHtml(style + text);
         dataContext->closeConnection();
     } break;
 
     default:
-        Not_Available_Message();
+        QString message = tr("Drucken unbekanntes Submodul");
+        notAvailableMessage(message);
+        qCCritical(jmbdewidgetsLog) << "on_action_Export_Pdf_triggered(): Unbekanntes Sub-Modul";
     }
 
 #if !defined(QT_NO_PRINTER) && !defined(QT_NO_PRINTDIALOG)
@@ -493,23 +505,38 @@ void MainWindow::on_actionPrint_Preview_triggered()
 #endif
 }
 
-void MainWindow::Not_Available_Message()
+void MainWindow::dataBaseOpenError(const QString &callerName)
 {
-    QString message =
-        tr("This action is not implemented\n"
-           "in the version ");
+    QString message = tr("Für die Tabelle %s war es nicht möglich die Datenbank zu öffnen!\n"
+                         "Dies ist ein schwerwiegender Fehler. Möglicherweise funktioniert nach "
+                         "einem Neustart des Programms alles wie gewünscht.\n"
+                         "Wenn es trotzdem noch Probleme gibt melden Sie bitte den Fehler: %s\n"
+                         "Wenn eine neuere Version zur Verfügung steht, dann probieren Sie es bitte damit\n"
+                         "Sie können das auf der Project Webseite:\n %s überprüfen.")
+                          .arg(callerName)
+                          .arg(QLatin1String("https://github.com/jmuelbert/jmbde-QT/issues"))
+                          .arg(qApp->organizationDomain());
 
-    message.append(qApp->applicationVersion());
-    message.append(tr("\nPlease try a newer version, if any available\n"));
-    message.append(tr("you can check this on the project site:\n"));
-    message.append(qApp->organizationDomain());
+    QMessageBox::critical(this, qApp->applicationDisplayName(), message, QMessageBox::Cancel);
+}
+
+void MainWindow::notAvailableMessage(const QString &functionName)
+{
+    QString message = tr("In der Version %s ist die Funktion <%s>\n"
+                         "noch nicht implementiert\n"
+                         "Wenn eine neuere Version zur Verfügung steht, dann probieren Sie es bitte damit\n"
+                         "Sie können das auf der Project Webseite:\n %s überprüfen.")
+                          .arg(qApp->applicationVersion())
+                          .arg(functionName)
+                          .arg(qApp->organizationDomain());
 
     QMessageBox::critical(this, qApp->applicationDisplayName(), message, QMessageBox::Cancel);
 }
 
 void MainWindow::on_actionHelp_triggered()
 {
-    Not_Available_Message();
+    QString message = tr("Hilfe");
+    notAvailableMessage(message);
 }
 
 void MainWindow::onClickedTreeView(const QModelIndex &index)
@@ -518,17 +545,16 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
     const QString selected = item->text();
 
     m_actualView = index;
-    qDebug() << "ActualViewRow : " << index;
-    qDebug() << "Item: " << selected;
+    qCDebug(jmbdewidgetsLog) << "ActualViewRow : " << index << " Item : " << selected;
 
     // Headers -> no action
-    if ((selected == tr("Person")) || (selected == tr("Device")) || (selected == tr("Communication")) || (selected == tr("Misc"))) {
+    if ((selected == tr("Person")) || (selected == tr("Gerät")) || (selected == tr("Kommunikation")) || (selected == tr("Verschiedenes"))) {
         return;
     }
 
     // Tree -> Person
-    if (selected == tr("Employee")) {
-        qDebug() << "Select Employee";
+    if (selected == tr("Mitarbeiter")) {
+        qCDebug(jmbdewidgetsLog) << tr("Auswahl: %s").arg(selected);
         actualView = VIEW_EMPLOYEE;
 
         if (dataContext->openDB(dataBaseName)) {
@@ -541,7 +567,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
             ui->listView->setModelColumn(idx);
             QModelIndex qmi = QModelIndex();
 
-            auto employeeInput = new EmployeeInputArea(ui->scrollArea, qmi);
+            auto *employeeInput = new EmployeeInputArea(ui->scrollArea, qmi);
             QSize AdjustSize = employeeInput->size();
             AdjustSize.width();
             employeeInput->setMinimumSize(AdjustSize);
@@ -549,429 +575,550 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
             ui->scrollArea->setWidget(employeeInput);
             dataContext->closeConnection();
         } else {
-            // TODO: Catch the error!
+            dataBaseOpenError(selected);
+            qCCritical(jmbdewidgetsLog) << tr("Die Datenbank lässt sich nicht für die Tabelle %s öffnen!").arg(selected);
         }
-    } else if (selected == tr("Function")) {
-        qDebug() << "Select Function";
+    } else if (selected == tr("Funktion")) {
+        qDebug(jmbdewidgetsLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_FUNCTION;
 
-        dataContext->openDB(dataBaseName);
-        auto *fdm = new Model::Function;
+        if (dataContext->openDB(dataBaseName)) {
+            auto *fdm = new Model::Function;
 
-        tableModel = fdm->initializeRelationalModel();
+            tableModel = fdm->initializeRelationalModel();
 
-        ui->listView->setModel(tableModel);
-        int idx = fdm->NameIndex();
-        ui->listView->setModelColumn(idx);
-        QModelIndex qmi = QModelIndex();
-        auto *fia = new FunctionInputArea(ui->scrollArea, qmi);
-        ui->scrollArea->setWidget(fia);
-        dataContext->closeConnection();
-    } else if (selected == tr("Department")) {
-        qDebug() << "Select Department";
+            ui->listView->setModel(tableModel);
+            int idx = fdm->NameIndex();
+            ui->listView->setModelColumn(idx);
+            QModelIndex qmi = QModelIndex();
+            auto *fia = new FunctionInputArea(ui->scrollArea, qmi);
+            ui->scrollArea->setWidget(fia);
+            dataContext->closeConnection();
+        } else {
+            dataBaseOpenError(selected);
+            qCCritical(jmbdewidgetsLog) << tr("Die Datenbank lässt sich nicht für die Tabelle %s öffnen!").arg(selected);
+        }
+    } else if (selected == tr("Abteilung")) {
+        qCDebug(jmbdewidgetsLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_DEPARTMENT;
 
-        dataContext->openDB(dataBaseName);
-        auto *dpm = new Model::Department;
+        if (dataContext->openDB(dataBaseName)) {
+            auto *dpm = new Model::Department;
 
-        tableModel = dpm->initializeRelationalModel();
-        int idx = dpm->NameIndex();
+            tableModel = dpm->initializeRelationalModel();
+            int idx = dpm->NameIndex();
 
-        ui->listView->setModel(tableModel);
-        ui->listView->setModelColumn(idx);
-        QModelIndex qmi = QModelIndex();
-        auto *dia = new DepartmentInputArea(ui->scrollArea, qmi);
-        ui->scrollArea->setWidget(dia);
-        dataContext->closeConnection();
-    } else if (selected == tr("Title")) {
-        qDebug() << "Select Title";
+            ui->listView->setModel(tableModel);
+            ui->listView->setModelColumn(idx);
+            QModelIndex qmi = QModelIndex();
+            auto *dia = new DepartmentInputArea(ui->scrollArea, qmi);
+            ui->scrollArea->setWidget(dia);
+            dataContext->closeConnection();
+        } else {
+            dataBaseOpenError(selected);
+            qCCritical(jmbdewidgetsLog) << tr("Die Datenbank lässt sich nicht für die Tabelle %s öffnen!").arg(selected);
+        }
+    } else if (selected == tr("Titel")) {
+        qCDebug(jmbdewidgetsLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_TITLE;
 
-        dataContext->openDB(dataBaseName);
-        auto *tdm = new Model::Title;
+        if (dataContext->openDB(dataBaseName)) {
+            auto *tdm = new Model::Title;
 
-        tableModel = tdm->initializeRelationalModel();
-        int idx = tdm->NameIndex();
+            tableModel = tdm->initializeRelationalModel();
+            int idx = tdm->NameIndex();
 
-        ui->listView->setModel(tableModel);
-        ui->listView->setModelColumn(idx);
+            ui->listView->setModel(tableModel);
+            ui->listView->setModelColumn(idx);
 
-        QModelIndex qmi = QModelIndex();
-        auto *tia = new TitleInputArea(ui->scrollArea, qmi);
-        ui->scrollArea->setWidget(tia);
-        dataContext->closeConnection();
+            QModelIndex qmi = QModelIndex();
+            auto *tia = new TitleInputArea(ui->scrollArea, qmi);
+            ui->scrollArea->setWidget(tia);
+            dataContext->closeConnection();
+        } else {
+            dataBaseOpenError(selected);
+            qCCritical(jmbdewidgetsLog) << tr("Die Datenbank lässt sich nicht für die Tabelle %s öffnen!").arg(selected);
+        }
         // Tree -> Device
     } else if (selected == tr("Computer")) {
-        qDebug() << "Select Computer";
+        qCDebug(jmbdewidgetsLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_COMPUTER;
 
-        dataContext->openDB(dataBaseName);
-        auto *cdm = new Model::Computer;
+        if (dataContext->openDB(dataBaseName)) {
+            auto *cdm = new Model::Computer;
 
-        tableModel = cdm->initializeRelationalModel();
-        int idx = cdm->NameIndex();
+            tableModel = cdm->initializeRelationalModel();
+            int idx = cdm->NameIndex();
 
-        ui->listView->setModel(tableModel);
-        ui->listView->setModelColumn(idx);
+            ui->listView->setModel(tableModel);
+            ui->listView->setModelColumn(idx);
 
-        QModelIndex qmi = QModelIndex();
-        auto *cia = new ComputerInputArea(ui->scrollArea, qmi);
-        ui->scrollArea->setWidget(cia);
-        dataContext->closeConnection();
-    } else if (selected == tr("Processor")) {
-        qDebug() << "Select Processor";
+            QModelIndex qmi = QModelIndex();
+            auto *cia = new ComputerInputArea(ui->scrollArea, qmi);
+            ui->scrollArea->setWidget(cia);
+            dataContext->closeConnection();
+        } else {
+            dataBaseOpenError(selected);
+            qCCritical(jmbdewidgetsLog) << tr("Die Datenbank lässt sich nicht für die Tabelle %s öffnen!").arg(selected);
+        }
+    } else if (selected == tr("Prozessor")) {
+        qCDebug(jmbdewidgetsLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_PROCESSOR;
 
-        dataContext->openDB(dataBaseName);
-        auto *pdm = new Model::Processor;
+        if (dataContext->openDB(dataBaseName)) {
+            auto *pdm = new Model::Processor;
 
-        tableModel = pdm->initializeRelationalModel();
-        int idx = pdm->NameIndex();
+            tableModel = pdm->initializeRelationalModel();
+            int idx = pdm->NameIndex();
 
-        ui->listView->setModel(tableModel);
-        ui->listView->setModelColumn(idx);
+            ui->listView->setModel(tableModel);
+            ui->listView->setModelColumn(idx);
 
-        QModelIndex qmi = QModelIndex();
-        auto *pia = new ProcessorInputArea(ui->scrollArea, qmi);
-        ui->scrollArea->setWidget(pia);
-        dataContext->closeConnection();
-    } else if (selected == tr("Operation System")) {
-        qDebug() << "Select Operation System";
+            QModelIndex qmi = QModelIndex();
+            auto *pia = new ProcessorInputArea(ui->scrollArea, qmi);
+            ui->scrollArea->setWidget(pia);
+            dataContext->closeConnection();
+        } else {
+            dataBaseOpenError(selected);
+            qCCritical(jmbdewidgetsLog) << tr("Die Datenbank lässt sich nicht für die Tabelle %s öffnen!").arg(selected);
+        }
+    } else if (selected == tr("Betriebssystem")) {
+        qCDebug(jmbdewidgetsLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_OS;
 
-        dataContext->openDB(dataBaseName);
-        auto *odm = new Model::OS;
+        if (dataContext->openDB(dataBaseName)) {
+            auto *odm = new Model::OS;
 
-        tableModel = odm->initializeRelationalModel();
-        int idx = odm->NameIndex();
+            tableModel = odm->initializeRelationalModel();
+            int idx = odm->NameIndex();
 
-        ui->listView->setModel(tableModel);
-        ui->listView->setModelColumn(idx);
+            ui->listView->setModel(tableModel);
+            ui->listView->setModelColumn(idx);
 
-        QModelIndex qmi = QModelIndex();
-        auto *oia = new OSInputArea(ui->scrollArea, qmi);
-        ui->scrollArea->setWidget(oia);
-        dataContext->closeConnection();
+            QModelIndex qmi = QModelIndex();
+            auto *oia = new OSInputArea(ui->scrollArea, qmi);
+            ui->scrollArea->setWidget(oia);
+            dataContext->closeConnection();
+        } else {
+            dataBaseOpenError(selected);
+            qCCritical(jmbdewidgetsLog) << tr("Die Datenbank lässt sich nicht für die Tabelle %s öffnen!").arg(selected);
+        }
     } else if (selected == tr("Software")) {
-        qDebug() << "Select Software";
+        qCDebug(jmbdewidgetsLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_SOFTWARE;
 
-        dataContext->openDB(dataBaseName);
-        auto *sdm = new Model::Software;
+        if (dataContext->openDB(dataBaseName)) {
+            auto *sdm = new Model::Software;
 
-        tableModel = sdm->initializeRelationalModel();
-        int idx = sdm->NameIndex();
+            tableModel = sdm->initializeRelationalModel();
+            int idx = sdm->NameIndex();
 
-        ui->listView->setModel(tableModel);
-        ui->listView->setModelColumn(idx);
+            ui->listView->setModel(tableModel);
+            ui->listView->setModelColumn(idx);
 
-        QModelIndex qmi = QModelIndex();
-        auto *sia = new SoftwareInputArea(ui->scrollArea, qmi);
-        ui->scrollArea->setWidget(sia);
-        dataContext->closeConnection();
-    } else if (selected == tr("Printer")) {
-        qDebug() << "Select Printer";
+            QModelIndex qmi = QModelIndex();
+            auto *sia = new SoftwareInputArea(ui->scrollArea, qmi);
+            ui->scrollArea->setWidget(sia);
+            dataContext->closeConnection();
+        } else {
+            dataBaseOpenError(selected);
+            qCCritical(jmbdewidgetsLog) << tr("Die Datenbank lässt sich nicht für die Tabelle %s öffnen!").arg(selected);
+        }
+    } else if (selected == tr("Drucker")) {
+        qCDebug(jmbdewidgetsLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_PRINTER;
 
-        dataContext->openDB(dataBaseName);
-        auto *pdm = new Model::Printer;
+        if (dataContext->openDB(dataBaseName)) {
+            auto *pdm = new Model::Printer;
 
-        tableModel = pdm->initializeRelationalModel();
-        int idx = pdm->NetworkNameIndex();
+            tableModel = pdm->initializeRelationalModel();
+            int idx = pdm->NetworkNameIndex();
 
-        ui->listView->setModel(tableModel);
-        ui->listView->setModelColumn(idx);
+            ui->listView->setModel(tableModel);
+            ui->listView->setModelColumn(idx);
 
-        QModelIndex qmi = QModelIndex();
-        auto *pia = new PrinterInputArea(ui->scrollArea, qmi);
-        ui->scrollArea->setWidget(pia);
-        dataContext->closeConnection();
+            QModelIndex qmi = QModelIndex();
+            auto *pia = new PrinterInputArea(ui->scrollArea, qmi);
+            ui->scrollArea->setWidget(pia);
+            dataContext->closeConnection();
+        } else {
+            dataBaseOpenError(selected);
+            qCCritical(jmbdewidgetsLog) << tr("Die Datenbank lässt sich nicht für die Tabelle %s öffnen!").arg(selected);
+        }
         // Tree -> Communication
-    } else if (selected == tr("Phone")) {
-        qDebug() << "Select Phone";
+    } else if (selected == tr("Telefon")) {
+        qCDebug(jmbdewidgetsLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_PHONE;
 
-        dataContext->openDB(dataBaseName);
-        auto *phdm = new Model::Phone;
+        if (dataContext->openDB(dataBaseName)) {
+            auto *phdm = new Model::Phone;
 
-        tableModel = phdm->initializeRelationalModel();
-        int idx = phdm->NumberIndex();
+            tableModel = phdm->initializeRelationalModel();
+            int idx = phdm->NumberIndex();
 
-        ui->listView->setModel(tableModel);
-        ui->listView->setModelColumn(idx);
+            ui->listView->setModel(tableModel);
+            ui->listView->setModelColumn(idx);
 
-        QModelIndex qmi = QModelIndex();
-        auto *pia = new PhoneInputArea(ui->scrollArea, qmi);
-        ui->scrollArea->setWidget(pia);
-        dataContext->closeConnection();
-    } else if (selected == tr("Mobile")) {
-        qDebug() << "Select Mobile";
+            QModelIndex qmi = QModelIndex();
+            auto *pia = new PhoneInputArea(ui->scrollArea, qmi);
+            ui->scrollArea->setWidget(pia);
+            dataContext->closeConnection();
+        } else {
+            dataBaseOpenError(selected);
+            qCCritical(jmbdewidgetsLog) << tr("Die Datenbank lässt sich nicht für die Tabelle %s öffnen!").arg(selected);
+        }
+    } else if (selected == tr("Mobiltelefon")) {
+        qCDebug(jmbdewidgetsLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_MOBILE;
 
-        dataContext->openDB(dataBaseName);
-        auto *phdm = new Model::Mobile;
+        if (dataContext->openDB(dataBaseName)) {
+            auto *phdm = new Model::Mobile;
 
-        tableModel = phdm->initializeRelationalModel();
-        int idx = phdm->NumberIndex();
+            tableModel = phdm->initializeRelationalModel();
+            int idx = phdm->NumberIndex();
 
-        ui->listView->setModel(tableModel);
-        ui->listView->setModelColumn(idx);
+            ui->listView->setModel(tableModel);
+            ui->listView->setModelColumn(idx);
 
-        QModelIndex qmi = QModelIndex();
-        auto *mia = new MobileInputArea(ui->scrollArea, qmi);
-        ui->scrollArea->setWidget(mia);
-        dataContext->closeConnection();
+            QModelIndex qmi = QModelIndex();
+            auto *mia = new MobileInputArea(ui->scrollArea, qmi);
+            ui->scrollArea->setWidget(mia);
+            dataContext->closeConnection();
+        } else {
+            dataBaseOpenError(selected);
+            qCCritical(jmbdewidgetsLog) << tr("Die Datenbank lässt sich nicht für die Tabelle %s öffnen!").arg(selected);
+        }
         // Tree -> Misc
-    } else if (selected == tr("Manufacturer")) {
-        qDebug() << "Select Manufacturer";
+    } else if (selected == tr("Hersteller")) {
+        qCDebug(jmbdewidgetsLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_MANUFACTURER;
 
-        dataContext->openDB(dataBaseName);
-        auto *mdm = new Model::Manufacturer;
+        if (dataContext->openDB(dataBaseName)) {
+            auto *mdm = new Model::Manufacturer;
 
-        tableModel = mdm->initializeRelationalModel();
-        int idx = mdm->NameIndex();
+            tableModel = mdm->initializeRelationalModel();
+            int idx = mdm->NameIndex();
 
-        ui->listView->setModel(tableModel);
-        ui->listView->setModelColumn(idx);
+            ui->listView->setModel(tableModel);
+            ui->listView->setModelColumn(idx);
 
-        QModelIndex qmi = QModelIndex();
-        auto *mia = new ManufacturerInputArea(ui->scrollArea, qmi);
-        ui->scrollArea->setWidget(mia);
-        dataContext->closeConnection();
-    } else if (selected == tr("City")) {
-        qDebug() << "Select Zip City";
+            QModelIndex qmi = QModelIndex();
+            auto *mia = new ManufacturerInputArea(ui->scrollArea, qmi);
+            ui->scrollArea->setWidget(mia);
+            dataContext->closeConnection();
+        } else {
+            dataBaseOpenError(selected);
+            qCCritical(jmbdewidgetsLog) << tr("Die Datenbank lässt sich nicht für die Tabelle %s öffnen!").arg(selected);
+        }
+    } else if (selected == tr("Stadt")) {
+        qCDebug(jmbdewidgetsLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_CITY;
 
-        dataContext->openDB(dataBaseName);
-        auto *cnm = new Model::CityName;
+        if (dataContext->openDB(dataBaseName)) {
+            auto *cnm = new Model::CityName;
 
-        tableModel = cnm->initializeRelationalModel();
-        int idx = cnm->NameIndex();
+            tableModel = cnm->initializeRelationalModel();
+            int idx = cnm->NameIndex();
 
-        ui->listView->setModel(tableModel);
-        ui->listView->setModelColumn(idx);
+            ui->listView->setModel(tableModel);
+            ui->listView->setModelColumn(idx);
 
-        QModelIndex qmi = QModelIndex();
-        auto *cia = new CityInputArea(ui->scrollArea, qmi);
-        ui->scrollArea->setWidget(cia);
-        dataContext->closeConnection();
-    } else if (selected == tr("Chipcard")) {
-        qDebug() << "Select Chipcard";
+            QModelIndex qmi = QModelIndex();
+            auto *cia = new CityInputArea(ui->scrollArea, qmi);
+            ui->scrollArea->setWidget(cia);
+            dataContext->closeConnection();
+        } else {
+            dataBaseOpenError(selected);
+            qCCritical(jmbdewidgetsLog) << tr("Die Datenbank lässt sich nicht für die Tabelle %s öffnen!").arg(selected);
+        }
+    } else if (selected == tr("Schlüsselchip")) {
+        qCDebug(jmbdewidgetsLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_CHIPCARD;
 
-        dataContext->openDB(dataBaseName);
-        auto *ccdm = new Model::ChipCard;
+        if (dataContext->openDB(dataBaseName)) {
+            auto *ccdm = new Model::ChipCard;
 
-        tableModel = ccdm->initializeRelationalModel();
-        int idx = ccdm->NumberIndex();
+            tableModel = ccdm->initializeRelationalModel();
+            int idx = ccdm->NumberIndex();
 
-        ui->listView->setModel(tableModel);
-        ui->listView->setModelColumn(idx);
+            ui->listView->setModel(tableModel);
+            ui->listView->setModelColumn(idx);
 
-        QModelIndex qmi = QModelIndex();
-        auto *cia = new ChipCardInputArea(ui->scrollArea, qmi);
-        ui->scrollArea->setWidget(cia);
-        dataContext->closeConnection();
+            QModelIndex qmi = QModelIndex();
+            auto *cia = new ChipCardInputArea(ui->scrollArea, qmi);
+            ui->scrollArea->setWidget(cia);
+            dataContext->closeConnection();
+        } else {
+            dataBaseOpenError(selected);
+            qCCritical(jmbdewidgetsLog) << tr("Die Datenbank lässt sich nicht für die Tabelle %s öffnen!").arg(selected);
+        }
     } else {
-        Not_Available_Message();
+        const QString caller = tr("onClickedTreeView(): Unbekannte Funktion");
+        notAvailableMessage(caller);
     }
 }
 
 void MainWindow::onClickedListViewRow(const QModelIndex &index)
 {
     m_actualData = index;
-    qDebug() << "Clicked: ActualDataRow : " << index;
+    qCDebug(jmbdewidgetsLog) << "onClickedListViewRow(QModelIndex : " << index;
 
     switch (actualView) {
     case VIEW_EMPLOYEE: {
-        qDebug() << "Employee Table Row (" << index.row() << ") clicked";
+        if (dataContext->openDB(dataBaseName)) {
+            auto *eia = new EmployeeInputArea(nullptr, index);
 
-        dataContext->openDB(dataBaseName);
-        auto *eia = new EmployeeInputArea(nullptr, index);
-
-        QSize AdjustSize = eia->size();
-        AdjustSize.width();
-        eia->setMinimumSize(AdjustSize);
-        ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(eia);
-        dataContext->closeConnection();
+            QSize AdjustSize = eia->size();
+            AdjustSize.width();
+            eia->setMinimumSize(AdjustSize);
+            ui->scrollArea->setWidgetResizable(true);
+            ui->scrollArea->setWidget(eia);
+            dataContext->closeConnection();
+        } else {
+            QString selected = tr("Mitarbeiter");
+            dataBaseOpenError(selected);
+            qCCritical(jmbdewidgetsLog) << tr("Die Datenbank lässt sich nicht für die Tabelle %s öffnen!").arg(selected);
+        }
     } break;
 
     case VIEW_FUNCTION: {
-        dataContext->openDB(dataBaseName);
-        auto *fia = new FunctionInputArea(nullptr, index);
+        if (dataContext->openDB(dataBaseName)) {
+            auto *fia = new FunctionInputArea(nullptr, index);
 
-        QSize AdjustSize = fia->size();
-        AdjustSize.width();
-        fia->setMinimumSize(AdjustSize);
-        ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(fia);
-        dataContext->closeConnection();
+            QSize AdjustSize = fia->size();
+            AdjustSize.width();
+            fia->setMinimumSize(AdjustSize);
+            ui->scrollArea->setWidgetResizable(true);
+            ui->scrollArea->setWidget(fia);
+            dataContext->closeConnection();
+        } else {
+            QString selected = tr("Funktion");
+            dataBaseOpenError(selected);
+            qCCritical(jmbdewidgetsLog) << tr("Die Datenbank lässt sich nicht für die Tabelle %s öffnen!").arg(selected);
+        }
     } break;
 
     case VIEW_DEPARTMENT: {
-        dataContext->openDB(dataBaseName);
-        auto *dia = new DepartmentInputArea(nullptr, index);
+        if (dataContext->openDB(dataBaseName)) {
+            auto *dia = new DepartmentInputArea(nullptr, index);
 
-        QSize AdjustSize = dia->size();
-        AdjustSize.width();
-        dia->setMinimumSize(AdjustSize);
-        ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(dia);
-        dataContext->closeConnection();
+            QSize AdjustSize = dia->size();
+            AdjustSize.width();
+            dia->setMinimumSize(AdjustSize);
+            ui->scrollArea->setWidgetResizable(true);
+            ui->scrollArea->setWidget(dia);
+            dataContext->closeConnection();
+        } else {
+            QString selected = tr("Abteilung");
+            dataBaseOpenError(selected);
+            qCCritical(jmbdewidgetsLog) << tr("Die Datenbank lässt sich nicht für die Tabelle %s öffnen!").arg(selected);
+        }
     } break;
 
     case VIEW_TITLE: {
-        dataContext->openDB(dataBaseName);
-        auto *fia = new FunctionInputArea(nullptr, index);
+        if (dataContext->openDB(dataBaseName)) {
+            auto *fia = new FunctionInputArea(nullptr, index);
 
-        QSize AdjustSize = fia->size();
-        AdjustSize.width();
-        fia->setMinimumSize(AdjustSize);
-        ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(fia);
-        dataContext->closeConnection();
+            QSize AdjustSize = fia->size();
+            AdjustSize.width();
+            fia->setMinimumSize(AdjustSize);
+            ui->scrollArea->setWidgetResizable(true);
+            ui->scrollArea->setWidget(fia);
+            dataContext->closeConnection();
+        } else {
+            QString selected = tr("Titel");
+            dataBaseOpenError(selected);
+            qCCritical(jmbdewidgetsLog) << tr("Die Datenbank lässt sich nicht für die Tabelle %s öffnen!").arg(selected);
+        }
     } break;
 
     case VIEW_COMPUTER: {
-        qDebug() << "Computer Table Row (" << index.row() << ") clicked";
+        if (dataContext->openDB(dataBaseName)) {
+            auto *cia = new ComputerInputArea(nullptr, index);
 
-        dataContext->openDB(dataBaseName);
-        auto *cia = new ComputerInputArea(nullptr, index);
-
-        QSize AdjustSize = cia->size();
-        AdjustSize.width();
-        cia->setMinimumSize(AdjustSize);
-        ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(cia);
-        dataContext->closeConnection();
+            QSize AdjustSize = cia->size();
+            AdjustSize.width();
+            cia->setMinimumSize(AdjustSize);
+            ui->scrollArea->setWidgetResizable(true);
+            ui->scrollArea->setWidget(cia);
+            dataContext->closeConnection();
+        } else {
+            QString selected = tr("Computer");
+            dataBaseOpenError(selected);
+            qCCritical(jmbdewidgetsLog) << tr("Die Datenbank lässt sich nicht für die Tabelle %s öffnen!").arg(selected);
+        }
     } break;
 
     case VIEW_PROCESSOR: {
-        dataContext->openDB(dataBaseName);
-        auto *pia = new ProcessorInputArea(nullptr, index);
+        if (dataContext->openDB(dataBaseName)) {
+            auto *pia = new ProcessorInputArea(nullptr, index);
 
-        QSize AdjustSize = pia->size();
-        AdjustSize.width();
-        pia->setMinimumSize(AdjustSize);
-        ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(pia);
-        dataContext->closeConnection();
+            QSize AdjustSize = pia->size();
+            AdjustSize.width();
+            pia->setMinimumSize(AdjustSize);
+            ui->scrollArea->setWidgetResizable(true);
+            ui->scrollArea->setWidget(pia);
+            dataContext->closeConnection();
+        } else {
+            QString selected = tr("Prozessor");
+            dataBaseOpenError(selected);
+            qCCritical(jmbdewidgetsLog) << tr("Die Datenbank lässt sich nicht für die Tabelle %s öffnen!").arg(selected);
+        }
     } break;
 
     case VIEW_OS: {
-        dataContext->openDB(dataBaseName);
-        auto *oia = new OSInputArea(nullptr, index);
+        if (dataContext->openDB(dataBaseName)) {
+            auto *oia = new OSInputArea(nullptr, index);
 
-        QSize AdjustSize = oia->size();
-        AdjustSize.width();
-        oia->setMinimumSize(AdjustSize);
-        ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(oia);
-        dataContext->closeConnection();
+            QSize AdjustSize = oia->size();
+            AdjustSize.width();
+            oia->setMinimumSize(AdjustSize);
+            ui->scrollArea->setWidgetResizable(true);
+            ui->scrollArea->setWidget(oia);
+            dataContext->closeConnection();
+        } else {
+            QString selected = tr("Betriebssystem");
+            dataBaseOpenError(selected);
+            qCCritical(jmbdewidgetsLog) << tr("Die Datenbank lässt sich nicht für die Tabelle %s öffnen!").arg(selected);
+        }
     } break;
 
     case VIEW_SOFTWARE: {
-        dataContext->openDB(dataBaseName);
-        auto *sia = new SoftwareInputArea(nullptr, index);
+        if (dataContext->openDB(dataBaseName)) {
+            auto *sia = new SoftwareInputArea(nullptr, index);
 
-        QSize AdjustSize = sia->size();
-        AdjustSize.width();
-        sia->setMinimumSize(AdjustSize);
-        ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(sia);
-        dataContext->closeConnection();
+            QSize AdjustSize = sia->size();
+            AdjustSize.width();
+            sia->setMinimumSize(AdjustSize);
+            ui->scrollArea->setWidgetResizable(true);
+            ui->scrollArea->setWidget(sia);
+            dataContext->closeConnection();
+        } else {
+            QString selected = tr("Software");
+            dataBaseOpenError(selected);
+            qCCritical(jmbdewidgetsLog) << tr("Die Datenbank lässt sich nicht für die Tabelle %s öffnen!").arg(selected);
+        }
     } break;
 
     case VIEW_PRINTER: {
-        dataContext->openDB(dataBaseName);
-        auto *pia = new PrinterInputArea(nullptr, index);
+        if (dataContext->openDB(dataBaseName)) {
+            auto *pia = new PrinterInputArea(nullptr, index);
 
-        QSize AdjustSize = pia->size();
-        AdjustSize.width();
-        pia->setMinimumSize(AdjustSize);
-        ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(pia);
-        dataContext->closeConnection();
+            QSize AdjustSize = pia->size();
+            AdjustSize.width();
+            pia->setMinimumSize(AdjustSize);
+            ui->scrollArea->setWidgetResizable(true);
+            ui->scrollArea->setWidget(pia);
+            dataContext->closeConnection();
+        } else {
+            QString selected = tr("Drucker");
+            dataBaseOpenError(selected);
+            qCCritical(jmbdewidgetsLog) << tr("Die Datenbank lässt sich nicht für die Tabelle %s öffnen!").arg(selected);
+        }
     } break;
 
     case VIEW_PHONE: {
-        dataContext->openDB(dataBaseName);
-        auto *pia = new PhoneInputArea(nullptr, index);
+        if (dataContext->openDB(dataBaseName)) {
+            auto *pia = new PhoneInputArea(nullptr, index);
 
-        QSize AdjustSize = pia->size();
-        AdjustSize.width();
-        pia->setMinimumSize(AdjustSize);
-        ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(pia);
-        dataContext->closeConnection();
+            QSize AdjustSize = pia->size();
+            AdjustSize.width();
+            pia->setMinimumSize(AdjustSize);
+            ui->scrollArea->setWidgetResizable(true);
+            ui->scrollArea->setWidget(pia);
+            dataContext->closeConnection();
+        } else {
+            QString selected = tr("Telefon");
+            dataBaseOpenError(selected);
+            qCCritical(jmbdewidgetsLog) << tr("Die Datenbank lässt sich nicht für die Tabelle %s öffnen!").arg(selected);
+        }
     } break;
 
     case VIEW_MOBILE: {
-        dataContext->openDB(dataBaseName);
-        auto *mia = new MobileInputArea(nullptr, index);
+        if (dataContext->openDB(dataBaseName)) {
+            auto *mia = new MobileInputArea(nullptr, index);
 
-        QSize AdjustSize = mia->size();
-        AdjustSize.width();
-        mia->setMinimumSize(AdjustSize);
-        ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(mia);
-        dataContext->closeConnection();
+            QSize AdjustSize = mia->size();
+            AdjustSize.width();
+            mia->setMinimumSize(AdjustSize);
+            ui->scrollArea->setWidgetResizable(true);
+            ui->scrollArea->setWidget(mia);
+            dataContext->closeConnection();
+        } else {
+            QString selected = tr("Mobiltelefon");
+            dataBaseOpenError(selected);
+            qCCritical(jmbdewidgetsLog) << tr("Die Datenbank lässt sich nicht für die Tabelle %s öffnen!").arg(selected);
+        }
     } break;
 
     case VIEW_MANUFACTURER: {
-        dataContext->openDB(dataBaseName);
-        auto *mia = new ManufacturerInputArea(nullptr, index);
+        if (dataContext->openDB(dataBaseName)) {
+            auto *mia = new ManufacturerInputArea(nullptr, index);
 
-        QSize AdjustSize = mia->size();
-        AdjustSize.width();
-        mia->setMinimumSize(AdjustSize);
-        ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(mia);
-        dataContext->closeConnection();
+            QSize AdjustSize = mia->size();
+            AdjustSize.width();
+            mia->setMinimumSize(AdjustSize);
+            ui->scrollArea->setWidgetResizable(true);
+            ui->scrollArea->setWidget(mia);
+            dataContext->closeConnection();
+        } else {
+            QString selected = tr("Hersteller");
+            dataBaseOpenError(selected);
+            qCCritical(jmbdewidgetsLog) << tr("Die Datenbank lässt sich nicht für die Tabelle %s öffnen!").arg(selected);
+        }
     } break;
 
     case VIEW_CITY: {
-        dataContext->openDB(dataBaseName);
-        auto *cia = new CityInputArea(nullptr, index);
+        if (dataContext->openDB(dataBaseName)) {
+            auto *cia = new CityInputArea(nullptr, index);
 
-        QSize AdjustSize = cia->size();
-        AdjustSize.width();
-        cia->setMinimumSize(AdjustSize);
-        ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(cia);
-        dataContext->closeConnection();
+            QSize AdjustSize = cia->size();
+            AdjustSize.width();
+            cia->setMinimumSize(AdjustSize);
+            ui->scrollArea->setWidgetResizable(true);
+            ui->scrollArea->setWidget(cia);
+            dataContext->closeConnection();
+        } else {
+            QString selected = tr("Stadt");
+            dataBaseOpenError(selected);
+            qCCritical(jmbdewidgetsLog) << tr("Die Datenbank lässt sich nicht für die Tabelle %s öffnen!").arg(selected);
+        }
     }
 
     break;
 
     case VIEW_CHIPCARD: {
-        dataContext->openDB(dataBaseName);
-        auto *ccia = new ChipCardInputArea(nullptr, index);
+        if (dataContext->openDB(dataBaseName)) {
+            auto *ccia = new ChipCardInputArea(nullptr, index);
 
-        QSize AdjustSize = ccia->size();
-        AdjustSize.width();
-        ccia->setMinimumSize(AdjustSize);
-        ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(ccia);
-        dataContext->closeConnection();
+            QSize AdjustSize = ccia->size();
+            AdjustSize.width();
+            ccia->setMinimumSize(AdjustSize);
+            ui->scrollArea->setWidgetResizable(true);
+            ui->scrollArea->setWidget(ccia);
+            dataContext->closeConnection();
+        } else {
+            QString selected = tr("Stadt");
+            dataBaseOpenError(selected);
+            qCCritical(jmbdewidgetsLog) << tr("Die Datenbank lässt sich nicht für die Tabelle %s öffnen!").arg(selected);
+        }
     } break;
     default:
-        Not_Available_Message();
+        const QString caller = tr("onClickedListViewRow(): Unbekannte Funktion");
+        notAvailableMessage(caller);
         break;
     }
 }
@@ -979,11 +1126,11 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index)
 void MainWindow::onPressedListViewRow(const QModelIndex &index)
 {
     m_actualData = index;
-    qDebug() << "Pressed: ActualDataRow for deleteting: " << index;
+    qCDebug(jmbdewidgetsLog) << "Pressed: ActualDataRow for deleteting: " << index;
 
     switch (actualView) {
     case VIEW_EMPLOYEE: {
-        qDebug() << "Employee Table Row (" << index.row() << ") clicked";
+        qCDebug(jmbdewidgetsLog) << "Employee Table Row (" << index.row() << ") clicked";
 
         dataContext->openDB(dataBaseName);
         auto *eia = new EmployeeInputArea(nullptr, index);

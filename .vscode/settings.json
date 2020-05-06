@@ -8,6 +8,7 @@
   "editor.formatOnType": true,
   "files.associations": {
     "random": "cpp",
+    "system_error": "cpp",
     "typeinfo": "cpp"
   },
   "python.linting.enabled": true,
