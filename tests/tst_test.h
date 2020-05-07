@@ -42,7 +42,8 @@
 
 #include <QtTest/QtTest>
 
-class tst_test : public QObject {
+class tst_test : public QObject
+{
     Q_OBJECT
 
 private slots:

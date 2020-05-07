@@ -1,51 +1,100 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Database Design](#database-design)
+  - [Account Table](#account-table)
+  - [ChipCard Table](#chipcard-table)
+  - [ChipCardDoor Table](#chipcarddoor-table)
+  - [ChipcardProfile Table](#chipcardprofile-table)
+  - [ChipCardProfileDoor Table](#chipcardprofiledoor-table)
+  - [CityName Table](#cityname-table)
+  - [Company Table](#company-table)
+  - [Computer Table](#computer-table)
+  - [ComputerSoftware Table](#computersoftware-table)
+  - [Department Table](#department-table)
+  - [DeviceName Table](#devicename-table)
+  - [DeviceType Table](#devicetype-table)
+  - [Document Table](#document-table)
+  - [EmployeeAccount Table](#employeeaccount-table)
+  - [Employee Table](#employee-table)
+  - [EmployeeDocument Table](#employeedocument-table)
+  - [Fax Table](#fax-table)
+  - [Function Table](#function-table)
+  - [Inventory Table](#inventory-table)
+  - [Manufacturer Table](#manufacturer-table)
+  - [Mobile Table](#mobile-table)
+  - [Os Table](#os-table)
+  - [Phone Table](#phone-table)
+  - [Place Table](#place-table)
+  - [Printer Table](#printer-table)
+  - [Processor Table](#processor-table)
+  - [Software Table](#software-table)
+  - [SystemData Table](#systemdata-table)
+  - [Title Table](#title-table)
+  - [ZipCity Table](#zipcity-table)
+  - [ZipCode Table](#zipcode-table)
+  - [DatabaseVersion](#databaseversion)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Database Design #
 
 ## Account Table ##
 
-| Fieldname      | Type                | Purpose                                   |
-| -------------- | ------------------- | ----------------------------------------- |
-| account_id     | INTEGER PRIMARY KEY | The Account index                         |
-| user_name      | VARCHAR             | The Username/Accessname for the system    |
-| password       | VARCHAR             | The password for the access to the system |
-| system_data_id | INTEGER             | The System for that is the login needed   |
-| last_update    | TIMESTAMP           | Timestamp of last modification            |
+| Fieldname      | Type                | Purpose                          |
+| -------------- | ------------------- | -------------------------------- |
+| account_id     | INTEGER PRIMARY KEY | The Account index                |
+| user_name      | VARCHAR             | The Username/Accessname for the  |
+|                |                     | system                           |
+| password       | VARCHAR             | The password for the access to   |
+|                |                     | the system                       |
+| system_data_id | INTEGER             | The System for that is the login |
+|                |                     | needed                           |
+| last_update    | TIMESTAMP           | Timestamp of last modification   |
 
 ## ChipCard Table ##
 
-| Fieldname            | Type                | Purpose                                |
-| -------------------- | ------------------- | -------------------------------------- |
-| chip_chard_id        | INTEGER PRIMARY KEY | The ChipCard index                     |
-| number               | VARCHAR(10)         | Number of Coin                         |
-| chip_card_door_id    | INTEGER             | Related Doors by this Coin             |
-| chip_card_profile_id | INTEGER             | Releted ChipCardProfilesby this Coin   |
-| employee_id          | INTEGER             | Related Employee (Where has this coin) |
-| last_update          | TIMESTAMP           | Timestamp of last modification         |
+| Fieldname            | Type                | Purpose                          |
+| -------------------- | ------------------- | -------------------------------- |
+| chip_chard_id        | INTEGER PRIMARY KEY | The ChipCard index               |
+| number               | VARCHAR(10)         | Number of Coin                   |
+| chip_card_door_id    | INTEGER             | Related Doors by this Coin       |
+| chip_card_profile_id | INTEGER             | Releted ChipCardProfiles by this |
+|                      |                     | Coin                             |
+| employee_id          | INTEGER             | Related Employee                 |
+|                      |                     | (Where has this coin)            |
+| last_update          | TIMESTAMP           | Timestamp of last modification   |
 
 ## ChipCardDoor Table ##
 
-| Fieldname         | Type                | Purpose                                |
-| ----------------- | ------------------- | -------------------------------------- |
-| chip_card_door_id | INTEGER PRIMARY KEY | The ChipCardDoor index                 |
-| number            | VARCHAR(10)         | The Number/Name of the Door            |
-| place_id          | INTEGER             | Relation the Place where the door is   |
-| employee_id       | INTEGER             | Which employee has access to this door |
-| last_update       | TIMESTAMP           | Timestamp of last modification         |
+| Fieldname         | Type                | Purpose                           |
+| ----------------- | ------------------- | --------------------------------- |
+| chip_card_door_id | INTEGER PRIMARY KEY | The ChipCardDoor index            |
+| number            | VARCHAR(10)         | The Number/Name of the Door       |
+| place_id          | INTEGER             | Relation the Place where the door |
+|                   |                     | is                                |
+| employee_id       | INTEGER             | Which employee has access         |
+| last_update       | TIMESTAMP           | Timestamp of last modification    |
 
 ## ChipcardProfile Table ##
 
-| Fieldname            | Type                | Purpose                                  |
-| -------------------- | ------------------- | ---------------------------------------- |
-| chip_card_profile_id | INTEGER PRIMARY KEY | The ChipcardProfile index                |
-| number               | VARCHAR(10)         | The The Number/Name for the profile      |
-| chip_card_door_id    | INTEGER             | The doors there included in this profile |
-| employee_id          | INTEGER             | The employees there use this profile     |
-| last_update          | TIMESTAMP           | Timestamp of last modification           |
+| Fieldname            | Type                | Purpose                          |
+| -------------------- | ------------------- | -------------------------------- |
+| chip_card_profile_id | INTEGER PRIMARY KEY | The ChipcardProfile index        |
+| number               | VARCHAR(10)         | The Number/Name for the profile  |
+| chip_card_door_id    | INTEGER             | The doors there included in this |
+|                      |                     | profile                          |
+| employee_id          | INTEGER             | The employees there use this     |
+|                      |                     | profile                          |
+| last_update          | TIMESTAMP           | Timestamp of last modification   |
 
 ## ChipCardProfileDoor Table ##
 
 | Fieldname                 | Type                | Purpose                         |
 | ------------------------- | ------------------- | ------------------------------- |
-| chip_card_profile_door_id | INTEGER PRIMARY KEY | The ChipCardProfileDoor index   |
+| chip_card_profile_door_id |
+|                           | INTEGER PRIMARY KEY | The ChipCardProfileDoor index   |
 | chip_card_profile_id      | VARCHAR             | Relation to the ChipCardProfile |
 | chip_card_door_id         | VARCHAR             | Relation to the ChipCardDoor    |
 | last_update               | TIMESTAMP           | Timestamp of last modification  |
@@ -60,58 +109,64 @@
 
 ## Company Table ##
 
-| Fieldname     | Type                | Purpose                                   |
-| ------------- | ------------------- | ----------------------------------------- |
-| company_id    | INTEGER PRIMARY KEY | The Company index                         |
-| name          | VARCHAR             | Name of the Company                       |
-| name2         | VARCHAR             | Name2 of the Company. ie the 2.nd Name    |
-| street        | VARCHAR             | The Street of the Company. Where is it.   |
-| city          | VARCHAR             | The City of the Company. Where is it.     |
-| zip_code      | INTEGER             | The Zipcode for the City                  |
-| phone_number  | VARCHAR             | The Phonenumber from the company          |
-| fax_number    | VARCHAR             | The Faxnumber from the company            |
-| mobile_number | VARCHAR             | The moblienumber from the company         |
-| mail_address  | VARCHAR             | The mail address from the company         |
-| active        | BOOLEAN             | The flag is the entry activ               |
-| employee_id   | INTEGER             | Relation to the employees for the company |
-| last_update   | TIMESTAMP           | Timestamp of last modification            |
+| Fieldname     | Type                | Purpose                           |
+| ------------- | ------------------- | --------------------------------- |
+| company_id    | INTEGER PRIMARY KEY | The Company index                 |
+| name          | VARCHAR             | Name of the Company               |
+| name2         | VARCHAR             | Name2 of the Company              |
+| street        | VARCHAR             | The Street of the Company.        |
+| city          | VARCHAR             | The City of the Company.          |
+| zip_code      | INTEGER             | The Zipcode for the City          |
+| phone_number  | VARCHAR             | The Phonenumber from the company  |
+| fax_number    | VARCHAR             | The Faxnumber from the company    |
+| mobile_number | VARCHAR             | The moblienumber from the company |
+| mail_address  | VARCHAR             | The mail address from the company |
+| active        | BOOLEAN             | The flag is the entry activ       |
+| employee_id   | INTEGER             | Relation to the employees for     |
+|               |                     | the company                       |
+| last_update   | TIMESTAMP           | Timestamp of last modification    |
 
 ## Computer Table ##
 
-| Fieldname            | Type                | Purpose                                                           |
-| -------------------- | ------------------- | ----------------------------------------------------------------- |
-| computer_id          | INTEGER PRIMARY KEY | The Computer index                                                |
-| name                 | VARCHAR             | Name for the device (i.e. PC0001)                                 |
-| serial_number        | VARCHAR             | The serial number from the device                                 |
-| service_tag          | VARCHAR             | The tag for service calls                                         |
-| service_number       | VARCHAR             | The quick service number                                          |
-| memory               | INTEGER             | The memory (i.e. 4GB, 8GB)                                        |
-| drive_size           | INTEGER             | Memory for save data (i.e. 128GB )                                |
-| drive_type           | INTEGER             | 1=Harddisk, 2=SSD                                                 |
-| network              | VARCHAR             | The name of the Network for this device                           |
-| active               | BOOLEAN             | Is active or spare                                                |
-| replace              | BOOLEAN             | Must replace                                                      |
-| device_name_id       | INTEGER             | The relation to the device name                                   |
-| device_type_id       | INTEGER             | The releation to the device type                                  |
-| employee_id          | INTEGER             | The relation to the employee who use this                         |
-| place_id             | INTEGER             | The relation where this device is                                 |
-| department_id        | INTEGER             | The relation to the deparment for this device                     |
-| manufacturer_id      | INTEGER             | Which manfacturer has this device assembled                       |
-| inventory_id         | INTEGER             | The relation to the inventory for this device                     |
-| processor_id         | INTEGER             | the Relation to the processor type for the device                 |
-| os_id                | INTEGER             | the relation to the OS                                            |
-| computer_software_id | INTEGER             | The relation to the Software. This is a many to many relation     |
-| printer_id           | INTEGER             | The Printer(s) they are connected with this device. Many to many, |
-| last_update          | TIMESTAMP           | Timestamp of last modification                                    |
+| Fieldname            | Type                | Purpose                           |
+| -------------------- | ------------------- | --------------------------------- |
+| computer_id          | INTEGER PRIMARY KEY | The Computer index                |
+| name                 | VARCHAR             | Name for the device (i.e. PC0001) |
+| serial_number        | VARCHAR             | The serial number from the device |
+| service_tag          | VARCHAR             | The tag for service calls         |
+| service_number       | VARCHAR             | The quick service number          |
+| memory               | INTEGER             | The memory (i.e. 4GB, 8GB)        |
+| drive_size           | INTEGER             | Memory for save data i.e. 1TB     |
+| drive_type           | INTEGER             | 1=Harddisk, 2=SSD                 |
+| network              | VARCHAR             | The name of the Network           |
+| active               | BOOLEAN             | Is active or spare                |
+| replace              | BOOLEAN             | Must replace                      |
+| device_name_id       | INTEGER             | The relation to the device name   |
+| device_type_id       | INTEGER             | The releation to the device type  |
+| employee_id          | INTEGER             | The relation to the employee      |
+| place_id             | INTEGER             | The relation where this device is |
+| department_id        | INTEGER             | The relation to the deparment for |
+|                      |                     | this device                       |
+| manufacturer_id      | INTEGER             | Which manfacturer                 |
+| inventory_id         | INTEGER             | The relation to the inventory     |
+| processor_id         | INTEGER             | the Relation to the processor     |
+| os_id                | INTEGER             | the relation to the OS            |
+| computer_software_id | INTEGER             | The relation to the Software.     |
+|                      |                     | This is a many to many relation   |
+| printer_id           | INTEGER             | The Printer(s) they are connected |
+|                      |                     | with this device. Many to many,   |
+| last_update          | TIMESTAMP           | Timestamp of last modification    |
 
 ## ComputerSoftware Table ##
 
-| Fieldname            | Type                | Purpose                              |
-| -------------------- | ------------------- | ------------------------------------ |
-| computer_software_id | INTEGER PRIMARY KEY | The ComputerSoftware index           |
-| computer_id          | INTEGER             | Relation to Computer  (Many to Many) |
-| software_id          | INTEGER             | Relation to  Software (Many to Many) |
-| last_update          | TIMESTAMP           | Timestamp of last modification       |
+| Fieldname            | Type                | Purpose                        |
+| -------------------- | ------------------- | ------------------------------ |
+| computer_software_id | INTEGER PRIMARY KEY | The ComputerSoftware index     |
+| computer_id          | INTEGER             | Relation to Computer           |
+|                      |                     | (Many to Many)                 |
+| software_id          | INTEGER             | Relation to  Software          |
+|                      |                     | (Many to Many)                 |
+| last_update          | TIMESTAMP           | Timestamp of last modification |
 
 ## Department Table ##
 

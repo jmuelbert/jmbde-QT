@@ -1,20 +1,23 @@
 {
-    "version": "0.2.0",
-    "configurations": [{
-        "name": "(lldb) Launch",
-        "type": "cppdbg",
-        "request": "launch",
-        "program": "${workspaceFolder}/helloworld.out",
-        "args": [],
-        "stopAtEntry": true,
-        "cwd": "${workspaceFolder}",
-        "environment": [],
-        "externalConsole": true,
-        "MIMode": "lldb",
-        "logging": {
-            "trace": true,
-            "traceResponse": true,
-            "engineLogging": true
-        }
-    }]
+  "configurations": [
+    {
+      "MIMode": "lldb",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": true,
+      "logging": {
+        "engineLogging": true,
+        "trace": true,
+        "traceResponse": true
+      },
+      "name": "(lldb) Launch",
+      "program": "${workspaceFolder}/helloworld.out",
+      "request": "launch",
+      "stopAtEntry": true,
+      "type": "cppdbg",
+      "visualizerFile": "/Users/juergen/Library/Application Support/Code/User/workspaceStorage/e7fa4b8c4e24069da8af01d76c159cab/tonka3000.qtvsctools/qt.natvis.xml"
+    }
+  ],
+  "version": "0.2.0"
 }

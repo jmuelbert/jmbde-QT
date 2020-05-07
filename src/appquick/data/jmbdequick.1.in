@@ -1,0 +1,40 @@
+.TH jmbde 1 "@APPLICATION_VERSION" "Jürgen Mülbert" ""
+.SH NAME
+jmbde \- A BDE Tool.
+.SH SYNOPSIS
+.B jmbde
+[\fIOPTIONS\fR] [\fIHELP\fR] [\fIVERSION\f] [\fIQUIT\f]
+.SH DESCRIPTION
+JMBde is a BDE Tool. JMBde is free software and written
+in C++, using the Qt application framework.
+.IP
+<https://github.com/jmuelbert/jmbde-QT/wiki/>
+.SH OPTIONS
+.TP
+\fB\-\-help\f
+Shows the help and the arguments
+.TP
+\fB\-\-version\f
+Shows the program version
+.TP
+\fB\-\-quit\f
+Only check validity of arguments
+===========================
+.PP
+As a Qt application, JMBde also obey Qt command-line flags, see Qt
+documentation for complete list:
+.IP
+<http://doc.qt.io/qt-5/qguiapplication.html#QGuiApplication>
+.SH FILES
+.TP
+.I ~/.config/jmbde
+Default directory for configuration data.
+.SH BUGS
+Bug tracker:
+.IP
+https://github.com/jmuelbert/jmbde-QT/issues
+.PP
+Be sure to do your search within open and closed issues before submitting reports.
+.SH AUTHORS
+Jürgen Mülbert \- <https://github.com/jmuelbert/jmbde-QT/blob/master/AUTHORS>
+.br

@@ -1,25 +1,30 @@
- /*
-    jmbde a BDE Tool for companies
-    Copyright (C) 2013-2019  Jürgen Mülbert
+/*
+   jmbde a BDE Tool for companies
+   Copyright (C) 2013-2019  Jürgen Mülbert
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 */
+
+#include "jmbde-version.h"
+// #include "jmbde-settings.h"
+// #include "jmbdemodels_export.h"
+#include "jmbdewidgets_export.h"
+#include "views/mainwindow.h"
 
 #include <QDebug>
 #include <QObject>
 
-
 #include <QApplication>
-#include <QQmlApplicationEngine>
-
+#include <QGuiApplication>
+#include <QMessageBox>
 
 #include <QCommandLineParser>
 #include <QCoreApplication>
@@ -34,17 +39,27 @@
 #include <QStringList>
 #include <QStyleFactory>
 #include <QTranslator>
+
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
+#include <QQmlFileSelector>
+#include <QStandardPaths>
 
 #ifndef Q_OS_WIN
 #include <unistd.h>
 #endif
 #include <iostream>
 
-#include "views/mainwindow.h"
-#include "models/employee.h"
+#if defined Qt5AndroidExtras_FOUND && Qt5AndroidExtras_FOUND
+#include <QAndroidService>
+#endif
 
-#include "jmbde_common_export.h"
+#include <memory>
+
+#if defined Qt5AndroidExtras_FOUND && Qt5AndroidExtras_FOUND
+#include <QAndroidJniObject>
+#include <QtAndroid>
+#endif
 
 /**
  * @brief main
@@ -52,10 +67,26 @@
  * @param argv The arg Strings
  * @return 0 is exceuted sucessfull
  */
-int main(int argc, char *argv[]) {
+#if defined Q_OS_ANDROID
+int __attribute__((visibility("default"))) main(int argc, char *argv[])
+#else
+int main(int argc, char *argv[])
+#endif
+{
+#if defined Q_OS_ANDROID
+    if (argc > 1 && strcmp(argv[1], "-service") == 0) {
+        QAndroidService app(argc, argv);
+        qInfo() << "Service starting...";
 
-    QLoggingCategory::setFilterRules(
-        QLatin1String("jmbde.*.debug=false\njmbde.*.info=false"));
+        // My service stuff
+
+        return app.exec();
+    }
+
+    qInfo() << "Application starting...";
+#endif
+
+    QLoggingCategory::setFilterRules(QLatin1String("jmbde.*.debug=false\njmbde.*.info=false"));
 
 #ifndef Q_OS_WIN
     // Prohibit using sudo or kdesu (but allow using the root user directly)
@@ -73,10 +104,12 @@ int main(int argc, char *argv[]) {
         }
     }
 #endif
+
     /**
-     * init resources from our static lib
+     * enable high dpi support
      */
-    // Q_INIT_RESOURCE(jmbde);
+    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     /**
      * Create application first
@@ -89,15 +122,9 @@ int main(int argc, char *argv[]) {
     QApplication::setApplicationName(QStringLiteral("jmbde"));
 
     /**
-     * enable high dpi support
-     */
-    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-
-    /**
      * set the program icon
      */
-    QApplication::setWindowIcon(
-        QIcon::fromTheme(QStringLiteral("jmbde"), app.windowIcon()));
+    QApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("jmbde")));
     QApplication::setOrganizationDomain(QStringLiteral("jmuelbert.github.io"));
 
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
@@ -109,7 +136,7 @@ int main(int argc, char *argv[]) {
 
     QApplication::setApplicationDisplayName(QStringLiteral("jmbde"));
     QApplication::setOrganizationName(QStringLiteral("jmuelbert.github.io"));
-    QApplication::setApplicationVersion(QLatin1String("0.4.25"));
+    QApplication::setApplicationVersion(QLatin1String(JMBDE_VERSION_STRING));
 
     /**
      * Create command line parser and feed it with known options
@@ -125,33 +152,29 @@ int main(int argc, char *argv[]) {
      */
     parser.process(app);
 
+    // Quick Settings
+    QQmlApplicationEngine engine;
+    engine.addImportPath(QStringLiteral("qrc:/imports"));
+    // engine.rootContext()->setContextObject(new jmbdeLocalizedContext(&engine));
+
     // Setup and load translator for localization
     QString locale = QLocale::system().name();
     QTranslator qtTranslator;
-    qtTranslator.load(QLatin1String("qt_") + locale,
-                      QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    qtTranslator.load(QLatin1String("qt_") + locale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     QApplication::installTranslator(&qtTranslator);
 
     QTranslator jmbdeTranslator;
     jmbdeTranslator.load(QLatin1String("app_") + locale);
     QApplication::installTranslator(&jmbdeTranslator);
 
-    QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths()
-                                  << QLatin1String(":tango"));
+    QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths() << QLatin1String(":tango"));
     QIcon::setThemeName(QLatin1String("tango"));
 
     app.setProperty("jmbde_locale", locale);
-    QApplication::setLayoutDirection(QObject::tr("LTR") == QLatin1String("RTL")
-                                         ? Qt::RightToLeft
-                                         : Qt::LeftToRight);
+    QApplication::setLayoutDirection(QObject::tr("LTR") == QLatin1String("RTL") ? Qt::RightToLeft : Qt::LeftToRight);
 
-    qmlRegisterType<Model::EmployeeTableModel>("EmployeeTableModel", 0, 1, "EmployeeTableModel");
+    MainWindow w;
+    w.show();
 
-    QQmlApplicationEngine engine;
-    engine.addImportPath("qrc:/");
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-
-
-    return app.exec();
-
+    return QApplication::exec();
 }

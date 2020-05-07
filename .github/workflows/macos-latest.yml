@@ -1,0 +1,46 @@
+name: MacOSX-CI
+on: [push, pull_request]
+
+jobs:
+  macosx-build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v1
+      - name: Brew update-reset
+        run: brew update-reset
+      - name: Brew update
+        run: brew update
+      - name: Brew install kf5-extra-cmake-modules
+        run: |
+          brew tap kde-mac/kde
+          brew install kf5-extra-cmake-modules
+      - name: Upgrade cmake
+        run: brew upgrade cmake
+      - name: Install dependencies with homebrew
+        run: |
+          brew install freetype cmake python3 qt5
+          export PATH="$(brew --prefix qt)/bin:$PATH"
+      - name: Build
+        run: |
+          export JMBDE_VERSION=$(git describe | cut -c 2-)
+          mkdir build && cd build
+          cmake -GNinja -DCMAKE_PREFIX_PATH="$(brew --prefix qt)" -DCMAKE_INSTALL_PREFIX=install -DBUILD_SHARED_LIBS=ON ..
+          cmake --build . --config $CMAKE_BUILD_TYPE --target install
+      - name: Package
+        run: |
+          export VERSION=$(git rev-parse --short HEAD);
+          cd build
+          ls /
+          ls ../../
+          ls ..
+          ../../Qt/*/*/bin/macdeployqt install/jmbde.app -verbose=2
+          mkdir -p dmgdir/jmbde.app;
+          cp -r install/jmbde.app/* dmgdir/jmbde.app/
+          ln -s /Applications dmgdir/Applications;
+          hdiutil create -volname jmbde-$VERSION -srcfolder dmgdir -ov -format UDZO jmbde.dmg
+      - name: Install dmg
+        uses: actions/upload-artifact@v1
+        with:
+          name: jmbde.dmg
+          path: build/install

@@ -1,3 +1,14 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Contributing to jmbde](#contributing-to-jmbde)
+  - [Reporting an Issue](#reporting-an-issue)
+  - [Requesting a Feature](#requesting-a-feature)
+  - [Submitting a Patch](#submitting-a-patch)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Contributing to jmbde #
 
 First time contributing to jmbde-QT ?
@@ -32,9 +43,12 @@ issue includes UI changes.
 
 ## Submitting a Patch ##
 
-- Ideally, start with something small to get familiar with the review process and work up from there.
-- Make an effort to follow the overal coding style, which is roughly based on the [Qt Creator coding style](https://doc-snapshots.qt.io/qtcreator-extending/coding-style.html).
+- Ideally, start with something small to get familiar with the review process and
+  work up from there.
+- Make an effort to follow the overal coding style, which is roughly based on
+  the [Qt Creator coding style](https://doc-snapshots.qt.io/qtcreator-extending/coding-style.html).
 - Be prepared for detailed feedback on your patch and to make several revisions.
-- Each pull request will be built automatically for Windows, Linux and macOS. If the build fails anywhere, please check if it may be a problem with your patch.
+- Each pull request will be built automatically for Windows, Linux and macOS. If
+  the build fails anywhere, please check if it may be a problem with your patch.
 
 Thanks a lot for your contribution!

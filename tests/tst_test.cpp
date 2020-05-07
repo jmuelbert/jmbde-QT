@@ -42,7 +42,8 @@
 
 #include "tst_test.h"
 
-void tst_test::toUpper_data() {
+void tst_test::toUpper_data()
+{
     QTest::addColumn<QString>("string");
     QTest::addColumn<QString>("result");
 
@@ -54,7 +55,8 @@ void tst_test::toUpper_data() {
                                << "HELLO";
 }
 
-void tst_test::toUpper() {
+void tst_test::toUpper()
+{
     QFETCH(QString, string);
     QFETCH(QString, result);
 

@@ -1,0 +1,373 @@
+/*
+   jmbde a BDE Tool for datacontext
+   Copyright (C) 2013-2020  Jürgen Mülbert
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+*/
+
+#include "models/datacontext.h"
+
+Model::DataContext::DataContext(QObject *parent, const QString &name, const QString &appId)
+    : QObject(parent)
+    , m_Name(name.isEmpty() ? QUuid::createUuid().toString() : name)
+    , m_dbType(DBTypes::SQLITE)
+    , m_AppID(appId.isEmpty() ? QUuid::createUuid().toString() : appId)
+{
+    qCDebug(jmbdemodelsLog) << tr("Angeforderte Datenbank : ") << this->m_Name << " mit der App-ID : " << this->m_AppID;
+
+    CreateConnection();
+}
+
+Model::DataContext::~DataContext()
+{
+    this->m_db.close();
+
+    qCDebug(jmbdemodelsLog) << tr("~DataContext()");
+}
+
+void Model::DataContext::CreateConnection()
+{
+    if (m_dbType == DBTypes::SQLITE) {
+        const auto targetFileAndPath = this->getSqliteName();
+
+        QFile f(targetFileAndPath);
+        if (!f.exists()) {
+            qCInfo(jmbdemodelsLog) << tr("Erzeuge Sqlite Datenbank: ") << this->m_Name;
+
+            m_db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"));
+            m_db.setDatabaseName(targetFileAndPath);
+            m_db.open();
+
+            if (!this->prepareDB()) {
+                qCCritical(jmbdemodelsLog) << tr("Die Datenbank") << this->m_Name << tr("konnte nicht erzeugt werden");
+                return;
+            }
+        } else {
+            qCInfo(jmbdemodelsLog) << tr("Öffne Sqlite Datenbank:") << this->m_Name;
+
+            m_db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"));
+            m_db.setDatabaseName(targetFileAndPath);
+        }
+    } else if (m_dbType == DBTypes::ODBC) {
+        qCInfo(jmbdemodelsLog) << tr("Öffne ODBC Datenbank: ") << this->m_Name << tr(" auf dem Server: ") << this->m_dbHostName;
+
+        m_db = QSqlDatabase::addDatabase(QLatin1String("QODBC"));
+        m_db.setHostName(this->m_dbHostName);
+        m_db.setDatabaseName(this->m_Name);
+        m_db.setUserName(this->m_dbUserName);
+        m_db.setPassword(this->m_dbPassWord);
+    } else if (m_dbType == DBTypes::PGSQL) {
+        qCInfo(jmbdemodelsLog) << tr("Öffne PostgreSQL Datenbank: ") << this->m_Name << tr(" auf dem Server ") << this->m_dbHostName;
+
+        m_db = QSqlDatabase::addDatabase(QLatin1String("QPSQL"));
+        m_db.setHostName(this->m_dbHostName);
+    }
+}
+
+void Model::DataContext::closeConnection()
+{
+}
+
+auto Model::DataContext::prepareDB() -> bool
+{
+    if (!this->m_db.isValid()) {
+        this->m_db = QSqlDatabase::database(this->m_Name);
+    }
+
+    QSqlQuery query(this->m_db);
+
+    QFile file(QLatin1String(":/data/script.sql"));
+
+    if (!file.exists()) {
+        qCCritical(jmbdemodelsLog) << tr("Kritischer Fehler bei der Initialisierung der Datenbank.") << tr("Die Datei '") << file.fileName() << tr("' zum initialisieren der Datenbank ")
+                                   << tr(" und zum erzeugen der Tabellen konnten nicht gefunden werden.");
+        return false;
+    }
+
+    if (!file.open(QIODevice::ReadOnly)) {
+        qCCritical(jmbdemodelsLog) << tr("Kritischer Fehler bei der Initialisierung der Datenbank.") << tr("Die Datei '") << file.fileName() << tr(" zum initialisieren der Datenbank ") << tr("kann nicht geöffnet werden.");
+        return false;
+    }
+
+    QString line;
+    QByteArray readLine;
+    QString cleanedLine;
+    QStringList strings;
+
+    while (!file.atEnd()) {
+        bool hasText = false;
+        line = QLatin1String("");
+        strings.clear();
+        while (!hasText) {
+            readLine = file.readLine();
+            cleanedLine = QLatin1String(readLine.trimmed());
+            strings = cleanedLine.split(QLatin1String("--"));
+            cleanedLine = strings.at(0);
+            if (!cleanedLine.startsWith(QLatin1String("--")) && !cleanedLine.startsWith(QLatin1String("DROP")) && !cleanedLine.isEmpty()) {
+                line += cleanedLine;
+            }
+            if (cleanedLine.endsWith(QLatin1String(";")))
+                break;
+            if (cleanedLine.startsWith(QLatin1String("COMMIT"))) {
+                hasText = true;
+            }
+        }
+        if (!line.isEmpty()) {
+            if (!query.exec(line)) {
+                qCCritical(jmbdemodelsLog) << tr("Fehler beim Lesen der Datei zur Datenbank Erzeugung: ") << tr("Fehler in der Zeile <") << line << "> : " << tr("Fehlermeldung: ") << query.lastQuery() << " : " << query.lastError().text();
+                return false;
+            }
+
+        } else {
+            qCCritical(jmbdemodelsLog) << tr("Fehler beim Lesen der Datei zur Datenbank Erzeugung:") << tr("Fehler in der Zeile <") << line << "> : " << tr("Fehlermeldung: ") << query.lastQuery() << " : " << query.lastError().text();
+        }
+    }
+    file.close();
+
+    qCDebug(jmbdemodelsLog) << tr("Datenbank erfolgreich erzeugt");
+    return true;
+}
+
+auto Model::DataContext::checkDBVersion(const QString &actualVersion, const QString &actualRevision
+                                        /* const QString &actualBuild */) -> bool
+{
+    QString version;
+    QString revision;
+    QString build;
+    QDateTime lastUpdate;
+    bool retValue = false;
+
+    QSqlQuery query(QLatin1String("SELECT version, revision, patch, last_update FROM database_version"));
+
+    qCDebug(jmbdemodelsLog) << tr("Prüfe Datenbank Version : ") << m_db.lastError().text();
+
+    while (query.next()) {
+        version = query.value(0).toString();
+        qCDebug(jmbdemodelsLog) << "Version = " << version;
+        revision = query.value(1).toString();
+        build = query.value(2).toString();
+        lastUpdate = query.value(3).toDateTime();
+    }
+
+    if ((version == actualVersion) && (revision == actualRevision)) {
+        qCDebug(jmbdemodelsLog) << tr("Prüfe Datenbank Version : ") << version << "." << revision << "." << build << tr(" von ") << lastUpdate.toString();
+
+        retValue = true;
+    } else {
+        if (version < actualVersion) {
+            qCCritical(jmbdemodelsLog) << tr("Prüfe Datenbank Version : ") << tr("Datenbank zu alt. Version : ") << version << "  <> " << actualVersion << "dbVersion : " << revision << " <> dbRevision : " << actualRevision;
+        }
+
+        if (revision < actualRevision) {
+            qCCritical(jmbdemodelsLog) << tr("Prüfe Datenbank Version : ") << tr("Datenbank zu alt. Version : ") << version << "  <> " << actualVersion << "dbVersion : " << revision << " <> dbRevision : " << actualRevision;
+        }
+    }
+
+    return retValue;
+}
+
+auto Model::DataContext::check_existence(const QString &tableName, const QString &searchId, const QString &search) -> bool
+{
+    auto queryStr = QString(QLatin1String("SELECT %1 FROM %2 WHERE %3 = \"%4\"")).arg(searchId, tableName, searchId, search);
+
+    auto query = this->getQuery(queryStr);
+
+    if (query.exec()) {
+        if (query.next())
+            return true;
+    } else {
+        qCWarning(jmbdemodelsLog) << tr("Prüfe Datenbank auf Tabelle <") << tableName << "> , " << searchId << ", " << search << ") : " << query.lastError().text();
+    }
+
+    return false;
+}
+
+auto Model::DataContext::insert(const QString &tableName, const QVariantMap &insertData) -> bool
+{
+    if (tableName.isEmpty()) {
+        qCCritical(jmbdemodelsLog) << tr("Schwerer Fehler: ") << tr("Der Tabellename <m_Name> ist leer!");
+
+    } else if (insertData.isEmpty()) {
+        qCCritical(jmbdemodelsLog) << tr("Schwerer Fehler: ") << tr("Es sind keine Daten für den Import vorhanden.");
+    }
+
+    QStringList strValues;
+    QStringList fields = insertData.keys();
+    QVariantList values = insertData.values();
+    int totalFields = fields.size();
+    for (int i = 0; i < totalFields; ++i) {
+        strValues.append(QLatin1String("?"));
+    }
+
+    QString sqlQueryString = QLatin1String("INSERT INTO ") + tableName + QLatin1String(" (") + QString(fields.join(QLatin1String(","))) + QLatin1String(") VALUES(") + QString(strValues.join(QLatin1String(","))) + QLatin1String(")");
+    QSqlQuery query(this->m_db);
+    query.prepare(sqlQueryString);
+
+    int k = 0;
+    for (const QVariant &value : values)
+        query.bindValue(k++, value);
+
+    return query.exec();
+}
+
+auto Model::DataContext::update(const QString &table, const QString &column, const QVariant &newValue, const QVariant &op, const QString &id) -> bool
+{
+    auto searchStr = QLatin1String("\"");
+    auto replaceStr = QLatin1String("\"\"");
+    auto newValString = newValue.toString();
+    auto realNewString = newValString.replace(searchStr, replaceStr);
+    auto queryString = QLatin1String("UPDATA %1 SET %2 = \"%3\" WHERE %4 = \"%5\"");
+
+    auto queryStr = QString(queryString).arg(table, column, realNewString, op.toString(), id);
+    auto query = this->getQuery(queryStr);
+    return query.exec();
+}
+
+auto Model::DataContext::execQuery(QSqlQuery &query) -> bool
+{
+    return query.exec();
+}
+
+auto Model::DataContext::execQuery(const QString &queryText) -> bool
+{
+    auto query = this->getQuery(queryText);
+    bool retVal = query.exec();
+    qCDebug(jmbdemodelsLog) << "exceQuery returns : " << m_db.lastError().text();
+
+    return retVal;
+}
+
+auto Model::DataContext::getQuery(const QString &queryText) -> QSqlQuery
+{
+    QSqlQuery query(queryText);
+    return query;
+}
+
+auto Model::DataContext::openDB(const QString &dbName) -> bool
+{
+    const auto dbFile = getSqliteName();
+    if (!QSqlDatabase::contains(dbName)) {
+        qCDebug(jmbdemodelsLog) << tr("Öffne Datenbank : ") << dbName;
+
+        this->m_db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"), dbName);
+        this->m_db.setDatabaseName(dbFile);
+        return true;
+    }
+
+    if (!this->m_db.isValid()) {
+        this->m_db = QSqlDatabase::database(dbName);
+    }
+
+    if (!this->m_db.isOpen()) {
+        if (!this->m_db.open()) {
+            qCCritical(jmbdemodelsLog) << tr("Öffne Datenbank : ") << m_db.databaseName() << " Error : " << m_db.lastError();
+            return false;
+        } else {
+            qCDebug(jmbdemodelsLog) << tr("Öffne Datenbank : ") << m_db.databaseName() << " Error : " << m_db.lastError();
+
+            return true;
+        }
+        return true;
+    }
+    return true;
+}
+
+void Model::DataContext::renameDB(const QString &oldName, const QString &newName)
+{
+    this->m_Name = newName;
+    const QString newDBName = this->getSqliteName();
+
+    qCDebug(jmbdemodelsLog) << tr("Ändere den Namen der Datenbank : ") << newName << tr(" Neuer Name: ") << newDBName;
+
+    if (!this->m_db.isValid()) {
+        this->m_db = QSqlDatabase::database(oldName);
+        QString oldFileName = this->m_db.databaseName();
+        QFile f(oldFileName);
+        f.rename(newName);
+    }
+}
+
+void Model::DataContext::deleteDB(const QString &dbName)
+{
+    qCDebug(jmbdemodelsLog) << tr("Lösche Datenbank") << dbName;
+
+    if (!this->m_db.isValid()) {
+        qCDebug(jmbdemodelsLog) << "DB ist nicht valide : " << this->m_db.isValid();
+        this->m_db = QSqlDatabase::database(dbName);
+    }
+
+    // Delete File only by SQLITE Database
+    if (m_dbType == DBTypes::SQLITE) {
+        QString fileName = this->m_db.databaseName();
+        QFile f(fileName);
+        QSqlDatabase::removeDatabase(dbName);
+        if (!f.remove()) {
+            qCCritical(jmbdemodelsLog) << tr("Datenbankdatei konnte nicht gelöscht werden!");
+        }
+    }
+}
+
+auto Model::DataContext::getDatabase() -> QSqlDatabase
+{
+    return m_db;
+}
+
+auto Model::DataContext::initDb() -> QSqlError
+{
+    return m_db.lastError();
+}
+
+void Model::DataContext::setDataBaseAccount(const QString &DBType, const QString &HostName, const QString &UserName, const QString &PassWord)
+{
+    auto dbType = QString(DBType);
+
+    // Default is SQLITE
+    m_dbType = DBTypes::SQLITE;
+    if (dbType == QString::fromLatin1("PGSQL"))
+        m_dbType = DBTypes::PGSQL;
+    else if (dbType == QString::fromLatin1("ODBC"))
+        m_dbType = DBTypes::ODBC;
+
+    m_dbHostName = HostName;
+    m_dbUserName = UserName;
+    m_dbPassWord = PassWord;
+}
+
+auto Model::DataContext::getSqliteName() -> QString
+{
+    QString dbDataPath = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
+    dbDataPath.append(QDir::separator());
+    // TODO: Set this from above
+    dbDataPath.append(m_AppID);
+
+    // Application Directory +
+    // Resources on Mac
+    // share/appname on Linux
+    // + /database/jmbdesqlite.db
+    // Destination Directory
+    QString targetFileAndPath = QString(m_connectionString);
+    if (m_connectionString.isEmpty()) {
+        targetFileAndPath = QString(dbDataPath);
+    }
+    // Create the Directory
+    QDir d(targetFileAndPath);
+    if (!d.exists())
+        d.mkpath(targetFileAndPath);
+
+    // Append the Datafile on the Path
+    targetFileAndPath.append(QDir::separator());
+    targetFileAndPath.append(this->m_Name);
+    targetFileAndPath.append(QLatin1String(".sqlite"));
+
+    qCDebug(jmbdemodelsLog) << tr("Pfad und Name der Datenbank für SQLite: ") << targetFileAndPath;
+
+    return targetFileAndPath;
+}

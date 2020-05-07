@@ -1,0 +1,14 @@
+get_filename_component(JMBDEMODELS_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+include(CMakeFindDependencyMacro)
+
+list(APPEND CMAKE_MODULE_PATH ${JMBDEMODELS_CMAKE_DIR})
+
+# NOTE: to find FindQT.cmake
+find_dependency(Qt @MIN_Qt_VERSION@)
+list(REMOVE_AT CMAKE_MODULE_PATH -1)
+
+if(NOT TARGET JMBDE::models)
+  include("${JMBDEMODELS_CMAKE_DIR}/JMBDEModelsTargets.cmake")
+endif()
+
+set(JMBDEmodels_LIBRARIES JMBDE::models)

@@ -1,0 +1,6 @@
+[requires]
+ECM/5.66.0
+
+[generators]
+cmake
+txt
