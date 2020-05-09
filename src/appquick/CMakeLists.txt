@@ -12,9 +12,21 @@
 # details.
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.12...3.16 FATAL_ERROR)
+
+if(${CMAKE_VERSION} VERSION_LESS 3.17)
+  cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
+else()
+  cmake_policy(VERSION 3.17)
+endif()
+
 
 set(JMBDE_APP_QUICK_VERSION 0.1.0)
+
+# Set the dependencies versions
+set(KF5_VERSION "5.68.0")
+set(KF5_DEP_VERSION "5.68.0")
+set(QT_MIN_VERSION "5.12.8")
 
 #
 # the jmbde application
@@ -65,7 +77,8 @@ endif()
 find_package(Qt5 ${QT_MIN_VERSION} QUIET REQUIRED COMPONENTS Core Widgets Sql
                                                              Qml)
 
-target_compile_features(jmbdeappquick PUBLIC cxx_std_17)
+
+    target_compile_features(jmbdeappquick PUBLIC cxx_std_17)
 
 target_include_directories(
   ${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include"

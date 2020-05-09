@@ -22,5 +22,6 @@
         <file>SecondPage.qml</file>
         <file>ThirdPage.qml</file>
         <file>FourthPage.qml</file>
+        <file>UI/main.qml</file>
     </qresource>
 </RCC>

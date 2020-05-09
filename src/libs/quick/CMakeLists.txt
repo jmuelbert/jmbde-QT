@@ -82,6 +82,10 @@ target_include_directories(
          $<INSTALL_INTERFACE:include>
   PRIVATE src)
 
+# Find Qt modules
+find_package(Qt5QuickCompiler)
+# qtquick_compiler_add_resources(RESOURCES ${CMAKE_CURRENT_SOURCE_DIR}/resources/qml/qml.qrc)
+
 target_compile_definitions(
   jmbdequick
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
@@ -89,15 +93,24 @@ target_compile_definitions(
 target_link_libraries(
   jmbdequick
   PUBLIC Qt5::Core
-  PRIVATE Qt5::Gui Qt5::Qml)
+  PRIVATE Qt5::Gui Qt5::Qml
+  Qt5::Quick
+  Qt5::Svg
+  KF5::Kirigami2)
 
 #
 # Finding Qt
 #
-find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS Core Qml)
+find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS Core Quick Svg Qml)
+
+# Find KDE modules
+find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
+    Kirigami2   # Kirigami
+
+)
 
 if(Qt5QuickCompiler_FOUND AND NOT DISABLE_QTQUICK_COMPILER)
-  qtquick_compiler_add_resources(RuqolaResources qml/qml.qrc)
+  qtquick_compiler_add_resources(jmbdequick_Resources resources/qml/qml.qrc)
 else()
   qt5_add_resources(Resources_SRCS resources/qml/qml.qrc)
 endif()
@@ -111,7 +124,8 @@ target_sources(
           # CPP's
           loggingcategory.cpp
           src/quick/maincontroller.cpp
-          ${Resources_SRCS})
+          ${Resources_SRCS}
+          ${jmbdequick_Resources})
 
 #
 # Install instructions

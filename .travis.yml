@@ -1,4 +1,12 @@
 language: cpp
+# branches to build
+branches:
+  # whitelist
+  only:
+    - master
+    - production
+    - /v\d*\.\d*\.\d*/
+    
 env:
   global:
       - QT_PPA: beineri/opt-qt-5.14.1-bionic

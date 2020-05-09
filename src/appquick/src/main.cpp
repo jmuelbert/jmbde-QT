@@ -24,6 +24,8 @@
 #include <QLibraryInfo>
 #include <QLoggingCategory>
 #include <QObject>
+#include <QQmlComponent>
+#include <QQmlContext>
 #include <QQmlApplicationEngine>
 #include <QTranslator>
 
@@ -132,7 +134,7 @@ extern "C" Q_DECL_EXPORT int main(int argc, char **argv)
     QApplication::installTranslator(&qtTranslator);
 
     QTranslator jmbdeTranslator;
-    jmbdeTranslator.load(QLatin1String("app_") + locale);
+    jmbdeTranslator.load(QLatin1String("jmbde_") + locale);
     QApplication::installTranslator(&jmbdeTranslator);
 
     QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths() << QLatin1String(":tango"));

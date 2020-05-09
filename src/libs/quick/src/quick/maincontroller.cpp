@@ -37,11 +37,11 @@ auto MainController::initialize() -> bool
 
     // ctxt->setContextObject(new KLocalizedContext(mEngine));
 
-    mEngine->load(QUrl(QLatin1String("qrc:/main.qml")));
+    mEngine->load(QUrl(QLatin1String("qrc:/UI/main.qml")));
     mEngine->addImportPath(QLatin1String("qrc:/"));
 
     if (mEngine->rootObjects().isEmpty()) {
-        qCWarning(jmbdequickLog) << "Impossible to load object from main.qml";
+        qCCritical(jmbdequickLog) << "Impossible to load object from main.qml";
         return false;
     }
     return true;
