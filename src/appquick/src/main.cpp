@@ -24,9 +24,9 @@
 #include <QLibraryInfo>
 #include <QLoggingCategory>
 #include <QObject>
+#include <QQmlApplicationEngine>
 #include <QQmlComponent>
 #include <QQmlContext>
-#include <QQmlApplicationEngine>
 #include <QTranslator>
 
 #include <quick/maincontroller.h>
