@@ -19,12 +19,12 @@
 
 #include <QtSql>
 
+#include <QAbstractTableModel>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRelation>
 #include <QTextDocument>
-#include <QAbstractTableModel>
 
 #include <jmbdemodels-version.h>
 #include <jmbdemodels_export.h>
@@ -107,10 +107,10 @@ public:
     JMBDEMODELS_EXPORT QVariant data(const QModelIndex &index, int role) const override
     {
         switch (role) {
-            case Qt::DisplayRole:
-                return QLatin1String("%1, %2").arg(index.column()).arg(index.row());
-            default:
-                break;
+        case Qt::DisplayRole:
+            return QLatin1String("%1, %2").arg(index.column()).arg(index.row());
+        default:
+            break;
         }
 
         return QVariant();
@@ -118,7 +118,7 @@ public:
 
     JMBDEMODELS_EXPORT QHash<int, QByteArray> roleNames() const override
     {
-        return { {Qt::DisplayRole, "display"} };
+        return {{Qt::DisplayRole, "display"}};
     }
 
 protected:

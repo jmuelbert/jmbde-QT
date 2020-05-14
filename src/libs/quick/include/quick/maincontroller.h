@@ -13,12 +13,11 @@
 
 #include "models/employee.h"
 
-
 #pragma once
 
 class QQmlApplicationEngine;
 
-class  MainController : public QObject
+class MainController : public QObject
 {
     Q_OBJECT
 
@@ -28,7 +27,6 @@ public:
     JMBDEQUICK_EXPORT ~MainController();
 
     Q_REQUIRED_RESULT JMBDEQUICK_EXPORT bool initialize();
-
 
 private:
     QQmlApplicationEngine *mEngine = nullptr;

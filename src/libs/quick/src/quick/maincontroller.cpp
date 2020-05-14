@@ -16,8 +16,6 @@
 
 #include "quick/maincontroller.h"
 
-
-
 MainController::MainController(/* QObject *parent */) = default;
 
 MainController::~MainController()

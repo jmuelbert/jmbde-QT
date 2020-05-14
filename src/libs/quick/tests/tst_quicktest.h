@@ -42,5 +42,3 @@
 
 #include <QObject>
 #include <QtTest/QtTest>
-
-
