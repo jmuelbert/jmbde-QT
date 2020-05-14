@@ -93,7 +93,6 @@ target_compile_definitions(
 target_link_libraries(
   ${PROJECT_NAME}
   PRIVATE jmuelbert::jmbdequick
-          jmuelbert::jmbdemodels
           Qt5::Widgets
           Qt5::Core
           Qt5::Sql

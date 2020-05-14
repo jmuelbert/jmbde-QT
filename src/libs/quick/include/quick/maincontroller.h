@@ -11,20 +11,24 @@
 #include <jmbdequick_export.h>
 #include <loggingcategory.h>
 
+#include "models/employee.h"
+
+
 #pragma once
 
 class QQmlApplicationEngine;
 
-class JMBDEQUICK_EXPORT MainController : public QObject
+class  MainController : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit MainController(/* QObject *parent = nullptr */);
+    explicit JMBDEQUICK_EXPORT MainController(/* QObject *parent = nullptr */);
 
-    ~MainController();
+    JMBDEQUICK_EXPORT ~MainController();
 
-    Q_REQUIRED_RESULT bool initialize();
+    Q_REQUIRED_RESULT JMBDEQUICK_EXPORT bool initialize();
+
 
 private:
     QQmlApplicationEngine *mEngine = nullptr;

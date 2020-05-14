@@ -392,24 +392,24 @@ target_sources(
 #
 # Install instructions
 #
-set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/JMBDEModels)
+set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/jmbdemodels)
 
 install(
   TARGETS jmbdemodels
-  EXPORT jmbdeModels-targets
+  EXPORT jmbdemodels-Targets
   ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 # This is required so that the exported target has the name JMBDEModels and not
 # jmbdemodels
-set_target_properties(jmbdemodels PROPERTIES EXPORT_NAME JMBDEModels)
+set_target_properties(jmbdemodels PROPERTIES EXPORT_NAME jmbdemodels)
 
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 # Export the targets to a script
 install(
-  EXPORT jmbdeModels-targets
+  EXPORT jmbdemodels-Targets
   FILE JMBDEModelsTargets.cmake
-  NAMESPACE jmbde::
+  NAMESPACE jmuelbert::
   DESTINATION ${INSTALL_CONFIGDIR})
 
 # Create a ConfigVersion.cmake file
@@ -437,9 +437,9 @@ configure_file(${CMAKE_CURRENT_LIST_DIR}/cmake/FindJMBDEModels.cmake
                ${CMAKE_CURRENT_BINARY_DIR}/FindJMBDEModels.cmake COPYONLY)
 
 export(
-  EXPORT jmbdeModels-targets
+  EXPORT jmbdemodels-Targets
   FILE ${CMAKE_CURRENT_BINARY_DIR}/JMBDEModelsTargets.cmake
-  NAMESPACE jmbde::)
+  NAMESPACE jmuelbert::)
 
 if(MSVC AND BUILD_SHARED_LIBS)
   install(

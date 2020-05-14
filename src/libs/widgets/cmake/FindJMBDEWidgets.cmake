@@ -16,13 +16,13 @@
 #
 
 find_package(PkgConfig)
-pkg_check_modules(PC_JMBDEWidgets QUIET JMBDEWidgets)
+pkg_check_modules(PC_JMBDEWidgets QUIET jmbdewidgets)
 
 find_path(
   JMBDEWidgets_INCLUDE_DIR
-  NAMES datacontext.h
+  NAMES mainwindow.h
   PATHS ${PC_JMBDEWidgets_INCLUDE_DIRS}
-  PATH_SUFFIXES jmbdeWidgets)
+  PATH_SUFFIXES jmbdewidgets)
 
 set(JMBDEWidgets_VERSION ${PC_JMBDEWidgets_VERSION})
 
@@ -41,9 +41,9 @@ if(JMBDEWidgets_FOUND)
                          DIRECTORY)
 endif()
 
-if(JMBDEWidgets_FOUND AND NOT TARGET JMBDEWidgetsJSON::JMBDEWidgets)
-  add_library(JMBDEWidgets::JMBDEWidgets INTERFACE IMPORTED)
+if(JMBDEWidgets_FOUND AND NOT TARGET jmuelbert::jmbdewidgets)
+  add_library(jmuelbert::jmbdewidgets INTERFACE IMPORTED)
   set_target_properties(
-    JMBDEWidgets::JMBDEWidgets PROPERTIES INTERFACE_INCLUDE_DIRECTORIES
+    jmuelbert::jmbdewidgets PROPERTIES INTERFACE_INCLUDE_DIRECTORIES
                                           "${JMBDEWidgets_INCLUDE_DIRS}")
 endif()

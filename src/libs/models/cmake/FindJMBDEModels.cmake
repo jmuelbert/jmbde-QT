@@ -40,9 +40,9 @@ if(JMBDEModels_FOUND)
                          DIRECTORY)
 endif()
 
-if(JMBDEModels_FOUND AND NOT TARGET JMBDEModelsJSON::JMBDEModels)
-  add_library(JMBDEModels::JMBDEModels INTERFACE IMPORTED)
+if(JMBDEModels_FOUND AND NOT TARGET jmuelbert::jmbdemodels)
+  add_library( jmuelbert::jmbdemodels INTERFACE IMPORTED)
   set_target_properties(
-    JMBDEModels::JMBDEModels PROPERTIES INTERFACE_INCLUDE_DIRECTORIES
+     jmuelbert::jmbdemodels PROPERTIES INTERFACE_INCLUDE_DIRECTORIES
                                         "${JMBDEModels_INCLUDE_DIRS}")
 endif()

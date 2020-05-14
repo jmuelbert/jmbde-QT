@@ -80,7 +80,7 @@ digraph g {
     \date 03.08.2019
     \copyright EUPL V1.2
  */
-class Employee : public CommonData
+class JMBDEMODELS_EXPORT Employee : public CommonData
 {
     Q_OBJECT
 

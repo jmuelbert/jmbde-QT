@@ -94,8 +94,6 @@ include(ECMAddTests)
 include(ECMMarkNonGuiExecutable)
 include(ECMAddAppIcon)
 
-include(QtInstallPaths)
-
 include(WriteBasicConfigVersionFile)
 include(CheckFunctionExists)
 
@@ -296,7 +294,7 @@ install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(
   EXPORT jmbdeWidgets-targets
   FILE JMBDEWidgetsTargets.cmake
-  NAMESPACE jmbde::
+  NAMESPACE jmuelbert::
   DESTINATION ${INSTALL_CONFIGDIR})
 
 # Create a ConfigVersion.cmake file
@@ -324,9 +322,9 @@ configure_file(${CMAKE_CURRENT_LIST_DIR}/cmake/FindJMBDEWidgets.cmake
                ${CMAKE_CURRENT_BINARY_DIR}/FindJMBDEWidgets.cmake COPYONLY)
 
 export(
-  EXPORT jmbdeModels-targets
+  EXPORT jmbdeWidgets-targets
   FILE ${CMAKE_CURRENT_BINARY_DIR}/JMBDEWidgetsTargets.cmake
-  NAMESPACE jmbde::)
+  NAMESPACE jmuelbert::)
 
 if(MSVC AND BUILD_SHARED_LIBS)
   install(

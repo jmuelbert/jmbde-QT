@@ -63,4 +63,4 @@ if(NOT Qt5Test_FOUND)
 endif()
 
 ecm_add_tests(tst_quicktest.cpp LINK_LIBRARIES Qt5::Core Qt5::Gui Qt5::Test
-              jmuelbert::jmbdemodels)
+              )

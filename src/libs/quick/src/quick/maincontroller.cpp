@@ -16,6 +16,8 @@
 
 #include "quick/maincontroller.h"
 
+
+
 MainController::MainController(/* QObject *parent */) = default;
 
 MainController::~MainController()
@@ -37,7 +39,9 @@ auto MainController::initialize() -> bool
 
     // ctxt->setContextObject(new KLocalizedContext(mEngine));
 
-    mEngine->load(QUrl(QLatin1String("qrc:/UI/main.qml")));
+    qmlRegisterType<Model::Employee>("TableModel", 0, 1, "TableModel");
+
+    mEngine->load(QUrl(QLatin1String("qrc:/qml/main.qml")));
     mEngine->addImportPath(QLatin1String("qrc:/"));
 
     if (mEngine->rootObjects().isEmpty()) {

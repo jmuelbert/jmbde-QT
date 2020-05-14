@@ -42,6 +42,15 @@
 
 #include "tst_quicktest.h"
 
+class tst_quicktest : public QObject
+{
+    Q_OBJECT
+
+private slots:
+    void toUpper_data();
+    void toUpper();
+};
+
 void tst_quicktest::toUpper_data()
 {
     QTest::addColumn<QString>("string");
@@ -64,3 +73,5 @@ void tst_quicktest::toUpper()
 }
 
 QTEST_MAIN(tst_quicktest)
+
+#include "tst_quicktest.moc"
