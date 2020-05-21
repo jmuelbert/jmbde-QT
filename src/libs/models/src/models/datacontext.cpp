@@ -35,11 +35,9 @@ void Model::DataContext::CreateConnection()
 {
     if (m_dbType == DBTypes::SQLITE) {
         m_db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"));
-        if
-            !m_db.isValid()
-            {
-                qCCritical(jmbdemodelsLog) << tr("Die Datenbank konnte nicht initialisiert werden!") return false;
-            }
+        if (!m_db.isValid()) {
+            qCCritical(jmbdemodelsLog) << tr("Die Datenbank konnte nicht initialisiert werden!") return false;
+        }
 
         const auto targetFileAndPath = this->getSqliteName();
 
