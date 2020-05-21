@@ -22,8 +22,6 @@ Model::DataContext::DataContext(QObject *parent, const QString &name, const QStr
     , m_AppID(appId.isEmpty() ? QUuid::createUuid().toString() : appId)
 {
     qCDebug(jmbdemodelsLog) << tr("Angeforderte Datenbank : ") << this->m_Name << " mit der App-ID : " << this->m_AppID;
-
-    CreateConnection();
 }
 
 Model::DataContext::~DataContext()
@@ -36,15 +34,20 @@ Model::DataContext::~DataContext()
 void Model::DataContext::CreateConnection()
 {
     if (m_dbType == DBTypes::SQLITE) {
+        m_db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"));
+        if
+            !m_db.isValid()
+            {
+                qCCritical(jmbdemodelsLog) << tr("Die Datenbank konnte nicht initialisiert werden!") return false;
+            }
+
         const auto targetFileAndPath = this->getSqliteName();
 
         QFile f(targetFileAndPath);
         if (!f.exists()) {
             qCInfo(jmbdemodelsLog) << tr("Erzeuge Sqlite Datenbank: ") << this->m_Name;
 
-            m_db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"));
             m_db.setDatabaseName(targetFileAndPath);
-            m_db.open();
 
             if (!this->prepareDB()) {
                 qCCritical(jmbdemodelsLog) << tr("Die Datenbank") << this->m_Name << tr("konnte nicht erzeugt werden");
@@ -81,6 +84,8 @@ auto Model::DataContext::prepareDB() -> bool
     if (!this->m_db.isValid()) {
         this->m_db = QSqlDatabase::database(this->m_Name);
     }
+
+    m_db.open();
 
     QSqlQuery query(this->m_db);
 
@@ -343,29 +348,29 @@ void Model::DataContext::setDataBaseAccount(const QString &DBType, const QString
 
 auto Model::DataContext::getSqliteName() -> QString
 {
-    QString dbDataPath = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
-    dbDataPath.append(QDir::separator());
+    QString dbDataPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+    // dbDataPath.append(QDir::separator());
     // TODO: Set this from above
-    dbDataPath.append(m_AppID);
+    // dbDataPath.append(QCoreApplication::organizationDomain());
 
     // Application Directory +
     // Resources on Mac
     // share/appname on Linux
     // + /database/jmbdesqlite.db
     // Destination Directory
-    QString targetFileAndPath = QString(m_connectionString);
-    if (m_connectionString.isEmpty()) {
-        targetFileAndPath = QString(dbDataPath);
-    }
+    // QString targetFileAndPath = QString(m_connectionString);
+    // if (m_connectionString.isEmpty()) {
+    //     targetFileAndPath = QString(dbDataPath);
+    // }
     // Create the Directory
-    QDir d(targetFileAndPath);
+    QDir writeDir(dbDataPath);
     if (!d.exists())
-        d.mkpath(targetFileAndPath);
+        d.mkpath(dbDataPath);
 
     // Append the Datafile on the Path
     targetFileAndPath.append(QDir::separator());
     targetFileAndPath.append(this->m_Name);
-    targetFileAndPath.append(QLatin1String(".sqlite"));
+    targetFileAndPath.append(QLatin1String(".sqlite3"));
 
     qCDebug(jmbdemodelsLog) << tr("Pfad und Name der Datenbank für SQLite: ") << targetFileAndPath;
 

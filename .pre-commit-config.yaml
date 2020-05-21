@@ -5,9 +5,9 @@ repos:
     rev: v2.5.0
     hooks:
       - id: check-yaml
-        args: ['--allow-multiple-documents']
+        args: ["--allow-multiple-documents"]
       - id: check-added-large-files
-        args: ['--maxkb=150']
+        args: ["--maxkb=150"]
       - id: check-ast
       - id: check-builtin-literals
       - id: check-byte-order-marker
@@ -24,8 +24,8 @@ repos:
       - id: check-xml
       - id: end-of-file-fixer
         stages:
-        - commit
-        - manual
+          - commit
+          - manual
       - id: file-contents-sorter
       - id: fix-encoding-pragma
       - id: forbid-new-submodules
@@ -39,7 +39,7 @@ repos:
       - id: no-commit-to-branch
         args: [--branch, develop]
       - id: pretty-format-json
-        args: ['--autofix']
+        args: ["--autofix"]
 
   - repo: https://github.com/jumanjihouse/pre-commit-hooks
     rev: 2.0.1
@@ -59,7 +59,7 @@ repos:
           )$
       # - id: forbid-space-in-indent
       # - id: git-check     # Configure in .gitattributes
-      - id: git-dirty     # Configure in .gitignore
+      - id: git-dirty # Configure in .gitignore
       # - id: markdownlint  # Configure in .mdlrc
       - id: reek
       - id: rubocop
@@ -87,8 +87,8 @@ repos:
     hooks:
       - id: forbid-html-img-without-alt-text
       - id: forbid-non-std-html-attributes
-      -   id: detect-missing-css-classes
-          args:
+      - id: detect-missing-css-classes
+        args:
           - --css-files-dir
           - .
           - --html-files-dir
@@ -126,7 +126,7 @@ repos:
       - id: check-swagger
 
   - repo: https://github.com/thlorenz/doctoc
-    rev: v1.4.0  # substitute a tagged version
+    rev: v1.4.0 # substitute a tagged version
     hooks:
       - id: doctoc
 

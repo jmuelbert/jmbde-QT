@@ -125,7 +125,7 @@ int main(int argc, char *argv[])
      * set the program icon
      */
     QApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("jmbde")));
-    QApplication::setOrganizationDomain(QStringLiteral("jmuelbert.github.io"));
+    QApplication::setOrganizationDomain(QStringLiteral("Jürgen Mülbert"));
 
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
     QApplication::setApplicationName(QStringLiteral("jmbde"));
@@ -135,7 +135,7 @@ int main(int argc, char *argv[])
 #endif
 
     QApplication::setApplicationDisplayName(QStringLiteral("jmbde"));
-    QApplication::setOrganizationName(QStringLiteral("jmuelbert.github.io"));
+    QApplication::setOrganizationName(QStringLiteral("io.jmuelbert.githuby"));
     QApplication::setApplicationVersion(QLatin1String(JMBDE_VERSION_STRING));
 
     /**

@@ -31,10 +31,7 @@ jobs:
         run: |
           export VERSION=$(git rev-parse --short HEAD);
           cd build
-          ls /
-          ls ../../
-          ls ..
-          ../../Qt/*/*/bin/macdeployqt install/jmbde.app -verbose=2
+          macdeployqt install/jmbde.app -verbose=2
           mkdir -p dmgdir/jmbde.app;
           cp -r install/jmbde.app/* dmgdir/jmbde.app/
           ln -s /Applications dmgdir/Applications;

@@ -39,6 +39,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     this->dataBaseName = QString(QApplication::applicationName());
     this->dataContext = new Model::DataContext(dynamic_cast<QObject *>(this), this->dataBaseName, QApplication::organizationName());
+    this->dataContext.openDB();
+
     qCDebug(jmbdewidgetsLog) << tr("ActualViewRow : ") << m_actualView;
 
     if (m_actualView.row() > 0) {
