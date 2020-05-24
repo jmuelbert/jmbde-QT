@@ -101,11 +101,10 @@ set(ICONS_PNG
 
 set(ICONS_SVG ${CMAKE_CURRENT_SOURCE_DIR}/icons/sc-apps-jmbde.svgz)
 
-  # Add icon files to the application's source files to have CMake bundle them
-  # in the executable.
-  ecm_add_app_icon(ICONS_SOURCES
-        ICONS ${ICONS_PNG}
-        OUTFILE_BASENAME ${PROJECT_NAME})
+# Add icon files to the application's source files to have CMake bundle them in
+# the executable.
+ecm_add_app_icon(ICONS_SOURCES ICONS ${ICONS_PNG} OUTFILE_BASENAME
+                 ${PROJECT_NAME})
 
 target_sources(${PROJECT_NAME} PRIVATE ${ICONS_SOURCES})
 

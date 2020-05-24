@@ -15,47 +15,71 @@
 
 #include "models/datacontext.h"
 
-Model::DataContext::DataContext(QObject *parent, const QString &name, const QString &appId)
+Model::DataContext::DataContext(QObject *parent)
     : QObject(parent)
-    , m_Name(name.isEmpty() ? QUuid::createUuid().toString() : name)
+    , m_Name(QApplication::applicationName())
     , m_dbType(DBTypes::SQLITE)
-    , m_AppID(appId.isEmpty() ? QUuid::createUuid().toString() : appId)
 {
-    qCDebug(jmbdemodelsLog) << tr("Angeforderte Datenbank : ") << this->m_Name << " mit der App-ID : " << this->m_AppID;
+    qCDebug(jmbdemodelsLog) << tr("Öffne SQLite Datenbank");
+    this->init();
+}
+
+Model::DataContext::DataContext(QObject *parent, const QString &name)
+    : QObject(parent)
+    , m_Name(name.isEmpty() ? QApplication::applicationName() : name)
+    , m_dbType(DBTypes::SQLITE)
+{
+    qCDebug(jmbdemodelsLog) << tr("Öffne SQLite Datenbank") << this->m_Name;
+    this->init();
+}
+
+Model::DataContext::DataContext(QObject *parent, const QString &dbType, const QString &name, const QString &userName, const QString &passWord, const QString &hostName, const int port)
+    : QObject(parent)
+    , m_Name(name.isEmpty() ? QApplication::applicationName() : name)
+    , m_dbType(DBTypes::SQLITE)
+    , m_dbHostName(hostName)
+    , m_dbUserName(userName)
+    , m_dbPassWord(passWord)
+    , m_dbPort(port)
+{
+    qCDebug(jmbdemodelsLog) << tr("Öffne Datenbank") << this->m_Name << tr(" Type ") << dbType << tr(" Benutzername ") << userName << tr(" Password :-)  *********") << tr(" vom Server ") << hostName << tr(" mit dem Port ") << port;
+
+    auto databaseType = QString(dbType);
+
+    // Default is SQLITE
+    if (databaseType == QString::fromLatin1("PGSQL"))
+        m_dbType = DBTypes::PGSQL;
+    else if (databaseType == QString::fromLatin1("ODBC"))
+        m_dbType = DBTypes::ODBC;
+    else {
+        m_dbType = DBTypes::SQLITE;
+        qCWarning(jmbdemodelsLog) << "DataContext wurde mit dem Datenbank Typ " << databaseType << " aufgerufen."
+                                  << " Dieser Typ wird nicht unterstützt. Es geht weiter mit SQLITE";
+    }
+
+    this->init();
 }
 
 Model::DataContext::~DataContext()
 {
     this->m_db.close();
 
-    qCDebug(jmbdemodelsLog) << tr("~DataContext()");
+    qCDebug(jmbdemodelsLog) << tr("Datenbank geschlossen.");
 }
 
-void Model::DataContext::CreateConnection()
+void Model::DataContext::init()
 {
     if (m_dbType == DBTypes::SQLITE) {
-        m_db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"));
-        if (!m_db.isValid()) {
-            qCCritical(jmbdemodelsLog) << tr("Die Datenbank konnte nicht initialisiert werden!") return false;
-        }
+        this->setDatabaseConnection();
 
-        const auto targetFileAndPath = this->getSqliteName();
-
-        QFile f(targetFileAndPath);
+        QFile f(this->m_connectionString);
         if (!f.exists()) {
-            qCInfo(jmbdemodelsLog) << tr("Erzeuge Sqlite Datenbank: ") << this->m_Name;
-
-            m_db.setDatabaseName(targetFileAndPath);
-
-            if (!this->prepareDB()) {
-                qCCritical(jmbdemodelsLog) << tr("Die Datenbank") << this->m_Name << tr("konnte nicht erzeugt werden");
-                return;
-            }
+            qCInfo(jmbdemodelsLog) << tr("Erzeuge Sqlite Datenbank: ") << this->m_connectionString;
+            this->openDB(this->m_Name);
+            this->prepareDB();
         } else {
             qCInfo(jmbdemodelsLog) << tr("Öffne Sqlite Datenbank:") << this->m_Name;
-
-            m_db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"));
-            m_db.setDatabaseName(targetFileAndPath);
+            this->openDB(this->m_Name);
         }
     } else if (m_dbType == DBTypes::ODBC) {
         qCInfo(jmbdemodelsLog) << tr("Öffne ODBC Datenbank: ") << this->m_Name << tr(" auf dem Server: ") << this->m_dbHostName;
@@ -73,18 +97,8 @@ void Model::DataContext::CreateConnection()
     }
 }
 
-void Model::DataContext::closeConnection()
+void Model::DataContext::prepareDB() const
 {
-}
-
-auto Model::DataContext::prepareDB() -> bool
-{
-    if (!this->m_db.isValid()) {
-        this->m_db = QSqlDatabase::database(this->m_Name);
-    }
-
-    m_db.open();
-
     QSqlQuery query(this->m_db);
 
     QFile file(QLatin1String(":/data/script.sql"));
@@ -92,23 +106,26 @@ auto Model::DataContext::prepareDB() -> bool
     if (!file.exists()) {
         qCCritical(jmbdemodelsLog) << tr("Kritischer Fehler bei der Initialisierung der Datenbank.") << tr("Die Datei '") << file.fileName() << tr("' zum initialisieren der Datenbank ")
                                    << tr(" und zum erzeugen der Tabellen konnten nicht gefunden werden.");
-        return false;
+        return;
     }
 
     if (!file.open(QIODevice::ReadOnly)) {
         qCCritical(jmbdemodelsLog) << tr("Kritischer Fehler bei der Initialisierung der Datenbank.") << tr("Die Datei '") << file.fileName() << tr(" zum initialisieren der Datenbank ") << tr("kann nicht geöffnet werden.");
-        return false;
     }
 
+    bool hasText = false;
     QString line;
     QByteArray readLine;
     QString cleanedLine;
     QStringList strings;
 
     while (!file.atEnd()) {
-        bool hasText = false;
+        hasText = false;
         line = QLatin1String("");
+        readLine = QByteArray("");
+        cleanedLine = QLatin1String("");
         strings.clear();
+
         while (!hasText) {
             readLine = file.readLine();
             cleanedLine = QLatin1String(readLine.trimmed());
@@ -126,9 +143,7 @@ auto Model::DataContext::prepareDB() -> bool
         if (!line.isEmpty()) {
             if (!query.exec(line)) {
                 qCCritical(jmbdemodelsLog) << tr("Fehler beim Lesen der Datei zur Datenbank Erzeugung: ") << tr("Fehler in der Zeile <") << line << "> : " << tr("Fehlermeldung: ") << query.lastQuery() << " : " << query.lastError().text();
-                return false;
             }
-
         } else {
             qCCritical(jmbdemodelsLog) << tr("Fehler beim Lesen der Datei zur Datenbank Erzeugung:") << tr("Fehler in der Zeile <") << line << "> : " << tr("Fehlermeldung: ") << query.lastQuery() << " : " << query.lastError().text();
         }
@@ -136,7 +151,6 @@ auto Model::DataContext::prepareDB() -> bool
     file.close();
 
     qCDebug(jmbdemodelsLog) << tr("Datenbank erfolgreich erzeugt");
-    return true;
 }
 
 auto Model::DataContext::checkDBVersion(const QString &actualVersion, const QString &actualRevision
@@ -197,9 +211,11 @@ auto Model::DataContext::insert(const QString &tableName, const QVariantMap &ins
 {
     if (tableName.isEmpty()) {
         qCCritical(jmbdemodelsLog) << tr("Schwerer Fehler: ") << tr("Der Tabellename <m_Name> ist leer!");
+        return false;
 
     } else if (insertData.isEmpty()) {
         qCCritical(jmbdemodelsLog) << tr("Schwerer Fehler: ") << tr("Es sind keine Daten für den Import vorhanden.");
+        return false;
     }
 
     QStringList strValues;
@@ -234,67 +250,50 @@ auto Model::DataContext::update(const QString &table, const QString &column, con
     return query.exec();
 }
 
-auto Model::DataContext::execQuery(QSqlQuery &query) -> bool
-{
-    return query.exec();
-}
-
-auto Model::DataContext::execQuery(const QString &queryText) -> bool
-{
-    auto query = this->getQuery(queryText);
-    bool retVal = query.exec();
-    qCDebug(jmbdemodelsLog) << "exceQuery returns : " << m_db.lastError().text();
-
-    return retVal;
-}
-
 auto Model::DataContext::getQuery(const QString &queryText) -> QSqlQuery
 {
     QSqlQuery query(queryText);
     return query;
 }
 
-auto Model::DataContext::openDB(const QString &dbName) -> bool
+void Model::DataContext::openDB(const QString &name)
 {
-    const auto dbFile = getSqliteName();
-    if (!QSqlDatabase::contains(dbName)) {
-        qCDebug(jmbdemodelsLog) << tr("Öffne Datenbank : ") << dbName;
+    if (!QSqlDatabase::contains(name)) {
+        qCDebug(jmbdemodelsLog) << tr("Öffne Datenbank : ") << name;
 
-        this->m_db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"), dbName);
-        this->m_db.setDatabaseName(dbFile);
-        return true;
-    }
-
-    if (!this->m_db.isValid()) {
-        this->m_db = QSqlDatabase::database(dbName);
+        this->m_db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"), name);
+        this->m_db.setDatabaseName(this->m_connectionString);
     }
 
     if (!this->m_db.isOpen()) {
         if (!this->m_db.open()) {
-            qCCritical(jmbdemodelsLog) << tr("Öffne Datenbank : ") << m_db.databaseName() << " Error : " << m_db.lastError();
-            return false;
+            qCCritical(jmbdemodelsLog) << tr("Fehler beim öffnen der Datenbank : ") << this->m_db.lastError().text() << m_db.connectionName();
         } else {
             qCDebug(jmbdemodelsLog) << tr("Öffne Datenbank : ") << m_db.databaseName() << " Error : " << m_db.lastError();
-
-            return true;
         }
-        return true;
     }
-    return true;
+
+    if (m_dbType == DBTypes::SQLITE) {
+        auto query = this->getQuery(QStringLiteral("PRAGMA synchronous=OFF"));
+        query.exec();
+    }
 }
 
-void Model::DataContext::renameDB(const QString &oldName, const QString &newName)
+void Model::DataContext::renameDB(const QString &newName)
 {
-    this->m_Name = newName;
-    const QString newDBName = this->getSqliteName();
+    if (m_dbType == DBTypes::SQLITE) {
+        QString oldConnection = this->m_connectionString;
+        QString oldDBName = this->m_Name;
+        this->m_Name = newName;
+        this->setDatabaseConnection();
 
-    qCDebug(jmbdemodelsLog) << tr("Ändere den Namen der Datenbank : ") << newName << tr(" Neuer Name: ") << newDBName;
+        qCDebug(jmbdemodelsLog) << tr("Ändere den Namen der Datenbank : ") << oldConnection << tr(" Neuer Name: ") << this->m_connectionString;
 
-    if (!this->m_db.isValid()) {
-        this->m_db = QSqlDatabase::database(oldName);
         QString oldFileName = this->m_db.databaseName();
-        QFile f(oldFileName);
-        f.rename(newName);
+        this->m_db.close();
+        QFile f(oldConnection);
+        f.rename(this->m_connectionString);
+        this->openDB(newName);
     }
 }
 
@@ -302,49 +301,19 @@ void Model::DataContext::deleteDB(const QString &dbName)
 {
     qCDebug(jmbdemodelsLog) << tr("Lösche Datenbank") << dbName;
 
-    if (!this->m_db.isValid()) {
-        qCDebug(jmbdemodelsLog) << "DB ist nicht valide : " << this->m_db.isValid();
-        this->m_db = QSqlDatabase::database(dbName);
-    }
+    this->m_db.close();
 
     // Delete File only by SQLITE Database
     if (m_dbType == DBTypes::SQLITE) {
-        QString fileName = this->m_db.databaseName();
-        QFile f(fileName);
+        QFile f(this->m_connectionString);
         QSqlDatabase::removeDatabase(dbName);
         if (!f.remove()) {
-            qCCritical(jmbdemodelsLog) << tr("Datenbankdatei konnte nicht gelöscht werden!");
+            qCCritical(jmbdemodelsLog) << tr("Datenbankdatei ") << this->m_connectionString << tr(" konnte nicht gelöscht werden !");
         }
     }
 }
 
-auto Model::DataContext::getDatabase() -> QSqlDatabase
-{
-    return m_db;
-}
-
-auto Model::DataContext::initDb() -> QSqlError
-{
-    return m_db.lastError();
-}
-
-void Model::DataContext::setDataBaseAccount(const QString &DBType, const QString &HostName, const QString &UserName, const QString &PassWord)
-{
-    auto dbType = QString(DBType);
-
-    // Default is SQLITE
-    m_dbType = DBTypes::SQLITE;
-    if (dbType == QString::fromLatin1("PGSQL"))
-        m_dbType = DBTypes::PGSQL;
-    else if (dbType == QString::fromLatin1("ODBC"))
-        m_dbType = DBTypes::ODBC;
-
-    m_dbHostName = HostName;
-    m_dbUserName = UserName;
-    m_dbPassWord = PassWord;
-}
-
-auto Model::DataContext::getSqliteName() -> QString
+void Model::DataContext::setDatabaseConnection()
 {
     QString dbDataPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
     // dbDataPath.append(QDir::separator());
@@ -362,15 +331,15 @@ auto Model::DataContext::getSqliteName() -> QString
     // }
     // Create the Directory
     QDir writeDir(dbDataPath);
-    if (!d.exists())
-        d.mkpath(dbDataPath);
+    if (!writeDir.exists())
+        writeDir.mkpath(dbDataPath);
 
     // Append the Datafile on the Path
-    targetFileAndPath.append(QDir::separator());
-    targetFileAndPath.append(this->m_Name);
-    targetFileAndPath.append(QLatin1String(".sqlite3"));
+    dbDataPath.append(QDir::separator());
+    dbDataPath.append(this->m_Name);
+    dbDataPath.append(QLatin1String(".sqlite3"));
 
-    qCDebug(jmbdemodelsLog) << tr("Pfad und Name der Datenbank für SQLite: ") << targetFileAndPath;
+    qCDebug(jmbdemodelsLog) << tr("Pfad und Name der Datenbank für SQLite: ") << dbDataPath;
 
-    return targetFileAndPath;
+    this->m_connectionString = dbDataPath;
 }

@@ -112,7 +112,6 @@ ecm_setup_version(
 # warn about deprecated stuff so that we may try fixing it
 set(CMAKE_WARN_DEPRECATED 1)
 
-
 # Allow adding Qt resource files with `add_executable` or `target_sources`
 # instead of `qt5_add_resources`. See
 # https://cmake.org/cmake/help/v3.0/manual/cmake-qt.7.html#autorcc.

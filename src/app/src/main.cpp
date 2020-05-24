@@ -135,7 +135,7 @@ int main(int argc, char *argv[])
 #endif
 
     QApplication::setApplicationDisplayName(QStringLiteral("jmbde"));
-    QApplication::setOrganizationName(QStringLiteral("io.jmuelbert.githuby"));
+    QApplication::setOrganizationName(QStringLiteral("io.jmuelbert.github"));
     QApplication::setApplicationVersion(QLatin1String(JMBDE_VERSION_STRING));
 
     /**

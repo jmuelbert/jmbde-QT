@@ -1,15 +1,16 @@
 {
-  "configurations": [
-    {
-      "compileCommands": "${workspaceFolder}/build/compile_commands.json",
-      "compilerPath": "/usr/local/bin/gcc-9",
-      "defines": [],
-      "includePath": [
-        "${workspaceFolder}/**"
-      ],
-      "macFrameworkPath": [],
-      "name": "Mac"
-    }
-  ],
-  "version": 4
+    "configurations": [
+        {
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json",
+            "compilerPath": "/usr/local/bin/gcc-9",
+            "defines": [],
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "macFrameworkPath": [],
+            "name": "Mac",
+            "configurationProvider": "ms-vscode.cmake-tools"
+        }
+    ],
+    "version": 4
 }

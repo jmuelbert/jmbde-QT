@@ -219,12 +219,6 @@ private:
     void writeSettings();
 
     /**
-     *
-     *  / @brief dataBaseOpenError()
-     */
-    void dataBaseOpenError(const QString &callerName);
-
-    /**
      * \fn void notAvailableMessage()
      * \brief notAvailableMessage
      *
