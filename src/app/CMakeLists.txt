@@ -14,7 +14,7 @@
 # minimal requirements
 cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 
-set(JMBDE_VERSION 0.5.0)
+set(JMBDE_VERSION 0.5.2)
 
 #
 # the jmbde application

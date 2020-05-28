@@ -1,7 +1,24 @@
-#ifndef EMPLOYEETABLE_H
-#define EMPLOYEETABLE_H
+/*
+   jmbde a BDE Tool for companies
+   Copyright (C) 2020  Jürgen Mülbert
 
-#include <QDebug>
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+*/
+
+#pragma once
+
+#include <QObject>
+
+#include <QLoggingCategory>
+
 #include <QDialogButtonBox>
 #include <QMessageBox>
 #include <QPushButton>
@@ -10,7 +27,8 @@
 
 #include "jmbdewidgets-version.h"
 #include "jmbdewidgets_export.h"
-#include "loggingcategory.h"
+
+Q_DECLARE_LOGGING_CATEGORY(jmbdeWidgetsEmployeeTableLog)
 
 namespace Ui
 {
@@ -36,5 +54,3 @@ private:
 private slots:
     void submit();
 };
-
-#endif // EMPLOYEETABLE_H

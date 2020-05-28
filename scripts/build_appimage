@@ -7,25 +7,25 @@ OUTDIR=$PWD
 PREFIX=/opt
 
 if [ -n "$1" ]; then
-	PREFIX=$1
+    PREFIX=$1
 fi
 
 if [ -n "$2" ]; then
-	OUTDIR="$2"
+    OUTDIR="$2"
 fi
 
 if [ -z "$(command -v linuxdeployqt)" ]; then
-	echo "ERROR: cannot find linuxdeployqt in PATH"
-	exit 1
+    echo "ERROR: cannot find linuxdeployqt in PATH"
+    exit 1
 fi
 
 if [ -z "$(command -v appimagetool)" ]; then
-	echo "ERROR: cannot find appimagetool in PATH"
-	exit 1
+    echo "ERROR: cannot find appimagetool in PATH"
+    exit 1
 fi
 
 if [ ! -d build-appimage ]; then
-	mkdir build-appimage
+    mkdir build-appimage
 fi
 
 cd build-appimage || exit
@@ -58,7 +58,7 @@ ln -sr ./appdir/"$PREFIX"/lib/ ./appdir/"$PREFIX"/lib/x86_64-linux-gnu/libexec/l
 
 # include breeze icons
 for dir in /opt/qt*/share/icons/breeze; do
-	cp -a "$dir" ./appdir/"$PREFIX"/share/icons/
+    cp -a "$dir" ./appdir/"$PREFIX"/share/icons/
 done
 
 # Ensure we prefer the bundled libs also when calling dlopen, cf.: https://github.com/KDAB/hotspot/issues/89

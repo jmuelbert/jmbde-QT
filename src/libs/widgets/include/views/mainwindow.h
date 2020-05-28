@@ -29,6 +29,7 @@
 #include <QtSql>
 #include <QtWidgets>
 
+#include <QLoggingCategory>
 #include <QPrintDialog>
 #include <QPrintPreviewDialog>
 #include <QPrinter>
@@ -37,7 +38,6 @@
 
 #include "jmbdewidgets-version.h"
 #include "jmbdewidgets_export.h"
-#include "loggingcategory.h"
 
 #include "views/chipcardinputarea.h"
 #include "views/cityinputarea.h"
@@ -65,6 +65,8 @@
 #include "models/processor.h"
 #include "models/software.h"
 #include "models/title.h"
+
+Q_DECLARE_LOGGING_CATEGORY(jmbdeWidgetsMainWindowLog)
 
 /**
  * Namespace for the UserInterface

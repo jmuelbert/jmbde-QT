@@ -19,6 +19,8 @@
 #include "ui_mainwindow.h"
 #include "views/mainwindow.h"
 
+Q_LOGGING_CATEGORY(jmbdeWidgetsMainWindowLog, "jmuelbert.jmbde.widgets.mainwindow", QtWarningMsg)
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -40,13 +42,13 @@ MainWindow::MainWindow(QWidget *parent)
     this->dataBaseName = QString(QApplication::applicationName());
     this->dataContext = new Model::DataContext(dynamic_cast<QObject *>(this), this->dataBaseName);
 
-    qCDebug(jmbdewidgetsLog) << tr("ActualViewRow : ") << m_actualView;
+    qCDebug(jmbdeWidgetsMainWindowLog) << tr("ActualViewRow : ") << m_actualView;
 
     if (m_actualView.row() > 0) {
         ui->treeView->setCurrentIndex(m_actualView);
         onClickedTreeView(m_actualView);
     } else {
-        qCDebug(jmbdewidgetsLog) << tr("Setze aktuelle Ansicht: Mitarbeiter - Tabelle");
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Setze aktuelle Ansicht: Mitarbeiter - Tabelle");
         actualView = VIEW_EMPLOYEE;
         auto *edm = new Model::Employee;
         tableModel = edm->initializeRelationalModel();
@@ -55,7 +57,7 @@ MainWindow::MainWindow(QWidget *parent)
         ui->listView->setModel(tableModel);
         ui->listView->setModelColumn(idx);
 
-        auto *employeeTable = new EmployeeTable(QLatin1String("employee"), tableModel, ui->scrollArea);
+        auto *employeeTable = new EmployeeTable(QStringLiteral("employee"), tableModel, ui->scrollArea);
         QSize AdjustSize = employeeTable->size();
         AdjustSize.width();
         employeeTable->setMinimumSize(AdjustSize);
@@ -83,7 +85,6 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     int width = ui->centralWidget->width() - OFFSET;
     int height = ui->centralWidget->height() - OFFSET;
 
-    qCDebug(jmbdewidgetsLog) << tr("Änderung der Fenstergröße: Breite = %i Höhe = %i").arg(width).arg(height);
     ui->splitter->resize(width, height);
 }
 
@@ -92,13 +93,13 @@ void MainWindow::focusChanged(QWidget *qWidget, QWidget *now)
     Q_UNUSED(qWidget)
     Q_UNUSED(now)
 
-    qCDebug(jmbdewidgetsLog) << tr("Der Fokus hat sich geändert");
+    qCDebug(jmbdeWidgetsMainWindowLog) << tr("Der Fokus hat sich geändert");
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     Q_UNUSED(event)
-    qCDebug(jmbdewidgetsLog) << tr("Der Close Event");
+    qCDebug(jmbdeWidgetsMainWindowLog) << tr("Der Close Event");
 }
 
 void MainWindow::on_actionPreferences_triggered()
@@ -146,13 +147,13 @@ void MainWindow::initOutline()
         i.next();
         auto *header = new QStandardItem(i.key());
         parentItem->appendRow(header);
-        qCDebug(jmbdewidgetsLog) << "initOutline(): (" << i.key() << ": " << i.value() << " )" << endl;
+        qCDebug(jmbdeWidgetsMainWindowLog) << "initOutline(): (" << i.key() << ": " << i.value() << " )" << endl;
 
         od = i.value();
         for (int index = 0; index < od.size(); ++index) {
             item = new QStandardItem(od.value(index));
             header->appendRow(item);
-            qCDebug(jmbdewidgetsLog) << "initOutline(): (Gefunden :" << od.value(index) << " an der Position)" << index << endl;
+            qCDebug(jmbdeWidgetsMainWindowLog) << "initOutline(): (Gefunden :" << od.value(index) << " an der Position)" << index << endl;
         }
     }
 
@@ -277,7 +278,7 @@ void MainWindow::on_actionPrint_triggered()
 
     switch (actualView) {
     case VIEW_EMPLOYEE: {
-        qCDebug(jmbdewidgetsLog) << tr("Drucke Mitarbeiter !");
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Mitarbeiter !");
         QString style = Model::Employee::setOutTableStyle();
         auto *edm = new Model::Employee;
         QString text = edm->generateTableString(tr("Mitarbeiter"));
@@ -286,7 +287,7 @@ void MainWindow::on_actionPrint_triggered()
     } break;
 
     case VIEW_COMPUTER: {
-        qDebug(jmbdewidgetsLog) << tr("Drucke Computer !");
+        qDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Computer !");
         QString style = Model::Computer::setOutTableStyle();
         auto *cdm = new Model::Computer;
         QString text = cdm->generateTableString(tr("Computer"));
@@ -295,7 +296,7 @@ void MainWindow::on_actionPrint_triggered()
     } break;
 
     case VIEW_PRINTER: {
-        qCDebug(jmbdewidgetsLog) << tr("Drucke Drucker !");
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Drucker !");
         QString style = Model::Printer::setOutTableStyle();
         auto *pdm = new Model::Printer;
         QString text = pdm->generateTableString(tr("Drucker"));
@@ -304,7 +305,7 @@ void MainWindow::on_actionPrint_triggered()
     } break;
 
     case VIEW_PHONE: {
-        qCDebug(jmbdewidgetsLog) << "Drucke Telefone !";
+        qCDebug(jmbdeWidgetsMainWindowLog) << "Drucke Telefone !";
         QString style = Model::Phone::setOutTableStyle();
         auto *pdm = new Model::Phone;
         QString text = pdm->generateTableString(tr("Telefon"));
@@ -315,7 +316,7 @@ void MainWindow::on_actionPrint_triggered()
     default:
         QString message = tr("Drucken unbekanntes Submodul");
         notAvailableMessage(message);
-        qCCritical(jmbdewidgetsLog) << tr("on_actionPrint_triggered(): Unbekanntes Sub-Modul");
+        qCCritical(jmbdeWidgetsMainWindowLog) << tr("on_actionPrint_triggered(): Unbekanntes Sub-Modul");
     }
 
 #if !defined(QT_NO_PRINTER) && !defined(QT_NO_PRINTDIALOG)
@@ -337,7 +338,7 @@ void MainWindow::on_action_Export_Pdf_triggered()
 
     switch (actualView) {
     case VIEW_EMPLOYEE: {
-        qCDebug(jmbdewidgetsLog) << tr("Drucke Mitarbeiter !");
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Mitarbeiter !");
 
         QString style = Model::Employee::setOutTableStyle();
         auto *edm = new Model::Employee;
@@ -347,7 +348,7 @@ void MainWindow::on_action_Export_Pdf_triggered()
     } break;
 
     case VIEW_COMPUTER: {
-        qCDebug(jmbdewidgetsLog) << tr("Drucke Computer !");
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Computer !");
 
         QString style = Model::Computer::setOutTableStyle();
         auto *cdm = new Model::Computer;
@@ -357,7 +358,7 @@ void MainWindow::on_action_Export_Pdf_triggered()
     } break;
 
     case VIEW_PRINTER: {
-        qCDebug(jmbdewidgetsLog) << tr("Drucke Drucker !");
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Drucker !");
 
         QString style = Model::Printer::setOutTableStyle();
         auto *pdm = new Model::Printer;
@@ -367,7 +368,7 @@ void MainWindow::on_action_Export_Pdf_triggered()
     } break;
 
     case VIEW_PHONE: {
-        qCDebug(jmbdewidgetsLog) << tr("Drucke Telefone !");
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Telefone !");
 
         QString style = Model::Phone::setOutTableStyle();
         auto *pdm = new Model::Phone;
@@ -379,7 +380,7 @@ void MainWindow::on_action_Export_Pdf_triggered()
     default:
         QString message = tr("Drucken unbekanntes Submodul");
         notAvailableMessage(message);
-        qCCritical(jmbdewidgetsLog) << tr("on_action_Export_Pdf_triggered(): Unbekanntes Sub-Modul");
+        qCCritical(jmbdeWidgetsMainWindowLog) << tr("on_action_Export_Pdf_triggered(): Unbekanntes Sub-Modul");
     }
 
 #ifndef QT_NO_PRINTER
@@ -409,7 +410,7 @@ void MainWindow::on_actionPrint_Preview_triggered()
 
     switch (actualView) {
     case VIEW_EMPLOYEE: {
-        qCDebug(jmbdewidgetsLog) << tr("Drucke Mitarbeiter !");
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Mitarbeiter !");
 
         QString style = Model::Employee::setOutTableStyle();
         auto *edm = new Model::Employee;
@@ -419,7 +420,7 @@ void MainWindow::on_actionPrint_Preview_triggered()
     } break;
 
     case VIEW_COMPUTER: {
-        qCDebug(jmbdewidgetsLog) << tr("Drucke Computer !");
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Computer !");
 
         QString style = Model::Computer::setOutTableStyle();
         auto *cdm = new Model::Computer;
@@ -429,7 +430,7 @@ void MainWindow::on_actionPrint_Preview_triggered()
     } break;
 
     case VIEW_PRINTER: {
-        qDebug(jmbdewidgetsLog) << tr("Drucke Drucker !");
+        qDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Drucker !");
 
         QString style = Model::Printer::setOutTableStyle();
         auto *pdm = new Model::Printer;
@@ -439,7 +440,7 @@ void MainWindow::on_actionPrint_Preview_triggered()
     } break;
 
     case VIEW_PHONE: {
-        qDebug(jmbdewidgetsLog) << tr("Drucke Telefone !");
+        qDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Telefone !");
 
         QString style = Model::Phone::setOutTableStyle();
         auto *pdm = new Model::Phone;
@@ -451,7 +452,7 @@ void MainWindow::on_actionPrint_Preview_triggered()
     default:
         QString message = tr("Drucken unbekanntes Submodul");
         notAvailableMessage(message);
-        qCCritical(jmbdewidgetsLog) << "on_action_Export_Pdf_triggered(): Unbekanntes Sub-Modul";
+        qCCritical(jmbdeWidgetsMainWindowLog) << "on_action_Export_Pdf_triggered(): Unbekanntes Sub-Modul";
     }
 
 #if !defined(QT_NO_PRINTER) && !defined(QT_NO_PRINTDIALOG)
@@ -492,7 +493,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
     const QString selected = item->text();
 
     m_actualView = index;
-    qCDebug(jmbdewidgetsLog) << "ActualViewRow : " << index << " Item : " << selected;
+    qCDebug(jmbdeWidgetsMainWindowLog) << "ActualViewRow : " << index << " Item : " << selected;
 
     // Headers -> no action
     if ((selected == tr("Person")) || (selected == tr("Gerät")) || (selected == tr("Kommunikation")) || (selected == tr("Verschiedenes"))) {
@@ -501,7 +502,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
 
     // Tree -> Person
     if (selected == tr("Mitarbeiter")) {
-        qCDebug(jmbdewidgetsLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
         actualView = VIEW_EMPLOYEE;
 
         auto *edm = new Model::Employee;
@@ -520,7 +521,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(employeeInput);
     } else if (selected == tr("Funktion")) {
-        qDebug(jmbdewidgetsLog) << tr("Auswahl: %s").arg(selected);
+        qDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_FUNCTION;
 
@@ -535,7 +536,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
         auto *fia = new FunctionInputArea(ui->scrollArea, qmi);
         ui->scrollArea->setWidget(fia);
     } else if (selected == tr("Abteilung")) {
-        qCDebug(jmbdewidgetsLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_DEPARTMENT;
 
@@ -550,7 +551,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
         auto *dia = new DepartmentInputArea(ui->scrollArea, qmi);
         ui->scrollArea->setWidget(dia);
     } else if (selected == tr("Titel")) {
-        qCDebug(jmbdewidgetsLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_TITLE;
 
@@ -567,7 +568,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
         ui->scrollArea->setWidget(tia);
         // Tree -> Device
     } else if (selected == tr("Computer")) {
-        qCDebug(jmbdewidgetsLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_COMPUTER;
 
@@ -583,7 +584,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
         auto *cia = new ComputerInputArea(ui->scrollArea, qmi);
         ui->scrollArea->setWidget(cia);
     } else if (selected == tr("Prozessor")) {
-        qCDebug(jmbdewidgetsLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_PROCESSOR;
 
@@ -599,7 +600,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
         auto *pia = new ProcessorInputArea(ui->scrollArea, qmi);
         ui->scrollArea->setWidget(pia);
     } else if (selected == tr("Betriebssystem")) {
-        qCDebug(jmbdewidgetsLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_OS;
 
@@ -615,7 +616,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
         auto *oia = new OSInputArea(ui->scrollArea, qmi);
         ui->scrollArea->setWidget(oia);
     } else if (selected == tr("Software")) {
-        qCDebug(jmbdewidgetsLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_SOFTWARE;
 
@@ -631,7 +632,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
         auto *sia = new SoftwareInputArea(ui->scrollArea, qmi);
         ui->scrollArea->setWidget(sia);
     } else if (selected == tr("Drucker")) {
-        qCDebug(jmbdewidgetsLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_PRINTER;
 
@@ -648,7 +649,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
         ui->scrollArea->setWidget(pia);
         // Tree -> Communication
     } else if (selected == tr("Telefon")) {
-        qCDebug(jmbdewidgetsLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_PHONE;
 
@@ -664,7 +665,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
         auto *pia = new PhoneInputArea(ui->scrollArea, qmi);
         ui->scrollArea->setWidget(pia);
     } else if (selected == tr("Mobiltelefon")) {
-        qCDebug(jmbdewidgetsLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_MOBILE;
 
@@ -681,7 +682,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
         ui->scrollArea->setWidget(mia);
         // Tree -> Misc
     } else if (selected == tr("Hersteller")) {
-        qCDebug(jmbdewidgetsLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_MANUFACTURER;
 
@@ -697,7 +698,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
         auto *mia = new ManufacturerInputArea(ui->scrollArea, qmi);
         ui->scrollArea->setWidget(mia);
     } else if (selected == tr("Stadt")) {
-        qCDebug(jmbdewidgetsLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_CITY;
 
@@ -713,7 +714,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
         auto *cia = new CityInputArea(ui->scrollArea, qmi);
         ui->scrollArea->setWidget(cia);
     } else if (selected == tr("Schlüsselchip")) {
-        qCDebug(jmbdewidgetsLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_CHIPCARD;
 
@@ -737,7 +738,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
 void MainWindow::onClickedListViewRow(const QModelIndex &index)
 {
     m_actualData = index;
-    qCDebug(jmbdewidgetsLog) << "onClickedListViewRow(QModelIndex : " << index;
+    qCDebug(jmbdeWidgetsMainWindowLog) << "onClickedListViewRow(QModelIndex : " << index;
 
     switch (actualView) {
     case VIEW_EMPLOYEE: {
@@ -891,11 +892,11 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index)
 void MainWindow::onPressedListViewRow(const QModelIndex &index)
 {
     m_actualData = index;
-    qCDebug(jmbdewidgetsLog) << "Pressed: ActualDataRow for deleteting: " << index;
+    qCDebug(jmbdeWidgetsMainWindowLog) << "Pressed: ActualDataRow for deleteting: " << index;
 
     switch (actualView) {
     case VIEW_EMPLOYEE: {
-        qCDebug(jmbdewidgetsLog) << "Employee Table Row (" << index.row() << ") clicked";
+        qCDebug(jmbdeWidgetsMainWindowLog) << "Employee Table Row (" << index.row() << ") clicked";
 
         auto *eia = new EmployeeInputArea(nullptr, index);
 

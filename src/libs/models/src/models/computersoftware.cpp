@@ -15,6 +15,8 @@
 
 #include "models/computersoftware.h"
 
+Q_LOGGING_CATEGORY(jmbdeModelsComputerSoftwareLog, "jmuelbert.jmbde.models.computersoftware", QtWarningMsg)
+
 Model::ComputerSoftware::ComputerSoftware(QObject *parent)
     : CommonData(parent)
 {
@@ -66,7 +68,7 @@ auto Model::ComputerSoftware::generateTableString(const QString &header) -> QStr
 {
     QString outString;
 
-    qCDebug(jmbdemodelsLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(jmbdeModelsComputerSoftwareLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     QList<int> set;
 
@@ -92,7 +94,7 @@ auto Model::ComputerSoftware::generateFormularString(const QString &header) -> Q
 {
     QString outString;
 
-    qCDebug(jmbdemodelsLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(jmbdeModelsComputerSoftwareLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     // Document Title
     outString = QLatin1String("<h1>");

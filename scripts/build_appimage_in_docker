@@ -6,12 +6,12 @@ artifacts=/tmp/hotspot-appimage-artifacts
 elfutils_package="$PWD/elfutils/elfutils.build.tar.bz2"
 
 if [ ! -d "$artifacts" ]; then
-	mkdir "$artifacts" || exit 1
+    mkdir "$artifacts" || exit 1
 fi
 
 if [ ! -e "$elfutils_package" ]; then
-	echo "missing \"$elfutils_package\" - did you run package_elfutil.sh already?"
-	exit 1
+    echo "missing \"$elfutils_package\" - did you run package_elfutil.sh already?"
+    exit 1
 fi
 
 cd ..

@@ -15,8 +15,9 @@
 
 #pragma once
 
-#include <QLoggingCategory>
 #include <QObject>
+
+#include <QLoggingCategory>
 
 #include <QStandardPaths>
 #include <QtSql>
@@ -29,7 +30,8 @@
 #include "commondata.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
-#include "loggingcategory.h"
+
+Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsComputerLog)
 
 namespace Model
 {

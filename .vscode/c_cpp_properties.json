@@ -2,14 +2,16 @@
     "configurations": [
         {
             "compileCommands": "${workspaceFolder}/build/compile_commands.json",
-            "compilerPath": "/usr/local/bin/gcc-9",
+            "compilerPath": "/usr/bin/clang++",
             "defines": [],
             "includePath": [
                 "${workspaceFolder}/**"
             ],
             "macFrameworkPath": [],
             "name": "Mac",
-            "configurationProvider": "ms-vscode.cmake-tools"
+            "configurationProvider": "ms-vscode.cmake-tools",
+            "cStandard": "c99",
+            "cppStandard": "c++20"
         }
     ],
     "version": 4

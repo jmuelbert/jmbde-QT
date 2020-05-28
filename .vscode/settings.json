@@ -1,5 +1,5 @@
 {
-  "python.pythonPath": "venv/bin/python",
+  "python.pythonPath": "/Users/juergen/opt/miniconda3/envs/cpp/bin/python3.8",
   "python.testing.nosetestsEnabled": false,
   "python.testing.promptToConfigure": false,
   "python.testing.pytestEnabled": false,

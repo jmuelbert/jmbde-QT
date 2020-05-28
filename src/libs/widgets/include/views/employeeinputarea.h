@@ -15,7 +15,9 @@
 
 #pragma once
 
-#include <QDebug>
+#include <QObject>
+
+#include <QLoggingCategory>
 
 #include <QDataWidgetMapper>
 #include <QGroupBox>
@@ -35,6 +37,8 @@
 #include "models/phone.h"
 #include "models/place.h"
 #include "models/printer.h"
+
+Q_DECLARE_LOGGING_CATEGORY(jmbdeWidgetsEmployeeInputAreaLog)
 
 namespace Ui
 {

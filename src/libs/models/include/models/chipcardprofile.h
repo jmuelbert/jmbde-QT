@@ -15,7 +15,9 @@
 
 #pragma once
 
+#include <QLoggingCategory>
 #include <QObject>
+
 #include <QtSql>
 
 #include <QSqlDatabase>
@@ -26,7 +28,8 @@
 #include "commondata.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
-#include "loggingcategory.h"
+
+Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsChipCardProfileLog)
 
 namespace Model
 {

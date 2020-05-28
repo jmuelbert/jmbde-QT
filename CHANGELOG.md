@@ -2,335 +2,589 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [ChangeLog](#changelog)
-  - [0.4.26 JMBDE (2019-08-25)](#0426-jmbde-2019-08-25)
-  - [0.4.25 JMBDE (2019-06-08)](#0425-jmbde-2019-06-08)
-  - [0.4.23 A BDE tool (2019-04-27)](#0423-a-bde-tool-2019-04-27)
-  - [0.4.22 A BDE tool (2018-11-01)](#0422-a-bde-tool-2018-11-01)
-  - [0.4.9 (2018-03-17)](#049-2018-03-17)
-  - [Version 0.4.7 (03 December 2017)](#version-047-03-december-2017)
+- [(2020-05-26)](#2020-05-26)
+- [<small>0.5.2 (2020-03-19)</small>](#small052-2020-03-19small)
+- [<small>0.5.1 (2020-03-17)</small>](#small051-2020-03-17small)
+- [0.5.0 (2020-03-17)](#050-2020-03-17)
+- [<small>0.4.7 (2018-11-21)</small>](#small047-2018-11-21small)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# ChangeLog
-
-## 0.4.26 JMBDE (2019-08-25)
-
-- Change the build system to cmake
-- add api-doc comments to all model classes
-- docoument the database entities
-- check the c++ source with clang-tidy and make them better
-- check the c++ source with clazy for more quality
-
-## 0.4.25 JMBDE (2019-06-08)
-
-- Change the windows installer. now using Inno Setup
-- move the linux build to appveyer
-- reformat the code with clang-format
-- Begin change to cmake
-
-## 0.4.23 A BDE tool (2019-04-27)
-
-- Update the UI for Datainput
-- Add a .coafile
-- Upgrade to Version to 0.4.23
-- Make readme.md better
-
-## 0.4.22 A BDE tool (2018-11-01)
-
-## 0.4.9 (2018-03-17)
-
-- Add Qbs Build System
-- Add Dialogs for Printer and Chipcards
-- Make all inputareas working.
-- Create all translation ts-files.
-
-## Version 0.4.7 (03 December 2017)
-
-- New Database structure
-- New Project structure
-- New GUI
-
-Thu Mar 15 21:53:04 2018 +0100 - juergen.muelbert@gmail.com
-
-- Change Input Dialog Handling
-
----
-
-Tue Feb 27 22:28:01 - juergen.muelbert@gmail.com
-
-- Remove unused files.
-- Correct CONTRIBUTING
-
----
-
-Sat Feb 17 11:17:13 2018 +0100 - juergen.muelbert@gmail.com
-
-- Create License
-
----
-
-Sun Feb 11 11:14:06 2018 +0100 - juergen.muelbert@gmail.com
-
-- Remove win build errors
-
----
-
-Tue Feb 6 22:23:54 2018 +0100 - juergen.muelbert@gmail.com
-
-- Remove deploy from source.
-
----
-
-Sat Jan 27 19:44:45 2018 +0100 - juergen.muelbert@gmail.com
-
-- Change Project-Structure.
-- Change Deploy,
-
----
-
-Thu Jan 11 23:03:26 2018 +0100 - juergen.muelbert@gmail.com
-
-- Add qbs build system.
-- Change Copyright Header.
-
----
-
-Sun Dec 31 12:15:13 2017 +0100- juergen.muelbert@gmail.com
-
-- Create WiX-Installer
-
----
-
-Wed Dec 20 20:38:46 2017 +0100 - juergen.muelbert@gmail.com
-
-- Create consistent DataModell Classes.
-- Change the connections in mainwindow.cpp.
-
----
-
-Sun Dec 10 14:47:56 2017 +0100 - juergen.muelbert@gmail.com
-
-- Upgrade ISS-File
-
----
-
-Sat Dec 9 19:14:27 2017 +0100 - juergen.muelbert@gmail.com
-
-- Update project files add installer innosetup script.
-- Test with Win64 and wrote ISS Installscript
-
----
-
-Wed Dec 6 21:14:51 2017 +0100 - juergen.muelbert@gmail.com
-
-- resolve merge conflicts
-
----
-
-Sun Dec 3 11:27:21 2017 +0100 - juergen.muelbert@gmail.com
-
-- New Database structure
-- New Project structure
-- New GUI
-- Change the Index for DB in Employee
-- Merge develop to master
-
----
-
-Tue Nov 21 20:51:55 2017 +0100 - juergen.muelbert@gmail.com
-
-- Change project structure and QTIFW_Installer
-
----
-
-Sat Nov 11 16:48:12 2017 +0100 - juergen.muelbert@gmail.com
-
-- Improve GUI. Repair Installer on Mac
-
----
-
-Sun Nov 5 22:00:42 2017 +0100 - juergen.muelbert@gmail.com
-
-- Add the last missing gui elements for this version.
-- Add Manufacturer and City.
-- Began with restore the last views.
-- Add Manufacturer and City.
-- Add the last missing gui elements for this version.
-
----
-
-Wed Nov 1 18:01:29 2017 +0100 - juergen.muelbert@gmail.com
-
-- Add many GUI Elements for Input...
-
----
-
-Sat Oct 28 17:39:08 2017 +0200 - juergen.muelbert@gmail.com
-
-- Update License to EUPL 1.2
-- Uncrustify all source files.
-- Update the Menus.
-- changed to treeview selector
-- Add Modell Classes.
-- View all Classes in the Listbox
-
----
-
-Sun Oct 15 12:27:59 2017 +0200 - juergen.muelbert@gmail.com
-
-- Add QtIFW Installer
-
----
-
-Sat Sep 30 19:02:00 2017 +0200 - juergen.muelbert@gmail.com
-
-- Delete index.html
-- Delete README, must be README.md
-- Update README.md
-- Delete \_config.yml
-- Delete index.md
-- Use gh-pages
-- little corrections
-- Create license.txt
-
----
-
-Wed Sep 27 22:17:51 2017 +0200 - juergen.muelbert@gmail.com
-
-- create an installer.
-- cleanup the project structure.
-
----
-
-Thu Sep 21 23:13:45 2017 +0200 - juergen.muelbert@gmail.com
-
-- Finish the DB Creation
-
----
-
-Tue Sep 19 22:26:47 2017 +0200 - juergen.muelbert@gmail.com
-
-- Create DB with QSql DDL Step.1
-- Change DB Creation Step.1
-
----
-
-Tue Sep 5 21:50:14 2017 +0200 - juergen.muelbert@gmail.com
-
-- Finish the employee input dialog
-
----
-
-Sun Sep 3 11:44:43 2017 +0200 - juergen.muelbert@gmail.com
-
-- Add autoresize for splittview.
-- And correct the employee listview.
-
----
-
-Sun Apr 16 10:30:32 2017 +0200 - juergen.muelbert@gmail.com
-
-- Add CMake
-- Remove QMS
-
----
-
-Sun Apr 9 17:58:47 2017 +0200 - juergen.muelbert@gmail.com
-
-- Add Method for add phone for new employee
-
----
-
-Sun Apr 9 00:09:43 2017 +0200 - juergen.muelbert@gmail.com
-
-- Change the ICONS. Update Copyright (years).
-
----
-
-Sun Apr 2 16:51:13 2017 +0200 - juergen.muelbert@gmail.com
-
-- Add Diagram for Database.
-- Minor corrections.
-- Update Copyright.
-
----
-
-Thu Mar 30 22:13:18 2017 +0200 - juergen.muelbert@gmail.com
-
-- Complete UI for Employee
-
----
-
-Sun Mar 26 19:23:28 2017 +0200 - juergen.muelbert@gmail.com
-
-- Change and Update UI plus Database
-
----
-
-Wed Mar 1 11:18:34 2017 +0100 - juergen.muelbert@gmail.com
-
-- Update auf Qt 5.8 and cleanning
-
----
-
-Sat Feb 25 18:55:51 2017 +0100 - juergen.muelbert@gmail.com
-
-- Adjustments for QT5.8
-
----
-
-Sat Jan 14 16:34:49 2017 +0100 - juergen.muelbert@gmail.com
-
-- Set theme jekyll-theme-cayman and migrate Page Generator content
-- Migrate page to Jekyll site on master branch
-
----
-
-Thu Sep 1 20:54:15 2016 +0200 - juergen.muelbert@gmail.com
-
-- Update to Version 0.4.0
-- Change the Database. Add README.md
-
----
-
-Sun Mar 9 18:50:10 2014 +0100 - juergen.muelbert@gmail.com
-
-- Add the HelpBrowser, improve the source.
-- Began Add Help
-- Start with QML
-- Improve the Database, but the DB must generate from Source-Code by QT
-
----
-
-Tue Feb 11 22:16:23 2014 +0100 - juergen.muelbert@gmail.com
-
-- Update README
-
----
-
-Tue Feb 11 22:15:18 2014 +0100 - juergen.muelbert@gmail.com
-
-- Create README
-
----
-
-Tue Feb 11 21:29:05 2014 +0100 - juergen.muelbert@gmail.com
-
-- Create gh-pages branch via GitHub
-
----
-
-Sun Jan 26 14:39:35 UTC 2014 - juergen.muelbert@gmail.com
-
-- New Database structure
-- Improve GUI
-- A little usable
-- Tables: Employee, Computer, Printer and Phone can save as PDF.
-- Tables: Employee, Computer, Printer and Phone can print.
-
----
-
-Sat Oct 19 17:51:31 2013 +0200 - juergen.muelbert@gmail.com
-
-- Initial Version.
+## (2020-05-26)
+
+- Add changes from datacontext to mainwindow.cpp and make logging better. ([dfa63c5](https://github.com/jmuelbert/jmbde-QT/commit/dfa63c5))
+- Add conan . ([3365dab](https://github.com/jmuelbert/jmbde-QT/commit/3365dab))
+- Add conan for local build and travis-ci ([f1a5f05](https://github.com/jmuelbert/jmbde-QT/commit/f1a5f05))
+- Add improvments from pre-commit. ([94f2b3a](https://github.com/jmuelbert/jmbde-QT/commit/94f2b3a))
+- Add python/scripts to appveyor for windows ([d48f5ce](https://github.com/jmuelbert/jmbde-QT/commit/d48f5ce))
+- Add vcpkg in all appveyor builds. ([dbe4257](https://github.com/jmuelbert/jmbde-QT/commit/dbe4257))
+- Added the first test. ([654b82d](https://github.com/jmuelbert/jmbde-QT/commit/654b82d))
+- Appveyor remove vcpkg complete. ([1141694](https://github.com/jmuelbert/jmbde-QT/commit/1141694))
+- Change Linux build to use vcpkg. ([31453a5](https://github.com/jmuelbert/jmbde-QT/commit/31453a5))
+- Change the StartView to tabel. Start with employee. ([6a0080c](https://github.com/jmuelbert/jmbde-QT/commit/6a0080c))
+- Changes for windows.build. ([c39d4bc](https://github.com/jmuelbert/jmbde-QT/commit/c39d4bc))
+- Cleanup and improve datacontext. ([1003c1f](https://github.com/jmuelbert/jmbde-QT/commit/1003c1f))
+- Cleanup main, mainwindow, datacontext. ([1935919](https://github.com/jmuelbert/jmbde-QT/commit/1935919))
+- conan search falure in mc config. ([48bce76](https://github.com/jmuelbert/jmbde-QT/commit/48bce76))
+- Correct errors in datacontext. ([1376f67](https://github.com/jmuelbert/jmbde-QT/commit/1376f67))
+- Correct the BIN_INSTALL_DIR. Update jmbdequick CMAKEFILE. ([efb5503](https://github.com/jmuelbert/jmbde-QT/commit/efb5503))
+- Correct the path on appveyor linux build. ([b81329f](https://github.com/jmuelbert/jmbde-QT/commit/b81329f))
+- Correct the Python-Path in appveyor.yml ([aabc52c](https://github.com/jmuelbert/jmbde-QT/commit/aabc52c))
+- Format all sources with clang-format. ([02a0495](https://github.com/jmuelbert/jmbde-QT/commit/02a0495))
+- Improve workflows. ([7dd33d7](https://github.com/jmuelbert/jmbde-QT/commit/7dd33d7))
+- Make the models lib better. Move the test to the lib. ([cbd9f44](https://github.com/jmuelbert/jmbde-QT/commit/cbd9f44))
+- Next try for apple-build. ([16bcc41](https://github.com/jmuelbert/jmbde-QT/commit/16bcc41))
+- Next try for apple-build. ([8fb657a](https://github.com/jmuelbert/jmbde-QT/commit/8fb657a))
+- Reinstall all \*.ts files. ([b480c85](https://github.com/jmuelbert/jmbde-QT/commit/b480c85))
+- Remove an error in jmbdequick CMakelists.txt ([48915f4](https://github.com/jmuelbert/jmbde-QT/commit/48915f4))
+- Remove an error on appveyor windows build. ([cb78372](https://github.com/jmuelbert/jmbde-QT/commit/cb78372))
+- Remove automatic build for appveyor. ([5ecc4bc](https://github.com/jmuelbert/jmbde-QT/commit/5ecc4bc))
+- Remove error from CMakeLists.txt. ([e6899fb](https://github.com/jmuelbert/jmbde-QT/commit/e6899fb))
+- Remove error from Workflows. Make crowdin.yaml better. ([8c2549e](https://github.com/jmuelbert/jmbde-QT/commit/8c2549e))
+- Remove error in travis-ci (conan). ([320be10](https://github.com/jmuelbert/jmbde-QT/commit/320be10))
+- Remove errors from appveyor and ubuntu-latest workflow. ([7c63ceb](https://github.com/jmuelbert/jmbde-QT/commit/7c63ceb))
+- Remove errors from CMakeLists, travis and appveyor. ([20cf299](https://github.com/jmuelbert/jmbde-QT/commit/20cf299))
+- Remove errors from CMakeLists, travis and appveyor. ([e7bdcd3](https://github.com/jmuelbert/jmbde-QT/commit/e7bdcd3))
+- Remove errors from CMakeLists, travis and appveyor. ([c9311f4](https://github.com/jmuelbert/jmbde-QT/commit/c9311f4))
+- Remove errors from CMakeLists, travis and appveyor. ([d0e612e](https://github.com/jmuelbert/jmbde-QT/commit/d0e612e))
+- Remove errors from CMakeLists, travis and appveyor. ([679f44f](https://github.com/jmuelbert/jmbde-QT/commit/679f44f))
+- Remove errors from CMakeLists, travis and appveyor. ([f74f24a](https://github.com/jmuelbert/jmbde-QT/commit/f74f24a))
+- Remove errors from travis-ci and appveyor. ([c8454e4](https://github.com/jmuelbert/jmbde-QT/commit/c8454e4))
+- Remove KDEInstallDirs ([1c23100](https://github.com/jmuelbert/jmbde-QT/commit/1c23100))
+- Remove one more error in build. ([3266f29](https://github.com/jmuelbert/jmbde-QT/commit/3266f29))
+- Remove one more error in build. ([fcec1ef](https://github.com/jmuelbert/jmbde-QT/commit/fcec1ef))
+- Remove pre-commit errors. ([edabb92](https://github.com/jmuelbert/jmbde-QT/commit/edabb92))
+- Remove qt5 dep from conan. Add the missing refs to build the apps.. ([ebc8e25](https://github.com/jmuelbert/jmbde-QT/commit/ebc8e25))
+- Remove qt5 dep from conan. Add the missing refs to build the apps.. ([405af4b](https://github.com/jmuelbert/jmbde-QT/commit/405af4b))
+- Remove qt5 dep from conan. Add the missing refs to build the apps.. ([60fb98b](https://github.com/jmuelbert/jmbde-QT/commit/60fb98b))
+- Remove qt5:qml from CMakeLists. ([c6fdc03](https://github.com/jmuelbert/jmbde-QT/commit/c6fdc03))
+- Remove qt5:quick from all CMakeLists. Update appveyor for windows. ([816998f](https://github.com/jmuelbert/jmbde-QT/commit/816998f))
+- Remove some build errors ([2db873f](https://github.com/jmuelbert/jmbde-QT/commit/2db873f))
+- Remove some build errors. ([e13f347](https://github.com/jmuelbert/jmbde-QT/commit/e13f347))
+- Remove the first error by app_icon ([b722690](https://github.com/jmuelbert/jmbde-QT/commit/b722690))
+- Remove vcpkg-toolchain on windows, will change to conan. ([47bf418](https://github.com/jmuelbert/jmbde-QT/commit/47bf418))
+- Remove wrong code from test. ([20afd41](https://github.com/jmuelbert/jmbde-QT/commit/20afd41))
+- Resolve errors in datacontext.cpp ([d9d679b](https://github.com/jmuelbert/jmbde-QT/commit/d9d679b))
+- Resolve hints from pre-commit. ([f997532](https://github.com/jmuelbert/jmbde-QT/commit/f997532))
+- Rewrite CMakeLists for test. ([8c1b112](https://github.com/jmuelbert/jmbde-QT/commit/8c1b112))
+- Romove errors from CMakeLists.txt ([9c87f96](https://github.com/jmuelbert/jmbde-QT/commit/9c87f96))
+- Search an error on appveyor windows build. ([cfda0bc](https://github.com/jmuelbert/jmbde-QT/commit/cfda0bc))
+- Set KDE_SKIP_RPATH_SETTINGS ON. ([6a77ac6](https://github.com/jmuelbert/jmbde-QT/commit/6a77ac6))
+- Set stack for python in appveyor ([bf43767](https://github.com/jmuelbert/jmbde-QT/commit/bf43767))
+- Set the correct path to the appveyor_build_dir. ([721dce9](https://github.com/jmuelbert/jmbde-QT/commit/721dce9))
+- Set the required cmake version to 3.12 ([cf1c26d](https://github.com/jmuelbert/jmbde-QT/commit/cf1c26d))
+- Set the rpath by KDECakeSettings. ([352f9d8](https://github.com/jmuelbert/jmbde-QT/commit/352f9d8))
+- Set the Windows Path new in Appveyor.yml ([c67bc69](https://github.com/jmuelbert/jmbde-QT/commit/c67bc69))
+- Solove more errors in models/datacontext. ([18f9567](https://github.com/jmuelbert/jmbde-QT/commit/18f9567))
+- Test for windows vcpkg-build. ([b3aab22](https://github.com/jmuelbert/jmbde-QT/commit/b3aab22))
+- Transfer mainlanguage to german. ([a5c8633](https://github.com/jmuelbert/jmbde-QT/commit/a5c8633))
+- Try to make build for macos better. missing libs :-o ([d260097](https://github.com/jmuelbert/jmbde-QT/commit/d260097))
+- Upate Appveyor and workflows. ([c5bee3d](https://github.com/jmuelbert/jmbde-QT/commit/c5bee3d))
+- Update all model.h files for better windows comp. ([8af4962](https://github.com/jmuelbert/jmbde-QT/commit/8af4962))
+- Update appveyor for Windows and linux build. ([c109b1a](https://github.com/jmuelbert/jmbde-QT/commit/c109b1a))
+- Update Appveyor.yml for Windows build ([5e0625a](https://github.com/jmuelbert/jmbde-QT/commit/5e0625a))
+- Update ci build. ([132ecac](https://github.com/jmuelbert/jmbde-QT/commit/132ecac))
+- Update Crowdin configuration file ([3a87e5e](https://github.com/jmuelbert/jmbde-QT/commit/3a87e5e))
+- Update crowdin.yml ([be799d8](https://github.com/jmuelbert/jmbde-QT/commit/be799d8))
+- Update Datacontext and tests for datacontext. ([51341ca](https://github.com/jmuelbert/jmbde-QT/commit/51341ca))
+- Update dll-spec in the models.lib. ([6ff4046](https://github.com/jmuelbert/jmbde-QT/commit/6ff4046))
+- Update installer_x64.iss for Windows. ([ab2764b](https://github.com/jmuelbert/jmbde-QT/commit/ab2764b))
+- Update README.md. ([7db1bc6](https://github.com/jmuelbert/jmbde-QT/commit/7db1bc6))
+- Update some ci scripts. ([7dd8fc8](https://github.com/jmuelbert/jmbde-QT/commit/7dd8fc8))
+- Update travis-ci. add canon user. ([213960b](https://github.com/jmuelbert/jmbde-QT/commit/213960b))
+- Update travis-ci. remove wrong mac settings. ([78c5261](https://github.com/jmuelbert/jmbde-QT/commit/78c5261))
+- Update travis-ci. set conan profiles. ([3607d61](https://github.com/jmuelbert/jmbde-QT/commit/3607d61))
+- Update ts-files. Improve test. Make cpp-source better. ([0e39e0e](https://github.com/jmuelbert/jmbde-QT/commit/0e39e0e))
+- Update workspaces. ([fbc81f3](https://github.com/jmuelbert/jmbde-QT/commit/fbc81f3))
+- Upgrade tests and workflows. ([8b7ac24](https://github.com/jmuelbert/jmbde-QT/commit/8b7ac24))
+- Upgrade the install with cmake. ([f2257b2](https://github.com/jmuelbert/jmbde-QT/commit/f2257b2))
+- style: Format codes ([45a56da](https://github.com/jmuelbert/jmbde-QT/commit/45a56da))
+- style: Format codes ([2c44afd](https://github.com/jmuelbert/jmbde-QT/commit/2c44afd))
+
+## <small>0.5.2 (2020-03-19)</small>
+
+- Remove error from installer_x64.iss ([40a6faa](https://github.com/jmuelbert/jmbde-QT/commit/40a6faa))
+- Update installer_x64.iss. Remove next error. ([2f723e7](https://github.com/jmuelbert/jmbde-QT/commit/2f723e7))
+- Update installer.iss, add some dlls. ([0d3a6e5](https://github.com/jmuelbert/jmbde-QT/commit/0d3a6e5))
+
+## <small>0.5.1 (2020-03-17)</small>
+
+- Remove little corrections for deploying ([1d4510d](https://github.com/jmuelbert/jmbde-QT/commit/1d4510d))
+
+## 0.5.0 (2020-03-17)
+
+- Add a Library for all execpt the main.cpp ([0c55744](https://github.com/jmuelbert/jmbde-QT/commit/0c55744))
+- Add app/CMakeLists.txt ([a1a6145](https://github.com/jmuelbert/jmbde-QT/commit/a1a6145))
+- add first step ubuntu to appveyor. ([4341379](https://github.com/jmuelbert/jmbde-QT/commit/4341379))
+- Add git-workflows amd build scripts ([f639be5](https://github.com/jmuelbert/jmbde-QT/commit/f639be5))
+- Add linux build to appveyor.yml ([21109bb](https://github.com/jmuelbert/jmbde-QT/commit/21109bb))
+- Add manfile ([91e0de9](https://github.com/jmuelbert/jmbde-QT/commit/91e0de9))
+- Add Missing packages for linux ([9666f17](https://github.com/jmuelbert/jmbde-QT/commit/9666f17))
+- Add more qml-objects ([893d6b0](https://github.com/jmuelbert/jmbde-QT/commit/893d6b0))
+- add pre-commit. update appveyor and travis. ([9ec89e0](https://github.com/jmuelbert/jmbde-QT/commit/9ec89e0))
+- Appveyor dowgrade to xenial ([448c448](https://github.com/jmuelbert/jmbde-QT/commit/448c448))
+- appveyor downgrade linux to xenial ([6af4958](https://github.com/jmuelbert/jmbde-QT/commit/6af4958))
+- appveyor.yml add the path to the iscc ([6355bf4](https://github.com/jmuelbert/jmbde-QT/commit/6355bf4))
+- change the about and preferences dialog to qml ([3a84259](https://github.com/jmuelbert/jmbde-QT/commit/3a84259))
+- Change to Cmake as Build Generator ([f42bea7](https://github.com/jmuelbert/jmbde-QT/commit/f42bea7))
+- change to cmake... ([9e35899](https://github.com/jmuelbert/jmbde-QT/commit/9e35899))
+- Change to Inno Setup... ([9e1f0bb](https://github.com/jmuelbert/jmbde-QT/commit/9e1f0bb))
+- change travis.ci prepare for windows. ([f78c632](https://github.com/jmuelbert/jmbde-QT/commit/f78c632))
+- ci-build test2 ([da550ae](https://github.com/jmuelbert/jmbde-QT/commit/da550ae))
+- correct appveyor.yml ([e84e039](https://github.com/jmuelbert/jmbde-QT/commit/e84e039))
+- correct appveyor.yml ([0a6e0ef](https://github.com/jmuelbert/jmbde-QT/commit/0a6e0ef))
+- correct command error in travis.yml ([538740a](https://github.com/jmuelbert/jmbde-QT/commit/538740a))
+- correct distribute.qbs ([eeee831](https://github.com/jmuelbert/jmbde-QT/commit/eeee831))
+- Correct failure on windows VS build. ([9fc37cc](https://github.com/jmuelbert/jmbde-QT/commit/9fc37cc))
+- correct installer.wxs ([18d29dd](https://github.com/jmuelbert/jmbde-QT/commit/18d29dd))
+- correct qbs path to qmake in travis.yml ([65c5432](https://github.com/jmuelbert/jmbde-QT/commit/65c5432))
+- correct tne language entries in installer.iss ([f9e279b](https://github.com/jmuelbert/jmbde-QT/commit/f9e279b))
+- Create License ([1be2777](https://github.com/jmuelbert/jmbde-QT/commit/1be2777))
+- Delete jmbde_tmp.spec ([9733df3](https://github.com/jmuelbert/jmbde-QT/commit/9733df3))
+- Delete License ([c565b42](https://github.com/jmuelbert/jmbde-QT/commit/c565b42))
+- Delete License.DE ([0063a51](https://github.com/jmuelbert/jmbde-QT/commit/0063a51))
+- Go back to 'f639be5' on the CMakeLists ([6cfcf08](https://github.com/jmuelbert/jmbde-QT/commit/6cfcf08))
+- Go back to the august 2019. ([3e51fe6](https://github.com/jmuelbert/jmbde-QT/commit/3e51fe6))
+- Improve appveyor.yml. ([cf1cd80](https://github.com/jmuelbert/jmbde-QT/commit/cf1cd80))
+- Include KDE-ECM ([08ee5a4](https://github.com/jmuelbert/jmbde-QT/commit/08ee5a4))
+- Integrate vcpkg in appveyor windows build. ([663b0ca](https://github.com/jmuelbert/jmbde-QT/commit/663b0ca))
+- little corrections in some files ([f5401fc](https://github.com/jmuelbert/jmbde-QT/commit/f5401fc))
+- little corrections. reformat with clang-format ([c05c3f4](https://github.com/jmuelbert/jmbde-QT/commit/c05c3f4))
+- Make a lib for all except then main.cpp functions. ([94ee854](https://github.com/jmuelbert/jmbde-QT/commit/94ee854))
+- Make jmbde and jmbdequick more seperate. ([6e4474d](https://github.com/jmuelbert/jmbde-QT/commit/6e4474d))
+- Many little corrections on CMakeLists.txt ([df9936a](https://github.com/jmuelbert/jmbde-QT/commit/df9936a))
+- Move jmbdequick to examples ([4846d3f](https://github.com/jmuelbert/jmbde-QT/commit/4846d3f))
+- Move winbuild to mingw (temporarly). ([a3da991](https://github.com/jmuelbert/jmbde-QT/commit/a3da991))
+- prepare to own libs for datacontext and widgets-ui. ([c0725dd](https://github.com/jmuelbert/jmbde-QT/commit/c0725dd))
+- Remove an error from appveyor.yml ([a0667b2](https://github.com/jmuelbert/jmbde-QT/commit/a0667b2))
+- Remove an error in app/CMakeLists. ([9a73cf7](https://github.com/jmuelbert/jmbde-QT/commit/9a73cf7))
+- Remove an error in cpack(linux) update appveyor ([a3c21e0](https://github.com/jmuelbert/jmbde-QT/commit/a3c21e0))
+- Remove an format error in the windows part of appveyor. ([ac96b29](https://github.com/jmuelbert/jmbde-QT/commit/ac96b29))
+- Remove copy licenses on windows and linux. just now. ([37f4330](https://github.com/jmuelbert/jmbde-QT/commit/37f4330))
+- remove error from appveyor.yml ([d2153b6](https://github.com/jmuelbert/jmbde-QT/commit/d2153b6))
+- Remove error from appveyor.yml. Improve Changelog and news ([70cdffb](https://github.com/jmuelbert/jmbde-QT/commit/70cdffb))
+- Remove error from distribute.qbs ([b17cc12](https://github.com/jmuelbert/jmbde-QT/commit/b17cc12))
+- Remove error from jmbde.qbs (root) ([ec9a8fc](https://github.com/jmuelbert/jmbde-QT/commit/ec9a8fc))
+- remove error in travis.yml ([9229d69](https://github.com/jmuelbert/jmbde-QT/commit/9229d69))
+- Remove error in travis.yml and auto-qml.qbs ([8fe3cc6](https://github.com/jmuelbert/jmbde-QT/commit/8fe3cc6))
+- Remove errors from appveyor ([23fb00e](https://github.com/jmuelbert/jmbde-QT/commit/23fb00e))
+- Remove errors from appveyor and travis-ci ([41b184c](https://github.com/jmuelbert/jmbde-QT/commit/41b184c))
+- Remove errors from build to widgets lib. ([f10c7cf](https://github.com/jmuelbert/jmbde-QT/commit/f10c7cf))
+- Remove errror from jmbde.qbs. ([9df3584](https://github.com/jmuelbert/jmbde-QT/commit/9df3584))
+- Remove jmbde_common ([2b56054](https://github.com/jmuelbert/jmbde-QT/commit/2b56054))
+- Remove linthub.yml, update README.md and installer.iss ([52acf58](https://github.com/jmuelbert/jmbde-QT/commit/52acf58))
+- Remove next error from cpack. ([2b2b541](https://github.com/jmuelbert/jmbde-QT/commit/2b2b541))
+- Remove public h-files on widgets-libs. ([19dbb0d](https://github.com/jmuelbert/jmbde-QT/commit/19dbb0d))
+- Remove Q_OBJECT Macro from all models headers. ([3bf476a](https://github.com/jmuelbert/jmbde-QT/commit/3bf476a))
+- remove rev-list in travis. crashes on releases. ([56d09d5](https://github.com/jmuelbert/jmbde-QT/commit/56d09d5))
+- remove skip_tags from appveyor.yml ([9159796](https://github.com/jmuelbert/jmbde-QT/commit/9159796))
+- Remove temp app/CMakeLists.txt ([d34b268](https://github.com/jmuelbert/jmbde-QT/commit/d34b268))
+- Remove test for windows in appveyor. ([0b1b713](https://github.com/jmuelbert/jmbde-QT/commit/0b1b713))
+- Remove test for windows in appveyor. ([24fa005](https://github.com/jmuelbert/jmbde-QT/commit/24fa005))
+- Remove the licensefile from iss-file. ([d8819f1](https://github.com/jmuelbert/jmbde-QT/commit/d8819f1))
+- Remove the toolchain for vcpkg. there are no libs... ([721cf3f](https://github.com/jmuelbert/jmbde-QT/commit/721cf3f))
+- Remove vcvarsall in appveyor commented out. ([4ae6b80](https://github.com/jmuelbert/jmbde-QT/commit/4ae6b80))
+- Remove Win_build. Update appveyor and travis. Build for mac and linux going to green. ([13140a1](https://github.com/jmuelbert/jmbde-QT/commit/13140a1))
+- Remove windows ecm from git, use vcpkg for now. ([246924b](https://github.com/jmuelbert/jmbde-QT/commit/246924b))
+- rename main.pro to jmbde.pro ([6f4166b](https://github.com/jmuelbert/jmbde-QT/commit/6f4166b))
+- Renew token for coverity-scan ([5167092](https://github.com/jmuelbert/jmbde-QT/commit/5167092))
+- resolv lang-error in installer.iss ([40b1352](https://github.com/jmuelbert/jmbde-QT/commit/40b1352))
+- Resolve error in installer.iss ([c91fa49](https://github.com/jmuelbert/jmbde-QT/commit/c91fa49))
+- resolve errors in mainwindow.cpp ([94f4666](https://github.com/jmuelbert/jmbde-QT/commit/94f4666))
+- Rewrite deployment in appveyor.yml ([8a69502](https://github.com/jmuelbert/jmbde-QT/commit/8a69502))
+- Set install target for windows build. ([50a9644](https://github.com/jmuelbert/jmbde-QT/commit/50a9644))
+- set path to qmake in travis.yml ([efaedc4](https://github.com/jmuelbert/jmbde-QT/commit/efaedc4))
+- Set the path to the artifact. ([2c48bdb](https://github.com/jmuelbert/jmbde-QT/commit/2c48bdb))
+- Solve an Error in installer.iss ([6cd47e1](https://github.com/jmuelbert/jmbde-QT/commit/6cd47e1))
+- solve error in appveyor.yml ([2ead43a](https://github.com/jmuelbert/jmbde-QT/commit/2ead43a))
+- Solve error in appveyor.yml ([f64933a](https://github.com/jmuelbert/jmbde-QT/commit/f64933a))
+- solve error in appveyor.yml and travis.yml ([d7bc540](https://github.com/jmuelbert/jmbde-QT/commit/d7bc540))
+- solve error in installer.iss ([ddf98eb](https://github.com/jmuelbert/jmbde-QT/commit/ddf98eb))
+- solve error in libjmbde-src.pri ([b5afa6a](https://github.com/jmuelbert/jmbde-QT/commit/b5afa6a))
+- solve error in libjmbde-src.pri ([f34c157](https://github.com/jmuelbert/jmbde-QT/commit/f34c157))
+- solve errors in \*.pro files. ([f5bc9fd](https://github.com/jmuelbert/jmbde-QT/commit/f5bc9fd))
+- solve errors in \*.pro files. ([b76978d](https://github.com/jmuelbert/jmbde-QT/commit/b76978d))
+- Solve errors in appveyor.yml ([be76a6d](https://github.com/jmuelbert/jmbde-QT/commit/be76a6d))
+- Solve errors in installer.iss ([2c0c8d7](https://github.com/jmuelbert/jmbde-QT/commit/2c0c8d7))
+- Solve Errors in installer.iss ([852ada8](https://github.com/jmuelbert/jmbde-QT/commit/852ada8))
+- Solve errors in installer.iss update appveyor.yml ([18634ff](https://github.com/jmuelbert/jmbde-QT/commit/18634ff))
+- solve errors in src.pro ([8603df4](https://github.com/jmuelbert/jmbde-QT/commit/8603df4))
+- solve jmbde.pro ([cfd9584](https://github.com/jmuelbert/jmbde-QT/commit/cfd9584))
+- solve little errors in src_main.cpp, quick/mainc.pp and pch.h ([7d3df3d](https://github.com/jmuelbert/jmbde-QT/commit/7d3df3d))
+- test appveyor and travis ([39fb258](https://github.com/jmuelbert/jmbde-QT/commit/39fb258))
+- Travis.yml remove wrog secure ([db7ef75](https://github.com/jmuelbert/jmbde-QT/commit/db7ef75))
+- upate installer.wxs ([d597034](https://github.com/jmuelbert/jmbde-QT/commit/d597034))
+- Update .gitignore, CMakelists.txt. Add Info.plist app_cs.ts ([c7d680c](https://github.com/jmuelbert/jmbde-QT/commit/c7d680c))
+- Update \*.ts files and installer.iss and CMakeLists.txt ([1a95ff0](https://github.com/jmuelbert/jmbde-QT/commit/1a95ff0))
+- Update all files in the models lib. ([de932a5](https://github.com/jmuelbert/jmbde-QT/commit/de932a5))
+- Update api/source documentation ([55c176b](https://github.com/jmuelbert/jmbde-QT/commit/55c176b))
+- Update Appveyor + travis.yml ([1dc4219](https://github.com/jmuelbert/jmbde-QT/commit/1dc4219))
+- Update appveyor build_tags. ([7f8233e](https://github.com/jmuelbert/jmbde-QT/commit/7f8233e))
+- Update appveyor, travis, CMakeLists and Api Docs ([2149377](https://github.com/jmuelbert/jmbde-QT/commit/2149377))
+- update Appveyor.ym ([0722942](https://github.com/jmuelbert/jmbde-QT/commit/0722942))
+- update appveyor.yml ([daeab8b](https://github.com/jmuelbert/jmbde-QT/commit/daeab8b))
+- update appveyor.yml ([4368eaf](https://github.com/jmuelbert/jmbde-QT/commit/4368eaf))
+- update appveyor.yml ([9a1281d](https://github.com/jmuelbert/jmbde-QT/commit/9a1281d))
+- update appveyor.yml ([d70cb53](https://github.com/jmuelbert/jmbde-QT/commit/d70cb53))
+- Update appveyor.yml ([3b83ccf](https://github.com/jmuelbert/jmbde-QT/commit/3b83ccf))
+- Update appveyor.yml ([922e347](https://github.com/jmuelbert/jmbde-QT/commit/922e347))
+- Update appveyor.yml ([66c4d51](https://github.com/jmuelbert/jmbde-QT/commit/66c4d51))
+- Update appveyor.yml ([97c2116](https://github.com/jmuelbert/jmbde-QT/commit/97c2116))
+- Update appveyor.yml ([84b5ab5](https://github.com/jmuelbert/jmbde-QT/commit/84b5ab5))
+- Update appveyor.yml ([e1e1def](https://github.com/jmuelbert/jmbde-QT/commit/e1e1def))
+- Update appveyor.yml ([3e88ad8](https://github.com/jmuelbert/jmbde-QT/commit/3e88ad8))
+- Update appveyor.yml ([dc3e5be](https://github.com/jmuelbert/jmbde-QT/commit/dc3e5be))
+- Update appveyor.yml ([cefe491](https://github.com/jmuelbert/jmbde-QT/commit/cefe491))
+- Update appveyor.yml ([0526b0d](https://github.com/jmuelbert/jmbde-QT/commit/0526b0d))
+- Update appveyor.yml ([9737ce8](https://github.com/jmuelbert/jmbde-QT/commit/9737ce8))
+- Update appveyor.yml ([346df8c](https://github.com/jmuelbert/jmbde-QT/commit/346df8c))
+- Update appveyor.yml ([d2c478a](https://github.com/jmuelbert/jmbde-QT/commit/d2c478a))
+- Update appveyor.yml ([0ad3252](https://github.com/jmuelbert/jmbde-QT/commit/0ad3252))
+- Update appveyor.yml ([656bdff](https://github.com/jmuelbert/jmbde-QT/commit/656bdff))
+- Update appveyor.yml ([a376089](https://github.com/jmuelbert/jmbde-QT/commit/a376089))
+- Update appveyor.yml ([16c3039](https://github.com/jmuelbert/jmbde-QT/commit/16c3039))
+- Update appveyor.yml ([f93be16](https://github.com/jmuelbert/jmbde-QT/commit/f93be16))
+- Update appveyor.yml ([e098c4c](https://github.com/jmuelbert/jmbde-QT/commit/e098c4c))
+- Update Appveyor.yml ([6f90631](https://github.com/jmuelbert/jmbde-QT/commit/6f90631))
+- Update Appveyor.yml ([5ff2cdc](https://github.com/jmuelbert/jmbde-QT/commit/5ff2cdc))
+- Update Appveyor.yml ([d5c40b9](https://github.com/jmuelbert/jmbde-QT/commit/d5c40b9))
+- Update appveyor.yml and installer.iss ([aa7bb5b](https://github.com/jmuelbert/jmbde-QT/commit/aa7bb5b))
+- Update appveyor.yml and installer.iss ([ee269fb](https://github.com/jmuelbert/jmbde-QT/commit/ee269fb))
+- Update appveyor.yml distribute.qbs ([f859dd4](https://github.com/jmuelbert/jmbde-QT/commit/f859dd4))
+- Update appveyor.yml distribute.qbs ([2b17d37](https://github.com/jmuelbert/jmbde-QT/commit/2b17d37))
+- Update appveyor.yml for linux ([1b1d541](https://github.com/jmuelbert/jmbde-QT/commit/1b1d541))
+- update appveyor.yml installer.wxs ([50ef360](https://github.com/jmuelbert/jmbde-QT/commit/50ef360))
+- Update appveyor.yml, installer.wxs and auto-qml.qbs ([bf15281](https://github.com/jmuelbert/jmbde-QT/commit/bf15281))
+- Update build.bat. Remove cpack from linux appveyor. ([e299c02](https://github.com/jmuelbert/jmbde-QT/commit/e299c02))
+- Update CMakeLists.txt, add comments in some classes. ([9a94377](https://github.com/jmuelbert/jmbde-QT/commit/9a94377))
+- Update comments and travis.yml ([7cea625](https://github.com/jmuelbert/jmbde-QT/commit/7cea625))
+- update deploy in appveyor.yml ([baf36d4](https://github.com/jmuelbert/jmbde-QT/commit/baf36d4))
+- Update Input.dialogs and readme.md ([1e12148](https://github.com/jmuelbert/jmbde-QT/commit/1e12148))
+- update installer (qbs and wxs) ([2c99f92](https://github.com/jmuelbert/jmbde-QT/commit/2c99f92))
+- Update installer for vcredist ([5a814c3](https://github.com/jmuelbert/jmbde-QT/commit/5a814c3))
+- Update installer for windows ([896f2dc](https://github.com/jmuelbert/jmbde-QT/commit/896f2dc))
+- Update installer.iss ([2275d18](https://github.com/jmuelbert/jmbde-QT/commit/2275d18))
+- Update installer.iss ([88faad0](https://github.com/jmuelbert/jmbde-QT/commit/88faad0))
+- Update installer.iss (\*.qm)-names ([04aff26](https://github.com/jmuelbert/jmbde-QT/commit/04aff26))
+- Update installer.iss remove an ts-file ([070a65c](https://github.com/jmuelbert/jmbde-QT/commit/070a65c))
+- Update installer.iss remove lt.tss ([5b97fbf](https://github.com/jmuelbert/jmbde-QT/commit/5b97fbf))
+- update installer.wxs ([dbb619d](https://github.com/jmuelbert/jmbde-QT/commit/dbb619d))
+- Update installer.wxs ([d781bcb](https://github.com/jmuelbert/jmbde-QT/commit/d781bcb))
+- Update installer.wxs ([75b4d2c](https://github.com/jmuelbert/jmbde-QT/commit/75b4d2c))
+- Update installer.wxs ([a3a6a1c](https://github.com/jmuelbert/jmbde-QT/commit/a3a6a1c))
+- Update Installer.wxs ([d3c8b2a](https://github.com/jmuelbert/jmbde-QT/commit/d3c8b2a))
+- Update issue templates ([804bd4d](https://github.com/jmuelbert/jmbde-QT/commit/804bd4d))
+- Update jmbde.pro ([db87714](https://github.com/jmuelbert/jmbde-QT/commit/db87714))
+- Update jmbde.qbs ([8d3e6c8](https://github.com/jmuelbert/jmbde-QT/commit/8d3e6c8))
+- update last step in appveyor for linux ([06fdafe](https://github.com/jmuelbert/jmbde-QT/commit/06fdafe))
+- Update libjmbde.qbs ([e5ddbb1](https://github.com/jmuelbert/jmbde-QT/commit/e5ddbb1))
+- Update linux in appveyor.yml ([0943f87](https://github.com/jmuelbert/jmbde-QT/commit/0943f87))
+- Update linuxdeploy.sh ([ad8c4a7](https://github.com/jmuelbert/jmbde-QT/commit/ad8c4a7))
+- update linuxdeployqt.sh ([1816813](https://github.com/jmuelbert/jmbde-QT/commit/1816813))
+- Update main.cpp Appveyor.yml travis.yml ([ae9d0f1](https://github.com/jmuelbert/jmbde-QT/commit/ae9d0f1))
+- Update mainwindow.ui and code ([f9a0e3b](https://github.com/jmuelbert/jmbde-QT/commit/f9a0e3b))
+- Update mainwindow.ui, remove error from distribute.qbs ([82e494e](https://github.com/jmuelbert/jmbde-QT/commit/82e494e))
+- Update models headers... ([ef6ad93](https://github.com/jmuelbert/jmbde-QT/commit/ef6ad93))
+- update setup-qbs ([1d0ae41](https://github.com/jmuelbert/jmbde-QT/commit/1d0ae41))
+- Update the linux build. remove errors. ([9a95cad](https://github.com/jmuelbert/jmbde-QT/commit/9a95cad))
+- Update travis.yml ([beb0f26](https://github.com/jmuelbert/jmbde-QT/commit/beb0f26))
+- Update travis.yml ([abc5d32](https://github.com/jmuelbert/jmbde-QT/commit/abc5d32))
+- Update travis.yml ([74b3fb3](https://github.com/jmuelbert/jmbde-QT/commit/74b3fb3))
+- Update travis.yml ([29e82db](https://github.com/jmuelbert/jmbde-QT/commit/29e82db))
+- Update travis.yml and appveyor.yml ([e4bc17c](https://github.com/jmuelbert/jmbde-QT/commit/e4bc17c))
+- Update travis.yml and some qbs files. ([3f21b9a](https://github.com/jmuelbert/jmbde-QT/commit/3f21b9a))
+- update travis.yml appveyor.yml ([904116a](https://github.com/jmuelbert/jmbde-QT/commit/904116a))
+- Update travis.yml appveyor.yml ([568e429](https://github.com/jmuelbert/jmbde-QT/commit/568e429))
+- Update travis.yml for repair tests ([f46d399](https://github.com/jmuelbert/jmbde-QT/commit/f46d399))
+- Update travis.yml installer.wxs ([4df0084](https://github.com/jmuelbert/jmbde-QT/commit/4df0084))
+- Update travis.yml, modernize some headers ([d007d78](https://github.com/jmuelbert/jmbde-QT/commit/d007d78))
+- Update travis.yml., reformat some files ([9b1b4e7](https://github.com/jmuelbert/jmbde-QT/commit/9b1b4e7))
+- update vcredist files ([13c8aa0](https://github.com/jmuelbert/jmbde-QT/commit/13c8aa0))
+- Update windows installer ([033d52d](https://github.com/jmuelbert/jmbde-QT/commit/033d52d))
+- Update Windows installer ([2a11a96](https://github.com/jmuelbert/jmbde-QT/commit/2a11a96))
+- Update windows-installer... ([011a5fa](https://github.com/jmuelbert/jmbde-QT/commit/011a5fa))
+- Upgrade travis.yml and appveyor.yml ([fe6b940](https://github.com/jmuelbert/jmbde-QT/commit/fe6b940))
+- yet all model classes with api-docs ([5c3150b](https://github.com/jmuelbert/jmbde-QT/commit/5c3150b))
+
+## <small>0.4.7 (2018-11-21)</small>
+
+- - New Database structure ([ec5d351](https://github.com/jmuelbert/jmbde-QT/commit/ec5d351))
+- Add arch for candle in appveyor.yml ([8074a17](https://github.com/jmuelbert/jmbde-QT/commit/8074a17))
+- Add autoresize for splittview. And correct the employee listview. ([fc4907a](https://github.com/jmuelbert/jmbde-QT/commit/fc4907a))
+- Add build-qbs to .travis.yml ([2154295](https://github.com/jmuelbert/jmbde-QT/commit/2154295))
+- add choco install 7zip ([62e30cf](https://github.com/jmuelbert/jmbde-QT/commit/62e30cf))
+- add choco install for sed and nsis ([dbfa84f](https://github.com/jmuelbert/jmbde-QT/commit/dbfa84f))
+- Add CMake ([215a3d7](https://github.com/jmuelbert/jmbde-QT/commit/215a3d7))
+- Add CODECOV_TOKEN to travis.yml ([5442de3](https://github.com/jmuelbert/jmbde-QT/commit/5442de3))
+- Add codecov. ([edd7fb2](https://github.com/jmuelbert/jmbde-QT/commit/edd7fb2))
+- Add Diagram for Database.Minor corrections. Update Copyright. ([0bcf36d](https://github.com/jmuelbert/jmbde-QT/commit/0bcf36d))
+- Add jmbde.icns ([2b2add2](https://github.com/jmuelbert/jmbde-QT/commit/2b2add2))
+- Add jmbde.svg. ([b652a8e](https://github.com/jmuelbert/jmbde-QT/commit/b652a8e))
+- Add many GUI Elements for Input... ([0270b5c](https://github.com/jmuelbert/jmbde-QT/commit/0270b5c))
+- Add Method for add phone for new employee ([dec6ebd](https://github.com/jmuelbert/jmbde-QT/commit/dec6ebd))
+- Add missed END in jmbde.rc.in ([2e4db8c](https://github.com/jmuelbert/jmbde-QT/commit/2e4db8c))
+- Add missing batches for appvoyer.yml ([ad891bb](https://github.com/jmuelbert/jmbde-QT/commit/ad891bb))
+- Add Modell Classes. View all Classes in the Listbox ([d6edc00](https://github.com/jmuelbert/jmbde-QT/commit/d6edc00))
+- add outname for light.exe ([1789807](https://github.com/jmuelbert/jmbde-QT/commit/1789807))
+- Add qbs build system. Change Copyright Header. ([457b570](https://github.com/jmuelbert/jmbde-QT/commit/457b570))
+- Add qbs to .travis.yml ([d108b8f](https://github.com/jmuelbert/jmbde-QT/commit/d108b8f))
+- Add QtIFW Installer ([9f45d0c](https://github.com/jmuelbert/jmbde-QT/commit/9f45d0c))
+- Add QtLogger to Lib. ([da610fd](https://github.com/jmuelbert/jmbde-QT/commit/da610fd))
+- Add secure key to travis.yml. Make build runs ([deb49b3](https://github.com/jmuelbert/jmbde-QT/commit/deb49b3))
+- Add the HelpBrowser, improve the source. ([7dc3dda](https://github.com/jmuelbert/jmbde-QT/commit/7dc3dda))
+- Add the last missing gui elements for this version. ([cbb338a](https://github.com/jmuelbert/jmbde-QT/commit/cbb338a))
+- Add the path to wix in appveyor.yml ([1daa165](https://github.com/jmuelbert/jmbde-QT/commit/1daa165))
+- Add travis.yml ([24a39a4](https://github.com/jmuelbert/jmbde-QT/commit/24a39a4))
+- Add update travs.yml. ([b9c817b](https://github.com/jmuelbert/jmbde-QT/commit/b9c817b))
+- Add update travs.yml. ([aeba590](https://github.com/jmuelbert/jmbde-QT/commit/aeba590))
+- add windowsqt to appveyor.yml ([c60b73d](https://github.com/jmuelbert/jmbde-QT/commit/c60b73d))
+- Add Wix to image... ([b8ec7e8](https://github.com/jmuelbert/jmbde-QT/commit/b8ec7e8))
+- Adjustments for QT5.8 ([0ec5967](https://github.com/jmuelbert/jmbde-QT/commit/0ec5967))
+- appveyor.yml remove ubuntu for now ([c39c200](https://github.com/jmuelbert/jmbde-QT/commit/c39c200))
+- Began Add Help ([f7e2ac6](https://github.com/jmuelbert/jmbde-QT/commit/f7e2ac6))
+- Change .gitignore and add jmbde.rc ([8b76eaa](https://github.com/jmuelbert/jmbde-QT/commit/8b76eaa))
+- Change and Update UI plus Database ([27d4e7f](https://github.com/jmuelbert/jmbde-QT/commit/27d4e7f))
+- Change appveyor.yml ([31f77b4](https://github.com/jmuelbert/jmbde-QT/commit/31f77b4))
+- Change build, appveyor and travis ([d338335](https://github.com/jmuelbert/jmbde-QT/commit/d338335))
+- Change chocolateinstall.ps1 ([3c1de1d](https://github.com/jmuelbert/jmbde-QT/commit/3c1de1d))
+- Change DB Creation Step.1 ([45984bb](https://github.com/jmuelbert/jmbde-QT/commit/45984bb))
+- Change g++ options in build_opts.pri. ([1cdd6bd](https://github.com/jmuelbert/jmbde-QT/commit/1cdd6bd))
+- Change Input Dialog Handling ([a9cbbc6](https://github.com/jmuelbert/jmbde-QT/commit/a9cbbc6))
+- Change Inputdialog Handling. ([82a40f9](https://github.com/jmuelbert/jmbde-QT/commit/82a40f9))
+- change install mac and linux for debug. change appname to jmbde. ([d1ee253](https://github.com/jmuelbert/jmbde-QT/commit/d1ee253))
+- Change mac qt package -> 5.11.2 in travis.yml. ([15b0e7a](https://github.com/jmuelbert/jmbde-QT/commit/15b0e7a))
+- Change project structure and QTIFW_Installer ([932ad77](https://github.com/jmuelbert/jmbde-QT/commit/932ad77))
+- Change Project-Structure. Change Deploy, ([76d3d2d](https://github.com/jmuelbert/jmbde-QT/commit/76d3d2d))
+- Change README.md ([23509c1](https://github.com/jmuelbert/jmbde-QT/commit/23509c1))
+- Change scripts. Change travis and change appveyor. ([28fa600](https://github.com/jmuelbert/jmbde-QT/commit/28fa600))
+- Change take the right qt-version for the codecov part of .travis.yml ([28e9bf0](https://github.com/jmuelbert/jmbde-QT/commit/28e9bf0))
+- change the c++ Version to c++14 ([6a5b7d4](https://github.com/jmuelbert/jmbde-QT/commit/6a5b7d4))
+- Change the codecov part of .travis.yml ([11448d7](https://github.com/jmuelbert/jmbde-QT/commit/11448d7))
+- Change the connections in mainwindow.cpp. ([0273d33](https://github.com/jmuelbert/jmbde-QT/commit/0273d33))
+- Change the cpp.cxxLanguageVersion: from c++14 to c++11 ([4ef9b60](https://github.com/jmuelbert/jmbde-QT/commit/4ef9b60))
+- Change the ICONS. Update Copyright (years). ([d1173be](https://github.com/jmuelbert/jmbde-QT/commit/d1173be))
+- Change the Index for DB in Employee ([19afb53](https://github.com/jmuelbert/jmbde-QT/commit/19afb53))
+- Change the ProgId. Change the lib. Try create an Windows Installer ([813fee7](https://github.com/jmuelbert/jmbde-QT/commit/813fee7))
+- Change the ProgId. Change the Lib. Try create an Windows Installer ([9dda31e](https://github.com/jmuelbert/jmbde-QT/commit/9dda31e))
+- Change to qbs. ([97f607b](https://github.com/jmuelbert/jmbde-QT/commit/97f607b))
+- Change Translations. ([580ce55](https://github.com/jmuelbert/jmbde-QT/commit/580ce55))
+- changed to treeview selector ([aa6d9f1](https://github.com/jmuelbert/jmbde-QT/commit/aa6d9f1))
+- Changes in \*.pro files ([36d67e4](https://github.com/jmuelbert/jmbde-QT/commit/36d67e4))
+- Changes to develop ([09cdb32](https://github.com/jmuelbert/jmbde-QT/commit/09cdb32))
+- Comment the Error line out ([27fd2f0](https://github.com/jmuelbert/jmbde-QT/commit/27fd2f0))
+- Complete travis.yml ([139ec24](https://github.com/jmuelbert/jmbde-QT/commit/139ec24))
+- Complete UI for Employee ([df7e9a6](https://github.com/jmuelbert/jmbde-QT/commit/df7e9a6))
+- Correct appveyor-install-win.ps1 ([e5d60d6](https://github.com/jmuelbert/jmbde-QT/commit/e5d60d6))
+- Correct appveyor.yml and datamodel.cpp ([c743584](https://github.com/jmuelbert/jmbde-QT/commit/c743584))
+- Correct appveyor.yml and jmbde.qbs ([83ccfac](https://github.com/jmuelbert/jmbde-QT/commit/83ccfac))
+- Correct appveyor.yml and libs/datacontext ([b496d49](https://github.com/jmuelbert/jmbde-QT/commit/b496d49))
+- Correct distribute.qbs ([ca90ffc](https://github.com/jmuelbert/jmbde-QT/commit/ca90ffc))
+- Correct Erros in fixup-install-names.rb. ([29ff48e](https://github.com/jmuelbert/jmbde-QT/commit/29ff48e))
+- Correct filename in jmbde.qrc. ([611975f](https://github.com/jmuelbert/jmbde-QT/commit/611975f))
+- Correct lib ([038364f](https://github.com/jmuelbert/jmbde-QT/commit/038364f))
+- Correct names of linux app info files. Add ls in travis.build for debug. ([1b98e9f](https://github.com/jmuelbert/jmbde-QT/commit/1b98e9f))
+- correct the filename libjmbde.pro ([85a5ab8](https://github.com/jmuelbert/jmbde-QT/commit/85a5ab8))
+- create an installer. cleanup the project structure. ([6fc31a4](https://github.com/jmuelbert/jmbde-QT/commit/6fc31a4))
+- Create consistent DataModell Classes. ([fb90e9e](https://github.com/jmuelbert/jmbde-QT/commit/fb90e9e))
+- Create DB with QSql DDL Step.1 ([cfbc941](https://github.com/jmuelbert/jmbde-QT/commit/cfbc941))
+- Create full QBS Support und the first test. This version don't run ([92ac97d](https://github.com/jmuelbert/jmbde-QT/commit/92ac97d))
+- Create gh-pages branch via GitHub ([24fef52](https://github.com/jmuelbert/jmbde-QT/commit/24fef52))
+- Create gh-pages branch via GitHub ([854b6c2](https://github.com/jmuelbert/jmbde-QT/commit/854b6c2))
+- Create gh-pages branch via GitHub ([62a1ee8](https://github.com/jmuelbert/jmbde-QT/commit/62a1ee8))
+- Create gh-pages branch via GitHub ([2f113b9](https://github.com/jmuelbert/jmbde-QT/commit/2f113b9))
+- Create installer WiX with script. ([01fc3c1](https://github.com/jmuelbert/jmbde-QT/commit/01fc3c1))
+- Create LICENS ([bceac7f](https://github.com/jmuelbert/jmbde-QT/commit/bceac7f))
+- Create License ([69c624f](https://github.com/jmuelbert/jmbde-QT/commit/69c624f))
+- Create license.txt ([74ff05e](https://github.com/jmuelbert/jmbde-QT/commit/74ff05e))
+- Create README ([491ed66](https://github.com/jmuelbert/jmbde-QT/commit/491ed66))
+- Create WiX-Installer ([c8b42bf](https://github.com/jmuelbert/jmbde-QT/commit/c8b42bf))
+- datamodel.cpp ([2fe2035](https://github.com/jmuelbert/jmbde-QT/commit/2fe2035))
+- debug again... ([de1b1bd](https://github.com/jmuelbert/jmbde-QT/commit/de1b1bd))
+- Debug travis.yml ([75992d2](https://github.com/jmuelbert/jmbde-QT/commit/75992d2))
+- debug.. ([24ae288](https://github.com/jmuelbert/jmbde-QT/commit/24ae288))
+- Delete \_config.yml ([352c62b](https://github.com/jmuelbert/jmbde-QT/commit/352c62b))
+- Delete index.html ([49e9554](https://github.com/jmuelbert/jmbde-QT/commit/49e9554))
+- Delete index.md ([1776289](https://github.com/jmuelbert/jmbde-QT/commit/1776289))
+- Delete LICENS ([9df8e3d](https://github.com/jmuelbert/jmbde-QT/commit/9df8e3d))
+- Delete README, must be README.md ([5fb821f](https://github.com/jmuelbert/jmbde-QT/commit/5fb821f))
+- enable qmake for windows ([133c680](https://github.com/jmuelbert/jmbde-QT/commit/133c680))
+- Enable qt autotest. ([8c059f8](https://github.com/jmuelbert/jmbde-QT/commit/8c059f8))
+- extend appveyor.yml ([ead8c2c](https://github.com/jmuelbert/jmbde-QT/commit/ead8c2c))
+- extend appveyor.yml and datacontext.h ([87a8063](https://github.com/jmuelbert/jmbde-QT/commit/87a8063))
+- Finish the DB Creation ([13640c0](https://github.com/jmuelbert/jmbde-QT/commit/13640c0))
+- Finish the employee input dialog ([ebb8aa4](https://github.com/jmuelbert/jmbde-QT/commit/ebb8aa4))
+- Finsh the employee input dialog. ([87ce15a](https://github.com/jmuelbert/jmbde-QT/commit/87ce15a))
+- Fix an Error in app.qbs ([54a06e5](https://github.com/jmuelbert/jmbde-QT/commit/54a06e5))
+- Fix an Error in app.qdoc and app-project.qdocconf ([cc2ceb7](https://github.com/jmuelbert/jmbde-QT/commit/cc2ceb7))
+- Fix an Error in appveyor.yml ([aa029d0](https://github.com/jmuelbert/jmbde-QT/commit/aa029d0))
+- Fix an Error in installer.qbs ([37e1783](https://github.com/jmuelbert/jmbde-QT/commit/37e1783))
+- Fix an Error in installer.qbs. Add the missing NEWS.md ([7cf9c03](https://github.com/jmuelbert/jmbde-QT/commit/7cf9c03))
+- Fix an Errors in README.md chocolatey.qbs and jmbde.nuspec. ([037c38b](https://github.com/jmuelbert/jmbde-QT/commit/037c38b))
+- Format code with clang-format. ([120991f](https://github.com/jmuelbert/jmbde-QT/commit/120991f))
+- Great rewrite... ([5b14175](https://github.com/jmuelbert/jmbde-QT/commit/5b14175))
+- Improve .travis.yml ([dbcd08c](https://github.com/jmuelbert/jmbde-QT/commit/dbcd08c))
+- improve appveyor-build-win.ps1 ([108e988](https://github.com/jmuelbert/jmbde-QT/commit/108e988))
+- improve build scripts ([d190a38](https://github.com/jmuelbert/jmbde-QT/commit/d190a38))
+- Improve GUI. Repair Installer on Mac ([8daa862](https://github.com/jmuelbert/jmbde-QT/commit/8daa862))
+- Improve translations.pro. ([e9b3788](https://github.com/jmuelbert/jmbde-QT/commit/e9b3788))
+- Improve travis.yml ([28b2a3e](https://github.com/jmuelbert/jmbde-QT/commit/28b2a3e))
+- improve travis.yml and travis-install-linux.sh. ([b3245fe](https://github.com/jmuelbert/jmbde-QT/commit/b3245fe))
+- Initial commot ([c812970](https://github.com/jmuelbert/jmbde-QT/commit/c812970))
+- Make all inputareas working. create all translation ts-files. ([329604a](https://github.com/jmuelbert/jmbde-QT/commit/329604a))
+- Make the pack correct for fixup..rb in travis.yml. ([1ce10cf](https://github.com/jmuelbert/jmbde-QT/commit/1ce10cf))
+- Make to compile ([3afb5c2](https://github.com/jmuelbert/jmbde-QT/commit/3afb5c2))
+- Migrate page to Jekyll site on master branch ([ca45614](https://github.com/jmuelbert/jmbde-QT/commit/ca45614))
+- move .appveyor to appveyor ([83bd89e](https://github.com/jmuelbert/jmbde-QT/commit/83bd89e))
+- Move the license text to the right place. ([c7af77d](https://github.com/jmuelbert/jmbde-QT/commit/c7af77d))
+- Out the out filename for light in the right format. ([d087b27](https://github.com/jmuelbert/jmbde-QT/commit/d087b27))
+- packages.qbs ([72c2d7f](https://github.com/jmuelbert/jmbde-QT/commit/72c2d7f))
+- reactivate \*.pro Files. update appveyor and travis ([94d13b6](https://github.com/jmuelbert/jmbde-QT/commit/94d13b6))
+- README.md ([aecba02](https://github.com/jmuelbert/jmbde-QT/commit/aecba02))
+- README.md, appveyor.yml ([e697ce1](https://github.com/jmuelbert/jmbde-QT/commit/e697ce1))
+- README.md, pri/vars.pri ([fd5c653](https://github.com/jmuelbert/jmbde-QT/commit/fd5c653))
+- remove .qtmodules-travis ([c5c9f7a](https://github.com/jmuelbert/jmbde-QT/commit/c5c9f7a))
+- Remove appveyor and travis from README.md. ([6af0d9a](https://github.com/jmuelbert/jmbde-QT/commit/6af0d9a))
+- Remove appveyor.yml without . ([9f074f9](https://github.com/jmuelbert/jmbde-QT/commit/9f074f9))
+- Remove apt qbs ([337f543](https://github.com/jmuelbert/jmbde-QT/commit/337f543))
+- Remove branches on travis.yml ([deb51a1](https://github.com/jmuelbert/jmbde-QT/commit/deb51a1))
+- Remove codecov from travis.yml. ([149d088](https://github.com/jmuelbert/jmbde-QT/commit/149d088))
+- Remove codecov. Update travis.yml, appveyor.yml, jmbde.qbs and datacontaxt.h ([b0a647e](https://github.com/jmuelbert/jmbde-QT/commit/b0a647e))
+- Remove deploy from source. ([9ed9415](https://github.com/jmuelbert/jmbde-QT/commit/9ed9415))
+- Remove error from src/jmbde/jmbde.qbs ([a66533a](https://github.com/jmuelbert/jmbde-QT/commit/a66533a))
+- Remove error from src/jmbde/jmbde.qbs ([a2f3d7a](https://github.com/jmuelbert/jmbde-QT/commit/a2f3d7a))
+- Remove qms ([fedffd7](https://github.com/jmuelbert/jmbde-QT/commit/fedffd7))
+- Remove some windows build errors. ([a9007d6](https://github.com/jmuelbert/jmbde-QT/commit/a9007d6))
+- Remove two dir commands ([894b924](https://github.com/jmuelbert/jmbde-QT/commit/894b924))
+- Remove unused files. Correct CONTRIBUTING ([40fd83f](https://github.com/jmuelbert/jmbde-QT/commit/40fd83f))
+- Remove unused files. Correct CONTRIBUTING ([852d653](https://github.com/jmuelbert/jmbde-QT/commit/852d653))
+- Remove win build errors ([f7c1e63](https://github.com/jmuelbert/jmbde-QT/commit/f7c1e63))
+- rename and upgrade appveyor ([b2e8682](https://github.com/jmuelbert/jmbde-QT/commit/b2e8682))
+- rename the linux desktop file. was a wrong name. ([b655a72](https://github.com/jmuelbert/jmbde-QT/commit/b655a72))
+- Resolve an error by light.exe ([c0a3f42](https://github.com/jmuelbert/jmbde-QT/commit/c0a3f42))
+- Resolve an Error in distribute.qbs ([8dc165c](https://github.com/jmuelbert/jmbde-QT/commit/8dc165c))
+- Resolve buildnumber in appveyor.yml ([d2e92d1](https://github.com/jmuelbert/jmbde-QT/commit/d2e92d1))
+- Resolve error in .travis.yml and installer.wxs. ([e2d3598](https://github.com/jmuelbert/jmbde-QT/commit/e2d3598))
+- Resolve error in appveyor.yml ([b16ae99](https://github.com/jmuelbert/jmbde-QT/commit/b16ae99))
+- Resolve error in appveyor.yml ([51e3b0f](https://github.com/jmuelbert/jmbde-QT/commit/51e3b0f))
+- Resolve error in appveyor.yml ([bb34353](https://github.com/jmuelbert/jmbde-QT/commit/bb34353))
+- Resolve error with version number in appveyor.yml ([b99dee1](https://github.com/jmuelbert/jmbde-QT/commit/b99dee1))
+- Resolve error with version number in appveyor.yml ([367a0d1](https://github.com/jmuelbert/jmbde-QT/commit/367a0d1))
+- Resolve errors in appveyor.yml and in installer.qbs ([5d33d4e](https://github.com/jmuelbert/jmbde-QT/commit/5d33d4e))
+- Resolve errors in distribute.qbs installer.wxs, jmbde.qbs ([89bafa1](https://github.com/jmuelbert/jmbde-QT/commit/89bafa1))
+- Resolve errors in tst_test.cpp ([9277dea](https://github.com/jmuelbert/jmbde-QT/commit/9277dea))
+- Resolve errors in windows build system ([e80315e](https://github.com/jmuelbert/jmbde-QT/commit/e80315e))
+- Resolve if-error in appveyor.yml ([b142f98](https://github.com/jmuelbert/jmbde-QT/commit/b142f98))
+- resolve merge conflicts ([5e835f9](https://github.com/jmuelbert/jmbde-QT/commit/5e835f9))
+- Resolve the bug in datacontext. The db works! ([e684b46](https://github.com/jmuelbert/jmbde-QT/commit/e684b46))
+- Restore the connection to the SQLite DB. Was wrong ([9ca54b7](https://github.com/jmuelbert/jmbde-QT/commit/9ca54b7))
+- Rewrite build system again... ([077bbf8](https://github.com/jmuelbert/jmbde-QT/commit/077bbf8))
+- scripts in git-archive ([786cd2c](https://github.com/jmuelbert/jmbde-QT/commit/786cd2c))
+- Search for \*.msi ([dfc9a55](https://github.com/jmuelbert/jmbde-QT/commit/dfc9a55))
+- Set the license in NSISdefinitions.nsh.in. ([bb65cf5](https://github.com/jmuelbert/jmbde-QT/commit/bb65cf5))
+- Set theme jekyll-theme-cayman and migrate Page Generator content ([c8ff787](https://github.com/jmuelbert/jmbde-QT/commit/c8ff787))
+- set x-flag for setup-qbs.sh ([c4affb1](https://github.com/jmuelbert/jmbde-QT/commit/c4affb1))
+- Solve Error in appveyor.yml ([3ffb49f](https://github.com/jmuelbert/jmbde-QT/commit/3ffb49f))
+- Solve error in jmbde.qbs ([fbf38a0](https://github.com/jmuelbert/jmbde-QT/commit/fbf38a0))
+- Test Dir again. ([baecbeb](https://github.com/jmuelbert/jmbde-QT/commit/baecbeb))
+- Test Dir... ([3e54a6a](https://github.com/jmuelbert/jmbde-QT/commit/3e54a6a))
+- Test MSVC Dir! ([4ea9a1f](https://github.com/jmuelbert/jmbde-QT/commit/4ea9a1f))
+- Test with Win64 and wrote ISS Installscript ([9737d74](https://github.com/jmuelbert/jmbde-QT/commit/9737d74))
+- The Lib is functional. 1st Version ([497b0c7](https://github.com/jmuelbert/jmbde-QT/commit/497b0c7))
+- travis.yml ([4a0fefa](https://github.com/jmuelbert/jmbde-QT/commit/4a0fefa))
+- Update ([7bc0411](https://github.com/jmuelbert/jmbde-QT/commit/7bc0411))
+- Update .appveyor.yml. ([f3efd78](https://github.com/jmuelbert/jmbde-QT/commit/f3efd78))
+- Update .appveyor.yml. ([e45ff59](https://github.com/jmuelbert/jmbde-QT/commit/e45ff59))
+- Update .pro files ([ef3aa82](https://github.com/jmuelbert/jmbde-QT/commit/ef3aa82))
+- update .qbs + update dist ([b531ce5](https://github.com/jmuelbert/jmbde-QT/commit/b531ce5))
+- Update .travis-install-linux.sh ([3d7b3bc](https://github.com/jmuelbert/jmbde-QT/commit/3d7b3bc))
+- Update .travis.yml ([7054f73](https://github.com/jmuelbert/jmbde-QT/commit/7054f73))
+- Update .travis.yml ([fa17232](https://github.com/jmuelbert/jmbde-QT/commit/fa17232))
+- Update .travis.yml ([785da11](https://github.com/jmuelbert/jmbde-QT/commit/785da11))
+- Update app.pro ([622d736](https://github.com/jmuelbert/jmbde-QT/commit/622d736))
+- update appveyor and travis ([d756251](https://github.com/jmuelbert/jmbde-QT/commit/d756251))
+- update appveyor and travis ([5021b39](https://github.com/jmuelbert/jmbde-QT/commit/5021b39))
+- Update appveyor.yml ([e24ec53](https://github.com/jmuelbert/jmbde-QT/commit/e24ec53))
+- Update appveyor.yml and build-msvc.bat ([a81556c](https://github.com/jmuelbert/jmbde-QT/commit/a81556c))
+- Update appveyor.yml secure ([4105c25](https://github.com/jmuelbert/jmbde-QT/commit/4105c25))
+- Update appveyor.yml secure ([eabb7cc](https://github.com/jmuelbert/jmbde-QT/commit/eabb7cc))
+- Update appveyor.yml, .travis.yml, README.md ([3f12796](https://github.com/jmuelbert/jmbde-QT/commit/3f12796))
+- Update appveyor.yml, travis.yml and vars.pri. ([3444f21](https://github.com/jmuelbert/jmbde-QT/commit/3444f21))
+- Update appveyor.yml. ([c38f870](https://github.com/jmuelbert/jmbde-QT/commit/c38f870))
+- Update appveyor.yml. ([9bfbeb9](https://github.com/jmuelbert/jmbde-QT/commit/9bfbeb9))
+- Update auf Q 5.8 and cleaning ([6be10c5](https://github.com/jmuelbert/jmbde-QT/commit/6be10c5))
+- Update auf Qt 5.8 and cleanning ([bc1d0b2](https://github.com/jmuelbert/jmbde-QT/commit/bc1d0b2))
+- Update autotests ([a0be697](https://github.com/jmuelbert/jmbde-QT/commit/a0be697))
+- Update autotests and travis.yml ([b155ae1](https://github.com/jmuelbert/jmbde-QT/commit/b155ae1))
+- Update autotests and travis.yml ([dd1dff1](https://github.com/jmuelbert/jmbde-QT/commit/dd1dff1))
+- Update build system and format some files. ([9dd9f57](https://github.com/jmuelbert/jmbde-QT/commit/9dd9f57))
+- Update build_opts.pri and travis.yml for codecov ([c5f5c6b](https://github.com/jmuelbert/jmbde-QT/commit/c5f5c6b))
+- Update build_opts.pri for codecov ([1055730](https://github.com/jmuelbert/jmbde-QT/commit/1055730))
+- Update build-windows.bat ([d0ab261](https://github.com/jmuelbert/jmbde-QT/commit/d0ab261))
+- Update build-windows.bat ([5daa397](https://github.com/jmuelbert/jmbde-QT/commit/5daa397))
+- Update build-windows.bat ([86f7a9d](https://github.com/jmuelbert/jmbde-QT/commit/86f7a9d))
+- Update buildopts.pri ([98bde9b](https://github.com/jmuelbert/jmbde-QT/commit/98bde9b))
+- Update chipdatamodel and appveyor.yml ([50be41c](https://github.com/jmuelbert/jmbde-QT/commit/50be41c))
+- Update circle.yml, add dist/archive.qbs ([1b3e271](https://github.com/jmuelbert/jmbde-QT/commit/1b3e271))
+- Update correct codecov-url in travis.yml ([4044861](https://github.com/jmuelbert/jmbde-QT/commit/4044861))
+- Update filestructure and build system ([343634f](https://github.com/jmuelbert/jmbde-QT/commit/343634f))
+- Update get_code_cov.sh ([ce9fed1](https://github.com/jmuelbert/jmbde-QT/commit/ce9fed1))
+- Update helpbrowser.h ([349fea2](https://github.com/jmuelbert/jmbde-QT/commit/349fea2))
+- update install.pri ([3bb0653](https://github.com/jmuelbert/jmbde-QT/commit/3bb0653))
+- update invoke 7z.exe ([b7b9800](https://github.com/jmuelbert/jmbde-QT/commit/b7b9800))
+- Update jmbde.pro ([c43d925](https://github.com/jmuelbert/jmbde-QT/commit/c43d925))
+- update jmbde.rc ([a776d76](https://github.com/jmuelbert/jmbde-QT/commit/a776d76))
+- Update jmbde.rc ([f527b0b](https://github.com/jmuelbert/jmbde-QT/commit/f527b0b))
+- Update jmbde.rc ([27eb027](https://github.com/jmuelbert/jmbde-QT/commit/27eb027))
+- Update jmbde.rc ([abae699](https://github.com/jmuelbert/jmbde-QT/commit/abae699))
+- update jmbde.rc and app.pro ([b947614](https://github.com/jmuelbert/jmbde-QT/commit/b947614))
+- update lib-src.pri ([0d90564](https://github.com/jmuelbert/jmbde-QT/commit/0d90564))
+- Update License to EUPL 1.2 ([33cc98c](https://github.com/jmuelbert/jmbde-QT/commit/33cc98c))
+- Update project files add installer innosetuo script. ([eba464e](https://github.com/jmuelbert/jmbde-QT/commit/eba464e))
+- Update README ([dae4d98](https://github.com/jmuelbert/jmbde-QT/commit/dae4d98))
+- Update README.md ([c020e15](https://github.com/jmuelbert/jmbde-QT/commit/c020e15))
+- Update README.md ([b0a6bd9](https://github.com/jmuelbert/jmbde-QT/commit/b0a6bd9))
+- Update README.md, jmbde.qbs ([8166344](https://github.com/jmuelbert/jmbde-QT/commit/8166344))
+- Update README.md. Remove NEWS.md and TODO. ([656233b](https://github.com/jmuelbert/jmbde-QT/commit/656233b))
+- update src/jmbde.pro ([f40fbcb](https://github.com/jmuelbert/jmbde-QT/commit/f40fbcb))
+- update src/jmbde.pro ([5c41e7a](https://github.com/jmuelbert/jmbde-QT/commit/5c41e7a))
+- update src/jmbde.pro ([9a30b37](https://github.com/jmuelbert/jmbde-QT/commit/9a30b37))
+- Update to Version 0.4.0 ([6f099fb](https://github.com/jmuelbert/jmbde-QT/commit/6f099fb))
+- update translation files for jmbde ([5a1d5ce](https://github.com/jmuelbert/jmbde-QT/commit/5a1d5ce))
+- update translation files for jmbde ([ec26718](https://github.com/jmuelbert/jmbde-QT/commit/ec26718))
+- update travis and appveyor. ([5f9e2eb](https://github.com/jmuelbert/jmbde-QT/commit/5f9e2eb))
+- update travis.yml ([32e9091](https://github.com/jmuelbert/jmbde-QT/commit/32e9091))
+- update travis.yml ([aae9819](https://github.com/jmuelbert/jmbde-QT/commit/aae9819))
+- Update travis.yml ([fa30095](https://github.com/jmuelbert/jmbde-QT/commit/fa30095))
+- Update travis.yml ([6df1e45](https://github.com/jmuelbert/jmbde-QT/commit/6df1e45))
+- Update travis.yml ([fa77f40](https://github.com/jmuelbert/jmbde-QT/commit/fa77f40))
+- Update travis.yml ([80746c2](https://github.com/jmuelbert/jmbde-QT/commit/80746c2))
+- Update travis.yml ([b270bbd](https://github.com/jmuelbert/jmbde-QT/commit/b270bbd))
+- Update travis.yml ([da6242c](https://github.com/jmuelbert/jmbde-QT/commit/da6242c))
+- Update travis.yml ([a98f0c1](https://github.com/jmuelbert/jmbde-QT/commit/a98f0c1))
+- Update travis.yml ([6e60db0](https://github.com/jmuelbert/jmbde-QT/commit/6e60db0))
+- Update travis.yml ([dcb6d09](https://github.com/jmuelbert/jmbde-QT/commit/dcb6d09))
+- Update travis.yml and add desktop.in ([fe7e006](https://github.com/jmuelbert/jmbde-QT/commit/fe7e006))
+- Update travis.yml and build-win.ps1 ([57ecf44](https://github.com/jmuelbert/jmbde-QT/commit/57ecf44))
+- Update travis.yml and fixup-install-names.rb ([176e564](https://github.com/jmuelbert/jmbde-QT/commit/176e564))
+- Update Travis.yml and jmbde.qbs ([9e89429](https://github.com/jmuelbert/jmbde-QT/commit/9e89429))
+- Update travis.yml, Add fixup-install-names.rb ([30be28b](https://github.com/jmuelbert/jmbde-QT/commit/30be28b))
+- Update travis.yml, installer.qbs, jmbdeGui..qbs ([e888d4e](https://github.com/jmuelbert/jmbde-QT/commit/e888d4e))
+- update travis.yml, libjmbde.pro and lib-src.pri ([b8b0b38](https://github.com/jmuelbert/jmbde-QT/commit/b8b0b38))
+- Update travis.yml, Update get_code_cov.sh ([4a53bd8](https://github.com/jmuelbert/jmbde-QT/commit/4a53bd8))
+- Update travis.yml. Add tests/tests.pro ([ac9b9b0](https://github.com/jmuelbert/jmbde-QT/commit/ac9b9b0))
+- Update travis.yml. Add tests/tests.pro ([d271331](https://github.com/jmuelbert/jmbde-QT/commit/d271331))
+- Update UI and Database ([5e29aba](https://github.com/jmuelbert/jmbde-QT/commit/5e29aba))
+- update win/git-setup.sh and src/src.pro ([351c529](https://github.com/jmuelbert/jmbde-QT/commit/351c529))
+- update win/setup.bat ([7c0d86f](https://github.com/jmuelbert/jmbde-QT/commit/7c0d86f))
+- Upgrade .travis.yml for linux. ([db73e6f](https://github.com/jmuelbert/jmbde-QT/commit/db73e6f))
+- upgrade appveyor-prepare-win.psq ([c506f20](https://github.com/jmuelbert/jmbde-QT/commit/c506f20))
+- Upgrade build system. ([9eb7e61](https://github.com/jmuelbert/jmbde-QT/commit/9eb7e61))
+- Upgrade build system. ([ae272eb](https://github.com/jmuelbert/jmbde-QT/commit/ae272eb))
+- Upgrade build system. ([4d80930](https://github.com/jmuelbert/jmbde-QT/commit/4d80930))
+- Upgrade ISS-File ([994d992](https://github.com/jmuelbert/jmbde-QT/commit/994d992))
+- Use qbs as build system. ([3c09a41](https://github.com/jmuelbert/jmbde-QT/commit/3c09a41))
+- Version 0.4.9. Add Dialogs for Printer and Chipcards ([2dcf4ad](https://github.com/jmuelbert/jmbde-QT/commit/2dcf4ad))
+- Version 0.4.9. Add Dialogs for Printers and ChipCards ([a59c98f](https://github.com/jmuelbert/jmbde-QT/commit/a59c98f))
+- Very buggy. Do not run ([258ac6d](https://github.com/jmuelbert/jmbde-QT/commit/258ac6d))
+- Work on linux build errors. ([0cef167](https://github.com/jmuelbert/jmbde-QT/commit/0cef167))
+- chore(i18n): update translation files for Weblate ([265f7d1](https://github.com/jmuelbert/jmbde-QT/commit/265f7d1))

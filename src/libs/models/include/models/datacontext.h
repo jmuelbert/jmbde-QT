@@ -17,10 +17,9 @@
 
 #include <QObject>
 
-#include <QDebug>
+#include <QLoggingCategory>
 
 #include <QList>
-#include <QLoggingCategory>
 #include <QString>
 #include <QStringList>
 
@@ -44,7 +43,10 @@
 #include "commondata.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
-#include "loggingcategory.h"
+
+#include <QLoggingCategory>
+
+Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsDatacontextLog)
 
 namespace Model
 {
@@ -84,7 +86,7 @@ public:
         \brief Constructor for the DataContext
         \details Contructur with a name for the database to use.
      */
-    explicit JMBDEMODELS_EXPORT DataContext(QObject *parent = nullptr, const QString &name = QString());
+    explicit JMBDEMODELS_EXPORT DataContext(QObject *parent, const QString &name);
 
     /*!
         \fn DataContext( QObject *parent = nullptr,
@@ -107,7 +109,7 @@ public:
         \param port - Port for connect to the Database Server
      */
 
-    explicit JMBDEMODELS_EXPORT DataContext(QObject *parent, const QString &dbType, const QString &name, const QString &userName, const QString &passWord, const QString &hostName, const int port);
+    explicit JMBDEMODELS_EXPORT DataContext(QObject *parent, const QString &name, const QString &dbType, const QString &userName, const QString &passWord, const QString &hostName, const int port);
 
     /*!
           \fn  ~DataContext() override;
@@ -123,27 +125,26 @@ public:
         \brief get the result of the Query from the text
         \param queryText - the db quey
 
-        \return true if the execution success ful
+        \return true if the execution successful
+        \sa QSqlQuery
      */
 
-    JMBDEMODELS_EXPORT QSqlQuery execQuery(QSqlQuery &query);
+    JMBDEMODELS_EXPORT QSqlQuery getQuery(const QString &query);
 
     /* basic public actions */
 
-    JMBDEMODELS_EXPORT auto check_existence(const QString &tableName, const QString &searchId, const QString &search) -> bool;
+    JMBDEMODELS_EXPORT auto checkExistence(const QString &tableName, const QString &searchId, const QString &search) -> bool;
 
     /* useful actions */
 
     /*!
-        \fn QSqlQuery getQuery(const QString &queryText)
+        \fn bool open()
 
-        \brief get the query by the given queryText
+        \brief Open the Database with the given name
 
-        \return QSqlQuery
-
-        \sa QSqlQuery
+        \return true ist the database succesful opened.
      */
-    JMBDEMODELS_EXPORT QSqlQuery getQuery(const QString &queryText);
+    JMBDEMODELS_EXPORT void open();
 
     /*!
         \fn bool openDB(const QString &name)
@@ -152,7 +153,7 @@ public:
 
         \return true ist the database succesful opened.
      */
-    JMBDEMODELS_EXPORT void openDB(const QString &name);
+    JMBDEMODELS_EXPORT void open(const QString &name);
 
     /*!
         \fn   void renameDB(const QString &oldName, const QString &newName)
@@ -167,15 +168,6 @@ public:
         \brief delete the database with the given name.
      */
     JMBDEMODELS_EXPORT void deleteDB(const QString &name);
-
-    /*!
-     * \brief SetConnectionString
-     * \param connect
-     */
-    JMBDEMODELS_EXPORT void SetConnectionString(const QString &connect)
-    {
-        m_connectionString = connect;
-    }
 
 protected:
     /*!

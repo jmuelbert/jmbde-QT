@@ -73,20 +73,7 @@ int __attribute__((visibility("default"))) main(int argc, char *argv[])
 int main(int argc, char *argv[])
 #endif
 {
-#if defined Q_OS_ANDROID
-    if (argc > 1 && strcmp(argv[1], "-service") == 0) {
-        QAndroidService app(argc, argv);
-        qInfo() << "Service starting...";
-
-        // My service stuff
-
-        return app.exec();
-    }
-
-    qInfo() << "Application starting...";
-#endif
-
-    QLoggingCategory::setFilterRules(QLatin1String("jmbde.*.debug=false\njmbde.*.info=false"));
+    QLoggingCategory::setFilterRules(QLatin1String("jmuelbert.jmbde.*.debug=true\njmuelbert.jmbde.*.info=true"));
 
 #ifndef Q_OS_WIN
     // Prohibit using sudo or kdesu (but allow using the root user directly)
@@ -112,6 +99,16 @@ int main(int argc, char *argv[])
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     /**
+     * allow fractional scaling
+     * we only activate this on Windows, it seems to creates problems on unices
+     * (and there the fractional scaling with the QT_... env vars as set by
+     * KScreen works) see bug 416078
+     */
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0) && defined(Q_OS_WIN)
+    QGuiApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
+#endif
+
+    /**
      * Create application first
      */
     QApplication app(argc, argv);
@@ -124,17 +121,16 @@ int main(int argc, char *argv[])
     /**
      * set the program icon
      */
+
     QApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("jmbde")));
-    QApplication::setOrganizationDomain(QStringLiteral("Jürgen Mülbert"));
 
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
-    QApplication::setApplicationName(QStringLiteral("jmbde"));
     QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
-#else
-    QApplication::setApplicationName(QStringLiteral("jmbde"));
 #endif
 
+    QApplication::setApplicationName(QStringLiteral("jmbde"));
     QApplication::setApplicationDisplayName(QStringLiteral("jmbde"));
+    QApplication::setOrganizationDomain(QStringLiteral("Jürgen Mülbert"));
     QApplication::setOrganizationName(QStringLiteral("io.jmuelbert.github"));
     QApplication::setApplicationVersion(QLatin1String(JMBDE_VERSION_STRING));
 
@@ -164,7 +160,7 @@ int main(int argc, char *argv[])
     QApplication::installTranslator(&qtTranslator);
 
     QTranslator jmbdeTranslator;
-    jmbdeTranslator.load(QLatin1String("app_") + locale);
+    jmbdeTranslator.load(QLatin1String("jmbde_") + locale);
     QApplication::installTranslator(&jmbdeTranslator);
 
     QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths() << QLatin1String(":tango"));

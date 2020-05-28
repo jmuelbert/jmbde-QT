@@ -15,6 +15,8 @@
 
 #include "models/company.h"
 
+Q_LOGGING_CATEGORY(jmbdeModelsCompanyLog, "jmuelbert.jmbde.models.company", QtWarningMsg)
+
 Model::Company::Company(QObject *parent)
     : CommonData(parent)
 {
@@ -75,7 +77,7 @@ auto Model::Company::generateTableString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdemodelsLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(jmbdeModelsCompanyLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     QList<int> set;
 
@@ -101,7 +103,7 @@ auto Model::Company::generateFormularString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdemodelsLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(jmbdeModelsCompanyLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     // Document Title
     outString = QLatin1String("<h1>");

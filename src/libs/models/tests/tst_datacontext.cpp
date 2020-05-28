@@ -28,7 +28,7 @@ private slots:
     void initTestCase() // will run once before the first test
     {
         qDebug() << "Init Testcase";
-        dataContext = new DataContext(nullptr, m_databaseName);
+        this->dataContext = new class DataContext(nullptr, m_databaseName);
     }
 
     void cleanupTestCase()
@@ -38,24 +38,72 @@ private slots:
     }
 
     // Test for the Model Library
-    void OpenDB();
-    void GetQuery();
+
+    void getQuery_Test();
+    void openDB_Test();
+    void checkExistence_Test();
+    void renameDB_Test();
+    void deleteDB_Test();
+    void constructor_Test();
 };
 
-void DataContext_Test::OpenDB()
+void DataContext_Test::getQuery_Test()
+{
+    this->dataContext->open(this->m_databaseName);
+    auto query = this->dataContext->getQuery(QStringLiteral("SELECT * FROM EMPLOYEE"));
+    QVERIFY(query.isValid());
+
+    query = this->dataContext->getQuery(QStringLiteral("SELECT * FROM XYZ"));
+    QVERIFY(!query.isValid());
+}
+
+void DataContext_Test::openDB_Test()
 {
     auto retVal = true;
-    dataContext->openDB(m_databaseName);
+    dataContext->open(m_databaseName);
     QVERIFY(retVal);
 }
 
-void DataContext_Test::GetQuery()
+void DataContext_Test::checkExistence_Test()
 {
-    const QString queryString = QLatin1String("SELECT * FROM employee;");
+    this->dataContext->open(this->m_databaseName);
+    QVERIFY(this->dataContext->checkExistence(QStringLiteral("Computer"), QStringLiteral("Name"), QStringLiteral("PC1")));
+    QVERIFY(this->dataContext->checkExistence(QStringLiteral("Employee"), QStringLiteral("Name"), QStringLiteral("Hirsch")));
+}
 
-    QSqlQuery query = dataContext->getQuery(queryString);
+void DataContext_Test::renameDB_Test()
+{
+    this->dataContext->open(this->m_databaseName);
+    this->dataContext->renameDB(QStringLiteral("NewDB"));
+}
 
-    QVERIFY2(!query.isValid(), "Test generated QUERY.");
+void DataContext_Test::deleteDB_Test()
+{
+    this->dataContext->open(this->m_databaseName);
+    this->dataContext->deleteDB(QStringLiteral("NewDB"));
+}
+
+void DataContext_Test::constructor_Test()
+{
+    DataContext *local_dataContext;
+
+    local_dataContext = new DataContext(nullptr, QStringLiteral("testDB"));
+    QVERIFY(local_dataContext != nullptr);
+
+    local_dataContext = new DataContext(nullptr, QStringLiteral("BADDB"), QStringLiteral("testDB_BADDB"), QStringLiteral("user"), QStringLiteral("password"), QStringLiteral("dbhosts"), 1533);
+    QVERIFY(local_dataContext != nullptr);
+
+    local_dataContext = new DataContext(nullptr, QStringLiteral("ODBC"), QStringLiteral("testDB_ODBC"), QStringLiteral("user"), QStringLiteral("password"), QStringLiteral("dbhosts"), 1533);
+    QVERIFY(local_dataContext != nullptr);
+
+    local_dataContext = new DataContext(nullptr, QStringLiteral("PGSQL"), QStringLiteral("testDB_PSQL"), QStringLiteral("user"), QStringLiteral("password"), QStringLiteral("dbhosts"), 1533);
+    QVERIFY(local_dataContext != nullptr);
+
+    local_dataContext = new DataContext(nullptr, QStringLiteral("SQLITE"), QStringLiteral("testDB_SQLITE"), QStringLiteral("user"), QStringLiteral("password"), QStringLiteral("dbhosts"), 1533);
+    QVERIFY(local_dataContext != nullptr);
+
+    local_dataContext = new DataContext();
+    QVERIFY(local_dataContext != nullptr);
 }
 
 QTEST_GUILESS_MAIN(DataContext_Test)
