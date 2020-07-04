@@ -129,10 +129,10 @@ repos:
     hooks:
       - id: check-swagger
 
-  - repo: https://github.com/thlorenz/doctoc
-    rev: v1.4.0 # substitute a tagged version
-    hooks:
-      - id: doctoc
+  #- repo: https://github.com/thlorenz/doctoc
+  #  rev: v1.4.0 # substitute a tagged version
+  #  hooks:
+  #   - id: doctoc
 
   - repo: https://github.com/noahsark769/xcodeproj-sort-pre-commit-hook
     rev: v1.1.0
