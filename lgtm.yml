@@ -3,21 +3,27 @@ extraction:
   cpp:
     prepare:
       packages: # Assuming package base of cosmic
-      - ninja-build
-      - qt5-default
-      - qtmultimedia5-dev
-      - qml-module-qtquick-controls
-      - qml-module-qtquick-controls2
-      - qttools5-dev
-      - qt5keychain-dev
+        - ninja-build
+        - qt5-default
+        - qtmultimedia5-dev
+        - qml-module-qtquick-controls
+        - qml-module-qtquick-controls2
+        - qttools5-dev
+        - qt5keychain-dev
+        - python-pip
     after_prepare:
-    - pip install conan
-    - conan user
-    - conan create ./conan/ECM
-    - git clone https://gitlab.matrix.org/matrix-org/olm.git
-    - pushd olm
-    - cmake . -Bbuild -GNinja
-    - cmake --build build
-    - popd
+        - pip3 install --local cmake conan
+        - ls ~/.local/bin
+        - export PATH=$PATH:~/.local/bin
+        - conan --version
+        - cmake --version
+        - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+        - conan user
+        - conan create ./conan/ECM
+        - git clone https://gitlab.matrix.org/matrix-org/olm.git
+        - pushd olm
+        - cmake . -Bbuild -GNinja
+        - cmake --build build
+        - popd
     configure:
-      command: "cmake . -BBuild -GNinja -DOlm_DIR=olm/build"
+        command: "cmake . -BBuild -GNinja -DOlm_DIR=olm/build"
