@@ -11,6 +11,9 @@ extraction:
       - qttools5-dev
       - qt5keychain-dev
     after_prepare:
+    - pip install conan
+    - conan user
+    - conan create ./conan/ECM
     - git clone https://gitlab.matrix.org/matrix-org/olm.git
     - pushd olm
     - cmake . -Bbuild -GNinja
