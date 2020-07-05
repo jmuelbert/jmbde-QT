@@ -7,14 +7,15 @@ jobs:
     steps:
       - name: Checkout sources
         uses: actions/checkout@v1
-      - name: Brew update-reset
+      - name: brew update-reset
         run: brew update-reset
-      - name: Brew update
+      - name: brew update
         run: brew update
-      - name: Brew install kf5-extra-cmake-modules
+      - name: brew install kf5-extra-cmake-modules
         run: |
-          brew tap kde-mac/kde
-          brew install kf5-extra-cmake-modules
+            brew tap kde-mac/kde https://invent.kde.org/packaging/homebrew-kde.git --force-auto-update
+            "$(brew --repo kde-mac/kde)/tools/do-caveats.sh"
+            brew install kf5-extra-cmake-modules
       - name: Upgrade cmake
         run: brew upgrade cmake
       - name: Install dependencies with homebrew

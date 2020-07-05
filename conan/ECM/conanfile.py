@@ -35,7 +35,7 @@ class ECMConan(ConanFile):
     name = "ECM"
     version = "5.66.0"
     license = "BSD 3-Clause license."
-    url = "git://invent.kde.org/frameworks/extra-cmake-modules.git"
+    url = "https://invent.kde.org/frameworks/extra-cmake-modules.git"
     description = "The Extra CMake Modules package,."
     generators = "cmake"
 
