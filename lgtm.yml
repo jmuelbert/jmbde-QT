@@ -17,4 +17,4 @@ extraction:
     - cmake --build build
     - popd
     configure:
-      command: "cmake . -GNinja -DOlm_DIR=olm/build"
+      command: "cmake . -BBuild -GNinja -DOlm_DIR=olm/build"
