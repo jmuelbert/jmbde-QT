@@ -60,8 +60,8 @@ project(
 set(JMBDE_VERSION 0.5.0)
 
 # Set the dependencies versions
-set(KF5_VERSION "5.66.0")
-set(KF5_DEP_VERSION "5.66.0")
+set(KF5_VERSION "5.62.0")
+set(KF5_DEP_VERSION "5.62.0")
 set(QT_MIN_VERSION "5.12.5")
 
 # warn about deprecated stuff so that we may try fixing it
