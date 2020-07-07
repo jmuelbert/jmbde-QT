@@ -15,6 +15,7 @@ extraction:
         - pushd extra-cmake-modules
         - cmake . -Bbuild -GNinja
         - cmake --build build
+        - cmake --install
         - popd
     configure:
         command: "cmake . -BBuild -GNinja"
