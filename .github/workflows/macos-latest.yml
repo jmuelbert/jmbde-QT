@@ -11,7 +11,7 @@ jobs:
         run: brew update-reset
       - name: brew update
         run: brew update
-      - name: brew install kf5-extra-cmake-modules
+      - name: brew install kde-extra-cmake-modules
         run: |
             brew tap kde-mac/kde https://invent.kde.org/packaging/homebrew-kde.git --force-auto-update
             brew install kde-extra-cmake-modules

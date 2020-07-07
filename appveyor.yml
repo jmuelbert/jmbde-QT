@@ -92,12 +92,17 @@ for:
       - ccache
 
     install:
-      - brew install ninja
-      - brew install qt
-      - brew install ccache
+      - brew ls | grep -wq freetype | brew install freetype
+      - brew ls | grep -wq python3 | brew install python3
+      - brew ls | grep -wq cmake | brew install cmake
+      - brew ls | grep -wq ninja | brew install ninja
+      - brew ls | grep -wq qt | brew install qt
+      - brew ls | grep -wq cchache | brew install ccache
+      - brew ls | grep -wq conan | brew install conan
+      - brew tap kde-mac/kde https://invent.kde.org/packaging/homebrew-kde.git --force-auto-update
+      - brew install kde-extra-cmake-modules
       - brew upgrade
       - brew link --force qt5
-      - brew install conan
       - export PATH="$(brew --prefix qt)/bin:$PATH"
       - sudo ln -s "/usr/local/Cellar/qt/${QT_VERSION}/mkspecs /usr/local/mkspecs"
       - sudo ln -s "/usr/local/Cellar/qt/${QT_VERSION}/plugins /usr/local/plugins"
