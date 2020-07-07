@@ -19,9 +19,9 @@ jobs:
         run: brew upgrade cmake
       - name: Install dependencies with homebrew
         run: |
-          brew ls | grep -wq freetype | brew install freetype
-          brew ls | grep -wq python3 | brew install python3
-          brew ls | grep -wq qt | brew install qt
+          brew ls | grep -wq freetype || brew install freetype
+          brew ls | grep -wq python3 || brew install python3
+          brew ls | grep -wq qt || brew install qt
           export PATH="$(brew --prefix qt)/bin:$PATH"
       - name: Build
         run: |
