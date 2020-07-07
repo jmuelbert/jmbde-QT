@@ -14,8 +14,7 @@ extraction:
         - git clone https://github.com/KDE/extra-cmake-modules.git
         - pushd extra-cmake-modules
         - cmake . -Bbuild -GNinja
-        - cmake --build build
-        - cmake --install
+        - cmake --build build --target install
         - popd
     configure:
         command: "cmake . -BBuild -GNinja"
