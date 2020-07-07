@@ -14,7 +14,7 @@ extraction:
         - git clone https://github.com/KDE/extra-cmake-modules.git
         - pushd extra-cmake-modules
         - cmake . -Bbuild -GNinja
-        - cmake --build build --target install
+        - cmake --build build --target install -DCMAKE_INSTALL_PREFIX:PATH=../usr
         - popd
     configure:
-        command: "cmake . -BBuild -GNinja"
+        command: "cmake . -BBuild -GNinja -DECM_DIR=usr/local/share/ECM"
