@@ -15,8 +15,10 @@ jobs:
         run: |
             brew tap kde-mac/kde https://invent.kde.org/packaging/homebrew-kde.git --force-auto-update
             brew install kde-extra-cmake-modules
-      - name: Upgrade cmake
-        run: brew upgrade cmake
+      - name: Upgrade cmake and ninja
+        run: |
+            brew upgrade cmake
+            brew ls | grep wq ninja || brew install ninja
       - name: Install dependencies with homebrew
         run: |
           brew ls | grep -wq freetype || brew install freetype
