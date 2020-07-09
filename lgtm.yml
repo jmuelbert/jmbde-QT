@@ -10,8 +10,10 @@ extraction:
         - qml-module-qtquick-controls2
         - qttools5-dev
         - qt5keychain-dev
+        - python
+        - pip3
     after_prepare:
-        - pip install conan
+        - pip3 install conan
         - conan user
         - conan create ./conan/ECM
 
