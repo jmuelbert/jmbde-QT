@@ -24,7 +24,11 @@ jobs:
             brew ls | grep wq ninja || brew install ninja
       - name: Install dependencies with homebrew
         run: |
-          brew install graphviz doxygen
+            brew install graphviz doxygen
+            brew ls | grep -wq freetype || brew install freetype
+            brew ls | grep -wq python || brew install python
+            brew ls | grep -wq qt || brew install qt
+            xexport PATH="$(brew --prefix qt)/bin:$PATH"
       - name: configure
         run: cmake -G Ninja -B ./build -S .
       - name: build
