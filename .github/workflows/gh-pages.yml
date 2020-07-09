@@ -8,12 +8,23 @@ jobs:
   build:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@master
-        with:
-          submodules: true
-      - name: Install requirements
+      - name: Checkout sources
+        uses: actions/checkout@v1
+      - name: brew update-reset
+        run: brew update-reset
+      - name: brew update
+        run: brew update
+      - name: brew install kde-extra-cmake-modules
         run: |
-          brew install graphviz ninja doxygen
+            brew tap kde-mac/kde https://invent.kde.org/packaging/homebrew-kde.git --force-auto-update
+            brew install kde-extra-cmake-modules
+      - name: Upgrade cmake and ninja
+        run: |
+            brew upgrade cmake
+            brew ls | grep wq ninja || brew install ninja
+      - name: Install dependencies with homebrew
+        run: |
+          brew install graphviz doxygen
       - name: configure
         run: cmake -G Ninja -B ./build -S .
       - name: build
