@@ -11,10 +11,9 @@ extraction:
         - qttools5-dev
         - qt5keychain-dev
     after_prepare:
-        - git clone https://github.com/KDE/extra-cmake-modules.git
-        - pushd extra-cmake-modules
-        - cmake . -Bbuild -GNinja
-        - cmake --build build --target install -DCMAKE_INSTALL_PREFIX:PATH=../usr
-        - popd
+        - pip install conan
+        - conan user
+        - conan create ./conan/ECM
+
     configure:
-        command: "cmake . -BBuild -GNinja -DECM_DIR=usr/local/share/ECM"
+        command: "conan install && cmake . -BBuild -GNinja -DECM_DIR=usr/local/share/ECM"
