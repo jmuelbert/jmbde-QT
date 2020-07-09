@@ -30,7 +30,7 @@ jobs:
             brew ls | grep -wq qt || brew install qt
             export PATH="$(brew --prefix qt)/bin:$PATH"
       - name: configure
-        run: cmake -G Ninja -B ./build -S .
+        run: cmake -G Ninja  -DCMAKE_PREFIX_PATH="$(brew --prefix qt)" -B ./build -S .
       - name: build
         run: cmake --build build -t doc
       - name: gh-pages
