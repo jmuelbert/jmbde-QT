@@ -28,7 +28,7 @@ jobs:
             brew ls | grep -wq freetype || brew install freetype
             brew ls | grep -wq python || brew install python
             brew ls | grep -wq qt || brew install qt
-            xexport PATH="$(brew --prefix qt)/bin:$PATH"
+            export PATH="$(brew --prefix qt)/bin:$PATH"
       - name: configure
         run: cmake -G Ninja -B ./build -S .
       - name: build
