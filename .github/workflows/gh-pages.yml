@@ -29,6 +29,7 @@ jobs:
             brew ls | grep -wq python || brew install python
             brew ls | grep -wq qt || brew install qt
             export PATH="$(brew --prefix qt)/bin:$PATH"
+            pip install sphinx sphinx-rtd-theme breathe
       - name: configure
         run: cmake -G Ninja  -DCMAKE_PREFIX_PATH="$(brew --prefix qt)" -B ./build -S .
       - name: build
