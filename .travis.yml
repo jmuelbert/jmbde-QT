@@ -110,8 +110,8 @@ matrix:
         - brew install kde-extra-cmake-modules
         - brew link qt5 --force
         - export PATH="$(brew --prefix qt)/bin:$PATH"
-        - sudo ln -s "/usr/local/Cellar/qt/${QT_VERSION}/mkspecs /usr/local/mkspecs"
-        - sudo ln -s "/usr/local/Cellar/qt/${QT_VERSION}/plugins /usr/local/plugins"
+        - sudo ln -s /usr/local/Cellar/qt/"${QT_VERSION}"/mkspecs /usr/local/mkspecs
+        - sudo ln -s /usr/local/Cellar/qt/"${QT_VERSION}"/plugins /usr/local/plugins
 
       install:
         - cmake --version

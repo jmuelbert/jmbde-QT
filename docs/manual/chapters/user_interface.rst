@@ -2,5 +2,5 @@
 
 .. _interface-overview:
 
-An Overview of the Mixxx Interface
+An Overview of the jmbde Interface
 **********************************

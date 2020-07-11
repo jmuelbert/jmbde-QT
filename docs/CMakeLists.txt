@@ -32,36 +32,5 @@
 # minimal requirements
 cmake_minimum_required(VERSION 3.12.4 FATAL_ERROR)
 
-find_package(Doxygen)
-set_package_properties(
-  Doxygen
-  PROPERTIES
-  TYPE
-  OPTIONAL
-  DESCRIPTION
-  "API Documentation system"
-  URL
-  "http://www.doxygen.org"
-  PURPOSE
-  "Needed to build the API documentation.")
-
-find_package(Sphinx)
-set_package_properties(
-  Sphinx
-  PROPERTIES
-  TYPE
-  OPTIONAL
-  DESCRIPTION
-  "Manual build system"
-  URL
-  "http://www.sphinx-doc.org"
-  PURPOSE
-  "Needed to build the manual.")
-
-if(SPHINX_EXECUTABLE AND BUILD_MANUAL)
-  add_subdirectory(manual)
-endif()
-
-if(DOXYGEN_FOUND AND BUILD_API_DOCS)
-  add_subdirectory(api)
-endif()
+add_subdirectory(api)
+add_subdirectory(manual)

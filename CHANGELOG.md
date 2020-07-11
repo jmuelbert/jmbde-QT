@@ -1,14 +1,3 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
-
-- [(2020-05-26)](#2020-05-26)
-- [<small>0.5.2 (2020-03-19)</small>](#small052-2020-03-19small)
-- [<small>0.5.1 (2020-03-17)</small>](#small051-2020-03-17small)
-- [0.5.0 (2020-03-17)](#050-2020-03-17)
-- [<small>0.4.7 (2018-11-21)</small>](#small047-2018-11-21small)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## (2020-05-26)
 

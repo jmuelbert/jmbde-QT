@@ -46,7 +46,7 @@ repos:
         args: [--branch, develop]
 
   - repo: https://github.com/jumanjihouse/pre-commit-hooks
-    rev: 2.0.2
+    rev: 2.1.3
     hooks:
       - id: bundler-audit
       # - id: check-mailmap
@@ -120,7 +120,7 @@ repos:
   #         args: [--json, --verbose, --dockerfile]
 
   - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
-    rev: v1.1.0
+    rev: v1.1.3
     hooks:
       - id: python-safety-dependencies-check
 
@@ -152,51 +152,46 @@ repos:
   #     - id: commitlint
   #       stages: [commit-msg]
 
-  # - repo: https://github.com/jorisroovers/gitlint
-  #   rev: v0.13.1
-  #   hooks:
-  #     - id: gitlint
-  #       stages: [commit-msg]
+  - repo: https://github.com/jorisroovers/gitlint
+    rev: v0.13.1
+    hooks:
+        - id: gitlint
+          stages: [commit-msg]
 
-  # - repo: https://github.com/IamTheFij/docker-pre-commit
-  #   rev: v1.0.1
-  #   hooks:
-  #     - id: docker-compose-check
+  - repo: https://github.com/IamTheFij/docker-pre-commit
+    rev: v1.0.1
+    hooks:
+       - id: docker-compose-check
 
-  # - repo: https://github.com/milin/giticket
-  #   rev: 6f166c66f2423e8e27898b39385d1166f9b643a3
-  #   hooks:
-  #     - id: giticket
-  #       args: ['--regex=PROJ-[0-9]', '--format={ticket} {commit_msg}']  # Optional
+  - repo: https://github.com/milin/giticket
+    rev: eb9e2320586a013aed352d435398b9e4ae4417a2
+    hooks:
+        - id: giticket
+          args: ['--regex=PROJ-[0-9]', '--format={ticket} {commit_msg}']  # Optional
 
   - repo: https://github.com/homebysix/pre-commit-macadmin
     rev: v1.6.2
     hooks:
-      - id: check-autopkg-recipe-list
-      - id: check-autopkg-recipes
-      - id: check-jamf-extension-attributes
-      - id: check-jamf-scripts
-      - id: check-jamf-profiles
-      - id: check-munki-pkgsinfo
-      - id: check-munkiadmin-scripts
-      - id: check-munkipkg-buildinfo
-      - id: check-outset-scripts
-      - id: check-plists
-      - id: forbid-autopkg-overrides
-      - id: forbid-autopkg-trust-info
+        - id: check-autopkg-recipe-list
+        - id: check-autopkg-recipes
+        - id: check-jamf-extension-attributes
+        - id: check-jamf-scripts
+        - id: check-jamf-profiles
+        - id: check-munki-pkgsinfo
+        - id: check-munkiadmin-scripts
+        - id: check-munkipkg-buildinfo
+        - id: check-outset-scripts
+        - id: check-plists
+        - id: forbid-autopkg-overrides
+        - id: forbid-autopkg-trust-info
 
   - repo: https://github.com/pocc/pre-commit-hooks
     rev: v1.1.1
     hooks:
-      - id: clang-format
-        args: [-i, -style=file]
-#      - id: clang-tidy
-#      - id: oclint
-#        args: [-enable-clang-static-analyzer, -enable-global-analysis]
-# - id: uncrustify
-# - id: cppcheck
-#  args: [--enable=all]
-#  - repo: https://github.com/iconmaster5326/cmake-format-pre-commit-hook
-#    rev: v0.6.9
-#    hooks:
-#      - id: cmake-format
+        - id: clang-format
+          args: [-i, -style=file]
+        # - id: clang-tidy
+        # - id: oclint
+        #   args: [-enable-clang-static-analyzer, -enable-global-analysis]
+        # - id: cppcheck
+        #  args: [--enable=all]
