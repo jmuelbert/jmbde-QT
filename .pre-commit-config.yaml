@@ -61,10 +61,7 @@ repos:
             .+\.ico|
             .+\.svgz
           )$
-      # - id: forbid-space-in-indent
-      # - id: git-check     # Configure in .gitattributes
       - id: git-dirty # Configure in .gitignore
-      # - id: markdownlint  # Configure in .mdlrc
       - id: reek
       - id: rubocop
       - id: script-must-not-have-extension
@@ -100,25 +97,6 @@ repos:
       - id: html-tags-blacklist
       - id: html-attributes-blacklist
 
-  # - repo: https://github.com/Lucas-C/pre-commit-hooks-markup
-  #   rev: v1.0.0
-  #   hooks:
-  #     - id: rst-linter
-
-  # - repo: https://github.com/Lucas-C/pre-commit-hooks-nodejs
-  #   rev: v1.1.1
-  #   hooks:
-  #     -   id: htmlhint
-  #         # optional custom config:
-  #         args: [--config, .htmlhintrc]
-  #     -   id: htmllint
-  #     -   id: markdown-toc
-  #         # optional custom config:
-  #         args: [--indent, "    ", -i]
-  #     -   id: dockerfile_lint
-  #         # optional custom config:
-  #         args: [--json, --verbose, --dockerfile]
-
   - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
     rev: v1.1.3
     hooks:
@@ -129,10 +107,6 @@ repos:
     hooks:
       - id: check-swagger
 
-  #- repo: https://github.com/thlorenz/doctoc
-  #  rev: v1.4.0 # substitute a tagged version
-  #  hooks:
-  #   - id: doctoc
 
   - repo: https://github.com/noahsark769/xcodeproj-sort-pre-commit-hook
     rev: v1.1.0
@@ -140,17 +114,12 @@ repos:
       - id: xcodeproj-sort
         args: [--groups-position=above]
 
-  # - repo: https://github.com/pryorda/dockerfilelint-precommit-hooks
-  #   rev: v0.1.0
-  #   hooks:
-  #     - id: dockerfilelint
-  #       stages: [commit]
+  - repo: https://github.com/pryorda/dockerfilelint-precommit-hooks
+    rev: v0.1.0
+    hooks:
+        - id: dockerfilelint
+          stages: [commit]
 
-  # - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
-  #   rev: v2.2.2
-  #   hooks:
-  #     - id: commitlint
-  #       stages: [commit-msg]
 
   - repo: https://github.com/jorisroovers/gitlint
     rev: v0.13.1

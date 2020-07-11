@@ -32,7 +32,7 @@ jobs:
       - name: configure
         run: cmake -G Ninja  -DCMAKE_PREFIX_PATH="$(brew --prefix qt)" -B ./build -S .
       - name: build
-        run: cmake --build build -t Sphinx
+        run: cd build && ninja Sphinx
       - name: gh-pages
         uses: actions/checkout@master
         with:
