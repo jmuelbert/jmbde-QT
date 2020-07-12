@@ -34,7 +34,10 @@ jobs:
             - name: configure
               run: cmake -G Ninja  -DBUILD_MANUAL=ON -DBUILD_API_DOCS=ON -DCMAKE_PREFIX_PATH="$(brew --prefix qt)" -B ./build -S .
             - name: build
-              run: cd build && ninja Sphinx
+              run: |
+                  pushd build
+                  ninja Sphinx
+                  popd
             - name: gh-pages
               uses: actions/checkout@master
               with:
@@ -47,7 +50,7 @@ jobs:
                   git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
                   rm -rf d* && rm *.html && rm *.svg && rm *.map && rm *.md5 && rm *.png && rm *.js && rm *.css
                   git add .
-                  cp -rp ./build/html/* . && rm -rf ./build && ls -lah
+                  cp -rp ./build/docs/manual/html/* ../ && rm -rf ./build && ls -lah
                   git add .
                   git commit -m "Documentation for $GITHUB_SHA" ||  true
                   git push --force || true
