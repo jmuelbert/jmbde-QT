@@ -1,0 +1,26 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>+android/main.qml</file>
+        <file>+ios/main.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>AboutBox.qml</file>
+        <file>Actions.qml</file>
+        <file>MainMenu.qml</file>
+        <file>MainToolBar.qml</file>
+        <file>Preferences.qml</file>
+        <file>ToolBarSeparator.qml</file>
+        <file>tabs/Tab1.qml</file>
+        <file>tabs/Tab2.qml</file>
+        <file>Theme/qmldir</file>
+        <file>Theme/Theme.qml</file>
+        <file>CompletionPopup.qml</file>
+        <file>FilterView.qml</file>
+        <file>TaskLine.qml</file>
+        <file>TaskListTableView.qml</file>
+        <file>StartingPage.qml</file>
+        <file>SecondPage.qml</file>
+        <file>ThirdPage.qml</file>
+        <file>FourthPage.qml</file>
+    </qresource>
+</RCC>

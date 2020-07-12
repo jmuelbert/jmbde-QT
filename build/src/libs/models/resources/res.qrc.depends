@@ -1,0 +1,6 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource>
+        <file>data/script.sql</file>
+    </qresource>
+</RCC>
