@@ -1,7 +1,39 @@
 {
-  "python.pythonPath": "venv/bin/python",
-  "python.testing.nosetestsEnabled": false,
-  "python.testing.promptToConfigure": false,
-  "python.testing.pytestEnabled": false,
-  "python.testing.unittestEnabled": false
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+    "C_Cpp.configurationWarnings": "Disabled",
+    "cmake.generator": "Ninja",
+    "cmake.configureSettings": {
+        "CMAKE_TOOLCHAIN_FILE": "${workspaceRoot}/vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "BUILD_EXAMPLES": "OFF",
+        "BUILD_MANUAL": "OFF",
+        "BUILD_API_DOCS": "OFF",
+        "BUILD_TRANSLATIONS": "ON",
+        "BUILD_TESTING": "ON",
+        "BUILD_COVERAGE": "OFF",
+        "BUILD_SHARED_LIBS": "ON",
+        "ENABLE_CLANG_TIDY": "ON",
+        "ENABLE_CLAZY": "ON",
+        "ENABLE_CCACHE": "ON",
+        "USE_GIT_VERSION": "ON"
+    },
+    "editor.formatOnSave": true,
+    "files.associations": {
+        ".clang-format": "yaml"
+    },
+    "files.eol": "\r\n",
+    "files.exclude": {
+        "llvm-project": true,
+        "stl/msbuild": true,
+        "vcpkg": true
+    },
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true,
+    "python.linting.pylintEnabled": true,
+    "python.pythonPath": ".venv/bin/python",
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.promptToConfigure": false,
+    "python.testing.pytestEnabled": false,
+    "python.testing.unittestEnabled": false,
+    "workbench.editor.enablePreviewFromQuickOpen": false
 }
