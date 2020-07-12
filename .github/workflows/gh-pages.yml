@@ -1,4 +1,4 @@
-name: Doxygen CI
+name: gh-pages
 
 on:
     push:
@@ -50,7 +50,7 @@ jobs:
                   git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
                   rm -rf d* && rm *.html && rm *.svg && rm *.map && rm *.md5 && rm *.png && rm *.js && rm *.css
                   git add .
-                  cp -rp ./build/docs/manual/html/* ../ && rm -rf ./build && ls -lah
+                  cp -rp ./build/docs/manual/html/* . && rm -rf ./build && ls -lah
                   git add .
                   git commit -m "Documentation for $GITHUB_SHA" ||  true
                   git push --force || true
