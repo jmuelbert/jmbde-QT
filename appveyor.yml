@@ -4,360 +4,357 @@ version: "0.5.{build}"
 
 # branches to build
 branches:
-  # whitelist
-  only:
-    - master
-    - production
-    - /v\d*\.\d*\.\d*/
-  # blacklist
-  except:
-    - gh-pages
-
+    # whitelist
+    only:
+        - master
+        - production
+        - /v\d*\.\d*\.\d*/
+    # blacklist
+    except:
+        - gh-pages
 
 # Do not build feature branch with open Pull Requests
 pull_requests:
-  do_not_increment_build_number: true
+    do_not_increment_build_number: true
 
 # Maximum number of concurrent jobs for the project
 max_jobs: 1
 
 image:
-  - Visual Studio 2019
-  - Ubuntu
-  - macOS
+    - Visual Studio 2019
+    - Ubuntu
+    - macOS
 
 stack: python 3
 
 environment:
-  PY_DIR: C:\Python37-x64
-  my_secret:
-  secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
-  APPVEYOR_YML_DISABLE_PS_LINUX: true
-  Appveyor: true
-  QT_PPA: beineri/opt-qt-5.14.1-bionic
-  QT_VER: 514
-  QT_VERSION: 5.14.1
-  BUILD_TESTING: OFF
+    PY_DIR: C:\Python37-x64
+    my_secret:
+    secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
+    APPVEYOR_YML_DISABLE_PS_LINUX: true
+    Appveyor: true
+    QT_PPA: beineri/opt-qt-5.14.1-bionic
+    QT_VER: 514
+    QT_VERSION: 5.14.1
+    BUILD_TESTING: OFF
 
 clone_depth: 25
 
 build: off
 
 configuration:
-  # - release-fastbuild
-  - Release
+    # - release-fastbuild
+    - Release
 #  - debug
 
 platform:
-  # Disable x86 builds since we only get one concurrent build on AppVeyor and x86
-  # failures will be caught by Jenkins.
-  # - x86
-  - x64
+    # Disable x86 builds since we only get one concurrent build on AppVeyor and x86
+    # failures will be caught by Jenkins.
+    # - x86
+    - x64
 
 nuget:
-  disable_publish_on_pr: true
+    disable_publish_on_pr: true
 
 # matrix:
-  # exclude:
-    # Ubuntu doesn't support "release-fastbuild".
-    # - image: Ubuntu
-    #  configuration: release-fastbuild
-    # - image: macos
-    #  configuration: release-fastbuild
-    # We only want "release-fastbuild" for Windows since "release" consumes too
-    # much memory due to link-time code generation / whole-program optimization.
-    # - image: Visual Studio 2019
-    #  configuration: release
+# exclude:
+# Ubuntu doesn't support "release-fastbuild".
+# - image: Ubuntu
+#  configuration: release-fastbuild
+# - image: macos
+#  configuration: release-fastbuild
+# We only want "release-fastbuild" for Windows since "release" consumes too
+# much memory due to link-time code generation / whole-program optimization.
+# - image: Visual Studio 2019
+#  configuration: release
 
 skip_branch_with_pr: true
 skip_commits:
-
-  files:
-    - "**/*.md"
-    - docs/*
-    - LICENSE
-    - README
-    - CHANGELOG
-    - COPYING
-    - .travis.yml
+    files:
+        - "**/*.md"
+        - docs/*
+        - LICENSE
+        - README
+        - CHANGELOG
+        - COPYING
+        - .travis.yml
 
 for:
-  ########## macOS SPECIFIC CONFIGURATION ##########
-  - matrix:
-      only:
-        - image: macOS
+    ########## macOS SPECIFIC CONFIGURATION ##########
+    - matrix:
+          only:
+              - image: macOS
 
-    clone_folder: /Users/appveyor/projects/jmbde-QT
-    cache:
-      - ccache
+      clone_folder: /Users/appveyor/projects/jmbde-QT
+      cache:
+          - ccache
 
-    install:
-      - brew ls | grep -wq freetype || brew install freetype
-      - brew ls | grep -wq python || brew install python
-      - brew ls | grep -wq cmake || brew install cmake
-      - brew ls | grep -wq ninja || brew install ninja
-      - brew ls | grep -wq qt || brew install qt
-      - brew ls | grep -wq cchache || brew install ccache
-      - brew ls | grep -wq conan || brew install conan
-      - brew tap kde-mac/kde https://invent.kde.org/packaging/homebrew-kde.git --force-auto-update
-      - brew install kde-extra-cmake-modules
-      - brew upgrade
-      - brew link --force qt5
-      - export PATH="$(brew --prefix qt)/bin:$PATH"
-      - sudo ln -s "/usr/local/Cellar/qt/${QT_VERSION}/mkspecs /usr/local/mkspecs"
-      - sudo ln -s "/usr/local/Cellar/qt/${QT_VERSION}/plugins /usr/local/plugins"
+      install:
+          - brew update-reset
+          - brew update
+          - brew upgrade cmake
+          - brew ls | grep -wq ninja || brew install ninja
+          - brew ls | grep -wq freetype || brew install freetype
+          - brew ls | grep -wq conan || brew install conan
+          - brew ls | grep -wq python || brew install python
+          - brew ls | grep -wq qt || brew install qt
+          - brew ls | grep -wq ccache || brew install ccache
+          - brew tap kde-mac/kde https://invent.kde.org/packaging/homebrew-kde.git --force-auto-update
+          - brew install kde-extra-cmake-modules
+          - brew install graphviz doxygen
+          - pip3 install sphinx sphinx-rtd-theme breathe
+          - brew link --force qt5
+          - export PATH="$(brew --prefix qt)/bin:$PATH"
+          - sudo ln -s "/usr/local/Cellar/qt/${QT_VERSION}/mkspecs /usr/local/mkspecs"
+          - sudo ln -s "/usr/local/Cellar/qt/${QT_VERSION}/plugins /usr/local/plugins"
 
-      # Init conan
-      - conan user
-      - conan create ./conan/ECM
+          # Init conan
+          - conan user
+          - conan create ./conan/ECM
 
-    before_build:
-      - mkdir -p build; cd build
-      - conan install ..
-      - cmake -GNinja -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_PREFIX_PATH="$(brew --prefix qt)" -DCMAKE_INSTALL_PREFIX:PATH=. -DCMAKE_TOOLCHAIN_FILE="$VCPKGToolChainFile" -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=ON ..
+      before_build:
+          - mkdir -p build; cd build
+          - conan install ..
+          - cmake -GNinja -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_PREFIX_PATH="$(brew --prefix qt)" -DCMAKE_INSTALL_PREFIX:PATH=. -DCMAKE_TOOLCHAIN_FILE="$VCPKGToolChainFile" -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=ON ..
 
+      build_script:
+          - sudo cmake --build . --target install
 
-    build_script:
-      - sudo cmake --build . --target install
+      after_build:
+          - sudo cpack .
+          - if [ -z "$VERSION" ]; then
+            export VERSION=$APPVEYOR_BUILD_VERSION;
+            fi
+          # prepare jmbde
+          - sudo macdeployqt jmbde.app -verbose=2
+          - sudo chown -R $(id -nu) jmbde.app
+          - mkdir -p dmgdir/jmbde.app
+          - cp -r jmbde.app/* dmgdir/jmbde.app/
+          # build dmg
+          - ln -s /Applications dmgdir/Applications
+          - hdiutil create -volname jmbde-$VERSION -srcfolder dmgdir -ov -format UDZO jmbde-$VERSION.dmg;
 
-    after_build:
-      - sudo cpack .
-      - if [ -z "$VERSION" ]; then
-          export VERSION=$APPVEYOR_BUILD_VERSION;
-        fi
-      # prepare jmbde
-      - sudo macdeployqt jmbde.app -verbose=2
-      - sudo chown -R $(id -nu) jmbde.app
-      - mkdir -p dmgdir/jmbde.app
-      - cp -r jmbde.app/* dmgdir/jmbde.app/
-      # build dmg
-      - ln -s /Applications dmgdir/Applications
-      - hdiutil create -volname jmbde-$VERSION -srcfolder dmgdir -ov -format UDZO jmbde-$VERSION.dmg;
+      artifacts:
+          - name: jmbde
+            path: build/jmbde*.dmg
 
-    artifacts:
-      - name: jmbde
-        path: build/jmbde*.dmg
+      deploy:
+          - provider: GitHub
+            auth_token:
+                secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
+            artifact: /.*\.(dmg)/
+            draft: false
+            prerelease: false
+            on:
+                branch: master # release from master branch only
+                APPVEYOR_REPO_TAG: true # deploy on tag push only
 
+    ########## END macOS SPECIFIC CONFIGURATION ##########
 
-    deploy:
-      - provider: GitHub
-        auth_token:
-          secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
-        artifact: /.*\.(dmg)/
-        draft: false
-        prerelease: false
-        on:
-          branch: master            # release from master branch only
-          APPVEYOR_REPO_TAG: true   # deploy on tag push only
+    ########## UBUNTU SPECIFIC CONFIGURATION ##########
+    - matrix:
+          only:
+              - image: Ubuntu
 
+      clone_folder: /home/appveyor/projects/jmbde-QT
+      cache: ccache
 
-  ########## END macOS SPECIFIC CONFIGURATION ##########
+      install:
+          # Add Repostories
+          - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+          - sudo add-apt-repository --yes ppa:${QT_PPA}
+          - sudo apt-get update -qq
+          - sudo apt-get -y install apt-transport-https ca-certificates -qq
+          - sudo apt-get -y install gnupg software-properties-common -qq
+          - sudo apt-get -y install curl -qq
+          - sudo apt-get -y install ninja-build -qq
+          - sudo apt-get -y install libquazip-dev zlib1g-dev libssl-dev -qq
+          - sudo apt-get -y install libffi-dev libx11-dev -qq
+          - sudo apt-get -y install binutils -qq
+          - sudo apt-get -y install ccache -qq
+          - sudo apt-get -y install libgl1-mesa-dev -qq
+          - sudo apt-get -y install zlib1g-dev -qq
+          # Qt 514 on Linux
+          - sudo apt-get -y install qt${QT_VER}base -qq
+          - sudo apt-get -y install qt${QT_VER}script -qq
+          - sudo apt-get -y install qt${QT_VER}svg -qq
+          - sudo apt-get -y install qt${QT_VER}imageformats -qq
+          - sudo apt-get -y install qt${QT_VER}translations -qq
+          - sudo apt-get -y install qt${QT_VER}tools -qq
+          - source /opt/qt${QT_VER}/bin/qt${QT_VER}-env.sh
 
-  ########## UBUNTU SPECIFIC CONFIGURATION ##########
-  - matrix:
-      only:
-        - image: Ubuntu
+          # Install conan
+          - pip install conan
+          - conan user
+          - conan create ./conan/ECM
 
-    clone_folder: /home/appveyor/projects/jmbde-QT
-    cache: ccache
+      before_build:
+          - set -e # Exit immediately if anything fails
+          - mkdir -p build
+          - mkdir -p appbuild
+          - mkdir -p appdir
 
-    install:
-      # Add Repostories
-      - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-      - sudo add-apt-repository --yes ppa:${QT_PPA}
-      - sudo apt-get update -qq
-      - sudo apt-get -y install apt-transport-https ca-certificates -qq
-      - sudo apt-get -y install gnupg software-properties-common -qq
-      - sudo apt-get -y install curl -qq
-      - sudo apt-get -y install ninja-build -qq
-      - sudo apt-get -y install libquazip-dev zlib1g-dev libssl-dev -qq
-      - sudo apt-get -y install libffi-dev libx11-dev -qq
-      - sudo apt-get -y install binutils -qq
-      - sudo apt-get -y install ccache -qq
-      - sudo apt-get -y install libgl1-mesa-dev -qq
-      - sudo apt-get -y install zlib1g-dev -qq
-      # Qt 514 on Linux
-      - sudo apt-get -y install qt${QT_VER}base -qq
-      - sudo apt-get -y install qt${QT_VER}script -qq
-      - sudo apt-get -y install qt${QT_VER}svg -qq
-      - sudo apt-get -y install qt${QT_VER}imageformats -qq
-      - sudo apt-get -y install qt${QT_VER}translations -qq
-      - sudo apt-get -y install qt${QT_VER}tools -qq
-      - source /opt/qt${QT_VER}/bin/qt${QT_VER}-env.sh
+      build_script:
+          - cd build
+          - conan install ..
+          - cmake -DCMAKE_BUILD_TYPE="$CONFIGURATION"  -DCMAKE_INSTALL_PREFIX:PATH=../appdir/usr -DBUILD_TESTING=ON -DBUILD_SHARED_LIBS=ON ..
+          - make
+          - export LD_LIBRARY_PATH=$APPVEYOR_BUILD_FOLDER/build/bin:$LD_LIBRARY_PATH
 
-      # Install conan
-      - pip install conan
-      - conan user
-      - conan create ./conan/ECM
+      after_build:
+          #
+          # Create AppImage
+          - make install
+          - cd ..
+          - export LD_LIBRARY_PATH=$APPVEYOR_BUILD_FOLDER/appdir/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+          - if [ -z "$VERSION" ]; then
+            export VERSION=$APPVEYOR_BUILD_VERSION;
+            fi
+          - wget -c "https://github.com/jimevins/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
+          - chmod a+x linuxdeployqt*.AppImage
+          - wget -c -nv "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+          - chmod a+x appimagetool-x86_64.AppImage
+          - ./linuxdeployqt*.AppImage $APPVEYOR_BUILD_FOLDER/appdir/usr/share/applications/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.54m.so.1.0 -verbose=2 -appimage
+          - find appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
 
-    before_build:
-      - set -e # Exit immediately if anything fails
-      - mkdir -p build
-      - mkdir -p appbuild
-      - mkdir -p appdir
+      artifacts:
+          - name: "Linux-Debian"
+            path: jmbde*.deb
+          - name: "Linux-Archive"
+            path: jmbde*.tar.gz
+          - name: "Linux-AppImage"
+            path: jmbde*.AppImage
 
-    build_script:
-      - cd build
-      - conan install ..
-      - cmake -DCMAKE_BUILD_TYPE="$CONFIGURATION"  -DCMAKE_INSTALL_PREFIX:PATH=../appdir/usr -DBUILD_TESTING=ON -DBUILD_SHARED_LIBS=ON ..
-      - make
-      - export LD_LIBRARY_PATH=$APPVEYOR_BUILD_FOLDER/build/bin:$LD_LIBRARY_PATH
+      deploy:
+          - provider: GitHub
+            auth_token:
+                secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
+            artifact: /.*\.(msi|7z|deb|exe|dmg|tar.gz|AppImage)/
+            draft: true
+            prerelease: false
+            on:
+                branch: master # release from master branch only
+                APPVEYOR_REPO_TAG: true # deploy on tag push only
 
-    after_build:
-      #
-      # Create AppImage
-      - make install
-      - cd ..
-      - export LD_LIBRARY_PATH=$APPVEYOR_BUILD_FOLDER/appdir/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
-      - if [ -z "$VERSION" ]; then
-        export VERSION=$APPVEYOR_BUILD_VERSION;
-        fi
-      - wget -c "https://github.com/jimevins/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-      - chmod a+x linuxdeployqt*.AppImage
-      - wget -c -nv "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
-      - chmod a+x appimagetool-x86_64.AppImage
-      - ./linuxdeployqt*.AppImage $APPVEYOR_BUILD_FOLDER/appdir/usr/share/applications/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.54m.so.1.0 -verbose=2 -appimage
-      - find appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
+    ########## END UBUNTU SPECIFIC CONFIGURATION ##########
 
-    artifacts:
-      - name: "Linux-Debian"
-        path: jmbde*.deb
-      - name: "Linux-Archive"
-        path: jmbde*.tar.gz
-      - name: "Linux-AppImage"
-        path: jmbde*.AppImage
+    ########## WINDOWS SPECIFIC CONFIGURATION ##########
 
-    deploy:
-      - provider: GitHub
-        auth_token:
-          secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
-        artifact: /.*\.(msi|7z|deb|exe|dmg|tar.gz|AppImage)/
-        draft: true
-        prerelease: false
-        on:
-          branch: master            # release from master branch only
-          APPVEYOR_REPO_TAG: true   # deploy on tag push only
+    - matrix:
+          only:
+              - image: Visual Studio 2019
 
-  ########## END UBUNTU SPECIFIC CONFIGURATION ##########
+          fast_finish: false # set this flag to true to immediately finish build once one of the jobs fails.
 
-  ########## WINDOWS SPECIFIC CONFIGURATION ##########
+      cache:
+          - C:\tools\vcpkg\installed -> .appveyor.yml
+          - C:\Users\appveyor\clcache -> .appveyor.yml, build_msvc\**, **\Makefile.am, **\*.vcxproj.in
 
-  - matrix:
-      only:
-        - image: Visual Studio 2019
+      init:
+          - git config --global core.autocrlf input
+          # Uncomment the following line to show RDP info at beginning of job
+          #    - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+          - call set ENVIRONMENT_NAME=%%ENVIRONMENT_NAME:PLATFORM=%platform%%%
+          - call set ENVIRONMENT_NAME=%%ENVIRONMENT_NAME:CONFIGURATION=%configuration%%%
+          - ps: $ENV:PLATFORM="x64"
+          - ps: $ENV:PYTHON="C:\Python38-x64"
+          - ps: $ENV:LLVM="${ENV:ProgramFiles}\LLVM\bin"
+          - ps: $ENV:CMAKE_ARGS= "-DCMAKE_C_COMPILER=clang-cl.exe -DCMAKE_CXX_COMPILER=clang-cl.exe -DCMAKE_LINKER=lld-link.exe"
+          - ps: $ENV:CLANG_URL="https://releases.llvm.org/9.0.0/LLVM-9.0.0-win64.exe"
+          - ps: $ENV:VSDEVCMD="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\Common7\Tools\VsDevCmd.bat"
+          # MSVC
+          - ps: $ENV:QTDIR="C:\Qt\5.14\msvc2017_64"
+          - ps: $ENV:VCREDIST_CRT_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CRT"
+          - ps: $ENV:VCREDIST_CXXAMP_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CXXAMP"
+          - ps: $ENV:VCREDIST_OPENMP_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.OpenMP"
+          - ps: $ENV:REDIST="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\vcredist_%PLATFORM%.exe"
+          - ps: $ENV:VCVARSALL="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat"
+          - call set /p RedistVersion=<"%ProgramFiles(x86)%\\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt"
 
-      fast_finish: false # set this flag to true to immediately finish build once one of the jobs fails.
+          - ps: $ENV:Path =  $ENV:PYTHON + ";" + $ENV:PYTHON + "/Scripts" + ";" + $ENV:PATH
+          - ps: $ENV:INNO="${ENV:ProgramFiles(x86)}\Inno Setup 6"
+          - ps: $ENV:NSIS="${ENV:ProgramFiles(x86)}\NSIS"
+          - ps: $ENV:CMAKE_GENERATOR="Visual Studio 16 2019" # Ninja
+          - ps: $ENV:Path += ";" + $ENV:QTDIR + "\bin"
+          - ps: $ENV:Path += ";" + $ENV:INNO + ";" + $ENV:NSIS
+          - echo QTDIR=%QTDIR%
 
-    cache:
-      - C:\tools\vcpkg\installed -> .appveyor.yml
-      - C:\Users\appveyor\clcache -> .appveyor.yml, build_msvc\**, **\Makefile.am, **\*.vcxproj.in
+      clone_folder: c:\projects\jmbde-QT
 
-    init:
-      - git config --global core.autocrlf input
-      # Uncomment the following line to show RDP info at beginning of job
-      #    - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
-      - call set ENVIRONMENT_NAME=%%ENVIRONMENT_NAME:PLATFORM=%platform%%%
-      - call set ENVIRONMENT_NAME=%%ENVIRONMENT_NAME:CONFIGURATION=%configuration%%%
-      - ps: $ENV:PLATFORM="x64"
-      - ps: $ENV:PYTHON="C:\Python38-x64"
-      - ps: $ENV:LLVM="${ENV:ProgramFiles}\LLVM\bin"
-      - ps: $ENV:CMAKE_ARGS= "-DCMAKE_C_COMPILER=clang-cl.exe -DCMAKE_CXX_COMPILER=clang-cl.exe -DCMAKE_LINKER=lld-link.exe"
-      - ps: $ENV:CLANG_URL="https://releases.llvm.org/9.0.0/LLVM-9.0.0-win64.exe"
-      - ps: $ENV:VSDEVCMD="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\Common7\Tools\VsDevCmd.bat"
-      # MSVC
-      - ps: $ENV:QTDIR="C:\Qt\5.14\msvc2017_64"
-      - ps: $ENV:VCREDIST_CRT_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CRT"
-      - ps: $ENV:VCREDIST_CXXAMP_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CXXAMP"
-      - ps: $ENV:VCREDIST_OPENMP_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.OpenMP"
-      - ps: $ENV:REDIST="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\vcredist_%PLATFORM%.exe"
-      - ps: $ENV:VCVARSALL="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat"
-      - call set /p RedistVersion=<"%ProgramFiles(x86)%\\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt"
+      install:
+          # Windows
+          - cinst png2ico
+          - nuget install secure-file -ExcludeVersion
+          # Install conan
+          - pip install conan
+          - conan user
+          - conan create .\conan\ECM
 
-      - ps: $ENV:Path =  $ENV:PYTHON + ";" + $ENV:PYTHON + "/Scripts" + ";" + $ENV:PATH
-      - ps: $ENV:INNO="${ENV:ProgramFiles(x86)}\Inno Setup 6"
-      - ps: $ENV:NSIS="${ENV:ProgramFiles(x86)}\NSIS"
-      - ps: $ENV:CMAKE_GENERATOR="Visual Studio 16 2019" # Ninja
-      - ps: $ENV:Path += ";" + $ENV:QTDIR + "\bin"
-      - ps: $ENV:Path += ";" + $ENV:INNO + ";" + $ENV:NSIS
-      - echo QTDIR=%QTDIR%
+      before_build:
+          - call "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
+          - call "%QTDIR%\bin\qtenv2.bat"
+          - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER"
+          - ps: New-Item -itemtype directory -path ./build
+          - ps: Set-Location "build"
+          - ps: Write-Host "Generate the Project with the $ENV:CMAKE_GENERATOR gnerator and the configuration $ENV:CONFIGURATION"
 
-    clone_folder: c:\projects\jmbde-QT
+      build_script:
+          - ps: New-Item -itemtype directory -path ./program
+          - ps: conan install ..
+          - ps: cmake -G "$ENV:CMAKE_GENERATOR" -A $ENV:PLATFORM -DCMAKE_BUILD_TYPE=$ENV:CONFIGURATION  -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DCMAKE_INSTALL_PREFIX:PATH=./program -DBUILD_TESTING=ON -DBUILD_SHARED_LIBS=ON ..
+          - ps: cmake --build . --config $ENV:CONFIGURATION --target install
 
-    install:
-      # Windows
-      - cinst png2ico
-      - nuget install secure-file -ExcludeVersion
-      # Install conan
-      - pip install conan
-      - conan user
-      - conan create .\conan\ECM
+      after_build:
+          - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER/build/program"
+          - ps: Write-Host "$ENV:APPVEYOR_REPO_TAG_NAME"
+          - ps: Get-ChildItem
+          - ps: windeployqt bin/jmbde.exe bin/jmbdewidgets.dll bin/jmbdemodels.dll
+          - ps: Get-ChildItem bin
+          - cp %APPVEYOR_BUILD_FOLDER%/packaging/win/installer_%PLATFORM%.iss .
+          - ps: $installerfile="installer_" + $ENV:PLATFORM + ".iss"
+          - ps: iscc $installerfile
 
-    before_build:
-      - call "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
-      - call "%QTDIR%\bin\qtenv2.bat"
-      - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER"
-      - ps: New-Item -itemtype directory -path ./build
-      - ps: Set-Location "build"
-      - ps: Write-Host "Generate the Project with the $ENV:CMAKE_GENERATOR gnerator and the configuration $ENV:CONFIGURATION"
+      artifacts:
+          - name: Windows-Installer_x64
+            path: "build/program/jmbde*.exe"
+          - name: Windows-Archive
+            path: "build/jmbde*.zip"
 
-    build_script:
-      - ps: New-Item -itemtype directory -path ./program
-      - ps: conan install ..
-      - ps: cmake -G "$ENV:CMAKE_GENERATOR" -A $ENV:PLATFORM -DCMAKE_BUILD_TYPE=$ENV:CONFIGURATION  -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DCMAKE_INSTALL_PREFIX:PATH=./program -DBUILD_TESTING=ON -DBUILD_SHARED_LIBS=ON ..
-      - ps: cmake --build . --config $ENV:CONFIGURATION --target install
+      deploy:
+          - provider: GitHub
+            auth_token:
+                secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
+            artifact: /.*\.(exe)/
+            draft: false
+            prerelease: false
+            on:
+                branch: master # release from master branch only
+                APPVEYOR_REPO_TAG: true # deploy on tag push only
 
-    after_build:
-      - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER/build/program"
-      - ps: Write-Host "$ENV:APPVEYOR_REPO_TAG_NAME"
-      - ps: Get-ChildItem
-      - ps: windeployqt bin/jmbde.exe bin/jmbdewidgets.dll bin/jmbdemodels.dll
-      - ps: Get-ChildItem bin
-      - cp %APPVEYOR_BUILD_FOLDER%/packaging/win/installer_%PLATFORM%.iss .
-      - ps: $installerfile="installer_" + $ENV:PLATFORM + ".iss"
-      - ps: iscc $installerfile
+          - provider: NuGet
+            server: https://www.nuget.org
+            api_key: oy2k6l6mbqzqz4yxasnarz3dwqvesbpefewkyg4bi5uqz4
+            secure: m49OJ7+Jdt9an3jPcTukHA==
+            artifact: /.*\.nupkg/
+            draft: false
+            prerelease: false
+            force_update: true
+            on:
+                appveyor_repo_tag: true
 
-    artifacts:
-      - name: Windows-Installer_x64
-        path: "build/program/jmbde*.exe"
-      - name: Windows-Archive
-        path: "build/jmbde*.zip"
-
-    deploy:
-      - provider: GitHub
-        auth_token:
-          secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
-        artifact: /.*\.(exe)/
-        draft: false
-        prerelease: false
-        on:
-          branch: master            # release from master branch only
-          APPVEYOR_REPO_TAG: true   # deploy on tag push only
-
-      - provider: NuGet
-        server: https://www.nuget.org
-        api_key: oy2k6l6mbqzqz4yxasnarz3dwqvesbpefewkyg4bi5uqz4
-        secure: m49OJ7+Jdt9an3jPcTukHA==
-        artifact: /.*\.nupkg/
-        draft: false
-        prerelease: false
-        force_update: true
-        on:
-          appveyor_repo_tag: true
-
-
-    on_finish:
-      # Uncomment the following line if you don't want the build VM to be destroyed
-      # and be able to RDP on it until a special “lock” file on VM desktop is deleted
-      # The RDP session is limited by overall build time (60 min).
-      # - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+      on_finish:
+          # Uncomment the following line if you don't want the build VM to be destroyed
+          # and be able to RDP on it until a special “lock” file on VM desktop is deleted
+          # The RDP session is limited by overall build time (60 min).
+          # - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 ########## END WINDOWS SPECIFIC CONFIGURATION ##########
 
 on_success:
-  - echo "*** SUCCESS ***"
+    - echo "*** SUCCESS ***"
 
 on_failure:
-  - echo "*** FAILURE ***"
+    - echo "*** FAILURE ***"
 
 on_finish:
-  - echo "*** DONE ***"
+    - echo "*** DONE ***"
