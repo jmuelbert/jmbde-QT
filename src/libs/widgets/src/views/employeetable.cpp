@@ -1,16 +1,34 @@
+/*
+   jmbde a BDE Tool for companies
+   Copyright (C) 2020 Jürgen Mülbert
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+*/
+
 #include "views/employeetable.h"
 #include "ui_employeetable.h"
 
+Q_LOGGING_CATEGORY(jmbdeWidgetsEmployeeTableLog, "jmuelbert.jmbde.widgets.employeetable", QtWarningMsg)
+
 EmployeeTable::EmployeeTable(const QString &tableName, QSqlTableModel *model, QWidget *parent)
     : QWidget(parent)
-    , m_model(model)
     , ui(new Ui::EmployeeTable)
+    , m_model(model)
 {
     ui->setupUi(this);
 
-    m_model->setTable(tableName);
+    // Set the Model
+    m_model = new QSqlRelationalTableModel(this);
+    m_model->setTable(QLatin1String("employee"));
     m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-    m_model->select();
 
     m_model->setHeaderData(0, Qt::Horizontal, tr("ID"));
     m_model->setHeaderData(1, Qt::Horizontal, tr("First name"));
@@ -48,6 +66,6 @@ void EmployeeTable ::submit()
         m_model->database().commit();
     } else {
         m_model->database().rollback();
-        QMessageBox::warning(this, tr("Cached Table"), tr("The database reported an error: %1").arg(m_model->lastError().text()));
+        QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
     }
 }

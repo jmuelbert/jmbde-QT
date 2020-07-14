@@ -36,9 +36,19 @@
 #endif
 #include <iostream>
 
-extern "C" Q_DECL_EXPORT int main(int argc, char **argv)
+/**
+ * @brief main
+ * @param argc The count of args
+ * @param argv The arg Strings
+ * @return 0 is exceuted sucessfull
+ */
+#if defined Q_OS_ANDROID
+int __attribute__((visibility("default"))) main(int argc, char *argv[])
+#else
+int main(int argc, char *argv[])
+#endif
 {
-    QLoggingCategory::setFilterRules(QLatin1String("jmbde.*.debug=false\njmbde.*.info=false"));
+    QLoggingCategory::setFilterRules(QLatin1String("jmbdequick.*.debug=false\njmbdequick.*.info=false"));
 
 #ifndef Q_OS_WIN
     // Prohibit using sudo or kdesu (but allow using the root user directly)
@@ -78,40 +88,24 @@ extern "C" Q_DECL_EXPORT int main(int argc, char **argv)
     QApplication app(argc, argv);
 
     /**
-     * Enforce application name even if the executable is renamed
+     * set the program icon
      */
-    QApplication::setApplicationName(QLatin1String("jmbdequick"));
+    QApplication::setWindowIcon(QIcon::fromTheme(QLatin1String("jmbde"), QApplication::windowIcon()));
 
     /**
      * For Windows and macOS: use Breeze if available
      * Of all tested styles that works the best for us
      */
 #if defined(Q_OS_MACOS) || defined(Q_OS_WIN)
+    QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
     QApplication::setStyle(QStringLiteral("breeze"));
 #endif
 
-    /**
-     * set the program icon
-     */
-    QApplication::setWindowIcon(QIcon::fromTheme(QLatin1String("jmbde"), QApplication::windowIcon()));
-    QApplication::setOrganizationDomain(QLatin1String("jmuelbert.github.io"));
-
-#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
     QApplication::setApplicationName(QLatin1String("jmbde"));
-    QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
-#else
-    QApplication::setApplicationName(QLatin1String("jmbde"));
-#endif
-
     QApplication::setApplicationDisplayName(QLatin1String("jmbde"));
+    QApplication::setOrganizationName(QStringLiteral("io.jmuelbert.github"));
     QApplication::setOrganizationName(QLatin1String("jmuelbert.github.io"));
     QApplication::setApplicationVersion(QLatin1String(JMBDEAPPQUICK_VERSION_STRING));
-
-    /**
-     *
-     * set the program icon
-     */
-    QApplication::setWindowIcon(QIcon::fromTheme(QLatin1String("accessories-text-editor"), QApplication::windowIcon()));
 
     /**
      * Create command line parser and feed it with known options

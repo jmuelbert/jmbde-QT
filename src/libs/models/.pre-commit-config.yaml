@@ -3,9 +3,9 @@ repos:
     rev: v2.5.0
     hooks:
       - id: check-yaml
-        args: ['--allow-multiple-documents']
+        args: ["--allow-multiple-documents"]
       - id: check-added-large-files
-        args: ['--maxkb=150']
+        args: ["--maxkb=150"]
       - id: check-ast
       - id: check-builtin-literals
       - id: check-byte-order-marker
@@ -13,23 +13,29 @@ repos:
       - id: detect-private-key
       - id: check-docstring-first
       - id: check-executables-have-shebangs
+      - id: check-toml
       - id: check-json
+      - id: pretty-format-json
+        exclude: .vscode/*
+      - id: check-xml
       - id: check-merge-conflict
       - id: check-symlinks
-      - id: check-toml
       - id: check-vcs-permalinks
-      - id: check-xml
+      - id: debug-statements
       - id: end-of-file-fixer
+      - id: name-tests-test
       - id: file-contents-sorter
       - id: fix-encoding-pragma
       - id: forbid-new-submodules
       - id: mixed-line-ending
       - id: sort-simple-yaml
+      - id: requirements-txt-fixer
       - id: trailing-whitespace
+        exclude: .patch
       - id: no-commit-to-branch
         args: [--branch, master]
       - id: pretty-format-json
-        args: ['--autofix']
+        args: ["--autofix"]
 
   - repo: https://github.com/jumanjihouse/pre-commit-hooks
     rev: 2.0.0
@@ -48,9 +54,9 @@ repos:
             .+\.svgz
           )$
       - id: forbid-space-in-indent
-      - id: git-check     # Configure in .gitattributes
-      - id: git-dirty     # Configure in .gitignore
-      - id: markdownlint  # Configure in .mdlrc
+      - id: git-check # Configure in .gitattributes
+      - id: git-dirty # Configure in .gitignore
+      - id: markdownlint # Configure in .mdlrc
       - id: reek
       - id: rubocop
       - id: script-must-have-extension
@@ -86,6 +92,7 @@ repos:
     rev: v1.1.1
     hooks:
       - id: dockerfile_lint
+      - id: markdown-toc
 
   - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
     rev: v1.1.0
@@ -98,7 +105,7 @@ repos:
       - id: check-swagger
 
   - repo: https://github.com/thlorenz/doctoc
-    rev: v1.4.0  # substitute a tagged version
+    rev: v1.4.0 # substitute a tagged version
     hooks:
       - id: doctoc
 
@@ -149,15 +156,6 @@ repos:
       - id: forbid-autopkg-overrides
       - id: forbid-autopkg-trust-info
 
-  - repo: https://github.com/syntaqx/git-hooks
-    rev: v0.0.16
-    hooks:
-      - id: circleci-config-validate
-      - id: forbid-binary
-      - id: shellcheck
-      - id: shfmt
-
-
   - repo: https://github.com/pocc/pre-commit-hooks
     rev: v1.1.1
     hooks:
@@ -169,7 +167,6 @@ repos:
         args: [-enable-clang-static-analyzer, -enable-global-analysis]
       # - id: cppcheck
       #  args: [--force]
-
 
   - repo: https://github.com/iconmaster5326/cmake-format-pre-commit-hook
     rev: v0.6.9

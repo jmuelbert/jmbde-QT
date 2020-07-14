@@ -7,19 +7,23 @@ jobs:
     steps:
       - name: Checkout sources
         uses: actions/checkout@v1
-      - name: Brew update-reset
+      - name: brew update-reset
         run: brew update-reset
-      - name: Brew update
+      - name: brew update
         run: brew update
-      - name: Brew install kf5-extra-cmake-modules
+      - name: brew install kde-extra-cmake-modules
         run: |
-          brew tap kde-mac/kde
-          brew install kf5-extra-cmake-modules
-      - name: Upgrade cmake
-        run: brew upgrade cmake
+            brew tap kde-mac/kde https://invent.kde.org/packaging/homebrew-kde.git --force-auto-update
+            brew install kde-extra-cmake-modules
+      - name: Upgrade cmake and ninja
+        run: |
+            brew upgrade cmake
+            brew ls | grep wq ninja || brew install ninja
       - name: Install dependencies with homebrew
         run: |
-          brew install freetype cmake python3 qt5
+          brew ls | grep -wq freetype || brew install freetype
+          brew ls | grep -wq python || brew install python
+          brew ls | grep -wq qt || brew install qt
           export PATH="$(brew --prefix qt)/bin:$PATH"
       - name: Build
         run: |
@@ -31,10 +35,7 @@ jobs:
         run: |
           export VERSION=$(git rev-parse --short HEAD);
           cd build
-          ls /
-          ls ../../
-          ls ..
-          ../../Qt/*/*/bin/macdeployqt install/jmbde.app -verbose=2
+          /usr/local/opt/qt/bin/macdeployqt install/jmbde.app -verbose=2
           mkdir -p dmgdir/jmbde.app;
           cp -r install/jmbde.app/* dmgdir/jmbde.app/
           ln -s /Applications dmgdir/Applications;

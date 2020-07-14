@@ -64,6 +64,7 @@ set(KF5_VERSION "5.68.0")
 set(KF5_DEP_VERSION "5.68.0")
 set(QT_MIN_VERSION "5.12.8")
 
+
 # warn about deprecated stuff so that we may try fixing it
 set(CMAKE_WARN_DEPRECATED 1)
 
@@ -100,7 +101,8 @@ feature_summary(WHAT REQUIRED_PACKAGES_NOT_FOUND
 list(APPEND CMAKE_MODULE_PATH "${ECM_MODULE_PATH}")
 
 # Add the local module path to the search path
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake"
+     "${PROJECT_SOURCE_DIR}/cmake/modules")
 
 # load helper modules
 include(CheckFunctionExists)
@@ -407,6 +409,7 @@ endif()
 # if translation/doc host tools are missing, the Qt5 cmake config files throw
 # errors...
 if(BUILD_API_DOCS OR BUILD_MANUAL)
+  find_package(Sphinx)
   find_package(Qt5 NO_MODULE QUIET OPTIONAL_COMPONENTS Help LinguistTools)
   ecm_optional_add_subdirectory(docs)
 endif()

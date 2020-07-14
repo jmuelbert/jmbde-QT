@@ -1,43 +1,16 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-
-- [jmbde](#jmbde)
-  - [Setup](#setup)
-  - [Unterstützte Plattformen](#unterst%C3%BCtzte-plattformen)
-  - [Ausführen](#ausf%C3%BChren)
-    - [Unix](#unix)
-    - [Windows](#windows)
-  - [macOS](#macos)
-  - [Anforderungen und Fehlerberichte](#anforderungen-und-fehlerberichte)
-  - [Fragen und Kommentare](#fragen-und-kommentare)
-  - [Wiki](#wiki)
-  - [Datenbank Schema](#datenbank-schema)
-  - [Code-Quellen](#code-quellen)
-  - [Programm erstellen](#programm-erstellen)
-    - [Abhängigkeiten](#abh%C3%A4ngigkeiten)
-      - [Auf macOS](#auf-macos)
-      - [Für die Release-Version](#f%C3%BCr-die-release-version)
-      - [Für die Debug-Version](#f%C3%BCr-die-debug-version)
-    - [Unter Windows](#unter-windows)
-      - [Für die Release-Version](#f%C3%BCr-die-release-version-1)
-      - [Für die Debug-Version](#f%C3%BCr-die-debug-version-1)
-    - [Unter Linux](#unter-linux)
-      - [Für die Release-Version](#f%C3%BCr-die-release-version-2)
-      - [Für die Debug-Version](#f%C3%BCr-die-debug-version-2)
-  - [Installation](#installation)
-  - [Lizenz](#lizenz)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 # jmbde
 
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/jmuelbert/jmbde-QT)
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/caf2526829cb447b9ca6091cccebad27)](https://app.codacy.com/manual/jmuelbert/jmbde-QT?utm_source=github.com&utm_medium=referral&utm_content=jmuelbert/jmbde-QT&utm_campaign=Badge_Grade_Dashboard)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ![CI: Build Test](https://github.com/jmuelbert/jmbde-QT/workflows/CI:%20Build%20Test/badge.svg)
 [![Build status](https://ci.appveyor.com/api/projects/status/mq9qt36e588dk7ui?svg=true)](https://ci.appveyor.com/project/jmuelbert/jmbde-qt)
 [![Build Status](https://travis-ci.org/jmuelbert/jmbde-QT.svg?branch=master)](https://travis-ci.org/jmuelbert/jmbde-QT)
 
-[switch to english version](README.md)
+
+[switch to english version](README-en.md)
 
 jmbde ist ein Programm für das Management von Ressourcen in Unternehmen. Mit
 diesem Programm können die Mitarbeiter und die Ausrüstung, die sie für ihre Arbeit

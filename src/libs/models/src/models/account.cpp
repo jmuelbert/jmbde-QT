@@ -15,6 +15,8 @@
 
 #include "models/account.h"
 
+Q_LOGGING_CATEGORY(jmbdeModelsAccountLog, "jmuelbert.jmbde.models.account", QtWarningMsg)
+
 Model::Account::Account(QObject *parent)
     : CommonData(parent)
 {
@@ -67,7 +69,7 @@ auto Model::Account::generateTableString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdemodelsLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(jmbdeModelsAccountLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     QList<int> set;
 
@@ -92,7 +94,7 @@ auto Model::Account::generateFormularString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdemodelsLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(jmbdeModelsAccountLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     // Document Title
     outString = QLatin1String("<h1>");

@@ -32,12 +32,14 @@
 # minimal requirements
 cmake_minimum_required(VERSION 3.13.3 FATAL_ERROR)
 
+find_package(Sphinx REQUIRED)
+
 #
 # Part for sphinx
 #
 
 set(SPHINX_SOURCE ${CMAKE_CURRENT_SOURCE_DIR})
-set(SPHINX_BUILD ${CMAKE_CURRENT_BINARY_DIR})
+set(SPHINX_BUILD ${CMAKE_CURRENT_BINARY_DIR}/html)
 set(SPHINX_INDEX_FILE ${SPHINX_BUILD}/index.html)
 set(SPHINX_FILE_IN ${CMAKE_CURRENT_SOURCE_DIR}/config.py.in)
 set(SPHINX_FILE_OUT ${CMAKE_CURRENT_BINARY_DIR}/config.py)

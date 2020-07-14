@@ -2,8 +2,6 @@
 ## build results
 ## generated databases
 
-svenv/
-
 linuxdeployqt
 *.AppImage
 .build
@@ -355,6 +353,7 @@ celerybeat.pid
 env/
 venv/
 ENV/
+svenv/
 env.bak/
 venv.bak/
 

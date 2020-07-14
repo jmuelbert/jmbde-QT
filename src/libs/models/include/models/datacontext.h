@@ -17,10 +17,9 @@
 
 #include <QObject>
 
-#include <QDebug>
+#include <QLoggingCategory>
 
 #include <QList>
-#include <QLoggingCategory>
 #include <QString>
 #include <QStringList>
 
@@ -30,6 +29,7 @@
 
 #include <QDate>
 
+#include <QApplication>
 #include <QSqlDatabase>
 #include <QSqlDriver>
 #include <QSqlError>
@@ -43,7 +43,10 @@
 #include "commondata.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
-#include "loggingcategory.h"
+
+#include <QLoggingCategory>
+
+Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsDatacontextLog)
 
 namespace Model
 {
@@ -69,13 +72,44 @@ public:
     // TODO: Remove access of settings
 
     /*!
+        \fn DataContext( QObject *parent = nullptr);
+
+        \brief Constructor for the DataContext
+        \details Contructur with a name for the database to use.
+     */
+    explicit JMBDEMODELS_EXPORT DataContext(QObject *parent = nullptr);
+
+    /*!
         \fn DataContext( QObject *parent = nullptr,
                         const QString &name = QString() );
 
         \brief Constructor for the DataContext
         \details Contructur with a name for the database to use.
      */
-    explicit JMBDEMODELS_EXPORT DataContext(QObject *parent = nullptr, const QString &name = QString(), const QString &appID = QString());
+    explicit JMBDEMODELS_EXPORT DataContext(QObject *parent, const QString &name);
+
+    /*!
+        \fn DataContext( QObject *parent = nullptr,
+                        const QString &dbType = QString(),
+                        const QString &name = QString(),
+                        const QString &userName = QString(),
+                        const QString &passWord = QString(),
+                        const QString &hostName = QString(),
+                        const int port = 0);
+
+
+        \brief Constructor for the DataContext
+        \details Contructur with a name for the database to use.
+        \param parent - QObject
+        \param dbType - String for the Database Type {SQLITE, ODBC, PostgreSQL}
+        \param name - Name of the Database
+        \param userName - Username for login in the Database Server
+        \param passWord - Password for login in the Database Server
+        \param hostName - Hostname or IP-Address from the Database Server
+        \param port - Port for connect to the Database Server
+     */
+
+    explicit JMBDEMODELS_EXPORT DataContext(QObject *parent, const QString &name, const QString &dbType, const QString &userName, const QString &passWord, const QString &hostName, const int port);
 
     /*!
           \fn  ~DataContext() override;
@@ -86,56 +120,31 @@ public:
     JMBDEMODELS_EXPORT ~DataContext();
 
     /*!
-        \fn  QSqlDatabase getDatabase()
+        \fn  QSqlQuery getQuery(const QString &queryText);
 
-        \brief Get the ref for the opened database
+        \brief get the result of the Query from the text
+        \param queryText - the db quey
 
-        \return the referenz
+        \return true if the execution successful
+        \sa QSqlQuery
      */
-    JMBDEMODELS_EXPORT QSqlDatabase getDatabase();
 
-    /*!
-        \fn QSqlError initDb()
-        \brief initDb get the db.lastError()
-
-        Returns The last error from the Database
-     */
-    JMBDEMODELS_EXPORT QSqlError initDb();
-
-    /*!
-        \fn static bool execQuery(QSqlQuery &query);
-
-        \brief exec the QSqlQuery
-
-        \return true if the execution success ful
-     */
-    JMBDEMODELS_EXPORT static bool execQuery(QSqlQuery &query);
-
-    /*!
-        \fn bool execQuery(QString &queryTxt) const
-
-        \brief exec the QString
-
-        \return true if the execution succesful
-     */
-    JMBDEMODELS_EXPORT bool execQuery(const QString &queryText);
+    JMBDEMODELS_EXPORT QSqlQuery getQuery(const QString &query);
 
     /* basic public actions */
 
-    JMBDEMODELS_EXPORT auto check_existence(const QString &tableName, const QString &searchId, const QString &search) -> bool;
+    JMBDEMODELS_EXPORT auto checkExistence(const QString &tableName, const QString &searchId, const QString &search) -> bool;
 
     /* useful actions */
 
     /*!
-        \fn QSqlQuery getQuery(const QString &queryText)
+        \fn bool open()
 
-        \brief get the query by the given queryText
+        \brief Open the Database with the given name
 
-        \return QSqlQuery
-
-        \sa QSqlQuery
+        \return true ist the database succesful opened.
      */
-    JMBDEMODELS_EXPORT QSqlQuery getQuery(const QString &queryText);
+    JMBDEMODELS_EXPORT void open();
 
     /*!
         \fn bool openDB(const QString &name)
@@ -144,14 +153,14 @@ public:
 
         \return true ist the database succesful opened.
      */
-    JMBDEMODELS_EXPORT bool openDB(const QString &name);
+    JMBDEMODELS_EXPORT void open(const QString &name);
 
     /*!
         \fn   void renameDB(const QString &oldName, const QString &newName)
 
         \brief Rename the database to newName
      */
-    JMBDEMODELS_EXPORT void renameDB(const QString &oldName, const QString &newName);
+    JMBDEMODELS_EXPORT void renameDB(const QString &newName);
 
     /*!
         \fn void deleteDB(const QString &name)
@@ -160,18 +169,9 @@ public:
      */
     JMBDEMODELS_EXPORT void deleteDB(const QString &name);
 
+protected:
     /*!
-     * \brief SetConnectionString
-     * \param connect
-     */
-    JMBDEMODELS_EXPORT void SetConnectionString(const QString &connect)
-    {
-        m_connectionString = connect;
-    }
-
-private:
-    /*!
-        \fn void CreateConnection()
+        \fn void init()
 
         \brief Create the connection to the database
 
@@ -184,71 +184,14 @@ private:
         \todo check database version
         \todo export and import all tables
      */
-    void CreateConnection();
+    void init();
 
     /*!
         \fn bool prepareDB()
 
         \brief Create the database from sql
      */
-    bool prepareDB();
-
-    /*!
-        \fn void CloseConnection()
-
-        \brief Close the connection to the database
-        \details \e does nothing
-
-     */
-    void CloseConnection();
-
-    /*!
-        \var QString m_Name
-        \brief The holder for the DB-Name
-     */
-    QString m_Name;
-
-    QString m_connectionString;
-
-    /*!
-        \var QSqlDatabase m_db
-        \brief the holder for the DB-Connection
-     */
-    QSqlDatabase m_db;
-
-    /*!
-        \var int m_dbType
-        \brief The holder for the DB-Type
-     */
-    int m_dbType {0};
-
-    QString m_AppID;
-
-    /*!
-        \var  QString m_dbHostName
-        \brief The holder for the DB-Hostname
-     */
-    QString m_dbHostName;
-
-    /*!
-         \var  QString m_dbUserName
-         \brief The holder for the DB-Username
-      */
-    QString m_dbUserName;
-
-    /*!
-         \var  QString m_dbPassWord
-         \brief The holder for the DB-Password
-      */
-    QString m_dbPassWord;
-
-    /*!
-        \fn  void setDataBaseAccount()
-        \brief Provide the DB-Connection
-        \details Initial the Data for the Connection from
-            the Settings
-     */
-    void setDataBaseAccount(const QString &DBType, const QString &HostName, const QString &UserName, const QString &PassWord);
+    void prepareDB() const;
 
     /*!
         \fn bool checkDBVersion()
@@ -282,7 +225,7 @@ private:
         \fn QString getSqliteName()
         \brief Generate the Connection-Strig for the sqlite Database.
      */
-    auto getSqliteName() -> QString;
+    void setDatabaseConnection();
 
     enum DBTypes { SQLITE, PGSQL, ODBC };
 
@@ -294,11 +237,50 @@ signals:
     JMBDEMODELS_EXPORT void DBActionFinished();
 
 public slots:
+
+private:
     /*!
-        \fn void closeConnection()
-        \brief Slot for close connection.
+        \var QString m_Name
+        \brief The holder for the DB-Name
+     */
+    QString m_Name;
+
+    /*!
+        \var QString m_connectionString for the SQliteDB
     */
-    JMBDEMODELS_EXPORT void closeConnection();
+    QString m_connectionString;
+
+    /*!
+        \var QSqlDatabase m_db
+        \brief the holder for the DB-Connection
+     */
+    QSqlDatabase m_db;
+
+    /*!
+        \var int m_dbType
+        \brief The holder for the DB-Type
+     */
+    int m_dbType {0};
+
+    /*!
+        \var  QString m_dbHostName
+        \brief The holder for the DB-Hostname
+     */
+    QString m_dbHostName;
+
+    /*!
+         \var  QString m_dbUserName
+         \brief The holder for the DB-Username
+      */
+    QString m_dbUserName;
+
+    /*!
+         \var  QString m_dbPassWord
+         \brief The holder for the DB-Password
+      */
+    QString m_dbPassWord;
+
+    int m_dbPort {0};
 };
 } // namespace Model
 

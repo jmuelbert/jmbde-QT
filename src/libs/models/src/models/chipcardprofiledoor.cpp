@@ -15,6 +15,8 @@
 
 #include "models/chipcardprofiledoor.h"
 
+Q_LOGGING_CATEGORY(jmbdeModelsChipCardProfileDoorLog, "jmuelbert.jmbde.models.chipcardprofiledoor", QtWarningMsg)
+
 Model::ChipCardProfileDoor::ChipCardProfileDoor(QObject *parent)
     : CommonData(parent)
 {
@@ -66,7 +68,7 @@ auto Model::ChipCardProfileDoor::generateTableString(const QString &header) -> Q
 {
     QString outString;
 
-    qCDebug(jmbdemodelsLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(jmbdeModelsChipCardProfileDoorLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     QList<int> set;
 
@@ -92,7 +94,7 @@ auto Model::ChipCardProfileDoor::generateFormularString(const QString &header) -
 {
     QString outString;
 
-    qCDebug(jmbdemodelsLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(jmbdeModelsChipCardProfileDoorLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     // Document Title
     outString = QLatin1String("<h1>");

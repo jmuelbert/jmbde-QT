@@ -6,13 +6,13 @@ export BUILD_TYPE=Release
 
 # rm -rf build
 if [ ! -d "build" ]; then
-	mkdir build
+    mkdir build
 fi
 
 pushd build
 
 if [ ! -d "install" ]; then
-	mkdir install
+    mkdir install
 fi
 
 # conan remote add bincrafters "https://api.bintray.com/conan/bincrafters/public-conan"
@@ -21,21 +21,21 @@ fi
 # conan install ..
 
 cmake .. \
-	-DCMAKE_GENERATOR=Ninja \
-	-DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-	-DBUILD_SHARED_LIBS=ON \
-	-DBUILD_TRANSLATIONS=ON \
-	-DENABLE_CLAZY=OFF \
-	-DENABLE_CLANG_TIDY=ON \
-	-DENABLE_CLANG_FORMAT=ON \
-	-DENABLE_CCACHE=ON \
-	-DUSE_GIT_VERSION=ON \
-	-DBUILD_EXAMPLES=ON \
-	-DBUILD_MANUAL=ON \
-	-DBUILD_API_DOCS=ON \
-	-DBUILD_TESTING=ON \
-	-DCMAKE_INSTALL_PREFIX=install \
-	-DCMAKE_BUILD_TYPE=Release
+    -DCMAKE_GENERATOR=Ninja \
+    -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+    -DBUILD_SHARED_LIBS=ON \
+    -DBUILD_TRANSLATIONS=ON \
+    -DENABLE_CLAZY=OFF \
+    -DENABLE_CLANG_TIDY=ON \
+    -DENABLE_CLANG_FORMAT=ON \
+    -DENABLE_CCACHE=ON \
+    -DUSE_GIT_VERSION=ON \
+    -DBUILD_EXAMPLES=ON \
+    -DBUILD_MANUAL=ON \
+    -DBUILD_API_DOCS=ON \
+    -DBUILD_TESTING=ON \
+    -DCMAKE_INSTALL_PREFIX=install \
+    -DCMAKE_BUILD_TYPE=Release
 cmake --build . --config $BUILD_TYPE --target install
 ctest --verbose .
 cpack .

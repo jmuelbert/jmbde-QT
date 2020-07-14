@@ -15,6 +15,8 @@
 
 #include "models/cityname.h"
 
+Q_LOGGING_CATEGORY(jmbdeModelsCityNameLog, "jmuelbert.jmbde.models.cityname", QtWarningMsg)
+
 Model::CityName::CityName(QObject *parent)
     : CommonData(parent)
 {
@@ -65,7 +67,7 @@ auto Model::CityName::generateTableString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdemodelsLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(jmbdeModelsCityNameLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     QList<int> set;
 
@@ -92,7 +94,7 @@ auto Model::CityName::generateFormularString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdemodelsLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(jmbdeModelsCityNameLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     // Document Title
     outString = QLatin1String("<h1>");

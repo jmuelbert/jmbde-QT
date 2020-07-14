@@ -23,84 +23,87 @@ public:
 private:
     DataContext *dataContext;
     QString m_databaseName = QLatin1String("test");
-    QString m_appName = QLatin1String("test_app");
 
 private slots:
     void initTestCase() // will run once before the first test
     {
         qDebug() << "Init Testcase";
-        dataContext = new DataContext(nullptr, m_databaseName, m_appName);
+        this->dataContext = new class DataContext(nullptr, m_databaseName);
     }
 
     void cleanupTestCase()
     {
         qDebug() << "cleanup Testcase";
-        QSqlDatabase db = dataContext->getDatabase();
-        dataContext->deleteDB(db.databaseName());
+        dataContext->deleteDB(this->m_databaseName);
     }
 
     // Test for the Model Library
-    void OpenDB();
-    void CloseConnection();
-    void GetDatabase();
-    void InitDatabase();
-    void GetQuery();
-    void ExecQuery();
+
+    void getQuery_Test();
+    void openDB_Test();
+    void checkExistence_Test();
+    void renameDB_Test();
+    void deleteDB_Test();
+    void constructor_Test();
 };
 
-void DataContext_Test::OpenDB()
+void DataContext_Test::getQuery_Test()
 {
-    auto retVal = dataContext->openDB(m_databaseName);
+    this->dataContext->open(this->m_databaseName);
+    auto query = this->dataContext->getQuery(QStringLiteral("SELECT * FROM EMPLOYEE"));
+    QVERIFY(query.isValid());
+
+    query = this->dataContext->getQuery(QStringLiteral("SELECT * FROM XYZ"));
+    QVERIFY(!query.isValid());
+}
+
+void DataContext_Test::openDB_Test()
+{
+    auto retVal = true;
+    dataContext->open(m_databaseName);
     QVERIFY(retVal);
-
-    dataContext->closeConnection();
 }
 
-void DataContext_Test::CloseConnection()
+void DataContext_Test::checkExistence_Test()
 {
-    auto retVal = dataContext->openDB(m_databaseName);
-    QVERIFY2(retVal, "Open DB for test closeConnection");
-
-    dataContext->closeConnection();
+    this->dataContext->open(this->m_databaseName);
+    QVERIFY(this->dataContext->checkExistence(QStringLiteral("Computer"), QStringLiteral("Name"), QStringLiteral("PC1")));
+    QVERIFY(this->dataContext->checkExistence(QStringLiteral("Employee"), QStringLiteral("Name"), QStringLiteral("Hirsch")));
 }
 
-void DataContext_Test::GetDatabase()
+void DataContext_Test::renameDB_Test()
 {
-    QSqlDatabase db = dataContext->getDatabase();
-
-    QString name = db.databaseName();
-    QVERIFY(name.length() > 0);
-    QVERIFY(db.isValid());
+    this->dataContext->open(this->m_databaseName);
+    this->dataContext->renameDB(QStringLiteral("NewDB"));
 }
 
-void DataContext_Test::InitDatabase()
+void DataContext_Test::deleteDB_Test()
 {
-    auto sqlError = dataContext->initDb();
-
-    QVERIFY(sqlError.type() == QSqlError::NoError);
+    this->dataContext->open(this->m_databaseName);
+    this->dataContext->deleteDB(QStringLiteral("NewDB"));
 }
 
-void DataContext_Test::GetQuery()
+void DataContext_Test::constructor_Test()
 {
-    const QString queryString = QLatin1String("SELECT * FROM employee;");
+    DataContext *local_dataContext;
 
-    dataContext->openDB(m_databaseName);
+    local_dataContext = new DataContext(nullptr, QStringLiteral("testDB"));
+    QVERIFY(local_dataContext != nullptr);
 
-    QSqlQuery query = dataContext->getQuery(queryString);
+    local_dataContext = new DataContext(nullptr, QStringLiteral("BADDB"), QStringLiteral("testDB_BADDB"), QStringLiteral("user"), QStringLiteral("password"), QStringLiteral("dbhosts"), 1533);
+    QVERIFY(local_dataContext != nullptr);
 
-    QVERIFY2(!query.isValid(), "Test generated QUERY.");
+    local_dataContext = new DataContext(nullptr, QStringLiteral("ODBC"), QStringLiteral("testDB_ODBC"), QStringLiteral("user"), QStringLiteral("password"), QStringLiteral("dbhosts"), 1533);
+    QVERIFY(local_dataContext != nullptr);
 
-    dataContext->closeConnection();
-}
+    local_dataContext = new DataContext(nullptr, QStringLiteral("PGSQL"), QStringLiteral("testDB_PSQL"), QStringLiteral("user"), QStringLiteral("password"), QStringLiteral("dbhosts"), 1533);
+    QVERIFY(local_dataContext != nullptr);
 
-void DataContext_Test::ExecQuery()
-{
-    const QString queryString = QLatin1String("SELECT * FROM employee;");
+    local_dataContext = new DataContext(nullptr, QStringLiteral("SQLITE"), QStringLiteral("testDB_SQLITE"), QStringLiteral("user"), QStringLiteral("password"), QStringLiteral("dbhosts"), 1533);
+    QVERIFY(local_dataContext != nullptr);
 
-    dataContext->openDB(m_databaseName);
-
-    QVERIFY(dataContext->execQuery(queryString));
-    dataContext->closeConnection();
+    local_dataContext = new DataContext();
+    QVERIFY(local_dataContext != nullptr);
 }
 
 QTEST_GUILESS_MAIN(DataContext_Test)

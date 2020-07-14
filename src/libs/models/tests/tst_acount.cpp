@@ -25,23 +25,19 @@ private:
     DataContext *m_dataContext;
     Account *m_Account;
     const QString m_databaseName = QLatin1String("test");
-    const QString m_appName = QLatin1String("test_app");
 
 private slots:
     void initTestCase() // will run once before the first test
     {
         qDebug() << "Init Testcase";
-        m_dataContext = new DataContext(nullptr, m_databaseName, m_appName);
+        m_dataContext = new DataContext(nullptr, m_databaseName);
         m_Account = new Account();
     }
 
     void cleanupTestCase()
     {
-        QSqlDatabase db = m_dataContext->getDatabase();
-        QString dbName = db.databaseName();
-        qDebug() << "cleanup Testcase Database : " << dbName;
-
-        m_dataContext->deleteDB(dbName);
+        qDebug() << "cleanup Testcase";
+        m_dataContext->deleteDB(this->m_databaseName);
     }
 
     // Test for the Model Library

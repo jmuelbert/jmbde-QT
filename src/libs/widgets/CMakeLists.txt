@@ -27,9 +27,9 @@ set(JMBDEWIDGETS_VERSION 0.1.1)
 set(JMBDEWIDGETS_SOVERSION 0)
 
 # Set the dependencies versions
-set(KF5_VERSION "5.66.0")
-set(KF5_DEP_VERSION "5.66.0")
-set(QT_MIN_VERSION "5.12.5")
+set(KF5_VERSION "5.62.0")
+set(KF5_DEP_VERSION "5.62.0")
+set(QT_MIN_VERSION "5.12.4")
 
 # warn about deprecated stuff so that we may try fixing it
 set(CMAKE_WARN_DEPRECATED 1)
@@ -109,7 +109,6 @@ ecm_setup_version(
 
 # warn about deprecated stuff so that we may try fixing it
 set(CMAKE_WARN_DEPRECATED 1)
-
 
 # Allow adding Qt resource files with `add_executable` or `target_sources`
 # instead of `qt5_add_resources`. See
