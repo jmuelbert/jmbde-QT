@@ -10,16 +10,25 @@ root = true
 # Python
 # CMake
 [*]
+end_of_line = lf
 indent_style = space
 indent_size = 4
 charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
 
+[CMakeLists.txt,*.cmake{,.in}]
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_size = 2
+indent_style = space
+
+
 [*.py]
 indent_size = 4
 
-[*.{c,h,cpp,hpp,f90,F90}]
+[*.{c,h,cpp,hpp,qml,f90,F90}]
 indent_size = 2
 
 [*.rst]

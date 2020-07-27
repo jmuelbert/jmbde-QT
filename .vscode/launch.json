@@ -1,23 +1,21 @@
 {
-  "configurations": [
-    {
-      "MIMode": "lldb",
-      "args": [],
-      "cwd": "${workspaceFolder}",
-      "environment": [],
-      "externalConsole": true,
-      "logging": {
-        "engineLogging": true,
-        "trace": true,
-        "traceResponse": true
-      },
-      "name": "(lldb) Launch",
-      "program": "${workspaceFolder}/helloworld.out",
-      "request": "launch",
-      "stopAtEntry": true,
-      "type": "cppdbg",
-      "visualizerFile": "/Users/juergen/Library/Application Support/Code/User/workspaceStorage/0c03effc4e560bf1458f77c97eb275ec/tonka3000.qtvsctools/qt.natvis.xml"
-    }
-  ],
-  "version": "0.2.0"
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "clang++ - Build and debug active file",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}/${fileBasenameNoExtension}",
+            "args": [],
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "preLaunchTask": "clang++ build active file"
+        }
+    ]
 }

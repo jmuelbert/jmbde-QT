@@ -1,201 +1,159 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Layouts 1.14
-import TableModel 0.1
+/*
+    Copyright 2020, Jürgen Mülbert
+
+    This file is part of jmbde.
+
+    jmbde is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    jmbde is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License
+    along with jmbde. If not, see <http://www.gnu.org/licenses/>.
+*/
+// TODO:
+// - make designer-friendly
+
+import Qt.labs.platform 1.1 as Platform
+import Qt.labs.settings 1.1
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Controls.Material 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Window 2.15
+import "models" as Models
+import "ui" as Ui
 
 ApplicationWindow {
-    id: window
-    visible: true
-    width: 640
-    height: 480
+    // Signals ----------------------
+
+    id: applicationWindow
+
+    property int currentEmployee: -1
+    property int margin: 10
+    property int theme: Material.theme
+
+    objectName: "window"
     title: qsTr("jmbde")
+    visible: true
+    // Functions --------------------
+    onClosing: {
+        close.accepted = true;
+        console.log("On closing...");
+    }
 
-    menuBar: MenuBar {
-        Menu {
-            title: qsTr("&File")
-            Action {
-                text: qsTr("&New...")
+    // Shortcuts ---------------------
+    Shortcut {
+        sequence: StandardKey.Open
+        onActivated: openDialog.open()
+    }
+
+    Shortcut {
+        sequence: StandardKey.SaveAs
+        onActivated: saveDialog.open()
+    }
+
+    Shortcut {
+        sequence: StandardKey.Quit
+        onActivated: applicationWindow.close()
+    }
+
+    Ui.About {
+        id: windowAbout
+    }
+
+    Ui.Message {
+        id: dialogMessage
+
+        modal: true
+
+        footer: DialogButtonBox {
+            Button {
+                id: buttonDialogMessageOK
+
+                text: qsTr("OK")
+                onClicked: dialogMessage.close()
             }
-            Action {
-                text: qsTr("&Open...")
-            }
-            Action {
-                text: qsTr("&Save")
-            }
-            Action {
-                text: qsTr("Save &As...")
-            }
-            MenuSeparator {}
-            Action {
-                text: qsTr("&Quit")
-            }
+
         }
-        Menu {
-            title: qsTr("&Edit")
-            Action {
-                text: qsTr("Cu&t")
+
+    }
+
+    Platform.FileDialog {
+        // onAccepted: document.load(file)
+
+        id: openDialog
+
+        fileMode: Platform.FileDialog.OpenFile
+        selectedNameFilter.index: 1
+        nameFilters: ["Text files (*.txt, *.csv)"]
+        folder: Platform.StandardPaths.writableLocation(Platform.StandardPaths.DocumentsLocation)
+    }
+
+    Platform.FolderDialog {
+        id: saveDialog
+
+        options: Platform.FolderDialog.ShowDirsOnly
+        onAccepted: {
+            var saveToURI = folderDialogSaveTo.folder.toString();
+            switch (Qt.platform.os) {
+            case "windows":
+                saveToURI = saveToURI.replace(/^(file:\/{3})/, "");
+                break;
+            default:
+                saveToURI = saveToURI.replace(/^(file:\/{2})/, "");
+                break;
             }
-            Action {
-                text: qsTr("&Copy")
-            }
-            Action {
-                text: qsTr("&Paste")
-            }
-        }
-        Menu {
-            title: qsTr("&Help")
-            Action {
-                text: qsTr("&About")
-            }
+            textFieldSaveToDir.text = saveToURI;
+            applicationWindow.setSaveToDir(saveToURI);
         }
     }
 
-    header: ToolBar {
-        RowLayout {
-            anchors.fill: parent
+    Models.EmployeeDialog {
+        id: employeeDialog
 
-            ToolButton {
-                text: qsTr("<")
-                onClicked: stack.pop()
-            }
-
-            Label {
-                text: qsTr("Title")
-                elide: Label.ElideRight
-                horizontalAlignment: Qt.AlignHCenter
-                verticalAlignment: Qt.AlignVCenter
-                Layout.fillWidth: true
-            }
-
-            ToolButton {
-                text: qsTr("⋮")
-                onClicked: menu.open()
-            }
+        onFinished: {
+            if (currentEmployee === -1)
+                employeeView.model.append(lastName, street, zip, city);
+            else
+                employeeView.model.set(currentEmployee, lastname, street, zip, city);
         }
     }
 
-    footer: TabBar {// ...
-    }
+    Models.EmployeeView {
+        id: employeeView
 
-    StackView {
-        id: stack
         anchors.fill: parent
-        RowLayout {
-
-            id: layout
-            anchors.fill: parent
-            spacing: 6
-
-            Rectangle {
-                color: 'teal'
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.minimumWidth: 20
-                Layout.preferredWidth: 50
-                Layout.maximumWidth: 100
-                Layout.minimumHeight: 150
-
-                ListModel {
-                    id: outlineViewSelectItem
-
-                    ListElement {
-                        name: qsTr("Employee")
-                    }
-
-                    ListElement {
-                        name: qsTr("Computer")
-                    }
-
-                    ListElement {
-                        name: qsTr("Printer")
-                    }
-                }
-
-                Component {
-                    id: outlineViewDelegate
-                    ToolButton {
-                        width: 75
-                        height: 50
-                        // anchors.fill: parent
-                        text: name
-                        onClicked: {
-
-                            // send(name) to the main Controller
-                        }
-                    }
-                }
-
-                ListView {
-                    id: listView
-                    anchors.fill: parent
-
-                    contentWidth: headerItem.width
-                    flickableDirection: Flickable.HorizontalAndVerticalFlick
-
-                    header: Row {
-                        spacing: 1
-                        function itemAt(index) {
-                            return repeater.itemAt(index)
-                        }
-                        Repeater {
-                            id: repeater
-                            model: [qsTr("Select")]
-                            Label {
-                                text: modelData
-                                font.bold: true
-                                font.pixelSize: 20
-                                padding: 10
-                                background: Rectangle {
-                                    color: "silver"
-                                }
-                            }
-                        }
-                    }
-
-                    model: outlineViewSelectItem
-                    delegate: outlineViewDelegate
-                    ScrollIndicator.horizontal: ScrollIndicator {}
-                    ScrollIndicator.vertical: ScrollIndicator {}
-                }
-            }
-
-            Rectangle {
-                color: 'plum'
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.minimumWidth: 100
-                Layout.preferredWidth: 200
-                Layout.preferredHeight: 100
-
-                TableView {
-                    anchors.fill: parent
-                    columnSpacing: 1
-                    rowSpacing: 1
-                    clip: true
-
-                    id: tableView
-
-                    topMargin: header.implicitHeight
-
-                    Text {
-                        id: header
-                        text: "A table header"
-                    }
-
-                    model: TableModel { }
-
-                    delegate: Rectangle {
-                        implicitWidth: 100
-                        implicitHeight: 50
-                        border.width: 1
-
-                        Text {
-                            text: display
-                            anchors.centerIn: parent
-                        }
-                    }
-                }
-            }
+        onPressAndHold: {
+            currentEmployee = index;
         }
     }
+
+    RoundButton {
+        text: qsTr("+")
+        highlighted: true
+        anchors.margins: 10
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        onClicked: {
+            currentEmployee = -1;
+            employeeDialog.createEmployee();
+        }
+    }
+
+    menuBar: Ui.MenuBar {
+        id: menuBar
+    }
+
+    header: Ui.ToolBar {
+        id: toolBar
+    }
+
+    footer: Ui.TabBar {
+        id: tabBar
+    }
+
 }

@@ -20,13 +20,18 @@ else()
   cmake_policy(VERSION 3.17)
 endif()
 
-
-set(JMBDE_APP_QUICK_VERSION 0.1.0)
+#
+# The Quick/Qml Version of jmbde
+#
+set(JMBDE_APP_QUICK_VERSION 0.1.1)
 
 # Set the dependencies versions
 set(KF5_VERSION "5.68.0")
 set(KF5_DEP_VERSION "5.68.0")
 set(QT_MIN_VERSION "5.12.8")
+
+# warn about deprecated stuff so that we may try fixing it
+set(CMAKE_WARN_DEPRECATED 1)
 
 #
 # the jmbde application
@@ -36,6 +41,21 @@ project(
   DESCRIPTION "A BDE Tool"
   HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
   LANGUAGES CXX)
+
+message(
+  STATUS
+    "Building ${PROJECT_NAME} ${JMBDE_APP_QUICK_VERSION} in ${CMAKE_BUILD_TYPE} mode"
+)
+
+# ################ Disallow in-source build #################
+
+if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
+  message(
+    FATAL_ERROR
+      "${PROJECT_NAME} requires an out of source build. Please create a separate build directory and run 'cmake path_to_${PROJECT_NAME} [options]' there."
+  )
+endif()
+
 
 # set project version
 
@@ -59,15 +79,13 @@ ecm_qt_declare_logging_category(
   DEFAULT_SEVERITY
   Warning)
 
-message(
-  STATUS
-    "Building ${PROJECT_NAME} ${JMBDE_APP_QUICK_VERSION} in ${CMAKE_BUILD_TYPE} mode"
-)
+
 
 add_executable(${PROJECT_NAME} "")
 
 # Use a single application on MacOS + Windows instead of dbus.
 if(APPLE OR WIN32)
+  # TODO: Enable QT_SINGLE_APP for macOS and Windows
   # target_compile_definitions(${PROJECT_NAME} PRIVATE USE_QT_SINGLE_APP)
 endif()
 
@@ -77,8 +95,7 @@ endif()
 find_package(Qt5 ${QT_MIN_VERSION} QUIET REQUIRED COMPONENTS Core Widgets Sql
                                                              Qml)
 
-
-    target_compile_features(jmbdeappquick PUBLIC cxx_std_17)
+target_compile_features(jmbdeappquick PUBLIC cxx_std_17)
 
 target_include_directories(
   ${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include"
@@ -90,20 +107,18 @@ target_compile_definitions(
   ${PROJECT_NAME}
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
-target_link_libraries(
-  ${PROJECT_NAME}
-  PRIVATE jmuelbert::jmbdequick
-          Qt5::Widgets
-          Qt5::Core
-          Qt5::Sql
-          Qt5::Qml
-          ${CONAN_LIBS})
+target_link_libraries(${PROJECT_NAME} PRIVATE jmuelbert::jmbdequick Qt5::Widgets Qt5::Core Qt5::Sql
+                                              Qt5::Qml Qt5::Quick ${CONAN_LIBS})
 
 # Use a single application on MacOS + Windows instead of dbus.
 if(APPLE OR WIN32)
+  # TODO: Enable QT_SINGLE_APP for macOS and Windows
   # target_link_libraries(${PROJECT_NAME} PRIVATE jmbde::qtsingleapp)
 endif()
 
+#
+# Application icons
+#
 set(ICONS_PNG
     ${CMAKE_CURRENT_SOURCE_DIR}/icons/16-apps-jmbde.png
     ${CMAKE_CURRENT_SOURCE_DIR}/icons/32-apps-jmbde.png
@@ -118,9 +133,18 @@ set(ICONS_SVG ${CMAKE_CURRENT_SOURCE_DIR}/icons/sc-apps-jmbde.svgz)
 ecm_add_app_icon(ICONS_SOURCES ICONS ${ICONS_PNG} OUTFILE_BASENAME
                  ${PROJECT_NAME})
 
+#
+# target
+#
 target_sources(${PROJECT_NAME} PRIVATE ${ICONS_SOURCES})
 
-target_sources(${PROJECT_NAME} PRIVATE loggingcategory.cpp src/main.cpp)
+target_sources(
+  ${PROJECT_NAME}
+  PRIVATE loggingcategory.h
+          # CPP
+          loggingcategory.cpp
+          src/main.cpp
+        )
 
 if(WIN32)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/app.rc.in
@@ -213,7 +237,3 @@ elseif(UNIX AND NOT APPLE)
             DESTINATION ${MAN_INSTALL_DIR}/man1/)
   endif()
 endif()
-
-set(QML_IMPORT_PATH
-    ${CMAKE_BINARY_DIR}/bin
-    CACHE INTERNAL "qml import path" FORCE)

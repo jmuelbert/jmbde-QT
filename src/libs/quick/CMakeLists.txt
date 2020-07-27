@@ -1,5 +1,5 @@
 #
-# jmbde a BDE Tool for companies Copyright (C) 2013-2019  Jürgen Mülbert
+# jmbde a BDE Tool for companies Copyright (C) 2013-2020  Jürgen Mülbert
 #
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -8,8 +8,8 @@
 #
 # This program is distributed in the hope that it will be useful, but WITHOUT
 # ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-# FOR A PARTICULAR PURPOSE.  See the GNU General Pub          Qt5::Qmllic
-# License for more details.
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+# details.
 
 # minimal requirements
 cmake_minimum_required(VERSION 3.12...3.16 FATAL_ERROR)
@@ -23,8 +23,13 @@ endif()
 #
 # the QUICK library
 #
-set(JMBDEQUICK_VERSION 0.1.0)
+set(JMBDEQUICK_VERSION 0.1.1)
 set(JMBDEQUICK_SOVERSION 0)
+
+# Set the dependencies versions
+set(KF5_VERSION "5.68.0")
+set(KF5_DEP_VERSION "5.68.0")
+set(QT_MIN_VERSION "5.12.8")
 
 
 # warn about deprecated stuff so that we may try fixing it
@@ -35,20 +40,13 @@ project(
   jmbdequick
   VERSION ${JMBDEQUICK_SOVERSION}
   DESCRIPTION "${PROJECT_NAME} Quick UI Library"
+  HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
   LANGUAGES CXX)
 
 message(
   STATUS
     "Building ${PROJECT_NAME} Version ${JMBDEQUICK_VERSION} SO_Version ${JMBDEQUICK_SOVERSION} in ${CMAKE_BUILD_TYPE} mode"
 )
-
-# Set the dependencies versions
-set(KF5_VERSION "5.66.0")
-set(KF5_DEP_VERSION "5.66.0")
-set(QT_MIN_VERSION "5.12.8")
-
-# warn about deprecated stuff so that we may try fixing it
-set(CMAKE_WARN_DEPRECATED 1)
 
 # ################ Disallow in-source build #################
 
@@ -169,17 +167,18 @@ target_link_libraries(
   PUBLIC Qt5::Core
   jmuelbert::jmbdemodels
   PRIVATE
-
-  Qt5::Gui Qt5::Qml
-  Qt5::Quick
-  Qt5::Svg
-  Qt5::Sql)
+    Qt5::Gui
+    Qt5::Qml
+    Qt5::Quick
+    Qt5::Svg
+    Qt5::Sql
+	${__Qt5Widgets_LIBRARIES}
+)
 
 #
 # Finding Qt
 #
 find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS Core Quick Svg Qml Sql)
-
 
 if(Qt5QuickCompiler_FOUND AND NOT DISABLE_QTQUICK_COMPILER)
   qtquick_compiler_add_resources(jmbdequick_Resources qml.qrc)
@@ -193,9 +192,11 @@ target_sources(
           jmbdequick-version.h
           loggingcategory.h
           include/quick/maincontroller.h
+          include/models/employeemodel.h
           # CPP's
           loggingcategory.cpp
           src/quick/maincontroller.cpp
+          src/models/employeemodel.cpp
           ${jmbdequick_Resources})
 
 #

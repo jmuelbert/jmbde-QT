@@ -1,6 +1,5 @@
 [requires]
-ECM/5.66.0
+ECM/5.71.0
 
 [generators]
 cmake
-txt

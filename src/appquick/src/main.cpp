@@ -29,7 +29,7 @@
 #include <QQmlContext>
 #include <QTranslator>
 
-#include <quick/maincontroller.h>
+#include "quick/maincontroller.h"
 
 #ifndef Q_OS_WIN
 #include <unistd.h>

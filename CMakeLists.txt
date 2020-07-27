@@ -56,6 +56,15 @@ project(
   HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
   LANGUAGES CXX)
 
+# application information
+set(APPLICATION_ID "io.github.jmuelbert.jmbde")
+set(APPLICATION_NAME "jmbde")
+set(APPLICATION_DISPLAY_NAME "jmdbe")
+set(APPLICATION_DESCRIPTION "A BDE Tool")
+if(UBUNTU_TOUCH)
+  set(APPLICATION_NAME "${APPLICATION_ID}")
+endif()
+
 # Set my app version
 set(JMBDE_VERSION 0.5.0)
 
@@ -63,7 +72,6 @@ set(JMBDE_VERSION 0.5.0)
 set(KF5_VERSION "5.68.0")
 set(KF5_DEP_VERSION "5.68.0")
 set(QT_MIN_VERSION "5.12.8")
-
 
 # warn about deprecated stuff so that we may try fixing it
 set(CMAKE_WARN_DEPRECATED 1)
@@ -188,6 +196,8 @@ option(USE_GIT_VERSION "Append Git HEAD to jmbde version (if exists)" ON)
 # instead of `qt5_add_resources`. See
 # https://cmake.org/cmake/help/v3.0/manual/cmake-qt.7.html#autorcc.
 set(CMAKE_AUTOUIC ON)
+set(AUTOMOC_MOC_OPTIONS -Muri=${APPLICATION_ID})
+
 if(NOT DEFINED CMAKE_SKIP_BUILD_RPATH)
   set(CMAKE_SKIP_BUILD_RPATH OFF)
 endif()
@@ -211,7 +221,25 @@ if(APPLE)
 endif()
 
 # Required here so that the version comparison below works
-find_package(Qt5Widgets ${QT_MIN_VERSION} CONFIG REQUIRED)
+find_package(Qt5 ${QT_MIN_VERSION} REQUIRED NO_MODULE
+             COMPONENTS Core Qml Quick Svg Sql QuickControls2)
+
+# Optional QtQuickCompiler
+if(QUICK_COMPILER)
+  find_package(Qt5QuickCompiler)
+  set_package_properties(
+    # Optional QtQuickCompiler
+    if
+    (QUICK_COMPILER)
+    find_package
+    (Qt5QuickCompiler)
+    set_package_properties
+    (Qt5QuickCompiler PROPERTIES DESCRIPTION "Compile QML at build time" TYPE
+     OPTIONAL)
+    PROPERTIES
+    DESCRIPTION "Compile QML at build time"
+    TYPE OPTIONAL)
+endif()
 
 set(LANGUAGES
     "All"
@@ -225,8 +253,10 @@ string(TOLOWER "${CMAKE_BUILD_TYPE}" CMAKE_BUILD_TYPE)
 if(USE_GIT_VERSION)
   if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
     find_package(Git)
-    set_package_properties(Git PROPERTIES TYPE OPTIONAL PURPOSE
-                           "Determine exact build version.")
+    set_package_properties(
+      Git PROPERTIES
+      TYPE OPTIONAL
+      PURPOSE "Determine exact build version.")
     if(GIT_FOUND)
       execute_process(
         COMMAND ${GIT_EXECUTABLE} rev-parse --short HEAD
@@ -465,7 +495,7 @@ endif()
 
 # tell about our features (and what is missing)
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES
-                FATAL_ON_MISSING_REQUIRED_PACKAGES)
+                     FATAL_ON_MISSING_REQUIRED_PACKAGES)
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
 # cpack

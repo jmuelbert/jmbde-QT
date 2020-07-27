@@ -11,6 +11,9 @@ Project {
         directory: "qml"
     }
     ImageFiles {
-        directory: "qml"
+        directory: "images"
+    }
+    Fonts {
+        directory: "fonts"
     }
 }
