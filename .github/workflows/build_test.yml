@@ -25,7 +25,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                qt_version: [5.12.8, 5.15.0]
+                qt_version: [5.12.9, 5.15.0]
                 config:
                     - {
                           os: windows-latest,
