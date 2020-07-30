@@ -13,6 +13,8 @@
    GNU General Public License for more details.
 */
 
+#pragma once
+
 #include <QCoreApplication>
 #include <QDebug>
 #include <QGuiApplication>
@@ -27,8 +29,6 @@
 #include <loggingcategory.h>
 
 #include "models/employee.h"
-
-#pragma once
 
 class QQmlApplicationEngine;
 

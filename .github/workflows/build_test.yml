@@ -28,19 +28,22 @@ jobs:
                 qt_version: [5.12.9, 5.15.0]
                 config:
                     - {
+                          name: "Windows Latest MSVC", artifact: "Windows-MSVC",
                           os: windows-latest,
                           cc: "cl",
                           cxx: "cl",
                           binary: "jmbde.exe",
                           environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat",
-                      }
+                          is_msvc: true                      }
                     - {
+                          name: "Ubuntu Latest GCC", artifact: "Linux",
                           os: ubuntu-latest,
                           cc: "gcc",
                           cxx: "g++",
                           binary: "jmbde",
                       }
                     - {
+                          name: "macOS Latest Clang", artifact: "macOS",
                           os: macos-latest,
                           cc: "clang",
                           cxx: "clang++",
@@ -49,8 +52,7 @@ jobs:
 
         steps:
             - uses: actions/checkout@v2
-
-            - name: Fetch submodules
+            - name: Checkout submodules
               run: git submodule update --init --recursive
 
             - name: Install Python 3.8

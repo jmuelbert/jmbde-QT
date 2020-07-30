@@ -19,6 +19,10 @@
 
 #include <QAbstractListModel>
 
+#include <jmbdequick-version.h>
+#include <jmbdequick_export.h>
+#include <loggingcategory.h>
+
 class EmployeeModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -27,16 +31,16 @@ public:
     enum EmployeeRole { LastNameRole = Qt::DisplayRole, FirstNameRole = Qt::UserRole, StreetRole, ZipRole, CityRole };
     Q_ENUM(EmployeeRole)
 
-    EmployeeModel(QObject *parent = nullptr);
+    explicit JMBDEQUICK_EXPORT EmployeeModel(QObject *parent = nullptr);
 
-    int rowCount(const QModelIndex & = QModelIndex()) const;
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-    QHash<int, QByteArray> roleNames() const;
+    JMBDEQUICK_EXPORT int rowCount(const QModelIndex & = QModelIndex()) const;
+    JMBDEQUICK_EXPORT QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+    JMBDEQUICK_EXPORT QHash<int, QByteArray> roleNames() const;
 
-    Q_INVOKABLE QVariantMap get(int row) const;
-    Q_INVOKABLE void append(const QString &firstName, const QString &lastName, const QString &street, const QString &zip, const QString &city);
-    Q_INVOKABLE void set(int row, const QString &firstName, const QString &lastName, const QString &street, const QString &zip, const QString &city);
-    Q_INVOKABLE void remove(int row);
+    Q_INVOKABLE JMBDEQUICK_EXPORT QVariantMap get(int row) const;
+    Q_INVOKABLE JMBDEQUICK_EXPORT void append(const QString &firstName, const QString &lastName, const QString &street, const QString &zip, const QString &city);
+    Q_INVOKABLE JMBDEQUICK_EXPORT void set(int row, const QString &firstName, const QString &lastName, const QString &street, const QString &zip, const QString &city);
+    Q_INVOKABLE JMBDEQUICK_EXPORT void remove(int row);
 
 private:
     struct Employee {

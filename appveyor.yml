@@ -92,7 +92,7 @@ for:
       install:
           - brew update-reset
           - brew update
-          - brew upgrade cmake
+          - brew ls | grep -wq cmake || brew install cmake
           - brew ls | grep -wq ninja || brew install ninja
           - brew ls | grep -wq freetype || brew install freetype
           - brew ls | grep -wq conan || brew install conan
