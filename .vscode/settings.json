@@ -1,14 +1,15 @@
 {
     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
     "cmake.configureSettings": {
-        "BUILD_EXAMPLES": "OFF",
-        "BUILD_MANUAL": "OFF",
-        "BUILD_API_DOCS": "OFF",
+        "BUILD_EXAMPLES": "ON",
+        "BUILD_MANUAL": "ON",
+        "BUILD_API_DOCS": "ON",
         "BUILD_TRANSLATIONS": "ON",
         "BUILD_TESTING": "ON",
         "BUILD_COVERAGE": "OFF",
         "BUILD_SHARED_LIBS": "ON",
         "ENABLE_CLANG_TIDY": "ON",
+        "ENABLE_CLANG_FORMAT": "ON",
         "ENABLE_CLAZY": "ON",
         "ENABLE_CCACHE": "ON",
         "USE_GIT_VERSION": "ON"

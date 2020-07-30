@@ -1,14 +1,12 @@
 # jmbde
 
-
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/jmuelbert/jmbde-QT)
-
+[![Gitpod-Ready-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/jmuelbert/jmbde-QT)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/caf2526829cb447b9ca6091cccebad27)](https://app.codacy.com/manual/jmuelbert/jmbde-QT?utm_source=github.com&utm_medium=referral&utm_content=jmuelbert/jmbde-QT&utm_campaign=Badge_Grade_Dashboard)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ![CI: Build Test](https://github.com/jmuelbert/jmbde-QT/workflows/CI:%20Build%20Test/badge.svg)
 [![Build status](https://ci.appveyor.com/api/projects/status/mq9qt36e588dk7ui?svg=true)](https://ci.appveyor.com/project/jmuelbert/jmbde-qt)
 [![Build Status](https://travis-ci.org/jmuelbert/jmbde-QT.svg?branch=master)](https://travis-ci.org/jmuelbert/jmbde-QT)
-
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
 [switch to english version](README-en.md)
 
@@ -37,9 +35,9 @@ komplette Installationspakete mit allem, auch QT.
 Die ausführbaren Programme und Installer werden für die folgenden Plattformen zur
 Verfügung gestellt:
 
-- macOS ab der Version 10.10
-- Windows ab der Version 7
-- Linux
+-   macOS ab der Version 10.10
+-   Windows ab der Version 7
+-   Linux
 
 ## Ausführen
 
@@ -64,26 +62,26 @@ Ziehen Sie jmbde in Ihren Anwendungsordner und führen Sie jmbde aus.
 
 ## Anforderungen und Fehlerberichte
 
-- [GitHub issues (preferred)](https://github.com/jmuelbert/jmbde-QT/issues)
+-   [GitHub issues (preferred)](https://github.com/jmuelbert/jmbde-QT/issues)
 
 ## Fragen und Kommentare
 
 ## Wiki
 
-- [Main Page](https://github.com/jmuelbert/jmbde-QT/wiki)
-- [User Manual](http://jmuelbert.github.io/jmbde-QT/)
+-   [Main Page](https://github.com/jmuelbert/jmbde-QT/wiki)
+-   [User Manual](http://jmuelbert.github.io/jmbde-QT/)
 
 ## Datenbank Schema
 
-- [Datenbank Quellcode SQL](docs/database-design.md)
+-   [Datenbank Quellcode SQL](docs/database-design.md)
 
 ## Code-Quellen
 
 In dem master branch befindet sich der aktuellste Pre-Release Code.
 
-- [Releases](https://github.com/jmuelbert/jmbde-QT/releases)
+-   [Releases](https://github.com/jmuelbert/jmbde-QT/releases)
 
-- [Milestones](https://github.com/jmuelbert/jmbde-QT/milestones)
+-   [Milestones](https://github.com/jmuelbert/jmbde-QT/milestones)
 
 ## Programm erstellen
 
@@ -94,15 +92,15 @@ Kompilierungs-Flags, etc.
 
 ### Abhängigkeiten
 
-- Das Programm benötigt qt5 ab der Version 5.12.5
-- cmake ab der Version 3.13.3
-- ninja
-- c++ Entwicklungssystem
+-   Das Programm benötigt qt5 ab der Version 5.12.9
+-   cmake ab der Version 3.13.3
+-   ninja
+-   c++ Entwicklungssystem
 
 #### Auf macOS
 
-- Die neueste Xcode Version.
-- Brew [Installationsanleitung](https://brew.sh)
+-   Die neueste Xcode Version.
+-   Brew [Installationsanleitung](https://brew.sh)
 
 ```bash
   brew install cmake
@@ -111,7 +109,7 @@ Kompilierungs-Flags, etc.
   brew link qt5 --force
 ```
 
-- Alternativ können Sie auch [Qt hier herunterladen](https://www.qt.io/download-qt-installer)
+-   Alternativ können Sie auch [Qt hier herunterladen](https://www.qt.io/download-qt-installer)
 
 Führen Sie `cmake` aus, um jmbde zu erstellen:
 
@@ -136,9 +134,9 @@ Führen Sie `cmake` aus, um jmbde zu erstellen:
 
 ### Unter Windows
 
-- Visual Studio 2017 oder höher
-- Sie können [Qt hier herunterladen](https://www.qt.io/download-qt-installer)
-- Sie können viele Werkzeuge mit choco installieren. [Installationsanleitung](https://chocolatey.org/install#installing-chocolatey)
+-   Visual Studio 2017 oder höher
+-   Sie können [Qt hier herunterladen](https://www.qt.io/download-qt-installer)
+-   Sie können viele Werkzeuge mit choco installieren. [Installationsanleitung](https://chocolatey.org/install#installing-chocolatey)
 
 ```cmd
   choco install cmake
@@ -166,15 +164,15 @@ Führen Sie `cmake` aus, um jmbde zu erstellen:
 
 ### Unter Linux
 
-- Auf Ubuntu/Debian:
-  `sudo apt install qt5-default qttools5-dev-tools zlib1g-dev qtdeclarative5-dev cmake ninja`.
-- Auf Fedora: `sudo dnf builddep jmbde-QT cmake ninja`
-- Auf Arch Linux: `pacman -S qt cmake ninja`
+-   Auf Ubuntu/Debian:
+    `sudo apt install qt5-default qttools5-dev-tools zlib1g-dev qtdeclarative5-dev cmake ninja`.
+-   Auf Fedora: `sudo dnf builddep jmbde-QT cmake ninja`
+-   Auf Arch Linux: `pacman -S qt cmake ninja`
 
 Die installierten Toolchains müssen mit derjenigen übereinstimmen, mit der Qt
 kompiliert wurde.
 
-- Als nächstes kompilieren Sie durch Ausführen:
+-   Als nächstes kompilieren Sie durch Ausführen:
 
 #### Für die Release-Version
 
@@ -195,7 +193,7 @@ kompiliert wurde.
         cmake --build .
 ```
 
-Sie können nun `jmbde` mit dem Befehl `bin/jmbde`  aus fer Kommandozeile starten.
+Sie können nun `jmbde` mit dem Befehl `bin/jmbde` aus der Kommandozeile starten.
 
 ## Installation
 

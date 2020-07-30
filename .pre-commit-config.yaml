@@ -76,6 +76,15 @@ repos:
             name: Executable Ruby scripts must not have a file extension
             types: [ruby, executable]
           - id: shellcheck
+            args:
+                [
+                    "--color=always",
+                    "--shell=bash",
+                    "-x",
+                    "-a",
+                    "--exclude=SC1090",
+                ]
+            additional_dependencies: [shellcheck]
           - id: shfmt
 
     - repo: https://github.com/Lucas-C/pre-commit-hooks-go
@@ -156,14 +165,3 @@ repos:
           - id: check-plists
           - id: forbid-autopkg-overrides
           - id: forbid-autopkg-trust-info
-
-    - repo: https://github.com/pocc/pre-commit-hooks
-      rev: v1.1.1
-      hooks:
-          - id: clang-format
-            args: [-i, -style=file]
-          # - id: clang-tidy
-          # - id: oclint
-          #   args: [-enable-clang-static-analyzer, -enable-global-analysis]
-          # - id: cppcheck
-          #  args: [--enable=all]

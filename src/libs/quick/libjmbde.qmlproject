@@ -3,17 +3,21 @@ import QmlProject 1.1
 Project {
     mainFile: "qml/main.qml"
 
-    /* Include .qml, .js, and image files from current directory and subdirectories */
+    // Include .qml, .js, and image files from current directory and subdirectories
     QmlFiles {
         directory: "qml"
     }
+
     JavaScriptFiles {
         directory: "qml"
     }
+
     ImageFiles {
         directory: "images"
     }
+
     Fonts {
         directory: "fonts"
     }
+
 }

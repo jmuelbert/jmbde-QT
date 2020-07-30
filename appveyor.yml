@@ -1,6 +1,6 @@
 ---
 # version format
-version: "0.5.{build}"
+version: "0.6.{build}"
 
 # branches to build
 branches:
@@ -28,14 +28,14 @@ image:
 stack: python 3
 
 environment:
-    PY_DIR: C:\Python37-x64
+    PY_DIR: C:\Python38-x64
     my_secret:
     secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
     APPVEYOR_YML_DISABLE_PS_LINUX: true
     Appveyor: true
-    QT_PPA: beineri/opt-qt-5.14.1-bionic
-    QT_VER: 514
-    QT_VERSION: 5.14.1
+    QT_PPA: beineri/opt-qt-5.15.0-bionic
+    QT_VER: 515
+    QT_VERSION: 5.15.0
     BUILD_TESTING: OFF
 
 clone_depth: 25
@@ -110,7 +110,7 @@ for:
 
           # Init conan
           - conan user
-          - conan create ./conan/ECM
+          - conan create ./conan/ecm
 
       before_build:
           - mkdir -p build; cd build
@@ -186,7 +186,7 @@ for:
           # Install conan
           - pip install conan
           - conan user
-          - conan create ./conan/ECM
+          - conan create ./conan/ecm
 
       before_build:
           - set -e # Exit immediately if anything fails
@@ -288,7 +288,7 @@ for:
           # Install conan
           - pip install conan
           - conan user
-          - conan create .\conan\ECM
+          - conan create .\conan\ecm
 
       before_build:
           - call "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
