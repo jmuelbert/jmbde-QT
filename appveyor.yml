@@ -34,9 +34,9 @@ environment:
     secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
     APPVEYOR_YML_DISABLE_PS_LINUX: true
     Appveyor: true
-    QT_PPA: beineri/opt-qt-5.15.0-bionic
-    QT_VER: 515
-    QT_VERSION: 5.15.0
+    QT_PPA: beineri/opt-qt-5.14.2-bionic
+    QT_VER: 514
+    QT_VERSION: 5.14.2
     BUILD_TESTING: OFF
 
 clone_depth: 25
@@ -93,8 +93,6 @@ for:
       install:
           - brew update-reset
           - brew update
-          - brew ls | grep -wq cmake || brew install cmake
-          - brew ls | grep -wq ninja || brew install ninja
           - brew ls | grep -wq freetype || brew install freetype
           - brew ls | grep -wq conan || brew install conan
           - brew ls | grep -wq python || brew install python
@@ -116,7 +114,7 @@ for:
       before_build:
           - mkdir -p build; cd build
           - conan install ..
-          - cmake -GNinja -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_PREFIX_PATH="$(brew --prefix qt)" -DCMAKE_INSTALL_PREFIX:PATH=. -DCMAKE_TOOLCHAIN_FILE="$VCPKGToolChainFile" -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=ON ..
+          - cmake -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_PREFIX_PATH="$(brew --prefix qt)" -DCMAKE_INSTALL_PREFIX:PATH=. -DCMAKE_TOOLCHAIN_FILE="$VCPKGToolChainFile" -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=ON ..
 
       build_script:
           - sudo cmake --build . --target install

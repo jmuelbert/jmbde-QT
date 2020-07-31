@@ -146,6 +146,7 @@ jobs:
                   args: "install png2ico"
             - name: Configure conan
               run: |
+                  mkdir build
                   pushd build
                   conan install ..
                   popd
