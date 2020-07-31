@@ -138,9 +138,6 @@ jobs:
                   python -m pip install conan
                   conan user
                   conan create conan/ecm
-                  mkdir build && cd build
-                  conan install ..
-                  cd ..
             - name: Install png2ico on Windows
               id: png2ico
               if: (matrix.config.os == 'windows-latest')
@@ -180,6 +177,9 @@ jobs:
                       -D CMAKE_CXX_COMPILER_LAUNCHER=ccache
                     RESULT_VARIABLE result
                   )
+                  pushd build
+                  conan install ..
+                  popd
                   if (NOT result EQUAL 0)
                     message(FATAL_ERROR "Bad exit status")
                   endif()

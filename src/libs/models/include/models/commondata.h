@@ -108,7 +108,7 @@ public:
     {
         switch (role) {
         case Qt::DisplayRole:
-            return QLatin1String("%1, %2").arg(index.column()).arg(index.row());
+            return QString(QLatin1String("%1, %2")).arg(index.column()).arg(index.row());
         default:
             break;
         }
