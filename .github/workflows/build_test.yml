@@ -136,6 +136,8 @@ jobs:
               id: conan_and_ecm
               run: |
                   python -m pip install conan
+                  pwd
+                  ls -l
                   conan user
                   conan create conan/ecm
             - name: Install png2ico on Windows
@@ -177,12 +179,14 @@ jobs:
                       -D CMAKE_CXX_COMPILER_LAUNCHER=ccache
                     RESULT_VARIABLE result
                   )
-                  pushd build
-                  conan install ..
-                  popd
                   if (NOT result EQUAL 0)
                     message(FATAL_ERROR "Bad exit status")
                   endif()
+            - name: Configure conan
+              run: |
+                  pushd build
+                  conan install ..
+                  popd
             - name: Build
               shell: cmake -P {0}
               run: |

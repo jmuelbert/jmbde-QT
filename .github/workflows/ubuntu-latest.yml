@@ -118,7 +118,7 @@ jobs:
                   python -m pip install conan
                   conan user
                   pwd
-                  conan create ‚conan/ecm
+                  conan create ../conan/ecm
                   mkdir build
                   mkdir appdir
                   cd build
