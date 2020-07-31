@@ -136,16 +136,19 @@ jobs:
               id: conan_and_ecm
               run: |
                   python -m pip install conan
-                  pwd
-                  ls -l
                   conan user
-                  conan create conan/ecm
+                  conan create ./conan/ecm
             - name: Install png2ico on Windows
               id: png2ico
               if: (matrix.config.os == 'windows-latest')
               uses: crazy-max/ghaction-chocolatey@v1
               with:
                   args: "install png2ico"
+            - name: Configure conan
+              run: |
+                  pushd build
+                  conan install ..
+                  popd
             - name: Configure CMake
               shell: cmake -P {0}
               run: |
@@ -182,11 +185,6 @@ jobs:
                   if (NOT result EQUAL 0)
                     message(FATAL_ERROR "Bad exit status")
                   endif()
-            - name: Configure conan
-              run: |
-                  pushd build
-                  conan install ..
-                  popd
             - name: Build
               shell: cmake -P {0}
               run: |
