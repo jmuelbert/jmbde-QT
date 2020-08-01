@@ -1,4 +1,4 @@
-name: MacOSX-CI
+name: Installer macOS
 
 on: [push, pull_request]
 
@@ -53,11 +53,11 @@ jobs:
 
             - name: Package
               run: |
-                  /usr/local/opt/qt/bin/macdeployqt install/jmbde.app -verbose=2
+                  /usr/local/opt/qt/bin/macdeployqt ./build/install/jmbde.app -verbose=2
                   mkdir -p dmgdir/jmbde.app;
-                  cp -r install/jmbde.app/* dmgdir/jmbde.app/
+                  cp -r ./build/install/jmbde.app/* dmgdir/jmbde.app/
                   ln -s /Applications dmgdir/Applications;
-                   hdiutil create -volname jmbde-$VERSION -srcfolder dmgdir -ov -format UDZO jmbde.dmg
+                  hdiutil create -volname jmbde-$VERSION -srcfolder dmgdir -ov -format UDZO jmbde.dmg
 
             - name: Install dmg
               uses: actions/upload-artifact@v2

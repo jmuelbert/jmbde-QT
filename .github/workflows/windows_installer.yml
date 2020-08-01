@@ -1,4 +1,4 @@
-name: jmbde-QT Windows Installer
+name: Installer Windows
 
 on:
     push:
