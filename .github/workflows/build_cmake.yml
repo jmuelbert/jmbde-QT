@@ -1,26 +1,19 @@
-name: "CI: Build Test"
+name: "CMake Build Matrix"
 
-on:
-    push:
-        paths-ignore:
-            - "*.md"
-            - "*/*.md"
-            - "*/*/*.md"
-    pull_request:
-        paths-ignore:
-            - "*.md"
-            - "*/*.md"
-            - "*/*/*.md"
+on: [push, pull_request]
 
 env:
+    QT_VERSION: 5.15.0
     CMAKE_VERSION: 3.18.0
     NINJA_VERSION: 1.10.0
     BUILD_TYPE: Release
     CCACHE_VERSION: 3.7.11
+    GOOGLE_TEST_VERSION: 1.10.0
+    MAC_TARGET: 10.14
 
 jobs:
     build:
-        name: "${{ matrix.config.os }} Qt ${{ matrix.qt_version }}"
+        name: ${{ matrix.config.name }}
         runs-on: ${{ matrix.config.os }}
         strategy:
             fail-fast: false
@@ -38,6 +31,14 @@ jobs:
                           is_msvc: true,
                       }
                     - {
+                          name: "Windows Latest MinGW",
+                          artifact: "Windows-MinGW",
+                          os: windows-latest,
+                          cc: "gcc",
+                          cxx: "g++",
+                          is_msvc: false,
+                      }
+                    - {
                           name: "Ubuntu Latest GCC",
                           artifact: "Linux",
                           os: ubuntu-latest,
@@ -51,7 +52,6 @@ jobs:
                           os: macos-latest,
                           cc: "clang",
                           cxx: "clang++",
-                          binary: "jmbde.app/Contents/MacOS/jmbde",
                       }
 
         steps:
@@ -112,6 +112,7 @@ jobs:
                       COMMAND chmod +x ${cmake_dir}/cmake
                     )
                   endif()
+
             - name: Download ccache
               id: ccache
               shell: cmake -P {0}
@@ -119,42 +120,60 @@ jobs:
                   set(ccache_url "https://github.com/cristianadam/ccache/releases/download/v$ENV{CCACHE_VERSION}/${{ runner.os }}.tar.xz")
                   file(DOWNLOAD "${ccache_url}" ./ccache.tar.xz SHOW_PROGRESS)
                   execute_process(COMMAND ${CMAKE_COMMAND} -E tar xvf ./ccache.tar.xz)
+
             - name: Prepare ccache timestamp
               id: ccache_cache_timestamp
               shell: cmake -P {0}
               run: |
                   string(TIMESTAMP current_date "%Y-%m-%d-%H;%M;%S" UTC)
                   message("::set-output name=timestamp::${current_date}")
-            - name: Restore ccache cache files
-              uses: actions/cache@v1
+
+            - name: ccache cache files
+              uses: actions/cache@v1.1.0
               with:
                   path: .ccache
-                  key: ${{ matrix.config.os }}-${{ matrix.qt_version }}-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
+                  key: ${{ matrix.config.name }}-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
                   restore-keys: |
-                      ${{ matrix.config.os }}-${{ matrix.qt_version }}-ccache-
+                      ${{ matrix.config.name }}-ccache-
+
+            - name: Download Googletest
+              id: googletest
+              shell: cmake -P {0}
+              run: |
+                  # Googletest should be a submodule
+                  file(DOWNLOAD "https://github.com/google/googletest/archive/release-$ENV{GOOGLETEST_VERSION}.tar.gz" ./googletest.tar.gz SHOW_PROGRESS)
+                  execute_process(COMMAND ${CMAKE_COMMAND} -E tar xf googletest.tar.gz)
+                  file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/googletest-release-$ENV{GOOGLETEST_VERSION}" googletest_dir)
+                  message("::set-output name=googletest_dir::${googletest_dir}")
+
             - name: conan_and_ecm
               id: conan_and_ecm
               run: |
                   python -m pip install conan
                   conan user
                   conan create ./conan/ecm
+
             - name: Install png2ico on Windows
               id: png2ico
               if: (matrix.config.os == 'windows-latest')
               uses: crazy-max/ghaction-chocolatey@v1
               with:
                   args: "install png2ico"
+
             - name: Configure conan
               run: |
                   mkdir build
                   pushd build
                   conan install ..
                   popd
+
             - name: Configure CMake
               shell: cmake -P {0}
               run: |
                   set(ENV{CC} ${{ matrix.config.cc }})
                   set(ENV{CXX} ${{ matrix.config.cxx }})
+                  set(ENV{MACOSX_DEPLOYMENT_TARGET} ${{ matrix.mac_target }})
+
                   if ("${{ runner.os }}" STREQUAL "Windows" AND NOT "x${{ matrix.config.environment_script }}" STREQUAL "x")
                     execute_process(
                       COMMAND "${{ matrix.config.environment_script }}" && set
@@ -179,6 +198,8 @@ jobs:
                       -D CMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
                       -G Ninja
                       -D CMAKE_MAKE_PROGRAM=ninja
+                      -DCMAKE_C_COMPILER_LAUNCHER=ccache
+                      -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
                     RESULT_VARIABLE result
                   )
                   if (NOT result EQUAL 0)
@@ -200,16 +221,24 @@ jobs:
                   if ("${{ runner.os }}" STREQUAL "Windows")
                     set(path_separator ";")
                   endif()
-                  set(ENV{PATH} "$ENV{GITHUB_WORKSPACE}${path_separator}$ENV{PATH}")
+
+                  set(ENV{PATH} "${{ steps.cmake_and_ninja.outputs.cmake_dir }}${path_separator}$ENV{GITHUB_WORKSPACE}${path_separator}$ENV{PATH}")
+
+                  set(ENV{GOOGLETEST_DIR} "${{ steps.googletest.outputs.googletest_dir }}")
+
+                  set(ENV{NINJA_STATUS} "[%f/%t %o/sec] ")
+
                   file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}" ccache_basedir)
                   set(ENV{CCACHE_BASEDIR} "${ccache_basedir}")
                   set(ENV{CCACHE_DIR} "${ccache_basedir}/.ccache")
+                  set(ENV{CCACHE_SLOPPINESS} "pch_defines,time_macros")
                   set(ENV{CCACHE_COMPRESS} "true")
                   set(ENV{CCACHE_COMPRESSLEVEL} "6")
                   set(ENV{CCACHE_MAXSIZE} "100M")
                   if ("${{ matrix.config.cxx }}" STREQUAL "cl")
-                    set(ENV{CCACHE_MAXSIZE} "150M")
+                    set(ENV{CCACHE_MAXSIZE} "600M")
                   endif()
+
                   execute_process(COMMAND ccache -p)
                   execute_process(COMMAND ccache -z)
                   execute_process(
@@ -220,14 +249,35 @@ jobs:
                     message(FATAL_ERROR "Bad exit status")
                   endif()
                   execute_process(COMMAND ccache -s)
+
+            - name: Run tests
+              shell: cmake -P {0}
+              run: |
+                  include(ProcessorCount)
+                  ProcessorCount(N)
+                  set(ENV{CTEST_OUTPUT_ON_FAILURE} "ON")
+                  execute_process(
+                      COMMAND ${{ steps.cmake_and_ninja.outputs.cmake_dir }}/ctest -j ${N}
+                      WORKING_DIRECTORY build/build
+                      RESULT_VARIABLE result
+                      OUTPUT_VARIABLE stdout
+                      ERROR_VARIABLE stdout
+                  )
+                  message("${stdout}")
+                  if (NOT result EQUAL 0)
+                      string(REGEX MATCH "[0-9]+% tests.*[0-9.]+ sec" pass_rate "${stdout}")
+                      # Do not fail on ctest failure
+                      message("::warning::${pass_rate}")
+                  endif()
+
             - name: Upload Artifact
               uses: actions/upload-artifact@v1
               with:
-                  name: "jmbde-${{ matrix.config.os }}-${{ matrix.qt_version }}-${{ github.sha }}"
-                  path: build/bin/${{ matrix.config.binary }}
+                  name: jmbde-${{ matrix.config.artifact }}-${{ github.run_id }}.7z
+                  path: build/jmbde-${{ matrix.config.artifact }}-${{ github.run_id }}.7z
 
             - name: Get the version
-              if: startsWith(github.ref, 'refs/tags') && (matrix.qt_version == '5.12.8')
+              # if: startsWith(github.ref, 'refs/tags') && (matrix.qt_version == '5.15.0')
               id: get_version
               shell: bash
               run: |
@@ -240,14 +290,14 @@ jobs:
                     echo ::set-output name=ISBETA::true
                   fi
             - name: Pack to dmg on Mac
-              if: matrix.config.os == 'macos-latest' && startsWith(github.ref, 'refs/tags') && (matrix.qt_version == '5.12.8')
+              if: matrix.config.os == 'macos-latest' ) && (matrix.qt_version == '5.15.0') #&& startsWith(github.ref, 'refs/tags'
               run: |
                   cd build
                   ../../Qt/*/*/bin/macdeployqt jmbde.app
                   cp .src/app/APP_ICON.icns jmbde.app/Contents/Resources
                   hdiutil create -volname cpeditor-${{ steps.get_version.outputs.VERSION }}-x64 -srcfolder jmbde.app -ov -format UDZO jmbde-${{ steps.get_version.outputs.VERSION }}-x64.dmg
             - name: Release on Mac
-              if: matrix.config.os == 'macos-latest' && startsWith(github.ref, 'refs/tags') && (matrix.qt_version == '5.12.8')
+              if: matrix.config.os == 'macos-latest') && (matrix.qt_version == '5.15.0') #  && startsWith(github.ref, 'refs/tags'
               uses: softprops/action-gh-release@v1
               with:
                   draft: true
@@ -258,21 +308,22 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Install innosetup on Windows
-              if: matrix.config.os == 'windows-latest' && startsWith(github.ref, 'refs/tags') && (matrix.qt_version == '5.12.8')
+              if: matrix.config.os == 'windows-latest' ) && (matrix.qt_version == '5.15.0') # && startsWith(github.ref, 'refs/tags'
               uses: crazy-max/ghaction-chocolatey@v1
               with:
                   args: "install innosetup"
 
             - name: Pack to exe on Windows
-              if: matrix.config.os == 'windows-latest' && startsWith(github.ref, 'refs/tags') && (matrix.qt_version == '5.12.8')
+              if: matrix.config.os == 'windows-latest' ) && (matrix.qt_version == '5.15.0') # && startsWith(github.ref, 'refs/tags'
               shell: bash
               run: |
                   mkdir build/out
                   mv build/jmbde.exe build/out
                   ../Qt/*/*/bin/windeployqt.exe build/out/jmbde.exe --no-translations
                   iscc ../packing/win/win/installer_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/out
+
             - name: Release on Windows
-              if: matrix.config.os == 'windows-latest' && startsWith(github.ref, 'refs/tags') && (matrix.qt_version == '5.12.8')
+              if: matrix.config.os == 'windows-latest' ) && (matrix.qt_version == '5.15.0') # && startsWith(github.ref, 'refs/tags'
               uses: softprops/action-gh-release@v1
               with:
                   draft: true
@@ -281,3 +332,33 @@ jobs:
                   name: JMBDE ${{ steps.get_version.outputs.VERSION }}
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Release on Linux AppImage
+              if: matrix.config.os == 'windows-latest') && (matrix.qt_version == '5.15.0') #  && startsWith(github.ref, 'refs/tags'
+              run: |
+                  cd build
+                  export LD_LIBRARY_PATH=appdir/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+                  wget -c "https://github.com/jimevins/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
+                  chmod a+x linuxdeployqt*.AppImage
+                  wget -c -nv "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+                  chmod a+x appimagetool-x86_64.AppImage
+                  ./linuxdeployqt*.AppImage appdir/usr/share/applications/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.54m.so.1.0 -verbose=2 -appimage
+                  find appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
+
+            - name: Release AppImage and Source
+              if: matrix.config.os == 'ubuntu-latest' ) && (matrix.qt_version == '5.15.0') # && startsWith(github.ref, 'refs/tags'
+              uses: softprops/action-gh-release@v1
+              with:
+                  draft: true
+                  prerelease: ${{ steps.get_version.outputs.ISBETA }}
+                  files: |
+                      build/jmbde-${{ steps.get_version.outputs.VERSION }}-x86_64.AppImage
+                      jmbde-full-source-${{ steps.get_version.outputs.VERSION }}.tar.gz
+                  name: jmbde ${{ steps.get_version.outputs.VERSION }}
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Package the complete Source
+              run: |
+                  wget https://raw.githubusercontent.com/Kentzo/git-archive-all/master/git_archive_all.py
+                  python3 git_archive_all.py jmbde-QT-full-source-${{ steps.get_version.outputs.VERSION }}.tar.gz
