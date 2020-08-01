@@ -34,9 +34,9 @@ set(JMBDEMODELS_VERSION 0.1.2)
 set(JMBDEMODELS_SOVERSION 0)
 
 # Set the dependencies versions
-set(KF5_VERSION "5.62.0")
-set(KF5_DEP_VERSION "5.62.0")
-set(QT_MIN_VERSION "5.12.4")
+set(KF5_VERSION "5.68.0")
+set(KF5_DEP_VERSION "5.68.0")
+set(QT_MIN_VERSION "5.12.9")
 
 # warn about deprecated stuff so that we may try fixing it
 set(CMAKE_WARN_DEPRECATED 1)
@@ -59,8 +59,8 @@ endif()
 
 # For ECM-CONAN
 if(EXISTS "${CONAN_ECM_ROOT}")
-  list(APPEND CMAKE_PREFIX_PATH "${CONAN_ECM_ROOT}/share/ECM")
-  message(STATUS "Setting ECM-DIR to ${CONAN_ECM_ROOT}/share/ECM")
+  list(APPEND CMAKE_PREFIX_PATH "${CONAN_ECM_ROOT}/share/ecm")
+  message(STATUS "Setting ECM-DIR to ${CONAN_ECM_ROOT}/share/ecm")
 endif()
 
 # we need some parts of the ECM CMake helpers

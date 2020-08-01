@@ -34,17 +34,13 @@ jobs:
                           binary: "jmbde",
                       }
         steps:
+            - name: Get the version
+              id: get_version
+              shell: bash
+              run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+
             - uses: actions/checkout@v2
-
-            - name: Fetch submodules
-              run: git submodule update --init --recursive
-
-            - name: Install Python 3.8
-              uses: actions/setup-python@v1
-              with:
-                  python-version: 3.8
-
-            - name: Fetch submodules
+            - name: Checkout submodules
               run: git submodule update --init --recursive
 
             - name: Install Python 3.8
@@ -56,14 +52,14 @@ jobs:
               run: |
                   sudo apt-get install libxkbcommon-x11-dev
 
-            - name: Restore Qt from cache
+            - name: Cache Qt
               id: cache-qt
               uses: actions/cache@v1
               with:
                   path: ../Qt
                   key: Qt-${{ matrix.config.os }}-${{ matrix.qt_version }}
 
-            - name: Set up Qt environment
+            - name: Installing Qt - ${{ matrix.qt_version }}
               uses: jurplel/install-qt-action@v2
               with:
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
@@ -92,6 +88,7 @@ jobs:
                     COMMAND chmod +x ninja
                     COMMAND chmod +x ${cmake_dir}/cmake
                   )
+
             - name: Download ccache
               id: ccache
               shell: cmake -P {0}
@@ -99,12 +96,14 @@ jobs:
                   set(ccache_url "https://github.com/cristianadam/ccache/releases/download/v$ENV{CCACHE_VERSION}/${{ runner.os }}.tar.xz")
                   file(DOWNLOAD "${ccache_url}" ./ccache.tar.xz SHOW_PROGRESS)
                   execute_process(COMMAND ${CMAKE_COMMAND} -E tar xvf ./ccache.tar.xz)
+
             - name: Prepare ccache timestamp
               id: ccache_cache_timestamp
               shell: cmake -P {0}
               run: |
                   string(TIMESTAMP current_date "%Y-%m-%d-%H;%M;%S" UTC)
                   message("::set-output name=timestamp::${current_date}")
+
             - name: Restore ccache cache files
               uses: actions/cache@v1
               with:
@@ -112,17 +111,18 @@ jobs:
                   key: ${{ matrix.config.os }}-${{ matrix.qt_version }}-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
                   restore-keys: |
                       ${{ matrix.config.os }}-${{ matrix.qt_version }}-ccache-
+
             - name: conan_and_ecm
               id: conan_and_ecm
               run: |
                   python -m pip install conan
                   conan user
-                  pwd
                   conan create ./conan/ecm
                   mkdir build
                   mkdir appdir
                   cd build
                   conan install ..
+
             - name: Configure CMake
               shell: cmake -P {0}
               run: |
@@ -161,6 +161,7 @@ jobs:
                   if (NOT result EQUAL 0)
                     message(FATAL_ERROR "Bad exit status")
                   endif()
+
             - name: Build
               shell: cmake -P {0}
               run: |
@@ -183,6 +184,7 @@ jobs:
                     message(FATAL_ERROR "Bad exit status")
                   endif()
                   execute_process(COMMAND ccache -s)
+
             - name: Build AppImage
               run: |
                   cd build

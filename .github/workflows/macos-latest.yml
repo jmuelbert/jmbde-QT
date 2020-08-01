@@ -1,47 +1,66 @@
 name: MacOSX-CI
+
 on: [push, pull_request]
 
 jobs:
-  macosx-build:
-    runs-on: macos-latest
-    steps:
-      - name: Checkout sources
-        uses: actions/checkout@v1
-      - name: brew update-reset
-        run: brew update-reset
-      - name: brew update
-        run: brew update
-      - name: brew install kde-extra-cmake-modules
-        run: |
-            brew tap kde-mac/kde https://invent.kde.org/packaging/homebrew-kde.git --force-auto-update
-            brew install kde-extra-cmake-modules
-      - name: Upgrade cmake and ninja
-        run: |
-            brew upgrade cmake
-            brew ls | grep wq ninja || brew install ninja
-      - name: Install dependencies with homebrew
-        run: |
-          brew ls | grep -wq freetype || brew install freetype
-          brew ls | grep -wq python || brew install python
-          brew ls | grep -wq qt || brew install qt
-          export PATH="$(brew --prefix qt)/bin:$PATH"
-      - name: Build
-        run: |
-          export JMBDE_VERSION=$(git describe | cut -c 2-)
-          mkdir build && cd build
-          cmake -GNinja -DCMAKE_PREFIX_PATH="$(brew --prefix qt)" -DCMAKE_INSTALL_PREFIX=install -DBUILD_SHARED_LIBS=ON ..
-          cmake --build . --config $CMAKE_BUILD_TYPE --target install
-      - name: Package
-        run: |
-          export VERSION=$(git rev-parse --short HEAD);
-          cd build
-          /usr/local/opt/qt/bin/macdeployqt install/jmbde.app -verbose=2
-          mkdir -p dmgdir/jmbde.app;
-          cp -r install/jmbde.app/* dmgdir/jmbde.app/
-          ln -s /Applications dmgdir/Applications;
-          hdiutil create -volname jmbde-$VERSION -srcfolder dmgdir -ov -format UDZO jmbde.dmg
-      - name: Install dmg
-        uses: actions/upload-artifact@v1
-        with:
-          name: jmbde.dmg
-          path: build/install
+    build:
+        runs-on: macos-latest
+        name: "${{ matrix.config.os }} Qt ${{ matrix.qt_version }}"
+        strategy:
+            fail-fast: false
+            matrix:
+                qt_version: [5.12.9, 5.15.0]
+
+        steps:
+            - name: Get the version
+              id: get_version
+              shell: bash
+              run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+
+            - uses: actions/checkout@v2
+            - name: Checkout submodules
+              run: git submodule update --init --recursive
+
+            - name: brew update-reset
+              run: brew update-reset
+
+            - name: brew update
+              run: brew update
+
+            - name: brew install kde-extra-cmake-modules
+              run: |
+                  brew tap kde-mac/kde https://invent.kde.org/packaging/homebrew-kde.git --force-auto-update
+                  brew install kde-extra-cmake-modules
+
+            - name: Upgrade cmake and ninja
+              run: |
+                  brew upgrade cmake
+                  brew ls | grep wq ninja || brew install ninja
+
+            - name: Install dependencies with homebrew
+              run: |
+                  brew ls | grep -wq freetype || brew install freetype
+                  brew ls | grep -wq python || brew install python
+                  brew ls | grep -wq qt || brew install qt
+                  export PATH="$(brew --prefix qt)/bin:$PATH"
+
+            - name: Build
+              run: |
+                  export JMBDE_VERSION=$(git describe | cut -c 2-)
+                  mkdir build && cd build
+                  cmake -GNinja -DCMAKE_PREFIX_PATH="$(brew --prefix qt)" -DCMAKE_INSTALL_PREFIX=install -DBUILD_SHARED_LIBS=ON ..
+                  cmake --build . --config $CMAKE_BUILD_TYPE --target install
+
+            - name: Package
+              run: |
+                  /usr/local/opt/qt/bin/macdeployqt install/jmbde.app -verbose=2
+                  mkdir -p dmgdir/jmbde.app;
+                  cp -r install/jmbde.app/* dmgdir/jmbde.app/
+                  ln -s /Applications dmgdir/Applications;
+                   hdiutil create -volname jmbde-$VERSION -srcfolder dmgdir -ov -format UDZO jmbde.dmg
+
+            - name: Install dmg
+              uses: actions/upload-artifact@v2
+              with:
+                  name: jmbde.dmg
+                  path: build/install

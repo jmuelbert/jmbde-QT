@@ -32,8 +32,8 @@ from conans import ConanFile, CMake, tools
 
 
 class ECMConan(ConanFile):
-    name = "ECM"
-    version = "5.66.0"
+    name = "ecm"
+    version = "5.71.0"
     license = ""
     url = "git://anongit.kde.org/extra-cmake-modules.git"
     description = "The Extra CMake Modules package,."

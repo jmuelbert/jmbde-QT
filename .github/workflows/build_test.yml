@@ -64,14 +64,14 @@ jobs:
               with:
                   python-version: 3.8
 
-            - name: Restore Qt from cache
+            - name: Cache Qt
               id: cache-qt
               uses: actions/cache@v1
               with:
                   path: ../Qt
                   key: Qt-${{ matrix.config.os }}-${{ matrix.qt_version }}
 
-            - name: Set up Qt environment
+            - name: Installing Qt - ${{ matrix.qt_version }}
               uses: jurplel/install-qt-action@v2
               with:
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
@@ -179,8 +179,6 @@ jobs:
                       -D CMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
                       -G Ninja
                       -D CMAKE_MAKE_PROGRAM=ninja
-                      -D CMAKE_C_COMPILER_LAUNCHER=ccache
-                      -D CMAKE_CXX_COMPILER_LAUNCHER=ccache
                     RESULT_VARIABLE result
                   )
                   if (NOT result EQUAL 0)
