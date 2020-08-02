@@ -184,6 +184,7 @@ for:
 
           # Install conan
           - pip install conan
+          - conan profile update settings.compiler.libcxx=libstdc++11 default
           - conan user
           - conan create ./conan/ecm
 
