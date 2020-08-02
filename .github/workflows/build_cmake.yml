@@ -279,14 +279,14 @@ jobs:
                   echo ::set-output name=VERSION::$VERSION
 
             - name: Pack to dmg on Mac
-              if: matrix.config.os == 'macos-latest'  && (matrix.qt_version == '5.15.0') #&& startsWith(github.ref, 'refs/tags')
+              if: matrix.config.os == 'macos-latest' # && (matrix.qt_version == '5.15.0') #&& startsWith(github.ref, 'refs/tags')
               run: |
                   cd build
                   ../../Qt/*/*/bin/macdeployqt jmbde.app
                   cp .src/app/APP_ICON.icns jmbde.app/Contents/Resources
                   hdiutil create -volname cpeditor-${{ steps.get_version.outputs.VERSION }}-x64 -srcfolder jmbde.app -ov -format UDZO jmbde-${{ steps.get_version.outputs.VERSION }}-x64.dmg
             - name: Release on Mac
-              if: matrix.config.os == 'macos-latest' && (matrix.qt_version == '5.15.0') #  && startsWith(github.ref, 'refs/tags')
+              if: matrix.config.os == 'macos-latest' # && (matrix.qt_version == '5.15.0') #  && startsWith(github.ref, 'refs/tags')
               uses: softprops/action-gh-release@v1
               with:
                   draft: true
@@ -297,13 +297,13 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Install innosetup on Windows
-              if: matrix.config.os == 'windows-latest'  && (matrix.qt_version == '5.15.0') # && startsWith(github.ref, 'refs/tags')
+              if: matrix.config.os == 'windows-latest' # && (matrix.qt_version == '5.15.0') # && startsWith(github.ref, 'refs/tags')
               uses: crazy-max/ghaction-chocolatey@v1
               with:
                   args: "install innosetup"
 
             - name: Pack to exe on Windows
-              if: matrix.config.os == 'windows-latest'  && (matrix.qt_version == '5.15.0') # && startsWith(github.ref, 'refs/tags')
+              if: matrix.config.os == 'windows-latest' # && (matrix.qt_version == '5.15.0') # && startsWith(github.ref, 'refs/tags')
               shell: bash
               run: |
                   mkdir build/out
@@ -312,7 +312,7 @@ jobs:
                   iscc ../packing/win/win/installer_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/out
 
             - name: Release on Windows
-              if: matrix.config.os == 'windows-latest'  && (matrix.qt_version == '5.15.0') # && startsWith(github.ref, 'refs/tags')
+              if: matrix.config.os == 'windows-latest' # && (matrix.qt_version == '5.15.0') # && startsWith(github.ref, 'refs/tags')
               uses: softprops/action-gh-release@v1
               with:
                   draft: true
@@ -323,7 +323,7 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Release on Linux AppImage
-              if: matrix.config.os == 'windows-latest' && (matrix.qt_version == '5.15.0') #  && startsWith(github.ref, 'refs/tags')
+              if: matrix.config.os == 'ubuntu-latest' # && (matrix.qt_version == '5.15.0') #  && startsWith(github.ref, 'refs/tags')
               run: |
                   cd build
                   export LD_LIBRARY_PATH=appdir/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
@@ -335,7 +335,7 @@ jobs:
                   find appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
 
             - name: Release AppImage and Source
-              if: matrix.config.os == 'ubuntu-latest'  && (matrix.qt_version == '5.15.0') # && startsWith(github.ref, 'refs/tags')
+              if: matrix.config.os == 'ubuntu-latest' # && (matrix.qt_version == '5.15.0') # && startsWith(github.ref, 'refs/tags')
               uses: softprops/action-gh-release@v1
               with:
                   draft: true
@@ -346,8 +346,7 @@ jobs:
                   name: jmbde ${{ steps.get_version.outputs.VERSION }}
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-            - name: Package the complete Source
-              run: |
-                  wget https://raw.githubusercontent.com/Kentzo/git-archive-all/master/git_archive_all.py
-                  python3 git_archive_all.py jmbde-QT-full-source-${{ steps.get_version.outputs.VERSION }}.tar.gz
+            #- name: Package the complete Source
+            #  run: |
+            #      wget https://raw.githubusercontent.com/Kentzo/git-archive-all/master/git_archive_all.py
+            #      python3 git_archive_all.py jmbde-QT-full-source-${{ steps.get_version.outputs.VERSION }}.tar.gz
