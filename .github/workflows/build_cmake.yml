@@ -1,6 +1,8 @@
 name: "CMake Build Matrix"
 
-on: [push, pull_request]
+on:
+    push:
+        release: [prereleased]
 
 env:
     QT_VERSION: 5.15.0
@@ -12,62 +14,97 @@ env:
     MAC_TARGET: 10.14
 
 jobs:
-    build:
-        name: "${{ matrix.config.os }} Qt ${{ matrix.qt_version }}"
-        runs-on: ${{ matrix.config.os }}
-        strategy:
-            fail-fast: false
-            matrix:
-                qt_version: [5.12.9, 5.15.0]
-                config:
-                    - {
-                          name: "Windows Latest MSVC",
-                          artifact: "Windows-MSVC",
-                          os: windows-latest,
-                          cc: "cl",
-                          cxx: "cl",
-                          environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat",
-                          is_msvc: true,
-                      }
-                    - {
-                          name: "Ubuntu Latest GCC",
-                          artifact: "Linux",
-                          os: ubuntu-latest,
-                          cc: "gcc",
-                          cxx: "g++",
-                          binary: "jmbde",
-                      }
-                    - {
-                          name: "macOS Latest Clang",
-                          artifact: "macOS",
-                          os: macos-latest,
-                          cc: "clang",
-                          cxx: "clang++",
-                      }
-
+    check_commit_msg:
+        outputs:
+            commit_message: ${{ steps.get_message.outputs.message }}
+        name: Checks if the workflow has been deisabled.
+        runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
-            - name: Checkout submodules
-              run: git submodule update --init --recursive
+            - name: Get commit message
+              id: get_message
+              run: |
+                  echo "::set-output name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
+                  echo "::set-env name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
+    build:
+        needs: check_commit_msg
+        if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_MAIN') }}
+
+        strategy:
+            matrix:
+                qt_version: [5.15.0]
+                platform: [ubuntu-latest, macos-latest, windows-latest]
+                arch: [x86, x64]
+                include:
+                    - platform: windows-latesst
+                      arch: x86
+                      qtarch: win32_msvc2019
+                    - platform: windows-latest
+                      arch: x64
+                      qtarch: win64_msvsc2019_64
+                exclude:
+                    - platform: ubuntu-latest
+                      arch: x86
+                    - platform: macos-latest
+                      arch: x86
+
+            fail-fast: false
+
+        runs-on: ${{ matrix.platform }}
+        env:
+            _JMBDE_BUILD_INFO_: "jmbde built from GitHub Action"
+
+        steps:
+            - name: Get the version
+              id: get_version
+              shell: bash
+              run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+
+            - name: Checking out sources
+              uses: actions/checkout@v2
 
             - name: Install Python 3.8
               uses: actions/setup-python@v1
               with:
                   python-version: 3.8
+                  architecture: ${{ matrix.arch }}
 
+            - name: Restoring submodules
+              run: git submodule update --init
+            # === Windows =====================================
+            - name: Install MSVC compiler
+              if: matrix.platform == 'windows-latest'
+              uses: ilammy/msvc-dev-cmd@v1
+              with:
+                  # 14.1 is for vs2017, 14.2 is vs2019, following the upstream vcpkg build from Qv2ray-deps repo
+                  toolset: 14.2
+                  arch: ${{ matrix.arch }}
             - name: Cache Qt
               id: cache-qt
               uses: actions/cache@v1
               with:
                   path: ../Qt
-                  key: Qt-${{ matrix.config.os }}-${{ matrix.qt_version }}
+                  key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ matrix.qt_version }}
 
             - name: Installing Qt - ${{ matrix.qt_version }}
               uses: jurplel/install-qt-action@v2
               with:
-                  cached: ${{ steps.cache-qt.outputs.cache-hit }}
                   version: ${{ matrix.qt_version }}
+                  arch: ${{ matrix.qtarch }}
+                  mirror: "http://mirrors.ocf.berkeley.edu/qt/"
+                  cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
+            # === Linux =====================================
+            - name: Linux - ${{ matrix.qt_version }} - Build preparation - Install Packages
+              if: matrix.platform == 'ubuntu-latest'
+              run: |
+                  sudo apt update
+            # === macOS =====================================
+            - name: macOS - ${{ matrix.qt_version }} - Build preparation - Install Packages
+              if: matrix.patform == 'macos-latest'
+              run: |
+                  brew install pkg-config
+            # === CMake and Ninja =====================================
             - name: Download Ninja and CMake
               id: cmake_and_ninja
               shell: cmake -P {0}
@@ -104,29 +141,6 @@ jobs:
                     )
                   endif()
 
-            - name: Download ccache
-              id: ccache
-              shell: cmake -P {0}
-              run: |
-                  set(ccache_url "https://github.com/cristianadam/ccache/releases/download/v$ENV{CCACHE_VERSION}/${{ runner.os }}.tar.xz")
-                  file(DOWNLOAD "${ccache_url}" ./ccache.tar.xz SHOW_PROGRESS)
-                  execute_process(COMMAND ${CMAKE_COMMAND} -E tar xvf ./ccache.tar.xz)
-
-            - name: Prepare ccache timestamp
-              id: ccache_cache_timestamp
-              shell: cmake -P {0}
-              run: |
-                  string(TIMESTAMP current_date "%Y-%m-%d-%H;%M;%S" UTC)
-                  message("::set-output name=timestamp::${current_date}")
-
-            - name: ccache cache files
-              uses: actions/cache@v1.1.0
-              with:
-                  path: .ccache
-                  key: ${{ matrix.config.name }}-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
-                  restore-keys: |
-                      ${{ matrix.config.name }}-ccache-
-
             - name: Download Googletest
               id: googletest
               shell: cmake -P {0}
@@ -158,125 +172,120 @@ jobs:
                   conan install ..
                   popd
 
-            - name: Configure CMake
-              shell: cmake -P {0}
-              run: |
-                  set(ENV{CC} ${{ matrix.config.cc }})
-                  set(ENV{CXX} ${{ matrix.config.cxx }})
-                  set(ENV{MACOSX_DEPLOYMENT_TARGET} ${{ matrix.mac_target }})
+            # === MacOS Build =====================================
+            - name: Install Node
+              id: install_node
+              if: matrix.platform == 'macos-latest'
+              with:
+                  node-version: "12.x"
+            - name: Install appdmg
+              id: install_appdmg
+              if: matrix.patform == 'macos-latest'
+              run: npm install -g appdmg
 
-                  if ("${{ runner.os }}" STREQUAL "Windows" AND NOT "x${{ matrix.config.environment_script }}" STREQUAL "x")
-                    execute_process(
-                      COMMAND "${{ matrix.config.environment_script }}" && set
-                      OUTPUT_FILE environment_script_output.txt
-                    )
-                    file(STRINGS environment_script_output.txt output_lines)
-                    foreach(line IN LISTS output_lines)
-                      if (line MATCHES "^([a-zA-Z0-9_-]+)=(.*)$")
-                        set(ENV{${CMAKE_MATCH_1}} "${CMAKE_MATCH_2}")
-                      endif()
-                    endforeach()
-                  endif()
-                  set(path_separator ":")
-                  if ("${{ runner.os }}" STREQUAL "Windows")
-                    set(path_separator ";")
-                  endif()
-                  set(ENV{PATH} "$ENV{GITHUB_WORKSPACE}${path_separator}$ENV{PATH}")
-                  execute_process(
-                    COMMAND ${{ steps.cmake_and_ninja.outputs.cmake_dir }}/cmake
-                      -S .
-                      -B build
-                      -D CMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
-                      -G Ninja
-                      -D CMAKE_MAKE_PROGRAM=ninja
-                    RESULT_VARIABLE result
-                  )
-                  if (NOT result EQUAL 0)
-                    message(FATAL_ERROR "Bad exit status")
-                  endif()
-
-            - name: Build
-              shell: cmake -P {0}
-              run: |
-                  set(ENV{NINJA_STATUS} "[%f/%t %o/sec] ")
-                  if ("${{ runner.os }}" STREQUAL "Windows" AND NOT "x${{ matrix.config.environment_script }}" STREQUAL "x")
-                    file(STRINGS environment_script_output.txt output_lines)
-                    foreach(line IN LISTS output_lines)
-                      if (line MATCHES "^([a-zA-Z0-9_-]+)=(.*)$")
-                        set(ENV{${CMAKE_MATCH_1}} "${CMAKE_MATCH_2}")
-                      endif()
-                    endforeach()
-                  endif()
-                  set(path_separator ":")
-                  if ("${{ runner.os }}" STREQUAL "Windows")
-                    set(path_separator ";")
-                  endif()
-
-                  set(ENV{PATH} "${{ steps.cmake_and_ninja.outputs.cmake_dir }}${path_separator}$ENV{GITHUB_WORKSPACE}${path_separator}$ENV{PATH}")
-
-                  set(ENV{GOOGLETEST_DIR} "${{ steps.googletest.outputs.googletest_dir }}")
-
-                  set(ENV{NINJA_STATUS} "[%f/%t %o/sec] ")
-
-                  file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}" ccache_basedir)
-                  set(ENV{CCACHE_BASEDIR} "${ccache_basedir}")
-                  set(ENV{CCACHE_DIR} "${ccache_basedir}/.ccache")
-                  set(ENV{CCACHE_SLOPPINESS} "pch_defines,time_macros")
-                  set(ENV{CCACHE_COMPRESS} "true")
-                  set(ENV{CCACHE_COMPRESSLEVEL} "6")
-                  set(ENV{CCACHE_MAXSIZE} "100M")
-                  if ("${{ matrix.config.cxx }}" STREQUAL "cl")
-                    set(ENV{CCACHE_MAXSIZE} "600M")
-                  endif()
-
-                  execute_process(COMMAND ccache -p)
-                  execute_process(COMMAND ccache -z)
-                  execute_process(
-                    COMMAND ${{ steps.cmake_and_ninja.outputs.cmake_dir }}/cmake --build build
-                    RESULT_VARIABLE result
-                  )
-                  if (NOT result EQUAL 0)
-                    message(FATAL_ERROR "Bad exit status")
-                  endif()
-                  execute_process(COMMAND ccache -s)
-
-            - name: Run tests
-              shell: cmake -P {0}
-              run: |
-                  include(ProcessorCount)
-                  ProcessorCount(N)
-                  set(ENV{CTEST_OUTPUT_ON_FAILURE} "ON")
-                  execute_process(
-                      COMMAND ${{ steps.cmake_and_ninja.outputs.cmake_dir }}/ctest -j ${N}
-                      WORKING_DIRECTORY build/build
-                      RESULT_VARIABLE result
-                      OUTPUT_VARIABLE stdout
-                      ERROR_VARIABLE stdout
-                  )
-                  message("${stdout}")
-                  if (NOT result EQUAL 0)
-                      string(REGEX MATCH "[0-9]+% tests.*[0-9.]+ sec" pass_rate "${stdout}")
-                      # Do not fail on ctest failure
-                      message("::warning::${pass_rate}")
-                  endif()
-
-            - name: Upload Artifact
+            - name: macOS - ${{ matrix.qt_version }} - Generate Dependencies and Build
               shell: bash
+              if: matrix.patform == 'macos-latest'
               run: |
-                  ls
-                  ls build
+                  mkdir build
+                  cd build
+                  cmake .. -G Ninja -DCMAKE_BUILD_TYPE=$ENV{BUILD_TYPE} -DCMAKE_OSX_DEPLOYMENT_TARGET=$ENV{MAC_TARGET}
+                  sudo cmake --install .
+                  appdmg ../packaging/mac/package_dmg.json ../jmbde.dmg
 
-              # uses: actions/upload-artifact@v1
-              # with:
-              #  name: jmbde-${{ matrix.config.artifact }}-${{ github.run_id }}.7z
-              #   path: build/jmbde-${{ matrix.config.artifact }}-${{ github.run_id }}.7z
-            - name: Get the version
-              # if: startsWith(github.ref, 'refs/tags') && (matrix.qt_version == '5.15.0')
-              id: get_version
+            - name: macOS - ${{ matrix.qt_version }} - Uploading Artifact
+              if: matrix.platform == 'macos-latest'
+              uses: actions/upload-artifact@master
+              with:
+                  name: jmbde-${{ github.sha }}.macOS-${{ matrix.arch }}.qt${{ matrix.qt_version }}.dmg
+                  path: jmbde.dmg
+            - name: macOS - ${{ matrix.qt_version }} - Upload binaries to release
+              uses: svenstaro/upload-release-action@v1-release
+              if: github.event_name == 'release' && matrix.platform == 'macos-latest' && matrix.qt_version == '5.15.0'
+              with:
+                  repo_token: ${{ secrets.GITHUB_TOKEN }}
+                  file: jmbde.dmg
+                  asset_name: jmbde-${{ steps.get_version.outputs.VERSION }}.macOS-${{ matrix.arch }}.dmg
+                  tag: $${{ github.ref }}
+            # === Windows Build =====================================
+            - name: Windows - ${{ matrix.qt_version }} - Generate Dependencies and Build
               shell: bash
+              if: matrix.platform == 'windows-latest'
+              env:
+                  CC: cl.exe
+                  CXX: cl.exe
               run: |
-                  VERSION=${GITHUB_REF/refs\/tags\//}
-                  echo ::set-output name=VERSION::$VERSION
+                  mkdir build
+                  cd build
+                  cmake .. -G Ninja -DCMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
+                  cmake --build . --parallel $(nproc)
+                  cmake --install .
+
+            - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Create 7z Release
+              if: matrix.platform == 'windows-latest'
+              uses: DuckSoft/create-7z-action@v1.0
+              with:
+                  pathSource: ./build/deployment/
+                  pathTarget: ./release.7z
+
+            - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Uploading artifact
+              if: matrix.platform == 'windows-latest'
+              uses: actions/upload-artifact@master
+              with:
+                  name: jmbde-${{ github.sha }}.Windows-${{ matrix.arch }}.qt${{ matrix.qt_version }}.7z
+                  path: release.7z
+
+            - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Upload binaries to release
+              uses: svenstaro/upload-release-action@v1-release
+              if: github.event_name == 'release' && matrix.platform == 'windows-latest' && matrix.qt_version == '5.15.0'
+              with:
+                  repo_token: ${{ secrets.GITHUB_TOKEN }}
+                  file: release.7z
+                  asset_name: jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}.7z
+                  tag: ${{ github.ref}
+                  overwrite: true
+            # === Linux Build =====================================
+            - name: Linux - ${{ matrix.qt_version }} - Generate Dependencies and Build
+              if: matrix.platform == 'ubuntu.latest'
+              shell: bash
+              env:
+                  CC: /usr/bin/gcc-7
+                  CXX: /usr/bin/g++7
+              run: |
+                  mkdir build
+                  cd build
+                  cmake .. -G Ninja -DMAKE_INSTALL_PREFIX=./AppDir/usr -DCMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
+                  cmake --build . --parallel $(nproc)
+                  cmake --install .
+
+            - name: Linux - ${{ matrix.qt_version }} - Generating AppImage
+              if: matrix.platform == 'ubuntu-latest'
+              run: |
+                  cd build
+                  export LD_LIBRARY_PATH=appdir/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+                  wget -c "https://github.com/jimevins/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
+                  chmod a+x linuxdeployqt*.AppImage
+                  wget -c -nv "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+                  chmod a+x appimagetool-x86_64.AppImage
+                  ./linuxdeployqt*.AppImage AppDir/usr/share/applications/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.54m.so.1.0 -verbose=2 -appimage
+                  find AppDir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
+                  mv ./jmbde*.AppImage ./jmbde.AppImage
+
+            - name: Linux - ${{ matrix.qt_version }} - Uploading artifact
+              if: matrix.platform == 'ubuntu-latest' # && (matrix.qt_version == '5.15.0') # && startsWith(github.ref, 'refs/tags')
+              uses: actions/upload-artifact@master
+              with:
+                  name: jmbde-${{ github.sha }}.linux-${{ matrix.arch }}.qt${{ matrix.qt_version }}.AppImage
+                  path: build/jmbde.AppImage
+            - name: Linux - ${{ matrix.qt_version }} - Upload binaries to release
+              uses: svenstaro/upload-release-action@v1-release
+              if: github.event_name == 'release' && matrix.platform == 'ubuntu-latest' && matrix.qt_version == '5.15.0'
+              with:
+                  repo_token: ${{ secrets.GITHUB_TOKEN }}
+                  file: build/jmbde.AppImage
+                  asset_name: jmbde..${{ steps.get_version.outputs.VERSION }}.linux-${{ matrix.arch }}.AppImage
+                  tag: ${{ github.ref}}
+                  overwrite: true
 
             - name: Pack to dmg on Mac
               if: matrix.config.os == 'macos-latest' # && (matrix.qt_version == '5.15.0') #&& startsWith(github.ref, 'refs/tags')
@@ -321,32 +330,3 @@ jobs:
                   name: JMBDE ${{ steps.get_version.outputs.VERSION }}
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-            - name: Release on Linux AppImage
-              if: matrix.config.os == 'ubuntu-latest' # && (matrix.qt_version == '5.15.0') #  && startsWith(github.ref, 'refs/tags')
-              run: |
-                  cd build
-                  export LD_LIBRARY_PATH=appdir/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
-                  wget -c "https://github.com/jimevins/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-                  chmod a+x linuxdeployqt*.AppImage
-                  wget -c -nv "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
-                  chmod a+x appimagetool-x86_64.AppImage
-                  ./linuxdeployqt*.AppImage appdir/usr/share/applications/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.54m.so.1.0 -verbose=2 -appimage
-                  find appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
-
-            - name: Release AppImage and Source
-              if: matrix.config.os == 'ubuntu-latest' # && (matrix.qt_version == '5.15.0') # && startsWith(github.ref, 'refs/tags')
-              uses: softprops/action-gh-release@v1
-              with:
-                  draft: true
-                  prerelease: ${{ steps.get_version.outputs.ISBETA }}
-                  files: |
-                      build/jmbde-${{ steps.get_version.outputs.VERSION }}-x86_64.AppImage
-                      jmbde-full-source-${{ steps.get_version.outputs.VERSION }}.tar.gz
-                  name: jmbde ${{ steps.get_version.outputs.VERSION }}
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            #- name: Package the complete Source
-            #  run: |
-            #      wget https://raw.githubusercontent.com/Kentzo/git-archive-all/master/git_archive_all.py
-            #      python3 git_archive_all.py jmbde-QT-full-source-${{ steps.get_version.outputs.VERSION }}.tar.gz

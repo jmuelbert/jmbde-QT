@@ -37,8 +37,9 @@ matrix:
               - sudo apt-get -y install cmake
               - sudo apt-get -y install ninja-build
               - sudo apt-get -y install libgl1-mesa-dev
-              - echo "Install QT ${QT_VERSION} from ppa:${beineri/opt-qt-5.15.0-bionic}"
+              - echo "Install QT ${QT_VERSION} from ppa:${QT_PPA}"
               - sudo apt-get -y install qt${QT_VER}base;
+              - sudo apt-get -y install qt${QT_VER}quickcontrols2
               - sudo apt-get -y install qt${QT_VER}script
               - sudo apt-get -y install  qt${QT_VER}svg
               - sudo apt-get -y install qt${QT_VER}imageformats

@@ -175,6 +175,7 @@ for:
           - sudo apt-get -y install zlib1g-dev -qq
           # Qt 514 on Linux
           - sudo apt-get -y install qt${QT_VER}base -qq
+          - sudo apt-get -y install qt${QT_VER}quickcontrols2
           - sudo apt-get -y install qt${QT_VER}script -qq
           - sudo apt-get -y install qt${QT_VER}svg -qq
           - sudo apt-get -y install qt${QT_VER}imageformats -qq

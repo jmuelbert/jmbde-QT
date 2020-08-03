@@ -1,0 +1,17 @@
+Source: jmbde
+Section: business
+Maintainer: Jürgen Mülbert <juergen.muelbert@gmail.com>
+Uploaders: Jürgen Mülbert <juergen.muelbert@gmail.com>
+Build-Depends:  debhelper (>=11),
+                cmake (>=3.13),
+                ninja-build,
+                qtbase5-dev (>= 5.12.8-1~),
+                qtdeclarative5-dev (>= 5.12.8-1~),
+                qttools5-dev (>= 5.12.8-1~)
+Standards-Version: 4.5.0
+homepage: https://github.com/jmuelbert/jmbde-QT
+
+Package: jmbde-QT
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: A BDE tool
