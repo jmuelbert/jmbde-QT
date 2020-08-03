@@ -165,13 +165,6 @@ jobs:
               with:
                   args: "install png2ico"
 
-            - name: Configure conan
-              run: |
-                  mkdir build
-                  pushd build
-                  conan install ..
-                  popd
-
             # === MacOS Build =====================================
             - name: Install Node
               id: install_node
@@ -190,6 +183,7 @@ jobs:
               run: |
                   mkdir build
                   cd build
+                  canon install ..
                   cmake .. -G Ninja -DCMAKE_BUILD_TYPE=$ENV{BUILD_TYPE} -DCMAKE_OSX_DEPLOYMENT_TARGET=$ENV{MAC_TARGET}
                   sudo cmake --install .
                   appdmg ../packaging/mac/package_dmg.json ../jmbde.dmg
@@ -218,6 +212,7 @@ jobs:
               run: |
                   mkdir build
                   cd build
+                  canon install ..
                   cmake .. -G Ninja -DCMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
                   cmake --build . --parallel $(nproc)
                   cmake --install .
@@ -247,7 +242,7 @@ jobs:
                   overwrite: true
             # === Linux Build =====================================
             - name: Linux - ${{ matrix.qt_version }} - Generate Dependencies and Build
-              if: matrix.platform == 'ubuntu.latest'
+              if: matrix.platform == 'ubuntu-latest'
               shell: bash
               env:
                   CC: /usr/bin/gcc-7
@@ -255,6 +250,7 @@ jobs:
               run: |
                   mkdir build
                   cd build
+                  canon install ..
                   cmake .. -G Ninja -DMAKE_INSTALL_PREFIX=./AppDir/usr -DCMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
                   cmake --build . --parallel $(nproc)
                   cmake --install .
