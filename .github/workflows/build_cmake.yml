@@ -183,7 +183,7 @@ jobs:
               run: |
                   mkdir build
                   cd build
-                  canon install ..
+                  conan install ..
                   cmake .. -G Ninja -DCMAKE_BUILD_TYPE=$ENV{BUILD_TYPE} -DCMAKE_OSX_DEPLOYMENT_TARGET=$ENV{MAC_TARGET}
                   sudo cmake --install .
                   appdmg ../packaging/mac/package_dmg.json ../jmbde.dmg
@@ -212,7 +212,7 @@ jobs:
               run: |
                   mkdir build
                   cd build
-                  canon install ..
+                  conan install ..
                   cmake .. -G Ninja -DCMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
                   cmake --build . --parallel $(nproc)
                   cmake --install .
@@ -250,7 +250,7 @@ jobs:
               run: |
                   mkdir build
                   cd build
-                  canon install ..
+                  conan install ..
                   cmake .. -G Ninja -DMAKE_INSTALL_PREFIX=./AppDir/usr -DCMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
                   cmake --build . --parallel $(nproc)
                   cmake --install .
