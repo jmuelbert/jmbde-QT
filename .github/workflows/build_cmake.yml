@@ -153,6 +153,10 @@ jobs:
 
             - name: conan_and_ecm
               id: conan_and_ecm
+              shell: bash
+              env:
+                  CC: /usr/bin/gcc-7
+                  CXX: /usr/bin/g++7
               run: |
                   python -m pip install conan
                   conan user
@@ -179,7 +183,7 @@ jobs:
 
             - name: macOS - ${{ matrix.qt_version }} - Generate Dependencies and Build
               shell: bash
-              if: matrix.patform == 'macos-latest'
+              if: matrix.platform == 'macos-latest'
               run: |
                   mkdir build
                   cd build
