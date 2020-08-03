@@ -243,7 +243,7 @@ jobs:
                   repo_token: ${{ secrets.GITHUB_TOKEN }}
                   file: release.7z
                   asset_name: jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}.7z
-                  tag: ${{ github.ref}
+                  tag: ${{ github.ref}}
                   overwrite: true
             # === Linux Build =====================================
             - name: Linux - ${{ matrix.qt_version }} - Generate Dependencies and Build
