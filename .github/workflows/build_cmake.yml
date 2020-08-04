@@ -255,7 +255,7 @@ jobs:
                   mkdir build
                   cd build
                   conan install ..
-                  cmake .. -DMAKE_INSTALL_PREFIX=./AppDir/usr -DCMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
+                  cmake .. -DCMAKE_INSTALL_PREFIX=./AppDir/usr -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
                   cmake --build . --parallel $(nproc)
                   cmake --install .
 
