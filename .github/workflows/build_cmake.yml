@@ -6,12 +6,10 @@ on:
 
 env:
     QT_VERSION: 5.15.0
-    CMAKE_VERSION: 3.18.0
+    CMAKE_VERSION: 3.8.0
     NINJA_VERSION: 1.10.0
-    BUILD_TYPE: Release
     CCACHE_VERSION: 3.7.11
     GOOGLE_TEST_VERSION: 1.10.0
-    MAC_TARGET: "10.14"
 
 jobs:
     check_commit_msg:
@@ -35,13 +33,17 @@ jobs:
                 qt_version: [5.15.0]
                 platform: [ubuntu-latest, macos-latest, windows-latest]
                 arch: [x86, x64]
+                build_type: [Release]
+                mac_target: [10.14]
                 include:
                     - platform: windows-latesst
                       arch: x86
                       qtarch: win32_msvc2019
+                      build_type: Release
                     - platform: windows-latest
                       arch: x64
                       qtarch: win64_msvsc2019_64
+                      build_type: Release
                 exclude:
                     - platform: ubuntu-latest
                       arch: x86
@@ -184,7 +186,7 @@ jobs:
                   mkdir build
                   cd build
                   conan install ..
-                  cmake .. -GNinja -DCMAKE_BUILD_TYPE=$ENV{BUILD_TYPE} -DCMAKE_OSX_DEPLOYMENT_TARGET=$ENV{MAC_TARGET}
+                  cmake .. -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_OSX_DEPLOYMENT_TARGET=${{ matrix.mac_target }}
                   cmake --build . --parallel $(sysctl -n hw.logicalcpu)
                   sudo cmake --install .
                   appdmg ../packaging/mac/package_dmg.json ../jmbde.dmg
@@ -214,7 +216,7 @@ jobs:
                   mkdir build
                   cd build
                   conan install .. -s arch=${{ matrix.arch }}
-                  cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=./deployment -DCMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
+                  cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=./deployment -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
                   cmake --build . --parallel $(nproc)
                   cmake --install .
 
