@@ -101,7 +101,7 @@ jobs:
                   sudo apt update
             # === macOS =====================================
             - name: macOS - ${{ matrix.qt_version }} - Build preparation - Install Packages
-              if: matrix.patform == 'macos-latest'
+              if: matrix.platform == 'macos-latest'
               run: |
                   brew install pkg-config ninja
 
