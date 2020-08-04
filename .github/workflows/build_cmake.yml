@@ -103,10 +103,21 @@ jobs:
             - name: macOS - ${{ matrix.qt_version }} - Build preparation - Install Packages
               if: matrix.patform == 'macos-latest'
               run: |
-                  brew install pkg-config
+                  brew install pkg-config ninja
+
+            # === Winodws =====================================
+            - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Build preparation - Download Dependencies
+              shell: bash
+              if: (matrix.config.os == 'windows-latest')
+              run: |
+                  choco install -y ninja
+                  choco install -y png2ico
+                  choco install -y innosetup
+
             # === CMake and Ninja =====================================
             - name: Download Ninja and CMake
               id: cmake_and_ninja
+              if: matrix.platform == 'ubuntu-latest'
               shell: cmake -P {0}
               run: |
                   set(cmake_version $ENV{CMAKE_VERSION})
@@ -120,10 +131,6 @@ jobs:
                     set(ninja_suffix "linux.zip")
                     set(cmake_suffix "Linux-x86_64.tar.gz")
                     set(cmake_dir "cmake-${cmake_version}-Linux-x86_64/bin")
-                  elseif ("${{ runner.os }}" STREQUAL "macOS")
-                    set(ninja_suffix "mac.zip")
-                    set(cmake_suffix "Darwin-x86_64.tar.gz")
-                    set(cmake_dir "cmake-${cmake_version}-Darwin-x86_64/CMake.app/Contents/bin")
                   endif()
                   set(ninja_url "https://github.com/ninja-build/ninja/releases/download/v${ninja_version}/ninja-${ninja_suffix}")
                   file(DOWNLOAD "${ninja_url}" ./ninja.zip SHOW_PROGRESS)
@@ -157,13 +164,6 @@ jobs:
                   python -m pip install conan
                   conan user
                   conan create ./conan/ecm
-
-            - name: Windows - Install png2ico
-              id: png2ico
-              if: (matrix.config.os == 'windows-latest')
-              uses: crazy-max/ghaction-chocolatey@v1
-              with:
-                  args: "install png2ico"
 
             # === MacOS Build =====================================
             - name: macOS - Install Node
@@ -213,7 +213,7 @@ jobs:
               run: |
                   mkdir build
                   cd build
-                  conan install .. -s ${{ matrix.arch }}
+                  conan install .. -s arch=${{ matrix.arch }}
                   cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=./deployment -DCMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
                   cmake --build . --parallel $(nproc)
                   cmake --install .
@@ -303,12 +303,6 @@ jobs:
                   name: JMBDE  ${{ steps.get_version.outputs.VERSION }}
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-            - name: Install innosetup on Windows
-              if: matrix.config.os == 'windows-latest' # && (matrix.qt_version == '5.15.0') # && startsWith(github.ref, 'refs/tags')
-              uses: crazy-max/ghaction-chocolatey@v1
-              with:
-                  args: "install innosetup"
 
             - name: Pack to exe on Windows
               if: matrix.config.os == 'windows-latest' # && (matrix.qt_version == '5.15.0') # && startsWith(github.ref, 'refs/tags')
