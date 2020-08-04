@@ -181,9 +181,10 @@ jobs:
               if: matrix.platform == 'macos-latest'
               shell: bash
               run: |
+                  mkdir build
                   cd build
                   conan install ..
-                  cmake .. -GNinja -DCMAKE_BUILD_TYPE=$ENV{BUILD_TYPE} -DCMAKE_OSX_DEPLOYMENT_TARGET=$ENV{MAC_TARGET}
+                  cmake .. -DCMAKE_BUILD_TYPE=$ENV{BUILD_TYPE} -DCMAKE_OSX_DEPLOYMENT_TARGET=$ENV{MAC_TARGET}
                   cmake --build . --parallel $(sysctl -n hw.logicalcpu)
                   sudo cmake --install .
                   appdmg ../packaging/mac/package_dmg.json ../jmbde.dmg
@@ -213,7 +214,7 @@ jobs:
                   mkdir build
                   cd build
                   conan install ..
-                  cmake .. -G Ninja -DCMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
+                  cmake .. -DCMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
                   cmake --build . --parallel $(nproc)
                   cmake --install .
 
@@ -250,9 +251,10 @@ jobs:
                   CMAKE_MAKE_PROGRAM: ninja
               run: |
                   which ninja
+                  mkdir build
                   cd build
                   conan install ..
-                  cmake .. -GNinja -DMAKE_INSTALL_PREFIX=./AppDir/usr -DCMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
+                  cmake .. -DMAKE_INSTALL_PREFIX=./AppDir/usr -DCMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
                   cmake --build . --parallel $(nproc)
                   cmake --install .
 
