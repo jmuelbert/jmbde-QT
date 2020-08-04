@@ -153,16 +153,12 @@ jobs:
 
             - name: conan_and_ecm
               id: conan_and_ecm
-              shell: bash
-              env:
-                  CC: /usr/bin/gcc-7
-                  CXX: /usr/bin/g++7
               run: |
                   python -m pip install conan
                   conan user
                   conan create ./conan/ecm
 
-            - name: Install png2ico on Windows
+            - name: Windows - Install png2ico
               id: png2ico
               if: (matrix.config.os == 'windows-latest')
               uses: crazy-max/ghaction-chocolatey@v1
@@ -170,25 +166,25 @@ jobs:
                   args: "install png2ico"
 
             # === MacOS Build =====================================
-            - name: Install Node
+            - name: macOS - Install Node
               id: install_node
               if: matrix.platform == 'macos-latest'
               uses: actions/setup-node@v1
               with:
                   node-version: "12.x"
-            - name: Install appdmg
+            - name: macOS - Install appdmg
               id: install_appdmg
-              if: matrix.patform == 'macos-latest'
+              if: matrix.platform == 'macos-latest'
               run: npm install -g appdmg
 
             - name: macOS - ${{ matrix.qt_version }} - Generate Dependencies and Build
-              shell: bash
               if: matrix.platform == 'macos-latest'
+              shell: bash
               run: |
-                  mkdir build
                   cd build
                   conan install ..
-                  cmake .. -G Ninja -DCMAKE_BUILD_TYPE=$ENV{BUILD_TYPE} -DCMAKE_OSX_DEPLOYMENT_TARGET=$ENV{MAC_TARGET}
+                  cmake .. -GNinja -DCMAKE_BUILD_TYPE=$ENV{BUILD_TYPE} -DCMAKE_OSX_DEPLOYMENT_TARGET=$ENV{MAC_TARGET}
+                  cmake --build . --parallel $(sysctl -n hw.logicalcpu)
                   sudo cmake --install .
                   appdmg ../packaging/mac/package_dmg.json ../jmbde.dmg
 
@@ -251,11 +247,12 @@ jobs:
               env:
                   CC: /usr/bin/gcc-7
                   CXX: /usr/bin/g++7
+                  CMAKE_MAKE_PROGRAM: ninja
               run: |
-                  mkdir build
+                  which ninja
                   cd build
                   conan install ..
-                  cmake .. -G Ninja -DMAKE_INSTALL_PREFIX=./AppDir/usr -DCMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
+                  cmake .. -GNinja -DMAKE_INSTALL_PREFIX=./AppDir/usr -DCMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
                   cmake --build . --parallel $(nproc)
                   cmake --install .
 
