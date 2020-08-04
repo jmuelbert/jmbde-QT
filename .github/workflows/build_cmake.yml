@@ -11,7 +11,7 @@ env:
     BUILD_TYPE: Release
     CCACHE_VERSION: 3.7.11
     GOOGLE_TEST_VERSION: 1.10.0
-    MAC_TARGET: 10.14
+    MAC_TARGET: "10.14"
 
 jobs:
     check_commit_msg:
@@ -184,7 +184,7 @@ jobs:
                   mkdir build
                   cd build
                   conan install ..
-                  cmake .. -DCMAKE_BUILD_TYPE=$ENV{BUILD_TYPE} -DCMAKE_OSX_DEPLOYMENT_TARGET=$ENV{MAC_TARGET}
+                  cmake .. -GNinjas -DCMAKE_BUILD_TYPE=$ENV{BUILD_TYPE} -DCMAKE_OSX_DEPLOYMENT_TARGET=$ENV{MAC_TARGET}
                   cmake --build . --parallel $(sysctl -n hw.logicalcpu)
                   sudo cmake --install .
                   appdmg ../packaging/mac/package_dmg.json ../jmbde.dmg
@@ -204,7 +204,7 @@ jobs:
                   asset_name: jmbde-${{ steps.get_version.outputs.VERSION }}.macOS-${{ matrix.arch }}.dmg
                   tag: $${{ github.ref }}
             # === Windows Build =====================================
-            - name: Windows - ${{ matrix.qt_version }} - Generate Dependencies and Build
+            - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Generate Dependencies and Build
               shell: bash
               if: matrix.platform == 'windows-latest'
               env:
@@ -213,8 +213,8 @@ jobs:
               run: |
                   mkdir build
                   cd build
-                  conan install ..
-                  cmake .. -DCMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
+                  conan install .. -s {{ matrix.arch }}
+                  cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=./deployment -DCMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
                   cmake --build . --parallel $(nproc)
                   cmake --install .
 
@@ -250,7 +250,6 @@ jobs:
                   CXX: /usr/bin/g++7
                   CMAKE_MAKE_PROGRAM: ninja
               run: |
-                  which ninja
                   mkdir build
                   cd build
                   conan install ..
