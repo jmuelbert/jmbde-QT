@@ -31,10 +31,8 @@ if(MSVC)
   if(BUILD_NSIS)
     set(CPACK_PACKAGE_ICON "${ICONS_DIR}/${PROJECT_NAME}-icon.ico")
     set(CPACK_GENERATOR "NSIS")
-    set(CPACK_NSIS_MUI_ICON
-        "${ICONS_DIR}/${PROJECT_NAME}-icon.ico"")
-    set(CPACK_NSIS_MUI_UNIICON
-        "${ICONS_DIR}/${PROJECT_NAME}-icon.ico"")
+    set(CPACK_NSIS_MUI_ICON "${ICONS_DIR}/${PROJECT_NAME}-icon.ico")
+    set(CPACK_NSIS_MUI_UNIICON "${ICONS_DIR}/${PROJECT_NAME}-icon.ico")
     set(CPACK_NSIS_DISPLAY_NAME "jmbde")
     set(CPACK_NSIS_PACKAGE_NAME "jmbde")
     set(CPACK_NSIS_EXTRA_PREINSTALL_COMMANDS
