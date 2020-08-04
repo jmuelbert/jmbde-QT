@@ -184,7 +184,7 @@ jobs:
                   mkdir build
                   cd build
                   conan install ..
-                  cmake .. -GNinjas -DCMAKE_BUILD_TYPE=$ENV{BUILD_TYPE} -DCMAKE_OSX_DEPLOYMENT_TARGET=$ENV{MAC_TARGET}
+                  cmake .. -GNinja -DCMAKE_BUILD_TYPE=$ENV{BUILD_TYPE} -DCMAKE_OSX_DEPLOYMENT_TARGET=$ENV{MAC_TARGET}
                   cmake --build . --parallel $(sysctl -n hw.logicalcpu)
                   sudo cmake --install .
                   appdmg ../packaging/mac/package_dmg.json ../jmbde.dmg
@@ -213,7 +213,7 @@ jobs:
               run: |
                   mkdir build
                   cd build
-                  conan install .. -s {{ matrix.arch }}
+                  conan install .. -s ${{ matrix.arch }}
                   cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=./deployment -DCMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
                   cmake --build . --parallel $(nproc)
                   cmake --install .
@@ -243,8 +243,8 @@ jobs:
                   overwrite: true
             # === Linux Build =====================================
             - name: Linux - ${{ matrix.qt_version }} - Generate Dependencies and Build
-              if: matrix.platform == 'ubuntu-latest'
               shell: bash
+              if: matrix.platform == 'ubuntu-latest'
               env:
                   CC: /usr/bin/gcc-7
                   CXX: /usr/bin/g++7
