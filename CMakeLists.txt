@@ -142,10 +142,6 @@ include(QtInstallPaths)
 include(WriteBasicConfigVersionFile)
 include(CheckFunctionExists)
 
-# Make CPack available to easy generate binary packages
-include(CPack)
-include(PackageIFW)
-
 # ##############################################################################
 
 message(
@@ -396,22 +392,6 @@ else()
   endif()
 endif()
 
-set(INSTALL_TARGETS_DEFAULT_ARGS
-    RUNTIME
-    DESTINATION
-    ${BIN_INSTALL_DIR}
-    LIBRARY
-    DESTINATION
-    ${LIB_INSTALL_DIR}
-    ARCHIVE
-    DESTINATION
-    ${LIB_INSTALL_DIR}
-    COMPONENT
-    Devel
-    BUNDLE
-    DESTINATION
-    ${BUNDLE_INSTALL_DIR})
-
 # Set the RPATH
 include(KDECMakeSettings)
 
@@ -500,3 +480,4 @@ message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
 # cpack
 include(cmake/packaging.cmake)
+include(PackageIFW)

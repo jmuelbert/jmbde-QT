@@ -215,7 +215,11 @@ jobs:
               run: |
                   mkdir build
                   cd build
-                  conan install .. -s arch=${{ matrix.arch }}
+                  if: matrix.arch == 'x64'
+                    conan_arch = 'x86_64'
+                  else:
+                    conan_arch = 'x86'
+                  conan install .. -s arch=$conan_arch
                   cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=./deployment -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
                   cmake --build . --parallel $(nproc)
                   cmake --install .
