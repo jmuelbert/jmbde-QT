@@ -20,15 +20,17 @@ else()
   cmake_policy(VERSION 3.17)
 endif()
 
-#
-# The Quick/Qml Version of jmbde
-#
-set(JMBDE_APP_QUICK_VERSION 0.1.1)
+project(
+  "jmbdeappquick"
+  VERSION "0.1.2"
+  DESCRIPTION "A BDE Tool"
+  HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
+  LANGUAGES CXX)
 
 # Set the dependencies versions
-set(KF5_VERSION "5.68.0")
-set(KF5_DEP_VERSION "5.68.0")
-set(QT_MIN_VERSION "5.12.8")
+set(KF5_VERSION "5.71.0")
+set(KF5_DEP_VERSION "5.71.0")
+set(QT_MIN_VERSION "5.12.9")
 
 # warn about deprecated stuff so that we may try fixing it
 set(CMAKE_WARN_DEPRECATED 1)
@@ -36,11 +38,6 @@ set(CMAKE_WARN_DEPRECATED 1)
 #
 # the jmbde application
 #
-project(
-  jmbdeappquick
-  DESCRIPTION "A BDE Tool"
-  HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
-  LANGUAGES CXX)
 
 message(
   STATUS
@@ -56,11 +53,10 @@ if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
   )
 endif()
 
-
 # set project version
 
 ecm_setup_version(
-  ${JMBDE_APP_QUICK_VERSION}
+  ${PROJECT_VERSION}
   VARIABLE_PREFIX
   JMBDEAPPQUICK
   VERSION_HEADER
@@ -78,8 +74,6 @@ ecm_qt_declare_logging_category(
   jmuelbert.jmbdeappquick
   DEFAULT_SEVERITY
   Warning)
-
-
 
 add_executable(${PROJECT_NAME} "")
 
@@ -107,8 +101,15 @@ target_compile_definitions(
   ${PROJECT_NAME}
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE jmuelbert::jmbdequick Qt5::Widgets Qt5::Core Qt5::Sql
-                                              Qt5::Qml Qt5::Quick ${CONAN_LIBS})
+target_link_libraries(
+  ${PROJECT_NAME}
+  PRIVATE jmuelbert::jmbdequick
+          Qt5::Widgets
+          Qt5::Core
+          Qt5::Sql
+          Qt5::Qml
+          Qt5::Quick
+          ${CONAN_LIBS})
 
 # Use a single application on MacOS + Windows instead of dbus.
 if(APPLE OR WIN32)
@@ -142,9 +143,7 @@ target_sources(
   ${PROJECT_NAME}
   PRIVATE loggingcategory.h
           # CPP
-          loggingcategory.cpp
-          src/main.cpp
-        )
+          loggingcategory.cpp src/main.cpp)
 
 if(WIN32)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/app.rc.in

@@ -46,16 +46,11 @@ find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core Gui Widgets Sql
                                                        PrintSupport Test)
 
 set_package_properties(
-  Qt5Test
-  PROPERTIES
-  DESCRIPTION
-  "Qt5 unit testing framework"
-  URL
-  "http://www.qt.io"
-  TYPE
-  OPTIONAL
-  PURPOSE
-  "Required to build the unit tests")
+  Qt5Test PROPERTIES
+  DESCRIPTION "Qt5 unit testing framework"
+  URL "http://www.qt.io"
+  TYPE OPTIONAL
+  PURPOSE "Required to build the unit tests")
 
 if(NOT Qt5Test_FOUND)
   message(STATUS "Qt5Test not found, autotests will not be built.")

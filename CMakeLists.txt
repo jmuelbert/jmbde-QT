@@ -51,7 +51,8 @@ endif()
 
 # jmbde project
 project(
-  jmbde
+  "jmbde"
+  VERSION "0.6.0"
   DESCRIPTION "A BDE Tool"
   HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
   LANGUAGES CXX)
@@ -65,13 +66,10 @@ if(UBUNTU_TOUCH)
   set(APPLICATION_NAME "${APPLICATION_ID}")
 endif()
 
-# Set my app version
-set(JMBDE_VERSION 0.5.0)
-
 # Set the dependencies versions
-set(KF5_VERSION "5.68.0")
-set(KF5_DEP_VERSION "5.68.0")
-set(QT_MIN_VERSION "5.12.8")
+set(KF5_VERSION "5.70.0")
+set(KF5_DEP_VERSION "5.70.0")
+set(QT_MIN_VERSION "5.12.9")
 
 # warn about deprecated stuff so that we may try fixing it
 set(CMAKE_WARN_DEPRECATED 1)
@@ -145,8 +143,8 @@ include(CheckFunctionExists)
 # ##############################################################################
 
 message(
-  STATUS "Building ${PROJECT_NAME} ${JMBDE_VERSION} in ${CMAKE_BUILD_TYPE} mode"
-)
+  STATUS
+    "Building ${PROJECT_NAME} ${PROJECT_VERSION} in ${CMAKE_BUILD_TYPE} mode")
 #
 # Project configuration options
 #
@@ -212,7 +210,7 @@ if(APPLE)
   set(KDE_SKIP_RPATH_SETTINGS TRUE)
   set(CMAKE_MACOSX_RPATH OFF)
   set(BUILD_WITH_INSTALL_RPATH 1)
-  add_definitions(-mmacosx-version-min=10.12 -Wno-macro-redefined
+  add_definitions(-mmacosx-version-min=10.14 -Wno-macro-redefined
                   -Wno-deprecated-register)
 endif()
 

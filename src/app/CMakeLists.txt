@@ -12,15 +12,20 @@
 # details.
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.12...3.16 FATAL_ERROR)
 
-set(JMBDE_VERSION 0.6.0)
+if(${CMAKE_VERSION} VERSION_LESS 3.17)
+  cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
+else()
+  cmake_policy(VERSION 3.17)
+endif()
 
 #
 # the jmbde application
 #
 project(
-  jmbde
+  "jmbde"
+  VERSION "0.6.0"
   DESCRIPTION "A BDE Tool"
   HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
   LANGUAGES CXX)
@@ -28,7 +33,7 @@ project(
 # set project version
 
 ecm_setup_version(
-  ${JMBDE_VERSION}
+  ${PROJECT_VERSION}
   VARIABLE_PREFIX
   JMBDE
   VERSION_HEADER
@@ -48,8 +53,8 @@ ecm_qt_declare_logging_category(
   Warning)
 
 message(
-  STATUS "Building ${PROJECT_NAME} ${JMBDE_VERSION} in ${CMAKE_BUILD_TYPE} mode"
-)
+  STATUS
+    "Building ${PROJECT_NAME} ${PROJECT_VERSION} in ${CMAKE_BUILD_TYPE} mode")
 
 add_executable(${PROJECT_NAME} "")
 

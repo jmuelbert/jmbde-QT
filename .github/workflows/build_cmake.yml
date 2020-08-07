@@ -2,7 +2,12 @@ name: "CMake Build Matrix"
 
 on:
     push:
-        release: [prereleased]
+        branches:
+            - master
+            - develop
+        pull_request:
+            - master
+            - develop
 
 env:
     QT_VERSION: 5.15.0

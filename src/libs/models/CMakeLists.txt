@@ -8,8 +8,8 @@
 #
 # This program is distributed in the hope that it will be useful, but WITHOUT
 # ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-# FOR A PARTICULAR PURPOSE.  See the GNU General Pub          Qt5::Qmllic
-# License for more details.
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+# details.
 
 # minimal requirements
 cmake_minimum_required(VERSION 3.12...3.16 FATAL_ERROR)
@@ -22,20 +22,16 @@ endif()
 
 # JMBDEMODELS project
 project(
-  jmbdemodels
+  "jmbdemodels"
+  VERSION "0.1.2"
   DESCRIPTION "${PROJECT_NAME} Datacontext Library"
   HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
   LANGUAGES CXX)
 
-#
-# the models library
-#
-set(JMBDEMODELS_VERSION 0.1.2)
-set(JMBDEMODELS_SOVERSION 0)
-
+set(SO_VERSION "0")
 # Set the dependencies versions
-set(KF5_VERSION "5.68.0")
-set(KF5_DEP_VERSION "5.68.0")
+set(KF5_VERSION "5.71.0")
+set(KF5_DEP_VERSION "5.71.0")
 set(QT_MIN_VERSION "5.12.9")
 
 # warn about deprecated stuff so that we may try fixing it
@@ -116,16 +112,16 @@ add_feature_info(TESTS ${BUILD_TESTING} "Build and run the tests")
 
 message(
   STATUS
-    "Building ${PROJECT_NAME} Version ${JMBDEMODELS_VERSION} SO_Version ${JMBDEMODELS_SOVERSION} in ${CMAKE_BUILD_TYPE} mode"
+    "Building ${PROJECT_NAME} Version ${PROJECT_VERSION} SO_Version ${SO_VERSION} in ${CMAKE_BUILD_TYPE} mode"
 )
 
 # Version setup set project version
 ecm_setup_version(
-  ${JMBDEMODELS_VERSION}
+  ${PROJECT_VERSION}
   VARIABLE_PREFIX
   JMBDEMODELS
   SOVERSION
-  ${JMBDEMODELS_SOVERSION}
+  ${SO_VERSION}
   VERSION_HEADER
   ${CMAKE_CURRENT_BINARY_DIR}/jmbdemodels-version.h)
 
@@ -152,7 +148,7 @@ if(APPLE)
   set(KDE_SKIP_RPATH_SETTINGS TRUE)
   set(CMAKE_MACOSX_RPATH OFF)
   set(BUILD_WITH_INSTALL_RPATH 1)
-  add_definitions(-mmacosx-version-min=10.12 -Wno-macro-redefined
+  add_definitions(-mmacosx-version-min=10.14 -Wno-macro-redefined
                   -Wno-deprecated-register)
 endif()
 
@@ -288,10 +284,8 @@ generate_export_header(jmbdemodels)
 add_library(jmuelbert::jmbdemodels ALIAS jmbdemodels)
 
 set_target_properties(
-  jmbdemodels
-  PROPERTIES VERSION ${JMBDEMODELS_VERSION_STRING} SOVERSION
-                                                   ${JMBDEMODELS_SOVERSION}
-             EXPORT_NAME "jmbdemodels")
+  jmbdemodels PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${SO_VERSION}
+                         EXPORT_NAME "jmbdemodels")
 
 target_compile_features(jmbdemodels PUBLIC cxx_std_17)
 
@@ -421,8 +415,8 @@ write_basic_package_version_file(
 
 configure_package_config_file(
   ${CMAKE_CURRENT_LIST_DIR}/cmake/config.cmake.in
-  ${CMAKE_CURRENT_BINARY_DIR}/JMBDEModelsConfig.cmake INSTALL_DESTINATION
-  ${INSTALL_CONFIGDIR})
+  ${CMAKE_CURRENT_BINARY_DIR}/JMBDEModelsConfig.cmake
+  INSTALL_DESTINATION ${INSTALL_CONFIGDIR})
 
 # Install the config, configversion and custom find modules
 install(
@@ -456,5 +450,5 @@ endif()
 
 # tell about our features (and what is missing)
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES
-                FATAL_ON_MISSING_REQUIRED_PACKAGES)
+                     FATAL_ON_MISSING_REQUIRED_PACKAGES)
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")

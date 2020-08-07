@@ -20,16 +20,22 @@ else()
   cmake_policy(VERSION 3.17)
 endif()
 
+project(
+  "jmbdewidgets"
+  VERSION "0.1.1"
+  DESCRIPTION "${PROJECT_NAME} WIDGETS-UI Library"
+  HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
+  LANGUAGES CXX)
+
 #
 # the widgets library
 #
-set(JMBDEWIDGETS_VERSION 0.1.1)
-set(JMBDEWIDGETS_SOVERSION 0)
+set(SO_VERSION 0)
 
 # Set the dependencies versions
-set(KF5_VERSION "5.62.0")
-set(KF5_DEP_VERSION "5.62.0")
-set(QT_MIN_VERSION "5.12.4")
+set(KF5_VERSION "5.71.0")
+set(KF5_DEP_VERSION "5.71.0")
+set(QT_MIN_VERSION "5.12.9")
 
 # warn about deprecated stuff so that we may try fixing it
 set(CMAKE_WARN_DEPRECATED 1)
@@ -99,11 +105,11 @@ include(CheckFunctionExists)
 
 # Version setup set project version
 ecm_setup_version(
-  ${JMBDEWIDGETS_VERSION}
+  ${PROJECT_VERSION}
   VARIABLE_PREFIX
   JMBDEWIDGETS
   SOVERSION
-  ${JMBDEWIDGETS_SOVERSION}
+  ${SO_VERSION}
   VERSION_HEADER
   ${CMAKE_CURRENT_BINARY_DIR}/jmbdewidgets-version.h)
 
@@ -145,11 +151,6 @@ add_definitions(-DQT_NO_FOREACH)
 remove_definitions(-DQT_NO_SIGNALS_SLOTS_KEYWORDS)
 
 # COMMON project
-project(
-  jmbdewidgets
-  VERSION ${JMBDEWIDGETS_SOVERSION}
-  DESCRIPTION "${PROJECT_NAME} WIDGETS-UI Library"
-  LANGUAGES CXX)
 
 message(
   STATUS
@@ -174,10 +175,8 @@ generate_export_header(jmbdewidgets)
 add_library(jmuelbert::jmbdewidgets ALIAS jmbdewidgets)
 
 set_target_properties(
-  jmbdewidgets
-  PROPERTIES VERSION ${JMBDEWIDGETS_VERSION_STRING} SOVERSION
-                                                    ${JMBDEWIDGETS_SOVERSION}
-             EXPORT_NAME "jmbdewidgets")
+  jmbdewidgets PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${SO_VERSION}
+                          EXPORT_NAME "jmbdewidgets")
 
 target_compile_features(jmbdewidgets PUBLIC cxx_std_17)
 
@@ -305,8 +304,8 @@ write_basic_package_version_file(
 
 configure_package_config_file(
   ${CMAKE_CURRENT_LIST_DIR}/cmake/config.cmake.in
-  ${CMAKE_CURRENT_BINARY_DIR}/JMBDEWidgetsConfig.cmake INSTALL_DESTINATION
-  ${INSTALL_CONFIGDIR})
+  ${CMAKE_CURRENT_BINARY_DIR}/JMBDEWidgetsConfig.cmake
+  INSTALL_DESTINATION ${INSTALL_CONFIGDIR})
 
 # Install the config, configversion and custom find modules
 install(

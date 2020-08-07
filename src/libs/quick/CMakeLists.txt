@@ -20,32 +20,27 @@ else()
   cmake_policy(VERSION 3.17)
 endif()
 
-#
-# the QUICK library
-#
-set(JMBDEQUICK_VERSION 0.1.1)
-set(JMBDEQUICK_SOVERSION 0)
-
-# Set the dependencies versions
-set(KF5_VERSION "5.68.0")
-set(KF5_DEP_VERSION "5.68.0")
-set(QT_MIN_VERSION "5.12.8")
-
-
-# warn about deprecated stuff so that we may try fixing it
-set(CMAKE_WARN_DEPRECATED 1)
-
 # JMBDEQUICK project
 project(
-  jmbdequick
-  VERSION ${JMBDEQUICK_SOVERSION}
+  "jmbdequick"
+  VERSION "0.1.1"
   DESCRIPTION "${PROJECT_NAME} Quick UI Library"
   HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
   LANGUAGES CXX)
 
+set(SO_VERSION "0")
+
+# Set the dependencies versions
+set(KF5_VERSION "5.71.0")
+set(KF5_DEP_VERSION "5.71.0")
+set(QT_MIN_VERSION "5.12.9")
+
+# warn about deprecated stuff so that we may try fixing it
+set(CMAKE_WARN_DEPRECATED 1)
+
 message(
   STATUS
-    "Building ${PROJECT_NAME} Version ${JMBDEQUICK_VERSION} SO_Version ${JMBDEQUICK_SOVERSION} in ${CMAKE_BUILD_TYPE} mode"
+    "Building ${PROJECT_NAME} Version ${PROJECT_VERSION} SO_Version ${SO_VERSION} in ${CMAKE_BUILD_TYPE} mode"
 )
 
 # ################ Disallow in-source build #################
@@ -113,14 +108,13 @@ include(CheckFunctionExists)
 
 # Version setup set project version
 ecm_setup_version(
-  ${JMBDEQUICK_VERSION}
+  ${PROJECT_VERSION}
   VARIABLE_PREFIX
   JMBDEQUICK
   SOVERSION
-  ${JMBDEQUICK_SOVERSION}
+  ${SO_VERSION}
   VERSION_HEADER
   ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick-version.h)
-
 
 ecm_qt_declare_logging_category(
   jmbdequick
@@ -138,10 +132,8 @@ generate_export_header(jmbdequick)
 add_library(jmuelbert::jmbdequick ALIAS jmbdequick)
 
 set_target_properties(
-  jmbdequick
-  PROPERTIES VERSION ${JMBDEQUICK_VERSION_STRING} SOVERSION
-                                                  ${JMBDEQUICK_SOVERSION}
-             EXPORT_NAME "jmbdequick")
+  jmbdequick PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${SO_VERSION}
+                        EXPORT_NAME "jmbdequick")
 
 target_compile_features(jmbdequick PUBLIC cxx_std_17)
 
@@ -153,7 +145,9 @@ target_include_directories(
          $<INSTALL_INTERFACE:include>
   PRIVATE src)
 
-set(QML_IMPORT_PATH ${CMAKE_SOURCE_DIR}/qml ${CMAKE_BINARY_DIR}/imports CACHE STRING "" FORCE)
+set(QML_IMPORT_PATH
+    ${CMAKE_SOURCE_DIR}/qml ${CMAKE_BINARY_DIR}/imports
+    CACHE STRING "" FORCE)
 
 # Find Qt modules
 find_package(Qt5QuickCompiler)
@@ -164,21 +158,15 @@ target_compile_definitions(
 
 target_link_libraries(
   jmbdequick
-  PUBLIC Qt5::Core
-  jmuelbert::jmbdemodels
-  PRIVATE
-    Qt5::Gui
-    Qt5::Qml
-    Qt5::Quick
-    Qt5::Svg
-    Qt5::Sql
-	${__Qt5Widgets_LIBRARIES}
-)
+  PUBLIC Qt5::Core jmuelbert::jmbdemodels
+  PRIVATE Qt5::Gui Qt5::Qml Qt5::Quick Qt5::Svg Qt5::Sql
+          ${__Qt5Widgets_LIBRARIES})
 
 #
 # Finding Qt
 #
-find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS Core Quick Svg Qml Sql)
+find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS Core Quick Svg
+                                                              Qml Sql)
 
 if(Qt5QuickCompiler_FOUND AND NOT DISABLE_QTQUICK_COMPILER)
   qtquick_compiler_add_resources(jmbdequick_Resources qml.qrc)
@@ -232,8 +220,8 @@ write_basic_package_version_file(
 
 configure_package_config_file(
   ${CMAKE_CURRENT_LIST_DIR}/cmake/config.cmake.in
-  ${CMAKE_CURRENT_BINARY_DIR}/JMBDEQuickConfig.cmake INSTALL_DESTINATION
-  ${INSTALL_CONFIGDIR})
+  ${CMAKE_CURRENT_BINARY_DIR}/JMBDEQuickConfig.cmake
+  INSTALL_DESTINATION ${INSTALL_CONFIGDIR})
 
 # Install the config, configversion and custom find modules
 install(
