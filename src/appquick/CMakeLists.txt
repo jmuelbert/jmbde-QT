@@ -27,13 +27,8 @@ project(
   HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
   LANGUAGES CXX)
 
-# Set the dependencies versions
-set(KF5_VERSION "5.71.0")
-set(KF5_DEP_VERSION "5.71.0")
-set(QT_MIN_VERSION "5.12.9")
-
-# warn about deprecated stuff so that we may try fixing it
-set(CMAKE_WARN_DEPRECATED 1)
+include(ECMSetupVersion)
+include(ECMQtDeclareLoggingCategory)
 
 #
 # the jmbde application
@@ -87,13 +82,14 @@ endif()
 # Finding Qt
 #
 find_package(Qt5 ${QT_MIN_VERSION} QUIET REQUIRED COMPONENTS Core Widgets Sql
-                                                             Qml)
+                                                             Qml Quick)
 
 target_compile_features(jmbdeappquick PUBLIC cxx_std_17)
 
 target_include_directories(
-  ${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include"
-                          "${CMAKE_CURRENT_BIN_DIR}/include")
+  ${PROJECT_NAME}
+  PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include"
+          "${CMAKE_CURRENT_BINARY_DIR}/include" "${CMAKE_CURRENT_BINARY_DIR}")
 
 target_sources(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 

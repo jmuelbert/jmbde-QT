@@ -32,12 +32,15 @@ project(
 
 # set project version
 
+include(ECMSetupVersion)
+include(ECMQtDeclareLoggingCategory)
+
 ecm_setup_version(
   ${PROJECT_VERSION}
   VARIABLE_PREFIX
   JMBDE
   VERSION_HEADER
-  ${CMAKE_CURRENT_BINARY_DIR}/jmbde-version.h
+  "${CMAKE_CURRENT_BINARY_DIR}/jmbde-version.h"
   PACKAGE_VERSION_FILE
   "${CMAKE_CURRENT_BINARY_DIR}/JMBDE-ConfigVersion.cmake")
 
@@ -72,8 +75,9 @@ find_package(Qt5 ${QT_MIN_VERSION} QUIET REQUIRED
 target_compile_features(jmbde PUBLIC cxx_std_17)
 
 target_include_directories(
-  ${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include"
-                          "${CMAKE_CURRENT_BIN_DIR}/include")
+  ${PROJECT_NAME}
+  PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include"
+          "${CMAKE_CURRENT_BINARY_DIR}/include" "${CMAKE_CURRENT_BINARY_DIR}")
 
 target_sources(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 

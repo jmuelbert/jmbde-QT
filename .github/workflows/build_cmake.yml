@@ -220,9 +220,9 @@ jobs:
               run: |
                   mkdir build
                   cd build
-                  if: matrix.arch == 'x64'
+                  if (matrix.arch == 'x64')
                     conan_arch = 'x86_64'
-                  else:
+                  else
                     conan_arch = 'x86'
                   conan install .. -s arch=$conan_arch
                   cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=./deployment -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}

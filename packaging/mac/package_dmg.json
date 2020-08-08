@@ -10,7 +10,7 @@
     }
  },
  "contents": [
-   { "x": 130, "y": 205, "type": "file", "path": "/Applications/jmbde.app" },
+   { "x": 130, "y": 205, "type": "file", "path": "/usr/local/jmbde.app" },
    { "x": 375, "y": 205, "type": "link", "path": "/Applications" }
  ]
 }
