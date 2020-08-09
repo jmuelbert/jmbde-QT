@@ -12,14 +12,17 @@
 # details.
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.12...3.16 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.12...3.18 FATAL_ERROR)
 
-if(${CMAKE_VERSION} VERSION_LESS 3.17)
+if(${CMAKE_VERSION} VERSION_LESS 3.18)
   cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 else()
-  cmake_policy(VERSION 3.17)
+  cmake_policy(VERSION 3.18)
 endif()
 
+#
+# the jmbde application (QtQuick-Version)
+#
 project(
   "jmbdeappquick"
   VERSION "0.1.2"
@@ -29,6 +32,8 @@ project(
 
 include(ECMSetupVersion)
 include(ECMQtDeclareLoggingCategory)
+include(ECMInstallIcons)
+include(ECMAddAppIcon)
 
 #
 # the jmbde application
@@ -38,15 +43,6 @@ message(
   STATUS
     "Building ${PROJECT_NAME} ${JMBDE_APP_QUICK_VERSION} in ${CMAKE_BUILD_TYPE} mode"
 )
-
-# ################ Disallow in-source build #################
-
-if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
-  message(
-    FATAL_ERROR
-      "${PROJECT_NAME} requires an out of source build. Please create a separate build directory and run 'cmake path_to_${PROJECT_NAME} [options]' there."
-  )
-endif()
 
 # set project version
 
@@ -66,11 +62,15 @@ ecm_qt_declare_logging_category(
   IDENTIFIER
   ${PROJECT_NAME}
   CATEGORY_NAME
-  jmuelbert.jmbdeappquick
+  jmuelbert.${PROJECT_NAME}
   DEFAULT_SEVERITY
   Warning)
 
-add_executable(${PROJECT_NAME} "")
+if(APPLE)
+  add_executable(${PROJECT_NAME} MACOSX_BUNDLE)
+elseif(WIN32)
+  add_executable(${PROJECT_NAME} WIN32)
+endif()
 
 # Use a single application on MacOS + Windows instead of dbus.
 if(APPLE OR WIN32)
@@ -135,11 +135,7 @@ ecm_add_app_icon(ICONS_SOURCES ICONS ${ICONS_PNG} OUTFILE_BASENAME
 #
 target_sources(${PROJECT_NAME} PRIVATE ${ICONS_SOURCES})
 
-target_sources(
-  ${PROJECT_NAME}
-  PRIVATE loggingcategory.h
-          # CPP
-          loggingcategory.cpp src/main.cpp)
+target_sources(${PROJECT_NAME} PRIVATE loggingcategory.cpp src/main.cpp)
 
 if(WIN32)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/app.rc.in
@@ -178,20 +174,21 @@ elseif(APPLE)
                                "jmbdequick - A little BDE program")
   set_target_properties(
     ${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_LONG_VERSION_STRING
-                               "jmbdequick ${JMBDE_QUICK_VERSION}")
+                               "jmbdequick ${PROJECT_VERSION}")
   set_target_properties(
-    ${PROJECT_NAME}
-    PROPERTIES MACOSX_BUNDLE_SHORT_VERSION_STRING
-               "${JMBDE_QUICK_VERSION_MAJOR}.${JMBDE_QUICK_VERSION_MINOR}")
+    ${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_SHORT_VERSION_STRING
+                               "${PROJECT_VERSION}")
   set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_BUNDLE_VERSION
-                                                   "${JMBDE_QUICK_VERSION}")
+                                                   "${PROJECT_VERSION}")
   set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_ICON_FILE
                                                    "${ICONS_SOURCES}")
   set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_COPYRIGHT
                                                    "2013-2020 Jürgen Mülbert")
 
-  install(TARGETS ${PROJECT_NAME} BUNDLE DESTINATION .
-                                         ${INSTALL_TARGETS_DEFAULT_ARGS})
+  install(
+    TARGETS ${PROJECT_NAME}
+    BUNDLE DESTINATION . COMPONENT Runtime
+    RUNTIME DESTINATION bin COMPONENT Runtime)
 elseif(UNIX AND NOT APPLE)
 
   install(TARGETS ${PROJECT_NAME} ${INSTALL_TARGETS_DEFAULT_ARGS})
@@ -232,3 +229,7 @@ elseif(UNIX AND NOT APPLE)
             DESTINATION ${MAN_INSTALL_DIR}/man1/)
   endif()
 endif()
+
+set(QML_IMPORT_PATH
+    ${CMAKE_BINARY_DIR}/bin
+    CACHE INTERNAL "qml import path" FORCE)

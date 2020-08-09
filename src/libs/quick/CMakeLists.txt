@@ -12,12 +12,12 @@
 # details.
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.12...3.16 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.12...3.18 FATAL_ERROR)
 
-if(${CMAKE_VERSION} VERSION_LESS 3.17)
+if(${CMAKE_VERSION} VERSION_LESS 3.18)
   cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 else()
-  cmake_policy(VERSION 3.17)
+  cmake_policy(VERSION 3.18)
 endif()
 
 # JMBDEQUICK project
@@ -28,83 +28,17 @@ project(
   HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
   LANGUAGES CXX)
 
+# TODO: Get SO-Version from Version. Is the first digit.
 set(SO_VERSION "0")
-
-# Set the dependencies versions
-set(KF5_VERSION "5.71.0")
-set(KF5_DEP_VERSION "5.71.0")
-set(QT_MIN_VERSION "5.12.9")
-
-# warn about deprecated stuff so that we may try fixing it
-set(CMAKE_WARN_DEPRECATED 1)
 
 message(
   STATUS
     "Building ${PROJECT_NAME} Version ${PROJECT_VERSION} SO_Version ${SO_VERSION} in ${CMAKE_BUILD_TYPE} mode"
 )
 
-# ################ Disallow in-source build #################
-
-if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
-  message(
-    FATAL_ERROR
-      "${PROJECT_NAME} requires an out of source build. Please create a separate build directory and run 'cmake path_to_${PROJECT_NAME} [options]' there."
-  )
-endif()
-
-list(APPEND CMAKE_PREFIX_PATH "${CMAKE_MODULE_PATH}")
-
-if(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-  include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-  conan_basic_setup()
-endif()
-
-# For ECM-CONAN
-if(EXISTS "${CONAN_ECM_ROOT}")
-  list(APPEND CMAKE_PREFIX_PATH "${CONAN_ECM_ROOT}/share/ECM")
-  message(STATUS "Setting ECM-DIR to ${CONAN_ECM_ROOT}/share/ECM")
-endif()
-
-# we need some parts of the ECM CMake helpers
-include(FeatureSummary)
-find_package(ECM ${KF5_DEP_VERSION} QUIET REQUIRED NO_MODULE)
-feature_summary(WHAT REQUIRED_PACKAGES_NOT_FOUND
-                FATAL_ON_MISSING_REQUIRED_PACKAGES)
-
-# We append to the module path so modules can be overridden from the command
-# line.
-list(APPEND CMAKE_MODULE_PATH "${ECM_MODULE_PATH}")
-
-# Add the local module path to the search path
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-
-# load helper modules
-include(CheckFunctionExists)
-include(InstallRequiredSystemLibraries)
 include(GenerateExportHeader)
 include(ECMSetupVersion)
-include(ECMGenerateExportHeader)
-include(ECMGenerateHeaders)
-include(CMakePackageConfigHelpers)
-include(ECMPoQmTools)
-include(ECMQMLModules)
-include(ECMGenerateQmlTypes)
-include(ECMGeneratePriFile)
-
 include(ECMQtDeclareLoggingCategory)
-include(KDECompilerSettings NO_POLICY_SCOPE)
-include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
-include(KDEClangFormat)
-
-include(ECMOptionalAddSubdirectory)
-include(ECMInstallIcons)
-
-include(ECMAddTests)
-include(ECMMarkNonGuiExecutable)
-include(ECMAddAppIcon)
-
-include(WriteBasicConfigVersionFile)
-include(CheckFunctionExists)
 
 # Version setup set project version
 ecm_setup_version(
@@ -117,25 +51,28 @@ ecm_setup_version(
   ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick-version.h)
 
 ecm_qt_declare_logging_category(
-  jmbdequick
+  ${PROJECT_NAME}
   HEADER
   loggingcategory.h
   IDENTIFIER
   jmbdequickLog
   CATEGORY_NAME
-  jmuelbert.jmbde
+  jmuelbert.jmbde.${PROJECT_NAME}
   DEFAULT_SEVERITY
   Warning)
+
+#
+# Finding Qt
+#
+find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS Core Quick Svg
+                                                              Qml Sql)
+
+# Find Qt5QuickCompiler
+find_package(Qt5QuickCompiler)
 
 add_library(jmbdequick "")
 generate_export_header(jmbdequick)
 add_library(jmuelbert::jmbdequick ALIAS jmbdequick)
-
-set_target_properties(
-  jmbdequick PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${SO_VERSION}
-                        EXPORT_NAME "jmbdequick")
-
-target_compile_features(jmbdequick PUBLIC cxx_std_17)
 
 target_include_directories(
   jmbdequick
@@ -144,29 +81,6 @@ target_include_directories(
          $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
          $<INSTALL_INTERFACE:include>
   PRIVATE src)
-
-set(QML_IMPORT_PATH
-    ${CMAKE_SOURCE_DIR}/qml ${CMAKE_BINARY_DIR}/imports
-    CACHE STRING "" FORCE)
-
-# Find Qt modules
-find_package(Qt5QuickCompiler)
-
-target_compile_definitions(
-  jmbdequick
-  PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
-
-target_link_libraries(
-  jmbdequick
-  PUBLIC Qt5::Core jmuelbert::jmbdemodels
-  PRIVATE Qt5::Gui Qt5::Qml Qt5::Quick Qt5::Svg Qt5::Sql
-          ${__Qt5Widgets_LIBRARIES})
-
-#
-# Finding Qt
-#
-find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS Core Quick Svg
-                                                              Qml Sql)
 
 if(Qt5QuickCompiler_FOUND AND NOT DISABLE_QTQUICK_COMPILER)
   qtquick_compiler_add_resources(jmbdequick_Resources qml.qrc)
@@ -187,22 +101,38 @@ target_sources(
           src/models/employeemodel.cpp
           ${jmbdequick_Resources})
 
+set_target_properties(
+  jmbdequick PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${SO_VERSION}
+                        EXPORT_NAME "jmbdequick")
+
+target_compile_features(jmbdequick PUBLIC cxx_std_17)
+
+target_compile_definitions(
+  jmbdequick
+  PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+
+target_link_libraries(
+  jmbdequick
+  PUBLIC Qt5::Core jmuelbert::jmbdemodels
+  PRIVATE Qt5::Gui Qt5::Qml Qt5::Quick Qt5::Svg Qt5::Sql ${CONAN_LIBS})
+
 #
 # Install instructions
 #
-include(GNUInstallDirs)
 set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/jmbdequick)
 
 install(
   TARGETS jmbdequick
   EXPORT jmbdequick-Targets
-  ${INSTALL_TARGETS_DEFAULT_ARGS})
+  RUNTIME DESTINATION "${BIN_INSTALL_DIR}"
+  LIBRARY DESTINATION "${LIB_INSTALL_DIR}"
+  ARCHIVE DESTINATION "${LIB_INSTALL_DIR}")
 
-# This is required so that the exported target has the name JMBDEQUICK and not
-# jmbdeQUICK
+# This is required so that the exported target has the name JMBDEModels and not
+# jmbdequick
 set_target_properties(jmbdequick PROPERTIES EXPORT_NAME jmbdequick)
 
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+# install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 # Export the targets to a script
 install(
@@ -215,7 +145,7 @@ install(
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
   ${CMAKE_CURRENT_BINARY_DIR}/JMBDEQuickConfigVersion.cmake
-  VERSION ${JMBDEQUICK_VERSION}
+  VERSION ${PROJECT_VERSION}
   COMPATIBILITY AnyNewerVersion)
 
 configure_package_config_file(
@@ -242,12 +172,16 @@ export(
 
 if(MSVC AND BUILD_SHARED_LIBS)
   install(
-    FILES "$<TARGET_PDB_FILE_DIR:jmbdequick>/$<TARGET_PDB_FILE_NAME:jmbdequick>"
-    DESTINATION ${BIN_INSTALL_DIR}
+    FILES "$<TARGET_PDB_FILE_DIR:jmbdquick>/$<TARGET_PDB_FILE_NAME:jmbdequick>"
+    DESTINATION ${LIB_INSTALL_DIR}
     CONFIGURATIONS Debug RelWithDebInfo)
 endif()
 
-if(BUILD_TESTING_X)
+if(BUILD_TESTING)
   enable_testing()
   add_subdirectory(tests)
 endif()
+
+set(QML_IMPORT_PATH
+    ${CMAKE_SOURCE_DIR}/qml ${CMAKE_BINARY_DIR}/imports
+    CACHE STRING "" FORCE)
