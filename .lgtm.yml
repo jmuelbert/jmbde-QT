@@ -1,0 +1,16 @@
+extraction:
+    cpp:
+        prepare:
+            packages:
+                - "build-essential"
+                - "pkg-config"
+                - ninja-build
+                - qt5-default
+                - qttools5-dev
+                - qml-module-qtquick-controls
+                - qml-module-qtquick-controls2
+        configure:
+            command: "cmake . -GNinja"
+    python:
+        python_setup:
+            version: 3

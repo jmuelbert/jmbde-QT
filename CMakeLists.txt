@@ -49,6 +49,12 @@ else()
   cmake_policy(VERSION 3.18)
 endif()
 
+if(APPLE)
+  set(CMAKE_OSX_DEPLOYMENT_TARGET
+      "10.14"
+      CACHE STRING "Minimum OS X deployment version")
+endif()
+
 project(jmbde)
 
 # Set the dependencies versions

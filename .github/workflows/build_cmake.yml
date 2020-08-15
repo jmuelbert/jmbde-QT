@@ -5,16 +5,14 @@ on:
         branches:
             - master
             - develop
-        pull_request:
-            - master
-            - develop
 
 env:
     QT_VERSION: 5.15.0
-    CMAKE_VERSION: 3.8.0
+    CMAKE_VERSION: 3.18.0
     NINJA_VERSION: 1.10.0
     CCACHE_VERSION: 3.7.11
     GOOGLE_TEST_VERSION: 1.10.0
+    BUILD_TYPE: Release
 
 jobs:
     check_commit_msg:
