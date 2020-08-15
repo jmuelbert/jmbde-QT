@@ -52,7 +52,7 @@ public:
     /*!
         \fn ChipCard(QObject *parent = nullptr)
 
-        \brief Contructor forChipCard
+        \brief Constructor forChipCard
     */
     explicit JMBDEMODELS_EXPORT ChipCard(QObject *parent = nullptr);
 

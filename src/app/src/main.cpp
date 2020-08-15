@@ -65,7 +65,7 @@
  * @brief main
  * @param argc The count of args
  * @param argv The arg Strings
- * @return 0 is exceuted sucessfull
+ * @return 0 is exceuted successful
  */
 #if defined Q_OS_ANDROID
 int __attribute__((visibility("default"))) main(int argc, char *argv[])
