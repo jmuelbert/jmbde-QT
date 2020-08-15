@@ -211,7 +211,7 @@ jobs:
         endif()
         execute_process(COMMAND ccache -s)
     - name: Upload Artifact
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v2.1.4
       with:
         name: "jmbde-${{ matrix.config.os }}-${{ matrix.qt_version }}-${{ github.sha }}"
         path: build/bin/${{ matrix.config.binary }}
