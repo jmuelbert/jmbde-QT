@@ -92,7 +92,7 @@ jobs:
         run: |
           echo ::set-output name=NAME::$(basename build/jmbde-*.exe)
       - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - uploading artifact
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v2.1.4
         with:
           name: ${{ steps.get_package.outputs.NAME }}
           path: build/${{ steps.get_package.outputs.NAME }}

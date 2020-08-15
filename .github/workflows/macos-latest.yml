@@ -41,7 +41,7 @@ jobs:
           ln -s /Applications dmgdir/Applications;
           hdiutil create -volname jmbde-$VERSION -srcfolder dmgdir -ov -format UDZO jmbde.dmg
       - name: Install dmg
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2.1.4
         with:
           name: jmbde.dmg
           path: build/install
