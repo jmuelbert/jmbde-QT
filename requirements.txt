@@ -9,7 +9,7 @@ distlib==0.3.1
 docutils==0.16
 filelock==3.0.12
 graphviz==0.14.1
-identify==1.4.28
+identify==1.4.29
 idna==2.10
 imagesize==1.2.0
 importlib-metadata==1.7.0
