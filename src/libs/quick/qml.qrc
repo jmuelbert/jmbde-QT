@@ -1,0 +1,30 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qtquickcontrols2.conf</file>
+
+        <file>qml/main.qml</file>
+
+        <file>qml/designer/Backend/EmployeeModel.qml</file>
+        <file>qml/designer/Backend/qmldir</file>
+        <file>qml/ui/About.qml</file>
+        <file>qml/ui/MenuBar.qml</file>
+        <file>qml/ui/Message.qml</file>
+        <file>qml/ui/Preferences.qml</file>
+        <file>qml/ui/TabBar.qml</file>
+        <file>qml/ui/ToolBar.qml</file>
+        <file>qml/ui/qmldir</file>
+
+        <file>qml/models/SectionDelegate.qml</file>
+        <file>qml/models/EmployeeView.ui.qml</file>
+        <file>qml/models/EmployeeForm.ui.qml</file>
+        <file>qml/models/EmployeeDialog.qml</file>
+        <file>qml/models/EmployeeDelegate.ui.qml</file>
+        <file>qml/models/qmldir</file>
+
+        <file>images/baseline-category-24px.svg</file>
+        <file>images/baseline-more_vert-24px.svg</file>
+        <file>images/baseline-menu-24px.svg</file>
+
+        <file>fonts/fontello.ttf</file>
+    </qresource>
+</RCC>
