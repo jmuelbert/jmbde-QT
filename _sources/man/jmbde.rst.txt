@@ -14,8 +14,10 @@ program, employees and the equipment they need for their work can be
 recorded. These are computers, printers and telephones.
 Complete configuration information is available online at https://jmuelbert.github.io/jmbde-QT/.
 
+
 OPTIONS
 =======
+
     -h
         View an info Text and the actual version
 
