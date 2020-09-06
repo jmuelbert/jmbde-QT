@@ -7,8 +7,8 @@ list(APPEND CMAKE_MODULE_PATH ${JMBDEWIDGETS_CMAKE_DIR})
 find_dependency(Qt @MIN_Qt_VERSION@)
 list(REMOVE_AT CMAKE_MODULE_PATH -1)
 
-if(NOT TARGET JMBDE::models)
+if(NOT TARGET jmuelbert::jmbdewidgets)
   include("${JMBDEWIDGETS_CMAKE_DIR}/JMBDEWIDGETSTargets.cmake")
 endif()
 
-set(JMBDEWIDGETS_LIBRARIES JMBDE::models)
+set(JMBDEWIDGETS_LIBRARIES jmuelbert::jmbdewidgets)

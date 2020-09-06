@@ -1,5 +1,5 @@
 #
-# jmbde a BDE Tool for companies Copyright (C) 2013-2019  Jürgen Mülbert
+# jmbde a BDE Tool for companies Copyright (C) 2013-2020  Jürgen Mülbert
 #
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -41,40 +41,29 @@
 #
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.12...3.16 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.12...3.18 FATAL_ERROR)
 
-if(${CMAKE_VERSION} VERSION_LESS 3.17)
+if(${CMAKE_VERSION} VERSION_LESS 3.18)
   cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 else()
-  cmake_policy(VERSION 3.17)
+  cmake_policy(VERSION 3.18)
 endif()
 
-# jmbde project
-project(
-  jmbde
-  DESCRIPTION "A BDE Tool"
-  HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
-  LANGUAGES CXX)
+if(APPLE)
+  set(CMAKE_OSX_DEPLOYMENT_TARGET
+      "10.14"
+      CACHE STRING "Minimum OS X deployment version")
+endif()
 
-# Set my app version
-set(JMBDE_VERSION 0.5.0)
+project(jmbde)
 
 # Set the dependencies versions
-set(KF5_VERSION "5.62.0")
-set(KF5_DEP_VERSION "5.62.0")
-set(QT_MIN_VERSION "5.12.4")
+set(KF5_VERSION "5.71.0")
+set(KF5_DEP_VERSION "5.71.0")
+set(QT_MIN_VERSION "5.12.9")
 
-# warn about deprecated stuff so that we may try fixing it
-set(CMAKE_WARN_DEPRECATED 1)
-
-# ################ Disallow in-source build #################
-
-if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
-  message(
-    FATAL_ERROR
-      "${PROJECT_NAME} requires an out of source build. Please create a separate build directory and run 'cmake path_to_${PROJECT_NAME} [options]' there."
-  )
-endif()
+# Load Standard-CMake helpler modules
+include(FeatureSummary)
 
 list(APPEND CMAKE_PREFIX_PATH "${CMAKE_MODULE_PATH}")
 
@@ -90,7 +79,7 @@ if(EXISTS "${CONAN_ECM_ROOT}")
 endif()
 
 # we need some parts of the ECM CMake helpers
-include(FeatureSummary)
+
 find_package(ECM ${KF5_DEP_VERSION} QUIET REQUIRED NO_MODULE)
 feature_summary(WHAT REQUIRED_PACKAGES_NOT_FOUND
                 FATAL_ON_MISSING_REQUIRED_PACKAGES)
@@ -103,50 +92,50 @@ list(APPEND CMAKE_MODULE_PATH "${ECM_MODULE_PATH}")
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake"
      "${PROJECT_SOURCE_DIR}/cmake/modules")
 
-# load helper modules
-include(CheckFunctionExists)
-include(InstallRequiredSystemLibraries)
-include(GenerateExportHeader)
-include(ECMSetupVersion)
-include(ECMGenerateExportHeader)
-include(ECMGenerateHeaders)
-include(CMakePackageConfigHelpers)
-include(ECMPoQmTools)
-include(ECMQMLModules)
-include(ECMGenerateQmlTypes)
-include(ECMGeneratePriFile)
-
-include(ECMQtDeclareLoggingCategory)
-include(KDECompilerSettings NO_POLICY_SCOPE)
-include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
+# Load extended helpers
 include(KDEClangFormat)
+include(KDEInstallDirs)
 
-include(ECMOptionalAddSubdirectory)
-include(ECMInstallIcons)
+# warn about deprecated stuff so that we may try fixing it
+set(CMAKE_WARN_DEPRECATED ON)
 
-include(ECMAddTests)
-include(ECMMarkNonGuiExecutable)
-include(ECMAddAppIcon)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # for clang
 
-include(QtInstallPaths)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-include(WriteBasicConfigVersionFile)
-include(CheckFunctionExists)
+# AutoMOC ON
+set(CMAKE_AUTOMOC 1)
+set(CMAKE_AUTORCC 1)
+set(CMAKE_AUTOUIC 1)
 
-# Make CPack available to easy generate binary packages
-include(CPack)
-include(PackageIFW)
+# forbid some old things
+add_definitions(-DQT_NO_FOREACH)
+# Need Signals and slots
+remove_definitions(-DQT_NO_SIGNALS_SLOTS_KEYWORDS)
 
-# ##############################################################################
+# debug suffixes for qmake compatibility
+if(WIN32)
+  set(CMAKE_DEBUG_POSTFIX "d")
+elseif(APPLE)
+  set(CMAKE_DEBUG_POSTFIX "_debug")
+endif()
 
-message(
-  STATUS "Building ${PROJECT_NAME} ${JMBDE_VERSION} in ${CMAKE_BUILD_TYPE} mode"
-)
-#
-# Project configuration options
-#
+if(APPLE)
+  set(APPLE_SUPPRESS_X11_WARNING TRUE)
+  set(KDE_SKIP_RPATH_SETTINGS TRUE)
+  set(CMAKE_MACOSX_RPATH OFF)
+  set(BUILD_WITH_INSTALL_RPATH 1)
+  add_definitions(-mmacosx-version-min=10.14 -Wno-macro-redefined
+                  -Wno-deprecated-register)
+endif()
 
-# Project options
+if(UPPERCASE_CMAKE_BUILD_TYPE MATCHES "^RELEASE$")
+  add_definitions(-DQT_NO_DEBUG_OUTPUT)
+endif()
+
+# Options Project options
 option(BUILD_EXAMPLES "Build examples." OFF)
 add_feature_info(EXAMPLES ${BUILD_EXAMPLES} "Build the the examples")
 option(BUILD_MANUAL "Build manual." OFF)
@@ -169,7 +158,7 @@ option(BUILD_COVERAGE "Add coverage information." OFF)
 add_feature_info(COVERAGE ${BUILD_COVERAGE} "Build with coverage informations.")
 option(BUILD_SHARED_LIBS "Build shared libs" ON)
 add_feature_info(SHARED_LIBS ${BUILD_SHARED_LIBS} "Build shared libs")
-option(BUILD_TESTING "Build tests." ON)
+option(BUILD_TESTING "Build tests." OFF)
 add_feature_info(TESTS ${BUILD_TESTING} "Build and run the tests")
 option(ENABLE_CLAZY "Enable clazy" OFF)
 add_feature_info(CLAZY ${ENABLE_CLAZY} "Build with clazy hints")
@@ -183,49 +172,16 @@ option(ENABLE_CCACHE "prefix each compile command with ccache" OFF)
 add_feature_info(CCACHE ${ENABLE_CCACHE} "Compile with ccache")
 option(USE_GIT_VERSION "Append Git HEAD to jmbde version (if exists)" ON)
 
-# Allow adding Qt resource files with `add_executable` or `target_sources`
-# instead of `qt5_add_resources`. See
-# https://cmake.org/cmake/help/v3.0/manual/cmake-qt.7.html#autorcc.
-set(CMAKE_AUTOUIC ON)
-if(NOT DEFINED CMAKE_SKIP_BUILD_RPATH)
-  set(CMAKE_SKIP_BUILD_RPATH OFF)
-endif()
-if(NOT DEFINED CMAKE_BUILD_WITH_INSTALL_RPATH)
-  set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
-endif()
-if(NOT DEFINED CMAKE_INSTALL_RPATH_USE_LINK_PATH)
-  set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
-endif()
-if(NOT DEFINED CMAKE_MACOSX_RPATH)
-  set(CMAKE_MACOSX_RPATH TRUE)
-endif()
-
-if(APPLE)
-  set(APPLE_SUPPRESS_X11_WARNING TRUE)
-  set(KDE_SKIP_RPATH_SETTINGS TRUE)
-  set(CMAKE_MACOSX_RPATH OFF)
-  set(BUILD_WITH_INSTALL_RPATH 1)
-  add_definitions(-mmacosx-version-min=10.12 -Wno-macro-redefined
-                  -Wno-deprecated-register)
-endif()
-
-# Required here so that the version comparison below works
-find_package(Qt5Widgets ${QT_MIN_VERSION} CONFIG REQUIRED)
-
-set(LANGUAGES
-    "All"
-    CACHE
-      STRING
-      "A space-seperated list of translations to compile into jmbde or \"All\"")
-
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-string(TOLOWER "${CMAKE_BUILD_TYPE}" CMAKE_BUILD_TYPE)
-
+# Extensions: GitVersion, Clang-Format, Clang-Tidy, cppcheck
+# ##############################################################################
+# GitVersion
 if(USE_GIT_VERSION)
   if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
     find_package(Git)
-    set_package_properties(Git PROPERTIES TYPE OPTIONAL PURPOSE
-                           "Determine exact build version.")
+    set_package_properties(
+      Git PROPERTIES
+      TYPE OPTIONAL
+      PURPOSE "Determine exact build version.")
     if(GIT_FOUND)
       execute_process(
         COMMAND ${GIT_EXECUTABLE} rev-parse --short HEAD
@@ -235,6 +191,15 @@ if(USE_GIT_VERSION)
       set(JMBDE_REVISION "${JMBDE_REVISION} (revision: ${_git_revision})")
     endif()
   endif()
+endif()
+
+# ##############################################################################
+# clang format cpp and h files.
+if(ENABLE_CLANG_FORMAT)
+  file(GLOB_RECURSE ALL_CLANG_FORMAT_SOURCE_FILES *.cpp *.h)
+  kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
+else()
+  message(STATUS "Clang-format supported but disabled")
 endif()
 
 # ##############################################################################
@@ -260,12 +225,29 @@ else()
 endif()
 
 # ##############################################################################
-# clang format cpp and h files.
-if(ENABLE_CLANG_FORMAT)
-  file(GLOB_RECURSE ALL_CLANG_FORMAT_SOURCE_FILES *.cpp *.h)
-  kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
-else()
-  message(STATUS "Clang-format supported but disabled")
+# cppcheck
+#
+find_program(CPPCHECK_EXECUTABLE cppcheck)
+if(CPPCHECK_EXECUTABLE)
+  set(_cppcheck_flags "-I${CMAKE_CURRENT_BINARY_DIR}")
+  get_directory_property(_inc_dirs INCLUDE_DIRECTORIES)
+  foreach(_current ${_inc_dirs})
+    set(_cppcheck_flags ${_cppcheck_flags} "-I${_current}")
+  endforeach()
+  get_directory_property(_defs COMPILE_DEFINITIONS)
+  foreach(_current ${_defs})
+    set(_cppcheck_flags ${_cppcheck_flags} "-D${_current}")
+  endforeach()
+
+  add_custom_target(
+    cppcheck
+    COMMAND
+      ${CPPCHECK_EXECUTABLE} --enable=all --inconclusive -f
+      --suppress=*:${QT_INCLUDE_DIR}* ${_cppcheck_flags}
+      -i${CMAKE_CURRENT_SOURCE_DIR}/3rdparty -i${CMAKE_CURRENT_SOURCE_DIR}/tests
+      ${CMAKE_CURRENT_SOURCE_DIR}
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    COMMENT "Running the cppcheck static code checker")
 endif()
 
 # ##############################################################################
@@ -282,27 +264,7 @@ if(ENABLE_CCACHE)
 endif()
 
 # ##############################################################################
-# Build the API Documentation
-if(BUILD_API_DOCS AND CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-Wdocumentation)
-endif()
-
-# forbid some old things
-add_definitions(-DQT_NO_FOREACH)
-# Need Signals and slots
-remove_definitions(-DQT_NO_SIGNALS_SLOTS_KEYWORDS)
-
-# debug suffixes for qmake compatibility
-if(WIN32)
-  set(CMAKE_DEBUG_POSTFIX "d")
-elseif(APPLE)
-  set(CMAKE_DEBUG_POSTFIX "_debug")
-endif()
-
-if(UPPERCASE_CMAKE_BUILD_TYPE MATCHES "^RELEASE$")
-  add_definitions(-DQT_NO_DEBUG_OUTPUT)
-endif()
-
+# Set the Installation-Layout for the platforms
 if(APPLE)
   set(BUNDLE_APP_NAME "${PROJECT_NAME}.app")
   # Make sure default prefix on mac is /Applications, dunnow why but it does not
@@ -310,7 +272,7 @@ if(APPLE)
   # the main project
   string(COMPARE EQUAL "${CMAKE_INSTALL_PREFIX}" "/usr/local" CMP_RESULT)
   if(CMP_RESULT)
-    set(CMAKE_INSTALL_PREFIX "/Applications")
+    set(CMAKE_INSTALL_PREFIX "./Applications")
   endif()
 
   set(BUNDLE_INSTALL_DIR ".")
@@ -365,58 +327,30 @@ else()
   endif()
 endif()
 
-set(INSTALL_TARGETS_DEFAULT_ARGS
-    RUNTIME
-    DESTINATION
-    ${BIN_INSTALL_DIR}
-    LIBRARY
-    DESTINATION
-    ${LIB_INSTALL_DIR}
-    ARCHIVE
-    DESTINATION
-    ${LIB_INSTALL_DIR}
-    COMPONENT
-    Devel
-    BUNDLE
-    DESTINATION
-    ${BUNDLE_INSTALL_DIR})
-
-# Set the RPATH
-include(KDECMakeSettings)
-
-# 3rd-party ecm_optional_add_subdirectory(src/3rd-party/qtsingleapplication)
-
-# libs
-ecm_optional_add_subdirectory(src/libs)
-
-# jmbde-widget
-ecm_optional_add_subdirectory(src/app)
-
-# jmbde-quick
-ecm_optional_add_subdirectory(src/appquick)
-
-# translations
+# ##############################################################################
+# Build the translations
 if(BUILD_TRANSLATIONS)
+  find_package(Qt5 ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS Core)
   find_package(Qt5 OPTIONAL_COMPONENTS LinguistTools)
-  if(Qt5LinguistTools_FOUND)
-    ecm_optional_add_subdirectory(translations)
-  endif()
+  add_subdirectory(translations)
 endif()
 
-# docs
-
-# if translation/doc host tools are missing, the Qt5 cmake config files throw
-# errors...
+# ##############################################################################
+# Build the API Documentation
 if(BUILD_API_DOCS OR BUILD_MANUAL)
-  find_package(Sphinx)
+  if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    add_compile_options(-Wdocumentation)
+  endif()
   find_package(Qt5 NO_MODULE QUIET OPTIONAL_COMPONENTS Help LinguistTools)
-  ecm_optional_add_subdirectory(docs)
+  add_subdirectory(docs)
 endif()
 
-# set cdash buildname
-set(BUILDNAME
-    "${CMAKE_SYSTEM_NAME}-${CMAKE_HOST_SYSTEM_PROCESSOR}-${CMAKE_Fortran_COMPILER_ID}-${cmake_build_type_tolower}"
-    CACHE STRING "Name of build on the dashboard")
+# The libs
+add_subdirectory(src/libs)
+
+# The apps
+add_subdirectory(src/app)
+add_subdirectory(src/appquick)
 
 set(LICENSE_FILE "LICENSE")
 set(README_FILE "README.md")
@@ -431,32 +365,6 @@ if(NOT APPLE)
   install(FILES ${DOCS} DESTINATION ${DOC_INSTALL_DIR})
 endif()
 
-#
-# cppcheck
-#
-find_program(CPPCHECK_EXECUTABLE cppcheck)
-if(CPPCHECK_EXECUTABLE)
-  set(_cppcheck_flags "-I${CMAKE_CURRENT_BINARY_DIR}")
-  get_directory_property(_inc_dirs INCLUDE_DIRECTORIES)
-  foreach(_current ${_inc_dirs})
-    set(_cppcheck_flags ${_cppcheck_flags} "-I${_current}")
-  endforeach()
-  get_directory_property(_defs COMPILE_DEFINITIONS)
-  foreach(_current ${_defs})
-    set(_cppcheck_flags ${_cppcheck_flags} "-D${_current}")
-  endforeach()
-
-  add_custom_target(
-    cppcheck
-    COMMAND
-      ${CPPCHECK_EXECUTABLE} --enable=all --inconclusive -f
-      --suppress=*:${QT_INCLUDE_DIR}* ${_cppcheck_flags}
-      -i${CMAKE_CURRENT_SOURCE_DIR}/3rdparty -i${CMAKE_CURRENT_SOURCE_DIR}/tests
-      ${CMAKE_CURRENT_SOURCE_DIR}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    COMMENT "Running the cppcheck static code checker")
-endif()
-
 if(BUILD_TESTING)
   enable_testing()
   add_subdirectory(tests)
@@ -464,8 +372,7 @@ endif()
 
 # tell about our features (and what is missing)
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES
-                FATAL_ON_MISSING_REQUIRED_PACKAGES)
+                     FATAL_ON_MISSING_REQUIRED_PACKAGES)
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
-# cpack
-include(cmake/packaging.cmake)
+# cpack include(cmake/packaging.cmake)

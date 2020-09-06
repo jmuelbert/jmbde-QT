@@ -1,5 +1,5 @@
 #
-# jmbde a BDE Tool for companies Copyright (C) 2013-2019  Jürgen Mülbert
+# jmbde a BDE Tool for companies Copyright (C) 2013-2020  Jürgen Mülbert
 #
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -8,71 +8,71 @@
 #
 # This program is distributed in the hope that it will be useful, but WITHOUT
 # ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-# FOR A PARTICULAR PURPOSE.  See the GNU General Pub          Qt5::Qmllic
-# License for more details.
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+# details.
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.12...3.16 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.12...3.18 FATAL_ERROR)
 
-if(${CMAKE_VERSION} VERSION_LESS 3.17)
+if(${CMAKE_VERSION} VERSION_LESS 3.18)
   cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 else()
-  cmake_policy(VERSION 3.17)
+  cmake_policy(VERSION 3.18)
 endif()
-
-#
-# the QUICK library
-#
-set(JMBDEQUICK_VERSION 0.1.0)
-set(JMBDEQUICK_SOVERSION 0)
-
-# Version setup set project version
-ecm_setup_version(
-  ${JMBDEQUICK_VERSION}
-  VARIABLE_PREFIX
-  JMBDEQUICK
-  SOVERSION
-  ${JMBDEQUICK_SOVERSION}
-  VERSION_HEADER
-  ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick-version.h)
-
-# warn about deprecated stuff so that we may try fixing it
-set(CMAKE_WARN_DEPRECATED 1)
 
 # JMBDEQUICK project
 project(
-  jmbdequick
-  VERSION ${JMBDEQUICK_SOVERSION}
+  "jmbdequick"
+  VERSION "0.1.1"
   DESCRIPTION "${PROJECT_NAME} Quick UI Library"
+  HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
   LANGUAGES CXX)
+
+# TODO: Get SO-Version from Version. Is the first digit.
+set(SO_VERSION "0")
 
 message(
   STATUS
-    "Building ${PROJECT_NAME} Version ${JMBDEQUICK_VERSION} SO_Version ${JMBDEQUICK_SOVERSION} in ${CMAKE_BUILD_TYPE} mode"
+    "Building ${PROJECT_NAME} Version ${PROJECT_VERSION} SO_Version ${SO_VERSION} in ${CMAKE_BUILD_TYPE} mode"
 )
 
+include(GenerateExportHeader)
+include(ECMSetupVersion)
+include(ECMQtDeclareLoggingCategory)
+
+# Version setup set project version
+ecm_setup_version(
+  ${PROJECT_VERSION}
+  VARIABLE_PREFIX
+  JMBDEQUICK
+  SOVERSION
+  ${SO_VERSION}
+  VERSION_HEADER
+  ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick-version.h)
+
 ecm_qt_declare_logging_category(
-  jmbdequick
+  ${PROJECT_NAME}
   HEADER
   loggingcategory.h
   IDENTIFIER
   jmbdequickLog
   CATEGORY_NAME
-  jmuelbert.jmbde
+  jmuelbert.jmbde.${PROJECT_NAME}
   DEFAULT_SEVERITY
   Warning)
+
+#
+# Finding Qt
+#
+find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS Core Quick Svg
+                                                              Qml Sql)
+
+# Find Qt5QuickCompiler
+find_package(Qt5QuickCompiler)
 
 add_library(jmbdequick "")
 generate_export_header(jmbdequick)
 add_library(jmuelbert::jmbdequick ALIAS jmbdequick)
-
-set_target_properties(
-  jmbdequick
-  PROPERTIES VERSION ${JMBDEQUICK_VERSION_STRING} SOVERSION
-                                                  ${JMBDEQUICK_SOVERSION}
-             EXPORT_NAME "jmbdequick")
-
-target_compile_features(jmbdequick PUBLIC cxx_std_17)
 
 target_include_directories(
   jmbdequick
@@ -82,24 +82,10 @@ target_include_directories(
          $<INSTALL_INTERFACE:include>
   PRIVATE src)
 
-target_compile_definitions(
-  jmbdequick
-  PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
-
-target_link_libraries(
-  jmbdequick
-  PUBLIC Qt5::Core
-  PRIVATE Qt5::Gui Qt5::Qml)
-
-#
-# Finding Qt
-#
-find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS Core Qml)
-
 if(Qt5QuickCompiler_FOUND AND NOT DISABLE_QTQUICK_COMPILER)
-  qtquick_compiler_add_resources(RuqolaResources qml/qml.qrc)
+  qtquick_compiler_add_resources(jmbdequick_Resources qml.qrc)
 else()
-  qt5_add_resources(Resources_SRCS resources/qml/qml.qrc)
+  qt5_add_resources(jmbdequick_Resources qml.qrc)
 endif()
 
 target_sources(
@@ -108,46 +94,64 @@ target_sources(
           jmbdequick-version.h
           loggingcategory.h
           include/quick/maincontroller.h
+          include/models/employeemodel.h
           # CPP's
           loggingcategory.cpp
           src/quick/maincontroller.cpp
-          ${Resources_SRCS})
+          src/models/employeemodel.cpp
+          ${jmbdequick_Resources})
+
+set_target_properties(
+  jmbdequick PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${SO_VERSION}
+                        EXPORT_NAME "jmbdequick")
+
+target_compile_features(jmbdequick PUBLIC cxx_std_17)
+
+target_compile_definitions(
+  jmbdequick
+  PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+
+target_link_libraries(
+  jmbdequick
+  PUBLIC Qt5::Core jmuelbert::jmbdemodels
+  PRIVATE Qt5::Gui Qt5::Qml Qt5::Quick Qt5::Svg Qt5::Sql ${CONAN_LIBS})
 
 #
 # Install instructions
 #
-include(GNUInstallDirs)
-set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/JMBDEQuick)
+set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/jmbdequick)
 
 install(
   TARGETS jmbdequick
-  EXPORT jmbdeQuick-targets
-  ${INSTALL_TARGETS_DEFAULT_ARGS})
+  EXPORT jmbdequick-Targets
+  RUNTIME DESTINATION "${BIN_INSTALL_DIR}"
+  LIBRARY DESTINATION "${LIB_INSTALL_DIR}"
+  ARCHIVE DESTINATION "${LIB_INSTALL_DIR}")
 
-# This is required so that the exported target has the name JMBDEQUICK and not
-# jmbdeQUICK
-set_target_properties(jmbdequick PROPERTIES EXPORT_NAME JMBDEQuick)
+# This is required so that the exported target has the name JMBDEModels and not
+# jmbdequick
+set_target_properties(jmbdequick PROPERTIES EXPORT_NAME jmbdequick)
 
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+# install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 # Export the targets to a script
 install(
-  EXPORT jmbdeQuick-targets
+  EXPORT jmbdequick-Targets
   FILE JMBDEQuickTargets.cmake
-  NAMESPACE jmbde::
+  NAMESPACE jmuelbert::
   DESTINATION ${INSTALL_CONFIGDIR})
 
 # Create a ConfigVersion.cmake file
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
   ${CMAKE_CURRENT_BINARY_DIR}/JMBDEQuickConfigVersion.cmake
-  VERSION ${JMBDEQUICK_VERSION}
+  VERSION ${PROJECT_VERSION}
   COMPATIBILITY AnyNewerVersion)
 
 configure_package_config_file(
   ${CMAKE_CURRENT_LIST_DIR}/cmake/config.cmake.in
-  ${CMAKE_CURRENT_BINARY_DIR}/JMBDEQuickConfig.cmake INSTALL_DESTINATION
-  ${INSTALL_CONFIGDIR})
+  ${CMAKE_CURRENT_BINARY_DIR}/JMBDEQuickConfig.cmake
+  INSTALL_DESTINATION ${INSTALL_CONFIGDIR})
 
 # Install the config, configversion and custom find modules
 install(
@@ -162,14 +166,14 @@ configure_file(${CMAKE_CURRENT_LIST_DIR}/cmake/FindJMBDEQuick.cmake
                ${CMAKE_CURRENT_BINARY_DIR}/FindJMBDEQuick.cmake COPYONLY)
 
 export(
-  EXPORT jmbdeQuick-targets
+  EXPORT jmbdequick-Targets
   FILE ${CMAKE_CURRENT_BINARY_DIR}/JMBDEQuickTargets.cmake
-  NAMESPACE jmbde::)
+  NAMESPACE jmuelbert::)
 
 if(MSVC AND BUILD_SHARED_LIBS)
   install(
-    FILES "$<TARGET_PDB_FILE_DIR:jmbdequick>/$<TARGET_PDB_FILE_NAME:jmbdequick>"
-    DESTINATION ${BIN_INSTALL_DIR}
+    FILES "$<TARGET_PDB_FILE_DIR:jmbdquick>/$<TARGET_PDB_FILE_NAME:jmbdequick>"
+    DESTINATION ${LIB_INSTALL_DIR}
     CONFIGURATIONS Debug RelWithDebInfo)
 endif()
 
@@ -177,3 +181,7 @@ if(BUILD_TESTING)
   enable_testing()
   add_subdirectory(tests)
 endif()
+
+set(QML_IMPORT_PATH
+    ${CMAKE_SOURCE_DIR}/qml ${CMAKE_BINARY_DIR}/imports
+    CACHE STRING "" FORCE)

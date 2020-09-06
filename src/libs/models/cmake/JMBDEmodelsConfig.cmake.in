@@ -7,8 +7,8 @@ list(APPEND CMAKE_MODULE_PATH ${JMBDEMODELS_CMAKE_DIR})
 find_dependency(Qt @MIN_Qt_VERSION@)
 list(REMOVE_AT CMAKE_MODULE_PATH -1)
 
-if(NOT TARGET JMBDE::models)
+if(NOT TARGET jmuelbert::jmbdemodels)
   include("${JMBDEMODELS_CMAKE_DIR}/JMBDEModelsTargets.cmake")
 endif()
 
-set(JMBDEmodels_LIBRARIES JMBDE::models)
+set(JMBDEmodels_LIBRARIES jmuelbert::jmbdemodels)

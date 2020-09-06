@@ -19,6 +19,7 @@
 
 #include <QtSql>
 
+#include <QAbstractTableModel>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
@@ -42,8 +43,10 @@ namespace Model
     \copyright EUPL V1.2
     */
 
-class CommonData : public QObject
+class CommonData : public QAbstractTableModel
 {
+    Q_OBJECT
+
 public:
     /*!
         \fn  CommonData(QObject *parent = nullptr)
@@ -90,6 +93,33 @@ public:
         \sa QString
      */
     static JMBDEMODELS_EXPORT QString setOutFormularStyle();
+
+    JMBDEMODELS_EXPORT int rowCount(const QModelIndex & = QModelIndex()) const override
+    {
+        return 200;
+    }
+
+    JMBDEMODELS_EXPORT int columnCount(const QModelIndex & = QModelIndex()) const override
+    {
+        return 200;
+    }
+
+    JMBDEMODELS_EXPORT QVariant data(const QModelIndex &index, int role) const override
+    {
+        switch (role) {
+        case Qt::DisplayRole:
+            return QString(QLatin1String("%1, %2")).arg(index.column()).arg(index.row());
+        default:
+            break;
+        }
+
+        return QVariant();
+    }
+
+    JMBDEMODELS_EXPORT QHash<int, QByteArray> roleNames() const override
+    {
+        return {{Qt::DisplayRole, "display"}};
+    }
 
 protected:
     /*!

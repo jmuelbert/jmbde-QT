@@ -15,6 +15,7 @@
 */
 
 #include "quick/maincontroller.h"
+#include "models/employeemodel.h"
 
 MainController::MainController(/* QObject *parent */) = default;
 
@@ -27,7 +28,7 @@ auto MainController::initialize() -> bool
 {
     mEngine = new QQmlApplicationEngine;
 
-    // QQmlContext *ctxt = mEngine->rootContext();
+    QQmlContext *ctxt = mEngine->rootContext();
 
 #if !defined(Q_OS_ANDROID) && !defined(Q_OS_IOS)
 //    qmlRegisterType<Notification>(URI, 1, 0, "Notification");
@@ -37,11 +38,15 @@ auto MainController::initialize() -> bool
 
     // ctxt->setContextObject(new KLocalizedContext(mEngine));
 
-    mEngine->load(QUrl(QLatin1String("qrc:/main.qml")));
     mEngine->addImportPath(QLatin1String("qrc:/"));
+    mEngine->addImportPath(QLatin1String("qrc:/qml"));
+
+    qmlRegisterType<EmployeeModel>("Backend", 1, 0, "EmployeeModel");
+
+    mEngine->load(QUrl(QLatin1String("qrc:/qml/main.qml")));
 
     if (mEngine->rootObjects().isEmpty()) {
-        qCWarning(jmbdequickLog) << "Impossible to load object from main.qml";
+        qCCritical(jmbdequickLog) << "Impossible to load object from main.qml";
         return false;
     }
     return true;

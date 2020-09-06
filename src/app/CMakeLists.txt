@@ -12,49 +12,65 @@
 # details.
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.12...3.18 FATAL_ERROR)
 
-set(JMBDE_VERSION 0.5.2)
+if(${CMAKE_VERSION} VERSION_LESS 3.18)
+  cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
+else()
+  cmake_policy(VERSION 3.18)
+endif()
 
 #
-# the jmbde application
+# the jmbde application (Widgets-Version)
 #
 project(
-  jmbde
+  "jmbde"
+  VERSION "0.6.0"
   DESCRIPTION "A BDE Tool"
   HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
   LANGUAGES CXX)
 
+include(ECMSetupVersion)
+include(ECMQtDeclareLoggingCategory)
+include(ECMInstallIcons)
+include(ECMAddAppIcon)
+
+message(
+  STATUS
+    "Building ${PROJECT_NAME} ${JMBDE_APP_QUICK_VERSION} in ${CMAKE_BUILD_TYPE} mode"
+)
+
 # set project version
 
 ecm_setup_version(
-  ${JMBDE_VERSION}
+  ${PROJECT_VERSION}
   VARIABLE_PREFIX
   JMBDE
   VERSION_HEADER
-  ${CMAKE_CURRENT_BINARY_DIR}/jmbde-version.h
+  "${CMAKE_CURRENT_BINARY_DIR}/jmbde-version.h"
   PACKAGE_VERSION_FILE
   "${CMAKE_CURRENT_BINARY_DIR}/JMBDE-ConfigVersion.cmake")
 
 ecm_qt_declare_logging_category(
-  JMBDE_APP_SRCS
+  ${PROJECT_NAME}
   HEADER
   loggingcategory.h
   IDENTIFIER
-  APP
+  ${PROJECT_NAME}
   CATEGORY_NAME
-  jmuelbert.jmbde
+  jmuelbert.${PROJECT_NAME}
   DEFAULT_SEVERITY
   Warning)
 
-message(
-  STATUS "Building ${PROJECT_NAME} ${JMBDE_VERSION} in ${CMAKE_BUILD_TYPE} mode"
-)
-
-add_executable(${PROJECT_NAME} "")
+if(APPLE)
+  add_executable(${PROJECT_NAME} MACOSX_BUNDLE)
+elseif(WIN32)
+  add_executable(${PROJECT_NAME} WIN32)
+endif()
 
 # Use a single application on MacOS + Windows instead of dbus.
 if(APPLE OR WIN32)
+  # TODO: Enable QT_SINGLE_APP for macOS and Windows
   # target_compile_definitions(${PROJECT_NAME} PRIVATE USE_QT_SINGLE_APP)
 endif()
 
@@ -64,13 +80,14 @@ endif()
 find_package(Qt5 ${QT_MIN_VERSION} QUIET REQUIRED
              COMPONENTS Core Widgets PrintSupport Sql Qml)
 
-target_compile_features(jmbde PUBLIC cxx_std_17)
-
 target_include_directories(
-  ${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include"
-                          "${CMAKE_CURRENT_BIN_DIR}/include")
+  ${PROJECT_NAME}
+  PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include"
+          "${CMAKE_CURRENT_BINARY_DIR}/include" "${CMAKE_CURRENT_BINARY_DIR}")
 
 target_sources(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
+
+target_compile_features(jmbde PUBLIC cxx_std_17)
 
 target_compile_definitions(
   ${PROJECT_NAME}
@@ -78,15 +95,23 @@ target_compile_definitions(
 
 target_link_libraries(
   ${PROJECT_NAME}
-  PUBLIC Qt5::Core
-  PRIVATE jmuelbert::jmbdewidgets Qt5::Widgets Qt5::PrintSupport Qt5::Sql
-          Qt5::Qml ${CONAN_LIBS})
+  PRIVATE jmuelbert::jmbdewidgets
+          Qt5::Core
+          Qt5::Widgets
+          Qt5::PrintSupport
+          Qt5::Sql
+          Qt5::Qml
+          ${CONAN_LIBS})
 
 # Use a single application on MacOS + Windows instead of dbus.
 if(APPLE OR WIN32)
+  # TODO: Enable QT_SINGLE_APP for macOS and Windows
   # target_link_libraries(${PROJECT_NAME} PRIVATE jmbde::qtsingleapp)
 endif()
 
+#
+# Application icons
+#
 set(ICONS_PNG
     ${CMAKE_CURRENT_SOURCE_DIR}/icons/16-apps-jmbde.png
     ${CMAKE_CURRENT_SOURCE_DIR}/icons/32-apps-jmbde.png
@@ -101,6 +126,9 @@ set(ICONS_SVG ${CMAKE_CURRENT_SOURCE_DIR}/icons/sc-apps-jmbde.svgz)
 ecm_add_app_icon(ICONS_SOURCES ICONS ${ICONS_PNG} OUTFILE_BASENAME
                  ${PROJECT_NAME})
 
+#
+# target
+#
 target_sources(${PROJECT_NAME} PRIVATE ${ICONS_SOURCES})
 
 target_sources(${PROJECT_NAME} PRIVATE loggingcategory.cpp src/main.cpp)
@@ -110,6 +138,9 @@ if(WIN32)
                  ${PROJECT_BINARY_DIR}/app.rc @ONLY)
 
   install(TARGETS ${PROJECT_NAME} ${INSTALL_TARGETS_DEFAULT_ARGS})
+  # add_custom_command( TARGET ${PROJECT_NAME} POST_BUILD COMMAND
+  # ${Qt5_DIR}/../../../bin/windeployqt ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.exe
+  # --compiler-runtime --verbose 2 --dir ${CMAKE_BINARY_DIR}/winqt/)
 
   # See
   # https://cmake.org/cmake/help/v3.15/prop_tgt/MACOSX_BUNDLE_INFO_PLIST.html
@@ -138,23 +169,23 @@ elseif(APPLE)
                                "jmbde - A little BDE program")
   set_target_properties(
     ${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_LONG_VERSION_STRING
-                               "jmbde ${JMBDE_APPLICATIONS_VERSION}")
+                               "jmbde ${PROJECT_VERSION}")
   set_target_properties(
-    ${PROJECT_NAME}
-    PROPERTIES
-      MACOSX_BUNDLE_SHORT_VERSION_STRING
-      "${JMBDE_APPLICATIONS_VERSION_MAJOR}.${JMBDE_APPLICATIONS_VERSION_MINOR}")
-  set_target_properties(
-    ${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_BUNDLE_VERSION
-                               "${JMBDE_APPLICATIONS_VERSION}")
+    ${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_SHORT_VERSION_STRING
+                               "${PROJECT_VERSION}")
+  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_BUNDLE_VERSION
+                                                   "${PROJECT_VERSION}")
   set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_ICON_FILE
                                                    "${ICONS_SOURCES}")
   set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_COPYRIGHT
                                                    "2013-2020 Jürgen Mülbert")
 
-  install(TARGETS ${PROJECT_NAME} BUNDLE DESTINATION .
-                                         ${INSTALL_TARGETS_DEFAULT_ARGS})
-
+  install(
+    TARGETS ${PROJECT_NAME}
+    BUNDLE DESTINATION . COMPONENT Runtime
+    RUNTIME DESTINATION bin COMPONENT Runtime)
+  # add_custom_command( TARGET ${PROJECT_NAME} POST BUILD COMMAND
+  # ${Qt5_DIR}/../../../bin/macdeployqt ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.app)
 elseif(UNIX AND NOT APPLE)
 
   install(TARGETS ${PROJECT_NAME} ${INSTALL_TARGETS_DEFAULT_ARGS})

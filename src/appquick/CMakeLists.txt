@@ -12,23 +12,42 @@
 # details.
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.12...3.18 FATAL_ERROR)
 
-set(JMBDE_APP_QUICK_VERSION 0.1.0)
+if(${CMAKE_VERSION} VERSION_LESS 3.18)
+  cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
+else()
+  cmake_policy(VERSION 3.18)
+endif()
 
 #
-# the jmbde application
+# the jmbde application (QtQuick-Version)
 #
 project(
-  jmbdeappquick
+  "jmbdeappquick"
+  VERSION "0.1.2"
   DESCRIPTION "A BDE Tool"
   HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
   LANGUAGES CXX)
 
+include(ECMSetupVersion)
+include(ECMQtDeclareLoggingCategory)
+include(ECMInstallIcons)
+include(ECMAddAppIcon)
+
+#
+# the jmbde application
+#
+
+message(
+  STATUS
+    "Building ${PROJECT_NAME} ${JMBDE_APP_QUICK_VERSION} in ${CMAKE_BUILD_TYPE} mode"
+)
+
 # set project version
 
 ecm_setup_version(
-  ${JMBDE_APP_QUICK_VERSION}
+  ${PROJECT_VERSION}
   VARIABLE_PREFIX
   JMBDEAPPQUICK
   VERSION_HEADER
@@ -43,19 +62,19 @@ ecm_qt_declare_logging_category(
   IDENTIFIER
   ${PROJECT_NAME}
   CATEGORY_NAME
-  jmuelbert.jmbdeappquick
+  jmuelbert.${PROJECT_NAME}
   DEFAULT_SEVERITY
   Warning)
 
-message(
-  STATUS
-    "Building ${PROJECT_NAME} ${JMBDE_APP_QUICK_VERSION} in ${CMAKE_BUILD_TYPE} mode"
-)
-
-add_executable(${PROJECT_NAME} "")
+if(APPLE)
+  add_executable(${PROJECT_NAME} MACOSX_BUNDLE)
+elseif(WIN32)
+  add_executable(${PROJECT_NAME} WIN32)
+endif()
 
 # Use a single application on MacOS + Windows instead of dbus.
 if(APPLE OR WIN32)
+  # TODO: Enable QT_SINGLE_APP for macOS and Windows
   # target_compile_definitions(${PROJECT_NAME} PRIVATE USE_QT_SINGLE_APP)
 endif()
 
@@ -63,13 +82,14 @@ endif()
 # Finding Qt
 #
 find_package(Qt5 ${QT_MIN_VERSION} QUIET REQUIRED COMPONENTS Core Widgets Sql
-                                                             Qml)
+                                                             Qml Quick)
 
 target_compile_features(jmbdeappquick PUBLIC cxx_std_17)
 
 target_include_directories(
-  ${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include"
-                          "${CMAKE_CURRENT_BIN_DIR}/include")
+  ${PROJECT_NAME}
+  PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include"
+          "${CMAKE_CURRENT_BINARY_DIR}/include" "${CMAKE_CURRENT_BINARY_DIR}")
 
 target_sources(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 
@@ -80,18 +100,22 @@ target_compile_definitions(
 target_link_libraries(
   ${PROJECT_NAME}
   PRIVATE jmuelbert::jmbdequick
-          jmuelbert::jmbdemodels
           Qt5::Widgets
           Qt5::Core
           Qt5::Sql
           Qt5::Qml
+          Qt5::Quick
           ${CONAN_LIBS})
 
 # Use a single application on MacOS + Windows instead of dbus.
 if(APPLE OR WIN32)
+  # TODO: Enable QT_SINGLE_APP for macOS and Windows
   # target_link_libraries(${PROJECT_NAME} PRIVATE jmbde::qtsingleapp)
 endif()
 
+#
+# Application icons
+#
 set(ICONS_PNG
     ${CMAKE_CURRENT_SOURCE_DIR}/icons/16-apps-jmbde.png
     ${CMAKE_CURRENT_SOURCE_DIR}/icons/32-apps-jmbde.png
@@ -106,6 +130,9 @@ set(ICONS_SVG ${CMAKE_CURRENT_SOURCE_DIR}/icons/sc-apps-jmbde.svgz)
 ecm_add_app_icon(ICONS_SOURCES ICONS ${ICONS_PNG} OUTFILE_BASENAME
                  ${PROJECT_NAME})
 
+#
+# target
+#
 target_sources(${PROJECT_NAME} PRIVATE ${ICONS_SOURCES})
 
 target_sources(${PROJECT_NAME} PRIVATE loggingcategory.cpp src/main.cpp)
@@ -147,20 +174,21 @@ elseif(APPLE)
                                "jmbdequick - A little BDE program")
   set_target_properties(
     ${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_LONG_VERSION_STRING
-                               "jmbdequick ${JMBDE_QUICK_VERSION}")
+                               "jmbdequick ${PROJECT_VERSION}")
   set_target_properties(
-    ${PROJECT_NAME}
-    PROPERTIES MACOSX_BUNDLE_SHORT_VERSION_STRING
-               "${JMBDE_QUICK_VERSION_MAJOR}.${JMBDE_QUICK_VERSION_MINOR}")
+    ${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_SHORT_VERSION_STRING
+                               "${PROJECT_VERSION}")
   set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_BUNDLE_VERSION
-                                                   "${JMBDE_QUICK_VERSION}")
+                                                   "${PROJECT_VERSION}")
   set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_ICON_FILE
                                                    "${ICONS_SOURCES}")
   set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_COPYRIGHT
                                                    "2013-2020 Jürgen Mülbert")
 
-  install(TARGETS ${PROJECT_NAME} BUNDLE DESTINATION .
-                                         ${INSTALL_TARGETS_DEFAULT_ARGS})
+  install(
+    TARGETS ${PROJECT_NAME}
+    BUNDLE DESTINATION . COMPONENT Runtime
+    RUNTIME DESTINATION bin COMPONENT Runtime)
 elseif(UNIX AND NOT APPLE)
 
   install(TARGETS ${PROJECT_NAME} ${INSTALL_TARGETS_DEFAULT_ARGS})

@@ -1,147 +1,158 @@
 language: cpp
+# branches to build
+branches:
+    # whitelist
+    only:
+        - master
+        - production
+        - /v\d*\.\d*\.\d*/
+
 env:
-  global:
-      - QT_PPA: beineri/opt-qt-5.14.1-bionic
-      - QT_VER: 514
-      - QT_VERSION: 5.14.1
-      - BUILD_TESTING: OFF
+    global:
+        - QT_PPA: beineri/opt-qt-5.15.0-bionic
+        - QT_VER: 515
+        - QT_VERSION: 5.15.0
+        - BUILD_TESTING: OFF
 
 matrix:
-  include:
-    - name: "Linux (clang)"
-      os: linux
-      dist: bionic
-      sudo: required
-      language: python
-      python: "3.7"
-      compiler:
-        - clang
-      services:
-        - docker
-      env:
-        - CMAKE_BUILD_TYPE: Release
+    include:
+        - name: "Linux (clang)"
+          os: linux
+          dist: bionic
+          sudo: required
+          language: python
+          python: "3.8"
+          compiler:
+              - clang
+          services:
+              - docker
+          env:
+              - CMAKE_BUILD_TYPE: "Release"
+              - MATRIX_EVAL: "CC=gcc-4.8 && CXX=g++-4.8"
+              - TRANSLATE: true
 
-      before_install:
-        - eval "${MATRIX_EVAL}"
-        - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-        - sudo add-apt-repository -y ppa:${QT_PPA}
-        - sudo apt-get -q update
-        - sudo apt-get -y install cmake
-        - sudo apt-get -y install ninja-build
-        - sudo apt-get -y install libgl1-mesa-dev
-        - echo "Install QT ${QT_VERSION} from ppa:${beineri/opt-qt-5.14.1-bionic}"
-        - sudo apt-get -y install qt${QT_VER}base;
-        - sudo apt-get -y install qt${QT_VER}script
-        - sudo apt-get -y install  qt${QT_VER}svg
-        - sudo apt-get -y install qt${QT_VER}imageformats
-        - sudo apt-get -y install qt${QT_VER}translations
-        - sudo apt-get -y install qt${QT_VER}tools
-        - source /opt/qt${QT_VER}/bin/qt${QT_VER}-env.sh
-        - cmake --version
+          before_install:
+              - eval "${MATRIX_EVAL}"
+              - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+              - sudo add-apt-repository -y ppa:${QT_PPA}
+              - sudo apt-get -q update
+              - sudo apt-get -y install cmake
+              - sudo apt-get -y install ninja-build
+              - sudo apt-get -y install libgl1-mesa-dev
+              - echo "Install QT ${QT_VERSION} from ppa:${QT_PPA}"
+              - sudo apt-get -y install qt${QT_VER}base;
+              - sudo apt-get -y install qt${QT_VER}quickcontrols2
+              - sudo apt-get -y install qt${QT_VER}script
+              - sudo apt-get -y install  qt${QT_VER}svg
+              - sudo apt-get -y install qt${QT_VER}imageformats
+              - sudo apt-get -y install qt${QT_VER}translations
+              - sudo apt-get -y install qt${QT_VER}tools
+              - source /opt/qt${QT_VER}/bin/qt${QT_VER}-env.sh
+              - cmake --version
 
-      install:
-        - pip install conan
-        - conan user
-        - conan create ./conan/ECM
+          install:
+              - pip install conan
+              - conan user
+              - conan create ./conan/ecm
 
-      script:
-        - mkdir -p build
-        - mkdir -p appbuild
-        - mkdir -p appdir
-        - cd build
-        - conan install ..
-        - cmake .. -DCMAKE_INSTALL_PREFIX:PATH=../appdir/usr -Wno-dev -DBUILD_SHARED_LIBS=ON -DENABLE_TESTING=ON
-        - make install
-        - cd ..
-        - export LD_LIBRARY_PATH=$TRAVIS_BUILD_DIR/appdir/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
-        - if [ -z "$VERSION" ]; then
-          export VERSION=$(git rev-parse --short HEAD);
-          fi
-        - wget -c "https://github.com/jimevins/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-        - chmod a+x linuxdeployqt*.AppImage
-        - wget -c -nv "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
-        - chmod a+x appimagetool-x86_64.AppImage
-        # - export VERSION=$(printf "`master`-`git rev-list HEAD --count`-` git -C . rev-parse --short HEAD`")    #$(git rev-parse --short HEAD) # linuxdeployqt uses this for naming the file
-        - ./linuxdeployqt*.AppImage $TRAVIS_BUILD_DIR/appdir/usr/share/applications/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.54m.so.1.0 -verbose=2 -appimage
+          script:
+              - mkdir -p build
+              - mkdir -p appbuild
+              - mkdir -p appdir
+              - cd build
+              - conan install ..
+              - cmake .. -DCMAKE_INSTALL_PREFIX:PATH=../appdir/usr -Wno-dev -DBUILD_SHARED_LIBS=ON -DENABLE_TESTING=ON
+              - make install
+              - cd ..
+              - export LD_LIBRARY_PATH=$TRAVIS_BUILD_DIR/appdir/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+              - if [ -z "$VERSION" ]; then
+                export VERSION=$(git rev-parse --short HEAD);
+                fi
+              - wget -c "https://github.com/jimevins/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
+              - chmod a+x linuxdeployqt*.AppImage
+              - wget -c -nv "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+              - chmod a+x appimagetool-x86_64.AppImage
+              # - export VERSION=$(printf "`master`-`git rev-list HEAD --count`-` git -C . rev-parse --short HEAD`")    #$(git rev-parse --short HEAD) # linuxdeployqt uses this for naming the file
+              - ./linuxdeployqt*.AppImage $TRAVIS_BUILD_DIR/appdir/usr/share/applications/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.54m.so.1.0 -verbose=2 -appimage
 
-      after_success:
-        # - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
-        # - ./linuxdeployqt*.AppImage --appimage-extract
-        # - export PATH=$(readlink -f ./squashfs-root/usr/bin/):$PATH
-        # - ./squashfs-root/usr/bin/appimagetool appdir/
-        - find appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
-        - cd $TRAVIS_BUILD_DIR/build
+          after_success:
+              # - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
+              # - ./linuxdeployqt*.AppImage --appimage-extract
+              # - export PATH=$(readlink -f ./squashfs-root/usr/bin/):$PATH
+              # - ./squashfs-root/usr/bin/appimagetool appdir/
+              - find appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
+              - cd $TRAVIS_BUILD_DIR/build
 
-      deploy:
-        provider: releases
-        skip_cleanup: true
-        draft: true
-        api_key:
-          secure: pNq/95/zTpPX25pAF3ACjoIQAnvxp6xZQYCgKhKkXhuSMCSBMl7ZIrRw0BNuM1JSHe3bRV68pfF3tgTJDWtDjFj/JHAWDOAKWhc1DeEmBXVESoizaY2Hk4yrnxjFfk+XMOFgqO+iMExap4OW+kZWXP3tltjKUYzBROMU33rey6NBiYne+UNVlzC5vgy47mj7ResrS4YBl/s3nifuE9Bigp4yDYHh4/4UgXCLXuFup+PwYRQPfwZKKiac5Bk3nHXxW+8WK3b6anboyHb+eqdZMqtu5xjqOpjwroGPPuUQsRm7c4hT93yx3IIBoIHl29hdhkWJlCOQxdhnbV0Ch9E4gombkwfHGlTFAwD3SQZFkCLdtF+1hbMgp4jta09hLgSobOIHhpGjqw+CxB5epYCM7E3WC6iKSrE7yMiSEqg6V+cf3LV+B2MlSzr1HtwLe6B7542WhFoJiF0mJCCGt//Ztp2m5174s4ZwvsiXqYMgs5x5kyp1HS5NqqllxmL3dDdPlhscKWLr7zbwDG/hhDfUpfpjefmadwf6BramK66En7fe2iol/supO86alL6/WNpCtyFaTLve/DHtWfDt+XquivGZwzCAz+0XyopJc3E7Ebxi8C49dyvdrQRi+ej1s44Cm1l/qCtS90d3WyqSfp8moepbi4pwd08vw/TD5zi8+x4=
-        file_glob: true
-        file: jmbde*.AppImage
-        on:
-          repo: jmuelbert/jmbde-QT
-          tags: true
+          deploy:
+              provider: releases
+              skip_cleanup: true
+              draft: true
+              api_key:
+                  secure: pNq/95/zTpPX25pAF3ACjoIQAnvxp6xZQYCgKhKkXhuSMCSBMl7ZIrRw0BNuM1JSHe3bRV68pfF3tgTJDWtDjFj/JHAWDOAKWhc1DeEmBXVESoizaY2Hk4yrnxjFfk+XMOFgqO+iMExap4OW+kZWXP3tltjKUYzBROMU33rey6NBiYne+UNVlzC5vgy47mj7ResrS4YBl/s3nifuE9Bigp4yDYHh4/4UgXCLXuFup+PwYRQPfwZKKiac5Bk3nHXxW+8WK3b6anboyHb+eqdZMqtu5xjqOpjwroGPPuUQsRm7c4hT93yx3IIBoIHl29hdhkWJlCOQxdhnbV0Ch9E4gombkwfHGlTFAwD3SQZFkCLdtF+1hbMgp4jta09hLgSobOIHhpGjqw+CxB5epYCM7E3WC6iKSrE7yMiSEqg6V+cf3LV+B2MlSzr1HtwLe6B7542WhFoJiF0mJCCGt//Ztp2m5174s4ZwvsiXqYMgs5x5kyp1HS5NqqllxmL3dDdPlhscKWLr7zbwDG/hhDfUpfpjefmadwf6BramK66En7fe2iol/supO86alL6/WNpCtyFaTLve/DHtWfDt+XquivGZwzCAz+0XyopJc3E7Ebxi8C49dyvdrQRi+ej1s44Cm1l/qCtS90d3WyqSfp8moepbi4pwd08vw/TD5zi8+x4=
+              file_glob: true
+              file: jmbde*.AppImage
+              on:
+                  repo: jmuelbert/jmbde-QT
+                  tags: true
 
-    - name: "macos (xcode11.2)"
-      os: osx
-      osx_image: xcode11.2
+        - name: "macos (xcode11.2)"
+          os: osx
+          osx_image: xcode11.2
 
-      addons:
-        homebrew:
-          packages:
-            - freetype
-            - cmake
-            - ninja
-            - ccache
-            - conan
-            - qt
-          update: true
+          addons:
+              homebrew:
+                  packages:
+                      - freetype
+                      - cmake
+                      - ninja
+                      - ccache
+                      - conan
+                      - qt
+                  update: true
 
-      env:
-        - CMAKE_BUILD_TYPE: Release
-        - CONAN_COMPILER: g++
-        - CONAN_COMPILER_VERSION: 11.0
-        - CONAN_COMPILER_LIBCXX: libc++
+          env:
+              - CMAKE_BUILD_TYPE: Release
+              - CONAN_COMPILER: g++
+              - CONAN_COMPILER_VERSION: 11.0
+              - CONAN_COMPILER_LIBCXX: libc++
 
-      before_install:
-        - brew tap kde-mac/kde https://invent.kde.org/packaging/homebrew-kde.git --force-auto-update
-        - brew install kde-extra-cmake-modules
-        - brew link qt5 --force
-        - export PATH="$(brew --prefix qt)/bin:$PATH"
-        - sudo ln -s /usr/local/Cellar/qt/"${QT_VERSION}"/mkspecs /usr/local/mkspecs
-        - sudo ln -s /usr/local/Cellar/qt/"${QT_VERSION}"/plugins /usr/local/plugins
+          before_install:
+              - brew tap kde-mac/kde https://invent.kde.org/packaging/homebrew-kde.git --force-auto-update
+              - brew install kde-extra-cmake-modules
+              - brew link qt5 --force
+              - export PATH="$(brew --prefix qt)/bin:$PATH"
+              - sudo ln -s /usr/local/Cellar/qt/"${QT_VERSION}"/mkspecs /usr/local/mkspecs
+              - sudo ln -s /usr/local/Cellar/qt/"${QT_VERSION}"/plugins /usr/local/plugins
 
-      install:
-        - cmake --version
-        - conan --version
-        # - conan user
+          install:
+              - cmake --version
+              - conan --version
+              # - conan user
 
-      script:
-        - mkdir build && cd build
-        - cmake --configure .. -DCMAKE_INSTALL_PREFIX=install -DBUILD_SHARED_LIBS=ON ..
-        - sudo cmake --build . --config $CMAKE_BUILD_TYPE --target install
+          script:
+              - mkdir build && cd build
+              - cmake --configure .. -DCMAKE_INSTALL_PREFIX=install -DBUILD_SHARED_LIBS=ON ..
+              - sudo cmake --build . --config $CMAKE_BUILD_TYPE --target install
 
-      after_success:
-        - if [ -z "$VERSION" ]; then
-          export VERSION=$(git rev-parse --short HEAD);
-          fi
-        - sudo macdeployqt install/jmbde.app -verbose=2
-        - mkdir -p dmgdir/jmbde.app;
-        - cp -r install/jmbde.app/* dmgdir/jmbde.app/
-        - ln -s /Applications dmgdir/Applications;
-        - hdiutil create -volname jmbde-$VERSION -srcfolder dmgdir -ov -format UDZO jmbde-$VERSION.dmg
-        - ls
+          after_success:
+              - if [ -z "$VERSION" ]; then
+                export VERSION=$(git rev-parse --short HEAD);
+                fi
+              - sudo macdeployqt install/jmbde.app -verbose=2
+              - mkdir -p dmgdir/jmbde.app;
+              - cp -r install/jmbde.app/* dmgdir/jmbde.app/
+              - ln -s /Applications dmgdir/Applications;
+              - hdiutil create -volname jmbde-$VERSION -srcfolder dmgdir -ov -format UDZO jmbde-$VERSION.dmg
+              - ls
 
-      deploy:
-      provider: releases
-      skip_cleanup: true
-      draft: true
-      api_key:
-        secure: pNq/95/zTpPX25pAF3ACjoIQAnvxp6xZQYCgKhKkXhuSMCSBMl7ZIrRw0BNuM1JSHe3bRV68pfF3tgTJDWtDjFj/JHAWDOAKWhc1DeEmBXVESoizaY2Hk4yrnxjFfk+XMOFgqO+iMExap4OW+kZWXP3tltjKUYzBROMU33rey6NBiYne+UNVlzC5vgy47mj7ResrS4YBl/s3nifuE9Bigp4yDYHh4/4UgXCLXuFup+PwYRQPfwZKKiac5Bk3nHXxW+8WK3b6anboyHb+eqdZMqtu5xjqOpjwroGPPuUQsRm7c4hT93yx3IIBoIHl29hdhkWJlCOQxdhnbV0Ch9E4gombkwfHGlTFAwD3SQZFkCLdtF+1hbMgp4jta09hLgSobOIHhpGjqw+CxB5epYCM7E3WC6iKSrE7yMiSEqg6V+cf3LV+B2MlSzr1HtwLe6B7542WhFoJiF0mJCCGt//Ztp2m5174s4ZwvsiXqYMgs5x5kyp1HS5NqqllxmL3dDdPlhscKWLr7zbwDG/hhDfUpfpjefmadwf6BramK66En7fe2iol/supO86alL6/WNpCtyFaTLve/DHtWfDt+XquivGZwzCAz+0XyopJc3E7Ebxi8C49dyvdrQRi+ej1s44Cm1l/qCtS90d3WyqSfp8moepbi4pwd08vw/TD5zi8+x4=
-      file_glob: true
-      file: jmbde*.{sh|tar.gz}
-      on:
-        repo: jmuelbert/jmbde-QT
-        tags: true
+          deploy:
+          provider: releases
+          skip_cleanup: true
+          draft: true
+          api_key:
+              secure: pNq/95/zTpPX25pAF3ACjoIQAnvxp6xZQYCgKhKkXhuSMCSBMl7ZIrRw0BNuM1JSHe3bRV68pfF3tgTJDWtDjFj/JHAWDOAKWhc1DeEmBXVESoizaY2Hk4yrnxjFfk+XMOFgqO+iMExap4OW+kZWXP3tltjKUYzBROMU33rey6NBiYne+UNVlzC5vgy47mj7ResrS4YBl/s3nifuE9Bigp4yDYHh4/4UgXCLXuFup+PwYRQPfwZKKiac5Bk3nHXxW+8WK3b6anboyHb+eqdZMqtu5xjqOpjwroGPPuUQsRm7c4hT93yx3IIBoIHl29hdhkWJlCOQxdhnbV0Ch9E4gombkwfHGlTFAwD3SQZFkCLdtF+1hbMgp4jta09hLgSobOIHhpGjqw+CxB5epYCM7E3WC6iKSrE7yMiSEqg6V+cf3LV+B2MlSzr1HtwLe6B7542WhFoJiF0mJCCGt//Ztp2m5174s4ZwvsiXqYMgs5x5kyp1HS5NqqllxmL3dDdPlhscKWLr7zbwDG/hhDfUpfpjefmadwf6BramK66En7fe2iol/supO86alL6/WNpCtyFaTLve/DHtWfDt+XquivGZwzCAz+0XyopJc3E7Ebxi8C49dyvdrQRi+ej1s44Cm1l/qCtS90d3WyqSfp8moepbi4pwd08vw/TD5zi8+x4=
+          file_glob: true
+          file: jmbde*.{sh|tar.gz}
+          on:
+              repo: jmuelbert/jmbde-QT
+              tags: true

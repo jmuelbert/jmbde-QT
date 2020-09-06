@@ -1,36 +1,24 @@
-# Copyright (c) 2019 Jürgen Mülbert. All rights reserved.
 #
-# This file is part of jmbde
+# jmbde a BDE Tool for companies Copyright (C) 2013-2020  Jürgen Mülbert
 #
-# Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the
-# European Commission - subsequent versions of the EUPL (the "Licence"); You may
-# not use this work except in compliance with the Licence. You may obtain a copy
-# of the Licence at:
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later
+# version.
 #
-# https://joinup.ec.europa.eu/page/eupl-text-11-12
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the Licence is distributed on an "AS IS" basis, WITHOUT
-# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-# Licence for the specific language governing permissions and limitations under
-# the Licence.
-#
-# Lizenziert unter der EUPL, Version 1.2 oder - sobald diese von der
-# Europäischen Kommission genehmigt wurden - Folgeversionen der EUPL
-# ("Lizenz"); Sie dürfen dieses Werk ausschließlich gemäß dieser Lizenz
-# nutzen. Eine Kopie der Lizenz finden Sie hier:
-#
-# https://joinup.ec.europa.eu/page/eupl-text-11-12
-#
-# Sofern nicht durch anwendbare Rechtsvorschriften gefordert oder in
-# schriftlicher Form vereinbart, wird die unter der Lizenz verbreitete Software
-# "so wie sie ist", OHNE JEGLICHE GEWÄHRLEISTUNG ODER BEDINGUNGEN -
-# ausdrücklich oder stillschweigend - verbreitet. Die sprachspezifischen
-# Genehmigungen und Beschränkungen unter der Lizenz sind dem Lizenztext zu
-# entnehmen.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+# details.
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.12.4 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.12...3.18 FATAL_ERROR)
+
+if(${CMAKE_VERSION} VERSION_LESS 3.18)
+  cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
+else()
+  cmake_policy(VERSION 3.18)
+endif()
 
 add_subdirectory(api)
 add_subdirectory(manual)

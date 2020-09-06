@@ -75,7 +75,7 @@ public:
         \fn DataContext( QObject *parent = nullptr);
 
         \brief Constructor for the DataContext
-        \details Contructur with a name for the database to use.
+        \details Constructur with a name for the database to use.
      */
     explicit JMBDEMODELS_EXPORT DataContext(QObject *parent = nullptr);
 
@@ -84,7 +84,7 @@ public:
                         const QString &name = QString() );
 
         \brief Constructor for the DataContext
-        \details Contructur with a name for the database to use.
+        \details Constructur with a name for the database to use.
      */
     explicit JMBDEMODELS_EXPORT DataContext(QObject *parent, const QString &name);
 
@@ -99,7 +99,7 @@ public:
 
 
         \brief Constructor for the DataContext
-        \details Contructur with a name for the database to use.
+        \details Constructur with a name for the database to use.
         \param parent - QObject
         \param dbType - String for the Database Type {SQLITE, ODBC, PostgreSQL}
         \param name - Name of the Database
@@ -142,7 +142,7 @@ public:
 
         \brief Open the Database with the given name
 
-        \return true ist the database succesful opened.
+        \return true ist the database successful opened.
      */
     JMBDEMODELS_EXPORT void open();
 
@@ -151,7 +151,7 @@ public:
 
         \brief Open the Database with the given name
 
-        \return true ist the database succesful opened.
+        \return true ist the database successful opened.
      */
     JMBDEMODELS_EXPORT void open(const QString &name);
 
@@ -205,7 +205,7 @@ protected:
         \fn bool insert(const QString &tableName, const QVariantMap &insertData)
         \brief insert the VariantMap in the table
 
-        \return true is successfull
+        \return true is successful
 
         \sa QVariantMap
      */
@@ -217,7 +217,7 @@ protected:
                 const QString &id)
         \brief Update the Data in the table
 
-        \return true is successfull
+        \return true is successful
      */
     bool update(const QString &table, const QString &column, const QVariant &newValue, const QVariant &op, const QString &id);
 

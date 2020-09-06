@@ -7,8 +7,8 @@ list(APPEND CMAKE_MODULE_PATH ${JMBDEQUICK_CMAKE_DIR})
 find_dependency(Qt @MIN_Qt_VERSION@)
 list(REMOVE_AT CMAKE_MODULE_PATH -1)
 
-if(NOT TARGET JMBDE::quick)
+if(NOT TARGET jmuelbert::jmbdequick)
   include("${JMBDEQUICK_CMAKE_DIR}/JMBDEQUICKTargets.cmake")
 endif()
 
-set(JMBDEquick_LIBRARIES JMBDE::quick)
+set(JMBDEquick_LIBRARIES jmuelber:jmbdequick)

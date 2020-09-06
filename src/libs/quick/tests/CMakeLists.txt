@@ -13,54 +13,21 @@
 # details.
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.12...3.16 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.12...3.18 FATAL_ERROR)
 
-if(${CMAKE_VERSION} VERSION_LESS 3.17)
+if(${CMAKE_VERSION} VERSION_LESS 3.18)
   cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 else()
-  cmake_policy(VERSION 3.17)
+  cmake_policy(VERSION 3.18)
 endif()
 
-# Tell CMake to run moc when necessary:
-set(CMAKE_AUTOMOC ON)
-
-# As moc files are generated in the binary dir, tell CMake to always look for
-# includes there:
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
-# use, i.e. don't skip the full RPATH for the build tree
-set(CMAKE_SKIP_BUILD_RPATH FALSE)
-
-# when building, don't use the install RPATH already (but later on when
-# installing)
-set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
-
-# the RPATH to be used when installing
-set(CMAKE_INSTALL_RPATH "")
-
-# don't add the automatically determined parts of the RPATH which point to
-# directories outside the build tree to the install RPATH
-set(CMAKE_INSTALL_RPATH_USE_LINK_PATH FALSE)
+include(ECMAddTests)
 
 find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core Gui Widgets Sql
                                                        PrintSupport Test)
-
-set_package_properties(
-  Qt5Test
-  PROPERTIES
-  DESCRIPTION
-  "Qt5 unit testing framework"
-  URL
-  "http://www.qt.io"
-  TYPE
-  OPTIONAL
-  PURPOSE
-  "Required to build the unit tests")
-
 if(NOT Qt5Test_FOUND)
   message(STATUS "Qt5Test not found, autotests will not be built.")
   return()
 endif()
 
-ecm_add_tests(tst_quicktest.cpp LINK_LIBRARIES Qt5::Core Qt5::Gui Qt5::Test
-              jmuelbert::jmbdemodels)
+ecm_add_tests(tst_quicktest.cpp LINK_LIBRARIES Qt5::Core Qt5::Gui Qt5::Test)

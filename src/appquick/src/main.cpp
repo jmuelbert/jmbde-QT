@@ -25,9 +25,11 @@
 #include <QLoggingCategory>
 #include <QObject>
 #include <QQmlApplicationEngine>
+#include <QQmlComponent>
+#include <QQmlContext>
 #include <QTranslator>
 
-#include <quick/maincontroller.h>
+#include "quick/maincontroller.h"
 
 #ifndef Q_OS_WIN
 #include <unistd.h>
@@ -38,7 +40,7 @@
  * @brief main
  * @param argc The count of args
  * @param argv The arg Strings
- * @return 0 is exceuted sucessfull
+ * @return 0 is exceuted successful
  */
 #if defined Q_OS_ANDROID
 int __attribute__((visibility("default"))) main(int argc, char *argv[])

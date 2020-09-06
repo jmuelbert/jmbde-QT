@@ -16,13 +16,13 @@
 #
 
 find_package(PkgConfig)
-pkg_check_modules(PC_JMBDEQuick QUIET JMBDEQuick)
+pkg_check_modules(PC_JMBDEQuick QUIET jmbdequick)
 
 find_path(
   JMBDEQuick_INCLUDE_DIR
-  NAMES datacontext.h
+  NAMES maincontroller.h
   PATHS ${PC_JMBDEQuick_INCLUDE_DIRS}
-  PATH_SUFFIXES jmbdeQuick)
+  PATH_SUFFIXES jmbdequick)
 
 set(JMBDEQuick_VERSION ${PC_JMBDEQuick_VERSION})
 
@@ -40,9 +40,9 @@ if(JMBDEQuick_FOUND)
                          DIRECTORY)
 endif()
 
-if(JMBDEQuick_FOUND AND NOT TARGET JMBDEQuickJSON::JMBDEQuick)
-  add_library(JMBDEQuick::JMBDEQuick INTERFACE IMPORTED)
+if(JMBDEQuick_FOUND AND NOT TARGET jmuelbert::jmbdequick)
+  add_library(jmuelbert::jmbdequick INTERFACE IMPORTED)
   set_target_properties(
-    JMBDEQuick::JMBDEQuick PROPERTIES INTERFACE_INCLUDE_DIRECTORIES
+    jmuelbert::jmbdequick PROPERTIES INTERFACE_INCLUDE_DIRECTORIES
                                       "${JMBDEQuick_INCLUDE_DIRS}")
 endif()

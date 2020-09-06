@@ -12,15 +12,21 @@
 # details.
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.12...3.16 FATAL_ERROR)
+
+if(${CMAKE_VERSION} VERSION_LESS 3.17)
+  cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
+else()
+  cmake_policy(VERSION 3.17)
+endif()
 
 # This is the build for the models
 add_subdirectory(models)
 
 #
-# This is only for the QML/Quickversion
-add_subdirectory(quick)
-
-#
 # This is only for the Widgetversion
 add_subdirectory(widgets)
+
+#
+# This is only for the QML/Quickversion
+add_subdirectory(quick)
