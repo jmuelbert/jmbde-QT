@@ -168,7 +168,7 @@ for:
           - sudo apt-get -y install ccache -qq
 
           # Qt 514 on Linux
-          - ls ${HOME}/Qt/latest/bin
+          - ls ${HOME}/Qt/latest
           - source ${HOME}/Qt/latest/bin/qt$-env.sh
 
           - cmake --version
@@ -277,6 +277,8 @@ for:
           - cinst png2ico
           - nuget install secure-file -ExcludeVersion
           # Install conan
+          - call "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
+          - call "%QTDIR%\bin\qtenv2.bat"
           - pip install conan
           - conan user
           - conan create .\conan\ecm
@@ -293,7 +295,7 @@ for:
           - ps: New-Item -itemtype directory -path ./program
           - ps: conan install ..
           - ps: cmake -G "$ENV:CMAKE_GENERATOR" -A $ENV:PLATFORM -DCMAKE_BUILD_TYPE=$ENV:CONFIGURATION  -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DCMAKE_INSTALL_PREFIX:PATH=./program -DBUILD_TESTING=ON -DBUILD_SHARED_LIBS=ON ..
-          - ps: cmake --build . --config $ENV:CONFIGURATION --target install
+          # - ps: cmake --build . --config $ENV:CONFIGURATION --target install
 
       after_build:
           - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER/build/program"

@@ -28,7 +28,7 @@ matrix:
               - docker
           env:
               - CMAKE_BUILD_TYPE: "Release"
-              - MATRIX_EVAL: "CC=gcc-4.8 && CXX=g++-4.8"
+              - MATRIX_EVAL: "CC=gcc-7.5 && CXX=g++-7.5"
               - TRANSLATE: true
 
           before_install:
