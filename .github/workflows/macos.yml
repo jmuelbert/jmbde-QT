@@ -86,7 +86,7 @@ jobs:
             - name: package
               run: |
                   #mv ${targetName} ${targetName}.app
-                  macdeployqt bin/${targetName}.app -qmldir=. -verbose=1 -dmg
+                  macdeployqt build/bin/${targetName}.app -qmldir=. -verbose=1 -dmg
 
             - name: Upload artifact
               uses: actions/upload-artifact@v2-preview
