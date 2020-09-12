@@ -71,7 +71,7 @@ jobs:
             - name: Install build dependencies
               run: |
                   DEBIAN_FRONTEND=noninteractive apt-get install -y keyboard-configuration
-                  apt-get install -y build-essential ninja-build qtbase5-dev qttools5-dev qttools5-dev-tools libqt5help5 cmake pkgconf bash python
+                  apt-get install -y build-essential ninja-build qtbase5-dev qttools5-dev qttools5-dev-tools libqt5help5 cmake pkgconf bash python3 pip3
 
             - name: conan_and_ecm
               id: conan_and_ecm
@@ -80,7 +80,7 @@ jobs:
                   CC: /usr/bin/gcc-7
                   CXX: /usr/bin/g++-7
               run: |
-                  pip install conan
+                  pip3 install conan
                   conan user
                   conan create ./conan/ecm
 

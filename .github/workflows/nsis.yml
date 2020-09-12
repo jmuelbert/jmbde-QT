@@ -50,7 +50,7 @@ jobs:
             - name: Install Python 3.7 version
               uses: actions/setup-python@v1
               with:
-                  python-version: "3.7"
+                  python-version: "3.8"
                   architecture: ${{ matrix.arch }}
             - name: Restoring submodules
               run: git submodule update --init
@@ -81,6 +81,20 @@ jobs:
               with:
                   # ninja version to download. Default: 1.10.0
                   version: 1.10.0
+
+            # === Winodws =====================================
+            - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Build preparation - Download Dependencies
+              shell: bash
+              run: |
+                  choco install -y png2ico
+                  choco install -y innosetup
+
+            - name: conan_and_ecm
+              id: conan_and_ecm
+              run: |
+                  python -m pip install conan
+                  conan user
+                  conan create ./conan/ecm
 
             # ========================================================================================================= Generate MakeFile and Build
             - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Generate Dependencies and Build
