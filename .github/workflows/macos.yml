@@ -17,7 +17,7 @@ on:
         types: [published]
 
 env:
-    QT_VERSION: 5.15.0
+    qt_versionSION: 5.15.0
     CMAKE_VERSION: 3.18.0
     NINJA_VERSION: 1.10.0
     CCACHE_VERSION: 3.7.11
@@ -31,7 +31,7 @@ jobs:
         strategy:
             matrix:
                 os: [macos-latest]
-                qt_ver: [5.15.0]
+                qt_version: [5.15.0]
                 qt_arch: [clang_64]
         env:
             targetName: jmbde
@@ -41,12 +41,12 @@ jobs:
               uses: actions/cache@v1
               with:
                   path: ../Qt
-                  key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ matrix.qt_version }}
+                  key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ matrix.qt_versionsion }}
 
-            - name: Installing Qt - ${{ matrix.qt_version }}
+            - name: Installing Qt - ${{ matrix.qt_versionsion }}
               uses: jurplel/install-qt-action@v2
               with:
-                  version: ${{ matrix.qt_version }}
+                  version: ${{ matrix.qt_versionsion }}
                   arch: ${{ matrix.qtarch }}
                   mirror: "http://mirrors.ocf.berkeley.edu/qt/"
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
@@ -55,7 +55,7 @@ jobs:
               with:
                   submodules: true
 
-            - name: macOS - ${{ matrix.qt_version }} - Build preparation - Install Packages
+            - name: macOS - ${{ matrix.qt_versionsion }} - Build preparation - Install Packages
               run: |
                   brew install ninja pkg-config
 

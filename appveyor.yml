@@ -168,8 +168,8 @@ for:
           - sudo apt-get -y install ccache -qq
 
           # Qt 514 on Linux
-          - ls ${HOME}/Qt/latest
-          - source ${HOME}/Qt/latest/bin/qt$-env.sh
+          - ls ${HOME}/Qt/latest/gcc_64/bin
+          - source ${HOME}/Qt/latest/gcc_64/bin/qt-env.sh
 
           - cmake --version
           # Install conan
@@ -279,6 +279,7 @@ for:
           # Install conan
           - call "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
           - call "%QTDIR%\bin\qtenv2.bat"
+          - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER"
           - pip install conan
           - conan user
           - conan create .\conan\ecm
