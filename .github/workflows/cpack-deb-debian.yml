@@ -65,16 +65,23 @@ jobs:
               with:
                   submodules: "recursive"
 
+            - name: Install Python 3.8
+              uses: actions/setup-python@v1
+              with:
+                  python-version: 3.8
+                  architecture: ${{ matrix.arch }}
+
             - name: Install build dependencies
               run: |
-                  apt-get install -y build-essential ninja-build qtbase5-dev qttools5-dev cmake pkgconf bash python pip
+                  apt-get install -y build-essential ninja-build qtbase5-dev qttools5-dev cmake pkgconf bash
 
             - name: conan_and_ecm
               id: conan_and_ecm
               shell: bash
               env:
-                  CC: /usr/bin/gcc-7
-                  CXX: /usr/bin/g++-7
+                  CC: /usr/bin/clang
+                  CXX: /usr/bin/clang
+                  CMAKE_MAKE_PROGRAM: ninja
               run: |
                   pip3 install conan
                   conan user
@@ -83,13 +90,14 @@ jobs:
             - name: Linux - ${{ matrix.qt_version }} - Generate Dependencies and Build
               shell: bash
               env:
-                  CC: /usr/bin/gcc-7
-                  CXX: /usr/bin/g++-7
+                  CC: /usr/bin/clang
+                  CXX: /usr/bin/clang
+                  CMAKE_MAKE_PROGRAM: ninja
               run: |
                   mkdir build
                   cd build
                   conan install ..
-                  cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=./AppDir/usr -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+                  cmake .. -DCMAKE_INSTALL_PREFIX=./AppDir/usr -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
                   cmake --build . --parallel $(nproc)
                   cmake --install .
 

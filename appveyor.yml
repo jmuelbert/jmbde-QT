@@ -164,25 +164,13 @@ for:
           - sudo apt-get update -qq
           - sudo apt-get -y install apt-transport-https ca-certificates -qq
           - sudo apt-get -y install gnupg software-properties-common -qq
-          - sudo apt-get -y install curl -qq
-          - sudo apt-get -y install cmake -qq
-          - sudo apt-get -y install ninja-build -qq
-          - sudo apt-get -y install libquazip-dev zlib1g-dev libssl-dev -qq
-          - sudo apt-get -y install libffi-dev libx11-dev -qq
           - sudo apt-get -y install binutils -qq
           - sudo apt-get -y install ccache -qq
-          - sudo apt-get -y install libgl1-mesa-dev -qq
-          - sudo apt-get -y install zlib1g-dev -qq
+
           # Qt 514 on Linux
-          - sudo apt-get -y install qt${QT_VER}base -qq
-          - sudo apt-get -y install qt${QT_VER}quickcontrols2
-          - sudo apt-get -y install qt${QT_VER}script -qq
-          - sudo apt-get -y install qt${QT_VER}svg -qq
-          - sudo apt-get -y install qt${QT_VER}imageformats -qq
-          - sudo apt-get -y install qt${QT_VER}translations -qq
-          - sudo apt-get -y install qt${QT_VER}tools -qq
           - source ${HOME}/Qt/latest/bin/qt${QT_VER}-env.sh
 
+          - cmake --version
           # Install conan
           - pip install conan
           - conan user
@@ -199,7 +187,7 @@ for:
       build_script:
           - cd build
           - conan install ..
-          - cmake -DCMAKE_BUILD_TYPE="$CONFIGURATION"  -DCMAKE_INSTALL_PREFIX:PATH=../appdir/usr -DBUILD_TESTING=ON -DBUILD_SHARED_LIBS=ON ..
+          - cmake -DCMAKE_BUILD_TYPE="$CONFIGURATION"  -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang -DCMAKE_INSTALL_PREFIX:PATH=../appdir/usr -DBUILD_TESTING=ON -DBUILD_SHARED_LIBS=ON ..
           - make
           - export LD_LIBRARY_PATH=$APPVEYOR_BUILD_FOLDER/build/bin:$LD_LIBRARY_PATH
 
@@ -265,7 +253,7 @@ for:
           - ps: $ENV:CLANG_URL="https://releases.llvm.org/9.0.0/LLVM-9.0.0-win64.exe"
           - ps: $ENV:VSDEVCMD="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\Common7\Tools\VsDevCmd.bat"
           # MSVC
-          - ps: $ENV:QTDIR="C:\Qt\5.14\msvc2017_64"
+          - ps: $ENV:QTDIR="C:\Qt\5.15\msvc2017_64"
           - ps: $ENV:VCREDIST_CRT_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CRT"
           - ps: $ENV:VCREDIST_CXXAMP_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CXXAMP"
           - ps: $ENV:VCREDIST_OPENMP_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.OpenMP"

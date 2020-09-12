@@ -68,10 +68,16 @@ jobs:
               with:
                   submodules: "recursive"
 
+            - name: Install Python 3.8
+              uses: actions/setup-python@v1
+              with:
+                  python-version: 3.8
+                  architecture: ${{ matrix.arch }}
+
             - name: Install build dependencies
               run: |
                   DEBIAN_FRONTEND=noninteractive apt-get install -y keyboard-configuration
-                  apt-get install -y build-essential ninja-build qtbase5-dev qttools5-dev qttools5-dev-tools libqt5help5 cmake pkgconf bash python3 pip3
+                  apt-get install -y build-essential ninja-build qtbase5-dev qttools5-dev qttools5-dev-tools libqt5help5 cmake pkgconf bash
 
             - name: conan_and_ecm
               id: conan_and_ecm

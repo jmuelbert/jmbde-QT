@@ -265,8 +265,8 @@ jobs:
               shell: bash
               if: matrix.platform == 'ubuntu-latest'
               env:
-                  CC: /usr/bin/gcc-7
-                  CXX: /usr/bin/g++-7
+                  CC: /usr/bin/clang
+                  CXX: /usr/bin/clang
                   CMAKE_MAKE_PROGRAM: ninja
               run: |
                   mkdir build
