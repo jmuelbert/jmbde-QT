@@ -1,4 +1,4 @@
-name: Windows
+name: Windows Innosetup Installer
 
 on:
     push:
@@ -109,6 +109,11 @@ jobs:
                   CC: cl.exe
                   CXX: cl.exe
               run: |
+                  if (matrix.arch == 'x64')
+                    conan_arch = 'x86_64'
+                  else
+                    conan_arch = 'x86'
+                  conan install .. -s arch=$conan_arch
                   cmake . -GNinja -DCMAKE_BUILD_TYPE=Release -Djmbde_BUILD_INFO="Build for Windows" -Djmbde_BUILD_EXTRA_INFO="Build on Windows ${{matrix.arch}}"
                   cmake --build . --parallel $(nproc)
 
