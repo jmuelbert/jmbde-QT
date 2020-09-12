@@ -1,4 +1,4 @@
-name: Qv2ray Windows Installer
+name: Windows Installer
 
 on:
     push:
@@ -81,15 +81,7 @@ jobs:
               with:
                   # ninja version to download. Default: 1.10.0
                   version: 1.10.0
-            - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Build preparation - Download Dependencies
-              shell: bash
-              run: |
-                  curl -o ./libs/Qv2ray-deps-grpc-${{ matrix.arch }}-windows.7z -L https://github.com/Qv2ray/Qv2ray-deps/releases/download/release/Qv2ray-deps-grpc-${{ matrix.arch }}-windows.7z
-            - name: Win-${{ matrix.arch }} - Build preparation - Extract Dependencies
-              uses: DuckSoft/extract-7z-action@v1.0
-              with:
-                  pathSource: ./libs/Qv2ray-deps-grpc-${{ matrix.arch }}-windows.7z
-                  pathTarget: ./libs
+
             # ========================================================================================================= Generate MakeFile and Build
             - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Generate Dependencies and Build
               shell: bash

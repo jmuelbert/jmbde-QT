@@ -65,12 +65,12 @@ jobs:
 
             - name: macOS - ${{ matrix.qt_version }} - Build preparation - Install Packages
               run: |
-                  brew install ninja pkg-config python
+                  brew install ninja pkg-config
 
             - name: conan_and_ecm
               id: conan_and_ecm
               run: |
-                  python -m pip install conan
+                  python3 -m pip install conan
                   conan user
                   conan create ./conan/ecm
 

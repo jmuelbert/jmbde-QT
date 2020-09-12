@@ -1,9 +1,28 @@
-name: Qv2ray build arch package
+name: jmbde build arch package
 
 on:
     push:
+        branches:
+            - master
+            - develop
+        paths-ignore:
+            - "README.md"
+            - "LICENSE"
+
+    pull_request:
+        paths-ignore:
+            - "README.md"
+            - "LICENSE"
     release:
-        types: [prereleased]
+        types: [published]
+
+env:
+    QT_VERSION: 5.15.0
+    CMAKE_VERSION: 3.18.0
+    NINJA_VERSION: 1.10.0
+    CCACHE_VERSION: 3.7.11
+    GOOGLE_TEST_VERSION: 1.10.0
+    BUILD_TYPE: Release
 
 jobs:
     check_commit_msg:
@@ -18,6 +37,7 @@ jobs:
               run: |
                   echo "::set-output name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
                   echo "::set-env name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
+
     linux:
         needs: check_commit_msg
         if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_PACMAN') }}
@@ -33,61 +53,66 @@ jobs:
             - name: Checking out sources
               uses: actions/checkout@v2
               with:
-                  path: "Qv2ray"
+                  path: "jmbde"
 
             - name: Build
               run: |
                   cat <<PKGBUILD > PKGBUILD
-                  pkgname=qv2ray-dev-automation
+                  pkgname=jmbde-dev-automation
                   pkgver=2.3.2.4998
                   pkgrel=1
-                  pkgdesc="Cross-platform V2ray Client written in Qt (Development Release)"
+                  pkgdesc="Cross-platform jmbde written in Qt (Development Release)"
                   arch=('x86_64')
-                  url='https://github.com/Qv2ray/Qv2ray'
+                  url='https://github.com/jmbde/jmbde'
                   license=('GPL3')
                   depends=('hicolor-icon-theme' 'qt5-base>5.11.0' 'grpc>=1.27.0' 'zxing-cpp')
                   optdepends=('v2ray: use system v2ray core.')
                   makedepends=('git' 'make' 'qt5-tools' 'which' 'gcc' 'qt5-declarative'
                                'grpc-cli>=1.27.0' 'cmake' 'ninja')
-                  provides=('qv2ray')
-                  conflicts=('qv2ray')
-                  source=('Qv2ray::git+https://github.com/Qv2ray/Qv2ray')
+                  provides=('jmbde')
+                  conflicts=('jmbde')
+                  source=('jmbde::git+https://github.com/jmbde/jmbde')
                   sha512sums=('SKIP')
                   pkgver() {
-                      printf "%s.%s" \$(cat \${srcdir}/Qv2ray/makespec/VERSION) \$(cat \${srcdir}/Qv2ray/makespec/BUILDVERSION)
+                      printf "%s.%s" \$(cat \${srcdir}/jmbde/makespec/VERSION) \$(cat \${srcdir}/jmbde/makespec/BUILDVERSION)
                   }
                   prepare() {
-                      cd "\${srcdir}/Qv2ray"
+                      cd "\${srcdir}/jmbde"
                       git submodule init
                       git config submodule."libs/libqvb".active false
                       git config submodule."3rdparty/zxing-cpp".active false
                       git submodule update
+                      pip install conan
+                      conan user
+                      conan create ./conan/ecm
+
                   }
                   build() {
-                      export _QV2RAY_BUILD_INFO_="Qv2ray from GitHub Actions"
-                      export _QV2RAY_BUILD_EXTRA_INFO_="(Actions Build) \$(uname -a | cut -d " " -f3,13)"
-                      cd "\${srcdir}/Qv2ray"
+                      export _jmbde_BUILD_INFO_="jmbde from GitHub Actions"
+                      export _jmbde_BUILD_EXTRA_INFO_="(Actions Build) \$(uname -a | cut -d " " -f3,13)"
+                      cd "\${srcdir}/jmbde"
                       mkdir -p build && cd build
+                      conan install ..
                       cmake .. \\
                           -DCMAKE_INSTALL_PREFIX=\${pkgdir}/usr \\
-                          -DQV2RAY_TRANSLATION_PATH="/usr/share/qv2ray/lang" \\
-                          -DQV2RAY_DEFAULT_VASSETS_PATH="/usr/lib/v2ray" \\
-                          -DQV2RAY_DEFAULT_VCORE_PATH="/usr/lib/v2ray/v2ray" \\
-                          -DQV2RAY_DISABLE_AUTO_UPDATE=on \\
+                          -DJMBDE_TRANSLATION_PATH="/usr/share/jmbde/lang" \\
+                          -DJMBDE_DEFAULT_VASSETS_PATH="/usr/lib/v2ray" \\
+                          -DJMBDE_DEFAULT_VCORE_PATH="/usr/lib/v2ray/v2ray" \\
+                          -DJMBDE_DISABLE_AUTO_UPDATE=on \\
                           -DCMAKE_BUILD_TYPE=Release \\
-                          -DQV2RAY_ZXING_PROVIDER="package" \\
+                          -DJMBDE_ZXING_PROVIDER="package" \\
                           -GNinja
                       ninja
                   }
                   package() {
-                      cd "\${srcdir}/Qv2ray"
+                      cd "\${srcdir}/jmbde"
                       ninja -C "build" install
                   }
                   PKGBUILD
                   makepkg -sf --noconfirm
             - name: Get package name
               id: get_package
-              run: echo ::set-output name=NAME::$(basename qv2ray*.xz)
+              run: echo ::set-output name=NAME::$(basename jmbde*.xz)
 
             - name: Upload artifact
               uses: actions/upload-artifact@v2-preview
