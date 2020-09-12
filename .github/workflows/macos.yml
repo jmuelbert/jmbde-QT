@@ -76,6 +76,7 @@ jobs:
 
             - name: build macos
               run: |
+                  echo ${Qt5Dir}
                   mkdir build
                   cd build
                   conan install ..

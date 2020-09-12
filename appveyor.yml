@@ -120,7 +120,7 @@ for:
           - sudo cmake --build . --target install
 
       after_build:
-          - sudo cpack .
+          # - sudo cpack .
           - if [ -z "$VERSION" ]; then
             export VERSION=$APPVEYOR_BUILD_VERSION;
             fi
@@ -168,7 +168,8 @@ for:
           - sudo apt-get -y install ccache -qq
 
           # Qt 514 on Linux
-          - source ${HOME}/Qt/latest/bin/qt${QT_VER}-env.sh
+          - ls ${HOME}/Qt/latest/bin
+          - source ${HOME}/Qt/latest/bin/qt$-env.sh
 
           - cmake --version
           # Install conan
@@ -253,7 +254,7 @@ for:
           - ps: $ENV:CLANG_URL="https://releases.llvm.org/9.0.0/LLVM-9.0.0-win64.exe"
           - ps: $ENV:VSDEVCMD="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\Common7\Tools\VsDevCmd.bat"
           # MSVC
-          - ps: $ENV:QTDIR="C:\Qt\5.15\msvc2017_64"
+          - ps: $ENV:QTDIR="C:\Qt\5.15.0\msvc2019_64"
           - ps: $ENV:VCREDIST_CRT_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CRT"
           - ps: $ENV:VCREDIST_CXXAMP_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CXXAMP"
           - ps: $ENV:VCREDIST_OPENMP_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.OpenMP"
