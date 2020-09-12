@@ -161,11 +161,11 @@ for:
       install:
           # Add Repostories
           - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-          - sudo add-apt-repository --yes ppa:${QT_PPA}
           - sudo apt-get update -qq
           - sudo apt-get -y install apt-transport-https ca-certificates -qq
           - sudo apt-get -y install gnupg software-properties-common -qq
           - sudo apt-get -y install curl -qq
+          - sudo apt-get -y install cmake -qq
           - sudo apt-get -y install ninja-build -qq
           - sudo apt-get -y install libquazip-dev zlib1g-dev libssl-dev -qq
           - sudo apt-get -y install libffi-dev libx11-dev -qq
@@ -181,7 +181,7 @@ for:
           - sudo apt-get -y install qt${QT_VER}imageformats -qq
           - sudo apt-get -y install qt${QT_VER}translations -qq
           - sudo apt-get -y install qt${QT_VER}tools -qq
-          - source /opt/qt${QT_VER}/bin/qt${QT_VER}-env.sh
+          - source ${HOME}/Qt/latest/bin/qt${QT_VER}-env.sh
 
           # Install conan
           - pip install conan

@@ -9,9 +9,9 @@ branches:
 
 env:
     global:
-        - QT_PPA: beineri/opt-qt-5.15.0-bionic
-        - QT_VER: 515
-        - QT_VERSION: 5.15.0
+        - QT_PPA: beineri/opt-qt-5.14.2-bionic
+        - QT_VER: 514
+        - QT_VERSION: 5.14.2
         - BUILD_TESTING: OFF
 
 matrix:
