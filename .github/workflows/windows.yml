@@ -1,0 +1,114 @@
+name: Windows
+on:
+    # push代码时触发workflow
+    push:
+        # 忽略README.md
+        paths-ignore:
+            - "README.md"
+            - "LICENSE"
+    # pull_request时触发workflow
+    pull_request:
+        # 忽略README.md
+        paths-ignore:
+            - "README.md"
+            - "LICENSE"
+    release:
+        types: [published]
+jobs:
+    build:
+        name: Build
+        strategy:
+            matrix:
+                qt_version: [5.15.0]
+                platform: [windows-latest]
+                arch: [x86, x64]
+                include:
+                    - platform: windows-latest
+                      arch: x86
+                      qtarch: win32_msvc2019
+                    - platform: windows-latest
+                      arch: x64
+                      qtarch: win64_msvc2019_64
+            fail-fast: false
+
+        runs-on: ${{ matrix.platform }}
+        env:
+            targetName: lemon.exe
+        # 步骤
+        steps:
+            - name: Get the version
+              id: get_version
+              shell: bash
+              run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+            - name: Checking out sources
+              uses: actions/checkout@v2
+              with:
+                  submodules: "recursive"
+            - name: Install Python 3.7 version
+              uses: actions/setup-python@v1
+              with:
+                  python-version: "3.7"
+                  architecture: ${{ matrix.arch }}
+            - name: Restoring submodules
+              run: git submodule update --init
+            # =========================================================================================================
+            - name: Install MSVC compiler
+              uses: ilammy/msvc-dev-cmd@v1
+              with:
+                  # 14.1 is for vs2017, 14.2 is vs2019, following the upstream vcpkg build from Qv2ray-deps repo
+                  toolset: 14.2
+                  arch: ${{ matrix.arch }}
+            - name: Cache Qt
+              id: cache-qt
+              uses: actions/cache@v1
+              with:
+                  path: ../Qt
+                  key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ matrix.qt_version }}
+            - name: Installing Qt - ${{ matrix.arch }}
+              uses: jurplel/install-qt-action@v2
+              with:
+                  version: ${{ matrix.qt_version }}
+                  arch: ${{ matrix.qtarch }}
+                  mirror: "http://mirrors.ocf.berkeley.edu/qt/"
+                  cached: ${{ steps.cache-qt.outputs.cache-hit }}
+
+            - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Generate Dependencies and Build
+              shell: bash
+              env:
+                  CC: cl.exe
+                  CXX: cl.exe
+              run: |
+                  cmake . -GNinja -DCMAKE_BUILD_TYPE=Release -DLEMON_BUILD_INFO="Build for Windows" -DLEMON_BUILD_EXTRA_INFO="Build on Windows ${{matrix.arch}}" -DENABLE_XLS_EXPORT=ON
+                  cmake --build . --parallel $(nproc)
+            - name: package
+              env:
+                  archiveName: lemon.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+              shell: pwsh
+              run: |
+                  # 创建文件夹
+                  New-Item -ItemType Directory ${env:archiveName}
+                  # 拷贝exe
+                  Copy-Item ${env:targetName} ${env:archiveName}\
+                  # 拷贝依赖
+                  windeployqt --qmldir . ${env:archiveName}\${env:targetName}
+                  # 打包zip
+                  Compress-Archive -Path ${env:archiveName} ${env:archiveName}'.zip'
+                  # 记录环境变量packageName给后续step
+                  $name = ${env:archiveName}
+                  echo "::set-env name=packageName::$name"
+                  # 打印环境变量packageName
+                  Write-Host 'packageName:'${env:packageName}
+            - name: Upload artifact
+              uses: actions/upload-artifact@v2-preview
+              with:
+                  name: lemon-win-${{matrix.arch}}.zip
+                  path: ${{ env.packageName }}.zip
+            - name: uploadRelease
+              if: startsWith(github.event.ref, 'refs/tags/')
+              uses: svenstaro/upload-release-action@v1-release
+              with:
+                  repo_token: ${{ secrets.GITHUB_TOKEN }}
+                  file: ./${{ env.packageName }}.zip
+                  asset_name: lemon-win-${{matrix.arch}}.zip
+                  tag: ${{ github.ref }}
+                  overwrite: true

@@ -5,6 +5,16 @@ on:
         branches:
             - master
             - develop
+        paths-ignore:
+            - "README.md"
+            - "LICENSE"
+
+    pull_request:
+        paths-ignore:
+            - "README.md"
+            - "LICENSE"
+    release:
+        types: [published]
 
 env:
     QT_VERSION: 5.15.0
@@ -18,7 +28,7 @@ jobs:
     check_commit_msg:
         outputs:
             commit_message: ${{ steps.get_message.outputs.message }}
-        name: Checks if the workflow has been deisabled.
+        name: Check if the workflow has been disabled.
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
@@ -262,7 +272,7 @@ jobs:
                   mkdir build
                   cd build
                   conan install ..
-                  cmake .. -DCMAKE_INSTALL_PREFIX=./AppDir/usr -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+                  cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=./AppDir/usr -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
                   cmake --build . --parallel $(nproc)
                   cmake --install .
 

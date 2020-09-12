@@ -1,0 +1,104 @@
+name: MacOS
+
+on:
+    push:
+        branches:
+            - master
+            - develop
+        paths-ignore:
+            - "README.md"
+            - "LICENSE"
+
+    pull_request:
+        paths-ignore:
+            - "README.md"
+            - "LICENSE"
+    release:
+        types: [published]
+
+env:
+    QT_VERSION: 5.15.0
+    CMAKE_VERSION: 3.18.0
+    NINJA_VERSION: 1.10.0
+    CCACHE_VERSION: 3.7.11
+    GOOGLE_TEST_VERSION: 1.10.0
+    BUILD_TYPE: Release
+
+jobs:
+    build:
+        name: Build
+        runs-on: ${{ matrix.os }}
+        strategy:
+            matrix:
+                os: [macos-latest]
+                qt_ver: [5.15.0]
+                qt_arch: [clang_64]
+        env:
+            targetName: jmbde
+        steps:
+            - name: cacheQt
+              id: MacosCacheQt
+              uses: actions/cache@v1
+              with:
+                  path: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
+                  key: ${{ runner.os }}-Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
+
+            - name: setupQt
+              if: steps.MacosCacheQt.outputs.cache-hit == 'true'
+              shell: pwsh
+              env:
+                  QtPath: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
+              run: |
+                  $qt_Path=${env:QtPath}
+                  echo "::set-env name=Qt5_Dir::$qt_Path"
+                  echo "::add-path::$qt_Path/bin"
+
+            - name: Install Qt
+              if: steps.MacosCacheQt.outputs.cache-hit != 'true'
+              uses: jurplel/install-qt-action@v2
+              with:
+                  version: ${{ matrix.qt_ver }}
+
+            - uses: actions/checkout@v2
+              with:
+                  submodules: true
+
+            - name: macOS - ${{ matrix.qt_version }} - Build preparation - Install Packages
+              run: |
+                  brew install ninja pkg-config python
+
+            - name: conan_and_ecm
+              id: conan_and_ecm
+              run: |
+                  python -m pip install conan
+                  conan user
+                  conan create ./conan/ecm
+
+            - name: build macos
+              run: |
+                  mkdir build
+                  cd build
+                  conan install ..
+                  cmake .. -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_OSX_DEPLOYMENT_TARGET=${{ matrix.mac_target }}
+                  cmake --build . --parallel $(sysctl -n hw.logicalcpu)
+
+            # tag
+            - name: package
+              run: |
+                  #mv ${targetName} ${targetName}.app
+                  macdeployqt ${targetName}.app -qmldir=. -verbose=1 -dmg
+
+            - name: Upload artifact
+              uses: actions/upload-artifact@v2-preview
+              with:
+                  name: ${{ env.targetName }}.dmg
+                  path: ${{ env.targetName }}.dmg
+
+            - name: uploadRelease
+              if: startsWith(github.event.ref, 'refs/tags/')
+              uses: svenstaro/upload-release-action@v1-release
+              with:
+                  repo_token: ${{ secrets.GITHUB_TOKEN }}
+                  file: ./${{ env.targetName }}.dmg
+                  asset_name: ${{ env.targetName }}.dmg
+                  tag: ${{ github.ref }}
