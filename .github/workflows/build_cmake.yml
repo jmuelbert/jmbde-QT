@@ -115,7 +115,8 @@ jobs:
               run: |
                   sudo apt update
                   sudo apt-get install libxcb-icccm4
-                  sudo apt-get upgrade
+                  sudo apt-get install libxcb-image0
+                  # sudo apt-get upgrade
 
             # === macOS =====================================
             - name: macOS - ${{ matrix.qt_version }} - Build preparation - Install Packages

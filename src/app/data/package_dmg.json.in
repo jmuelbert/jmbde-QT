@@ -1,7 +1,7 @@
 {
  "title": "jmbde @jmbde_VERSION_STRING@",
- "icon": "@CMAKE_CURRENT_SOURCE_DIR@/data/icons/16-apps-jmbde.png",
- "background": "@CMAKE_CURRENT_SOURCE_DIR@/data/icons/CMakeDMGBackground.png",
+ "icon": "@CMAKE_CURRENT_SOURCE_DIR@/icons/16-apps-jmbde.png",
+ "background": "@CMAKE_CURRENT_SOURCE_DIR@/icons/CMakeDMGBackground.png",
  "icon-size": 128,
  "window": {
     "size": {
