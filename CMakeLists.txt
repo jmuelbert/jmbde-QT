@@ -74,8 +74,8 @@ endif()
 
 # For ECM-CONAN
 if(EXISTS "${CONAN_ECM_ROOT}")
-  list(APPEND CMAKE_PREFIX_PATH "${CONAN_ECM_ROOT}/share/ECM")
-  message(STATUS "Setting ECM-DIR to ${CONAN_ECM_ROOT}/share/ECM")
+  list(APPEND CMAKE_PREFIX_PATH "${CONAN_ECM_ROOT}/share/ecm")
+  message(STATUS "Setting ECM-DIR to ${CONAN_ECM_ROOT}/share/ecm")
 endif()
 
 # we need some parts of the ECM CMake helpers
