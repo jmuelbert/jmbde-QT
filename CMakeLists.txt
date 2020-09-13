@@ -350,7 +350,7 @@ add_subdirectory(src/libs)
 
 # The apps
 add_subdirectory(src/app)
-add_subdirectory(src/appquick)
+# add_subdirectory(src/appquick)
 
 set(LICENSE_FILE "LICENSE")
 set(README_FILE "README.md")
