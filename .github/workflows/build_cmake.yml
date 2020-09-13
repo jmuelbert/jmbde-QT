@@ -220,6 +220,7 @@ jobs:
                   tag: $${{ github.ref }}
             # === Windows Build =====================================
             - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Generate Dependencies and Build
+              shell: cmake -P {0}
               if: matrix.platform == 'windows-latest'
               env:
                   CC: cl.exe
