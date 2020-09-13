@@ -128,6 +128,7 @@ jobs:
                     conan_arch = 'x86_64'
                   else
                     conan_arch = 'x86'
+                  endif()
                   conan install .. -s arch=$conan_arch
                   cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DBUILD_NSIS=ON
                   cmake --build . --target package --parallel $(nproc)
