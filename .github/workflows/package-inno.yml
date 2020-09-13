@@ -32,13 +32,16 @@ jobs:
                 qt_version: [5.15.0]
                 platform: [windows-latest]
                 arch: [x86, x64]
+                build_type: [Release]
                 include:
                     - platform: windows-latest
                       arch: x86
                       qtarch: win32_msvc2019
+                      build_type: Release
                     - platform: windows-latest
                       arch: x64
                       qtarch: win64_msvc2019_64
+                      build_type: Release
             fail-fast: false
 
         runs-on: ${{ matrix.platform }}
@@ -103,16 +106,19 @@ jobs:
                   conan create ./conan/ecm
 
             - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Generate Dependencies and Build
-              shell: bash
+              shell: pwsh
               env:
                   CC: cl.exe
                   CXX: cl.exe
               run: |
-                  if (matrix.arch == 'x64')
-                    conan_arch = 'x86_64'
-                  else
-                    conan_arch = 'x86'
-                  endif()
+                  New-Item -Path "." -Name "build" -ItemType "directory"
+                  Set-Location "build"
+                  New-Item -Path "." -Name "deployment" -ItemType "directory"
+                  if ($matrix.arch -EQ 'x64') {
+                    $conan_arch = 'x86_64'
+                  } else {
+                    $conan_arch = 'x86'
+                  }
                   conan install -s arch=$conan_arch
                   cmake . -GNinja -DCMAKE_BUILD_TYPE=Release -DJMBDE_BUILD_INFO="Build for Windows" -Djmbde_BUILD_EXTRA_INFO="Build on Windows ${{matrix.arch}}"
                   cmake --build . --parallel $(nproc)
