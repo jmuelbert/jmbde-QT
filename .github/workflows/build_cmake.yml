@@ -228,7 +228,7 @@ jobs:
               run: |
                   New-Item -Path "." -Name "build" -ItemType "directory"
                   Set-Location "build"
-                  if (matrix.arch -EQ 'x64') {
+                  if ($matrix.arch -EQ 'x64') {
                     conan_arch = 'x86_64'
                   } else {
                     conan_arch = 'x86'
