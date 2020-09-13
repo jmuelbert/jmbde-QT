@@ -49,7 +49,7 @@ jobs:
                 build_type: [Release]
                 mac_target: [10.14]
                 include:
-                    - platform: windows-latesst
+                    - platform: windows-latest
                       arch: x86
                       qtarch: win32_msvc2019
                       build_type: Release
