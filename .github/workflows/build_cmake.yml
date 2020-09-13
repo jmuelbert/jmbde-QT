@@ -116,6 +116,7 @@ jobs:
                   sudo apt update
                   sudo apt-get install libxcb-icccm4
                   sudo apt-get install libxcb-image0
+                  sudo apt-get install libxcb-keysyms1
                   # sudo apt-get upgrade
 
             # === macOS =====================================
@@ -213,7 +214,7 @@ jobs:
               uses: actions/upload-artifact@master
               with:
                   name: jmbde-${{ github.sha }}.macOS-${{ matrix.arch }}.qt${{ matrix.qt_version }}.dmg
-                  path: jmbde.dmg
+                  path: ./build/jmbde.dmg
             - name: macOS - ${{ matrix.qt_version }} - Upload binaries to release
               uses: svenstaro/upload-release-action@v1-release
               if: github.event_name == 'release' && matrix.platform == 'macos-latest' && matrix.qt_version == '5.15.0'
