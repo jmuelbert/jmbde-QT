@@ -114,6 +114,8 @@ jobs:
               if: matrix.platform == 'ubuntu-latest'
               run: |
                   sudo apt update
+                  sudo apt-get libxcb-icccm
+
             # === macOS =====================================
             - name: macOS - ${{ matrix.qt_version }} - Build preparation - Install Packages
               if: matrix.platform == 'macos-latest'
