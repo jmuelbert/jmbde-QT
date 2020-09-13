@@ -2,7 +2,7 @@
     "background": "/Users/juergen/Projects/GitHub/jmbde-QT/packaging/mac//CMakeDMGBackground.png",
     "contents": [
         {
-            "path": "./jmbde.app",
+            "path": "/Users/runner/work/jmbde-QT/jmbde-QT/build/Applications/jmbde.app",
             "type": "file",
             "x": 130,
             "y": 205
