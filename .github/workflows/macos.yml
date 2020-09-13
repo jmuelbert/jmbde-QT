@@ -40,7 +40,7 @@ jobs:
               uses: actions/cache@v1
               with:
                   path: ../Qt
-                  key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ matrix.qt_versionsion }}
+                  key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ matrix.qt_version }}
 
             - name: Installing Qt - ${{ matrix.qt_version }}
               uses: jurplel/install-qt-action@v2
@@ -54,7 +54,7 @@ jobs:
               with:
                   submodules: true
 
-            - name: macOS - ${{ matrix.qt_versions }} - Build preparation - Install Packages
+            - name: macOS - ${{ matrix.qt_version }} - Build preparation - Install Packages
               run: |
                   brew install ninja pkg-config
 
