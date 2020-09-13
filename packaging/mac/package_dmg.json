@@ -1,5 +1,5 @@
 {
-    "background": "/Users/juergen/Projects/GitHub/jmbde-QT/packaging/mac/CMakeDMGBackground.png",
+    "background": "/Users/runner/work/jmbde-QT/packaging/mac/CMakeDMGBackground.png",
     "contents": [
         {
             "path": "/Users/runner/work/jmbde-QT/jmbde-QT/build/Applications/jmbde.app",

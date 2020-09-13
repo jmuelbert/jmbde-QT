@@ -202,7 +202,7 @@ jobs:
                   cmake .. -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_OSX_DEPLOYMENT_TARGET=${{ matrix.mac_target }} -DCMAKE_INSTALL_PREFIX=./Applications
                   cmake --build . --parallel $(sysctl -n hw.logicalcpu)
                   sudo cmake --install .
-                  appdmg ../packaging/mac/package_dmg.json ../jmbde.dmg
+                  appdmg ../Applications/package_dmg.json ./jmbde.dmg
 
             - name: macOS - ${{ matrix.qt_version }} - Uploading Artifact
               if: matrix.platform == 'macos-latest'
@@ -287,8 +287,8 @@ jobs:
                   chmod a+x linuxdeployqt*.AppImage
                   wget -c -nv "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
                   chmod a+x appimagetool-x86_64.AppImage
-                  ./linuxdeployqt*.AppImage AppDir/usr/share/applications/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.54m.so.1.0 -verbose=2 -appimage
-                  find AppDir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
+                  ./linuxdeployqt*.AppImage appdir/usr/share/applications/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.54m.so.1.0 -verbose=2 -appimage
+                  find appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
                   mv ./jmbde*.AppImage ./jmbde.AppImage
 
             - name: Linux - ${{ matrix.qt_version }} - Uploading artifact
