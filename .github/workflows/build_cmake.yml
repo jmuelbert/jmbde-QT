@@ -45,7 +45,6 @@ jobs:
             matrix:
                 qt_version: [5.15.0]
                 platform: [ubuntu-latest, macos-latest, windows-latest]
-                arch: [x86, x64]
                 build_type: [Release]
                 mac_target: [10.14]
                 include:
