@@ -68,7 +68,7 @@ jobs:
                   depends=('hicolor-icon-theme' 'qt5-base>5.11.0' 'grpc>=1.27.0' 'zxing-cpp')
                   optdepends=('v2ray: use system v2ray core.')
                   makedepends=('git' 'make' 'qt5-tools' 'which' 'gcc' 'qt5-declarative'
-                               'grpc-cli>=1.27.0' 'cmake' 'ninja')
+                               'grpc-cli>=1.27.0' 'cmake' 'ninja' 'python3' 'pip3')
                   provides=('jmbde')
                   conflicts=('jmbde')
                   source=('jmbde::git+https://github.com/jmuelbert/jmbde-QT')

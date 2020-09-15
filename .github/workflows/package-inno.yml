@@ -126,7 +126,7 @@ jobs:
 
             - name: package
               env:
-                  archiveName: jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+                  archiveName: jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-INNO-${{ matrix.arch }}
               shell: pwsh
               run: |
                   New-Item -ItemType Directory ${env:archiveName}

@@ -79,14 +79,18 @@ jobs:
               id: conan_and_ecm
               shell: bash
               env:
-                  CC: /usr/bin/gcc-7
-                  CXX: /usr/bin/g++-7
+                  CC: /usr/bin/gcc
+                  CXX: /usr/bin/g++
               run: |
                   pip3 install conan
                   conan user
                   conan create ./conan/ecm
 
             - name: Linux - ${{ matrix.qt_version }} - Generate Dependencies and Build
+              shell: bash
+              env:
+                  CC: /usr/bin/gcc
+                  CXX: /usr/bin/g++
               run: |
                   mkdir build
                   cd build

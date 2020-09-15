@@ -74,6 +74,7 @@ jobs:
                   CC: /usr/bin/gcc-7
                   CXX: /usr/bin/g++-7
               run: |
+                  pip3 install setuptools
                   pip3 install conan
                   conan user
                   conan create ./conan/ecm
