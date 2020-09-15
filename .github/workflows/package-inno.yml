@@ -23,6 +23,7 @@ env:
     CCACHE_VERSION: 3.7.11
     GOOGLE_TEST_VERSION: 1.10.0
     BUILD_TYPE: Release
+    TARGETNAME: packdir
 
 jobs:
     build:

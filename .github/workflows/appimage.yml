@@ -44,7 +44,7 @@ jobs:
             matrix:
                 qt_version: [5.15.0]
                 platform: [ubuntu-latest]
-                arch: [x86, x64]
+                arch: [x64]
             fail-fast: false
 
         runs-on: ${{ matrix.platform }}
@@ -71,20 +71,18 @@ jobs:
               id: conan_and_ecm
               shell: bash
               env:
-                  CC: /usr/bin/gcc-7
-                  CXX: /usr/bin/g++-7
+                  CC: /usr/bin/gcc
+                  CXX: /usr/bin/g++
               run: |
-                  pip3 install setuptools
                   pip3 install conan
                   conan user
                   conan create ./conan/ecm
 
-            # ========================================================================================================= Generate MakeFile and Build
             - name: Linux - ${{ matrix.qt_version }} - Generate Dependencies and Build
               shell: bash
               env:
-                  CC: /usr/bin/gcc-7
-                  CXX: /usr/bin/g++-7
+                  CC: /usr/bin/gcc
+                  CXX: /usr/bin/g++
               run: |
                   mkdir build
                   cd build
