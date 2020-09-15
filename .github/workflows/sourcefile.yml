@@ -40,18 +40,18 @@ jobs:
               uses: DuckSoft/create-7z-action@v1.0
               with:
                   pathSource: ./
-                  pathTarget: ./Lemon-${{ steps.get_version.outputs.VERSION }}-source-all.7z
+                  pathTarget: ./jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
             - name: Upload artifact
               uses: actions/upload-artifact@v2-preview
               with:
-                  name: Lemon-${{ steps.get_version.outputs.VERSION }}-source-all.7z
-                  path: Lemon-${{ steps.get_version.outputs.VERSION }}-source-all.7z
+                  name: jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
+                  path: jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
             - name: Upload binaries to release
               uses: svenstaro/upload-release-action@v1-release
               if: github.event_name == 'release'
               with:
                   repo_token: ${{ secrets.GITHUB_TOKEN }}
-                  file: Lemon-${{ steps.get_version.outputs.VERSION }}-source-all.7z
-                  asset_name: Lemon-${{ steps.get_version.outputs.VERSION }}-source-all.7z
+                  file: jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
+                  asset_name: jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
                   tag: ${{ github.ref }}
                   overwrite: true

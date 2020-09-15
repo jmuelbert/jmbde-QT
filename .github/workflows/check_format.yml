@@ -14,7 +14,11 @@ jobs:
                   sudo apt-get install clang-format-9
 
             - name: "Format Codes"
-              run: clang-format-9 -i src/**/*.cpp  src/**/*.h
+              run: |
+                pwd
+                ls src
+                clang-format-9 --version
+                clang-format-9 -i src/**/*.cpp  src/**/*.h
             - name: "Check Diff"
               run: git diff --exit-code HEAD
 

@@ -119,7 +119,7 @@ jobs:
                   } else {
                     $conan_arch = 'x86'
                   }
-                  conan install -s arch=$conan_arch
+                  conan install .. -s arch=$conan_arch
                   cmake . -GNinja -DCMAKE_BUILD_TYPE=Release -DJMBDE_BUILD_INFO="Build for Windows" -Djmbde_BUILD_EXTRA_INFO="Build on Windows ${{matrix.arch}}"
                   cmake --build . --parallel $(nproc)
 
