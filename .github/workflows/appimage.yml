@@ -1,4 +1,4 @@
-name: Build AppImage
+name: Linux Build AppImage
 
 on:
     push:
@@ -74,7 +74,7 @@ jobs:
                   CC: /usr/bin/gcc-7
                   CXX: /usr/bin/g++-7
               run: |
-                  pip install conan
+                  pip3 install conan
                   conan user
                   conan create ./conan/ecm
 
