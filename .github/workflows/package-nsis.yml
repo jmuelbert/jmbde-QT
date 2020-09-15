@@ -1,4 +1,4 @@
-name: Windows NSIS Installer
+name: Windows Installer NSIS
 
 on:
     push:
@@ -156,13 +156,6 @@ jobs:
                   mv build/jmbde.exe build/out
                   ../Qt/*/*/bin/windeployqt.exe build/out/jmbde.exe --no-translations
                   nsis ../packing/win/win/installer_${{matrix.arch }}.nsis -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/out
-
-            - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Uploading artifact
-              if: matrix.platform == 'windows-latest'
-              uses: actions/upload-artifact@master
-              with:
-                  name: jmbde-${{ github.sha }}.Windows-${{ matrix.arch }}.qt${{ matrix.qt_version }}.7z
-                  path: release.7z
 
             - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - uploading artifact
               uses: actions/upload-artifact@master
