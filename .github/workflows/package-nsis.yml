@@ -134,16 +134,42 @@ jobs:
                   cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=./deployment -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
                   cmake --build . --parallel $(nproc)
                   cmake --install .
+
             - name: Windows - Get package name
               shell: bash
               id: get_package
               run: |
-                  echo ::set-output name=NAME::$(basename build/qv2ray-*.exe)
+                  echo ::set-output name=NAME::$(basename build/jmbde-*.exe)
+
+            - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Create 7z Release
+              if: matrix.platform == 'windows-latest'
+              uses: DuckSoft/create-7z-action@v1.0
+              with:
+                  pathSource: ./build/deployment/
+                  pathTarget: ./release.7z
+
+            - name: Pack to exe on Windows
+              if: matrix.config.os == 'windows-latest' # && (matrix.qt_version == '5.15.0') # && startsWith(github.ref, 'refs/tags')
+              shell: bash
+              run: |
+                  mkdir build/out
+                  mv build/jmbde.exe build/out
+                  ../Qt/*/*/bin/windeployqt.exe build/out/jmbde.exe --no-translations
+                  nsis ../packing/win/win/installer_${{matrix.arch }}.nsis -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/out
+
+            - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Uploading artifact
+              if: matrix.platform == 'windows-latest'
+              uses: actions/upload-artifact@master
+              with:
+                  name: jmbde-${{ github.sha }}.Windows-${{ matrix.arch }}.qt${{ matrix.qt_version }}.7z
+                  path: release.7z
+
             - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - uploading artifact
               uses: actions/upload-artifact@master
               with:
-                  name: Qv2ray-${{ github.sha }}.Windows-${{ matrix.arch }}.qt${{ matrix.qt_version }}.exe
+                  name: jmbde-${{ github.sha }}.Windows-${{ matrix.arch }}.qt${{ matrix.qt_version }}.exe
                   path: build/${{ steps.get_package.outputs.NAME }}
+
             - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Upload binaries to release
               uses: svenstaro/upload-release-action@v1-release
               if: github.event_name == 'release'
