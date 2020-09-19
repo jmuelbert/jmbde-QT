@@ -60,7 +60,7 @@ project(jmbde)
 # Set the dependencies versions
 set(KF5_VERSION "5.71.0")
 set(KF5_DEP_VERSION "5.71.0")
-set(QT_MIN_VERSION "5.12.9")
+set(QT_MIN_VERSION "5.12.8")
 
 # Load Standard-CMake helpler modules
 include(FeatureSummary)
