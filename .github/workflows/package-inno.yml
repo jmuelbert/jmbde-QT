@@ -23,7 +23,7 @@ env:
     CCACHE_VERSION: 3.7.11
     GOOGLE_TEST_VERSION: 1.10.0
     BUILD_TYPE: Release
-    TARGETNAME: packdir
+    TARGETNAME: deployment
 
 jobs:
     build:
@@ -121,7 +121,7 @@ jobs:
                     $conan_arch = 'x86'
                   }
                   conan install .. -s arch=$conan_arch
-                  cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=./deployment -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+                  cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=./${{env.packageName}} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
                   cmake --build . --parallel $(nproc)
                   cmake --install .
 
