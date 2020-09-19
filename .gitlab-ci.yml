@@ -1,18 +1,36 @@
-#
-# GitLab CI configuration for QOwnNotes
-# https://ci.gitlab.com/lint
-#
-# you need a runner for OS X
-# https://gitlab.com/gitlab-org/gitlab-ci-multi-runner
-#
-# execute: gitlab-ci-multi-runner run
-#
-# set the GITHUB_ACCESS_TOKEN with your GitHub securitry token for release deployment
-#
+test_code:
+    image: rootproject/root:latest
+    stage: test
+    before_script:
+        - apt-get update && apt-get install -y make cmake libboost-dev git
+        # We will install latest CMake, even though Ubuntu has a recent one
+        - mkdir -p $HOME/.local
+        - curl -s "https://cmake.org/files/v3.18/cmake-3.18.2-Linux-x86_64.tar.gz" | tar --strip-components=1 -xz -C $HOME/.local
+        - export PATH=$HOME/.local/bin:$PATH
+    script:
+        - cmake -S examples -B build
+        - cmake --build build -v
+        - cmake --build build -t test
 
-include:
-    - remote: "https://gitlab.deepin.io/dev-tools/letmeci/raw/master/gitlab-ci/dde.yml"
-
-variables:
-    CPPCHECK: "true"
-    CODESPELL: "true"
+pages:
+    image: node:10
+    stage: deploy
+    only:
+        - master
+    cache:
+        paths:
+            - node_modules/
+    before_script:
+        - apt-get update && apt-get install -y calibre calibre-bin libxss1 libasound2
+        - npm install gitbook-cli svgexport
+        - npx gitbook fetch 3.2.3
+        - npx gitbook install
+    script:
+        - npx gitbook build . public
+        - 'sed -i "s/puppeteer.launch();/puppeteer.launch({args: [\"--no-sandbox\"]});/g" node_modules/svgexport/render.js'
+        - npx gitbook pdf . modern-cmake.pdf
+        - cp modern-cmake.pdf public/modern-cmake.pdf
+    artifacts:
+        paths:
+            - public
+        expire_in: 1 week
