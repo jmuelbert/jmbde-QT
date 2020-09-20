@@ -156,7 +156,7 @@ jobs:
                   archiveName: jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-INNO-${{ matrix.arch }}
               shell: pwsh
               run: |
-                  Rename-Item -Path "deployment" -NewName ${env:archiveName}
+                  Rename-Item -Path "build/deployment" -NewName ${env:archiveName}
                   windeployqt --qmldir . ${env:archiveName}\${env:targetName}
                   Compress-Archive -Path ${env:archiveName} ${env:archiveName}'.zip'
                   iscc ../packing/win/win/installer_${{ matrix.arch }}.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/out
