@@ -39,7 +39,7 @@ jobs:
                   echo "::set-output name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
                   echo "::set-env name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
 
-     build:
+    build:
         needs: check_commit_msg
         if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_ISS') }}
         name: Build
@@ -156,6 +156,7 @@ jobs:
                   archiveName: jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-NSIS-${{ matrix.arch }}
               shell: pwsh
               run: |
+                  Rename-Item -Path "deployment" -NewName ${env:archiveName}
                   windeployqt --qmldir . ${env:archiveName}\${env:targetName}
                   Compress-Archive -Path ${env:archiveName} ${env:archiveName}'.zip'
                   nsis ../packing/win/win/installer_${{ matrix.arch }}.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/out
@@ -166,13 +167,13 @@ jobs:
             - name: Upload artifact
               uses: actions/upload-artifact@v2-preview
               with:
-                  name: jmbde-win-nsis-${{matrix.arch}}.zip
+                  name: ${env:archiveName}.zip
                   path: ${{ env.packageName }}'.zip'
 
             - name: Upload artifact
               uses: actions/upload-artifact@v2-preview
               with:
-                  name: jmbde-win-nsis-${{matrix.arch}}.exe
+                  name: ${env:archiveName}.exe
                   path: ${{ env.packageName }}'.exe
 
             - name: uploadRelease

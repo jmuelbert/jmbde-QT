@@ -156,6 +156,7 @@ jobs:
                   archiveName: jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-INNO-${{ matrix.arch }}
               shell: pwsh
               run: |
+                  Rename-Item -Path "deployment" -NewName ${env:archiveName}
                   windeployqt --qmldir . ${env:archiveName}\${env:targetName}
                   Compress-Archive -Path ${env:archiveName} ${env:archiveName}'.zip'
                   iscc ../packing/win/win/installer_${{ matrix.arch }}.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/out
@@ -166,8 +167,14 @@ jobs:
             - name: Upload artifact
               uses: actions/upload-artifact@v2-preview
               with:
-                  name: jmbde-win-${{matrix.arch}}.zip
+                  name: j${env:archiveName}.zip
                   path: ${{ env.packageName }}'.zip'
+
+            - name: Upload artifact
+              uses: actions/upload-artifact@v2-preview
+              with:
+                  name: ${env:archiveName}.exe
+                  path: ${{ env.packageName }}'.exe
 
             - name: uploadRelease
               if: startsWith(github.event.ref, 'refs/tags/')
@@ -175,6 +182,6 @@ jobs:
               with:
                   repo_token: ${{ secrets.GITHUB_TOKEN }}
                   file: ./${{ env.packageName }}.zip
-                  asset_name: jmbde-win-${{matrix.arch}}.zip
+                  asset_name: ${env:archiveName}.zip
                   tag: ${{ github.ref }}
                   overwrite: true
