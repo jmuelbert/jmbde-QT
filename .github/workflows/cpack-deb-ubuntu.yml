@@ -69,10 +69,6 @@ jobs:
                   DEBIAN_FRONTEND=noninteractive apt-get install -y qtbase5-dev qttools5-dev qttools5-dev-tools libqt5help5  qtdeclarative5-dev qtdeclarative5-dev-tools qt5-image-formats-plugins
                   apt-get install -y python3 python3-pip
                   apt-get autoremove
-                  # We will install latest CMake, even though Ubuntu has a recent one
-                  mkdir -p $HOME/.local
-                  curl -s "https://cmake.org/files/v3.18/cmake-3.18.2-Linux-x86_64.tar.gz" | tar --strip-components=1 -xz -C $HOME/.local
-                  export PATH=$HOME/.local/bin:$PATH
 
             - name: conan_and_ecm
               id: conan_and_ecm
