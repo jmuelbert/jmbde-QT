@@ -23,7 +23,7 @@ env:
     CCACHE_VERSION: 3.7.11
     GOOGLE_TEST_VERSION: 1.10.0
     BUILD_TYPE: Release
-    TARGETNAME: packdir
+    INSTALLDIR: deployment
 
 jobs:
     check_commit_msg:
@@ -38,25 +38,31 @@ jobs:
               run: |
                   echo "::set-output name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
                   echo "::set-env name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
-    build:
+
+     build:
         needs: check_commit_msg
-        if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_NSIS') }}
+        if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_ISS') }}
+        name: Build
         strategy:
             matrix:
                 qt_version: [5.15.0]
                 platform: [windows-latest]
                 arch: [x86, x64]
+                build_type: [Release]
                 include:
                     - platform: windows-latest
                       arch: x86
                       qtarch: win32_msvc2019
+                      build_type: Release
                     - platform: windows-latest
                       arch: x64
                       qtarch: win64_msvc2019_64
+                      build_type: Release
             fail-fast: false
 
         runs-on: ${{ matrix.platform }}
         env:
+            targetName: jmbde.exe
             _JMBDE_BUILD_INFO_: "jmbde built from Github Action"
             _JMBDE_BUILD_EXTRA_INFO_: "qt${{ matrix.qt_version }}-${{ github.sha }}-ci.${{ matrix.platform }}"
 
@@ -65,8 +71,14 @@ jobs:
               id: get_version
               shell: bash
               run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+
             - name: Checking out sources
               uses: actions/checkout@v2
+              with:
+                  submodules: "recursive"
+
+            - name: Restoring submodules
+              run: git submodule update --init
 
             - name: Install Python 3.8 version
               uses: actions/setup-python@v1
@@ -74,8 +86,6 @@ jobs:
                   python-version: "3.8"
                   architecture: ${{ matrix.arch }}
 
-            - name: Restoring submodules
-              run: git submodule update --init
             # =========================================================================================================
             - name: Install MSVC compiler
               uses: ilammy/msvc-dev-cmd@v1
@@ -83,12 +93,14 @@ jobs:
                   # 14.1 is for vs2017, 14.2 is vs2019, following the upstream vcpkg build from Qv2ray-deps repo
                   toolset: 14.2
                   arch: ${{ matrix.arch }}
+
             - name: Cache Qt
               id: cache-qt
               uses: actions/cache@v1
               with:
                   path: ../Qt
                   key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ matrix.qt_version }}
+
             - name: Installing Qt - ${{ matrix.arch }}
               uses: jurplel/install-qt-action@v2
               with:
@@ -96,6 +108,7 @@ jobs:
                   arch: ${{ matrix.qtarch }}
                   mirror: "http://mirrors.ocf.berkeley.edu/qt/"
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
+
             # =========================================================================================================
             - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Setup Ninja
               if: matrix.platform == 'windows-latest'
@@ -118,7 +131,7 @@ jobs:
                   conan user
                   conan create ./conan/ecm
 
-            # ========================================================================================================= Generate MakeFile and Build
+            # === Windows Build =====================================
             - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Generate Dependencies and Build
               shell: pwsh
               env:
@@ -127,15 +140,14 @@ jobs:
               run: |
                   New-Item -Path "." -Name "build" -ItemType "directory"
                   Set-Location "build"
-                  New-Item -Path "." -Name ${{env.INSTALLDIR}} -ItemType "directory"
-                  Set-Location "build"
+                  New-Item -Path "." -Name "deployment" -ItemType "directory"
                   if ($matrix.arch -EQ 'x64') {
                     $conan_arch = 'x86_64'
                   } else {
                     $conan_arch = 'x86'
                   }
                   conan install .. -s arch=$conan_arch
-                  cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=./${env:targetName} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+                  cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=./deployment -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
                   cmake --build . --parallel $(nproc)
                   cmake --install .
 
@@ -144,8 +156,6 @@ jobs:
                   archiveName: jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-NSIS-${{ matrix.arch }}
               shell: pwsh
               run: |
-                  New-Item -ItemType Directory ${env:archiveName}
-                  Copy-Item ${env:targetName} ${env:archiveName}\
                   windeployqt --qmldir . ${env:archiveName}\${env:targetName}
                   Compress-Archive -Path ${env:archiveName} ${env:archiveName}'.zip'
                   nsis ../packing/win/win/installer_${{ matrix.arch }}.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/out

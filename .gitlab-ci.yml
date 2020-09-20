@@ -18,9 +18,12 @@ test_code:
         - pip3 install conan
         - conan user
         - conan create ./conan/ecm
-        - cmake -GNinja -S . -B build -DCMAKE_INSTALL_PREFIX=./build/AppDir/usr
-        - cmake --build build -v
-        - cmake --build build -t test
+        - mkdir build
+        - cd build
+        - conan install ..
+        - cmake -GNinja -S .. -DCMAKE_INSTALL_PREFIX=./build/AppDir/usr -DCMAKE_BUILD_TYPE=Release
+        - cmake --build . -v
+        - cmake --build . -t test
 
 pages:
     image: node:10

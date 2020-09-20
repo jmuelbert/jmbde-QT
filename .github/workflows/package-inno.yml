@@ -26,7 +26,22 @@ env:
     INSTALLDIR: deployment
 
 jobs:
+    check_commit_msg:
+        outputs:
+            commit_message: ${{ steps.get_message.outputs.message }}
+        name: Check if the workflow has been disabled.
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Get commit message
+              id: get_message
+              run: |
+                  echo "::set-output name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
+                  echo "::set-env name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
+
     build:
+        needs: check_commit_msg
+        if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_ISS') }}
         name: Build
         strategy:
             matrix:
@@ -48,6 +63,9 @@ jobs:
         runs-on: ${{ matrix.platform }}
         env:
             targetName: jmbde.exe
+            _JMBDE_BUILD_INFO_: "jmbde built from Github Action"
+            _JMBDE_BUILD_EXTRA_INFO_: "qt${{ matrix.qt_version }}-${{ github.sha }}-ci.${{ matrix.platform }}"
+
         steps:
             - name: Get the version
               id: get_version
@@ -59,14 +77,14 @@ jobs:
               with:
                   submodules: "recursive"
 
+            - name: Restoring submodules
+              run: git submodule update --init
+
             - name: Install Python 3.8 version
               uses: actions/setup-python@v1
               with:
                   python-version: "3.8"
                   architecture: ${{ matrix.arch }}
-
-            - name: Restoring submodules
-              run: git submodule update --init
 
             # =========================================================================================================
             - name: Install MSVC compiler
@@ -91,11 +109,18 @@ jobs:
                   mirror: "http://mirrors.ocf.berkeley.edu/qt/"
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
+            # =========================================================================================================
+            - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Setup Ninja
+              if: matrix.platform == 'windows-latest'
+              uses: ashutoshvarma/setup-ninja@master
+              with:
+                  # ninja version to download. Default: 1.10.0
+                  version: 1.10.0
+
             # === Winodws =====================================
             - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Build preparation - Download Dependencies
               shell: bash
               run: |
-                  choco install -y ninja
                   choco install -y png2ico
                   choco install -y innosetup
 
@@ -106,23 +131,24 @@ jobs:
                   conan user
                   conan create ./conan/ecm
 
+            # === Windows Build =====================================
             - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Generate Dependencies and Build
               shell: pwsh
               env:
                   CC: cl.exe
                   CXX: cl.exe
               run: |
-                  New-Item -Path "." -Name ${env:targetName} -ItemType "directory"
                   New-Item -Path "." -Name "build" -ItemType "directory"
                   Set-Location "build"
+                  New-Item -Path "." -Name "deployment" -ItemType "directory"
                   if ($matrix.arch -EQ 'x64') {
                     $conan_arch = 'x86_64'
                   } else {
                     $conan_arch = 'x86'
                   }
                   conan install .. -s arch=$conan_arch
-                  cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=./${env:targetName} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-                   cmake --build . --parallel $(nproc)
+                  cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=./deployment -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+                  cmake --build . --parallel $(nproc)
                   cmake --install .
 
             - name: package

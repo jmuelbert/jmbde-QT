@@ -54,9 +54,6 @@ jobs:
               run: |
                   apt-get update
                   DEBIAN_FRONTEND=noninteractive apt-get install -y keyboard-configuration
-                  add-apt-repository ppa:git-core/ppa
-                  apt-get update
-                  apt-get install -y git
 
             - name: Get the version
               id: get_version
