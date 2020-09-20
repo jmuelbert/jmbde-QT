@@ -157,7 +157,9 @@ jobs:
               shell: pwsh
               run: |
                   Set-Location "build"
+                  Get-ChildIten "."
                   Rename-Item -Path "deployment" -NewName ${env:archiveName}
+                  Get-ChildIten "."
                   windeployqt --qmldir . ${env:archiveName}\bin\${env:targetName}
                   Compress-Archive -Path ${env:archiveName} ${env:archiveName}'.zip'
                   iscc ../packing/win/win/installer_${{ matrix.arch }}.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/out
