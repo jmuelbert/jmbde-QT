@@ -18,7 +18,7 @@ test_code:
         - pip3 install conan
         - conan user
         - conan create ./conan/ecm
-        - cmake -GNinja -S examples -B build -DCMAKE_INSTALL_PREFIX=./build/AppDir/usr
+        - cmake -GNinja -S . -B build -DCMAKE_INSTALL_PREFIX=./build/AppDir/usr
         - cmake --build build -v
         - cmake --build build -t test
 

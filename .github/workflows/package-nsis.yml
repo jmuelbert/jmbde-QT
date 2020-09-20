@@ -127,7 +127,8 @@ jobs:
               run: |
                   New-Item -Path "." -Name "build" -ItemType "directory"
                   Set-Location "build"
-                  New-Item -Path "." -Name ${env:targetName} -ItemType "directory"
+                  New-Item -Path "." -Name ${{env.INSTALLDIR}} -ItemType "directory"
+                  Set-Location "build"
                   if ($matrix.arch -EQ 'x64') {
                     $conan_arch = 'x86_64'
                   } else {
