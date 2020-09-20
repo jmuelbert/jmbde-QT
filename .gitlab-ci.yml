@@ -4,7 +4,7 @@ test_code:
     before_script:
         - apt-get update
         - DEBIAN_FRONTEND=noninteractive apt-get install -y keyboard-configuration build-essential software-properties-common make cmake ninja-build git pkgconf
-        - DEBIAN_FRONTEND=noninteractive apt-get install -y qtbase5-dev qttools5-dev qttools5-dev-tools libqt5help5 qml qtdeclarative5-dev-tools
+        - DEBIAN_FRONTEND=noninteractive apt-get install -y qtbase5-dev qttools5-dev qttools5-dev-tools libqt5help5  qtdeclarative5-dev qtdeclarative5-dev-tools
         - apt-get install -y python3 python3-pip
         - add-apt-repository ppa:git-core/ppa
         - apt-get update

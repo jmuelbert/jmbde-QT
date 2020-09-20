@@ -41,7 +41,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                distro: [18.04, 20.04]
+                distro: [20.04]
                 #arch: [x86, x64]
         needs: check_commit_msg
         if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_DEB') }}
@@ -66,7 +66,7 @@ jobs:
             - name: Install build dependencies
               run: |
                   apt-get install -y build-essential software-properties-common make cmake ninja-build git pkgconf
-                  DEBIAN_FRONTEND=noninteractive apt-get install -y qtbase5-dev qttools5-dev qttools5-dev-tools libqt5help5 qml qtdeclarative5-dev-tools
+                  DEBIAN_FRONTEND=noninteractive apt-get install -y qtbase5-dev qttools5-dev qttools5-dev-tools libqt5help5  qtdeclarative5-dev qtdeclarative5-dev-tools
                   apt-get install -y python3 python3-pip
                   apt-get autoremove
                   # We will install latest CMake, even though Ubuntu has a recent one
