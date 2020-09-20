@@ -23,7 +23,7 @@ env:
     CCACHE_VERSION: 3.7.11
     GOOGLE_TEST_VERSION: 1.10.0
     BUILD_TYPE: Release
-    TARGETNAME: deployment
+    INSTALLDIR: deployment
 
 jobs:
     build:
@@ -114,14 +114,14 @@ jobs:
               run: |
                   New-Item -Path "." -Name "build" -ItemType "directory"
                   Set-Location "build"
-                  New-Item -Path "." -Name ${{env.packageName}} -ItemType "directory"
+                  New-Item -Path "." -Name ${{env.INSTALLDIR}} -ItemType "directory"
                   if ($matrix.arch -EQ 'x64') {
                     $conan_arch = 'x86_64'
                   } else {
                     $conan_arch = 'x86'
                   }
                   conan install .. -s arch=$conan_arch
-                  cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=./${{env.packageName}} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+                  cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=./${{env.INSTALLDIR}} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
                   cmake --build . --parallel $(nproc)
                   cmake --install .
 
@@ -131,7 +131,7 @@ jobs:
               shell: pwsh
               run: |
                   New-Item -ItemType Directory ${env:archiveName}
-                  Copy-Item ${env:targetName} ${env:archiveName}\
+                  Copy-Item ${env:INSTALLDIR} ${env:archiveName}\
                   windeployqt --qmldir . ${env:archiveName}\${env:targetName}
                   Compress-Archive -Path ${env:archiveName} ${env:archiveName}'.zip'
                   iscc ../packing/win/win/installer_${{ matrix.arch }}.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/out

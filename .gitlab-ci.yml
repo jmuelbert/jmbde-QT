@@ -16,7 +16,7 @@ test_code:
         - export PATH=$HOME/.local/bin:$PATH
     script:
         - pip3 install conan
-        - conan usr
+        - conan user
         - conan create ./conan/ecm
         - cmake -GNinja -S examples -B build -DCMAKE_INSTALL_PREFIX=./build/AppDir/usr
         - cmake --build build -v
