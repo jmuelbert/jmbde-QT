@@ -127,14 +127,14 @@ jobs:
               run: |
                   New-Item -Path "." -Name "build" -ItemType "directory"
                   Set-Location "build"
-                  New-Item -Path "." -Name "deployment" -ItemType "directory"
+                  New-Item -Path "." -Name ${env:targetName} -ItemType "directory"
                   if ($matrix.arch -EQ 'x64') {
                     $conan_arch = 'x86_64'
                   } else {
                     $conan_arch = 'x86'
                   }
                   conan install .. -s arch=$conan_arch
-                  cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=./deployment -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+                  cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=./${env:targetName} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
                   cmake --build . --parallel $(nproc)
                   cmake --install .
 
