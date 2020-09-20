@@ -157,8 +157,8 @@ jobs:
               shell: pwsh
               run: |
                   Set-Location "build"
-                  windeployqt --qmldir . $bin\${env:targetName}
-                  Compress-Archive -Path ${env:archiveName} ${env:archiveName}'.zip'
+                  windeployqt --qmldir . deployment\bin\${env:targetName}
+                  Compress-Archive -Path deployment ${env:archiveName}'.zip'
                   iscc ../packing/win/win/installer_${{ matrix.arch }}.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/out
                   $name = ${env:archiveName}
                   echo "::set-env name=packageName::$name"
@@ -167,14 +167,14 @@ jobs:
             - name: Upload artifact
               uses: actions/upload-artifact@v2-preview
               with:
-                  name: j${env:archiveName}.zip
+                  name: ${env:archiveName}.zip
                   path: ${{ env.packageName }}'.zip'
 
             - name: Upload artifact
               uses: actions/upload-artifact@v2-preview
               with:
-                  name: ${env:archiveName}.exe
-                  path: ${{ env.packageName }}'.exe
+                  name: jmbde*Setup.exe
+                  path: build/out/jmbde*Setup.exe
 
             - name: uploadRelease
               if: startsWith(github.event.ref, 'refs/tags/')
