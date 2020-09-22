@@ -1,15 +1,15 @@
-name: Linux Build Debian Package
+name: Pckaging(Linux)
 
 on:
     push:
-        branches:
-            - master
-            - develop
+        branches: [master]
         paths-ignore:
             - "README.md"
+            - "README-en.md"
             - "LICENSE"
 
     pull_request:
+        branches: [master]
         paths-ignore:
             - "README.md"
             - "LICENSE"
@@ -41,19 +41,19 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                distro: [stable, testing, sid]
-                #distro: [testing, sid]
+                distro: [20.04]
+                #arch: [x86, x64]
         needs: check_commit_msg
         if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_DEB') }}
-        name: Debian ${{ matrix.distro }}
+        name: Ubuntu ${{ matrix.distro }}
         runs-on: ubuntu-latest
-        container: debian:${{ matrix.distro }}
+        container: ubuntu:${{ matrix.distro }}
 
         steps:
             - name: Install git
               run: |
                   apt-get update
-                  apt-get install -y git
+                  DEBIAN_FRONTEND=noninteractive apt-get install -y keyboard-configuration
 
             - name: Get the version
               id: get_version
@@ -62,20 +62,20 @@ jobs:
 
             - name: Checking out sources
               uses: actions/checkout@v2
-              with:
-                  submodules: "recursive"
 
             - name: Install build dependencies
               run: |
-                  apt-get install -y build-essential ninja-build qtbase5-dev qttools5-dev cmake pkgconf bash python3 python3-pip
+                  DEBIAN_FRONTEND=noninteractive apt-get install -y keyboard-configuration build-essential software-properties-common make cmake ninja-build git pkgconf
+                  DEBIAN_FRONTEND=noninteractive apt-get install -y qtbase5-dev qttools5-dev qttools5-dev-tools libqt5help5  qtdeclarative5-dev qtdeclarative5-dev-tools qt5-image-formats-plugins
+                  apt-get install -y python3 python3-pip
+                  apt-get autoremove
 
             - name: conan_and_ecm
               id: conan_and_ecm
               shell: bash
               env:
-                  CC: /usr/bin/clang
-                  CXX: /usr/bin/clang
-                  CMAKE_MAKE_PROGRAM: ninja
+                  CC: /usr/bin/gcc
+                  CXX: /usr/bin/g++
               run: |
                   pip3 install conan
                   conan user
@@ -84,14 +84,13 @@ jobs:
             - name: Linux - ${{ matrix.qt_version }} - Generate Dependencies and Build
               shell: bash
               env:
-                  CC: /usr/bin/clang
-                  CXX: /usr/bin/clang
-                  CMAKE_MAKE_PROGRAM: ninja
+                  CC: /usr/bin/gcc
+                  CXX: /usr/bin/g++
               run: |
                   mkdir build
                   cd build
                   conan install ..
-                  cmake .. -DCMAKE_INSTALL_PREFIX=./AppDir/usr -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+                  cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=./AppDir/usr -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
                   cmake --build . --parallel $(nproc)
                   cmake --install .
 
@@ -100,17 +99,19 @@ jobs:
               id: get_package
               run: |
                   echo ::set-output name=NAME::$(basename build/jmbde-*.deb)
+
             - name: Upload artifact
               uses: actions/upload-artifact@v2-preview
               with:
-                  name: jmbde-${{ steps.get_version.outputs.VERSION }}-debian-${{ matrix.distro }}.deb
+                  name: jmbde-${{ steps.get_version.outputs.VERSION }}-ubuntu-${{ matrix.distro }}.deb
                   path: build/${{ steps.get_package.outputs.NAME }}
+
             - name: Upload binaries to release
               uses: svenstaro/upload-release-action@v1-release
               if: github.event_name == 'release'
               with:
                   repo_token: ${{ secrets.GITHUB_TOKEN }}
                   file: build/${{ steps.get_package.outputs.NAME }}
-                  asset_name: jmbde-${{ steps.get_version.outputs.VERSION }}-debian-${{ matrix.distro }}.deb
+                  asset_name: jmbde-${{ steps.get_version.outputs.VERSION }}-ubuntu-${{ matrix.distro }}.deb
                   tag: ${{ github.ref }}
                   overwrite: true
