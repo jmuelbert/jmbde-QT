@@ -155,6 +155,7 @@ jobs:
                   archiveName: jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-NSIS-${{ matrix.arch }}
               shell: pwsh
               run: |
+                  Set-Location "build"
                   Rename-Item -Path "program" -NewName ${env:archiveName}
                   windeployqt --qmldir . ${env:archiveName}\bin\${env:targetName}
 
