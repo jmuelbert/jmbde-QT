@@ -158,7 +158,7 @@ jobs:
                   Set-Location "build/program"
                   windeployqt --qmldir . bin/jmbde.exe bin/jmbdewidgets.dll bin/jmbdemodels.dll
 
-                  Compress-Archive -Path deployment ${env:archiveName}'.zip'
+                  Compress-Archive -Path . ${env:archiveName}'.zip'
                   iscc "../../packaging/win/installer_${{ matrix.arch }}.iss" -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/out
                   $name = ${env:archiveName}
                   echo "::set-env name=packageName::$name"
