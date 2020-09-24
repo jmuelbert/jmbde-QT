@@ -155,10 +155,8 @@ jobs:
                   archiveName: jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-NSIS-${{ matrix.arch }}
               shell: pwsh
               run: |
-                  Set-Location ".."
                   Rename-Item -Path "program" -NewName ${env:archiveName}
                   windeployqt --qmldir . ${env:archiveName}\bin\${env:targetName}
-
 
                   Compress-Archive -Path ${env:archiveName} ${env:archiveName}'.zip'
                   nsis  ../packaging/win//installer_${{ matrix.arch }}.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/out

@@ -155,11 +155,12 @@ jobs:
                   archiveName: jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-INNO-${{ matrix.arch }}
               shell: pwsh
               run: |
-                  Set-Location "build/program"
-                  windeployqt --qmldir . bin/jmbde.exe bin/jmbdewidgets.dll bin/jmbdemodels.dll
+                  Rename-Item -Path "program" -NewName ${env:archiveName}
+                  windeployqt --qmldir . ${env:archiveName}\bin\${env:targetName}
 
-                  Compress-Archive -Path . ${env:archiveName}'.zip'
-                  iscc "../../packaging/win/installer_${{ matrix.arch }}.iss" -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/out
+                  Compress-Archive -Path ${env:archiveName} ${env:archiveName}'.zip'
+
+                  iscc "../packaging/win/installer_${{ matrix.arch }}.iss" -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/out
                   $name = ${env:archiveName}
                   echo "::set-env name=packageName::$name"
                   Write-Host 'packageName:'${env:packageName}
