@@ -242,7 +242,7 @@ jobs:
                     $conan_arch = 'x86'
                   }
                   conan install .. -s arch=$conan_arch
-                  cmake .. -GNinja -A $conan_arch -DCMAKE_INSTALL_PREFIX:PATH=./program -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+                  cmake .. -GNinja -DCMAKE_INSTALL_PREFIX:PATH=./program -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
                   cmake --build . --parallel $(nproc)
                   cmake --install .
 
