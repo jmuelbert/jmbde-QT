@@ -235,7 +235,6 @@ jobs:
               run: |
                   New-Item -Path "." -Name "build" -ItemType "directory"
                   Set-Location "build"
-                  New-Item -Path "." -Name "deployment" -ItemType "directory"
                   if ($matrix.arch -EQ 'x64') {
                     $conan_arch = 'x86_64'
                   } else {
@@ -264,7 +263,7 @@ jobs:
               shell: pwsh
               if: matrix.platform == 'windows-latest'
               run: |
-                  iscc "../../packaging/win/installer_x64.issinstaller_${{ matrix.arch }}.iss" -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/out
+                  iscc "../../packaging/win/installer_${{ matrix.arch }}.iss" -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/out
 
             - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Uploading artifact
               if: matrix.platform == 'windows-latest'

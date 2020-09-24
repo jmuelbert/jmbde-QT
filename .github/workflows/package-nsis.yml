@@ -140,14 +140,13 @@ jobs:
               run: |
                   New-Item -Path "." -Name "build" -ItemType "directory"
                   Set-Location "build"
-                  New-Item -Path "." -Name "deployment" -ItemType "directory"
                   if ($matrix.arch -EQ 'x64') {
                     $conan_arch = 'x86_64'
                   } else {
                     $conan_arch = 'x86'
                   }
                   conan install .. -s arch=$conan_arch
-                  cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=./deployment -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+                  cmake .. -GNinja -DCMAKE_INSTALL_PREFIX:PATH=./program -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
                   cmake --build . --parallel $(nproc)
                   cmake --install .
 
@@ -156,11 +155,15 @@ jobs:
                   archiveName: jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-NSIS-${{ matrix.arch }}
               shell: pwsh
               run: |
-                  Set-Location "build"
-                  Rename-Item -Path "deployment" -NewName ${env:archiveName}
-                  windeployqt --qmldir . ${env:archiveName}\bin\${env:targetName}
+                  # Set-Location "build"
+                  # Rename-Item -Path "deployment" -NewName ${env:archiveName}
+                  # windeployqt --qmldir . ${env:archiveName}\bin\${env:targetName}
+
+                  Set-Location "build/program"
+                  windeployqt --qmldir . bin/jmbde.exe bin/jmbdewidgets.dll bin/jmbdemodels.dll
+
                   Compress-Archive -Path ${env:archiveName} ${env:archiveName}'.zip'
-                  nsis ../packing/win/win/installer_${{ matrix.arch }}.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/out
+                  nsis .../../packaging/win//installer_${{ matrix.arch }}.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/out
                   $name = ${env:archiveName}
                   echo "::set-env name=packageName::$name"
                   Write-Host 'packageName:'${env:packageName}
