@@ -257,14 +257,14 @@ jobs:
               if: matrix.platform == 'windows-latest'
               uses: DuckSoft/create-7z-action@v1.0
               with:
-                  pathSource: ./build/program/
+                  pathSource: .
                   pathTarget: ./release.7z
 
             - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Build Inno Installer
               shell: pwsh
               if: matrix.platform == 'windows-latest'
               run: |
-                  iscc ../packing/win/win/installer_${{ matrix.arch }}.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/out
+                  iscc ../packing/win/installer_${{ matrix.arch }}.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/out
 
             - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Uploading artifact
               if: matrix.platform == 'windows-latest'
