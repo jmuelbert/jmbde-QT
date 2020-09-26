@@ -131,7 +131,7 @@ jobs:
               run: |
                   mkdir build
                   cd build
-                  conan install ../canon/ecm
+                  conan install ../conan/ecm
                   cd ..
 
             - name: Configure CMake
