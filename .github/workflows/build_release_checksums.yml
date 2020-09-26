@@ -1,4 +1,4 @@
-name: "Release checksums"
+name: "Build Release checksums"
 
 on:
     release:
