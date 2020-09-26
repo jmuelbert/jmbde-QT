@@ -113,6 +113,7 @@ Name: "core"; Description: "{cm:ProgramFiles}"; Types: full compact custom; Flag
 Name: "translations"; Description: "{cm:Translations}"; Types: full compact custom
 Name: "documents"; Description: "{cm:Documents}"; Types: full
 
+
 [Files]
 ; App
 Source: "program\bin\jmbde.exe"; DestDir: "{app}"; Components: core; Flags: ignoreversion
@@ -129,7 +130,7 @@ Source: "program\bin\jmbdewidgets.dll"; DestDir: "{app}"; Components: core; Flag
 ; Qt VS libs
 Source: "program\bin\d3dcompiler_47.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "program\bin\libEGL.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "program\bin\libGLESV2.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "program\bin\libGLESv2.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "program\bin\opengl32sw.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 
 ; Qt libs
@@ -163,9 +164,6 @@ Source: "program\bin\imageformats\qtiff.dll"; DestDir: "{app}\imageformats"; Com
 Source: "program\bin\imageformats\qwbmp.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion
 Source: "program\bin\imageformats\qwebp.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion
 
-; - platforminputcontexts
-Source: "program\bin\platforminputcontexts\qtvirtualkeyboardplugin.dll"; DestDir: "{app}\platforminputcontexts"; Components: core; Flags: ignoreversion
-
 ; - platforms
 Source: "program\bin\platforms\qwindows.dll"; DestDir: "{app}\platforms"; Components: core; Flags: ignoreversion
 
@@ -195,13 +193,6 @@ Source: "program\bin\sqldrivers\qsqlpsql.dll"; DestDir: "{app}\sqldrivers"; Comp
 
 ; - styles
 Source: "program\bin\styles\qwindowsvistastyle.dll"; DestDir: "{app}\styles"; Components: core; Flags: ignoreversion
-
-; - virtualkeyboard
-Source: "program\bin\virtualkeyboard\qtvirtualkeyboard_hangul.dll"; DestDir: "{app}\virtualkeyboard"; Components: core; Flags: ignoreversion
-Source: "program\bin\virtualkeyboard\qtvirtualkeyboard_openwnn.dll"; DestDir: "{app}\virtualkeyboard"; Components: core; Flags: ignoreversion
-Source: "program\bin\virtualkeyboard\qtvirtualkeyboard_pinyin.dll"; DestDir: "{app}\virtualkeyboard"; Components: core; Flags: ignoreversion
-Source: "program\bin\virtualkeyboard\qtvirtualkeyboard_tcime.dll"; DestDir: "{app}\virtualkeyboard"; Components: core; Flags: ignoreversion
-Source: "program\bin\virtualkeyboard\qtvirtualkeyboard_thai.dll"; DestDir: "{app}\virtualkeyboard"; Components: core; Flags: ignoreversion
 
 ; - translations
 Source: "program\bin\translations\jmbde_ar.qm"; DestDir: "{app}\translations"; Components: translations;  Flags: ignoreversion
