@@ -161,7 +161,7 @@ jobs:
 
                   Compress-Archive -Path ${env:archiveName} ${env:archiveName}'.zip'
 
-                  iscc "../packaging/win/installer_${{ matrix.arch }}.iss"
+                  iscc "installer_${{ matrix.arch }}.iss"
                   # -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/out
                   $name = ${env:archiveName}
                   echo "::set-env name=packageName::$name"

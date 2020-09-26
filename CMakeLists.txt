@@ -352,6 +352,9 @@ add_subdirectory(src/libs)
 add_subdirectory(src/app)
 # add_subdirectory(src/appquick)
 
+# The package helpers
+add_subdirectory(packaging)
+
 set(LICENSE_FILE "LICENSE")
 set(README_FILE "README.md")
 list(APPEND DOCS ${LICENSE_FILE} ${README_FILE})

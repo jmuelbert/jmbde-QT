@@ -67,7 +67,7 @@ jobs:
               run: |
                   DEBIAN_FRONTEND=noninteractive apt-get install -y keyboard-configuration build-essential software-properties-common make cmake ninja-build git pkgconf
                   DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-pip
-                  DEBIAN_FRONTEND=noninteractive apt-get install libfontconfig1 mesa-common-dev libglu1-mesa-dev
+                  DEBIAN_FRONTEND=noninteractive apt-get install -y libfontconfig1 mesa-common-dev libglu1-mesa-dev
                   DEBIAN_FRONTEND=noninteractive apt-get install -y qtbase5-dev qttools5-dev qttools5-dev-tools libqt5help5  libqt5svg5
                   DEBIAN_FRONTEND=noninteractive qtdeclarative5-dev qtdeclarative5-dev-tools qt5-image-formats-plugins
                   apt-get autoremove
