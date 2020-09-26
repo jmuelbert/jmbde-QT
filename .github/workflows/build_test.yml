@@ -120,9 +120,19 @@ jobs:
                   restore-keys: |
                       ${{ matrix.config.os }}-${{ env.QT_VERSION }}-ccache-
 
+            - name: Install conan
+              shell: bash
+              run: |
+                  pip3 install conan
+                  conan create conan/ecm
+
             - name: Configure CMake
               shell: cmake -P {0}
               run: |
+                  mkdir build
+                  cd build
+                  canon install ../canon/ecm
+                  cd ..
                   set(ENV{CC} ${{ matrix.config.cc }})
                   set(ENV{CXX} ${{ matrix.config.cxx }})
                   if ("${{ runner.os }}" STREQUAL "Windows" AND NOT "x${{ matrix.config.environment_script }}" STREQUAL "x")

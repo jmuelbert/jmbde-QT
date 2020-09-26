@@ -1,0 +1,40 @@
+name: "Release"
+
+on:
+    push:
+        tags:
+            - "*"
+
+env:
+    QT_VERSION: 5.15.1
+
+jobs:
+    release:
+        name: "release on ${{ matrix.config.os }} with portable ${{ matrix.config.portable-option }}"
+        runs-on: "${{ matrix.config.os }}"
+        strategy:
+            fail-fast: false
+            matrix:
+                config:
+                    - { os: "ubuntu-16.04", portable-option: "Off" }
+                    - {
+                          os: "windows-latest",
+                          portable-option: "Off",
+                          portable-name: "-setup.exe",
+                      }
+                    - {
+                          os: "windows-latest",
+                          portable-option: "On",
+                          portable-name: "-portable.zip",
+                      }
+                    - { os: "macos-latest", portable-option: "Off" }
+
+        steps:
+            - uses: actions/checkout@v2
+              with:
+                  submodules: recursive
+
+            - name: Install Python 3.x
+              uses: actions/setup-python@v2
+              with:
+                  python-version: "3.x"
