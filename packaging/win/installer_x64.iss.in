@@ -115,147 +115,147 @@ Name: "documents"; Description: "{cm:Documents}"; Types: full
 
 [Files]
 ; App
-Source: "bin\jmbde.exe"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "bin\jmbdemodels.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "bin\jmbdewidgets.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "program\bin\jmbde.exe"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "program\bin\jmbdemodels.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "program\bin\jmbdewidgets.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 
 ; VC Redist
-; Source: "bin\msvcp140.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-; Source: "bin\vcruntime140.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-; Source: "bin\vcruntime140_1.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-; Source: "bin\concrt140.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-; Source: "bin\vc_redist.x64.exe"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+; Source: "program\bin\msvcp140.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+; Source: "program\bin\vcruntime140.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+; Source: "program\bin\vcruntime140_1.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+; Source: "program\bin\concrt140.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+; Source: "program\bin\vc_redist.x64.exe"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 
 ; Qt VS libs
-Source: "bin\d3dcompiler_47.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "bin\libEGL.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "bin\libGLESV2.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "bin\opengl32sw.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "program\bin\d3dcompiler_47.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "program\bin\libEGL.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "program\bin\libGLESV2.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "program\bin\opengl32sw.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 
 ; Qt libs
-Source: "bin\Qt5Core.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "bin\Qt5Gui.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "bin\Qt5Network.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "bin\Qt5PrintSupport.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "bin\Qt5Qml.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "bin\Qt5QmlModels.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "bin\Qt5Quick.dll  "; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "bin\Qt5QuickWidgets.dll   "; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "bin\Qt5Sql.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "bin\Qt5Svg.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "bin\Qt5Widgets.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "program\bin\Qt5Core.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "program\bin\Qt5Gui.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "program\bin\Qt5Network.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "program\bin\Qt5PrintSupport.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "program\bin\Qt5Qml.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "program\bin\Qt5QmlModels.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "program\bin\Qt5Quick.dll  "; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "program\bin\Qt5QuickWidgets.dll   "; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "program\bin\Qt5Sql.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "program\bin\Qt5Svg.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "program\bin\Qt5Widgets.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 
 ; Qt plugins
 ; - bearer
-Source: "bin\bearer\qgenericbearer.dll"; DestDir: "{app}\bearer"; Components: core; Flags: ignoreversion
+Source: "program\bin\bearer\qgenericbearer.dll"; DestDir: "{app}\bearer"; Components: core; Flags: ignoreversion
 
 ; - iconengines
-Source: "bin\iconengines\qsvgicon.dll"; DestDir: "{app}\iconengines"; Components: core; Flags: ignoreversion
+Source: "program\bin\iconengines\qsvgicon.dll"; DestDir: "{app}\iconengines"; Components: core; Flags: ignoreversion
 
 ; - imageformats
-Source: "bin\imageformats\qgif.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion
-Source: "bin\imageformats\qicns.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion
-Source: "bin\imageformats\qico.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion
-Source: "bin\imageformats\qjpeg.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion
-Source: "bin\imageformats\qsvg.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion
-Source: "bin\imageformats\qtga.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion
-Source: "bin\imageformats\qtiff.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion
-Source: "bin\imageformats\qwbmp.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion
-Source: "bin\imageformats\qwebp.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion
+Source: "program\bin\imageformats\qgif.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion
+Source: "program\bin\imageformats\qicns.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion
+Source: "program\bin\imageformats\qico.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion
+Source: "program\bin\imageformats\qjpeg.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion
+Source: "program\bin\imageformats\qsvg.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion
+Source: "program\bin\imageformats\qtga.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion
+Source: "program\bin\imageformats\qtiff.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion
+Source: "program\bin\imageformats\qwbmp.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion
+Source: "program\bin\imageformats\qwebp.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion
 
 ; - platforminputcontexts
-Source: "bin\platforminputcontexts\qtvirtualkeyboardplugin.dll"; DestDir: "{app}\platforminputcontexts"; Components: core; Flags: ignoreversion
+Source: "program\bin\platforminputcontexts\qtvirtualkeyboardplugin.dll"; DestDir: "{app}\platforminputcontexts"; Components: core; Flags: ignoreversion
 
 ; - platforms
-Source: "bin\platforms\qwindows.dll"; DestDir: "{app}\platforms"; Components: core; Flags: ignoreversion
+Source: "program\bin\platforms\qwindows.dll"; DestDir: "{app}\platforms"; Components: core; Flags: ignoreversion
 
 ; - printsupport
-Source: "bin\printsupport\windowsprintersupport.dll"; DestDir: "{app}\printsupport"; Components: core; Flags: ignoreversion
+Source: "program\bin\printsupport\windowsprintersupport.dll"; DestDir: "{app}\printsupport"; Components: core; Flags: ignoreversion
 
 ; - qmltooling
-Source: "bin\qmltooling\qmldbg_debugger.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
-Source: "bin\qmltooling\qmldbg_inspector.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
-Source: "bin\qmltooling\qmldbg_local.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
-Source: "bin\qmltooling\qmldbg_messages.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
-Source: "bin\qmltooling\qmldbg_native.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
-Source: "bin\qmltooling\qmldbg_nativedebugger.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
-Source: "bin\qmltooling\qmldbg_preview.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
-Source: "bin\qmltooling\qmldbg_profiler.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
-Source: "bin\qmltooling\qmldbg_quickprofiler.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
-Source: "bin\qmltooling\qmldbg_server.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
-Source: "bin\qmltooling\qmldbg_tcp.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
+Source: "program\bin\qmltooling\qmldbg_debugger.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
+Source: "program\bin\qmltooling\qmldbg_inspector.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
+Source: "program\bin\qmltooling\qmldbg_local.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
+Source: "program\bin\qmltooling\qmldbg_messages.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
+Source: "program\bin\qmltooling\qmldbg_native.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
+Source: "program\bin\qmltooling\qmldbg_nativedebugger.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
+Source: "program\bin\qmltooling\qmldbg_preview.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
+Source: "program\bin\qmltooling\qmldbg_profiler.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
+Source: "program\bin\qmltooling\qmldbg_quickprofiler.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
+Source: "program\bin\qmltooling\qmldbg_server.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
+Source: "program\bin\qmltooling\qmldbg_tcp.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
 
 ; - scenegraph
-Source: "bin\scenegraph\qsgd3d12backend.dll"; DestDir: "{app}\scenegraph"; Components: core; Flags: ignoreversion
+Source: "program\bin\scenegraph\qsgd3d12backend.dll"; DestDir: "{app}\scenegraph"; Components: core; Flags: ignoreversion
 
 ; - sqldrivers
-Source: "bin\sqldrivers\qsqlite.dll"; DestDir: "{app}\sqldrivers"; Components: core; Flags: ignoreversion
-Source: "bin\sqldrivers\qsqlodbc.dll"; DestDir: "{app}\sqldrivers"; Components: core; Flags: ignoreversion
-Source: "bin\sqldrivers\qsqlpsql.dll"; DestDir: "{app}\sqldrivers"; Components: core; Flags: ignoreversion
+Source: "program\bin\sqldrivers\qsqlite.dll"; DestDir: "{app}\sqldrivers"; Components: core; Flags: ignoreversion
+Source: "program\bin\sqldrivers\qsqlodbc.dll"; DestDir: "{app}\sqldrivers"; Components: core; Flags: ignoreversion
+Source: "program\bin\sqldrivers\qsqlpsql.dll"; DestDir: "{app}\sqldrivers"; Components: core; Flags: ignoreversion
 
 ; - styles
-Source: "bin\styles\qwindowsvistastyle.dll"; DestDir: "{app}\styles"; Components: core; Flags: ignoreversion
+Source: "program\bin\styles\qwindowsvistastyle.dll"; DestDir: "{app}\styles"; Components: core; Flags: ignoreversion
 
 ; - virtualkeyboard
-Source: "bin\virtualkeyboard\qtvirtualkeyboard_hangul.dll"; DestDir: "{app}\virtualkeyboard"; Components: core; Flags: ignoreversion
-Source: "bin\virtualkeyboard\qtvirtualkeyboard_openwnn.dll"; DestDir: "{app}\virtualkeyboard"; Components: core; Flags: ignoreversion
-Source: "bin\virtualkeyboard\qtvirtualkeyboard_pinyin.dll"; DestDir: "{app}\virtualkeyboard"; Components: core; Flags: ignoreversion
-Source: "bin\virtualkeyboard\qtvirtualkeyboard_tcime.dll"; DestDir: "{app}\virtualkeyboard"; Components: core; Flags: ignoreversion
-Source: "bin\virtualkeyboard\qtvirtualkeyboard_thai.dll"; DestDir: "{app}\virtualkeyboard"; Components: core; Flags: ignoreversion
+Source: "program\bin\virtualkeyboard\qtvirtualkeyboard_hangul.dll"; DestDir: "{app}\virtualkeyboard"; Components: core; Flags: ignoreversion
+Source: "program\bin\virtualkeyboard\qtvirtualkeyboard_openwnn.dll"; DestDir: "{app}\virtualkeyboard"; Components: core; Flags: ignoreversion
+Source: "program\bin\virtualkeyboard\qtvirtualkeyboard_pinyin.dll"; DestDir: "{app}\virtualkeyboard"; Components: core; Flags: ignoreversion
+Source: "program\bin\virtualkeyboard\qtvirtualkeyboard_tcime.dll"; DestDir: "{app}\virtualkeyboard"; Components: core; Flags: ignoreversion
+Source: "program\bin\virtualkeyboard\qtvirtualkeyboard_thai.dll"; DestDir: "{app}\virtualkeyboard"; Components: core; Flags: ignoreversion
 
 ; - translations
-Source: "bin\translations\jmbde_ar.qm"; DestDir: "{app}\translations"; Components: translations;  Flags: ignoreversion
-Source: "bin\translations\jmbde_bg.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\jmbde_ca.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\jmbde_cs.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\jmbde_da.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\jmbde_de.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\jmbde_en.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\jmbde_es.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\jmbde_fa.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\jmbde_fi.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\jmbde_fr.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\jmbde_gd.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\jmbde_gl.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\jmbde_he.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\jmbde_hu.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\jmbde_it.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\jmbde_ja.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\jmbde_ko.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\jmbde_lt.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\jmbde_lv.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\jmbde_nl.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\jmbde_pl.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\jmbde_pt.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\jmbde_ru.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\jmbde_sk.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\jmbde_tr.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\jmbde_uk.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\jmbde_zh_CN.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\jmbde_zh_TW.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\jmbde_ar.qm"; DestDir: "{app}\translations"; Components: translations;  Flags: ignoreversion
+Source: "program\bin\translations\jmbde_bg.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\jmbde_ca.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\jmbde_cs.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\jmbde_da.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\jmbde_de.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\jmbde_en.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\jmbde_es.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\jmbde_fa.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\jmbde_fi.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\jmbde_fr.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\jmbde_gd.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\jmbde_gl.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\jmbde_he.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\jmbde_hu.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\jmbde_it.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\jmbde_ja.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\jmbde_ko.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\jmbde_lt.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\jmbde_lv.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\jmbde_nl.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\jmbde_pl.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\jmbde_pt.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\jmbde_ru.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\jmbde_sk.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\jmbde_tr.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\jmbde_uk.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\jmbde_zh_CN.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\jmbde_zh_TW.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 ; - qt translations
-Source: "bin\translations\qt_ar.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\qt_bg.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\qt_ca.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\qt_cs.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\qt_da.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\qt_de.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\qt_en.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\qt_es.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\qt_fi.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\qt_fr.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\qt_gd.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\qt_he.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\qt_hu.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\qt_it.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\qt_ja.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\qt_ko.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\qt_lv.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\qt_pl.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\qt_ru.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\qt_sk.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\qt_uk.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "bin\translations\qt_zh_TW.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\qt_ar.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\qt_bg.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\qt_ca.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\qt_cs.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\qt_da.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\qt_de.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\qt_en.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\qt_es.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\qt_fi.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\qt_fr.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\qt_gd.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\qt_he.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\qt_hu.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\qt_it.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\qt_ja.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\qt_ko.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\qt_lv.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\qt_pl.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\qt_ru.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\qt_sk.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\qt_uk.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "program\bin\translations\qt_zh_TW.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 
 ; Docs
 Source: "..\..\*.md"; DestDir: "{app}"; Components: core; Flags: ignoreversion
@@ -281,7 +281,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Run]
 ; The following command detects whether or not the c++ runtime need to be installed.
-Filename: "bin\vcredist_{#ISS_ARCH}.exe"; Check: NeedsVCRedistInstall; Parameters: "/passive /Q:a /c:""msiexec /qb /i vcredist_{#ISS_ARCH}.msi"" "; StatusMsg: Checking for VC++ RunTime ...
+Filename: "program\bin\vcredist_{#ISS_ARCH}.exe"; Check: NeedsVCRedistInstall; Parameters: "/passive /Q:a /c:""msiexec /qb /i vcredist_{#ISS_ARCH}.msi"" "; StatusMsg: Checking for VC++ RunTime ...
 
 
 [Code]
