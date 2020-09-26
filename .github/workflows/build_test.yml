@@ -3,17 +3,16 @@ name: "CI Build Test"
 on: [push, pull_request]
 
 env:
-    QT_VERSION: 5.15.0
-    CMAKE_VERSION: 3.18.0
-    NINJA_VERSION: 1.10.0
+    QT_VERSION: 5.15.1
+    CMAKE_VERSION: 3.18.2
+    NINJA_VERSION: 1.10.1
     CCACHE_VERSION: 3.7.11
-    GOOGLE_TEST_VERSION: 1.10.0
     BUILD_TYPE: Release
 
 jobs:
     build:
         name: "${{ matrix.config.os }}"
-        runs-on: $${{ matrix.config.os }}
+        runs-on: ${{ matrix.config.os }}
         strategy:
             fail-fast: false
             matrix:
@@ -204,7 +203,7 @@ jobs:
             - name: Publish the release notes
               uses: release-drafter/release-drafter@v5.11.0
               with:
-                publish: "${{ steps.check-version.outputs.tag != '' }}"
-                tag: "${{ steps.check-version.outputs.tag }}"
+                  publish: "${{ steps.check-version.outputs.tag != '' }}"
+                  tag: "${{ steps.check-version.outputs.tag }}"
               env:
-                GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+                  GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"

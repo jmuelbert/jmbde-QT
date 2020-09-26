@@ -15,10 +15,7 @@ jobs:
 
             - name: "Format Codes"
               run: |
-                  pwd
-                  ls src
-                  clang-format-9 --version
-                  clang-format-9 -i src/*.cpp src/*/*.cpp  src/*.h src/*/*.h
+                  find . -regex '.*\.\(cpp\|hpp\|cu\|c\|h\)' -exec clang-format -style=file -i {} \;
 
             - name: "Check Diff"
               run: git diff --exit-code HEAD

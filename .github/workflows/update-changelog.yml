@@ -13,6 +13,7 @@ jobs:
             - uses: jackstr/update-changelog@master
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
             - uses: jackstr/create-pull-request@master
               with:
                   branch: update-changelog
