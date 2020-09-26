@@ -43,10 +43,10 @@ jobs:
                   subodules: recursive
                   fetch-depth: 0
 
-            - name: Install Python 3.8
-              uses: actions/python@3.4.10
+            - name: Install Python 3.x
+              uses: actions/setup-python@v2
               with:
-                  python-version: 3.8
+                  python-version: "3.*"
 
             - name: Restore Qt from Cache
               id: cache-qt

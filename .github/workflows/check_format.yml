@@ -15,7 +15,8 @@ jobs:
 
             - name: "Format Codes"
               run: |
-                  find . -regex '.*\.\(cpp\|hpp\|cu\|c\|h\)' -exec clang-format -style=file -i {} \;
+                  find . -name "*.cpp" -exec clang-format-9 -style=file -i {} \;
+                  find . -name "*.h" -exec clang-format-9 -style=file -i {} \;
 
             - name: "Check Diff"
               run: git diff --exit-code HEAD
