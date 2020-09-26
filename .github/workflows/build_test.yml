@@ -195,7 +195,7 @@ jobs:
                   execute_process(COMMAND ccache -s)
 
             - name: Upload Artifact
-              uses: actions/upload-artifact@v1
+              uses: actions/upload-artifact@v2.1.4
               with:
                   name: "jmbde-${{ matrix.config.os }}-${{ github.sha }}"
                   path: build/${{ matrix.config.binary }}
