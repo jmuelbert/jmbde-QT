@@ -160,7 +160,7 @@ jobs:
                   windeployqt --qmldir . ${env:archiveName}\bin\${env:targetName}
 
                   Compress-Archive -Path ${env:archiveName} ${env:archiveName}'.zip'
-                  nsis  ../packaging/win//installer_${{ matrix.arch }}.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/out
+                  nsis  ../packaging/win//installer_${{ matrix.arch }}.nsis -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/out
                   $name = ${env:archiveName}
                   echo "::set-env name=packageName::$name"
                   Write-Host 'packageName:'${env:packageName}
