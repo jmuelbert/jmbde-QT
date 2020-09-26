@@ -260,6 +260,8 @@ jobs:
               run: |
                   Set-Location "build"
                   iscc ./installer_${{ matrix.arch }}.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }}
+
+
             - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Uploading artifact
               if: matrix.platform == 'windows-latest'
               uses: actions/upload-artifact@master
@@ -277,11 +279,19 @@ jobs:
                   tag: ${{ github.ref}}
                   overwrite: true
 
-            - name: Upload artifact
-              uses: actions/upload-artifact@v2-preview
+
+            - name: Release on Windows
+              if: matrix.config.os == 'windows-latest' # && (matrix.qt_version == '5.15.0') # && startsWith(github.ref, 'refs/tags')
+              uses: softprops/action-gh-release@v1
               with:
-                  name: jmbde*Setup.exe
-                  path: build/out/jmbde*Setup.exe
+                  draft: true
+                  path: build/jmbde*.exe
+                  prerelease: ${{ steps.get_version.outputs.ISBETA }}
+                  files: jmbde-${{ steps.get_version.outputs.VERSION }}-${{ matrix.arch }}-setup.exe
+                  name: JMBDE ${{ steps.get_version.outputs.VERSION }}
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
             # === Linux Build =====================================
             - name: Linux - ${{ matrix.qt_version }} - Generate Dependencies and Build
               shell: bash
@@ -340,24 +350,5 @@ jobs:
                   prerelease: ${{ steps.get_version.outputs.ISBETA }}
                   files: build/jmbde-${{ steps.get_version.outputs.VERSION }}-x64.dmg
                   name: JMBDE  ${{ steps.get_version.outputs.VERSION }}
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-            - name: Pack to exe on Windows
-              if: matrix.config.os == 'windows-latest' # && (matrix.qt_version == '5.15.0') # && startsWith(github.ref, 'refs/tags')
-              shell: bash
-              run: |
-                  mkdir build/out
-                  mv build/jmbde.exe build/out
-                  ../Qt/*/*/bin/windeployqt.exe build/out/jmbde.exe --no-translations
-                  iscc ../packing/win/installer_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/out
-            - name: Release on Windows
-              if: matrix.config.os == 'windows-latest' # && (matrix.qt_version == '5.15.0') # && startsWith(github.ref, 'refs/tags')
-              uses: softprops/action-gh-release@v1
-              with:
-                  draft: true
-                  prerelease: ${{ steps.get_version.outputs.ISBETA }}
-                  files: jmbde-${{ steps.get_version.outputs.VERSION }}-x64-setup.exe
-                  name: JMBDE ${{ steps.get_version.outputs.VERSION }}
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
