@@ -256,7 +256,7 @@ jobs:
               if: matrix.platform == 'windows-latest'
               run: |
                   Set-Location "build"
-                  iscc ../packing/win/installer_${{ matrix.arch }}.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }}
+                  iscc ./installer_${{ matrix.arch }}.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }}
             - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Uploading artifact
               if: matrix.platform == 'windows-latest'
               uses: actions/upload-artifact@master

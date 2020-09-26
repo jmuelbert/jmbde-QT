@@ -62,6 +62,7 @@ matrix:
               - cd build
               - conan install ..
               - cmake .. -DCMAKE_INSTALL_PREFIX:PATH=../appdir/usr -Wno-dev -DBUILD_SHARED_LIBS=ON -DENABLE_TESTING=ON
+              - cmake --build .
               - make install
               - cd ..
               - export LD_LIBRARY_PATH=$TRAVIS_BUILD_DIR/appdir/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
