@@ -44,7 +44,7 @@ jobs:
                   fetch-depth: 0
 
             - name: Install Python 3.8
-              uses: actions/python@v1
+              uses: actions/python@3.4.10
               with:
                   python-version: 3.8
 
