@@ -15,10 +15,11 @@ jobs:
 
             - name: "Format Codes"
               run: |
-                pwd
-                ls src
-                clang-format-9 --version
-                clang-format-9 -i src/**/*.cpp  src/**/*.h
+                  pwd
+                  ls src
+                  clang-format-9 --version
+                  clang-format-9 -i src/*.cpp src/*/*.cpp  src/*.h src/*/*.h
+
             - name: "Check Diff"
               run: git diff --exit-code HEAD
 

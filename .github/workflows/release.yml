@@ -6,7 +6,7 @@ on:
             - "*"
 
 env:
-    QT_VERSION: 5.15.0
+    QT_VERSION: 5.15.1
 
 jobs:
     release:
@@ -16,7 +16,7 @@ jobs:
             fail-fast: false
             matrix:
                 config:
-                    - { os: "ubuntu-16.04", portable-option: "Off" }
+                    - { os: "ubuntu-latest", portable-option: "Off" }
                     - {
                           os: "windows-latest",
                           portable-option: "Off",
@@ -34,10 +34,10 @@ jobs:
               with:
                   submodules: recursive
 
-            - name: Install Python 3.7
+            - name: Install Python 3.8
               uses: actions/setup-python@v1
               with:
-                  python-version: 3.7
+                  python-version: 3.8
 
             - name: Restore Qt from cache
               id: cache-qt
@@ -58,6 +58,7 @@ jobs:
                   cd build
                   cmake .. -DCMAKE_BUILD_TYPE=Release -DPORTABLE_VERSION=${{ matrix.config.portable-option }}
                   cmake --build . --config Release -j2
+
             - name: Get the version
               id: get_version
               shell: bash
@@ -70,6 +71,7 @@ jobs:
                   else
                     echo ::set-output name=ISBETA::true
                   fi
+
             - name: Pack to AppImage
               if: startsWith(matrix.config.os, 'ubuntu')
               run: |
@@ -81,7 +83,8 @@ jobs:
                   cp ../.ci/linux/jmbde.desktop . && cp ../.ci/linux/jmbde-icon.png .
                   cp jmbde.desktop default.desktop
                   ./linuxdeployqt*.AppImage ./jmbde -appimage -qmake=../../Qt/${{ env.QT_VERSION }}/gcc_64/bin/qmake
-                  mv CP_Editor-${{steps.get_version.outputs.VERSION }}-x86_64.AppImage jmbde-${{ steps.get_version.outputs.VERSION }}-linux-x86_64.AppImage
+                  mv jmbde-${{steps.get_version.outputs.VERSION }}-x86_64.AppImage jmbde-${{ steps.get_version.outputs.VERSION }}-linux-x86_64.AppImage
+
             - name: Release AppImage
               if: startsWith(matrix.config.os, 'ubuntu')
               uses: softprops/action-gh-release@v1
@@ -89,7 +92,7 @@ jobs:
                   draft: true
                   prerelease: ${{ steps.get_version.outputs.ISBETA }}
                   files: build/jmbde-${{ steps.get_version.outputs.VERSION }}-linux-x86_64.AppImage
-                  name: CP Editor ${{ steps.get_version.outputs.VERSION }}
+                  name: jmbde ${{ steps.get_version.outputs.VERSION }}
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
