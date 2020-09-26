@@ -94,6 +94,7 @@ jobs:
                   # 14.1 is for vs2017, 14.2 is vs2019, following the upstream vcpkg build from Qv2ray-deps repo
                   toolset: 14.2
                   arch: ${{ matrix.arch }}
+
             - name: Cache Qt
               id: cache-qt
               uses: actions/cache@v1
@@ -133,6 +134,7 @@ jobs:
                   choco install -y ninja
                   choco install -y png2ico
                   choco install -y innosetup
+
             # === CMake and Ninja =====================================
             - name: Download Ninja and CMake
               id: cmake_and_ninja
@@ -243,6 +245,7 @@ jobs:
               if: matrix.platform == 'windows-latest'
               run: |
                   Set-Location "build/program"
+                  call "${ENV:ProgramFiles(x86)}Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat"  "${{ matrix.arch }}"
                   windeployqt --qmldir . bin/jmbde.exe bin/jmbdewidgets.dll bin/jmbdemodels.dll
             - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Create 7z Release
               if: matrix.platform == 'windows-latest'

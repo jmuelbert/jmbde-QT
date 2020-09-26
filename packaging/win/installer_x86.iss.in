@@ -10,7 +10,7 @@
 ; #define AppVeyorBuildNumber GetEnv("APPVEYOR_BUILD_NUMBER")
 #define AppPublisher "Jürgen Mülbert"
 #define AppURL "https://jmuelbert.github.io/jmbde-QT"
-#define ISS_ARCH 'x86'
+#define ISS_ARCH
 
 ; Microsoft C/C++ runtime libraries.
 ; #define VCREDIST_CRT_DIR GetEnv("VCREDIST_CRT_DIR")
