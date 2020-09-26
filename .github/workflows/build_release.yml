@@ -9,7 +9,7 @@ env:
     QT_VERSION: 5.15.1
 
 jobs:
-    release:
+    build:
         name: "release on ${{ matrix.config.os }} with portable ${{ matrix.config.portable-option }}"
         runs-on: "${{ matrix.config.os }}"
         strategy:

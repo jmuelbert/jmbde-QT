@@ -6,7 +6,7 @@ on:
             - published
 
 jobs:
-    build:
+    s:
         name: "Release checksums"
         runs-on: "ubuntu-latest"
 
