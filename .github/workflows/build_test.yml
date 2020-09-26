@@ -126,7 +126,8 @@ jobs:
               shell: bash
               run: |
                   pip3 install conan
-                  conan create conan/ecm
+                  conan user
+                  conan create ./conan/ecm
 
             - name: Install conan modules in build
               shell: bash
