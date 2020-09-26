@@ -126,13 +126,17 @@ jobs:
                   pip3 install conan
                   conan create conan/ecm
 
-            - name: Configure CMake
-              shell: cmake -P {0}
+            - name: Install conan modules in build
+              shell: bash
               run: |
                   mkdir build
                   cd build
                   canon install ../canon/ecm
                   cd ..
+
+            - name: Configure CMake
+              shell: cmake -P {0}
+              run: |
                   set(ENV{CC} ${{ matrix.config.cc }})
                   set(ENV{CXX} ${{ matrix.config.cxx }})
                   if ("${{ runner.os }}" STREQUAL "Windows" AND NOT "x${{ matrix.config.environment_script }}" STREQUAL "x")
