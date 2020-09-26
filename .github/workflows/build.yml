@@ -245,7 +245,7 @@ jobs:
               if: matrix.platform == 'windows-latest'
               run: |
                   Set-Location "build/program"
-                  Get-ChildItem $ENV:
+                  Get-ChildItem $ENV
                   windeployqt --qmldir . bin/jmbde.exe bin/jmbdewidgets.dll bin/jmbdemodels.dll
             - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Create 7z Release
               if: matrix.platform == 'windows-latest'
