@@ -294,7 +294,7 @@ jobs:
                   mkdir build
                   cd build
                   conan install ..
-                  cmake .. -DCMAKE_INSTALL_PREFIX=./appdir/usr -DCMAKE_BUILD_TYPE=${{ m${ENV:ProgramFiles(x86)}${ENV:ProgramFiles(x86)}atrix.build_type }}
+                  cmake .. -DCMAKE_INSTALL_PREFIX=./appdir/usr -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
                   cmake --build . --parallel $(nproc)
                   cmake --install .
             - name: Linux - ${{ matrix.qt_version }} - Generating AppImage
