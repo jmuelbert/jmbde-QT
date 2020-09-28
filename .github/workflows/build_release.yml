@@ -35,6 +35,6 @@ jobs:
                   submodules: recursive
 
             - name: Install Python 3.x
-              uses: actions/setup-python@v2
+              uses: actions/setup-python@v2.1.2
               with:
                   python-version: "3.x"
