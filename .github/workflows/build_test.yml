@@ -1,43 +1,73 @@
 name: "CI Build Test"
 
-on: [push, pull_request]
+on:
+    push:
+        branches:
+            - master
+            - develop
+        paths-ignore:
+            - "README.md"
+            - "LICENSE"
+
+    pull_request:
+        paths-ignore:
+            - "README.md"
+            - "LICENSE"
+    release:
+        types: [published]
 
 env:
-    QT_VERSION: 5.15.1
-    CMAKE_VERSION: 3.18.2
-    NINJA_VERSION: 1.10.1
+    QT_VERSION: 5.15.0
+    CMAKE_VERSION: 3.18.0
+    NINJA_VERSION: 1.10.0
     CCACHE_VERSION: 3.7.11
+    GOOGLE_TEST_VERSION: 1.10.0
     BUILD_TYPE: Release
 
 jobs:
+    check_commit_msg:
+        outputs:
+            commit_message: ${{ steps.get_message.outputs.message }}
+        name: Check if the workflow has been disabled.
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Get commit message
+              id: get_message
+              run: |
+                  echo "::set-output name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
+                  echo "::set-env name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
     build:
-        name: "${{ matrix.config.os }}"
-        runs-on: ${{ matrix.config.os }}
+        needs: check_commit_msg
+        if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_MAIN') }}
+
         strategy:
-            fail-fast: false
             matrix:
-                config:
-                    - {
-                          os: windows-latest,
-                          cc: "cl",
-                          cxx: "cl",
-                          binary: "jmbde.exe",
-                          environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat",
-                      }
+                platform: [ubuntu-latest, macos-latest, windows-latest]
+                arch: [x86, x64]
+                build_type: [Release]
+                mac_target: [10.14]
+                include:
+                    - platform: windows-latest
+                      arch: x86
+                      qtarch: win32_msvc2019
+                      build_type: Release
+                    - platform: windows-latest
+                      arch: x64
+                      qtarch: win64_msvc2019_64
+                      build_type: Release
+                      environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
 
-                    - {
-                          os: ubuntu-latest,
-                          cc: "gcc",
-                          cxx: "g++",
-                          binary: "jmbde",
-                      }
+                exclude:
+                    - platform: ubuntu-latest
+                      arch: x86
+                    - platform: macos-latest
+                      arch: x86
+            fail-fast: false
 
-                    - {
-                          os: macos-latest,
-                          cc: "clang",
-                          cxx: "clang++",
-                          binary: "jmbde.app/Contents/MacOS/jmbde",
-                      }
+        runs-on: ${{ matrix.platform }}
+        env:
+            _JMBDE_BUILD_INFO_: "jmbde built from GitHub Action"
 
         steps:
             - uses: actions/checkout@v2
