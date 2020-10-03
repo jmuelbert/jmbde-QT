@@ -43,6 +43,7 @@ jobs:
 
         strategy:
             matrix:
+                qt_version: [5.12.9, 5.15.1]
                 platform: [ubuntu-latest, macos-latest, windows-latest]
                 arch: [x86, x64]
                 build_type: [Release]
