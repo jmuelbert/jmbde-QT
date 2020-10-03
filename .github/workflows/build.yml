@@ -100,18 +100,18 @@ jobs:
               uses: actions/cache@v2.1.1
               with:
                   path: ../Qt
-                  key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ matrix.qt_version }}
+                  key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ env.qt_version }}
 
-            - name: Installing Qt - ${{ matrix.qt_version }}
+            - name: Installing Qt - ${{ env.qt_version }}
               uses: jurplel/install-qt-action@v2
               with:
-                  version: ${{ matrix.qt_version }}
+                  version: ${{ env.qt_version }}
                   arch: ${{ matrix.qtarch }}
                   mirror: "http://mirrors.ocf.berkeley.edu/qt/"
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
             # === Linux =====================================
-            - name: Linux - ${{ matrix.qt_version }} - Build preparation - Install Packages
+            - name: Linux - ${{ env.qt_version }} - Build preparation - Install Packages
               if: matrix.platform == 'ubuntu-latest'
               run: |
                   sudo apt update
@@ -122,12 +122,12 @@ jobs:
                   sudo apt-get install libxcb-xinerama0
                   # sudo apt-get upgrade
             # === macOS =====================================
-            - name: macOS - ${{ matrix.qt_version }} - Build preparation - Install Packages
+            - name: macOS - ${{ env.qt_version }} - Build preparation - Install Packages
               if: matrix.platform == 'macos-latest'
               run: |
                   brew install pkg-config ninja
             # === Winodws =====================================
-            - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Build preparation - Download Dependencies
+            - name: Win-${{ matrix.arch }} - ${{ env.qt_version }} - Build preparation - Download Dependencies
               shell: bash
               if: (matrix.config.os == 'windows-latest')
               run: |
@@ -187,7 +187,7 @@ jobs:
               if: matrix.platform == 'macos-latest'
               run: npm install -g appdmg
 
-            - name: macOS - ${{ matrix.qt_version }} - Generate Dependencies and Build
+            - name: macOS - ${{ env.qt_version }} - Generate Dependencies and Build
               if: matrix.platform == 'macos-latest'
               shell: bash
               run: |
@@ -198,22 +198,22 @@ jobs:
                   cmake --build . --parallel $(sysctl -n hw.logicalcpu)
                   sudo cmake --install .
                   appdmg ./src/app/package_dmg.json ./jmbde.dmg
-            - name: macOS - ${{ matrix.qt_version }} - Uploading Artifact
+            - name: macOS - ${{ env.qt_version }} - Uploading Artifact
               if: matrix.platform == 'macos-latest'
               uses: actions/upload-artifact@master
               with:
-                  name: jmbde-${{ github.sha }}.macOS-${{ matrix.arch }}.qt${{ matrix.qt_version }}.dmg
+                  name: jmbde-${{ github.sha }}.macOS-${{ matrix.arch }}.qt${{ env.qt_version }}.dmg
                   path: ./build/jmbde.dmg
-            - name: macOS - ${{ matrix.qt_version }} - Upload binaries to release
+            - name: macOS - ${{ env.qt_version }} - Upload binaries to release
               uses: svenstaro/upload-release-action@v1-release
-              if: github.event_name == 'release' && matrix.platform == 'macos-latest' && matrix.qt_version == '5.15.0'
+              if: github.event_name == 'release' && matrix.platform == 'macos-latest' && env.qt_version == '5.15.0'
               with:
                   repo_token: ${{ secrets.GITHUB_TOKEN }}
                   file: jmbde.dmg
                   asset_name: jmbde-${{ steps.get_version.outputs.VERSION }}.macOS-${{ matrix.arch }}.dmg
                   tag: $${{ github.ref }}
             # === Windows Build =====================================
-            - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Generate Dependencies and Build
+            - name: Win-${{ matrix.arch }} - ${{ env.qt_version }} - Generate Dependencies and Build
               shell: pwsh
               if: matrix.platform == 'windows-latest'
               env:
@@ -232,37 +232,37 @@ jobs:
                   cmake .. -GNinja -DCMAKE_INSTALL_PREFIX:PATH=./program -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
                   cmake --build . --parallel $(nproc)
                   cmake --install .
-            - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Qt Deploy
+            - name: Win-${{ matrix.arch }} - ${{ env.qt_version }} - Qt Deploy
               shell: pwsh
               if: matrix.platform == 'windows-latest'
               run: |
                   Set-Location "build/program"
                   Get-ChildItem $ENV
                   windeployqt --qmldir . bin/jmbde.exe bin/jmbdewidgets.dll bin/jmbdemodels.dll
-            - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Create 7z Release
+            - name: Win-${{ matrix.arch }} - ${{ env.qt_version }} - Create 7z Release
               if: matrix.platform == 'windows-latest'
               uses: DuckSoft/create-7z-action@v1.0
               with:
                   pathSource: ./build/program/
                   pathTarget: ./release.7z
 
-            - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Build Inno Installer
+            - name: Win-${{ matrix.arch }} - ${{ env.qt_version }} - Build Inno Installer
               shell: pwsh
               if: matrix.platform == 'windows-latest'
               run: |
                   Set-Location "build"
                   iscc ./installer_${{ matrix.arch }}.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }}
 
-            - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Uploading artifact
+            - name: Win-${{ matrix.arch }} - ${{ env.qt_version }} - Uploading artifact
               if: matrix.platform == 'windows-latest'
               uses: actions/upload-artifact@master
               with:
-                  name: jmbde-${{ github.sha }}.Windows-${{ matrix.arch }}.qt${{ matrix.qt_version }}.7z
+                  name: jmbde-${{ github.sha }}.Windows-${{ matrix.arch }}.qt${{ env.qt_version }}.7z
                   path: release.7z
 
-            - name: Win-${{ matrix.arch }} - ${{ matrix.qt_version }} - Upload binaries to release
+            - name: Win-${{ matrix.arch }} - ${{ env.qt_version }} - Upload binaries to release
               uses: svenstaro/upload-release-action@v1-release
-              if: github.event_name == 'release' && matrix.platform == 'windows-latest' && matrix.qt_version == '5.15.0'
+              if: github.event_name == 'release' && matrix.platform == 'windows-latest' && env.qt_version == '5.15.0'
               with:
                   repo_token: ${{ secrets.GITHUB_TOKEN }}
                   file: release.7z
@@ -271,7 +271,7 @@ jobs:
                   overwrite: true
 
             - name: Release on Windows
-              if: matrix.config.os == 'windows-latest' # && (matrix.qt_version == '5.15.0') # && startsWith(github.ref, 'refs/tags')
+              if: matrix.config.os == 'windows-latest' # && (env.qt_version == '5.15.0') # && startsWith(github.ref, 'refs/tags')
               uses: softprops/action-gh-release@v1
               with:
                   draft: true
@@ -283,7 +283,7 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             # === Linux Build =====================================
-            - name: Linux - ${{ matrix.qt_version }} - Generate Dependencies and Build
+            - name: Linux - ${{ env.qt_version }} - Generate Dependencies and Build
               shell: bash
               if: matrix.platform == 'ubuntu-latest'
               env:
@@ -297,7 +297,7 @@ jobs:
                   cmake .. -DCMAKE_INSTALL_PREFIX=./appdir/usr -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
                   cmake --build . --parallel $(nproc)
                   cmake --install .
-            - name: Linux - ${{ matrix.qt_version }} - Generating AppImage
+            - name: Linux - ${{ env.qt_version }} - Generating AppImage
               if: matrix.platform == 'ubuntu-latest'
               run: |
                   cd build
@@ -309,15 +309,15 @@ jobs:
                   ./linuxdeployqt*.AppImage appdir/usr/share/applications/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.54m.so.1.0 -verbose=2 -appimage
                   find appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
                   mv ./jmbde*.AppImage ./jmbde.AppImage
-            - name: Linux - ${{ matrix.qt_version }} - Uploading artifact
-              if: matrix.platform == 'ubuntu-latest' # && (matrix.qt_version == '5.15.0') # && startsWith(github.ref, 'refs/tags')
+            - name: Linux - ${{ env.qt_version }} - Uploading artifact
+              if: matrix.platform == 'ubuntu-latest' # && (env.qt_version == '5.15.0') # && startsWith(github.ref, 'refs/tags')
               uses: actions/upload-artifact@master
               with:
-                  name: jmbde-${{ github.sha }}.linux-${{ matrix.arch }}.qt${{ matrix.qt_version }}.AppImage
+                  name: jmbde-${{ github.sha }}.linux-${{ matrix.arch }}.qt${{ env.qt_version }}.AppImage
                   path: build/jmbde.AppImage
-            - name: Linux - ${{ matrix.qt_version }} - Upload binaries to release
+            - name: Linux - ${{ env.qt_version }} - Upload binaries to release
               uses: svenstaro/upload-release-action@v1-release
-              if: github.event_name == 'release' && matrix.platform == 'ubuntu-latest' && matrix.qt_version == '5.15.0'
+              if: github.event_name == 'release' && matrix.platform == 'ubuntu-latest' && env.qt_version == '5.15.0'
               with:
                   repo_token: ${{ secrets.GITHUB_TOKEN }}
                   file: build/jmbde.AppImage
@@ -326,14 +326,14 @@ jobs:
                   overwrite: true
 
             - name: Pack to dmg on Mac
-              if: matrix.config.os == 'macos-latest' # && (matrix.qt_version == '5.15.0') #&& startsWith(github.ref, 'refs/tags')
+              if: matrix.config.os == 'macos-latest' # && (env.qt_version == '5.15.0') #&& startsWith(github.ref, 'refs/tags')
               run: |
                   cd build
                   ../../Qt/*/*/bin/macdeployqt jmbde.app
                   cp ./src/app/APP_ICON.icns jmbde.app/Contents/Resources
                   hdiutil create -volname jmbde-${{ steps.get_version.outputs.VERSION }}-x64 -srcfolder jmbde.app -ov -format UDZO jmbde-${{ steps.get_version.outputs.VERSION }}-x64.dmg
             - name: Release on Mac
-              if: matrix.config.os == 'macos-latest' # && (matrix.qt_version == '5.15.0') #  && startsWith(github.ref, 'refs/tags')
+              if: matrix.config.os == 'macos-latest' # && (env.qt_version == '5.15.0') #  && startsWith(github.ref, 'refs/tags')
               uses: softprops/action-gh-release@v1
               with:
                   draft: true
