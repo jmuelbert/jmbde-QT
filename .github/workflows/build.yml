@@ -61,6 +61,8 @@ jobs:
                       arch: x86
                     - platform: macos-latest
                       arch: x86
+                    - platform: windows-latest
+                      qt-version: 5.12.9
 
             fail-fast: false
 
