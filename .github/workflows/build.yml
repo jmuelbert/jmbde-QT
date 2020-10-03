@@ -190,7 +190,7 @@ jobs:
             - name: macOS - Install Node
               id: install_node
               if: matrix.platform == 'macos-latest'
-              uses: actions/setup-node@v2.1.1
+              uses: actions/setup-node@v2.1.2
               with:
                   node-version: "12.x"
             - name: macOS - Install appdmg
