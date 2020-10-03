@@ -17,7 +17,7 @@
 
 Q_LOGGING_CATEGORY(jmbdeModelsChipCardLog, "jmuelbert.jmbde", QtWarningMsg)
 
-Model::ChipCard::ChipCard(QObject* parent)
+Model::ChipCard::ChipCard(QObject *parent)
     : CommonData(parent)
 {
     // Set the Model
@@ -38,7 +38,7 @@ void Model::ChipCard::setIndexes()
     m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-auto Model::ChipCard::initializeRelationalModel() -> QSqlRelationalTableModel*
+auto Model::ChipCard::initializeRelationalModel() -> QSqlRelationalTableModel *
 {
     m_model = new QSqlRelationalTableModel(this);
 
@@ -50,7 +50,7 @@ auto Model::ChipCard::initializeRelationalModel() -> QSqlRelationalTableModel*
     return m_model;
 }
 
-auto Model::ChipCard::initializeInputDataModel() -> QSqlRelationalTableModel*
+auto Model::ChipCard::initializeInputDataModel() -> QSqlRelationalTableModel *
 {
     m_model = new QSqlRelationalTableModel(this);
 
@@ -59,14 +59,14 @@ auto Model::ChipCard::initializeInputDataModel() -> QSqlRelationalTableModel*
     return m_model;
 }
 
-auto Model::ChipCard::initializeViewModel() -> QSqlTableModel*
+auto Model::ChipCard::initializeViewModel() -> QSqlTableModel *
 {
     m_model->select();
 
     return m_model;
 }
 
-auto Model::ChipCard::generateTableString(const QString& header) -> QString
+auto Model::ChipCard::generateTableString(const QString &header) -> QString
 {
     QString outString;
 
@@ -91,7 +91,7 @@ auto Model::ChipCard::generateTableString(const QString& header) -> QString
     return outString;
 }
 
-auto Model::ChipCard::generateFormularString(const QString& header) -> QString
+auto Model::ChipCard::generateFormularString(const QString &header) -> QString
 {
     QString outString;
 
