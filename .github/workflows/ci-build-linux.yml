@@ -45,6 +45,8 @@ jobs:
 
             fail-fast: false
 
+        runs-on: ${{ matrix.platform }}
+
         steps:
             - name: Get the version
               id: get_version
