@@ -81,20 +81,19 @@ jobs:
                   arch: ${{ matrix.arch }}
 
             - name: Cache Qt-Windows-${{ matrix.platform }}-${{ matrix.arch }}-${{  matrix.qt_version }}
-              id: cache-qt-windows
-              if: matrix.platform == 'windows-latest'
+              id: cache-qt
               uses: actions/cache@v2.1.1
               with:
                   path: ../Qt
                   key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{  matrix.qt_version }}
 
-            - name: Cache Qt-mac/linux-${{ matrix.platform }}-${{  matrix.qt_version }}
-              id: cache-qt-mac-linux
-              if: matrix.platform == 'ubuntu-latest' || matrix.platform  == 'macos-latest'
-              uses: actions/cache@v2.1.1
+            - name: Installing Qt - ${{  matrix.qt_version }}
+              uses: jurplel/install-qt-action@v2
               with:
-                  path: ../Qt
-                  key: QtCache-${{ matrix.platform }}-${{  matrix.qt_version }}
+                  version: ${{  matrix.qt_version }}
+                  arch: ${{ matrix.qtarch }}
+                  mirror: "http://mirrors.ocf.berkeley.edu/qt/"
+                  cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
             # === Winodws =====================================
             - name: Win-${{ matrix.arch }} - ${{  matrix.qt_version }} - Build preparation - Download Dependencies

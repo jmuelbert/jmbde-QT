@@ -64,6 +64,20 @@ jobs:
               with:
                   python-version: "3.*"
                   architecture: ${{ matrix.arch }}
+            - name: Cache Qt-mac/linux-${{ matrix.platform }}-${{  matrix.qt_version }}
+              id: cache-qt-mac-linux
+              uses: actions/cache@v2.1.1
+              with:
+                  path: ../Qt
+                  key: QtCache-${{ matrix.platform }}-${{  matrix.qt_version }}
+
+            - name: Installing Qt - ${{  matrix.qt_version }}
+              uses: jurplel/install-qt-action@v2
+              with:
+                  version: ${{  matrix.qt_version }}
+                  arch: ${{ matrix.qtarch }}
+                  mirror: "http://mirrors.ocf.berkeley.edu/qt/"
+                  cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
             # === Linux =====================================
             - name: Linux - ${{  matrix.qt_version }} - Build preparation - Install Packages

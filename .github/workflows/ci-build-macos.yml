@@ -82,6 +82,13 @@ jobs:
               run: |
                   brew install pkg-config ninja
 
+            - name: conan_and_ecm
+              id: conan_and_ecm
+              run: |
+                  python -m pip install conan
+                  conan user
+                  conan create ./conan/ecm
+
             # === MacOS Build =====================================
             - name: macOS - Install Node
               id: install_node
