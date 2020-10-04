@@ -133,21 +133,6 @@ for:
           - ln -s /Applications dmgdir/Applications
           - hdiutil create -volname jmbde-$VERSION -srcfolder dmgdir -ov -format UDZO jmbde-$VERSION.dmg;
 
-      artifacts:
-          - name: jmbde
-            path: build/jmbde*.dmg
-
-      deploy:
-          - provider: GitHub
-            auth_token:
-                secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
-            artifact: /.*\.(dmg)/
-            draft: false
-            prerelease: false
-            on:
-                branch: master # release from master branch only
-                APPVEYOR_REPO_TAG: true # deploy on tag push only
-
     ########## END macOS SPECIFIC CONFIGURATION ##########
 
     ########## UBUNTU SPECIFIC CONFIGURATION ##########
@@ -168,8 +153,7 @@ for:
           - sudo apt-get -y install ccache -qq
 
           # Qt 514 on Linux
-          - ls ${HOME}/Qt/latest/gcc_64/bin
-          - source ${HOME}/Qt/latest/gcc_64/bin/qt-env.sh
+          - export PATH=${HOME}/Qt/latest/gcc_64/bin:$PATH
 
           - cmake --version
           # Install conan
@@ -207,25 +191,6 @@ for:
           - chmod a+x appimagetool-x86_64.AppImage
           - ./linuxdeployqt*.AppImage $APPVEYOR_BUILD_FOLDER/appdir/usr/share/applications/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.54m.so.1.0 -verbose=2 -appimage
           - find appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
-
-      artifacts:
-          - name: "Linux-Debian"
-            path: jmbde*.deb
-          - name: "Linux-Archive"
-            path: jmbde*.tar.gz
-          - name: "Linux-AppImage"
-            path: jmbde*.AppImage
-
-      deploy:
-          - provider: GitHub
-            auth_token:
-                secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
-            artifact: /.*\.(msi|7z|deb|exe|dmg|tar.gz|AppImage)/
-            draft: true
-            prerelease: false
-            on:
-                branch: master # release from master branch only
-                APPVEYOR_REPO_TAG: true # deploy on tag push only
 
     ########## END UBUNTU SPECIFIC CONFIGURATION ##########
 
@@ -307,34 +272,6 @@ for:
           - cp %APPVEYOR_BUILD_FOLDER%/packaging/win/installer_%PLATFORM%.iss .
           - ps: $installerfile="installer_" + $ENV:PLATFORM + ".iss"
           - ps: iscc $installerfile
-
-      artifacts:
-          - name: Windows-Installer_x64
-            path: "build/program/jmbde*.exe"
-          - name: Windows-Archive
-            path: "build/jmbde*.zip"
-
-      deploy:
-          - provider: GitHub
-            auth_token:
-                secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
-            artifact: /.*\.(exe)/
-            draft: false
-            prerelease: false
-            on:
-                branch: master # release from master branch only
-                APPVEYOR_REPO_TAG: true # deploy on tag push only
-
-          - provider: NuGet
-            server: https://www.nuget.org
-            api_key: oy2k6l6mbqzqz4yxasnarz3dwqvesbpefewkyg4bi5uqz4
-            secure: m49OJ7+Jdt9an3jPcTukHA==
-            artifact: /.*\.nupkg/
-            draft: false
-            prerelease: false
-            force_update: true
-            on:
-                appveyor_repo_tag: true
 
       on_finish:
           # Uncomment the following line if you don't want the build VM to be destroyed
