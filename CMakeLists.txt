@@ -60,7 +60,7 @@ project(jmbde)
 # Set the dependencies versions
 set(KF5_VERSION "5.71.0")
 set(KF5_DEP_VERSION "5.71.0")
-set(QT_MIN_VERSION "5.12.8")
+set(QT_MIN_VERSION "5.12.9")
 
 # Load Standard-CMake helpler modules
 include(FeatureSummary)
@@ -74,8 +74,8 @@ endif()
 
 # For ECM-CONAN
 if(EXISTS "${CONAN_ECM_ROOT}")
-  list(APPEND CMAKE_PREFIX_PATH "${CONAN_ECM_ROOT}/share/ecm")
-  message(STATUS "Setting ECM-DIR to ${CONAN_ECM_ROOT}/share/ecm")
+  list(APPEND CMAKE_PREFIX_PATH "${CONAN_ECM_ROOT}/share/ECM")
+  message(STATUS "Setting ECM-DIR to ${CONAN_ECM_ROOT}/share/ECM")
 endif()
 
 # we need some parts of the ECM CMake helpers
@@ -350,10 +350,7 @@ add_subdirectory(src/libs)
 
 # The apps
 add_subdirectory(src/app)
-# add_subdirectory(src/appquick)
-
-# The package helpers
-add_subdirectory(packaging)
+add_subdirectory(src/appquick)
 
 set(LICENSE_FILE "LICENSE")
 set(README_FILE "README.md")

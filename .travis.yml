@@ -9,9 +9,9 @@ branches:
 
 env:
     global:
-        - QT_PPA: beineri/opt-qt-5.14.2-bionic
-        - QT_VER: 514
-        - QT_VERSION: 5.14.2
+    - QT_PPA: beineri/opt-qt-5.15.0-bionic
+        - QT_VER: 515
+        - QT_VERSION: 5.15.0
         - BUILD_TESTING: OFF
 
 matrix:
@@ -28,7 +28,7 @@ matrix:
               - docker
           env:
               - CMAKE_BUILD_TYPE: "Release"
-              - MATRIX_EVAL: "CC=gcc-7.5 && CXX=g++-7.5"
+              - MATRIX_EVAL: "CC=gcc-4.8 && CXX=g++-4.8"
               - TRANSLATE: true
 
           before_install:

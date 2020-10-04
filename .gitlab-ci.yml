@@ -1,49 +1,92 @@
-test_code:
-    image: rootproject/root:latest
-    stage: test
-    before_script:
-        - apt-get update
-        - DEBIAN_FRONTEND=noninteractive apt-get install -y keyboard-configuration build-essential software-properties-common make cmake ninja-build git pkgconf
-        - DEBIAN_FRONTEND=noninteractive apt-get install -y qtbase5-dev qttools5-dev qttools5-dev-tools libqt5help5  qtdeclarative5-dev qtdeclarative5-dev-tools qt5-image-formats-plugins
-        - apt-get install -y python3 python3-pip
-        - add-apt-repository ppa:git-core/ppa
-        - apt-get update
-        - apt-get install -y git
-        - apt-get autoremove
-        # We will install latest CMake, even though Ubuntu has a recent one
-        - mkdir -p $HOME/.local
-        - curl -s "https://cmake.org/files/v3.18/cmake-3.18.2-Linux-x86_64.tar.gz" | tar --strip-components=1 -xz -C $HOME/.local
-        - export PATH=$HOME/.local/bin:$PATH
-    script:
-        - pip3 install conan
-        - conan user
-        - conan create ./conan/ecm
-        - mkdir build
-        - cd build
-        - conan install ..
-        - cmake -GNinja -S .. -DCMAKE_INSTALL_PREFIX=./build/AppDir/usr -DCMAKE_BUILD_TYPE=Release
-        - cmake --build . -v
-        - cmake --build . -t test
+#
+# GitLab CI configuration for QOwnNotes
+# https://ci.gitlab.com/lint
+#
+# you need a runner for OS X
+# https://gitlab.com/gitlab-org/gitlab-ci-multi-runner
+#
+# execute: gitlab-ci-multi-runner run
+#
+# set the GITHUB_ACCESS_TOKEN with your GitHub securitry token for release deployment
+#
 
-pages:
-    image: node:10
-    stage: deploy
-    only:
-        - master
+stages:
+    - build
+    - docker
+    - manifest
+
+# Build qmlwebviewer in our dockerized build environment...
+.build:
+    image: $CI_REGISTRY/eviljazz/buildenv-ubuntu-qt5:18.04
+    stage: build
+    variables:
+        CCACHE_DIR: $CI_PROJECT_DIR/.ccache
     cache:
+        key: $CI_JOB_NAME
         paths:
-            - node_modules/
-    before_script:
-        - apt-get update && apt-get install -y calibre calibre-bin libxss1 libasound2
-        - npm install gitbook-cli svgexport
-        - npx gitbook fetch 3.2.3
-        - npx gitbook install
+            - .ccache
     script:
-        - npx gitbook build . public
-        - 'sed -i "s/puppeteer.launch();/puppeteer.launch({args: [\"--no-sandbox\"]});/g" node_modules/svgexport/render.js'
-        - npx gitbook pdf . modern-cmake.pdf
-        - cp modern-cmake.pdf public/modern-cmake.pdf
+        - ./bootstrap.sh
+        - ./examples/qmlwebviewer/makedistro-docker.sh /opt/qmlwebviewer qmlwebviewer
     artifacts:
         paths:
-            - public
-        expire_in: 1 week
+            - examples/qmlwebviewer/docker/
+
+build-amd64:
+    extends: .build
+    tags:
+        - docker-executor
+        - amd64
+
+build-armhf:
+    extends: .build
+    tags:
+        - docker-executor
+        - armhf
+
+# Create Docker images for amd64 and armhf
+.docker:
+    stage: docker
+    script:
+        - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+        - docker build -t qmlwebviewer examples/qmlwebviewer/docker/
+        - docker tag qmlwebviewer "$IMAGE_TAG"
+        - docker push "$IMAGE_TAG"
+
+docker-amd64:
+    extends: .docker
+    dependencies:
+        - build-amd64
+    tags:
+        - shell-executor
+        - amd64
+    variables:
+        IMAGE_TAG: $CI_REGISTRY_IMAGE/qmlwebviewer-amd64
+
+docker-armhf:
+    extends: .docker
+    dependencies:
+        - build-armhf
+    tags:
+        - shell-executor
+        - armhf
+    variables:
+        IMAGE_TAG: $CI_REGISTRY_IMAGE/qmlwebviewer-armhf
+
+# Create combined Docker image manifest so we do not have to differentiate between platforms
+manifest:
+    stage: manifest
+    tags:
+        - shell-executor
+        - amd64
+    variables:
+        DOCKER_CLI_EXPERIMENTAL: enabled
+        IMAGE_NAME: $CI_REGISTRY_IMAGE/qmlwebviewer
+    script:
+        - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+        - docker pull "${IMAGE_NAME}-amd64"
+        - docker pull "${IMAGE_NAME}-armhf"
+        - docker manifest push --purge "$IMAGE_NAME" || true
+        - docker manifest create -a "$IMAGE_NAME" "${IMAGE_NAME}-amd64" "${IMAGE_NAME}-armhf"
+        - docker manifest inspect "$IMAGE_NAME"
+        - docker manifest push --purge "$IMAGE_NAME"

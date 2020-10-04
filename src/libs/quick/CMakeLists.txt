@@ -172,7 +172,7 @@ export(
 
 if(MSVC AND BUILD_SHARED_LIBS)
   install(
-    FILES "$<TARGET_PDB_FILE_DIR:jmbdequick>/$<TARGET_PDB_FILE_NAME:jmbdequick>"
+    FILES "$<TARGET_PDB_FILE_DIR:jmbdquick>/$<TARGET_PDB_FILE_NAME:jmbdequick>"
     DESTINATION ${LIB_INSTALL_DIR}
     CONFIGURATIONS Debug RelWithDebInfo)
 endif()

@@ -66,8 +66,6 @@ if(APPLE)
   add_executable(${PROJECT_NAME} MACOSX_BUNDLE)
 elseif(WIN32)
   add_executable(${PROJECT_NAME} WIN32)
-else()
-  add_executable(${PROJECT_NAME})
 endif()
 
 # Use a single application on MacOS + Windows instead of dbus.
@@ -186,10 +184,6 @@ elseif(APPLE)
     TARGETS ${PROJECT_NAME}
     BUNDLE DESTINATION . COMPONENT Runtime
     RUNTIME DESTINATION bin COMPONENT Runtime)
-
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/package_dmg.json.in
-                 ${CMAKE_CURRENT_BINARY_DIR}/package_dmg.json @ONLY)
-
   # add_custom_command( TARGET ${PROJECT_NAME} POST BUILD COMMAND
   # ${Qt5_DIR}/../../../bin/macdeployqt ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.app)
 elseif(UNIX AND NOT APPLE)

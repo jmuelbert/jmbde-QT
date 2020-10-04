@@ -70,8 +70,6 @@ if(APPLE)
   add_executable(${PROJECT_NAME} MACOSX_BUNDLE)
 elseif(WIN32)
   add_executable(${PROJECT_NAME} WIN32)
-else()
-  add_executable(${PROJECT_NAME})
 endif()
 
 # Use a single application on MacOS + Windows instead of dbus.
