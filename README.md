@@ -10,7 +10,7 @@
 [![Build Status](https://travis-ci.org/jmuelbert/jmbde-QT.svg?branch=master)](https://travis-ci.org/jmuelbert/jmbde-QT)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
-[switch to english version](README-en.md)
+[switch to the english version](README-en.md)
 
 jmbde ist ein Programm für das Management von Ressourcen in Unternehmen. Mit
 diesem Programm können die Mitarbeiter und die Ausrüstung, die sie für ihre Arbeit
@@ -216,6 +216,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/gpl-3.0.txt>.
 
 Qt ist unter mehreren [Lizenzen](https://www.qt.io/licensing/) verfügbar.
 
-GPL V3 © [Jürgen Mülbert](https:/github.com/jmuelbert/jmbde-QT)
+GPL V3 © [Jürgen Mülbert](https:/github.com/jmuelbert/jmbde-QT)
 
 [Return to top](#top)
