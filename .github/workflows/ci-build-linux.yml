@@ -158,13 +158,13 @@ jobs:
             - name: Linux - ${{  matrix.qt_version }} - Uploading artifact
               uses: actions/upload-artifact@master
               with:
-                  name: jmbde-${{ github.sha }}.linux-${{ matrix.arch }}.qt${{  matrix.qt_version }}.AppImage
+                  name: jmbde-${{ github.sha }}.linux-qt${{  matrix.qt_version }}.AppImage
                   path: build/jmbde.AppImage
             - name: Linux - ${{  matrix.qt_version }} - Upload binaries to release
               uses: svenstaro/upload-release-action@v1-release
               with:
                   repo_token: ${{ secrets.GITHUB_TOKEN }}
                   file: build/jmbde.AppImage
-                  asset_name: jmbde..${{ steps.get_version.outputs.VERSION }}.linux-${{ matrix.arch }}.AppImage
+                  asset_name: jmbde..${{ steps.get_version.outputs.VERSION }}-qt${{  matrix.qt_version }}-${{  matrix.arch }}.AppImage
                   tag: ${{ github.ref}}
                   overwrite: true

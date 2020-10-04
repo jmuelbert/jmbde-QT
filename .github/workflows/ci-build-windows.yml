@@ -136,12 +136,6 @@ jobs:
                   Set-Location "build/program"
                   Get-ChildItem $ENV
                   windeployqt --qmldir . bin/jmbde.exe bin/jmbdewidgets.dll bin/jmbdemodels.dll
-            - name: Win-${{ matrix.arch }} - ${{  matrix.qt_version }} - Create 7z Release
-              if: matrix.platform == 'windows-latest'
-              uses: DuckSoft/create-7z-action@v1.0
-              with:
-                  pathSource: ./build/program/
-                  pathTarget: ./release.7z
 
             - name: Win-${{ matrix.arch }} - ${{  matrix.qt_version }} - Build Inno Installer
               shell: pwsh
@@ -149,23 +143,6 @@ jobs:
               run: |
                   Set-Location "build"
                   iscc ./installer_${{ matrix.arch }}.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }}
-
-            - name: Win-${{ matrix.arch }} - ${{  matrix.qt_version }} - Uploading artifact
-              if: matrix.platform == 'windows-latest'
-              uses: actions/upload-artifact@master
-              with:
-                  name: jmbde-${{ github.sha }}.Windows-${{ matrix.arch }}.qt${{  matrix.qt_version }}.7z
-                  path: release.7z
-
-            - name: Win-${{ matrix.arch }} - ${{  matrix.qt_version }} - Upload binaries to release
-              uses: svenstaro/upload-release-action@v1-release
-              if: github.event_name == 'release' && matrix.platform == 'windows-latest' &&  matrix.qt_version == '5.15.0'
-              with:
-                  repo_token: ${{ secrets.GITHUB_TOKEN }}
-                  file: release.7z
-                  asset_name: jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}.7z
-                  tag: ${{ github.ref}}
-                  overwrite: true
 
             - name: Release on Windows
               if: matrix.config.os == 'windows-latest' # && ( matrix.qt_version == '5.15.0') # && startsWith(github.ref, 'refs/tags')
