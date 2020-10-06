@@ -80,7 +80,10 @@ jobs:
 
             - name: macOS - ${{  matrix.qt_version }} - Build preparation - Install Packages
               run: |
-                  brew install pkg-config ninja
+                  brew update-reset
+                  brew update
+                  brew ls | grep -wq pkg-config || brew install pkg-config
+                  brew ls | grep -wq ninja || brew install ninja
 
             - name: conan_and_ecm
               id: conan_and_ecm

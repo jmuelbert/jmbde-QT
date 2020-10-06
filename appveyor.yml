@@ -112,9 +112,10 @@ for:
           - conan create ./conan/ecm
 
       before_build:
-          - mkdir -p build; cd build
+          - mkdir -p build
+          - cd build
           - conan install ..
-          - cmake -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_PREFIX_PATH="$(brew --prefix qt)" -DCMAKE_INSTALL_PREFIX:PATH=. -DCMAKE_TOOLCHAIN_FILE="$VCPKGToolChainFile" -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=ON ..
+          - cmake -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_PREFIX_PATH="$(brew --prefix qt)"  -DCMAKE_TOOLCHAIN_FILE="$VCPKGToolChainFile" -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=ON  -DCMAKE_INSTALL_PREFIX:PATH=./Applications
 
       build_script:
           - sudo cmake --build . --target install
@@ -151,6 +152,11 @@ for:
           - sudo apt-get -y install gnupg software-properties-common -qq
           - sudo apt-get -y install binutils -qq
           - sudo apt-get -y install ccache -qq
+          - sudo apt-get -y install libxcb-icccm4 -qq
+          - sudo apt-get -y install libxcb-image0 -qq
+          - sudo apt-get -y install libxcb-keysyms1 -qq
+          - sudo apt-get -y install libxcb-render-util0 -qq
+          - sudo apt-get install libxcb-xinerama0 -qq
 
           # Qt 514 on Linux
           - export PATH=${HOME}/Qt/latest/gcc_64/bin:$PATH
