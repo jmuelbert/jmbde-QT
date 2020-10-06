@@ -153,7 +153,7 @@ for:
           - sudo apt-get -y install binutils -qq
           - sudo apt-get -y install ccache -qq
           - sudo apt-get -y install libdrm-dev
-          - sudo apt-get -y install libmesa-dev
+          - sudo apt-get -y install mesa-common-dev
 
           # Qt 514 on Linux
           - export PATH=${HOME}/Qt/latest/gcc_64/bin:$PATH
