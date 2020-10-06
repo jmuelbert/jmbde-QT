@@ -7,7 +7,9 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ![CI: Build Test](https://github.com/jmuelbert/jmbde-QT/workflows/CI:%20Build%20Test/badge.svg)
 [![Build status](https://ci.appveyor.com/api/projects/status/mq9qt36e588dk7ui?svg=true)](https://ci.appveyor.com/project/jmuelbert/jmbde-qt)
-[![Build Status](https://travis-ci.org/jmuelbert/jmbde-QT.svg?branch=master)](https://travis-ci.org/jmuelbert/jmbde-QT)
+![CI Build Windows](https://github.com/jmuelbert/jmbde-QT/workflows/CI%20Build%20Windows/badge.svg)
+![CI Build for macos](https://github.com/jmuelbert/jmbde-QT/workflows/CI%20Build%20for%20macos/badge.svg)
+![CI Build Linux](https://github.com/jmuelbert/jmbde-QT/workflows/CI%20Build%20Linux/badge.svg)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
 [switch to the english version](README-en.md)

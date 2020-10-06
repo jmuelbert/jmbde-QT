@@ -138,7 +138,7 @@ for:
     ########## UBUNTU SPECIFIC CONFIGURATION ##########
     - matrix:
           only:
-              - image: Ubuntu2004
+              - image: Ubuntu
 
       clone_folder: /home/appveyor/projects/jmbde-QT
       cache: ccache

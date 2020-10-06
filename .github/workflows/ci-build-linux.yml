@@ -165,6 +165,6 @@ jobs:
               with:
                   repo_token: ${{ secrets.GITHUB_TOKEN }}
                   file: build/jmbde.AppImage
-                  asset_name: jmbde..${{ steps.get_version.outputs.VERSION }}-qt${{  matrix.qt_version }}-${{  matrix.arch }}.AppImage
+                  asset_name: jmbde.${{ steps.get_version.outputs.VERSION }}-qt${{  matrix.qt_version }}-${{  matrix.arch }}.AppImage
                   tag: ${{ github.ref}}
                   overwrite: true

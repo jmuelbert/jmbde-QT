@@ -113,8 +113,9 @@ jobs:
             - name: Pack to dmg on Mac
               run: |
                   cd build
-                  ../../Qt/*/*/bin/macdeployqt ./Applications/jmbde.app
                   cp ./src/app/APP_ICON.icns ./Applications/jmbde.app/Contents/Resources
+                  ../../Qt/*/*/bin/macdeployqt ./Applications/jmbde.app
+
                   # === appdmg ./src/app/package_dmg.json ./jmbde.dmg
                   hdiutil create -volname jmbde-${{ steps.get_version.outputs.VERSION }}-x64 -srcfolder jmbde.app -ov -format UDZO jmbde-${{ steps.get_version.outputs.VERSION }}-x64.dmg
 
