@@ -152,11 +152,8 @@ for:
           - sudo apt-get -y install gnupg software-properties-common -qq
           - sudo apt-get -y install binutils -qq
           - sudo apt-get -y install ccache -qq
-          - sudo apt-get -y install libxcb-icccm4 -qq
-          - sudo apt-get -y install libxcb-image0 -qq
-          - sudo apt-get -y install libxcb-keysyms1 -qq
-          - sudo apt-get -y install libxcb-render-util0 -qq
-          - sudo apt-get install libxcb-xinerama0 -qq
+          - sudo apt-get -y install libdrm-dev
+          - sudo apt-get -y install libmesa-dev
 
           # Qt 514 on Linux
           - export PATH=${HOME}/Qt/latest/gcc_64/bin:$PATH
