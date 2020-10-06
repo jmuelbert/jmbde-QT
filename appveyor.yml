@@ -138,7 +138,7 @@ for:
     ########## UBUNTU SPECIFIC CONFIGURATION ##########
     - matrix:
           only:
-              - image: Ubuntu
+              - image: Ubuntu2004
 
       clone_folder: /home/appveyor/projects/jmbde-QT
       cache: ccache
@@ -154,6 +154,8 @@ for:
 
           # Qt 514 on Linux
           - export PATH=${HOME}/Qt/latest/gcc_64/bin:$PATH
+          - export CXX=clang
+          - export CC=clang
 
           - cmake --version
           # Install conan

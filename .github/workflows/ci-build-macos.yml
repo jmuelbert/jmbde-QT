@@ -110,6 +110,14 @@ jobs:
                   cmake --build . --parallel $(sysctl -n hw.logicalcpu)
                   sudo cmake --install .
 
+            - name: Pack to dmg on Mac
+              run: |
+                  cd build
+                  ../../Qt/*/*/bin/macdeployqt ./Applications/jmbde.app
+                  cp ./src/app/APP_ICON.icns ./Applications/jmbde.app/Contents/Resources
+                  # === appdmg ./src/app/package_dmg.json ./jmbde.dmg
+                  hdiutil create -volname jmbde-${{ steps.get_version.outputs.VERSION }}-x64 -srcfolder jmbde.app -ov -format UDZO jmbde-${{ steps.get_version.outputs.VERSION }}-x64.dmg
+
             - name: macOS - ${{  matrix.qt_version }} - Uploading Artifact
               uses: actions/upload-artifact@master
               with:
@@ -124,14 +132,6 @@ jobs:
                   file: jmbde.dmg
                   asset_name: jmbde-${{ steps.get_version.outputs.VERSION }}.macOS-${{ matrix.arch }}.dmg
                   tag: $${{ github.ref }}
-
-            - name: Pack to dmg on Mac
-              run: |
-                  cd build
-                  ../../Qt/*/*/bin/macdeployqt ./Applications/jmbde.app
-                  cp ./src/app/APP_ICON.icns ./Applications/jmbde.app/Contents/Resources
-                  # === appdmg ./src/app/package_dmg.json ./jmbde.dmg
-                  hdiutil create -volname jmbde-${{ steps.get_version.outputs.VERSION }}-x64 -srcfolder jmbde.app -ov -format UDZO jmbde-${{ steps.get_version.outputs.VERSION }}-x64.dmg
 
             - name: Release on Mac
               uses: softprops/action-gh-release@v1
