@@ -127,6 +127,7 @@ endif()
 
 # forbid some old things
 add_definitions(-DQT_NO_FOREACH)
+add_definitions(-DQT_DEPRECATED_WARNINGS)
 # Need Signals and slots
 remove_definitions(-DQT_NO_SIGNALS_SLOTS_KEYWORDS)
 

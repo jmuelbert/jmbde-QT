@@ -156,8 +156,8 @@ for:
 
           # Qt 514 on Linux
           - export PATH=${HOME}/Qt/latest/gcc_64/bin:$PATH
-          - export CXX=/usr/bin/gcc-7
-          - export CC=/usr/bin/g++-7
+          # - export CXX=/usr/bin/gcc
+          # - export CC=/usr/bin/g++
 
           - cmake --version
           # Install conan
@@ -264,7 +264,7 @@ for:
       build_script:
           - ps: New-Item -itemtype directory -path ./program
           - ps: conan install ..
-          - ps: cmake -G "$ENV:CMAKE_GENERATOR" -A $ENV:PLATFORM -DCMAKE_BUILD_TYPE=$ENV:CONFIGURATION  -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DCMAKE_INSTALL_PREFIX:PATH=./program -DBUILD_TESTING=ON -DBUILD_SHARED_LIBS=ON ..
+          - ps: cmake -G "$ENV:CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE=$ENV:CONFIGURATION  -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DCMAKE_INSTALL_PREFIX:PATH=./program -DBUILD_TESTING=ON -DBUILD_SHARED_LIBS=ON ..
           # - ps: cmake --build . --config $ENV:CONFIGURATION --target install
 
       after_build:

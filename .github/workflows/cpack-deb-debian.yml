@@ -100,7 +100,7 @@ jobs:
             - name: Upload artifact
               uses: actions/upload-artifact@v2-preview
               with:
-                name: Lemon-${{ steps.get_version.outputs.VERSION }}-debian-${{ matrix.distro }}.deb
+                name: jmbde-${{ steps.get_version.outputs.VERSION }}-debian-${{ matrix.distro }}.deb
                 path: build/${{ steps.get_package.outputs.NAME }}
 
             - name: Upload binaries to release
@@ -109,6 +109,6 @@ jobs:
               with:
                 repo_token: ${{ secrets.GITHUB_TOKEN }}
                 file: build/${{ steps.get_package.outputs.NAME }}
-                asset_name: Lemon-${{ steps.get_version.outputs.VERSION }}-debian-${{ matrix.distro }}.deb
+                asset_name: jmbde-${{ steps.get_version.outputs.VERSION }}-debian-${{ matrix.distro }}.deb
                 tag: ${{ github.ref }}
                 overwrite: true
