@@ -43,16 +43,18 @@
 # minimal requirements
 cmake_minimum_required(VERSION 3.12...3.18 FATAL_ERROR)
 
+if(${CMAKE_VERSION} VERSION_LESS 3.13.5)
+    cmake_policy(SET CMP0020 NEW)
+    cmake_policy(SET CMP0043 NEW)
+    cmake_policy(SET CMP0053 NEW)
+    cmake_policy(SET CMP0063 NEW)
+    cmake_policy(SET CMP0068 NEW)
+endif()
+
 if(${CMAKE_VERSION} VERSION_LESS 3.18)
   cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 else()
   cmake_policy(VERSION 3.18)
-endif()
-
-if(APPLE)
-  set(CMAKE_OSX_DEPLOYMENT_TARGET
-      "10.14"
-      CACHE STRING "Minimum OS X deployment version")
 endif()
 
 project(jmbde)
@@ -94,6 +96,9 @@ list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake"
 
 # Load extended helpers
 include(KDEClangFormat)
+if(WIN32)
+    set(KDE_INSTALL_PREFIX_SCRIPT OFF)
+endif()
 include(KDEInstallDirs)
 
 # warn about deprecated stuff so that we may try fixing it
@@ -103,12 +108,22 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # for clang
 
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
 
-# AutoMOC ON
-set(CMAKE_AUTOMOC 1)
-set(CMAKE_AUTORCC 1)
-set(CMAKE_AUTOUIC 1)
+if(NOT DEFINED CMAKE_SKIP_BUILD_RPATH)
+  set(CMAKE_SKIP_BUILD_RPATH ON)
+endif()
+if(NOT DEFINED CMAKE_BUILD_WITH_INSTALL_RPATH)
+  set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
+endif()
+if(NOT DEFINED CMAKE_INSTALL_RPATH_USE_LINK_PATH)
+  set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+endif()
+if(NOT DEFINED CMAKE_MACOSX_RPATH)
+  set(CMAKE_MACOSX_RPATH TRUE)
+endif()
 
 # forbid some old things
 add_definitions(-DQT_NO_FOREACH)
@@ -120,15 +135,6 @@ if(WIN32)
   set(CMAKE_DEBUG_POSTFIX "d")
 elseif(APPLE)
   set(CMAKE_DEBUG_POSTFIX "_debug")
-endif()
-
-if(APPLE)
-  set(APPLE_SUPPRESS_X11_WARNING TRUE)
-  set(KDE_SKIP_RPATH_SETTINGS TRUE)
-  set(CMAKE_MACOSX_RPATH OFF)
-  set(BUILD_WITH_INSTALL_RPATH 1)
-  add_definitions(-mmacosx-version-min=10.14 -Wno-macro-redefined
-                  -Wno-deprecated-register)
 endif()
 
 if(UPPERCASE_CMAKE_BUILD_TYPE MATCHES "^RELEASE$")

@@ -108,14 +108,13 @@ jobs:
                   mkdir build
                   cd build
                   conan install ..
-                  cmake -DCMAKE_BUILD_TYPE=Release .. -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_OSX_DEPLOYMENT_TARGET=${{ matrix.mac_target }} -DCMAKE_INSTALL_PREFIX:PATH=./Applications
+                  cmake .. -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_OSX_DEPLOYMENT_TARGET=${{ matrix.mac_target }} -DCMAKE_INSTALL_PREFIX:PATH=./Applications
                   cmake --build . --parallel $(sysctl -n hw.logicalcpu)
                   sudo cmake --install .
 
             - name: Pack to dmg on Mac
               run: |
                   cd build
-                  cp ./src/app/APP_ICON.icns ./Applications/jmbde.app/Contents/Resources
                   ../../Qt/*/*/bin/macdeployqt ./Applications/jmbde.app
 
                   # === appdmg ./src/app/package_dmg.json ./jmbde.dmg
