@@ -91,8 +91,6 @@ for:
           - ccache
 
       install:
-          - brew update-reset
-          - brew update
           - brew ls | grep -wq freetype || brew install freetype
           - brew ls | grep -wq conan || brew install conan
           - brew ls | grep -wq python || brew install python
@@ -157,8 +155,8 @@ for:
 
           # Qt 514 on Linux
           - export PATH=${HOME}/Qt/latest/gcc_64/bin:$PATH
-          - export CXX=clang
-          - export CC=clang
+          - export CXX=gcc-9
+          - export CC=g++-9
 
           - cmake --version
           # Install conan
