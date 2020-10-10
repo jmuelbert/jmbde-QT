@@ -1,4 +1,4 @@
-name: "CI Build Linux"
+name: "CI Build Linux - AppImage"
 
 on:
     push:
@@ -55,6 +55,9 @@ jobs:
 
             - name: Checking out sources
               uses: actions/checkout@v2
+              with:
+                submodules: 'recursive'
+
 
             - name: Restoring submodules
               run: git submodule update --init
@@ -64,6 +67,7 @@ jobs:
               with:
                   python-version: "3.*"
                   architecture: ${{ matrix.arch }}
+
             - name: Cache Qt-mac/linux-${{ matrix.platform }}-${{  matrix.qt_version }}
               id: cache-qt-mac-linux
               uses: actions/cache@v2.1.1

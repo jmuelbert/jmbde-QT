@@ -156,8 +156,8 @@ for:
 
           # Qt 514 on Linux
           - export PATH=${HOME}/Qt/latest/gcc_64/bin:$PATH
-          - export CXX=gcc
-          - export CC=g++
+          - export CXX=/usr/bin/gcc-9
+          - export CC=/usr/bin/g++-9
 
           - cmake --version
           # Install conan
