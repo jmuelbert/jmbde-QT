@@ -80,7 +80,10 @@ jobs:
 
             - name: macOS - ${{  matrix.qt_version }} - Build preparation - Install Packages
               run: |
-                  brew install pkg-config ninja
+                  brew update-reset
+                  brew update
+                  brew ls | grep -wq pkg-config || brew install pkg-config
+                  brew ls | grep -wq ninja || brew install ninja
 
             - name: conan_and_ecm
               id: conan_and_ecm
@@ -92,7 +95,6 @@ jobs:
             # === MacOS Build =====================================
             - name: macOS - Install Node
               id: install_node
-              if: matrix.platform == 'macos-latest'
               uses: actions/setup-node@v2.1.1
               with:
                   node-version: "12.x"
@@ -106,9 +108,17 @@ jobs:
                   mkdir build
                   cd build
                   conan install ..
-                  cmake .. -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_OSX_DEPLOYMENT_TARGET=${{ matrix.mac_target }} -DCMAKE_INSTALL_PREFIX=./Applications
+                  cmake .. -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_OSX_DEPLOYMENT_TARGET=${{ matrix.mac_target }} -DCMAKE_INSTALL_PREFIX:PATH=./Applications
                   cmake --build . --parallel $(sysctl -n hw.logicalcpu)
                   sudo cmake --install .
+
+            - name: Pack to dmg on Mac
+              run: |
+                  cd build
+                  ../../Qt/*/*/bin/macdeployqt ./Applications/jmbde.app
+
+                  # === appdmg ./src/app/package_dmg.json ./jmbde.dmg
+                  hdiutil create -volname jmbde-${{ steps.get_version.outputs.VERSION }}-x64 -srcfolder jmbde.app -ov -format UDZO jmbde-${{ steps.get_version.outputs.VERSION }}-x64.dmg
 
             - name: macOS - ${{  matrix.qt_version }} - Uploading Artifact
               uses: actions/upload-artifact@master
@@ -124,14 +134,6 @@ jobs:
                   file: jmbde.dmg
                   asset_name: jmbde-${{ steps.get_version.outputs.VERSION }}.macOS-${{ matrix.arch }}.dmg
                   tag: $${{ github.ref }}
-
-            - name: Pack to dmg on Mac
-              run: |
-                  cd build
-                  ../../Qt/*/*/bin/macdeployqt ./Applications/jmbde.app
-                  cp ./src/app/APP_ICON.icns ./Applications/jmbde.app/Contents/Resources
-                  # === appdmg ./src/app/package_dmg.json ./jmbde.dmg
-                  hdiutil create -volname jmbde-${{ steps.get_version.outputs.VERSION }}-x64 -srcfolder jmbde.app -ov -format UDZO jmbde-${{ steps.get_version.outputs.VERSION }}-x64.dmg
 
             - name: Release on Mac
               uses: softprops/action-gh-release@v1
