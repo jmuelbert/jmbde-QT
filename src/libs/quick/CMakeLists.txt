@@ -105,6 +105,12 @@ set_target_properties(
   jmbdequick PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${SO_VERSION}
                         EXPORT_NAME "jmbdequick")
 
+if (APPLE)
+    set_target_properties(jmbdequick PROPERTIES
+         INSTALL_RPATH "@loader_path/.Frameworks"
+            )
+endif()
+
 target_compile_features(jmbdequick PUBLIC cxx_std_17)
 
 target_compile_definitions(

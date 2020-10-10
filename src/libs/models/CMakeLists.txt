@@ -159,6 +159,12 @@ set_target_properties(
   jmbdemodels PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${SO_VERSION}
                          EXPORT_NAME "jmbdemodels")
 
+if (APPLE)
+    set_target_properties(jmbdemodels PROPERTIES
+         INSTALL_RPATH "@loader_path/.Frameworks"
+            )
+endif()
+
 target_compile_features(jmbdemodels PUBLIC cxx_std_17)
 
 target_compile_definitions(
