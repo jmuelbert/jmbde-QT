@@ -177,7 +177,7 @@ for:
       build_script:
           - cd build
           - conan install ..
-          - cmake -DCMAKE_BUILD_TYPE="$CONFIGURATION"  -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang -DCMAKE_INSTALL_PREFIX:PATH=../appdir/usr -DBUILD_TESTING=ON -DBUILD_SHARED_LIBS=ON ..
+          - cmake -DCMAKE_BUILD_TYPE="$CONFIGURATION"  -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang -DCMAKE_INSTALL_PREFIX:PATH=../appdir/usr -DBUILD_TESTING=OFF -DBUILD_SHARED_LIBS=ON ..
           - make
           - export LD_LIBRARY_PATH=$APPVEYOR_BUILD_FOLDER/build/bin:$LD_LIBRARY_PATH
 
