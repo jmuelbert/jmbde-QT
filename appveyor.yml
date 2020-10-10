@@ -96,7 +96,8 @@ for:
           - brew ls | grep -wq python || brew install python
           - brew ls | grep -wq qt || brew install qt
           - brew ls | grep -wq ccache || brew install ccache
-          - brew tap kde-mac/kde https://invent.kde.org/packaging/homebrew-kde.git --force-auto-update
+          - brew tap kde-mac/kde https://invent.kde.org/packaging/homebrew-kde.git
+          - brew update
           - brew install kde-extra-cmake-modules
           - brew install graphviz doxygen
           - pip3 install sphinx sphinx-rtd-theme breathe
@@ -155,8 +156,8 @@ for:
 
           # Qt 514 on Linux
           - export PATH=${HOME}/Qt/latest/gcc_64/bin:$PATH
-          - export CXX=gcc-9
-          - export CC=g++-9
+          - export CXX=gcc
+          - export CC=g++
 
           - cmake --version
           # Install conan
