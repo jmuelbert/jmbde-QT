@@ -45,7 +45,7 @@ jobs:
         if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_DEB') }}
         name: Ubuntu ${{ matrix.distro }}
         runs-on: ubuntu-latest
-        container: debian:${{ matrix.distro }}
+        container: ubuntu:${{ matrix.distro }}
 
 
         steps:
