@@ -111,6 +111,15 @@ jobs:
           key: ${{ matrix.config.os }}-${{ env.QT_VERSION }}-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
           restore-keys: |
             ${{ matrix.config.os }}-${{ env.QT_VERSION }}-ccache-
+
+      - name: conan_and_ecm
+        id: conan_and_ecm
+        run: |
+            python -m pip install conan
+            conan user
+            conan create ./conan/ecm
+
+
       - name: Configure CMake
         shell: cmake -P {0}
         run: |
@@ -147,6 +156,7 @@ jobs:
           if (NOT result EQUAL 0)
             message(FATAL_ERROR "Bad exit status")
           endif()
+
       - name: Build
         shell: cmake -P {0}
         run: |
