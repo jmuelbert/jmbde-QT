@@ -118,6 +118,10 @@ jobs:
             python -m pip install conan
             conan user
             conan create ./conan/ecm
+            mkdir build
+            cd build
+            conan install ..
+            cd ..
 
 
       - name: Configure CMake
