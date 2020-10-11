@@ -83,8 +83,19 @@ jobs:
                   python-version: 3.8
                   architecture: ${{ matrix.arch }}
 
-            - name: Restoring submodules
-              run: git submodule update --init
+            - name: Restore Qt from cache
+              id: cache-qt
+              uses: actions/cache@v2.1.1
+              with:
+                path: ../Qt
+                key: Qt-${{ matrix.config.os }}-${{ env.QT_VERSION }}
+
+            - name: Set up Qt environment
+              uses: jurplel/install-qt-action@v2
+              with:
+                cached: ${{ steps.cache-qt.outputs.cache-hit }}
+                version: ${{ env.QT_VERSION }}
+
             # === Windows =====================================
             - name: Install MSVC compiler
               if: matrix.platform == 'windows-latest'
@@ -94,20 +105,6 @@ jobs:
                   toolset: 14.2
                   arch: ${{ matrix.arch }}
 
-            - name: Cache Qt
-              id: cache-qt
-              uses: actions/cache@v2.1.1
-              with:
-                  path: ../Qt
-                  key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ matrix.qt_version }}
-
-            - name: Installing Qt - ${{ matrix.qt_version }}
-              uses: jurplel/install-qt-action@v2
-              with:
-                  version: ${{ matrix.qt_version }}
-                  arch: ${{ matrix.qtarch }}
-                  mirror: "http://mirrors.ocf.berkeley.edu/qt/"
-                  cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
             # === Linux =====================================
             - name: Linux - ${{ matrix.qt_version }} - Build preparation - Install Packages
