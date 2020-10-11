@@ -1,9 +1,16 @@
 # jmbde
 
+jmbde ist ein Programm für das Management von Ressourcen in Unternehmen. Mit
+diesem Programm können die Mitarbeiter und die Ausrüstung, die sie für ihre Arbeit
+benötigen erfasst werden. Das sind Computer, Drucker und Telefone.
+
+---
+
 [![Gitpod-Ready-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/jmuelbert/jmbde-QT)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/caf2526829cb447b9ca6091cccebad27)](https://app.codacy.com/manual/jmuelbert/jmbde-QT?utm_source=github.com&utm_medium=referral&utm_content=jmuelbert/jmbde-QT&utm_campaign=Badge_Grade_Dashboard)
 [![Code Quality](https://www.code-inspector.com/project/8488/score/svg)](https://frontend.code-inspector.com/public/project/8488/github-action/dashboard)
 [![Code Grade](https://www.code-inspector.com/project/8488/status/svg)](https://frontend.code-inspector.com/public/project/8488/github-action/dashboard)
+[![GitHub All Releases](https://img.shields.io/github/downloads/jmuelbert/jmbde-QT/total?label=downloads%40all)](https://github.com/jmuelbert/jmbde-QT/releases)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ![CI: Build Test](https://github.com/jmuelbert/jmbde-QT/workflows/CI:%20Build%20Test/badge.svg)
 [![Build status](https://ci.appveyor.com/api/projects/status/mq9qt36e588dk7ui?svg=true)](https://ci.appveyor.com/project/jmuelbert/jmbde-qt)
@@ -11,15 +18,19 @@
 ![CI Build for macos](https://github.com/jmuelbert/jmbde-QT/workflows/CI%20Build%20for%20macos/badge.svg)
 ![CI Build Linux](https://github.com/jmuelbert/jmbde-QT/workflows/CI%20Build%20Linux/badge.svg)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+[![Help wanted issues](https://img.shields.io/github/issues/jmuelbert/jmbde-QT/help%20wanted)](https://github.com/jmuelbert/jmbde-QT/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)
 
 [switch to the english version](README-en.md)
 
-jmbde ist ein Programm für das Management von Ressourcen in Unternehmen. Mit
-diesem Programm können die Mitarbeiter und die Ausrüstung, die sie für ihre Arbeit
-benötigen erfasst werden. Das sind Computer, Drucker und Telefone.
 
 jmbde verwendet das plattformübergreifende Framework [Qt](http://www.qt.io/download-open-source/),
 was bedeutet, dass es mit den meisten Betriebssystemen funktioniert.
+
+|  type  |                           branch                           |                                                                                                       build                                                                                                        |                                                                   downloads                                                                    |
+| :----: | :--------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------: |
+| alpha  | [master](https://github.com/jmuelbert/jmbde-QT/tree/master) | [![GitHub Workflow Status](https://github.com/jmuelbert/jmbde-QT/workflows/CI:%20Build%20Test/badge.svg?branch=master&event=push)](https://github.com/jmuelbert/jmbde-QT/actions?query=event%3Apush+branch%3Amaster) |                                                                       -                                                                        | [!
+|  beta  |   [v0.5.2](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.2)   |   -   | [![Downloads](https://img.shields.io/github/downloads/jmuelbert/jmbde-QT/v0.5.2/total)](https://github.com/jmuelbert/jmbde-QT/releases/tag/v0.5.2) |                                                          -                                                          |
+| stable |   [v0.5.0](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.0)   |   -   | - |
 
 ## Setup
 
