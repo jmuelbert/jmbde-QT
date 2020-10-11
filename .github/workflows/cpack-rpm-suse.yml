@@ -1,4 +1,4 @@
-name: "CI Build Linux - Debian Package"
+name: "CI Build Linux - OpenSuSe Package"
 
 on:
     push:
@@ -18,6 +18,8 @@ on:
 env:
     CMAKE_VERSION: 3.18.3
     NINJA_VERSION: 1.10.0
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    CLAZY_CHECKS: "level1"
 
 jobs:
     check_commit_msg:
@@ -36,21 +38,26 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                qt_version: [5.12.9, 5.15.1]
-                distro: [stable, testing, sid]
-                arch: [x64]
-                build_type: [Release]
+                compiler:
+                    - gcc
+                    - clang
+                container:
+                    - suse-qt512
+                    - suse-qt514
+                    - suse-qt515
 
         needs: check_commit_msg
-        if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_DEB') }}
-        name: Debian ${{ matrix.distro }}
+        if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'ci skip') }}
         runs-on: ubuntu-latest
-        container: debian:${{ matrix.distro }}
+        container: ubuntu:${{ matrix.container }}
 
 
         steps:
             - name: Install git
               run: |
+                apt-get update
+                apt-get install -y software-properties-common
+                add-apt-repository ppa:git-core/ppa
                 apt-get update
                 apt-get install -y git
 
@@ -64,10 +71,16 @@ jobs:
               with:
                 submodules: 'recursive'
 
-
+            - name: Qt version identifier
+              id: qt_version
+              shell: bash
+              run: |
+                qtverid=`echo "${{ matrix.container }}" | sed -e 's,suse-qt,,g'`
+                echo "##[set-output name=id;]${qtverid}"
             - name: Install build dependencies
               run: |
-                apt-get install -y build-essential ninja-build qtbase5-dev qttools5-dev cmake pkgconf bash
+                DEBIAN_FRONTEND=noninteractive apt-get install -y keyboard-configuration
+                apt-get install -y build-essential python3-minimal ninja-build qtbase5-dev qttools5-dev qttools5-dev-tools libqt5help5 cmake pkgconf bash
 
             - name: conan_and_ecm
               id: conan_and_ecm
@@ -89,7 +102,7 @@ jobs:
                 conan install ..
                 cmake .. -DCMAKE_INSTALL_PREFIX=./appdir/usr -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
                 cmake --build . --parallel $(nproc)
-                cmake --install .
+                cmake --install . --target install
 
             - name: Get package name
               shell: bash

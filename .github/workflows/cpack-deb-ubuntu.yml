@@ -76,7 +76,7 @@ jobs:
             - name: conan_and_ecm
               id: conan_and_ecm
               run: |
-                python3 -m pip install conan
+                pip3 install conan
                 conan user
                 conan create ./conan/ecm
 

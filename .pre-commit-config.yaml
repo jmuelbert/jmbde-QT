@@ -2,7 +2,7 @@ default_language_version:
     python: python3
 repos:
     - repo: https://github.com/pre-commit/pre-commit-hooks
-      rev: v3.1.0
+      rev: v3.2.0
       hooks:
           - id: check-yaml
             args: ["--allow-multiple-documents"]
@@ -151,7 +151,7 @@ repos:
             args: ["--regex=PROJ-[0-9]", "--format={ticket} {commit_msg}"] # Optional
 
     - repo: https://github.com/homebysix/pre-commit-macadmin
-      rev: v1.6.2
+      rev: v1.8.0
       hooks:
           - id: check-autopkg-recipe-list
           - id: check-autopkg-recipes

@@ -1,26 +1,26 @@
 {
-    "background": "/Users/runner/work/jmbde-QT/packaging/mac/CMakeDMGBackground.png",
-    "contents": [
-        {
-            "path": "/Users/runner/work/jmbde-QT/jmbde-QT/build/Applications/jmbde.app",
-            "type": "file",
-            "x": 130,
-            "y": 205
-        },
-        {
-            "path": "/Applications",
-            "type": "link",
-            "x": 375,
-            "y": 205
-        }
-    ],
-    "icon": "/Users/juergen/Projects/GitHub/jmbde-QT/packaging/mac/CMakeDMGBackground.png",
-    "icon-size": 128,
-    "title": "jmbde ",
-    "window": {
-        "size": {
-            "height": 365,
-            "width": 500
-        }
+  "background": "/Users/runner/work/jmbde-QT/packaging/mac/CMakeDMGBackground.png",
+  "contents": [
+    {
+      "path": "/Users/runner/work/jmbde-QT/jmbde-QT/build/Applications/jmbde.app",
+      "type": "file",
+      "x": 130,
+      "y": 205
+    },
+    {
+      "path": "/Applications",
+      "type": "link",
+      "x": 375,
+      "y": 205
     }
+  ],
+  "icon": "/Users/juergen/Projects/GitHub/jmbde-QT/packaging/mac/CMakeDMGBackground.png",
+  "icon-size": 128,
+  "title": "jmbde ",
+  "window": {
+    "size": {
+      "height": 365,
+      "width": 500
+    }
+  }
 }
