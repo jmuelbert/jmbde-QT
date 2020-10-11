@@ -17,12 +17,11 @@ on:
         types: [published]
 
 env:
-    QT_VERSION: 5.15.0
-    CMAKE_VERSION: 3.18.0
-    NINJA_VERSION: 1.10.0
-    CCACHE_VERSION: 3.7.11
-    GOOGLE_TEST_VERSION: 1.10.0
-    BUILD_TYPE: Release
+  QT_VERSION: 5.15.1
+  CMAKE_VERSION: 3.18.2
+  NINJA_VERSION: 1.10.1
+  CCACHE_VERSION: 3.7.7
+  BUILD_TYPE: Release
 
 jobs:
     check_commit_msg:
@@ -43,7 +42,7 @@ jobs:
 
         strategy:
             matrix:
-                qt_version: [5.15.0]
+                fail-fast: false
                 platform: [ubuntu-latest, macos-latest, windows-latest]
                 arch: [x86, x64]
                 build_type: [Release]
@@ -63,7 +62,7 @@ jobs:
                     - platform: macos-latest
                       arch: x86
 
-            fail-fast: false
+
 
         runs-on: ${{ matrix.platform }}
         env:
