@@ -99,7 +99,7 @@ jobs:
             # === Windows =====================================
             - name: Install MSVC compiler
               if: matrix.platform == 'windows-latest'
-              uses: ilammy/msvc-dev-cmd@v1.4.0
+              uses: ilammy/msvc-dev-cmd@v1.4.1
               with:
                   # 14.1 is for vs2017, 14.2 is vs2019, following the upstream vcpkg build from Qv2ray-deps repo
                   toolset: 14.2
