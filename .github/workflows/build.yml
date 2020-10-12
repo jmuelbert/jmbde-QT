@@ -85,7 +85,7 @@ jobs:
 
             - name: Restore Qt from cache
               id: cache-qt
-              uses: actions/cache@v2.1.1
+              uses: actions/cache@v2.1.2
               with:
                 path: ../Qt
                 key: Qt-${{ matrix.config.os }}-${{ env.QT_VERSION }}
