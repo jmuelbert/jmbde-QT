@@ -38,10 +38,10 @@ jobs:
           submodules: recursive
           fetch-depth: 0
 
-      - name: Install Python 3.7
+      - name: Install Python 3.8
         uses: actions/setup-python@v2.1.3
         with:
-          python-version: 3.7
+          python-version: 3.8
 
       - name: Restore Qt from cache
         id: cache-qt
