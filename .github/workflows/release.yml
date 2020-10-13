@@ -21,6 +21,8 @@ jobs:
     release:
         needs: check_commit_msg
         if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_MAIN') }}
+        name: "release on ${{ matrix.config.os }} with portable ${{ matrix.config.portable-option }}"
+        runs-on: "${{ matrix.config.os }}"
 
         strategy:
             fail-fast: false
