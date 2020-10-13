@@ -9,7 +9,7 @@ distlib==0.3.1
 docutils==0.16
 filelock==3.0.12
 graphviz==0.14.2
-identify==1.5.5
+identify==1.5.6
 idna==2.10
 imagesize==1.2.0
 importlib-metadata==2.0.0
@@ -35,5 +35,5 @@ sphinxcontrib-qthelp==1.0.3
 sphinxcontrib-serializinghtml==1.1.4
 toml==0.10.1
 urllib3==1.25.10
-virtualenv==20.0.33
-zipp==3.2.0
+virtualenv==20.0.34
+zipp==3.3.0
