@@ -8,7 +8,7 @@ else
     LOCATIONS=none
 fi
 
-SOURCES=(src build/generated build/cpeditor_autogen/ui build/third_party/QtFindReplaceDialog/dialogs/QtFindReplaceDialog_autogen)
+SOURCES=(src build/src/app build/src/libs/models/jmbdemodels_autogen build/src/libs/quick/jmbdequick_automodels build/src/libs/widgets/jmbde_widgets_autogen)
 
 for i in zh_CN ru_RU; do
     lupdate -no-obsolete "${SOURCES[@]}" -locations "$LOCATIONS" -tr-function-alias tr+=TRKEY -ts translations/$i.ts
