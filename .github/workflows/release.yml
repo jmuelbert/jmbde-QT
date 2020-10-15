@@ -109,7 +109,7 @@ jobs:
                 export VERSION=${{ steps.get_version.outputs.VERSION }}
                 cp ../src/app/data/io.github.jmuelbert.jmbde.desktop default.desktop
                 cp ../src/app/icons/jmbde.png jmbde.png
-                ./linuxdeployqt*.AppImage ../../bin/jmbde -appimage -qmake=../../Qt/${{ env.QT_VERSION }}/gcc_64/bin/qmake
+                ./linuxdeployqt*.AppImage ./bin/jmbde -appimage -qmake=../../Qt/${{ env.QT_VERSION }}/gcc_64/bin/qmake
                 mv jmbde-${{steps.get_version.outputs.VERSION }}-x86_64.AppImage jmbde-${{ steps.get_version.outputs.VERSION }}-linux-x86_64.AppImage
 
             - name: Release AppImage
@@ -204,7 +204,7 @@ jobs:
               if: startsWith(matrix.config.os, 'macos')
               run: |
                 cd build
-                ../../Qt/*/*/bin/macdeployqt ../../jmbde.app
+                ../../Qt/*/*/bin/macdeployqt ./bin/jmbde.app
                 # cp ../.ci/mac/jmbde.icns jmbde.app/Contents/Resources
                 hdiutil create -volname jmbde-${{ steps.get_version.outputs.VERSION }}-x64 -srcfolder jmbde.app -ov -format UDZO jmbde-${{ steps.get_version.outputs.VERSION }}-macos-x64.dmg
 
