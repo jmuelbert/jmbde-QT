@@ -84,7 +84,7 @@ jobs:
                 cd  build
                 cmake .. -DCMAKE_BUILD_TYPE=Release  -DPORTABLE_VERSION=${{ matrix.config.portable-option }}
                 cmake --build . --config Release -j2
-                cmake --build . install
+                cmake --install
 
             - name: Get the version
               id: get_version
@@ -196,7 +196,7 @@ jobs:
                 draft: true
                 prerelease: ${{ steps.get_version.outputs.ISBETA }}
                 files: jmbde-${{ steps.get_version.outputs.VERSION }}-full-source.tar.gz
-                name: CP Editor ${{ steps.get_version.outputs.VERSION }}
+                name: jmbde ${{ steps.get_version.outputs.VERSION }}
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
