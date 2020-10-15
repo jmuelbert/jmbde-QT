@@ -84,7 +84,7 @@ jobs:
                 cd  build
                 cmake .. -DCMAKE_BUILD_TYPE=Release  -DPORTABLE_VERSION=${{ matrix.config.portable-option }}
                 cmake --build . --config Release -j2
-                cmake --build . --install
+                cmake --build . install
 
             - name: Get the version
               id: get_version
