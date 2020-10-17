@@ -111,24 +111,21 @@ Source: "{#MyOutRoot}\jmbdequick.dll"; DestDir: "{app}"; Components: core; Flags
 ; VC++ redistributable runtime. Extracted by VC2019RedistNeedsInstall(), if needed.
 Source: "{#MyOutRoot}\Redist\vc_redist.x64.exe"; DestDir: {tmp}; Flags: dontcopy
 
-; Qt VS libs
-Source: "{#MyOutRoot}\d3dcompiler_47.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\libEGL.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\libGLESV2.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\opengl32sw.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-
 ; Qt libs
 Source: "{#MyOutRoot}\Qt5Core.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\Qt5Gui.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\Qt5Network.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\Qt5PrintSupport.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\Qt5Qml.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\Qt5QmlModels.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\Qt5Quick.dll  "; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\Qt5QuickWidgets.dll   "; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\Qt5Sql.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\Qt5Svg.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\Qt5Widgets.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+
+
+; Qt VS libs
+Source: "{#MyOutRoot}\libGLESV2.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "{#MyOutRoot}\libEGL.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "{#MyOutRoot}\D3Dcompiler_47.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "{#MyOutRoot}\opengl32sw.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+
 
 ; Qt plugins
 ; - bearer
@@ -148,45 +145,35 @@ Source: "{#MyOutRoot}\imageformats\qtiff.dll"; DestDir: "{app}\imageformats"; Co
 Source: "{#MyOutRoot}\imageformats\qwbmp.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\imageformats\qwebp.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion
 
-; - platforminputcontexts
-Source: "{#MyOutRoot}\platforminputcontexts\qtvirtualkeyboardplugin.dll"; DestDir: "{app}\platforminputcontexts"; Components: core; Flags: ignoreversion
-
 ; - platforms
 Source: "{#MyOutRoot}\platforms\qwindows.dll"; DestDir: "{app}\platforms"; Components: core; Flags: ignoreversion
-
-; - printsupport
-Source: "{#MyOutRoot}\printsupport\windowsprintersupport.dll"; DestDir: "{app}\printsupport"; Components: core; Flags: ignoreversion
-
-; - qmltooling
-Source: "{#MyOutRoot}\qmltooling\qmldbg_debugger.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\qmltooling\qmldbg_inspector.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\qmltooling\qmldbg_local.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\qmltooling\qmldbg_messages.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\qmltooling\qmldbg_native.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\qmltooling\qmldbg_nativedebugger.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\qmltooling\qmldbg_preview.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\qmltooling\qmldbg_profiler.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\qmltooling\qmldbg_quickprofiler.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\qmltooling\qmldbg_server.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\qmltooling\qmldbg_tcp.dll"; DestDir: "{app}\qmltooling"; Components: core; Flags: ignoreversion
-
-; - scenegraph
-Source: "{#MyOutRoot}\scenegraph\qsgd3d12backend.dll"; DestDir: "{app}\scenegraph"; Components: core; Flags: ignoreversion
-
-; - sqldrivers
-Source: "{#MyOutRoot}\sqldrivers\qsqlite.dll"; DestDir: "{app}\sqldrivers"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\sqldrivers\qsqlodbc.dll"; DestDir: "{app}\sqldrivers"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\sqldrivers\qsqlpsql.dll"; DestDir: "{app}\sqldrivers"; Components: core; Flags: ignoreversion
 
 ; - styles
 Source: "{#MyOutRoot}\styles\qwindowsvistastyle.dll"; DestDir: "{app}\styles"; Components: core; Flags: ignoreversion
 
-; - virtualkeyboard
-Source: "{#MyOutRoot}\virtualkeyboard\qtvirtualkeyboard_hangul.dll"; DestDir: "{app}\virtualkeyboard"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\virtualkeyboard\qtvirtualkeyboard_openwnn.dll"; DestDir: "{app}\virtualkeyboard"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\virtualkeyboard\qtvirtualkeyboard_pinyin.dll"; DestDir: "{app}\virtualkeyboard"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\virtualkeyboard\qtvirtualkeyboard_tcime.dll"; DestDir: "{app}\virtualkeyboard"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\virtualkeyboard\qtvirtualkeyboard_thai.dll"; DestDir: "{app}\virtualkeyboard"; Components: core; Flags: ignoreversion
+; - qt translations
+Source: "{#MyOutRoot}\translations\qt_ar.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "{#MyOutRoot}\translations\qt_bg.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "{#MyOutRoot}\translations\qt_ca.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "{#MyOutRoot}\translations\qt_cs.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "{#MyOutRoot}\translations\qt_da.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "{#MyOutRoot}\translations\qt_de.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "{#MyOutRoot}\translations\qt_en.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "{#MyOutRoot}\translations\qt_es.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "{#MyOutRoot}\translations\qt_fi.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "{#MyOutRoot}\translations\qt_fr.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "{#MyOutRoot}\translations\qt_gd.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "{#MyOutRoot}\translations\qt_he.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "{#MyOutRoot}\translations\qt_hu.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "{#MyOutRoot}\translations\qt_it.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "{#MyOutRoot}\translations\qt_ja.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "{#MyOutRoot}\translations\qt_ko.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "{#MyOutRoot}\translations\qt_lv.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "{#MyOutRoot}\translations\qt_pl.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "{#MyOutRoot}\translations\qt_ru.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "{#MyOutRoot}\translations\qt_sk.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "{#MyOutRoot}\translations\qt_uk.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "{#MyOutRoot}\translations\qt_zh_TW.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 
 ; - translations
 Source: "{#MyOutRoot}\translations\jmbde_ar.qm"; DestDir: "{app}\translations"; Components: translations;  Flags: ignoreversion
@@ -218,29 +205,6 @@ Source: "{#MyOutRoot}\translations\jmbde_tr.qm"; DestDir: "{app}\translations"; 
 Source: "{#MyOutRoot}\translations\jmbde_uk.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "{#MyOutRoot}\translations\jmbde_zh_CN.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "{#MyOutRoot}\translations\jmbde_zh_TW.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-; - qt translations
-Source: "{#MyOutRoot}\translations\qt_ar.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\qt_bg.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\qt_ca.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\qt_cs.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\qt_da.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\qt_de.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\qt_en.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\qt_es.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\qt_fi.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\qt_fr.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\qt_gd.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\qt_he.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\qt_hu.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\qt_it.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\qt_ja.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\qt_ko.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\qt_lv.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\qt_pl.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\qt_ru.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\qt_sk.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\qt_uk.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\qt_zh_TW.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 
 ; Docs
 Source: "..\..\*.md"; DestDir: "{app}"; Components: core; Flags: ignoreversion
