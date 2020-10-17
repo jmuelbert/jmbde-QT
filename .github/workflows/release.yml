@@ -28,8 +28,7 @@ jobs:
             fail-fast: false
             matrix:
                 config:
-                    - { os: "ubuntu-18.04", portable-option: "Off"}
-                    - { os: "ubuntu-latest", portable-option: "Off" }
+                    - { os: "ubuntu-16.04", portable-option: "Off"}
                     - {
                         os: "windows-latest",
                         portable-option: "Off",
@@ -49,7 +48,7 @@ jobs:
                 submodules: recursive
 
             - name: Install Python 3.8
-              uses: actions/setup-python@v2.1.3
+              uses: actions/setup-python@v2.1.4
               with:
                   python-version: 3.8
                   architecture: ${{ matrix.arch }}
@@ -80,11 +79,9 @@ jobs:
 
             - name: Build
               run: |
-                # mkdir build
                 cd  build
-                cmake .. -DCMAKE_BUILD_TYPE=Release  -DPORTABLE_VERSION=${{ matrix.config.portable-option }}
-                cmake --build . --config Release -j2
-                # cmake --install .
+                cmake .. -DCMAKE_BUILD_TYPE=Release  -DPORTABLE_VERSION=${{ matrix.config.portable-option }} -DCMAKE_INSTALL_PREFIX:PATH=./app
+                cmake --build . --config Release -j2 --target install
 
             - name: Get the version
               id: get_version
@@ -98,6 +95,7 @@ jobs:
                 else
                     echo ::set-output name=ISBETA::true
                 fi
+                echo ::set-output name=VERSION::0.5.2
 
             - name: Pack to AppImage
               if: startsWith(matrix.config.os, 'ubuntu')
@@ -107,9 +105,9 @@ jobs:
                 wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
                 chmod a+x linuxdeployqt*.AppImage
                 export VERSION=${{ steps.get_version.outputs.VERSION }}
-                cp ../src/app/data/io.github.jmuelbert.jmbde.desktop default.desktop
-                cp ../src/app/icons/jmbde.png jmbde.png
-                ./linuxdeployqt*.AppImage ./bin/jmbde -appimage -qmake=../../Qt/${{ env.QT_VERSION }}/gcc_64/bin/qmake
+                cp ../src/app/data/io.github.jmuelbert.jmbde.desktop ./bin/default.desktop
+                cp ../src/app/icons/jmbde.png ./bin/jmbde.png
+                ./linuxdeployqt*.AppImage ./bin/default.desktop -qmake=../../Qt/${{ env.QT_VERSION }}/gcc_64/bin/qmake -verbose=2 -appimage
                 mv jmbde-${{steps.get_version.outputs.VERSION }}-x86_64.AppImage jmbde-${{ steps.get_version.outputs.VERSION }}-linux-x86_64.AppImage
 
             - name: Release AppImage
@@ -204,9 +202,9 @@ jobs:
               if: startsWith(matrix.config.os, 'macos')
               run: |
                 cd build
-                ../../Qt/*/*/bin/macdeployqt ./bin/jmbde.app
+                ../../Qt/*/*/bin/macdeployqt ./app/jmbde.app -verbose=2 -appstore-compliant -libpath=./app/jmbde.app/Contents/Frameworks
                 # cp ../.ci/mac/jmbde.icns jmbde.app/Contents/Resources
-                hdiutil create -volname jmbde-${{ steps.get_version.outputs.VERSION }}-x64 -srcfolder jmbde.app -ov -format UDZO jmbde-${{ steps.get_version.outputs.VERSION }}-macos-x64.dmg
+                hdiutil create -volname jmbde-${{ steps.get_version.outputs.VERSION }}-x64 -srcfolder ./app/jmbde.app -ov -format UDZO jmbde-${{ steps.get_version.outputs.VERSION }}-macos-x64.dmg
 
             - name: Release on Mac
               if: startsWith(matrix.config.os, 'macos')
@@ -223,9 +221,17 @@ jobs:
               if: startsWith(matrix.config.os, 'windows')
               shell: bash
               run: |
-                mkdir build/out/Redist
-                cp "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist/MSVC/$VC_REDIST_VERSION/vc_redist.x64.exe" build/out/Redist
-                iscc packaging/win/installer_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/out -DVC_REDIST_VERSION=$VC_REDIST_VERSION
+                ../Qt/*/*/bin/windeployqt.exe build/app/bin/jmbde.exe
+                cd "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist/MSVC"
+                echo ::set-env name=VC_REDIST_VERSION::$(ls -dr *.* | head -n1)
+
+            - name: Pack to installer on Windows
+              if: startsWith(matrix.config.os, 'windows') && matrix.config.portable-option == 'Off'
+              shell: bash
+              run: |
+                mkdir build/app/bin/Redist
+                cp "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist/MSVC/$VC_REDIST_VERSION/vc_redist.x64.exe" build/app/bin/Redist
+                iscc packaging/win/installer_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/app/bin -DVC_REDIST_VERSION=$VC_REDIST_VERSION
                 mv jmbde-${{ steps.get_version.outputs.VERSION }}-x64-setup.exe jmbde-${{ steps.get_version.outputs.VERSION }}-windows-x64${{ matrix.config.portable-name }}
 
             - name: Release on Windows
