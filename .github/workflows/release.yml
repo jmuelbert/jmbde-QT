@@ -110,7 +110,7 @@ jobs:
                 export VERSION=${{ steps.get_version.outputs.VERSION }}
                 cp ../src/app/data/io.github.jmuelbert.jmbde.desktop ./bin/default.desktop
                 cp ../src/app/icons/jmbde.png ./bin/jmbde.png
-                ./linuxdeployqt*.AppImage ./bin/default.desktop -appimage -qmake=../../Qt/${{ env.QT_VERSION }}/gcc_64/bin/qmake
+                ./linuxdeployqt*.AppImage ./bin/default.desktop -qmake=../../Qt/${{ env.QT_VERSION }}/gcc_64/bin/qmake -verbose=2 -appimage
                 mv jmbde-${{steps.get_version.outputs.VERSION }}-x86_64.AppImage jmbde-${{ steps.get_version.outputs.VERSION }}-linux-x86_64.AppImage
 
             - name: Release AppImage
