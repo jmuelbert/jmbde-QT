@@ -138,7 +138,7 @@ install(
 # jmbdequick
 set_target_properties(jmbdequick PROPERTIES EXPORT_NAME jmbdequick)
 
-# install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 # Export the targets to a script
 install(
