@@ -192,7 +192,7 @@ install(
 # jmbdemodels
 set_target_properties(jmbdemodels PROPERTIES EXPORT_NAME jmbdemodels)
 
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+# install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 # Export the targets to a script
 install(
