@@ -129,11 +129,11 @@ add_definitions(-DQT_DEPRECATED_WARNINGS)
 remove_definitions(-DQT_NO_SIGNALS_SLOTS_KEYWORDS)
 
 # debug suffixes for qmake compatibility
-#if(WIN32)
-#  set(CMAKE_DEBUG_POSTFIX "d")
-#elseif(APPLE)
-#  set(CMAKE_DEBUG_POSTFIX "_debug")
-#endif()
+if(WIN32)
+  set(CMAKE_DEBUG_POSTFIX "d")
+elseif(APPLE)
+  set(CMAKE_DEBUG_POSTFIX "_debug")
+endif()
 
 if(UPPERCASE_CMAKE_BUILD_TYPE MATCHES "^RELEASE$")
   add_definitions(-DQT_NO_DEBUG_OUTPUT)

@@ -79,7 +79,6 @@ jobs:
 
             - name: Build
               run: |
-                # mkdir build
                 cd  build
                 cmake .. -DCMAKE_BUILD_TYPE=Release  -DPORTABLE_VERSION=${{ matrix.config.portable-option }} -DCMAKE_INSTALL_PREFIX:PATH=./app
                 cmake --build . --config Release -j2
