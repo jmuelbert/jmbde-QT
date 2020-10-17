@@ -97,6 +97,7 @@ jobs:
                 else
                     echo ::set-output name=ISBETA::true
                 fi
+                echo ::set-output name=VERSION::0.5.2
 
             - name: Pack to AppImage
               if: startsWith(matrix.config.os, 'ubuntu')
