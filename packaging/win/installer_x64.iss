@@ -111,20 +111,6 @@ Source: "{#MyOutRoot}\jmbdequick.dll"; DestDir: "{app}"; Components: core; Flags
 ; VC++ redistributable runtime. Extracted by VC2019RedistNeedsInstall(), if needed.
 Source: "{#MyOutRoot}\Redist\vc_redist.x64.exe"; DestDir: {tmp}; Flags: dontcopy
 
-[Icons]
-Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
-Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
-Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: quicklaunchicon
-Name: "{group}\{cm:programOnTheWeb,{#MyAppName}}"; Filename: "{#MyAppURL}"; Components: core;
-Name: "{group}\{cm:Uninstallprogram, {#MyAppName}}"; Filename: "{uninstallexe}"
-Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}";
-Name: "{group}\{cm:manualOnTheWeb}"; Filename: "https://jmuelbert.github.io/jmbde-QT/";  Components: core
-
-
-[Run]
-Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
-Filename: "{tmp}\vc_redist.x64.exe"; StatusMsg: "Installing VC2019 redist..."; Parameters: "/quiet /norestart"; Check: VC2019RedistNeedsInstall ; Flags: waituntilterminated
-
 ; Qt VS libs
 Source: "bin\d3dcompiler_47.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "bin\libEGL.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
@@ -262,6 +248,21 @@ Source: "..\..\AUTHORS"; DestDir: "{app}"; Components: core; Flags: ignoreversio
 
 ; Licenses
 Source: "..\..\LICENSE"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+
+
+[Icons]
+Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
+Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
+Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: quicklaunchicon
+Name: "{group}\{cm:programOnTheWeb,{#MyAppName}}"; Filename: "{#MyAppURL}"; Components: core;
+Name: "{group}\{cm:Uninstallprogram, {#MyAppName}}"; Filename: "{uninstallexe}"
+Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}";
+Name: "{group}\{cm:manualOnTheWeb}"; Filename: "https://jmuelbert.github.io/jmbde-QT/";  Components: core
+
+
+[Run]
+Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+Filename: "{tmp}\vc_redist.x64.exe"; StatusMsg: "Installing VC2019 redist..."; Parameters: "/quiet /norestart"; Check: VC2019RedistNeedsInstall ; Flags: waituntilterminated
 
 [Code]
 function VC2019RedistNeedsInstall: Boolean;
