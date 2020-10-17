@@ -203,7 +203,7 @@ jobs:
               if: startsWith(matrix.config.os, 'macos')
               run: |
                 cd build
-                ../../Qt/*/*/bin/macdeployqt ./app/jmbde.app
+                ../../Qt/*/*/bin/macdeployqt ./app/jmbde.app -verbose=2 -appstore-compliant -libpath=./app/jmbde.app/Contents/Frameworks
                 # cp ../.ci/mac/jmbde.icns jmbde.app/Contents/Resources
                 hdiutil create -volname jmbde-${{ steps.get_version.outputs.VERSION }}-x64 -srcfolder ./app/jmbde.app -ov -format UDZO jmbde-${{ steps.get_version.outputs.VERSION }}-macos-x64.dmg
 

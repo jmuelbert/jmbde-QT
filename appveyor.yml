@@ -264,7 +264,7 @@ for:
       build_script:
           - ps: New-Item -itemtype directory -path ./program
           - ps: conan install ..
-          - ps: cmake -G "$ENV:CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE="$ENV:CONFIGURATION"  -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DCMAKE_INSTALL_PREFIX:PATH=./program -DBUILD_TESTING=ON -DBUILD_SHARED_LIBS=ON ..
+          - ps: cmake -G "$ENV:CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE="$ENV:CONFIGURATION"  -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DCMAKE_INSTALL_PREFIX:PATH="$ENV:APPVEYOR_BUILD_FOLDER/program" -DBUILD_TESTING=ON -DBUILD_SHARED_LIBS=ON ..
           - ps: cmake --build . --config $ENV:CONFIGURATION --target install
 
       after_build:
