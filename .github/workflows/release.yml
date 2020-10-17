@@ -28,7 +28,7 @@ jobs:
             fail-fast: false
             matrix:
                 config:
-                    - { os: "ubuntu-18.04", portable-option: "Off"}
+                    - { os: "ubuntu-16.04", portable-option: "Off"}
                     - {
                         os: "windows-latest",
                         portable-option: "Off",
@@ -103,10 +103,8 @@ jobs:
               run: |
                 sudo apt install libxcb*
                 cd build
-                wget -c "https://github.com/jimevins/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
+                wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
                 chmod a+x linuxdeployqt*.AppImage
-                wget -c -nv "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
-                chmod a+x appimagetool-x86_64.AppImage
                 export VERSION=${{ steps.get_version.outputs.VERSION }}
                 cp ../src/app/data/io.github.jmuelbert.jmbde.desktop ./bin/default.desktop
                 cp ../src/app/icons/jmbde.png ./bin/jmbde.png
@@ -205,9 +203,9 @@ jobs:
               if: startsWith(matrix.config.os, 'macos')
               run: |
                 cd build
-                ../../Qt/*/*/bin/macdeployqt ./bin/jmbde.app
+                ../../Qt/*/*/bin/macdeployqt ./app/jmbde.app
                 # cp ../.ci/mac/jmbde.icns jmbde.app/Contents/Resources
-                hdiutil create -volname jmbde-${{ steps.get_version.outputs.VERSION }}-x64 -srcfolder jmbde.app -ov -format UDZO jmbde-${{ steps.get_version.outputs.VERSION }}-macos-x64.dmg
+                hdiutil create -volname jmbde-${{ steps.get_version.outputs.VERSION }}-x64 -srcfolder ./app/jmbde.app -ov -format UDZO jmbde-${{ steps.get_version.outputs.VERSION }}-macos-x64.dmg
 
             - name: Release on Mac
               if: startsWith(matrix.config.os, 'macos')
