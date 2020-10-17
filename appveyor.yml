@@ -125,10 +125,10 @@ for:
             export VERSION=$APPVEYOR_BUILD_VERSION;
             fi
           # prepare jmbde
-          - sudo macdeployqt jmbde.app -verbose=2
-          - sudo chown -R $(id -nu) jmbde.app
+          - sudo macdeployqt ./Applications/jmbde.app -verbose=2
+          - sudo chown -R $(id -nu) ./Applications/jmbde.app
           - mkdir -p dmgdir/jmbde.app
-          - cp -r jmbde.app/* dmgdir/jmbde.app/
+          - cp -r ./Applications/jmbde.app/* dmgdir/jmbde.app/
           # build dmg
           - ln -s /Applications dmgdir/Applications
           - hdiutil create -volname jmbde-$VERSION -srcfolder dmgdir -ov -format UDZO jmbde-$VERSION.dmg;

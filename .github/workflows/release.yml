@@ -28,7 +28,7 @@ jobs:
             fail-fast: false
             matrix:
                 config:
-                    - { os: "ubuntu-16.04", portable-option: "Off"}
+                    - { os: "ubuntu-18.04", portable-option: "Off"}
                     - {
                         os: "windows-latest",
                         portable-option: "Off",
@@ -81,9 +81,9 @@ jobs:
               run: |
                 # mkdir build
                 cd  build
-                cmake .. -DCMAKE_BUILD_TYPE=Release  -DPORTABLE_VERSION=${{ matrix.config.portable-option }}
+                cmake .. -DCMAKE_BUILD_TYPE=Release  -DPORTABLE_VERSION=${{ matrix.config.portable-option }} -DCMAKE_INSTALL_PREFIX:PATH=./app
                 cmake --build . --config Release -j2
-                # cmake --install .
+                cmake --build . --target install
 
             - name: Get the version
               id: get_version
@@ -103,8 +103,10 @@ jobs:
               run: |
                 sudo apt install libxcb*
                 cd build
-                wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
+                wget -c "https://github.com/jimevins/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
                 chmod a+x linuxdeployqt*.AppImage
+                wget -c -nv "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+                chmod a+x appimagetool-x86_64.AppImage
                 export VERSION=${{ steps.get_version.outputs.VERSION }}
                 cp ../src/app/data/io.github.jmuelbert.jmbde.desktop default.desktop
                 cp ../src/app/icons/jmbde.png jmbde.png

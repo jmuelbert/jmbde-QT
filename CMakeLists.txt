@@ -96,10 +96,7 @@ list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake"
 
 # Load extended helpers
 include(KDEClangFormat)
-if(WIN32)
-    set(KDE_INSTALL_PREFIX_SCRIPT OFF)
-endif()
-include(KDEInstallDirs)
+# include(KDEInstallDirs)
 
 # warn about deprecated stuff so that we may try fixing it
 set(CMAKE_WARN_DEPRECATED ON)
