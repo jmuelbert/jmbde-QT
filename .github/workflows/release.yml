@@ -28,8 +28,7 @@ jobs:
             fail-fast: false
             matrix:
                 config:
-                    - { os: "ubuntu-18.04", portable-option: "Off"}
-                    - { os: "ubuntu-latest", portable-option: "Off" }
+                    - { os: "ubuntu-16.04", portable-option: "Off"}
                     - {
                         os: "windows-latest",
                         portable-option: "Off",
@@ -223,6 +222,7 @@ jobs:
               if: startsWith(matrix.config.os, 'windows')
               shell: bash
               run: |
+                mkdir build/out
                 mkdir build/out/Redist
                 cp "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist/MSVC/$VC_REDIST_VERSION/vc_redist.x64.exe" build/out/Redist
                 iscc packaging/win/installer_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/out -DVC_REDIST_VERSION=$VC_REDIST_VERSION

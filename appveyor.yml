@@ -114,7 +114,7 @@ for:
           - mkdir -p build
           - cd build
           - conan install ..
-          - cmake -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_PREFIX_PATH="$(brew --prefix qt)"  -DCMAKE_TOOLCHAIN_FILE="$VCPKGToolChainFile" -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=ON  -DCMAKE_INSTALL_PREFIX:PATH=./Applications
+          - cmake -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_PREFIX_PATH="$(brew --prefix qt)"  -DCMAKE_TOOLCHAIN_FILE="$VCPKGToolChainFile" -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=ON  -DCMAKE_INSTALL_PREFIX:PATH=./Applications ..
 
       build_script:
           - sudo cmake --build . --target install
@@ -176,7 +176,7 @@ for:
       build_script:
           - cd build
           - conan install ..
-          - cmake -DCMAKE_BUILD_TYPE="$CONFIGURATION"  -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang -DCMAKE_INSTALL_PREFIX:PATH=../appdir/usr -DBUILD_TESTING=OFF -DBUILD_SHARED_LIBS=ON ..
+          - cmake -DCMAKE_BUILD_TYPE="$CONFIGURATION"  -DCMAKE_INSTALL_PREFIX:PATH=../appdir/usr -DBUILD_TESTING=OFF -DBUILD_SHARED_LIBS=ON ..
           - make
           - export LD_LIBRARY_PATH=$APPVEYOR_BUILD_FOLDER/build/bin:$LD_LIBRARY_PATH
 
@@ -264,7 +264,7 @@ for:
       build_script:
           - ps: New-Item -itemtype directory -path ./program
           - ps: conan install ..
-          - ps: cmake -G "$ENV:CMAKE_GENERATOR" -A x64 -DCMAKE_BUILD_TYPE="$ENV:CONFIGURATION"  -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DCMAKE_INSTALL_PREFIX:PATH=./program -DBUILD_TESTING=ON -DBUILD_SHARED_LIBS=ON ..
+          - ps: cmake -G "$ENV:CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE="$ENV:CONFIGURATION"  -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DCMAKE_INSTALL_PREFIX:PATH=./program -DBUILD_TESTING=ON -DBUILD_SHARED_LIBS=ON ..
           - ps: cmake --build . --config $ENV:CONFIGURATION --target install
 
       after_build:
