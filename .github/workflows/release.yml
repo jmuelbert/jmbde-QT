@@ -1,6 +1,9 @@
 name: "Release"
 
-on: [push, pull_request]
+on:
+  push:
+    tags:
+      - "*"
 
 env:
   QT_VERSION: 5.15.1
@@ -95,7 +98,6 @@ jobs:
                 else
                     echo ::set-output name=ISBETA::true
                 fi
-                echo ::set-output name=VERSION::0.5.2
 
             - name: Pack to AppImage
               if: startsWith(matrix.config.os, 'ubuntu')
@@ -203,7 +205,6 @@ jobs:
               run: |
                 cd build
                 ../../Qt/*/*/bin/macdeployqt ./app/jmbde.app -verbose=2 -appstore-compliant -libpath=./app/jmbde.app/Contents/Frameworks
-                # cp ../.ci/mac/jmbde.icns jmbde.app/Contents/Resources
                 hdiutil create -volname jmbde-${{ steps.get_version.outputs.VERSION }}-x64 -srcfolder ./app/jmbde.app -ov -format UDZO jmbde-${{ steps.get_version.outputs.VERSION }}-macos-x64.dmg
 
             - name: Release on Mac

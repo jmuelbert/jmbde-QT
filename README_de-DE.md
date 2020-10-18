@@ -16,7 +16,8 @@ benötigen erfasst werden. Das sind Computer, Drucker und Telefone.
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![Help wanted issues](https://img.shields.io/github/issues/jmuelbert/jmbde-QT/help%20wanted)](https://github.com/jmuelbert/jmbde-QT/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)
 
-[Features](https://github.com/jmuelbert/jmbde-QT) | [Documentation](https://jmuelbert.github.io/jmbde-QT/) | [Changelog](CHANGELOG.md) | [Contributing](CONTRIBUTING.md) | [FAQ](https://github.com/jmuelbert/jmbde-QT/wiki/FAQ) | [deutsch](README_de-DE.md)
+[switch to the english version](README-en.md)
+
 
 jmbde verwendet das plattformübergreifende Framework [Qt](http://www.qt.io/download-open-source/),
 was bedeutet, dass es mit den meisten Betriebssystemen funktioniert.

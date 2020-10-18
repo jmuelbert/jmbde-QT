@@ -13,7 +13,7 @@
         "ENABLE_CLAZY": "OFF",
         "ENABLE_CCACHE": "ON",
         "USE_GIT_VERSION": "ON",
-        "CMAKE_INSTALL_PREFIX:PATH=./install",
+        "CMAKE_INSTALL_PREFIX:PATH": "./install",
         "VERBOSE"
     },
     "editor.formatOnSave": true,

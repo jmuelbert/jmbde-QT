@@ -186,16 +186,35 @@ if(USE_GIT_VERSION)
       Git PROPERTIES
       TYPE OPTIONAL
       PURPOSE "Determine exact build version.")
-    if(GIT_FOUND)
-      execute_process(
-        COMMAND ${GIT_EXECUTABLE} rev-parse --short HEAD
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-        OUTPUT_VARIABLE _git_revision)
-      string(REGEX REPLACE "\n" "" _git_revision "${_git_revision}")
-      set(JMBDE_REVISION "${JMBDE_REVISION} (revision: ${_git_revision})")
-    endif()
+      if(GIT_FOUND)
+        execute_process(
+          COMMAND ${GIT_EXECUTABLE} rev-parse --short HEAD
+          WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+          OUTPUT_VARIABLE "GIT_COMMIT_HASH"
+          OUTPUT_STRIP_TRAILING_WHITESPACE)
+        message(STATUS "Git commit hash: ${GIT_COMMIT_HASH}")
+        execute_process(
+          COMMAND ${GIT_EXECUTABLE} describe --long --tags --abbrev=8
+          WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+          OUTPUT_VARIABLE "GIT_DESCRIBE"
+          OUTPUT_STRIP_TRAILING_WHITESPACE)
+        if(NOT "${GIT_DESCRIBE}" EQUAL "")
+          string(REGEX REPLACE "(.+)-(.+)-(.+)" "\\2" "COMMITS_SINCE_LAST_RELEASE" "${GIT_DESCRIBE}")
+          if(NOT "${COMMITS_SINCE_LAST_RELEASE}" EQUAL "0")
+            string(REGEX REPLACE "(.+)-(.+)-(.+)" "\\1.r\\2.\\3" "DISPLAY_VERSION" "${GIT_DESCRIBE}")
+          else()
+            string(REGEX REPLACE "([0-9]+\\.[0-9]+)\\..+" "v\\1" "MINOR_VERSION" "${GIT_DESCRIBE}")
+          endif()
+        endif()
+      endif()
   endif()
 endif()
+
+if(NOT DEFINED "DISPLAY_VERSION")
+  set("DISPLAY_VERSION" "${PROJECT_VERSION}")
+endif()
+message(STATUS "Display version: ${DISPLAY_VERSION}")
+message(STATUS "Minor version: ${MINOR_VERSION}")
 
 # ##############################################################################
 # clang format cpp and h files.
@@ -381,5 +400,3 @@ endif()
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES
                      FATAL_ON_MISSING_REQUIRED_PACKAGES)
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
-
-# cpack include(cmake/packaging.cmake)
