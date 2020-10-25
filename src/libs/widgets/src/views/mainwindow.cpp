@@ -474,9 +474,7 @@ void MainWindow::notAvailableMessage(const QString &functionName)
                          "noch nicht implementiert\n"
                          "Wenn eine neuere Version zur Verfügung steht, dann probieren Sie es bitte damit\n"
                          "Sie können das auf der Project Webseite:\n %s überprüfen.")
-                          .arg(qApp->applicationVersion())
-                          .arg(functionName)
-                          .arg(qApp->organizationDomain());
+                          .arg(qApp->applicationVersion(), functionName, qApp->organizationDomain());
 
     QMessageBox::critical(this, qApp->applicationDisplayName(), message, QMessageBox::Cancel);
 }

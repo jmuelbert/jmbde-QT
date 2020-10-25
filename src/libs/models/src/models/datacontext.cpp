@@ -118,17 +118,15 @@ void Model::DataContext::prepareDB() const
         qCCritical(jmbdeModelsDatacontextLog) << tr("Kritischer Fehler bei der Initialisierung der Datenbank.") << tr("Die Datei '") << file.fileName() << tr(" zum initialisieren der Datenbank ") << tr("kann nicht geöffnet werden.");
     }
 
-    bool hasText = false;
+
     QString line;
     QByteArray readLine;
     QString cleanedLine;
     QStringList strings;
 
     while (!file.atEnd()) {
-        hasText = false;
+        bool hasText = false;
         line = QLatin1String("");
-        readLine = QByteArray("");
-        cleanedLine = QLatin1String("");
         strings.clear();
 
         while (!hasText) {
@@ -301,13 +299,11 @@ void Model::DataContext::renameDB(const QString &newName)
 {
     if (m_dbType == DBTypes::SQLITE) {
         QString oldConnection = this->m_connectionString;
-        QString oldDBName = this->m_Name;
         this->m_Name = newName;
         this->setDatabaseConnection();
 
         qCDebug(jmbdeModelsDatacontextLog) << tr("Ändere den Namen der Datenbank : ") << oldConnection << tr(" Neuer Name: ") << this->m_connectionString;
 
-        QString oldFileName = this->m_db.databaseName();
         this->m_db.close();
         QFile f(oldConnection);
         f.rename(this->m_connectionString);

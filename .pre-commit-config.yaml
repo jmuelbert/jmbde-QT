@@ -165,3 +165,20 @@ repos:
           - id: check-plists
           - id: forbid-autopkg-overrides
           - id: forbid-autopkg-trust-info
+
+    - repo: https://github.com/prettier/prettier
+      rev: 2.0.5
+      hooks:
+          - id: prettier
+
+    - repo: https://github.com/milin/giticket
+      rev: v1.0
+      hooks:
+          - id: giticket
+            args: ["--regex=PROJ-[0-9]", "--format={ticket} {commit_msg}"] # Optional
+
+    - repo: https://gitlab.com/smop/pre-commit-hooks
+      rev: master
+      hooks:
+          - id: check-poetry
+          - id: check-gitlab-ci

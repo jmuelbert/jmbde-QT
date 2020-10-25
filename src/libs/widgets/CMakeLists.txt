@@ -142,13 +142,14 @@ target_sources(
           resources/res.qrc)
 
 set_target_properties(
-  jmbdewidgets PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${SO_VERSION}
-                          EXPORT_NAME "jmbdewidgets")
+  jmbdewidgets
+  PROPERTIES VERSION ${PROJECT_VERSION}
+             SOVERSION ${SO_VERSION}
+             EXPORT_NAME "jmbdewidgets")
 
-if (APPLE)
-    set_target_properties(jmbdewidgets PROPERTIES
-         INSTALL_RPATH "@loader_path/.Frameworks"
-            )
+if(APPLE)
+  set_target_properties(jmbdewidgets PROPERTIES INSTALL_RPATH
+                                                "@loader_path/../Frameworks")
 endif()
 
 target_compile_features(jmbdewidgets PUBLIC cxx_std_17)

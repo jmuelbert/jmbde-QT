@@ -1,4 +1,4 @@
-/*
+/**
    jmbde a BDE Tool for companies
    Copyright (C) 2013-2020  Jürgen Mülbert
 

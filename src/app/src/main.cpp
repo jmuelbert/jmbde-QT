@@ -14,8 +14,6 @@
 */
 
 #include "jmbde-version.h"
-// #include "jmbde-settings.h"
-// #include "jmbdemodels_export.h"
 #include "jmbdewidgets_export.h"
 #include "views/mainwindow.h"
 
@@ -50,28 +48,15 @@
 #endif
 #include <iostream>
 
-#if defined Qt5AndroidExtras_FOUND && Qt5AndroidExtras_FOUND
-#include <QAndroidService>
-#endif
-
 #include <memory>
-
-#if defined Qt5AndroidExtras_FOUND && Qt5AndroidExtras_FOUND
-#include <QAndroidJniObject>
-#include <QtAndroid>
-#endif
 
 /**
  * @brief main
  * @param argc The count of args
  * @param argv The arg Strings
- * @return 0 is exceuted successful
+ * @return 0 is executed successful
  */
-#if defined Q_OS_ANDROID
-int __attribute__((visibility("default"))) main(int argc, char *argv[])
-#else
 int main(int argc, char *argv[])
-#endif
 {
     QLoggingCategory::setFilterRules(QLatin1String("jmuelbert.jmbde.*.debug=true\njmuelbert.jmbde.*.info=true"));
 

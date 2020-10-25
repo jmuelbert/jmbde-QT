@@ -28,7 +28,7 @@ EmployeeModel::EmployeeModel(QObject *parent)
     m_employees.append({QLatin1String("Autumn H."), QLatin1String("Stuart"), QLatin1String("951-3107 A Av."), QLatin1String("Z8077"), QLatin1String("Camerino")});
     m_employees.append({QLatin1String("Drew Z."), QLatin1String("Dominguez"), QLatin1String("131-2126 Quis St."), QLatin1String("79376"), QLatin1String("Chiclayo")});
     m_employees.append({QLatin1String("Florence K."), QLatin1String("Marks"), QLatin1String("389-8683 Odio St."), QLatin1String("12095"), QLatin1String("Solingen")});
-    m_employees.append({QLatin1String("Fletcher U."), QLatin1String("Clark"), QLatin1String("4408 Urna. St."), QLatin1String("9176 XC"), QLatin1String("Corroy-le-Ch‰teau")});
+    m_employees.append({QLatin1String("Fletcher U."), QLatin1String("Clark"), QLatin1String("4408 Urna. St."), QLatin1String("9176 XC"), QLatin1String("Corroy-le-Chateau")});
     m_employees.append({QLatin1String("Akeem H."), QLatin1String("Hardin"), QLatin1String("543-3082 Orci. Street"), QLatin1String("04155"), QLatin1String("Niort")});
 }
 
