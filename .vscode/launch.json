@@ -16,7 +16,7 @@
             "externalConsole": false,
             "MIMode": "lldb",
             "preLaunchTask": "clang++ build active file",
-            "visualizerFile": "/Users/juergen/Library/Application Support/Code/User/workspaceStorage/285611d6af001a513f9610dc2071a6a5/tonka3000.qtvsctools/qt.natvis.xml"
+            "visualizerFile": "/Users/juergen/Library/Application Support/Code/User/workspaceStorage/7ced9ec6cfbc1d8e627cc66093003caa/tonka3000.qtvsctools/qt.natvis.xml"
         }
     ]
 }

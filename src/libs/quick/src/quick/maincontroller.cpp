@@ -28,14 +28,7 @@ auto MainController::initialize() -> bool
 {
     mEngine = new QQmlApplicationEngine;
 
-    QQmlContext *ctxt = mEngine->rootContext();
-
-#if !defined(Q_OS_ANDROID) && !defined(Q_OS_IOS)
-//    qmlRegisterType<Notification>(URI, 1, 0, "Notification");
-//    ctxt->setContextProperty(QLatin1String("systrayIcon"),
-//    App::self()->notofication());
-#endif
-
+    // QQmlContext *ctxt = mEngine->rootContext();
     // ctxt->setContextObject(new KLocalizedContext(mEngine));
 
     mEngine->addImportPath(QLatin1String("qrc:/"));

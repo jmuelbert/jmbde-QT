@@ -107,7 +107,7 @@ set_target_properties(
 
 if (APPLE)
     set_target_properties(jmbdequick PROPERTIES
-         INSTALL_RPATH "@loader_path/.Frameworks"
+         INSTALL_RPATH "@loader_path/../Frameworks"
             )
 endif()
 

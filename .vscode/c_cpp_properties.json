@@ -1,35 +1,29 @@
 {
     "configurations": [
         {
-            "name": "Win32",
-            "includePath": ["${workspaceFolder}/**"],
-            "defines": ["_DEBUG", "UNICODE", "_UNICODE"],
-            "windowsSdkVersion": "10.0.18362.0",
-            "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Tools/MSVC/14.24.28314/bin/Hostx64/x64/cl.exe",
-            "cStandard": "c11",
-            "cppStandard": "c++17",
-            "intelliSenseMode": "msvc-x64"
-        },
-        {
-            "name": "Linux",
+            "name": "Mac-GNU",
             "includePath": ["${workspaceFolder}/**"],
             "defines": [],
-            "compilerPath": "/usr/bin/gcc",
-            "cStandard": "c11",
-            "cppStandard": "c++17",
-            "intelliSenseMode": "clang-x64"
+            "macFrameworkPath": [],
+            "compilerPath": "/usr/local/bin/gcc-10",
+            "cStandard": "gnu17",
+            "cppStandard": "gnu++14",
+            "intelliSenseMode": "gcc-x64",
+            "configurationProvider": "ms-vscode.cmake-tools"
         },
         {
             "name": "Mac",
             "includePath": ["${workspaceFolder}/**"],
             "defines": [],
             "macFrameworkPath": [
-                "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks"
+                "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks",
+                "/usr/local/Cellar/qt/5.15.1/lib"
             ],
             "compilerPath": "/usr/bin/clang",
             "cStandard": "c11",
-            "cppStandard": "c++17",
-            "intelliSenseMode": "clang-x64"
+            "cppStandard": "c++20",
+            "intelliSenseMode": "clang-x64",
+            "configurationProvider": "ms-vscode.cmake-tools"
         }
     ],
     "version": 4

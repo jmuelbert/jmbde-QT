@@ -390,3 +390,6 @@ conan.lock
 conaninfo.*
 conanbuildinfo.*
 conan/test_package/build
+GPATH
+GRTAGS
+GTAGS
