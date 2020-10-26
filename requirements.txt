@@ -18,7 +18,7 @@ MarkupSafe==1.1.1
 nodeenv==1.5.0
 packaging==20.4
 pre-commit==2.7.1
-Pygments==2.7.1
+Pygments==2.7.2
 pyparsing==2.4.7
 pytz==2020.1
 PyYAML==5.3.1
