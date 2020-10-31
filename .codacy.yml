@@ -1,6 +1,6 @@
 ---
 engines:
-  cppcheck
+  cppcheck:
    exclude_paths:
      - '**/*tests.cpp'    
  duplication:
