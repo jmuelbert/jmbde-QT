@@ -1,0 +1,14 @@
+---
+engines:
+  cppcheck
+   exclude_paths:
+     - '**/*tests.cpp'    
+ duplication:
+   exclude_paths:
+     - '**/*tests.cpp'
+exclude_paths:
+  - 'docs/**'
+  - 'src/3rdparty/**'
+  - '.github/**'
+  - '*.md'
+  
