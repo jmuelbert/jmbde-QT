@@ -41,6 +41,7 @@
 **************************************************************************/
 
 #include "views/manufacturerinputarea.h"
+
 #include "ui_manufacturerinputarea.h"
 
 ManufacturerInputArea::ManufacturerInputArea(QWidget *parent, const QModelIndex index)

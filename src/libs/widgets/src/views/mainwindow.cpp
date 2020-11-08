@@ -13,11 +13,12 @@
    GNU General Public License for more details.
 */
 
+#include "views/mainwindow.h"
+
 #include <QQmlApplicationEngine>
 #include <QQuickWidget>
 
 #include "ui_mainwindow.h"
-#include "views/mainwindow.h"
 
 Q_LOGGING_CATEGORY(jmbdeWidgetsMainWindowLog, "jmuelbert.jmbde.widgets.mainwindow", QtWarningMsg)
 
@@ -472,7 +473,8 @@ void MainWindow::notAvailableMessage(const QString &functionName)
 {
     QString message = tr("In der Version %s ist die Funktion <%s>\n"
                          "noch nicht implementiert\n"
-                         "Wenn eine neuere Version zur Verfügung steht, dann probieren Sie es bitte damit\n"
+                         "Wenn eine neuere Version zur Verfügung steht, dann probieren Sie es "
+                         "bitte damit\n"
                          "Sie können das auf der Project Webseite:\n %s überprüfen.")
                           .arg(qApp->applicationVersion(), functionName, qApp->organizationDomain());
 

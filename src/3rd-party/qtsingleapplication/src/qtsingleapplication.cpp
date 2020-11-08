@@ -24,7 +24,6 @@
 ****************************************************************************/
 
 #include "qtsingleapplication.h"
-#include "qtlocalpeer.h"
 
 #include <qtlockedfile.h>
 
@@ -32,6 +31,8 @@
 #include <QFileOpenEvent>
 #include <QSharedMemory>
 #include <QWidget>
+
+#include "qtlocalpeer.h"
 
 namespace SharedTools
 {

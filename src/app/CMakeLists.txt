@@ -37,8 +37,7 @@ include(ECMAddAppIcon)
 
 message(
   STATUS
-    "Building ${PROJECT_NAME} ${JMBDE_APP_QUICK_VERSION} in ${CMAKE_BUILD_TYPE} mode"
-)
+    "Building ${PROJECT_NAME} ${PROJECT_VERSION} in ${CMAKE_BUILD_TYPE} mode")
 
 # set project version
 
@@ -182,7 +181,6 @@ elseif(APPLE)
   set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_COPYRIGHT
                                                    "2013-2020 Jürgen Mülbert")
 
-
   install(
     TARGETS ${PROJECT_NAME}
     BUNDLE DESTINATION . COMPONENT Runtime
@@ -224,13 +222,13 @@ elseif(UNIX AND NOT APPLE)
     add_custom_command(
       OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1.gz
       COMMAND ${GZIP} -c ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1 > jmbde.1.gz
+      COMMENT "Create the bin gz archive"
       DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1)
-    add_custom_target(man ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1.gz)
+    add_custom_target(
+      man ALL
+      COMMENT "Create man-file"
+      DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1.gz)
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1.gz
             DESTINATION ${MAN_INSTALL_DIR}/man1/)
   endif()
 endif()
-
-set(QML_IMPORT_PATH
-    ${CMAKE_BINARY_DIR}/bin
-    CACHE INTERNAL "qml import path" FORCE)

@@ -41,6 +41,7 @@
 **************************************************************************/
 
 #include "views/osinputarea.h"
+
 #include "ui_osinputarea.h"
 
 OSInputArea::OSInputArea(QWidget *parent, const QModelIndex index)

@@ -13,41 +13,36 @@
    GNU General Public License for more details.
 */
 
-#include "jmbde-version.h"
-#include "jmbdewidgets_export.h"
-#include "views/mainwindow.h"
-
-#include <QDebug>
-#include <QObject>
-
 #include <QApplication>
-#include <QGuiApplication>
-#include <QMessageBox>
-
 #include <QCommandLineParser>
 #include <QCoreApplication>
+#include <QDebug>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
 #include <QGuiApplication>
 #include <QLibraryInfo>
 #include <QLoggingCategory>
+#include <QMessageBox>
+#include <QObject>
+#include <QQmlApplicationEngine>
+#include <QQmlContext>
+#include <QQmlFileSelector>
 #include <QSettings>
+#include <QStandardPaths>
 #include <QString>
 #include <QStringList>
 #include <QStyleFactory>
 #include <QTranslator>
 
-#include <QQmlApplicationEngine>
-#include <QQmlContext>
-#include <QQmlFileSelector>
-#include <QStandardPaths>
+#include "jmbde-version.h"
+#include "jmbdewidgets_export.h"
+#include "views/mainwindow.h"
 
 #ifndef Q_OS_WIN
 #include <unistd.h>
 #endif
 #include <iostream>
-
 #include <memory>
 
 /**

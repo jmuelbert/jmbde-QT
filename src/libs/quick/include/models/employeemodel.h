@@ -17,11 +17,11 @@
 
 #pragma once
 
-#include <QAbstractListModel>
-
 #include <jmbdequick-version.h>
 #include <jmbdequick_export.h>
 #include <loggingcategory.h>
+
+#include <QAbstractListModel>
 
 class EmployeeModel : public QAbstractListModel
 {

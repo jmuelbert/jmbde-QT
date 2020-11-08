@@ -14,6 +14,7 @@
 */
 
 #include "views/employeetable.h"
+
 #include "ui_employeetable.h"
 
 Q_LOGGING_CATEGORY(jmbdeWidgetsEmployeeTableLog, "jmuelbert.jmbde.widgets.employeetable", QtWarningMsg)

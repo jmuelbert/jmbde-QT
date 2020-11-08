@@ -187,10 +187,9 @@ elseif(APPLE)
   set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_COPYRIGHT
                                                    "2013-2020 Jürgen Mülbert")
 
-  set_target_properties(${PROJECT_NAME} PROPERTIES
-      OUTPUT_NAME ${PROJECT_NAME}
-      INSTALL_RPATH "@executable_path/../Frameworks"
-    )
+  set_target_properties(
+    ${PROJECT_NAME} PROPERTIES OUTPUT_NAME ${PROJECT_NAME}
+                               INSTALL_RPATH "@executable_path/../Frameworks")
 
   install(
     TARGETS ${PROJECT_NAME}

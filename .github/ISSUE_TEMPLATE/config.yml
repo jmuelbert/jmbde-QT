@@ -1,8 +1,9 @@
+---
 blank_issues_enabled: false
 contact_links:
-  - name: FAQ
-    url: https://github.com/jmuelbert/jmbde-QT/wiki/FAQ
-    about: You may find your question and the answer to it here.
-  - name: Documentation
-    url: http://jmuelbert.github.io/jmbde-QT/
-    about: The documentation tells you how to use jmbde.
+    - name: FAQ
+      url: https://github.com/jmuelbert/jmbde-QT/wiki/FAQ
+      about: You may find your question and the answer to it here.
+    - name: Documentation
+      url: http://jmuelbert.github.io/jmbde-QT/
+      about: The documentation tells you how to use jmbde.

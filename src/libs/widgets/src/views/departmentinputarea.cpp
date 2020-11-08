@@ -14,6 +14,7 @@
 */
 
 #include "views/departmentinputarea.h"
+
 #include "ui_departmentinputarea.h"
 
 DepartmentInputArea::DepartmentInputArea(QWidget *parent, const QModelIndex index)

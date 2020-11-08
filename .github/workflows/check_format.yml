@@ -1,31 +1,30 @@
-name: "Check Clang Format"
+---
+name: Check Clang Format
 
 on: [push, pull_request]
 
 jobs:
-  format:
-    name: "Check Clang Format"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: "Install clang-format-9"
-        run: |
-          sudo apt-get update
-          sudo apt-get install clang-format-9
-      - name: "Format Codes"
-        run: clang-format-9 -i -style=file -i src/app/src/*.cpp src/appquick/src/*.cpp
-              src/libs/models/*/*.cpp src/libs/models/*/*.h
-              src/libs/quick/*/*.cpp src/libs/quick/*/*.h
-              src/libs/widgets/*/*.cpp src/libs/widgets/*/*.h
-      - name: Check diff
-        run: git diff --exit-code HEAD
-      - name: Create Pull Request
-        if: failure()
-        uses: peter-evans/create-pull-request@v2
-        with:
-          commit-message: "style: format codes"
-          title: "Format codes for ${{ github.ref }}"
-          labels: "style"
-          assignees: "${{ github.actor }}"
-          reviewers: "${{ github.actor }}"
-          branch: "auto-pr/clang-format/${{ github.ref }}"
+    format:
+        name: Check Clang Format
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Install clang-format-9
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install clang-format-9
+            - name: Format Codes
+              run: clang-format-9 -i -style=file -i src/app/src/*.cpp src/appquick/src/*.cpp src/libs/models/*/*.cpp src/libs/models/*/*.h src/libs/quick/*/*.cpp
+                  src/libs/quick/*/*.h src/libs/widgets/*/*.cpp src/libs/widgets/*/*.h
+            - name: Check diff
+              run: git diff --exit-code HEAD
+            - name: Create Pull Request
+              if: failure()
+              uses: peter-evans/create-pull-request@v2
+              with:
+                  commit-message: 'style: format codes'
+                  title: Format codes for ${{ github.ref }}
+                  labels: style
+                  assignees: ${{ github.actor }}
+                  reviewers: ${{ github.actor }}
+                  branch: auto-pr/clang-format/${{ github.ref }}

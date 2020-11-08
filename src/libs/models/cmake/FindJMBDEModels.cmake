@@ -30,8 +30,9 @@ mark_as_advanced(JMBDEModels_FOUND JMBDEModels_INCLUDE_DIR JMBDEModels_VERSION)
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(
-  JMBDEModels REQUIRED_VARS JMBDEModels_INCLUDE_DIR VERSION_VAR
-  JMBDEModels_VERSION)
+  JMBDEModels
+  REQUIRED_VARS JMBDEModels_INCLUDE_DIR
+  VERSION_VAR JMBDEModels_VERSION)
 
 if(JMBDEModels_FOUND)
   # Set include dirs to parent, to enable includes like #include
@@ -41,8 +42,8 @@ if(JMBDEModels_FOUND)
 endif()
 
 if(JMBDEModels_FOUND AND NOT TARGET jmuelbert::jmbdemodels)
-  add_library( jmuelbert::jmbdemodels INTERFACE IMPORTED)
+  add_library(jmuelbert::jmbdemodels INTERFACE IMPORTED)
   set_target_properties(
-     jmuelbert::jmbdemodels PROPERTIES INTERFACE_INCLUDE_DIRECTORIES
-                                        "${JMBDEModels_INCLUDE_DIRS}")
+    jmuelbert::jmbdemodels PROPERTIES INTERFACE_INCLUDE_DIRECTORIES
+                                      "${JMBDEModels_INCLUDE_DIRS}")
 endif()

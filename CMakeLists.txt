@@ -44,11 +44,11 @@
 cmake_minimum_required(VERSION 3.12...3.18 FATAL_ERROR)
 
 if(${CMAKE_VERSION} VERSION_LESS 3.13.5)
-    cmake_policy(SET CMP0020 NEW)
-    cmake_policy(SET CMP0043 NEW)
-    cmake_policy(SET CMP0053 NEW)
-    cmake_policy(SET CMP0063 NEW)
-    cmake_policy(SET CMP0068 NEW)
+  cmake_policy(SET CMP0020 NEW)
+  cmake_policy(SET CMP0043 NEW)
+  cmake_policy(SET CMP0053 NEW)
+  cmake_policy(SET CMP0063 NEW)
+  cmake_policy(SET CMP0068 NEW)
 endif()
 
 if(${CMAKE_VERSION} VERSION_LESS 3.18)
@@ -142,15 +142,9 @@ add_feature_info(MANUAL ${BUILD_MANUAL} "Build the Documentation and man pages")
 option(BUILD_API_DOCS "Build the api-docs." OFF)
 add_feature_info(API_DOCS ${BUILD_API_DOCS}
                  "Build the Documentation and man pages")
-option(
-  BUILD_QCH
-  "Build API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)"
-  OFF)
-add_feature_info(
-  QCH
-  ${BUILD_QCH}
-  "API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)"
-)
+option(BUILD_QCH "Build API documentation in QCH format" OFF)
+add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format"
+                 " (for e.g. Qt Assistant, Qt Creator & KDevelop)")
 option(BUILD_TRANSLATIONS "Build translations" ON)
 add_feature_info(TRANSL ${BUILD_TRANSLATIONS} "Build the translations")
 option(BUILD_COVERAGE "Add coverage information." OFF)
@@ -171,7 +165,7 @@ option(ENABLE_CCACHE "prefix each compile command with ccache" OFF)
 add_feature_info(CCACHE ${ENABLE_CCACHE} "Compile with ccache")
 option(USE_GIT_VERSION "Append Git HEAD to jmbde version (if exists)" ON)
 
-# Extensions: GitVersion, Clang-Format, Clang-Tidy, cppcheck
+# Extensions: GitVersion, Clang-Format, Clang-Tidy
 # ##############################################################################
 # GitVersion
 if(USE_GIT_VERSION)
@@ -181,32 +175,35 @@ if(USE_GIT_VERSION)
       Git PROPERTIES
       TYPE OPTIONAL
       PURPOSE "Determine exact build version.")
-      if(GIT_FOUND)
-        execute_process(
-          COMMAND ${GIT_EXECUTABLE} rev-parse --short HEAD
-          WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-          OUTPUT_VARIABLE "GIT_COMMIT_HASH"
-          OUTPUT_STRIP_TRAILING_WHITESPACE)
-        message(STATUS "Git commit hash: ${GIT_COMMIT_HASH}")
-        execute_process(
-          COMMAND ${GIT_EXECUTABLE} describe --long --tags --abbrev=8
-          WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-          OUTPUT_VARIABLE "GIT_DESCRIBE"
-          OUTPUT_STRIP_TRAILING_WHITESPACE)
-        if(NOT "${GIT_DESCRIBE}" EQUAL "")
-          string(REGEX REPLACE "(.+)-(.+)-(.+)" "\\2" "COMMITS_SINCE_LAST_RELEASE" "${GIT_DESCRIBE}")
-          if(NOT "${COMMITS_SINCE_LAST_RELEASE}" EQUAL "0")
-            string(REGEX REPLACE "(.+)-(.+)-(.+)" "\\1.r\\2.\\3" "DISPLAY_VERSION" "${GIT_DESCRIBE}")
-          else()
-            string(REGEX REPLACE "([0-9]+\\.[0-9]+)\\..+" "v\\1" "MINOR_VERSION" "${GIT_DESCRIBE}")
-          endif()
+    if(GIT_FOUND)
+      execute_process(
+        COMMAND ${GIT_EXECUTABLE} rev-parse --short HEAD
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+        OUTPUT_VARIABLE "GIT_COMMIT_HASH"
+        OUTPUT_STRIP_TRAILING_WHITESPACE)
+      message(STATUS "Git commit hash: ${GIT_COMMIT_HASH}")
+      execute_process(
+        COMMAND ${GIT_EXECUTABLE} describe --long --tags --abbrev=8
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+        OUTPUT_VARIABLE "GIT_DESCRIBE"
+        OUTPUT_STRIP_TRAILING_WHITESPACE)
+      if(NOT "${GIT_DESCRIBE}" EQUAL "")
+        string(REGEX REPLACE "(.+)-(.+)-(.+)" "\\2"
+                             "COMMITS_SINCE_LAST_RELEASE" "${GIT_DESCRIBE}")
+        if(NOT "${COMMITS_SINCE_LAST_RELEASE}" EQUAL "0")
+          string(REGEX REPLACE "(.+)-(.+)-(.+)" "\\1.r\\2.\\3"
+                               "DISPLAY_VERSION" "${GIT_DESCRIBE}")
+        else()
+          string(REGEX REPLACE "([0-9]+\\.[0-9]+)\\..+" "v\\1" "MINOR_VERSION"
+                               "${GIT_DESCRIBE}")
         endif()
       endif()
+    endif()
   endif()
 endif()
 
-if(NOT DEFINED "DISPLAY_VERSION")
-  set("DISPLAY_VERSION" "${PROJECT_VERSION}")
+if(NOT DEFINED DISPLAY_VERSION)
+  set(DISPLAY_VERSION "${PROJECT_VERSION}")
 endif()
 message(STATUS "Display version: ${DISPLAY_VERSION}")
 message(STATUS "Minor version: ${MINOR_VERSION}")
@@ -243,32 +240,6 @@ else()
 endif()
 
 # ##############################################################################
-# cppcheck
-#
-find_program(CPPCHECK_EXECUTABLE cppcheck)
-if(CPPCHECK_EXECUTABLE)
-  set(_cppcheck_flags "-I${CMAKE_CURRENT_BINARY_DIR}")
-  get_directory_property(_inc_dirs INCLUDE_DIRECTORIES)
-  foreach(_current ${_inc_dirs})
-    set(_cppcheck_flags ${_cppcheck_flags} "-I${_current}")
-  endforeach()
-  get_directory_property(_defs COMPILE_DEFINITIONS)
-  foreach(_current ${_defs})
-    set(_cppcheck_flags ${_cppcheck_flags} "-D${_current}")
-  endforeach()
-
-  add_custom_target(
-    cppcheck
-    COMMAND
-      ${CPPCHECK_EXECUTABLE} --enable=all --inconclusive -f
-      --suppress=*:${QT_INCLUDE_DIR}* ${_cppcheck_flags}
-      -i${CMAKE_CURRENT_SOURCE_DIR}/3rdparty -i${CMAKE_CURRENT_SOURCE_DIR}/tests
-      ${CMAKE_CURRENT_SOURCE_DIR}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    COMMENT "Running the cppcheck static code checker")
-endif()
-
-# ##############################################################################
 # ccache setup distros can also do this but they don't use this mechanism
 if(ENABLE_CCACHE)
   find_program(CCACHE_FOUND "ccache")
@@ -278,7 +249,7 @@ if(ENABLE_CCACHE)
     set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
   else()
     message(FATAL_ERROR "ccache not found, but you requested it")
-  endif(CCACHE_FOUND)
+  endif()
 endif()
 
 # ##############################################################################
@@ -393,5 +364,5 @@ endif()
 
 # tell about our features (and what is missing)
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES
-                     FATAL_ON_MISSING_REQUIRED_PACKAGES)
+                         FATAL_ON_MISSING_REQUIRED_PACKAGES)
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")

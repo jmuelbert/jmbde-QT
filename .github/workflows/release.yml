@@ -1,12 +1,13 @@
-name: "Release"
+---
+name: Release
 
 on:
-  push:
-    tags:
-      - "*"
+    push:
+        tags:
+            - '*'
 
 env:
-  QT_VERSION: 5.15.1
+    QT_VERSION: 5.15.1
 
 jobs:
     check_commit_msg:
@@ -24,31 +25,23 @@ jobs:
     release:
         needs: check_commit_msg
         if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_MAIN') }}
-        name: "release on ${{ matrix.config.os }} with portable ${{ matrix.config.portable-option }}"
-        runs-on: "${{ matrix.config.os }}"
+        name: release on ${{ matrix.config.os }} with portable ${{ matrix.config.portable-option }}
+        runs-on: ${{ matrix.config.os }}
 
         strategy:
             fail-fast: false
             matrix:
                 config:
-                    - { os: "ubuntu-16.04", portable-option: "Off"}
-                    - {
-                        os: "windows-latest",
-                        portable-option: "Off",
-                        portable-name: "-setup.exe"
-                    }
-                    - {
-                        os: "windows-latest",
-                        portable-option: "On",
-                        portable-name: "-portable.zip"
-                    }
-                    -  { os: "macos-latest", portable-option: "Off" }
+                    - {os: ubuntu-16.04, portable-option: Off}
+                    - {os: windows-latest, portable-option: Off, portable-name: -setup.exe}
+                    - {os: windows-latest, portable-option: On, portable-name: -portable.zip}
+                    - {os: macos-latest, portable-option: Off}
 
         steps:
             - name: Checking out sources
               uses: actions/checkout@v2
               with:
-                submodules: recursive
+                  submodules: recursive
 
             - name: Install Python 3.8
               uses: actions/setup-python@v2.1.4
@@ -60,186 +53,186 @@ jobs:
               id: cache-qt
               uses: actions/cache@v2.1.1
               with:
-                path: ../Qt
-                key: Qt-${{ matrix.config.os }}-${{ env.QT_VERSION }}
+                  path: ../Qt
+                  key: Qt-${{ matrix.config.os }}-${{ env.QT_VERSION }}
 
             - name: Set up Qt environment
               uses: jurplel/install-qt-action@v2
               with:
-                cached: ${{ steps.cache-qt.outputs.cache-hit }}
-                version: ${{ env.QT_VERSION }}
+                  cached: ${{ steps.cache-qt.outputs.cache-hit }}
+                  version: ${{ env.QT_VERSION }}
 
             - name: conan_and_ecm
               id: conan_and_ecm
               run: |
-                python -m pip install conan
-                conan user
-                conan create ./conan/ecm
-                mkdir build
-                cd build
-                conan install ..
-                cd ..
+                  python -m pip install conan
+                  conan user
+                  conan create ./conan/ecm
+                  mkdir build
+                  cd build
+                  conan install ..
+                  cd ..
 
             - name: Build
               run: |
-                cd  build
-                cmake .. -DCMAKE_BUILD_TYPE=Release  -DPORTABLE_VERSION=${{ matrix.config.portable-option }} -DCMAKE_INSTALL_PREFIX:PATH=./app
-                cmake --build . --config Release -j2 --target install
+                  cd  build
+                  cmake .. -DCMAKE_BUILD_TYPE=Release  -DPORTABLE_VERSION=${{ matrix.config.portable-option }} -DCMAKE_INSTALL_PREFIX:PATH=./app
+                  cmake --build . --config Release -j2 --target install
 
             - name: Get the version
               id: get_version
               shell: bash
               run: |
-                VERSION=${GITHUB_REF/refs\/tags\//}
-                echo ::set-output name=VERSION::$VERSION
-                read STABLE_VERSION < .ci/STABLE_VERSION
-                if [ "${VERSION:0:${#STABLE_VERSION}}" == "$STABLE_VERSION" ]; then
-                    echo ::set-output name=ISBETA::false
-                else
-                    echo ::set-output name=ISBETA::true
-                fi
+                  VERSION=${GITHUB_REF/refs\/tags\//}
+                  echo ::set-output name=VERSION::$VERSION
+                  read STABLE_VERSION < .ci/STABLE_VERSION
+                  if [ "${VERSION:0:${#STABLE_VERSION}}" == "$STABLE_VERSION" ]; then
+                      echo ::set-output name=ISBETA::false
+                  else
+                      echo ::set-output name=ISBETA::true
+                  fi
 
             - name: Pack to AppImage
               if: startsWith(matrix.config.os, 'ubuntu')
               run: |
-                sudo apt install libxcb*
-                cd build
-                wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-                chmod a+x linuxdeployqt*.AppImage
-                export VERSION=${{ steps.get_version.outputs.VERSION }}
-                cp ../src/app/data/io.github.jmuelbert.jmbde.desktop ./bin/default.desktop
-                cp ../src/app/icons/jmbde.png ./bin/jmbde.png
-                ./linuxdeployqt*.AppImage ./bin/default.desktop -qmake=../../Qt/${{ env.QT_VERSION }}/gcc_64/bin/qmake -verbose=2 -appimage
-                mv jmbde-${{steps.get_version.outputs.VERSION }}-x86_64.AppImage jmbde-${{ steps.get_version.outputs.VERSION }}-linux-x86_64.AppImage
+                  sudo apt install libxcb*
+                  cd build
+                  wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
+                  chmod a+x linuxdeployqt*.AppImage
+                  export VERSION=${{ steps.get_version.outputs.VERSION }}
+                  cp ../src/app/data/io.github.jmuelbert.jmbde.desktop ./bin/default.desktop
+                  cp ../src/app/icons/jmbde.png ./bin/jmbde.png
+                  ./linuxdeployqt*.AppImage ./bin/default.desktop -qmake=../../Qt/${{ env.QT_VERSION }}/gcc_64/bin/qmake -verbose=2 -appimage
+                  mv jmbde-${{steps.get_version.outputs.VERSION }}-x86_64.AppImage jmbde-${{ steps.get_version.outputs.VERSION }}-linux-x86_64.AppImage
 
             - name: Release AppImage
               if: startsWith(matrix.config.os, 'ubuntu')
               uses: softprops/action-gh-release@v1
               with:
-                draft: true
-                prerelease: ${{ steps.get_version.outputs.ISBETA }}
-                files: build/jmbde-${{ steps.get_version.outputs.VERSION }}-linux-x86_64.AppImage
-                name: jmbde ${{ steps.get_version.outputs.VERSION }}
+                  draft: true
+                  prerelease: ${{ steps.get_version.outputs.ISBETA }}
+                  files: build/jmbde-${{ steps.get_version.outputs.VERSION }}-linux-x86_64.AppImage
+                  name: jmbde ${{ steps.get_version.outputs.VERSION }}
               env:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Pack to deb
               if: startsWith(matrix.config.os, 'ubuntu')
               id: deb-package
               run: |
-                pkgname="jmbde-${{ steps.get.version.outputs.VERSION }}-linux-amd64"
-                echo "::set-output name=pkgname::${pkgname}"
+                  pkgname="jmbde-${{ steps.get.version.outputs.VERSION }}-linux-amd64"
+                  echo "::set-output name=pkgname::${pkgname}"
 
-                mkdir -p ${pkgname}/usr/share/
-                cd ${pkgname}/usr/share/
+                  mkdir -p ${pkgname}/usr/share/
+                  cd ${pkgname}/usr/share/
 
-                mkdir applications/
-                cp ${{ github.workspace }}/src/app/data/io.github.jmuelbert.jmbde.desktop ./applications
+                  mkdir applications/
+                  cp ${{ github.workspace }}/src/app/data/io.github.jmuelbert.jmbde.desktop ./applications
 
-                mkdir -p jmbde/bin
-                cp ${{ github.workspace }}/packaging/linux/jmbde ./jmbde/
-                cp -r ${{ github.workspace }}/build/plugins/ ./jmbde
-                cp ${{ github.workspace }}/build/jmbde ./jmbde/bin/
+                  mkdir -p jmbde/bin
+                  cp ${{ github.workspace }}/packaging/linux/jmbde ./jmbde/
+                  cp -r ${{ github.workspace }}/build/plugins/ ./jmbde
+                  cp ${{ github.workspace }}/build/jmbde ./jmbde/bin/
 
-                mkdir -p doc/jmbde
-                cp ${{ github.workspace }}/LICENSE ./doc/jmbde/copyright
+                  mkdir -p doc/jmbde
+                  cp ${{ github.workspace }}/LICENSE ./doc/jmbde/copyright
 
-                mkdir icons/
-                cp ${{ github.workspace }}/src/app/icons/jmbde.png ./icons/jmbde/jmbde.png
+                  mkdir icons/
+                  cp ${{ github.workspace }}/src/app/icons/jmbde.png ./icons/jmbde/jmbde.png
 
-                cp -r ${{ github.workspace }}/build/tramslations/ ./jmbde
+                  cp -r ${{ github.workspace }}/build/tramslations/ ./jmbde
 
-                cd ../
-                mkdir -p lib/jmbde/
-                cp ${{ github.workspace }}/build/lib/* ./lib/jmbde
+                  cd ../
+                  mkdir -p lib/jmbde/
+                  cp ${{ github.workspace }}/build/lib/* ./lib/jmbde
 
-                cd ..
-                cp ${{ github.workspace }}/packaging/DEBIAN/ .
-                wget -c "http://archive.ubuntu.com/ubuntu/pool/universe/h/hashdeep/md5deep_4.4-4_all.deb"
-                wget -c "http://archive.ubuntu.com/ubuntu/pool/universe/h/hashdeep/hashdeep_4.4-4_amd64.deb"
-                sudo apt install ./*.deb
-                rm *.deb
-                md5deep -rl usr/ > ./DEBIAN/md5sums
-                cd DEBIAN
-                chmod 775 p*
-                sed -i "s/\${ver}/${{ steps.get_version.outputs.VERSION }}/" control
-                SIZE=$(du -s ../../${pkgname} | cut -f1)
-                sed -i "s/\${size}/${SIZE}/" control
-                cd ${{ github.workspace }}/
-                fakeroot dpkg-deb --build ${pkgname}
+                  cd ..
+                  cp ${{ github.workspace }}/packaging/DEBIAN/ .
+                  wget -c "http://archive.ubuntu.com/ubuntu/pool/universe/h/hashdeep/md5deep_4.4-4_all.deb"
+                  wget -c "http://archive.ubuntu.com/ubuntu/pool/universe/h/hashdeep/hashdeep_4.4-4_amd64.deb"
+                  sudo apt install ./*.deb
+                  rm *.deb
+                  md5deep -rl usr/ > ./DEBIAN/md5sums
+                  cd DEBIAN
+                  chmod 775 p*
+                  sed -i "s/\${ver}/${{ steps.get_version.outputs.VERSION }}/" control
+                  SIZE=$(du -s ../../${pkgname} | cut -f1)
+                  sed -i "s/\${size}/${SIZE}/" control
+                  cd ${{ github.workspace }}/
+                  fakeroot dpkg-deb --build ${pkgname}
 
             - name: Release deb
               if: startsWith(matrix.config.os, 'ubuntu')
               uses: softprops/action-gh-release@v1
               with:
-                draft: true
-                prerelease: ${{ steps.get_version.outputs.ISBETA }}
-                files: ${{ steps.deb-package.outputs.pkgname }}.deb
-                name: jmbde ${{ steps.get_version.outputs.VERSION }}
+                  draft: true
+                  prerelease: ${{ steps.get_version.outputs.ISBETA }}
+                  files: ${{ steps.deb-package.outputs.pkgname }}.deb
+                  name: jmbde ${{ steps.get_version.outputs.VERSION }}
               env:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Package full Source
               if: startsWith(matrix.config.os, 'ubuntu')
               run: |
-                shopt -s extglob # enable "!(...)"
-                mv .git/objects/pack .
-                git unpack-objects < pack/*.pack
-                rm -rf pack .git/objects/!($(git rev-parse @ | cut -c-2)) .git/objects/$(git rev-parse @ | cut -c-2)/!($(git rev-parse @ | cut -c3-))
-                wget https://raw.githubusercontent.com/Kentzo/git-archive-all/master/git_archive_all.py
-                python3 git_archive_all.py jmbde-${{ steps.get_version.outputs.VERSION }}-full-source.tar.gz --extra=.git/HEAD --extra=.git/refs --extra=.git/objects
+                  shopt -s extglob # enable "!(...)"
+                  mv .git/objects/pack .
+                  git unpack-objects < pack/*.pack
+                  rm -rf pack .git/objects/!($(git rev-parse @ | cut -c-2)) .git/objects/$(git rev-parse @ | cut -c-2)/!($(git rev-parse @ | cut -c3-))
+                  wget https://raw.githubusercontent.com/Kentzo/git-archive-all/master/git_archive_all.py
+                  python3 git_archive_all.py jmbde-${{ steps.get_version.outputs.VERSION }}-full-source.tar.gz --extra=.git/HEAD --extra=.git/refs --extra=.git/objects
 
             - name: Release full source
               if: startsWith(matrix.config.os, 'ubuntu')
               uses: softprops/action-gh-release@v1
               with:
-                draft: true
-                prerelease: ${{ steps.get_version.outputs.ISBETA }}
-                files: jmbde-${{ steps.get_version.outputs.VERSION }}-full-source.tar.gz
-                name: jmbde ${{ steps.get_version.outputs.VERSION }}
+                  draft: true
+                  prerelease: ${{ steps.get_version.outputs.ISBETA }}
+                  files: jmbde-${{ steps.get_version.outputs.VERSION }}-full-source.tar.gz
+                  name: jmbde ${{ steps.get_version.outputs.VERSION }}
               env:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Pack dmg to Mac
               if: startsWith(matrix.config.os, 'macos')
               run: |
-                cd build
-                ../../Qt/*/*/bin/macdeployqt ./app/jmbde.app -verbose=2 -appstore-compliant -libpath=./app/jmbde.app/Contents/Frameworks
-                hdiutil create -volname jmbde-${{ steps.get_version.outputs.VERSION }}-x64 -srcfolder ./app/jmbde.app -ov -format UDZO jmbde-${{ steps.get_version.outputs.VERSION }}-macos-x64.dmg
+                  cd build
+                  ../../Qt/*/*/bin/macdeployqt ./app/jmbde.app -verbose=2 -appstore-compliant -libpath=./app/jmbde.app/Contents/Frameworks
+                  hdiutil create -volname jmbde-${{ steps.get_version.outputs.VERSION }}-x64 -srcfolder ./app/jmbde.app -ov -format UDZO jmbde-${{ steps.get_version.outputs.VERSION }}-macos-x64.dmg
 
             - name: Release on Mac
               if: startsWith(matrix.config.os, 'macos')
               uses: softprops/action-gh-release@v1
               with:
-                draft: true
-                prerelease: ${{ steps.get_version.outputs.ISBETA }}
-                files: build/jmbde-${{ steps.get_version.outputs.VERSION }}-macos-x64.dmg
-                name: jmbde ${{ steps.get_version.outputs.VERSION }}
+                  draft: true
+                  prerelease: ${{ steps.get_version.outputs.ISBETA }}
+                  files: build/jmbde-${{ steps.get_version.outputs.VERSION }}-macos-x64.dmg
+                  name: jmbde ${{ steps.get_version.outputs.VERSION }}
               env:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Gather dependencies on Windows
               if: startsWith(matrix.config.os, 'windows')
               shell: bash
               run: |
-                ../Qt/*/*/bin/windeployqt.exe build/app/bin/jmbde.exe
-                cd "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist/MSVC"
-                echo ::set-env name=VC_REDIST_VERSION::$(ls -dr *.* | head -n1)
+                  ../Qt/*/*/bin/windeployqt.exe build/app/bin/jmbde.exe
+                  cd "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist/MSVC"
+                  echo ::set-env name=VC_REDIST_VERSION::$(ls -dr *.* | head -n1)
 
             - name: Pack to installer on Windows
               if: startsWith(matrix.config.os, 'windows') && matrix.config.portable-option == 'Off'
               shell: bash
               run: |
-                mkdir build/app/bin/Redist
-                cp "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist/MSVC/$VC_REDIST_VERSION/vc_redist.x64.exe" build/app/bin/Redist
-                iscc packaging/win/installer_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/app/bin -DVC_REDIST_VERSION=$VC_REDIST_VERSION
-                mv jmbde-${{ steps.get_version.outputs.VERSION }}-x64-setup.exe jmbde-${{ steps.get_version.outputs.VERSION }}-windows-x64${{ matrix.config.portable-name }}
+                  mkdir build/app/bin/Redist
+                  cp "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist/MSVC/$VC_REDIST_VERSION/vc_redist.x64.exe" build/app/bin/Redist
+                  iscc packaging/win/installer_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/app/bin -DVC_REDIST_VERSION=$VC_REDIST_VERSION
+                  mv jmbde-${{ steps.get_version.outputs.VERSION }}-x64-setup.exe jmbde-${{ steps.get_version.outputs.VERSION }}-windows-x64${{ matrix.config.portable-name }}
 
             - name: Release on Windows
               if: startsWith(matrix.config.os, 'windows')
               uses: softprops/action-gh-release@v1
               with:
-                draft: true
-                prerelease: ${{ steps.get_version.outputs.ISBETA }}
-                files: jmbde-${{ steps.get_version.outputs.VERSION }}-windows-x64${{ matrix.config.portable-name }}
-                name: jmbde ${{ steps.get_version.outputs.VERSION }}
+                  draft: true
+                  prerelease: ${{ steps.get_version.outputs.ISBETA }}
+                  files: jmbde-${{ steps.get_version.outputs.VERSION }}-windows-x64${{ matrix.config.portable-name }}
+                  name: jmbde ${{ steps.get_version.outputs.VERSION }}

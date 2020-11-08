@@ -41,6 +41,7 @@
 **************************************************************************/
 
 #include "views/titleinputarea.h"
+
 #include "ui_titleinputarea.h"
 
 TitleInputArea::TitleInputArea(QWidget *parent, const QModelIndex index)

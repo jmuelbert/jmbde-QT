@@ -16,7 +16,7 @@ charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
 
-[CmakeLists.txt,*.cmake{,.in}]
+[CMakeLists.txt,*.cmake{,.in}]
 end_of_line = lf
 insert_final_newline = true
 trim_trailing_whitespace = true

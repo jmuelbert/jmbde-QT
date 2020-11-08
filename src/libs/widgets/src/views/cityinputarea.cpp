@@ -14,6 +14,7 @@
 */
 
 #include "views/cityinputarea.h"
+
 #include "ui_cityinputarea.h"
 
 CityInputArea::CityInputArea(QWidget *parent, const QModelIndex index)

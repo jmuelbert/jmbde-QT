@@ -31,8 +31,9 @@ mark_as_advanced(JMBDEWidgets_FOUND JMBDEWidgets_INCLUDE_DIR
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(
-  JMBDEWidgets REQUIRED_VARS JMBDEWidgets_INCLUDE_DIR VERSION_VAR
-  JMBDEWidgets_VERSION)
+  JMBDEWidgets
+  REQUIRED_VARS JMBDEWidgets_INCLUDE_DIR
+  VERSION_VAR JMBDEWidgets_VERSION)
 
 if(JMBDEWidgets_FOUND)
   # Set include dirs to parent, to enable includes like #include
@@ -45,5 +46,5 @@ if(JMBDEWidgets_FOUND AND NOT TARGET jmuelbert::jmbdewidgets)
   add_library(jmuelbert::jmbdewidgets INTERFACE IMPORTED)
   set_target_properties(
     jmuelbert::jmbdewidgets PROPERTIES INTERFACE_INCLUDE_DIRECTORIES
-                                          "${JMBDEWidgets_INCLUDE_DIRS}")
+                                       "${JMBDEWidgets_INCLUDE_DIRS}")
 endif()

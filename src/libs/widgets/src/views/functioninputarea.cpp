@@ -41,6 +41,7 @@
 **************************************************************************/
 
 #include "views/functioninputarea.h"
+
 #include "ui_functioninputarea.h"
 
 FunctionInputArea::FunctionInputArea(QWidget *parent, const QModelIndex index)

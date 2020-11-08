@@ -16,12 +16,11 @@
 #pragma once
 
 #include <QObject>
-#include <QtSql>
-
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRelation>
+#include <QtSql>
 
 #include "commondata.h"
 #include "jmbdemodels-version.h"

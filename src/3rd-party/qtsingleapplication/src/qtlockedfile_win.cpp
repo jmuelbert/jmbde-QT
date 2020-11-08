@@ -23,10 +23,11 @@
 **
 ****************************************************************************/
 
-#include "qtlockedfile.h"
+#include <qt_windows.h>
 
 #include <QFileInfo>
-#include <qt_windows.h>
+
+#include "qtlockedfile.h"
 
 namespace SharedTools
 {

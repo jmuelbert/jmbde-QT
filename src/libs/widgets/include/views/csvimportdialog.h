@@ -16,16 +16,13 @@
 #pragma once
 
 #include <QDebug>
+#include <QDialog>
 #include <QFile>
-
-#include <QStandardPaths>
-
+#include <QFileDialog>
 #include <QStandardItemModel>
+#include <QStandardPaths>
 #include <QString>
 #include <QTextStream>
-
-#include <QDialog>
-#include <QFileDialog>
 
 #include "jmbdewidgets-version.h"
 #include "jmbdewidgets_export.h"

@@ -41,6 +41,7 @@
 **************************************************************************/
 
 #include "views/employeeinputarea.h"
+
 #include "ui_employeeinputarea.h"
 
 Q_LOGGING_CATEGORY(jmbdeWidgetsEmployeeInputAreaLog, "jmuelbert.jmbde.widgets.employeeinputarea", QtWarningMsg)

@@ -41,6 +41,7 @@
 **************************************************************************/
 
 #include "views/phoneinputarea.h"
+
 #include "ui_phoneinputarea.h"
 
 PhoneInputArea::PhoneInputArea(QWidget *parent, const QModelIndex index)

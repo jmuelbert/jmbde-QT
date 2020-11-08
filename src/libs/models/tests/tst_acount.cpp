@@ -1,3 +1,5 @@
+#include <models/datacontext.h>
+
 #include <QCoreApplication>
 #include <QLibrary>
 #include <QObject>
@@ -9,7 +11,6 @@
 #include <QtTest>
 
 #include "models/account.h"
-#include <models/datacontext.h>
 
 using namespace Model;
 

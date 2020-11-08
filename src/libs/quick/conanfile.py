@@ -18,7 +18,7 @@ class JmbdemodelsConan(ConanFile):
     requires = "qt/5.14.1@bincrafters/stable"
 
     def source(self):
-        self.run('git clone https://github.com/jmuelbert/jmbdemodels.git')
+        self.run("git clone https://github.com/jmuelbert/jmbdemodels.git")
         # This small hack might be useful to guarantee proper /MT /MD linkage
         # in MSVC if the packaged project doesn't have variables to set it
         # properly

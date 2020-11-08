@@ -1,4 +1,5 @@
-name: "Release checksums"
+---
+name: Release checksums
 
 on:
     release:
@@ -7,8 +8,8 @@ on:
 
 jobs:
     build:
-        name: "Release checksums"
-        runs-on: "ubuntu-latest"
+        name: Release checksums
+        runs-on: ubuntu-latest
 
         steps:
             - uses: actions/checkout@v2

@@ -15,9 +15,8 @@
 
 #pragma once
 
-#include <QDebug>
-
 #include <QDataWidgetMapper>
+#include <QDebug>
 #include <QGroupBox>
 #include <QMessageBox>
 #include <QScrollArea>

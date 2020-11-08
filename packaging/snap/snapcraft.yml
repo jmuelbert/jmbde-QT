@@ -1,3 +1,4 @@
+---
 name: jmbde
 base: core20
 summary: A BDE tool.
@@ -74,7 +75,7 @@ parts:
         source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
         source-subdir: qt
         plugin: make
-        make-parameters: ["FLAVOR=qt5"]
+        make-parameters: [FLAVOR=qt5]
         build-packages:
             - build-essential
             - qtbase5-dev

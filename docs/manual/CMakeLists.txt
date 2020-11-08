@@ -56,7 +56,10 @@ add_custom_command(
   COMMENT "Generating documentation with Sphinx")
 
 # Nice named target so we can run the job easily
-add_custom_target(Sphinx ALL DEPENDS ${SPHINX_INDEX_FILE})
+add_custom_target(
+  Sphinx ALL
+  DEPENDS ${SPHINX_INDEX_FILE}
+  COMMENT "Create manual with sphinx")
 
 # Add an install target to install the docs
 install(DIRECTORY ${SPHINX_BUILD} DESTINATION ${DOC_INSTALL_DIR})

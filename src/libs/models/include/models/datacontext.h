@@ -15,36 +15,28 @@
 
 #pragma once
 
-#include <QObject>
-
-#include <QLoggingCategory>
-
-#include <QList>
-#include <QString>
-#include <QStringList>
-
+#include <QApplication>
+#include <QDate>
 #include <QDir>
 #include <QFileInfo>
-#include <QVariantMap>
-
-#include <QDate>
-
-#include <QApplication>
+#include <QList>
+#include <QLoggingCategory>
+#include <QObject>
+#include <QSettings>
 #include <QSqlDatabase>
 #include <QSqlDriver>
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRecord>
-
-#include <QSettings>
 #include <QStandardPaths>
+#include <QString>
+#include <QStringList>
 #include <QUuid>
+#include <QVariantMap>
 
 #include "commondata.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
-
-#include <QLoggingCategory>
 
 Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsDatacontextLog)
 

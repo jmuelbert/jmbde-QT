@@ -1,3 +1,4 @@
+---
 name: Update Changelog file
 
 on: [workflow_dispatch]

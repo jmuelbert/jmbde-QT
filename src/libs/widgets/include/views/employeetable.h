@@ -15,12 +15,10 @@
 
 #pragma once
 
-#include <QObject>
-
-#include <QLoggingCategory>
-
 #include <QDialogButtonBox>
+#include <QLoggingCategory>
 #include <QMessageBox>
+#include <QObject>
 #include <QPushButton>
 #include <QWidget>
 #include <QtSql>

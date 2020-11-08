@@ -33,8 +33,7 @@ set(SO_VERSION "0")
 
 message(
   STATUS
-    "Building ${PROJECT_NAME} ${JMBDEWDIGETS_VERSION} ${JMBDEWIDGETS_SOVERSION} in ${CMAKE_BUILD_TYPE} mode"
-)
+    "Build ${PROJECT_NAME} Ver ${PROJECT_VERSION} in ${CMAKE_BUILD_TYPE} mode")
 
 include(GenerateExportHeader)
 include(ECMSetupVersion)

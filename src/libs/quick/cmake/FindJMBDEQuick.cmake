@@ -30,8 +30,9 @@ mark_as_advanced(JMBDEQuick_FOUND JMBDEQuick_INCLUDE_DIR JMBDEQuick_VERSION)
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(
-  JMBDEQuick REQUIRED_VARS JMBDEQuick_INCLUDE_DIR VERSION_VAR
-  JMBDEQuick_VERSION)
+  JMBDEQuick
+  REQUIRED_VARS JMBDEQuick_INCLUDE_DIR
+  VERSION_VAR JMBDEQuick_VERSION)
 
 if(JMBDEQuick_FOUND)
   # Set include dirs to parent, to enable includes like #include
@@ -44,5 +45,5 @@ if(JMBDEQuick_FOUND AND NOT TARGET jmuelbert::jmbdequick)
   add_library(jmuelbert::jmbdequick INTERFACE IMPORTED)
   set_target_properties(
     jmuelbert::jmbdequick PROPERTIES INTERFACE_INCLUDE_DIRECTORIES
-                                      "${JMBDEQuick_INCLUDE_DIRS}")
+                                     "${JMBDEQuick_INCLUDE_DIRS}")
 endif()

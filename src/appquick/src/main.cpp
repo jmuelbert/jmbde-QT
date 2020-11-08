@@ -13,8 +13,6 @@
    GNU General Public License for more details.
 */
 
-#include "jmbdeappquick-version.h"
-
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QCoreApplication>
@@ -29,6 +27,7 @@
 #include <QQmlContext>
 #include <QTranslator>
 
+#include "jmbdeappquick-version.h"
 #include "quick/maincontroller.h"
 
 #ifndef Q_OS_WIN

@@ -18,18 +18,15 @@
 #include <QObject>
 #include <QSet>
 #include <QSetIterator>
-
-#include <QStandardPaths>
-#include <QtSql>
-
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRecord>
 #include <QSqlRelation>
-
+#include <QStandardPaths>
 #include <QTableView>
 #include <QTextDocument>
+#include <QtSql>
 
 #include "commondata.h"
 #include "jmbdemodels-version.h"

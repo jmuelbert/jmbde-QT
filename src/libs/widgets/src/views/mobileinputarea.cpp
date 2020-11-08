@@ -41,6 +41,7 @@
 **************************************************************************/
 
 #include "views/mobileinputarea.h"
+
 #include "ui_mobileinputarea.h"
 
 MobileInputArea::MobileInputArea(QWidget *parent, const QModelIndex index)

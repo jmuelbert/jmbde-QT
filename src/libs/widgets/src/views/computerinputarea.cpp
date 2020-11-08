@@ -14,6 +14,7 @@
 */
 
 #include "views/computerinputarea.h"
+
 #include "ui_computerinputarea.h"
 
 ComputerInputArea::ComputerInputArea(QWidget *parent, const QModelIndex &index)

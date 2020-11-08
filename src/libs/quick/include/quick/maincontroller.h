@@ -15,6 +15,10 @@
 
 #pragma once
 
+#include <jmbdequick-version.h>
+#include <jmbdequick_export.h>
+#include <loggingcategory.h>
+
 #include <QCoreApplication>
 #include <QDebug>
 #include <QGuiApplication>
@@ -23,10 +27,6 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QTranslator>
-
-#include <jmbdequick-version.h>
-#include <jmbdequick_export.h>
-#include <loggingcategory.h>
 
 #include "models/employee.h"
 

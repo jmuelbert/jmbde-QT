@@ -36,4 +36,7 @@ add_custom_command(
   VERBATIM)
 
 # Nice named target so we can run the job easily
-add_custom_target(Doxygen ALL DEPENDS ${DOXYGEN_INDEX_FILE})
+add_custom_target(
+  Doxygen ALL
+  DEPENDS ${DOXYGEN_INDEX_FILE}
+  COMMENT "Create API-DOCS with doxygen")

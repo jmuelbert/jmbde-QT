@@ -41,6 +41,7 @@
 **************************************************************************/
 
 #include "views/printerinputarea.h"
+
 #include "ui_printerinputarea.h"
 
 PrinterInputArea::PrinterInputArea(QWidget *parent, const QModelIndex index)

@@ -15,17 +15,14 @@
 
 #pragma once
 
-#include <QObject>
-
 #include <QLoggingCategory>
-
-#include <QStandardPaths>
-#include <QtSql>
-
+#include <QObject>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRelation>
+#include <QStandardPaths>
+#include <QtSql>
 
 #include "commondata.h"
 #include "jmbdemodels-version.h"

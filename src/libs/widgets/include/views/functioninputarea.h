@@ -14,15 +14,13 @@
 */
 #pragma once
 
-#include <QDebug>
-
 #include <QDataWidgetMapper>
+#include <QDebug>
 #include <QGroupBox>
+#include <QMessageBox>
 #include <QScrollArea>
 #include <QSqlRelationalDelegate>
 #include <QtSql>
-
-#include <QMessageBox>
 
 #include "jmbdewidgets-version.h"
 #include "jmbdewidgets_export.h"

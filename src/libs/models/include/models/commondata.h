@@ -15,19 +15,17 @@
 
 #pragma once
 
-#include <QObject>
-
-#include <QtSql>
+#include <jmbdemodels-version.h>
+#include <jmbdemodels_export.h>
 
 #include <QAbstractTableModel>
+#include <QObject>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRelation>
 #include <QTextDocument>
-
-#include <jmbdemodels-version.h>
-#include <jmbdemodels_export.h>
+#include <QtSql>
 
 namespace Model
 {

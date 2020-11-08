@@ -41,6 +41,7 @@
 **************************************************************************/
 
 #include "views/processorinputarea.h"
+
 #include "ui_processorinputarea.h"
 
 ProcessorInputArea::ProcessorInputArea(QWidget *parent, const QModelIndex index)

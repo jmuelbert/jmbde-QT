@@ -14,6 +14,7 @@
 */
 
 #include "views/csvimportdialog.h"
+
 #include "ui_csvimportdialog.h"
 
 CsvImportDialog::CsvImportDialog(QWidget *parent)

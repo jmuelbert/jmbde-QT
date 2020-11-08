@@ -1,6 +1,6 @@
 ---
 # version format
-version: "0.6.{build}"
+version: 0.6.{build}
 
 # branches to build
 branches:
@@ -72,7 +72,7 @@ nuget:
 skip_branch_with_pr: true
 skip_commits:
     files:
-        - "**/*.md"
+        - '**/*.md'
         - docs/*
         - LICENSE
         - README
@@ -114,16 +114,15 @@ for:
           - mkdir -p build
           - cd build
           - conan install ..
-          - cmake -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_PREFIX_PATH="$(brew --prefix qt)"  -DCMAKE_TOOLCHAIN_FILE="$VCPKGToolChainFile" -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=ON  -DCMAKE_INSTALL_PREFIX:PATH=./Applications ..
+          - cmake -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_PREFIX_PATH="$(brew --prefix qt)"  -DCMAKE_TOOLCHAIN_FILE="$VCPKGToolChainFile" -DBUILD_SHARED_LIBS=ON
+            -DBUILD_TESTING=ON  -DCMAKE_INSTALL_PREFIX:PATH=./Applications ..
 
       build_script:
           - sudo cmake --build . --target install
 
       after_build:
           # - sudo cpack .
-          - if [ -z "$VERSION" ]; then
-            export VERSION=$APPVEYOR_BUILD_VERSION;
-            fi
+          - if [ -z "$VERSION" ]; then export VERSION=$APPVEYOR_BUILD_VERSION; fi
           # prepare jmbde
           - sudo macdeployqt ./Applications/jmbde.app -verbose=2
           - sudo chown -R $(id -nu) ./Applications/jmbde.app
@@ -186,14 +185,13 @@ for:
           - make install
           - cd ..
           - export LD_LIBRARY_PATH=$APPVEYOR_BUILD_FOLDER/appdir/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
-          - if [ -z "$VERSION" ]; then
-            export VERSION=$APPVEYOR_BUILD_VERSION;
-            fi
+          - if [ -z "$VERSION" ]; then export VERSION=$APPVEYOR_BUILD_VERSION; fi
           - wget -c "https://github.com/jimevins/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
           - chmod a+x linuxdeployqt*.AppImage
           - wget -c -nv "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
           - chmod a+x appimagetool-x86_64.AppImage
-          - ./linuxdeployqt*.AppImage $APPVEYOR_BUILD_FOLDER/appdir/usr/share/applications/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so -exclude-libs=libpython3.54m.so.1.0 -verbose=2 -appimage
+          - ./linuxdeployqt*.AppImage $APPVEYOR_BUILD_FOLDER/appdir/usr/share/applications/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so
+            -exclude-libs=libpython3.54m.so.1.0 -verbose=2 -appimage
           - find appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
 
     ########## END UBUNTU SPECIFIC CONFIGURATION ##########
@@ -264,7 +262,8 @@ for:
       build_script:
           - ps: New-Item -itemtype directory -path ./program
           - ps: conan install ..
-          - ps: cmake -G "$ENV:CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE="$ENV:CONFIGURATION"  -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DCMAKE_INSTALL_PREFIX:PATH="$ENV:APPVEYOR_BUILD_FOLDER/program" -DBUILD_TESTING=ON -DBUILD_SHARED_LIBS=ON ..
+          - ps: cmake -G "$ENV:CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE="$ENV:CONFIGURATION"  -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DCMAKE_INSTALL_PREFIX:PATH="$ENV:APPVEYOR_BUILD_FOLDER/program"
+                -DBUILD_TESTING=ON -DBUILD_SHARED_LIBS=ON ..
           - ps: cmake --build . --config $ENV:CONFIGURATION --target install
 
       after_build:

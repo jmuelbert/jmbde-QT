@@ -41,6 +41,7 @@
 **************************************************************************/
 
 #include "views/softwareinputarea.h"
+
 #include "ui_softwareinputarea.h"
 
 SoftwareInputArea::SoftwareInputArea(QWidget *parent, const QModelIndex index)

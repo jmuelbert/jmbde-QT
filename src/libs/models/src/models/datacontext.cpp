@@ -118,7 +118,6 @@ void Model::DataContext::prepareDB() const
         qCCritical(jmbdeModelsDatacontextLog) << tr("Kritischer Fehler bei der Initialisierung der Datenbank.") << tr("Die Datei '") << file.fileName() << tr(" zum initialisieren der Datenbank ") << tr("kann nicht geöffnet werden.");
     }
 
-
     QString line;
     QByteArray readLine;
     QString cleanedLine;

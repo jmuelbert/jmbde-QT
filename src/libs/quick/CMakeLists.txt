@@ -33,7 +33,7 @@ set(SO_VERSION "0")
 
 message(
   STATUS
-    "Building ${PROJECT_NAME} Version ${PROJECT_VERSION} SO_Version ${SO_VERSION} in ${CMAKE_BUILD_TYPE} mode"
+    "Building ${PROJECT_NAME} Ver ${PROJECT_VERSION} in ${CMAKE_BUILD_TYPE} mode"
 )
 
 include(GenerateExportHeader)
@@ -102,13 +102,14 @@ target_sources(
           ${jmbdequick_Resources})
 
 set_target_properties(
-  jmbdequick PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${SO_VERSION}
-                        EXPORT_NAME "jmbdequick")
+  jmbdequick
+  PROPERTIES VERSION ${PROJECT_VERSION}
+             SOVERSION ${SO_VERSION}
+             EXPORT_NAME "jmbdequick")
 
-if (APPLE)
-    set_target_properties(jmbdequick PROPERTIES
-         INSTALL_RPATH "@loader_path/../Frameworks"
-            )
+if(APPLE)
+  set_target_properties(jmbdequick PROPERTIES INSTALL_RPATH
+                                              "@loader_path/../Frameworks")
 endif()
 
 target_compile_features(jmbdequick PUBLIC cxx_std_17)

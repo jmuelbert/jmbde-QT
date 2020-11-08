@@ -30,8 +30,9 @@
 #include <QTime>
 
 #if defined(Q_OS_WIN)
-#include <QLibrary>
 #include <qt_windows.h>
+
+#include <QLibrary>
 typedef BOOL(WINAPI *PProcessIdToSessionId)(DWORD, DWORD *);
 static PProcessIdToSessionId pProcessIdToSessionId = 0;
 #endif
@@ -75,8 +76,10 @@ QtLocalPeer::QtLocalPeer(QObject *parent, const QString &appId)
     , id(appId)
 {
     if (id.isEmpty())
-        id = QCoreApplication::applicationFilePath(); //### On win, check if this returns .../argv[0]
-                                                      // without casefolding; .\MYAPP == .\myapp on Win
+        id = QCoreApplication::applicationFilePath(); //### On win, check if this
+                                                      // returns .../argv[0]
+                                                      // without casefolding;
+                                                      // .\MYAPP == .\myapp on Win
 
     socketName = appSessionId(id);
     server = new QLocalServer(this);
@@ -173,7 +176,8 @@ void QtLocalPeer::receiveConnection()
     QString message = QString::fromUtf8(uMsg.constData(), uMsg.size());
     socket->write(ack, qstrlen(ack));
     socket->waitForBytesWritten(1000);
-    emit messageReceived(message, socket); // ##(might take a long time to return)
+    emit messageReceived(message,
+                         socket); // ##(might take a long time to return)
 }
 
 } // namespace SharedTools

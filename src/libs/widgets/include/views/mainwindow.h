@@ -15,30 +15,32 @@
 
 #pragma once
 
-#include <QSettings>
-
-#include <QString>
-
-#include <QSqlRelationalDelegate>
-#include <QSqlRelationalTableModel>
-#include <QSqlTableModel>
-
-#include <QMessageBox>
-
-#include <QMainWindow>
-#include <QtSql>
-#include <QtWidgets>
-
 #include <QLoggingCategory>
+#include <QMainWindow>
+#include <QMessageBox>
 #include <QPrintDialog>
 #include <QPrintPreviewDialog>
 #include <QPrinter>
+#include <QSettings>
+#include <QSqlRelationalDelegate>
+#include <QSqlRelationalTableModel>
+#include <QSqlTableModel>
+#include <QString>
+#include <QtSql>
+#include <QtWidgets>
 
 #include "definitions.h"
-
 #include "jmbdewidgets-version.h"
 #include "jmbdewidgets_export.h"
-
+#include "models/cityname.h"
+#include "models/datacontext.h"
+#include "models/department.h"
+#include "models/function.h"
+#include "models/manufacturer.h"
+#include "models/os.h"
+#include "models/processor.h"
+#include "models/software.h"
+#include "models/title.h"
 #include "views/chipcardinputarea.h"
 #include "views/cityinputarea.h"
 #include "views/computerinputarea.h"
@@ -55,16 +57,6 @@
 #include "views/processorinputarea.h"
 #include "views/softwareinputarea.h"
 #include "views/titleinputarea.h"
-
-#include "models/cityname.h"
-#include "models/datacontext.h"
-#include "models/department.h"
-#include "models/function.h"
-#include "models/manufacturer.h"
-#include "models/os.h"
-#include "models/processor.h"
-#include "models/software.h"
-#include "models/title.h"
 
 Q_DECLARE_LOGGING_CATEGORY(jmbdeWidgetsMainWindowLog)
 

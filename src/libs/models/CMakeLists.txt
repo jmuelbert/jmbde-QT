@@ -31,10 +31,9 @@ project(
 # TODO: Get SO-Version from Version. Is the first digit.
 set(SO_VERSION "0")
 
-message(
-  STATUS
-    "Building ${PROJECT_NAME} Version ${PROJECT_VERSION} SO_Version ${SO_VERSION} in ${CMAKE_BUILD_TYPE} mode"
-)
+message(STATUS "Building ${PROJECT_NAME}"
+               " Version ${PROJECT_VERSION} SO_Version ${SO_VERSION}"
+               " in ${CMAKE_BUILD_TYPE} mode")
 
 include(GenerateExportHeader)
 include(CMakePackageConfigHelpers)

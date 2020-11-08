@@ -16,14 +16,12 @@
 #pragma once
 
 #include <QObject>
-
-#include <QStandardPaths>
-#include <QtSql>
-
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRelation>
+#include <QStandardPaths>
+#include <QtSql>
 
 #include "commondata.h"
 #include "jmbdemodels-version.h"

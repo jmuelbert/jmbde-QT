@@ -15,21 +15,17 @@
 
 #pragma once
 
-#include <QObject>
-
-#include <QLoggingCategory>
-
 #include <QDataWidgetMapper>
 #include <QGroupBox>
+#include <QLoggingCategory>
+#include <QMessageBox>
+#include <QObject>
 #include <QSqlRelationalDelegate>
 #include <QtSql>
-
-#include <QMessageBox>
 
 #include "jmbdewidgets-version.h"
 #include "jmbdewidgets_export.h"
 #include "loggingcategory.h"
-
 #include "models/computer.h"
 #include "models/employee.h"
 #include "models/fax.h"

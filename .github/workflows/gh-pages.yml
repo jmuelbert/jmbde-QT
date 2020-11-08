@@ -1,3 +1,4 @@
+---
 name: gh-pages
 
 on:
@@ -41,7 +42,7 @@ jobs:
             - name: gh-pages
               uses: actions/checkout@master
               with:
-                  ref: "gh-pages"
+                  ref: gh-pages
                   clean: false
             - name: Move & Commit files
               run: |
