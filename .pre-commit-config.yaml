@@ -108,6 +108,7 @@ repos:
       rev: 0.1.0 # or specific tag
       hooks:
           - id: yamlfmt
+            args: [--preserve-quotes]
 
     - repo: https://github.com/Lucas-C/pre-commit-hooks-go
       rev: v1.0.1
@@ -227,9 +228,7 @@ repos:
       rev: v1.1.1
       hooks:
           - id: clang-format
-            # args: [--style=WebKit]
           - id: clang-tidy
-            args: [-checks=clang-diagnostic-return-type]
           - id: oclint
             args: [-enable-clang-static-analyzer, -enable-global-analysis]
            - id: uncrustify
@@ -237,8 +236,6 @@ repos:
     - repo: https://gitlab.com/daverona/pre-commit/cpp
       rev: 0.8.0
       hooks:
-        # id: clang-format         # formatter for C/C++ code based on a style guide
-        - id: cpplint # linter (or style-error checker) for Google C++ Style Guide
         - id: cppcheck # static analyzer for C/C++ code
 
     - repo: https://gitlab.com/smop/pre-commit-hooks

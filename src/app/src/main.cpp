@@ -1,6 +1,6 @@
 /*
    jmbde a BDE Tool for companies
-   Copyright (C) 2013-2019  Jürgen Mülbert
+   Copyright (C) 2013-2020  Jürgen Mülbert
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -12,6 +12,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 */
+
+#include <jmbde-version.h>
+#include <jmbdewidgets_export.h>
+#include <views/mainwindow.h>
 
 #include <QApplication>
 #include <QCommandLineParser>
@@ -34,10 +38,6 @@
 #include <QStringList>
 #include <QStyleFactory>
 #include <QTranslator>
-
-#include "jmbde-version.h"
-#include "jmbdewidgets_export.h"
-#include "views/mainwindow.h"
 
 #ifndef Q_OS_WIN
 #include <unistd.h>

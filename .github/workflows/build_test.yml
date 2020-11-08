@@ -1,5 +1,5 @@
 ---
-name: 'CI: Build Test'
+name: "CI: Build Test"
 
 on: [push, pull_request]
 
@@ -18,9 +18,20 @@ jobs:
             fail-fast: false
             matrix:
                 config:
-                    - {os: windows-latest, cc: cl, cxx: cl, binary: jmbde.exe, environment_script: C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat}
-                    - {os: ubuntu-latest, cc: gcc, cxx: g++, binary: jmbde}
-                    - {os: macos-latest, cc: clang, cxx: clang++, binary: jmbde.app/Contents/MacOS/jmbde}
+                    - {
+                          os: windows-latest,
+                          cc: cl,
+                          cxx: cl,
+                          binary: jmbde.exe,
+                          environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat",
+                      }
+                    - { os: ubuntu-latest, cc: gcc, cxx: g++, binary: jmbde }
+                    - {
+                          os: macos-latest,
+                          cc: clang,
+                          cxx: clang++,
+                          binary: jmbde.app/Contents/MacOS/jmbde,
+                      }
 
         steps:
             - uses: actions/checkout@v2

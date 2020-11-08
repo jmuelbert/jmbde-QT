@@ -24,9 +24,9 @@ test_code:
         - mkdir build
         - cd build
         - conan install ..
-        - cmake -GNinja -S .. -DCMAKE_INSTALL_PREFIX=./build/AppDir/usr -DCMAKE_BUILD_TYPE=Release
+        - cmake -GNinja -S .. -DCMAKE_INSTALL_PREFIX=./build/AppDir/usr -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=TRUE
         - cmake --build . -v
-        - cmake --build . -t test
+        # - ctest --build --verbose .
 
 pages:
     image: node:10
