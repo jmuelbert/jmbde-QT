@@ -151,11 +151,6 @@ repos:
       hooks:
           - id: check-swagger
 
-    - repo: git://github.com/doublify/pre-commit-clang-format
-      rev: 62302476d0da01515660132d76902359bed0f782
-      hooks:
-          - id: clang-format
-
     - repo: https://github.com/adrienverge/yamllint.git
       rev: v1.25.0 # or higher tag
       hooks:
