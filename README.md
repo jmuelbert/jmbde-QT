@@ -8,8 +8,6 @@ need to be recorded. These are computers, printers and telephones.
 
 [![Gitpod Ready Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/jmuelbert/jmbde-QT)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/caf2526829cb447b9ca6091cccebad27)](https://app.codacy.com/manual/jmuelbert/jmbde-QT?utm_source=github.com&utm_medium=referral&utm_content=jmuelbert/jmbde-QT&utm_campaign=Badge_Grade_Dashboard)
-[![Code Quality](https://www.code-inspector.com/project/8488/score/svg)](https://frontend.code-inspector.com/public/project/8488/github-action/dashboard)
-[![Code Grade](https://www.code-inspector.com/project/8488/status/svg)](https://frontend.code-inspector.com/public/project/8488/github-action/dashboard)
 [![GitHub All Releases](https://img.shields.io/github/downloads/jmuelbert/jmbde-QT/total?label=downloads%40all)](https://github.com/jmuelbert/jmbde-QT/releases)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Build status](https://ci.appveyor.com/api/projects/status/mq9qt36e588dk7ui?svg=true)](https://ci.appveyor.com/project/jmuelbert/jmbde-qt)
@@ -73,26 +71,26 @@ Drag jmbde into your application folder and run jmbde.
 
 ## Requirements and bug reports
 
--   [GitHub issues (preferred)](https://github.com/jmuelbert/jmbde-QT/issues)
+- [GitHub issues (preferred)](https://github.com/jmuelbert/jmbde-QT/issues)
 
 ## Questions and comments
 
 ## Wiki
 
--   [Main Page](https://github.com/jmuelbert/jmbde-QT/wiki)
--   [User Manual](http://jmuelbert.github.io/jmbde-QT/)
+- [Main Page](https://github.com/jmuelbert/jmbde-QT/wiki)
+- [User Manual](http://jmuelbert.github.io/jmbde-QT/)
 
 ## Database Schema
 
--   Database source code SQL](docs/database-design.md)
+- Database source code SQL](docs/database-design.md)
 
 ## Code Sources
 
 The master branch contains the latest pre-release code.
 
--   [Releases](https://github.com/jmuelbert/jmbde-QT/releases)
+- [Releases](https://github.com/jmuelbert/jmbde-QT/releases)
 
--   [Milestones](https://github.com/jmuelbert/jmbde-QT/milestones)
+- [Milestones](https://github.com/jmuelbert/jmbde-QT/milestones)
 
 ## Create program
 
@@ -143,7 +141,7 @@ Run 'cmake' to create jmbde:
         cmake --build .
 ```
 
-### Under Windows
+### on Windows
 
 -   Visual Studio 2017 or higher
 -   You can download [Qt here](https://www.qt.io/download-qt-installer)
@@ -173,7 +171,7 @@ Run 'cmake' to create jmbde:
         cmake --build .
 ```
 
-### Under Linux
+### on Linux
 
 -   On Ubuntu/Debian:
     `sudo apt install qt5-default qttools5-dev-tools zlib1g-dev qtdeclarative5-dev cmake ninja`.
