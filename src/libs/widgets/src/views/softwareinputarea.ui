@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <ui version="4.0">
  <class>SoftwareInputArea</class>
  <widget class="QGroupBox" name="SoftwareInputArea">
@@ -63,10 +63,10 @@
       <item>
        <layout class="QGridLayout" name="gridLayout">
         <item row="1" column="2">
-         <widget class="QLineEdit" name="lineEdit_Version"/>
+         <widget class="QLineEdit" name="lineEdit_Version" />
         </item>
         <item row="0" column="2">
-         <widget class="QLineEdit" name="lineEdit_Name"/>
+         <widget class="QLineEdit" name="lineEdit_Name" />
         </item>
         <item row="2" column="0">
          <widget class="QLabel" name="label_Revision">
@@ -89,7 +89,7 @@
          </widget>
         </item>
         <item row="2" column="2">
-         <widget class="QLineEdit" name="lineEdit_Revision"/>
+         <widget class="QLineEdit" name="lineEdit_Revision" />
         </item>
         <item row="0" column="0">
          <widget class="QLabel" name="label_Name">
@@ -112,7 +112,7 @@
          </widget>
         </item>
         <item row="3" column="2">
-         <widget class="QLineEdit" name="lineEdit_Fix"/>
+         <widget class="QLineEdit" name="lineEdit_Fix" />
         </item>
        </layout>
       </item>
@@ -173,6 +173,6 @@
   <tabstop>pushButton_Add</tabstop>
   <tabstop>pushButton_EditFinish</tabstop>
  </tabstops>
- <resources/>
- <connections/>
+ <resources />
+ <connections />
 </ui>

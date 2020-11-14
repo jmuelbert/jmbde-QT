@@ -23,7 +23,9 @@ jobs:
                           cc: cl,
                           cxx: cl,
                           binary: jmbde.exe,
-                          environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat",
+                          environment_script:
+                              "C:/Program Files (x86)/Microsoft Visual
+                              Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat",
                       }
                     - { os: ubuntu-latest, cc: gcc, cxx: g++, binary: jmbde }
                     - {
@@ -109,7 +111,9 @@ jobs:
               uses: actions/cache@v2.1.3
               with:
                   path: .ccache
-                  key: ${{ matrix.config.os }}-${{ env.QT_VERSION }}-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
+                  key:
+                      ${{ matrix.config.os }}-${{ env.QT_VERSION }}-ccache-${{
+                      steps.ccache_cache_timestamp.outputs.timestamp }}
                   restore-keys: |
                       ${{ matrix.config.os }}-${{ env.QT_VERSION }}-ccache-
 

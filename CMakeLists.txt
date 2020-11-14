@@ -64,6 +64,12 @@ set(KF5_VERSION "5.71.0")
 set(KF5_DEP_VERSION "5.71.0")
 set(QT_MIN_VERSION "5.12.8")
 
+# We need C++11 and don't want to export all symbols, only the ones we mark for
+# export
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
+set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+
 # Load Standard-CMake helpler modules
 include(FeatureSummary)
 
@@ -115,6 +121,27 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 if(APPLE)
   # RPATH stuff
   set(CMAKE_MACOSX_RPATH ON)
+endif()
+
+find_package(
+  Qt6
+  COMPONENTS Core
+  QUIET)
+if(Qt6_FOUND)
+  message("Qt6 gefunden!")
+  message(STATUS "Qt version is ${Qt6Core_VERSION}")
+else()
+  message("Qt6 not found, check Qt5!")
+  find_package(
+    Qt5
+    COMPONENTS Core
+    QUIET)
+  if(Qt5_FOUND)
+    message("Qt5 found!")
+    message(STATUS "Qt version is ${Qt5Core_VERSION}")
+  else()
+    message(FATAL_ERROR "No Qt found!")
+  endif()
 endif()
 
 # forbid some old things
@@ -319,8 +346,11 @@ endif()
 # ##############################################################################
 # Build the translations
 if(BUILD_TRANSLATIONS)
-  find_package(Qt5 ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS Core)
-  find_package(Qt5 OPTIONAL_COMPONENTS LinguistTools)
+  if(Qt5_FOUND)
+    find_package(Qt5 OPTIONAL_COMPONENTS LinguistTools)
+  else()
+    find_package(Qt6 OPTIONAL_COMPONENTS LinguistTools)
+  endif()
   add_subdirectory(translations)
 endif()
 
@@ -330,7 +360,11 @@ if(BUILD_API_DOCS OR BUILD_MANUAL)
   if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     add_compile_options(-Wdocumentation)
   endif()
-  find_package(Qt5 NO_MODULE QUIET OPTIONAL_COMPONENTS Help LinguistTools)
+  if(Qt5_FOUND)
+    find_package(Qt5 OPTIONAL_COMPONENTS Help LinguistTools)
+  else()
+    find_package(Qt6 OPTIONAL_COMPONENTS Help LinguistTools)
+  endif()
   add_subdirectory(docs)
 endif()
 

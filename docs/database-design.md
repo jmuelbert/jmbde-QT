@@ -1,46 +1,47 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Database Design](#database-design)
-  - [Account Table](#account-table)
-  - [ChipCard Table](#chipcard-table)
-  - [ChipCardDoor Table](#chipcarddoor-table)
-  - [ChipcardProfile Table](#chipcardprofile-table)
-  - [ChipCardProfileDoor Table](#chipcardprofiledoor-table)
-  - [CityName Table](#cityname-table)
-  - [Company Table](#company-table)
-  - [Computer Table](#computer-table)
-  - [ComputerSoftware Table](#computersoftware-table)
-  - [Department Table](#department-table)
-  - [DeviceName Table](#devicename-table)
-  - [DeviceType Table](#devicetype-table)
-  - [Document Table](#document-table)
-  - [EmployeeAccount Table](#employeeaccount-table)
-  - [Employee Table](#employee-table)
-  - [EmployeeDocument Table](#employeedocument-table)
-  - [Fax Table](#fax-table)
-  - [Function Table](#function-table)
-  - [Inventory Table](#inventory-table)
-  - [Manufacturer Table](#manufacturer-table)
-  - [Mobile Table](#mobile-table)
-  - [Os Table](#os-table)
-  - [Phone Table](#phone-table)
-  - [Place Table](#place-table)
-  - [Printer Table](#printer-table)
-  - [Processor Table](#processor-table)
-  - [Software Table](#software-table)
-  - [SystemData Table](#systemdata-table)
-  - [Title Table](#title-table)
-  - [ZipCity Table](#zipcity-table)
-  - [ZipCode Table](#zipcode-table)
-  - [DatabaseVersion](#databaseversion)
+**Table of Contents** _generated with [DocToc](https://github.com/thlorenz/doctoc)_
+
+-   [Database Design](#database-design)
+    -   [Account Table](#account-table)
+    -   [ChipCard Table](#chipcard-table)
+    -   [ChipCardDoor Table](#chipcarddoor-table)
+    -   [ChipcardProfile Table](#chipcardprofile-table)
+    -   [ChipCardProfileDoor Table](#chipcardprofiledoor-table)
+    -   [CityName Table](#cityname-table)
+    -   [Company Table](#company-table)
+    -   [Computer Table](#computer-table)
+    -   [ComputerSoftware Table](#computersoftware-table)
+    -   [Department Table](#department-table)
+    -   [DeviceName Table](#devicename-table)
+    -   [DeviceType Table](#devicetype-table)
+    -   [Document Table](#document-table)
+    -   [EmployeeAccount Table](#employeeaccount-table)
+    -   [Employee Table](#employee-table)
+    -   [EmployeeDocument Table](#employeedocument-table)
+    -   [Fax Table](#fax-table)
+    -   [Function Table](#function-table)
+    -   [Inventory Table](#inventory-table)
+    -   [Manufacturer Table](#manufacturer-table)
+    -   [Mobile Table](#mobile-table)
+    -   [Os Table](#os-table)
+    -   [Phone Table](#phone-table)
+    -   [Place Table](#place-table)
+    -   [Printer Table](#printer-table)
+    -   [Processor Table](#processor-table)
+    -   [Software Table](#software-table)
+    -   [SystemData Table](#systemdata-table)
+    -   [Title Table](#title-table)
+    -   [ZipCity Table](#zipcity-table)
+    -   [ZipCode Table](#zipcode-table)
+    -   [DatabaseVersion](#databaseversion)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Database Design #
+# Database Design
 
-## Account Table ##
+## Account Table
 
 | Fieldname      | Type                | Purpose                          |
 | -------------- | ------------------- | -------------------------------- |
@@ -53,7 +54,7 @@
 |                |                     | needed                           |
 | last_update    | TIMESTAMP           | Timestamp of last modification   |
 
-## ChipCard Table ##
+## ChipCard Table
 
 | Fieldname            | Type                | Purpose                          |
 | -------------------- | ------------------- | -------------------------------- |
@@ -66,7 +67,7 @@
 |                      |                     | (Where has this coin)            |
 | last_update          | TIMESTAMP           | Timestamp of last modification   |
 
-## ChipCardDoor Table ##
+## ChipCardDoor Table
 
 | Fieldname         | Type                | Purpose                           |
 | ----------------- | ------------------- | --------------------------------- |
@@ -77,7 +78,7 @@
 | employee_id       | INTEGER             | Which employee has access         |
 | last_update       | TIMESTAMP           | Timestamp of last modification    |
 
-## ChipcardProfile Table ##
+## ChipcardProfile Table
 
 | Fieldname            | Type                | Purpose                          |
 | -------------------- | ------------------- | -------------------------------- |
@@ -89,7 +90,7 @@
 |                      |                     | profile                          |
 | last_update          | TIMESTAMP           | Timestamp of last modification   |
 
-## ChipCardProfileDoor Table ##
+## ChipCardProfileDoor Table
 
 | Fieldname                 | Type                | Purpose                         |
 | ------------------------- | ------------------- | ------------------------------- |
@@ -99,7 +100,7 @@
 | chip_card_door_id         | VARCHAR             | Relation to the ChipCardDoor    |
 | last_update               | TIMESTAMP           | Timestamp of last modification  |
 
-## CityName Table ##
+## CityName Table
 
 | Fieldname    | Type                | Purpose                        |
 | ------------ | ------------------- | ------------------------------ |
@@ -107,7 +108,7 @@
 | name         | VARCHAR             | The name of the city           |
 | last_update  | TIMESTAMP           | Timestamp of last modification |
 
-## Company Table ##
+## Company Table
 
 | Fieldname     | Type                | Purpose                           |
 | ------------- | ------------------- | --------------------------------- |
@@ -126,7 +127,7 @@
 |               |                     | the company                       |
 | last_update   | TIMESTAMP           | Timestamp of last modification    |
 
-## Computer Table ##
+## Computer Table
 
 | Fieldname            | Type                | Purpose                           |
 | -------------------- | ------------------- | --------------------------------- |
@@ -157,18 +158,18 @@
 |                      |                     | with this device. Many to many,   |
 | last_update          | TIMESTAMP           | Timestamp of last modification    |
 
-## ComputerSoftware Table ##
+## ComputerSoftware Table
 
 | Fieldname            | Type                | Purpose                        |
 | -------------------- | ------------------- | ------------------------------ |
 | computer_software_id | INTEGER PRIMARY KEY | The ComputerSoftware index     |
 | computer_id          | INTEGER             | Relation to Computer           |
 |                      |                     | (Many to Many)                 |
-| software_id          | INTEGER             | Relation to  Software          |
+| software_id          | INTEGER             | Relation to Software           |
 |                      |                     | (Many to Many)                 |
 | last_update          | TIMESTAMP           | Timestamp of last modification |
 
-## Department Table ##
+## Department Table
 
 | Fieldname     | Type                | Purpose                                         |
 | ------------- | ------------------- | ----------------------------------------------- |
@@ -179,7 +180,7 @@
 | fax_id        | INTEGER             | The faxes for the department. (Many to Many)    |
 | last_update   | TIMESTAMP           | Timestamp of last modification                  |
 
-## DeviceName Table ##
+## DeviceName Table
 
 | Fieldname      | Type                | Purpose                        |
 | -------------- | ------------------- | ------------------------------ |
@@ -187,7 +188,7 @@
 | name           | VARCHAR             | The Name for the device        |
 | last_update    | TIMESTAMP           | Timestamp of last modification |
 
-## DeviceType Table ##
+## DeviceType Table
 
 | Fieldname      | Type                | Purpose                             |
 | -------------- | ------------------- | ----------------------------------- |
@@ -195,7 +196,7 @@
 | name           | VARCHAR             | The name of the type for the device |
 | last_update    | TIMESTAMP           | Timestamp of last modification      |
 
-## Document Table ##
+## Document Table
 
 | Fieldname     | Type                | Purpose                        |
 | ------------- | ------------------- | ------------------------------ |
@@ -204,7 +205,7 @@
 | document_data | BLOB                | The Content of the Document    |
 | last_update   | TIMESTAMP           | Timestamp of last modification |
 
-## EmployeeAccount Table ##
+## EmployeeAccount Table
 
 | Fieldname           | Type                | Purpose                        |
 | ------------------- | ------------------- | ------------------------------ |
@@ -213,7 +214,7 @@
 | account_id          | INTEGER             | The relation to the Account    |
 | last_update         | TIMESTAMP           | Timestamp of last modification |
 
-## Employee Table ##
+## Employee Table
 
 | Fieldname             | Type                | Purpose                                                       |
 | --------------------- | ------------------- | ------------------------------------------------------------- |
@@ -248,7 +249,7 @@
 | chip_card_id          | INTEGER             | relation to ChipCard                                          |
 | last_update           | TIMESTAMP           | Timestamp of last modification                                |
 
-## EmployeeDocument Table ##
+## EmployeeDocument Table
 
 | Fieldname            | Type                | Purpose                        |
 | -------------------- | ------------------- | ------------------------------ |
@@ -257,7 +258,7 @@
 | document_id          | INTEGER             | relation to Document           |
 | last_update          | TIMESTAMP           | Timestamp of last modification |
 
-## Fax Table ##
+## Fax Table
 
 | Fieldname             | Type                | Purpose                                    |
 | --------------------- | ------------------- | ------------------------------------------ |
@@ -276,7 +277,7 @@
 | inventory_id          | INTEGER             | relation to Inventory                      |
 | last_update TIMESTAMP | TIMESTAMP           | Timestamp of last modification             |
 
-## Function Table ##
+## Function Table
 
 | Fieldname             | Type                | Purpose                                  |
 | --------------------- | ------------------- | ---------------------------------------- |
@@ -285,7 +286,7 @@
 | priority              | INTEGER             | priority of the function 1=high, 100=low |
 | last_update TIMESTAMP | TIMESTAMP           | Timestamp of last modification           |
 
-## Inventory Table ##
+## Inventory Table
 
 | Fieldname             | Type                | Purpose                           |
 | --------------------- | ------------------- | --------------------------------- |
@@ -295,7 +296,7 @@
 | active                | BOOLEAN             | is this inventory active          |
 | last_update TIMESTAMP | TIMESTAMP           | Timestamp of last modification    |
 
-## Manufacturer Table ##
+## Manufacturer Table
 
 | Fieldname       | Type                | Purpose                                          |
 | --------------- | ------------------- | ------------------------------------------------ |
@@ -312,7 +313,7 @@
 | hotline_number  | VARCHAR             | Number for the Hotline (Support)                 |
 | last_update     | TIMESTAMP           | Timestamp of last modification                   |
 
-## Mobile Table ##
+## Mobile Table
 
 | Fieldname       | Type                | Purpose                                    |
 | --------------- | ------------------- | ------------------------------------------ |
@@ -332,7 +333,7 @@
 | inventory_id    | INTEGER             | relation to Inventory                      |
 | last_update     | TIMESTAMP           | Timestamp of last modification             |
 
-## Os Table ##
+## Os Table
 
 | Fieldname   | Type                | Purpose                        |
 | ----------- | ------------------- | ------------------------------ |
@@ -343,7 +344,7 @@
 | fix         | VARCHAR             | The fix or build number        |
 | last_update | TIMESTAMP           | Timestamp of last modification |
 
-## Phone Table ##
+## Phone Table
 
 | Fieldname       | Type                | Purpose                                    |
 | --------------- | ------------------- | ------------------------------------------ |
@@ -362,7 +363,7 @@
 | inventory_id    | INTEGER             | relation to Inventory                      |
 | last_update     | TIMESTAMP           | Timestamp of last modification             |
 
-## Place Table ##
+## Place Table
 
 | Fieldname   | Type                | Purpose                        |
 | ----------- | ------------------- | ------------------------------ |
@@ -372,7 +373,7 @@
 | desk        | VARCHAR             | Number or name for the desk    |
 | last_update | TIMESTAMP           | Timestamp of last modification |
 
-## Printer Table ##
+## Printer Table
 
 | Fieldname          | Type                | Purpose                                    |
 | ------------------ | ------------------- | ------------------------------------------ |
@@ -396,7 +397,7 @@
 | computer_id        | INTEGER             | relation to the connected Computer         |
 | last_update        | TIMESTAMP           | Timestamp of last modification             |
 
-## Processor Table ##
+## Processor Table
 
 | Fieldname    | Type                | Purpose                        |
 | ------------ | ------------------- | ------------------------------ |
@@ -406,7 +407,7 @@
 | cores        | INTEGER             | Cores                          |
 | last_update  | TIMESTAMP           | Timestamp of last modification |
 
-## Software Table ##
+## Software Table
 
 | Fieldname   | Type                | Purpose                        |
 | ----------- | ------------------- | ------------------------------ |
@@ -417,7 +418,7 @@
 | fix         | VARCHAR             | The fix or the build number    |
 | last_update | TIMESTAMP           | Timestamp of last modification |
 
-## SystemData Table ##
+## SystemData Table
 
 | Fieldname      | Type                | Purpose                          |
 | -------------- | ------------------- | -------------------------------- |
@@ -427,7 +428,7 @@
 | company_id     | INTEGER             | relation to the provider Company |
 | last_update    | TIMESTAMP           | Timestamp of last modification   |
 
-## Title Table ##
+## Title Table
 
 | Fieldname   | Type                | Purpose                        |
 | ----------- | ------------------- | ------------------------------ |
@@ -436,7 +437,7 @@
 | from_date   | DATE                | From ...                       |
 | last_update | TIMESTAMP           | Timestamp of last modification |
 
-## ZipCity Table ##
+## ZipCity Table
 
 | Fieldname   | Type                | Purpose                        |
 | ----------- | ------------------- | ------------------------------ |
@@ -445,7 +446,7 @@
 | city_id     | INTEGER             | relation to ZipCity            |
 | last_update | TIMESTAMP           | Timestamp of last modification |
 
-## ZipCode Table ##
+## ZipCode Table
 
 | Fieldname   | Type                | Purpose                        |
 | ----------- | ------------------- | ------------------------------ |
@@ -453,7 +454,7 @@
 | code        | VARCHAR(10)         | The ZipCode for ZipCity        |
 | last_update | TIMESTAMP           | Timestamp of last modification |
 
-## DatabaseVersion ##
+## DatabaseVersion
 
 | Fieldname           | Type                | Purpose                          |
 | ------------------- | ------------------- | -------------------------------- |

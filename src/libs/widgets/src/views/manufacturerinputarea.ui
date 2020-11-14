@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <ui version="4.0">
  <class>ManufacturerInputArea</class>
  <widget class="QGroupBox" name="ManufacturerInputArea">
@@ -73,7 +73,7 @@
          </widget>
         </item>
         <item row="8" column="4">
-         <widget class="QComboBox" name="comboBox_ZipCode"/>
+         <widget class="QComboBox" name="comboBox_ZipCode" />
         </item>
         <item row="9" column="2">
          <widget class="QLabel" name="label_MailAddress">
@@ -86,7 +86,7 @@
          </widget>
         </item>
         <item row="11" column="4">
-         <widget class="QLineEdit" name="lineEdit_Phone"/>
+         <widget class="QLineEdit" name="lineEdit_Phone" />
         </item>
         <item row="3" column="2">
          <widget class="QLabel" name="label_Name2">
@@ -99,10 +99,10 @@
          </widget>
         </item>
         <item row="12" column="4">
-         <widget class="QLineEdit" name="lineEdit_Fax"/>
+         <widget class="QLineEdit" name="lineEdit_Fax" />
         </item>
         <item row="3" column="4">
-         <widget class="QLineEdit" name="lineEdit_Name2"/>
+         <widget class="QLineEdit" name="lineEdit_Name2" />
         </item>
         <item row="8" column="2">
          <widget class="QLabel" name="label_ZipCode">
@@ -135,13 +135,13 @@
          </widget>
         </item>
         <item row="6" column="4">
-         <widget class="QLineEdit" name="lineEdit_Address"/>
+         <widget class="QLineEdit" name="lineEdit_Address" />
         </item>
         <item row="7" column="4">
-         <widget class="QLineEdit" name="lineEdit_Address2"/>
+         <widget class="QLineEdit" name="lineEdit_Address2" />
         </item>
         <item row="4" column="4">
-         <widget class="QLineEdit" name="lineEdit_Supporter"/>
+         <widget class="QLineEdit" name="lineEdit_Supporter" />
         </item>
         <item row="6" column="2">
          <widget class="QLabel" name="label_Address">
@@ -154,10 +154,10 @@
          </widget>
         </item>
         <item row="9" column="4">
-         <widget class="QLineEdit" name="lineEdit_MailAddress"/>
+         <widget class="QLineEdit" name="lineEdit_MailAddress" />
         </item>
         <item row="1" column="4">
-         <widget class="QLineEdit" name="lineEdit_Name"/>
+         <widget class="QLineEdit" name="lineEdit_Name" />
         </item>
         <item row="1" column="2">
          <widget class="QLabel" name="label_Name">
@@ -190,7 +190,7 @@
          </widget>
         </item>
         <item row="10" column="4">
-         <widget class="QLineEdit" name="lineEdit_Hotline"/>
+         <widget class="QLineEdit" name="lineEdit_Hotline" />
         </item>
         <item row="8" column="5">
          <widget class="QLabel" name="label_City">
@@ -264,6 +264,6 @@
   <tabstop>pushButton_Add</tabstop>
   <tabstop>pushButton_EditFinish</tabstop>
  </tabstops>
- <resources/>
- <connections/>
+ <resources />
+ <connections />
 </ui>

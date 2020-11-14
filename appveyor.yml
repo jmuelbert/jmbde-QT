@@ -72,7 +72,7 @@ nuget:
 skip_branch_with_pr: true
 skip_commits:
     files:
-        - '**/*.md'
+        - "**/*.md"
         - docs/*
         - LICENSE
         - README
@@ -114,7 +114,8 @@ for:
           - mkdir -p build
           - cd build
           - conan install ..
-          - cmake -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_PREFIX_PATH="$(brew --prefix qt)"  -DCMAKE_TOOLCHAIN_FILE="$VCPKGToolChainFile" -DBUILD_SHARED_LIBS=ON
+          - cmake -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_PREFIX_PATH="$(brew --prefix
+            qt)"  -DCMAKE_TOOLCHAIN_FILE="$VCPKGToolChainFile" -DBUILD_SHARED_LIBS=ON
             -DBUILD_TESTING=ON  -DCMAKE_INSTALL_PREFIX:PATH=./Applications ..
 
       build_script:
@@ -130,7 +131,8 @@ for:
           - cp -r ./Applications/jmbde.app/* dmgdir/jmbde.app/
           # build dmg
           - ln -s /Applications dmgdir/Applications
-          - hdiutil create -volname jmbde-$VERSION -srcfolder dmgdir -ov -format UDZO jmbde-$VERSION.dmg;
+          - hdiutil create -volname jmbde-$VERSION -srcfolder dmgdir -ov -format UDZO
+            jmbde-$VERSION.dmg;
 
     ########## END macOS SPECIFIC CONFIGURATION ##########
 
@@ -175,7 +177,9 @@ for:
       build_script:
           - cd build
           - conan install ..
-          - cmake -DCMAKE_BUILD_TYPE="$CONFIGURATION"  -DCMAKE_INSTALL_PREFIX:PATH=../appdir/usr -DBUILD_TESTING=OFF -DBUILD_SHARED_LIBS=ON ..
+          - cmake
+            -DCMAKE_BUILD_TYPE="$CONFIGURATION"  -DCMAKE_INSTALL_PREFIX:PATH=../appdir/usr
+            -DBUILD_TESTING=OFF -DBUILD_SHARED_LIBS=ON ..
           - make
           - export LD_LIBRARY_PATH=$APPVEYOR_BUILD_FOLDER/build/bin:$LD_LIBRARY_PATH
 
@@ -184,15 +188,21 @@ for:
           # Create AppImage
           - make install
           - cd ..
-          - export LD_LIBRARY_PATH=$APPVEYOR_BUILD_FOLDER/appdir/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+          - export
+            LD_LIBRARY_PATH=$APPVEYOR_BUILD_FOLDER/appdir/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
           - if [ -z "$VERSION" ]; then export VERSION=$APPVEYOR_BUILD_VERSION; fi
-          - wget -c "https://github.com/jimevins/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
+          - wget -c
+            "https://github.com/jimevins/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
           - chmod a+x linuxdeployqt*.AppImage
-          - wget -c -nv "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+          - wget -c -nv
+            "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
           - chmod a+x appimagetool-x86_64.AppImage
-          - ./linuxdeployqt*.AppImage $APPVEYOR_BUILD_FOLDER/appdir/usr/share/applications/io.github.jmuelbert.jmbde.desktop -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so
+          - ./linuxdeployqt*.AppImage
+            $APPVEYOR_BUILD_FOLDER/appdir/usr/share/applications/io.github.jmuelbert.jmbde.desktop
+            -bundle-non-qt-libs -extra-plugins=imageformats/libqsvg.so
             -exclude-libs=libpython3.54m.so.1.0 -verbose=2 -appimage
-          - find appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
+          - find appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d "
+            " -f 2-3 | sort | uniq
 
     ########## END UBUNTU SPECIFIC CONFIGURATION ##########
 
@@ -206,7 +216,8 @@ for:
 
       cache:
           - C:\tools\vcpkg\installed -> .appveyor.yml
-          - C:\Users\appveyor\clcache -> .appveyor.yml, build_msvc\**, **\Makefile.am, **\*.vcxproj.in
+          - C:\Users\appveyor\clcache -> .appveyor.yml, build_msvc\**, **\Makefile.am,
+            **\*.vcxproj.in
 
       init:
           - git config --global core.autocrlf input
@@ -217,19 +228,36 @@ for:
           - ps: $ENV:PLATFORM="x64"
           - ps: $ENV:PYTHON="C:\Python38-x64"
           - ps: $ENV:LLVM="${ENV:ProgramFiles}\LLVM\bin"
-          - ps: $ENV:CMAKE_ARGS= "-DCMAKE_C_COMPILER=clang-cl.exe -DCMAKE_CXX_COMPILER=clang-cl.exe -DCMAKE_LINKER=lld-link.exe"
+          - ps:
+                $ENV:CMAKE_ARGS= "-DCMAKE_C_COMPILER=clang-cl.exe
+                -DCMAKE_CXX_COMPILER=clang-cl.exe -DCMAKE_LINKER=lld-link.exe"
           - ps: $ENV:CLANG_URL="https://releases.llvm.org/9.0.0/LLVM-9.0.0-win64.exe"
-          - ps: $ENV:VSDEVCMD="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\Common7\Tools\VsDevCmd.bat"
+          - ps:
+                $ENV:VSDEVCMD="${ENV:ProgramFiles(x86)}\Microsoft Visual
+                Studio\2019\Community\Common7\Tools\VsDevCmd.bat"
           # MSVC
           - ps: $ENV:QTDIR="C:\Qt\5.15.0\msvc2019_64"
-          - ps: $ENV:VCREDIST_CRT_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CRT"
-          - ps: $ENV:VCREDIST_CXXAMP_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CXXAMP"
-          - ps: $ENV:VCREDIST_OPENMP_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.OpenMP"
-          - ps: $ENV:REDIST="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\vcredist_%PLATFORM%.exe"
-          - ps: $ENV:VCVARSALL="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat"
-          - call set /p RedistVersion=<"%ProgramFiles(x86)%\\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt"
+          - ps:
+                $ENV:VCREDIST_CRT_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual
+                Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CRT"
+          - ps:
+                $ENV:VCREDIST_CXXAMP_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual
+                Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CXXAMP"
+          - ps:
+                $ENV:VCREDIST_OPENMP_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual
+                Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.OpenMP"
+          - ps:
+                $ENV:REDIST="${ENV:ProgramFiles(x86)}\Microsoft Visual
+                Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\vcredist_%PLATFORM%.exe"
+          - ps:
+                $ENV:VCVARSALL="${ENV:ProgramFiles(x86)}\Microsoft Visual
+                Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat"
+          - call set /p RedistVersion=<"%ProgramFiles(x86)%\\Microsoft Visual
+            Studio\2019\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt"
 
-          - ps: $ENV:Path =  $ENV:PYTHON + ";" + $ENV:PYTHON + "/Scripts" + ";" + $ENV:PATH
+          - ps:
+                $ENV:Path =  $ENV:PYTHON + ";" + $ENV:PYTHON + "/Scripts" + ";" +
+                $ENV:PATH
           - ps: $ENV:INNO="${ENV:ProgramFiles(x86)}\Inno Setup 6"
           - ps: $ENV:NSIS="${ENV:ProgramFiles(x86)}\NSIS"
           - ps: $ENV:CMAKE_GENERATOR="Visual Studio 16 2019" # Ninja
@@ -244,7 +272,8 @@ for:
           - cinst png2ico
           - nuget install secure-file -ExcludeVersion
           # Install conan
-          - call "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
+          - call "%ProgramFiles(x86)%\Microsoft Visual
+            Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
           - call "%QTDIR%\bin\qtenv2.bat"
           - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER"
           - pip install conan
@@ -252,17 +281,23 @@ for:
           - conan create .\conan\ecm
 
       before_build:
-          - call "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
+          - call "%ProgramFiles(x86)%\Microsoft Visual
+            Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
           - call "%QTDIR%\bin\qtenv2.bat"
           - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER"
           - ps: New-Item -itemtype directory -path ./build
           - ps: Set-Location "build"
-          - ps: Write-Host "Generate the Project with the $ENV:CMAKE_GENERATOR gnerator and the configuration $ENV:CONFIGURATION"
+          - ps:
+                Write-Host "Generate the Project with the $ENV:CMAKE_GENERATOR gnerator
+                and the configuration $ENV:CONFIGURATION"
 
       build_script:
           - ps: New-Item -itemtype directory -path ./program
           - ps: conan install ..
-          - ps: cmake -G "$ENV:CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE="$ENV:CONFIGURATION"  -DCMAKE_PREFIX_PATH="$ENV:QTDIR" -DCMAKE_INSTALL_PREFIX:PATH="$ENV:APPVEYOR_BUILD_FOLDER/program"
+          - ps:
+                cmake -G "$ENV:CMAKE_GENERATOR"
+                -DCMAKE_BUILD_TYPE="$ENV:CONFIGURATION"  -DCMAKE_PREFIX_PATH="$ENV:QTDIR"
+                -DCMAKE_INSTALL_PREFIX:PATH="$ENV:APPVEYOR_BUILD_FOLDER/program"
                 -DBUILD_TESTING=ON -DBUILD_SHARED_LIBS=ON ..
           - ps: cmake --build . --config $ENV:CONFIGURATION --target install
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <ui version="4.0">
  <class>ComputerInputArea</class>
  <widget class="QGroupBox" name="ComputerInputArea">
@@ -97,7 +97,7 @@
          </widget>
         </item>
         <item row="3" column="4">
-         <widget class="QComboBox" name="comboBox_OperationSystem"/>
+         <widget class="QComboBox" name="comboBox_OperationSystem" />
         </item>
         <item row="6" column="3">
          <widget class="QLabel" name="label_Place">
@@ -120,10 +120,10 @@
          </widget>
         </item>
         <item row="8" column="4">
-         <widget class="QComboBox" name="comboBox_Inventory"/>
+         <widget class="QComboBox" name="comboBox_Inventory" />
         </item>
         <item row="3" column="2">
-         <widget class="QComboBox" name="comboBox_Processor"/>
+         <widget class="QComboBox" name="comboBox_Processor" />
         </item>
         <item row="3" column="0">
          <widget class="QLabel" name="label_Processor">
@@ -146,7 +146,7 @@
          </widget>
         </item>
         <item row="6" column="2">
-         <widget class="QComboBox" name="comboBox_Department"/>
+         <widget class="QComboBox" name="comboBox_Department" />
         </item>
         <item row="8" column="0">
          <widget class="QLabel" name="label_Manufacturer">
@@ -159,16 +159,16 @@
          </widget>
         </item>
         <item row="7" column="4">
-         <widget class="QComboBox" name="comboBox_DeviceType"/>
+         <widget class="QComboBox" name="comboBox_DeviceType" />
         </item>
         <item row="7" column="2">
-         <widget class="QComboBox" name="comboBox_DeviceName"/>
+         <widget class="QComboBox" name="comboBox_DeviceName" />
         </item>
         <item row="6" column="4">
-         <widget class="QComboBox" name="comboBox_Place"/>
+         <widget class="QComboBox" name="comboBox_Place" />
         </item>
         <item row="5" column="2">
-         <widget class="QComboBox" name="comboBox_Employee"/>
+         <widget class="QComboBox" name="comboBox_Employee" />
         </item>
         <item row="0" column="0">
          <widget class="QLabel" name="label_Name">
@@ -181,10 +181,10 @@
          </widget>
         </item>
         <item row="2" column="4">
-         <widget class="QLineEdit" name="lineEdit_IPAddress"/>
+         <widget class="QLineEdit" name="lineEdit_IPAddress" />
         </item>
         <item row="8" column="2">
-         <widget class="QComboBox" name="comboBox_Manufacturer"/>
+         <widget class="QComboBox" name="comboBox_Manufacturer" />
         </item>
         <item row="2" column="3">
          <widget class="QLabel" name="label_IPAddress">
@@ -237,7 +237,7 @@
          </widget>
         </item>
         <item row="2" column="2">
-         <widget class="QLineEdit" name="lineEdit_Network"/>
+         <widget class="QLineEdit" name="lineEdit_Network" />
         </item>
         <item row="6" column="0">
          <widget class="QLabel" name="label_Department">
@@ -250,7 +250,7 @@
          </widget>
         </item>
         <item row="1" column="2">
-         <widget class="QLineEdit" name="lineEdit_ServiceNumber"/>
+         <widget class="QLineEdit" name="lineEdit_ServiceNumber" />
         </item>
         <item row="1" column="3">
          <widget class="QLabel" name="label_ServiceTag">
@@ -263,13 +263,13 @@
          </widget>
         </item>
         <item row="1" column="4">
-         <widget class="QLineEdit" name="lineEdit_ServiceTag"/>
+         <widget class="QLineEdit" name="lineEdit_ServiceTag" />
         </item>
         <item row="0" column="4">
-         <widget class="QLineEdit" name="lineEdit_SerialNumber"/>
+         <widget class="QLineEdit" name="lineEdit_SerialNumber" />
         </item>
         <item row="0" column="2">
-         <widget class="QLineEdit" name="lineEdit_ComputerName"/>
+         <widget class="QLineEdit" name="lineEdit_ComputerName" />
         </item>
         <item row="4" column="0">
          <widget class="QLabel" name="label_Software">
@@ -282,7 +282,7 @@
          </widget>
         </item>
         <item row="4" column="2">
-         <widget class="QComboBox" name="comboBox_Software"/>
+         <widget class="QComboBox" name="comboBox_Software" />
         </item>
         <item row="4" column="3">
          <widget class="QLabel" name="label_Printer">
@@ -295,7 +295,7 @@
          </widget>
         </item>
         <item row="4" column="4">
-         <widget class="QComboBox" name="comboBox_Printer"/>
+         <widget class="QComboBox" name="comboBox_Printer" />
         </item>
        </layout>
       </item>
@@ -371,8 +371,8 @@
   <tabstop>pushButton_Add</tabstop>
   <tabstop>pushButton_EditFinish</tabstop>
  </tabstops>
- <resources/>
- <connections/>
+ <resources />
+ <connections />
  <slots>
   <slot>slot1()</slot>
   <slot>onDestroyed()</slot>

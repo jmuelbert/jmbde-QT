@@ -4,7 +4,7 @@ name: Release
 on:
     push:
         tags:
-            - '*'
+            - "*"
 
 env:
     QT_VERSION: 5.15.1
@@ -25,17 +25,27 @@ jobs:
     release:
         needs: check_commit_msg
         if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_MAIN') }}
-        name: release on ${{ matrix.config.os }} with portable ${{ matrix.config.portable-option }}
+        name:
+            release on ${{ matrix.config.os }} with portable ${{
+            matrix.config.portable-option }}
         runs-on: ${{ matrix.config.os }}
 
         strategy:
             fail-fast: false
             matrix:
                 config:
-                    - {os: ubuntu-16.04, portable-option: Off}
-                    - {os: windows-latest, portable-option: Off, portable-name: -setup.exe}
-                    - {os: windows-latest, portable-option: On, portable-name: -portable.zip}
-                    - {os: macos-latest, portable-option: Off}
+                    - { os: ubuntu-16.04, portable-option: Off }
+                    - {
+                          os: windows-latest,
+                          portable-option: Off,
+                          portable-name: -setup.exe,
+                      }
+                    - {
+                          os: windows-latest,
+                          portable-option: On,
+                          portable-name: -portable.zip,
+                      }
+                    - { os: macos-latest, portable-option: Off }
 
         steps:
             - name: Checking out sources
@@ -111,7 +121,9 @@ jobs:
               with:
                   draft: true
                   prerelease: ${{ steps.get_version.outputs.ISBETA }}
-                  files: build/jmbde-${{ steps.get_version.outputs.VERSION }}-linux-x86_64.AppImage
+                  files:
+                      build/jmbde-${{ steps.get_version.outputs.VERSION
+                      }}-linux-x86_64.AppImage
                   name: jmbde ${{ steps.get_version.outputs.VERSION }}
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -188,7 +200,8 @@ jobs:
               with:
                   draft: true
                   prerelease: ${{ steps.get_version.outputs.ISBETA }}
-                  files: jmbde-${{ steps.get_version.outputs.VERSION }}-full-source.tar.gz
+                  files:
+                      jmbde-${{ steps.get_version.outputs.VERSION }}-full-source.tar.gz
                   name: jmbde ${{ steps.get_version.outputs.VERSION }}
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -206,7 +219,8 @@ jobs:
               with:
                   draft: true
                   prerelease: ${{ steps.get_version.outputs.ISBETA }}
-                  files: build/jmbde-${{ steps.get_version.outputs.VERSION }}-macos-x64.dmg
+                  files:
+                      build/jmbde-${{ steps.get_version.outputs.VERSION }}-macos-x64.dmg
                   name: jmbde ${{ steps.get_version.outputs.VERSION }}
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -220,7 +234,9 @@ jobs:
                   echo ::set-env name=VC_REDIST_VERSION::$(ls -dr *.* | head -n1)
 
             - name: Pack to installer on Windows
-              if: startsWith(matrix.config.os, 'windows') && matrix.config.portable-option == 'Off'
+              if:
+                  startsWith(matrix.config.os, 'windows') &&
+                  matrix.config.portable-option == 'Off'
               shell: bash
               run: |
                   mkdir build/app/bin/Redist
@@ -234,5 +250,7 @@ jobs:
               with:
                   draft: true
                   prerelease: ${{ steps.get_version.outputs.ISBETA }}
-                  files: jmbde-${{ steps.get_version.outputs.VERSION }}-windows-x64${{ matrix.config.portable-name }}
+                  files:
+                      jmbde-${{ steps.get_version.outputs.VERSION }}-windows-x64${{
+                      matrix.config.portable-name }}
                   name: jmbde ${{ steps.get_version.outputs.VERSION }}

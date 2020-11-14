@@ -33,7 +33,9 @@ jobs:
                   export PATH="$(brew --prefix qt)/bin:$PATH"
                   pip3 install sphinx sphinx-rtd-theme breathe
             - name: configure
-              run: cmake -G Ninja  -DBUILD_MANUAL=ON -DBUILD_API_DOCS=ON -DCMAKE_PREFIX_PATH="$(brew --prefix qt)" -B ./build -S .
+              run:
+                  cmake -G Ninja  -DBUILD_MANUAL=ON -DBUILD_API_DOCS=ON
+                  -DCMAKE_PREFIX_PATH="$(brew --prefix qt)" -B ./build -S .
             - name: build
               run: |
                   pushd build

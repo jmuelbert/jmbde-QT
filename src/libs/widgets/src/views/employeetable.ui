@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <ui version="4.0">
  <class>EmployeeTable</class>
  <widget class="QWidget" name="EmployeeTable">
@@ -24,7 +24,7 @@
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QComboBox" name="comboBox"/>
+     <widget class="QComboBox" name="comboBox" />
     </item>
     <item>
      <widget class="QTableView" name="tableView">
@@ -45,6 +45,6 @@
    </layout>
   </widget>
  </widget>
- <resources/>
- <connections/>
+ <resources />
+ <connections />
 </ui>

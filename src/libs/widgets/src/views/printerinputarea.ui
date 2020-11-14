@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <ui version="4.0">
  <class>PrinterInputArea</class>
  <widget class="QGroupBox" name="PrinterInputArea">
@@ -90,10 +90,10 @@
          </widget>
         </item>
         <item row="6" column="4">
-         <widget class="QComboBox" name="comboBox_DeviceType"/>
+         <widget class="QComboBox" name="comboBox_DeviceType" />
         </item>
         <item row="5" column="4">
-         <widget class="QComboBox" name="comboBox_Place"/>
+         <widget class="QComboBox" name="comboBox_Place" />
         </item>
         <item row="5" column="3">
          <widget class="QLabel" name="label_Place">
@@ -106,10 +106,10 @@
          </widget>
         </item>
         <item row="4" column="2">
-         <widget class="QComboBox" name="comboBox_Employee"/>
+         <widget class="QComboBox" name="comboBox_Employee" />
         </item>
         <item row="7" column="2">
-         <widget class="QComboBox" name="comboBox_Manufacturer"/>
+         <widget class="QComboBox" name="comboBox_Manufacturer" />
         </item>
         <item row="0" column="0">
          <widget class="QLabel" name="label_Name">
@@ -122,7 +122,7 @@
          </widget>
         </item>
         <item row="1" column="2">
-         <widget class="QLineEdit" name="lineEdit_Network"/>
+         <widget class="QLineEdit" name="lineEdit_Network" />
         </item>
         <item row="6" column="0">
          <widget class="QLabel" name="label_Devicename">
@@ -152,7 +152,7 @@
          </widget>
         </item>
         <item row="5" column="2">
-         <widget class="QComboBox" name="comboBox_Department"/>
+         <widget class="QComboBox" name="comboBox_Department" />
         </item>
         <item row="7" column="3">
          <widget class="QLabel" name="label_Inventory">
@@ -182,10 +182,10 @@
          </widget>
         </item>
         <item row="6" column="2">
-         <widget class="QComboBox" name="comboBox_DeviceName"/>
+         <widget class="QComboBox" name="comboBox_DeviceName" />
         </item>
         <item row="4" column="4">
-         <widget class="QComboBox" name="comboBox_Computer"/>
+         <widget class="QComboBox" name="comboBox_Computer" />
         </item>
         <item row="4" column="0">
          <widget class="QLabel" name="label_Employee">
@@ -198,7 +198,7 @@
          </widget>
         </item>
         <item row="0" column="4">
-         <widget class="QLineEdit" name="lineEdit_SerialNumber"/>
+         <widget class="QLineEdit" name="lineEdit_SerialNumber" />
         </item>
         <item row="8" column="0">
          <widget class="QCheckBox" name="checkBox_Active">
@@ -208,10 +208,10 @@
          </widget>
         </item>
         <item row="1" column="4">
-         <widget class="QLineEdit" name="lineEdit_IPAddress"/>
+         <widget class="QLineEdit" name="lineEdit_IPAddress" />
         </item>
         <item row="0" column="2">
-         <widget class="QLineEdit" name="lineEdit_PrinterName"/>
+         <widget class="QLineEdit" name="lineEdit_PrinterName" />
         </item>
         <item row="7" column="0">
          <widget class="QLabel" name="label_Manufacturer">
@@ -224,7 +224,7 @@
          </widget>
         </item>
         <item row="2" column="4">
-         <widget class="QComboBox" name="comboBox_Papersize"/>
+         <widget class="QComboBox" name="comboBox_Papersize" />
         </item>
         <item row="1" column="0">
          <widget class="QLabel" name="label_Network">
@@ -261,7 +261,7 @@
          </widget>
         </item>
         <item row="7" column="4">
-         <widget class="QComboBox" name="comboBox_Inventory"/>
+         <widget class="QComboBox" name="comboBox_Inventory" />
         </item>
        </layout>
       </item>
@@ -331,8 +331,8 @@
   <tabstop>pushButton_Add</tabstop>
   <tabstop>pushButton_EditFinish</tabstop>
  </tabstops>
- <resources/>
- <connections/>
+ <resources />
+ <connections />
  <slots>
   <slot>slot1()</slot>
   <slot>onDestroyed()</slot>

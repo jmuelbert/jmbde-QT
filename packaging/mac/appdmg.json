@@ -1,32 +1,32 @@
 {
-  "background": "artwork/icon.png",
-  "contents": [
-    {
-      "path": "main/jmbde.app",
-      "type": "file",
-      "x": 64,
-      "y": 64
-    },
-    {
-      "path": "/Applications",
-      "type": "link",
-      "x": 428,
-      "y": 64
-    },
-    {
-      "path": "README.rtf",
-      "type": "file",
-      "x": 64,
-      "y": 448
-    },
-    {
-      "path": "LICENSE",
-      "type": "file",
-      "x": 428,
-      "y": 448
-    }
-  ],
-  "icon": "artwork/icon.icns",
-  "icon-size": 80,
-  "title": "jmbde"
+    "background": "artwork/icon.png",
+    "contents": [
+        {
+            "path": "main/jmbde.app",
+            "type": "file",
+            "x": 64,
+            "y": 64
+        },
+        {
+            "path": "/Applications",
+            "type": "link",
+            "x": 428,
+            "y": 64
+        },
+        {
+            "path": "README.rtf",
+            "type": "file",
+            "x": 64,
+            "y": 448
+        },
+        {
+            "path": "LICENSE",
+            "type": "file",
+            "x": 428,
+            "y": 448
+        }
+    ],
+    "icon": "artwork/icon.icns",
+    "icon-size": 80,
+    "title": "jmbde"
 }

@@ -90,7 +90,7 @@ repos:
           - id: forbid-space-in-indent
           - id: git-check # Configure in .gitattributes
           - id: git-dirty # Configure in .gitignore
-          - id: markdownlint # Configure in .mdlrc
+          # - id: markdownlint # Configure in .mdlrc
           - id: reek
           - id: rubocop
           - id: script-must-not-have-extension
@@ -100,14 +100,7 @@ repos:
             name: Executable Ruby scripts must not have a file extension
             types: [ruby, executable]
           - id: shellcheck
-            args:
-                [
-                    "--color=always",
-                    "--shell=bash",
-                    "-x",
-                    "-a",
-                    "--exclude=SC1090",
-                ]
+            args: ["--color=always", "--shell=bash", "-x", "-a", "--exclude=SC1090"]
             additional_dependencies: [shellcheck]
           - id: shfmt
 
@@ -155,6 +148,7 @@ repos:
       rev: v1.25.0 # or higher tag
       hooks:
           - id: yamllint
+            exclude: ^\.github/.*(\.yml)$
             args: [--format, parsable, --strict]
 
     - repo: https://github.com/noahsark769/xcodeproj-sort-pre-commit-hook
@@ -191,11 +185,22 @@ repos:
           - id: mypy
             exclude: ^docs/conf.py
 
-    # - repo: https://github.com/prettier/prettier
-    #  rev: 2.1.2
-    #  hooks:
-    #      - id: prettier
-    #        args: [--prose-wrap=always, --print-width=88]
+    - repo: https://github.com/prettier/pre-commit
+      rev: v2.1.2
+      hooks:
+          - id: prettier
+            exclude: ^.*(\.ts|\.xib)$
+            name: prettier + plugin-xml
+            additional_dependencies:
+                - prettier@2.1.2
+                - "@prettier/plugin-xml@0.12.0"
+            args:
+                - --write
+                - --list-different
+                - --ignore-unknown
+                - --plugin=@prettier/plugin-xml
+                - --prose-wrap=always
+                - --print-width=88
 
     - repo: https://github.com/pryorda/dockerfilelint-precommit-hooks
       rev: v0.1.0
@@ -204,10 +209,10 @@ repos:
             stages: [commit]
 
     - repo: https://github.com/milin/giticket
-      rev: v1.0
+      rev: v1.1
       hooks:
           - id: giticket
-            args: ['--regex=PROJ-[0-9]', '--format={ticket} {commit_msg}'] # Optional
+            args: ["--regex=PROJ-[0-9]", "--format={ticket} {commit_msg}"] # Optional
 
     - repo: https://github.com/homebysix/pre-commit-macadmin
       rev: v1.8.0
@@ -233,12 +238,12 @@ repos:
           - id: clang-tidy
           - id: oclint
             args: [-enable-clang-static-analyzer, -enable-global-analysis]
-           - id: uncrustify
+          # - id: uncrustify
 
     - repo: https://gitlab.com/daverona/pre-commit/cpp
       rev: 0.8.0
       hooks:
-        - id: cppcheck # static analyzer for C/C++ code
+          - id: cppcheck # static analyzer for C/C++ code
 
     - repo: https://gitlab.com/smop/pre-commit-hooks
       rev: v1.0.0
@@ -260,4 +265,6 @@ repos:
       rev: v0.6.13
       hooks:
           - id: cmake-format
+            args: [--in-place, --config-files=.cmake-format]
           - id: cmake-lint
+            args: [--filter=-whitespace/indent]

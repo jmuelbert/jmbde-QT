@@ -1,8 +1,8 @@
 # jmbde
 
-jmbde ist ein Programm für das Management von Ressourcen in Unternehmen. Mit
-diesem Programm können die Mitarbeiter und die Ausrüstung, die sie für ihre Arbeit
-benötigen erfasst werden. Das sind Computer, Drucker und Telefone.
+jmbde ist ein Programm für das Management von Ressourcen in Unternehmen. Mit diesem
+Programm können die Mitarbeiter und die Ausrüstung, die sie für ihre Arbeit benötigen
+erfasst werden. Das sind Computer, Drucker und Telefone.
 
 ---
 
@@ -16,10 +16,14 @@ benötigen erfasst werden. Das sind Computer, Drucker und Telefone.
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![Help wanted issues](https://img.shields.io/github/issues/jmuelbert/jmbde-QT/help%20wanted)](https://github.com/jmuelbert/jmbde-QT/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)
 
-[Features](https://github.com/jmuelbert/jmbde-QT) | [Documentation](https://jmuelbert.github.io/jmbde-QT/) | [Changelog](CHANGELOG.md) | [Contributing](CONTRIBUTING_de-DE.md) | [FAQ](https://github.com/jmuelbert/jmbde-QT/wiki/FAQ) | [english](README.md)
+[Features](https://github.com/jmuelbert/jmbde-QT) |
+[Documentation](https://jmuelbert.github.io/jmbde-QT/) | [Changelog](CHANGELOG.md) |
+[Contributing](CONTRIBUTING_de-DE.md) |
+[FAQ](https://github.com/jmuelbert/jmbde-QT/wiki/FAQ) | [english](README.md)
 
-jmbde verwendet das plattformübergreifende Framework [Qt](http://www.qt.io/download-open-source/),
-was bedeutet, dass es mit den meisten Betriebssystemen funktioniert.
+jmbde verwendet das plattformübergreifende Framework
+[Qt](http://www.qt.io/download-open-source/), was bedeutet, dass es mit den meisten
+Betriebssystemen funktioniert.
 
 |  type  |                           branch                            |                                                                                                        build                                                                                                         |                                                                     downloads                                                                      |
 | :----: | :---------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------: |
@@ -29,16 +33,15 @@ was bedeutet, dass es mit den meisten Betriebssystemen funktioniert.
 
 ## Setup
 
-Das Programm verwendet die [QT-Bibliothek](https://www.qt.io). Daher kann es auf
-fast jeder Plattform verwendet werden . Es läuft unter MacOS, Linux und
-Windows. Grundsätzlich sollte ein Installer für die Installation des Programms
-auf einem Computer verwendet werden. Dieses Installationsprogramm wird auf die
-benötigten QT-Bibliotheken mit installieren. Für die Nutzung des Programms bei
-Windows als Betriebssystem ist dies zwingend notwendig. Bei Linux und macOS kann
-auf eine andere Variante verwendet werden. Bei diesen beiden Betriebssystemen
-kann QT zentral installiert werden. Bei diesen beiden Betriebssystemen werden dann
-nur noch die eigentlichen Programmdateien installiert. Aber auch hier gibt es
-komplette Installationspakete mit allem, auch QT.
+Das Programm verwendet die [QT-Bibliothek](https://www.qt.io). Daher kann es auf fast
+jeder Plattform verwendet werden . Es läuft unter MacOS, Linux und Windows.
+Grundsätzlich sollte ein Installer für die Installation des Programms auf einem Computer
+verwendet werden. Dieses Installationsprogramm wird auf die benötigten QT-Bibliotheken
+mit installieren. Für die Nutzung des Programms bei Windows als Betriebssystem ist dies
+zwingend notwendig. Bei Linux und macOS kann auf eine andere Variante verwendet werden.
+Bei diesen beiden Betriebssystemen kann QT zentral installiert werden. Bei diesen beiden
+Betriebssystemen werden dann nur noch die eigentlichen Programmdateien installiert. Aber
+auch hier gibt es komplette Installationspakete mit allem, auch QT.
 
 ## Unterstützte Plattformen
 
@@ -95,10 +98,9 @@ In dem master branch befindet sich der aktuellste Pre-Release Code.
 
 ## Programm erstellen
 
-Im Folgenden finden Sie Hinweise für Entwickler, wie Sie jmbde auf Ihrem
-nativen System aufbauen können. Sie sind keine vollständigen Leitfäden, sondern
-enthalten Hinweise zu den notwendigen Maßnahmen. Bibliotheken,
-Kompilierungs-Flags, etc.
+Im Folgenden finden Sie Hinweise für Entwickler, wie Sie jmbde auf Ihrem nativen System
+aufbauen können. Sie sind keine vollständigen Leitfäden, sondern enthalten Hinweise zu
+den notwendigen Maßnahmen. Bibliotheken, Kompilierungs-Flags, etc.
 
 ### Abhängigkeiten
 
@@ -119,7 +121,8 @@ Kompilierungs-Flags, etc.
   brew link qt5 --force
 ```
 
--   Alternativ können Sie auch [Qt hier herunterladen](https://www.qt.io/download-qt-installer)
+-   Alternativ können Sie auch
+    [Qt hier herunterladen](https://www.qt.io/download-qt-installer)
 
 Führen Sie `cmake` aus, um jmbde zu erstellen:
 
@@ -146,7 +149,8 @@ Führen Sie `cmake` aus, um jmbde zu erstellen:
 
 -   Visual Studio 2017 oder höher
 -   Sie können [Qt hier herunterladen](https://www.qt.io/download-qt-installer)
--   Sie können viele Werkzeuge mit choco installieren. [Installationsanleitung](https://chocolatey.org/install#installing-chocolatey)
+-   Sie können viele Werkzeuge mit choco installieren.
+    [Installationsanleitung](https://chocolatey.org/install#installing-chocolatey)
 
 ```cmd
   choco install cmake
@@ -179,8 +183,8 @@ Führen Sie `cmake` aus, um jmbde zu erstellen:
 -   Auf Fedora: `sudo dnf builddep jmbde-QT cmake ninja`
 -   Auf Arch Linux: `pacman -S qt cmake ninja`
 
-Die installierten Toolchains müssen mit derjenigen übereinstimmen, mit der Qt
-kompiliert wurde.
+Die installierten Toolchains müssen mit derjenigen übereinstimmen, mit der Qt kompiliert
+wurde.
 
 -   Als nächstes kompilieren Sie durch Ausführen:
 
@@ -209,18 +213,16 @@ Sie können nun `jmbde` mit dem Befehl `bin/jmbde` aus der Kommandozeile starten
 
 ## Lizenz
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+This program is free software: you can redistribute it and/or modify it under the terms
+of the GNU General Public License as published by the Free Software Foundation, either
+version 3 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <https://www.gnu.org/licenses/gpl-3.0.txt>.
+You should have received a copy of the GNU General Public License along with this
+program. If not, see <https://www.gnu.org/licenses/gpl-3.0.txt>.
 
 Qt ist unter mehreren [Lizenzen](https://www.qt.io/licensing/) verfügbar.
 

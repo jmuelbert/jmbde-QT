@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <ui version="4.0">
  <class>EmployeeInputArea</class>
  <widget class="QGroupBox" name="EmployeeInputArea">
@@ -63,7 +63,7 @@
       <item>
        <layout class="QGridLayout" name="gridLayout">
         <item row="8" column="3">
-         <widget class="QComboBox" name="comboBox_Printer"/>
+         <widget class="QComboBox" name="comboBox_Printer" />
         </item>
         <item row="6" column="2">
          <widget class="QLabel" name="label_EndDate">
@@ -116,10 +116,10 @@
          </widget>
         </item>
         <item row="6" column="1">
-         <widget class="QDateEdit" name="dateEdit_StartDate"/>
+         <widget class="QDateEdit" name="dateEdit_StartDate" />
         </item>
         <item row="10" column="3">
-         <widget class="QComboBox" name="comboBox_EmployeeDocument"/>
+         <widget class="QComboBox" name="comboBox_EmployeeDocument" />
         </item>
         <item row="2" column="4">
          <widget class="QLabel" name="label_Address">
@@ -132,7 +132,7 @@
          </widget>
         </item>
         <item row="9" column="3">
-         <widget class="QComboBox" name="comboBox_Function"/>
+         <widget class="QComboBox" name="comboBox_Function" />
         </item>
         <item row="8" column="0">
          <widget class="QLabel" name="label_Computer">
@@ -155,7 +155,7 @@
          </widget>
         </item>
         <item row="4" column="1">
-         <widget class="QLineEdit" name="lineEdit_HomeMail"/>
+         <widget class="QLineEdit" name="lineEdit_HomeMail" />
         </item>
         <item row="10" column="0">
          <widget class="QLabel" name="label_EmployeeAccount">
@@ -178,7 +178,7 @@
          </widget>
         </item>
         <item row="7" column="3">
-         <widget class="QComboBox" name="comboBox_Mobile"/>
+         <widget class="QComboBox" name="comboBox_Mobile" />
         </item>
         <item row="5" column="5">
          <widget class="QCheckBox" name="checkBox_DataCare">
@@ -188,13 +188,13 @@
          </widget>
         </item>
         <item row="9" column="1">
-         <widget class="QComboBox" name="comboBox_Department"/>
+         <widget class="QComboBox" name="comboBox_Department" />
         </item>
         <item row="0" column="3">
-         <widget class="QComboBox" name="comboBox_Gender"/>
+         <widget class="QComboBox" name="comboBox_Gender" />
         </item>
         <item row="8" column="5">
-         <widget class="QComboBox" name="comboBox_ChipCard"/>
+         <widget class="QComboBox" name="comboBox_ChipCard" />
         </item>
         <item row="1" column="4">
          <widget class="QLabel" name="label_PersNumber">
@@ -207,10 +207,10 @@
          </widget>
         </item>
         <item row="2" column="3">
-         <widget class="QLineEdit" name="lineEdit_City"/>
+         <widget class="QLineEdit" name="lineEdit_City" />
         </item>
         <item row="7" column="5">
-         <widget class="QComboBox" name="comboBox_Fax"/>
+         <widget class="QComboBox" name="comboBox_Fax" />
         </item>
         <item row="4" column="4">
          <widget class="QLabel" name="label_HomePhone">
@@ -243,7 +243,7 @@
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QLineEdit" name="lineEdit_Firstname"/>
+         <widget class="QLineEdit" name="lineEdit_Firstname" />
         </item>
         <item row="7" column="0">
          <widget class="QLabel" name="label_Phone">
@@ -256,7 +256,7 @@
          </widget>
         </item>
         <item row="4" column="3">
-         <widget class="QLineEdit" name="lineEdit_HomeMobile"/>
+         <widget class="QLineEdit" name="lineEdit_HomeMobile" />
         </item>
         <item row="0" column="0">
          <widget class="QLabel" name="label_Title">
@@ -296,10 +296,10 @@
          </widget>
         </item>
         <item row="2" column="5">
-         <widget class="QLineEdit" name="lineEdit_Address"/>
+         <widget class="QLineEdit" name="lineEdit_Address" />
         </item>
         <item row="10" column="1">
-         <widget class="QComboBox" name="comboBox_EmployeeAccount"/>
+         <widget class="QComboBox" name="comboBox_EmployeeAccount" />
         </item>
         <item row="7" column="4">
          <widget class="QLabel" name="label_Fax">
@@ -339,10 +339,10 @@
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QLineEdit" name="lineEditZipCode"/>
+         <widget class="QLineEdit" name="lineEditZipCode" />
         </item>
         <item row="4" column="5">
-         <widget class="QLineEdit" name="lineEdit_HomePhone"/>
+         <widget class="QLineEdit" name="lineEdit_HomePhone" />
         </item>
         <item row="7" column="2">
          <widget class="QLabel" name="label_Mobile">
@@ -355,13 +355,13 @@
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QComboBox" name="comboBox_Title"/>
+         <widget class="QComboBox" name="comboBox_Title" />
         </item>
         <item row="7" column="1">
-         <widget class="QComboBox" name="comboBox_Phone"/>
+         <widget class="QComboBox" name="comboBox_Phone" />
         </item>
         <item row="5" column="1">
-         <widget class="QLineEdit" name="lineEdit_BusinessMail"/>
+         <widget class="QLineEdit" name="lineEdit_BusinessMail" />
         </item>
         <item row="10" column="2">
          <widget class="QLabel" name="label_EmployeeDocument">
@@ -374,10 +374,10 @@
          </widget>
         </item>
         <item row="3" column="1">
-         <widget class="QDateEdit" name="dateEdit_Birthday"/>
+         <widget class="QDateEdit" name="dateEdit_Birthday" />
         </item>
         <item row="11" column="1" colspan="2">
-         <widget class="QTextEdit" name="textEdit_Notes"/>
+         <widget class="QTextEdit" name="textEdit_Notes" />
         </item>
         <item row="6" column="0">
          <widget class="QLabel" name="label_StartDate">
@@ -400,7 +400,7 @@
          </widget>
         </item>
         <item row="1" column="3">
-         <widget class="QLineEdit" name="lineEdit_Lastname"/>
+         <widget class="QLineEdit" name="lineEdit_Lastname" />
         </item>
         <item row="10" column="4">
          <widget class="QLabel" name="label_Lastupdate">
@@ -420,7 +420,7 @@
          </widget>
         </item>
         <item row="8" column="1">
-         <widget class="QComboBox" name="comboBox_Computer"/>
+         <widget class="QComboBox" name="comboBox_Computer" />
         </item>
         <item row="2" column="2">
          <widget class="QLabel" name="label_City">
@@ -433,7 +433,7 @@
          </widget>
         </item>
         <item row="6" column="3">
-         <widget class="QDateEdit" name="dateEdit_EndDate"/>
+         <widget class="QDateEdit" name="dateEdit_EndDate" />
         </item>
        </layout>
       </item>
@@ -516,6 +516,6 @@
   <tabstop>comboBox_EmployeeDocument</tabstop>
   <tabstop>textEdit_Notes</tabstop>
  </tabstops>
- <resources/>
- <connections/>
+ <resources />
+ <connections />
 </ui>

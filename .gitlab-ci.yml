@@ -4,9 +4,11 @@ test_code:
     stage: test
     before_script:
         - apt-get update
-        - DEBIAN_FRONTEND=noninteractive apt-get install -y keyboard-configuration build-essential software-properties-common make cmake ninja-build git
-          pkgconf extra-cmake-modules
-        - DEBIAN_FRONTEND=noninteractive apt-get install -y qtbase5-dev qttools5-dev qttools5-dev-tools libqt5help5  qtdeclarative5-dev qtdeclarative5-dev-tools
+        - DEBIAN_FRONTEND=noninteractive apt-get install -y keyboard-configuration
+          build-essential software-properties-common make cmake ninja-build git pkgconf
+          extra-cmake-modules
+        - DEBIAN_FRONTEND=noninteractive apt-get install -y qtbase5-dev qttools5-dev
+          qttools5-dev-tools libqt5help5  qtdeclarative5-dev qtdeclarative5-dev-tools
           qt5-image-formats-plugins libqt5svg5-dev
         - apt-get install -y python3 python3-pip
         - add-apt-repository ppa:git-core/ppa
@@ -18,7 +20,8 @@ test_code:
         - mkdir build
         - cd build
         - conan install ..
-        - cmake -GNinja -S .. -DCMAKE_INSTALL_PREFIX=./build/AppDir/usr -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=TRUE
+        - cmake -GNinja -S .. -DCMAKE_INSTALL_PREFIX=./build/AppDir/usr
+          -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=TRUE
         - cmake --build . -v
         # - ctest --build --verbose .
 
@@ -37,7 +40,8 @@ pages:
         - npx gitbook install
     script:
         - npx gitbook build . public
-        - 'sed -i "s/puppeteer.launch();/puppeteer.launch({args: [\"--no-sandbox\"]});/g" node_modules/svgexport/render.js'
+        - 'sed -i "s/puppeteer.launch();/puppeteer.launch({args:
+          [\"--no-sandbox\"]});/g" node_modules/svgexport/render.js'
         - npx gitbook pdf jmbde-QT.pdf
         - cp jmbde-QT.pdf public/jmbde-QT.pdf
     artifacts:

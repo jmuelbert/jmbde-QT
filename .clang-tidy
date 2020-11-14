@@ -1,102 +1,83 @@
----
+
 Checks:
-  '*,
-  clang-analyzer-*,
-  clang-diagnostic-*,
-  cppcoreguidelines-*,
-  performance-*,
-  bugprone-*,
-  readability-*,
-  misc-*,
-  hicpp-*,
-  google-*,
-  hicpp-*,
-  llvm-*,
-  portability-*,
-  cert-*,
-  modernize-*,
-  -clang-analyzer-alpha*,
-  -clang-analyzer-alpha.core.CastToStruct,
-  -clang-analyzer-core.NonNullParamChecker,
-  -clang-analyzer-alpha.deadcode.UnreachableCode,
-  -clang-analyzer-cplusplus.NewDeleteLeaks,
-  -clang-analyzer-core.CallAndMessage,
-  -clang-diagnostic-nonportable-include-path,
-  -cppcoreguidelines-avoid-goto,
-  -cppcoreguidelines-avoid-magic-numbers,
-  -cppcoreguidelines-special-member-functions,
-  -cppcoreguidelines-pro-bounds-pointer-arithmetic,
-  -cppcoreguidelines-pro-bounds-constant-array-index,
-  -cppcoreguidelines-pro-bounds-array-to-pointer-decay,
-  -cppcoreguidelines-pro-type-vararg,
-  -cppcoreguidelines-pro-type-cstyle-cast,
-  -cppcoreguidelines-pro-type-reinterpret-cast,
-  -cppcoreguidelines-owning-memory,
-  -cppcoreguidelines-pro-type-const-cast,
-  -cppcoreguidelines-pro-type-union-access,
-  -cppcoreguidelines-pro-type-static-cast-downcast,
-  -cppcoreguidelines-c-copy-assignment-signature,
-  -cert-err34-c,
-  -cert-flp30-c,
-  -hicpp-avoid-goto,
-  -hicpp-explicit-conversions,
-  -hicpp-function-size,
-  -hicpp-new-delete-operators,
-  -hicpp-no-array-decay,
-  -hicpp-uppercase-literal-suffix,
-  -hicpp-use-equals-default,
-  -hicpp-use-override,
-  -hicpp-use-equals-delete,
-  -modernize-use-default,
-  -modernize-use-nodiscard,
-  -modernize-use-override,
-  -modernize-use-default-member-init,
-  -modernize-use-equals-default,
-  -modernize-use-bool-literals,
-  -modernize-raw-string-literal,
-  -modernize-redundant-void-arg,
-  -modernize-use-using,
-  -modernize-loop-convert,
-  -modernize-use-emplace,
-  -modernize-return-braced-init-list,
-  -modernize-pass-by-value,
-  -modernize-use-using,
-  -modernize-use-trailing-return-type,
-  -google-*,
-  -readability-inconsistent-declaration-parameter-name,
-  -readability-static-accessed-through-instance,
-  -readability-else-after-return,
-  -readability-implicit-bool-cast,
-  -readability-magic-numbers,
-  -readability-named-parameter,
-  -readability-namespace-comments,
-  -readability-implicit-bool-conversion
-  -readability-function-size,
-  -readability-uppercase-literal-suffix,
-  -llvm-header-guard,
-  -llvm-include-order,
-  -llvm-namespace-comment,
-  -fuchsia-*'
+    #-*,
+    *,
+    clang-analyzer-*,clang-diagnostic-*,
+    cppcoreguidelines-*,performance-*,bugprone-*,
+    readability-*,misc-*,hicpp-*,cert-*,modernize-*,
+    -clang-diagnostic-nonportable-include-path,
+    -clang-analyzer-deadcode.DeadStores,
+    -clang-analyze-core.CallAndMessage,
+    -cppcoreguidelines-special-member-functions,-hicpp-special-member-functions,
+    -hicpp-braces-around-statements,-readability-braces-around-statements,
+    -hicpp-use-equals-default -modernize-use-equals-default,
+    -hicpp-use-auto,
+    -hicpp-vararg,
+    -hicpp-member-init,
+    -cert-err58-cpp,
+    -readability-implicit-bool-conversion,
+    -readability-else-after-return,
+    -modernize-raw-string-literal,
+    -hicpp-no-array-decay,-cppcoreguidelines-pro-bounds-array-to-pointer-decay,
+    -cert-err34-c,
+    -hicpp-signed-bitwise,
+    -modernize-use-auto,-hicpp-use-auto,
+    -readability-named-parameter,
+    -cert-dcl54-cpp,
+    -hicpp-new-delete-operators,
+    -modernize-pass-by-value,
+    -cppcoreguidelines-pro-type-union-access,
+    -hicpp-use-equals-default,
+    -cppcoreguidelines-pro-bounds-pointer-arithmetic,
+    -cppcoreguidelines-pro-bounds-constant-array-index,
+    -cppcoreguidelines-pro-bounds-array-to-pointer-decay,
+    -cppcoreguidelines-pro-type-vararg,
+    -cppcoreguidelines-pro-type-cstyle-cast,
+    -cppcoreguidelines-pro-type-reinterpret-cast,
+    -cppcoreguidelines-owning-memory,
+    -cppcoreguidelines-pro-type-const-cast,
+    -hicpp-function-size,
+    -cppcoreguidelines-pro-type-static-cast-downcast,
+    -hicpp-use-override,
+    -hicpp-use-equals-delete,
+    -readability-static-accessed-through-instance,
+    -cert-flp30-c,
+    -modernize-redundant-void-arg,
+    -hicpp-explicit-conversions,
+    -readability-function-size,
+    -cppcoreguidelines-avoid-goto,
+    -modernize-use-using,
+    -cppcoreguidelines-c-copy-assignment-signature,
+    -hicpp-avoid-goto,
+    -readability-inconsistent-declaration-parameter-name,
+    -cppcoreguidelines-avoid-magic-numbers,
+    -readability-magic-numbers,
+    -modernize-loop-convert,
+    -modernize-use-nodiscard,
 
+AnalyzeTemporaryDtors: true
+#HeaderFilterRegex: '/dev/opentrack'
 
-WarningsAsErrors: ''
-HeaderFilterRegex: ''
-AnalyzeTemporaryDtors: false
 CheckOptions:
-  - key:             cert-oop11-cpp.UseCERTSemantics
-    value:           '1'
-  - key:             modernize-loop-convert.MaxCopySize
-    value:           '16'
-  - key:             modernize-loop-convert.MinConfidence
-    value:           reasonable
-  - key:             modernize-loop-convert.NamingStyle
-    value:           CamelCase
-  - key:             modernize-pass-by-value.IncludeStyle
-    value:           llvm
-  - key:             modernize-replace-auto-ptr.IncludeStyle
-    value:           llvm
-  - key:             modernize-use-nullptr.NullMacros
-    value:           'NULL'
-  - key:             readability-braces-around-statements.ShortStatementLines
-    value:           '3'
-...
+  - key:      cert-dcl59-cpp.HeaderFileExtensions
+    value:    ',h,hpp'
+  - key:      cppcoreguidelines-pro-type-member-init.IgnoreArrays
+    value:    '1'
+  - key:      readability-simplify-boolean-expr.ChainedConditionalAssignment
+    value:    '1'
+  - key:      readability-simplify-boolean-expr.ChainedConditionalReturn
+    value:    '1'
+  - key:      readability-function-size.BranchThreshold
+    value:    '15'
+  - key:      readability-function-size.LineThreshold
+    value:    '120'
+  - key:      readability-function-size.NestingThreshold
+    value:    '6'
+  - key:      readability-function-size.ParameterThreshold
+    value:    '8'
+  - key:      readability-function-size.StatementThreshold
+    value:    '90'
+  - key:      readability-function-size.VariableThreshold
+    value:    '10'
+
+# vim: ft=yaml

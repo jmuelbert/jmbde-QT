@@ -1,3 +1,4 @@
+---
 name: Release Notes
 
 on: [push, pull_request]
