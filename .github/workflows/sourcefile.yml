@@ -44,7 +44,7 @@ jobs:
                   pathTarget:
                       ./jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
             - name: Upload artifact
-              uses: actions/upload-artifact@v2.2.0
+              uses: actions/upload-artifact@v2.2.1
               with:
                   name: jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
                   path: jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
