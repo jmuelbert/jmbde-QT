@@ -12,7 +12,7 @@ graphviz==0.15
 identify==1.5.9
 idna==2.10
 imagesize==1.2.0
-importlib-metadata==2.0.0
+importlib-metadata==3.1.0
 Jinja2==2.11.2
 MarkupSafe==1.1.1
 nodeenv==1.5.0
