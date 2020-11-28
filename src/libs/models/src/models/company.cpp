@@ -17,8 +17,8 @@
 
 Q_LOGGING_CATEGORY(jmbdeModelsCompanyLog, "jmuelbert.jmbde.models.company", QtWarningMsg)
 
-Model::Company::Company(QObject *parent)
-    : CommonData(parent)
+Model::Company::Company()
+    : CommonData()
 {
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);

@@ -35,9 +35,9 @@ namespace Model
     \details In this is handle all Function
     \author Jürgen Mülbert
     \since 0.4
-    \version 0.4.25
-    \date 03.08.2019
-    \copyright EUPL V1.2
+    \version 0.5
+    \date 17.11.2020
+    \copyright GPL-3.0-or-later
     */
 
 class Function : public CommonData
@@ -45,10 +45,10 @@ class Function : public CommonData
     Q_OBJECT
 public:
     /*!
-        \fn explicit Function(QObject *parent = nullptr)
+        \fn explicit Function()
         \brief The Constructor for the EmployeeAccount
     */
-    explicit JMBDEMODELS_EXPORT Function(QObject *parent = nullptr);
+    explicit JMBDEMODELS_EXPORT Function();
 
     /*!
         \fn ~Function;

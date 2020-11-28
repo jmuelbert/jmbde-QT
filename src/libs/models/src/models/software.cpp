@@ -15,8 +15,8 @@
 
 #include "models/software.h"
 
-Model::Software::Software(QObject *parent)
-    : CommonData(parent)
+Model::Software::Software()
+    : CommonData()
 {
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);

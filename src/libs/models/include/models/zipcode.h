@@ -35,19 +35,19 @@ namespace Model
     \details In this is handlet all ZipCode
     \author Jürgen Mülbert
     \since 0.4
-    \version 0.4.25
-    \date 03.08.2019
-    \copyright EUPL V1.2
+    \version 0.5
+    \date 17.11.2020
+    \copyright GPL-3.0-or-later
     */
 class ZipCode : public CommonData
 {
 public:
     /*!
-        \fn ZipCode(QObject *parent = nullptr)
+        \fn ZipCode()
 
         \brief Constructor for the ZipCode
      */
-    explicit JMBDEMODELS_EXPORT ZipCode(QObject *parent = nullptr);
+    explicit JMBDEMODELS_EXPORT ZipCode();
 
     /*!
         \fn  ~ZipCode();

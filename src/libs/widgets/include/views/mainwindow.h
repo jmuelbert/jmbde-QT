@@ -41,6 +41,7 @@
 #include "models/processor.h"
 #include "models/software.h"
 #include "models/title.h"
+#include "views/aboutdialog.h"
 #include "views/chipcardinputarea.h"
 #include "views/cityinputarea.h"
 #include "views/computerinputarea.h"
@@ -183,13 +184,15 @@ private slots:
      * @brief onClickedListViewRow
      * @param index The QModelIndex of the ListViewRow to displayed
      */
-    void JMBDEWIDGETS_EXPORT onClickedListViewRow(const QModelIndex &index);
+    void JMBDEWIDGETS_EXPORT onClickedListViewRow();
 
     /**
      * @brief onPressedListViewRow
      * @param index The QModelIndex of the ListViewRow to displayed
      */
     void JMBDEWIDGETS_EXPORT onPressedListViewRow(const QModelIndex &index);
+
+    void JMBDEWIDGETS_EXPORT onDataEdited();
 
 private:
     /**

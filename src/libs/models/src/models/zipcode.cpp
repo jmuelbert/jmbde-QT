@@ -15,8 +15,8 @@
 
 #include "models/zipcode.h"
 
-Model::ZipCode::ZipCode(QObject *parent)
-    : CommonData(parent)
+Model::ZipCode::ZipCode()
+    : CommonData()
 {
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);

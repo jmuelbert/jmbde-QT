@@ -26,9 +26,13 @@ EmployeeTable::EmployeeTable(const QString &tableName, QSqlTableModel *model, QW
 {
     ui->setupUi(this);
 
+
+    m_dataContext = new Model::DataContext();
+    m_db = m_dataContext->getDatabase();
+
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(QLatin1String("employee"));
+    m_model->setTable(tableName);
     m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
     m_model->setHeaderData(0, Qt::Horizontal, tr("ID"));
@@ -58,6 +62,103 @@ EmployeeTable::EmployeeTable(const QString &tableName, QSqlTableModel *model, QW
 EmployeeTable::~EmployeeTable()
 {
     delete ui;
+}
+
+
+
+void EmployeeTable::setMappings()
+{
+    // Model::Employee *employeeModel = new Model::Employee();
+    // Set the fields to the mapper
+    // Line 1.
+    // m_mapper->addMapping(ui->, employeeModel->getTitleIdIndex());
+    // m_mapper->addMapping(ui->comboBox_Gender, employeeModel->getGenderIndex());
+}
+
+void EmployeeTable::setViewOnlyMode(bool mode)
+{}
+
+void EmployeeTable::createDataset()
+{
+    // Set all inputfields to blank
+    m_mapper->toLast();
+
+    int row = m_mapper->currentIndex();
+    if (row < 0)
+        row = 0;
+
+    m_mapper->submit();
+    m_model->insertRow(row);
+    m_mapper->setCurrentIndex(row);
+}
+
+void EmployeeTable::retrieveDataset(const QModelIndex index)
+{
+}
+
+void EmployeeTable::updateDataset(const QModelIndex index)
+{
+}
+
+void EmployeeTable::deleteDataset(const QModelIndex index)
+{
+}
+
+// Save the actual data
+
+void EmployeeTable::on_pushButton_Add_clicked()
+{
+    createDataset();
+    on_pushButton_EditFinish_clicked();
+}
+
+void EmployeeTable::on_pushButton_EditFinish_clicked()
+{
+    // Set all inputfields to blank
+
+    switch (m_actualMode) {
+    case Mode::Edit: {
+        m_actualMode = Mode::Finish;
+        // TODO: To Implement
+        // ui->pushButton_EditFinish->setText(tr("Fertig"));
+        setViewOnlyMode(false);
+
+    } break;
+
+    case Mode::Finish: {
+        qCDebug(jmbdeWidgetsEmployeeTableLog) << tr("Die Daten werden gesichert.");
+
+        m_actualMode = Mode::Edit;
+        // TODO: To Implement
+        // ui->pushButton_EditFinish->setText(tr("Bearbeiten"));
+        setViewOnlyMode(false);
+        // TODO: To Implement
+        // QString lastName = ui->lineEdit_Lastname->text();
+
+        // if (lastName.isEmpty()) {
+        //    QString message(tr("Bitte geben Sie den Mitarbeiternamen ein"));
+
+        //    QMessageBox::information(this, tr("Mitarbeiter hinzufügen"), message);
+        // } else {
+        {
+            // TODO: To Implement
+            // qCDebug(jmbdeWidgetsEmployeeTableLog) << tr("Mitarbeiter : ") << ui->lineEdit_Lastname->text();
+            m_mapper->submit();
+            m_model->database().transaction();
+            if (m_model->submitAll()) {
+                m_model->database().commit();
+                qCDebug(jmbdeWidgetsEmployeeTableLog) << tr("Schreiben der Änderungen in die Datenbank");
+            } else {
+                m_model->database().rollback();
+                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
+            }
+        }
+    } break;
+
+    default: {
+        qCDebug(jmbdeWidgetsEmployeeTableLog) << tr("Fehler");
+    }
+    }
 }
 
 void EmployeeTable ::submit()

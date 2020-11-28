@@ -37,19 +37,19 @@ namespace Model
     \details This Class is for the PrinterData
     \author Jürgen Mülbert
     \since 0.2
-    \version 0.4.25
-    \date 03.08.2019
-    \copyright EUPL V1.2
- */
+    \version 0.5
+    \date 17.11.2020
+    \copyright GPL-3.0-or-later
+    */
 class Printer : public CommonData
 {
 public:
     /*!
-        \fn Printer(QObject *parent = nullptr)
+        \fn Printer()
 
         \brief Constructor for the Account
      */
-    explicit JMBDEMODELS_EXPORT Printer(QObject *parent = nullptr);
+    explicit JMBDEMODELS_EXPORT Printer();
 
     /*!
        \fn  ~Printer() override;

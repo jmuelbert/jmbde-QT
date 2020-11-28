@@ -35,9 +35,9 @@ namespace Model
     \details In this is handle all OS
     \author Jürgen Mülbert
     \since 0.4
-    \version 0.4.25
-    \date 03.08.2019
-    \copyright EUPL V1.2
+    \version 0.5
+    \date 17.11.2020
+    \copyright GPL-3.0-or-later
     */
 class OS : public CommonData
 {
@@ -45,10 +45,10 @@ class OS : public CommonData
 
 public:
     /*!
-        \fn explicit OS(QObject *parent = nullptr)
+        \fn explicit OS()
         \brief The Constructor for the Inventory
     */
-    explicit JMBDEMODELS_EXPORT OS(QObject *parent = nullptr);
+    explicit JMBDEMODELS_EXPORT OS();
 
     /*!
         \fn  ~OS();

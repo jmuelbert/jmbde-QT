@@ -15,8 +15,8 @@
 
 #include "models/employeedocument.h"
 
-Model::EmployeeDocument::EmployeeDocument(QObject *parent)
-    : CommonData(parent)
+Model::EmployeeDocument::EmployeeDocument()
+    : CommonData()
 {
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);

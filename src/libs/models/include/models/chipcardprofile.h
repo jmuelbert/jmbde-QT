@@ -37,20 +37,21 @@ namespace Model
     \details In this is handlet all Profiles for the ChipCards
     \author Jürgen Mülbert
     \since 0.4
-    \version 0.4.25
-    \date 03.08.2019
-    \copyright EUPL V1.2    */
+    \version 0.5
+    \date 17.11.2020
+    \copyright GPL-3.0-or-later
+    */
 class ChipCardProfile : public CommonData
 {
     Q_OBJECT
 
 public:
     /*!
-        \fn ChipCardProfile(QObject *parent = nullptr)
+        \fn ChipCardProfile()
 
         \brief The Constructor for the ChipCardProfile
      */
-    explicit JMBDEMODELS_EXPORT ChipCardProfile(QObject *parent = nullptr);
+    explicit JMBDEMODELS_EXPORT ChipCardProfile();
 
     /*!
         \fn ~ChipCardProfile()

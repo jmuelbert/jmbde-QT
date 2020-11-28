@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: (C) 2013-2020  Jürgen Mülbert <juergen.muelbert@gmail.com>
+# SPDX-License-Identifier: GNU-V3-later
 #
 # jmbde a BDE Tool for companies Copyright (C) 2013-2020  Jürgen Mülbert
 #
@@ -39,6 +41,10 @@
 # available) To install the resulting man page, run 'make install' The man page
 # is not available on Windows.
 #
+
+# see http://doc.qt.io/qt-5/cmake-manual.html
+# https://github.com/rhtyd/cmakeqt/blob/master/CMakeLists.txt
+# https://github.com/district10/cmake-templates
 
 # minimal requirements
 cmake_minimum_required(VERSION 3.12...3.18 FATAL_ERROR)

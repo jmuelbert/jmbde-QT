@@ -15,8 +15,8 @@
 
 #include "models/place.h"
 
-Model::Place::Place(QObject *parent)
-    : CommonData(parent)
+Model::Place::Place()
+    : CommonData()
 {
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);

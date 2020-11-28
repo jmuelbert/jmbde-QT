@@ -36,9 +36,9 @@ namespace Model
     \details In this is handle all Doors with Access Control
     \author Jürgen Mülbert
     \since 0.4
-    \version 0.4.25
-    \date 03.08.2019
-    \copyright GPL V3
+    \version 0.5
+    \date 17.11.2020
+    \copyright GPL-3.0-or-later
     */
 class ChipCardDoor : public CommonData
 {
@@ -46,12 +46,12 @@ class ChipCardDoor : public CommonData
 
 public:
     /*!
-        \fn ChipCardDoor(QObject *parent = nullptr)
+        \fn ChipCardDoor()
 
         \brief Constructor for the ChipCardDoor
         \param parent The pointer to the parent Object
      */
-    explicit JMBDEMODELS_EXPORT ChipCardDoor(QObject *parent = nullptr);
+    explicit JMBDEMODELS_EXPORT ChipCardDoor();
 
     /*!
      * \fn  ~ChipCardDoor() override;

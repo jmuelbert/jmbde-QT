@@ -67,7 +67,7 @@ Model::DataContext::DataContext(QObject *parent, const QString &dbType, const QS
 
 Model::DataContext::~DataContext()
 {
-    this->m_db.close();
+    // this->m_db.close();
 
     qCDebug(jmbdeModelsDatacontextLog) << tr("Datenbank geschlossen.");
 }
@@ -281,16 +281,20 @@ void Model::DataContext::open(const QString &name)
     }
 
     if (!this->m_db.isOpen()) {
+        if (!this->m_db.isValid()) {
+            this->m_db = QSqlDatabase::database(name);
+        }
         if (!this->m_db.open()) {
             qCCritical(jmbdeModelsDatacontextLog) << tr("Fehler beim öffnen der Datenbank : ") << this->m_db.lastError().text() << name;
         } else {
             qCDebug(jmbdeModelsDatacontextLog) << tr("Öffne Datenbank : ") << name;
+            if (m_dbType == DBTypes::SQLITE) {
+                auto query = QSqlQuery(this->m_db);
+                if (!query.exec(QStringLiteral("PRAGMA synchronous=OFF"))) {
+                    qCCritical(jmbdeModelsDatacontextLog) << tr("Fehler beim setzen des Pragma: ") << tr("Fehlermeldung: ") << query.lastQuery() << " : " << query.lastError().text();
+                }
+            }
         }
-    }
-
-    if (m_dbType == DBTypes::SQLITE) {
-        auto query = this->getQuery(QStringLiteral("PRAGMA synchronous=OFF"));
-        query.exec();
     }
 }
 
@@ -329,19 +333,6 @@ void Model::DataContext::deleteDB(const QString &dbName)
 void Model::DataContext::setDatabaseConnection()
 {
     QString dbDataPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
-    // dbDataPath.append(QDir::separator());
-    // TODO: Set this from above
-    // dbDataPath.append(QCoreApplication::organizationDomain());
-
-    // Application Directory +
-    // Resources on Mac
-    // share/appname on Linux
-    // + /database/jmbdesqlite.db
-    // Destination Directory
-    // QString targetFileAndPath = QString(m_connectionString);
-    // if (m_connectionString.isEmpty()) {
-    //     targetFileAndPath = QString(dbDataPath);
-    // }
     // Create the Directory
     QDir writeDir(dbDataPath);
     if (!writeDir.exists())

@@ -15,8 +15,8 @@
 
 #include "models/processor.h"
 
-Model::Processor::Processor(QObject *parent)
-    : CommonData(parent)
+Model::Processor::Processor()
+    : CommonData()
 {
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);

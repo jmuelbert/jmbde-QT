@@ -1,44 +1,17 @@
-/**************************************************************************
-**
-** Copyright (c) 2013-2019 Jürgen Mülbert. All rights reserved.
-**
-** This file is part of jmbde
-**
-** Licensed under the EUPL, Version 1.2 or – as soon they
-** will be approved by the European Commission - subsequent
-** versions of the EUPL (the "Licence");
-** You may not use this work except in compliance with the
-** Licence.
-** You may obtain a copy of the Licence at:
-**
-** https://joinup.ec.europa.eu/page/eupl-text-11-12
-**
-** Unless required by applicable law or agreed to in
-** writing, software distributed under the Licence is
-** distributed on an "AS IS" basis,
-** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-** express or implied.
-** See the Licence for the specific language governing
-** permissions and limitations under the Licence.
-**
-** Lizenziert unter der EUPL, Version 1.2 oder - sobald
-**  diese von der Europäischen Kommission genehmigt wurden -
-** Folgeversionen der EUPL ("Lizenz");
-** Sie dürfen dieses Werk ausschließlich gemäß
-** dieser Lizenz nutzen.
-** Eine Kopie der Lizenz finden Sie hier:
-**
-** https://joinup.ec.europa.eu/page/eupl-text-11-12
-**
-** Sofern nicht durch anwendbare Rechtsvorschriften
-** gefordert oder in schriftlicher Form vereinbart, wird
-** die unter der Lizenz verbreitete Software "so wie sie
-** ist", OHNE JEGLICHE GEWÄHRLEISTUNG ODER BEDINGUNGEN -
-** ausdrücklich oder stillschweigend - verbreitet.
-** Die sprachspezifischen Genehmigungen und Beschränkungen
-** unter der Lizenz sind dem Lizenztext zu entnehmen.
-**
-**************************************************************************/
+/*
+   jmbde a BDE Tool for companies
+   Copyright (C) 2013-2020 Jürgen Mülbert
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+*/
 
 #include "views/employeeinputarea.h"
 
@@ -53,21 +26,17 @@ EmployeeInputArea::EmployeeInputArea(QWidget *parent, const QModelIndex index)
 {
     ui->setupUi(this);
 
-    // Init UI
-    qCDebug(jmbdeWidgetsEmployeeInputAreaLog) << tr("Initialisiere Mitarbeiter Eingabebereich mit dem Index : ") << index.row();
+    this->employeeModel = new Model::Employee();
+    this->m_db = this->employeeModel->getDB();
 
     m_actualMode = Mode::Edit;
     setViewOnlyMode(true);
 
     // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(QLatin1String("employee"));
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-
-    m_model->select();
+    m_model = this->employeeModel->initializeRelationalModel();
 
     // Set the mapper
-    m_mapper = new QDataWidgetMapper(this);
+    m_mapper = new QDataWidgetMapper();
     m_mapper->setModel(m_model);
     m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
@@ -83,38 +52,40 @@ EmployeeInputArea::~EmployeeInputArea()
 
 void EmployeeInputArea::setMappings()
 {
+
+
     // Set the fields to the mapper
     // Line 1.
-    m_mapper->addMapping(ui->comboBox_Title, m_model->fieldIndex(QLatin1String("title_id")));
-    m_mapper->addMapping(ui->comboBox_Gender, m_model->fieldIndex(QLatin1String("gender")));
+    m_mapper->addMapping(ui->comboBox_Title, this->employeeModel->getTitleIdIndex());
+    m_mapper->addMapping(ui->comboBox_Gender, this->employeeModel->getGenderIndex());
 
     // Line 2.
-    m_mapper->addMapping(ui->lineEdit_Firstname, m_model->fieldIndex(QLatin1String("first_name")));
-    m_mapper->addMapping(ui->lineEdit_Lastname, m_model->fieldIndex(QLatin1String("last_name")));
-    m_mapper->addMapping(ui->doubleSpinBox_PersNR, m_model->fieldIndex(QLatin1String("employee_nr")));
+    m_mapper->addMapping(ui->lineEdit_Firstname, this->employeeModel->getFirstNameIndex());
+    m_mapper->addMapping(ui->lineEdit_Lastname, this->employeeModel->getLastNameIndex());
+    m_mapper->addMapping(ui->doubleSpinBox_PersNR, this->employeeModel->getEmployeeNrIndex());
 
     // Line 3.
-    m_mapper->addMapping(ui->lineEditZipCode, m_model->fieldIndex(QLatin1String("zipcity_id")));
+    m_mapper->addMapping(ui->lineEditZipCode, this->employeeModel->getZipCityIdIndex());
 
     // TODO: Write City in the City Text Field
-    m_mapper->addMapping(ui->lineEdit_Address, m_model->fieldIndex(QLatin1String("address")));
+    m_mapper->addMapping(ui->lineEdit_Address, this->employeeModel->getAddressIndex());
 
     // Line 4.
-    m_mapper->addMapping(ui->dateEdit_Birthday, m_model->fieldIndex(QLatin1String("birth_day")));
+    m_mapper->addMapping(ui->dateEdit_Birthday, this->employeeModel->getBirthDayIndex());
 
     // Line 5.
-    m_mapper->addMapping(ui->lineEdit_HomeMail, m_model->fieldIndex(QLatin1String("home_mail_address")));
-    m_mapper->addMapping(ui->lineEdit_HomePhone, m_model->fieldIndex(QLatin1String("home_phone")));
-    m_mapper->addMapping(ui->lineEdit_HomeMobile, m_model->fieldIndex(QLatin1String("home_mobile")));
+    m_mapper->addMapping(ui->lineEdit_HomeMail, this->employeeModel->getHomeMailIndex());
+    m_mapper->addMapping(ui->lineEdit_HomePhone,this-> employeeModel->getHomePhoneIndex());
+    m_mapper->addMapping(ui->lineEdit_HomeMobile, this->employeeModel->getHomeMobileIndex());
 
     // Line 6.
-    m_mapper->addMapping(ui->lineEdit_BusinessMail, m_model->fieldIndex(QLatin1String("business_mail_addess")));
-    m_mapper->addMapping(ui->checkBox_Active, m_model->fieldIndex(QLatin1String("active")));
-    m_mapper->addMapping(ui->checkBox_DataCare, m_model->fieldIndex(QLatin1String("data_care")));
+    m_mapper->addMapping(ui->lineEdit_BusinessMail, this->employeeModel->getBusinessMailIndex());
+    m_mapper->addMapping(ui->checkBox_Active, this->employeeModel->getActiveIndex());
+    m_mapper->addMapping(ui->checkBox_DataCare, this->employeeModel->getDataCareIndex());
 
     // Line 7.
-    m_mapper->addMapping(ui->dateEdit_StartDate, m_model->fieldIndex(QLatin1String("hire_date")));
-    m_mapper->addMapping(ui->dateEdit_EndDate, m_model->fieldIndex(QLatin1String("end_date")));
+    m_mapper->addMapping(ui->dateEdit_StartDate, this->employeeModel->getHireDateIndex());
+    m_mapper->addMapping(ui->dateEdit_EndDate, this->employeeModel->getEndDateIndex());
 
     // Line 8.
 
@@ -147,10 +118,10 @@ void EmployeeInputArea::setMappings()
        m_mapper->addMapping(ui->comboBoxEmployeeDocument,
                        m_model->fieldIndex(QLatin1String("employee_document_id")));
      */
-    m_mapper->addMapping(ui->label_Lastupdate_Date, m_model->fieldIndex(QLatin1String("last_update")));
+    m_mapper->addMapping(ui->label_Lastupdate_Date, this->employeeModel->getLastUpdateIndex());
 
     // Line 11.
-    m_mapper->addMapping(ui->textEdit_Notes, m_model->fieldIndex(QLatin1String("notes")));
+    m_mapper->addMapping(ui->textEdit_Notes, this->employeeModel->getNotesIndex());
 }
 
 void EmployeeInputArea::setViewOnlyMode(bool mode)
@@ -193,8 +164,6 @@ void EmployeeInputArea::createDataset()
     if (row < 0)
         row = 0;
 
-    qCDebug(jmbdeWidgetsEmployeeInputAreaLog) << tr("Erzeuge einen neuen Datensatz für Mitarbeiter an Position: ") << row;
-
     m_mapper->submit();
     m_model->insertRow(row);
     m_mapper->setCurrentIndex(row);
@@ -222,6 +191,8 @@ void EmployeeInputArea::on_pushButton_Add_clicked()
 
 void EmployeeInputArea::on_pushButton_EditFinish_clicked()
 {
+    // Set all inputfields to blank
+
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
@@ -244,6 +215,7 @@ void EmployeeInputArea::on_pushButton_EditFinish_clicked()
 
             QMessageBox::information(this, tr("Mitarbeiter hinzufügen"), message);
         } else {
+            qCDebug(jmbdeWidgetsEmployeeInputAreaLog) << tr("Mitarbeiter : ") << ui->lineEdit_Lastname->text();
             m_mapper->submit();
             m_model->database().transaction();
             if (m_model->submitAll()) {
@@ -261,3 +233,5 @@ void EmployeeInputArea::on_pushButton_EditFinish_clicked()
     }
     }
 }
+
+

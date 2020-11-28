@@ -15,8 +15,8 @@
 
 #include "models/devicename.h"
 
-Model::DeviceName::DeviceName(QObject *parent)
-    : CommonData(parent)
+Model::DeviceName::DeviceName()
+    : CommonData()
 {
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);

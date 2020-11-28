@@ -15,8 +15,8 @@
 
 #include "models/manufacturer.h"
 
-Model::Manufacturer::Manufacturer(QObject *parent)
-    : CommonData(parent)
+Model::Manufacturer::Manufacturer()
+    : CommonData()
 {
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);

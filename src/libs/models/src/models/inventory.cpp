@@ -15,8 +15,8 @@
 
 #include "models/inventory.h"
 
-Model::Inventory::Inventory(QObject *parent)
-    : CommonData(parent)
+Model::Inventory::Inventory()
+    : CommonData()
 {
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);

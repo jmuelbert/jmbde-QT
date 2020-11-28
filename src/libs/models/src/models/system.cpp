@@ -15,8 +15,8 @@
 
 #include "models/system.h"
 
-Model::System::System(QObject *parent)
-    : CommonData(parent)
+Model::System::System()
+    : CommonData()
 {
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);

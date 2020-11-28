@@ -31,11 +31,15 @@ Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsChipCardProfileDoorLog)
 namespace Model
 {
 /*!
-\class ChipCardProfileDoor
-\brief The ChipCardProfileDoor class
-\details In this is handlet all ChipCardProfileDoor Data and create a many
-to many relation \author Jürgen Mülbert \since 0.4 \version 0.4.25 \date
-03.08.2019 \copyright EUPL V1.2
+  \class ChipCardProfileDoor
+  \brief The ChipCardProfileDoor class
+  \details In this is handlet all ChipCardProfileDoor Data and create a many
+  to many relation
+  \author Jürgen Mülbert
+  \since 0.4
+  \version 0.5
+  \date 17.11.2020
+  \copyright GPL-3.0-or-later
 */
 class ChipCardProfileDoor : public CommonData
 {
@@ -43,11 +47,11 @@ class ChipCardProfileDoor : public CommonData
 
 public:
     /*!
-        \fn ChipCardProfileDoor(QObject *parent = nullptr)
+        \fn ChipCardProfileDoor()
 
         \brief Constructor for the ChipCardProfileDoor
      */
-    explicit JMBDEMODELS_EXPORT ChipCardProfileDoor(QObject *parent = nullptr);
+    explicit JMBDEMODELS_EXPORT ChipCardProfileDoor();
 
     /*!
      * \fn ~ChipCardProfileDoor() override;

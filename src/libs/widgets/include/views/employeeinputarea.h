@@ -26,6 +26,7 @@
 #include "jmbdewidgets-version.h"
 #include "jmbdewidgets_export.h"
 #include "loggingcategory.h"
+#include "models/datacontext.h"
 #include "models/computer.h"
 #include "models/employee.h"
 #include "models/fax.h"
@@ -50,17 +51,24 @@ class JMBDEWIDGETS_EXPORT EmployeeInputArea : public QGroupBox
     Q_OBJECT
 
 public:
-    /**
+    /*!
         @brief EmployeeInputArea
+        @param tableName The name of the table in the Database
+        @param The pointer to the Model
         @param parent The pointer to the parent object
-        @param index The index for view the data
+
+        @todo Init the model from here
+        @todo Get the tableName from the model
      */
-    explicit EmployeeInputArea(QWidget *parent, const QModelIndex index);
+    explicit EmployeeInputArea(QWidget *parent = nullptr, const QModelIndex index = QModelIndex());
 
     /**
      * @brief ~EmployeeInputArea
      */
     ~EmployeeInputArea();
+
+signals:
+
 
 public slots:
 
@@ -76,35 +84,45 @@ private slots:
     void on_pushButton_Add_clicked();
 
 private:
-    /**
+    /*!
      * @brief ui
      */
     Ui::EmployeeInputArea *ui;
 
-    /**
+    /*!
      * @brief The Mode enum
      */
     enum Mode { Edit, Finish };
 
-    /**
+    /*!
      * @brief m_actualMode
      */
     Mode m_actualMode;
 
-    /**
+    /*!
+     * @brief m_dataContext
+     */
+    Model::Employee *employeeModel = {};
+
+    /*!
      * @brief m_model
      */
-    QSqlRelationalTableModel *m_model;
+    QSqlTableModel *m_model;
 
-    /**
+    /*!
      * @brief m_selectionModel
      */
     QItemSelectionModel *m_selectionModel {};
 
-    /**
+    /*!
      * @brief m_mapper
      */
     QDataWidgetMapper *m_mapper;
+
+    /*!
+     * @ brief m_db
+     */
+    QSqlDatabase m_db = {};
 
     /**
      * @brief setMappings

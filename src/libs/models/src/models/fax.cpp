@@ -15,8 +15,8 @@
 
 #include "models/fax.h"
 
-Model::Fax::Fax(QObject *parent)
-    : CommonData(parent)
+Model::Fax::Fax()
+    : CommonData()
 {
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);

@@ -84,6 +84,7 @@ target_sources(
           jmbdewidgets-version.h
           loggingcategory.h
           include/definitions.h
+          include/views/aboutdialog.h
           include/views/chipcardinputarea.h
           include/views/cityinputarea.h
           include/views/computerinputarea.h
@@ -103,6 +104,7 @@ target_sources(
           include/views/titleinputarea.h
           # CPPS
           loggingcategory.cpp
+          src/views/aboutdialog.cpp
           src/views/chipcardinputarea.cpp
           src/views/departmentinputarea.cpp
           src/views/mainwindow.cpp
@@ -121,6 +123,7 @@ target_sources(
           src/views/phoneinputarea.cpp
           src/views/titleinputarea.cpp
           # ui-files
+          src/views/aboutdialog.ui
           src/views/chipcardinputarea.ui
           src/views/departmentinputarea.ui
           src/views/manufacturerinputarea.ui

@@ -15,7 +15,7 @@
 
 #include "models/commondata.h"
 
-Model::CommonData::CommonData(QObject * /*parent*/)
+Model::CommonData::CommonData()
     : m_model(nullptr)
     , m_selectionModel(nullptr)
 {

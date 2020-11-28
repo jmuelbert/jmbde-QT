@@ -38,8 +38,8 @@ namespace Model
     \author Jürgen Mülbert
     \since 0.4
     \version 0.4
-    \date 23.11.2018
-    \copyright GPL V3
+    \date 17.11.2020
+    \copyright GPL-3.0-or-later
  */
 class ChipCard : public CommonData
 {
@@ -47,11 +47,11 @@ class ChipCard : public CommonData
 
 public:
     /*!
-        \fn ChipCard(QObject *parent = nullptr)
+        \fn ChipCard()
 
         \brief Constructor forChipCard
     */
-    explicit JMBDEMODELS_EXPORT ChipCard(QObject *parent = nullptr);
+    explicit JMBDEMODELS_EXPORT ChipCard();
 
     /*!
         \fn ~ChipCard() override

@@ -35,9 +35,9 @@ namespace Model
     \details In this is handle all Manufacturer
     \author Jürgen Mülbert
     \since 0.4
-    \version 0.4.25
-    \date 03.08.2019
-    \copyright EUPL V1.2
+    \version 0.5
+    \date 17.11.2020
+    \copyright GPL-3.0-or-later
     */
 class Manufacturer : public CommonData
 {
@@ -45,10 +45,10 @@ class Manufacturer : public CommonData
 
 public:
     /*!
-        \fn explicit Manufacturer(QObject *parent = nullptr)
+        \fn explicit Manufacturer()
         \brief The Constructor for the Manufacturer
     */
-    explicit JMBDEMODELS_EXPORT Manufacturer(QObject *parent = nullptr);
+    explicit JMBDEMODELS_EXPORT Manufacturer();
 
     /*!
         \fn  ~Manufacturer();

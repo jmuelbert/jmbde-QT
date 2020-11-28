@@ -34,11 +34,12 @@ namespace Model
     \brief The Phone is the class to handle the phones
     \sa CommonDataModel
 
-\author Jürgen Mülbert
+    \author Jürgen Mülbert
     \since 0.4
     \version 0.4.25
-    \date 03.08.2019
-    \copyright EUPL V1.2
+    \version 0.5
+    \date 17.11.2020
+    \copyright GPL-3.0-or-later
     */
 class Phone : public CommonData
 {
@@ -46,10 +47,10 @@ class Phone : public CommonData
 
 public:
     /*!
-        \fn explicit Phone(QObject *parent = nullptr)
+        \fn explicit Phone()
         \brief The Constructor for the Phone
     */
-    explicit JMBDEMODELS_EXPORT Phone(QObject *parent = nullptr);
+    explicit JMBDEMODELS_EXPORT Phone();
 
     /*!
         \fn ~Phone()

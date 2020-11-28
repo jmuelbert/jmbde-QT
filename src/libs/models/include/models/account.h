@@ -38,9 +38,9 @@ namespace Model
     \details In this is handlet all Accounts from the Employees
     \author Jürgen Mülbert
     \since 0.4
-    \version 0.4.25
-    \date 03.08.2019
-    \copyright EUPL V1.2
+    \version 0.5
+    \date 17.11.2020
+    \copyright GPL-3.0-or-later
     */
 class Account : public CommonData
 {
@@ -48,11 +48,11 @@ class Account : public CommonData
 
 public:
     /*!
-        \fn Account(QObject *parent = nullptr)
+        \fn Account()
 
         \brief Constructor for the Account
      */
-    explicit JMBDEMODELS_EXPORT Account(QObject *parent = nullptr);
+    explicit JMBDEMODELS_EXPORT Account();
 
     /*!
         \fn  ~Account();

@@ -35,9 +35,9 @@ namespace Model
     \details In this is handlet all Titles
     \author Jürgen Mülbert
     \since 0.4
-    \version 0.4.25
-    \date 03.08.2019
-    \copyright EUPL V1.2
+    \version 0.5
+    \date 17.11.2020
+    \copyright GPL-3.0-or-later
     */
 class Title : public CommonData
 {
@@ -45,11 +45,11 @@ class Title : public CommonData
 
 public:
     /*!
-        \fn Title(QObject *parent = nullptr)
+        \fn Title()
 
         \brief Constructor for the Title
      */
-    explicit JMBDEMODELS_EXPORT Title(QObject *parent = nullptr);
+    explicit JMBDEMODELS_EXPORT Title();
 
     /*!
         \fn  ~Title();

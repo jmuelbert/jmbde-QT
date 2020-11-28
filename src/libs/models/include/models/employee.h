@@ -29,6 +29,7 @@
 #include <QtSql>
 
 #include "commondata.h"
+#include "datacontext.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 #include "loggingcategory.h"
@@ -73,20 +74,20 @@ digraph g {
 
     \author Jürgen Mülbert
     \since 0.4
-    \version 0.4.25
-    \date 03.08.2019
-    \copyright EUPL V1.2
- */
+    \version 0.5
+    \date 17.11.2020
+    \copyright GPL-3.0-or-later
+    */
 class Employee : public CommonData
 {
     Q_OBJECT
 
 public:
     /*!
-        \fn explicit Employee(QObject *parent = nullptr)
+        \fn explicit Employee()
         \brief The Constructor for the Employee
     */
-    explicit JMBDEMODELS_EXPORT Employee(QObject *parent = nullptr);
+    explicit JMBDEMODELS_EXPORT Employee();
 
     /*!
         \fn  ~Employee() override;
@@ -128,6 +129,9 @@ public:
       */
     virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
 
+
+    JMBDEMODELS_EXPORT QSqlTableModel * initializeListModel();
+
     /*!
      * \fn virtual auto generateTableString(
                                 const QString &header) -> QString final
@@ -147,365 +151,375 @@ public:
     virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
 
     // Getter
+    JMBDEMODELS_EXPORT QString getTableName() const
+    {
+        return this->m_tableName;
+    }
+
+
+    JMBDEMODELS_EXPORT QSqlDatabase getDB() const
+    {
+        return this->m_db;
+    }
 
     /*!
-        \fn int EmployeeIdIndex()
+        \fn int getEmployeeIdIndex()
 
         \brief Get the index of the fieldname EmployeeId form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int EmployeeIdIndex() const
+    JMBDEMODELS_EXPORT int getEmployeeIdIndex() const
     {
         return m_EmployeeIdIndex;
     }
 
     /*!
-        \fn  int EmployeeNrIndex()
+        \fn  int getEmployeeNrIndex()
 
         \brief Get the index of the fieldname EmployeeNr form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int EmployeeNrIndex() const
+    JMBDEMODELS_EXPORT int getEmployeeNrIndex() const
     {
         return m_EmployeeNrIndex;
     }
 
     /*!
-        \fn int GenderIndex()
+        \fn int getGenderIndex()
 
         \brief Get the index of the fieldname Gender form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int GenderIndex() const
+    JMBDEMODELS_EXPORT int getGenderIndex() const
     {
         return m_GenderIndex;
     }
 
     /*!
-        \fn int TitleIdIndex()
+        \fn int getTitleIdIndex()
 
         \brief Get the index of the fieldname TitleId form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int TitleIdIndex() const
+    JMBDEMODELS_EXPORT int getTitleIdIndex() const
     {
         return m_TitleIdIndex;
     }
 
     /*!
-        \fn int FirstNameIndex()
+        \fn int getFirstNameIndex()
 
         \brief Get the index of the fieldname FirstName form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int FirstNameIndex() const
+    JMBDEMODELS_EXPORT int getFirstNameIndex() const
     {
         return m_FirstNameIndex;
     }
 
     /*!
-        \fn int LastNameIndex()
+        \fn int getLastNameIndex()
 
         \brief Get the index of the fieldname LastName form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int LastNameIndex() const
+    JMBDEMODELS_EXPORT int getLastNameIndex() const
     {
         return m_LastNameIndex;
     }
 
     /*!
-        \fn int BirthDayIndex()
+        \fn int getBirthDayIndex()
 
         \brief Get the index of the fieldname BirthDay form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int BirthDayIndex() const
+    JMBDEMODELS_EXPORT int getBirthDayIndex() const
     {
         return m_BirthDayIndex;
     }
 
     /*!
-        \fn  int AddressIndex()
+        \fn  int getAddressIndex()
 
         \brief Get the index of the fieldname Address form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int AddressIndex() const
+    JMBDEMODELS_EXPORT int getAddressIndex() const
     {
         return m_AddressIndex;
     }
 
     /*!
-       \fn int ZipCityIdIndex()
+       \fn int getZipCityIdIndex()
 
        \brief Get the index of the fieldname ZipCityId form the database
 
        Returns the value of the index
     */
-    JMBDEMODELS_EXPORT int ZipCityIdIndex() const
+    JMBDEMODELS_EXPORT int getZipCityIdIndex() const
     {
         return m_ZipCityIdIndex;
     }
 
     /*!
-       \fn int HomePhoneIndex()
+       \fn int getHomePhoneIndex()
 
        \brief Get the index of the fieldname HomePhone form the database
 
        Returns the value of the index
     */
-    JMBDEMODELS_EXPORT int HomePhoneIndex() const
+    JMBDEMODELS_EXPORT int getHomePhoneIndex() const
     {
         return m_HomePhoneIndex;
     }
 
     /*!
-       \fn int HomeMobileIndex()
+       \fn int getHomeMobileIndex()
 
        \brief Get the index of the fieldname HomeMobile form the database
 
        Returns the value of the index
     */
-    JMBDEMODELS_EXPORT int HomeMobileIndex() const
+    JMBDEMODELS_EXPORT int getHomeMobileIndex() const
     {
         return m_HomeMobileIndex;
     }
 
     /*!
-       \fn int HomeMailIndex()
+       \fn int getHomeMailIndex()
 
        \brief Get the index of the fieldname HomeMail form the database
 
        Returns the value of the index
     */
-    JMBDEMODELS_EXPORT int HomeMailIndex() const
+    JMBDEMODELS_EXPORT int getHomeMailIndex() const
     {
         return m_HomeMailIndex;
     }
 
     /*!
-        \fn int BusinessMailIndex()
+        \fn int getBusinessMailIndex()
 
         \brief Get the index of the fieldname BusinessMail form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int BusinessMailIndex() const
+    JMBDEMODELS_EXPORT int getBusinessMailIndex() const
     {
         return m_BusinessMailIndex;
     }
 
     /*!
-        \fn int DataCareIndex()
+        \fn int getDataCareIndex()
 
         \brief Get the index of the fieldname DataCare form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int DataCareIndex() const
+    JMBDEMODELS_EXPORT int getDataCareIndex() const
     {
         return m_DataCareIndex;
     }
 
     /*!
-        \fn int ActiveIndex()
+        \fn int getActiveIndex()
 
         \brief Get the index of the fieldname Active form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int ActiveIndex() const
+    JMBDEMODELS_EXPORT int getActiveIndex() const
     {
         return m_ActiveIndex;
     }
 
     /*!
-        \fn int PhotoIndex()
+        \fn int getPhotoIndex()
 
         \brief Get the index of the fieldname Photo form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int PhotoIndex() const
+    JMBDEMODELS_EXPORT int getPhotoIndex() const
     {
         return m_PhotoIndex;
     }
 
     /*!
-        \fn int NotesIndex()
+        \fn int getNotesIndex()
 
         \brief Get the index of the fieldname Notes form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int NotesIndex() const
+    JMBDEMODELS_EXPORT int getNotesIndex() const
     {
         return m_NotesIndex;
     }
 
     /*!
-        \fn int HireDateIndex()
+        \fn int getHireDateIndex()
 
         \brief Get the index of the fieldname  HireDate form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int HireDateIndex() const
+    JMBDEMODELS_EXPORT int getHireDateIndex() const
     {
         return m_HireDateIndex;
     }
 
     /*!
-        \fn int EndDateIndex()
+        \fn int getEndDateIndex()
 
         \brief Get the index of the fieldname  EndDate form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int EndDateIndex() const
+    JMBDEMODELS_EXPORT int getEndDateIndex() const
     {
         return m_EndDateIndex;
     }
 
     /*!
-        \fn int DepartmentIdIndex()
+        \fn int getDepartmentIdIndex()
 
         \brief Get the index of the fieldname DepartmentId form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int DepartmentIdIndex() const
+    JMBDEMODELS_EXPORT int getDepartmentIdIndex() const
     {
         return m_DepartmentIdIndex;
     }
 
     /*!
-        \fn int FunctionIdIndex()
+        \fn int getFunctionIdIndex()
 
         \brief Get the index of the fieldname FunctionId form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int FunctionIdIndex() const
+    JMBDEMODELS_EXPORT int getFunctionIdIndex() const
     {
         return m_FunctionIdIndex;
     }
 
     /*!
-        \fn int ComputerIdIndex()
+        \fn int getComputerIdIndex()
 
         \brief Get the index of the fieldname ComputerId form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int ComputerIdIndex() const
+    JMBDEMODELS_EXPORT int getComputerIdIndex() const
     {
         return m_ComputerIdIndex;
     }
 
     /*!
-        \fn int PrinterIdIndex()
+        \fn int getPrinterIdIndex()
 
         \brief Get the index of the fieldname PrinterId form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int PrinterIdIndex() const
+    JMBDEMODELS_EXPORT int getPrinterIdIndex() const
     {
         return m_PrinterIdIndex;
     }
 
     /*!
-        \fn int PhoneIdIndex()
+        \fn int getPhoneIdIndex()
 
         \brief Get the index of the fieldname PhoneId form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int PhoneIdIndex() const
+    JMBDEMODELS_EXPORT int getPhoneIdIndex() const
     {
         return m_PhoneIdIndex;
     }
 
     /*!
-        \fn int MobileIdIndex()
+        \fn int getMobileIdIndex()
 
         \brief Get the index of the fieldname MobileId form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int MobileIdIndex() const
+    JMBDEMODELS_EXPORT int getMobileIdIndex() const
     {
         return m_MobileIdIndex;
     }
 
     /*!
-        \fn int FaxIdIndex()
+        \fn int getFaxIdIndex()
 
         \brief Get the index of the fieldname FaxId form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int FaxIdIndex() const
+    JMBDEMODELS_EXPORT int getFaxIdIndex() const
     {
         return m_FaxIdIndex;
     }
 
     /*!
-        \fn int EmployeeAccountIdIndex()
+        \fn int getEmployeeAccountIdIndex()
 
         \brief Get the index of the fieldname EmployeeAccountId form the
        database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int EmployeeAccountIdIndex() const
+    JMBDEMODELS_EXPORT int getEmployeeAccountIdIndex() const
     {
         return m_EmployeeAccountIdIndex;
     }
 
     /*!
-        \fn int EmployeeDocumentIdIndex()
+        \fn int getEmployeeDocumentIdIndex()
 
         \brief Get the index of the fieldname EmployeeDocumentId form the
        database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int EmployeeDocumentIdIndex() const
+    JMBDEMODELS_EXPORT int getEmployeeDocumentIdIndex() const
     {
         return m_EmployeeDocumentIdIndex;
     }
 
     /*!
-        \fn int ChipCardIdIndex()
+        \fn int getChipCardIdIndex()
 
         \brief Get the index of the fieldname ChipCardId form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int ChipCardIdIndex() const
+    JMBDEMODELS_EXPORT int getChipCardIdIndex() const
     {
         return m_ChipCardIdIndex;
     }
 
     /*!
-        \fn  int LastUpdateIndex()
+        \fn  int getLastUpdateIndex()
 
         \brief Get the index of the fieldname LastUpdate form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int LastUpdateIndex() const
+    JMBDEMODELS_EXPORT int getLastUpdateIndex() const
     {
         return m_LastUpdateIndex;
     }
@@ -516,6 +530,29 @@ private:
         \brief The Tablename in the database \e is const
      */
     const QString m_tableName = QLatin1String("employee");
+
+    /*!
+     * @ brief m_db
+     */
+    QSqlDatabase m_db = {};
+
+    /*!
+        \brief holds an initialised pointer to the Relationmodel
+        \sa QSqlRelationalTableModel
+     */
+    QSqlRelationalTableModel *m_model {nullptr};
+
+    /*!
+       \brief holds an initialised pointer to the ItemSelectioModel
+       \sa QItemSelectionModel
+    */
+    QItemSelectionModel *m_selectionModel {nullptr};
+
+
+    /*!
+     * @brief DataContext
+     */
+    Model::DataContext *m_dataContext = {};
 
     /*!
        \var int m_EmployeeIdIndex

@@ -36,9 +36,9 @@ namespace Model
     \details This Class is the root for many common classes
     \author Jürgen Mülbert
     \since 0.4
-    \version 0.4.25
-    \date 03.08.2019
-    \copyright EUPL V1.2
+    \version 0.5
+    \date 17.11.2020
+    \copyright GPL-3.0-or-later
     */
 
 class CommonData : public QAbstractTableModel
@@ -47,10 +47,10 @@ class CommonData : public QAbstractTableModel
 
 public:
     /*!
-        \fn  CommonData(QObject *parent = nullptr)
+        \fn  CommonData()
         \brief The Constructor for the CommonData
      */
-    explicit JMBDEMODELS_EXPORT CommonData(QObject *parent = nullptr);
+    explicit JMBDEMODELS_EXPORT CommonData();
 
     /*!
         \fn ~CommonData()

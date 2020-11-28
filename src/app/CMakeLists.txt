@@ -25,7 +25,7 @@ endif()
 #
 project(
   "jmbde"
-  VERSION "0.6.0"
+  VERSION "0.5.4"
   DESCRIPTION "A BDE Tool"
   HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
   LANGUAGES CXX)

@@ -15,8 +15,8 @@
 
 #include "models/title.h"
 
-Model::Title::Title(QObject *parent)
-    : CommonData(parent)
+Model::Title::Title()
+    : CommonData()
 {
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);

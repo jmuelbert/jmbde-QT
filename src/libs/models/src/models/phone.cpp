@@ -15,8 +15,8 @@
 
 #include "models/phone.h"
 
-Model::Phone::Phone(QObject *parent)
-    : CommonData(parent)
+Model::Phone::Phone()
+    : CommonData()
 {
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);

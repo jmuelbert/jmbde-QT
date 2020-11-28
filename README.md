@@ -18,7 +18,7 @@ These are computers, printers and telephones.
 [Features](https://github.com/jmuelbert/jmbde-QT) |
 [Documentation](https://jmuelbert.github.io/jmbde-QT/) | [Changelog](CHANGELOG.md) |
 [Contributing](CONTRIBUTING.md) | [FAQ](https://github.com/jmuelbert/jmbde-QT/wiki/FAQ)
-| [deutPsch](README_de-DE.md)
+| [deutsch](README_de-DE.md)
 
 jmbde uses the cross platform framework [Qt](http://www.qt.io/download-open-source/),
 which means that it works with most operating systems.

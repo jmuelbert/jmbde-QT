@@ -15,8 +15,8 @@
 
 #include "models/zipcity.h"
 
-Model::ZipCity::ZipCity(QObject *parent)
-    : CommonData(parent)
+Model::ZipCity::ZipCity()
+    : CommonData()
 {
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);

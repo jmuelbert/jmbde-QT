@@ -47,9 +47,9 @@ namespace Model
   \brief The Main Database class
   \details Here will handle all db actions...
   \author Jürgen Mülbert
-  \version 0.4
-  \date 14.12.2017
-  \copyright GPL_3
+  \version 0.5
+  \date 17.11.2020
+  \copyright GPL-3.0-or-later
 
   \todo Remove UI for Testing
   \todo Move Code for every Table in his own class
@@ -64,7 +64,7 @@ public:
     // TODO: Remove access of settings
 
     /*!
-        \fn DataContext( QObject *parent = nullptr);
+        \fn DataContext( );
 
         \brief Constructor for the DataContext
         \details Constructur with a name for the database to use.
@@ -110,6 +110,16 @@ public:
           \details Close the connection to the database.
        */
     JMBDEMODELS_EXPORT ~DataContext();
+
+
+    /*!
+        \fn QSqlDatabase getQSqlDatabase();
+
+        \brief get the reference to the QSqlDatabase
+    */
+    JMBDEMODELS_EXPORT const QSqlDatabase getDatabase() {
+        return m_db;
+    }
 
     /*!
         \fn  QSqlQuery getQuery(const QString &queryText);

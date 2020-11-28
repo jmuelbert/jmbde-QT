@@ -15,8 +15,8 @@
 
 #include "models/employeeaccount.h"
 
-Model::EmployeeAccount::EmployeeAccount(QObject *parent)
-    : CommonData(parent)
+Model::EmployeeAccount::EmployeeAccount()
+    : CommonData()
 {
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);

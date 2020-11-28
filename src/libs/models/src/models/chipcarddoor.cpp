@@ -17,8 +17,8 @@
 
 Q_LOGGING_CATEGORY(jmbdeChipCardDoorLog, "jmuelbert.jmbde.models.chipcarddoor", QtWarningMsg)
 
-Model::ChipCardDoor::ChipCardDoor(QObject *parent)
-    : CommonData(parent)
+Model::ChipCardDoor::ChipCardDoor()
+    : CommonData()
 {
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);

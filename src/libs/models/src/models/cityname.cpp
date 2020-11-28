@@ -17,8 +17,8 @@
 
 Q_LOGGING_CATEGORY(jmbdeModelsCityNameLog, "jmuelbert.jmbde.models.cityname", QtWarningMsg)
 
-Model::CityName::CityName(QObject *parent)
-    : CommonData(parent)
+Model::CityName::CityName()
+    : CommonData()
 {
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);

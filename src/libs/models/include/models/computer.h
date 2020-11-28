@@ -38,21 +38,21 @@ namespace Model
     \details This Class is for the ComputerData
     \author Jürgen Mülbert
     \since 0.2
-    \version 0.4.25
-    \date 03.08.2019
-    \copyright EUPL V1.2
- */
+    \version 0.5
+    \date 17.11.2020
+    \copyright GPL-3.0-or-later
+    */
 class Computer : public CommonData
 {
     Q_OBJECT
 
 public:
     /*!
-        \fn Computer(QObject *parent = nullptr)
+        \fn Computer()
 
         \brief Constructor for the Account
      */
-    explicit JMBDEMODELS_EXPORT Computer(QObject *parent = nullptr);
+    explicit JMBDEMODELS_EXPORT Computer();
 
     /*!
         \fn  ~Computer() override;

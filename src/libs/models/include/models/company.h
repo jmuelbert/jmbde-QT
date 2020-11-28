@@ -36,9 +36,9 @@ namespace Model
     \details In this is handlet all Companies in the Database
     \author Jürgen Mülbert
     \since 0.4
-    \version 0.4.25
-    \date 03.08.2019
-    \copyright EUPL V1.2
+    \version 0.5
+    \date 17.11.2020
+    \copyright GPL-3.0-or-later
     */
 
 class Company : public CommonData
@@ -47,11 +47,11 @@ class Company : public CommonData
 
 public:
     /*!
-        \fn Company(QObject *parent = nullptr)
+        \fn Company()
 
         \brief Constructor for the Company
      */
-    explicit JMBDEMODELS_EXPORT Company(QObject *parent = nullptr);
+    explicit JMBDEMODELS_EXPORT Company();
 
     /*!
      * \fn   ~Company() override;

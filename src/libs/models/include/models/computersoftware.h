@@ -37,8 +37,12 @@ namespace Model
     \class ComputerSoftware
     \brief The ComputerSoftware class
     \details In this is handle the installed software. Is a many to many
-   relation. \author Jürgen Mülbert \since 0.4 \version 0.4.25 \date 03.08.2019
-    \copyright EUPL V1.2
+   relation.
+    \author Jürgen Mülbert
+    \since 0.4
+    \version 0.5
+    \date 17.11.2020
+    \copyright GPL-3.0-or-later
     */
 class ComputerSoftware : public CommonData
 {
@@ -46,11 +50,11 @@ class ComputerSoftware : public CommonData
 
 public:
     /*!
-        \fn ComputerSoftware(QObject *parent = nullptr)
+        \fn ComputerSoftware()
 
         \brief Constructor for the ComputerSoftware
      */
-    explicit JMBDEMODELS_EXPORT ComputerSoftware(QObject *parent = nullptr);
+    explicit JMBDEMODELS_EXPORT ComputerSoftware();
 
     /*!
         \fn  ~ComputerSoftware() override;

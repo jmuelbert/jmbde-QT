@@ -34,9 +34,9 @@ namespace Model
     \details In this is handle all Fax
     \author Jürgen Mülbert
     \since 0.4
-    \version 0.4.25
-    \date 03.08.2019
-    \copyright EUPL V1.2
+    \version 0.5
+    \date 17.11.2020
+    \copyright GPL-3.0-or-later
     */
 class Fax : public CommonData
 {
@@ -44,10 +44,10 @@ class Fax : public CommonData
 
 public:
     /*!
-        \fn explicit Fax(QObject *parent = nullptr)
+        \fn explicit Fax()
         \brief The Constructor for the Fax
     */
-    explicit JMBDEMODELS_EXPORT Fax(QObject *parent = nullptr);
+    explicit JMBDEMODELS_EXPORT Fax();
 
     /*!
         \fn  ~Fax() override;

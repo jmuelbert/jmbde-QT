@@ -15,8 +15,8 @@
 
 #include "models/devicetype.h"
 
-Model::DeviceType::DeviceType(QObject *parent)
-    : CommonData(parent)
+Model::DeviceType::DeviceType()
+    : CommonData()
 {
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);

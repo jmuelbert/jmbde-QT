@@ -17,8 +17,8 @@
 
 Q_LOGGING_CATEGORY(jmbdeModelsComputerSoftwareLog, "jmuelbert.jmbde.models.computersoftware", QtWarningMsg)
 
-Model::ComputerSoftware::ComputerSoftware(QObject *parent)
-    : CommonData(parent)
+Model::ComputerSoftware::ComputerSoftware()
+    : CommonData()
 {
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);

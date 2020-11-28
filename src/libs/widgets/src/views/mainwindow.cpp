@@ -51,24 +51,28 @@ MainWindow::MainWindow(QWidget *parent)
     } else {
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Setze aktuelle Ansicht: Mitarbeiter - Tabelle");
         actualView = VIEW_EMPLOYEE;
-        auto *edm = new Model::Employee;
+        auto *edm = new Model::Employee();
         tableModel = edm->initializeRelationalModel();
-        int idx = edm->LastNameIndex();
 
-        ui->listView->setModel(tableModel);
-        ui->listView->setModelColumn(idx);
+        QSqlTableModel *listModel = edm->initializeListModel();
 
-        auto *employeeTable = new EmployeeTable(QStringLiteral("employee"), tableModel, ui->scrollArea);
-        QSize AdjustSize = employeeTable->size();
+        ui->listView->setModel(listModel);
+        ui->listView->setModelColumn(edm->getLastNameIndex());
+        ui->listView->show();
+
+        auto *employeeInputArea = new EmployeeInputArea(ui->scrollArea);
+        QSize AdjustSize = employeeInputArea->size();
         AdjustSize.width();
-        employeeTable->setMinimumSize(AdjustSize);
+        employeeInputArea->setMinimumSize(AdjustSize);
         ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(employeeTable);
+        ui->scrollArea->setWidget(employeeInputArea);
     }
 
     connect(ui->treeView, SIGNAL(clicked(QModelIndex)), this, SLOT(onClickedTreeView(QModelIndex)));
     connect(ui->listView, SIGNAL(clicked(QModelIndex)), this, SLOT(onClickedListViewRow(QModelIndex)));
     connect(ui->listView, SIGNAL(pressed(QModelIndex)), this, SLOT(onPressedListViewRow(QModelIndex)));
+
+    // QObject::connect(ui->treeView, &MainWindow::m_treeView->DoubleClicked, this, &MainWindow::onClickedTreeView );
 }
 
 MainWindow::~MainWindow()
@@ -114,10 +118,7 @@ void MainWindow::on_actionPreferences_triggered()
 
 void MainWindow::on_actionAbout_triggered()
 {
-    auto *view = new QQuickWidget;
-    view->setSource(QUrl(QStringLiteral("qrc:/qml/AboutBox.qml")));
-    if (view->status() == QQuickWidget::Error)
-        return;
+    auto *view = new AboutDialog;
     view->show();
 }
 
@@ -148,13 +149,13 @@ void MainWindow::initOutline()
         i.next();
         auto *header = new QStandardItem(i.key());
         parentItem->appendRow(header);
-        qCDebug(jmbdeWidgetsMainWindowLog) << "initOutline(): (" << i.key() << ": " << i.value() << " )" << endl;
+        qCDebug(jmbdeWidgetsMainWindowLog) << "initOutline(): (" << i.key() << ": " << i.value() << " )";
 
         od = i.value();
         for (int index = 0; index < od.size(); ++index) {
             item = new QStandardItem(od.value(index));
             header->appendRow(item);
-            qCDebug(jmbdeWidgetsMainWindowLog) << "initOutline(): (Gefunden :" << od.value(index) << " an der Position)" << index << endl;
+            qCDebug(jmbdeWidgetsMainWindowLog) << "initOutline(): (Gefunden :" << od.value(index) << " an der Position)" << index;
         }
     }
 
@@ -281,7 +282,7 @@ void MainWindow::on_actionPrint_triggered()
     case VIEW_EMPLOYEE: {
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Mitarbeiter !");
         QString style = Model::Employee::setOutTableStyle();
-        auto *edm = new Model::Employee;
+        auto *edm = new Model::Employee();
         QString text = edm->generateTableString(tr("Mitarbeiter"));
 
         doc.setHtml(style + text);
@@ -342,7 +343,7 @@ void MainWindow::on_action_Export_Pdf_triggered()
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Mitarbeiter !");
 
         QString style = Model::Employee::setOutTableStyle();
-        auto *edm = new Model::Employee;
+        auto *edm = new Model::Employee();
         QString text = edm->generateTableString(tr("Mitarbeiter"));
 
         doc.setHtml(style + text);
@@ -414,7 +415,7 @@ void MainWindow::on_actionPrint_Preview_triggered()
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Mitarbeiter !");
 
         QString style = Model::Employee::setOutTableStyle();
-        auto *edm = new Model::Employee;
+        auto *edm = new Model::Employee();
         QString text = edm->generateTableString(tr("Mitarbeiter"));
 
         doc.setHtml(style + text);
@@ -494,7 +495,6 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
 
     m_actualView = index;
     qCDebug(jmbdeWidgetsMainWindowLog) << "ActualViewRow : " << index << " Item : " << selected;
-
     // Headers -> no action
     if ((selected == tr("Person")) || (selected == tr("Gerät")) || (selected == tr("Kommunikation")) || (selected == tr("Verschiedenes"))) {
         return;
@@ -505,16 +505,16 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
         actualView = VIEW_EMPLOYEE;
 
-        auto *edm = new Model::Employee;
+        auto *edm = new Model::Employee();
 
-        tableModel = edm->initializeRelationalModel();
-        int idx = edm->LastNameIndex();
+        QSqlTableModel *listModel = edm->initializeListModel();
 
-        ui->listView->setModel(tableModel);
-        ui->listView->setModelColumn(idx);
-        QModelIndex qmi = QModelIndex();
+        ui->listView->setModel(listModel);
+        ui->listView->setModelColumn(edm->getLastNameIndex());
+        ui->listView->show();
 
-        auto *employeeInput = new EmployeeInputArea(ui->scrollArea, qmi);
+        auto *employeeInput = new EmployeeInputArea(ui->scrollArea, QModelIndex());
+        connect(employeeInput, SIGNAL(employeeInput->clicked()), this, SLOT(onDataEdited()));
         QSize AdjustSize = employeeInput->size();
         AdjustSize.width();
         employeeInput->setMinimumSize(AdjustSize);
@@ -530,8 +530,6 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
         tableModel = fdm->initializeRelationalModel();
 
         ui->listView->setModel(tableModel);
-        int idx = fdm->NameIndex();
-        ui->listView->setModelColumn(idx);
         QModelIndex qmi = QModelIndex();
         auto *fia = new FunctionInputArea(ui->scrollArea, qmi);
         ui->scrollArea->setWidget(fia);
@@ -543,10 +541,8 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
         auto *dpm = new Model::Department;
 
         tableModel = dpm->initializeRelationalModel();
-        int idx = dpm->NameIndex();
 
         ui->listView->setModel(tableModel);
-        ui->listView->setModelColumn(idx);
         QModelIndex qmi = QModelIndex();
         auto *dia = new DepartmentInputArea(ui->scrollArea, qmi);
         ui->scrollArea->setWidget(dia);
@@ -558,10 +554,8 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
         auto *tdm = new Model::Title;
 
         tableModel = tdm->initializeRelationalModel();
-        int idx = tdm->NameIndex();
 
         ui->listView->setModel(tableModel);
-        ui->listView->setModelColumn(idx);
 
         QModelIndex qmi = QModelIndex();
         auto *tia = new TitleInputArea(ui->scrollArea, qmi);
@@ -575,10 +569,8 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
         auto *cdm = new Model::Computer;
 
         tableModel = cdm->initializeRelationalModel();
-        int idx = cdm->NameIndex();
 
         ui->listView->setModel(tableModel);
-        ui->listView->setModelColumn(idx);
 
         QModelIndex qmi = QModelIndex();
         auto *cia = new ComputerInputArea(ui->scrollArea, qmi);
@@ -591,10 +583,8 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
         auto *pdm = new Model::Processor;
 
         tableModel = pdm->initializeRelationalModel();
-        int idx = pdm->NameIndex();
 
         ui->listView->setModel(tableModel);
-        ui->listView->setModelColumn(idx);
 
         QModelIndex qmi = QModelIndex();
         auto *pia = new ProcessorInputArea(ui->scrollArea, qmi);
@@ -607,10 +597,8 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
         auto *odm = new Model::OS;
 
         tableModel = odm->initializeRelationalModel();
-        int idx = odm->NameIndex();
 
         ui->listView->setModel(tableModel);
-        ui->listView->setModelColumn(idx);
 
         QModelIndex qmi = QModelIndex();
         auto *oia = new OSInputArea(ui->scrollArea, qmi);
@@ -623,10 +611,8 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
         auto *sdm = new Model::Software;
 
         tableModel = sdm->initializeRelationalModel();
-        int idx = sdm->NameIndex();
 
         ui->listView->setModel(tableModel);
-        ui->listView->setModelColumn(idx);
 
         QModelIndex qmi = QModelIndex();
         auto *sia = new SoftwareInputArea(ui->scrollArea, qmi);
@@ -639,10 +625,8 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
         auto *pdm = new Model::Printer;
 
         tableModel = pdm->initializeRelationalModel();
-        int idx = pdm->NetworkNameIndex();
 
         ui->listView->setModel(tableModel);
-        ui->listView->setModelColumn(idx);
 
         QModelIndex qmi = QModelIndex();
         auto *pia = new PrinterInputArea(ui->scrollArea, qmi);
@@ -656,10 +640,8 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
         auto *phdm = new Model::Phone;
 
         tableModel = phdm->initializeRelationalModel();
-        int idx = phdm->NumberIndex();
 
         ui->listView->setModel(tableModel);
-        ui->listView->setModelColumn(idx);
 
         QModelIndex qmi = QModelIndex();
         auto *pia = new PhoneInputArea(ui->scrollArea, qmi);
@@ -672,10 +654,8 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
         auto *phdm = new Model::Mobile;
 
         tableModel = phdm->initializeRelationalModel();
-        int idx = phdm->NumberIndex();
 
         ui->listView->setModel(tableModel);
-        ui->listView->setModelColumn(idx);
 
         QModelIndex qmi = QModelIndex();
         auto *mia = new MobileInputArea(ui->scrollArea, qmi);
@@ -689,10 +669,8 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
         auto *mdm = new Model::Manufacturer;
 
         tableModel = mdm->initializeRelationalModel();
-        int idx = mdm->NameIndex();
 
         ui->listView->setModel(tableModel);
-        ui->listView->setModelColumn(idx);
 
         QModelIndex qmi = QModelIndex();
         auto *mia = new ManufacturerInputArea(ui->scrollArea, qmi);
@@ -705,10 +683,8 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
         auto *cnm = new Model::CityName;
 
         tableModel = cnm->initializeRelationalModel();
-        int idx = cnm->NameIndex();
 
         ui->listView->setModel(tableModel);
-        ui->listView->setModelColumn(idx);
 
         QModelIndex qmi = QModelIndex();
         auto *cia = new CityInputArea(ui->scrollArea, qmi);
@@ -721,10 +697,8 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
         auto *ccdm = new Model::ChipCard;
 
         tableModel = ccdm->initializeRelationalModel();
-        int idx = ccdm->NumberIndex();
 
         ui->listView->setModel(tableModel);
-        ui->listView->setModelColumn(idx);
 
         QModelIndex qmi = QModelIndex();
         auto *cia = new ChipCardInputArea(ui->scrollArea, qmi);
@@ -735,20 +709,21 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
     }
 }
 
-void MainWindow::onClickedListViewRow(const QModelIndex &index)
+void MainWindow::onClickedListViewRow()
 {
-    m_actualData = index;
-    qCDebug(jmbdeWidgetsMainWindowLog) << "onClickedListViewRow(QModelIndex : " << index;
-
+    // m_actualData = index;
+    QModelIndex index = QModelIndex();
+    qCDebug(jmbdeWidgetsMainWindowLog) << "onClickedlistViewRow(QModelIndex : " << index;
     switch (actualView) {
     case VIEW_EMPLOYEE: {
-        auto *eia = new EmployeeInputArea(nullptr, index);
+        auto *eia = new EmployeeInputArea(ui->scrollArea, index);
 
         QSize AdjustSize = eia->size();
         AdjustSize.width();
         eia->setMinimumSize(AdjustSize);
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(eia);
+
     } break;
 
     case VIEW_FUNCTION: {
@@ -883,7 +858,7 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index)
         ui->scrollArea->setWidget(ccia);
     } break;
     default:
-        const QString caller = tr("onClickedListViewRow(): Unbekannte Funktion");
+        const QString caller = tr("onClickedlistViewRow(): Unbekannte Funktion");
         notAvailableMessage(caller);
         break;
     }
@@ -892,13 +867,11 @@ void MainWindow::onClickedListViewRow(const QModelIndex &index)
 void MainWindow::onPressedListViewRow(const QModelIndex &index)
 {
     m_actualData = index;
-    qCDebug(jmbdeWidgetsMainWindowLog) << "Pressed: ActualDataRow for deleteting: " << index;
+    qCDebug(jmbdeWidgetsMainWindowLog) << "Pressed: ActualDataRow for deleting: " << index;
 
     switch (actualView) {
     case VIEW_EMPLOYEE: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << "Employee Table Row (" << index.row() << ") clicked";
-
-        auto *eia = new EmployeeInputArea(nullptr, index);
+        auto *eia = new EmployeeInputArea(ui->scrollArea);
 
         QSize AdjustSize = eia->size();
         AdjustSize.width();
@@ -907,5 +880,20 @@ void MainWindow::onPressedListViewRow(const QModelIndex &index)
         ui->scrollArea->setWidget(eia);
         qDebug() << "Delete index : " << index;
     } break;
+    }
+}
+
+void MainWindow::onDataEdited()
+{
+    qCDebug(jmbdeWidgetsMainWindowLog) << "onDataEdited()";
+    switch (actualView) {
+    case VIEW_EMPLOYEE:
+        auto *edm = new Model::Employee();
+
+        QSqlTableModel *listModel = edm->initializeListModel();
+
+        ui->listView->setModel(listModel);
+        ui->listView->setModelColumn(edm->getLastNameIndex());
+        ui->listView->show();
     }
 }

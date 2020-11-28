@@ -15,8 +15,8 @@
 
 #include "models/printer.h"
 
-Model::Printer::Printer(QObject *parent)
-    : CommonData(parent)
+Model::Printer::Printer()
+    : CommonData()
 {
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);

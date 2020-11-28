@@ -15,8 +15,8 @@
 
 #include "models/department.h"
 
-Model::Department::Department(QObject *parent)
-    : CommonData(parent)
+Model::Department::Department()
+    : CommonData()
 {
     // Set the Model
     m_model = new QSqlRelationalTableModel(this);
