@@ -15,25 +15,20 @@
 
 #pragma once
 
+#include <QLoggingCategory>
 #include <QObject>
-#include <QSet>
-#include <QSetIterator>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
-#include <QSqlRecord>
 #include <QSqlRelation>
-#include <QStandardPaths>
-#include <QTableView>
-#include <QTextDocument>
 #include <QtSql>
 
 #include "commondata.h"
 #include "datacontext.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
-#include "loggingcategory.h"
 
+Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsEmployeeLog)
 namespace Model
 {
 /*!
@@ -129,8 +124,11 @@ public:
       */
     virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
 
-
-    JMBDEMODELS_EXPORT QSqlTableModel * initializeListModel();
+    /*!
+        \fn QSqlTableModel *initializeListModel();
+        \brief Initiallize the list Model for select one dataset
+    */
+    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeListModel() final;
 
     /*!
      * \fn virtual auto generateTableString(
@@ -155,7 +153,6 @@ public:
     {
         return this->m_tableName;
     }
-
 
     JMBDEMODELS_EXPORT QSqlDatabase getDB() const
     {
@@ -547,7 +544,6 @@ private:
        \sa QItemSelectionModel
     */
     QItemSelectionModel *m_selectionModel {nullptr};
-
 
     /*!
      * @brief DataContext

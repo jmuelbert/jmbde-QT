@@ -15,15 +15,16 @@
 
 #include "models/employee.h"
 
+Q_LOGGING_CATEGORY(jmbdeModelsEmployeeLog, "jmuelbert.jmbde.models.employee", QtWarningMsg)
+
 Model::Employee::Employee()
     : CommonData()
 {
-
-    m_dataContext = new Model::DataContext();
-    m_db = m_dataContext->getDatabase();
+    this->m_dataContext = new Model::DataContext();
+    this->m_db = m_dataContext->getDatabase();
 
     // Set the Model
-    this->m_model = new QSqlRelationalTableModel(this, m_db);
+    this->m_model = new QSqlRelationalTableModel(this, this->m_db);
     this->m_model->setTable(this->m_tableName);
     this->m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
@@ -66,7 +67,7 @@ void Model::Employee::setIndexes()
 
 auto Model::Employee::initializeRelationalModel() -> QSqlRelationalTableModel *
 {
-    this->m_model = new QSqlRelationalTableModel(this, m_db);
+    this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
     this->m_model->setTable(this->m_tableName);
     this->m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
@@ -76,20 +77,9 @@ auto Model::Employee::initializeRelationalModel() -> QSqlRelationalTableModel *
     return this->m_model;
 }
 
-auto Model::Employee::initializeListModel() -> QSqlTableModel *
-{
-    QSqlTableModel *listModel = new QSqlTableModel(this, m_db);
-    listModel->setTable(this->m_tableName);
-    listModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
-    listModel->select();
-
-    return listModel;
-}
-
-
 auto Model::Employee::initializeInputDataModel() -> QSqlRelationalTableModel *
 {
-    this->m_model = new QSqlRelationalTableModel(this);
+    this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
     this->m_model->setTable(this->m_tableName);
 
@@ -103,11 +93,21 @@ auto Model::Employee::initializeViewModel() -> QSqlTableModel *
     return this->m_model;
 }
 
+auto Model::Employee::initializeListModel() -> QSqlTableModel *
+{
+    QSqlTableModel *listModel = new QSqlTableModel(this, this->m_db);
+    listModel->setTable(this->m_tableName);
+    listModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    listModel->select();
+
+    return listModel;
+}
+
 auto Model::Employee::generateTableString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdemodelsLog) << "Header:" << header << "( Columns: " << this->m_model->columnCount() << " Rows: " << this->m_model->rowCount() << " )";
+    qCDebug(jmbdeModelsEmployeeLog) << "Header:" << header << "( Columns: " << this->m_model->columnCount() << " Rows: " << this->m_model->rowCount() << " )";
 
     QList<int> set;
 
@@ -133,7 +133,7 @@ auto Model::Employee::generateFormularString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdemodelsLog) << "Header:" << header << "( Columns: " << this->m_model->columnCount() << " Rows: " << this->m_model->rowCount() << " )";
+    qCDebug(jmbdeModelsEmployeeLog) << "Header:" << header << "( Columns: " << this->m_model->columnCount() << " Rows: " << this->m_model->rowCount() << " )";
 
     // Document Title
     outString = QLatin1String("<h1>");

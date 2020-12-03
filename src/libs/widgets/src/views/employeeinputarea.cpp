@@ -221,6 +221,7 @@ void EmployeeInputArea::on_pushButton_EditFinish_clicked()
             if (m_model->submitAll()) {
                 m_model->database().commit();
                 qCDebug(jmbdeWidgetsEmployeeInputAreaLog) << tr("Schreiben der Änderungen in die Datenbank");
+                emit dataChanged();
             } else {
                 m_model->database().rollback();
                 QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
@@ -233,5 +234,6 @@ void EmployeeInputArea::on_pushButton_EditFinish_clicked()
     }
     }
 }
+
 
 

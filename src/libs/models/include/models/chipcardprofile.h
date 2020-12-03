@@ -24,6 +24,7 @@
 #include <QtSql>
 
 #include "commondata.h"
+#include "datacontext.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 
@@ -37,8 +38,8 @@ namespace Model
     \details In this is handlet all Profiles for the ChipCards
     \author Jürgen Mülbert
     \since 0.4
-    \version 0.5
-    \date 17.11.2020
+    \version 0.6
+    \date 01.12.2020
     \copyright GPL-3.0-or-later
     */
 class ChipCardProfile : public CommonData
@@ -90,6 +91,12 @@ public:
         Returns QSqlTableModel
      */
     virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
+
+    /*!
+        \fn QSqlTableModel *initializeListModel();
+        \brief Initiallize the list Model for select one dataset
+    */
+    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeListModel() final;
 
     /*!
      * \fn virtual auto generateTableString(
@@ -176,11 +183,58 @@ private:
     /*!
         \brief The Tablename in the database \e is const
      */
-    const QString m_tableName = QLatin1String("chip_card_profile"); ///< QString m_ChipCardProfileIdIndex
-    int m_ChipCardProfileIdIndex {0};                               ///< int m_ChipCardProfileIdIndex
-    int m_NumberIndex {0};                                          ///< int m_NumberIndex
-    int m_ChipCardDoorIdIndex {0};                                  ///< int m_ChipCardDoorIdIndex
-    int m_EmployeeIdIndex {0};                                      ///< int m_EmployeeIdIndex
-    int m_LastUpdateIndex {0};                                      ///< int m_LastUpdateIndex
+    const QString m_tableName = QLatin1String("chip_card_profile");
+
+    /*!
+     * @ brief m_db
+     */
+    QSqlDatabase m_db = {};
+
+    /*!
+        \brief holds an initialised pointer to the Relationmodel
+        \sa QSqlRelationalTableModel
+     */
+    QSqlRelationalTableModel *m_model {nullptr};
+
+    /*!
+       \brief holds an initialised pointer to the ItemSelectioModel
+       \sa QItemSelectionModel
+    */
+    QItemSelectionModel *m_selectionModel {nullptr};
+
+    /*!
+     * @brief DataContext
+     */
+    Model::DataContext *m_dataContext = {};
+
+    /*!
+       \var int m_ChipCardProfileIdIndex
+       \brief The value of the ChipCardProfileIdIndex
+    */
+    int m_ChipCardProfileIdIndex {0}; ///< int m_ChipCardProfileIdIndex
+
+    /*!
+       \var int m_NumberIndex
+       \brief The value of the NumberIndex
+    */
+    int m_NumberIndex {0}; ///< int m_NumberIndex
+
+    /*!
+       \var int m_ChipCardDoorIdIndex
+       \brief The value of the ChipCardDoorIdIndex
+    */
+    int m_ChipCardDoorIdIndex {0}; ///< int m_ChipCardDoorIdIndex
+
+    /*!
+       \var int m_EmployeeIdIndex
+       \brief The value of the EmployeeIdIndex
+    */
+    int m_EmployeeIdIndex {0}; ///< int m_EmployeeIdIndex
+
+    /*!
+       \var int  m_LastUpdateIndex
+       \brief The value of the LastUpdateIndex
+    */
+    int m_LastUpdateIndex {0}; ///< int m_LastUpdateIndex
 };
 } // namespace Model

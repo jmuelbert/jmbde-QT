@@ -20,56 +20,69 @@ Q_LOGGING_CATEGORY(jmbdeModelsAccountLog, "jmuelbert.jmbde.models.account", QtWa
 Model::Account::Account()
     : CommonData()
 {
+    this->m_dataContext = new Model::DataContext();
+    this->m_db = m_dataContext->getDatabase();
+
     // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    this->m_model = new QSqlRelationalTableModel(this, this->m_db);
+    this->m_model->setTable(this->m_tableName);
+    this->m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
     setIndexes();
 }
 
 void Model::Account::setIndexes()
 {
-    m_AccountIdIndex = m_model->fieldIndex(QLatin1String("account_id"));
-    m_UserNameIndex = m_model->fieldIndex(QLatin1String("user_name"));
-    m_PasswordIndex = m_model->fieldIndex(QLatin1String("password"));
-    m_SystemDataIdIndex = m_model->fieldIndex(QLatin1String("system_data_id"));
-    m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
+    m_AccountIdIndex = this->m_model->fieldIndex(QLatin1String("account_id"));
+    m_UserNameIndex = this->m_model->fieldIndex(QLatin1String("user_name"));
+    m_PasswordIndex = this->m_model->fieldIndex(QLatin1String("password"));
+    m_SystemDataIdIndex = this->m_model->fieldIndex(QLatin1String("system_data_id"));
+    m_LastUpdateIndex = this->m_model->fieldIndex(QLatin1String("last_update"));
 }
 
 auto Model::Account::initializeRelationalModel() -> QSqlRelationalTableModel *
 {
-    m_model = new QSqlRelationalTableModel(this);
+    this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    this->m_model->setTable(this->m_tableName);
+    this->m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-    m_model->select();
+    this->m_model->select();
 
-    return m_model;
+    return this->m_model;
 }
 
 auto Model::Account::initializeInputDataModel() -> QSqlRelationalTableModel *
 {
-    m_model = new QSqlRelationalTableModel(this);
+    this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
-    m_model->setTable(this->m_tableName);
+    this->m_model->setTable(this->m_tableName);
 
-    return m_model;
+    return this->m_model;
 }
 
 auto Model::Account::initializeViewModel() -> QSqlTableModel *
 {
-    m_model->select();
+    this->m_model->select();
 
-    return m_model;
+    return this->m_model;
+}
+
+auto Model::Account::initializeListModel() -> QSqlTableModel *
+{
+    QSqlTableModel *listModel = new QSqlTableModel(this, this->m_db);
+    listModel->setTable(this->m_tableName);
+    listModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    listModel->select();
+
+    return listModel;
 }
 
 auto Model::Account::generateTableString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdeModelsAccountLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(jmbdeModelsAccountLog) << "Header:" << header << "( Columns: " << this->m_model->columnCount() << " Rows: " << this->m_model->rowCount() << " )";
 
     QList<int> set;
 
@@ -94,7 +107,7 @@ auto Model::Account::generateFormularString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdeModelsAccountLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(jmbdeModelsAccountLog) << "Header:" << header << "( Columns: " << this->m_model->columnCount() << " Rows: " << this->m_model->rowCount() << " )";
 
     // Document Title
     outString = QLatin1String("<h1>");

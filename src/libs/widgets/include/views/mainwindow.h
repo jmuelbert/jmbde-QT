@@ -42,6 +42,7 @@
 #include "models/software.h"
 #include "models/title.h"
 #include "views/aboutdialog.h"
+#include "views/accountinputarea.h"
 #include "views/chipcardinputarea.h"
 #include "views/cityinputarea.h"
 #include "views/computerinputarea.h"
@@ -54,6 +55,7 @@
 #include "views/mobileinputarea.h"
 #include "views/osinputarea.h"
 #include "views/phoneinputarea.h"
+#include "views/preferencesdialog.h"
 #include "views/printerinputarea.h"
 #include "views/processorinputarea.h"
 #include "views/softwareinputarea.h"
@@ -103,7 +105,6 @@ protected:
     void JMBDEWIDGETS_EXPORT resizeEvent(QResizeEvent *event);
 
 private slots:
-
     /**
      * @brief on_actionPreferences_triggered
      */
@@ -173,26 +174,33 @@ private slots:
     void JMBDEWIDGETS_EXPORT on_actionHelp_triggered();
 
     /**
-     * @brief onClickedTreeView
+     * @brief on_treeView_clicked
      * @param index The QModelIndex of the TreeView to displayed
      *
      * \see QModelIndex::QModelIndex
      */
-    void JMBDEWIDGETS_EXPORT onClickedTreeView(const QModelIndex &index);
+    void JMBDEWIDGETS_EXPORT on_treeView_clicked(const QModelIndex &index);
 
     /**
-     * @brief onClickedListViewRow
+     * @brief on_listView_clicked
      * @param index The QModelIndex of the ListViewRow to displayed
      */
-    void JMBDEWIDGETS_EXPORT onClickedListViewRow();
+    void JMBDEWIDGETS_EXPORT on_listView_clicked(const QModelIndex &index);
 
-    /**
-     * @brief onPressedListViewRow
-     * @param index The QModelIndex of the ListViewRow to displayed
+    void actualizeAccoutListView();
+    void actualizeChipCardListView();
+
+    void actualizeComputerListView();
+
+    void actualizeDepartmentListView();
+
+    /*!
+        @brief Actualize the list view for employee after data changes
      */
-    void JMBDEWIDGETS_EXPORT onPressedListViewRow(const QModelIndex &index);
+    void actualizeEmployeListView();
 
-    void JMBDEWIDGETS_EXPORT onDataEdited();
+    void actualizeFunctionListView();
+
 
 private:
     /**
@@ -221,6 +229,9 @@ private:
      *
      */
     void notAvailableMessage(const QString &functionName);
+
+
+    void actualizeListView(QSqlTableModel *listModel, int idx);
 
     /**
      * @brief model
@@ -291,20 +302,36 @@ private:
      * @brief The ViewData enum
      */
     enum ViewData {
-        VIEW_EMPLOYEE,
-        VIEW_FUNCTION,
-        VIEW_DEPARTMENT,
-        VIEW_TITLE,
-        VIEW_PHONE,
-        VIEW_MOBILE,
-        VIEW_COMPUTER,
-        VIEW_PROCESSOR,
-        VIEW_OS,
-        VIEW_SOFTWARE,
-        VIEW_PRINTER,
-        VIEW_MANUFACTURER,
-        VIEW_CITY,
+        VIEW_ACCOUNT,
         VIEW_CHIPCARD,
+        VIEW_CHIPCARDPROFILE,
+        VIEW_CHIPCARDPROFILEDOOR,
+        VIEW_CITYNAME,
+        VIEW_COMPANY,
+        VIEW_COMPUTER,
+        VIEW_COMPUTERSOFTWARE,
+        VIEW_DEPARTMENT,
+        VIEW_DEVICENAME,
+        VIEW_DEVICETYPE,
+        VIEW_DOCUMENT,
+        VIEW_EMPLOYEE,
+        VIEW_EMPLOYEEACCOUNT,
+        VIEW_EMPLOYEEDOCUMENT,
+        VIEW_FAX,
+        VIEW_FUNCTION,
+        VIEW_INVENTORY,
+        VIEW_MANUFACTURER,
+        VIEW_MOBILE,
+        VIEW_OS,
+        VIEW_PHONE,
+        VIEW_PLACE,
+        VIEW_PRINTER,
+        VIEW_PROCESSOR,
+        VIEW_SOFTWARE,
+        VIEW_SYSTEM,
+        VIEW_TITLE,
+        VIEW_ZIPCITY,
+        VIEW_ZIPCODE
     };
 
     /**

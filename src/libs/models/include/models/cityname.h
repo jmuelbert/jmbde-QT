@@ -24,6 +24,7 @@
 #include <QtSql>
 
 #include "commondata.h"
+#include "datacontext.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 
@@ -37,8 +38,8 @@ namespace Model
     \details In the Database collect all citynames in this area
     \author Jürgen Mülbert
     \since 0.4
-    \version 0.5
-    \date 17.11.2020
+    \version 0.6
+    \date 03.12.2020
     \copyright GPL-3.0-or-later
     */
 class CityName : public CommonData
@@ -94,12 +95,18 @@ public:
     virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
 
     /*!
-     * \fn virtual auto generateTableString(
-                                const QString &header) final
-        \brief generateTableString
+        \fn QSqlTableModel *initializeListModel();
+        \brief Initiallize the list Model for select one dataset
+    */
+    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeListModel() final;
 
-        Returns a QString with the generated Table for Output
-     */
+    /*!
+      * \fn virtual auto generateTableString(
+                                 const QString &header) final
+         \brief generateTableString
+
+         Returns a QString with the generated Table for Output
+      */
     virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString final;
 
     /*!
@@ -153,7 +160,29 @@ private:
     /*!
         \brief The Tablename in the database \e is const
      */
-    QString m_tableName = QLatin1String("city_name");
+    const QString m_tableName = QLatin1String("city_name");
+
+    /*!
+     * @ brief m_db
+     */
+    QSqlDatabase m_db = {};
+
+    /*!
+        \brief holds an initialised pointer to the Relationmodel
+        \sa QSqlRelationalTableModel
+     */
+    QSqlRelationalTableModel *m_model {nullptr};
+
+    /*!
+       \brief holds an initialised pointer to the ItemSelectioModel
+       \sa QItemSelectionModel
+    */
+    QItemSelectionModel *m_selectionModel {nullptr};
+
+    /*!
+     * @brief DataContext
+     */
+    Model::DataContext *m_dataContext = {};
 
     /*!
          \brief The value of the CityNameIdIndex

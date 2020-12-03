@@ -15,8 +15,6 @@
 
 #include "views/mainwindow.h"
 
-#include <QQmlApplicationEngine>
-#include <QQuickWidget>
 
 #include "ui_mainwindow.h"
 
@@ -47,32 +45,21 @@ MainWindow::MainWindow(QWidget *parent)
 
     if (m_actualView.row() > 0) {
         ui->treeView->setCurrentIndex(m_actualView);
-        onClickedTreeView(m_actualView);
+        on_treeView_clicked(m_actualView);
     } else {
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Setze aktuelle Ansicht: Mitarbeiter - Tabelle");
         actualView = VIEW_EMPLOYEE;
-        auto *edm = new Model::Employee();
-        tableModel = edm->initializeRelationalModel();
 
-        QSqlTableModel *listModel = edm->initializeListModel();
-
-        ui->listView->setModel(listModel);
-        ui->listView->setModelColumn(edm->getLastNameIndex());
-        ui->listView->show();
+        actualizeEmployeListView();
 
         auto *employeeInputArea = new EmployeeInputArea(ui->scrollArea);
+        QObject::connect(employeeInputArea, SIGNAL(dataChanged()), this, SLOT(actualizeEmployeListView()));
         QSize AdjustSize = employeeInputArea->size();
         AdjustSize.width();
         employeeInputArea->setMinimumSize(AdjustSize);
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(employeeInputArea);
     }
-
-    connect(ui->treeView, SIGNAL(clicked(QModelIndex)), this, SLOT(onClickedTreeView(QModelIndex)));
-    connect(ui->listView, SIGNAL(clicked(QModelIndex)), this, SLOT(onClickedListViewRow(QModelIndex)));
-    connect(ui->listView, SIGNAL(pressed(QModelIndex)), this, SLOT(onPressedListViewRow(QModelIndex)));
-
-    // QObject::connect(ui->treeView, &MainWindow::m_treeView->DoubleClicked, this, &MainWindow::onClickedTreeView );
 }
 
 MainWindow::~MainWindow()
@@ -109,11 +96,10 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::on_actionPreferences_triggered()
 {
-    auto *view = new QQuickWidget;
-    view->setSource(QUrl(QStringLiteral("qrc:/qml/Preferences.qml")));
-    if (view->status() == QQuickWidget::Error)
-        return;
-    view->show();
+    PreferencesDialog *settingsDialog;
+
+    settingsDialog = new PreferencesDialog();
+    settingsDialog->show();
 }
 
 void MainWindow::on_actionAbout_triggered()
@@ -126,7 +112,7 @@ void MainWindow::initOutline()
 {
     QHash<QString, QList<QString>> outlineData;
 
-    QList<QString> subEntries = {tr("Mitarbeiter"), tr("Funktion"), tr("Abteilung"), tr("Titel")};
+    QList<QString> subEntries = {tr("Mitarbeiter"), tr("Funktion"), tr("Abteilung"), tr("Titel"), tr("Zugang")};
     outlineData.insert(tr("Person"), subEntries);
 
     subEntries = {tr("Computer"), tr("Prozessor"), tr("Betriebssystem"), tr("Software"), tr("Drucker")};
@@ -488,7 +474,7 @@ void MainWindow::on_actionHelp_triggered()
     notAvailableMessage(message);
 }
 
-void MainWindow::onClickedTreeView(const QModelIndex &index)
+void MainWindow::on_treeView_clicked(const QModelIndex &index)
 {
     const QStandardItem *item = m_treeviewModel->itemFromIndex(index);
     const QString selected = item->text();
@@ -505,31 +491,21 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
         actualView = VIEW_EMPLOYEE;
 
-        auto *edm = new Model::Employee();
-
-        QSqlTableModel *listModel = edm->initializeListModel();
-
-        ui->listView->setModel(listModel);
-        ui->listView->setModelColumn(edm->getLastNameIndex());
-        ui->listView->show();
+        actualizeEmployeListView();
 
         auto *employeeInput = new EmployeeInputArea(ui->scrollArea, QModelIndex());
-        connect(employeeInput, SIGNAL(employeeInput->clicked()), this, SLOT(onDataEdited()));
         QSize AdjustSize = employeeInput->size();
         AdjustSize.width();
         employeeInput->setMinimumSize(AdjustSize);
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(employeeInput);
     } else if (selected == tr("Funktion")) {
-        qDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_FUNCTION;
 
-        auto *fdm = new Model::Function;
+        actualizeFunctionListView();
 
-        tableModel = fdm->initializeRelationalModel();
-
-        ui->listView->setModel(tableModel);
         QModelIndex qmi = QModelIndex();
         auto *fia = new FunctionInputArea(ui->scrollArea, qmi);
         ui->scrollArea->setWidget(fia);
@@ -560,6 +536,21 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
         QModelIndex qmi = QModelIndex();
         auto *tia = new TitleInputArea(ui->scrollArea, qmi);
         ui->scrollArea->setWidget(tia);
+
+    } else if (selected == tr("Zugang")) {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+
+        actualView = VIEW_ACCOUNT;
+
+        actualizeAccoutListView();
+
+        auto *accountInput = new AccountInputArea(ui->scrollArea, QModelIndex());
+        QSize AdjustSize = accountInput->size();
+        AdjustSize.width();
+        accountInput->setMinimumSize(AdjustSize);
+        ui->scrollArea->setWidgetResizable(true);
+        ui->scrollArea->setWidget(accountInput);
+
         // Tree -> Device
     } else if (selected == tr("Computer")) {
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
@@ -678,7 +669,7 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
     } else if (selected == tr("Stadt")) {
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
-        actualView = VIEW_CITY;
+        actualView = VIEW_CITYNAME;
 
         auto *cnm = new Model::CityName;
 
@@ -709,14 +700,59 @@ void MainWindow::onClickedTreeView(const QModelIndex &index)
     }
 }
 
-void MainWindow::onClickedListViewRow()
+void MainWindow::on_listView_clicked(const QModelIndex &index)
 {
-    // m_actualData = index;
-    QModelIndex index = QModelIndex();
+    m_actualData = index;
     qCDebug(jmbdeWidgetsMainWindowLog) << "onClickedlistViewRow(QModelIndex : " << index;
     switch (actualView) {
+
+    case VIEW_CHIPCARD: {
+        auto *ccia = new ChipCardInputArea(nullptr, index);
+
+        QSize AdjustSize = ccia->size();
+        AdjustSize.width();
+        ccia->setMinimumSize(AdjustSize);
+        ui->scrollArea->setWidgetResizable(true);
+        ui->scrollArea->setWidget(ccia);
+    } break;
+
+
+    case VIEW_CITYNAME: {
+        auto *cia = new CityInputArea(nullptr, index);
+
+        QSize AdjustSize = cia->size();
+        AdjustSize.width();
+        cia->setMinimumSize(AdjustSize);
+        ui->scrollArea->setWidgetResizable(true);
+        ui->scrollArea->setWidget(cia);
+    }
+    break;
+
+    case VIEW_COMPUTER: {
+        auto *cia = new ComputerInputArea(nullptr, index);
+
+        QSize AdjustSize = cia->size();
+        AdjustSize.width();
+        cia->setMinimumSize(AdjustSize);
+        ui->scrollArea->setWidgetResizable(true);
+        ui->scrollArea->setWidget(cia);
+    } break;
+
+
+    case VIEW_DEPARTMENT: {
+        auto *dia = new DepartmentInputArea(nullptr, index);
+
+        QSize AdjustSize = dia->size();
+        AdjustSize.width();
+        dia->setMinimumSize(AdjustSize);
+        ui->scrollArea->setWidgetResizable(true);
+        ui->scrollArea->setWidget(dia);
+    } break;
+
     case VIEW_EMPLOYEE: {
         auto *eia = new EmployeeInputArea(ui->scrollArea, index);
+
+        QObject::connect(eia, SIGNAL(dataChanged()), this, SLOT(actualizeEmployeListView()));
 
         QSize AdjustSize = eia->size();
         AdjustSize.width();
@@ -736,45 +772,28 @@ void MainWindow::onClickedListViewRow()
         ui->scrollArea->setWidget(fia);
     } break;
 
-    case VIEW_DEPARTMENT: {
-        auto *dia = new DepartmentInputArea(nullptr, index);
 
-        QSize AdjustSize = dia->size();
+    case VIEW_MANUFACTURER: {
+        auto *mia = new ManufacturerInputArea(nullptr, index);
+
+        QSize AdjustSize = mia->size();
         AdjustSize.width();
-        dia->setMinimumSize(AdjustSize);
+        mia->setMinimumSize(AdjustSize);
         ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(dia);
+        ui->scrollArea->setWidget(mia);
     } break;
 
-    case VIEW_TITLE: {
-        auto *fia = new FunctionInputArea(nullptr, index);
 
-        QSize AdjustSize = fia->size();
+    case VIEW_MOBILE: {
+        auto *mia = new MobileInputArea(nullptr, index);
+
+        QSize AdjustSize = mia->size();
         AdjustSize.width();
-        fia->setMinimumSize(AdjustSize);
+        mia->setMinimumSize(AdjustSize);
         ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(fia);
+        ui->scrollArea->setWidget(mia);
     } break;
 
-    case VIEW_COMPUTER: {
-        auto *cia = new ComputerInputArea(nullptr, index);
-
-        QSize AdjustSize = cia->size();
-        AdjustSize.width();
-        cia->setMinimumSize(AdjustSize);
-        ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(cia);
-    } break;
-
-    case VIEW_PROCESSOR: {
-        auto *pia = new ProcessorInputArea(nullptr, index);
-
-        QSize AdjustSize = pia->size();
-        AdjustSize.width();
-        pia->setMinimumSize(AdjustSize);
-        ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(pia);
-    } break;
 
     case VIEW_OS: {
         auto *oia = new OSInputArea(nullptr, index);
@@ -784,26 +803,6 @@ void MainWindow::onClickedListViewRow()
         oia->setMinimumSize(AdjustSize);
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(oia);
-    } break;
-
-    case VIEW_SOFTWARE: {
-        auto *sia = new SoftwareInputArea(nullptr, index);
-
-        QSize AdjustSize = sia->size();
-        AdjustSize.width();
-        sia->setMinimumSize(AdjustSize);
-        ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(sia);
-    } break;
-
-    case VIEW_PRINTER: {
-        auto *pia = new PrinterInputArea(nullptr, index);
-
-        QSize AdjustSize = pia->size();
-        AdjustSize.width();
-        pia->setMinimumSize(AdjustSize);
-        ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(pia);
     } break;
 
     case VIEW_PHONE: {
@@ -816,47 +815,48 @@ void MainWindow::onClickedListViewRow()
         ui->scrollArea->setWidget(pia);
     } break;
 
-    case VIEW_MOBILE: {
-        auto *mia = new MobileInputArea(nullptr, index);
 
-        QSize AdjustSize = mia->size();
+    case VIEW_PRINTER: {
+        auto *pia = new PrinterInputArea(nullptr, index);
+
+        QSize AdjustSize = pia->size();
         AdjustSize.width();
-        mia->setMinimumSize(AdjustSize);
+        pia->setMinimumSize(AdjustSize);
         ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(mia);
+        ui->scrollArea->setWidget(pia);
     } break;
 
-    case VIEW_MANUFACTURER: {
-        auto *mia = new ManufacturerInputArea(nullptr, index);
+    case VIEW_PROCESSOR: {
+        auto *pia = new ProcessorInputArea(nullptr, index);
 
-        QSize AdjustSize = mia->size();
+        QSize AdjustSize = pia->size();
         AdjustSize.width();
-        mia->setMinimumSize(AdjustSize);
+        pia->setMinimumSize(AdjustSize);
         ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(mia);
+        ui->scrollArea->setWidget(pia);
     } break;
 
-    case VIEW_CITY: {
-        auto *cia = new CityInputArea(nullptr, index);
 
-        QSize AdjustSize = cia->size();
+    case VIEW_SOFTWARE: {
+        auto *sia = new SoftwareInputArea(nullptr, index);
+
+        QSize AdjustSize = sia->size();
         AdjustSize.width();
-        cia->setMinimumSize(AdjustSize);
+        sia->setMinimumSize(AdjustSize);
         ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(cia);
-    }
-
-    break;
-
-    case VIEW_CHIPCARD: {
-        auto *ccia = new ChipCardInputArea(nullptr, index);
-
-        QSize AdjustSize = ccia->size();
-        AdjustSize.width();
-        ccia->setMinimumSize(AdjustSize);
-        ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(ccia);
+        ui->scrollArea->setWidget(sia);
     } break;
+
+    case VIEW_TITLE: {
+        auto *fia = new FunctionInputArea(nullptr, index);
+
+        QSize AdjustSize = fia->size();
+        AdjustSize.width();
+        fia->setMinimumSize(AdjustSize);
+        ui->scrollArea->setWidgetResizable(true);
+        ui->scrollArea->setWidget(fia);
+    } break;
+
     default:
         const QString caller = tr("onClickedlistViewRow(): Unbekannte Funktion");
         notAvailableMessage(caller);
@@ -864,36 +864,51 @@ void MainWindow::onClickedListViewRow()
     }
 }
 
-void MainWindow::onPressedListViewRow(const QModelIndex &index)
+void MainWindow::actualizeAccoutListView()
 {
-    m_actualData = index;
-    qCDebug(jmbdeWidgetsMainWindowLog) << "Pressed: ActualDataRow for deleting: " << index;
 
-    switch (actualView) {
-    case VIEW_EMPLOYEE: {
-        auto *eia = new EmployeeInputArea(ui->scrollArea);
+}
+void MainWindow::actualizeChipCardListView()
+{
 
-        QSize AdjustSize = eia->size();
-        AdjustSize.width();
-        eia->setMinimumSize(AdjustSize);
-        ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(eia);
-        qDebug() << "Delete index : " << index;
-    } break;
-    }
 }
 
-void MainWindow::onDataEdited()
+void MainWindow::actualizeComputerListView()
 {
-    qCDebug(jmbdeWidgetsMainWindowLog) << "onDataEdited()";
-    switch (actualView) {
-    case VIEW_EMPLOYEE:
-        auto *edm = new Model::Employee();
 
-        QSqlTableModel *listModel = edm->initializeListModel();
 
-        ui->listView->setModel(listModel);
-        ui->listView->setModelColumn(edm->getLastNameIndex());
-        ui->listView->show();
-    }
+}
+
+void MainWindow::actualizeDepartmentListView()
+{
+
+}
+
+void MainWindow::actualizeEmployeListView()
+{
+    auto *edm = new Model::Employee();
+    tableModel = edm->initializeRelationalModel();
+
+    QSqlTableModel *listModel = edm->initializeListModel();
+    int modelIndex = edm->getLastNameIndex();
+    edm->sort(modelIndex, Qt::AscendingOrder);
+    actualizeListView(listModel, modelIndex);
+}
+
+void MainWindow::actualizeFunctionListView()
+{
+    auto *fdm = new Model::Function();
+    tableModel = fdm->initializeRelationalModel();
+
+    QSqlTableModel *listModel = fdm->initializeListModel();
+    int modelIndex = fdm->NameIndex();
+    fdm->sort(modelIndex, Qt::AscendingOrder);
+    actualizeListView(listModel, modelIndex);
+}
+
+void MainWindow::actualizeListView(QSqlTableModel *listModel, int modelIndex)
+{
+    ui->listView->setModel(listModel);
+    ui->listView->setModelColumn(modelIndex);
+    ui->listView->show();
 }

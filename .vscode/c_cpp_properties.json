@@ -17,7 +17,7 @@
             "defines": [],
             "macFrameworkPath": [
                 "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks",
-                "/usr/local/Cellar/qt/5.15.1/lib"
+                "/usr/local/Cellar/qt/5.15.2/lib"
             ],
             "compilerPath": "/usr/bin/clang",
             "cStandard": "c11",

@@ -24,6 +24,7 @@
 #include <QtSql>
 
 #include "commondata.h"
+#include "datacontext.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 
@@ -37,8 +38,8 @@ namespace Model
   to many relation
   \author Jürgen Mülbert
   \since 0.4
-  \version 0.5
-  \date 17.11.2020
+  \version 0.6
+  \date 03.12.2020
   \copyright GPL-3.0-or-later
 */
 class ChipCardProfileDoor : public CommonData
@@ -92,6 +93,12 @@ public:
         Returns QSqlTableModel
      */
     virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
+
+    /*!
+        \fn QSqlTableModel *initializeListModel();
+        \brief Initiallize the list Model for select one dataset
+    */
+    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeListModel() final;
 
     /*!
      * \fn virtual auto generateTableString(
@@ -167,6 +174,28 @@ private:
         \brief The Tablename in the database \e is const
      */
     const QString m_tableName = QLatin1String("chip_card_profile_door");
+
+    /*!
+     * @ brief m_db
+     */
+    QSqlDatabase m_db = {};
+
+    /*!
+        \brief holds an initialised pointer to the Relationmodel
+        \sa QSqlRelationalTableModel
+     */
+    QSqlRelationalTableModel *m_model {nullptr};
+
+    /*!
+       \brief holds an initialised pointer to the ItemSelectioModel
+       \sa QItemSelectionModel
+    */
+    QItemSelectionModel *m_selectionModel {nullptr};
+
+    /*!
+     * @brief DataContext
+     */
+    Model::DataContext *m_dataContext = {};
 
     /*!
         \brief The value of the ChipCardProfileDoorIdIndex

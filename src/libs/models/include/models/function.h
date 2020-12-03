@@ -23,6 +23,7 @@
 #include <QtSql>
 
 #include "commondata.h"
+#include "datacontext.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 #include "loggingcategory.h"
@@ -89,6 +90,8 @@ public:
          Returns QSqlTableModel
       */
     virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
+
+    JMBDEMODELS_EXPORT QSqlTableModel * initializeListModel();
 
     /*!
      * \fn virtual auto generateTableString(
@@ -163,6 +166,28 @@ private:
         \brief The Tablename in the database \e is const
      */
     const QString m_tableName = QLatin1String("function");
+
+    /*!
+     * @ brief m_db
+     */
+    QSqlDatabase m_db = {};
+
+    /*!
+        \brief holds an initialised pointer to the Relationmodel
+        \sa QSqlRelationalTableModel
+     */
+    QSqlRelationalTableModel *m_model {nullptr};
+
+    /*!
+       \brief holds an initialised pointer to the ItemSelectioModel
+       \sa QItemSelectionModel
+    */
+    QItemSelectionModel *m_selectionModel {nullptr};
+
+    /*!
+     * @brief DataContext
+     */
+    Model::DataContext *m_dataContext = {};
 
     /*!
        \var int m_FunctionIdIndex

@@ -27,32 +27,26 @@
 #include "jmbdewidgets_export.h"
 #include "loggingcategory.h"
 #include "models/datacontext.h"
-#include "models/computer.h"
-#include "models/employee.h"
-#include "models/fax.h"
-#include "models/mobile.h"
-#include "models/phone.h"
-#include "models/place.h"
-#include "models/printer.h"
+#include "models/account.h"
 
-Q_DECLARE_LOGGING_CATEGORY(jmbdeWidgetsEmployeeInputAreaLog)
+Q_DECLARE_LOGGING_CATEGORY(jmbdeWidgetsAccoutInputAreaLog)
 
 namespace Ui
 {
-class EmployeeInputArea;
+class AccountInputArea;
 }
 
 /**
  * @brief The EmployeeInputDialog class
  */
-class JMBDEWIDGETS_EXPORT EmployeeInputArea : public QGroupBox
+class JMBDEWIDGETS_EXPORT AccountInputArea : public QGroupBox
 
 {
     Q_OBJECT
 
 public:
     /*!
-        @brief EmployeeInputArea
+        @brief AccountInputArea
         @param tableName The name of the table in the Database
         @param The pointer to the Model
         @param parent The pointer to the parent object
@@ -60,12 +54,12 @@ public:
         @todo Init the model from here
         @todo Get the tableName from the model
      */
-    explicit EmployeeInputArea(QWidget *parent = nullptr, const QModelIndex index = QModelIndex());
+    explicit AccountInputArea(QWidget *parent = nullptr, const QModelIndex index = QModelIndex());
 
     /**
-     * @brief ~EmployeeInputArea
+     * @brief ~AccountInputArea
      */
-    ~EmployeeInputArea();
+    ~AccountInputArea();
 
 signals:
     /*!
@@ -90,7 +84,7 @@ private:
     /*!
      * @brief ui
      */
-    Ui::EmployeeInputArea *ui;
+    Ui::AccountInputArea *ui;
 
     /*!
      * @brief The Mode enum
@@ -105,7 +99,7 @@ private:
     /*!
      * @brief m_dataContext
      */
-    Model::Employee *employeeModel = {};
+    Model::Account *accountModel = {};
 
     /*!
      * @brief m_model

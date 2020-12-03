@@ -23,7 +23,7 @@ endif()
 # JMBDEMODELS project
 project(
   "jmbdemodels"
-  VERSION "0.1.2"
+  VERSION "0.5.0"
   DESCRIPTION "${PROJECT_NAME} Datacontext Library"
   HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
   LANGUAGES CXX)
