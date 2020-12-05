@@ -18,8 +18,6 @@
 #include <QLoggingCategory>
 #include <QObject>
 
-Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsComputerSoftwareLog)
-
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
@@ -30,6 +28,8 @@ Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsComputerSoftwareLog)
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 #include "loggingcategory.h"
+
+Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsComputerSoftwareLog)
 
 namespace Model
 {

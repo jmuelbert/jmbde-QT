@@ -27,7 +27,6 @@
 #include "datacontext.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
-#include "loggingcategory.h"
 
 Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsAccountLog)
 
@@ -131,7 +130,7 @@ public:
     }
 
     /*!
-        \fn int AccountIdIndex() const
+        \fn int getAccountIdIndex() const
 
         \brief Get the index of the fieldname AccountId from the database
 
@@ -143,7 +142,7 @@ public:
     }
 
     /*!
-        \fn int UserNameIndex() const
+        \fn int getUserNameIndex() const
 
         \brief Get the index of the fieldname UserName form the database
 
@@ -155,7 +154,7 @@ public:
     }
 
     /*!
-        \fn int PasswordIndex() const
+        \fn int getPasswordIndex() const
 
         \brief Get the index of the fieldname Password form the database
 
@@ -167,7 +166,7 @@ public:
     }
 
     /*!
-        \fn int SystemDataIndex()
+        \fn int getSystemDataIndex()
 
         \brief Get the index of the fieldname SystemData form the database
 
@@ -179,7 +178,7 @@ public:
     }
 
     /*!
-        \fn  int LastUpdateIndex()
+        \fn  int getLastUpdateIndex()
 
         \brief Get the index of the fieldname LastUpdate form the database
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <ui version="4.0">
  <class>AccountInputArea</class>
  <widget class="QGroupBox" name="AccountInputArea">
@@ -77,10 +77,10 @@
          </widget>
         </item>
         <item row="0" column="2">
-         <widget class="QListView" name="listView_System"/>
+         <widget class="QListView" name="listView_System" />
         </item>
         <item row="1" column="2">
-         <widget class="QLineEdit" name="lineEdit_Username"/>
+         <widget class="QLineEdit" name="lineEdit_Username" />
         </item>
         <item row="2" column="0">
          <widget class="QLabel" name="lbl_Passwort">
@@ -90,7 +90,7 @@
          </widget>
         </item>
         <item row="2" column="2">
-         <widget class="QLineEdit" name="lineEdit_Passwort"/>
+         <widget class="QLineEdit" name="lineEdit_Passwort" />
         </item>
        </layout>
       </item>
@@ -143,6 +143,6 @@
    </item>
   </layout>
  </widget>
- <resources/>
- <connections/>
+ <resources />
+ <connections />
 </ui>

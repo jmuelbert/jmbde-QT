@@ -58,7 +58,6 @@ if read_the_docs_build:
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.napoleon',
-    'sphinx_click',
     'sphinx_rtd_theme',
     'sphinx.ext.todo',
     'sphinx.ext.graphviz',

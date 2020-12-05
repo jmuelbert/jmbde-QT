@@ -49,17 +49,16 @@ ecm_setup_version(
   VERSION_HEADER
   ${CMAKE_CURRENT_BINARY_DIR}/jmbdewidgets-version.h)
 
-ecm_qt_declare_logging_category(
-  jmbdewidgets
-  HEADER
-  loggingcategory.h
-  IDENTIFIER
-  jmbdewidgetsLog
-  CATEGORY_NAME
-  jmuelbert.jmbde.${PROJECT_NAME}
-  DEFAULT_SEVERITY
-  Warning)
-
+  ecm_qt_declare_logging_category(
+    ${PROJECT_NAME}
+    HEADER
+    loggingcategory.h
+    IDENTIFIER
+    jmbdewidgetsLog
+    CATEGORY_NAME
+    jmuelbert.jmbde.${PROJECT_NAME}
+    DEFAULT_SEVERITY
+    Warning)
 #
 # Finding Qt
 #

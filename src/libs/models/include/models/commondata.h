@@ -15,17 +15,20 @@
 
 #pragma once
 
-#include <jmbdemodels-version.h>
-#include <jmbdemodels_export.h>
-
-#include <QAbstractTableModel>
+#include <QLoggingCategory>
 #include <QObject>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRelation>
-#include <QTextDocument>
 #include <QtSql>
+#include <QTextDocument>
+
+#include "datacontext.h"
+#include "jmbdemodels-version.h"
+#include "jmbdemodels_export.h"
+
+Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsCommonDataLog)
 
 namespace Model
 {

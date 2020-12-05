@@ -15,7 +15,6 @@
 
 #include "views/mainwindow.h"
 
-
 #include "ui_mainwindow.h"
 
 Q_LOGGING_CATEGORY(jmbdeWidgetsMainWindowLog, "jmuelbert.jmbde.widgets.mainwindow", QtWarningMsg)
@@ -50,7 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Setze aktuelle Ansicht: Mitarbeiter - Tabelle");
         actualView = VIEW_EMPLOYEE;
 
-        actualizeEmployeListView();
+        actualizeEmployeeListView();
 
         auto *employeeInputArea = new EmployeeInputArea(ui->scrollArea);
         QObject::connect(employeeInputArea, SIGNAL(dataChanged()), this, SLOT(actualizeEmployeListView()));
@@ -491,7 +490,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
         actualView = VIEW_EMPLOYEE;
 
-        actualizeEmployeListView();
+        actualizeEmployeeListView();
 
         auto *employeeInput = new EmployeeInputArea(ui->scrollArea, QModelIndex());
         QSize AdjustSize = employeeInput->size();
@@ -557,15 +556,14 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
 
         actualView = VIEW_COMPUTER;
 
-        auto *cdm = new Model::Computer;
+        actualizeComputerListView();
 
-        tableModel = cdm->initializeRelationalModel();
-
-        ui->listView->setModel(tableModel);
-
-        QModelIndex qmi = QModelIndex();
-        auto *cia = new ComputerInputArea(ui->scrollArea, qmi);
-        ui->scrollArea->setWidget(cia);
+        auto *computerInput = new ComputerInputArea(ui->scrollArea, QModelIndex());
+        QSize AdjustSize = computerInput->size();
+        AdjustSize.width();
+        computerInput->setMinimumSize(AdjustSize);
+        ui->scrollArea->setWidgetResizable(true);
+        ui->scrollArea->setWidget(computerInput);
     } else if (selected == tr("Prozessor")) {
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
@@ -705,7 +703,6 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
     m_actualData = index;
     qCDebug(jmbdeWidgetsMainWindowLog) << "onClickedlistViewRow(QModelIndex : " << index;
     switch (actualView) {
-
     case VIEW_CHIPCARD: {
         auto *ccia = new ChipCardInputArea(nullptr, index);
 
@@ -716,7 +713,6 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(ccia);
     } break;
 
-
     case VIEW_CITYNAME: {
         auto *cia = new CityInputArea(nullptr, index);
 
@@ -725,11 +721,10 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
         cia->setMinimumSize(AdjustSize);
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(cia);
-    }
-    break;
+    } break;
 
     case VIEW_COMPUTER: {
-        auto *cia = new ComputerInputArea(nullptr, index);
+        auto *cia = new ComputerInputArea(ui->scrollArea, index);
 
         QSize AdjustSize = cia->size();
         AdjustSize.width();
@@ -737,7 +732,6 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(cia);
     } break;
-
 
     case VIEW_DEPARTMENT: {
         auto *dia = new DepartmentInputArea(nullptr, index);
@@ -772,7 +766,6 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(fia);
     } break;
 
-
     case VIEW_MANUFACTURER: {
         auto *mia = new ManufacturerInputArea(nullptr, index);
 
@@ -783,7 +776,6 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(mia);
     } break;
 
-
     case VIEW_MOBILE: {
         auto *mia = new MobileInputArea(nullptr, index);
 
@@ -793,7 +785,6 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(mia);
     } break;
-
 
     case VIEW_OS: {
         auto *oia = new OSInputArea(nullptr, index);
@@ -815,7 +806,6 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(pia);
     } break;
 
-
     case VIEW_PRINTER: {
         auto *pia = new PrinterInputArea(nullptr, index);
 
@@ -835,7 +825,6 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(pia);
     } break;
-
 
     case VIEW_SOFTWARE: {
         auto *sia = new SoftwareInputArea(nullptr, index);
@@ -866,25 +855,27 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
 
 void MainWindow::actualizeAccoutListView()
 {
-
 }
 void MainWindow::actualizeChipCardListView()
 {
-
 }
 
 void MainWindow::actualizeComputerListView()
 {
+    auto *computerModel = new Model::Computer();
+    tableModel = computerModel->initializeRelationalModel();
 
-
+    QSqlTableModel *listModel = computerModel->initializeListModel();
+    int modelIndex = computerModel->getNameIndex();
+    computerModel->sort(modelIndex, Qt::AscendingOrder);
+    actualizeListView(listModel, modelIndex);
 }
 
 void MainWindow::actualizeDepartmentListView()
 {
-
 }
 
-void MainWindow::actualizeEmployeListView()
+void MainWindow::actualizeEmployeeListView()
 {
     auto *edm = new Model::Employee();
     tableModel = edm->initializeRelationalModel();

@@ -17,26 +17,30 @@
 
 #include "ui_computerinputarea.h"
 
-ComputerInputArea::ComputerInputArea(QWidget *parent, const QModelIndex &index)
+Q_LOGGING_CATEGORY(jmbdeWidgetsComputerInputAreaLog, "jmuelbert.jmbde.widgets.employeeinputarea", QtWarningMsg)
+
+ComputerInputArea::ComputerInputArea(QWidget *parent, const QModelIndex index)
     : QGroupBox(parent)
     , ui(new Ui::ComputerInputArea)
 {
     ui->setupUi(this);
 
-    qCDebug(jmbdewidgetsLog) << "Init ComputerInputArea for Index :" << index.column();
+    qCDebug(jmbdeWidgetsComputerInputAreaLog) << "Init ComputerInputArea for Index :" << index.column();
+
+    this->m_computerModel = new Model::Computer();
+    this->m_db = this->m_computerModel->getDB();
 
     m_actualMode = Mode::Edit;
     setViewOnlyMode(true);
 
     // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(QLatin1String("computer"));
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    m_model = this->m_computerModel->initializeRelationalModel();
 
-    m_model->select();
-
-    m_mapper = new QDataWidgetMapper(this);
+    // Set the mapper
+    m_mapper = new QDataWidgetMapper();
     m_mapper->setModel(m_model);
+    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
+
     setMappings();
 
     m_mapper->setCurrentIndex(index.row());
@@ -49,25 +53,24 @@ ComputerInputArea::~ComputerInputArea()
 
 void ComputerInputArea::setMappings()
 {
-    m_mapper->addMapping(ui->checkBox_Active, m_model->fieldIndex(QLatin1String("active")));
-    m_mapper->addMapping(ui->checkBox_Replace, m_model->fieldIndex(QLatin1String("replace")));
-    m_mapper->addMapping(ui->comboBox_Department, m_model->fieldIndex(QLatin1String("department_id")));
-    m_mapper->addMapping(ui->comboBox_DeviceName, m_model->fieldIndex(QLatin1String("device_name_id")));
-    m_mapper->addMapping(ui->comboBox_DeviceType, m_model->fieldIndex(QLatin1String("device_type_id")));
-    m_mapper->addMapping(ui->comboBox_Employee, m_model->fieldIndex(QLatin1String("employee_id")));
-    m_mapper->addMapping(ui->comboBox_Inventory, m_model->fieldIndex(QLatin1String("inventory_id")));
-    m_mapper->addMapping(ui->comboBox_Manufacturer, m_model->fieldIndex(QLatin1String("manufacturer_id")));
-    m_mapper->addMapping(ui->comboBox_OperationSystem, m_model->fieldIndex(QLatin1String("os_id")));
-    m_mapper->addMapping(ui->comboBox_Place, m_model->fieldIndex(QLatin1String("place_id")));
-    m_mapper->addMapping(ui->comboBox_Printer, m_model->fieldIndex(QLatin1String("printer_id")));
-    m_mapper->addMapping(ui->comboBox_Processor, m_model->fieldIndex(QLatin1String("processor_id")));
-    m_mapper->addMapping(ui->comboBox_Software, m_model->fieldIndex(QLatin1String("computer_software_id")));
-    m_mapper->addMapping(ui->lineEdit_ComputerName, m_model->fieldIndex(QLatin1String("network_name")));
-    m_mapper->addMapping(ui->lineEdit_IPAddress, m_model->fieldIndex(QLatin1String("network_ip_address")));
-    m_mapper->addMapping(ui->lineEdit_Network, m_model->fieldIndex(QLatin1String("network_name")));
-    m_mapper->addMapping(ui->lineEdit_SerialNumber, m_model->fieldIndex(QLatin1String("serial_number")));
-    m_mapper->addMapping(ui->lineEdit_ServiceNumber, m_model->fieldIndex(QLatin1String("service_number")));
-    m_mapper->addMapping(ui->lineEdit_ServiceTag, m_model->fieldIndex(QLatin1String("service_tag")));
+    m_mapper->addMapping(ui->checkBox_Active, this->m_computerModel->getActiveIndex());
+    m_mapper->addMapping(ui->checkBox_Replace, this->m_computerModel->getReplaceIndex());
+    m_mapper->addMapping(ui->comboBox_Department, this->m_computerModel->getDepartmentIdIndex());
+    m_mapper->addMapping(ui->comboBox_DeviceName, this->m_computerModel->getDeviceNameIdIndex());
+    m_mapper->addMapping(ui->comboBox_DeviceType, this->m_computerModel->getDeviceTypeIdIndex());
+    m_mapper->addMapping(ui->comboBox_Employee, this->m_computerModel->getEmployeeIdIndex());
+    m_mapper->addMapping(ui->comboBox_Inventory, this->m_computerModel->getInventoryIdIndex());
+    m_mapper->addMapping(ui->comboBox_Manufacturer, this->m_computerModel->getManufacturerIdIndex());
+    m_mapper->addMapping(ui->comboBox_OperationSystem, this->m_computerModel->getOSIdIndex());
+    m_mapper->addMapping(ui->comboBox_Place, this->m_computerModel->getPlaceIdIndex());
+    m_mapper->addMapping(ui->comboBox_Printer, this->m_computerModel->getPrinterIdIndex());
+    m_mapper->addMapping(ui->comboBox_Processor, this->m_computerModel->getProcessorIdIndex());
+    m_mapper->addMapping(ui->comboBox_Software, this->m_computerModel->getComputerSoftwareIdIndex());
+    m_mapper->addMapping(ui->lineEdit_ComputerName, this->m_computerModel->getNameIndex());
+    m_mapper->addMapping(ui->lineEdit_IPAddress, this->m_computerModel->getNetworkIndex());
+    m_mapper->addMapping(ui->lineEdit_SerialNumber, this->m_computerModel->getSerialNumberIndex());
+    m_mapper->addMapping(ui->lineEdit_ServiceNumber, this->m_computerModel->getServiceNumberIndex());
+    m_mapper->addMapping(ui->lineEdit_ServiceTag, this->m_computerModel->getServiceTagIndex());
 }
 
 void ComputerInputArea::setViewOnlyMode(bool mode)
@@ -95,7 +98,7 @@ void ComputerInputArea::setViewOnlyMode(bool mode)
 
 void ComputerInputArea::createDataset()
 {
-    qCDebug(jmbdewidgetsLog) << "Create a new Dataset for Computer...";
+    qCDebug(jmbdeWidgetsComputerInputAreaLog) << "Create a new Dataset for Computer...";
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -138,33 +141,34 @@ void ComputerInputArea::on_pushButton_EditFinish_clicked()
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdewidgetsLog) << "Save Data...";
+        qCDebug(jmbdeWidgetsComputerInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->pushButton_EditFinish->setText(tr("Edit"));
         setViewOnlyMode(false);
 
-        QString lastName = ui->lineEdit_ComputerName->text();
+        QString computerName = ui->lineEdit_ComputerName->text();
 
-        if (lastName.isEmpty()) {
-            QString message(tr("Please provide the name of the computer."));
+        if (computerName.isEmpty()) {
+            QString message(tr("Bitte geben Sie einen Computernamen an."));
 
-            QMessageBox::information(this, tr("Add Computer"), message);
+            QMessageBox::information(this, tr("Computer hinzufügen"), message);
         } else {
             m_mapper->submit();
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qDebug() << "Commit changes for Computer Databse Table";
+                qCDebug(jmbdeWidgetsComputerInputAreaLog) << tr("Schreiben der Änderungen in die Datenbank");
+                emit dataChanged();
             } else {
                 m_model->database().rollback();
-                QMessageBox::warning(this, tr("jmbde"), tr("The database reported an error: %1").arg(m_model->lastError().text()));
+                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
             }
         }
     } break;
 
     default: {
-        qCCritical(jmbdewidgetsLog) << "Error";
+        qCDebug(jmbdeWidgetsComputerInputAreaLog) << tr("Fehler");
     }
     }
 }

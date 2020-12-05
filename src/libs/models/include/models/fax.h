@@ -26,6 +26,7 @@
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 #include "loggingcategory.h"
+
 namespace Model
 {
 /*!

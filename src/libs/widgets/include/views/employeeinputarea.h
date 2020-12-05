@@ -25,9 +25,8 @@
 
 #include "jmbdewidgets-version.h"
 #include "jmbdewidgets_export.h"
-#include "loggingcategory.h"
-#include "models/datacontext.h"
 #include "models/computer.h"
+#include "models/datacontext.h"
 #include "models/employee.h"
 #include "models/fax.h"
 #include "models/mobile.h"
@@ -105,7 +104,7 @@ private:
     /*!
      * @brief m_dataContext
      */
-    Model::Employee *employeeModel = {};
+    Model::Employee *m_employeeModel = {};
 
     /*!
      * @brief m_model

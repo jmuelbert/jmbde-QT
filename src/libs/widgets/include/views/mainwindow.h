@@ -197,7 +197,7 @@ private slots:
     /*!
         @brief Actualize the list view for employee after data changes
      */
-    void actualizeEmployeListView();
+    void actualizeEmployeeListView();
 
     void actualizeFunctionListView();
 

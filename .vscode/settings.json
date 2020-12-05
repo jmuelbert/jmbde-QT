@@ -1,0 +1,45 @@
+{
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+    "cmake.configureSettings": {
+        "BUILD_EXAMPLES": "OFF",
+        "BUILD_MANUAL": "ON",
+        "BUILD_API_DOCS": "ON",
+        "BUILD_TRANSLATIONS": "ON",
+        "BUILD_TESTING": "OFF",
+        "BUILD_COVERAGE": "OFF",
+        "BUILD_SHARED_LIBS": "ON",
+        "ENABLE_CLANG_TIDY": "ON",
+        "ENABLE_CLANG_FORMAT": "ON",
+        "ENABLE_CLAZY": "ON",
+        "ENABLE_CCACHE": "OFF",
+        "USE_GIT_VERSION": "ON",
+        "CMAKE_INSTALL_PREFIX:PATH" :"./install",
+        "VERBOSE"
+    },
+    "editor.formatOnSave": true,
+    "files.exclude": {
+        "llvm-project": true,
+        "stl/msbuild": true,
+        "vcpkg": true
+    },
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true,
+    "python.linting.pylintEnabled": false,
+    "python.pythonPath": "/Users/juergen/.pyenv/shims/python",
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.promptToConfigure": false,
+    "python.testing.pytestEnabled": false,
+    "python.testing.unittestEnabled": false,
+    "workbench.editor.enablePreviewFromQuickOpen": false,
+    "restructuredtext.confPath": "",
+    "files.associations": {
+        "filesystem": "cpp",
+        "string": "cpp",
+        "*.tcc": "cpp",
+        "__hash_table": "cpp",
+        "__tree": "cpp",
+        "algorithm": "cpp",
+        "list": "cpp"
+    }
+}

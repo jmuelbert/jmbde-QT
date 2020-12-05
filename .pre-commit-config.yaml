@@ -158,7 +158,7 @@ repos:
             args: [--groups-position=above]
 
     - repo: https://github.com/jorisroovers/gitlint
-      rev: v0.14.0
+      rev: v0.15.0
       hooks:
           - id: gitlint
             stages: [commit-msg]
@@ -186,7 +186,7 @@ repos:
             exclude: ^docs/conf.py
 
     - repo: https://github.com/prettier/pre-commit
-      rev: v2.1.2
+      rev: 57f39166b5a5a504d6808b87ab98d41ebf095b46
       hooks:
           - id: prettier
             exclude: ^.*(\.ts|\.xib)$

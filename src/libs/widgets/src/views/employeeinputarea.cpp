@@ -26,14 +26,16 @@ EmployeeInputArea::EmployeeInputArea(QWidget *parent, const QModelIndex index)
 {
     ui->setupUi(this);
 
-    this->employeeModel = new Model::Employee();
-    this->m_db = this->employeeModel->getDB();
+    qCDebug(jmbdeWidgetsEmployeeInputAreaLog) << "Init ComputerInputArea for Index :" << index.column();
+
+    this->m_employeeModel = new Model::Employee();
+    this->m_db = this->m_employeeModel->getDB();
 
     m_actualMode = Mode::Edit;
     setViewOnlyMode(true);
 
     // Set the Model
-    m_model = this->employeeModel->initializeRelationalModel();
+    m_model = this->m_employeeModel->initializeRelationalModel();
 
     // Set the mapper
     m_mapper = new QDataWidgetMapper();
@@ -52,40 +54,38 @@ EmployeeInputArea::~EmployeeInputArea()
 
 void EmployeeInputArea::setMappings()
 {
-
-
     // Set the fields to the mapper
     // Line 1.
-    m_mapper->addMapping(ui->comboBox_Title, this->employeeModel->getTitleIdIndex());
-    m_mapper->addMapping(ui->comboBox_Gender, this->employeeModel->getGenderIndex());
+    m_mapper->addMapping(ui->comboBox_Title, this->m_employeeModel->getTitleIdIndex());
+    m_mapper->addMapping(ui->comboBox_Gender, this->m_employeeModel->getGenderIndex());
 
     // Line 2.
-    m_mapper->addMapping(ui->lineEdit_Firstname, this->employeeModel->getFirstNameIndex());
-    m_mapper->addMapping(ui->lineEdit_Lastname, this->employeeModel->getLastNameIndex());
-    m_mapper->addMapping(ui->doubleSpinBox_PersNR, this->employeeModel->getEmployeeNrIndex());
+    m_mapper->addMapping(ui->lineEdit_Firstname, this->m_employeeModel->getFirstNameIndex());
+    m_mapper->addMapping(ui->lineEdit_Lastname, this->m_employeeModel->getLastNameIndex());
+    m_mapper->addMapping(ui->doubleSpinBox_PersNR, this->m_employeeModel->getEmployeeNrIndex());
 
     // Line 3.
-    m_mapper->addMapping(ui->lineEditZipCode, this->employeeModel->getZipCityIdIndex());
+    m_mapper->addMapping(ui->lineEditZipCode, this->m_employeeModel->getZipCityIdIndex());
 
     // TODO: Write City in the City Text Field
-    m_mapper->addMapping(ui->lineEdit_Address, this->employeeModel->getAddressIndex());
+    m_mapper->addMapping(ui->lineEdit_Address, this->m_employeeModel->getAddressIndex());
 
     // Line 4.
-    m_mapper->addMapping(ui->dateEdit_Birthday, this->employeeModel->getBirthDayIndex());
+    m_mapper->addMapping(ui->dateEdit_Birthday, this->m_employeeModel->getBirthDayIndex());
 
     // Line 5.
-    m_mapper->addMapping(ui->lineEdit_HomeMail, this->employeeModel->getHomeMailIndex());
-    m_mapper->addMapping(ui->lineEdit_HomePhone,this-> employeeModel->getHomePhoneIndex());
-    m_mapper->addMapping(ui->lineEdit_HomeMobile, this->employeeModel->getHomeMobileIndex());
+    m_mapper->addMapping(ui->lineEdit_HomeMail, this->m_employeeModel->getHomeMailIndex());
+    m_mapper->addMapping(ui->lineEdit_HomePhone, this->m_employeeModel->getHomePhoneIndex());
+    m_mapper->addMapping(ui->lineEdit_HomeMobile, this->m_employeeModel->getHomeMobileIndex());
 
     // Line 6.
-    m_mapper->addMapping(ui->lineEdit_BusinessMail, this->employeeModel->getBusinessMailIndex());
-    m_mapper->addMapping(ui->checkBox_Active, this->employeeModel->getActiveIndex());
-    m_mapper->addMapping(ui->checkBox_DataCare, this->employeeModel->getDataCareIndex());
+    m_mapper->addMapping(ui->lineEdit_BusinessMail, this->m_employeeModel->getBusinessMailIndex());
+    m_mapper->addMapping(ui->checkBox_Active, this->m_employeeModel->getActiveIndex());
+    m_mapper->addMapping(ui->checkBox_DataCare, this->m_employeeModel->getDataCareIndex());
 
     // Line 7.
-    m_mapper->addMapping(ui->dateEdit_StartDate, this->employeeModel->getHireDateIndex());
-    m_mapper->addMapping(ui->dateEdit_EndDate, this->employeeModel->getEndDateIndex());
+    m_mapper->addMapping(ui->dateEdit_StartDate, this->m_employeeModel->getHireDateIndex());
+    m_mapper->addMapping(ui->dateEdit_EndDate, this->m_employeeModel->getEndDateIndex());
 
     // Line 8.
 
@@ -118,10 +118,10 @@ void EmployeeInputArea::setMappings()
        m_mapper->addMapping(ui->comboBoxEmployeeDocument,
                        m_model->fieldIndex(QLatin1String("employee_document_id")));
      */
-    m_mapper->addMapping(ui->label_Lastupdate_Date, this->employeeModel->getLastUpdateIndex());
+    m_mapper->addMapping(ui->label_Lastupdate_Date, this->m_employeeModel->getLastUpdateIndex());
 
     // Line 11.
-    m_mapper->addMapping(ui->textEdit_Notes, this->employeeModel->getNotesIndex());
+    m_mapper->addMapping(ui->textEdit_Notes, this->m_employeeModel->getNotesIndex());
 }
 
 void EmployeeInputArea::setViewOnlyMode(bool mode)
@@ -234,6 +234,3 @@ void EmployeeInputArea::on_pushButton_EditFinish_clicked()
     }
     }
 }
-
-
-

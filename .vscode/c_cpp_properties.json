@@ -1,15 +1,23 @@
 {
     "configurations": [
         {
-            "name": "Mac-GNU",
+            "name": "Win32",
+            "includePath": ["${workspaceFolder}/**"],
+            "defines": ["_DEBUG", "UNICODE", "_UNICODE"],
+            "windowsSdkVersion": "10.0.18362.0",
+            "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Tools/MSVC/14.24.28314/bin/Hostx64/x64/cl.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "msvc-x64"
+        },
+        {
+            "name": "Linux",
             "includePath": ["${workspaceFolder}/**"],
             "defines": [],
-            "macFrameworkPath": [],
-            "compilerPath": "/usr/local/bin/gcc-10",
-            "cStandard": "gnu17",
-            "cppStandard": "gnu++14",
-            "intelliSenseMode": "gcc-x64",
-            "configurationProvider": "ms-vscode.cmake-tools"
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "clang-x64"
         },
         {
             "name": "Mac",
@@ -20,7 +28,8 @@
                 "/usr/local/Cellar/qt/5.15.2/lib"
             ],
             "compilerPath": "/usr/bin/clang",
-            "cStandard": "c11",
+            "compileCommands": "${workspaceFolder}/compile_commands.json",
+            "cStandard": "c17",
             "cppStandard": "c++20",
             "intelliSenseMode": "clang-x64",
             "configurationProvider": "ms-vscode.cmake-tools"

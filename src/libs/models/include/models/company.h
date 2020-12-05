@@ -24,10 +24,12 @@
 #include <QtSql>
 
 #include "commondata.h"
+#include "datacontext.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 
 Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsCompanyLog)
+
 namespace Model
 {
 /*!
@@ -36,8 +38,8 @@ namespace Model
     \details In this is handlet all Companies in the Database
     \author Jürgen Mülbert
     \since 0.4
-    \version 0.5
-    \date 17.11.2020
+    \version 0.6
+    \date 05.12.2020
     \copyright GPL-3.0-or-later
     */
 
@@ -94,6 +96,12 @@ public:
     virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
 
     /*!
+        \fn QSqlTableModel *initializeListModel();
+        \brief Initiallize the list Model for select one dataset
+    */
+    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeListModel() final;
+
+    /*!
      * \fn virtual auto generateTableString(
                                 const QString &header) -> QString final
         \brief generateTableString
@@ -114,175 +122,198 @@ public:
     // Getter
 
     /*!
-        \fn int CompanyIdIndex()
+        \fn int getCompanyIdIndex()
 
         \brief Get the index of the fieldname CompanyId form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int CompanyIdIndex() const
+    JMBDEMODELS_EXPORT int getCompanyIdIndex() const
     {
         return m_CompanyIdIndex;
     }
 
     /*!
-        \fn int NameIndex()
+        \fn int getNameIndex()
 
         \brief Get the index of the fieldname Name form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int NameIndex() const
+    JMBDEMODELS_EXPORT int getNameIndex() const
     {
         return m_NameIndex;
     }
 
     /*!
-        \fn int Name2Index()
+        \fn int getName2Index()
 
         \brief Get the index of the fieldname Name2 form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int Name2Index() const
+    JMBDEMODELS_EXPORT int getName2Index() const
     {
         return m_Name2Index;
     }
 
     /*!
-        \fn int StreetIndex()
+        \fn int getStreetIndex()
 
         \brief Get the index of the fieldname Street form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int StreetIndex() const
+    JMBDEMODELS_EXPORT int getStreetIndex() const
     {
         return m_StreetIndex;
     }
 
     /*!
-        \fn int CityIndex()
+        \fn int getCityIndex()
 
         \brief Get the index of the fieldname City form the database
 
         Returns the value of the index
     */
-    JMBDEMODELS_EXPORT int CityIndex() const
+    JMBDEMODELS_EXPORT int getCityIndex() const
     {
         return m_CityIndex;
     }
 
     /*!
-        \fn int ZipCodeIndex()
+        \fn int getZipCodeIndex()
 
         \brief Get the index of the fieldname ZipCode form the database
 
         Returns the value of the index
     */
-    JMBDEMODELS_EXPORT int ZipCodeIndex() const
+    JMBDEMODELS_EXPORT int getZipCodeIndex() const
     {
         return m_ZipCodeIndex;
     }
 
     /*!
-        \fn int PhoneNumberIndex()
+        \fn int getPhoneNumberIndex()
 
         \brief Get the index of the fieldname PhoneNumber form the database
 
         Returns the value of the index
     */
-    JMBDEMODELS_EXPORT int PhoneNumberIndex() const
+    JMBDEMODELS_EXPORT int getPhoneNumberIndex() const
     {
         return m_PhoneNumberIndex;
     }
 
     /*!
-        \fn int FaxNumberIndex()
+        \fn int getFaxNumberIndex()
 
         \brief Get the index of the fieldname FaxNumber form the database
 
         Returns the value of the index
     */
-    JMBDEMODELS_EXPORT int FaxNumberIndex() const
+    JMBDEMODELS_EXPORT int getFaxNumberIndex() const
     {
         return m_FaxNumberIndex;
     }
 
     /*!
-        \fn int FaxNumberIndex()
+        \fn int getFMobileNumberIndex()
 
         \brief Get the index of the fieldname FaxNumber form the database
 
         Returns the value of the index
     */
-    JMBDEMODELS_EXPORT int MobileNumberIndex() const
+    JMBDEMODELS_EXPORT int getMobileNumberIndex() const
     {
         return m_MobileNumberIndex;
     }
 
     /*!
-        \fn int MailAddressIndex()
+        \fn int getMailAddressIndex()
 
         \brief Get the index of the fieldname MailAddress form the database
 
         Returns the value of the index
     */
-    JMBDEMODELS_EXPORT int MailAddressIndex() const
+    JMBDEMODELS_EXPORT int getMailAddressIndex() const
     {
         return m_MailAddressIndex;
     }
 
     /*!
-        \fn int ActiveIndex()
+        \fn int getActiveIndex()
 
         \brief Get the index of the fieldname Active form the database
 
         Returns the value of the index
     */
-    JMBDEMODELS_EXPORT int ActiveIndex() const
+    JMBDEMODELS_EXPORT int getActiveIndex() const
     {
         return m_ActiveIndex;
     }
 
     /*!
-        \fn int EmployeeIdIndex()
+        \fn int getEmployeeIdIndex()
 
          \brief Get the index of the fieldname EmployeeId form the database
 
          Returns the value of the index
     */
-    JMBDEMODELS_EXPORT int EmployeeIdIndex() const
+    JMBDEMODELS_EXPORT int getEmployeeIdIndex() const
     {
         return m_EmployeeIdIndex;
     }
 
     /*!
-        \fn  int LastUpdateIndex()
+        \fn  int getLastUpdateIndex()
 
     \brief Get the index of the fieldname LastUpdate form the database
 
             Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int LastUpdateIndex() const
+    JMBDEMODELS_EXPORT int getLastUpdateIndex() const
     {
         return m_LastUpdateIndex;
     }
 
 private:
     const QString m_tableName = QLatin1String("company"); ///< QString m_tableName
-    int m_CompanyIdIndex {0};                             ///< int CompanyIdIndex
-    int m_NameIndex {0};                                  ///< int NameIndex
-    int m_Name2Index {0};                                 ///< int Name2Index
-    int m_StreetIndex {0};                                ///< int m_StreetIndex
-    int m_CityIndex {0};                                  ///< int CityIndex
-    int m_ZipCodeIndex {0};                               ///< int ZipCodeIndex
-    int m_PhoneNumberIndex {0};                           ///< int PhoneNumberIndex
-    int m_FaxNumberIndex {0};                             ///< int FaxNumberIndex
-    int m_MobileNumberIndex {0};                          ///< int MobileNumberIndex
-    int m_MailAddressIndex {0};                           ///< int MailAddressIndex
-    int m_ActiveIndex {0};                                ///< int ActiveIndex
-    int m_EmployeeIdIndex {0};                            ///< int EmployeeIdIndex
-    int m_LastUpdateIndex {0};                            ///< int LastUpdateIndex
+
+    /*!
+     * @ brief m_db
+     */
+    QSqlDatabase m_db = {};
+
+    /*!
+        \brief holds an initialised pointer to the Relationmodel
+        \sa QSqlRelationalTableModel
+     */
+    QSqlRelationalTableModel *m_model {nullptr};
+
+    /*!
+       \brief holds an initialised pointer to the ItemSelectioModel
+       \sa QItemSelectionModel
+    */
+    QItemSelectionModel *m_selectionModel {nullptr};
+
+    /*!
+     * @brief DataContext
+     */
+    Model::DataContext *m_dataContext = {};
+
+    int m_CompanyIdIndex {0}; ///< int CompanyIdIndex
+    int m_NameIndex {0}; ///< int NameIndex
+    int m_Name2Index {0}; ///< int Name2Index
+    int m_StreetIndex {0}; ///< int m_StreetIndex
+    int m_CityIndex {0}; ///< int CityIndex
+    int m_ZipCodeIndex {0}; ///< int ZipCodeIndex
+    int m_PhoneNumberIndex {0}; ///< int PhoneNumberIndex
+    int m_FaxNumberIndex {0}; ///< int FaxNumberIndex
+    int m_MobileNumberIndex {0}; ///< int MobileNumberIndex
+    int m_MailAddressIndex {0}; ///< int MailAddressIndex
+    int m_ActiveIndex {0}; ///< int ActiveIndex
+    int m_EmployeeIdIndex {0}; ///< int EmployeeIdIndex
+    int m_LastUpdateIndex {0}; ///< int LastUpdateIndex
 };
 } // namespace Model

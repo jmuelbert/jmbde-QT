@@ -26,8 +26,8 @@
 #include "jmbdewidgets-version.h"
 #include "jmbdewidgets_export.h"
 #include "loggingcategory.h"
-#include "models/datacontext.h"
 #include "models/account.h"
+#include "models/datacontext.h"
 
 Q_DECLARE_LOGGING_CATEGORY(jmbdeWidgetsAccoutInputAreaLog)
 
@@ -54,7 +54,7 @@ public:
         @todo Init the model from here
         @todo Get the tableName from the model
      */
-    explicit AccountInputArea(QWidget *parent = nullptr, const QModelIndex index = QModelIndex());
+     explicit AccountInputArea(QWidget *parent = nullptr, const QModelIndex index = QModelIndex());
 
     /**
      * @brief ~AccountInputArea

@@ -29,6 +29,7 @@
 #include "jmbdemodels_export.h"
 
 Q_DECLARE_LOGGING_CATEGORY(jmbdeChipCardDoorLog)
+
 namespace Model
 {
 /*!

@@ -64,7 +64,7 @@ public:
     // TODO: Remove access of settings
 
     /*!
-        \fn DataContext( );
+        \fn DataContext(QObject *parent = nullptr)
 
         \brief Constructor for the DataContext
         \details Constructur with a name for the database to use.
@@ -111,13 +111,13 @@ public:
        */
     JMBDEMODELS_EXPORT ~DataContext();
 
-
     /*!
-        \fn QSqlDatabase getQSqlDatabase();
+        \fn QSqlDatabase getDatabase()
 
         \brief get the reference to the QSqlDatabase
     */
-    JMBDEMODELS_EXPORT const QSqlDatabase getDatabase() {
+    JMBDEMODELS_EXPORT const QSqlDatabase getDatabase()
+    {
         return m_db;
     }
 
@@ -125,7 +125,7 @@ public:
         \fn  QSqlQuery getQuery(const QString &queryText);
 
         \brief get the result of the Query from the text
-        \param queryText - the db quey
+        \param query - the db quey
 
         \return true if the execution successful
         \sa QSqlQuery

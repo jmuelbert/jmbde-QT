@@ -24,8 +24,9 @@
 
 #include "jmbdewidgets-version.h"
 #include "jmbdewidgets_export.h"
-#include "loggingcategory.h"
 #include "models/computer.h"
+
+Q_DECLARE_LOGGING_CATEGORY(jmbdeWidgetsComputerInputAreaLog)
 
 namespace Ui
 {
@@ -45,24 +46,29 @@ public:
        @param parent The pointer to the parent object
        @param index The index for view the data
      */
-    explicit ComputerInputArea(QWidget *parent, const QModelIndex &index);
+    explicit ComputerInputArea(QWidget *parent = nullptr, const QModelIndex index = QModelIndex());
 
     /**
      * @brief ~ComputerInputArea();
      */
     ~ComputerInputArea();
 
+signals:
+    /*!
+        @brief dataChanged
+     */
+    void dataChanged();
+
 private slots:
+    /**
+     * @brief on_pushButton_EditFinish_clicked
+     */
+    void on_pushButton_EditFinish_clicked();
 
     /**
      * @brief on_pushButton_Add_clicked
      */
     void on_pushButton_Add_clicked();
-
-    /**
-     * @brief on_pushButton_EditFinish_clicked
-     */
-    void on_pushButton_EditFinish_clicked();
 
 private:
     /**
@@ -80,6 +86,11 @@ private:
      */
     Mode m_actualMode;
 
+    /*!
+     * @brief m_dataContext
+     */
+    Model::Computer *m_computerModel = {};
+
     /**
      * @brief m_model
      */
@@ -94,6 +105,12 @@ private:
      * @brief m_mapper
      */
     QDataWidgetMapper *m_mapper;
+
+    /*!
+     * @ brief m_db
+     */
+    QSqlDatabase m_db = {};
+
 
     /**
      * @brief setMappings

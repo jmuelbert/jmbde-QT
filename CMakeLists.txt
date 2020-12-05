@@ -1,5 +1,5 @@
-# SPDX-FileCopyrightText: (C) 2013-2020  Jürgen Mülbert <juergen.muelbert@gmail.com>
-# SPDX-License-Identifier: GNU-V3-later
+# SPDX-FileCopyrightText: (C) 2013-2020  Jürgen Mülbert
+# <juergen.muelbert@gmail.com> SPDX-License-Identifier: GNU-V3-later
 #
 # jmbde a BDE Tool for companies Copyright (C) 2013-2020  Jürgen Mülbert
 #

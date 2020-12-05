@@ -8,4 +8,3 @@ Q_LOGGING_CATEGORY(jmbdequickLog, "jmuelbert.jmbde.jmbdequick", QtWarningMsg)
 #else
 Q_LOGGING_CATEGORY(jmbdequickLog, "jmuelbert.jmbde.jmbdequick")
 #endif
-
