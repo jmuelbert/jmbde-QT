@@ -2,7 +2,7 @@ alabaster==0.7.12
 appdirs==1.4.4
 Babel==2.9.0
 breathe==4.24.1
-certifi==2020.11.8
+certifi==2020.12.5
 cfgv==3.2.0
 chardet==3.0.4
 distlib==0.3.1
