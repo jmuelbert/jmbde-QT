@@ -13,37 +13,8 @@
    GNU General Public License for more details.
 */
 
-#include <jmbde-version.h>
-#include <jmbdewidgets_export.h>
+#include "jmbde-version.h"
 #include <views/mainwindow.h>
-
-#include <QApplication>
-#include <QCommandLineParser>
-#include <QCoreApplication>
-#include <QDebug>
-#include <QDir>
-#include <QFile>
-#include <QFileInfo>
-#include <QGuiApplication>
-#include <QLibraryInfo>
-#include <QLoggingCategory>
-#include <QMessageBox>
-#include <QObject>
-#include <QQmlApplicationEngine>
-#include <QQmlContext>
-#include <QQmlFileSelector>
-#include <QSettings>
-#include <QStandardPaths>
-#include <QString>
-#include <QStringList>
-#include <QStyleFactory>
-#include <QTranslator>
-
-#ifndef Q_OS_WIN
-#include <unistd.h>
-#endif
-#include <iostream>
-#include <memory>
 
 /**
  * @brief main
@@ -51,26 +22,10 @@
  * @param argv The arg Strings
  * @return 0 is executed successful
  */
-int main(int argc, char *argv[])
+auto main(int argc, char *argv[]) -> int
 {
     QLoggingCategory::setFilterRules(QLatin1String("jmuelbert.jmbde.*.debug=true\njmuelbert.jmbde.*.info=true"));
 
-#ifndef Q_OS_WIN
-    // Prohibit using sudo or kdesu (but allow using the root user directly)
-    if (getuid() == 0) {
-        if (!qEnvironmentVariableIsEmpty("SUDO_USER")) {
-            std::cout << "Executing jmbde with sudo is not possible due to "
-                         "unfixable security vulnerabilities."
-                      << std::endl;
-            return EXIT_FAILURE;
-        } else if (!qEnvironmentVariableIsEmpty("KDESU_USER")) {
-            std::cout << "Executing jmbde with kdesu is not possible due to "
-                         "unfixable security vulnerabilities."
-                      << std::endl;
-            return EXIT_FAILURE;
-        }
-    }
-#endif
 
     /**
      * enable high dpi support
@@ -127,11 +82,6 @@ int main(int argc, char *argv[])
      * do the command line parsing
      */
     parser.process(app);
-
-    // Quick Settings
-    QQmlApplicationEngine engine;
-    engine.addImportPath(QStringLiteral("qrc:/imports"));
-    // engine.rootContext()->setContextObject(new jmbdeLocalizedContext(&engine));
 
     // Setup and load translator for localization
     QString locale = QLocale::system().name();

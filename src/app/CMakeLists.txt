@@ -81,28 +81,6 @@ endif()
 find_package(Qt5 ${QT_MIN_VERSION} QUIET REQUIRED
              COMPONENTS Core Widgets PrintSupport Sql Qml)
 
-target_include_directories(
-  ${PROJECT_NAME}
-  PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include"
-          "${CMAKE_CURRENT_BINARY_DIR}/include" "${CMAKE_CURRENT_BINARY_DIR}")
-
-target_sources(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
-
-target_compile_features(jmbde PUBLIC cxx_std_17)
-
-target_compile_definitions(
-  ${PROJECT_NAME}
-  PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
-
-target_link_libraries(
-  ${PROJECT_NAME}
-  PRIVATE jmuelbert::jmbdewidgets
-          Qt5::Core
-          Qt5::Widgets
-          Qt5::PrintSupport
-          Qt5::Sql
-          Qt5::Qml
-          ${CONAN_LIBS})
 
 # Use a single application on MacOS + Windows instead of dbus.
 if(APPLE OR WIN32)
@@ -130,9 +108,32 @@ ecm_add_app_icon(ICONS_SOURCES ICONS ${ICONS_PNG} OUTFILE_BASENAME
 #
 # target
 #
+target_include_directories(
+  ${PROJECT_NAME}
+  PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include"
+          "${CMAKE_CURRENT_BINARY_DIR}/include" "${CMAKE_CURRENT_BINARY_DIR}")
+
+target_sources(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
+)
+
 target_sources(${PROJECT_NAME} PRIVATE ${ICONS_SOURCES})
 
-target_sources(${PROJECT_NAME} PRIVATE loggingcategory.cpp src/main.cpp)
+
+target_compile_features(jmbde PUBLIC cxx_std_20)
+
+target_compile_definitions(
+  ${PROJECT_NAME}
+  PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+
+target_link_libraries(
+  ${PROJECT_NAME}
+  PRIVATE jmuelbert::jmbdewidgets
+          Qt5::Core
+          Qt5::Widgets
+          Qt5::PrintSupport
+          Qt5::Sql
+          Qt5::Qml
+          ${CONAN_LIBS})
 
 if(WIN32)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/app.rc.in

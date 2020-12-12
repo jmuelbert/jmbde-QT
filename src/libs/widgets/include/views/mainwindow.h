@@ -108,12 +108,12 @@ private slots:
     /**
      * @brief on_actionPreferences_triggered
      */
-    void JMBDEWIDGETS_EXPORT on_actionPreferences_triggered();
+    JMBDEWIDGETS_EXPORT void on_actionPreferences_triggered();
 
     /**
      * @brief on_actionAbout_triggered
      */
-    void JMBDEWIDGETS_EXPORT on_actionAbout_triggered();
+    JMBDEWIDGETS_EXPORT void  on_actionAbout_triggered();
 
     /**
      * \fn void on_actionNew_triggered()
@@ -125,14 +125,14 @@ private slots:
      * \fn on_actionQuit_triggered()
      * \brief on_actionQuit_triggered
      */
-    void JMBDEWIDGETS_EXPORT on_actionQuit_triggered();
+    JMBDEWIDGETS_EXPORT void on_actionQuit_triggered();
 
     /**
      * @brief focusChanged
      * @param from The old focus widget
      * @param now The actual focus widget
      */
-    void JMBDEWIDGETS_EXPORT focusChanged(QWidget *from, QWidget *now);
+    JMBDEWIDGETS_EXPORT void focusChanged(QWidget *from, QWidget *now);
 
     /**
      * \fn on_actionOpen_triggered()

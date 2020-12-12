@@ -79,9 +79,9 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     ui->splitter->resize(width, height);
 }
 
-void MainWindow::focusChanged(QWidget *qWidget, QWidget *now)
+void MainWindow::focusChanged(QWidget *from, QWidget *now)
 {
-    Q_UNUSED(qWidget)
+    Q_UNUSED(from)
     Q_UNUSED(now)
 
     qCDebug(jmbdeWidgetsMainWindowLog) << tr("Der Fokus hat sich geändert");
@@ -309,12 +309,13 @@ void MainWindow::on_actionPrint_triggered()
 #if !defined(QT_NO_PRINTER) && !defined(QT_NO_PRINTDIALOG)
     QPrinter printer(QPrinter::HighResolution);
 
-    printer.setOrientation(QPrinter::Landscape);
-    QPrintDialog *dlg = new QPrintDialog(&printer, this);
+    printer.setPageOrientation(QPageLayout::Landscape);
+    auto *dlg = new QPrintDialog(&printer, this);
 
     dlg->setWindowTitle(tr("Drucke Dokument"));
-    if (dlg->exec() == QDialog::Accepted)
+    if (dlg->exec() == QDialog::Accepted) {
         doc.print(&printer);
+    }
     delete dlg;
 #endif
 }
@@ -381,7 +382,7 @@ void MainWindow::on_action_Export_Pdf_triggered()
 
         QPrinter printer(QPrinter::HighResolution);
 
-        printer.setOrientation(QPrinter::Landscape);
+        printer.setPageOrientation(QPageLayout::Landscape);
         printer.setOutputFormat(QPrinter::PdfFormat);
         printer.setOutputFileName(fileName);
         doc.print(&printer);
@@ -445,7 +446,7 @@ void MainWindow::on_actionPrint_Preview_triggered()
 #if !defined(QT_NO_PRINTER) && !defined(QT_NO_PRINTDIALOG)
     QPrinter printer(QPrinter::HighResolution);
 
-    printer.setOrientation(QPrinter::Landscape);
+    printer.setPageOrientation(QPageLayout::Landscape);
     QPrintPreviewDialog preview(&printer);
 
     doc.print(&printer);
@@ -897,9 +898,9 @@ void MainWindow::actualizeFunctionListView()
     actualizeListView(listModel, modelIndex);
 }
 
-void MainWindow::actualizeListView(QSqlTableModel *listModel, int modelIndex)
+void MainWindow::actualizeListView(QSqlTableModel *listModel, int idx)
 {
     ui->listView->setModel(listModel);
-    ui->listView->setModelColumn(modelIndex);
+    ui->listView->setModelColumn(idx);
     ui->listView->show();
 }

@@ -38,8 +38,8 @@ namespace Model
     \details This Class is for the ComputerData
     \author Jürgen Mülbert
     \since 0.2
-    \version 0.5
-    \date 17.11.2020
+    \version 0.6
+    \date 07.12.2020
     \copyright GPL-3.0-or-later
     */
 class Computer : public CommonData

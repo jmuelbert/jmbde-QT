@@ -33,21 +33,23 @@
 #
 # -DENABLE_CLAZY Enable Clazy hints
 #
+# -DENABLE_INCLUDE_WHAT_YOU_USE Enable the Include Checker
+#
 # -DENABLE_CCACHE Enable ccache for fast build
 #
 # -DUSE_GIT_VERSION Get the actual git tag as version.
+#
+# -DENABLE_TESTING Enable the tests
+#
+# -DENABLE_PCH Enable Precompiled Headers
 #
 # To build the man page from POD, run 'make man' after CMake (assumes perl is
 # available) To install the resulting man page, run 'make install' The man page
 # is not available on Windows.
 #
 
-# see http://doc.qt.io/qt-5/cmake-manual.html
-# https://github.com/rhtyd/cmakeqt/blob/master/CMakeLists.txt
-# https://github.com/district10/cmake-templates
-
 # minimal requirements
-cmake_minimum_required(VERSION 3.12...3.18 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.12...3.19 FATAL_ERROR)
 
 if(${CMAKE_VERSION} VERSION_LESS 3.13.5)
   cmake_policy(SET CMP0020 NEW)
@@ -57,24 +59,22 @@ if(${CMAKE_VERSION} VERSION_LESS 3.13.5)
   cmake_policy(SET CMP0068 NEW)
 endif()
 
-if(${CMAKE_VERSION} VERSION_LESS 3.18)
+if(${CMAKE_VERSION} VERSION_LESS 3.19)
   cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 else()
-  cmake_policy(VERSION 3.18)
+  cmake_policy(VERSION 3.19)
 endif()
 
 project(jmbde)
+
+include(cmake/StandardProjectSettings.cmake)
+include(cmake/PreventInSourceBuilds.cmake)
 
 # Set the dependencies versions
 set(KF5_VERSION "5.71.0")
 set(KF5_DEP_VERSION "5.71.0")
 set(QT_MIN_VERSION "5.12.8")
 
-# We need C++11 and don't want to export all symbols, only the ones we mark for
-# export
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
-set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
 # Load Standard-CMake helpler modules
 include(FeatureSummary)
@@ -113,20 +113,22 @@ include(KDEInstallDirs)
 # warn about deprecated stuff so that we may try fixing it
 set(CMAKE_WARN_DEPRECATED ON)
 
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # for clang
-
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
-
-# Apple spedific
-if(APPLE)
-  # RPATH stuff
-  set(CMAKE_MACOSX_RPATH ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+if(NOT DEFINED CMAKE_SKIP_BUILD_RPATH)
+  set(CMAKE_SKIP_BUILD_RPATH ON)
+endif()
+if(NOT DEFINED CMAKE_BUILD_WITH_INSTALL_RPATH)
+  set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
+endif()
+if(NOT DEFINED CMAKE_INSTALL_RPATH_USE_LINK_PATH)
+  set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+endif()
+if(NOT DEFINED CMAKE_MACOSX_RPATH)
+  set(CMAKE_MACOSX_RPATH TRUE)
 endif()
 
 find_package(
@@ -180,6 +182,8 @@ add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format"
                  " (for e.g. Qt Assistant, Qt Creator & KDevelop)")
 option(BUILD_TRANSLATIONS "Build translations" ON)
 add_feature_info(TRANSL ${BUILD_TRANSLATIONS} "Build the translations")
+option(ENABLE_EMBEDDED_TRANSLATIONS "Add the translations to a QT Reesource File" ON)
+add_feature_info(TRANS_EMB ${ENABLE_EMBEDDED_TRANSLATIONS} "Add the translations to a QT Reesource File" )
 option(BUILD_COVERAGE "Add coverage information." OFF)
 add_feature_info(COVERAGE ${BUILD_COVERAGE} "Build with coverage informations.")
 option(BUILD_SHARED_LIBS "Build shared libs" ON)
@@ -235,6 +239,7 @@ if(USE_GIT_VERSION)
   endif()
 endif()
 
+
 if(NOT DEFINED DISPLAY_VERSION)
   set(DISPLAY_VERSION "${PROJECT_VERSION}")
 endif()
@@ -250,40 +255,9 @@ else()
   message(STATUS "Clang-format supported but disabled")
 endif()
 
-# ##############################################################################
-# clang tidy static analysis
-if(ENABLE_CLANG_TIDY)
-  find_program(
-    CLANG_TIDY_EXE
-    NAMES "clang-tidy"
-    PATHS /usr/bin)
-  if(CLANG_TIDY_EXE)
-    message(STATUS "Clang-tidy supported, found and enabled: ${CLANG_TIDY_EXE}")
-    set(CMAKE_CXX_CLANG_TIDY
-        "${CLANG_TIDY_EXE}"
-        CACHE STRING "" FORCE)
-  else()
-    message(AUTHOR_WARNING "clang-tidy not found!")
-    set(CMAKE_CXX_CLANG_TIDY
-        ""
-        CACHE STRING "" FORCE) # delete it
-  endif()
-else()
-  message(STATUS "Clang-tidy supported but disabled")
-endif()
 
-# ##############################################################################
-# ccache setup distros can also do this but they don't use this mechanism
-if(ENABLE_CCACHE)
-  find_program(CCACHE_FOUND "ccache")
-
-  if(CCACHE_FOUND)
-    set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
-    set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
-  else()
-    message(FATAL_ERROR "ccache not found, but you requested it")
-  endif()
-endif()
+# allow for static analysis options
+include(cmake/StaticAnalyzers.cmake)
 
 # ##############################################################################
 # Set the Installation-Layout for the platforms
@@ -352,11 +326,6 @@ endif()
 # ##############################################################################
 # Build the translations
 if(BUILD_TRANSLATIONS)
-  if(Qt5_FOUND)
-    find_package(Qt5 OPTIONAL_COMPONENTS LinguistTools)
-  else()
-    find_package(Qt6 OPTIONAL_COMPONENTS LinguistTools)
-  endif()
   add_subdirectory(translations)
 endif()
 

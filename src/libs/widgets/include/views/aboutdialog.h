@@ -26,9 +26,9 @@
 
 #include "jmbdewidgets-version.h"
 #include "jmbdewidgets_export.h"
-#include "loggingcategory.h"
 
-namespace Ui {
+namespace Ui
+{
 class AboutDialog;
 }
 

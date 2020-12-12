@@ -24,8 +24,9 @@
 
 #include "jmbdewidgets-version.h"
 #include "jmbdewidgets_export.h"
-#include "loggingcategory.h"
 #include "models/chipcard.h"
+
+Q_DECLARE_LOGGING_CATEGORY(jmbdeWidgetsChipCardInputAreaLog)
 
 namespace Ui
 {

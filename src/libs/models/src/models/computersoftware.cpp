@@ -20,48 +20,61 @@ Q_LOGGING_CATEGORY(jmbdeModelsComputerSoftwareLog, "jmuelbert.jmbde.models.compu
 Model::ComputerSoftware::ComputerSoftware()
     : CommonData()
 {
+    this->m_dataContext = new Model::DataContext();
+    this->m_db = m_dataContext->getDatabase();
+
     // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    this->m_model = new QSqlRelationalTableModel(this, this->m_db);
+    this->m_model->setTable(this->m_tableName);
+    this->m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
     setIndexes();
 }
 
 void Model::ComputerSoftware::setIndexes()
 {
-    m_ComputerSoftwareIdIndex = m_model->fieldIndex(QLatin1String("computer_software_id"));
-    m_ComputerIdIndex = m_model->fieldIndex(QLatin1String("computer_id"));
-    m_SoftwareIdIndex = m_model->fieldIndex(QLatin1String("software_id"));
-    m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
+    m_ComputerSoftwareIdIndex = this->m_model->fieldIndex(QLatin1String("computer_software_id"));
+    m_ComputerIdIndex = this->m_model->fieldIndex(QLatin1String("computer_id"));
+    m_SoftwareIdIndex = this->m_model->fieldIndex(QLatin1String("software_id"));
+    m_LastUpdateIndex = this->m_model->fieldIndex(QLatin1String("last_update"));
 }
 
 auto Model::ComputerSoftware::initializeRelationalModel() -> QSqlRelationalTableModel *
 {
-    m_model = new QSqlRelationalTableModel(this);
+    this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    this->m_model->setTable(this->m_tableName);
+    this->m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-    m_model->select();
+    this->m_model->select();
 
-    return m_model;
+    return this->m_model;
 }
 
 auto Model::ComputerSoftware::initializeInputDataModel() -> QSqlRelationalTableModel *
 {
-    m_model = new QSqlRelationalTableModel(this);
+    this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
-    m_model->setTable(this->m_tableName);
+    this->m_model->setTable(this->m_tableName);
 
-    return m_model;
+    return this->m_model;
 }
 
 auto Model::ComputerSoftware::initializeViewModel() -> QSqlTableModel *
 {
-    m_model->select();
+    this->m_model->select();
 
-    return m_model;
+    return this->m_model;
+}
+
+auto Model::ComputerSoftware::initializeListModel() -> QSqlTableModel *
+{
+    auto *listModel = new QSqlTableModel(this, this->m_db);
+    listModel->setTable(this->m_tableName);
+    listModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    listModel->select();
+
+    return listModel;
 }
 
 auto Model::ComputerSoftware::generateTableString(const QString &header) -> QString

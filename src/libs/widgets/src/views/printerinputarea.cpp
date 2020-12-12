@@ -130,9 +130,9 @@ void PrinterInputArea::createDataset()
     m_mapper->toLast();
 
     int row = m_mapper->currentIndex();
-    if (row < 0)
+    if (row < 0) {
         row = 0;
-
+    }
     m_mapper->submit();
     m_model->insertRow(row);
     m_mapper->setCurrentIndex(row);

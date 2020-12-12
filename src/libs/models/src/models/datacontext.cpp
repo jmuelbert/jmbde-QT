@@ -35,7 +35,7 @@ Model::DataContext::DataContext(QObject *parent, const QString &name)
     this->init();
 }
 
-Model::DataContext::DataContext(QObject *parent, const QString &dbType, const QString &name, const QString &userName, const QString &passWord, const QString &hostName, const int port)
+Model::DataContext::DataContext(QObject *parent, const QString &name, const QString &dbType, const QString &userName, const QString &passWord, const QString &hostName, const int port)
     : QObject(parent)
     , m_Name(name.isEmpty() ? QApplication::applicationName() : name)
     , m_dbType(DBTypes::SQLITE)
@@ -50,11 +50,11 @@ Model::DataContext::DataContext(QObject *parent, const QString &dbType, const QS
     auto databaseType = QString(dbType);
 
     // Default is SQLITE
-    if (databaseType == QString::fromLatin1("PGSQL"))
+    if (databaseType == QString::fromLatin1("PGSQL")) {
         m_dbType = DBTypes::PGSQL;
-    else if (databaseType == QString::fromLatin1("ODBC"))
+    } else if (databaseType == QString::fromLatin1("ODBC")) {
         m_dbType = DBTypes::ODBC;
-    else if (databaseType == QString::fromLatin1("SQLITE")) {
+    } else if (databaseType == QString::fromLatin1("SQLITE")) {
         m_dbType = DBTypes::SQLITE;
     } else {
         m_dbType = DBTypes::SQLITE;
@@ -136,8 +136,9 @@ void Model::DataContext::prepareDB() const
             if (!cleanedLine.startsWith(QLatin1String("--")) && !cleanedLine.startsWith(QLatin1String("DROP")) && !cleanedLine.isEmpty()) {
                 line += cleanedLine;
             }
-            if (cleanedLine.endsWith(QLatin1String(";")))
+            if (cleanedLine.endsWith(QLatin1String(";"))) {
                 break;
+            }
             if (cleanedLine.startsWith(QLatin1String("COMMIT"))) {
                 hasText = true;
             }
@@ -207,8 +208,9 @@ auto Model::DataContext::checkExistence(const QString &tableName, const QString 
     auto query = this->getQuery(queryStr);
 
     if (query.exec()) {
-        if (query.next())
+        if (query.next()) {
             return true;
+        }
     } else {
         qCWarning(jmbdeModelsDatacontextLog) << tr("Prüfe Datenbank Tabelle <") << tableName << "> auf " << searchId << " == " << search << ") : " << query.lastError().text();
     }
@@ -240,9 +242,9 @@ auto Model::DataContext::insert(const QString &tableName, const QVariantMap &ins
     query.prepare(sqlQueryString);
 
     int k = 0;
-    for (const QVariant &value : values)
+    for (const QVariant &value : values) {
         query.bindValue(k++, value);
-
+    }
     return query.exec();
 }
 
@@ -335,9 +337,9 @@ void Model::DataContext::setDatabaseConnection()
     QString dbDataPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
     // Create the Directory
     QDir writeDir(dbDataPath);
-    if (!writeDir.exists())
+    if (!writeDir.exists()) {
         writeDir.mkpath(dbDataPath);
-
+    }
     // Append the Datafile on the Path
     dbDataPath.append(QDir::separator());
     dbDataPath.append(this->m_Name);

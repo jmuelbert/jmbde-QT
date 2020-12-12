@@ -23,10 +23,12 @@
 #include <QStandardPaths>
 #include <QString>
 #include <QTextStream>
+#include <QLoggingCategory>
 
 #include "jmbdewidgets-version.h"
 #include "jmbdewidgets_export.h"
-#include "loggingcategory.h"
+
+Q_DECLARE_LOGGING_CATEGORY(jmbdeWidgetsCsvInputDialogLog)
 
 namespace Ui
 {

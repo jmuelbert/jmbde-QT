@@ -51,7 +51,7 @@ auto Model::Function::initializeRelationalModel() -> QSqlRelationalTableModel *
 
 auto Model::Function::initializeListModel() -> QSqlTableModel *
 {
-    QSqlTableModel *listModel = new QSqlTableModel(this, m_db);
+    auto *listModel = new QSqlTableModel(this, m_db);
     listModel->setTable(this->m_tableName);
     listModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
     listModel->select();

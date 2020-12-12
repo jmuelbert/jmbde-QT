@@ -108,5 +108,5 @@ private:
      * @brief getUserDataDir
      * @return
      */
-    QString getUserDataDir();
+    static auto getUserDataDir() -> QString;
 };

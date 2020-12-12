@@ -12,12 +12,12 @@
 # details.
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.12...3.18 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.12...3.19 FATAL_ERROR)
 
-if(${CMAKE_VERSION} VERSION_LESS 3.18)
+if(${CMAKE_VERSION} VERSION_LESS 3.19)
   cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 else()
-  cmake_policy(VERSION 3.18)
+    cmake_policy(VERSION 3.19)
 endif()
 
 #
@@ -25,6 +25,8 @@ endif()
 #
 
 project(translations)
+
+include(Translations)
 
 set(LANGUAGES "All")
 
@@ -67,44 +69,25 @@ else()
     list(APPEND LANGUAGES "${LANG}.ts")
   endforeach()
 endif()
-# translation tools
 
-add_custom_target(ts)
-foreach(LANG ${LANGUAGES})
-  add_custom_target(
-    ts_${LANG}
-    COMMAND
-      Qt5::lupdate src/app/src src/libs/models src/libs/quick src/libs/widgets
-      -locations relative -no-ui-lines -no-obsolete -ts
-      ${CMAKE_CURRENT_SOURCE_DIR}/jmbde_${LANG}.ts
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
-  add_dependencies(ts ts_${LANG})
-endforeach()
+if(ENABLED_EMBEDDED_TRANSLATIONS)
+add_definitions(-DEMBED_TRANSLATIONS)
+configure_file(translations/translations.qrc ${CMAKE_BINARY_DIR} COPYONLY)
+set(EMBED_TRANSLATION_QRC ${CMAKE_BINARY_DIR}/translations.qrc)
+endif()
 
-# qm generation and installation
-foreach(LANG ${LANGUAGES})
-  add_custom_command(
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jmbde_${LANG}.qm
-    COMMAND Qt5::lrelease ${CMAKE_CURRENT_SOURCE_DIR}/jmbde_${LANG}.ts -qm
-            ${CMAKE_CURRENT_BINARY_DIR}/jmbde_${LANG}.qm
-    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/jmbde_${LANG}.ts)
-  add_custom_target(jmbde_${LANG}_qm ALL
-                    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbde_${LANG}.qm)
-  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde_${LANG}.qm
-          DESTINATION ${TRANSLATION_INSTALL_DIR})
-endforeach()
+# Qt Language translations
+add_custom_target(lupdate
+    COMMAND lupdate
+        src/app/src
+        src/libs/models
+        src/libs/quick
+        src/libs/widgets
+        -ts ${TRANSLATIONS_TS}
+        -locations relative -no-ui-lines -no-obsolete
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
-# message merging (manual target, affects source dir)
-add_custom_target(tsmerge)
-foreach(LANG ${LANGUAGES})
-  add_custom_target(
-    tsmerge_${LANG}
-    COMMAND ljsonupdate --merge --qm
-            ${CMAKE_CURRENT_BINARY_DIR}/jmbde_${LANG}.qm --lang ${LANG} ${jsons}
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbde_${LANG}.qm)
-  add_dependencies(tsmerge tsmerge_${LANG})
-endforeach()
-
+set_target_properties(lupdate PROPERTIES EXCLUDE_FROM_ALL TRUE)
 if(WIN32)
   install(FILES ${QM_FILES} DESTINATION "${TRANSLATION_INSTALL_DIR}")
 elseif(APPLE)

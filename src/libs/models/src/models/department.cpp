@@ -15,46 +15,51 @@
 
 #include "models/department.h"
 
+Q_LOGGING_CATEGORY(jmbdeModelsDepartmentLog, "jmuelbert.jmbde.models.department", QtWarningMsg)
+
 Model::Department::Department()
     : CommonData()
 {
+    this->m_dataContext = new Model::DataContext();
+    this->m_db = m_dataContext->getDatabase();
+
     // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    this->m_model = new QSqlRelationalTableModel(this, this->m_db);
+    this->m_model->setTable(this->m_tableName);
+    this->m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
     setIndexes();
 }
 
 void Model::Department::setIndexes()
 {
-    m_DepartmentIdIndex = m_model->fieldIndex(QLatin1String("department_id"));
-    m_NameIndex = m_model->fieldIndex(QLatin1String("name"));
-    m_PriorityIndex = m_model->fieldIndex(QLatin1String("priority"));
-    m_PrinterIdIndex = m_model->fieldIndex(QLatin1String("printer_id"));
-    m_FaxIdIndex = m_model->fieldIndex(QLatin1String("fax_id"));
-    m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
+    m_DepartmentIdIndex = this->m_model->fieldIndex(QLatin1String("department_id"));
+    m_NameIndex = this->m_model->fieldIndex(QLatin1String("name"));
+    m_PriorityIndex = this->m_model->fieldIndex(QLatin1String("priority"));
+    m_PrinterIdIndex = this->m_model->fieldIndex(QLatin1String("printer_id"));
+    m_FaxIdIndex = this->m_model->fieldIndex(QLatin1String("fax_id"));
+    m_LastUpdateIndex = this->m_model->fieldIndex(QLatin1String("last_update"));
 }
 
 auto Model::Department::initializeRelationalModel() -> QSqlRelationalTableModel *
 {
-    m_model = new QSqlRelationalTableModel(this);
+    this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    this->m_model->setTable(this->m_tableName);
+    this->m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-    m_model->select();
+    this->m_model->select();
 
-    return m_model;
+    return this->m_model;
 }
 
 auto Model::Department::initializeInputDataModel() -> QSqlRelationalTableModel *
 {
-    m_model = new QSqlRelationalTableModel(this);
+    this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
-    m_model->setTable(this->m_tableName);
+    this->m_model->setTable(this->m_tableName);
 
-    return m_model;
+    return this->m_model;
 }
 
 auto Model::Department::initializeViewModel() -> QSqlTableModel *
@@ -64,11 +69,21 @@ auto Model::Department::initializeViewModel() -> QSqlTableModel *
     return m_model;
 }
 
+auto Model::Department::initializeListModel() -> QSqlTableModel *
+{
+    auto *listModel = new QSqlTableModel(this, this->m_db);
+    listModel->setTable(this->m_tableName);
+    listModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    listModel->select();
+
+    return listModel;
+}
+
 auto Model::Department::generateTableString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdemodelsLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(jmbdeModelsDepartmentLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     QList<int> set;
 
@@ -94,7 +109,7 @@ auto Model::Department::generateFormularString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdemodelsLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(jmbdeModelsDepartmentLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     // Document Title
     outString = QLatin1String("<h1>");

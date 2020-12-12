@@ -16,13 +16,15 @@
 #include <ui_chipcardinputarea.h>
 #include <views/chipcardinputarea.h>
 
+Q_LOGGING_CATEGORY(jmbdeWidgetsChipCardInputAreaLog, "jmuelbert.jmbde.widgets.chipcardinputarea", QtWarningMsg)
+
 ChipCardInputArea::ChipCardInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::ChipCardInputArea)
 {
     ui->setupUi(this);
 
-    qCDebug(jmbdewidgetsLog) << "Init ChipCardInputArea for Index : " << index.column();
+    qCDebug(jmbdeWidgetsChipCardInputAreaLog) << "Init ChipCardInputArea for Index : " << index.column();
 
     m_actualMode = Mode::Edit;
     setViewOnlyMode(true);
@@ -65,15 +67,15 @@ void ChipCardInputArea::setViewOnlyMode(bool mode)
 
 void ChipCardInputArea::createDataset()
 {
-    qCDebug(jmbdewidgetsLog) << "Create a new Dataset for ChipCard...";
+    qCDebug(jmbdeWidgetsChipCardInputAreaLog) << "Create a new Dataset for ChipCard...";
 
     // Set all inputfields to blank
     m_mapper->toLast();
 
     int row = m_mapper->currentIndex();
-    if (row < 0)
+    if (row < 0) {
         row = 0;
-
+    }
     m_mapper->submit();
     m_model->insertRow(row);
     m_mapper->setCurrentIndex(row);
@@ -108,7 +110,7 @@ void ChipCardInputArea::on_pushButton_EditFinish_clicked()
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdewidgetsLog) << "Save Data...";
+        qCDebug(jmbdeWidgetsChipCardInputAreaLog) << "Save Data...";
 
         m_actualMode = Mode::Edit;
         ui->pushButton_EditFinish->setText(tr("Edit"));
@@ -125,7 +127,7 @@ void ChipCardInputArea::on_pushButton_EditFinish_clicked()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(jmbdewidgetsLog) << "Commit changes for Chipcard Database Table";
+                qCDebug(jmbdeWidgetsChipCardInputAreaLog) << "Commit changes for Chipcard Database Table";
                 m_model->database().rollback();
             } else {
                 m_model->database().rollback();
@@ -135,7 +137,7 @@ void ChipCardInputArea::on_pushButton_EditFinish_clicked()
     } break;
 
     default: {
-        qCCritical(jmbdewidgetsLog) << "Unknown Mode!";
+        qCCritical(jmbdeWidgetsChipCardInputAreaLog) << "Unknown Mode!";
     }
     }
 }

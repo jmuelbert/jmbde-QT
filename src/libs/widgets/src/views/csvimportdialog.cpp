@@ -17,6 +17,9 @@
 
 #include "ui_csvimportdialog.h"
 
+
+Q_LOGGING_CATEGORY(jmbdeWidgetsCsvInputDialogLog, "jmuelbert.jmbde.widgets.csvinputdialog", QtWarningMsg)
+
 CsvImportDialog::CsvImportDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::CsvImportDialog)
@@ -99,7 +102,7 @@ void CsvImportDialog::on_buttonBox_accepted()
     int columnCount = model->columnCount();
     int rowCount = model->rowCount();
 
-    qCDebug(jmbdewidgetsLog) << "Columns : " << columnCount << " Rows : " << rowCount;
+    qCDebug(jmbdeWidgetsCsvInputDialogLog) << "Columns : " << columnCount << " Rows : " << rowCount;
     QString tempString;
 
     for (int i = 0; i < rowCount; i++) {
@@ -109,7 +112,7 @@ void CsvImportDialog::on_buttonBox_accepted()
             tempString.append(ind.data(Qt::DisplayRole).toString() + QLatin1String(", "));
         }
 
-        qCDebug(jmbdewidgetsLog) << "SqlState : " << tempString;
+        qCDebug(jmbdeWidgetsCsvInputDialogLog) << "SqlState : " << tempString;
         tempString.clear();
     }
 }

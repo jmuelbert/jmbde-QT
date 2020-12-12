@@ -93,8 +93,8 @@ public:
         \brief Constructor for the DataContext
         \details Constructur with a name for the database to use.
         \param parent - QObject
-        \param dbType - String for the Database Type {SQLITE, ODBC, PostgreSQL}
-        \param name - Name of the Database
+     \param name - Name of the Database
+     \param dbType - String for the Database Type {SQLITE, ODBC, PostgreSQL}
         \param userName - Username for login in the Database Server
         \param passWord - Password for login in the Database Server
         \param hostName - Hostname or IP-Address from the Database Server
@@ -131,7 +131,7 @@ public:
         \sa QSqlQuery
      */
 
-    JMBDEMODELS_EXPORT QSqlQuery getQuery(const QString &query);
+    JMBDEMODELS_EXPORT static QSqlQuery getQuery(const QString &query);
 
     /* basic public actions */
 

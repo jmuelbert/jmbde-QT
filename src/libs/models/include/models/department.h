@@ -15,19 +15,20 @@
 
 #pragma once
 
+#include <QLoggingCategory>
 #include <QObject>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRelation>
-#include <QStandardPaths>
 #include <QtSql>
 
 #include "commondata.h"
+#include "datacontext.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
-#include "loggingcategory.h"
 
+Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsDepartmentLog)
 namespace Model
 {
 /*!
@@ -36,8 +37,8 @@ namespace Model
   \details In this is handlet all Departments in the Company
   \author Jürgen Mülbert
   \since 0.4
-  \version 0.5
-  \date 17.11.2020
+  \version 0.6
+  \date 10.12.2020
   \copyright GPL-3.0-or-later
     */
 class Department : public CommonData
@@ -92,6 +93,12 @@ public:
     virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
 
     /*!
+        \fn QSqlTableModel *initializeListModel();
+        \brief Initiallize the list Model for select one dataset
+    */
+    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeListModel() final;
+
+    /*!
      * \fn virtual auto generateTableString(
                                 const QString &header) -> QString final
         \brief generateTableString
@@ -111,73 +118,73 @@ public:
 
     // Getter
     /*!
-        \fn int DepartmentIdIndex()
+        \fn int getDepartmentIdIndex()
 
         \brief Get the index of the fieldname DepartmentId form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int DepartmentIdIndex() const
+    JMBDEMODELS_EXPORT int getDepartmentIdIndex() const
     {
         return m_DepartmentIdIndex;
     }
 
     /*!
-        \fn  int NameIndex()
+        \fn  int getNameIndex()
 
         \brief Get the index of the fieldname Name form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int NameIndex() const
+    JMBDEMODELS_EXPORT int getNameIndex() const
     {
         return m_NameIndex;
     }
 
     /*!
-        \fn int PriorityIndex()
+        \fn int getPriorityIndex()
 
         \brief Get the index of the fieldname Priority form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int PriorityIndex() const
+    JMBDEMODELS_EXPORT int getPriorityIndex() const
     {
         return m_PriorityIndex;
     }
 
     /*!
-        \fn int PrinterIdIndex()
+        \fn int getPrinterIdIndex()
 
         \brief Get the index of the fieldname PrinterId form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int PrinterIdIndex() const
+    JMBDEMODELS_EXPORT int getPrinterIdIndex() const
     {
         return m_PrinterIdIndex;
     }
 
     /*!
-        \fn  int LastUpdateIndex()
+        \fn  int getFaxIdIndex()
 
         \brief Get the index of the fieldname LastUpdate form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int FaxIdIndex() const
+    JMBDEMODELS_EXPORT int getFaxIdIndex() const
     {
         return m_FaxIdIndex;
     }
 
     /*!
-        \fn  int LastUpdateIndex()
+        \fn  int getLastUpdateIndex()
 
         \brief Get the index of the fieldname LastUpdate form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int LastUpdateIndex() const
+    JMBDEMODELS_EXPORT int getLastUpdateIndex() const
     {
         return m_LastUpdateIndex;
     }
@@ -188,6 +195,27 @@ private:
      */
     const QString m_tableName = QLatin1String("department");
 
+    /*!
+     * @ brief m_db
+     */
+    QSqlDatabase m_db = {};
+
+    /*!
+        \brief holds an initialised pointer to the Relationmodel
+        \sa QSqlRelationalTableModel
+     */
+    QSqlRelationalTableModel *m_model {nullptr};
+
+    /*!
+       \brief holds an initialised pointer to the ItemSelectioModel
+       \sa QItemSelectionModel
+    */
+    QItemSelectionModel *m_selectionModel {nullptr};
+
+    /*!
+     * @brief DataContext
+     */
+    Model::DataContext *m_dataContext = {};
     /*!
         \var  int m_DepartmentIdIndex
         \brief The value of the DepartmentIdIndex

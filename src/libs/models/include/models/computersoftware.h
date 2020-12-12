@@ -17,7 +17,6 @@
 
 #include <QLoggingCategory>
 #include <QObject>
-
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
@@ -25,9 +24,9 @@
 #include <QtSql>
 
 #include "commondata.h"
+#include "datacontext.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
-#include "loggingcategory.h"
 
 Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsComputerSoftwareLog)
 
@@ -40,8 +39,8 @@ namespace Model
    relation.
     \author Jürgen Mülbert
     \since 0.4
-    \version 0.5
-    \date 17.11.2020
+    \version 0.6
+    \date 10.12.2020
     \copyright GPL-3.0-or-later
     */
 class ComputerSoftware : public CommonData
@@ -97,6 +96,12 @@ public:
     virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
 
     /*!
+    \fn QSqlTableModel *initializeListModel();
+    \brief Initiallize the list Model for select one dataset
+    */
+    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeListModel() final;
+
+    /*!
      * \fn virtual auto generateTableString(
                                 const QString &header) -> QString final
         \brief generateTableString
@@ -116,50 +121,50 @@ public:
 
     // Getter
     /*!
-        \fn int ComputerSoftwareIdIndex()
+        \fn int getComputerSoftwareIdIndex()
 
          \brief Get the index of the fieldname ComputerSoftwareId from the
        database
 
          Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int ComputerSoftwareIdIndex() const
+    JMBDEMODELS_EXPORT int getComputerSoftwareIdIndex() const
     {
         return m_ComputerSoftwareIdIndex;
     }
 
     /*!
-        \fn int ComputerIdIndex()
+        \fn int getComputerIdIndex()
 
         \brief Get the index of the fieldname ComputerId form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int ComputerIdIndex() const
+    JMBDEMODELS_EXPORT int getComputerIdIndex() const
     {
         return m_ComputerIdIndex;
     }
 
     /*!
-        \fn int SoftwareIdIndex()
+        \fn int getSoftwareIdIndex()
 
         \brief Get the index of the fieldname SoftwareId form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int SoftwareIdIndex() const
+    JMBDEMODELS_EXPORT int getSoftwareIdIndex() const
     {
         return m_SoftwareIdIndex;
     }
 
     /*!
-        \fn  int LastUpdateIndex()
+        \fn  int getLastUpdateIndex()
 
-        \brief Get the index of the fieldname LastUpdate form the database
+        \brief Get the index of the fieldname getLastUpdate form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int LastUpdateIndex() const
+    JMBDEMODELS_EXPORT int getLastUpdateIndex() const
     {
         return m_LastUpdateIndex;
     }
@@ -169,6 +174,28 @@ private:
           \brief The Tablename in the database \e is const
        */
     const QString m_tableName = QLatin1String("computer_software");
+
+    /*!
+     * @ brief m_db
+     */
+    QSqlDatabase m_db = {};
+
+    /*!
+        \brief holds an initialised pointer to the Relationmodel
+        \sa QSqlRelationalTableModel
+     */
+    QSqlRelationalTableModel *m_model {nullptr};
+
+    /*!
+       \brief holds an initialised pointer to the ItemSelectioModel
+       \sa QItemSelectionModel
+    */
+    QItemSelectionModel *m_selectionModel {nullptr};
+
+    /*!
+     * @brief DataContext
+     */
+    Model::DataContext *m_dataContext = {};
 
     /*!
         \var int m_ComputerSoftwareIdIndex

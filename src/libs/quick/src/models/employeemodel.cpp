@@ -32,12 +32,12 @@ EmployeeModel::EmployeeModel(QObject *parent)
     m_employees.append({QLatin1String("Akeem H."), QLatin1String("Hardin"), QLatin1String("543-3082 Orci. Street"), QLatin1String("04155"), QLatin1String("Niort")});
 }
 
-int EmployeeModel::rowCount(const QModelIndex &) const
+auto EmployeeModel::rowCount(const QModelIndex &) const -> int
 {
     return m_employees.count();
 }
 
-QVariant EmployeeModel::data(const QModelIndex &index, int role) const
+auto EmployeeModel::data(const QModelIndex &index, int role) const -> QVariant
 {
     if (index.row() < rowCount()) {
         switch (role) {
@@ -58,13 +58,13 @@ QVariant EmployeeModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-QHash<int, QByteArray> EmployeeModel::roleNames() const
+auto EmployeeModel::roleNames() const -> QHash<int, QByteArray>
 {
     static const QHash<int, QByteArray> roles {{FirstNameRole, "firstName"}, {LastNameRole, "lastName"}, {StreetRole, "street"}, {ZipRole, "zip"}, {CityRole, "city"}};
     return roles;
 }
 
-QVariantMap EmployeeModel::get(int row) const
+auto EmployeeModel::get(int row) const -> QVariantMap
 {
     const Employee employee = m_employees.value(row);
     return {{QLatin1String("firstName"), employee.firstName}, {QLatin1String("lastName"), employee.lastName}, {QLatin1String("street"), employee.street}, {QLatin1String("zip"), employee.zip}, {QLatin1String("city"), employee.city}};
@@ -88,7 +88,7 @@ void EmployeeModel::set(int row, const QString &firstName, const QString &lastNa
     }
 
     m_employees.replace(row, {firstName, lastName, street, zip, city});
-    dataChanged(index(row, 0), index(row, 0), {FirstNameRole, LastNameRole, StreetRole, ZipRole, CityRole});
+    emit dataChanged(index(row, 0), index(row, 0), {FirstNameRole, LastNameRole, StreetRole, ZipRole, CityRole});
 }
 
 void EmployeeModel::remove(int row)

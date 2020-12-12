@@ -70,7 +70,7 @@ auto Model::ChipCardProfile::initializeViewModel() -> QSqlTableModel *
 
 auto Model::ChipCardProfile::initializeListModel() -> QSqlTableModel *
 {
-    QSqlTableModel *listModel = new QSqlTableModel(this, this->m_db);
+    auto *listModel = new QSqlTableModel(this, this->m_db);
     listModel->setTable(this->m_tableName);
     listModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
     listModel->select();

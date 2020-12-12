@@ -17,13 +17,15 @@
 
 #include "ui_cityinputarea.h"
 
+Q_LOGGING_CATEGORY(jmbdeWidgetsCityInputAreaLog, "jmuelbert.jmbde.widgets.cityinputarea", QtWarningMsg)
+
 CityInputArea::CityInputArea(QWidget *parent, const QModelIndex index)
     : QGroupBox(parent)
     , ui(new Ui::CityInputArea)
 {
     ui->setupUi(this);
 
-    qCDebug(jmbdewidgetsLog) << "Init CityInputArea for Index : " << index;
+    qCDebug(jmbdeWidgetsCityInputAreaLog) << "Init CityInputArea for Index : " << index;
 
     m_actualMode = Mode::Edit;
     setViewOnlyMode(true);
@@ -63,14 +65,14 @@ void CityInputArea::setViewOnlyMode(bool mode)
 
 void CityInputArea::createDataset()
 {
-    qCDebug(jmbdewidgetsLog) << "Create a new Dataset for City...";
+    qCDebug(jmbdeWidgetsCityInputAreaLog) << "Create a new Dataset for City...";
 
     m_mapper->toLast();
 
     int row = m_mapper->currentIndex();
-    if (row < 0)
+    if (row < 0) {
         row = 0;
-
+    }
     m_mapper->submit();
     m_model->insertRow(row);
     m_mapper->setCurrentIndex(row);
@@ -105,7 +107,7 @@ void CityInputArea::on_pushButton_EditFinish_clicked()
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdewidgetsLog) << "Save Data...";
+        qCDebug(jmbdeWidgetsCityInputAreaLog) << "Save Data...";
 
         m_actualMode = Mode::Edit;
         ui->pushButton_EditFinish->setText(tr("Edit"));
@@ -122,7 +124,7 @@ void CityInputArea::on_pushButton_EditFinish_clicked()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(jmbdewidgetsLog) << "Commit changes for Computer Databse Table";
+                qCDebug(jmbdeWidgetsCityInputAreaLog) << "Commit changes for Computer Databse Table";
             } else {
                 m_model->database().rollback();
                 QMessageBox::warning(this, tr("jmbde"), tr("The database reported an error: %1").arg(m_model->lastError().text()));
@@ -131,7 +133,7 @@ void CityInputArea::on_pushButton_EditFinish_clicked()
     } break;
 
     default: {
-        qCCritical(jmbdewidgetsLog) << "Error";
+        qCCritical(jmbdeWidgetsCityInputAreaLog) << "Error";
     }
     }
 }
