@@ -1,4 +1,4 @@
-name: jmbde build matrix - AppImage
+name: jmbde build matrix - AppImage Qt6
 
 on:
   push:
@@ -73,6 +73,10 @@ jobs:
           sudo apt install -y build-essential ninja-build cmake pkgconf fcitx-frontend-qt5 libxcb-xinerama0 libgl-dev libx11-dev libxkbcommon-x11-dev libxcb-image0-dev libxcb-icccm4-dev libssl-dev libxcb-keysyms1 libxcb-render-util0
       - name: conan_and_ecm
         id: conan_and_ecm
+        shell: bash
+        env:
+          CC: /usr/bin/gcc-7
+          CXX: /usr/bin/g++-7
         run: |
             python -m pip install conan
             conan user
