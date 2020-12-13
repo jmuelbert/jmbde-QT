@@ -182,7 +182,7 @@ add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format"
                  " (for e.g. Qt Assistant, Qt Creator & KDevelop)")
 option(BUILD_TRANSLATIONS "Build translations" ON)
 add_feature_info(TRANSL ${BUILD_TRANSLATIONS} "Build the translations")
-option(ENABLE_EMBEDDED_TRANSLATIONS "Add the translations to a QT Reesource File" ON)
+option(ENABLE_EMBEDDED_TRANSLATIONS "Add the translations to a QT Reesource File" OFF)
 add_feature_info(TRANS_EMB ${ENABLE_EMBEDDED_TRANSLATIONS} "Add the translations to a QT Reesource File" )
 option(BUILD_COVERAGE "Add coverage information." OFF)
 add_feature_info(COVERAGE ${BUILD_COVERAGE} "Build with coverage informations.")
@@ -326,6 +326,7 @@ endif()
 # ##############################################################################
 # Build the translations
 if(BUILD_TRANSLATIONS)
+    include(cmake/Translations.cmake)
   add_subdirectory(translations)
 endif()
 

@@ -1,10 +1,10 @@
 ---
-name: "CI: Build Test"
+name: "CI: Build Test Qt6"
 
 on: [push, pull_request]
 
 env:
-    QT_VERSION: 5.15.2
+    QT_VERSION: 6.0.0
     BUILD_TYPE: Debug
 
 jobs:

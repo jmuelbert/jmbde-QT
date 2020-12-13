@@ -26,8 +26,6 @@ endif()
 
 project(translations)
 
-include(Translations)
-
 set(LANGUAGES "All")
 
 if(LANGUAGES STREQUAL "All")
