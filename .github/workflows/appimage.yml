@@ -92,6 +92,7 @@ jobs:
           CC: /usr/bin/gcc-7
           CXX: /usr/bin/g++-7
         run: |
+
           cd build
           cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=./AppDir/usr -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DJMBDE_BUILD_INFO="Build for AppImage" -DJMBDE_BUILD_EXTRA_INFO="Build on $(uname -sr)"
           cmake --build . --parallel $(nproc)
@@ -115,7 +116,7 @@ jobs:
           mkdir -p ./usr/plugins/platforminputcontexts/
           cp -fv /usr/lib/x86_64-linux-gnu/qt5/plugins/platforminputcontexts/libfcitxplatforminputcontextplugin.so ./usr/plugins/platforminputcontexts/
           cd ..
-          ./linuxdeployqt-7-x86_64.AppImage AppDir/usr/share/applications/jmbde-lime.desktop -appimage -no-strip -always-overwrite -extra-plugins=iconengines,imageformats,platforminputcontexts
+          ./linuxdeployqt-7-x86_64.AppImage ../src/app/data/io.github.jmuelbert.jmbde.desktop -appimage -no-strip -always-overwrite -extra-plugins=iconengines,imageformats,platforminputcontexts
           mv ./jmbde*.AppImage ./jmbde.AppImage
       - name: Linux - ${{ matrix.qt_version }} - Uploading artifact
         uses: actions/upload-artifact@v2
