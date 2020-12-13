@@ -180,7 +180,7 @@ add_feature_info(API_DOCS ${BUILD_API_DOCS}
 option(BUILD_QCH "Build API documentation in QCH format" OFF)
 add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format"
                  " (for e.g. Qt Assistant, Qt Creator & KDevelop)")
-option(BUILD_TRANSLATIONS "Build translations" ON)
+option(BUILD_TRANSLATIONS "Build translations" OFF)
 add_feature_info(TRANSL ${BUILD_TRANSLATIONS} "Build the translations")
 option(ENABLE_EMBEDDED_TRANSLATIONS "Add the translations to a QT Reesource File" OFF)
 add_feature_info(TRANS_EMB ${ENABLE_EMBEDDED_TRANSLATIONS} "Add the translations to a QT Reesource File" )

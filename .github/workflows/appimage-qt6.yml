@@ -92,7 +92,6 @@ jobs:
           CC: /usr/bin/gcc-7
           CXX: /usr/bin/g++-7
         run: |
-          mkdir build
           cd build
           cmake .. -GNinja -DJMBDE=ON -DCMAKE_INSTALL_PREFIX=./AppDir/usr -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DJMBDE_BUILD_INFO="Build for AppImage" -DJMBDE_BUILD_EXTRA_INFO="Build on $(uname -sr)"
           cmake --build . --parallel $(nproc)
