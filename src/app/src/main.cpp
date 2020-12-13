@@ -26,7 +26,6 @@ auto main(int argc, char *argv[]) -> int
 {
     QLoggingCategory::setFilterRules(QLatin1String("jmuelbert.jmbde.*.debug=true\njmuelbert.jmbde.*.info=true"));
 
-
     /**
      * enable high dpi support
      */
