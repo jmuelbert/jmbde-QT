@@ -68,7 +68,11 @@ find_package(Qt5 ${QT_MIN_VERSION} CONFIG COMPONENTS Core Quick Svg
                                                               Qml Sql)
 
 # Find Qt5QuickCompiler
-find_package(Qt5QuickCompiler)
+if(Qt5_FOUND)
+    find_package(Qt5QuickCompiler)
+else()
+    find_package(Qt6QuickCompiler)
+endif()
 
 add_library(jmbdequick "")
 generate_export_header(jmbdequick)
@@ -82,10 +86,18 @@ target_include_directories(
          $<INSTALL_INTERFACE:include>
   PRIVATE src)
 
-if(Qt5QuickCompiler_FOUND AND NOT DISABLE_QTQUICK_COMPILER)
-  qtquick_compiler_add_resources(jmbdequick_Resources qml.qrc)
+if(Qt5_FOUND)
+    if(Qt5QuickCompiler_FOUND AND NOT DISABLE_QTQUICK_COMPILER)
+        qtquick_compiler_add_resources(jmbdequick_Resources qml.qrc)
+    else()
+        qt5_add_resources(jmbdequick_Resources qml.qrc)
+    endif()
 else()
-  qt5_add_resources(jmbdequick_Resources qml.qrc)
+    if(Qt6QuickCompiler_FOUND AND NOT DISABLE_QTQUICK_COMPILER)
+        qtquick_compiler_add_resources(jmbdequick_Resources qml.qrc)
+    else()
+        qt6_add_resources(jmbdequick_Resources qml.qrc)
+    endif()
 endif()
 
 target_sources(

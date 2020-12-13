@@ -115,7 +115,7 @@ jobs:
           mkdir -p ./usr/plugins/platforminputcontexts/
           cp -fv /usr/lib/x86_64-linux-gnu/qt5/plugins/platforminputcontexts/libfcitxplatforminputcontextplugin.so ./usr/plugins/platforminputcontexts/
           cd ..
-          ./linuxdeployqt-7-x86_64.AppImage AppDir/usr/share/applications/jmbde-lime.desktop -appimage -no-strip -always-overwrite -extra-plugins=iconengines,imageformats,platforminputcontexts
+         ./linuxdeployqt-7-x86_64.AppImage ../src/app/data/io.github.jmuelbert.jmbde.desktop -appimage -no-strip -always-overwrite -extra-plugins=iconengines,imageformats,platforminputcontexts
           mv ./jmbde*.AppImage ./jmbde.AppImage
       - name: Linux - ${{ matrix.qt_version }} - Uploading artifact
         uses: actions/upload-artifact@v2
