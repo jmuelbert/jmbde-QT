@@ -62,7 +62,7 @@ ecm_setup_version(
 #
 # Finding Qt
 #
-find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED
+find_package(Qt5 ${QT_MIN_VERSION} CONFIG
              COMPONENTS Core Widgets Sql PrintSupport Qml QuickWidgets)
 
 add_library(jmbdewidgets "")

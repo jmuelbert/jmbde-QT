@@ -78,7 +78,7 @@ endif()
 #
 # Finding Qt
 #
-find_package(Qt5 ${QT_MIN_VERSION} QUIET REQUIRED
+find_package(Qt5 ${QT_MIN_VERSION} QUIET
              COMPONENTS Core Widgets PrintSupport Sql Qml)
 
 
@@ -119,7 +119,7 @@ target_sources(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
 target_sources(${PROJECT_NAME} PRIVATE ${ICONS_SOURCES})
 
 
-target_compile_features(jmbde PUBLIC cxx_std_20)
+target_compile_features(jmbde PUBLIC cxx_std_17)
 
 target_compile_definitions(
   ${PROJECT_NAME}

@@ -1,4 +1,4 @@
-name: CPack - DEB - Debian
+name: CPack - DEB - Ubuntu
 
 on:
     push:
@@ -28,18 +28,21 @@ jobs:
     strategy:
         fail-fast: false
         matrix:
-          distro: [stable, testing, sid]
+          distro: [20.04]
           build_type: [Release, RelWithDebInfo]
-          #distro: [testing, sid]
+          #arch: [x86, x64]
     needs: check_commit_msg
     if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_DEB') }}
-    name: Debian ${{ matrix.distro }}
+    name: Ubuntu ${{ matrix.distro }}
     runs-on: ubuntu-latest
-    container: debian:${{ matrix.distro }}
+    container: ubuntu:${{ matrix.distro }}
 
     steps:
         - name: Install git
           run: |
+            apt-get update
+            apt-get install -y software-properties-common
+            add-apt-repository ppa:git-core/ppa
             apt-get update
             apt-get install -y git
         - name: get_version
@@ -52,13 +55,14 @@ jobs:
             submodules: 'recursive'
         - name: Install build dependencies
           run: |
-            apt-get install -y build-essential ninja-build qtbase5-dev qttools5-dev cmake pkgconf bash
+            DEBIAN_FRONTEND=noninteractive apt-get install -y keyboard-configuration
+            apt-get install -y build-essential ninja-build qtbase5-dev qttools5-dev qttools5-dev-tools libqt5help5 cmake pkgconf bashonf bash
         - name: build
           run: |
             mkdir build
             cd build
-            cmake .. -GNinja -DEMBED_TRANSLATIONS=OFF -DEMBED_DOCS=OFF -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DBUILD_DEB=ON -DLEMON_BUILD_INFO="Build for Debian" -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)"
-            cmake --build . --target package --parallel $(nproc)
+            cmake .. -GNinja -DEMBED_TRANSLATIONS=OFF -DEMBED_DOCS=OFF -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DBUILD_DEB=ON -DLEMON_BUILD_INFO="Build for Ubuntu" -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)"
+            cmake --build . --target package
         - name: Get package name
           shell: bash
           id: get_package
@@ -67,7 +71,7 @@ jobs:
         - name: Upload artifact
           uses: actions/upload-artifact@v2-preview
           with:
-            name: jmbde_qt-${{ steps.get_version.outputs.VERSION }}-debian-${{ matrix.distro }}-${{ matrix.build_type }}.deb
+            name: jmbde_qt-${{ steps.get_version.outputs.VERSION }}-ubuntu-${{ matrix.distro }}-${{ matrix.build_type }}.deb
             path: build/${{ steps.get_package.outputs.NAME }}
         - name: Upload binaries to release
           uses: svenstaro/upload-release-action@v1-release
@@ -75,6 +79,6 @@ jobs:
           with:
             repo_token: ${{ secrets.GITHUB_TOKEN }}
             file: build/${{ steps.get_package.outputs.NAME }}
-            asset_name: jmbde_qt-${{ steps.get_version.outputs.VERSION }}-debian-${{ matrix.distro }}-${{ matrix.build_type }}.deb
+            asset_name: jmbde_qt-${{ steps.get_version.outputs.VERSION }}-ubuntu-${{ matrix.distro }}-${{ matrix.build_type }}.deb
             tag: ${{ github.ref }}
             overwrite: true

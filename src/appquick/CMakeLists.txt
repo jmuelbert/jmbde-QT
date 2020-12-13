@@ -83,7 +83,7 @@ endif()
 #
 # Finding Qt
 #
-find_package(Qt5 ${QT_MIN_VERSION} QUIET REQUIRED COMPONENTS Core Widgets Sql
+find_package(Qt5 ${QT_MIN_VERSION} QUIET COMPONENTS Core Widgets Sql
                                                              Qml Quick)
 
 target_compile_features(jmbdeappquick PUBLIC cxx_std_17)

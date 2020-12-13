@@ -64,7 +64,7 @@ ecm_qt_declare_logging_category(
 #
 # Finding Qt
 #
-find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS Core Quick Svg
+find_package(Qt5 ${QT_MIN_VERSION} CONFIG COMPONENTS Core Quick Svg
                                                               Qml Sql)
 
 # Find Qt5QuickCompiler
