@@ -109,7 +109,7 @@ Source: "{#MyOutRoot}\jmbdewidgets.dll"; DestDir: "{app}"; Components: core; Fla
 Source: "{#MyOutRoot}\jmbdequick.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 
 ; VC++ redistributable runtime. Extracted by VC2019RedistNeedsInstall(), if needed.
-Source: "{#MyOutRoot}\Redist\vc_redist.x64.exe"; DestDir: {tmp}; Flags: dontcopy
+; Source: "{#MyOutRoot}\Redist\vc_redist.x64.exe"; DestDir: {tmp}; Flags: dontcopy
 
 ; Qt libs
 Source: "{#MyOutRoot}\Qt5Core.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
