@@ -25,6 +25,11 @@ jobs:
     env:
       targetName: jmbde
     steps:
+      - name: Install Python 3.8
+        uses: actions/setup-python@v2.1.4
+        with:
+            python-version: 3.8
+            architecture: ${{ matrix.arch }}
 
       - name: Restore Qt from cache
         id: cache-qt
