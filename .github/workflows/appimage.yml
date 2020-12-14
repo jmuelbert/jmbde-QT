@@ -113,10 +113,10 @@ jobs:
           mkdir -p ./usr/optional/libgcc_s/
           cp -fv /lib/x86_64-linux-gnu/libgcc_s.so.1 ./usr/optional/libgcc_s/
           cp -fv /usr/lib/x86_64-linux-gnu/{libssl.so.1.1,libcrypto.so.1.1} ./usr/lib/
-          mkdir -p ./usr/plugins/platforminputcontexts/
-          cp -fv /usr/lib/x86_64-linux-gnu/qt5/plugins/platforminputcontexts/libfcitxplatforminputcontextplugin.so ./usr/plugins/platforminputcontexts/
           cd ..
-          ./linuxdeployqt-7-x86_64.AppImage ../src/app/data/io.github.jmuelbert.jmbde.desktop -appimage -no-strip -always-overwrite -extra-plugins=iconengines,imageformats,platforminputcontexts
+          cp ../src/app/data/io.github.jmuelbert.jmbde.desktop ./bin/default.desktop
+          cp ../src/app/icons/jmbde.png ./bin/jmbde.png
+          ./linuxdeployqt-7-x86_64.AppImage ./bin/default.desktop -appimage -no-strip -always-overwrite -extra-plugins=iconengines,imageformats,platforminputcontexts
           mv ./jmbde*.AppImage ./jmbde.AppImage
       - name: Linux - ${{ matrix.qt_version }} - Uploading artifact
         uses: actions/upload-artifact@v2
