@@ -65,7 +65,7 @@ ecm_qt_declare_logging_category(
 #
 # Finding Qt
 #
-find_package(QT_NAMES Qt6 Qt5 COMPONENTS Core Requiered)
+# find_package(QT_NAMES Qt6 Qt5 COMPONENTS Core Requiered)
 find_package(Qt${QT_VERSION_MAJOR} CONFIG COMPONENTS Core Widgets Sql
                                                               PrintSupport)
 add_library(jmbdemodels "")

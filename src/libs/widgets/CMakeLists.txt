@@ -62,7 +62,7 @@ ecm_setup_version(
 #
 # Finding Qt
 #
-find_package(QT_NAMES Qt6 Qt5 COMPONENTS Core Requiered)
+# find_package(QT_NAMES Qt6 Qt5 COMPONENTS Core Requiered)
 find_package(Qt${QT_VERSION_MAJOR} CONFIG
              COMPONENTS Core Widgets Sql PrintSupport Qml QuickWidgets)
 
