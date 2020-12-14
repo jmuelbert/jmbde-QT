@@ -22,11 +22,9 @@ endif()
 
 include(ECMAddTests)
 
-find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core Test)
+find_package(QT_NAMES Qt6 Qt5 COMPONENTS Core Requiered)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Test)
 
-if(NOT Qt5Test_FOUND)
-  message(STATUS "Qt5Test not found, autotests will not be built.")
-  return()
-endif()
 
-ecm_add_tests(tst_test.cpp LINK_LIBRARIES Qt5::Core Qt5::Test)
+ecm_add_tests(tst_test.cpp LINK_LIBRARIES
+    Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Test)

@@ -22,14 +22,9 @@ endif()
 
 include(ECMAddTests)
 
-find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core Gui Widgets Sql
+find_package(QT_NAMES Qt6 Qt5 COMPONENTS Core Requiered)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets Sql
                                                        PrintSupport Test)
-
-if(NOT Qt5Test_FOUND)
-  message(STATUS "Qt5Test not found, autotests will not be built.")
-  return()
-endif()
-
 ecm_add_tests(
   tst_widgetstest
   LINK_LIBRARIES

@@ -64,14 +64,13 @@ ecm_qt_declare_logging_category(
 #
 # Finding Qt
 #
-find_package(Qt5 ${QT_MIN_VERSION} CONFIG COMPONENTS Core Quick Svg
+find_package(QT_NAMES Qt6 Qt5 COMPONENTS Core Requiered)
+find_package(Qt${QT_VERSION_MAJOR} CONFIG COMPONENTS Core Quick Svg
                                                               Qml Sql)
 
 # Find Qt5QuickCompiler
 if(Qt5_FOUND)
     find_package(Qt5QuickCompiler)
-else()
-    find_package(Qt6QuickCompiler)
 endif()
 
 add_library(jmbdequick "")
@@ -93,11 +92,7 @@ if(Qt5_FOUND)
         qt5_add_resources(jmbdequick_Resources qml.qrc)
     endif()
 else()
-    if(Qt6QuickCompiler_FOUND AND NOT DISABLE_QTQUICK_COMPILER)
-        qtquick_compiler_add_resources(jmbdequick_Resources qml.qrc)
-    else()
-        qt6_add_resources(jmbdequick_Resources qml.qrc)
-    endif()
+    qt_add_resources(jmbdequick_Resources qml.qrc)
 endif()
 
 target_sources(
@@ -132,8 +127,15 @@ target_compile_definitions(
 
 target_link_libraries(
   jmbdequick
-  PUBLIC Qt5::Core jmuelbert::jmbdemodels
-  PRIVATE Qt5::Gui Qt5::Qml Qt5::Quick Qt5::Svg Qt5::Sql ${CONAN_LIBS})
+  PUBLIC
+    Qt${QT_VERSION_MAJOR}::Core jmuelbert::jmbdemodels
+  PRIVATE
+    Qt${QT_VERSION_MAJOR}::Gui
+    Qt${QT_VERSION_MAJOR}::Qml
+    Qt${QT_VERSION_MAJOR}::Quick
+    Qt${QT_VERSION_MAJOR}::Svg
+    Qt${QT_VERSION_MAJOR}::Sql
+    ${CONAN_LIBS})
 
 #
 # Install instructions

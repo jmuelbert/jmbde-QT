@@ -131,26 +131,7 @@ if(NOT DEFINED CMAKE_MACOSX_RPATH)
   set(CMAKE_MACOSX_RPATH TRUE)
 endif()
 
-find_package(
-  Qt6
-  COMPONENTS Core
-  QUIET)
-if(Qt6_FOUND)
-  message("Qt6 gefunden!")
-  message(STATUS "Qt version is ${Qt6Core_VERSION}")
-else()
-  message("Qt6 not found, check Qt5!")
-  find_package(
-    Qt5
-    COMPONENTS Core
-    QUIET)
-  if(Qt5_FOUND)
-    message("Qt5 found!")
-    message(STATUS "Qt version is ${Qt5Core_VERSION}")
-  else()
-    message(FATAL_ERROR "No Qt found!")
-  endif()
-endif()
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
 
 # forbid some old things
 add_definitions(-DQT_NO_FOREACH)
@@ -326,7 +307,7 @@ endif()
 # ##############################################################################
 # Build the translations
 if(BUILD_TRANSLATIONS)
-    include(cmake/Translations.cmake)
+  find_package(Qt${QT_VERSION_MAJOR} OPTIONAL_COMPONENTS Help LinguistTools)
   add_subdirectory(translations)
 endif()
 
@@ -336,11 +317,7 @@ if(BUILD_API_DOCS OR BUILD_MANUAL)
   if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     add_compile_options(-Wdocumentation)
   endif()
-  if(Qt5_FOUND)
-    find_package(Qt5 OPTIONAL_COMPONENTS Help LinguistTools)
-  else()
-    find_package(Qt6 OPTIONAL_COMPONENTS Help LinguistTools)
-  endif()
+  find_package(Qt${QT_VERSION_MAJOR} OPTIONAL_COMPONENTS Help LinguistTools)
   add_subdirectory(docs)
 endif()
 

@@ -65,7 +65,8 @@ ecm_qt_declare_logging_category(
 #
 # Finding Qt
 #
-find_package(Qt5 ${QT_MIN_VERSION} CONFIG COMPONENTS Core Widgets Sql
+find_package(QT_NAMES Qt6 Qt5 COMPONENTS Core Requiered)
+find_package(Qt${QT_VERSION_MAJOR} CONFIG COMPONENTS Core Widgets Sql
                                                               PrintSupport)
 add_library(jmbdemodels "")
 generate_export_header(jmbdemodels)
@@ -173,8 +174,14 @@ target_compile_definitions(
 
 target_link_libraries(
   jmbdemodels
-  PUBLIC Qt5::Core
-  PRIVATE Qt5::Gui Qt5::Widgets Qt5::PrintSupport Qt5::Sql ${CONAN_LIBS})
+  PUBLIC
+    Qt${QT_VERSION_MAJOR}::Core
+  PRIVATE
+    Qt${QT_VERSION_MAJOR}::Gui
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::PrintSupport
+    Qt${QT_VERSION_MAJOR}::Sql
+    ${CONAN_LIBS})
 
 #
 # Install instructions

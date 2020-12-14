@@ -62,7 +62,8 @@ ecm_setup_version(
 #
 # Finding Qt
 #
-find_package(Qt5 ${QT_MIN_VERSION} CONFIG
+find_package(QT_NAMES Qt6 Qt5 COMPONENTS Core Requiered)
+find_package(Qt${QT_VERSION_MAJOR} CONFIG
              COMPONENTS Core Widgets Sql PrintSupport Qml QuickWidgets)
 
 add_library(jmbdewidgets "")
@@ -167,8 +168,15 @@ target_compile_definitions(
 
 target_link_libraries(
   jmbdewidgets
-  PUBLIC Qt5::Core jmuelbert::jmbdemodels
-  PRIVATE Qt5::Widgets Qt5::PrintSupport Qt5::Sql Qt5::Qml Qt5::QuickWidgets)
+  PUBLIC
+    Qt${QT_VERSION_MAJOR}::Core jmuelbert::jmbdemodels
+  PRIVATE
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::PrintSupport
+    Qt${QT_VERSION_MAJOR}::Sql
+    Qt${QT_VERSION_MAJOR}::Qml
+    Qt${QT_VERSION_MAJOR}::QuickWidgets
+    ${CONAN_LIBS})
 
 #
 # Install instructions

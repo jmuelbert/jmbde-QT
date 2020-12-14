@@ -83,7 +83,8 @@ endif()
 #
 # Finding Qt
 #
-find_package(Qt5 ${QT_MIN_VERSION} QUIET COMPONENTS Core Widgets Sql
+find_package(QT_NAMES Qt6 Qt5 COMPONENTS Core Requiered)
+find_package(Qt${QT_VERSION_MAJOR} QUIET COMPONENTS Core Widgets Sql
                                                              Qml Quick)
 
 target_compile_features(jmbdeappquick PUBLIC cxx_std_17)
@@ -102,12 +103,12 @@ target_compile_definitions(
 target_link_libraries(
   ${PROJECT_NAME}
   PRIVATE jmuelbert::jmbdequick
-          Qt5::Widgets
-          Qt5::Core
-          Qt5::Sql
-          Qt5::Qml
-          Qt5::Quick
-          ${CONAN_LIBS})
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::Core
+    Qt${QT_VERSION_MAJOR}::Sql
+    Qt${QT_VERSION_MAJOR}::Qml
+    Qt${QT_VERSION_MAJOR}::Quick
+    ${CONAN_LIBS})
 
 # Use a single application on MacOS + Windows instead of dbus.
 if(APPLE OR WIN32)

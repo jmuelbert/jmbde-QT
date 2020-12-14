@@ -78,7 +78,8 @@ endif()
 #
 # Finding Qt
 #
-find_package(Qt5 ${QT_MIN_VERSION} QUIET
+find_package(QT_NAMES Qt6 Qt5 COMPONENTS Core Requiered)
+find_package(Qt${QT_VERSION_MAJOR} QUIET
              COMPONENTS Core Widgets PrintSupport Sql Qml)
 
 
@@ -128,12 +129,12 @@ target_compile_definitions(
 target_link_libraries(
   ${PROJECT_NAME}
   PRIVATE jmuelbert::jmbdewidgets
-          Qt5::Core
-          Qt5::Widgets
-          Qt5::PrintSupport
-          Qt5::Sql
-          Qt5::Qml
-          ${CONAN_LIBS})
+        Qt${QT_VERSION_MAJOR}::Core
+        Qt${QT_VERSION_MAJOR}::Widgets
+        Qt${QT_VERSION_MAJOR}::PrintSupport
+        Qt${QT_VERSION_MAJOR}::Sql
+        Qt${QT_VERSION_MAJOR}::Qml
+        ${CONAN_LIBS})
 
 if(WIN32)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/app.rc.in
