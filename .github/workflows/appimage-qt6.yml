@@ -32,7 +32,7 @@ jobs:
     strategy:
       matrix:
         qt_version: [6.0.0]
-        platform: [ubuntu-16.04]
+        platform: [ubuntu-latest]
         build_type: [Release, RelWithDebInfo]
         arch: [x64]
       fail-fast: false
