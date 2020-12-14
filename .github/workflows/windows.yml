@@ -102,7 +102,8 @@ jobs:
           CC: cl.exe
           CXX: cl.exe
         run: |
-          cmake . \
+          cd build
+          cmake .. \
             -GNinja \
             -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
             -DJMBDE_BUILD_INFO="Build for Windows" \
