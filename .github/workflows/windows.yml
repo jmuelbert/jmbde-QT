@@ -143,8 +143,8 @@ jobs:
       - name: Gather dependencies on Windows
         shell: bash
         run: |
-            ../Qt/*/*/bin/windeployqt.exe build/app/bin/jmbde.exe
-
+            ../Qt/*/*/bin/windeployqt.exe build/app/bin/jmbde.exe build/app/bin/*.dll
+ 
 
       - name: Pack to installer on Windows
         shell: bash
