@@ -111,14 +111,15 @@ jobs:
             -DJMBDE_BUILD_EXTRA_INFO="Build on Windows x64" \
             -DCMAKE_INSTALL_PREFIX:PATH=./app
           cmake --build . --parallel $(nproc)
+
       - name: package
         env:
-          archiveName: lemon.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+          archiveName: jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         shell: pwsh
         run: |
           New-Item -ItemType Directory ${env:archiveName}
-          Copy-Item ${env:targetName} ${env:archiveName}\
-          windeployqt --qmldir . ${env:archiveName}\${env:targetName}
+          Copy-Item -Path build\app\ -Destination ${env:archiveName}\ -recurse -Force -Verbose
+          windeployqt --qmldir . ${env:archiveName}\bin\${env:targetName}
           Compress-Archive -Path ${env:archiveName} ${env:archiveName}'.zip'
           $name = ${env:archiveName}
           echo "packageName=\"$name\"" >> $GITHUB_ENV
@@ -126,8 +127,18 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2-preview
         with:
-          name: jmbde-win-qt6-x64-${{ matrix.build_type }}.zip
+          name: jmbde-win-qt5-x64-${{ matrix.build_type }}.zip
           path: ${{ env.packageName }}.zip
+      - name: uploadRelease
+        if: startsWith(github.event.ref, 'refs/tags/')
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./${{ env.packageName }}.zip
+          asset_name: jmbde-win-qt5-x64-${{ matrix.build_type }}.zip
+          tag: ${{ github.ref }}
+          overwrite: true
+
       - name: uploadRelease
         if: startsWith(github.event.ref, 'refs/tags/')
         uses: svenstaro/upload-release-action@v1-release

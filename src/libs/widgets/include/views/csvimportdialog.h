@@ -19,11 +19,11 @@
 #include <QDialog>
 #include <QFile>
 #include <QFileDialog>
+#include <QLoggingCategory>
 #include <QStandardItemModel>
 #include <QStandardPaths>
 #include <QString>
 #include <QTextStream>
-#include <QLoggingCategory>
 
 #include "jmbdewidgets-version.h"
 #include "jmbdewidgets_export.h"
@@ -82,7 +82,7 @@ private slots:
      * @param temp Check the String
      * @param character The character to checking
      */
-    void checkString(QString &temp, QChar character = 0);
+    void checkString(QString &temp, QChar character = QChar(' '));
 
     /**
      * @brief CsvImportDialog::on_buttonBox_accepted

@@ -111,14 +111,15 @@ jobs:
             -DCMAKE_INSTALL_PREFIX:PATH=./app
           cmake --build . --parallel $(nproc)
           cmake --install .
+
       - name: package
         env:
           archiveName: jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         shell: pwsh
         run: |
           New-Item -ItemType Directory ${env:archiveName}
-          Copy-Item ${env:targetName} ${env:archiveName}\
-          windeployqt --qmldir . ${env:archiveName}\${env:targetName}
+          Copy-Item -Path build\app\ -Destination ${env:archiveName}\ -recurse -Force -Verbose
+          windeployqt --qmldir . ${env:archiveName}\bin\${env:targetName}
           Compress-Archive -Path ${env:archiveName} ${env:archiveName}'.zip'
           $name = ${env:archiveName}
           echo "packageName=\"$name\"" >> $GITHUB_ENV
