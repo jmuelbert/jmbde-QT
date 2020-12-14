@@ -335,10 +335,10 @@ void Model::DataContext::deleteDB(const QString &dbName)
 void Model::DataContext::setDatabaseConnection()
 {
     // QString dbDataPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
-    auto dbDataPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    QString dbDataPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
     // AppDataLocation
     // Create the Directory
-    auto writeDir(dbDataPath);
+    QDir writeDir(dbDataPath);
     if (!writeDir.exists()) {
         writeDir.mkpath(dbDataPath);
     }
