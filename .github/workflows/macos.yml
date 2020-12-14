@@ -25,24 +25,26 @@ jobs:
     env:
       targetName: jmbde
     steps:
-      - name: Install Python 3.8
-        uses: actions/setup-python@v2.1.4
-        with:
-            python-version: 3.8
-            architecture: ${{ matrix.arch }}
-
-      - name: Restore Qt from cache
-        id: cache-qt
-        uses: actions/cache@v2.1.3
+      - name: cacheQt
+        id: MacosCacheQt
+        uses: actions/cache@v1
         with:
           path: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
           key: ${{ runner.os }}-Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
-
-      - name: Set up Qt environment
+#      - name: setupQt
+#        if: steps.MacosCacheQt.outputs.cache-hit == 'true'
+#        shell: bash
+#        env:
+#          QtPath: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
+#        run: |
+#          qt_Path=${env:QtPath}
+#          echo "Qt5_DIR=\"$QtPath\"" >> $GITHUB_ENV
+#          echo "${qt_Path}/bin" >> $GITHUB_PATH
+      - name: Install Qt
+        if: steps.MacosCacheQt.outputs.cache-hit != 'true'
         uses: jurplel/install-qt-action@v2
         with:
-            cached: ${{ steps.cache-qt.outputs.cache-hit }}
-            version: ${{ env.QT_VERSION }}
+          version: ${{ matrix.qt_ver }}
 
       - uses: actions/checkout@v2
         with:
