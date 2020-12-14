@@ -70,6 +70,7 @@ jobs:
       - name: Linux - ${{ matrix.qt_version }} - Build preparation - Install Packages
         run: |
           sudo apt update
+          sudo apt upgrade
           sudo apt install -y build-essential ninja-build cmake pkgconf fcitx-frontend-qt5 libxcb-xinerama0 libgl-dev libx11-dev libxkbcommon-x11-dev libxcb-image0-dev libxcb-icccm4-dev libssl-dev libxcb-keysyms1 libxcb-render-util0
       - name: conan_and_ecm
         id: conan_and_ecm
@@ -114,7 +115,7 @@ jobs:
           cp -fv /usr/lib/x86_64-linux-gnu/{libssl.so.1.1,libcrypto.so.1.1} ./usr/lib/
           cd ..
           cp ../src/app/data/io.github.jmuelbert.jmbde.desktop ./bin/default.desktop
-          cp ../src/app/icons/jmbde.png ./bin/jmbde.png
+          cp ../src/app/icons/256-apps-jmbde.png ./bin/jmbde.png
           ./linuxdeployqt-7-x86_64.AppImage ./bin/default.desktop -appimage -no-strip -always-overwrite -extra-plugins=iconengines,imageformats,platforminputcontexts          ./linuxdeployqt-7-x86_64.AppImage ../src/app/data/io.github.jmuelbert.jmbde.desktop -appimage -no-strip -always-overwrite -extra-plugins=iconengines,imageformats,platforminputcontexts
           mv ./jmbde*.AppImage ./jmbde.AppImage
       - name: Linux - ${{ matrix.qt_version }} - Uploading artifact

@@ -82,12 +82,12 @@ jobs:
         run: |
           #mv ${targetName} ${targetName}.app
           export PATH=$Qt5_DIR/bin:$PATH
-          macdeployqt build/${targetName}.app -qmldir=. -verbose=1 -dmg
+          macdeployqt bin/${targetName}.app -qmldir=. -verbose=1 -dmg
       - name: Upload artifact
         uses: actions/upload-artifact@v2-preview
         with:
           name: ${{ env.targetName }}-${{ matrix.build_type }}.dmg
-          path: build/${{ env.targetName }}.dmg
+          path: build/bin/${{ env.targetName }}.dmg
       - name: uploadRelease
         if: startsWith(github.event.ref, 'refs/tags/')
         uses: svenstaro/upload-release-action@v1-release

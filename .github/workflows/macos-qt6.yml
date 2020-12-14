@@ -84,7 +84,7 @@ jobs:
         run: |
           #mv ${targetName} ${targetName}.app
           export PATH=$Qt6_DIR/bin:$PATH
-          macdeployqt ${targetName}.app -qmldir=. -verbose=1 -dmg
+          macdeployqt bin/${targetName}.app -qmldir=. -verbose=1 -dmg
       - name: Upload artifact
         uses: actions/upload-artifact@v2-preview
         with:
