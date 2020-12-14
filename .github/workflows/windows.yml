@@ -121,43 +121,25 @@ jobs:
           New-Item -ItemType Directory ${env:archiveName}
           Copy-Item -Path build\app\* -Destination ${env:archiveName}\ -recurse -Force -Verbose
           windeployqt --qmldir . ${env:archiveName}\bin\${env:targetName}
+          iscc packaging/win/installer_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/app/bin -DVC_REDIST_VERSION=$VC_REDIST_VERSION
+          mv jmbde-${{ steps.get_version.outputs.VERSION }}-x64-setup.exe jmbde-${{ steps.get_version.outputs.VERSION }}-windows-Qt${{env.QT_VERSION}}-x64.exe
           Compress-Archive -Path ${env:archiveName} ${env:archiveName}'.zip'
           $name = ${env:archiveName}
           echo "packageName=\"$name\"" >> $GITHUB_ENV
           Write-Host 'packageName:'${env:packageName}
+
       - name: Upload artifact
         uses: actions/upload-artifact@v2-preview
         with:
           name: jmbde-win-qt5-x64-${{ matrix.build_type }}.zip
           path: ${{ env.packageName }}.zip
+
       - name: uploadRelease
         if: startsWith(github.event.ref, 'refs/tags/')
         uses: svenstaro/upload-release-action@v1-release
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./${{ env.packageName }}.zip
-          asset_name: jmbde-win-qt5-x64-${{ matrix.build_type }}.zip
+          file: ./jmbde-${{ steps.get_version.outputs.VERSION }}-windows-Qt${{env.QT_VERSION}}-x64.exe
+          asset_name: jmbde-${{ steps.get_version.outputs.VERSION }}-windows-Qt${{env.QT_VERSION}}-x64.exe
           tag: ${{ github.ref }}
           overwrite: true
-
-      - name: Gather dependencies on Windows
-        shell: bash
-        run: |
-            ../Qt/*/*/bin/windeployqt.exe build/app/bin/jmbde.exe build/app/bin/*.dll
- 
-
-      - name: Pack to installer on Windows
-        shell: bash
-        run: |
-            mkdir build/app/bin/Redist
-            iscc packaging/win/installer_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/build/app/bin -DVC_REDIST_VERSION=$VC_REDIST_VERSION
-            mv jmbde-${{ steps.get_version.outputs.VERSION }}-x64-setup.exe jmbde-${{ steps.get_version.outputs.VERSION }}-windows-Qt${{env.QT_VERSION}}-x64.exe
-
-      - name: Release on Windows
-        uses: softprops/action-gh-release@v1
-        with:
-            draft: true
-            prerelease: true
-            files:
-                jmbde-${{ steps.get_version.outputs.VERSION }}-windows-Qt${{env.QT_VERSION}}-x64.exe
-            name: jmbde ${{ steps.get_version.outputs.VERSION }}
