@@ -51,12 +51,12 @@ jobs:
           submodules: true
       - name: macOS - ${{ matrix.qt_version }} - Build preparation - Install Packages
         run: |
-          brew install ninja pkg-config
+          brew install ninja pkg-config python
 
       - name: conan_and_ecm
         id: conan_and_ecm
         run: |
-            python -m pip install conan
+            python3 -m pip install conan
             conan user
             conan create ./conan/ecm
             mkdir build
@@ -81,7 +81,7 @@ jobs:
           cmake --install .
       - name: package
         env:
-          Qt5_DIR: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
+          Qt6_DIR: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
         run: |
           #mv ${targetName} ${targetName}.app
           cd build

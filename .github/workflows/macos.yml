@@ -51,12 +51,12 @@ jobs:
           submodules: true
       - name: macOS - ${{ matrix.qt_version }} - Build preparation - Install Packages
         run: |
-          brew install ninja pkg-config
+          brew install ninja pkg-config python
 
       - name: conan_and_ecm
         id: conan_and_ecm
         run: |
-            python -m pip install conan
+            python3 -m pip install conan
             conan user
             conan create ./conan/ecm
             mkdir build
@@ -65,16 +65,16 @@ jobs:
             cd ..
       - name: build macos
         env:
-          Qt6_DIR: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
+          Qt5_DIR: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
         run: |
           cd build
           cmake .. \
             -GNinja \
             -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-            -DJMBDE_QT6=ON \
+            -DJMBDE_QT6=OFF \
             -DJMBDE_BUILD_INFO="Build for macOS" \
             -DJMBDE_BUILD_EXTRA_INFO="Build on $(uname -sr)" \
-            -DCMAKE_OSX_DEPLOYMENT_TARGET=10.13 \
+            -DCMAKE_OSX_DEPLOYMENT_TARGET=10.14 \
             -DCMAKE_INSTALL_PREFIX:PATH=./app
           cmake --build . --parallel $(sysctl -n hw.logicalcpu)
           cmake --install .
