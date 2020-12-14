@@ -25,26 +25,19 @@ jobs:
     env:
       targetName: jmbde
     steps:
-      - name: cacheQt
-        id: MacosCacheQt
-        uses: actions/cache@v1
+
+      - name: Restore Qt from cache
+        id: cache-qt
+        uses: actions/cache@v2.1.3
         with:
           path: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
           key: ${{ runner.os }}-Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
-#      - name: setupQt
-#        if: steps.MacosCacheQt.outputs.cache-hit == 'true'
-#        shell: bash
-#        env:
-#          QtPath: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
-#        run: |
-#          qt_Path=${env:QtPath}
-#          echo "Qt5_DIR=\"$QtPath\"" >> $GITHUB_ENV
-#          echo "${qt_Path}/bin" >> $GITHUB_PATH
-      - name: Install Qt
-        if: steps.MacosCacheQt.outputs.cache-hit != 'true'
+
+      - name: Set up Qt environment
         uses: jurplel/install-qt-action@v2
         with:
-          version: ${{ matrix.qt_ver }}
+            cached: ${{ steps.cache-qt.outputs.cache-hit }}
+            version: ${{ env.QT_VERSION }}
 
       - uses: actions/checkout@v2
         with:
