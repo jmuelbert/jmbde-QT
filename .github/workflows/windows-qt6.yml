@@ -108,7 +108,7 @@ jobs:
             -DJMBDE_QT6=ON \
             -DJMBDE_BUILD_INFO="Build for Windows" \
             -DJMBDE_BUILD_EXTRA_INFO="Build on Windows x64" \
-            -DENABLE_XLS_EXPORT=ON
+            -DCMAKE_INSTALL_PREFIX:PATH=./app
           cmake --build . --parallel $(nproc)
       - name: package
         env:

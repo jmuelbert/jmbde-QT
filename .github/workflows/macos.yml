@@ -74,25 +74,28 @@ jobs:
             -DJMBDE_QT6=ON \
             -DJMBDE_BUILD_INFO="Build for macOS" \
             -DJMBDE_BUILD_EXTRA_INFO="Build on $(uname -sr)" \
-            -DCMAKE_OSX_DEPLOYMENT_TARGET=10.13
+            -DCMAKE_OSX_DEPLOYMENT_TARGET=10.13 \
+            -DCMAKE_INSTALL_PREFIX:PATH=./app
           cmake --build . --parallel $(sysctl -n hw.logicalcpu)
+          cmake --install .
       - name: package
         env:
           Qt5_DIR: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
         run: |
           #mv ${targetName} ${targetName}.app
           export PATH=$Qt5_DIR/bin:$PATH
-          macdeployqt bin/${targetName}.app -qmldir=. -verbose=1 -dmg
+          macdeployqt ./app/${targetName}.app -qmldir=. -appstore-compliant -libpath=./app/jmbde.app/Contents/Frameworks -verbose=1 -dmg
+          cp ./app/${targetName}.dmg ${targetName}-Qt${{matrix.qt_ver}}.dmg
       - name: Upload artifact
         uses: actions/upload-artifact@v2-preview
         with:
-          name: ${{ env.targetName }}-${{ matrix.build_type }}.dmg
-          path: build/bin/${{ env.targetName }}.dmg
+          name: ${{env.targetName}}-Qt${{matrix.qt_ver}}.dmg
+          path: build/${{env.targetName}}-Qt${{matrix.qt_ver}}.dmg
       - name: uploadRelease
         if: startsWith(github.event.ref, 'refs/tags/')
         uses: svenstaro/upload-release-action@v1-release
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: build/${{ env.targetName }}.dmg
-          asset_name: ${{ env.targetName }}-${{ matrix.build_type }}.dmg
+          file: build/${{env.targetName}}-Qt${{matrix.qt_ver}}.dmg
+          asset_name: ${{env.targetName}}.dmg ${targetName}-Qt${{matrix.qt_ver}}.dmg
           tag: ${{ github.ref }}
