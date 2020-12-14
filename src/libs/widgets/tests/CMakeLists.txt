@@ -29,9 +29,9 @@ ecm_add_tests(
   tst_widgetstest
   LINK_LIBRARIES
   LINK_LIBRARIES
-  Qt5::Core
-  Qt5::Gui
-  Qt5::Widgets
-  Qt5::Sql
-  Qt5::Test
+  Qt${QT_VERSION_MAJOR}::Core
+  Qt${QT_VERSION_MAJOR}::Gui
+  Qt${QT_VERSION_MAJOR}::Widgets
+  Qt${QT_VERSION_MAJOR}::Sql
+  Qt${QT_VERSION_MAJOR}::Test
   jmuelbert::jmbdemodels)

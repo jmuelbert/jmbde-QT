@@ -1,4 +1,4 @@
-name: CPack - RPM - Fedora
+name: "CD: RPM - Fedora"
 
 on:
     push:

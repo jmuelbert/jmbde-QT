@@ -1,4 +1,4 @@
-name: CPack - DEB - Ubuntu
+name: "CD: DEB - Ubuntu"
 
 on:
     push:

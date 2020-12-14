@@ -1,4 +1,4 @@
-name: MacOS
+name: "CD: MacOS"
 on:
   push:
     paths-ignore:

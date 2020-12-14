@@ -4,7 +4,8 @@ add_library(jmbde::qtsingleapp ALIAS qtsingleapplication-lib)
 #
 # Finding Qt
 #
-find_package(Qt5 ${QT_MIN_VERSION} QUIET REQUIRED COMPONENTS Core Network
+find_package(QT_NAMES Qt6 Qt5 COMPONENTS Core Requiered)
+find_package(Qt${QT_VERSION_MAJOR}  QUIET REQUIRED COMPONENTS Core Network
                                                              Widgets)
 
 include(GenerateExportHeader)
@@ -17,8 +18,10 @@ target_include_directories(
   qtsingleapplication-lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
                                  ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-target_link_libraries(qtsingleapplication-lib PRIVATE Qt5::Core Qt5::Widgets
-                                                      Qt5::Network)
+target_link_libraries(qtsingleapplication-lib PRIVATE
+    Qt${QT_VERSION_MAJOR}::Core
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::Network)
 
 # Use a single application on MacOS + Windows instead of dbus.
 if(APPLE OR WIN32)

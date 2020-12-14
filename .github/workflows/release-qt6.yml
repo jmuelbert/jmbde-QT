@@ -1,5 +1,5 @@
 ---
-name: Release QT6
+name: "CD: Release QT6"
 
 on:
     push:

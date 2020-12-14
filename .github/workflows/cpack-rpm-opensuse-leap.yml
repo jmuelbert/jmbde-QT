@@ -1,4 +1,4 @@
-name: CPack - RPM - openSUSE Leap
+name: "CD: RPM - openSUSE Leap"
 
 on:
     push:

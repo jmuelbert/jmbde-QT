@@ -1,4 +1,4 @@
-name: jmbde build matrix - AppImage
+name: "CD: AppImage"
 
 on:
   push:

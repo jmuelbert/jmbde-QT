@@ -1,4 +1,4 @@
-name: CPack - DEB - Debian
+name: "CD: DEB - Debian"
 
 on:
     push:
