@@ -51,7 +51,7 @@ jobs:
           submodules: true
       - name: macOS - ${{ matrix.qt_version }} - Build preparation - Install Packages
         run: |
-          brew install ninja pkg-config python
+          brew install ninja pkg-config
 
       - name: conan_and_ecm
         id: conan_and_ecm
@@ -75,7 +75,8 @@ jobs:
             -DJMBDE_QT6=ON \
             -DJMBDE_BUILD_INFO="Build for macOS" \
             -DJMBDE_BUILD_EXTRA_INFO="Build on $(uname -sr)" \
-            -DCMAKE_OSX_DEPLOYMENT_TARGET=10.13 \
+            -DCMAKE_OSX_DEPLOYMENT_TARGET=10.14 \
+            -DBUILD_TRANSLATIONS=ON \
             -DCMAKE_INSTALL_PREFIX:PATH=./app
           cmake --build . --parallel $(sysctl -n hw.logicalcpu)
           cmake --install .

@@ -94,7 +94,13 @@ jobs:
         run: |
 
           cd build
-          cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=./AppDir/usr -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DJMBDE_BUILD_INFO="Build for AppImage" -DJMBDE_BUILD_EXTRA_INFO="Build on $(uname -sr)"
+          cmake .. \
+            -GNinja \
+            -DCMAKE_INSTALL_PREFIX=./AppDir/usr \
+            -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+            -DJMBDE_BUILD_INFO="Build for AppImage" \
+            -DJMBDE_BUILD_EXTRA_INFO="Build on $(uname -sr)" \
+            -DBUILD_TRANSLATIONS=ON
           cmake --build . --parallel $(nproc)
           cmake --install .
       # ========================================================================================================= Deployments
@@ -114,9 +120,7 @@ jobs:
           cp -fv /lib/x86_64-linux-gnu/libgcc_s.so.1 ./usr/optional/libgcc_s/
           cp -fv /usr/lib/x86_64-linux-gnu/{libssl.so.1.1,libcrypto.so.1.1} ./usr/lib/
           cd ..
-          cp ../src/app/data/io.github.jmuelbert.jmbde.desktop ./bin/default.desktop
-          cp ../src/app/icons/256-apps-jmbde.png ./bin/jmbde.png
-          ./linuxdeployqt-7-x86_64.AppImage ./usr/share/applications/io.github.jmuelbert.jmbde.desktop -appimage -no-strip -always-overwrite -extra-plugins=iconengines,imageformats,platforminputcontexts -verbose=2
+          ./linuxdeployqt-7-x86_64.AppImage ./AppDir/usr/share/applications/io.github.jmuelbert.jmbde.desktop -appimage -no-strip -always-overwrite -extra-plugins=iconengines,imageformats,platforminputcontexts -verbose=2
           mv ./jmbde*.AppImage ./jmbde.AppImage
       - name: Linux - ${{ matrix.qt_version }} - Uploading artifact
         uses: actions/upload-artifact@v2
