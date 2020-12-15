@@ -70,7 +70,7 @@ project(jmbde)
 
 include(cmake/StandardProjectSettings.cmake)
 include(cmake/PreventInSourceBuilds.cmake)
-include(cmake/QtCommon.cmake)
+# include(cmake/QtCommon.cmake)
 
 # Set the dependencies versions
 set(KF5_VERSION "5.71.0")
