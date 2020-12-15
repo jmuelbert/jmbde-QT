@@ -12,7 +12,7 @@
 #define MyAppExeName "jmbde.exe"
 #define MyProjectRoot "."
 #define MyOutRoot "."
-
+#define VC_REDIST_VERSION ""
 [Setup]
 ChangesEnvironment=yes
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -238,7 +238,7 @@ var
 begin
   if (RegQueryStringValue(HKEY_LOCAL_MACHINE, 'SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x64', 'Version', Version)) then
   begin
-    ExpectedVersion := 'v{#VC_REDIST_VERSION}.03'
+    ExpectedVersion := 'v{# -DVC_REDIST_VERSION="$VC_REDIST_VERSION"}.03'
     Log('VC Redist Version check : found ' + Version);
     Log('VC Redist Version check : expected ' + ExpectedVersion);
     Result := (CompareStr(Version, ExpectedVersion)<0);
