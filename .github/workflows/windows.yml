@@ -121,8 +121,7 @@ jobs:
           New-Item -ItemType Directory ${env:archiveName}
           Copy-Item -Path build\app\* -Destination ${env:archiveName}\ -recurse -Force
           windeployqt --qmldir . ${env:archiveName}\bin\${env:targetName}
-          iscc packaging/win/installer_x64.iss -DMyAppVersion="0.1.1"  
-          -DVC_REDIST_VERSION="$VC_REDIST_VERSION"
+          iscc packaging/win/installer_x64.iss -DMyAppVersion="0.1.1"  -DVC_REDIST_VERSION="$VC_REDIST_VERSION"
           #  -DMyProjectRoot=${env:archiveName} -DMyOutRoot=$(pwd)/build/app/bin -DVC_REDIST_VERSION="$VC_REDIST_VERSION"
           Copy-Item jmbde-${{ steps.get_version.outputs.VERSION }}-x64-setup.exe jmbde-${{ steps.get_version.outputs.VERSION }}-windows-Qt${{env.QT_VERSION}}-${{ matrix.build_type }}-x64.exe
           Compress-Archive -Path ${env:archiveName} ${env:archiveName}'.zip'
