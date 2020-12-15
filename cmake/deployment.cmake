@@ -5,7 +5,7 @@ set(CPACK_PACKAGE_VERSION ${VERSION_STRING})
 set(CPACK_PACKAGE_DESCRIPTION "A tool to collect the infrastructure of a company")
 set(CPACK_PACKAGE_HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT")
 set(CPACK_PACKAGE_ICON "${CMAKE_SOURCE_DIR}/src/app/icons/jmbde-icon.ico")
-set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSES")
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSE")
 
 SET(COMMON_IGNORE_FILES "/CMakeFiles/" "_CPack_Packages/" "/Testing/"
     ".cmake$"   ".directory$" "CMakeCache.txt"
@@ -17,7 +17,7 @@ SET(CPACK_PACKAGE_IGNORE_FILES ${PRJ_COMMON_IGNORE_FILES} )
 if(UNIX)
     if(BUILD_DEB)
         set(CPACK_GENERATOR "DEB")
-        set(CPACK_DEBIAN_PACKAGE_NAME "LemonLime")
+        set(CPACK_DEBIAN_PACKAGE_NAME "jmbde")
         set(CPACK_PACKAGE_CONTACT "juergen.muelbert@gmail.com")
         set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Jürgen Mülbert")
         set(CPACK_DEBIAN_PACKAGE_DEPENDS "qtbase5-dev, qttools5-dev")
