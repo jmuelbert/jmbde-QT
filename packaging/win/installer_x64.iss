@@ -10,6 +10,8 @@
 #define MyAppPublisher "Jürgen Mülbert"
 #define MyAppURL "https://jmuelbert.github.io/jmbde-QT"
 #define MyAppExeName "jmbde.exe"
+#define MyProjectRoot "."
+#define MyOutRoot "."
 
 [Setup]
 ChangesEnvironment=yes
