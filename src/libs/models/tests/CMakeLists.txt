@@ -23,7 +23,7 @@ endif()
 
 include(ECMAddTests)
 
-find_package(QT_NAMES Qt6 Qt5 COMPONENTS Core Requiered)
+# find_package(QT_NAMES Qt6 Qt5 COMPONENTS Core Requiered)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets Sql
                                                        PrintSupport Test)
 

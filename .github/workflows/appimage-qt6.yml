@@ -32,7 +32,7 @@ jobs:
     strategy:
       matrix:
         qt_version: [6.0.0]
-        platform: [ubuntu-latest]
+        platform: [ubuntu-16.04]
         build_type: [Release, RelWithDebInfo]
         arch: [x64]
       fail-fast: false
@@ -70,7 +70,6 @@ jobs:
       - name: Linux - ${{ matrix.qt_version }} - Build preparation - Install Packages
         run: |
           sudo apt update
-          sudo apt upgrade
           sudo apt install -y build-essential ninja-build cmake pkgconf fcitx-frontend-qt5 libxcb-xinerama0 libgl-dev libx11-dev libxkbcommon-x11-dev libxcb-image0-dev libxcb-icccm4-dev libssl-dev libxcb-keysyms1 libxcb-render-util0
       - name: conan_and_ecm
         id: conan_and_ecm

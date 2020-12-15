@@ -57,6 +57,7 @@ if(${CMAKE_VERSION} VERSION_LESS 3.13.5)
   cmake_policy(SET CMP0053 NEW)
   cmake_policy(SET CMP0063 NEW)
   cmake_policy(SET CMP0068 NEW)
+  cmake_policy(SET CMP0072 NEW)
 endif()
 
 if(${CMAKE_VERSION} VERSION_LESS 3.19)
@@ -113,9 +114,15 @@ include(KDEInstallDirs)
 # warn about deprecated stuff so that we may try fixing it
 set(CMAKE_WARN_DEPRECATED ON)
 
-set(CMAKE_AUTOMOC ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+# set(CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_SOURCE_DIR}/src/forms)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 if(NOT DEFINED CMAKE_SKIP_BUILD_RPATH)
@@ -171,6 +178,10 @@ option(BUILD_SHARED_LIBS "Build shared libs" ON)
 add_feature_info(SHARED_LIBS ${BUILD_SHARED_LIBS} "Build shared libs")
 option(BUILD_TESTING "Build tests." OFF)
 add_feature_info(TESTS ${BUILD_TESTING} "Build and run the tests")
+option(BUILD_DEB "Build deb format package" OFF)
+add_feature_info(DEB_ENABLE ${BUILD_DEB} "Build deb format package")
+option(BUILD_RPM "Build rpm format package" OFF)
+add_feature_info(RPM_ENABLE ${BUILD_RPM} "Build rpm format package")
 option(ENABLE_CLAZY "Enable clazy" OFF)
 add_feature_info(CLAZY ${ENABLE_CLAZY} "Build with clazy hints")
 option(ENABLE_CLANG_TIDY "activate clang tidy messages" OFF)
@@ -224,8 +235,7 @@ endif()
 if(NOT DEFINED DISPLAY_VERSION)
   set(DISPLAY_VERSION "${PROJECT_VERSION}")
 endif()
-message(STATUS "Display version: ${DISPLAY_VERSION}")
-message(STATUS "Minor version: ${MINOR_VERSION}")
+
 
 # ##############################################################################
 # clang format cpp and h files.
@@ -349,7 +359,25 @@ if(BUILD_TESTING)
   add_subdirectory(tests)
 endif()
 
-# tell about our features (and what is missing)
-feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES
-                         FATAL_ON_MISSING_REQUIRED_PACKAGES)
-message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
+# ==================================================================================
+# Package
+# ==================================================================================
+
+include(cmake/deployment.cmake)
+
+feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
+
+message(STATUS "Display version:  ${DISPLAY_VERSION}")
+message(STATUS "Version String:   ${VERSION_STRING}")
+message(STATUS "Minor version:    ${MINOR_VERSION}")
+message(STATUS "Build Version:    ${BUILD_VERSION}")
+message(STATUS "Build Type:       ${CMAKE_BUILD_TYPE}")
+message(STATUS "Build Info:       ${BUILD_INFO}")
+message(STATUS "Build Extra Info: ${BUILD_EXTRA_INFO}")
+message(STATUS "Install Prefix:   ${CMAKE_INSTALL_PREFIX}")
+message(STATUS "Binary Directory: ${CMAKE_BINARY_DIR}")
+message(STATUS "")
+message(STATUS "======== Build Statistics ========")
+message(STATUS "${BUILD_STATS}")
+message(STATUS "============================================")
+message(STATUS "")

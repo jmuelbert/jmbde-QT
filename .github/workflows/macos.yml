@@ -87,7 +87,7 @@ jobs:
           cd build
           export PATH=$Qt5_DIR/bin:$PATH
           macdeployqt ./app/${targetName}.app -qmldir=. -appstore-compliant -libpath=./app/jmbde.app/Contents/Frameworks -verbose=1 -dmg
-          cp ./app/${targetName}.dmg ${targetName}-Qt${{matrix.qt_ver}}.dmg
+          cp ./app/${targetName}.dmg ${targetName}-Qt${{matrix.qt_ver}}-${{ matrix.build_type }}.dmg
       - name: Upload artifact
         uses: actions/upload-artifact@v2-preview
         with:
@@ -98,6 +98,6 @@ jobs:
         uses: svenstaro/upload-release-action@v1-release
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: build/${{env.targetName}}-Qt${{matrix.qt_ver}}.dmg
-          asset_name: ${{env.targetName}}.dmg ${targetName}-Qt${{matrix.qt_ver}}.dmg
+          file: build/${targetName}-Qt${{matrix.qt_ver}}-${{ matrix.build_type }}.dmg
+          asset_name: ${targetName}-Qt${{matrix.qt_ver}}-${{ matrix.build_type }}.dmg
           tag: ${{ github.ref }}
