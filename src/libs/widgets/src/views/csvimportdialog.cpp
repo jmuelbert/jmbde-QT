@@ -41,7 +41,7 @@ CsvImportDialog::CsvImportDialog(QWidget *parent)
     if (file.open(QFile::Text | QIODevice::ReadOnly)) {
         QString data = QLatin1String(file.readAll());
 
-        data.remove(QRegExp(QLatin1String("\r")));
+        data.remove(QRegularExpression(QLatin1String("\r")));
         QString temp;
         QChar character;
         QTextStream textStream(&data);
