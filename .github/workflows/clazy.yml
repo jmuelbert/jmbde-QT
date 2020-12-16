@@ -50,6 +50,21 @@ jobs:
           cmake
     - name: Create build directory
       run: mkdir cmake_build
+
+    - name: conan_and_ecm
+      id: conan_and_ecm
+      shell: bash
+      env:
+        CC: /usr/bin/gcc-7
+        CXX: /usr/bin/g++-7
+      run: |
+        python -m pip install conan
+        conan user
+        conan create ./conan/ecm
+        cd cmake_build
+        conan install ..
+        cd ..
+
     - name: Configure
       # Disable optimizations as workaround for Clang 9 bug: https://bugs.llvm.org/show_bug.cgi?id=45034
       run: |

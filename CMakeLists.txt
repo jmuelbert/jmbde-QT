@@ -144,6 +144,7 @@ find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
 # forbid some old things
 add_definitions(-DQT_NO_FOREACH)
 add_definitions(-DQT_DEPRECATED_WARNINGS)
+add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050F00)
 # Need Signals and slots
 remove_definitions(-DQT_NO_SIGNALS_SLOTS_KEYWORDS)
 
