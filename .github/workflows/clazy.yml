@@ -55,8 +55,9 @@ jobs:
       id: conan_and_ecm
       shell: bash
       env:
-        CC: /usr/bin/gcc-7
-        CXX: /usr/bin/g++-7
+        LD: clang++
+        CC: clang
+        CXX: clazy
       run: |
         python -m pip install conan
         conan user
@@ -66,6 +67,11 @@ jobs:
         cd ..
 
     - name: Configure
+      shell: bash
+      env:
+        LD: clang++
+        CC: clang
+        CXX: clazy
       # Disable optimizations as workaround for Clang 9 bug: https://bugs.llvm.org/show_bug.cgi?id=45034
       run: |
         cmake \
@@ -88,10 +94,7 @@ jobs:
           -DWAVPACK=ON \
           ..
       working-directory: cmake_build
-      env:
-        LD: clang++
-        CC: clang
-        CXX: clazy
+
     - name: Set up problem matcher
       uses: ammaraskar/gcc-problem-matcher@master
     - name: Build
