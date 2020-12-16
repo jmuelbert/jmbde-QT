@@ -75,7 +75,7 @@ jobs:
             -DJMBDE_QT6=ON \
             -DJMBDE_BUILD_INFO="Build for macOS" \
             -DJMBDE_BUILD_EXTRA_INFO="Build on $(uname -sr)" \
-            -DCMAKE_OSX_DEPLOYMENT_TARGET=10.14 \
+            -DCMAKE_OSX_DEPLOYMENT_TARGET=10.15 \
             -DBUILD_TRANSLATIONS=ON \
             -DCMAKE_INSTALL_PREFIX:PATH=./app
           cmake --build . --parallel $(sysctl -n hw.logicalcpu)
@@ -86,7 +86,7 @@ jobs:
         run: |
           #mv ${targetName} ${targetName}.app
           cd build
-          export PATH=$Qt5_DIR/bin:$PATH
+          export PATH=$Qt6_DIR/bin:$PATH
           macdeployqt ./app/${targetName}.app -qmldir=. -appstore-compliant -libpath=./app/jmbde.app/Contents/Frameworks -verbose=1 -dmg
           cp ./app/${targetName}.dmg ${targetName}-Qt${{matrix.qt_ver}}.dmg
       - name: Upload artifact
