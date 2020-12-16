@@ -24,6 +24,7 @@
 #include <QStandardPaths>
 #include <QString>
 #include <QTextStream>
+#include <QRegularExpression>
 
 #include "jmbdewidgets-version.h"
 #include "jmbdewidgets_export.h"

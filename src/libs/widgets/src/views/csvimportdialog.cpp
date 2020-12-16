@@ -28,14 +28,12 @@ CsvImportDialog::CsvImportDialog(QWidget *parent)
     model = new QStandardItemModel(this);
     ui->tableView->setModel(model);
 
-#if QT_VERSION >= 0x050000
+
     QStringList dataDirList = QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
 
     // Use user space
     const QString &dataBaseDirAndFile = dataDirList.at(0);
-#else
-    const QString &dataBaseDirAndFile = QDir::homePath();
-#endif
+
 
     QString fileName = QFileDialog::getOpenFileName(nullptr, tr("open CSV file"), dataBaseDirAndFile, QLatin1String("CSV (*.csv)"));
     QFile file(fileName);
@@ -76,8 +74,8 @@ void CsvImportDialog::checkString(QString &temp, QChar character)
 {
     if (temp.count(QLatin1String("\"")) % 2 == 0) {
         if (temp.startsWith(QLatin1Char('\"')) && temp.endsWith(QLatin1Char('\"'))) {
-            temp.remove(QRegExp(QLatin1String("^\"")));
-            temp.remove(QRegExp(QLatin1String("\"$")));
+            temp.remove(QRegularExpression(QLatin1String("^\"")));
+            temp.remove(QRegularExpression(QLatin1String("\"$")));
         }
 
         // FIXME: will possibly fail if there are 4 or more reapeating double
