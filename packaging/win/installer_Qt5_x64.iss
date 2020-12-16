@@ -12,7 +12,7 @@
 #define MyAppExeName "jmbde.exe"
 #define MyProjectRoot "."
 #define MyOutRoot "."
-#define VC_REDIST_VERSION ""
+
 [Setup]
 ChangesEnvironment=yes
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -224,32 +224,3 @@ Name: "{group}\{cm:programOnTheWeb,{#MyAppName}}"; Filename: "{#MyAppURL}"; Comp
 Name: "{group}\{cm:Uninstallprogram, {#MyAppName}}"; Filename: "{uninstallexe}"
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}";
 Name: "{group}\{cm:manualOnTheWeb}"; Filename: "https://jmuelbert.github.io/jmbde-QT/";  Components: core
-
-
-[Run]
-Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
-Filename: "{tmp}\vc_redist.x64.exe"; StatusMsg: "Installing VC2019 redist..."; Parameters: "/quiet /norestart"; Check: VC2019RedistNeedsInstall ; Flags: waituntilterminated
-
-[Code]
-function VC2019RedistNeedsInstall: Boolean;
-var
-  Version: String;
-  ExpectedVersion: String;
-begin
-  if (RegQueryStringValue(HKEY_LOCAL_MACHINE, 'SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x64', 'Version', Version)) then
-  begin
-    ExpectedVersion := 'v{# -DVC_REDIST_VERSION="$VC_REDIST_VERSION"}.03'
-    Log('VC Redist Version check : found ' + Version);
-    Log('VC Redist Version check : expected ' + ExpectedVersion);
-    Result := (CompareStr(Version, ExpectedVersion)<0);
-  end
-  else
-  begin
-    // Not even an old version installed
-    Result := True;
-  end;
-  if (Result) then
-  begin
-    ExtractTemporaryFile('vc_redist.x64.exe');
-  end;
-end;

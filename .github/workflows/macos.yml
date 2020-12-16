@@ -83,11 +83,11 @@ jobs:
         env:
           Qt5_DIR: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
         run: |
-          #mv ${targetName} ${targetName}.app
+          #mv ${env.targetName} ${env.targetName}.app
           cd build
           export PATH=$Qt5_DIR/bin:$PATH
-          macdeployqt ./app/${{targetName}}.app -qmldir=. -appstore-compliant -libpath=./app/jmbde.app/Contents/Frameworks -verbose=2 -dmg
-          cp ./app/${targetName}.dmg ${targetName}-Qt${{matrix.qt_ver}}-${{ matrix.build_type }}.dmg
+          macdeployqt ./app/${env.targetName}.app -qmldir=. -appstore-compliant -libpath=./app/jmbde.app/Contents/Frameworks -verbose=2 -dmg
+          cp ./app/${env.targetName}.dmg ${targetName}-Qt${{matrix.qt_ver}}-${{ matrix.build_type }}.dmg
       - name: Upload artifact
         uses: actions/upload-artifact@v2-preview
         with:
