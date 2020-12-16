@@ -19,7 +19,7 @@ ChangesEnvironment=yes
 ; NOTE: The value of AppId uniquely identifies this application.
 ; Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{287C76D9-CB3B-4D8C-9BFA-D9DDDC8A593B}
+AppId={{7300D9D1-0DB1-4CE2-9D0C-42B2AD945058}}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 AppVerName={#MyAppName} {#MyAppVersion}
@@ -36,7 +36,7 @@ LicenseFile={#MyProjectRoot}\License.rtf
 PrivilegesRequiredOverridesAllowed=dialog
 OutputDir={#MyProjectRoot}
 OutputBaseFilename=jmbde-{#MyAppVersion}-x64-setup
-SetupIconFile={#MyProjectRoot}\src\app\icons\jmbde-icon.ico
+SetupIconFile={#MyProjectRoot}..\..\src\app\icons\jmbde-icon.ico
 Compression=lzma
 SolidCompression=yes
 ;ShowLanguageDialog=no
@@ -111,8 +111,14 @@ Source: "{#MyOutRoot}\jmbdemodels.dll"; DestDir: "{app}"; Components: core; Flag
 Source: "{#MyOutRoot}\jmbdewidgets.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\jmbdequick.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 
-; VC++ redistributable runtime. Extracted by VC2019RedistNeedsInstall(), if needed.
-; Source: "{#MyOutRoot}\Redist\vc_redist.x64.exe"; DestDir: {tmp}; Flags: dontcopy
+; VC++ redistributable runtime.
+Source: "{#MyOutRoot}\msvcp140.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "{#MyOutRoot}\msvcp140_1.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "{#MyOutRoot}\msvcp140_2.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "{#MyOutRoot}\msvcp140_codecvt_ids.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "{#MyOutRoot}\vcruntime140_1.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "{#MyOutRoot}\vcruntime140.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "{#MyOutRoot}\concrt140.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 
 ; Qt libs
 Source: "{#MyOutRoot}\Qt6Core.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion

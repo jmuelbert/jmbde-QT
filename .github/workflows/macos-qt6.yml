@@ -92,13 +92,13 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2-preview
         with:
-          name: ${{env.targetName}}-Qt${{matrix.qt_ver}}.dmg
-          path: build/${{env.targetName}}-Qt${{matrix.qt_ver}}.dmg
+          name: ${{ env.targetName }}-Qt${{matrix.qt_ver}}-${{matrix.build_type}}.dmg
+          path: build/${{ env.targetName }}-Qt${{matrix.qt_ver}}.dmg
       - name: uploadRelease
         if: startsWith(github.event.ref, 'refs/tags/')
         uses: svenstaro/upload-release-action@v1-release
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: build/${{env.targetName}}-Qt${{matrix.qt_ver}}.dmg
-          asset_name: ${{env.targetName}}.dmg ${targetName}-Qt${{matrix.qt_ver}}.dmg
+          file: build/${{ env.targetName }}-Qt${{matrix.qt_ver}}.dmg
+          asset_name: ${{ env.targetName }}-Qt${{matrix.qt_ver}}-${{ matrix.build_type }}.dmg
           tag: ${{ github.ref }}
