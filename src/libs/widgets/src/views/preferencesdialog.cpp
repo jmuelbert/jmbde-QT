@@ -114,7 +114,7 @@ void PreferencesDialog::on_pushButtonDBForceFileDialog_clicked()
 
 QString PreferencesDialog::getUserDataDir()
 {
-    auto dataBaseDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+    QString dataBaseDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
 
     return dataBaseDir;
 }

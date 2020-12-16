@@ -133,6 +133,7 @@ jobs:
         run: |
             cd "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist/MSVC"
             echo ::set-output name=VC_REDIST_VERSION::$(ls -dr *.* | head -n1)
+            cd
             iscc packaging/win/installer_x64.iss  -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$archiveName -DMyOutRoot=./build/app/bin -DVC_REDIST_VERSION=$VC_REDIST_VERSION
             Copy-Item jmbde-${{ steps.get_version.outputs.VERSION }}-x64-setup.exe jmbde-${{ steps.get_version.outputs.VERSION }}-windows-Qt${{env.QT_VERSION}}-${{ matrix.build_type }}-${{ matrix.arch }}.exe
 
