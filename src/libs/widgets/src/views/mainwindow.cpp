@@ -206,7 +206,7 @@ void MainWindow::readSettings()
 
     // dataContext settings
 
-    QString dataContextDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+    QString dataContextDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
 
     settings.beginGroup(QLatin1String(Settings::Groups::DATABASE));
     dbType = settings.value(QLatin1String(Settings::Database::TYPE), SQLITE).toInt();
