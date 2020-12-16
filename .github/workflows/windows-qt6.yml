@@ -112,6 +112,7 @@ jobs:
             -DBUILD_TRANSLATIONS=ON \
             -DCMAKE_INSTALL_PREFIX:PATH=./app
           cmake --build . --parallel $(nproc)
+          cmake --install .
 
       - name: ZIP package
         env:

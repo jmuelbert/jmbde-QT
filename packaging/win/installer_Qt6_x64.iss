@@ -32,7 +32,7 @@ DefaultDirName={pf}\{#MyAppName}
 ; DefaultGroupName={#MyAppName}
 UsedUserAreasWarning=no
 DisableProgramGroupPage=yes
-LicenseFile={#MyProjectRoot}\LICENSE
+LicenseFile={#MyProjectRoot}\License.rtf
 PrivilegesRequiredOverridesAllowed=dialog
 OutputDir={#MyProjectRoot}
 OutputBaseFilename=jmbde-{#MyAppVersion}-x64-setup
@@ -115,12 +115,12 @@ Source: "{#MyOutRoot}\jmbdequick.dll"; DestDir: "{app}"; Components: core; Flags
 ; Source: "{#MyOutRoot}\Redist\vc_redist.x64.exe"; DestDir: {tmp}; Flags: dontcopy
 
 ; Qt libs
-Source: "{#MyOutRoot}\Qt5Core.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\Qt5Gui.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\Qt5Network.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\Qt5Qml.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\Qt5Svg.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\Qt5Widgets.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "{#MyOutRoot}\Qt6Core.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "{#MyOutRoot}\Qt6Gui.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "{#MyOutRoot}\Qt6Network.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "{#MyOutRoot}\Qt6Qml.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "{#MyOutRoot}\Qt6Svg.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "{#MyOutRoot}\Qt6Widgets.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 
 
 ; Qt VS libs
