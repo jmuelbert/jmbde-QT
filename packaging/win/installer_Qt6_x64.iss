@@ -149,7 +149,7 @@ Source: "{#MyOutRoot}\imageformats\qsvg.dll"; DestDir: "{app}\imageformats"; Com
 Source: "{#MyOutRoot}\platforms\qwindows.dll"; DestDir: "{app}\platforms"; Components: core; Flags: ignoreversion
 
 ; - printsupport
-Source: "{#MyOutRoot}\printsupport\windowsprintersupport.dll"; DestDir: "{app}\printsupport"; Components: core; Flags: ignoreversion
+; Source: "{#MyOutRoot}\printsupport\windowsprintersupport.dll"; DestDir: "{app}\printsupport"; Components: core; Flags: ignoreversion
 
 ; - sqldrivers
 Source: "{#MyOutRoot}\sqldrivers\qsqlite.dll"; DestDir: "{app}\sqldrivers"; Components: core; Flags: ignoreversion
