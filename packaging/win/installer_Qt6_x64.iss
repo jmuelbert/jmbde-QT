@@ -122,7 +122,9 @@ Source: "{#MyOutRoot}\concrt140.dll"; DestDir: "{app}"; Components: core; Flags:
 Source: "{#MyOutRoot}\Qt6Core.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\Qt6Gui.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\Qt6Network.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "{#MyOutRoot}\Qt6PrintSupport.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\Qt6Qml.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "{#MyOutRoot}\Qt6Sql.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\Qt6Svg.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\Qt6Widgets.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 
@@ -130,7 +132,7 @@ Source: "{#MyOutRoot}\Qt6Widgets.dll"; DestDir: "{app}"; Components: core; Flags
 ; Qt VS libs
 Source: "{#MyOutRoot}\libGLESV2.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\libEGL.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\D3Dcompiler_47.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "{#MyOutRoot}\d3dcompiler_47.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\opengl32sw.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 
 
@@ -154,6 +156,14 @@ Source: "{#MyOutRoot}\imageformats\qwebp.dll"; DestDir: "{app}\imageformats"; Co
 
 ; - platforms
 Source: "{#MyOutRoot}\platforms\qwindows.dll"; DestDir: "{app}\platforms"; Components: core; Flags: ignoreversion
+
+; - printsupport
+Source: "{#MyOutRoot}\printsupport\windowsprintersupport.dll"; DestDir: "{app}\printsupport"; Components: core; Flags: ignoreversion
+
+; - sqldrivers
+Source: "{#MyOutRoot}\sqldrivers\qsqlite.dll"; DestDir: "{app}\sqldrivers"; Components: core; Flags: ignoreversion
+Source: "{#MyOutRoot}\sqldrivers\qsqlodbc.dll"; DestDir: "{app}\sqldrivers"; Components: core; Flags: ignoreversion
+Source: "{#MyOutRoot}\sqldrivers\qsqlodbc.dll"; DestDir: "{app}\sqldrivers"; Components: core; Flags: ignoreversion
 
 ; - styles
 Source: "{#MyOutRoot}\styles\qwindowsvistastyle.dll"; DestDir: "{app}\styles"; Components: core; Flags: ignoreversion
@@ -179,6 +189,7 @@ Source: "{#MyOutRoot}\translations\qt_lv.qm"; DestDir: "{app}\translations"; Com
 Source: "{#MyOutRoot}\translations\qt_pl.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "{#MyOutRoot}\translations\qt_ru.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "{#MyOutRoot}\translations\qt_sk.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "{#MyOutRoot}\translations\qt_tr.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "{#MyOutRoot}\translations\qt_uk.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "{#MyOutRoot}\translations\qt_zh_TW.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 
