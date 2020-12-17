@@ -92,8 +92,7 @@ jobs:
               env:
                   CC: /usr/bin/gcc-7
                   CXX: /usr/bin/g++-7
-              run: |6
-
+              run: |
                   cd build
                   cmake .. \
                     -GNinja \
