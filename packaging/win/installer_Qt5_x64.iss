@@ -10,8 +10,6 @@
 #define MyAppPublisher "Jürgen Mülbert"
 #define MyAppURL "https://jmuelbert.github.io/jmbde-QT"
 #define MyAppExeName "jmbde.exe"
-#define MyProjectRoot "."
-#define MyOutRoot "."
 
 [Setup]
 ChangesEnvironment=yes
@@ -31,11 +29,11 @@ DefaultDirName={pf}\{#MyAppName}
 ; DefaultGroupName={#MyAppName}
 UsedUserAreasWarning=no
 DisableProgramGroupPage=yes
-LicenseFile={#MyProjectRoot}\License.rtf
+LicenseFile=..\..\packaging\win\License.rtf
 PrivilegesRequiredOverridesAllowed=dialog
 OutputDir={#MyProjectRoot}
 OutputBaseFilename=jmbde-{#MyAppVersion}-x64-setup
-SetupIconFile={#MyProjectRoot}..\..\src\app\icons\jmbde-icon.ico
+SetupIconFile=..\..\src\app\icons\jmbde-icon.ico
 Compression=lzma
 SolidCompression=yes
 ;ShowLanguageDialog=no
