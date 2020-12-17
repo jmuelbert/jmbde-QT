@@ -124,7 +124,7 @@ jobs:
           Compress-Archive -Path ${env:archiveName} ${env:archiveName}'.zip'
           $name = ${env:archiveName}
           Write-Host 'Name: ' $name
-          echo "packageName=\"$name\"" >> $GITHUB_ENV
+          echo "packageName=$name" >> $GITHUB_ENV
           Write-Host 'packageName:' ${env:packageName}
 
       - name: Inno package
