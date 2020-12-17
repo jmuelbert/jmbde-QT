@@ -145,7 +145,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2-preview
         with:
-          name: jmbde-win-qt5-x64-${{ matrix.build_type }}.zip
+          name: ${{ env.packageName }}.zip
           path: ${{ env.packageName }}.zip
 
       - name: uploadRelease

@@ -136,9 +136,6 @@ Source: "{#MyOutRoot}\opengl32sw.dll"; DestDir: "{app}"; Components: core; Flags
 
 
 ; Qt plugins
-; - bearer
-Source: "{#MyOutRoot}\bearer\qgenericbearer.dll"; DestDir: "{app}\bearer"; Components: core; Flags: ignoreversion
-
 ; - iconengines
 Source: "{#MyOutRoot}\iconengines\qsvgicon.dll"; DestDir: "{app}\iconengines"; Components: core; Flags: ignoreversion
 
