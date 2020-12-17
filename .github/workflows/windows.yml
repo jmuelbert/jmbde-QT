@@ -145,7 +145,7 @@ jobs:
         uses: actions/upload-artifact@v2-preview
         with:
           name: ${{ env.packageName }}.zip
-          path: ${{ env.packageName }}.zip
+          path: ./${{ env.packageName }}.zip
 
       - name: uploadRelease
         if: startsWith(github.event.ref, 'refs/tags/')

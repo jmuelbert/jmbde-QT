@@ -126,6 +126,7 @@ jobs:
             $name = ${env:archiveName}
             echo "packageName=\"$name\"" >> $GITHUB_ENV
             Write-Host 'packageName:'${env:packageName}
+            Get-ChildItem
 
       - name: Inno package
         env:
@@ -146,7 +147,7 @@ jobs:
         uses: actions/upload-artifact@v2-preview
         with:
           name: ${{ env.packageName }}.zip
-          path: ${{ env.packageName }}.zip
+          path: ./${{ env.packageName }}.zip
 
       - name: uploadRelease
         if: startsWith(github.event.ref, 'refs/tags/')
