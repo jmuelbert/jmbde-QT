@@ -123,7 +123,7 @@ jobs:
           windeployqt --qmldir . ${env:archiveName}\bin\${env:targetName} ${env:archiveName}\bin\jmbdemodels.dll ${env:archiveName}\bin\jmbdequick.dll ${env:archiveName}\bin\jmbdewidgets.dll
           Compress-Archive -Path ${env:archiveName} ${env:archiveName}'.zip'
           $name = ${env:archiveName}
-          echo "packageName=\"$name\"" >> $GITHUB_ENV
+          echo "packageName=\"$name\" >> $GITHUB_ENV
           Write-Host 'packageName:'${env:packageName}
 
       - name: Inno package
@@ -144,8 +144,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2-preview
         with:
-          name: ${{ env.packageName }}.zip
-          path: ./${{ env.packageName }}.zip
+          name: jmbde-win-${{matrix.arch}}-${{matrix.build_type}}.zip
+          path: ${{ env.packageName }}.zip
 
       - name: uploadRelease
         if: startsWith(github.event.ref, 'refs/tags/')

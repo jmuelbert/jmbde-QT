@@ -144,7 +144,6 @@ Source: "{#MyOutRoot}\imageformats\qgif.dll"; DestDir: "{app}\imageformats"; Com
 Source: "{#MyOutRoot}\imageformats\qico.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\imageformats\qjpeg.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\imageformats\qsvg.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\imageformats\qtga.dll"; DestDir: "{app}\imageformats"; Components: core; Flags: ignoreversion
 
 ; - platforms
 Source: "{#MyOutRoot}\platforms\qwindows.dll"; DestDir: "{app}\platforms"; Components: core; Flags: ignoreversion
