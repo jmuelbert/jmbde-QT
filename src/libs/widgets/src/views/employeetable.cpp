@@ -26,7 +26,6 @@ EmployeeTable::EmployeeTable(const QString &tableName, QSqlTableModel *model, QW
 {
     ui->setupUi(this);
 
-
     m_dataContext = new Model::DataContext();
     m_db = m_dataContext->getDatabase();
 
@@ -64,8 +63,6 @@ EmployeeTable::~EmployeeTable()
     delete ui;
 }
 
-
-
 void EmployeeTable::setMappings()
 {
     // Model::Employee *employeeModel = new Model::Employee();
@@ -76,7 +73,8 @@ void EmployeeTable::setMappings()
 }
 
 void EmployeeTable::setViewOnlyMode(bool mode)
-{}
+{
+}
 
 void EmployeeTable::createDataset()
 {
