@@ -1,27 +1,22 @@
 {
     "env": {
-      "myDefaultIncludePath": ["${workspaceFolder}",
-        "${workspaceFolder}/src/libs/models/include/models",
-        "${workspaceFolder}/src/libs/quick/include/quick",
-        "${workspaceFolder}/src/libs/widgets/include/views",
-        "${workspaceFolder}/build/src/app",
-        "${workspaceFolder}/build/src/libs/models",
-        "${workspaceFolder}/build/src//libs/quick",
-        "${workspaceFolder}/build/src/libs/widgets"
-    ],
-      "myCompilerPath": "/usr/local/bin/gcc-7"
+        "myDefaultIncludePath": [
+            "${workspaceFolder}",
+            "${workspaceFolder}/src/libs/models/include/models",
+            "${workspaceFolder}/src/libs/quick/include/quick",
+            "${workspaceFolder}/src/libs/widgets/include/views",
+            "${workspaceFolder}/build/src/app",
+            "${workspaceFolder}/build/src/libs/models",
+            "${workspaceFolder}/build/src//libs/quick",
+            "${workspaceFolder}/build/src/libs/widgets"
+        ],
+        "myCompilerPath": "/usr/local/bin/gcc-7"
     },
     "configurations": [
         {
             "name": "Win32",
-            "includePath": [
-                "${myDefaultIncludePath}"
-            ],
-            "defines": [
-                "_DEBUG",
-                "UNICODE",
-                "_UNICODE"
-            ],
+            "includePath": ["${myDefaultIncludePath}"],
+            "defines": ["_DEBUG", "UNICODE", "_UNICODE"],
             "windowsSdkVersion": "10.0.18362.0",
             "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Tools/MSVC/14.24.28314/bin/Hostx64/x64/cl.exe",
             "cStandard": "c11",
@@ -30,9 +25,7 @@
         },
         {
             "name": "Linux",
-            "includePath": [
-                "${myDefaultIncludePath}"
-            ],
+            "includePath": ["${myDefaultIncludePath}"],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "c11",
@@ -41,9 +34,7 @@
         },
         {
             "name": "Mac",
-            "includePath": [
-                "${myDefaultIncludePath}"
-            ],
+            "includePath": ["${myDefaultIncludePath}"],
             "defines": [],
             "macFrameworkPath": [
                 "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks"
@@ -57,7 +48,7 @@
                 "path": ["${workspaceFolder}"],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""
-              },
+            },
             "configurationProvider": "ms-vscode.cmake-tools"
         }
     ],

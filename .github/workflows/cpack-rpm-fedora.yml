@@ -1,80 +1,85 @@
+---
 name: "CD: RPM - Fedora"
 
 on:
     push:
         paths-ignore:
-            - 'README.md'
-            - 'LICENSE'
+            - "README.md"
+            - "LICENSE"
     pull_request:
         paths-ignore:
-            - 'README.md'
-            - 'LICENSE'
+            - "README.md"
+            - "LICENSE"
     release:
         types: [published]
 
 jobs:
-  check_commit_msg:
-    outputs:
-      commit_message: ${{ steps.get_message.outputs.message }}
-    name: Check if the workflow has been disabled.
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: Get commit message
-        id: get_message
-        run: |
-          echo "::set-output name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
-  linux:
-    strategy:
-        fail-fast: false
-        matrix:
-          distro: [rawhide, latest, 32]
-          build_type: [Release, RelWithDebInfo]
-          #distro: [testing, sid]
-    needs: check_commit_msg
-    if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_RPM') }}
-    name: Fedora ${{ matrix.distro }}
-    runs-on: ubuntu-latest
-    container: fedora:${{ matrix.distro }}
+    check_commit_msg:
+        outputs:
+            commit_message: ${{ steps.get_message.outputs.message }}
+        name: Check if the workflow has been disabled.
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v1
+            - name: Get commit message
+              id: get_message
+              run: |
+                  echo "::set-output name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
+    linux:
+        strategy:
+            fail-fast: false
+            matrix:
+                distro: [rawhide, latest, 32]
+                build_type: [Release, RelWithDebInfo]
+            #distro: [testing, sid]
+        needs: check_commit_msg
+        if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_RPM') }}
+        name: Fedora ${{ matrix.distro }}
+        runs-on: ubuntu-latest
+        container: fedora:${{ matrix.distro }}
 
-    steps:
-        - name: Install git
-          run: |
-            dnf update -y
-            dnf install -y git
-        - name: get_version
-          id: get_version
-          shell: bash
-          run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
-        - name: Checking out Sources
-          uses: actions/checkout@v2
-          with:
-            submodules: 'recursive'
-        - name: Install build dependencies
-          run: |
-            dnf install -y cmake qt5-qtbase-devel qt5-linguist qt5-qtsvg-devel desktop-file-utils ninja-build redhat-lsb-core fedora-packager rpmdevtools
-        - name: build
-          run: |
-            mkdir build
-            cd build
-            cmake .. -GNinja -DEMBED_TRANSLATIONS=OFF -DEMBED_DOCS=OFF -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DBUILD_RPM=ON -DLEMON_BUILD_INFO="Build for Fedora" -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)"
-            cmake --build . --target package --parallel $(nproc)
-        - name: Get package name
-          shell: bash
-          id: get_package
-          run: |
-            echo ::set-output name=NAME::$(basename build/jmbde_qt-*.rpm)
-        - name: Upload artifact
-          uses: actions/upload-artifact@v2-preview
-          with:
-            name: jmbde_qt-${{ steps.get_version.outputs.VERSION }}-Fedora-${{ matrix.distro }}-${{ matrix.build_type }}.deb
-            path: build/${{ steps.get_package.outputs.NAME }}
-        - name: Upload binaries to release
-          uses: svenstaro/upload-release-action@v1-release
-          if: github.event_name == 'release'
-          with:
-            repo_token: ${{ secrets.GITHUB_TOKEN }}
-            file: build/${{ steps.get_package.outputs.NAME }}
-            asset_name: jmbde_qt-${{ steps.get_version.outputs.VERSION }}-Fedora-${{ matrix.distro }}-${{ matrix.build_type }}.deb
-            tag: ${{ github.ref }}
-            overwrite: true
+        steps:
+            - name: Install git
+              run: |
+                  dnf update -y
+                  dnf install -y git
+            - name: get_version
+              id: get_version
+              shell: bash
+              run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+            - name: Checking out Sources
+              uses: actions/checkout@v2
+              with:
+                  submodules: "recursive"
+            - name: Install build dependencies
+              run: |
+                  dnf install -y cmake qt5-qtbase-devel qt5-linguist qt5-qtsvg-devel desktop-file-utils ninja-build redhat-lsb-core fedora-packager rpmdevtools
+            - name: build
+              run: |
+                  mkdir build
+                  cd build
+                  cmake .. -GNinja -DEMBED_TRANSLATIONS=OFF -DEMBED_DOCS=OFF -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DBUILD_RPM=ON -DLEMON_BUILD_INFO="Build for Fedora" -DLEMON_BUILD_EXTRA_INFO="Build on $(uname -sr)"
+                  cmake --build . --target package --parallel $(nproc)
+            - name: Get package name
+              shell: bash
+              id: get_package
+              run: |
+                  echo ::set-output name=NAME::$(basename build/jmbde_qt-*.rpm)
+            - name: Upload artifact
+              uses: actions/upload-artifact@v2-preview
+              with:
+                  name:
+                      jmbde_qt-${{ steps.get_version.outputs.VERSION }}-Fedora-${{
+                      matrix.distro }}-${{ matrix.build_type }}.deb
+                  path: build/${{ steps.get_package.outputs.NAME }}
+            - name: Upload binaries to release
+              uses: svenstaro/upload-release-action@v1-release
+              if: github.event_name == 'release'
+              with:
+                  repo_token: ${{ secrets.GITHUB_TOKEN }}
+                  file: build/${{ steps.get_package.outputs.NAME }}
+                  asset_name:
+                      jmbde_qt-${{ steps.get_version.outputs.VERSION }}-Fedora-${{
+                      matrix.distro }}-${{ matrix.build_type }}.deb
+                  tag: ${{ github.ref }}
+                  overwrite: true

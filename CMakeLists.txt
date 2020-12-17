@@ -77,7 +77,6 @@ set(KF5_VERSION "5.71.0")
 set(KF5_DEP_VERSION "5.71.0")
 set(QT_MIN_VERSION "5.12.8")
 
-
 # Load Standard-CMake helpler modules
 include(FeatureSummary)
 
@@ -139,7 +138,10 @@ if(NOT DEFINED CMAKE_MACOSX_RPATH)
   set(CMAKE_MACOSX_RPATH TRUE)
 endif()
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
+find_package(
+  QT NAMES Qt6 Qt5
+  COMPONENTS Core
+  REQUIRED)
 
 # forbid some old things
 add_definitions(-DQT_NO_FOREACH)
@@ -172,8 +174,10 @@ add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format"
                  " (for e.g. Qt Assistant, Qt Creator & KDevelop)")
 option(BUILD_TRANSLATIONS "Build translations" OFF)
 add_feature_info(TRANSL ${BUILD_TRANSLATIONS} "Build the translations")
-option(ENABLE_EMBEDDED_TRANSLATIONS "Add the translations to a QT Reesource File" OFF)
-add_feature_info(TRANS_EMB ${ENABLE_EMBEDDED_TRANSLATIONS} "Add the translations to a QT Reesource File" )
+option(ENABLE_EMBEDDED_TRANSLATIONS
+       "Add the translations to a QT Reesource File" OFF)
+add_feature_info(TRANS_EMB ${ENABLE_EMBEDDED_TRANSLATIONS}
+                 "Add the translations to a QT Reesource File")
 option(BUILD_COVERAGE "Add coverage information." OFF)
 add_feature_info(COVERAGE ${BUILD_COVERAGE} "Build with coverage informations.")
 option(BUILD_SHARED_LIBS "Build shared libs" ON)
@@ -233,11 +237,9 @@ if(USE_GIT_VERSION)
   endif()
 endif()
 
-
 if(NOT DEFINED DISPLAY_VERSION)
   set(DISPLAY_VERSION "${PROJECT_VERSION}")
 endif()
-
 
 # ##############################################################################
 # clang format cpp and h files.
@@ -247,7 +249,6 @@ if(ENABLE_CLANG_FORMAT)
 else()
   message(STATUS "Clang-format supported but disabled")
 endif()
-
 
 # allow for static analysis options
 include(cmake/StaticAnalyzers.cmake)

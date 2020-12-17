@@ -49,16 +49,16 @@ ecm_setup_version(
   VERSION_HEADER
   ${CMAKE_CURRENT_BINARY_DIR}/jmbdewidgets-version.h)
 
-  ecm_qt_declare_logging_category(
-    ${PROJECT_NAME}
-    HEADER
-    loggingcategory.h
-    IDENTIFIER
-    jmbdewidgetsLog
-    CATEGORY_NAME
-    jmuelbert.jmbde.${PROJECT_NAME}
-    DEFAULT_SEVERITY
-    Warning)
+ecm_qt_declare_logging_category(
+  ${PROJECT_NAME}
+  HEADER
+  loggingcategory.h
+  IDENTIFIER
+  jmbdewidgetsLog
+  CATEGORY_NAME
+  jmuelbert.jmbde.${PROJECT_NAME}
+  DEFAULT_SEVERITY
+  Warning)
 #
 # Finding Qt
 #
@@ -168,15 +168,10 @@ target_compile_definitions(
 
 target_link_libraries(
   jmbdewidgets
-  PUBLIC
-    Qt${QT_VERSION_MAJOR}::Core jmuelbert::jmbdemodels
-  PRIVATE
-    Qt${QT_VERSION_MAJOR}::Widgets
-    Qt${QT_VERSION_MAJOR}::PrintSupport
-    Qt${QT_VERSION_MAJOR}::Sql
-    Qt${QT_VERSION_MAJOR}::Qml
-    Qt${QT_VERSION_MAJOR}::QuickWidgets
-    ${CONAN_LIBS})
+  PUBLIC Qt${QT_VERSION_MAJOR}::Core jmuelbert::jmbdemodels
+  PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::PrintSupport
+          Qt${QT_VERSION_MAJOR}::Sql Qt${QT_VERSION_MAJOR}::Qml
+          Qt${QT_VERSION_MAJOR}::QuickWidgets ${CONAN_LIBS})
 
 #
 # Install instructions

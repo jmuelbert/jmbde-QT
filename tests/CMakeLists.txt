@@ -25,6 +25,5 @@ include(ECMAddTests)
 # find_package(QT_NAMES Qt6 Qt5 COMPONENTS Core Requiered)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Test)
 
-
-ecm_add_tests(tst_test.cpp LINK_LIBRARIES
-    Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Test)
+ecm_add_tests(tst_test.cpp LINK_LIBRARIES Qt${QT_VERSION_MAJOR}::Core
+              Qt${QT_VERSION_MAJOR}::Test)

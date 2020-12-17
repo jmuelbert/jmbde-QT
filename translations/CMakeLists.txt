@@ -74,8 +74,8 @@ foreach(LANG ${LANGUAGES})
   add_custom_target(
     ts_${LANG}
     COMMAND
-      Qt${QT_VERSION_MAJOR}::lupdate src/app/src src/libs/models src/libs/quick src/libs/widgets
-      -locations relative -no-ui-lines -no-obsolete -ts
+      Qt${QT_VERSION_MAJOR}::lupdate src/app/src src/libs/models src/libs/quick
+      src/libs/widgets -locations relative -no-ui-lines -no-obsolete -ts
       ${CMAKE_CURRENT_SOURCE_DIR}/jmbde_${LANG}.ts
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
   add_dependencies(ts ts_${LANG})
@@ -85,8 +85,10 @@ endforeach()
 foreach(LANG ${LANGUAGES})
   add_custom_command(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jmbde_${LANG}.qm
-    COMMAND Qt${QT_VERSION_MAJOR}::lrelease ${CMAKE_CURRENT_SOURCE_DIR}/jmbde_${LANG}.ts -qm
-            ${CMAKE_CURRENT_BINARY_DIR}/jmbde_${LANG}.qm
+    COMMAND
+      Qt${QT_VERSION_MAJOR}::lrelease
+      ${CMAKE_CURRENT_SOURCE_DIR}/jmbde_${LANG}.ts -qm
+      ${CMAKE_CURRENT_BINARY_DIR}/jmbde_${LANG}.qm
     DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/jmbde_${LANG}.ts)
   add_custom_target(jmbde_${LANG}_qm ALL
                     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbde_${LANG}.qm)
@@ -106,15 +108,15 @@ foreach(LANG ${LANGUAGES})
 endforeach()
 
 if(EMBED_TRANSLATIONS)
-    add_definitions(-DEMBED_TRANSLATIONS)
-    configure_file(translations.qrc ${CMAKE_BINARY_DIR} COPYONLY)
-    set(EMBED_TRANSLATION_QRC ${CMAKE_BINARY_DIR}/translations.qrc)
+  add_definitions(-DEMBED_TRANSLATIONS)
+  configure_file(translations.qrc ${CMAKE_BINARY_DIR} COPYONLY)
+  set(EMBED_TRANSLATION_QRC ${CMAKE_BINARY_DIR}/translations.qrc)
 else()
-    if(WIN32)
-        install(FILES ${QM_FILES} DESTINATION "${TRANSLATION_INSTALL_DIR}")
-    elseif(APPLE)
-        install(FILES ${QM_FILES} DESTINATION "${TRANSLATION_INSTALL_DIR}")
-    else()
-        install(FILES ${QM_FILES} DESTINATION "${TRANSLATION_INSTALL_DIR}")
-    endif()
+  if(WIN32)
+    install(FILES ${QM_FILES} DESTINATION "${TRANSLATION_INSTALL_DIR}")
+  elseif(APPLE)
+    install(FILES ${QM_FILES} DESTINATION "${TRANSLATION_INSTALL_DIR}")
+  else()
+    install(FILES ${QM_FILES} DESTINATION "${TRANSLATION_INSTALL_DIR}")
+  endif()
 endif()

@@ -17,7 +17,7 @@ jobs:
             - name: Get commit message
               id: get_message
               run: |
-                echo "::set-output name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
+                  echo "::set-output name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
     linux:
         needs: check_commit_msg
         name: All Source Files
@@ -35,7 +35,7 @@ jobs:
             - name: Checking out sources
               uses: actions/checkout@v2
               with:
-                  submodules: 'recursive'
+                  submodules: "recursive"
             - name: Create 7z Release
               uses: DuckSoft/create-7z-action@v1.0
               with:

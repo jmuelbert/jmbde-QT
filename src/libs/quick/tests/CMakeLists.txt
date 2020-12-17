@@ -27,5 +27,5 @@ include(ECMAddTests)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets Sql
                                                        PrintSupport Test)
 
-ecm_add_tests(tst_quicktest.cpp LINK_LIBRARIES
-    Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Gui Qt${QT_VERSION_MAJOR}::Test)
+ecm_add_tests(tst_quicktest.cpp LINK_LIBRARIES Qt${QT_VERSION_MAJOR}::Core
+              Qt${QT_VERSION_MAJOR}::Gui Qt${QT_VERSION_MAJOR}::Test)

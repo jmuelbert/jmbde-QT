@@ -20,7 +20,7 @@ jobs:
             - name: Get commit message
               id: get_message
               run: |
-                echo "::set-output name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
+                  echo "::set-output name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
     release:
         needs: check_commit_msg
         if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_MAIN') }}
@@ -121,7 +121,8 @@ jobs:
                   draft: true
                   prerelease: ${{ steps.get_version.outputs.ISBETA }}
                   files:
-                    build/jmbde-${{ steps.get_version.outputs.VERSION }}-Qt${{env.QT_VERSION}-linux-x86_64.AppImage
+                      build/jmbde-${{ steps.get_version.outputs.VERSION
+                      }}-Qt${{env.QT_VERSION}-linux-x86_64.AppImage
                   name: jmbde ${{ steps.get_version.outputs.VERSION }}
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -162,7 +163,8 @@ jobs:
                   draft: true
                   prerelease: ${{ steps.get_version.outputs.ISBETA }}
                   files:
-                      build/jmbde-${{ steps.get_version.outputs.VERSION }}-Qt${{env.QT_VERSION}-macos-x64.dmg
+                      build/jmbde-${{ steps.get_version.outputs.VERSION
+                      }}-Qt${{env.QT_VERSION}-macos-x64.dmg
                   name: jmbde ${{ steps.get_version.outputs.VERSION }}
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -193,5 +195,7 @@ jobs:
                   draft: true
                   prerelease: ${{ steps.get_version.outputs.ISBETA }}
                   files:
-                      jmbde-${{ steps.get_version.outputs.VERSION }}-windows-Qt${{env.QT_VERSION}}-x64${{ matrix.config.portable-name }}
+                      jmbde-${{ steps.get_version.outputs.VERSION
+                      }}-windows-Qt${{env.QT_VERSION}}-x64${{
+                      matrix.config.portable-name }}
                   name: jmbde ${{ steps.get_version.outputs.VERSION }}

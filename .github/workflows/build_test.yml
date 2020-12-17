@@ -18,7 +18,7 @@ jobs:
             - name: Get commit message
               id: get_message
               run: |
-                echo "::set-output name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
+                  echo "::set-output name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
     build:
         needs: check_commit_msg
         if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_MAIN') }}
@@ -83,4 +83,4 @@ jobs:
 
             - name: Test
               run: |
-                ctest -VV .
+                  ctest -VV .

@@ -79,9 +79,8 @@ endif()
 # Finding Qt
 #
 # find_package(QT_NAMES Qt6 Qt5 COMPONENTS Core Requiered)
-find_package(Qt${QT_VERSION_MAJOR} QUIET
-             COMPONENTS Core Widgets PrintSupport Sql Qml)
-
+find_package(Qt${QT_VERSION_MAJOR} QUIET COMPONENTS Core Widgets PrintSupport
+                                                    Sql Qml)
 
 # Use a single application on MacOS + Windows instead of dbus.
 if(APPLE OR WIN32)
@@ -114,11 +113,9 @@ target_include_directories(
   PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include"
           "${CMAKE_CURRENT_BINARY_DIR}/include" "${CMAKE_CURRENT_BINARY_DIR}")
 
-target_sources(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
-)
+target_sources(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 
 target_sources(${PROJECT_NAME} PRIVATE ${ICONS_SOURCES})
-
 
 target_compile_features(jmbde PUBLIC cxx_std_17)
 
@@ -129,12 +126,12 @@ target_compile_definitions(
 target_link_libraries(
   ${PROJECT_NAME}
   PRIVATE jmuelbert::jmbdewidgets
-        Qt${QT_VERSION_MAJOR}::Core
-        Qt${QT_VERSION_MAJOR}::Widgets
-        Qt${QT_VERSION_MAJOR}::PrintSupport
-        Qt${QT_VERSION_MAJOR}::Sql
-        Qt${QT_VERSION_MAJOR}::Qml
-        ${CONAN_LIBS})
+          Qt${QT_VERSION_MAJOR}::Core
+          Qt${QT_VERSION_MAJOR}::Widgets
+          Qt${QT_VERSION_MAJOR}::PrintSupport
+          Qt${QT_VERSION_MAJOR}::Sql
+          Qt${QT_VERSION_MAJOR}::Qml
+          ${CONAN_LIBS})
 
 if(WIN32)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/app.rc.in
