@@ -123,8 +123,9 @@ jobs:
           windeployqt --qmldir . ${env:archiveName}\bin\${env:targetName} ${env:archiveName}\bin\jmbdemodels.dll ${env:archiveName}\bin\jmbdequick.dll ${env:archiveName}\bin\jmbdewidgets.dll
           Compress-Archive -Path ${env:archiveName} ${env:archiveName}'.zip'
           $name = ${env:archiveName}
+          Write-Host 'Name: ' $name
           echo "packageName=\"$name\"" >> $GITHUB_ENV
-          Write-Host 'packageName:'${env:packageName}
+          Write-Host 'packageName:' ${env:packageName}
 
       - name: Inno package
         shell: bash
