@@ -132,7 +132,7 @@ jobs:
             archiveName: jmbde.${{ steps.get_version.outputs.VERSION }}-Qt${{ matrix.qt_version }}-${{ matrix.build_type }}.Windows-${{ matrix.arch }}
         shell: bash
         run: |
-            iscc packaging/win/installer_Qt5_x64.iss  -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd)/$archiveName -DMyOutRoot=$(pwd)/build/app/bin
+            iscc packaging/win/installer_Qt5_x64.iss  -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd)/build -DMyOutRoot=$(pwd)/$archiveName/bin
             Copy-Item jmbde-${{ steps.get_version.outputs.VERSION }}-x64-setup.exe jmbde-${{ steps.get_version.outputs.VERSION }}-windows-Qt${{env.QT_VERSION}}-${{ matrix.build_type }}-${{ matrix.arch }}.exe
 
       - name: MSI package
