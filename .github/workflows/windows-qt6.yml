@@ -129,21 +129,27 @@ jobs:
             Write-Host 'packageName:' ${env:packageName}
 
       - name: Inno package
+        env:
+            archiveName: jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         shell: bash
         run: |
-            iscc packaging/win/installer_Qt6_x64.iss  -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/${{ env.packageName }}/bin
+            iscc packaging/win/installer_Qt6_x64.iss  -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/${{ env.archiveName }}/bin
             cp jmbde-setup.exe jmbde-${{ steps.get_version.outputs.VERSION }}-windows-Qt${{env.QT_VERSION}}-${{ matrix.build_type }}-${{ matrix.arch }}.exe
 
       - name: MSI package
+        env:
+            archiveName: jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         shell: bash
         run: |
             echo "Hello msi installer"
 
       - name: Upload artifact
+        env:
+            archiveName: jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         uses: actions/upload-artifact@v2-preview
         with:
           name: jmbde-win-${{matrix.arch}}-${{matrix.build_type}}.zip
-          path: ${{ env.packageName }}.zip
+          path: ${{ env.archiveName }}.zip
 
       - name: uploadRelease
         if: startsWith(github.event.ref, 'refs/tags/')
