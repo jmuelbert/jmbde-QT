@@ -133,7 +133,7 @@ jobs:
         shell: bash
         run: |
             windeployqt --qmldir . ${env:archiveName}\bin\${env:targetName} ${env:archiveName}\bin\jmbdemodels.dll ${env:archiveName}\bin\jmbdequick.dll ${env:archiveName}\bin\jmbdewidgets.dll
-            Copy-Item jmbde-${{ steps.get_version.outputs.VERSION }}-x64-setup.exe jmbde-${{ steps.get_version.outputs.VERSION }}-windows-Qt${{env.QT_VERSION}}-${{ matrix.build_type }}-${{ matrix.arch }}.exe
+            Copy-Item jmbde-setup.exe jmbde-${{ steps.get_version.outputs.VERSION }}-windows-Qt${{env.QT_VERSION}}-${{ matrix.build_type }}-${{ matrix.arch }}.exe
 
       - name: MSI package
         env:
@@ -153,7 +153,7 @@ jobs:
         uses: svenstaro/upload-release-action@v1-release
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./build/app/bin/jmbde-${{ steps.get_version.outputs.VERSION }}-windows-Qt${{env.QT_VERSION}}-${{ matrix.build_type }}-x64.exe
+          file: jmbde-${{ steps.get_version.outputs.VERSION }}-windows-Qt${{env.QT_VERSION}}-${{ matrix.build_type }}-x64.exe
           asset_name: jmbde-${{ steps.get_version.outputs.VERSION }}-windows-Qt${{env.QT_VERSION}}-${{ matrix.build_type }}-x64.exe
           tag: ${{ github.ref }}
           overwrite: true
