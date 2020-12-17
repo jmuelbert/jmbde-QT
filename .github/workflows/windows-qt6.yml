@@ -133,7 +133,7 @@ jobs:
         shell: bash
         run: |
             windeployqt --qmldir . ${env:archiveName}\bin\${env:targetName} ${env:archiveName}\bin\jmbdemodels.dll ${env:archiveName}\bin\jmbdequick.dll ${env:archiveName}\bin\jmbdewidgets.dll
-            Copy-Item jmbde-setup.exe jmbde-${{ steps.get_version.outputs.VERSION }}-windows-Qt${{env.QT_VERSION}}-${{ matrix.build_type }}-${{ matrix.arch }}.exe
+            cp jmbde-setup.exe jmbde-${{ steps.get_version.outputs.VERSION }}-windows-Qt${{env.QT_VERSION}}-${{ matrix.build_type }}-${{ matrix.arch }}.exe
 
       - name: MSI package
         env:
