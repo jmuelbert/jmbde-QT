@@ -17,7 +17,6 @@
 
 #include "ui_csvimportdialog.h"
 
-
 Q_LOGGING_CATEGORY(jmbdeWidgetsCsvInputDialogLog, "jmuelbert.jmbde.widgets.csvinputdialog", QtWarningMsg)
 
 CsvImportDialog::CsvImportDialog(QWidget *parent)
@@ -28,12 +27,10 @@ CsvImportDialog::CsvImportDialog(QWidget *parent)
     model = new QStandardItemModel(this);
     ui->tableView->setModel(model);
 
-
     QStringList dataDirList = QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
 
     // Use user space
     const QString &dataBaseDirAndFile = dataDirList.at(0);
-
 
     QString fileName = QFileDialog::getOpenFileName(nullptr, tr("open CSV file"), dataBaseDirAndFile, QLatin1String("CSV (*.csv)"));
     QFile file(fileName);
