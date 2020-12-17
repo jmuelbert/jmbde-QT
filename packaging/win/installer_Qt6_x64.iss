@@ -117,6 +117,7 @@ Source: "{#MyOutRoot}\msvcp140_codecvt_ids.dll"; DestDir: "{app}"; Components: c
 Source: "{#MyOutRoot}\vcruntime140_1.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\vcruntime140.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\concrt140.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "{#MyOutRoot}\vc_redist.x64.exe"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 
 ; Qt libs
 Source: "{#MyOutRoot}\Qt6Core.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
@@ -130,8 +131,6 @@ Source: "{#MyOutRoot}\Qt6Widgets.dll"; DestDir: "{app}"; Components: core; Flags
 
 
 ; Qt VS libs
-Source: "{#MyOutRoot}\libGLESV2.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\libEGL.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\d3dcompiler_47.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\opengl32sw.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 

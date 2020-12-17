@@ -155,7 +155,7 @@ Source: "{#MyOutRoot}\imageformats\qwebp.dll"; DestDir: "{app}\imageformats"; Co
 ; - platforms
 Source: "{#MyOutRoot}\platforms\qwindows.dll"; DestDir: "{app}\platforms"; Components: core; Flags: ignoreversion
 
- - printsupport
+; - printsupport
 Source: "{#MyOutRoot}\printsupport\windowsprintersupport.dll"; DestDir: "{app}\printsupport"; Components: core; Flags: ignoreversion
 
 ; - sqldrivers
