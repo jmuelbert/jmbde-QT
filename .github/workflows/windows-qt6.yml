@@ -132,12 +132,12 @@ jobs:
             archiveName: jmbde.${{ steps.get_version.outputs.VERSION }}-Qt${{ matrix.qt_version }}-${{ matrix.build_type }}.Windows-${{ matrix.arch }}
         shell: bash
         run: |
-            iscc packaging/win/installer_Qt6_x64.iss  -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$archiveName -DMyOutRoot=./build/app/bin
+            iscc packaging/win/installer_Qt5_x64.iss  -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd)/$archiveName -DMyOutRoot=$(pwd)/build/app/bin
             Copy-Item jmbde-${{ steps.get_version.outputs.VERSION }}-x64-setup.exe jmbde-${{ steps.get_version.outputs.VERSION }}-windows-Qt${{env.QT_VERSION}}-${{ matrix.build_type }}-${{ matrix.arch }}.exe
 
       - name: MSI package
         env:
-            archiveName: jmbde.${{ steps.get_version.outputs.VERSION }}-Qt${{ matrix.qt_version }}-${{ matrix.build_type }}.Windows-${{ matrix.arch }}
+           archiveName: jmbde.${{ steps.get_version.outputs.VERSION }}-Qt${{ matrix.qt_version }}-${{ matrix.build_type }}.Windows-${{ matrix.arch }}
         shell: bash
         run: |
             echo "Hello msi installer"
@@ -145,15 +145,15 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2-preview
         with:
-            name: jmbde-win-qt5-x64-${{ matrix.build_type }}.zip
-            path: ${{ env.packageName }}.zip
+          name: jmbde-win-qt5-x64-${{ matrix.build_type }}.zip
+          path: ${{ env.packageName }}.zip
 
       - name: uploadRelease
         if: startsWith(github.event.ref, 'refs/tags/')
         uses: svenstaro/upload-release-action@v1-release
         with:
-            repo_token: ${{ secrets.GITHUB_TOKEN }}
-            file: ./build/app/bin/jmbde-${{ steps.get_version.outputs.VERSION }}-windows-Qt${{env.QT_VERSION}}-${{ matrix.build_type }}-x64.exe
-            asset_name: jmbde-${{ steps.get_version.outputs.VERSION }}-windows-Qt${{env.QT_VERSION}}-${{ matrix.build_type }}-x64.exe
-            tag: ${{ github.ref }}
-            overwrite: true
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./build/app/bin/jmbde-${{ steps.get_version.outputs.VERSION }}-windows-Qt${{env.QT_VERSION}}-${{ matrix.build_type }}-x64.exe
+          asset_name: jmbde-${{ steps.get_version.outputs.VERSION }}-windows-Qt${{env.QT_VERSION}}-${{ matrix.build_type }}-x64.exe
+          tag: ${{ github.ref }}
+          overwrite: true
