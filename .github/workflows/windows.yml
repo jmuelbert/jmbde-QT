@@ -117,8 +117,7 @@ jobs:
             - name: ZIP package
               env:
                   archiveName:
-                      jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-${{
-                      matrix.arch }}
+                      jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-${{matrix.arch }}
               shell: pwsh
               run: |
                   New-Item -ItemType Directory ${env:archiveName}
