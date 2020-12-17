@@ -29,7 +29,7 @@ DefaultDirName={pf}\{#MyAppName}
 ; DefaultGroupName={#MyAppName}
 UsedUserAreasWarning=no
 DisableProgramGroupPage=yes
-LicenseFile=.\packaging\win\License.rtf
+LicenseFile=.\License.rtf
 PrivilegesRequiredOverridesAllowed=dialog
 OutputDir={#MyProjectRoot}
 OutputBaseFilename=jmbde-{#MyAppVersion}-x64-setup
@@ -213,11 +213,11 @@ Source: "{#MyOutRoot}\translations\jmbde_zh_CN.qm"; DestDir: "{app}\translations
 Source: "{#MyOutRoot}\translations\jmbde_zh_TW.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 
 ; Docs
-Source: ".\*.md"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: ".\AUTHORS"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "..\..\*.md"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "..\..\AUTHORS"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 
 ; Licenses
-Source: ".\LICENSE"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "..\..\LICENSE"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 
 
 [Icons]
