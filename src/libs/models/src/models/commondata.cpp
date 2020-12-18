@@ -32,7 +32,6 @@ auto Model::CommonData::createSheet() -> QTextDocument *
 
 auto Model::CommonData::setOutTableStyle() -> QString
 {
-
     QString css;
 
     css = QLatin1String("<style type=\"text/css\">");
