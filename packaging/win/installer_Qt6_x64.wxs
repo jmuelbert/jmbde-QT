@@ -408,10 +408,10 @@
       <ComponentRef Id="ProgramMenuDir" />
     </Feature>
 
-    <!-- Set up ARPINSTALLLOCATION property (http://blogs.technet.com/b/alexshev/archive/2008/02/09/from-msi-to-wix-part-2.aspx) -->
+    <!-- Set up ARPINSTALLOCATION property (http://blogs.technet.com/b/alexshev/archive/2008/02/09/from-msi-to-wix-part-2.aspx) -->
     <CustomAction
-            Id="SetARPINSTALLLOCATION"
-            Property="ARPINSTALLLOCATION"
+            Id="SetARPINSTALLOCATION"
+            Property="ARPINSTALLOCATION"
             Value="[INSTALLDIR]"
         />
     <CustomAction
@@ -433,7 +433,7 @@
 
     <InstallExecuteSequence>
       <!-- Determine the install location after the install path has been validated by the installer -->
-      <Custom Action="SetARPINSTALLLOCATION" After="InstallValidate" />
+      <Custom Action="SetARPINSTALLOCATION" After="InstallValidate" />
       <Custom Action="LaunchApplication" After="InstallFinalize">NOT Installed</Custom>
     </InstallExecuteSequence>
 
