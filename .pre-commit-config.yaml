@@ -3,7 +3,7 @@ default_language_version:
     python: python3
 repos:
     - repo: https://github.com/pre-commit/pre-commit-hooks
-      rev: v3.3.0
+      rev: v3.4.0
       hooks:
           - id: check-added-large-files
             args: [--maxkb=150]
@@ -215,7 +215,7 @@ repos:
             args: ["--regex=PROJ-[0-9]", "--format={ticket} {commit_msg}"] # Optional
 
     - repo: https://github.com/homebysix/pre-commit-macadmin
-      rev: v1.8.0
+      rev: v1.8.1
       hooks:
           - id: check-autopkg-recipe-list
           - id: check-autopkg-recipes

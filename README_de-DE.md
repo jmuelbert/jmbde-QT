@@ -31,6 +31,12 @@ Betriebssystemen funktioniert.
 |  beta  | [v0.5.2](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.2) | [![GitHub Workflow Status](https://github.com/jmuelbert/jmbde-QT/workflows/CI:%20Build%20Test/badge.svg?branch=v0.5.2&event=push)](https://github.com/jmuelbert/jmbde-QT/actions?query=event%3Apush+branch%3Av0.5.2) | [![Downloads](https://img.shields.io/github/downloads/jmuelbert/jmbde-QT/v0.5.2/total)](https://github.com/jmuelbert/jmbde-QT/releases/tag/v0.5.2) |
 | stable | [v0.5.0](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.0) | [![GitHub Workflow Status](https://github.com/jmuelbert/jmbde-QT/workflows/CI:%20Build%20Test/badge.svg?branch=v0.5.0&event=push)](https://github.com/jmuelbert/jmbde-QT/actions?query=event%3Apush+branch%3v0.5.0)  | [![Downloads](https://img.shields.io/github/downloads/jmuelbert/jmbde-QT/v0.5.0/total)](https://github.com/jmuelbert/jmbde-QT/releases/tag/v0.5.0) |
 
+| Plattform | Build für Qt6                                                                                       | Build für Qt5                                                                             |
+| --------- | --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| Appimage  | ![CD: AppImage Qt6](https://github.com/jmuelbert/jmbde-QT/workflows/CD:%20AppImage%20Qt6/badge.svg) | ![CD: AppImage](https://github.com/jmuelbert/jmbde-QT/workflows/CD:%20AppImage/badge.svg) |
+| MacOS     | ![CD: MacOS Qt6](https://github.com/jmuelbert/jmbde-QT/workflows/CD:%20MacOS%20Qt6/badge.svg)       | ![CD: MacOS](https://github.com/jmuelbert/jmbde-QT/workflows/CD:%20MacOS/badge.svg)       |
+| Windows   | ![CD: MacOS](https://github.com/jmuelbert/jmbde-QT/workflows/CD:%20MacOS/badge.svg)                 | ![CD: Windows](https://github.com/jmuelbert/jmbde-QT/workflows/CD:%20Windows/badge.svg)   |
+
 ## Setup
 
 Das Programm verwendet die [QT-Bibliothek](https://www.qt.io). Daher kann es auf fast
