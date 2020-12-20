@@ -17,8 +17,7 @@
         "USE_GIT_VERSION": "ON",
         "ENABLE_TESTING": "ON",
         "ENABLE_PCH": "ON",
-        "CMAKE_INSTALL_PREFIX:PATH" :"./install",
-        "VERBOSE"
+        "CMAKE_INSTALL_PREFIX:PATH": "./install"
     },
     "editor.formatOnSave": true,
     "files.exclude": {

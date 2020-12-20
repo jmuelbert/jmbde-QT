@@ -190,9 +190,11 @@ for:
           - export
             LD_LIBRARY_PATH=$APPVEYOR_BUILD_FOLDER/appdir/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
           - if [ -z "$VERSION" ]; then export VERSION=$APPVEYOR_BUILD_VERSION; fi
-          - wget -c "https://github.com/jimevins/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
+          - wget -c
+            "https://github.com/jimevins/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
           - chmod a+x linuxdeployqt*.AppImage
-          - wget -c -nv "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+          - wget -c -nv
+            "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
           - chmod a+x appimagetool-x86_64.AppImage
           - ./linuxdeployqt*.AppImage
             $APPVEYOR_BUILD_FOLDER/appdir/usr/share/applications/io.github.jmuelbert.jmbde.desktop
@@ -225,18 +227,35 @@ for:
           - ps: $ENV:PLATFORM="x64"
           - ps: $ENV:PYTHON="C:\Python39-x64"
           - ps: $ENV:LLVM="${ENV:ProgramFiles}\LLVM\bin"
-          - ps: $ENV:CMAKE_ARGS= "-DCMAKE_C_COMPILER=clang-cl.exe -DCMAKE_CXX_COMPILER=clang-cl.exe -DCMAKE_LINKER=lld-link.exe"
+          - ps:
+                $ENV:CMAKE_ARGS= "-DCMAKE_C_COMPILER=clang-cl.exe
+                -DCMAKE_CXX_COMPILER=clang-cl.exe -DCMAKE_LINKER=lld-link.exe"
           - ps: $ENV:CLANG_URL="https://releases.llvm.org/9.0.0/LLVM-9.0.0-win64.exe"
-          - ps: $ENV:VSDEVCMD="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\Common7\Tools\VsDevCmd.bat"
+          - ps:
+                $ENV:VSDEVCMD="${ENV:ProgramFiles(x86)}\Microsoft Visual
+                Studio\2019\Community\Common7\Tools\VsDevCmd.bat"
           # MSVC
           - ps: $ENV:QTDIR="C:\Qt\6.0\msvc2019_64"
-          - ps: $ENV:VCREDIST_CRT_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CRT"
-          - ps: $ENV:VCREDIST_CXXAMP_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CXXAMP"
-          - ps: $ENV:VCREDIST_OPENMP_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.OpenMP"
-          - ps: $ENV:REDIST="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\vcredist_%PLATFORM%.exe"
-          - ps: $ENV:VCVARSALL="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat"
-          - call set /p RedistVersion=<"%ProgramFiles(x86)%\\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt"
-          - ps: $ENV:Path =  $ENV:PYTHON + ";" + $ENV:PYTHON + "/Scripts" + ";" + $ENV:PATH
+          - ps:
+                $ENV:VCREDIST_CRT_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual
+                Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CRT"
+          - ps:
+                $ENV:VCREDIST_CXXAMP_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual
+                Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CXXAMP"
+          - ps:
+                $ENV:VCREDIST_OPENMP_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual
+                Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.OpenMP"
+          - ps:
+                $ENV:REDIST="${ENV:ProgramFiles(x86)}\Microsoft Visual
+                Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\vcredist_%PLATFORM%.exe"
+          - ps:
+                $ENV:VCVARSALL="${ENV:ProgramFiles(x86)}\Microsoft Visual
+                Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat"
+          - call set /p RedistVersion=<"%ProgramFiles(x86)%\\Microsoft Visual
+            Studio\2019\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt"
+          - ps:
+                $ENV:Path =  $ENV:PYTHON + ";" + $ENV:PYTHON + "/Scripts" + ";" +
+                $ENV:PATH
           - ps: $ENV:INNO="${ENV:ProgramFiles(x86)}\Inno Setup 6"
           - ps: $ENV:NSIS="${ENV:ProgramFiles(x86)}\NSIS"
           - ps: $ENV:CMAKE_GENERATOR="Visual Studio 16 2019" # Ninja

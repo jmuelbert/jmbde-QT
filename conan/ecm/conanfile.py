@@ -36,7 +36,7 @@ class ecmConan(ConanFile):
     version = "5.71.0"
     license = "BSD 3-Clause license."
     url = "https://invent.kde.org/frameworks/extra-cmake-modules.git"
-    description = "The Extra CMake Modules package,."
+    description = "The Extra CMake Modules package."
     generators = "cmake"
 
     def source(self):

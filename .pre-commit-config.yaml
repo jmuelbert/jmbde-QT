@@ -15,10 +15,11 @@ repos:
           - id: check-docstring-first
           - id: check-executables-have-shebangs
           - id: check-json
-            exclude: .vscode/*
-          - id: pretty-format-json
-            args: [--autofix]
-            exclude: .vscode/*
+            exclude: >
+                (?x)(
+                    ^\.vscode/settings\.json|
+                    ^\.github/.*\.yml
+                )$
           - id: check-merge-conflict
           - id: check-symlinks
           - id: check-toml
@@ -80,14 +81,21 @@ repos:
             exclude: >
                 (?x)^(
                   .+\.png|
+                  .+\.pdf|
                   .+\.woff|
                   .+\.woff2|
                   .+\.tff|
                   .+\.ico|
+                  .+\.icns|
                   .+\.svgz|
                   .+\.ttf
                 )$
           - id: forbid-space-in-indent
+            exclude: >
+                (?x)^(
+                  .+\.cpp|
+                  .+\.h
+                  )$
           - id: git-check # Configure in .gitattributes
           - id: git-dirty # Configure in .gitignore
           # - id: markdownlint # Configure in .mdlrc
@@ -236,8 +244,8 @@ repos:
       hooks:
           - id: clang-format
           - id: clang-tidy
-          - id: oclint
-            args: [-enable-clang-static-analyzer, -enable-global-analysis]
+          # - id: oclint
+          #  args: [-enable-clang-static-analyzer, -enable-global-analysis]
           # - id: uncrustify
 
     - repo: https://gitlab.com/daverona/pre-commit/cpp
@@ -265,6 +273,6 @@ repos:
       rev: v0.6.13
       hooks:
           - id: cmake-format
-            args: [--in-place, --config-files=.cmake-format]
+            args: [--config-files=.cmake-format]
           - id: cmake-lint
             args: [--filter=-whitespace/indent]
