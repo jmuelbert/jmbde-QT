@@ -12,14 +12,34 @@ jobs:
         uses: deep5050/cppcheck-action@main
         with:
           github_token: ${{ secrets.GITHUB_TOKEN}}
-
-      - name: Clang Code Formatter
-        uses: ivanludvig/clang-format-action@v1.4
-        env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          check_library: enable
+          enable: all
+          exclude_check: :/src/3rd-party
+          inconclusive: enable
+          inline_suppression: disable
+          max_ctu_depth: 2
+          output_file: ./cppcheck_report.txt
 
       - name: publish report
         uses: mikeal/publish-to-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH_NAME: 'master' # your branch name goes here
+
+      - name: Clang Code Formatter
+        uses: ivanludvig/clang-format-action@v1.4
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run beautysh
+        uses: illvart/beautysh-action@latest
+        with:
+          # Pass beautysh options in args, for example:
+          args: '*.sh --indent-size 4'
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: '[auto] ci: apply beautysh changes'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
