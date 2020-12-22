@@ -1,0 +1,167 @@
+src/3rd-party/qtsingleapplication/src/qtlockedfile.h:54:5: style: Class 'QtLockedFile' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+    QtLockedFile(const QString &name);
+    ^
+src/3rd-party/qtsingleapplication/src/qtlockedfile.cpp:65:5: performance: Variable 'm_semaphore_hnd' is assigned in constructor body. Consider performing initialization in initialization list. [useInitializationList]
+    m_semaphore_hnd = 0;
+    ^
+src/3rd-party/qtsingleapplication/src/qtlockedfile.cpp:66:5: performance: Variable 'm_mutex_hnd' is assigned in constructor body. Consider performing initialization in initialization list. [useInitializationList]
+    m_mutex_hnd = 0;
+    ^
+src/3rd-party/qtsingleapplication/src/qtlockedfile.cpp:80:5: performance: Variable 'm_semaphore_hnd' is assigned in constructor body. Consider performing initialization in initialization list. [useInitializationList]
+    m_semaphore_hnd = 0;
+    ^
+src/3rd-party/qtsingleapplication/src/qtlockedfile.cpp:81:5: performance: Variable 'm_mutex_hnd' is assigned in constructor body. Consider performing initialization in initialization list. [useInitializationList]
+    m_mutex_hnd = 0;
+    ^
+src/3rd-party/qtsingleapplication/src/qtsingleapplication.cpp:50:57: style:inconclusive: Function 'QtSingleApplication' argument 1 names different: declaration 'id' definition 'appId'. [funcArgNamesDifferent]
+QtSingleApplication::QtSingleApplication(const QString &appId, int &argc, char **argv)
+                                                        ^
+src/3rd-party/qtsingleapplication/src/qtsingleapplication.h:41:40: note: Function 'QtSingleApplication' argument 1 names different: declaration 'id' definition 'appId'.
+    QtSingleApplication(const QString &id, int &argc, char **argv);
+                                       ^
+src/3rd-party/qtsingleapplication/src/qtsingleapplication.cpp:50:57: note: Function 'QtSingleApplication' argument 1 names different: declaration 'id' definition 'appId'.
+QtSingleApplication::QtSingleApplication(const QString &appId, int &argc, char **argv)
+                                                        ^
+src/libs/models/src/models/account.cpp:18:1: error: There is an unknown macro here somewhere. Configuration is required. If Q_LOGGING_CATEGORY is a macro then please configure it. [unknownMacro]
+Q_LOGGING_CATEGORY(jmbdeModelsAccountLog, "jmuelbert.jmbde.models.account", QtWarningMsg)
+^
+src/libs/models/src/models/chipcard.cpp:18:1: error: There is an unknown macro here somewhere. Configuration is required. If Q_LOGGING_CATEGORY is a macro then please configure it. [unknownMacro]
+Q_LOGGING_CATEGORY(jmbdeModelsChipCardLog, "jmuelbert.jmbde.models.chipcard", QtWarningMsg)
+^
+src/libs/models/src/models/chipcarddoor.cpp:18:1: error: There is an unknown macro here somewhere. Configuration is required. If Q_LOGGING_CATEGORY is a macro then please configure it. [unknownMacro]
+Q_LOGGING_CATEGORY(jmbdeChipCardDoorLog, "jmuelbert.jmbde.models.chipcarddoor", QtWarningMsg)
+^
+src/libs/models/src/models/chipcardprofile.cpp:18:1: error: There is an unknown macro here somewhere. Configuration is required. If Q_LOGGING_CATEGORY is a macro then please configure it. [unknownMacro]
+Q_LOGGING_CATEGORY(jmbdeModelsChipCardProfileLog, "jmuelbert.jmbde.models.chipcardprofile", QtWarningMsg)
+^
+src/libs/models/src/models/chipcardprofiledoor.cpp:18:1: error: There is an unknown macro here somewhere. Configuration is required. If Q_LOGGING_CATEGORY is a macro then please configure it. [unknownMacro]
+Q_LOGGING_CATEGORY(jmbdeModelsChipCardProfileDoorLog, "jmuelbert.jmbde.models.chipcardprofiledoor", QtWarningMsg)
+^
+src/libs/models/src/models/cityname.cpp:18:1: error: There is an unknown macro here somewhere. Configuration is required. If Q_LOGGING_CATEGORY is a macro then please configure it. [unknownMacro]
+Q_LOGGING_CATEGORY(jmbdeModelsCityNameLog, "jmuelbert.jmbde.models.cityname", QtWarningMsg)
+^
+src/libs/models/src/models/commondata.cpp:18:1: error: There is an unknown macro here somewhere. Configuration is required. If Q_LOGGING_CATEGORY is a macro then please configure it. [unknownMacro]
+Q_LOGGING_CATEGORY(jmbdeModelsCommonDataLog, "jmuelbert.jmbde.models.commondata", QtWarningMsg)
+^
+src/libs/models/src/models/company.cpp:18:1: error: There is an unknown macro here somewhere. Configuration is required. If Q_LOGGING_CATEGORY is a macro then please configure it. [unknownMacro]
+Q_LOGGING_CATEGORY(jmbdeModelsCompanyLog, "jmuelbert.jmbde.models.company", QtWarningMsg)
+^
+src/libs/models/src/models/computer.cpp:18:1: error: There is an unknown macro here somewhere. Configuration is required. If Q_LOGGING_CATEGORY is a macro then please configure it. [unknownMacro]
+Q_LOGGING_CATEGORY(jmbdeModelsComputerLog, "jmuelbert.jmbde.models.computer", QtWarningMsg)
+^
+src/libs/models/src/models/computersoftware.cpp:18:1: error: There is an unknown macro here somewhere. Configuration is required. If Q_LOGGING_CATEGORY is a macro then please configure it. [unknownMacro]
+Q_LOGGING_CATEGORY(jmbdeModelsComputerSoftwareLog, "jmuelbert.jmbde.models.computersoftware", QtWarningMsg)
+^
+src/libs/models/src/models/datacontext.cpp:18:1: error: There is an unknown macro here somewhere. Configuration is required. If Q_LOGGING_CATEGORY is a macro then please configure it. [unknownMacro]
+Q_LOGGING_CATEGORY(jmbdeModelsDatacontextLog, "jmuelbert.jmbde.models.datacontext", QtWarningMsg)
+^
+src/libs/models/src/models/department.cpp:18:1: error: There is an unknown macro here somewhere. Configuration is required. If Q_LOGGING_CATEGORY is a macro then please configure it. [unknownMacro]
+Q_LOGGING_CATEGORY(jmbdeModelsDepartmentLog, "jmuelbert.jmbde.models.department", QtWarningMsg)
+^
+src/libs/models/src/models/employee.cpp:18:1: error: There is an unknown macro here somewhere. Configuration is required. If Q_LOGGING_CATEGORY is a macro then please configure it. [unknownMacro]
+Q_LOGGING_CATEGORY(jmbdeModelsEmployeeLog, "jmuelbert.jmbde.models.employee", QtWarningMsg)
+^
+src/libs/models/tests/tst_acount.cpp:65:23: style: Variable 'accountModel' is assigned a value that is never used. [unreadVariable]
+    auto accountModel = m_Account->initializeRelationalModel();
+                      ^
+src/libs/widgets/src/views/accountinputarea.cpp:20:1: error: There is an unknown macro here somewhere. Configuration is required. If Q_LOGGING_CATEGORY is a macro then please configure it. [unknownMacro]
+Q_LOGGING_CATEGORY(jmbdeWidgetsAccoutInputAreaLog, "jmuelbert.jmbde.widgets.accountinputarea", QtWarningMsg)
+^
+src/libs/widgets/src/views/chipcardinputarea.cpp:19:1: error: There is an unknown macro here somewhere. Configuration is required. If Q_LOGGING_CATEGORY is a macro then please configure it. [unknownMacro]
+Q_LOGGING_CATEGORY(jmbdeWidgetsChipCardInputAreaLog, "jmuelbert.jmbde.widgets.chipcardinputarea", QtWarningMsg)
+^
+src/libs/widgets/src/views/cityinputarea.cpp:20:1: error: There is an unknown macro here somewhere. Configuration is required. If Q_LOGGING_CATEGORY is a macro then please configure it. [unknownMacro]
+Q_LOGGING_CATEGORY(jmbdeWidgetsCityInputAreaLog, "jmuelbert.jmbde.widgets.cityinputarea", QtWarningMsg)
+^
+src/libs/widgets/src/views/computerinputarea.cpp:20:1: error: There is an unknown macro here somewhere. Configuration is required. If Q_LOGGING_CATEGORY is a macro then please configure it. [unknownMacro]
+Q_LOGGING_CATEGORY(jmbdeWidgetsComputerInputAreaLog, "jmuelbert.jmbde.widgets.employeeinputarea", QtWarningMsg)
+^
+src/libs/widgets/src/views/csvimportdialog.cpp:20:1: error: There is an unknown macro here somewhere. Configuration is required. If Q_LOGGING_CATEGORY is a macro then please configure it. [unknownMacro]
+Q_LOGGING_CATEGORY(jmbdeWidgetsCsvInputDialogLog, "jmuelbert.jmbde.widgets.csvinputdialog", QtWarningMsg)
+^
+src/libs/widgets/src/views/employeeinputarea.cpp:20:1: error: There is an unknown macro here somewhere. Configuration is required. If Q_LOGGING_CATEGORY is a macro then please configure it. [unknownMacro]
+Q_LOGGING_CATEGORY(jmbdeWidgetsEmployeeInputAreaLog, "jmuelbert.jmbde.widgets.employeeinputarea", QtWarningMsg)
+^
+src/libs/widgets/src/views/employeetable.cpp:20:1: error: There is an unknown macro here somewhere. Configuration is required. If Q_LOGGING_CATEGORY is a macro then please configure it. [unknownMacro]
+Q_LOGGING_CATEGORY(jmbdeWidgetsEmployeeTableLog, "jmuelbert.jmbde.widgets.employeetable", QtWarningMsg)
+^
+src/libs/widgets/src/views/mainwindow.cpp:20:1: error: There is an unknown macro here somewhere. Configuration is required. If Q_LOGGING_CATEGORY is a macro then please configure it. [unknownMacro]
+Q_LOGGING_CATEGORY(jmbdeWidgetsMainWindowLog, "jmuelbert.jmbde.widgets.mainwindow", QtWarningMsg)
+^
+src/libs/models/tests/tst_acount.cpp:80:0: style: The function 'GenerateFormularString' is never used. [unusedFunction]
+
+^
+src/libs/models/tests/tst_acount.cpp:76:0: style: The function 'GenerateTableString' is never used. [unusedFunction]
+
+^
+src/libs/models/tests/tst_acount.cpp:84:0: style: The function 'GetAccountIndex' is never used. [unusedFunction]
+
+^
+src/libs/models/tests/tst_acount.cpp:100:0: style: The function 'GetLastUpdateIndex' is never used. [unusedFunction]
+
+^
+src/libs/models/tests/tst_acount.cpp:92:0: style: The function 'GetPasswordIndex' is never used. [unusedFunction]
+
+^
+src/libs/models/tests/tst_acount.cpp:96:0: style: The function 'GetSystemDataIndex' is never used. [unusedFunction]
+
+^
+src/libs/models/tests/tst_acount.cpp:88:0: style: The function 'GetUserNameIndex' is never used. [unusedFunction]
+
+^
+src/libs/models/tests/tst_acount.cpp:68:0: style: The function 'InitializeInputDataModel' is never used. [unusedFunction]
+
+^
+src/libs/models/tests/tst_acount.cpp:63:0: style: The function 'InitializeRelationalModel' is never used. [unusedFunction]
+
+^
+src/libs/models/tests/tst_acount.cpp:72:0: style: The function 'InitializeViewModel' is never used. [unusedFunction]
+
+^
+src/libs/models/tests/tst_acount.cpp:58:0: style: The function 'SetIndexes' is never used. [unusedFunction]
+
+^
+src/3rd-party/qtsingleapplication/src/qtsingleapplication.cpp:173:0: style: The function 'activationWindow' is never used. [unusedFunction]
+
+^
+src/3rd-party/qtsingleapplication/src/qtsingleapplication.cpp:152:0: style: The function 'applicationId' is never used. [unusedFunction]
+
+^
+src/libs/models/tests/tst_datacontext.cpp:67:0: style: The function 'checkExistence_Test' is never used. [unusedFunction]
+
+^
+src/libs/models/tests/tst_acount.cpp:38:0: style: The function 'cleanupTestCase' is never used. [unusedFunction]
+
+^
+src/libs/models/tests/tst_datacontext.cpp:86:0: style: The function 'constructor_Test' is never used. [unusedFunction]
+
+^
+src/libs/models/tests/tst_datacontext.cpp:80:0: style: The function 'deleteDB_Test' is never used. [unusedFunction]
+
+^
+src/libs/models/tests/tst_datacontext.cpp:50:0: style: The function 'getQuery_Test' is never used. [unusedFunction]
+
+^
+src/libs/models/tests/tst_acount.cpp:31:0: style: The function 'initTestCase' is never used. [unusedFunction]
+
+^
+src/3rd-party/qtsingleapplication/src/qtlockedfile.cpp:100:0: style: The function 'lockMode' is never used. [unusedFunction]
+
+^
+src/libs/models/tests/tst_datacontext.cpp:60:0: style: The function 'openDB_Test' is never used. [unusedFunction]
+
+^
+src/libs/models/tests/tst_datacontext.cpp:74:0: style: The function 'renameDB_Test' is never used. [unusedFunction]
+
+^
+src/3rd-party/qtsingleapplication/src/qtsingleapplication.cpp:162:0: style: The function 'setActivationWindow' is never used. [unusedFunction]
+
+^
+src/3rd-party/qtsingleapplication/src/qtsingleapplication.cpp:157:0: style: The function 'setBlock' is never used. [unusedFunction]
+
+^
+src/libs/quick/tests/tst_quicktest.cpp:54:0: style: The function 'toUpper_data' is never used. [unusedFunction]
+
+^
+nofile:0:0: information: Cppcheck cannot find all the include files (use --check-config for details) [missingInclude]
+
