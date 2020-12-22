@@ -17,7 +17,7 @@ repos:
           - id: check-json
             exclude: >
                 (?x)(
-                    ^\.vscode/settings\.json|
+                    ^\.vscode/*\.json|
                     ^\.github/.*\.yml
                 )$
           - id: check-merge-conflict
