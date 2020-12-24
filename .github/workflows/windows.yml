@@ -149,24 +149,21 @@ jobs:
               run: |
                   echo "Hello msi installer"
 
-            - name: Upload artifact
+            - name: Windows - ${{ matrix.qt_version }} - Uploading artifact
               env:
                   archiveName:
-                      jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-${{
-                      matrix.arch }}
+                      jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
               uses: actions/upload-artifact@v2-preview
               with:
-                  name: jmbde-win-${{matrix.arch}}-${{matrix.build_type}}.zip
+                  name: jmbde-win-${{matrix.arch}}.qt${{ matrix.qt_version }}-${{matrix.build_type}}.zip
                   path: ${{ env.archiveName }}.zip
 
-            - name: uploadRelease
-              if: startsWith(github.event.ref, 'refs/tags/')
-              uses: svenstaro/upload-release-action@v1-release
+            - name: Windows - ${{ matrix.qt_version }} - Upload binaries to release
+              uses: svenstaro/upload-release-action@v2
               with:
                   repo_token: ${{ secrets.GITHUB_TOKEN }}
                   file:
-                      ./jmbde-${{ steps.get_version.outputs.VERSION
-                      }}-windows-Qt${{env.QT_VERSION}}-${{ matrix.build_type }}-x64.exe
+                      ./jmbde-${{ steps.get_version.outputs.VERSION }}-windows-Qt${{env.QT_VERSION}}-${{ matrix.build_type }}-x64.exe
                   asset_name:
                       jmbde-${{ steps.get_version.outputs.VERSION
                       }}-windows-Qt${{env.QT_VERSION}}-${{ matrix.build_type }}-x64.exe
