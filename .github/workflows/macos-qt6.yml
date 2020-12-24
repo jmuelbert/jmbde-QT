@@ -109,3 +109,4 @@ jobs:
                       ${{ env.targetName }}-Qt${{matrix.qt_version}}-${{ matrix.build_type
                       }}.dmg
                   tag: ${{ github.ref }}
+                  overwrite: true
