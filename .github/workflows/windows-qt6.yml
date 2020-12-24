@@ -154,7 +154,7 @@ jobs:
               env:
                   archiveName:
                       jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
-              uses: actions/upload-artifact@v2-preview
+              uses: actions/upload-artifact@v2.2.1
               with:
                   name: jmbde-win-${{matrix.arch}}.qt${{ matrix.qt_version }}-${{matrix.build_type}}.zip
                   path: ${{ env.archiveName }}.zip

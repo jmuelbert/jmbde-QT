@@ -97,7 +97,7 @@ jobs:
                   cp ./app/${targetName}.dmg ${targetName}-Qt${{matrix.qt_version}}.dmg
 
             - name: Upload artifact
-              uses: actions/upload-artifact@v2-preview
+              uses: actions/upload-artifact@v2.2.1
               with:
                   name:
                       ${{ env.targetName}}-Qt${{matrix.qt_version}}-${{matrix.build_type}}.dmg
