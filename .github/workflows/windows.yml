@@ -163,8 +163,8 @@ jobs:
               with:
                   repo_token: ${{ secrets.GITHUB_TOKEN }}
                   file:
-                      ./jmbde-${{ steps.get_version.outputs.VERSION }}-windows-Qt${{env.QT_VERSION}}-${{ matrix.build_type }}-x64.exe
+                      ./jmbde-${{ steps.get_version.outputs.VERSION }}-windows-Qt${{matrix.qt_version}}-${{ matrix.build_type }}-${{matrix.arch}}.exe
                   asset_name:
-                      jmbde-${{ steps.get_version.outputs.VERSION}}-windows-${{matrix.arch}}.Qt${{env.QT_VERSION}}-${{ matrix.build_type }}-x64.exe
+                      jmbde-${{ steps.get_version.outputs.VERSION}}-windows-${{matrix.arch}}.Qt${{matrix.qt_version}}-${{ matrix.build_type }}-${{matrix.arch}}.exe
                   tag: ${{ github.ref }}
                   overwrite: true
