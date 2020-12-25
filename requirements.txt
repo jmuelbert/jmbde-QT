@@ -8,7 +8,7 @@ chardet==4.0.0
 distlib==0.3.1
 docutils==0.16
 filelock==3.0.12
-graphviz==0.15
+graphviz==0.16
 identify==1.5.10
 idna==2.10
 imagesize==1.2.0
