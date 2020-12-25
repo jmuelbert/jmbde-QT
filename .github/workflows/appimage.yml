@@ -128,23 +128,20 @@ jobs:
                   export LD_LIBRARY_PATH=./AppDir/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
                   ./linuxdeployqt-7-x86_64.AppImage ./AppDir/usr/share/applications/io.github.jmuelbert.jmbde.desktop -appimage -no-strip -always-overwrite -extra-plugins=iconengines,imageformats,platforminputcontexts -verbose=1
                   mv ./jmbde*.AppImage ./jmbde.AppImage
+
             - name: Linux - ${{ matrix.qt_version }} - Uploading artifact
-              uses: actions/upload-artifact@v2
+              uses: actions/upload-artifact@v2.2.1
               with:
                   name:
-                      jmbde-${{ github.sha }}.linux-${{ matrix.arch }}.qt${{
-                      matrix.qt_version }}-${{ matrix.build_type }}.AppImage
+                      jmbde-${{ github.sha }}-linux-${{ matrix.arch }}-qt${{ matrix.qt_version }}-${{ matrix.build_type }}.AppImage
                   path: build/jmbde.AppImage
+
             - name: Linux - ${{ matrix.qt_version }} - Upload binaries to release
-              uses: svenstaro/upload-release-action@v1-release
-              if:
-                  github.event_name == 'release' && matrix.platform == 'ubuntu-16.04' &&
-                  matrix.qt_version == '5.15.2'
+              uses: svenstaro/upload-release-action@v2
               with:
                   repo_token: ${{ secrets.GITHUB_TOKEN }}
                   file: build/jmbde.AppImage
                   asset_name:
-                      jmbde.${{ steps.get_version.outputs.VERSION }}.linux-${{
-                      matrix.arch }}-${{ matrix.build_type }}.AppImage
+                      jmbde-${{ steps.get_version.outputs.VERSION }}-linux-${{matrix.arch }}-qt${{ matrix.qt_version }}-${{ matrix.build_type }}.AppImage
                   tag: ${{ github.ref }}
                   overwrite: true

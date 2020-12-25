@@ -138,7 +138,7 @@ jobs:
               shell: bash
               run: |
                   iscc packaging/win/installer_Qt5_x64.iss  -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/$archiveName/bin
-                  cp jmbde-setup.exe jmbde-${{ steps.get_version.outputs.VERSION }}-windows-Qt${{env.QT_VERSION}}-${{ matrix.build_type }}-${{ matrix.arch }}.exe
+                  cp jmbde-setup.exe jmbde-${{ steps.get_version.outputs.VERSION}}-windows-${{matrix.arch}}-Qt${{matrix.qt_version}}-${{ matrix.build_type }}.exe
 
             - name: MSI package
               env:
@@ -149,26 +149,22 @@ jobs:
               run: |
                   echo "Hello msi installer"
 
-            - name: Upload artifact
+            - name: Windows - ${{ matrix.qt_version }} - Uploading artifact
               env:
                   archiveName:
-                      jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-${{
-                      matrix.arch }}
-              uses: actions/upload-artifact@v2-preview
+                      jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+              uses: actions/upload-artifact@v2.2.1
               with:
-                  name: jmbde-win-${{matrix.arch}}-${{matrix.build_type}}.zip
+                  name: jmbde-win-${{matrix.arch}}.qt${{ matrix.qt_version }}-${{matrix.build_type}}.zip
                   path: ${{ env.archiveName }}.zip
 
-            - name: uploadRelease
-              if: startsWith(github.event.ref, 'refs/tags/')
-              uses: svenstaro/upload-release-action@v1-release
+            - name: Windows - ${{ matrix.qt_version }}.${{matrix.arch}}. - Upload binaries to release
+              uses: svenstaro/upload-release-action@v2
               with:
                   repo_token: ${{ secrets.GITHUB_TOKEN }}
                   file:
-                      ./jmbde-${{ steps.get_version.outputs.VERSION
-                      }}-windows-Qt${{env.QT_VERSION}}-${{ matrix.build_type }}-x64.exe
+                      ./jmbde-${{ steps.get_version.outputs.VERSION}}-windows-${{matrix.arch}}-Qt${{matrix.qt_version}}-${{ matrix.build_type }}.exe
                   asset_name:
-                      jmbde-${{ steps.get_version.outputs.VERSION
-                      }}-windows-Qt${{env.QT_VERSION}}-${{ matrix.build_type }}-x64.exe
+                      jmbde-${{ steps.get_version.outputs.VERSION}}-windows-${{matrix.arch}}-Qt${{matrix.qt_version}}-${{ matrix.build_type }}.exe
                   tag: ${{ github.ref }}
                   overwrite: true
