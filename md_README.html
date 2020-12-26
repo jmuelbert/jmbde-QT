@@ -97,8 +97,33 @@ $(function() {
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">Windows  </td><td class="markdownTableBodyNone"><img src="https://github.com/jmuelbert/jmbde-QT/workflows/CD:%20MacOS/badge.svg" alt="CD: MacOS" style="pointer-events: none;" class="inline"/>  </td><td class="markdownTableBodyNone"><img src="https://github.com/jmuelbert/jmbde-QT/workflows/CD:%20Windows/badge.svg" alt="CD: Windows" style="pointer-events: none;" class="inline"/>   </td></tr>
 </table>
-<h1>Setup</h1>
+<h1>Getting Started</h1>
 <p>The program uses the <a href="https://www.qt.io">QT library</a>. Therefore it can be set to almost every platform can be used. It runs under MacOS, Linux and Windows. Basically an installer should be used for the installation of the program can be used on one computer. This installation program is executed on the required QT libraries. For the use of the program with Windows as operating system is absolutely necessary. With Linux and macOS can be used on another variant. For these two operating systems QT can be installed centrally. With these two operating systems only the actual program files are installed. But also here there are complete installation packages with everything, including QT.</p>
+<p>To build the project:</p><ul>
+<li>Build <code>~/PROJECTNAME/build/cmake --build . --config Release</code></li>
+<li>Execute the tests <code>~/PROJECTNAME/build/ctest</code></li>
+<li>You can execute the program by <code>./build/app/PROJECTNAME</code></li>
+</ul>
+<p>To update the docker image:</p><ul>
+<li>Edit the Dockerfile to your needs</li>
+<li>Build docker image <code>sudo docker build -t IMAGENAME .</code></li>
+<li>Tag docker image with dockerhub username <code>sudo docker tag IMAGENAME:TAG DOCKERHUBUSERNAME/IMAGENAME:TAG</code></li>
+<li>Push docker image to dockerhub <code>sudo docker push DOCKERHUBUSERNAME/IMAGENAME:TAG</code></li>
+</ul>
+<p>To change/add dependencies:</p><ul>
+<li>Edit the vcpkg part of <code>.cirlceci/config.yml</code> to your needs <div class="fragment"><div class="line">- run:</div>
+<div class="line">    name: Install vcpkg dependencies</div>
+<div class="line">    command: ./../../vcpkg/vcpkg install DEPENDENCIES</div>
+</div><!-- fragment --></li>
+</ul>
+<h2>Prerequisites/Dependencies</h2>
+<ul>
+<li><a href="https://cmake.org/">cmake</a> – Open-Source, cross-platform build tool</li>
+<li><a href="https://fmt.dev/latest/index.html">fmt</a> – External library used for formatting and printing results</li>
+<li><a href="https://github.com/onqtam/doctest">doctest</a> – Feature-rich C++11/14/17/20 single-header testing framework for unit tests and TDD</li>
+<li><a href="https://github.com/microsoft/vcpkg">vcpkg</a> – C++ Library Manager for Windows, Linux, and MacOS</li>
+<li><a href="https://www.python.org/">python 3</a> – A programming language used to convert ctest results with a xml transformation (xslt)</li>
+</ul>
 <h1>Supported platforms</h1>
 <p>The executable programs and installers are available for the following platforms made available:</p>
 <ul>
@@ -209,14 +234,26 @@ $(function() {
 <div class="line">cmake -G &quot;Ninja&quot; -DCMAKE_BUILD_TYPE=Debug .</div>
 <div class="line">cmake --build .</div>
 </div><!-- fragment --><p>You can now start 'jmbde' with the command 'bin/jmbde' from the command line.</p>
-<h1>Installation</h1>
+<h1>Meta</h1>
+<p>Documentation can be found at <a href="https://ben1980.github.io/cpptemplate/">https://ben1980.github.io/cpptemplate/</a></p>
+<p><b>Jürgen Nülbert</b> – <a href="https://github.com/jmuelbert">GitHub</a> <br  />
+ &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;– <a href="https://www.linkedin.com/in/juergenmuelbert/">LinkedIn</a> <br  />
+ &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;– <a href="https://twitter.com/jmuelbert">Twitter</a> <br  />
+ &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;– <a href="juergen.muelbert@gmail.com">Mail</a></p>
 <h1>License</h1>
 <p>This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
 <p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</p>
 <p>You should have received a copy of the GNU General Public License along with this program. If not, see <a href="https://www.gnu.org/licenses/gpl-3.0.txt">https://www.gnu.org/licenses/gpl-3.0.txt</a>.</p>
 <p>Qt is available under several <a href="https://www.qt.io/licensing/">licenses</a>.</p>
 <p>GPL V3 © <a href="https:/github.com/jmuelbert/jmbde-QT">Jürgen Mülbert</a></p>
-<p><a href="#top">Return to top</a> </p>
+<h1>Acknowledgments</h1>
+<ul>
+<li>Converting CTest results int JUnit XML – <a href="https://stackoverflow.com/a/21688776/1541782">https://stackoverflow.com/a/21688776/1541782</a></li>
+<li><a class="el" href="README_8md.html">README.md</a> template inspiration – <a href="https://github.com/dbader/readme-template">https://github.com/dbader/readme-template</a></li>
+<li>Doxygen GitHub-Action – <a href="https://github.com/mattnotmitt/doxygen-action">https://github.com/mattnotmitt/doxygen-action</a></li>
+<li>gh-pages GitHub-Action – <a href="https://github.com/peaceiris/actions-gh-pages">https://github.com/peaceiris/actions-gh-pages</a></li>
+<li>Dockerfile Tips – <a href="https://blog.container-solutions.com/6-dockerfile-tips-official-images">https://blog.container-solutions.com/6-dockerfile-tips-official-images</a> </li>
+</ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 <!-- start footer part -->
