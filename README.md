@@ -241,7 +241,7 @@ You can now start 'jmbde' with the command 'bin/jmbde' from the command line.
 
 ## Meta
 
-Documentation can be found at https://ben1980.github.io/cpptemplate/
+Documentation can be found at https://jmuelbert.github.io/jmbde-QT/
 
 **Jürgen Mülbert** – [GitHub][rep-url]  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;– [LinkedIn][linkedin-url]  
