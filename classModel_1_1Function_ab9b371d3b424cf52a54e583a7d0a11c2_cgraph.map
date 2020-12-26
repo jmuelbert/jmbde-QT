@@ -1,0 +1,5 @@
+<map id="Model::Function::Function" name="Model::Function::Function">
+<area shape="rect" id="node1" title="The Constructor for the EmployeeAccount." alt="" coords="5,42,175,69"/>
+<area shape="rect" id="node2" href="$classModel_1_1DataContext.html#a511346ba7bbcd7f3a65ff0d788cafce7" title="get the reference to the QSqlDatabase" alt="" coords="247,5,381,47"/>
+<area shape="rect" id="node3" href="$classModel_1_1Function.html#abc4f2337b6dddbdb4ab1f3d290b8e349" title="Set the fieldindexes from the datafieldnames of the db." alt="" coords="223,71,405,98"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="EmployeeTable::on_pushButton_Add_clicked" name="EmployeeTable::on_pushButton_Add_clicked">
+<area shape="rect" id="node1" title=" " alt="" coords="5,27,208,69"/>
+<area shape="rect" id="node2" href="$classEmployeeTable.html#a1bf1f48b10093aa2ff5e8155a81094d2" title="createDataset" alt="" coords="259,5,456,32"/>
+<area shape="rect" id="node3" href="$classEmployeeTable.html#a50783096dbf271c5e851733c167c4706" title=" " alt="" coords="256,57,459,98"/>
+<area shape="rect" id="node4" href="$classEmployeeTable.html#ae4ca1518e63fb933ace9b89840eacd3b" title="setViewOnlyMode" alt="" coords="507,64,728,91"/>
+</map>

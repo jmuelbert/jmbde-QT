@@ -1,0 +1,5 @@
+<map id="ChipCardInputArea::setViewOnlyMode" name="ChipCardInputArea::setViewOnlyMode">
+<area shape="rect" id="node1" title="setViewOnlyMode" alt="" coords="461,13,599,54"/>
+<area shape="rect" id="node2" href="$classChipCardInputArea.html#a6cababe6e9ce8baa7b5ea83a53b542d7" title="on_pushButton_EditFinish_clicked" alt="" coords="240,5,413,61"/>
+<area shape="rect" id="node3" href="$classChipCardInputArea.html#a9713ca3d5260f8fe5f6165adcdc31213" title="on_pushButton_Add_clicked" alt="" coords="5,13,192,54"/>
+</map>

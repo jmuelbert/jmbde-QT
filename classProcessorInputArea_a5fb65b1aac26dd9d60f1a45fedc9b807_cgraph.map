@@ -1,0 +1,4 @@
+<map id="ProcessorInputArea::on_pushButton_EditFinish_clicked" name="ProcessorInputArea::on_pushButton_EditFinish_clicked">
+<area shape="rect" id="node1" title="on_pushButton_EditFinish_clicked" alt="" coords="5,5,184,61"/>
+<area shape="rect" id="node2" href="$classProcessorInputArea.html#aa0b5a6de5d82c754e8638bba662a92e0" title="setViewOnlyMode" alt="" coords="232,13,369,54"/>
+</map>

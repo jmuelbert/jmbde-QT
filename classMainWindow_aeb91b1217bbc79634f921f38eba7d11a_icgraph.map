@@ -1,0 +1,13 @@
+<map id="MainWindow::notAvailableMessage" name="MainWindow::notAvailableMessage">
+<area shape="rect" id="node1" title="notAvailableMessage" alt="" coords="248,300,421,341"/>
+<area shape="rect" id="node2" href="$classMainWindow.html#aebce2f8d5f2c275de0a8fa53898f1572" title="on_action_Export_Pdf_triggered" alt="" coords="23,5,182,47"/>
+<area shape="rect" id="node3" href="$classMainWindow.html#a7df050ed9d3ca5f73a3ed852b35fc736" title="on_actionExport_triggered" alt="" coords="5,71,200,112"/>
+<area shape="rect" id="node4" href="$classMainWindow.html#a4ed5e733f0bdcd4a387f3fe0a8ee5e82" title="on_actionHelp_triggered" alt="" coords="10,136,195,177"/>
+<area shape="rect" id="node5" href="$classMainWindow.html#a73be2df93057d846aa541dffb00e7144" title="on_actionImport_triggered" alt="" coords="5,201,200,243"/>
+<area shape="rect" id="node6" href="$classMainWindow.html#aed8d4c16aaa87ae02a2de2edd5fc91c7" title="on_actionNew_triggered" alt="" coords="10,267,195,308"/>
+<area shape="rect" id="node7" href="$classMainWindow.html#a48ed0a16f674e38e0e2a24274852a9af" title="on_actionOpen_triggered" alt="" coords="8,332,197,373"/>
+<area shape="rect" id="node8" href="$classMainWindow.html#abc37946de4fe89d8dd02b608df930958" title="on_actionPrint_Preview_triggered" alt="" coords="10,397,195,439"/>
+<area shape="rect" id="node9" href="$classMainWindow.html#a214a1a535fdbf35b0ed12e26231eef56" title="on_actionPrint_triggered" alt="" coords="10,463,195,504"/>
+<area shape="rect" id="node10" href="$classMainWindow.html#a48543094777198bcf5d0faac41680e89" title="on_listView_clicked" alt="" coords="18,528,187,569"/>
+<area shape="rect" id="node11" href="$classMainWindow.html#adc7d4b2b210efab401f0b14641f80464" title="on_treeView_clicked" alt="" coords="15,593,190,635"/>
+</map>

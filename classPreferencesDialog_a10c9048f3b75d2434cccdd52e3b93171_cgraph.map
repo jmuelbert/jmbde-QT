@@ -1,0 +1,4 @@
+<map id="PreferencesDialog::on_pushButtonDBForceFileDialog_clicked" name="PreferencesDialog::on_pushButtonDBForceFileDialog_clicked">
+<area shape="rect" id="node1" title="on_pushButtonDBForceFileDialog_clicked" alt="" coords="5,5,223,61"/>
+<area shape="rect" id="node2" href="$classPreferencesDialog.html#a7ddbd6e797f0d01b071fa2fdd5274d81" title="getUserDataDir" alt="" coords="271,13,405,54"/>
+</map>

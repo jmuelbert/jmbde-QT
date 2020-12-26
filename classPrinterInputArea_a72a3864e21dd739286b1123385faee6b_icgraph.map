@@ -1,0 +1,6 @@
+<map id="PrinterInputArea::setViewOnlyMode" name="PrinterInputArea::setViewOnlyMode">
+<area shape="rect" id="node1" title="setViewOnlyMode" alt="" coords="435,49,604,90"/>
+<area shape="rect" id="node2" href="$classPrinterInputArea.html#a312e061525374f43bfd7d54bc3520830" title="on_pushButton_EditFinish_clicked" alt="" coords="227,5,386,61"/>
+<area shape="rect" id="node4" href="$classPrinterInputArea.html#ae4db474d26fad86dd0ca4ee6d278c547" title="PrinterInputArea." alt="" coords="227,85,387,126"/>
+<area shape="rect" id="node3" href="$classPrinterInputArea.html#a60cb46e845534faac13f58d2b22a7a99" title="on_pushButton_Add_clicked" alt="" coords="5,13,179,54"/>
+</map>

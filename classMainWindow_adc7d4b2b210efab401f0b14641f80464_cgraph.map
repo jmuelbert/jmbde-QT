@@ -1,0 +1,9 @@
+<map id="MainWindow::on_treeView_clicked" name="MainWindow::on_treeView_clicked">
+<area shape="rect" id="node1" title="on_treeView_clicked" alt="" coords="5,136,180,177"/>
+<area shape="rect" id="node2" href="$classMainWindow.html#ab8f94db2d9dac29e3511d07edb75ad7d" title=" " alt="" coords="235,5,430,47"/>
+<area shape="rect" id="node3" href="$classMainWindow.html#a0518b86802fd784465adab9d7c76b72b" title=" " alt="" coords="228,71,437,112"/>
+<area shape="rect" id="node5" href="$classMainWindow.html#a19d083f9961344a63766aeb9f327eff3" title="Actualize the list view for employee after data changes." alt="" coords="228,136,437,177"/>
+<area shape="rect" id="node6" href="$classMainWindow.html#a0234ce1d33f918a3dfaa765bf5109561" title=" " alt="" coords="231,201,434,243"/>
+<area shape="rect" id="node7" href="$classMainWindow.html#aeb91b1217bbc79634f921f38eba7d11a" title="notAvailableMessage" alt="" coords="246,267,419,308"/>
+<area shape="rect" id="node4" href="$classMainWindow.html#ae5774149b00ceda6b67c9f25cb6e05ff" title=" " alt="" coords="485,143,689,170"/>
+</map>

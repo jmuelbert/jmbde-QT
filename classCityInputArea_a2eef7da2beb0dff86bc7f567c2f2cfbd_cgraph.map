@@ -1,0 +1,6 @@
+<map id="CityInputArea::on_pushButton_Add_clicked" name="CityInputArea::on_pushButton_Add_clicked">
+<area shape="rect" id="node1" title="on_pushButton_Add_clicked" alt="" coords="5,27,199,69"/>
+<area shape="rect" id="node2" href="$classCityInputArea.html#a8d2ad928892a0a8e0eee57f34e176af8" title="createDataset" alt="" coords="250,5,437,32"/>
+<area shape="rect" id="node3" href="$classCityInputArea.html#afee41bee186155c09ca18725691b866e" title="on_pushButton_EditFinish_clicked" alt="" coords="247,57,440,98"/>
+<area shape="rect" id="node4" href="$classCityInputArea.html#a7033c93f97b783e27b7bbcaa93969975" title="setViewOnlyMode" alt="" coords="488,64,699,91"/>
+</map>

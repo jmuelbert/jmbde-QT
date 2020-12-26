@@ -1,0 +1,6 @@
+<map id="DepartmentInputArea::setViewOnlyMode" name="DepartmentInputArea::setViewOnlyMode">
+<area shape="rect" id="node1" title="setViewOnlyMode" alt="" coords="425,41,571,83"/>
+<area shape="rect" id="node2" href="$classDepartmentInputArea.html#a194c2ff5fe79f6e3843bd4c38958b189" title="DepartmentInputArea." alt="" coords="213,5,363,47"/>
+<area shape="rect" id="node3" href="$classDepartmentInputArea.html#a48c6f0e0bfb1b32c5e4cc1f6c4fc69a4" title="on_pushButton_EditFinish_clicked" alt="" coords="199,70,377,126"/>
+<area shape="rect" id="node4" href="$classDepartmentInputArea.html#abb734e271497584ce53f450297b46c88" title="on_pushButton_Add_clicked" alt="" coords="5,70,151,126"/>
+</map>

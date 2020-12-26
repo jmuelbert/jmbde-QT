@@ -1,0 +1,6 @@
+<map id="SoftwareInputArea::on_pushButton_Add_clicked" name="SoftwareInputArea::on_pushButton_Add_clicked">
+<area shape="rect" id="node1" title="on_pushButton_Add_clicked" alt="" coords="5,41,192,83"/>
+<area shape="rect" id="node2" href="$classSoftwareInputArea.html#aa34d87faaa805ceb93c6f1ea865f9481" title="createDataset" alt="" coords="259,5,395,47"/>
+<area shape="rect" id="node3" href="$classSoftwareInputArea.html#a7fa9cd4fafae8aaeb345205f9a8006db" title="on_pushButton_EditFinish_clicked" alt="" coords="240,70,413,126"/>
+<area shape="rect" id="node4" href="$classSoftwareInputArea.html#a68116c1a6de135775bddee8901a445c3" title="setViewOnlyMode" alt="" coords="461,77,597,119"/>
+</map>

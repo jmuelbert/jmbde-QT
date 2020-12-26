@@ -1,0 +1,8 @@
+<map id="MainWindow::on_actionPrint_triggered" name="MainWindow::on_actionPrint_triggered">
+<area shape="rect" id="node1" title="on_actionPrint_triggered" alt="" coords="5,136,191,177"/>
+<area shape="rect" id="node2" href="$classModel_1_1Computer.html#ae3ac26a327d6578d0266af5887fe2a51" title="generateTableString" alt="" coords="245,5,420,47"/>
+<area shape="rect" id="node3" href="$classModel_1_1Phone.html#a38e5baf18f272abcc582ddfd69982f12" title="generateTableString" alt="" coords="239,71,427,112"/>
+<area shape="rect" id="node4" href="$classModel_1_1Printer.html#a5aa984c6fe493fa1c8bed869fb6e769d" title="generateTableString" alt="" coords="254,136,411,177"/>
+<area shape="rect" id="node5" href="$classMainWindow.html#aeb91b1217bbc79634f921f38eba7d11a" title="notAvailableMessage" alt="" coords="246,201,419,243"/>
+<area shape="rect" id="node6" href="$classModel_1_1CommonData.html#ab26ac7ca5804f9fb6926e8b2cee0e91a" title="Initialize a String with the css&#45;style for the output table." alt="" coords="259,267,407,308"/>
+</map>

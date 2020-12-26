@@ -1,0 +1,6 @@
+<map id="PhoneInputArea::on_pushButton_Add_clicked" name="PhoneInputArea::on_pushButton_Add_clicked">
+<area shape="rect" id="node1" title="on_pushButton_Add_clicked" alt="" coords="5,31,179,73"/>
+<area shape="rect" id="node2" href="$classPhoneInputArea.html#a4b20476c70aaad4dd453fea043f993ae" title="createDataset" alt="" coords="227,5,429,32"/>
+<area shape="rect" id="node3" href="$classPhoneInputArea.html#a53cbe565ebd691f7a1a896caa85e3e56" title="on_pushButton_EditFinish_clicked" alt="" coords="249,56,407,112"/>
+<area shape="rect" id="node4" href="$classPhoneInputArea.html#a896cdba2dd02dea62b26c70098822b2e" title="setViewOnlyMode" alt="" coords="477,71,704,97"/>
+</map>

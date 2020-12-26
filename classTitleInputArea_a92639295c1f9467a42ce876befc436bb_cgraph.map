@@ -1,0 +1,6 @@
+<map id="TitleInputArea::on_pushButton_Add_clicked" name="TitleInputArea::on_pushButton_Add_clicked">
+<area shape="rect" id="node1" title="on_pushButton_Add_clicked" alt="" coords="5,31,179,73"/>
+<area shape="rect" id="node2" href="$classTitleInputArea.html#a5c1d58d16bc514bcf2ada3710749c82d" title="createDataset" alt="" coords="227,5,417,32"/>
+<area shape="rect" id="node3" href="$classTitleInputArea.html#ad5d240030c12fe917af7059dde60907f" title="on_pushButton_EditFinish_clicked" alt="" coords="243,56,401,112"/>
+<area shape="rect" id="node4" href="$classTitleInputArea.html#af90501d6aa7308aac512c76dbd77ac22" title="setViewOnlyMode" alt="" coords="465,71,680,97"/>
+</map>

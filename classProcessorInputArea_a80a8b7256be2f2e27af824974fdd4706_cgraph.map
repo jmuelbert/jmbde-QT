@@ -1,0 +1,6 @@
+<map id="ProcessorInputArea::on_pushButton_Add_clicked" name="ProcessorInputArea::on_pushButton_Add_clicked">
+<area shape="rect" id="node1" title="on_pushButton_Add_clicked" alt="" coords="5,34,151,90"/>
+<area shape="rect" id="node2" href="$classProcessorInputArea.html#a28beb54dc84a4e84d386fd780fb85e09" title="createDataset" alt="" coords="219,5,357,47"/>
+<area shape="rect" id="node3" href="$classProcessorInputArea.html#a5fb65b1aac26dd9d60f1a45fedc9b807" title="on_pushButton_EditFinish_clicked" alt="" coords="199,70,377,126"/>
+<area shape="rect" id="node4" href="$classProcessorInputArea.html#aa0b5a6de5d82c754e8638bba662a92e0" title="setViewOnlyMode" alt="" coords="425,77,563,119"/>
+</map>

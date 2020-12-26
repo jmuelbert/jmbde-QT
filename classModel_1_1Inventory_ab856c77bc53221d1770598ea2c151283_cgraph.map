@@ -1,0 +1,4 @@
+<map id="Model::Inventory::Inventory" name="Model::Inventory::Inventory">
+<area shape="rect" id="node1" title="The Constructor for the Inventory." alt="" coords="5,5,180,32"/>
+<area shape="rect" id="node2" href="$classModel_1_1Inventory.html#a28d8e1444e8fbe7b15ebe64ccb9f31fc" title="Set the fieldindexes from the datafieldnames of the db." alt="" coords="228,5,413,32"/>
+</map>
