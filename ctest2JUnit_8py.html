@@ -73,7 +73,8 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a>  </div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">ctest2JUnit.py File Reference</div>  </div>
 </div><!--header-->
@@ -83,6 +84,25 @@ $(function() {
 Namespaces</h2></td></tr>
 <tr class="memitem:namespacectest2JUnit"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacectest2JUnit.html">ctest2JUnit</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a5a5c541cb00caea46a54e4979ed7c1b6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacectest2JUnit.html#a5a5c541cb00caea46a54e4979ed7c1b6">ctest2JUnit.TAGfile</a> = open(sys.argv[1]+&quot;/Testing/TAG&quot;, 'r')</td></tr>
+<tr class="separator:a5a5c541cb00caea46a54e4979ed7c1b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a5a5ab8ab62549ae0bfeb162004a19f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacectest2JUnit.html#a0a5a5ab8ab62549ae0bfeb162004a19f">ctest2JUnit.dirname</a> = TAGfile.readline().strip()</td></tr>
+<tr class="separator:a0a5a5ab8ab62549ae0bfeb162004a19f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba348449078f8ea7a8f9d0c381bb12df"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacectest2JUnit.html#aba348449078f8ea7a8f9d0c381bb12df">ctest2JUnit.xslfile</a> = open(sys.argv[2], 'r')</td></tr>
+<tr class="separator:aba348449078f8ea7a8f9d0c381bb12df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5deaf5011980a0a8c70d5094ea84b85a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacectest2JUnit.html#a5deaf5011980a0a8c70d5094ea84b85a">ctest2JUnit.xslcontent</a> = xslfile.read()</td></tr>
+<tr class="separator:a5deaf5011980a0a8c70d5094ea84b85a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03c59b53bcd3eb8114c0829fbc26462c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacectest2JUnit.html#a03c59b53bcd3eb8114c0829fbc26462c">ctest2JUnit.xmldoc</a> = etree.parse(sys.argv[1]+&quot;/Testing/&quot;+dirname+&quot;/Test.xml&quot;)</td></tr>
+<tr class="separator:a03c59b53bcd3eb8114c0829fbc26462c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace90bc904abe149f206d8e110ce20416"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacectest2JUnit.html#ace90bc904abe149f206d8e110ce20416">ctest2JUnit.xslt_root</a> = etree.XML(xslcontent)</td></tr>
+<tr class="separator:ace90bc904abe149f206d8e110ce20416"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfc087339dc050a5ce59e0dd52c5bf7c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacectest2JUnit.html#adfc087339dc050a5ce59e0dd52c5bf7c">ctest2JUnit.transform</a> = etree.XSLT(xslt_root)</td></tr>
+<tr class="separator:adfc087339dc050a5ce59e0dd52c5bf7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9c3357e0b49da86171ddacd01d6127f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacectest2JUnit.html#af9c3357e0b49da86171ddacd01d6127f">ctest2JUnit.result_tree</a> = transform(xmldoc)</td></tr>
+<tr class="separator:af9c3357e0b49da86171ddacd01d6127f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->

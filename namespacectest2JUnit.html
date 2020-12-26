@@ -68,10 +68,145 @@ $(function() {
 
 </div><!-- top -->
 <div class="header">
+  <div class="summary">
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">ctest2JUnit Namespace Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a5a5c541cb00caea46a54e4979ed7c1b6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacectest2JUnit.html#a5a5c541cb00caea46a54e4979ed7c1b6">TAGfile</a> = open(sys.argv[1]+&quot;/Testing/TAG&quot;, 'r')</td></tr>
+<tr class="separator:a5a5c541cb00caea46a54e4979ed7c1b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a5a5ab8ab62549ae0bfeb162004a19f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacectest2JUnit.html#a0a5a5ab8ab62549ae0bfeb162004a19f">dirname</a> = TAGfile.readline().strip()</td></tr>
+<tr class="separator:a0a5a5ab8ab62549ae0bfeb162004a19f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba348449078f8ea7a8f9d0c381bb12df"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacectest2JUnit.html#aba348449078f8ea7a8f9d0c381bb12df">xslfile</a> = open(sys.argv[2], 'r')</td></tr>
+<tr class="separator:aba348449078f8ea7a8f9d0c381bb12df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5deaf5011980a0a8c70d5094ea84b85a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacectest2JUnit.html#a5deaf5011980a0a8c70d5094ea84b85a">xslcontent</a> = xslfile.read()</td></tr>
+<tr class="separator:a5deaf5011980a0a8c70d5094ea84b85a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03c59b53bcd3eb8114c0829fbc26462c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacectest2JUnit.html#a03c59b53bcd3eb8114c0829fbc26462c">xmldoc</a> = etree.parse(sys.argv[1]+&quot;/Testing/&quot;+dirname+&quot;/Test.xml&quot;)</td></tr>
+<tr class="separator:a03c59b53bcd3eb8114c0829fbc26462c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace90bc904abe149f206d8e110ce20416"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacectest2JUnit.html#ace90bc904abe149f206d8e110ce20416">xslt_root</a> = etree.XML(<a class="el" href="namespacectest2JUnit.html#a5deaf5011980a0a8c70d5094ea84b85a">xslcontent</a>)</td></tr>
+<tr class="separator:ace90bc904abe149f206d8e110ce20416"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfc087339dc050a5ce59e0dd52c5bf7c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacectest2JUnit.html#adfc087339dc050a5ce59e0dd52c5bf7c">transform</a> = etree.XSLT(<a class="el" href="namespacectest2JUnit.html#ace90bc904abe149f206d8e110ce20416">xslt_root</a>)</td></tr>
+<tr class="separator:adfc087339dc050a5ce59e0dd52c5bf7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9c3357e0b49da86171ddacd01d6127f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacectest2JUnit.html#af9c3357e0b49da86171ddacd01d6127f">result_tree</a> = <a class="el" href="namespacectest2JUnit.html#adfc087339dc050a5ce59e0dd52c5bf7c">transform</a>(<a class="el" href="namespacectest2JUnit.html#a03c59b53bcd3eb8114c0829fbc26462c">xmldoc</a>)</td></tr>
+<tr class="separator:af9c3357e0b49da86171ddacd01d6127f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a0a5a5ab8ab62549ae0bfeb162004a19f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a5a5ab8ab62549ae0bfeb162004a19f">&#9670;&nbsp;</a></span>dirname</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ctest2JUnit.dirname = TAGfile.readline().strip()</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af9c3357e0b49da86171ddacd01d6127f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9c3357e0b49da86171ddacd01d6127f">&#9670;&nbsp;</a></span>result_tree</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ctest2JUnit.result_tree = <a class="el" href="namespacectest2JUnit.html#adfc087339dc050a5ce59e0dd52c5bf7c">transform</a>(<a class="el" href="namespacectest2JUnit.html#a03c59b53bcd3eb8114c0829fbc26462c">xmldoc</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5a5c541cb00caea46a54e4979ed7c1b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a5c541cb00caea46a54e4979ed7c1b6">&#9670;&nbsp;</a></span>TAGfile</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ctest2JUnit.TAGfile = open(sys.argv[1]+&quot;/Testing/TAG&quot;, 'r')</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adfc087339dc050a5ce59e0dd52c5bf7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfc087339dc050a5ce59e0dd52c5bf7c">&#9670;&nbsp;</a></span>transform</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ctest2JUnit.transform = etree.XSLT(<a class="el" href="namespacectest2JUnit.html#ace90bc904abe149f206d8e110ce20416">xslt_root</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a03c59b53bcd3eb8114c0829fbc26462c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03c59b53bcd3eb8114c0829fbc26462c">&#9670;&nbsp;</a></span>xmldoc</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ctest2JUnit.xmldoc = etree.parse(sys.argv[1]+&quot;/Testing/&quot;+dirname+&quot;/Test.xml&quot;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5deaf5011980a0a8c70d5094ea84b85a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5deaf5011980a0a8c70d5094ea84b85a">&#9670;&nbsp;</a></span>xslcontent</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ctest2JUnit.xslcontent = xslfile.read()</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aba348449078f8ea7a8f9d0c381bb12df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba348449078f8ea7a8f9d0c381bb12df">&#9670;&nbsp;</a></span>xslfile</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ctest2JUnit.xslfile = open(sys.argv[2], 'r')</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ace90bc904abe149f206d8e110ce20416"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace90bc904abe149f206d8e110ce20416">&#9670;&nbsp;</a></span>xslt_root</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ctest2JUnit.xslt_root = etree.XML(<a class="el" href="namespacectest2JUnit.html#a5deaf5011980a0a8c70d5094ea84b85a">xslcontent</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
