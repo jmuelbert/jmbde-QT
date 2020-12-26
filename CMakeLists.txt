@@ -330,8 +330,8 @@ if(BUILD_API_DOCS OR BUILD_MANUAL)
   if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     add_compile_options(-Wdocumentation)
   endif()
-  find_package(Qt${QT_VERSION_MAJOR} OPTIONAL_COMPONENTS Help LinguistTools)
-  add_subdirectory(docs)
+  find_package(Qt${QT_VERSION_MAJOR} OPTIONAL_COMPONENTS Help LinguistTools)#
+#  add_subdirectory(docs)
 endif()
 
 # The libs
