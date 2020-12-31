@@ -91,7 +91,7 @@ public:
       */
     virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
 
-    JMBDEMODELS_EXPORT QSqlTableModel * initializeListModel();
+    JMBDEMODELS_EXPORT QSqlTableModel *initializeListModel();
 
     /*!
      * \fn virtual auto generateTableString(

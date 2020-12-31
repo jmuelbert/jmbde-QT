@@ -113,7 +113,7 @@ private slots:
     /**
      * @brief on_actionAbout_triggered
      */
-    JMBDEWIDGETS_EXPORT void  on_actionAbout_triggered();
+    JMBDEWIDGETS_EXPORT void on_actionAbout_triggered();
 
     /**
      * \fn void on_actionNew_triggered()
@@ -201,7 +201,6 @@ private slots:
 
     void actualizeFunctionListView();
 
-
 private:
     /**
      * @brief ui
@@ -229,7 +228,6 @@ private:
      *
      */
     void notAvailableMessage(const QString &functionName);
-
 
     void actualizeListView(QSqlTableModel *listModel, int idx);
 

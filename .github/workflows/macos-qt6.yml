@@ -101,7 +101,8 @@ jobs:
               uses: actions/upload-artifact@v2.2.1
               with:
                   name:
-                      ${{ env.targetName}}-Qt${{matrix.qt_version}}-${{matrix.build_type}}.dmg
+                      ${{
+                      env.targetName}}-Qt${{matrix.qt_version}}-${{matrix.build_type}}.dmg
                   path: build/${{ env.targetName }}-Qt${{matrix.qt_version}}.dmg
 
             - name: macOS - ${{ matrix.qt_versions }}- Upload binaries to release
@@ -110,6 +111,8 @@ jobs:
                   repo_token: ${{ secrets.GITHUB_TOKEN }}
                   file: build/${{ env.targetName }}-Qt${{matrix.qt_version}}.dmg
                   asset_name:
-                      ${{ env.targetName }}-${{ steps.get_version.outputs.VERSION}}-Qt${{matrix.qt_version}}-${{ matrix.build_type}}.dmg
+                      ${{ env.targetName }}-${{
+                      steps.get_version.outputs.VERSION}}-Qt${{matrix.qt_version}}-${{
+                      matrix.build_type}}.dmg
                   tag: ${{ github.ref }}
                   overwrite: true

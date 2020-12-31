@@ -239,15 +239,6 @@ repos:
           - id: forbid-autopkg-overrides
           - id: forbid-autopkg-trust-info
 
-    - repo: https://github.com/pocc/pre-commit-hooks
-      rev: v1.1.1
-      hooks:
-          - id: clang-format
-          - id: clang-tidy
-          # - id: oclint
-          #  args: [-enable-clang-static-analyzer, -enable-global-analysis]
-          # - id: uncrustify
-
     - repo: https://gitlab.com/daverona/pre-commit/cpp
       rev: 0.8.0
       hooks:
@@ -276,3 +267,13 @@ repos:
             args: [--config-files=.cmake-format]
           - id: cmake-lint
             args: [--filter=-whitespace/indent]
+
+    - repo: local
+      hooks:
+          - id: clang-format
+            name: clang-format
+            entry: clang-format -i
+            description: Formats C/CPP code
+            files: \.(c|cc|cxx|cpp|h|hpp|hxx|m)$
+            language: system
+            additional_dependencies: [clang-format]

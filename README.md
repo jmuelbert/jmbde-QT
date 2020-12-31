@@ -231,4 +231,3 @@ Qt is available under several [licenses](https://www.qt.io/licensing/).
 GPL V3 © [Jürgen Mülbert](https:/github.com/jmuelbert/jmbde-QT)
 
 [Return to top](#top)
-

@@ -21,8 +21,8 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRelation>
-#include <QtSql>
 #include <QTextDocument>
+#include <QtSql>
 
 #include "datacontext.h"
 #include "jmbdemodels-version.h"
