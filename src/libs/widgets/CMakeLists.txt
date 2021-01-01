@@ -23,7 +23,7 @@ endif()
 # JMBDEWIDGETS project
 project(
   "jmbdewidgets"
-  VERSION "0.2.0"
+  VERSION "0.2.1"
   DESCRIPTION "${PROJECT_NAME} WIDGETS-UI Library"
   HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
   LANGUAGES CXX)
@@ -94,6 +94,7 @@ target_sources(
           include/views/employeeinputarea.h
           include/views/employeetable.h
           include/views/functioninputarea.h
+          include/views/helpdialog.h
           include/views/mainwindow.h
           include/views/manufacturerinputarea.h
           include/views/mobileinputarea.h
@@ -116,6 +117,7 @@ target_sources(
           src/views/employeeinputarea.cpp
           src/views/employeetable.cpp
           src/views/functioninputarea.cpp
+          src/views/helpdialog.cpp
           src/views/mainwindow.cpp
           src/views/manufacturerinputarea.cpp
           src/views/mobileinputarea.cpp
@@ -137,6 +139,7 @@ target_sources(
           src/views/employeeinputarea.ui
           src/views/employeetable.ui
           src/views/functioninputarea.ui
+          src/views/helpdialog.ui
           src/views/mainwindow.ui
           src/views/manufacturerinputarea.ui
           src/views/mobileinputarea.ui
