@@ -83,7 +83,7 @@ jobs:
                   CC: /usr/bin/gcc-7
                   CXX: /usr/bin/g++-7
               run: |
-                  python -m pip install conan
+                  sudo python -m pip install conan
                   conan user
                   conan create ./conan/ecm
                   mkdir build
