@@ -1,4 +1,4 @@
-#message( STATUS "##### qt5-cpack.cmake<qtplatz> #####" )
+#message( STATUS "##### qt5-cpack.cmake<JMBDE> #####" )
 
 include( "soname" )
 
@@ -32,10 +32,10 @@ get_filename_component( _dir ${_loc} DIRECTORY )
 foreach( _lib "icu*" Qt5CLucene Qt5XcbQpa )
   if ( WIN32 )
     file( GLOB files "${_dir}/${_lib}.${SO}" )
-    install( PROGRAMS ${files} DESTINATION ${QTPLATZ_QT5_RUNTIME_INSTALL_DIRECTORY} COMPONENT runtime_libraries )
+    install( PROGRAMS ${files} DESTINATION ${JMBDE_QT5_RUNTIME_INSTALL_DIRECTORY} COMPONENT runtime_libraries )
   else()
     file( GLOB files "${_dir}/lib${_lib}.${SO}.*" )
-    install( PROGRAMS ${files} DESTINATION ${QTPLATZ_QT5_RUNTIME_INSTALL_DIRECTORY} COMPONENT runtime_libraries )
+    install( PROGRAMS ${files} DESTINATION ${JMBDE_QT5_RUNTIME_INSTALL_DIRECTORY} COMPONENT runtime_libraries )
   endif()
 endforeach()
 
@@ -59,15 +59,15 @@ foreach( lib
 
   get_target_property( _loc ${lib} LOCATION )
 
-  # message( STATUS "## qt5-cpack install: " ${lib} " --> " ${_loc} --> ${QTPLATZ_QT5_RUNTIME_INSTALL_DIRECTORY} )
+  # message( STATUS "## qt5-cpack install: " ${lib} " --> " ${_loc} --> ${JMBDE_QT5_RUNTIME_INSTALL_DIRECTORY} )
 
   if ( WIN32 )
-    install( FILES ${_loc} DESTINATION ${QTPLATZ_QT5_RUNTIME_INSTALL_DIRECTORY} COMPONENT runtime_libraries )
+    install( FILES ${_loc} DESTINATION ${JMBDE_QT5_RUNTIME_INSTALL_DIRECTORY} COMPONENT runtime_libraries )
   else()
     get_filename_component( name ${_loc} NAME_WE )
     get_filename_component( path ${_loc} DIRECTORY )
     file( GLOB files "${path}/${name}.${SO}.*" )
-    install( PROGRAMS ${files} DESTINATION ${QTPLATZ_QT5_RUNTIME_INSTALL_DIRECTORY} COMPONENT runtime_libraries )
+    install( PROGRAMS ${files} DESTINATION ${JMBDE_QT5_RUNTIME_INSTALL_DIRECTORY} COMPONENT runtime_libraries )
   endif()
 
 endforeach()
