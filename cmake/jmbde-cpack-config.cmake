@@ -1,4 +1,4 @@
-include( "version" )
+# include( "version" )
 
 set( CPACK_PACKAGE_VENDOR "Jürgen Mülbert" )
 set( CPACK_PACKAGE_VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}.${VERSION_TWEAK} )
