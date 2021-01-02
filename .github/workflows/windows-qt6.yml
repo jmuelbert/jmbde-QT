@@ -1,11 +1,6 @@
 ---
 name: "CD: Windows Qt6"
 on:
-    push:
-        paths-ignore:
-            - "README.md"
-            - "LICENSE"
-            - "BUILD.md"
     pull_request:
         paths-ignore:
             - "README.md"

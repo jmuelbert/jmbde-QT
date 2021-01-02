@@ -1,7 +1,18 @@
 ---
 name: "CI: Build Test"
 
-on: [push, pull_request]
+on:
+    push:
+        paths-ignore:
+            - "README.md"
+            - "LICENSE"
+            - "BUILD.md"
+    pull_request:
+        paths-ignore:
+            - "README.md"
+            - "LICENSE"
+            - "BUILD.md"
+
 
 env:
     QT_VERSION: 5.15.2

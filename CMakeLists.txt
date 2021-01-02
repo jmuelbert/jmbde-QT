@@ -51,14 +51,13 @@
 # minimal requirements
 cmake_minimum_required(VERSION 3.12...3.19 FATAL_ERROR)
 
-if(${CMAKE_VERSION} VERSION_LESS 3.13.5)
   cmake_policy(SET CMP0020 NEW)
+  cmake_policy( SET CMP0042 NEW ) # MAC OSX RPATH
   cmake_policy(SET CMP0043 NEW)
   cmake_policy(SET CMP0053 NEW)
   cmake_policy(SET CMP0063 NEW)
   cmake_policy(SET CMP0068 NEW)
   cmake_policy(SET CMP0072 NEW)
-endif()
 
 if(${CMAKE_VERSION} VERSION_LESS 3.19)
   cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
@@ -67,6 +66,7 @@ else()
 endif()
 
 project(jmbde)
+
 
 include(cmake/StandardProjectSettings.cmake)
 include(cmake/PreventInSourceBuilds.cmake)
@@ -104,12 +104,14 @@ feature_summary(WHAT REQUIRED_PACKAGES_NOT_FOUND
 list(APPEND CMAKE_MODULE_PATH "${ECM_MODULE_PATH}")
 
 # Add the local module path to the search path
-list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake"
-     "${PROJECT_SOURCE_DIR}/cmake/modules")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake"
+     "{CMAKE_CURRENT_LIST_DIR}/cmake/modules")
 
 # Load extended helpers
 include(KDEClangFormat)
 include(KDEInstallDirs)
+
+include(version)
 
 # warn about deprecated stuff so that we may try fixing it
 set(CMAKE_WARN_DEPRECATED ON)
@@ -253,6 +255,7 @@ endif()
 # allow for static analysis options
 include(cmake/StaticAnalyzers.cmake)
 
+
 # ##############################################################################
 # Set the Installation-Layout for the platforms
 if(APPLE)
@@ -370,17 +373,26 @@ include(cmake/deployment.cmake)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
-message(STATUS "Display version:  ${DISPLAY_VERSION}")
-message(STATUS "Version String:   ${VERSION_STRING}")
-message(STATUS "Minor version:    ${MINOR_VERSION}")
-message(STATUS "Build Version:    ${BUILD_VERSION}")
-message(STATUS "Build Type:       ${CMAKE_BUILD_TYPE}")
-message(STATUS "Build Info:       ${BUILD_INFO}")
-message(STATUS "Build Extra Info: ${BUILD_EXTRA_INFO}")
-message(STATUS "Install Prefix:   ${CMAKE_INSTALL_PREFIX}")
-message(STATUS "Binary Directory: ${CMAKE_BINARY_DIR}")
-message(STATUS "")
-message(STATUS "======== Build Statistics ========")
-message(STATUS "${BUILD_STATS}")
-message(STATUS "============================================")
-message(STATUS "")
+message( STATUS "# TARGET_ARCHITECTURE   : "  ${__arch} )
+if ( CROSS_COMPILING )
+  message( STATUS "# PACKAGE_ARCHITECTURE  : "  ${CPACK_DEBIAN_PACKAGE_ARCHITECTURE} )
+endif()
+message( STATUS "# CMAKE_BUILD_TYPE      : "  ${CMAKE_BUILD_TYPE} )
+message( STATUS "# CMAKE_GENERATOR       : "  ${CMAKE_GENERATOR} )
+message( STATUS "# VERSION               : "  ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}.${VERSION_TWEAK} )
+message( STATUS "# CMAKE_INSTALL_PREFIX  : "  ${CMAKE_INSTALL_PREFIX} )
+message( STATUS "# CPACK_PACKAGE_INSTALL_DIRECTORY: " ${CPACK_PACKAGE_INSTALL_DIRECTORY} )
+if ( WITH_PYTHON3 )
+  message( STATUS "# Python3               : " ${Python3_VERSION} )
+endif()
+message( STATUS "# CMAKE_CXX_STANDARD    : " ${CMAKE_CXX_STANDARD} )
+message( STATUS "# Qt5_DIR               : " ${Qt5_DIR} )
+message( STATUS "# Qt6_DIR               : " ${Qt6_DIR} )
+message( STATUS "# QTDIR                 : " ${QTDIR} )
+message( STATUS "# QMAKE                 : " ${QMAKE} )
+if ( WITH_QT5 AND DEFINED $ENV{QT_PLUGIN_PATH} )
+  message( STATUS "################## WARNING ###################" )
+  message( STATUS "QT_PLUGIN_PATH has set to $ENV{QT_PLUGIN_PATH}" )
+  message( STATUS "################## WARNING ###################" )
+endif()
+message( STATUS "---------- END SUMMARY ------------" )

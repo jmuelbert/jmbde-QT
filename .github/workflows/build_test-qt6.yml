@@ -1,7 +1,17 @@
 ---
 name: "CI: Build Test Qt6"
 
-on: [push, pull_request]
+on:
+    push:
+        paths-ignore:
+            - "README.md"
+            - "LICENSE"
+            - "BUILD.md"
+    pull_request:
+        paths-ignore:
+            - "README.md"
+            - "LICENSE"
+            - "BUILD.md"
 
 env:
     QT_VERSION: 6.0.0
