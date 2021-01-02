@@ -23,7 +23,7 @@ elseif ( ${CMAKE_SYSTEM} MATCHES "Linux" )
 
     set( INSTALL_DIRECTORY ${CMAKE_INSTALL_PREFIX}/lib )
     configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/packaging/linux/postinst.in ${CMAKE_CURRENT_BINARY_DIR}/postinst @ONLY )
-    configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/packeging/linux/prerm.in ${CMAKE_CURRENT_BINARY_DIR}/prerm @ONLY )
+    configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/packaging/linux/prerm.in ${CMAKE_CURRENT_BINARY_DIR}/prerm @ONLY )
 
     if ( Qt5_FOUND )
       # include( qt5-cpack )

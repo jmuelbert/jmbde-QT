@@ -121,7 +121,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake"
 include(KDEClangFormat)
 include(KDEInstallDirs)
 
-include(version)
+# include(version)
 
 # warn about deprecated stuff so that we may try fixing it
 set(CMAKE_WARN_DEPRECATED ON)
