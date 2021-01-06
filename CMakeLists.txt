@@ -284,7 +284,7 @@ endif()
 
 # ##############################################################################
 # CodeCoverage.
-if(ENABLE_CODECOVERAGE)
+if(BUILD_CODECOVERAGE)
     include(UseCodeCoverage)
 endif()
 
