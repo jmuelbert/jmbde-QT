@@ -13,7 +13,6 @@ on:
             - "LICENSE"
             - "BUILD.md"
 
-
 env:
     QT_VERSION: 5.15.2
     BUILD_TYPE: Debug
@@ -75,19 +74,15 @@ jobs:
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
                   version: ${{ env.QT_VERSION }}
 
-            - name: conan_and_ecm
-              id: conan_and_ecm
+            - name: Install conan
+              id: conan
               run: |
                   python -m pip install conan
                   conan user
-                  conan create ./conan/ecm
-                  mkdir build
-                  cd build
-                  conan install ..
-                  cd ..
 
             - name: Build
               run: |
+                  mkdir buid
                   cd  build
                   cmake .. -DCMAKE_BUILD_TYPE=Debug  -DPORTABLE_VERSION=${{ matrix.config.portable-option }} -DCMAKE_INSTALL_PREFIX:PATH=./app
                   cmake --build . --config Release -j2 --target install

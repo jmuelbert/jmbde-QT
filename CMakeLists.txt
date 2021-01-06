@@ -21,11 +21,11 @@
 #
 # -DBUILD_TRANSLATIONS=[true|false] Build the translations.
 #
-# -DBUILD_TESTING=[true|false] Build and run the tests
-#
 # -DBUILD_COVERAGE Build with coverage information
 #
 # -DBUILD_SHARED_LIBS Build shared libs and not static libs
+#
+# -DENABLE_CPP_CHECK Test quality ofs source with cppcheck
 #
 # -DENABLE_CLANG_TIDY Test quality of source with clang tidy
 #
@@ -40,8 +40,6 @@
 # -DUSE_GIT_VERSION Get the actual git tag as version.
 #
 # -DENABLE_TESTING Enable the tests
-#
-# -DENABLE_PCH Enable Precompiled Headers
 #
 # To build the man page from POD, run 'make man' after CMake (assumes perl is
 # available) To install the resulting man page, run 'make install' The man page
@@ -77,31 +75,39 @@ endif()
 
 project(jmbde)
 
-
-include(cmake/StandardProjectSettings.cmake)
-include(cmake/PreventInSourceBuilds.cmake)
-# include(cmake/QtCommon.cmake)
-
 # Set the dependencies versions
 set(KF5_VERSION "5.71.0")
 set(KF5_DEP_VERSION "5.71.0")
 set(QT_MIN_VERSION "5.12.8")
 
-# Load Standard-CMake helpler modules
+# Standard CMake modules
+include(CTest)                          # Must be called before adding tests but after calling project(). This automatically calls enable_testing() and configures ctest targets when using Make/Ninja
+include(CTest)                          # Must be called before adding tests but after calling project(). This automatically calls enable_testing() and configures ctest targets when using Make/Ninja
+include(CMakeDependentOption)           # This is a really useful scripts that creates options that depends on other options. It can even be used with generator expressions !
+include(GNUInstallDirs)                 # This will define the default values for installation directories (all platforms even if named GNU)
+include(InstallRequiredSystemLibraries) # Tell CMake that the `install` target needs to install required system libraries (eg: Windows SDK)
+include(CMakePackageConfigHelpers)      # Helper to create relocatable packages
 include(FeatureSummary)
 
+####################################
+### Include cmake scripts and config
+####################################
 list(APPEND CMAKE_PREFIX_PATH "${CMAKE_MODULE_PATH}")
+# Add the local module path to the search path
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake"
+     "{CMAKE_CURRENT_LIST_DIR}/cmake/modules")
 
-if(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-  include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-  conan_basic_setup()
-endif()
+# Custom modules and scripts
+include(StandardProjectSettings)
+include(PreventInSourceBuilds)
+include(StaticAnalyzers)
+include(LTO)
+include(Warnings)
+include(CopyDllsForDebug)
+include(Coverage)
 
-# For ECM-CONAN
-if(EXISTS "${CONAN_ECM_ROOT}")
-  list(APPEND CMAKE_PREFIX_PATH "${CONAN_ECM_ROOT}/share/ecm")
-  message(STATUS "Setting ECM-DIR to ${CONAN_ECM_ROOT}/share/ecm")
-endif()
+include(conan)
+run_conan()
 
 # we need some parts of the ECM CMake helpers
 
@@ -113,15 +119,66 @@ feature_summary(WHAT REQUIRED_PACKAGES_NOT_FOUND
 # line.
 list(APPEND CMAKE_MODULE_PATH "${ECM_MODULE_PATH}")
 
-# Add the local module path to the search path
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake"
-     "{CMAKE_CURRENT_LIST_DIR}/cmake/modules")
-
+# KDE: extra cmake modules
 # Load extended helpers
 include(KDEClangFormat)
 include(KDEInstallDirs)
 
-# include(version)
+#############################
+### Project Options
+#############################
+
+option(BUILD_EXAMPLES "Build examples." OFF)
+add_feature_info(EXAMPLES ${BUILD_EXAMPLES} "Build the the examples")
+option(BUILD_MANUAL "Build manual." OFF)
+add_feature_info(MANUAL ${BUILD_MANUAL} "Build the Documentation and man pages")
+option(BUILD_API_DOCS "Build the api-docs." OFF)
+add_feature_info(API_DOCS ${BUILD_API_DOCS}
+                 "Build the Documentation and man pages")
+option(BUILD_QCH "Build API documentation in QCH format" OFF)
+add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format"
+                 " (for e.g. Qt Assistant, Qt Creator & KDevelop)")
+option(BUILD_TRANSLATIONS "Build translations" OFF)
+add_feature_info(TRANSL ${BUILD_TRANSLATIONS} "Build the translations")
+option(ENABLE_EMBEDDED_TRANSLATIONS
+       "Add the translations to a QT Reesource File" OFF)
+add_feature_info(TRANS_EMB ${ENABLE_EMBEDDED_TRANSLATIONS}
+                 "Add the translations to a QT Reesource File")
+option(BUILD_COVERAGE "Add coverage information." OFF)
+add_feature_info(COVERAGE ${BUILD_COVERAGE} "Build with coverage informations.")
+option(BUILD_SHARED_LIBS "Build shared libs" ON)
+add_feature_info(SHARED_LIBS ${BUILD_SHARED_LIBS} "Build shared libs")
+option(BUILD_TESTING "Build tests." OFF)
+add_feature_info(TESTS ${BUILD_TESTING} "Build and run the tests")
+option(BUILD_DEB "Build deb format package" OFF)
+add_feature_info(DEB_ENABLE ${BUILD_DEB} "Build deb format package")
+option(BUILD_RPM "Build rpm format package" OFF)
+add_feature_info(RPM_ENABLE ${BUILD_RPM} "Build rpm format package")
+option(ENABLE_CLAZY "Enable clazy" OFF)
+add_feature_info(CLAZY ${ENABLE_CLAZY} "Build with clazy hints")
+option(ENABLE_CLANG_TIDY "activate clang tidy messages" OFF)
+add_feature_info(CLANG_TIDY ${ENABLE_CLANG_TIDY}
+                 "Check the source with clang tidy")
+option(ENABLE_CLANG_FORMAT "activate clang format" OFF)
+add_feature_info(CLANG_FORMAT ${ENABLE_CLANG_FORMAT}
+                 "Format the source with clang format")
+option(ENABLE_CCACHE "prefix each compile command with ccache" OFF)
+add_feature_info(CCACHE ${ENABLE_CCACHE} "Compile with ccache")
+option(USE_GIT_VERSION "Append Git HEAD to jmbde version (if exists)" ON)
+
+# General cmake settings
+
+# It is always easier to navigate in an IDE when projects are organized in folders.
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_VERBOSE_MAKEFILE ON)
+
+# Whe building a shared library, you do not want to export all symbols by default
+# gcc (and hence clang) are wrong about this.
+#
+# For more information, see https://gcc.gnu.org/wiki/Visibility and https://www.youtube.com/embed/m0DwB4OvDXk
+set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 
 # warn about deprecated stuff so that we may try fixing it
 set(CMAKE_WARN_DEPRECATED ON)
@@ -173,44 +230,7 @@ if(UPPERCASE_CMAKE_BUILD_TYPE MATCHES "^RELEASE$")
   add_definitions(-DQT_NO_DEBUG_OUTPUT)
 endif()
 
-# Options Project options
-option(BUILD_EXAMPLES "Build examples." OFF)
-add_feature_info(EXAMPLES ${BUILD_EXAMPLES} "Build the the examples")
-option(BUILD_MANUAL "Build manual." OFF)
-add_feature_info(MANUAL ${BUILD_MANUAL} "Build the Documentation and man pages")
-option(BUILD_API_DOCS "Build the api-docs." OFF)
-add_feature_info(API_DOCS ${BUILD_API_DOCS}
-                 "Build the Documentation and man pages")
-option(BUILD_QCH "Build API documentation in QCH format" OFF)
-add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format"
-                 " (for e.g. Qt Assistant, Qt Creator & KDevelop)")
-option(BUILD_TRANSLATIONS "Build translations" OFF)
-add_feature_info(TRANSL ${BUILD_TRANSLATIONS} "Build the translations")
-option(ENABLE_EMBEDDED_TRANSLATIONS
-       "Add the translations to a QT Reesource File" OFF)
-add_feature_info(TRANS_EMB ${ENABLE_EMBEDDED_TRANSLATIONS}
-                 "Add the translations to a QT Reesource File")
-option(BUILD_COVERAGE "Add coverage information." OFF)
-add_feature_info(COVERAGE ${BUILD_COVERAGE} "Build with coverage informations.")
-option(BUILD_SHARED_LIBS "Build shared libs" ON)
-add_feature_info(SHARED_LIBS ${BUILD_SHARED_LIBS} "Build shared libs")
-option(BUILD_TESTING "Build tests." OFF)
-add_feature_info(TESTS ${BUILD_TESTING} "Build and run the tests")
-option(BUILD_DEB "Build deb format package" OFF)
-add_feature_info(DEB_ENABLE ${BUILD_DEB} "Build deb format package")
-option(BUILD_RPM "Build rpm format package" OFF)
-add_feature_info(RPM_ENABLE ${BUILD_RPM} "Build rpm format package")
-option(ENABLE_CLAZY "Enable clazy" OFF)
-add_feature_info(CLAZY ${ENABLE_CLAZY} "Build with clazy hints")
-option(ENABLE_CLANG_TIDY "activate clang tidy messages" OFF)
-add_feature_info(CLANG_TIDY ${ENABLE_CLANG_TIDY}
-                 "Check the source with clang tidy")
-option(ENABLE_CLANG_FORMAT "activate clang format" OFF)
-add_feature_info(CLANG_FORMAT ${ENABLE_CLANG_FORMAT}
-                 "Format the source with clang format")
-option(ENABLE_CCACHE "prefix each compile command with ccache" OFF)
-add_feature_info(CCACHE ${ENABLE_CCACHE} "Compile with ccache")
-option(USE_GIT_VERSION "Append Git HEAD to jmbde version (if exists)" ON)
+
 
 # Extensions: GitVersion, Clang-Format, Clang-Tidy
 # ##############################################################################
@@ -262,9 +282,14 @@ else()
   message(STATUS "Clang-format supported but disabled")
 endif()
 
-# allow for static analysis options
-include(cmake/StaticAnalyzers.cmake)
+# ##############################################################################
+# CodeCoverage.
+if(ENABLE_CODECOVERAGE)
+    include(UseCodeCoverage)
+endif()
 
+# Check for LTO support (needs to be after project(...) )
+find_lto(CXX)
 
 # ##############################################################################
 # Set the Installation-Layout for the platforms
@@ -352,7 +377,6 @@ add_subdirectory(src/libs)
 
 # The apps
 add_subdirectory(src/app)
-# add_subdirectory(src/appquick)
 
 # The package helpers
 add_subdirectory(packaging)

@@ -4,19 +4,48 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
-            "name": "clang++ - Build and debug active file",
+            "name": "GDB/LLDB",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}/${fileBasenameNoExtension}",
+            "program": "${workspacefolder}/build/bin/${fileBasenameNoExtension}",
             "args": [],
-            "stopAtEntry": true,
+            "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
+			"preLaunchTask": "Build: Debug",
             "environment": [],
             "externalConsole": false,
-            "MIMode": "lldb",
-            "preLaunchTask": "clang++ build active file",
-            "visualizerFile": "/Users/juergen/Library/Application Support/Code/User/workspaceStorage/ea668aa7b884a233ba9bb52622089db3/tonka3000.qtvsctools/qt.natvis.xml"
+            "internalConsoleOptions": "neverOpen",
+            "setupCommands": [
+				{
+					"description": "Enable pretty-printing for gdb",
+					"text": "-enable-pretty-printing",
+					"ignoreFailures": true
+				}
+            ],
+            "windows": {
+				"MIMode": "gdb",
+				"miDebuggerPath": "C:/mingw32/bin/gdb.exe",
+				"env": {
+					"Path": "${config:terminal.integrated.env.windows.Path}"
+				}
+            },
+            "linux": {
+				"program": "${workspaceFolder}/bin/Debug/${workspaceRootFolderName}",
+				"MIMode": "gdb",
+				"miDebuggerPath": "/usr/bin/gdb",
+				"env": {
+					"PATH": "${config:terminal.integrated.env.linux.PATH}",
+
+            },
+            "osx": {
+                "program": "${workspaceFolder}/bin/Debug/${workspaceRootFolderName}",
+				"MIMode": "lldb",
+				"env": {
+					"PATH": "${config:terminal.integrated.env.osx.PATH}",
+				}
+            },
         }
     ]
 }

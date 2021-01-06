@@ -1,5 +1,0 @@
-[requires]
-ecm/5.71.0
-
-[generators]
-cmake

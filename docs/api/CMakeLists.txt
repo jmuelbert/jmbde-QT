@@ -11,7 +11,9 @@
 # FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
 # details.
 
-find_package(Doxygen REQUIRED)
+find_package(Doxygen
+OPTIONAL_COMPONENTS dot mscgen dia
+REQUIRED)
 
 set(DOXYGEN_INPUT_DIR ${PROJECT_SOURCE_DIR}/src)
 set(DOXYGEN_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/doxygen)

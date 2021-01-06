@@ -45,6 +45,7 @@ jobs:
                   prerelease: ${{ steps.get_version.outputs.ISBETA }}
                   name: jmbde-QT ${{ steps.get_version.outputs.VERSION }}
                   files:
-                      downloads/jmbde-${{ steps.get_version.outputs.VERSION}}-sha256-checksums.txt
+                      downloads/jmbde-${{
+                      steps.get_version.outputs.VERSION}}-sha256-checksums.txt
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

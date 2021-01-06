@@ -1,42 +1,39 @@
 {
     "configurations": [
         {
+            "name": "Win32",
+            "intelliSenseMode": "msvc-x64",
             "cStandard": "c11",
-            "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Tools/MSVC/14.24.28314/bin/Hostx64/x64/cl.exe",
             "cppStandard": "c++17",
+            "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Tools/MSVC/14.24.28314/bin/Hostx64/x64/cl.exe",
             "defines": ["_DEBUG", "UNICODE", "_UNICODE"],
             "includePath": ["${myDefaultIncludePath}"],
-            "intelliSenseMode": "msvc-x64",
-            "name": "Win32",
             "windowsSdkVersion": "10.0.18362.0"
         },
         {
+            "name": "Linux",
+            "intelliSenseMode": "gcc-x64",
             "cStandard": "c11",
-            "compilerPath": "/usr/bin/gcc",
             "cppStandard": "c++17",
-            "defines": [],
-            "includePath": ["${myDefaultIncludePath}"],
-            "intelliSenseMode": "clang-x64",
-            "name": "Linux"
+            "defines": ["_DEBUG"],
+            "includePath": ["${myDefaultIncludePath}"]
         },
         {
-            "browse": {
-                "databaseFilename": "",
-                "limitSymbolsToIncludedHeaders": true,
-                "path": ["${workspaceFolder}"]
-            },
-            "cStandard": "C11",
-            "compileCommands": "${workspaceFolder}/compile_commands.json",
-            "compilerPath": "/usr/bin/clang",
-            "configurationProvider": "ms-vscode.cmake-tools",
+            "name": "Mac",
+            "cStandard": "c11",
             "cppStandard": "c++17",
-            "defines": [],
+            "compilerPath": "/usr/bin/clang",
+            "compileCommands": "${workspaceFolder}/compile_commands.json",
+
+            "configurationProvider": "ms-vscode.cmake-tools",
+
+            "defines": ["_DEBUG"],
             "includePath": ["${myDefaultIncludePath}"],
             "intelliSenseMode": "clang-x64",
             "macFrameworkPath": [
-                "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks"
-            ],
-            "name": "Mac"
+                "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks",
+                "/Library/Frameworks"
+            ]
         }
     ],
     "env": {
