@@ -27,7 +27,7 @@ jobs:
             - name: apt helper action
               # You may pin to the exact commit or the version.
               # uses: ryankurte/action-apt@7356b2f8b9c6f8043a3d0ab3b991701dc817b759
-              uses: ryankurte/action-apt@v0.2.0
+              uses: ryankurte/action-apt@v0.3.0
               with:
                   # architectures to pass to dpkg --add-architecture
                   #architectures: # optional
