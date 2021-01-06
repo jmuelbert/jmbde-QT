@@ -18,7 +18,6 @@ macro(run_conan)
     REQUIRES
     ${CONAN_EXTRA_REQUIRES}
     extra-cmake-modules/5.75.0
-    gtest/1.10.0
     OPTIONS
     ${CONAN_EXTRA_OPTIONS}
     BASIC_SETUP
