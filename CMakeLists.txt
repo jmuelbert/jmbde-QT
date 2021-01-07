@@ -82,7 +82,6 @@ set(QT_MIN_VERSION "5.12.8")
 
 # Standard CMake modules
 include(CTest)                          # Must be called before adding tests but after calling project(). This automatically calls enable_testing() and configures ctest targets when using Make/Ninja
-include(CTest)                          # Must be called before adding tests but after calling project(). This automatically calls enable_testing() and configures ctest targets when using Make/Ninja
 include(CMakeDependentOption)           # This is a really useful scripts that creates options that depends on other options. It can even be used with generator expressions !
 include(GNUInstallDirs)                 # This will define the default values for installation directories (all platforms even if named GNU)
 include(InstallRequiredSystemLibraries) # Tell CMake that the `install` target needs to install required system libraries (eg: Windows SDK)
@@ -101,6 +100,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake"
 include(StandardProjectSettings)
 include(PreventInSourceBuilds)
 include(StaticAnalyzers)
+
 include(LTO)
 include(Warnings)
 include(CopyDllsForDebug)
