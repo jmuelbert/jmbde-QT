@@ -2,9 +2,13 @@
 name: All Source Files
 
 on:
-    push:
+    pull_request:
+        paths-ignore:
+            - "README.md"
+            - "LICENSE"
+            - "BUILD.md"
     release:
-        types: [published, edited]
+        types: [published]
 
 jobs:
     check_commit_msg:
