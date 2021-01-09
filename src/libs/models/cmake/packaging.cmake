@@ -15,18 +15,15 @@ set(CPACK_PACKAGE_VERSION_MINOR "${JMBDE_VERSION_MINOR}")
 set(CPACK_PACKAGE_VERSION_PATCH "${JMBDE_VERSION_PATCH}")
 set(CPACK_PACKAGE_VERSION "${JMBDE_VERSION}")
 
-# RPM specific configuration (minimum)
-# _____________________________________________________________________________
-# CPACK: RPM Specific Settings
+# RPM specific configuration (minimum) _____________________________________________________________________________ CPACK: RPM Specific
+# Settings
 set(CPACK_RPM_PACKAGE_LICENSE "GPLv3+")
 set(CPACK_RPM_PACKAGE_GROUP "Business/Tools")
 set(CPACK_RPM_PACKAGE_VERSION "${JMBDE_VERSION}")
-set(CPACK_RPM_COMPONENT_INSTALL ON) # necessary even if CPACK_COMPONENT_INSTALL
-                                    # set to ON. A bug in my opinion.
+set(CPACK_RPM_COMPONENT_INSTALL ON) # necessary even if CPACK_COMPONENT_INSTALL set to ON. A bug in my opinion.
 
-# Debian specific configuration (minimum)
-# _____________________________________________________________________________
-# CPACK: DEB Specific Settings
+# Debian specific configuration (minimum) _____________________________________________________________________________ CPACK: DEB Specific
+# Settings
 set(CPACK_DEBIAN_PACKAGE_SECTION "Business")
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "${CPACK_PACKAGE_CONTACT}")
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.3.1-6), libboost-test-dev")
@@ -36,8 +33,7 @@ set(CPACK_RESOURCE_FILE_README "${CMAKE_SOURCE_DIR}/README.md")
 
 # Win
 if(WIN32)
-  # HACKHACK: Update the following if vcpkg breaks compatibility for internal
-  # directories, scripts, or variables.
+  # HACKHACK: Update the following if vcpkg breaks compatibility for internal directories, scripts, or variables.
   set(vcpkg_dir "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}")
   find_program(windeployqt windeployqt.exe)
 
@@ -51,10 +47,8 @@ if(WIN32)
   set(CPACK_NSIS_MUI_ICON "${ICONS_DIR}/${PROJECT_NAME}-icon.ico")
   # set(CPACK_PACKAGE_ICON "${ICONS_DIR}\\\\CharmNSISHeader.bmp")
   set(CPACK_NSIS_URL_INFO_ABOUT "https://jmuelbert.github.io/jmbde-QT")
-  set(CPACK_NSIS_INSTALLED_ICON_NAME
-      "${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX}")
-  # set(CPACK_NSIS_MENU_LINKS "${LICENSE_FILE}" "License" "${README_FILE}"
-  # "Readme" )
+  set(CPACK_NSIS_INSTALLED_ICON_NAME "${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX}")
+  # set(CPACK_NSIS_MENU_LINKS "${LICENSE_FILE}" "License" "${README_FILE}" "Readme" )
   set(CPACK_NSIS_MUI_FINISHPAGE_RUN "${CPACK_NSIS_INSTALLED_ICON_NAME}")
 
   # WiX
@@ -63,9 +57,7 @@ if(WIN32)
   set(CPACK_PACKAGE_NAME "${PROJECT_NAME}")
   set(CPACK_PACKAGE_VENDOR "https://www.cms.bgu.tum.de/en/")
   set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "OpenInfraPlatform")
-  set(CPACK_PACKAGE_VERSION
-      "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}.${PROJECT_VERSION_TWEAK}"
-  )
+  set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}.${PROJECT_VERSION_TWEAK}")
   set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
   set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
   set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
@@ -74,22 +66,18 @@ if(WIN32)
   set(CPACK_PACKAGE_INSTALL_DIRECTORY "jmbde")
   set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SOURCE_DIR}/LICENSE")
   set(CPACK_RESOURCE_FILE_README "${PROJECT_SOURCE_DIR}/README.md")
-  # set(CPACK_WIX_UI_BANNER "${PROJECT_SOURCE_DIR}/Data/banner.bmp")
-  # set(CPACK_WIX_PRODUCT_ICON
+  # set(CPACK_WIX_UI_BANNER "${PROJECT_SOURCE_DIR}/Data/banner.bmp") set(CPACK_WIX_PRODUCT_ICON
   # "${PROJECT_SOURCE_DIR}/src/OpenInfraPlatform/Resources/icons/icon.ico")
   set(CPACK_WIX_PROGRAM_MENU_FOLDER "jmbde")
   set(CPACK_PACKAGE_EXECUTABLES OpenInfraPlatform.UI "jmbde")
 
-  # set(CPACK_WIX_PROPERTY_AdvancedWelcomeEulaDlgTitle "Test") set(LOC_FILE
-  # "${PROJECT_SOURCE_DIR}/deploy/en-us.wxl")
+  # set(CPACK_WIX_PROPERTY_AdvancedWelcomeEulaDlgTitle "Test") set(LOC_FILE "${PROJECT_SOURCE_DIR}/deploy/en-us.wxl")
   set(CPACK_WIX_CULTURES "en-us")
-  # set(CPACK_WIX_LIGHT_EXTRA_FLAGS ${PROJECT_SOURCE_DIR}/deploy/en-us.wxl)
-  # set(CPACK_WIX_EXTRA_SOURCES ${PROJECT_SOURCE_DIR}/deploy/UI_colors.wxs)
-  # set(CPACK_WIX_EXTRA_OBJECTS ${PROJECT_SOURCE_DIR}/deploy/col.wixlib)
+  # set(CPACK_WIX_LIGHT_EXTRA_FLAGS ${PROJECT_SOURCE_DIR}/deploy/en-us.wxl) set(CPACK_WIX_EXTRA_SOURCES
+  # ${PROJECT_SOURCE_DIR}/deploy/UI_colors.wxs) set(CPACK_WIX_EXTRA_OBJECTS ${PROJECT_SOURCE_DIR}/deploy/col.wixlib)
 
 elseif(APPLE)
-  # OS X PackageMaker __________________________________________________________
-  # ___________________
+  # OS X PackageMaker __________________________________________________________ ___________________
   set(CPACK_OSX_PACKAGE_VERSION "10.12")
   set(CPACK_GENERATOR "DragNDrop")
   set(CPACK_DMG_FORMAT "UDBZ")
@@ -97,13 +85,12 @@ elseif(APPLE)
   set(CPACK_SYSTEM_NAME "OSX")
   set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}-${JMBDE_VERSION}")
   set(CPACK_PACKAGE_ICON "${ICONS_DIR}/${PROJECT_NAME}.icns")
-  # set(CPACK_DMG_DS_STORE "${ICONS_DIR}/CharmDSStore")
-  # set(CPACK_DMG_BACKGROUND_IMAGE "${ICONS_DIR}/${PROJECT_NAME}Background.png")
+  # set(CPACK_DMG_DS_STORE "${ICONS_DIR}/CharmDSStore") set(CPACK_DMG_BACKGROUND_IMAGE "${ICONS_DIR}/${PROJECT_NAME}Background.png")
 elseif(UNIX)
   set(CPACK_SYSTEM_NAME "${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR}")
 endif()
 
-# ##############################################################################
+# ##########################################################################################################################################
 # File output
 set(CPACK_PACKAGE_INSTALL_DIRECTORY "${PROJECT_NAME}")
 set(CPACK_PACKAGE_CHECKSUM "SHA256")

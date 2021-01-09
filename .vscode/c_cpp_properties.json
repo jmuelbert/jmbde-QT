@@ -10,7 +10,7 @@
             "includePath": ["${myDefaultIncludePath}"],
             "windowsSdkVersion": "10.0.18362.0",
             "compileCommands": "${workspaceFolder}/compile_commands.json",
-            "configurationProvider": "ms-vscode.cmake-tools",
+            "configurationProvider": "ms-vscode.cmake-tools"
         },
         {
             "name": "Linux",
@@ -21,7 +21,7 @@
             "defines": ["_DEBUG"],
             "includePath": ["${myDefaultIncludePath}"],
             "compileCommands": "${workspaceFolder}/compile_commands.json",
-            "configurationProvider": "ms-vscode.cmake-tools",
+            "configurationProvider": "ms-vscode.cmake-tools"
         },
         {
             "name": "Mac",

@@ -12,10 +12,11 @@ These are computers, printers and telephones.
 [![GitHub All Releases][downloads_all-shield]][downloads_all-url]
 [![Issues][issues-shield]][issues-url]
 [![Help wanted issues][help-issues-shield]][help-issues-url]
-[![Pull Requests][pr-shield]][pr-url]
-[![pre-commit][pre-commit-shield]][pre-commit-url]
+[![Pull Requests][pr-shield]][pr-url] [![pre-commit][pre-commit-shield]][pre-commit-url]
 [![Codecov][codecov-shield]][codecov-url]
+
 <!-- [![CDash Dashboard][cdash-shield]][cdash-url] -->
+
 [![Misspell fixer][misspell_fixer-shield]][misspell_fixer-url]
 [![Documentation][documentation-shield]][documentation-url]
 [![License][license-shield]][license-url]
@@ -258,23 +259,32 @@ GPL V3 © [Jürgen Mülbert](https:/github.com/jmuelbert/jmbde-QT)
 [license-shield]: https://img.shields.io/github/license/jmuelbert/jmbde-QT
 [license-url]: https://github.com//jmuelbert/jmbde-QT/blob/release/LICENSE
 [product-screenshot]: images/doc/images/Logo_template.png
-[build-shield]: https://img.shields.io/github/workflow/status/jmuelbert/jmbde-QT/Build/release
+[build-shield]:
+    https://img.shields.io/github/workflow/status/jmuelbert/jmbde-QT/Build/release
 [build-url]: https://github.com/jmuelbert/jmbde-QT/workflows/Build
 [gitpod-shield]: https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod
 [gitpod-url]: https://gitpod.io/#https://github.com/jmuelbert/jmbde-QT
-[codacy-shield]: https://api.codacy.com/project/badge/Grade/caf2526829cb447b9ca6091cccebad27
-[codacy-url]: https://app.codacy.com/manual/jmuelbert/jmbde-QT?utm_source=github.com&utm_medium=referral&utm_content=jmuelbert/jmbde-QT&utm_campaign=Badge_Grade_Dashboard
-[downloads_all-shield]: https://img.shields.io/github/downloads/jmuelbert/jmbde-QT/total?label=downloads%40all
+[codacy-shield]:
+    https://api.codacy.com/project/badge/Grade/caf2526829cb447b9ca6091cccebad27
+[codacy-url]:
+    https://app.codacy.com/manual/jmuelbert/jmbde-QT?utm_source=github.com&utm_medium=referral&utm_content=jmuelbert/jmbde-QT&utm_campaign=Badge_Grade_Dashboard
+[downloads_all-shield]:
+    https://img.shields.io/github/downloads/jmuelbert/jmbde-QT/total?label=downloads%40all
 [downloads_all-url]: https://github.com/jmuelbert/jmbde-QT/releases
-[pre-commit-shield]: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
+[pre-commit-shield]:
+    https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
 [pre-commit-url]: https://github.com/pre-commit/pre-commit
-[misspell_fixer-shield]: https://github.com/jmuelbert/jmbde-QT/workflows/Misspell%20fixer/badge.svg
+[misspell_fixer-shield]:
+    https://github.com/jmuelbert/jmbde-QT/workflows/Misspell%20fixer/badge.svg
 [misspell_fixer-url]: https://github.com/marketplace/actions/misspell-fixer-action
-[help-issues-shield]: https://img.shields.io/github/issues/jmuelbert/jmbde-QT/help%20wanted
-[help-issues-url]: https://github.com/jmuelbert/jmbde-QT/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22
+[help-issues-shield]:
+    https://img.shields.io/github/issues/jmuelbert/jmbde-QT/help%20wanted
+[help-issues-url]:
+    https://github.com/jmuelbert/jmbde-QT/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22
 [documentation-shield]: https://img.shields.io/badge/Documentation-latest-blue.svg
 [documentation-url]: https://jmuelbert.github.io/jmbde-QT
-[lgtm-shield]: https://img.shields.io/lgtm/grade/cpp/g/jmuelbert/jmbde-QT.svg?logo=lgtm&logoWidth=18
+[lgtm-shield]:
+    https://img.shields.io/lgtm/grade/cpp/g/jmuelbert/jmbde-QT.svg?logo=lgtm&logoWidth=18
 [lgtm-url]: https://lgtm.com/projects/g/jmuelbert/jmbde-QT/context:cpp
 [cdash-shield]: https://img.shields.io/badge/CDash-Access-blue.svg
 [cdash-url]: http://my.cdash.org/index.php?project=jmbde-QT

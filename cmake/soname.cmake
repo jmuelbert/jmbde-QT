@@ -1,8 +1,7 @@
-
-if ( WIN32 )
-set( SO "dll")
-elseif( APPLE )
-set( SO "dylib" )
+if(WIN32)
+  set(SO "dll")
+elseif(APPLE)
+  set(SO "dylib")
 else()
-set( SO "so" )
+  set(SO "so")
 endif()

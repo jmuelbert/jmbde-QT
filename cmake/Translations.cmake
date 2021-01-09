@@ -9,14 +9,16 @@ if(${Qt6_FOUND})
   find_package(
     Qt6
     COMPONENTS LinguistTools
-    REQUIRED)
+    REQUIRED
+  )
 else()
   message("Qt5 gefunden!")
   message(STATUS "Qt version is ${Qt5Core_VERSION}")
   find_package(
     Qt5
     COMPONENTS LinguistTools
-    REQUIRED)
+    REQUIRED
+  )
 endif()
 
 set(TRANSLATIONS_DIR ${CMAKE_SOURCE_DIR}/translations)
