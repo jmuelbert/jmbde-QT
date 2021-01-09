@@ -93,7 +93,7 @@ jobs:
                   cp ./app/${targetName}.dmg ${targetName}-Qt${{matrix.qt_version}}.dmg
 
             - name: macOS - ${{ matrix.qt_version }} - Uploading artifact
-              uses: actions/upload-artifact@v2.2.1
+              uses: actions/upload-artifact@v2.2.2
               with:
                   name:
                       ${{
