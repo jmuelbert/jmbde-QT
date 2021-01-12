@@ -1,5 +1,6 @@
 ---
 tasks:
     - init: >
-          cmake -S. -Bbuild -DCMAKE_EXPORT_COMPILE_COMMANDS=ON && cmake --build build
-          --target all
+          python -m pip install conan
+          cmake -S. -Bbuild -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+          cmake --build build --target all
