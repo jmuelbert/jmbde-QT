@@ -3,11 +3,8 @@ tasks:
           python -m pip install conan
           cmake -S. -Bbuild -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
           cmake --build build --target all
-<<<<<<< HEAD
 
 vscode:
-  extensions:
-    - twxs.cmake@0.0.17:aQNzlYa74rJFJ5/BnUF1yA==
-    - ms-vscode.cmake-tools@1.5.3:QI2POGDzx7mhyCmZyf/3vg==
-=======
->>>>>>> 37faf1b148a66b5d5421bea5d518c392e3f03907
+    extensions:
+        - twxs.cmake@0.0.17:aQNzlYa74rJFJ5/BnUF1yA==
+        - ms-vscode.cmake-tools@1.5.3:QI2POGDzx7mhyCmZyf/3vg==
