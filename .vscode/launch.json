@@ -10,42 +10,32 @@
             "request": "launch",
             "program": "${workspacefolder}/build/bin/${fileBasenameNoExtension}",
             "args": [],
-            "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "preLaunchTask": "Build: Debug",
-            "environment": [],
-            "externalConsole": false,
             "internalConsoleOptions": "neverOpen",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ],
-            "windows": {
-                "MIMode": "gdb",
-                "miDebuggerPath": "C:/mingw32/bin/gdb.exe",
-                "env": {
-                    "Path": "${config:terminal.integrated.env.windows.Path}"
-                }
-            },
-            "linux": {
-                "program": "${workspaceFolder}/bin/Debug/${workspaceRootFolderName}",
-                "MIMode": "gdb",
-                "miDebuggerPath": "/usr/bin/gdb",
-                "env": {
-                    "PATH": "${config:terminal.integrated.env.linux.PATH}"
-                }
-            },
-            "osx": {
-                "program": "${workspaceFolder}/bin/Debug/${workspaceRootFolderName}",
-                "MIMode": "lldb",
-                "env": {
-                    "PATH": "${config:terminal.integrated.env.osx.PATH}"
-                }
-            },
-            "visualizerFile": "/Users/juergen/Library/Application Support/Code/User/workspaceStorage/ea668aa7b884a233ba9bb52622089db3/tonka3000.qtvsctools/qt.natvis.xml"
+        ],
+        "windows": {
+            "MIMode": "gdb",
+            "miDebuggerPath": "C:/mingw32/bin/gdb.exe",
+            "env": {
+                "Path": "${config:terminal.integrated.env.windows.Path}"
+            }
+        },
+        "linux": {
+            "program": "${workspaceFolder}/bin/Debug/${workspaceRootFolderName}",
+            "MIMode": "gdb",
+            "miDebuggerPath": "/usr/bin/gdb",
+            "env": {
+                "PATH": "${config:terminal.integrated.env.linux.PATH}"
+            }
+        },
+        "osx": {
+            "program": "${workspaceFolder}/bin/Debug/${workspaceRootFolderName}",
+            "MIMode": "lldb",
+            "env": {
+                "PATH": "${config:terminal.integrated.env.osx.PATH}"
+            }
         }
-    ]
+    }
+]
 }
