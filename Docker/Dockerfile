@@ -1,10 +1,17 @@
 FROM gitpod/workspace-full-vnc
 
-RUN apt-get update -y \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        build-essential libfontconfig1 mesa-common-dev libglu1-mesa-dev qt5-default \
-    && apt-get autoremove -y \
-    && apt-get autoclean -y
+
+RUN apt update && apt upgrade -y
+
+RUN DEBIAN_FRONTEND=noninteractive \
+    && apt-get install -y tzdata \
+    && apt-get install -y keyboard-configuration \
+    && apt-get install -y qt5-default qtbase5-dev \
+    qt5-default qttools5-dev-tools qttools5-dev libqt5svg5-dev \
+    libqt5help5 libqt5svg5-dev qt5-image-formats-plugins  \
+    qtdeclarative5-dev qtdeclarative5-dev-tools \
+    locales locales-all \
+    && apt-get clean && rm -rf /var/cache/apt/* && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/*
 
 ENV LC_ALL en_US.UTF-8
 
@@ -15,5 +22,3 @@ ENV LANGUAGE en_US.UTF-8
 
 RUN pip3 install --upgrade pip
 RUN pip3 install conan
-
-user gitpod
