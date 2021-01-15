@@ -2,9 +2,9 @@ FROM gitpod/workspace-full-vnc
 
 USER root
 
-RUN apt-get update && apt-get upgrade -y
+ENV DEBIAN_FRONTEND noninteractive
 
-RUN DEBIAN_FRONTEND=noninteractive \
+RUN apt-get update && apt-get upgrade -y \
     && apt-get install -y tzdata \
     && apt-get install -y keyboard-configuration \
     && apt-get install -y qt5-default qtbase5-dev \
