@@ -1,20 +1,10 @@
 FROM gitpod/workspace-full-vnc
 
-USER root
-
-RUN apt update && apt upgrade -y
-
-RUN DEBIAN_FRONTEND=noninteractive apt install -y tzdata
-
-RUN DEBIAN_FRONTEND=noninteractive apt install -y keyboard-configuration
-
-RUN apt install -y qt5-default \
-    qtbase5-dev \
-    qt5-default qttools5-dev-tools qttools5-dev libqt5svg5-dev \
-    libqt5help5 libqt5svg5-dev qt5-image-formats-plugins  \
-    qtdeclarative5-dev qtdeclarative5-dev-tools \
-    install -y locales locales-all \
-    && apt-get clean && rm -rf /var/cache/apt/* && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/*
+RUN apt-get update -y \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        build-essential libfontconfig1 mesa-common-dev libglu1-mesa-dev qt5-default \
+    && apt-get autoremove -y \
+    && apt-get autoclean -y
 
 ENV LC_ALL en_US.UTF-8
 
