@@ -1,7 +1,7 @@
 FROM gitpod/workspace-full-vnc
 
 
-RUN apt update && apt upgrade -y
+RUN apt-get update && apt-get upgrade -y
 
 RUN DEBIAN_FRONTEND=noninteractive \
     && apt-get install -y tzdata \
