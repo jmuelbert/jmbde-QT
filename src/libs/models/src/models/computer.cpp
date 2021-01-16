@@ -34,17 +34,18 @@ Model::Computer::Computer()
 void Model::Computer::setIndexes()
 {
     m_ComputerIdIndex = this->m_model->fieldIndex(QLatin1String("computer_id"));
-    m_NameIndex = this->m_model->fieldIndex(QLatin1String("name"));
+    m_DeviceNameIdIndex = this->m_model->fieldIndex(QLatin1String("device_name_id"));
     m_SerialNumberIndex = this->m_model->fieldIndex(QLatin1String("serial_number"));
     m_ServiceTagIndex = this->m_model->fieldIndex(QLatin1String("service_tag"));
     m_ServiceNumberIndex = this->m_model->fieldIndex(QLatin1String("service_number"));
     m_MemoryIndex = this->m_model->fieldIndex(QLatin1String("memory"));
-    m_DriveSizeIndex = this->m_model->fieldIndex(QLatin1String("drive_size"));
-    m_DriveTypeIndex = this->m_model->fieldIndex(QLatin1String("drive_type"));
+    // m_DriveSizeIndex = this->m_model->fieldIndex(QLatin1String("drive_size"));
+    // m_DriveTypeIndex = this->m_model->fieldIndex(QLatin1String("drive_type"));
     m_NetworkIndex = this->m_model->fieldIndex(QLatin1String("network"));
+    m_NetworkNameIndex = this->m_model->fieldIndex(QLatin1String("network_name"));
+    m_NetworkIpAdressIndex = this->m_model->fieldIndex(QLatin1String("network_ip_address"));
     m_ActiveIndex = this->m_model->fieldIndex(QLatin1String("active"));
     m_ReplaceIndex = this->m_model->fieldIndex(QLatin1String("replace"));
-    m_DeviceNameIdIndex = this->m_model->fieldIndex(QLatin1String("device_name_id"));
     m_DeviceTypeIdIndex = this->m_model->fieldIndex(QLatin1String("device_type_id"));
     m_EmployeeIdIndex = this->m_model->fieldIndex(QLatin1String("employe_id"));
     m_PlaceIdIndex = this->m_model->fieldIndex(QLatin1String("place_id"));
