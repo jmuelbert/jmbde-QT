@@ -39,11 +39,9 @@ void Model::Computer::setIndexes()
     m_ServiceTagIndex = this->m_model->fieldIndex(QLatin1String("service_tag"));
     m_ServiceNumberIndex = this->m_model->fieldIndex(QLatin1String("service_number"));
     m_MemoryIndex = this->m_model->fieldIndex(QLatin1String("memory"));
-    // m_DriveSizeIndex = this->m_model->fieldIndex(QLatin1String("drive_size"));
-    // m_DriveTypeIndex = this->m_model->fieldIndex(QLatin1String("drive_type"));
     m_NetworkIndex = this->m_model->fieldIndex(QLatin1String("network"));
     m_NetworkNameIndex = this->m_model->fieldIndex(QLatin1String("network_name"));
-    m_NetworkIpAdressIndex = this->m_model->fieldIndex(QLatin1String("network_ip_address"));
+    m_NetworkIpAddressIndex = this->m_model->fieldIndex(QLatin1String("network_ip_address"));
     m_ActiveIndex = this->m_model->fieldIndex(QLatin1String("active"));
     m_ReplaceIndex = this->m_model->fieldIndex(QLatin1String("replace"));
     m_DeviceTypeIdIndex = this->m_model->fieldIndex(QLatin1String("device_type_id"));
