@@ -867,7 +867,7 @@ void MainWindow::actualizeComputerListView()
     tableModel = computerModel->initializeRelationalModel();
 
     QSqlTableModel *listModel = computerModel->initializeListModel();
-    int modelIndex = computerModel->getNameIndex();
+    int modelIndex = computerModel->getNetworkNameIndex();
     computerModel->sort(modelIndex, Qt::AscendingOrder);
     actualizeListView(listModel, modelIndex);
 }
