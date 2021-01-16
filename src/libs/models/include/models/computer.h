@@ -451,7 +451,7 @@ private:
 
     int m_NetworkNameIndex {0};
 
-    int m_NetworIpAddressIndex {0};
+    int m_NetworkIpAddressIndex {0};
 
     /*!
         \var   int m_ActiveIndex
