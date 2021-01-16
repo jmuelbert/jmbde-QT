@@ -10,6 +10,9 @@ on:
     release:
         types: [published]
 
+env:
+    QT_VERSION: 6.0.0
+
 jobs:
     check_commit_msg:
         outputs:
@@ -27,7 +30,6 @@ jobs:
         if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_MAIN') }}
         strategy:
             matrix:
-                qt_version: [6.0.0]
                 platform: [ubuntu-16.04]
                 build_type: [Release, RelWithDebInfo]
                 arch: [x64]
@@ -55,18 +57,16 @@ jobs:
               uses: actions/cache@v2.1.3
               with:
                   path: ../Qt
-                  key:
-                      QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{
-                      matrix.qt_version }}
+                  key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{
+                      env.QT_VERSION }}
             - name: Installing Qt - ${{ matrix.arch }}
               uses: jurplel/install-qt-action@v2
               with:
-                  version: ${{ matrix.qt_version }}
+                  version: ${{  env.QT_VERSION }}
                   arch: ${{ matrix.qtarch }}
                   mirror: "http://mirrors.ocf.berkeley.edu/qt/"
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
-            - name:
-                  Linux - ${{ matrix.qt_version }} - Build preparation - Install
+            - name: Linux - ${{  env.QT_VERSION }} - Build preparation - Install
                   Packages
               run: |
                   sudo apt update
@@ -87,7 +87,7 @@ jobs:
                   conan install ..
                   cd ..
             # ========================================================================================================= Generate MakeFile and Build
-            - name: Linux - ${{ matrix.qt_version }} - Generate Dependencies and Build
+            - name: Linux - ${{  env.QT_VERSION }} - Generate Dependencies and Build
               shell: bash
               env:
                   LD: /usr/bin/clang++-10
@@ -106,7 +106,7 @@ jobs:
                   cmake --build . --parallel $(nproc)
                   cmake --install .
             # ========================================================================================================= Deployments
-            - name: Linux - ${{ matrix.qt_version }} - Generating AppImage
+            - name: Linux - ${{  env.QT_VERSION }} - Generating AppImage
               run: |
                   cd build
                   wget https://github.com/probonopd/linuxdeployqt/releases/download/7/linuxdeployqt-7-x86_64.AppImage
@@ -127,22 +127,20 @@ jobs:
                   ./linuxdeployqt-7-x86_64.AppImage ./AppDir/usr/share/applications/io.github.jmuelbert.jmbde.desktop -appimage -no-strip -always-overwrite -extra-plugins=iconengines,imageformats,platforminputcontexts -verbose=2
                   mv ./jmbde*.AppImage ./jmbde.AppImage
 
-            - name: Linux - ${{ matrix.qt_version }} - Uploading artifact
+            - name: Linux - ${{  env.QT_VERSION }} - Uploading artifact
               uses: actions/upload-artifact@v2.2.2
               with:
-                  name:
-                      jmbde-${{ github.sha }}-linux-${{ matrix.arch
-                      }}-qt${{matrix.qt_version }}-${{ matrix.build_type }}.AppImage
+                  name: jmbde-${{ github.sha }}-linux-${{ matrix.arch
+                      }}-qt${{ env.QT_VERSION }}-${{ matrix.build_type }}.AppImage
                   path: build/jmbde.AppImage
 
-            - name: Linux - ${{ matrix.qt_version }} - Upload binaries to release
+            - name: Linux - ${{ env.QT_VERSION }} - Upload binaries to release
               uses: svenstaro/upload-release-action@v2
               with:
                   repo_token: ${{ secrets.GITHUB_TOKEN }}
                   file: build/jmbde.AppImage
-                  asset_name:
-                      jmbde-${{ steps.get_version.outputs.VERSION
-                      }}-linux-${{matrix.arch }}-qt${{ matrix.qt_version }}-${{
+                  asset_name: jmbde-${{ steps.get_version.outputs.VERSION
+                      }}-linux-${{matrix.arch }}-qt${{ env.QT_VERSION }}-${{
                       matrix.build_type }}.AppImage
                   tag: ${{ github.ref }}
                   overwrite: true

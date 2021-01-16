@@ -11,8 +11,17 @@ RUN apt-get update && apt-get upgrade -y \
     qt5-default qttools5-dev-tools qttools5-dev libqt5svg5-dev \
     libqt5help5 libqt5svg5-dev qt5-image-formats-plugins  \
     qtdeclarative5-dev qtdeclarative5-dev-tools \
-    locales locales-all \
-    && apt-get clean && rm -rf /var/cache/apt/* && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/*
+    locales locales-all
+
+RUN wget -q https://download.teamviewer.com/download/linux/teamviewer_amd64.deb && \
+    dpkg -i teamviewer_amd64.deb && rm -rf teamviewer_amd64.deb
+
+
+# install dependencies
+RUN apt-get update \
+    && apt-get install -y  matchbox twm
+
+RUN apt-get clean && rm -rf /var/cache/apt/* && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/*
 
 ENV LC_ALL en_US.UTF-8
 
@@ -20,6 +29,11 @@ ENV LANG en_US.UTF-8
 
 ENV LANGUAGE en_US.UTF-8
 
-
 RUN pip3 install --upgrade pip
 RUN pip3 install conan
+
+
+
+# CMD [ "teamviewer", "daemon", "start" ]
+
+# CMD sudo service teamviewer daemon start && teamviewer

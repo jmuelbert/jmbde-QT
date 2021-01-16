@@ -15,6 +15,7 @@ on:
 
 env:
     QT_VERSION: 6.0.0
+    # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
     BUILD_TYPE: Debug
 
 jobs:
@@ -54,7 +55,7 @@ jobs:
         steps:
             - uses: actions/checkout@v2
               with:
-                  submodules: recursive
+                  submodules: "recursive"
 
             - name: Install Python 3.8
               uses: actions/setup-python@v2.1.4
