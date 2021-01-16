@@ -466,12 +466,6 @@ private:
     int m_ReplaceIndex {0};
 
     /*!
-        \var   int m_DeviceNameIdIndex
-        \brief The value of the DeviceNameIdIndex
-     */
-    int m_DeviceNameIdIndex {0};
-
-    /*!
        \var   int m_DeviceTypeIdIndex
        \brief The value of the DeviceTypeIdIndex
     */
