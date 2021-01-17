@@ -78,7 +78,7 @@ jobs:
             - name: Install conan
               id: conan
               run: |
-                  python -m pip install conan
+                  pip3 install conan
                   conan user
 
             - name: Create Build Environment
