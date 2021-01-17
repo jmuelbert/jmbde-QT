@@ -147,7 +147,7 @@ for:
           - sudo apt-get -y install cmake pkgconf fcitx-frontend-qt5
           - sudo apt-get -y install libxcb-xinerama0 libgl-dev libx11-dev
           - sudo apt-get -y install libxkbcommon-x11-dev libxcb-image0-dev
-          - sudo apt-get -y libxcb-icccm4-dev libssl-dev libxcb-keysyms1 libxcb-render-util0
+          - sudo apt-get -y install libxcb-icccm4-dev libssl-dev libxcb-keysyms1 libxcb-render-util0
 
           - export CC=/usr/bin/gcc-9
           - export CXX=/usr/bin/g++-9
