@@ -147,9 +147,9 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int getNameIndex() const
+    JMBDEMODELS_EXPORT int getDeviceNameIdIndex() const
     {
-        return m_NameIndex;
+        return m_DeviceNameIdIndex;
     }
 
     /*!
@@ -201,30 +201,6 @@ public:
     }
 
     /*!
-       \fn int getDriveSizeIndex()
-
-       \brief Get the index of the fieldname DriveSize form the database
-
-       Returns the value of the index
-    */
-    JMBDEMODELS_EXPORT int getDriveSizeIndex() const
-    {
-        return m_DriveSizeIndex;
-    }
-
-    /*!
-        \fn int getDriveTypeIndex()
-
-        \brief Get the index of the fieldname DriveType form the database
-
-        Returns the value of the index
-     */
-    JMBDEMODELS_EXPORT int getDriveTypeIndex() const
-    {
-        return m_DriveTypeIndex;
-    }
-
-    /*!
         \fn int getNetworkIndex()
 
         \brief Get the index of the fieldname Network form the database
@@ -234,6 +210,16 @@ public:
     JMBDEMODELS_EXPORT int getNetworkIndex() const
     {
         return m_NetworkIndex;
+    }
+
+    JMBDEMODELS_EXPORT int getNetworkNameIndex() const
+    {
+        return m_NetworkNameIndex;
+    }
+
+    JMBDEMODELS_EXPORT int getNetworkIpAddressIndex() const
+    {
+        return m_NetworkIpAddressIndex;
     }
 
     /*!
@@ -258,18 +244,6 @@ public:
     JMBDEMODELS_EXPORT int getReplaceIndex() const
     {
         return m_ReplaceIndex;
-    }
-
-    /*!
-        \fn int getDeviceNameIdIndex()
-
-        \brief Get the index of the fieldname DeviceName form the database
-
-        Returns the value of the index
-     */
-    JMBDEMODELS_EXPORT int getDeviceNameIdIndex() const
-    {
-        return m_DeviceNameIdIndex;
     }
 
     /*!
@@ -443,7 +417,7 @@ private:
         \var   int  m_NameIndex
         \brief The value of the NameIndex
      */
-    int m_NameIndex {0};
+    int m_DeviceNameIdIndex {0};
 
     /*!
        \var   int m_Name
@@ -470,22 +444,14 @@ private:
     int m_MemoryIndex {0};
 
     /*!
-        \var    int m_DriveSizeIndex
-        \brief The value of the DriveSizeIndex
-     */
-    int m_DriveSizeIndex {0};
-
-    /*!
-       \var   int m_DriveTypeIndex
-       \brief The value of the DriveTypeInde
-    */
-    int m_DriveTypeIndex {0};
-
-    /*!
         \var   nt m_NetworkIndex
         \brief The value of the NetworkIndex
      */
     int m_NetworkIndex {0};
+
+    int m_NetworkNameIndex {0};
+
+    int m_NetworkIpAddressIndex {0};
 
     /*!
         \var   int m_ActiveIndex
@@ -498,12 +464,6 @@ private:
         \brief The value of the ReplaceIndex
      */
     int m_ReplaceIndex {0};
-
-    /*!
-        \var   int m_DeviceNameIdIndex
-        \brief The value of the DeviceNameIdIndex
-     */
-    int m_DeviceNameIdIndex {0};
 
     /*!
        \var   int m_DeviceTypeIdIndex
