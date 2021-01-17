@@ -2,9 +2,13 @@
 name: All Source Files
 
 on:
-    push:
+    pull_request:
+        paths-ignore:
+            - "README.md"
+            - "LICENSE"
+            - "BUILD.md"
     release:
-        types: [published, edited]
+        types: [published]
 
 jobs:
     check_commit_msg:
@@ -44,7 +48,7 @@ jobs:
                       ./jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
 
             - name: Upload artifact
-              uses: actions/upload-artifact@v2.2.1
+              uses: actions/upload-artifact@v2.2.2
               with:
                   name: jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
                   path: jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z

@@ -1,17 +1,17 @@
 #
 # jmbde a BDE Tool for companies Copyright (C) 2013-2020  Jürgen Mülbert
 #
-# This program is free software: you can redistribute it and/or modify it under
-# the terms of the GNU General Public License as published by the Free Software
-# Foundation, either version 3 of the License, or (at your option) any later
-# version.
+# This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 #
-# This program is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
-# details.
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
-find_package(Doxygen REQUIRED)
+find_package(
+  Doxygen
+  OPTIONAL_COMPONENTS dot mscgen dia
+  REQUIRED
+)
 
 set(DOXYGEN_INPUT_DIR ${PROJECT_SOURCE_DIR}/src)
 set(DOXYGEN_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/doxygen)
@@ -33,10 +33,12 @@ add_custom_command(
   MAIN_DEPENDENCY ${DOXYFILE_OUT}
   ${DOXYFILE_IN}
   COMMENT "Generating api docs"
-  VERBATIM)
+  VERBATIM
+)
 
 # Nice named target so we can run the job easily
 add_custom_target(
   Doxygen ALL
   DEPENDS ${DOXYGEN_INDEX_FILE}
-  COMMENT "Create API-DOCS with doxygen")
+  COMMENT "Create API-DOCS with doxygen"
+)

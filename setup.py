@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import argparse
-import configparser
 import os
 from pathlib import Path
 import platform

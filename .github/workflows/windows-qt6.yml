@@ -1,11 +1,6 @@
 ---
 name: "CD: Windows Qt6"
 on:
-    push:
-        paths-ignore:
-            - "README.md"
-            - "LICENSE"
-            - "BUILD.md"
     pull_request:
         paths-ignore:
             - "README.md"
@@ -82,38 +77,41 @@ jobs:
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
                   setup-python: "false"
 
-            - name: conan_and_ecm
-              id: conan_and_ecm
-              shell: bash
-              env:
-                  CC: cl.exe
-                  CXX: cl.exe
+            - name: Install conan
+              id: conan
               run: |
-                  python -m pip install conan
+                  pip3 install --upgrade pip
+                  pip3 install conan
                   conan user
-                  conan create ./conan/ecm
-                  mkdir build
-                  cd build
-                  conan install ..
-                  cd ..
 
-            - name: Win-x64 - ${{ matrix.qt_version }} - Generate Dependencies and Build
+            - name: Create Build Environment
+              # Some projects don't allow in-source building, so create a separate build directory
+              # We'll use this as our working directory for all subsequent commands
+              run: cmake -E make_directory ${{runner.workspace}}/build
+
+            - name: Configure CMake
+              # Use a bash shell so we can use the same syntax for environment variable
+              # access regardless of the host operating system
               shell: bash
-              env:
-                  CC: cl.exe
-                  CXX: cl.exe
+              working-directory: ${{runner.workspace}}/build
+              # Note the current convention is to use the -S and -B options here to specify source
+              # and build directories, but this is only available with CMake 3.13 and higher.
+              # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
               run: |
-                  cd build
                   cmake .. \
-                    -GNinja \
-                    -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-                    -DJMBDE_QT6=ON \
-                    -DJMBDE_BUILD_INFO="Build for Windows" \
-                    -DJMBDE_BUILD_EXTRA_INFO="Build on Windows x64" \
-                    -DBUILD_TRANSLATIONS=ON \
-                    -DCMAKE_INSTALL_PREFIX:PATH=./app
-                  cmake --build . --parallel $(nproc)
-                  cmake --install .
+                  -GNinja \
+                  -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+                  -DJMBDE_QT6=ON \
+                  -DJMBDE_BUILD_INFO="Build for Windows" \
+                  -DJMBDE_BUILD_EXTRA_INFO="Build on Windows x64" \
+                  -DBUILD_TRANSLATIONS=ON \
+                  -DCMAKE_INSTALL_PREFIX:PATH=./app
+
+            - name: Build
+              working-directory: ${{runner.workspace}}/build
+              shell: bash
+              # Execute the build.  You can specify a specific target with "--target <NAME>"
+              run: cmake --build . --config $BUILD_TYPE -j2 --target install
 
             - name: ZIP package
               env:
@@ -133,8 +131,7 @@ jobs:
 
             - name: Inno package
               env:
-                  archiveName:
-                      jmbde.${{
+                  archiveName: jmbde.${{
                       steps.get_version.outputs.VERSION}}.Windows-${{matrix.arch }}
               shell: bash
               run: |
@@ -155,10 +152,9 @@ jobs:
                   archiveName:
                       jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-${{
                       matrix.arch }}
-              uses: actions/upload-artifact@v2.2.1
+              uses: actions/upload-artifact@v2.2.2
               with:
-                  name:
-                      jmbde-win-${{matrix.arch}}.qt${{ matrix.qt_version
+                  name: jmbde-win-${{matrix.arch}}.qt${{ matrix.qt_version
                       }}-${{matrix.build_type}}.zip
                   path: ${{ env.archiveName }}.zip
 
@@ -168,12 +164,10 @@ jobs:
               uses: svenstaro/upload-release-action@v2
               with:
                   repo_token: ${{ secrets.GITHUB_TOKEN }}
-                  file:
-                      ./jmbde-${{
+                  file: ./jmbde-${{
                       steps.get_version.outputs.VERSION}}-windows-${{matrix.arch}}-Qt${{matrix.qt_version}}-${{
                       matrix.build_type }}.exe
-                  asset_name:
-                      jmbde-${{
+                  asset_name: jmbde-${{
                       steps.get_version.outputs.VERSION}}-windows-${{matrix.arch}}-Qt${{matrix.qt_version}}-${{
                       matrix.build_type }}.exe
                   tag: ${{ github.ref }}
