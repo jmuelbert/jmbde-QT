@@ -66,7 +66,7 @@ void ComputerInputArea::setMappings()
     m_mapper->addMapping(ui->comboBox_Printer, this->m_computerModel->getPrinterIdIndex());
     m_mapper->addMapping(ui->comboBox_Processor, this->m_computerModel->getProcessorIdIndex());
     m_mapper->addMapping(ui->comboBox_Software, this->m_computerModel->getComputerSoftwareIdIndex());
-    m_mapper->addMapping(ui->lineEdit_ComputerName, this->m_computerModel->getNameIndex());
+    m_mapper->addMapping(ui->lineEdit_ComputerName, this->m_computerModel->getNetworkNameIndex());
     m_mapper->addMapping(ui->lineEdit_IPAddress, this->m_computerModel->getNetworkIndex());
     m_mapper->addMapping(ui->lineEdit_SerialNumber, this->m_computerModel->getSerialNumberIndex());
     m_mapper->addMapping(ui->lineEdit_ServiceNumber, this->m_computerModel->getServiceNumberIndex());

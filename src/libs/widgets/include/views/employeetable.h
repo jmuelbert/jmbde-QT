@@ -21,15 +21,15 @@
 #include <QMessageBox>
 #include <QObject>
 #include <QPushButton>
-#include <QWidget>
 #include <QSqlRelationalDelegate>
+#include <QWidget>
 #include <QtSql>
 
 #include "jmbdewidgets-version.h"
 #include "jmbdewidgets_export.h"
 #include "loggingcategory.h"
-#include "models/datacontext.h"
 #include "models/computer.h"
+#include "models/datacontext.h"
 #include "models/employee.h"
 #include "models/fax.h"
 #include "models/mobile.h"
@@ -93,7 +93,6 @@ private:
      * \brief buttonBox
      */
     QDialogButtonBox *buttonBox;
-
 
     /*!
      * @brief The Mode enum

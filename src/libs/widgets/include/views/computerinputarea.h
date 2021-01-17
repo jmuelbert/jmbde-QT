@@ -111,7 +111,6 @@ private:
      */
     QSqlDatabase m_db = {};
 
-
     /**
      * @brief setMappings
      */
