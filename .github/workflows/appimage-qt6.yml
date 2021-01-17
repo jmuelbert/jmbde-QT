@@ -137,8 +137,9 @@ jobs:
             - name: Linux - ${{  env.QT_VERSION }} - Uploading artifact
               uses: actions/upload-artifact@v2.2.2
               with:
-                  name: jmbde-${{ github.sha }}-linux-${{ matrix.arch
-                      }}-qt${{ env.QT_VERSION }}-${{ matrix.build_type }}.AppImage
+                  name:
+                      jmbde-${{ github.sha }}-linux-${{ matrix.arch
+                      }}-qt${{matrix.qt_version }}-${{ matrix.build_type }}.AppImage
                   path: build/jmbde.AppImage
 
             - name: Linux - ${{ env.QT_VERSION }} - Upload binaries to release
@@ -146,8 +147,9 @@ jobs:
               with:
                   repo_token: ${{ secrets.GITHUB_TOKEN }}
                   file: build/jmbde.AppImage
-                  asset_name: jmbde-${{ steps.get_version.outputs.VERSION
-                      }}-linux-${{matrix.arch }}-qt${{ env.QT_VERSION }}-${{
+                  asset_name:
+                      jmbde-${{ steps.get_version.outputs.VERSION
+                      }}-linux-${{matrix.arch }}-qt${{  env.QT_VERSION }}-${{
                       matrix.build_type }}.AppImage
                   tag: ${{ github.ref }}
                   overwrite: true

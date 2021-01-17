@@ -1,3 +1,0 @@
-[submodule "3rdparty/SingleApplication"]
-	path = src/3rd-party
-	url = https://github.com/itay-grudev/SingleApplication
