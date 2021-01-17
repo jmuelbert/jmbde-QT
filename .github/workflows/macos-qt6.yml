@@ -72,8 +72,7 @@ jobs:
               env:
                   Qt6_DIR: ../Qt/${{env.QT_VERSION}}/${{matrix.qt_arch}}
               run: |
-                  cd build
-                  cmake .. \
+                  cmake $GITHUB_WORKSPACE \
                     -GNinja \
                     -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
                     -DJMBDE_QT6=ON \
