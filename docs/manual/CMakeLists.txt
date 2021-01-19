@@ -16,7 +16,7 @@ else()
   cmake_policy(VERSION 3.18)
 endif()
 
-find_package(Sphinx REQUIRED)
+import(FindSphinx)
 
 #
 # Part for sphinx

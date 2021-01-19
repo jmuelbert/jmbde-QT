@@ -1,7 +1,7 @@
 {
     "cmake.configureSettings": {
         "BUILD_EXAMPLES": "ON",
-        "BUILD_MANUAL": "ON",
+        "BUILD_MANUAL": "OFF",
         "BUILD_API_DOCS": "OFF",
         "BUILD_TRANSLATIONS": "ON",
         "BUILD_COVERAGE": "ON",

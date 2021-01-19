@@ -11,9 +11,20 @@ ports:
 
 tasks:
     - init: >
-          cmake -S. -Bbuild -DCMAKE_EXPORT_COMPILE_COMMANDS=ON &&
-          cmake --build build --target all
+          cmake -S. -Bbuild -G Ninja -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+                    -DCMAKE_INSTALL_PREFIX=./AppDir/usr \
+                    -DCMAKE_BUILD_TYPE=Release \
+                    -DBUILD_TRANSLATIONS=ON \
+                    -DBUILD_TESTING=ON  \
+                    -DBUILD_COVERAGE=ON \
+                    -DENABLE_CLANG_FORMAT=ON \
+                    -DENABLE_CPPCHECK=ON \
+                    -DENABLE_CLANG_TIDY=ON \
+                    -DUSE_GIT_VERSION=ON &&
+            cmake --build build --config Release -j2 --target install
 
+                    # -DBUILD_MANUAL=ON \
+                    # -DBUILD_API_DOCS=ON \
 github:
     prebuilds:
         # enable for the master/default branch (defaults to true)
