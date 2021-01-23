@@ -23,9 +23,11 @@
 #include <QtSql>
 
 #include "commondata.h"
+#include "datacontext.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
-#include "loggingcategory.h"
+
+Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsMobileLog)
 
 namespace Model
 {
@@ -35,8 +37,8 @@ namespace Model
     \sa CommonDataModel
     \author Jürgen Mülbert
     \since 0.4
-    \version 0.5
-    \date 17.11.2020
+    \version 0.6
+    \date 21.01.2020
     \copyright GPL-3.0-or-later
     */
 class Mobile : public CommonData
@@ -108,6 +110,15 @@ public:
     virtual JMBDEMODELS_EXPORT auto generateFormularString(QString &header) -> QString final;
 
     // Getter
+    JMBDEMODELS_EXPORT QString getTableName() const
+    {
+        return this->m_tableName;
+    }
+
+    JMBDEMODELS_EXPORT QSqlDatabase getDB() const
+    {
+        return this->m_db;
+    }
 
     /*!
         \fn int MobileIdIndex()
@@ -116,7 +127,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int MobileIdIndex() const
+    JMBDEMODELS_EXPORT int getMobileIdIndex() const
     {
         return m_MobileIdIndex;
     }
@@ -128,7 +139,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int DeviceNameIdIndex() const
+    JMBDEMODELS_EXPORT int getDeviceNameIdIndex() const
     {
         return m_DeviceNameIdIndex;
     }
@@ -140,7 +151,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int SerialNumberIndex() const
+    JMBDEMODELS_EXPORT int getSerialNumberIndex() const
     {
         return m_SerialNumberIndex;
     }
@@ -152,7 +163,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int NumberIndex() const
+    JMBDEMODELS_EXPORT int getNumberIndex() const
     {
         return m_NumberIndex;
     }
@@ -164,7 +175,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int PinIndex() const
+    JMBDEMODELS_EXPORT int getPinIndex() const
     {
         return m_PinIndex;
     }
@@ -176,7 +187,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int CardNumberIndex() const
+    JMBDEMODELS_EXPORT int getCardNumberIndex() const
     {
         return m_CardNumberIndex;
     }
@@ -188,7 +199,7 @@ public:
 
        Returns the value of the index
     */
-    JMBDEMODELS_EXPORT int ActiveIndex() const
+    JMBDEMODELS_EXPORT int getActiveIndex() const
     {
         return m_ActiveIndex;
     }
@@ -200,7 +211,7 @@ public:
 
        Returns the value of the index
     */
-    JMBDEMODELS_EXPORT int ReplaceIndex() const
+    JMBDEMODELS_EXPORT int getReplaceIndex() const
     {
         return m_ReplaceIndex;
     }
@@ -212,7 +223,7 @@ public:
 
        Returns the value of the index
     */
-    JMBDEMODELS_EXPORT int DeviceTypeIdIndex() const
+    JMBDEMODELS_EXPORT int getDeviceTypeIdIndex() const
     {
         return m_DeviceTypeIdIndex;
     }
@@ -224,7 +235,7 @@ public:
 
        Returns the value of the index
     */
-    JMBDEMODELS_EXPORT int EmployeeIdIndex() const
+    JMBDEMODELS_EXPORT int getEmployeeIdIndex() const
     {
         return m_EmployeeIdIndex;
     }
@@ -236,7 +247,7 @@ public:
 
        Returns the value of the index
     */
-    JMBDEMODELS_EXPORT int PlaceIdIndex() const
+    JMBDEMODELS_EXPORT int getPlaceIdIndex() const
     {
         return m_PlaceIdIndex;
     }
@@ -248,7 +259,7 @@ public:
 
        Returns the value of the index
     */
-    JMBDEMODELS_EXPORT int DepartmentIdIndex() const
+    JMBDEMODELS_EXPORT int getDepartmentIdIndex() const
     {
         return m_DepartmentIdIndex;
     }
@@ -260,7 +271,7 @@ public:
 
        Returns the value of the index
     */
-    JMBDEMODELS_EXPORT int ManufacturerIdIndex() const
+    JMBDEMODELS_EXPORT int getManufacturerIdIndex() const
     {
         return m_ManufacturerIdIndex;
     }
@@ -272,7 +283,7 @@ public:
 
        Returns the value of the index
     */
-    JMBDEMODELS_EXPORT int InventoryIdIndex() const
+    JMBDEMODELS_EXPORT int getInventoryIdIndex() const
     {
         return m_InventoryIdIndex;
     }
@@ -281,7 +292,7 @@ public:
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
     */
-    JMBDEMODELS_EXPORT int LastUpdateIndex() const
+    JMBDEMODELS_EXPORT int getLastUpdateIndex() const
     {
         return m_LastUpdateIndex;
     }
@@ -291,6 +302,23 @@ private:
         \brief The Tablename in the database \e is const
      */
     const QString m_tableName = QLatin1String("mobile");
+
+    /*!
+     * @ brief m_db
+     */
+    QSqlDatabase m_db = {};
+
+    /*!
+        \brief holds an initialised pointer to the Relationmodel
+        \sa QSqlRelationalTableModel
+     */
+    QSqlRelationalTableModel *m_model {nullptr};
+
+    /*!
+       \brief holds an initialised pointer to the ItemSelectioModel
+       \sa QItemSelectionModel
+    */
+    QItemSelectionModel *m_selectionModel {nullptr};
 
     /*!
        \var int m_MobileIdIndex

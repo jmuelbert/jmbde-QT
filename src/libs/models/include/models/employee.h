@@ -29,6 +29,7 @@
 #include "jmbdemodels_export.h"
 
 Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsEmployeeLog)
+
 namespace Model
 {
 /*!
@@ -69,8 +70,8 @@ digraph g {
 
     \author Jürgen Mülbert
     \since 0.4
-    \version 0.5
-    \date 17.11.2020
+    \version 0.6
+    \date 23.01.2021
     \copyright GPL-3.0-or-later
     */
 class Employee : public CommonData

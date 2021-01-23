@@ -128,7 +128,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int ChipCardProfileDoorIdIndex() const
+    JMBDEMODELS_EXPORT int getChipCardProfileDoorIdIndex() const
     {
         return m_ChipCardProfileDoorIdIndex;
     }
@@ -141,7 +141,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int ChipCardProfileIdIndex() const
+    JMBDEMODELS_EXPORT int getChipCardProfileIdIndex() const
     {
         return m_ChipCardProfileIdIndex;
     }
@@ -153,7 +153,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int ChipCardDoorsIdIndex() const
+    JMBDEMODELS_EXPORT int getChipCardDoorsIdIndex() const
     {
         return m_ChipCardDoorsIdIndex;
     }
@@ -165,7 +165,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int LastUpdateIndex() const
+    JMBDEMODELS_EXPORT int getLastUpdateIndex() const
     {
         return m_LastUpdateIndex;
     }

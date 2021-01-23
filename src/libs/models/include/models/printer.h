@@ -25,9 +25,11 @@
 #include <QtSql>
 
 #include "commondata.h"
+#include "datacontext.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
-#include "loggingcategory.h"
+
+Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsPrinterLog)
 
 namespace Model
 {
@@ -37,8 +39,8 @@ namespace Model
     \details This Class is for the PrinterData
     \author Jürgen Mülbert
     \since 0.2
-    \version 0.5
-    \date 17.11.2020
+    \version 0.6
+    \date 23.01.2021
     \copyright GPL-3.0-or-later
     */
 class Printer : public CommonData
@@ -110,6 +112,15 @@ public:
     virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
 
     // Getter
+    JMBDEMODELS_EXPORT QString getTableName() const
+    {
+        return this->m_tableName;
+    }
+
+    JMBDEMODELS_EXPORT QSqlDatabase getDB() const
+    {
+        return this->m_db;
+    }
 
     /*!
         \fn int PrinterIdIndex()
@@ -118,7 +129,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int PrinterIdIndex() const
+    JMBDEMODELS_EXPORT int getPrinterIdIndex() const
     {
         return m_PrinterIdIndex;
     }
@@ -130,7 +141,7 @@ public:
 
        Returns the value of the index
     */
-    JMBDEMODELS_EXPORT int SerialNumberIndex() const
+    JMBDEMODELS_EXPORT int getSerialNumberIndex() const
     {
         return m_SerialNumberIndex;
     }
@@ -142,7 +153,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int NetworkIndex() const
+    JMBDEMODELS_EXPORT int getNetworkIndex() const
     {
         return m_NetworkIndex;
     }
@@ -154,7 +165,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int NetworkNameIndex() const
+    JMBDEMODELS_EXPORT int getNetworkNameIndex() const
     {
         return m_NetworkNameIndex;
     }
@@ -166,7 +177,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int NetworkIpAddressIndex() const
+    JMBDEMODELS_EXPORT int getNetworkIpAddressIndex() const
     {
         return m_NetworkIpAddressIndex;
     }
@@ -178,7 +189,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int ActiveIndex() const
+    JMBDEMODELS_EXPORT int getActiveIndex() const
     {
         return m_ActiveIndex;
     }
@@ -190,7 +201,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int ReplaceIndex() const
+    JMBDEMODELS_EXPORT int getReplaceIndex() const
     {
         return m_ReplaceIndex;
     }
@@ -202,7 +213,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int ResourcesIndex() const
+    JMBDEMODELS_EXPORT int getResourcesIndex() const
     {
         return m_ResourcesIndex;
     }
@@ -214,7 +225,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int PaperSizeMaxIndex() const
+    JMBDEMODELS_EXPORT int getPaperSizeMaxIndex() const
     {
         return m_PaperSizeMaxIndex;
     }
@@ -226,7 +237,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int ColorIndex() const
+    JMBDEMODELS_EXPORT int getColorIndex() const
     {
         return m_ColorIndex;
     }
@@ -238,7 +249,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int DeviceNameIdIndex() const
+    JMBDEMODELS_EXPORT int getDeviceNameIdIndex() const
     {
         return m_DeviceNameIdIndex;
     }
@@ -250,7 +261,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int DeviceTypeIdIndex() const
+    JMBDEMODELS_EXPORT int getDeviceTypeIdIndex() const
     {
         return m_DeviceTypeIdIndex;
     }
@@ -262,7 +273,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int EmployeeIdIndex() const
+    JMBDEMODELS_EXPORT int getEmployeeIdIndex() const
     {
         return m_EmployeeIdIndex;
     }
@@ -274,7 +285,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int PlaceIdIndex() const
+    JMBDEMODELS_EXPORT int getPlaceIdIndex() const
     {
         return m_PlaceIdIndex;
     }
@@ -286,7 +297,7 @@ public:
 
       Returns the value of the index
    */
-    JMBDEMODELS_EXPORT int DepartmentIdIndex() const
+    JMBDEMODELS_EXPORT int getDepartmentIdIndex() const
     {
         return m_DepartmentIdIndex;
     }
@@ -298,7 +309,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int ManufacurerIdIndex() const
+    JMBDEMODELS_EXPORT int getManufacurerIdIndex() const
     {
         return m_ManufacturerIdIndex;
     }
@@ -310,7 +321,7 @@ public:
 
        Returns the value of the index
     */
-    JMBDEMODELS_EXPORT int InventoryIdIndex() const
+    JMBDEMODELS_EXPORT int getInventoryIdIndex() const
     {
         return m_InventoryIdIndex;
     }
@@ -322,7 +333,7 @@ public:
 
        Returns the value of the index
     */
-    JMBDEMODELS_EXPORT int ComputerIdIndex() const
+    JMBDEMODELS_EXPORT int getComputerIdIndex() const
     {
         return m_ComputerIdIndex;
     }
@@ -334,7 +345,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int LastUpdateIndex() const
+    JMBDEMODELS_EXPORT int getLastUpdateIndex() const
     {
         return m_LastUpdateIndex;
     }
@@ -344,6 +355,28 @@ private:
         \brief The Tablename in the database \e is const
      */
     const QString m_tableName = QLatin1String("printer");
+
+    /*!
+     * @ brief m_db
+     */
+    QSqlDatabase m_db = {};
+
+    /*!
+        \brief holds an initialised pointer to the Relationmodel
+        \sa QSqlRelationalTableModel
+     */
+    QSqlRelationalTableModel *m_model {nullptr};
+
+    /*!
+       \brief holds an initialised pointer to the ItemSelectioModel
+       \sa QItemSelectionModel
+    */
+    QItemSelectionModel *m_selectionModel {nullptr};
+
+    /*!
+     * @brief DataContext
+     */
+    Model::DataContext *m_dataContext = {};
 
     /*!
         \var   int m_PrinterrIdIndex

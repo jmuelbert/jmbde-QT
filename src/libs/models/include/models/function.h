@@ -26,7 +26,8 @@
 #include "datacontext.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
-#include "loggingcategory.h"
+
+Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsFunctionLog)
 
 namespace Model
 {
@@ -36,8 +37,8 @@ namespace Model
     \details In this is handle all Function
     \author Jürgen Mülbert
     \since 0.4
-    \version 0.5
-    \date 17.11.2020
+    \version 0.6
+    \date 21.01.2021
     \copyright GPL-3.0-or-later
     */
 
@@ -112,6 +113,15 @@ public:
     virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
 
     // Getter
+    JMBDEMODELS_EXPORT QString getTableName() const
+    {
+        return this->m_tableName;
+    }
+
+    JMBDEMODELS_EXPORT QSqlDatabase getDB() const
+    {
+        return this->m_db;
+    }
 
     /*!
         \fn int FunctionIdIndex()
@@ -120,7 +130,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int FunctionIdIndex() const
+    JMBDEMODELS_EXPORT int getFunctionIdIndex() const
     {
         return m_FunctionIdIndex;
     }
@@ -132,7 +142,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int NameIndex() const
+    JMBDEMODELS_EXPORT int getNameIndex() const
     {
         return m_NameIndex;
     }
@@ -144,7 +154,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int PriorityIndex() const
+    JMBDEMODELS_EXPORT int getPriorityIndex() const
     {
         return m_PriorityIndex;
     }
@@ -156,7 +166,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int LastUpdateIndex() const
+    JMBDEMODELS_EXPORT int getLastUpdateIndex() const
     {
         return m_LastUpdateIndex;
     }

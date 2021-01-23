@@ -127,7 +127,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int CityNameIdIndex() const
+    JMBDEMODELS_EXPORT int getCityNameIdIndex() const
     {
         return m_CityNameIdIndex;
     }
@@ -139,7 +139,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int NameIndex() const
+    JMBDEMODELS_EXPORT int getNameIndex() const
     {
         return m_NameIndex;
     }
@@ -151,7 +151,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int LastUpdateIndex() const
+    JMBDEMODELS_EXPORT int getLastUpdateIndex() const
     {
         return m_LastUpdateIndex;
     }

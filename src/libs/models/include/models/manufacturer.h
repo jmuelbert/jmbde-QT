@@ -23,9 +23,11 @@
 #include <QtSql>
 
 #include "commondata.h"
+#include "datacontext.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
-#include "loggingcategory.h"
+
+Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsManufacturerLog)
 
 namespace Model
 {
@@ -35,8 +37,8 @@ namespace Model
     \details In this is handle all Manufacturer
     \author Jürgen Mülbert
     \since 0.4
-    \version 0.5
-    \date 17.11.2020
+    \version 0.6
+    \date 21.01.2021
     \copyright GPL-3.0-or-later
     */
 class Manufacturer : public CommonData
@@ -109,6 +111,15 @@ public:
     virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
 
     // Getter
+    JMBDEMODELS_EXPORT QString getTableName() const
+    {
+        return this->m_tableName;
+    }
+
+    JMBDEMODELS_EXPORT QSqlDatabase getDB() const
+    {
+        return this->m_db;
+    }
 
     /*!
         \fn int ManufacturerIdIndex()
@@ -117,7 +128,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int ManufacturerIdIndex() const
+    JMBDEMODELS_EXPORT int getManufacturerIdIndex() const
     {
         return m_ManufacturerIdIndex;
     }
@@ -129,7 +140,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int NameIndex() const
+    JMBDEMODELS_EXPORT int getNameIndex() const
     {
         return m_NameIndex;
     }
@@ -141,7 +152,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int Name2Index() const
+    JMBDEMODELS_EXPORT int getName2Index() const
     {
         return m_Name2Index;
     }
@@ -153,7 +164,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int SupporterIndex() const
+    JMBDEMODELS_EXPORT int getSupporterIndex() const
     {
         return m_SupporterIndex;
     }
@@ -165,7 +176,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int AddressIndex() const
+    JMBDEMODELS_EXPORT int getAddressIndex() const
     {
         return m_AddressIndex;
     }
@@ -177,7 +188,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int Address2Index() const
+    JMBDEMODELS_EXPORT int getAddress2Index() const
     {
         return m_Address2Index;
     }
@@ -189,7 +200,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int ZipCityIdIndex() const
+    JMBDEMODELS_EXPORT int getZipCityIdIndex() const
     {
         return m_ZipCityIdIndex;
     }
@@ -201,7 +212,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int MailAddressIndex() const
+    JMBDEMODELS_EXPORT int getMailAddressIndex() const
     {
         return m_MailAddressIndex;
     }
@@ -213,7 +224,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int PhoneNumberIndex() const
+    JMBDEMODELS_EXPORT int getPhoneNumberIndex() const
     {
         return m_PhoneNumberIndex;
     }
@@ -225,7 +236,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int FaxNumberIndex() const
+    JMBDEMODELS_EXPORT int getFaxNumberIndex() const
     {
         return m_FaxNumberIndex;
     }
@@ -237,7 +248,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int HotlineNumberIndex() const
+    JMBDEMODELS_EXPORT int getHotlineNumberIndex() const
     {
         return m_HotlineNumberIndex;
     }
@@ -249,7 +260,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int LastUpdateIndex() const
+    JMBDEMODELS_EXPORT int getLastUpdateIndex() const
     {
         return m_LastUpdateIndex;
     }
@@ -259,6 +270,28 @@ private:
         \brief The Tablename in the database \e is const
      */
     const QString m_tableName = QLatin1String("manufacturer");
+
+    /*!
+     * @ brief m_db
+     */
+    QSqlDatabase m_db = {};
+
+    /*!
+        \brief holds an initialised pointer to the Relationmodel
+        \sa QSqlRelationalTableModel
+     */
+    QSqlRelationalTableModel *m_model {nullptr};
+
+    /*!
+       \brief holds an initialised pointer to the ItemSelectioModel
+       \sa QItemSelectionModel
+    */
+    QItemSelectionModel *m_selectionModel {nullptr};
+
+    /*!
+     * @brief DataContext
+     */
+    Model::DataContext *m_dataContext = {};
 
     /*!
        \var int m_ManufacturerIdIndex

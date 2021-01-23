@@ -23,9 +23,11 @@
 #include <QtSql>
 
 #include "commondata.h"
+#include "datacontext.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
-#include "loggingcategory.h"
+
+Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsProcessorLog)
 
 namespace Model
 {
@@ -36,8 +38,8 @@ namespace Model
 
   \author Jürgen Mülbert
     \since 0.4
-    \version 0.5
-    \date 17.11.2020
+    \version 0.6
+    \date 23.01.2021
     \copyright GPL-3.0-or-later
     */
 class Processor : public CommonData
@@ -107,6 +109,15 @@ public:
     virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
 
     // Getter
+    JMBDEMODELS_EXPORT QString getTableName() const
+    {
+        return this->m_tableName;
+    }
+
+    JMBDEMODELS_EXPORT QSqlDatabase getDB() const
+    {
+        return this->m_db;
+    }
 
     /*!
         \fn int ProcessorIdIndex()
@@ -115,7 +126,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int ProcessorIdIndex() const
+    JMBDEMODELS_EXPORT int getProcessorIdIndex() const
     {
         return m_ProcessorIdIndex;
     }
@@ -127,7 +138,7 @@ public:
 
        Returns the value of the index
     */
-    JMBDEMODELS_EXPORT int NameIndex() const
+    JMBDEMODELS_EXPORT int getNameIndex() const
     {
         return m_NameIndex;
     }
@@ -139,7 +150,7 @@ public:
 
        Returns the value of the index
     */
-    JMBDEMODELS_EXPORT int ClockRateIndex() const
+    JMBDEMODELS_EXPORT int getClockRateIndex() const
     {
         return m_ClockRateIndex;
     }
@@ -151,7 +162,7 @@ public:
 
        Returns the value of the index
     */
-    JMBDEMODELS_EXPORT int CoresIndex() const
+    JMBDEMODELS_EXPORT int getCoresIndex() const
     {
         return m_CoresIndex;
     }
@@ -160,7 +171,7 @@ public:
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
     */
-    JMBDEMODELS_EXPORT int LastUpdateIndex() const
+    JMBDEMODELS_EXPORT int getLastUpdateIndex() const
     {
         return m_LastUpdateIndex;
     }
@@ -170,6 +181,28 @@ private:
         \brief The Tablename in the database \e is const
      */
     const QString m_tableName = QLatin1String("processor");
+
+    /*!
+     * @ brief m_db
+     */
+    QSqlDatabase m_db = {};
+
+    /*!
+        \brief holds an initialised pointer to the Relationmodel
+        \sa QSqlRelationalTableModel
+     */
+    QSqlRelationalTableModel *m_model {nullptr};
+
+    /*!
+       \brief holds an initialised pointer to the ItemSelectioModel
+       \sa QItemSelectionModel
+    */
+    QItemSelectionModel *m_selectionModel {nullptr};
+
+    /*!
+     * @brief DataContext
+     */
+    Model::DataContext *m_dataContext = {};
 
     /*!
        \var int m_ProcessorIdIndex

@@ -25,9 +25,11 @@
 #include <QtSql>
 
 #include "commondata.h"
+#include "datacontext.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
-#include "loggingcategory.h"
+
+Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsSystemLog)
 
 namespace Model
 {
@@ -37,8 +39,8 @@ namespace Model
     \details This Class is for the System
     \author Jürgen Mülbert
     \since 0.2
-    \version 0.5
-    \date 17.11.2020
+    \version 0.6
+    \date 23.01.2021
     \copyright GPL-3.0-or-later
     */
 class System : public CommonData
@@ -112,6 +114,15 @@ public:
     virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
 
     // Getter
+    JMBDEMODELS_EXPORT QString getTableName() const
+    {
+        return this->m_tableName;
+    }
+
+    JMBDEMODELS_EXPORT QSqlDatabase getDB() const
+    {
+        return this->m_db;
+    }
 
     /*!
         \fn  int SystemIdIndex()
@@ -120,7 +131,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int SystemIdIndex() const
+    JMBDEMODELS_EXPORT int getSystemIdIndex() const
     {
         return m_SystemIdIndex;
     }
@@ -132,7 +143,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int NameIndex() const
+    JMBDEMODELS_EXPORT int getNameIndex() const
     {
         return m_NameIndex;
     }
@@ -144,7 +155,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int LocalIndex() const
+    JMBDEMODELS_EXPORT int getLocalIndex() const
     {
         return m_LocalIndex;
     }
@@ -156,7 +167,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int CompanyIdIndex() const
+    JMBDEMODELS_EXPORT int getCompanyIdIndex() const
     {
         return m_CompanyIdIndex;
     }
@@ -168,7 +179,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int LastUpdateIndex() const
+    JMBDEMODELS_EXPORT int getLastUpdateIndex() const
     {
         return m_LastUpdateIndex;
     }
@@ -178,6 +189,28 @@ private:
         \brief The Tablename in the database \e is const
      */
     const QString m_tableName = QLatin1String("system");
+
+    /*!
+     * @ brief m_db
+     */
+    QSqlDatabase m_db = {};
+
+    /*!
+        \brief holds an initialised pointer to the Relationmodel
+        \sa QSqlRelationalTableModel
+     */
+    QSqlRelationalTableModel *m_model {nullptr};
+
+    /*!
+       \brief holds an initialised pointer to the ItemSelectioModel
+       \sa QItemSelectionModel
+    */
+    QItemSelectionModel *m_selectionModel {nullptr};
+
+    /*!
+     * @brief DataContext
+     */
+    Model::DataContext *m_dataContext = {};
 
     /*!
         \var int m_SystemIdIndex

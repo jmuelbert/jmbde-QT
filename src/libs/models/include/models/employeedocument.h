@@ -23,9 +23,11 @@
 #include <QtSql>
 
 #include "commondata.h"
+#include "datacontext.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
-#include "loggingcategory.h"
+
+Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsEmployeeDocumentLog)
 
 namespace Model
 {
@@ -35,8 +37,8 @@ namespace Model
     \details In this is handle all EmployeeDocument
     \author Jürgen Mülbert
     \since 0.4
-    \version 0.5
-    \date 17.11.2020
+    \version 0.6
+    \date 21.01.2021
     \copyright GPL-3.0-or-later
     */
 class EmployeeDocument : public CommonData
@@ -109,6 +111,15 @@ public:
     virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
 
     // Getter
+    JMBDEMODELS_EXPORT QString getTableName() const
+    {
+        return this->m_tableName;
+    }
+
+    JMBDEMODELS_EXPORT QSqlDatabase getDB() const
+    {
+        return this->m_db;
+    }
 
     /*!
         \fn int EmployeeDocumentIdIndex()
@@ -118,7 +129,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int EmployeeDocumentIdIndex() const
+    JMBDEMODELS_EXPORT int getEmployeeDocumentIdIndex() const
     {
         return m_EmployeeDocumentIdIndex;
     }
@@ -130,7 +141,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int EmployeeIdIndex() const
+    JMBDEMODELS_EXPORT int getEmployeeIdIndex() const
     {
         return m_EmployeeIdIndex;
     }
@@ -142,7 +153,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int DocumentIdIndex() const
+    JMBDEMODELS_EXPORT int getDocumentIdIndex() const
     {
         return m_DocumentIdIndex;
     }
@@ -154,7 +165,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int LastUpdateIndex() const
+    JMBDEMODELS_EXPORT int getLastUpdateIndex() const
     {
         return m_LastUpdateIndex;
     }
@@ -164,6 +175,23 @@ private:
         \brief The Tablename in the database \e is const
      */
     const QString m_tableName = QLatin1String("employee_document");
+
+    /*!
+     * @ brief m_db
+     */
+    QSqlDatabase m_db = {};
+
+    /*!
+        \brief holds an initialised pointer to the Relationmodel
+        \sa QSqlRelationalTableModel
+     */
+    QSqlRelationalTableModel *m_model {nullptr};
+
+    /*!
+       \brief holds an initialised pointer to the ItemSelectioModel
+       \sa QItemSelectionModel
+    */
+    QItemSelectionModel *m_selectionModel {nullptr};
 
     /*!
        \var int m_EmployeeDocumentIdIndex
