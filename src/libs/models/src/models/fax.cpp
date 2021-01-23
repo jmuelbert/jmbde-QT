@@ -72,7 +72,7 @@ auto Model::Fax::initializeInputDataModel() -> QSqlRelationalTableModel *
 
 auto Model::Fax::initializeViewModel() -> QSqlTableModel *
 {
-   this->m_model->select();
+    this->m_model->select();
 
     return this->m_model;
 }
