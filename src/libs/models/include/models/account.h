@@ -22,6 +22,7 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 #include <QtSql>
+#include <QTextDocument>
 
 #include "commondata.h"
 #include "datacontext.h"

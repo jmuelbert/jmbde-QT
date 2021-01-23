@@ -24,6 +24,7 @@
 #include <QtSql>
 #include <QTextDocument>
 
+#include "commondata.h"
 #include "datacontext.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"

@@ -15,17 +15,19 @@
 
 #pragma once
 
+#include <QLoggingCategory>
 #include <QObject>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRelation>
 #include <QtSql>
+#include <QTextDocument>
 
 #include "commondata.h"
 #include "datacontext.h"
 #include "jmbdemodels-version.h"
-#include "jmbdemodels_export.h""
+#include "jmbdemodels_export.h"
 
 Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsDeviceNameLog)
 

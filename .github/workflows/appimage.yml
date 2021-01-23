@@ -4,14 +4,14 @@ name: "CD: AppImage"
 on:
     push:
         paths-ignore:
-            - 'README.md'
-            - 'LICENSE'
-            - 'BUILD.md'
+            - "README.md"
+            - "LICENSE"
+            - "BUILD.md"
     pull_request:
         paths-ignore:
-            - 'README.md'
-            - 'LICENSE'
-            - 'BUILD.md'
+            - "README.md"
+            - "LICENSE"
+            - "BUILD.md"
     release:
         types: [published]
 
@@ -47,11 +47,11 @@ jobs:
             - name: Checking out sources
               uses: actions/checkout@v2
               with:
-                  submodules: 'recursive'
+                  submodules: "recursive"
             - name: Install Python 3.7 version
               uses: actions/setup-python@v2
               with:
-                  python-version: '3.7'
+                  python-version: "3.7"
                   architecture: ${{ matrix.arch }}
             - name: Restoring submodules
               run: git submodule update --init
@@ -60,7 +60,9 @@ jobs:
               uses: actions/cache@v2.1.3
               with:
                   path: ../Qt
-                  key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ matrix.qt_version }}
+                  key:
+                      QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{
+                      matrix.qt_version }}
             - name: Installing Qt - ${{ matrix.arch }}
               uses: jurplel/install-qt-action@v2
               with:
@@ -68,7 +70,9 @@ jobs:
                   arch: ${{ matrix.qtarch }}
                   mirror: "http://mirrors.ocf.berkeley.edu/qt/"
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
-            - name: Linux - ${{ matrix.qt_version }} - Build preparation - Install Packages
+            - name:
+                  Linux - ${{ matrix.qt_version }} - Build preparation - Install
+                  Packages
               run: |
                   sudo apt update
                   sudo apt install -y build-essential ninja-build cmake pkgconf fcitx-frontend-qt5 libxcb-xinerama0 libgl-dev libx11-dev libxkbcommon-x11-dev libxcb-image0-dev libxcb-icccm4-dev libssl-dev libxcb-keysyms1 libxcb-render-util0
@@ -86,7 +90,7 @@ jobs:
                   cd build
                   conan install ..
                   cd ..
-      # ========================================================================================================= Generate MakeFile and Build
+            # ========================================================================================================= Generate MakeFile and Build
             - name: Linux - ${{ matrix.qt_version }} - Generate Dependencies and Build
               shell: bash
               env:
@@ -103,7 +107,7 @@ jobs:
                     -DBUILD_TRANSLATIONS=ON
                   cmake --build . --parallel $(nproc)
                   cmake --install .
-      # ========================================================================================================= Deployments
+            # ========================================================================================================= Deployments
             - name: Linux - ${{ matrix.qt_version }} - Generating AppImage
               run: |
                   cd build
@@ -127,14 +131,20 @@ jobs:
             - name: Linux - ${{ matrix.qt_version }} - Uploading artifact
               uses: actions/upload-artifact@v2
               with:
-                  name: jmbde-${{ github.sha }}.linux-${{ matrix.arch }}.qt${{ matrix.qt_version }}-${{ matrix.build_type }}.AppImage
+                  name:
+                      jmbde-${{ github.sha }}.linux-${{ matrix.arch }}.qt${{
+                      matrix.qt_version }}-${{ matrix.build_type }}.AppImage
                   path: build/jmbde.AppImage
             - name: Linux - ${{ matrix.qt_version }} - Upload binaries to release
               uses: svenstaro/upload-release-action@v1-release
-              if: github.event_name == 'release' && matrix.platform == 'ubuntu-16.04' && matrix.qt_version == '5.15.2'
+              if:
+                  github.event_name == 'release' && matrix.platform == 'ubuntu-16.04' &&
+                  matrix.qt_version == '5.15.2'
               with:
                   repo_token: ${{ secrets.GITHUB_TOKEN }}
                   file: build/jmbde.AppImage
-                  asset_name: jmbde.${{ steps.get_version.outputs.VERSION }}.linux-${{ matrix.arch }}-${{ matrix.build_type }}.AppImage
+                  asset_name:
+                      jmbde.${{ steps.get_version.outputs.VERSION }}.linux-${{
+                      matrix.arch }}-${{ matrix.build_type }}.AppImage
                   tag: ${{ github.ref }}
                   overwrite: true

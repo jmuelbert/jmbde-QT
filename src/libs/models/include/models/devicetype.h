@@ -15,13 +15,14 @@
 
 #pragma once
 
+#include <QLoggingCategory>
 #include <QObject>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRelation>
-#include <QStandardPaths>
 #include <QtSql>
+#include <QTextDocument>
 
 #include "commondata.h"
 #include "datacontext.h"

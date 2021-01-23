@@ -15,12 +15,14 @@
 
 #pragma once
 
+#include <QLoggingCategory>
 #include <QObject>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRelation>
 #include <QtSql>
+#include <QTextDocument>
 
 #include "commondata.h"
 #include "datacontext.h"
@@ -319,6 +321,11 @@ private:
        \sa QItemSelectionModel
     */
     QItemSelectionModel *m_selectionModel {nullptr};
+
+    /*!
+     * @brief DataContext
+     */
+    Model::DataContext *m_dataContext = {};
 
     /*!
        \var int m_MobileIdIndex

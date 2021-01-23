@@ -893,7 +893,7 @@ void MainWindow::actualizeFunctionListView()
     tableModel = fdm->initializeRelationalModel();
 
     QSqlTableModel *listModel = fdm->initializeListModel();
-    int modelIndex = fdm->NameIndex();
+    int modelIndex = fdm->getNameIndex();
     fdm->sort(modelIndex, Qt::AscendingOrder);
     actualizeListView(listModel, modelIndex);
 }

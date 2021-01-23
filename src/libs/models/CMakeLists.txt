@@ -23,7 +23,7 @@ endif()
 # JMBDEMODELS project
 project(
   "jmbdemodels"
-  VERSION "0.5.0"
+  VERSION "0.6.0"
   DESCRIPTION "${PROJECT_NAME} Datacontext Library"
   HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
   LANGUAGES CXX)
@@ -51,17 +51,6 @@ ecm_setup_version(
   VERSION_HEADER
   ${CMAKE_CURRENT_BINARY_DIR}/jmbdemodels-version.h)
 
-ecm_qt_declare_logging_category(
-  ${PROJECT_NAME}
-  HEADER
-  loggingcategory.h
-  IDENTIFIER
-  jmbdemodelsLog
-  CATEGORY_NAME
-  jmuelbert.jmbde.${PROJECT_NAME}
-  DEFAULT_SEVERITY
-  Warning)
-
 #
 # Finding Qt
 #
@@ -84,7 +73,6 @@ target_sources(
   jmbdemodels
   PRIVATE # INCLUDES
           jmbdemodels-version.h
-          loggingcategory.h
           include/models/account.h
           include/models/chipcard.h
           include/models/chipcarddoor.h
@@ -119,7 +107,6 @@ target_sources(
           include/models/zipcity.h
           include/models/zipcode.h
           # CPP's
-          loggingcategory.cpp
           src/models/account.cpp
           src/models/chipcard.cpp
           src/models/chipcarddoor.cpp

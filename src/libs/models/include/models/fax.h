@@ -15,12 +15,14 @@
 
 #pragma once
 
+#include <QLoggingCategory>
 #include <QObject>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRelation>
 #include <QtSql>
+#include <QTextDocument>
 
 #include "commondata.h"
 #include "datacontext.h"
@@ -296,6 +298,11 @@ private:
         \brief The Tablename in the database \e is const
      */
     const QString m_tableName = QLatin1String("fax");
+
+    /*!
+     * @ brief m_db
+     */
+    QSqlDatabase m_db = {};
 
     /*!
         \brief holds an initialised pointer to the Relationmodel
