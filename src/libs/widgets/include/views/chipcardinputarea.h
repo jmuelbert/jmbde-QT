@@ -16,28 +16,28 @@
 #pragma once
 
 #include <QDataWidgetMapper>
-#include <QDebug>
 #include <QGroupBox>
+#include <QLoggingCategory>
 #include <QMessageBox>
+#include <QObject>
 #include <QSqlRelationalDelegate>
 #include <QtSql>
 
 #include "jmbdewidgets-version.h"
 #include "jmbdewidgets_export.h"
 #include "models/chipcard.h"
+#include "models/datacontext.h"
 
 Q_DECLARE_LOGGING_CATEGORY(jmbdeWidgetsChipCardInputAreaLog)
 
-namespace Ui
-{
+namespace Ui {
 class ChipCardInputArea;
 }
 
 /**
  * @brief The ChipCardInputArea class
  */
-class JMBDEWIDGETS_EXPORT ChipCardInputArea : public QGroupBox
-{
+class JMBDEWIDGETS_EXPORT ChipCardInputArea : public QGroupBox {
     Q_OBJECT
 
 public:
@@ -46,12 +46,18 @@ public:
        @param parent The pointer to the parent object
        @param index The index for view the data
      */
-    explicit ChipCardInputArea(QWidget *parent = nullptr, const QModelIndex &index = QModelIndex());
+    explicit ChipCardInputArea(QWidget* parent = nullptr, const QModelIndex& index = QModelIndex());
 
     /**
      * @brief ~ChipCardInputArea();
      */
     ~ChipCardInputArea();
+
+signals:
+    /*!
+        @brief dataChanged
+     */
+    void dataChanged();
 
 private slots:
     /**
@@ -68,32 +74,43 @@ private:
     /**
      * @brief ui
      */
-    Ui::ChipCardInputArea *ui;
+    Ui::ChipCardInputArea* ui;
 
     /**
      * @brief The Mode enum
      */
-    enum Mode { Edit, Finish };
+    enum Mode { Edit,
+        Finish };
 
     /**
      * @brief m_actualMode
      */
     Mode m_actualMode;
 
+    /*!
+     * @brief m_dataContext
+     */
+    Model::ChipCard* m_chipCardModel = {};
+
     /**
      * @brief m_model
      */
-    QSqlRelationalTableModel *m_model;
+    QSqlRelationalTableModel* m_model;
 
     /**
      * @brief m_selectionModel
      */
-    QItemSelectionModel *m_selectionModel {};
+    QItemSelectionModel* m_selectionModel {};
 
     /**
      * @brief m_mapper
      */
-    QDataWidgetMapper *m_mapper;
+    QDataWidgetMapper* m_mapper;
+
+    /*!
+     * @ brief m_db
+     */
+    QSqlDatabase m_db = {};
 
     /**
      * @brief setMappings

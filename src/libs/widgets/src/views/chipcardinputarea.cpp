@@ -18,24 +18,22 @@
 
 Q_LOGGING_CATEGORY(jmbdeWidgetsChipCardInputAreaLog, "jmuelbert.jmbde.widgets.chipcardinputarea", QtWarningMsg)
 
-ChipCardInputArea::ChipCardInputArea(QWidget *parent, const QModelIndex &index)
+ChipCardInputArea::ChipCardInputArea(QWidget* parent, const QModelIndex& index)
     : QGroupBox(parent)
     , ui(new Ui::ChipCardInputArea)
 {
     ui->setupUi(this);
 
-    qCDebug(jmbdeWidgetsChipCardInputAreaLog) << "Init ChipCardInputArea for Index : " << index.column();
+    this->m_chipCardModel = new Model::ChipCard();
+    this->m_db = this->m_chipCardModel->getDB();
 
     m_actualMode = Mode::Edit;
     setViewOnlyMode(true);
 
     // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(QLatin1String("chip_card"));
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    m_model = this->m_chipCardModel->initializeRelationalModel();
 
-    m_model->select();
-
+    // Set the mapper
     m_mapper = new QDataWidgetMapper(this);
     m_mapper->setModel(m_model);
     setMappings();
@@ -51,18 +49,12 @@ ChipCardInputArea::~ChipCardInputArea()
 // TODO change lineEdit to lineEdit_Number
 void ChipCardInputArea::setMappings()
 {
-    m_mapper->addMapping(ui->lineEdit, m_model->fieldIndex(QLatin1String("number")));
-    m_mapper->addMapping(ui->comboBox_Door, m_model->fieldIndex((QLatin1String("chip_card_door_id"))));
-    m_mapper->addMapping(ui->comboBox_Profile, m_model->fieldIndex(QLatin1String("chip_card_profile_id")));
-    m_mapper->addMapping(ui->comboBox_Employee, m_model->fieldIndex((QLatin1String("employee_id"))));
+    m_mapper->addMapping(ui->lineEdit_Number, this->m_chipCardModel->getNumberIndex());
 }
 
 void ChipCardInputArea::setViewOnlyMode(bool mode)
 {
-    ui->lineEdit->setDisabled(mode);
-    ui->comboBox_Door->setDisabled(mode);
-    ui->comboBox_Profile->setDisabled(mode);
-    ui->comboBox_Employee->setDisabled(mode);
+    ui->lineEdit_Number->setDisabled(mode);
 }
 
 void ChipCardInputArea::createDataset()
@@ -116,7 +108,7 @@ void ChipCardInputArea::on_pushButton_EditFinish_clicked()
         ui->pushButton_EditFinish->setText(tr("Edit"));
         setViewOnlyMode(false);
 
-        QString name = ui->lineEdit->text();
+        QString name = ui->lineEdit_Number->text();
 
         if (name.isEmpty()) {
             QString message(tr("Please provide the chipcard number."));

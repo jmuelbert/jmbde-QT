@@ -30,8 +30,7 @@
 
 Q_DECLARE_LOGGING_CATEGORY(jmbdeWidgetsAccoutInputAreaLog)
 
-namespace Ui
-{
+namespace Ui {
 class AccountInputArea;
 }
 
@@ -53,7 +52,7 @@ public:
         @todo Init the model from here
         @todo Get the tableName from the model
      */
-    explicit AccountInputArea(QWidget *parent = nullptr, const QModelIndex index = QModelIndex());
+    explicit AccountInputArea(QWidget* parent = nullptr, const QModelIndex index = QModelIndex());
 
     /**
      * @brief ~AccountInputArea
@@ -83,12 +82,13 @@ private:
     /*!
      * @brief ui
      */
-    Ui::AccountInputArea *ui;
+    Ui::AccountInputArea* ui;
 
     /*!
      * @brief The Mode enum
      */
-    enum Mode { Edit, Finish };
+    enum Mode { Edit,
+        Finish };
 
     /*!
      * @brief m_actualMode
@@ -98,22 +98,22 @@ private:
     /*!
      * @brief m_dataContext
      */
-    Model::Account *accountModel = {};
+    Model::Account* m_accountModel = {};
 
     /*!
      * @brief m_model
      */
-    QSqlTableModel *m_model;
+    QSqlTableModel* m_model;
 
     /*!
      * @brief m_selectionModel
      */
-    QItemSelectionModel *m_selectionModel {};
+    QItemSelectionModel* m_selectionModel {};
 
     /*!
      * @brief m_mapper
      */
-    QDataWidgetMapper *m_mapper;
+    QDataWidgetMapper* m_mapper;
 
     /*!
      * @ brief m_db

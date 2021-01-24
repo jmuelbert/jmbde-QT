@@ -20,20 +20,20 @@
 Q_LOGGING_CATEGORY(jmbdeWidgetsAccoutInputAreaLog, "jmuelbert.jmbde.widgets.accountinputarea", QtWarningMsg)
 
 // Edit an existing Account
-AccountInputArea::AccountInputArea(QWidget *parent, const QModelIndex index)
+AccountInputArea::AccountInputArea(QWidget* parent, const QModelIndex index)
     : QGroupBox(parent)
     , ui(new Ui::AccountInputArea)
 {
     ui->setupUi(this);
 
-    this->accountModel = new Model::Account();
-    this->m_db = this->accountModel->getDB();
+    this->m_accountModel = new Model::Account();
+    this->m_db = this->m_accountModel->getDB();
 
     m_actualMode = Mode::Edit;
     setViewOnlyMode(true);
 
     // Set the Model
-    m_model = this->accountModel->initializeRelationalModel();
+    m_model = this->m_accountModel->initializeRelationalModel();
 
     // Set the mapper
     m_mapper = new QDataWidgetMapper();
@@ -52,10 +52,14 @@ AccountInputArea::~AccountInputArea()
 
 void AccountInputArea::setMappings()
 {
+    m_mapper->addMapping(ui->lineEdit_Username, this->m_accountModel->getUserNameIndex());
+    m_mapper->addMapping(ui->lineEdit_Passwort, this->m_accountModel->getPasswordIndex());
 }
 
 void AccountInputArea::setViewOnlyMode(bool mode)
 {
+    ui->lineEdit_Username->setDisabled(mode);
+    ui->lineEdit_Passwort->setDisabled(mode);
 }
 
 void AccountInputArea::createDataset()

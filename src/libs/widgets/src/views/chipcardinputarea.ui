@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>ChipCardInputArea</class>
  <widget class="QGroupBox" name="ChipCardInputArea">
@@ -70,37 +70,37 @@
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QLineEdit" name="lineEdit" />
+         <widget class="QLineEdit" name="lineEdit_Number"/>
         </item>
         <item row="1" column="0">
-         <widget class="QLabel" name="label_Version">
+         <widget class="QLabel" name="label_Door">
           <property name="text">
            <string>Door</string>
           </property>
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QComboBox" name="comboBox_Door" />
+         <widget class="QComboBox" name="comboBox_Door"/>
         </item>
         <item row="2" column="0">
-         <widget class="QLabel" name="label_Revision">
+         <widget class="QLabel" name="label_Profile">
           <property name="text">
            <string>Profile</string>
           </property>
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QComboBox" name="comboBox_Profile" />
+         <widget class="QComboBox" name="comboBox_Profile"/>
         </item>
         <item row="3" column="0">
-         <widget class="QLabel" name="label_Fix">
+         <widget class="QLabel" name="label_Employee">
           <property name="text">
            <string>Employee</string>
           </property>
          </widget>
         </item>
         <item row="3" column="1">
-         <widget class="QComboBox" name="comboBox_Employee" />
+         <widget class="QComboBox" name="comboBox_Employee"/>
         </item>
        </layout>
       </item>
@@ -157,6 +157,6 @@
   <tabstop>pushButton_Add</tabstop>
   <tabstop>pushButton_EditFinish</tabstop>
  </tabstops>
- <resources />
- <connections />
+ <resources/>
+ <connections/>
 </ui>
