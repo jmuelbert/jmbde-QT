@@ -43,6 +43,7 @@
 #include "models/title.h"
 #include "views/aboutdialog.h"
 #include "views/accountinputarea.h"
+#include "views/chipcarddoorinputarea.h"
 #include "views/chipcardinputarea.h"
 #include "views/cityinputarea.h"
 #include "views/computerinputarea.h"
@@ -66,8 +67,7 @@ Q_DECLARE_LOGGING_CATEGORY(jmbdeWidgetsMainWindowLog)
 /**
  * Namespace for the UserInterface
  */
-namespace Ui
-{
+namespace Ui {
 class MainWindow;
 }
 
@@ -75,8 +75,7 @@ class MainWindow;
  * \class MainWindow
  * @brief The MainWindow class
  */
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
@@ -84,7 +83,7 @@ public:
      * @brief MainWindow
      * @param parent The parent widget
      */
-    explicit JMBDEWIDGETS_EXPORT MainWindow(QWidget *parent = nullptr);
+    explicit JMBDEWIDGETS_EXPORT MainWindow(QWidget* parent = nullptr);
 
     /**
      * @brief MainWindow::~MainWindow
@@ -96,13 +95,13 @@ protected:
      * @brief closeEvent
      * @param event The recived event
      */
-    void JMBDEWIDGETS_EXPORT closeEvent(QCloseEvent *event);
+    void JMBDEWIDGETS_EXPORT closeEvent(QCloseEvent* event);
 
     /**
      * @brief resizeEvent
      * @param event Tehe recived event
      */
-    void JMBDEWIDGETS_EXPORT resizeEvent(QResizeEvent *event);
+    void JMBDEWIDGETS_EXPORT resizeEvent(QResizeEvent* event);
 
 private slots:
     /**
@@ -113,7 +112,7 @@ private slots:
     /**
      * @brief on_actionAbout_triggered
      */
-    JMBDEWIDGETS_EXPORT void  on_actionAbout_triggered();
+    JMBDEWIDGETS_EXPORT void on_actionAbout_triggered();
 
     /**
      * \fn void on_actionNew_triggered()
@@ -132,7 +131,7 @@ private slots:
      * @param from The old focus widget
      * @param now The actual focus widget
      */
-    JMBDEWIDGETS_EXPORT void focusChanged(QWidget *from, QWidget *now);
+    JMBDEWIDGETS_EXPORT void focusChanged(QWidget* from, QWidget* now);
 
     /**
      * \fn on_actionOpen_triggered()
@@ -179,17 +178,17 @@ private slots:
      *
      * \see QModelIndex::QModelIndex
      */
-    void JMBDEWIDGETS_EXPORT on_treeView_clicked(const QModelIndex &index);
+    void JMBDEWIDGETS_EXPORT on_treeView_clicked(const QModelIndex& index);
 
     /**
      * @brief on_listView_clicked
      * @param index The QModelIndex of the ListViewRow to displayed
      */
-    void JMBDEWIDGETS_EXPORT on_listView_clicked(const QModelIndex &index);
+    void JMBDEWIDGETS_EXPORT on_listView_clicked(const QModelIndex& index);
 
     void actualizeAccoutListView();
     void actualizeChipCardListView();
-
+    void actualizeChipCardDoorListView();
     void actualizeComputerListView();
 
     void actualizeDepartmentListView();
@@ -201,12 +200,11 @@ private slots:
 
     void actualizeFunctionListView();
 
-
 private:
     /**
      * @brief ui
      */
-    Ui::MainWindow *ui;
+    Ui::MainWindow* ui;
 
     /**
       @brief initOutline
@@ -228,20 +226,19 @@ private:
      * \brief notAvailableMessage
      *
      */
-    void notAvailableMessage(const QString &functionName);
+    void notAvailableMessage(const QString& functionName);
 
-
-    void actualizeListView(QSqlTableModel *listModel, int idx);
+    void actualizeListView(QSqlTableModel* listModel, int idx);
 
     /**
      * @brief model
      */
-    QSqlRelationalTableModel *model {};
+    QSqlRelationalTableModel* model {};
 
     /**
      * @brief tableModel
      */
-    QSqlTableModel *tableModel {};
+    QSqlTableModel* tableModel {};
 
     /**
      * @brief dataBaseName
@@ -251,7 +248,7 @@ private:
     /**
      * @brief dataContext
      */
-    Model::DataContext *dataContext;
+    Model::DataContext* dataContext;
 
     /**
      * @brief dbType
@@ -281,22 +278,22 @@ private:
     /**
      * @brief m_splitter
      */
-    QSplitter *m_splitter {};
+    QSplitter* m_splitter {};
 
     /**
      * @brief m_treeView
      */
-    QTreeView *m_treeView {};
+    QTreeView* m_treeView {};
 
     /**
      * @brief m_listView
      */
-    QListView *m_listView {};
+    QListView* m_listView {};
 
     /**
      * @brief m_treeviewModel
      */
-    QStandardItemModel *m_treeviewModel {};
+    QStandardItemModel* m_treeviewModel {};
 
     /**
      * @brief The ViewData enum
@@ -304,6 +301,7 @@ private:
     enum ViewData {
         VIEW_ACCOUNT,
         VIEW_CHIPCARD,
+        VIEW_CHIPCARDDOOR,
         VIEW_CHIPCARDPROFILE,
         VIEW_CHIPCARDPROFILEDOOR,
         VIEW_CITYNAME,

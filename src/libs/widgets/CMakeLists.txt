@@ -87,6 +87,7 @@ target_sources(
           include/views/aboutdialog.h
           include/views/accountinputarea.h
           include/views/chipcardinputarea.h
+          include/views/chipcarddoorinputarea.h
           include/views/cityinputarea.h
           include/views/computerinputarea.h
           include/views/csvimportdialog.h
@@ -109,6 +110,7 @@ target_sources(
           src/views/aboutdialog.cpp
           src/views/accountinputarea.cpp
           src/views/chipcardinputarea.cpp
+          src/views/chipcarddoorinputarea.cpp
           src/views/cityinputarea.cpp
           src/views/computerinputarea.cpp
           src/views/csvimportdialog.cpp
@@ -130,6 +132,7 @@ target_sources(
           src/views/aboutdialog.ui
           src/views/accountinputarea.ui
           src/views/chipcardinputarea.ui
+          src/views/chipcarddoorinputarea.ui
           src/views/cityinputarea.ui
           src/views/computerinputarea.ui
           src/views/csvimportdialog.ui

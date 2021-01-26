@@ -111,7 +111,8 @@ void MainWindow::initOutline()
 {
     QHash<QString, QList<QString>> outlineData;
 
-    QList<QString> subEntries = { tr("Mitarbeiter"), tr("Funktion"), tr("Abteilung"), tr("Titel"), tr("Zugang") };
+    QList<QString> subEntries = { tr("Mitarbeiter"), tr("Funktion"), tr("Abteilung"), tr("Titel"),
+        tr("Zugang") };
     outlineData.insert(tr("Person"), subEntries);
 
     subEntries = { tr("Computer"), tr("Prozessor"), tr("Betriebssystem"), tr("Software"), tr("Drucker") };
@@ -120,7 +121,7 @@ void MainWindow::initOutline()
     subEntries = { tr("Telefon"), tr("Mobiltelefon") };
     outlineData.insert(tr("Kommunikation"), subEntries);
 
-    subEntries = { tr("Hersteller"), tr("Stadt"), tr("Schlüsselchip") };
+    subEntries = { tr("Hersteller"), tr("Stadt"), tr("Schlüsselchip"), tr("Schlüsselchip Tür") };
     outlineData.insert(tr("Verschiedenes"), subEntries);
 
     m_treeviewModel = new QStandardItemModel(this);
@@ -377,9 +378,9 @@ void MainWindow::on_action_Export_Pdf_triggered()
     QString fileName = QFileDialog::getSaveFileName(this, QLatin1String("Export PDF"), QString(), QLatin1String("*.pdf"));
 
     if (!fileName.isEmpty()) {
-        if (QFileInfo(fileName).suffix().isEmpty())
+        if (QFileInfo(fileName).suffix().isEmpty()) {
             fileName.append(QLatin1String(".pdf"));
-
+        }
         QPrinter printer(QPrinter::HighResolution);
 
         printer.setPageOrientation(QPageLayout::Landscape);
@@ -693,6 +694,20 @@ void MainWindow::on_treeView_clicked(const QModelIndex& index)
         QModelIndex qmi = QModelIndex();
         auto* cia = new ChipCardInputArea(ui->scrollArea, qmi);
         ui->scrollArea->setWidget(cia);
+    } else if (selected == tr("Schlüsselchip Tür")) {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+
+        actualView = VIEW_CHIPCARDDOOR;
+
+        auto* chipCardDoor = new Model::ChipCardDoor;
+
+        tableModel = chipCardDoor->initializeRelationalModel();
+
+        ui->listView->setModel(tableModel);
+
+        QModelIndex qmi = QModelIndex();
+        auto* cia = new ChipCardDoorInputArea(ui->scrollArea, qmi);
+        ui->scrollArea->setWidget(cia);
     } else {
         const QString caller = tr("onClickedTreeView(): Unbekannte Funktion");
         notAvailableMessage(caller);
@@ -726,7 +741,17 @@ void MainWindow::on_listView_clicked(const QModelIndex& index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(chipCardInput);
     } break;
+    case VIEW_CHIPCARDDOOR: {
+        auto* chipCardDoorInput = new ChipCardDoorInputArea(ui->scrollArea, index);
 
+        QObject::connect(chipCardDoorInput, SIGNAL(dataChanged()), this, SLOT(actualizeChipCardDoorListView()));
+
+        QSize AdjustSize = chipCardDoorInput->size();
+        AdjustSize.width();
+        chipCardDoorInput->setMinimumSize(AdjustSize);
+        ui->scrollArea->setWidgetResizable(true);
+        ui->scrollArea->setWidget(chipCardDoorInput);
+    } break;
     case VIEW_CITYNAME: {
         auto* cia = new CityInputArea(nullptr, index);
 
@@ -886,6 +911,17 @@ void MainWindow::actualizeChipCardListView()
     QSqlTableModel* listModel = chipCardModel->initializeListModel();
     int modelIndex = chipCardModel->getNumberIndex();
     chipCardModel->sort(modelIndex, Qt::AscendingOrder);
+    actualizeListView(listModel, modelIndex);
+}
+
+void MainWindow::actualizeChipCardDoorListView()
+{
+    auto* chipCardDoorModel = new Model::ChipCardDoor();
+    tableModel = chipCardDoorModel->initializeRelationalModel();
+
+    QSqlTableModel* listModel = chipCardDoorModel->initializeListModel();
+    int modelIndex = chipCardDoorModel->getNumberIndex();
+    chipCardDoorModel->sort(modelIndex, Qt::AscendingOrder);
     actualizeListView(listModel, modelIndex);
 }
 
