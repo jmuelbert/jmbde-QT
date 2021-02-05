@@ -28,7 +28,7 @@ jobs:
               run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
             - name: cacheQt
               id: cache-qt
-              uses: actions/cache@v2.1.3
+              uses: actions/cache@v2.1.4
               with:
                   path: ../Qt/${{matrix.qt_version}}/${{matrix.qt_arch}}
                   key: ${{ runner.os }}-Qt/${{matrix.qt_version}}/${{matrix.qt_arch}}
