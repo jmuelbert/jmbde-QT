@@ -1,17 +1,8 @@
 /*
-   jmbde a BDE Tool for companies
-   Copyright (C) 2013-2019  Jürgen Mülbert
-
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-*/
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 #include "views/cityinputarea.h"
 
@@ -19,7 +10,7 @@
 
 Q_LOGGING_CATEGORY(jmbdeWidgetsCityInputAreaLog, "jmuelbert.jmbde.widgets.cityinputarea", QtWarningMsg)
 
-CityInputArea::CityInputArea(QWidget *parent, const QModelIndex index)
+CityInputArea::CityInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::CityInputArea)
 {
@@ -27,21 +18,18 @@ CityInputArea::CityInputArea(QWidget *parent, const QModelIndex index)
 
     qCDebug(jmbdeWidgetsCityInputAreaLog) << "Init CityInputArea for Index : " << index;
 
+    this->m_cityNameModel = new Model::CityName();
+    this->m_db = this->m_cityNameModel->getDB();
+
     m_actualMode = Mode::Edit;
     setViewOnlyMode(true);
 
     // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(QLatin1String("city_name"));
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-
-    m_model->select();
+    m_model = this->m_cityNameModel->initializeRelationalModel();
 
     // Set the mapper
-    m_mapper = new QDataWidgetMapper(this);
+    m_mapper = new QDataWidgetMapper();
     m_mapper->setModel(m_model);
-    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
-
     setMappings();
 
     m_mapper->setCurrentIndex(index.row());
@@ -54,13 +42,13 @@ CityInputArea::~CityInputArea()
 
 void CityInputArea::setMappings()
 {
-    m_mapper->addMapping(ui->lineEdit_CityName, m_model->fieldIndex(QLatin1String("name")));
+    m_mapper->addMapping(ui->cityNameLineEdit, this->m_cityNameModel->getNameIndex());
+    m_mapper->addMapping(ui->lastUpdateLineEdit, this->m_cityNameModel->getLastUpdateIndex());
 }
 
 void CityInputArea::setViewOnlyMode(bool mode)
 {
-    ui->comboBox_ZipCode->setDisabled(mode);
-    ui->lineEdit_CityName->setDisabled(mode);
+    ui->cityNameLineEdit->setDisabled(mode);
 }
 
 void CityInputArea::createDataset()
@@ -113,7 +101,7 @@ void CityInputArea::on_pushButton_EditFinish_clicked()
         ui->pushButton_EditFinish->setText(tr("Edit"));
         setViewOnlyMode(false);
 
-        QString name = ui->lineEdit_CityName->text();
+        QString name = ui->cityNameLineEdit->text();
 
         if (name.isEmpty()) {
             QString message(tr("Please provide the name of the city."));

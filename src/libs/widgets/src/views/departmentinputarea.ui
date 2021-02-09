@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>DepartmentInputArea</class>
  <widget class="QGroupBox" name="DepartmentInputArea">
@@ -11,17 +11,17 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Department</string>
+   <string>Abteilung</string>
   </property>
   <property name="accessibleName">
-   <string>DepartmentInputDialog</string>
+   <string>ChipCardInputDialog</string>
   </property>
   <property name="title">
-   <string>Department</string>
+   <string>Abteilung</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
-   <item>
-    <widget class="QWidget" name="formLayoutWidget" native="true">
+  <layout class="QGridLayout" name="gridLayout_3">
+   <item row="0" column="0">
+    <widget class="QWidget" name="GroupBox" native="true">
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -35,7 +35,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Department</string>
+           <string>Abteilung</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -45,7 +45,7 @@
        </layout>
       </item>
       <item>
-       <spacer name="verticalSpacer">
+       <spacer name="verticalSpacer_2">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
@@ -61,86 +61,108 @@
        </spacer>
       </item>
       <item>
-       <layout class="QGridLayout" name="gridLayout">
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_Printer">
-          <property name="text">
-           <string>Printer</string>
-          </property>
-          <property name="buddy">
-           <cstring>comboBox_Printer</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_Pri_Test">
-          <property name="text">
-           <string>Pri-Test</string>
-          </property>
-          <property name="buddy">
-           <cstring>horizontalSlider_Priority</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="4">
-         <widget class="QLCDNumber" name="lcdNumber_Priority" />
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_Priority">
-          <property name="text">
-           <string>Priority</string>
-          </property>
-          <property name="buddy">
-           <cstring>spinBox_Priority</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="3">
-         <widget class="QLineEdit" name="lineEdit_Name" />
-        </item>
-        <item row="3" column="5">
-         <widget class="QDial" name="dial_Priority" />
-        </item>
-        <item row="4" column="3">
-         <widget class="QComboBox" name="comboBox_Printer" />
-        </item>
-        <item row="2" column="3">
-         <widget class="QSpinBox" name="spinBox_Priority" />
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_Name">
+       <layout class="QFormLayout" name="formLayout">
+        <item row="0" column="0">
+         <widget class="QLabel" name="nameLabel">
           <property name="text">
            <string>Name</string>
           </property>
           <property name="buddy">
-           <cstring>lineEdit_Name</cstring>
+           <cstring>nameLineEdit</cstring>
           </property>
          </widget>
         </item>
-        <item row="3" column="3">
-         <widget class="QSlider" name="horizontalSlider_Priority">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="nameLineEdit"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="priorityLabel">
+          <property name="text">
+           <string>Priorität</string>
+          </property>
+          <property name="buddy">
+           <cstring>priorityHorizontalSlider</cstring>
           </property>
          </widget>
         </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="label_Fax">
+        <item row="2" column="0">
+         <widget class="QLabel" name="printerLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Drucker</string>
+          </property>
+          <property name="buddy">
+           <cstring>printerComboBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QComboBox" name="printerComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="faxLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string>Fax</string>
           </property>
           <property name="buddy">
-           <cstring>comboBox_Fax</cstring>
+           <cstring>faxComboBox</cstring>
           </property>
          </widget>
         </item>
-        <item row="5" column="3">
-         <widget class="QComboBox" name="comboBox_Fax" />
+        <item row="3" column="1">
+         <widget class="QComboBox" name="faxComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="lastUpdateLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Letzte Änderung</string>
+          </property>
+          <property name="buddy">
+           <cstring>lastUpdateLineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QLineEdit" name="lastUpdateLineEdit">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QSlider" name="priorityHorizontalSlider">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLCDNumber" name="priorityLCDNumber"/>
+          </item>
+         </layout>
         </item>
        </layout>
       </item>
       <item>
-       <spacer name="verticalSpacer_2">
+       <spacer name="verticalSpacer">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
@@ -189,15 +211,14 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>lineEdit_Name</tabstop>
-  <tabstop>spinBox_Priority</tabstop>
-  <tabstop>horizontalSlider_Priority</tabstop>
-  <tabstop>comboBox_Printer</tabstop>
-  <tabstop>comboBox_Fax</tabstop>
+  <tabstop>nameLineEdit</tabstop>
+  <tabstop>priorityHorizontalSlider</tabstop>
+  <tabstop>printerComboBox</tabstop>
+  <tabstop>faxComboBox</tabstop>
+  <tabstop>lastUpdateLineEdit</tabstop>
   <tabstop>pushButton_Add</tabstop>
   <tabstop>pushButton_EditFinish</tabstop>
-  <tabstop>dial_Priority</tabstop>
  </tabstops>
- <resources />
- <connections />
+ <resources/>
+ <connections/>
 </ui>

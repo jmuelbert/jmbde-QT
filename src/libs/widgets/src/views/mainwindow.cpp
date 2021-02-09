@@ -1,17 +1,8 @@
 /*
-   jmbde a BDE Tool for companies
-   Copyright (C) 2013-2020  Jürgen Mülbert
-
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-*/
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 #include "views/mainwindow.h"
 
@@ -111,8 +102,7 @@ void MainWindow::initOutline()
 {
     QHash<QString, QList<QString>> outlineData;
 
-    QList<QString> subEntries = { tr("Mitarbeiter"), tr("Funktion"), tr("Abteilung"), tr("Titel"),
-        tr("Zugang") };
+    QList<QString> subEntries = { tr("Mitarbeiter"), tr("Funktion"), tr("Abteilung"), tr("Titel"), tr("Zugang") };
     outlineData.insert(tr("Person"), subEntries);
 
     subEntries = { tr("Computer"), tr("Prozessor"), tr("Betriebssystem"), tr("Software"), tr("Drucker") };
@@ -931,7 +921,7 @@ void MainWindow::actualizeComputerListView()
     tableModel = computerModel->initializeRelationalModel();
 
     QSqlTableModel* listModel = computerModel->initializeListModel();
-    int modelIndex = computerModel->getNameIndex();
+    int modelIndex = computerModel->getNetworkNameIndex();
     computerModel->sort(modelIndex, Qt::AscendingOrder);
     actualizeListView(listModel, modelIndex);
 }

@@ -1,25 +1,16 @@
 /*
-    jmbde a BDE Tool for companies
-    Copyright (C) 2013-2019  Jürgen Mülbert
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-*/
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 #include "views/computerinputarea.h"
 
 #include "ui_computerinputarea.h"
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsComputerInputAreaLog, "jmuelbert.jmbde.widgets.employeeinputarea", QtWarningMsg)
+Q_LOGGING_CATEGORY(jmbdeWidgetsComputerInputAreaLog, "jmuelbert.jmbde.widgets.computerinputarea", QtWarningMsg)
 
-ComputerInputArea::ComputerInputArea(QWidget *parent, const QModelIndex index)
+ComputerInputArea::ComputerInputArea(QWidget* parent, const QModelIndex& index)
     : QGroupBox(parent)
     , ui(new Ui::ComputerInputArea)
 {
@@ -39,7 +30,6 @@ ComputerInputArea::ComputerInputArea(QWidget *parent, const QModelIndex index)
     // Set the mapper
     m_mapper = new QDataWidgetMapper();
     m_mapper->setModel(m_model);
-    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
     setMappings();
 
@@ -53,47 +43,51 @@ ComputerInputArea::~ComputerInputArea()
 
 void ComputerInputArea::setMappings()
 {
-    m_mapper->addMapping(ui->checkBox_Active, this->m_computerModel->getActiveIndex());
-    m_mapper->addMapping(ui->checkBox_Replace, this->m_computerModel->getReplaceIndex());
-    m_mapper->addMapping(ui->comboBox_Department, this->m_computerModel->getDepartmentIdIndex());
-    m_mapper->addMapping(ui->comboBox_DeviceName, this->m_computerModel->getDeviceNameIdIndex());
-    m_mapper->addMapping(ui->comboBox_DeviceType, this->m_computerModel->getDeviceTypeIdIndex());
-    m_mapper->addMapping(ui->comboBox_Employee, this->m_computerModel->getEmployeeIdIndex());
-    m_mapper->addMapping(ui->comboBox_Inventory, this->m_computerModel->getInventoryIdIndex());
-    m_mapper->addMapping(ui->comboBox_Manufacturer, this->m_computerModel->getManufacturerIdIndex());
-    m_mapper->addMapping(ui->comboBox_OperationSystem, this->m_computerModel->getOSIdIndex());
-    m_mapper->addMapping(ui->comboBox_Place, this->m_computerModel->getPlaceIdIndex());
-    m_mapper->addMapping(ui->comboBox_Printer, this->m_computerModel->getPrinterIdIndex());
-    m_mapper->addMapping(ui->comboBox_Processor, this->m_computerModel->getProcessorIdIndex());
-    m_mapper->addMapping(ui->comboBox_Software, this->m_computerModel->getComputerSoftwareIdIndex());
-    m_mapper->addMapping(ui->lineEdit_ComputerName, this->m_computerModel->getNameIndex());
-    m_mapper->addMapping(ui->lineEdit_IPAddress, this->m_computerModel->getNetworkIndex());
-    m_mapper->addMapping(ui->lineEdit_SerialNumber, this->m_computerModel->getSerialNumberIndex());
-    m_mapper->addMapping(ui->lineEdit_ServiceNumber, this->m_computerModel->getServiceNumberIndex());
-    m_mapper->addMapping(ui->lineEdit_ServiceTag, this->m_computerModel->getServiceTagIndex());
+    m_mapper->addMapping(ui->deviceNameComboBox, this->m_computerModel->getDeviceNameIdIndex());
+    m_mapper->addMapping(ui->serialNumberLineEdit, this->m_computerModel->getSerialNumberIndex());
+    m_mapper->addMapping(ui->serviceTagLineEdit, this->m_computerModel->getServiceTagIndex());
+    m_mapper->addMapping(ui->serviceNumberLineEdit, this->m_computerModel->getServiceNumberIndex());
+    m_mapper->addMapping(ui->memorySpinBox, this->m_computerModel->getMemoryIndex());
+    m_mapper->addMapping(ui->networkLineEdit, this->m_computerModel->getNetworkIndex());
+    m_mapper->addMapping(ui->netWorkNameLineEdit, this->m_computerModel->getNetworkNameIndex());
+    m_mapper->addMapping(ui->ipAddressLineEdit, this->m_computerModel->getNetworkIndex());
+    m_mapper->addMapping(ui->activeCheckBox, this->m_computerModel->getActiveIndex());
+    m_mapper->addMapping(ui->replaceCheckBox, this->m_computerModel->getReplaceIndex());
+    m_mapper->addMapping(ui->deviceTypeComboBox, this->m_computerModel->getDeviceTypeIdIndex());
+    m_mapper->addMapping(ui->employeeComboBox, this->m_computerModel->getEmployeeIdIndex());
+    m_mapper->addMapping(ui->placeComboBox, this->m_computerModel->getPlaceIdIndex());
+    m_mapper->addMapping(ui->departmentComboBox, this->m_computerModel->getDepartmentIdIndex());
+    m_mapper->addMapping(ui->manufacturerComboBox, this->m_computerModel->getManufacturerIdIndex());
+    m_mapper->addMapping(ui->inventoryComboBox, this->m_computerModel->getInventoryIdIndex());
+    m_mapper->addMapping(ui->processorComboBox, this->m_computerModel->getProcessorIdIndex());
+    m_mapper->addMapping(ui->operationSystemComboBox, this->m_computerModel->getOSIdIndex());
+    m_mapper->addMapping(ui->softwareComboBox, this->m_computerModel->getComputerSoftwareIdIndex());
+    m_mapper->addMapping(ui->printerComboBox, this->m_computerModel->getPrinterIdIndex());
+    m_mapper->addMapping(ui->lastUpdateLineEdit, this->m_computerModel->getLastUpdateIndex());
 }
 
 void ComputerInputArea::setViewOnlyMode(bool mode)
 {
-    ui->checkBox_Active->setDisabled(mode);
-    ui->checkBox_Replace->setDisabled(mode);
-    ui->comboBox_Department->setDisabled(mode);
-    ui->comboBox_DeviceName->setDisabled(mode);
-    ui->comboBox_DeviceType->setDisabled(mode);
-    ui->comboBox_Employee->setDisabled(mode);
-    ui->comboBox_Inventory->setDisabled(mode);
-    ui->comboBox_Manufacturer->setDisabled(mode);
-    ui->comboBox_OperationSystem->setDisabled(mode);
-    ui->comboBox_Place->setDisabled(mode);
-    ui->comboBox_Printer->setDisabled(mode);
-    ui->comboBox_Processor->setDisabled(mode);
-    ui->comboBox_Software->setDisabled(mode);
-    ui->lineEdit_ComputerName->setDisabled(mode);
-    ui->lineEdit_IPAddress->setDisabled(mode);
-    ui->lineEdit_Network->setDisabled(mode);
-    ui->lineEdit_SerialNumber->setDisabled(mode);
-    ui->lineEdit_ServiceNumber->setDisabled(mode);
-    ui->lineEdit_ServiceTag->setDisabled(mode);
+    // ui->deviceNameComboBox->setDisabled(mode);
+    ui->serialNumberLineEdit->setDisabled(mode);
+    ui->serviceTagLineEdit->setDisabled(mode);
+    ui->serviceNumberLineEdit->setDisabled(mode);
+    ui->memorySpinBox->setDisabled(mode);
+    ui->networkLineEdit->setDisabled(mode);
+    ui->netWorkNameLineEdit->setDisabled(mode);
+    ui->ipAddressLineEdit->setDisabled(mode);
+    ui->activeCheckBox->setDisabled(mode);
+    ui->replaceCheckBox->setDisabled(mode);
+    // ui->deviceTypeComboBox->setDisabled(mode);
+    // ui->employeeComboBox->setDisabled(mode);
+    // ui->placeComboBox->setDisabled(mode);
+    // ui->departmentComboBox->setDisabled(mode);
+    // ui->manufacturerComboBox->setDisabled(mode);
+    // ui->inventoryComboBox->setDisabled(mode);
+    // ui->processorComboBox->setDisabled(mode);
+    // ui->operationSystemComboBox->setDisabled(mode);
+    // ui->softwareComboBox->setDisabled(mode);
+    // ui->printerComboBox->setDisabled(mode);
 }
 
 void ComputerInputArea::createDataset()
@@ -147,7 +141,7 @@ void ComputerInputArea::on_pushButton_EditFinish_clicked()
         ui->pushButton_EditFinish->setText(tr("Edit"));
         setViewOnlyMode(false);
 
-        QString computerName = ui->lineEdit_ComputerName->text();
+        QString computerName = ui->networkLineEdit->text();
 
         if (computerName.isEmpty()) {
             QString message(tr("Bitte geben Sie einen Computernamen an."));

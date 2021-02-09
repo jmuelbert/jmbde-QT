@@ -1,17 +1,8 @@
 /*
-   jmbde a BDE Tool for companies
-   Copyright (C) 2013-2020 Jürgen Mülbert
-
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-*/
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 #include "models/employeedocument.h"
 
@@ -39,7 +30,7 @@ void Model::EmployeeDocument::setIndexes()
     m_LastUpdateIndex = this->m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-auto Model::EmployeeDocument::initializeRelationalModel() -> QSqlRelationalTableModel *
+auto Model::EmployeeDocument::initializeRelationalModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -51,7 +42,7 @@ auto Model::EmployeeDocument::initializeRelationalModel() -> QSqlRelationalTable
     return this->m_model;
 }
 
-auto Model::EmployeeDocument::initializeInputDataModel() -> QSqlRelationalTableModel *
+auto Model::EmployeeDocument::initializeInputDataModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this);
 
@@ -60,14 +51,14 @@ auto Model::EmployeeDocument::initializeInputDataModel() -> QSqlRelationalTableM
     return this->m_model;
 }
 
-auto Model::EmployeeDocument::initializeViewModel() -> QSqlTableModel *
+auto Model::EmployeeDocument::initializeViewModel() -> QSqlTableModel*
 {
     this->m_model->select();
 
     return this->m_model;
 }
 
-auto Model::EmployeeDocument::generateTableString(const QString &header) -> QString
+auto Model::EmployeeDocument::generateTableString(const QString& header) -> QString
 {
     QString outString;
 
@@ -93,7 +84,7 @@ auto Model::EmployeeDocument::generateTableString(const QString &header) -> QStr
     return outString;
 }
 
-auto Model::EmployeeDocument::generateFormularString(const QString &header) -> QString
+auto Model::EmployeeDocument::generateFormularString(const QString& header) -> QString
 {
     QString outString;
 

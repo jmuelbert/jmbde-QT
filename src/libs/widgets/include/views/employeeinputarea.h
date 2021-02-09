@@ -1,17 +1,8 @@
 /*
-   jmbde a BDE Tool for companies
-   Copyright (C) 2013-2019  Jürgen Mülbert
-
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-*/
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 #pragma once
 
@@ -59,7 +50,7 @@ public:
         @todo Init the model from here
         @todo Get the tableName from the model
      */
-    explicit EmployeeInputArea(QWidget *parent = nullptr, const QModelIndex index = QModelIndex());
+    explicit EmployeeInputArea(QWidget *parent = nullptr, const QModelIndex &index = QModelIndex());
 
     /**
      * @brief ~EmployeeInputArea
@@ -114,7 +105,7 @@ private:
     /*!
      * @brief m_selectionModel
      */
-    QItemSelectionModel *m_selectionModel {};
+    QItemSelectionModel *m_selectionModel{};
 
     /*!
      * @brief m_mapper

@@ -63,44 +63,97 @@
       <item>
        <layout class="QFormLayout" name="formLayout">
         <item row="0" column="0">
-         <widget class="QLabel" name="label_Number">
+         <widget class="QLabel" name="numberLabel">
           <property name="text">
-           <string>Number</string>
+           <string>Nummer</string>
+          </property>
+          <property name="buddy">
+           <cstring>numberLineEdit</cstring>
           </property>
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QLineEdit" name="lineEdit_Number"/>
+         <widget class="QLineEdit" name="numberLineEdit"/>
         </item>
         <item row="1" column="0">
-         <widget class="QLabel" name="label_Door">
+         <widget class="QLabel" name="doorLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
-           <string>Door</string>
+           <string>Tür</string>
+          </property>
+          <property name="buddy">
+           <cstring>doorComboBox</cstring>
           </property>
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QComboBox" name="comboBox_Door"/>
+         <widget class="QComboBox" name="doorComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
         <item row="2" column="0">
-         <widget class="QLabel" name="label_Profile">
+         <widget class="QLabel" name="profileLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
-           <string>Profile</string>
+           <string>Profil</string>
+          </property>
+          <property name="buddy">
+           <cstring>profileComboBox</cstring>
           </property>
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QComboBox" name="comboBox_Profile"/>
+         <widget class="QComboBox" name="profileComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
         <item row="3" column="0">
-         <widget class="QLabel" name="label_Employee">
+         <widget class="QLabel" name="employeeLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
-           <string>Employee</string>
+           <string>Mitarbeiter*in</string>
+          </property>
+          <property name="buddy">
+           <cstring>employeeComboBox</cstring>
           </property>
          </widget>
         </item>
         <item row="3" column="1">
-         <widget class="QComboBox" name="comboBox_Employee"/>
+         <widget class="QComboBox" name="employeeComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="lastUpdateLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Letzte Änderung</string>
+          </property>
+          <property name="buddy">
+           <cstring>lastUpdateLineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QLineEdit" name="lastUpdateLineEdit">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -154,6 +207,11 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>numberLineEdit</tabstop>
+  <tabstop>doorComboBox</tabstop>
+  <tabstop>profileComboBox</tabstop>
+  <tabstop>employeeComboBox</tabstop>
+  <tabstop>lastUpdateLineEdit</tabstop>
   <tabstop>pushButton_Add</tabstop>
   <tabstop>pushButton_EditFinish</tabstop>
  </tabstops>

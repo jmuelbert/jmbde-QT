@@ -21,46 +21,46 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRelation>
-#include <QtSql>
 #include <QTextDocument>
+#include <QtSql>
 
 #include "commondata.h"
 #include "datacontext.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 
-Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsSystemLog)
+Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsSystemDataDataLog)
 
 namespace Model
 {
 /*!
-    \class System
-    \brief The System class
-    \details This Class is for the System
+    \class SystemData
+    \brief The SystemData class
+    \details This Class is for the SystemData
     \author Jürgen Mülbert
     \since 0.2
     \version 0.6
     \date 23.01.2021
     \copyright GPL-3.0-or-later
     */
-class System : public CommonData
+class SystemData : public CommonData
 {
     Q_OBJECT
 
 public:
     /*!
-        \fn  System()
+        \fn  SystemData()
 
-        \brief Constructor for the  System
+        \brief Constructor for the  SystemData
      */
-    explicit JMBDEMODELS_EXPORT System();
+    explicit JMBDEMODELS_EXPORT SystemData();
 
     /*!
-        \fn  ~System() override;
+        \fn  ~SystemData() override;
 
-        \brief Destructor for System
+        \brief Destructor for SystemData
      */
-    JMBDEMODELS_EXPORT ~System()
+    JMBDEMODELS_EXPORT ~SystemData()
     {
     }
 
@@ -125,15 +125,15 @@ public:
     }
 
     /*!
-        \fn  int SystemIdIndex()
+        \fn  int SystemDataIdIndex()
 
-        \brief Get the index of the fieldname SystemId from the database
+        \brief Get the index of the fieldname SystemDataId from the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int getSystemIdIndex() const
+    JMBDEMODELS_EXPORT int getSystemDataIdIndex() const
     {
-        return m_SystemIdIndex;
+        return m_SystemDataIdIndex;
     }
 
     /*!
@@ -188,7 +188,7 @@ private:
     /*!
         \brief The Tablename in the database \e is const
      */
-    const QString m_tableName = QLatin1String("system");
+    const QString m_tableName = QLatin1String("SystemData");
 
     /*!
      * @ brief m_db
@@ -199,13 +199,13 @@ private:
         \brief holds an initialised pointer to the Relationmodel
         \sa QSqlRelationalTableModel
      */
-    QSqlRelationalTableModel *m_model {nullptr};
+    QSqlRelationalTableModel *m_model{nullptr};
 
     /*!
        \brief holds an initialised pointer to the ItemSelectioModel
        \sa QItemSelectionModel
     */
-    QItemSelectionModel *m_selectionModel {nullptr};
+    QItemSelectionModel *m_selectionModel{nullptr};
 
     /*!
      * @brief DataContext
@@ -213,33 +213,33 @@ private:
     Model::DataContext *m_dataContext = {};
 
     /*!
-        \var int m_SystemIdIndex
-        \brief The value of the SystemIdIndex
+        \var int m_SystemDataIdIndex
+        \brief The value of the SystemDataIdIndex
      */
-    int m_SystemIdIndex {0};
+    int m_SystemDataIdIndex{0};
 
     /*!
        \var int m_NameIndex
        \brief The value of the NameIndex
     */
-    int m_NameIndex {0};
+    int m_NameIndex{0};
 
     /*!
        \var int m_LocalIndex
        \brief The value of the LocalIndex
     */
-    int m_LocalIndex {0};
+    int m_LocalIndex{0};
 
     /*!
        \var int m_CompanyIdIndex
        \brief The value of the CompanyIdIndex
     */
-    int m_CompanyIdIndex {0};
+    int m_CompanyIdIndex{0};
 
     /*!
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
     */
-    int m_LastUpdateIndex {0};
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model

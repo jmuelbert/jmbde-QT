@@ -1,49 +1,40 @@
 /*
-    jmbde a BDE Tool for companies
-    Copyright (C) 2013-2019  Jürgen Mülbert
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+#include <ui_departmentinputarea.h>
+#include <views/departmentinputarea.h>
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-*/
+Q_LOGGING_CATEGORY(jmbdeWidgetsDepartmentInputAreaLog, "jmuelbert.jmbde.widgets.departmentinputarea", QtWarningMsg)
 
-#include "views/departmentinputarea.h"
-
-#include "ui_departmentinputarea.h"
-
-DepartmentInputArea::DepartmentInputArea(QWidget *parent, const QModelIndex index)
+DepartmentInputArea::DepartmentInputArea(QWidget* parent, const QModelIndex& index)
     : QGroupBox(parent)
     , ui(new Ui::DepartmentInputArea)
 {
     ui->setupUi(this);
 
-    // Init UI
-    qDebug() << "Init DepartmentInputArea for Index : " << index.row();
+    qCDebug(jmbdeWidgetsDepartmentInputAreaLog) << "Init DepartmentInputArea for Index :" << index.column();
+
+    this->m_departmentModel = new Model::Department();
+    this->m_db = this->m_departmentModel->getDB();
 
     m_actualMode = Mode::Edit;
     setViewOnlyMode(true);
 
     // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(QLatin1String("department"));
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-
-    m_model->select();
+    m_model = this->m_departmentModel->initializeRelationalModel();
 
     // Set the mapper
-    m_mapper = new QDataWidgetMapper(this);
+    m_mapper = new QDataWidgetMapper();
     m_mapper->setModel(m_model);
-    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
     setMappings();
 
     m_mapper->setCurrentIndex(index.row());
+
+    connect(ui->priorityHorizontalSlider, &QSlider::valueChanged, ui->priorityLCDNumber, &QLCDNumber::intValue);
 }
 
 DepartmentInputArea::~DepartmentInputArea()
@@ -51,26 +42,27 @@ DepartmentInputArea::~DepartmentInputArea()
     delete ui;
 }
 
+// TODO change lineEdit to lineEdit_Number
 void DepartmentInputArea::setMappings()
 {
-    m_mapper->addMapping(ui->comboBox_Fax, m_model->fieldIndex(QLatin1String("fax_id")));
-    m_mapper->addMapping(ui->comboBox_Printer, m_model->fieldIndex(QLatin1String("printer_id")));
-    m_mapper->addMapping(ui->spinBox_Priority, m_model->fieldIndex(QLatin1String("priority")));
-    m_mapper->addMapping(ui->lineEdit_Name, m_model->fieldIndex(QLatin1String("name")));
+    m_mapper->addMapping(ui->nameLineEdit, this->m_departmentModel->getNameIndex());
+    m_mapper->addMapping(ui->priorityHorizontalSlider, this->m_departmentModel->getPriorityIndex());
+    m_mapper->addMapping(ui->printerComboBox, this->m_departmentModel->getPrinterIdIndex());
+    m_mapper->addMapping(ui->faxComboBox, this->m_departmentModel->getFaxIdIndex());
+    m_mapper->addMapping(ui->lastUpdateLineEdit, m_departmentModel->getLastUpdateIndex());
 }
 
 void DepartmentInputArea::setViewOnlyMode(bool mode)
 {
-    ui->comboBox_Fax->setDisabled(mode);
-    ui->comboBox_Printer->setDisabled(mode);
-    ui->dial_Priority->setDisabled(mode);
-    ui->lcdNumber_Priority->setDisabled(mode);
-    ui->lineEdit_Name->setDisabled(mode);
+    ui->nameLineEdit->setDisabled(mode);
+    ui->priorityHorizontalSlider->setDisabled(mode);
+    // ui->printerComboBox->setDisabled(mode);
+    // ui->faxComboBox->setDisabled(mode);
 }
 
 void DepartmentInputArea::createDataset()
 {
-    qDebug() << "Create a new Dataset for Employee...";
+    qCDebug(jmbdeWidgetsDepartmentInputAreaLog) << "Create a new Dataset for ChipCard...";
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -113,16 +105,16 @@ void DepartmentInputArea::on_pushButton_EditFinish_clicked()
     } break;
 
     case Mode::Finish: {
-        qDebug() << "Save Data...";
+        qCDebug(jmbdeWidgetsDepartmentInputAreaLog) << "Save Data...";
 
         m_actualMode = Mode::Edit;
         ui->pushButton_EditFinish->setText(tr("Edit"));
         setViewOnlyMode(false);
 
-        QString lastName = ui->lineEdit_Name->text();
+        QString name = ui->nameLineEdit->text();
 
-        if (lastName.isEmpty()) {
-            QString message(tr("Please provide the name of the department."));
+        if (name.isEmpty()) {
+            QString message(tr("Please provide the chipcard number."));
 
             QMessageBox::information(this, tr("Add Department"), message);
         } else {
@@ -130,7 +122,8 @@ void DepartmentInputArea::on_pushButton_EditFinish_clicked()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qDebug() << "Commit changes for Computer Databse Table";
+                qCDebug(jmbdeWidgetsDepartmentInputAreaLog) << "Commit changes for Chipcard Database Table";
+                m_model->database().rollback();
             } else {
                 m_model->database().rollback();
                 QMessageBox::warning(this, tr("jmbde"), tr("The database reported an error: %1").arg(m_model->lastError().text()));
@@ -139,7 +132,7 @@ void DepartmentInputArea::on_pushButton_EditFinish_clicked()
     } break;
 
     default: {
-        qDebug() << "Error";
+        qCCritical(jmbdeWidgetsDepartmentInputAreaLog) << "Unknown Mode!";
     }
     }
 }

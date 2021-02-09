@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>PrinterInputArea</class>
  <widget class="QGroupBox" name="PrinterInputArea">
@@ -11,13 +11,13 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Printer</string>
+   <string>Drucker</string>
   </property>
   <property name="accessibleName">
    <string>PrinterInputDialog</string>
   </property>
   <property name="title">
-   <string>Printer</string>
+   <string>Drucker</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
@@ -35,7 +35,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Printer</string>
+           <string>Drucker</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -62,8 +62,8 @@
       </item>
       <item>
        <layout class="QGridLayout" name="gridLayout">
-        <item row="2" column="2">
-         <widget class="QTextEdit" name="textEdit_Resources">
+        <item row="3" column="2">
+         <widget class="QTextEdit" name="resourcesTextEdit">
           <property name="baseSize">
            <size>
             <width>0</width>
@@ -72,196 +72,232 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="0">
-         <widget class="QCheckBox" name="checkBox_Color">
+        <item row="7" column="4">
+         <widget class="QComboBox" name="deviceTypeComboBox"/>
+        </item>
+        <item row="9" column="0">
+         <widget class="QCheckBox" name="activeCheckBox">
           <property name="text">
-           <string>Color</string>
+           <string>Aktiv</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="3">
-         <widget class="QLabel" name="label_SerialNumber">
+        <item row="8" column="0">
+         <widget class="QLabel" name="manufacturerLabel">
           <property name="text">
-           <string>Serial Number</string>
+           <string>Hersteller</string>
           </property>
           <property name="buddy">
-           <cstring>lineEdit_SerialNumber</cstring>
+           <cstring>manufacturerComboBox</cstring>
           </property>
          </widget>
         </item>
-        <item row="6" column="4">
-         <widget class="QComboBox" name="comboBox_DeviceType" />
-        </item>
-        <item row="5" column="4">
-         <widget class="QComboBox" name="comboBox_Place" />
-        </item>
-        <item row="5" column="3">
-         <widget class="QLabel" name="label_Place">
-          <property name="text">
-           <string>Place</string>
-          </property>
-          <property name="buddy">
-           <cstring>comboBox_Place</cstring>
+        <item row="10" column="2" colspan="3">
+         <widget class="QLineEdit" name="lastUpdateLineEdit">
+          <property name="enabled">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
-        <item row="4" column="2">
-         <widget class="QComboBox" name="comboBox_Employee" />
-        </item>
-        <item row="7" column="2">
-         <widget class="QComboBox" name="comboBox_Manufacturer" />
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_Name">
-          <property name="text">
-           <string>Name</string>
-          </property>
-          <property name="buddy">
-           <cstring>lineEdit_PrinterName</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="2">
-         <widget class="QLineEdit" name="lineEdit_Network" />
-        </item>
-        <item row="6" column="0">
-         <widget class="QLabel" name="label_Devicename">
-          <property name="text">
-           <string>Devicename</string>
-          </property>
-          <property name="buddy">
-           <cstring>comboBox_DeviceName</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="3">
-         <widget class="QLabel" name="label_Papersize">
-          <property name="text">
-           <string>Papersize</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="label_Department">
-          <property name="text">
-           <string>Department</string>
-          </property>
-          <property name="buddy">
-           <cstring>comboBox_Department</cstring>
-          </property>
-         </widget>
+        <item row="3" column="4">
+         <widget class="QComboBox" name="papersizeComboBox"/>
         </item>
         <item row="5" column="2">
-         <widget class="QComboBox" name="comboBox_Department" />
+         <widget class="QComboBox" name="employeeComboBox"/>
         </item>
-        <item row="7" column="3">
-         <widget class="QLabel" name="label_Inventory">
+        <item row="5" column="3">
+         <widget class="QLabel" name="computerLabel">
           <property name="text">
-           <string>Inventory</string>
+           <string>Computer</string>
           </property>
           <property name="buddy">
-           <cstring>comboBox_Inventory</cstring>
+           <cstring>computerComboBox</cstring>
           </property>
          </widget>
         </item>
-        <item row="6" column="3">
-         <widget class="QLabel" name="label_DeviceType">
+        <item row="3" column="0">
+         <widget class="QLabel" name="resourcesLabel">
           <property name="text">
-           <string>Devicetype</string>
+           <string>Verbrauchsmaterial</string>
           </property>
           <property name="buddy">
-           <cstring>comboBox_DeviceType</cstring>
+           <cstring>resourcesTextEdit</cstring>
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_Resources">
+        <item row="9" column="3">
+         <widget class="QCheckBox" name="replaceCheckBox">
           <property name="text">
-           <string>Resources</string>
+           <string>ersetzen</string>
           </property>
          </widget>
         </item>
-        <item row="6" column="2">
-         <widget class="QComboBox" name="comboBox_DeviceName" />
-        </item>
-        <item row="4" column="4">
-         <widget class="QComboBox" name="comboBox_Computer" />
+        <item row="8" column="4">
+         <widget class="QComboBox" name="inventoryComboBox"/>
         </item>
         <item row="4" column="0">
-         <widget class="QLabel" name="label_Employee">
+         <widget class="QCheckBox" name="colorCheckBox">
           <property name="text">
-           <string>Employee</string>
+           <string>Farbe</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="networkLabel">
+          <property name="text">
+           <string>Netzwerk</string>
           </property>
           <property name="buddy">
-           <cstring>comboBox_Employee</cstring>
+           <cstring>networkLineEdit</cstring>
           </property>
          </widget>
         </item>
         <item row="0" column="4">
-         <widget class="QLineEdit" name="lineEdit_SerialNumber" />
+         <widget class="QLineEdit" name="serialNumberLineEdit"/>
         </item>
-        <item row="8" column="0">
-         <widget class="QCheckBox" name="checkBox_Active">
+        <item row="6" column="0">
+         <widget class="QLabel" name="departmentLabel">
           <property name="text">
-           <string>Active</string>
+           <string>Abteilung</string>
+          </property>
+          <property name="buddy">
+           <cstring>departmentComboBox</cstring>
           </property>
          </widget>
         </item>
-        <item row="1" column="4">
-         <widget class="QLineEdit" name="lineEdit_IPAddress" />
+        <item row="10" column="0">
+         <widget class="QLabel" name="lastUpdateLabel">
+          <property name="text">
+           <string>Lezte Änderung</string>
+          </property>
+          <property name="buddy">
+           <cstring>lastUpdateLineEdit</cstring>
+          </property>
+         </widget>
         </item>
-        <item row="0" column="2">
-         <widget class="QLineEdit" name="lineEdit_PrinterName" />
+        <item row="1" column="2">
+         <widget class="QLineEdit" name="networkLineEdit"/>
         </item>
         <item row="7" column="0">
-         <widget class="QLabel" name="label_Manufacturer">
+         <widget class="QLabel" name="deviceNameLabel">
           <property name="text">
-           <string>Manufacturer</string>
+           <string>Gerätename</string>
           </property>
           <property name="buddy">
-           <cstring>comboBox_Manufacturer</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="4">
-         <widget class="QComboBox" name="comboBox_Papersize" />
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_Network">
-          <property name="text">
-           <string>Network</string>
-          </property>
-          <property name="buddy">
-           <cstring>lineEdit_Network</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="3">
-         <widget class="QLabel" name="label_IPAddress">
-          <property name="text">
-           <string>IP Address</string>
-          </property>
-          <property name="buddy">
-           <cstring>lineEdit_IPAddress</cstring>
+           <cstring>deviceNameComboBox</cstring>
           </property>
          </widget>
         </item>
         <item row="8" column="3">
-         <widget class="QCheckBox" name="checkBox_Replace">
+         <widget class="QLabel" name="inventoryLabel">
           <property name="text">
-           <string>Replace</string>
+           <string>Inventar</string>
+          </property>
+          <property name="buddy">
+           <cstring>inventoryComboBox</cstring>
           </property>
          </widget>
         </item>
-        <item row="4" column="3">
-         <widget class="QLabel" name="label_Computer">
+        <item row="5" column="0">
+         <widget class="QLabel" name="employeeLabel">
           <property name="text">
-           <string>Computer</string>
+           <string>Mitarbeiter*in</string>
+          </property>
+          <property name="buddy">
+           <cstring>employeeComboBox</cstring>
           </property>
          </widget>
         </item>
-        <item row="7" column="4">
-         <widget class="QComboBox" name="comboBox_Inventory" />
+        <item row="3" column="3">
+         <widget class="QLabel" name="paperSizeLabel">
+          <property name="text">
+           <string>Papiergröße</string>
+          </property>
+          <property name="buddy">
+           <cstring>papersizeComboBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="2">
+         <widget class="QComboBox" name="manufacturerComboBox"/>
+        </item>
+        <item row="6" column="3">
+         <widget class="QLabel" name="placeLabel">
+          <property name="text">
+           <string>Platz</string>
+          </property>
+          <property name="buddy">
+           <cstring>placeComboBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLineEdit" name="printerNameLineEdit"/>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="nameLabel">
+          <property name="text">
+           <string>Name</string>
+          </property>
+          <property name="buddy">
+           <cstring>printerNameLineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="2">
+         <widget class="QComboBox" name="deviceNameComboBox"/>
+        </item>
+        <item row="5" column="4">
+         <widget class="QComboBox" name="computerComboBox"/>
+        </item>
+        <item row="0" column="3">
+         <widget class="QLabel" name="serialNumberLabel">
+          <property name="text">
+           <string>Seriennummer</string>
+          </property>
+          <property name="buddy">
+           <cstring>serialNumberLineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="2">
+         <widget class="QComboBox" name="departmentComboBox"/>
+        </item>
+        <item row="6" column="4">
+         <widget class="QComboBox" name="placeComboBox"/>
+        </item>
+        <item row="7" column="3">
+         <widget class="QLabel" name="deviceTypeLabel">
+          <property name="text">
+           <string>Geraätetyp</string>
+          </property>
+          <property name="buddy">
+           <cstring>deviceTypeComboBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="ipAddressLabel">
+          <property name="text">
+           <string>IP Adresse</string>
+          </property>
+          <property name="buddy">
+           <cstring>ipAddressLineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QLineEdit" name="ipAddressLineEdit"/>
+        </item>
+        <item row="1" column="3">
+         <widget class="QLabel" name="networkNameLabel">
+          <property name="text">
+           <string>Netzwerk Name</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="4">
+         <widget class="QLineEdit" name="networkNameLineEdit"/>
         </item>
        </layout>
       </item>
@@ -301,9 +337,9 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_EditFinish">
+         <widget class="QPushButton" name="editFinishPushButton">
           <property name="text">
-           <string>Edit</string>
+           <string>Bearbeiten</string>
           </property>
          </widget>
         </item>
@@ -315,24 +351,30 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>lineEdit_PrinterName</tabstop>
-  <tabstop>lineEdit_SerialNumber</tabstop>
-  <tabstop>lineEdit_Network</tabstop>
-  <tabstop>lineEdit_IPAddress</tabstop>
-  <tabstop>comboBox_Employee</tabstop>
-  <tabstop>comboBox_Department</tabstop>
-  <tabstop>comboBox_Place</tabstop>
-  <tabstop>comboBox_DeviceName</tabstop>
-  <tabstop>comboBox_DeviceType</tabstop>
-  <tabstop>comboBox_Manufacturer</tabstop>
-  <tabstop>comboBox_Inventory</tabstop>
-  <tabstop>checkBox_Active</tabstop>
-  <tabstop>checkBox_Replace</tabstop>
+  <tabstop>printerNameLineEdit</tabstop>
+  <tabstop>serialNumberLineEdit</tabstop>
+  <tabstop>networkLineEdit</tabstop>
+  <tabstop>networkNameLineEdit</tabstop>
+  <tabstop>ipAddressLineEdit</tabstop>
+  <tabstop>resourcesTextEdit</tabstop>
+  <tabstop>papersizeComboBox</tabstop>
+  <tabstop>colorCheckBox</tabstop>
+  <tabstop>employeeComboBox</tabstop>
+  <tabstop>computerComboBox</tabstop>
+  <tabstop>departmentComboBox</tabstop>
+  <tabstop>placeComboBox</tabstop>
+  <tabstop>deviceNameComboBox</tabstop>
+  <tabstop>deviceTypeComboBox</tabstop>
+  <tabstop>manufacturerComboBox</tabstop>
+  <tabstop>inventoryComboBox</tabstop>
+  <tabstop>activeCheckBox</tabstop>
+  <tabstop>replaceCheckBox</tabstop>
+  <tabstop>lastUpdateLineEdit</tabstop>
   <tabstop>pushButton_Add</tabstop>
-  <tabstop>pushButton_EditFinish</tabstop>
+  <tabstop>editFinishPushButton</tabstop>
  </tabstops>
- <resources />
- <connections />
+ <resources/>
+ <connections/>
  <slots>
   <slot>slot1()</slot>
   <slot>onDestroyed()</slot>

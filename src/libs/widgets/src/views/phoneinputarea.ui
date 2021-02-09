@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>PhoneInputArea</class>
  <widget class="QGroupBox" name="PhoneInputArea">
@@ -11,13 +11,13 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Phone</string>
+   <string>Telefon</string>
   </property>
   <property name="accessibleName">
    <string>PhoneInputDialog</string>
   </property>
   <property name="title">
-   <string>Phone</string>
+   <string>Telefon</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
@@ -26,7 +26,7 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <widget class="QLabel" name="label_Header">
+         <widget class="QLabel" name="headerLabel">
           <property name="font">
            <font>
             <pointsize>16</pointsize>
@@ -35,7 +35,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Phone</string>
+           <string>Telefon</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -62,76 +62,40 @@
       </item>
       <item>
        <layout class="QGridLayout" name="gridLayout">
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_Department">
+        <item row="6" column="0">
+         <widget class="QLabel" name="deviceNameLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
-           <string>Department</string>
+           <string>Gerätename</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
           </property>
           <property name="buddy">
-           <cstring>comboBox_Department</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_Number">
-          <property name="text">
-           <string>Number</string>
-          </property>
-          <property name="buddy">
-           <cstring>lineEdit_Number</cstring>
+           <cstring>deviceNameComboBox</cstring>
           </property>
          </widget>
         </item>
         <item row="4" column="2">
-         <widget class="QLabel" name="label_Place">
+         <widget class="QLabel" name="placeLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
-           <string>Place</string>
+           <string>Platz</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
           </property>
           <property name="buddy">
-           <cstring>comboBox_Place</cstring>
+           <cstring>placeComboBox</cstring>
           </property>
          </widget>
-        </item>
-        <item row="6" column="1">
-         <widget class="QComboBox" name="comboBox_DeviceName" />
-        </item>
-        <item row="8" column="0">
-         <widget class="QLabel" name="label_Manufacturer">
-          <property name="text">
-           <string>Manufacturer</string>
-          </property>
-          <property name="buddy">
-           <cstring>comboBox_Manufacturer</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="2">
-         <widget class="QLabel" name="label_DeviceType">
-          <property name="text">
-           <string>Devicetype</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-          </property>
-          <property name="buddy">
-           <cstring>comboBox_DeviceType</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QLineEdit" name="lineEdit_SerialNumber" />
-        </item>
-        <item row="6" column="3">
-         <widget class="QComboBox" name="comboBox_DeviceType" />
-        </item>
-        <item row="8" column="1">
-         <widget class="QComboBox" name="comboBox_Manufacturer" />
         </item>
         <item row="1" column="3">
-         <widget class="QLineEdit" name="lineEdit_Pin">
+         <widget class="QLineEdit" name="pinLineEdit">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -139,93 +103,201 @@
            </sizepolicy>
           </property>
          </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_Employee">
-          <property name="text">
-           <string>Employee</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-          </property>
-          <property name="buddy">
-           <cstring>comboBox_Employee</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="1">
-         <widget class="QCheckBox" name="checkBox_Replace">
-          <property name="text">
-           <string>Replace</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLineEdit" name="lineEdit_Number">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1">
-         <widget class="QComboBox" name="comboBox_Department" />
-        </item>
-        <item row="4" column="3">
-         <widget class="QComboBox" name="comboBox_Place" />
-        </item>
-        <item row="3" column="1">
-         <widget class="QComboBox" name="comboBox_Employee" />
         </item>
         <item row="1" column="2">
-         <widget class="QLabel" name="label_Pin">
+         <widget class="QLabel" name="pinLabel">
           <property name="text">
            <string>Pin</string>
           </property>
           <property name="buddy">
-           <cstring>lineEdit_Pin</cstring>
+           <cstring>pinLineEdit</cstring>
           </property>
          </widget>
         </item>
-        <item row="6" column="0">
-         <widget class="QLabel" name="label_DeviceName">
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="serialNumberLineEdit"/>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="numberLineEdit">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="0">
+         <widget class="QLabel" name="manufacturerLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
-           <string>Devicename</string>
+           <string>Hersteller</string>
+          </property>
+          <property name="buddy">
+           <cstring>manufacturerComboBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="1">
+         <widget class="QComboBox" name="deviceNameComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="3">
+         <widget class="QComboBox" name="deviceTypeComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="numberLabel">
+          <property name="text">
+           <string>Nummer</string>
+          </property>
+          <property name="buddy">
+           <cstring>numberLineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="2">
+         <widget class="QLabel" name="inventoryLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Inventar</string>
+          </property>
+          <property name="buddy">
+           <cstring>inventoryComboBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="2">
+         <widget class="QLabel" name="deviceTypeLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Gerätetyp</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
           </property>
           <property name="buddy">
-           <cstring>comboBox_DeviceName</cstring>
+           <cstring>deviceTypeComboBox</cstring>
           </property>
          </widget>
         </item>
-        <item row="9" column="0">
-         <widget class="QCheckBox" name="checkBox_Active">
-          <property name="text">
-           <string>Active</string>
+        <item row="4" column="1">
+         <widget class="QComboBox" name="departmentComboBox">
+          <property name="enabled">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
-        <item row="8" column="2">
-         <widget class="QLabel" name="label_Inventory">
+        <item row="4" column="3">
+         <widget class="QComboBox" name="placeComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="employeeLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
-           <string>Inventory</string>
+           <string>Mitarbeiter*in</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
           </property>
           <property name="buddy">
-           <cstring>comboBox_Inventory</cstring>
+           <cstring>employeeComboBox</cstring>
           </property>
          </widget>
         </item>
         <item row="8" column="3">
-         <widget class="QComboBox" name="comboBox_Inventory" />
+         <widget class="QComboBox" name="inventoryComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
         <item row="2" column="0">
-         <widget class="QLabel" name="label_SerialNumber">
+         <widget class="QLabel" name="serialNumberLabel">
           <property name="text">
-           <string>Serial Number</string>
+           <string>Seriennummer</string>
+          </property>
+          <property name="buddy">
+           <cstring>serialNumberLineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="1">
+         <widget class="QCheckBox" name="activeCheckBox">
+          <property name="text">
+           <string>Aktiv</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="departmentLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Abteilung</string>
+          </property>
+          <property name="buddy">
+           <cstring>departmentComboBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="1">
+         <widget class="QComboBox" name="manufacturerComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QComboBox" name="employeeComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="0">
+         <widget class="QLabel" name="lastUpdateLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Letzte Änderuung</string>
+          </property>
+          <property name="buddy">
+           <cstring>lastUpdateLineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="2" colspan="2">
+         <widget class="QCheckBox" name="replaceCheckBox">
+          <property name="text">
+           <string>ersetzen</string>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="1" colspan="3">
+         <widget class="QLineEdit" name="lastUpdateLineEdit">
+          <property name="enabled">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -247,7 +319,7 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QPushButton" name="pushButton_Add">
+         <widget class="QPushButton" name="addPushButton">
           <property name="text">
            <string>+</string>
           </property>
@@ -267,9 +339,9 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_EditFinish">
+         <widget class="QPushButton" name="editFinishPushButton">
           <property name="text">
-           <string>Edit</string>
+           <string>Bearbeiten</string>
           </property>
          </widget>
         </item>
@@ -281,9 +353,22 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>pushButton_Add</tabstop>
-  <tabstop>pushButton_EditFinish</tabstop>
+  <tabstop>numberLineEdit</tabstop>
+  <tabstop>pinLineEdit</tabstop>
+  <tabstop>serialNumberLineEdit</tabstop>
+  <tabstop>employeeComboBox</tabstop>
+  <tabstop>departmentComboBox</tabstop>
+  <tabstop>placeComboBox</tabstop>
+  <tabstop>deviceNameComboBox</tabstop>
+  <tabstop>deviceTypeComboBox</tabstop>
+  <tabstop>manufacturerComboBox</tabstop>
+  <tabstop>inventoryComboBox</tabstop>
+  <tabstop>activeCheckBox</tabstop>
+  <tabstop>replaceCheckBox</tabstop>
+  <tabstop>lastUpdateLineEdit</tabstop>
+  <tabstop>addPushButton</tabstop>
+  <tabstop>editFinishPushButton</tabstop>
  </tabstops>
- <resources />
- <connections />
+ <resources/>
+ <connections/>
 </ui>

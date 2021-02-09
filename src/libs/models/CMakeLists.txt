@@ -102,7 +102,7 @@ target_sources(
           include/models/printer.h
           include/models/processor.h
           include/models/software.h
-          include/models/system.h
+          include/models/systemdata.h
           include/models/title.h
           include/models/zipcity.h
           include/models/zipcode.h
@@ -136,7 +136,7 @@ target_sources(
           src/models/printer.cpp
           src/models/processor.cpp
           src/models/software.cpp
-          src/models/system.cpp
+          src/models/systemdata.cpp
           src/models/title.cpp
           src/models/zipcity.cpp
           src/models/zipcode.cpp

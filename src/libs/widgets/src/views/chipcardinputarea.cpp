@@ -1,28 +1,21 @@
 /*
-    jmbde a BDE Tool for companies
-    Copyright (C) 2013-2019  Jürgen Mülbert
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-*/
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 #include <ui_chipcardinputarea.h>
 #include <views/chipcardinputarea.h>
 
 Q_LOGGING_CATEGORY(jmbdeWidgetsChipCardInputAreaLog, "jmuelbert.jmbde.widgets.chipcardinputarea", QtWarningMsg)
 
-ChipCardInputArea::ChipCardInputArea(QWidget* parent, const QModelIndex& index)
+ChipCardInputArea::ChipCardInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::ChipCardInputArea)
 {
     ui->setupUi(this);
+
+    qCDebug(jmbdeWidgetsChipCardInputAreaLog) << "Init ChipCardInputArea for Index :" << index.column();
 
     this->m_chipCardModel = new Model::ChipCard();
     this->m_db = this->m_chipCardModel->getDB();
@@ -34,7 +27,7 @@ ChipCardInputArea::ChipCardInputArea(QWidget* parent, const QModelIndex& index)
     m_model = this->m_chipCardModel->initializeRelationalModel();
 
     // Set the mapper
-    m_mapper = new QDataWidgetMapper(this);
+    m_mapper = new QDataWidgetMapper();
     m_mapper->setModel(m_model);
     setMappings();
 
@@ -49,12 +42,19 @@ ChipCardInputArea::~ChipCardInputArea()
 // TODO change lineEdit to lineEdit_Number
 void ChipCardInputArea::setMappings()
 {
-    m_mapper->addMapping(ui->lineEdit_Number, this->m_chipCardModel->getNumberIndex());
+    m_mapper->addMapping(ui->numberLineEdit, this->m_chipCardModel->getNumberIndex());
+    m_mapper->addMapping(ui->doorComboBox, this->m_chipCardModel->getChipCardDoorIdIndex());
+    m_mapper->addMapping(ui->profileComboBox, this->m_chipCardModel->getChipCardProfileIdIndex());
+    m_mapper->addMapping(ui->employeeComboBox, this->m_chipCardModel->getEmployeeIdIndex());
+    m_mapper->addMapping(ui->lastUpdateLineEdit, this->m_chipCardModel->getLastUpdateIndex());
 }
 
 void ChipCardInputArea::setViewOnlyMode(bool mode)
 {
-    ui->lineEdit_Number->setDisabled(mode);
+    ui->numberLineEdit->setDisabled(mode);
+    // ui->doorComboBox->setDisabled(mode);
+    // ui->profileComboBox->setDisabled(mode);
+    // ui->employeeComboBox->setDisabled(mode);
 }
 
 void ChipCardInputArea::createDataset()
@@ -108,7 +108,7 @@ void ChipCardInputArea::on_pushButton_EditFinish_clicked()
         ui->pushButton_EditFinish->setText(tr("Edit"));
         setViewOnlyMode(false);
 
-        QString name = ui->lineEdit_Number->text();
+        QString name = ui->numberLineEdit->text();
 
         if (name.isEmpty()) {
             QString message(tr("Please provide the chipcard number."));

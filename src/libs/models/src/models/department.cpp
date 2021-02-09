@@ -1,17 +1,8 @@
 /*
-   jmbde a BDE Tool for companies
-   Copyright (C) 2013-2020  Jürgen Mülbert
-
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-*/
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 #include "models/department.h"
 
@@ -41,7 +32,7 @@ void Model::Department::setIndexes()
     m_LastUpdateIndex = this->m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-auto Model::Department::initializeRelationalModel() -> QSqlRelationalTableModel *
+auto Model::Department::initializeRelationalModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -53,7 +44,7 @@ auto Model::Department::initializeRelationalModel() -> QSqlRelationalTableModel 
     return this->m_model;
 }
 
-auto Model::Department::initializeInputDataModel() -> QSqlRelationalTableModel *
+auto Model::Department::initializeInputDataModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -62,16 +53,16 @@ auto Model::Department::initializeInputDataModel() -> QSqlRelationalTableModel *
     return this->m_model;
 }
 
-auto Model::Department::initializeViewModel() -> QSqlTableModel *
+auto Model::Department::initializeViewModel() -> QSqlTableModel*
 {
     m_model->select();
 
     return m_model;
 }
 
-auto Model::Department::initializeListModel() -> QSqlTableModel *
+auto Model::Department::initializeListModel() -> QSqlTableModel*
 {
-    auto *listModel = new QSqlTableModel(this, this->m_db);
+    auto* listModel = new QSqlTableModel(this, this->m_db);
     listModel->setTable(this->m_tableName);
     listModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
     listModel->select();
@@ -79,7 +70,7 @@ auto Model::Department::initializeListModel() -> QSqlTableModel *
     return listModel;
 }
 
-auto Model::Department::generateTableString(const QString &header) -> QString
+auto Model::Department::generateTableString(const QString& header) -> QString
 {
     QString outString;
 
@@ -92,7 +83,7 @@ auto Model::Department::generateTableString(const QString &header) -> QString
     outString += header;
     outString += QLatin1String("</h1>");
     outString += QLatin1String("<hr />");
-    outString += QLatin1String {R"(<table width="100%" cellspacing="0" class="tbl">)"};
+    outString += QLatin1String { R"(<table width="100%" cellspacing="0" class="tbl">)" };
     outString += QLatin1String("<thead> <tr>");
 
     for (const auto i : set) {
@@ -105,7 +96,7 @@ auto Model::Department::generateTableString(const QString &header) -> QString
     return outString;
 }
 
-auto Model::Department::generateFormularString(const QString &header) -> QString
+auto Model::Department::generateFormularString(const QString& header) -> QString
 {
     QString outString;
 

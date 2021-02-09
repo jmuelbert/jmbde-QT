@@ -34,12 +34,12 @@ Model::Title::Title()
 void Model::Title::setIndexes()
 {
     m_TitleIdIndex = this->m_model->fieldIndex(QLatin1String("title_id"));
-    m_NameIndex = this->m_model->fieldIndex(QLatin1String("name "));
+    m_NameIndex = this->m_model->fieldIndex(QLatin1String("name"));
     m_FromDateIndex = this->m_model->fieldIndex(QLatin1String("from_date"));
     m_LastUpdateIndex = this->m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-auto Model::Title::initializeRelationalModel() -> QSqlRelationalTableModel *
+auto Model::Title::initializeRelationalModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -51,7 +51,7 @@ auto Model::Title::initializeRelationalModel() -> QSqlRelationalTableModel *
     return this->m_model;
 }
 
-auto Model::Title::initializeInputDataModel() -> QSqlRelationalTableModel *
+auto Model::Title::initializeInputDataModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -60,14 +60,14 @@ auto Model::Title::initializeInputDataModel() -> QSqlRelationalTableModel *
     return this->m_model;
 }
 
-auto Model::Title::initializeViewModel() -> QSqlTableModel *
+auto Model::Title::initializeViewModel() -> QSqlTableModel*
 {
     this->m_model->select();
 
     return this->m_model;
 }
 
-auto Model::Title::generateTableString(const QString &header) -> QString
+auto Model::Title::generateTableString(const QString& header) -> QString
 {
     QString outString;
 
@@ -92,7 +92,7 @@ auto Model::Title::generateTableString(const QString &header) -> QString
     return outString;
 }
 
-auto Model::Title::generateFormularString(const QString &header) -> QString
+auto Model::Title::generateFormularString(const QString& header) -> QString
 {
     QString outString;
 

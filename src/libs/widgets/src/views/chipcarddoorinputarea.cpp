@@ -1,28 +1,21 @@
 /*
-    jmbde a BDE Tool for companies
-    Copyright (C) 2013-2019  Jürgen Mülbert
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-*/
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 #include <ui_chipcarddoorinputarea.h>
 #include <views/chipcarddoorinputarea.h>
 
 Q_LOGGING_CATEGORY(jmbdeWidgetsChipCardDoorInputAreaLog, "jmuelbert.jmbde.widgets.chipcarddoorinputarea", QtWarningMsg)
 
-ChipCardDoorInputArea::ChipCardDoorInputArea(QWidget* parent, const QModelIndex& index)
+ChipCardDoorInputArea::ChipCardDoorInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::ChipCardDoorInputArea)
 {
     ui->setupUi(this);
+
+    qCDebug(jmbdeWidgetsChipCardDoorInputAreaLog) << "Init EmployeeInputArea for Index :" << index.column();
 
     this->m_chipCardDoorModel = new Model::ChipCardDoor();
     this->m_db = this->m_chipCardDoorModel->getDB();
@@ -34,8 +27,9 @@ ChipCardDoorInputArea::ChipCardDoorInputArea(QWidget* parent, const QModelIndex&
     m_model = this->m_chipCardDoorModel->initializeRelationalModel();
 
     // Set the mapper
-    m_mapper = new QDataWidgetMapper(this);
+    m_mapper = new QDataWidgetMapper();
     m_mapper->setModel(m_model);
+
     setMappings();
 
     m_mapper->setCurrentIndex(index.row());
@@ -46,13 +40,21 @@ ChipCardDoorInputArea::~ChipCardDoorInputArea()
     delete ui;
 }
 
-// TODO change lineEdit to lineEdit_Number
 void ChipCardDoorInputArea::setMappings()
 {
+    m_mapper->addMapping(ui->numberSpinBox, this->m_chipCardDoorModel->getNumberIndex());
+    m_mapper->addMapping(ui->placeComboBox, this->m_chipCardDoorModel->getPlaceIdIndex());
+    m_mapper->addMapping(ui->departmentComboBox, this->m_chipCardDoorModel->getDepartmentIdIndex());
+    m_mapper->addMapping(ui->employeeComboBox, this->m_chipCardDoorModel->getEmployeeIdIndex());
+    m_mapper->addMapping(ui->lastUpdateLineEdit, this->m_chipCardDoorModel->getLastUpdateIndex());
 }
 
 void ChipCardDoorInputArea::setViewOnlyMode(bool mode)
 {
+    ui->numberSpinBox->setDisabled(mode);
+    // ui->placeComboBox->setDisabled(mode);
+    // ui->deparmentComboBox->setDisabled(mode);
+    // ui->employeeComboBox->setDisabled(mode);
 }
 
 void ChipCardDoorInputArea::createDataset()

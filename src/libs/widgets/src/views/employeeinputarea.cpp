@@ -1,17 +1,8 @@
 /*
-   jmbde a BDE Tool for companies
-   Copyright (C) 2013-2020 Jürgen Mülbert
-
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-*/
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 #include "views/employeeinputarea.h"
 
@@ -20,13 +11,13 @@
 Q_LOGGING_CATEGORY(jmbdeWidgetsEmployeeInputAreaLog, "jmuelbert.jmbde.widgets.employeeinputarea", QtWarningMsg)
 
 // Edit an existing Employee
-EmployeeInputArea::EmployeeInputArea(QWidget *parent, const QModelIndex index)
+EmployeeInputArea::EmployeeInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::EmployeeInputArea)
 {
     ui->setupUi(this);
 
-    qCDebug(jmbdeWidgetsEmployeeInputAreaLog) << "Init ComputerInputArea for Index :" << index.column();
+    qCDebug(jmbdeWidgetsEmployeeInputAreaLog) << "Init EmployeeInputArea for Index :" << index.column();
 
     this->m_employeeModel = new Model::Employee();
     this->m_db = this->m_employeeModel->getDB();
@@ -40,7 +31,6 @@ EmployeeInputArea::EmployeeInputArea(QWidget *parent, const QModelIndex index)
     // Set the mapper
     m_mapper = new QDataWidgetMapper();
     m_mapper->setModel(m_model);
-    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
     setMappings();
 
@@ -54,105 +44,68 @@ EmployeeInputArea::~EmployeeInputArea()
 
 void EmployeeInputArea::setMappings()
 {
-    // Set the fields to the mapper
-    // Line 1.
-    m_mapper->addMapping(ui->comboBox_Title, this->m_employeeModel->getTitleIdIndex());
-    m_mapper->addMapping(ui->comboBox_Gender, this->m_employeeModel->getGenderIndex());
-
-    // Line 2.
-    m_mapper->addMapping(ui->lineEdit_Firstname, this->m_employeeModel->getFirstNameIndex());
-    m_mapper->addMapping(ui->lineEdit_Lastname, this->m_employeeModel->getLastNameIndex());
-    m_mapper->addMapping(ui->doubleSpinBox_PersNR, this->m_employeeModel->getEmployeeNrIndex());
-
-    // Line 3.
-    m_mapper->addMapping(ui->lineEditZipCode, this->m_employeeModel->getZipCityIdIndex());
-
-    // TODO: Write City in the City Text Field
-    m_mapper->addMapping(ui->lineEdit_Address, this->m_employeeModel->getAddressIndex());
-
-    // Line 4.
-    m_mapper->addMapping(ui->dateEdit_Birthday, this->m_employeeModel->getBirthDayIndex());
-
-    // Line 5.
-    m_mapper->addMapping(ui->lineEdit_HomeMail, this->m_employeeModel->getHomeMailIndex());
-    m_mapper->addMapping(ui->lineEdit_HomePhone, this->m_employeeModel->getHomePhoneIndex());
-    m_mapper->addMapping(ui->lineEdit_HomeMobile, this->m_employeeModel->getHomeMobileIndex());
-
-    // Line 6.
-    m_mapper->addMapping(ui->lineEdit_BusinessMail, this->m_employeeModel->getBusinessMailIndex());
-    m_mapper->addMapping(ui->checkBox_Active, this->m_employeeModel->getActiveIndex());
-    m_mapper->addMapping(ui->checkBox_DataCare, this->m_employeeModel->getDataCareIndex());
-
-    // Line 7.
-    m_mapper->addMapping(ui->dateEdit_StartDate, this->m_employeeModel->getHireDateIndex());
-    m_mapper->addMapping(ui->dateEdit_EndDate, this->m_employeeModel->getEndDateIndex());
-
-    // Line 8.
-
-    /*
-       m_mapper->addMapping(ui->comboBoxPhone,
-                       m_model->fieldIndex(QLatin1String("phone_id")));
-       m_mapper->addMapping(ui->comboBoxMobile,
-                       m_model->fieldIndex(QLatin1String("mobile_id")));
-       m_mapper->addMapping(ui->comboBoxFax,
-                       m_model->fieldIndex(QLatin1String("fax_id")));
-
-
-       // Line 9.
-       m_mapper->addMapping(ui->comboBoxComputer,
-                       m_model->fieldIndex(QLatin1String("computer_id")));
-
-       m_mapper->addMapping(ui->comboBoxPrinter,
-                       m_model->fieldIndex(QLatin1String("printer_id")));
-
-       m_mapper->addMapping(ui->comboBoxChipCard,
-                       m_model->fieldIndex(QLatin1String("chipcard_id")));
-       m_mapper->addMapping(ui->comboBoxDepartment,
-                       m_model->fieldIndex(QLatin1String("department_id")));
-       m_mapper->addMapping(ui->comboBoxFunction,
-                       m_model->fieldIndex(QLatin1String("function_id")));
-
-       // Line 10.
-       m_mapper->addMapping(ui->comboBoxEmployeeAccount,
-                       m_model->fieldIndex(QLatin1String("employee_account_id")));
-       m_mapper->addMapping(ui->comboBoxEmployeeDocument,
-                       m_model->fieldIndex(QLatin1String("employee_document_id")));
-     */
-    m_mapper->addMapping(ui->label_Lastupdate_Date, this->m_employeeModel->getLastUpdateIndex());
-
-    // Line 11.
-    m_mapper->addMapping(ui->textEdit_Notes, this->m_employeeModel->getNotesIndex());
+    m_mapper->addMapping(ui->employeeNumberDoubleSpinBox, this->m_employeeModel->getEmployeeNrIndex());
+    m_mapper->addMapping(ui->genderComboBox, this->m_employeeModel->getGenderIndex());
+    m_mapper->addMapping(ui->titleComboBox, this->m_employeeModel->getTitleIdIndex());
+    m_mapper->addMapping(ui->firstNameLineEdit, this->m_employeeModel->getFirstNameIndex());
+    m_mapper->addMapping(ui->lastNameLineEdit, this->m_employeeModel->getLastNameIndex());
+    m_mapper->addMapping(ui->birthdayDateEdit, this->m_employeeModel->getBirthDayIndex());
+    m_mapper->addMapping(ui->addressLineEdit, this->m_employeeModel->getAddressIndex());
+    m_mapper->addMapping(ui->zipCityIdComboBox, this->m_employeeModel->getZipCityIdIndex());
+    m_mapper->addMapping(ui->homePhoneLineEdit, this->m_employeeModel->getHomePhoneIndex());
+    m_mapper->addMapping(ui->homeMobileLineEdit, this->m_employeeModel->getHomeMobileIndex());
+    m_mapper->addMapping(ui->homeMailLineEdit, this->m_employeeModel->getHomeMailIndex());
+    m_mapper->addMapping(ui->businessMailLineEdit, this->m_employeeModel->getBusinessMailIndex());
+    m_mapper->addMapping(ui->dataCareCheckBox, this->m_employeeModel->getDataCareIndex());
+    m_mapper->addMapping(ui->activeCheckBox, this->m_employeeModel->getActiveIndex());
+    m_mapper->addMapping(ui->photoGraphicsView, this->m_employeeModel->getPhotoIndex());
+    m_mapper->addMapping(ui->notesTextEdit, this->m_employeeModel->getNotesIndex());
+    m_mapper->addMapping(ui->hireDateDateEdit, this->m_employeeModel->getHireDateIndex());
+    m_mapper->addMapping(ui->endDateDateEdit, this->m_employeeModel->getEndDateIndex());
+    m_mapper->addMapping(ui->departmentComboBox, this->m_employeeModel->getDepartmentIdIndex());
+    m_mapper->addMapping(ui->functionComboBox, this->m_employeeModel->getFunctionIdIndex());
+    m_mapper->addMapping(ui->computerComboBox, this->m_employeeModel->getComputerIdIndex());
+    m_mapper->addMapping(ui->printerComboBox, this->m_employeeModel->getPrinterIdIndex());
+    m_mapper->addMapping(ui->phoneComboBox, this->m_employeeModel->getPhoneIdIndex());
+    m_mapper->addMapping(ui->mobileComboBox, this->m_employeeModel->getMobileIdIndex());
+    m_mapper->addMapping(ui->faxComboBox, this->m_employeeModel->getFaxIdIndex());
+    m_mapper->addMapping(ui->employeeAccountComboBox, this->m_employeeModel->getEmployeeAccountIdIndex());
+    m_mapper->addMapping(ui->employeeDocumentComboBox, this->m_employeeModel->getEmployeeDocumentIdIndex());
+    m_mapper->addMapping(ui->chipCardComboBox, this->m_employeeModel->getChipCardIdIndex());
+    m_mapper->addMapping(ui->lastUpdateLineEdit, this->m_employeeModel->getLastUpdateIndex());
 }
 
 void EmployeeInputArea::setViewOnlyMode(bool mode)
 {
-    ui->checkBox_Active->setDisabled(mode);
-    ui->checkBox_DataCare->setDisabled(mode);
-    ui->comboBox_ChipCard->setDisabled(mode);
-    ui->comboBox_Computer->setDisabled(mode);
-    ui->comboBox_Department->setDisabled(mode);
-    ui->comboBox_EmployeeAccount->setDisabled(mode);
-    ui->comboBox_EmployeeDocument->setDisabled(mode);
-    ui->comboBox_Fax->setDisabled(mode);
-    ui->comboBox_Function->setDisabled(mode);
-    ui->comboBox_Gender->setDisabled(mode);
-    ui->comboBox_Mobile->setDisabled(mode);
-    ui->comboBox_Phone->setDisabled(mode);
-    ui->comboBox_Printer->setDisabled(mode);
-    ui->comboBox_Title->setDisabled(mode);
-    ui->dateEdit_Birthday->setDisabled(mode);
-    ui->dateEdit_EndDate->setDisabled(mode);
-    ui->dateEdit_StartDate->setDisabled(mode);
-    ui->doubleSpinBox_PersNR->setDisabled(mode);
-    ui->lineEditZipCode->setDisabled(mode);
-    ui->lineEdit_Address->setDisabled(mode);
-    ui->lineEdit_BusinessMail->setDisabled(mode);
-    ui->lineEdit_City->setDisabled(mode);
-    ui->lineEdit_Firstname->setDisabled(mode);
-    ui->lineEdit_HomeMail->setDisabled(mode);
-    ui->lineEdit_HomeMobile->setDisabled(mode);
-    ui->lineEdit_HomePhone->setDisabled(mode);
-    ui->lineEdit_Lastname->setDisabled(mode);
+    ui->employeeNumberDoubleSpinBox->setDisabled(mode);
+    // ui->genderComboBox->setDisabled(mode);
+    // ui->titleComboBox->setDisabled(mode);
+    ui->firstNameLineEdit->setDisabled(mode);
+    ui->lastNameLineEdit->setDisabled(mode);
+    ui->birthdayDateEdit->setDisabled(mode);
+    ui->addressLineEdit->setDisabled(mode);
+    // ui->zipCityIdComboBox->setDisabled(mode);
+    ui->homePhoneLineEdit->setDisabled(mode);
+    ui->homeMobileLineEdit->setDisabled(mode);
+    ui->homeMailLineEdit->setDisabled(mode);
+    ui->businessMailLineEdit->setDisabled(mode);
+    ui->dataCareCheckBox->setDisabled(mode);
+    ui->activeCheckBox->setDisabled(mode);
+    // ui->photoGraphicsView->setDisabled(mode);
+    ui->notesTextEdit->setDisabled(mode);
+    ui->hireDateDateEdit->setDisabled(mode);
+    ui->endDateDateEdit->setDisabled(mode);
+    // ui->departmentComboBox->setDisabled(mode);
+    // ui->functionComboBox->setDisabled(mode);
+    // ui->computerComboBox->setDisabled(mode);
+    // ui->printerComboBox->setDisabled(mode);
+    // ui->phoneComboBox->setDisabled(mode);
+    // ui->mobileComboBox->setDisabled(mode);
+    // ui->faxComboBox->setDisabled(mode);
+    // ui->employeeAccountComboBox->setDisabled(mode);
+    // ui->employeeDocumentComboBox->setDisabled(mode);
+    // ui->chipCardComboBox->setDisabled(mode);
+    ui->lastUpdateLineEdit->setDisabled(mode);
 }
 
 void EmployeeInputArea::createDataset()
@@ -208,14 +161,14 @@ void EmployeeInputArea::on_pushButton_EditFinish_clicked()
         ui->pushButton_EditFinish->setText(tr("Bearbeiten"));
         setViewOnlyMode(false);
 
-        QString lastName = ui->lineEdit_Lastname->text();
+        QString lastName = ui->lastNameLineEdit->text();
 
         if (lastName.isEmpty()) {
             QString message(tr("Bitte geben Sie den Mitarbeiternamen ein"));
 
             QMessageBox::information(this, tr("Mitarbeiter hinzufügen"), message);
         } else {
-            qCDebug(jmbdeWidgetsEmployeeInputAreaLog) << tr("Mitarbeiter : ") << ui->lineEdit_Lastname->text();
+            qCDebug(jmbdeWidgetsEmployeeInputAreaLog) << tr("Mitarbeiter : ") << ui->lastNameLineEdit->text();
             m_mapper->submit();
             m_model->database().transaction();
             if (m_model->submitAll()) {

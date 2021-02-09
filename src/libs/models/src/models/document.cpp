@@ -1,17 +1,8 @@
 /*
-   jmbde a BDE Tool for companies
-   Copyright (C) 2013-2020  Jürgen Mülbert
-
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-*/
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 #include "models/document.h"
 
@@ -35,11 +26,11 @@ void Model::Document::setIndexes()
 {
     m_DocumentIdIndex = this->m_model->fieldIndex(QLatin1String("document_id"));
     m_NameIndex = this->m_model->fieldIndex(QLatin1String("name"));
-    m_NameIndex = this->m_model->fieldIndex(QLatin1String("document_data"));
+    m_DocumentDataIndex = this->m_model->fieldIndex(QLatin1String("document_data"));
     m_LastUpdateIndex = this->m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-auto Model::Document::initializeRelationalModel() -> QSqlRelationalTableModel *
+auto Model::Document::initializeRelationalModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -51,7 +42,7 @@ auto Model::Document::initializeRelationalModel() -> QSqlRelationalTableModel *
     return this->m_model;
 }
 
-auto Model::Document::initializeInputDataModel() -> QSqlRelationalTableModel *
+auto Model::Document::initializeInputDataModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -60,14 +51,14 @@ auto Model::Document::initializeInputDataModel() -> QSqlRelationalTableModel *
     return this->m_model;
 }
 
-auto Model::Document::initializeViewModel() -> QSqlTableModel *
+auto Model::Document::initializeViewModel() -> QSqlTableModel*
 {
     this->m_model->select();
 
     return this->m_model;
 }
 
-auto Model::Document::generateTableString(const QString &header) -> QString
+auto Model::Document::generateTableString(const QString& header) -> QString
 {
     QString outString;
 
@@ -93,7 +84,7 @@ auto Model::Document::generateTableString(const QString &header) -> QString
     return outString;
 }
 
-auto Model::Document::generateFormularString(const QString &header) -> QString
+auto Model::Document::generateFormularString(const QString& header) -> QString
 {
     QString outString;
 

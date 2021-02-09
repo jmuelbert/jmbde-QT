@@ -1,17 +1,8 @@
 /*
-   jmbde a BDE Tool for companies
-   Copyright (C) 2013-2020 Jürgen Mülbert
-
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-*/
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 #include "models/zipcode.h"
 
@@ -38,7 +29,7 @@ void Model::ZipCode::setIndexes()
     m_LastUpdateIndex = this->m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-auto Model::ZipCode::initializeRelationalModel() -> QSqlRelationalTableModel *
+auto Model::ZipCode::initializeRelationalModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -50,7 +41,7 @@ auto Model::ZipCode::initializeRelationalModel() -> QSqlRelationalTableModel *
     return this->m_model;
 }
 
-auto Model::ZipCode::initializeInputDataModel() -> QSqlRelationalTableModel *
+auto Model::ZipCode::initializeInputDataModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -59,14 +50,14 @@ auto Model::ZipCode::initializeInputDataModel() -> QSqlRelationalTableModel *
     return this->m_model;
 }
 
-auto Model::ZipCode::initializeViewModel() -> QSqlTableModel *
+auto Model::ZipCode::initializeViewModel() -> QSqlTableModel*
 {
     this->m_model->select();
 
     return this->m_model;
 }
 
-auto Model::ZipCode::generateTableString(const QString &header) -> QString
+auto Model::ZipCode::generateTableString(const QString& header) -> QString
 {
     QString outString;
 
@@ -91,7 +82,7 @@ auto Model::ZipCode::generateTableString(const QString &header) -> QString
     return outString;
 }
 
-auto Model::ZipCode::generateFormularString(const QString &header) -> QString
+auto Model::ZipCode::generateFormularString(const QString& header) -> QString
 {
     QString outString;
 

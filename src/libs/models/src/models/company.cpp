@@ -1,17 +1,8 @@
 /*
-   jmbde a BDE Tool for companies
-   Copyright (C) 2013-2020  Jürgen Mülbert
-
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-*/
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 #include "models/company.h"
 
@@ -38,7 +29,7 @@ void Model::Company::setIndexes()
     m_Name2Index = this->m_model->fieldIndex(QLatin1String("name2"));
     m_StreetIndex = this->m_model->fieldIndex(QLatin1String("street"));
     m_CityIndex = this->m_model->fieldIndex(QLatin1String("city"));
-    m_ZipCodeIndex = this->m_model->fieldIndex(QLatin1String("zip_code_id"));
+    m_ZipCodeIndex = this->m_model->fieldIndex(QLatin1String("zip_code"));
     m_PhoneNumberIndex = this->m_model->fieldIndex(QLatin1String("phone_number"));
     m_FaxNumberIndex = this->m_model->fieldIndex(QLatin1String("fax_number"));
     m_MobileNumberIndex = this->m_model->fieldIndex(QLatin1String("mobile_number"));
@@ -48,7 +39,7 @@ void Model::Company::setIndexes()
     m_LastUpdateIndex = this->m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-auto Model::Company::initializeRelationalModel() -> QSqlRelationalTableModel *
+auto Model::Company::initializeRelationalModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -60,7 +51,7 @@ auto Model::Company::initializeRelationalModel() -> QSqlRelationalTableModel *
     return this->m_model;
 }
 
-auto Model::Company::initializeInputDataModel() -> QSqlRelationalTableModel *
+auto Model::Company::initializeInputDataModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -69,16 +60,16 @@ auto Model::Company::initializeInputDataModel() -> QSqlRelationalTableModel *
     return this->m_model;
 }
 
-auto Model::Company::initializeViewModel() -> QSqlTableModel *
+auto Model::Company::initializeViewModel() -> QSqlTableModel*
 {
     this->m_model->select();
 
     return this->m_model;
 }
 
-auto Model::Company::initializeListModel() -> QSqlTableModel *
+auto Model::Company::initializeListModel() -> QSqlTableModel*
 {
-    auto *listModel = new QSqlTableModel(this, this->m_db);
+    auto* listModel = new QSqlTableModel(this, this->m_db);
     listModel->setTable(this->m_tableName);
     listModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
     listModel->select();
@@ -86,7 +77,7 @@ auto Model::Company::initializeListModel() -> QSqlTableModel *
     return listModel;
 }
 
-auto Model::Company::generateTableString(const QString &header) -> QString
+auto Model::Company::generateTableString(const QString& header) -> QString
 {
     QString outString;
 
@@ -112,7 +103,7 @@ auto Model::Company::generateTableString(const QString &header) -> QString
     return outString;
 }
 
-auto Model::Company::generateFormularString(const QString &header) -> QString
+auto Model::Company::generateFormularString(const QString& header) -> QString
 {
     QString outString;
 

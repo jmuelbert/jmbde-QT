@@ -1,17 +1,8 @@
 /*
-   jmbde a BDE Tool for companies
-   Copyright (C) 2013-2019  Jürgen Mülbert
-
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-*/
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 #pragma once
 
@@ -25,6 +16,7 @@
 #include "jmbdewidgets-version.h"
 #include "jmbdewidgets_export.h"
 #include "models/computer.h"
+#include "models/datacontext.h"
 
 Q_DECLARE_LOGGING_CATEGORY(jmbdeWidgetsComputerInputAreaLog)
 
@@ -46,7 +38,7 @@ public:
        @param parent The pointer to the parent object
        @param index The index for view the data
      */
-    explicit ComputerInputArea(QWidget *parent = nullptr, const QModelIndex index = QModelIndex());
+    explicit ComputerInputArea(QWidget *parent = nullptr, const QModelIndex &index = QModelIndex());
 
     /**
      * @brief ~ComputerInputArea();
@@ -99,7 +91,7 @@ private:
     /**
      * @brief m_selectionModel
      */
-    QItemSelectionModel *m_selectionModel {};
+    QItemSelectionModel *m_selectionModel{};
 
     /**
      * @brief m_mapper
@@ -110,7 +102,6 @@ private:
      * @ brief m_db
      */
     QSqlDatabase m_db = {};
-
 
     /**
      * @brief setMappings

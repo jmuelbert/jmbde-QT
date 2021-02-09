@@ -21,8 +21,8 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRelation>
-#include <QtSql>
 #include <QTextDocument>
+#include <QtSql>
 
 #include "commondata.h"
 #include "datacontext.h"
@@ -121,6 +121,17 @@ public:
 
     // Getter
 
+    // Getter
+    JMBDEMODELS_EXPORT QString getTableName() const
+    {
+        return this->m_tableName;
+    }
+
+    JMBDEMODELS_EXPORT QSqlDatabase getDB() const
+    {
+        return this->m_db;
+    }
+
     /*!
         \fn int CityNameIdIndex()
 
@@ -172,13 +183,13 @@ private:
         \brief holds an initialised pointer to the Relationmodel
         \sa QSqlRelationalTableModel
      */
-    QSqlRelationalTableModel *m_model {nullptr};
+    QSqlRelationalTableModel *m_model{nullptr};
 
     /*!
        \brief holds an initialised pointer to the ItemSelectioModel
        \sa QItemSelectionModel
     */
-    QItemSelectionModel *m_selectionModel {nullptr};
+    QItemSelectionModel *m_selectionModel{nullptr};
 
     /*!
      * @brief DataContext
@@ -188,16 +199,16 @@ private:
     /*!
          \brief The value of the CityNameIdIndex
      */
-    int m_CityNameIdIndex {0};
+    int m_CityNameIdIndex{0};
 
     /*!
         \brief The value of the NameIndex
     */
-    int m_NameIndex {0};
+    int m_NameIndex{0};
 
     /*!
          \brief The value of the LastUpdateIndex
      */
-    int m_LastUpdateIndex {0};
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model

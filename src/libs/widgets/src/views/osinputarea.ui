@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>OSInputArea</class>
  <widget class="QGroupBox" name="OSInputArea">
@@ -26,7 +26,7 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <widget class="QLabel" name="label_Header">
+         <widget class="QLabel" name="headerLabel">
           <property name="font">
            <font>
             <pointsize>16</pointsize>
@@ -62,57 +62,77 @@
       </item>
       <item>
        <layout class="QGridLayout" name="gridLayout">
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_Version">
-          <property name="text">
-           <string>Version</string>
-          </property>
-          <property name="buddy">
-           <cstring>lineEdit_Version</cstring>
-          </property>
-         </widget>
-        </item>
         <item row="1" column="1">
-         <widget class="QLineEdit" name="lineEdit_Version" />
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_Revision">
-          <property name="text">
-           <string>Revision</string>
-          </property>
-          <property name="buddy">
-           <cstring>lineEdit_Revision</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QLineEdit" name="lineEdit_Revision" />
-        </item>
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="lineEdit_Name" />
+         <widget class="QLineEdit" name="versionLineEdit"/>
         </item>
         <item row="0" column="0">
-         <widget class="QLabel" name="label_Name">
+         <widget class="QLabel" name="nameLabel">
           <property name="text">
            <string>Name</string>
           </property>
           <property name="buddy">
-           <cstring>lineEdit_Name</cstring>
+           <cstring>nameLineEdit</cstring>
           </property>
          </widget>
         </item>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="revisionLineEdit"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="versionLabel">
+          <property name="text">
+           <string>Version</string>
+          </property>
+          <property name="buddy">
+           <cstring>versionLineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="nameLineEdit"/>
+        </item>
         <item row="3" column="0">
-         <widget class="QLabel" name="label_Fix">
+         <widget class="QLabel" name="fixLabel">
           <property name="text">
            <string>Fix</string>
           </property>
           <property name="buddy">
-           <cstring>lineEdit_Fix</cstring>
+           <cstring>fixLineEdit</cstring>
           </property>
          </widget>
         </item>
         <item row="3" column="1">
-         <widget class="QLineEdit" name="lineEdit_Fix" />
+         <widget class="QLineEdit" name="fixLineEdit"/>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="revisionLabel">
+          <property name="text">
+           <string>Revision</string>
+          </property>
+          <property name="buddy">
+           <cstring>revisionLineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="lastUpdateLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Letzte Änderung</string>
+          </property>
+          <property name="buddy">
+           <cstring>lastUpdateLineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QLineEdit" name="lastUpdateLineEdit">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -132,7 +152,7 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QPushButton" name="pushButton_Add">
+         <widget class="QPushButton" name="addPushButton">
           <property name="text">
            <string>+</string>
           </property>
@@ -152,9 +172,9 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_EditFinish">
+         <widget class="QPushButton" name="editFinishPushButton">
           <property name="text">
-           <string>Edit</string>
+           <string>Bearbeiten</string>
           </property>
          </widget>
         </item>
@@ -166,13 +186,14 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>lineEdit_Name</tabstop>
-  <tabstop>lineEdit_Version</tabstop>
-  <tabstop>lineEdit_Revision</tabstop>
-  <tabstop>lineEdit_Fix</tabstop>
-  <tabstop>pushButton_Add</tabstop>
-  <tabstop>pushButton_EditFinish</tabstop>
+  <tabstop>nameLineEdit</tabstop>
+  <tabstop>versionLineEdit</tabstop>
+  <tabstop>revisionLineEdit</tabstop>
+  <tabstop>fixLineEdit</tabstop>
+  <tabstop>lastUpdateLineEdit</tabstop>
+  <tabstop>addPushButton</tabstop>
+  <tabstop>editFinishPushButton</tabstop>
  </tabstops>
- <resources />
- <connections />
+ <resources/>
+ <connections/>
 </ui>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>ComputerInputArea</class>
  <widget class="QGroupBox" name="ComputerInputArea">
@@ -62,240 +62,350 @@
       </item>
       <item>
        <layout class="QGridLayout" name="gridLayout">
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_ServiceNumber">
-          <property name="text">
-           <string>Service Number</string>
-          </property>
-          <property name="buddy">
-           <cstring>lineEdit_ServiceNumber</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="0">
-         <widget class="QCheckBox" name="checkBox_Active">
-          <property name="text">
-           <string>Active</string>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="3">
-         <widget class="QCheckBox" name="checkBox_Replace">
-          <property name="text">
-           <string>Replace</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="3">
-         <widget class="QLabel" name="label_OperationSystem">
-          <property name="text">
-           <string>Operation System</string>
-          </property>
-          <property name="buddy">
-           <cstring>comboBox_OperationSystem</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="4">
-         <widget class="QComboBox" name="comboBox_OperationSystem" />
-        </item>
-        <item row="6" column="3">
-         <widget class="QLabel" name="label_Place">
-          <property name="text">
-           <string>Place</string>
-          </property>
-          <property name="buddy">
-           <cstring>comboBox_Place</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="label_Employee">
-          <property name="text">
-           <string>Employee</string>
-          </property>
-          <property name="buddy">
-           <cstring>comboBox_Employee</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="4">
-         <widget class="QComboBox" name="comboBox_Inventory" />
-        </item>
-        <item row="3" column="2">
-         <widget class="QComboBox" name="comboBox_Processor" />
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_Processor">
-          <property name="text">
-           <string>Processor</string>
-          </property>
-          <property name="buddy">
-           <cstring>comboBox_Processor</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="3">
-         <widget class="QLabel" name="label_Inventory">
-          <property name="text">
-           <string>Inventory</string>
-          </property>
-          <property name="buddy">
-           <cstring>comboBox_Inventory</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="2">
-         <widget class="QComboBox" name="comboBox_Department" />
-        </item>
-        <item row="8" column="0">
-         <widget class="QLabel" name="label_Manufacturer">
-          <property name="text">
-           <string>Manufacturer</string>
-          </property>
-          <property name="buddy">
-           <cstring>comboBox_Manufacturer</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="4">
-         <widget class="QComboBox" name="comboBox_DeviceType" />
-        </item>
-        <item row="7" column="2">
-         <widget class="QComboBox" name="comboBox_DeviceName" />
-        </item>
-        <item row="6" column="4">
-         <widget class="QComboBox" name="comboBox_Place" />
-        </item>
-        <item row="5" column="2">
-         <widget class="QComboBox" name="comboBox_Employee" />
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_Name">
-          <property name="text">
-           <string>Name</string>
-          </property>
-          <property name="buddy">
-           <cstring>lineEdit_ComputerName</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="4">
-         <widget class="QLineEdit" name="lineEdit_IPAddress" />
-        </item>
-        <item row="8" column="2">
-         <widget class="QComboBox" name="comboBox_Manufacturer" />
-        </item>
-        <item row="2" column="3">
-         <widget class="QLabel" name="label_IPAddress">
-          <property name="text">
-           <string>IP Address</string>
-          </property>
-          <property name="buddy">
-           <cstring>lineEdit_IPAddress</cstring>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="3">
-         <widget class="QLabel" name="label_SerialNumber">
+         <widget class="QLabel" name="serialNumberLabel">
           <property name="text">
            <string>Serial Number</string>
           </property>
           <property name="buddy">
-           <cstring>lineEdit_SerialNumber</cstring>
+           <cstring>serialNumberLineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="3">
+         <widget class="QLabel" name="printerLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Drucker</string>
+          </property>
+          <property name="buddy">
+           <cstring>printerComboBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="3">
+         <widget class="QLabel" name="deviceTypeLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Gerätetyp</string>
+          </property>
+          <property name="buddy">
+           <cstring>deviceTypeComboBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="2">
+         <widget class="QComboBox" name="departmentComboBox">
+          <property name="enabled">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
         <item row="2" column="0">
-         <widget class="QLabel" name="label_Network">
+         <widget class="QLabel" name="networkLabel">
           <property name="text">
-           <string>Network</string>
+           <string>Netzwerk</string>
           </property>
           <property name="buddy">
-           <cstring>lineEdit_Network</cstring>
+           <cstring>networkLineEdit</cstring>
           </property>
          </widget>
         </item>
-        <item row="7" column="0">
-         <widget class="QLabel" name="label_Devicename">
+        <item row="9" column="3">
+         <widget class="QLabel" name="inventoryLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
-           <string>Devicename</string>
+           <string>Inventarnummer</string>
           </property>
           <property name="buddy">
-           <cstring>comboBox_DeviceName</cstring>
+           <cstring>inventoryComboBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="2">
+         <widget class="QComboBox" name="deviceNameComboBox">
+          <property name="enabled">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
         <item row="7" column="3">
-         <widget class="QLabel" name="label_DeviceType">
+         <widget class="QLabel" name="placeLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
-           <string>Devicetype</string>
+           <string>Platz</string>
           </property>
           <property name="buddy">
-           <cstring>comboBox_DeviceType</cstring>
+           <cstring>placeComboBox</cstring>
           </property>
          </widget>
         </item>
-        <item row="2" column="2">
-         <widget class="QLineEdit" name="lineEdit_Network" />
-        </item>
-        <item row="6" column="0">
-         <widget class="QLabel" name="label_Department">
-          <property name="text">
-           <string>Department</string>
-          </property>
-          <property name="buddy">
-           <cstring>comboBox_Department</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="2">
-         <widget class="QLineEdit" name="lineEdit_ServiceNumber" />
-        </item>
-        <item row="1" column="3">
-         <widget class="QLabel" name="label_ServiceTag">
-          <property name="text">
-           <string>Service Tag</string>
-          </property>
-          <property name="buddy">
-           <cstring>lineEdit_ServiceTag</cstring>
+        <item row="7" column="4">
+         <widget class="QComboBox" name="placeComboBox">
+          <property name="enabled">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
         <item row="1" column="4">
-         <widget class="QLineEdit" name="lineEdit_ServiceTag" />
+         <widget class="QLineEdit" name="serviceTagLineEdit"/>
         </item>
-        <item row="0" column="4">
-         <widget class="QLineEdit" name="lineEdit_SerialNumber" />
+        <item row="9" column="2">
+         <widget class="QComboBox" name="manufacturerComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
-        <item row="0" column="2">
-         <widget class="QLineEdit" name="lineEdit_ComputerName" />
+        <item row="5" column="4">
+         <widget class="QComboBox" name="printerComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_Software">
+        <item row="11" column="0">
+         <widget class="QLabel" name="lastUpdateLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
-           <string>Software</string>
+           <string>Letzte Änderung</string>
           </property>
           <property name="buddy">
-           <cstring>comboBox_Software</cstring>
+           <cstring>lastUpdateLineEdit</cstring>
           </property>
          </widget>
         </item>
         <item row="4" column="2">
-         <widget class="QComboBox" name="comboBox_Software" />
+         <widget class="QComboBox" name="processorComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
-        <item row="4" column="3">
-         <widget class="QLabel" name="label_Printer">
+        <item row="4" column="0">
+         <widget class="QLabel" name="processorLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
-           <string>Printer</string>
+           <string>Prozessor</string>
           </property>
           <property name="buddy">
-           <cstring>comboBox_Printer</cstring>
+           <cstring>processorComboBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="4">
+         <widget class="QComboBox" name="inventoryComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLineEdit" name="serviceNumberLineEdit"/>
+        </item>
+        <item row="2" column="2">
+         <widget class="QLineEdit" name="networkLineEdit"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="serviceNumberLabel">
+          <property name="text">
+           <string>Service Nummer</string>
+          </property>
+          <property name="buddy">
+           <cstring>serviceNumberLineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="3">
+         <widget class="QLabel" name="serviceTagLabel">
+          <property name="text">
+           <string>Service Tag</string>
+          </property>
+          <property name="buddy">
+           <cstring>serviceTagLineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="0">
+         <widget class="QLabel" name="manufacturerLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Hersteller</string>
+          </property>
+          <property name="buddy">
+           <cstring>manufacturerComboBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="0">
+         <widget class="QCheckBox" name="activeCheckBox">
+          <property name="text">
+           <string>Activ</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="0">
+         <widget class="QLabel" name="deviceNameLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Gerätename</string>
+          </property>
+          <property name="buddy">
+           <cstring>deviceNameComboBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="4">
+         <widget class="QComboBox" name="deviceTypeComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="11" column="2">
+         <widget class="QLineEdit" name="lastUpdateLineEdit">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="3">
+         <widget class="QCheckBox" name="replaceCheckBox">
+          <property name="text">
+           <string>zu ersetzen</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="4">
+         <widget class="QLineEdit" name="serialNumberLineEdit"/>
+        </item>
+        <item row="7" column="0">
+         <widget class="QLabel" name="departmentLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Abteilung</string>
+          </property>
+          <property name="buddy">
+           <cstring>departmentComboBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="4">
+         <widget class="QSpinBox" name="memorySpinBox"/>
+        </item>
+        <item row="3" column="3">
+         <widget class="QLabel" name="memoryLabel">
+          <property name="text">
+           <string>Speicher</string>
+          </property>
+          <property name="buddy">
+           <cstring>memorySpinBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="netWorkNameLabel">
+          <property name="text">
+           <string>Name</string>
+          </property>
+          <property name="buddy">
+           <cstring>netWorkNameLineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLineEdit" name="netWorkNameLineEdit"/>
+        </item>
+        <item row="2" column="3">
+         <widget class="QLabel" name="ipAddressLabel">
+          <property name="text">
+           <string>IP Addresse</string>
+          </property>
+          <property name="buddy">
+           <cstring>ipAddressLineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="4">
+         <widget class="QLineEdit" name="ipAddressLineEdit"/>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="operationSystemLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Betriebssystem</string>
+          </property>
+          <property name="buddy">
+           <cstring>operationSystemComboBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="2">
+         <widget class="QComboBox" name="operationSystemComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="3">
+         <widget class="QLabel" name="softwareLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Software</string>
+          </property>
+          <property name="buddy">
+           <cstring>softwareComboBox</cstring>
           </property>
          </widget>
         </item>
         <item row="4" column="4">
-         <widget class="QComboBox" name="comboBox_Printer" />
+         <widget class="QComboBox" name="softwareComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="employeeLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Mitarbeiter*in</string>
+          </property>
+          <property name="buddy">
+           <cstring>employeeComboBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="2">
+         <widget class="QComboBox" name="employeeComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -349,30 +459,32 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>lineEdit_ComputerName</tabstop>
-  <tabstop>lineEdit_SerialNumber</tabstop>
-  <tabstop>lineEdit_ServiceNumber</tabstop>
-  <tabstop>lineEdit_ServiceTag</tabstop>
-  <tabstop>lineEdit_Network</tabstop>
-  <tabstop>lineEdit_IPAddress</tabstop>
-  <tabstop>comboBox_Processor</tabstop>
-  <tabstop>comboBox_OperationSystem</tabstop>
-  <tabstop>comboBox_Software</tabstop>
-  <tabstop>comboBox_Printer</tabstop>
-  <tabstop>comboBox_Employee</tabstop>
-  <tabstop>comboBox_Department</tabstop>
-  <tabstop>comboBox_Place</tabstop>
-  <tabstop>comboBox_DeviceName</tabstop>
-  <tabstop>comboBox_DeviceType</tabstop>
-  <tabstop>comboBox_Manufacturer</tabstop>
-  <tabstop>comboBox_Inventory</tabstop>
-  <tabstop>checkBox_Active</tabstop>
-  <tabstop>checkBox_Replace</tabstop>
+  <tabstop>netWorkNameLineEdit</tabstop>
+  <tabstop>serialNumberLineEdit</tabstop>
+  <tabstop>serviceNumberLineEdit</tabstop>
+  <tabstop>serviceTagLineEdit</tabstop>
+  <tabstop>networkLineEdit</tabstop>
+  <tabstop>ipAddressLineEdit</tabstop>
+  <tabstop>operationSystemComboBox</tabstop>
+  <tabstop>memorySpinBox</tabstop>
+  <tabstop>processorComboBox</tabstop>
+  <tabstop>softwareComboBox</tabstop>
+  <tabstop>employeeComboBox</tabstop>
+  <tabstop>printerComboBox</tabstop>
+  <tabstop>departmentComboBox</tabstop>
+  <tabstop>placeComboBox</tabstop>
+  <tabstop>deviceNameComboBox</tabstop>
+  <tabstop>deviceTypeComboBox</tabstop>
+  <tabstop>manufacturerComboBox</tabstop>
+  <tabstop>inventoryComboBox</tabstop>
+  <tabstop>activeCheckBox</tabstop>
+  <tabstop>replaceCheckBox</tabstop>
+  <tabstop>lastUpdateLineEdit</tabstop>
   <tabstop>pushButton_Add</tabstop>
   <tabstop>pushButton_EditFinish</tabstop>
  </tabstops>
- <resources />
- <connections />
+ <resources/>
+ <connections/>
  <slots>
   <slot>slot1()</slot>
   <slot>onDestroyed()</slot>

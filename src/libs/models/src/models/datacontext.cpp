@@ -1,23 +1,14 @@
 /*
-   jmbde a BDE Tool for datacontext
-   Copyright (C) 2013-2020  Jürgen Mülbert
-
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-*/
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 #include "models/datacontext.h"
 
 Q_LOGGING_CATEGORY(jmbdeModelsDatacontextLog, "jmuelbert.jmbde.models.datacontext", QtWarningMsg)
 
-Model::DataContext::DataContext(QObject *parent)
+Model::DataContext::DataContext(QObject* parent)
     : QObject(parent)
     , m_Name(QApplication::applicationName())
     , m_dbType(DBTypes::SQLITE)
@@ -26,7 +17,7 @@ Model::DataContext::DataContext(QObject *parent)
     this->init();
 }
 
-Model::DataContext::DataContext(QObject *parent, const QString &name)
+Model::DataContext::DataContext(QObject* parent, const QString& name)
     : QObject(parent)
     , m_Name(name.isEmpty() ? QApplication::applicationName() : name)
     , m_dbType(DBTypes::SQLITE)
@@ -35,7 +26,7 @@ Model::DataContext::DataContext(QObject *parent, const QString &name)
     this->init();
 }
 
-Model::DataContext::DataContext(QObject *parent, const QString &name, const QString &dbType, const QString &userName, const QString &passWord, const QString &hostName, const int port)
+Model::DataContext::DataContext(QObject* parent, const QString& name, const QString& dbType, const QString& userName, const QString& passWord, const QString& hostName, const int port)
     : QObject(parent)
     , m_Name(name.isEmpty() ? QApplication::applicationName() : name)
     , m_dbType(DBTypes::SQLITE)
@@ -158,8 +149,8 @@ void Model::DataContext::prepareDB() const
     qCDebug(jmbdeModelsDatacontextLog) << tr("Datenbank erfolgreich erzeugt");
 }
 
-auto Model::DataContext::checkDBVersion(const QString &actualVersion, const QString &actualRevision
-                                        /* const QString &actualBuild */) -> bool
+auto Model::DataContext::checkDBVersion(const QString& actualVersion, const QString& actualRevision
+    /* const QString &actualBuild */) -> bool
 {
     QString version;
     QString revision;
@@ -201,7 +192,7 @@ auto Model::DataContext::checkDBVersion(const QString &actualVersion, const QStr
     return retValue;
 }
 
-auto Model::DataContext::checkExistence(const QString &tableName, const QString &searchId, const QString &search) -> bool
+auto Model::DataContext::checkExistence(const QString& tableName, const QString& searchId, const QString& search) -> bool
 {
     auto queryStr = QString(QLatin1String("SELECT %1 FROM %2 WHERE %3 = \"%4\"")).arg(searchId, tableName, searchId, search);
 
@@ -218,7 +209,7 @@ auto Model::DataContext::checkExistence(const QString &tableName, const QString 
     return false;
 }
 
-auto Model::DataContext::insert(const QString &tableName, const QVariantMap &insertData) -> bool
+auto Model::DataContext::insert(const QString& tableName, const QVariantMap& insertData) -> bool
 {
     if (tableName.isEmpty()) {
         qCCritical(jmbdeModelsDatacontextLog) << tr("Schwerer Fehler: ") << tr("Der Tabellename <m_Name> ist leer!");
@@ -242,13 +233,13 @@ auto Model::DataContext::insert(const QString &tableName, const QVariantMap &ins
     query.prepare(sqlQueryString);
 
     int k = 0;
-    for (const QVariant &value : values) {
+    for (const QVariant& value : values) {
         query.bindValue(k++, value);
     }
     return query.exec();
 }
 
-auto Model::DataContext::update(const QString &table, const QString &column, const QVariant &newValue, const QVariant &op, const QString &id) -> bool
+auto Model::DataContext::update(const QString& table, const QString& column, const QVariant& newValue, const QVariant& op, const QString& id) -> bool
 {
     auto searchStr = QLatin1String("\"");
     auto replaceStr = QLatin1String("\"\"");
@@ -261,7 +252,7 @@ auto Model::DataContext::update(const QString &table, const QString &column, con
     return query.exec();
 }
 
-auto Model::DataContext::getQuery(const QString &queryText) -> QSqlQuery
+auto Model::DataContext::getQuery(const QString& queryText) -> QSqlQuery
 {
     QSqlQuery query(queryText);
     return query;
@@ -273,7 +264,7 @@ void Model::DataContext::open()
     this->open(name);
 }
 
-void Model::DataContext::open(const QString &name)
+void Model::DataContext::open(const QString& name)
 {
     if (!QSqlDatabase::contains(name)) {
         qCDebug(jmbdeModelsDatacontextLog) << tr("Öffne Datenbank : ") << name;
@@ -300,7 +291,7 @@ void Model::DataContext::open(const QString &name)
     }
 }
 
-void Model::DataContext::renameDB(const QString &newName)
+void Model::DataContext::renameDB(const QString& newName)
 {
     if (m_dbType == DBTypes::SQLITE) {
         QString oldConnection = this->m_connectionString;
@@ -316,7 +307,7 @@ void Model::DataContext::renameDB(const QString &newName)
     }
 }
 
-void Model::DataContext::deleteDB(const QString &dbName)
+void Model::DataContext::deleteDB(const QString& dbName)
 {
     qCDebug(jmbdeModelsDatacontextLog) << tr("Lösche Datenbank") << dbName;
 

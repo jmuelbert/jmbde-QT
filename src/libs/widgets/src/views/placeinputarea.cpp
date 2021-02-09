@@ -1,0 +1,133 @@
+/*
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+#include <ui_placeinputarea.h>
+#include <views/placeinputarea.h>
+
+Q_LOGGING_CATEGORY(jmbdeWidgetsPlaceInputAreaLog, "jmuelbert.jmbde.widgets.placeinputarea", QtWarningMsg)
+
+PlaceInputArea::PlaceInputArea(QWidget *parent, const QModelIndex &index)
+    : QGroupBox(parent)
+    , ui(new Ui::PlaceInputArea)
+{
+    ui->setupUi(this);
+
+    qCDebug(jmbdeWidgetsPlaceInputAreaLog) << "Init PlaceInputArea for Index :" << index.column();
+
+    this->m_placeModel = new Model::Place();
+    this->m_db = this->m_placeModel->getDB();
+
+    m_actualMode = Mode::Edit;
+    setViewOnlyMode(true);
+
+    // Set the Model
+    m_model = this->m_placeModel->initializeRelationalModel();
+
+    // Set the mapper
+    m_mapper = new QDataWidgetMapper();
+    m_mapper->setModel(m_model);
+
+    setMappings();
+
+    m_mapper->setCurrentIndex(index.row());
+}
+
+PlaceInputArea::~PlaceInputArea()
+{
+    delete ui;
+}
+
+void PlaceInputArea::setMappings()
+{
+    m_mapper->addMapping(ui->nameLineEdit, this->m_placeModel->getNameIndex());
+    m_mapper->addMapping(ui->roomLineEdit, this->m_placeModel->getRoomIndex());
+    m_mapper->addMapping(ui->deskLineEdit, this->m_placeModel->getDeskIndex());
+    m_mapper->addMapping(ui->lastUpdateLineEdit, this->m_placeModel->getLastUpdateIndex());
+}
+
+void PlaceInputArea::setViewOnlyMode(bool mode)
+{
+    ui->nameLineEdit->setDisabled(mode);
+    ui->roomLineEdit->setDisabled(mode);
+    ui->deskLineEdit->setDisabled(mode);
+}
+
+void PlaceInputArea::createDataset()
+{
+    qCDebug(jmbdeWidgetsPlaceInputAreaLog) << "Create a new Dataset for ChipCard...";
+
+    // Set all inputfields to blank
+    m_mapper->toLast();
+
+    int row = m_mapper->currentIndex();
+    if (row < 0) {
+        row = 0;
+    }
+    m_mapper->submit();
+    m_model->insertRow(row);
+    m_mapper->setCurrentIndex(row);
+}
+
+void PlaceInputArea::retrieveDataset(const QModelIndex index)
+{
+}
+
+void PlaceInputArea::updateDataset(const QModelIndex index)
+{
+}
+
+void PlaceInputArea::deleteDataset(const QModelIndex index)
+{
+}
+
+void PlaceInputArea::on_pushButton_Add_clicked()
+{
+    createDataset();
+    on_pushButton_EditFinish_clicked();
+}
+
+void PlaceInputArea::on_pushButton_EditFinish_clicked()
+{
+    switch (m_actualMode) {
+    case Mode::Edit: {
+        m_actualMode = Mode::Finish;
+        ui->editFinishPushButton->setText(tr("Fertig"));
+        setViewOnlyMode(false);
+
+    } break;
+
+    case Mode::Finish: {
+        qCDebug(jmbdeWidgetsPlaceInputAreaLog) << tr("Speichere Daten...");
+
+        m_actualMode = Mode::Edit;
+        ui->editFinishPushButton->setText(tr("Bearbeiten"));
+        setViewOnlyMode(false);
+
+        QString name = ui->nameLineEdit->text();
+
+        if (name.isEmpty()) {
+            QString message(tr("Bitte einen Namen angeben."));
+
+            QMessageBox::information(this, tr("Füge Platz hinzu"), message);
+        } else {
+            m_mapper->submit();
+            m_model->database().transaction();
+            if (m_model->submitAll()) {
+                m_model->database().commit();
+                qCDebug(jmbdeWidgetsPlaceInputAreaLog) << tr("Änderung an der Tabelle place in der Datenbank");
+                m_model->database().rollback();
+            } else {
+                m_model->database().rollback();
+                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet einen Fehler: %1").arg(m_model->lastError().text()));
+            }
+        }
+    } break;
+
+    default: {
+        qCCritical(jmbdeWidgetsPlaceInputAreaLog) << tr("Fehler");
+    }
+    }
+}

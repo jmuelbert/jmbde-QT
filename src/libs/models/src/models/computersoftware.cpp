@@ -1,17 +1,8 @@
 /*
-   jmbde a BDE Tool for companies
-   Copyright (C) 2013-2020  Jürgen Mülbert
-
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-*/
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 #include "models/computersoftware.h"
 
@@ -39,7 +30,7 @@ void Model::ComputerSoftware::setIndexes()
     m_LastUpdateIndex = this->m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-auto Model::ComputerSoftware::initializeRelationalModel() -> QSqlRelationalTableModel *
+auto Model::ComputerSoftware::initializeRelationalModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -51,7 +42,7 @@ auto Model::ComputerSoftware::initializeRelationalModel() -> QSqlRelationalTable
     return this->m_model;
 }
 
-auto Model::ComputerSoftware::initializeInputDataModel() -> QSqlRelationalTableModel *
+auto Model::ComputerSoftware::initializeInputDataModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -60,16 +51,16 @@ auto Model::ComputerSoftware::initializeInputDataModel() -> QSqlRelationalTableM
     return this->m_model;
 }
 
-auto Model::ComputerSoftware::initializeViewModel() -> QSqlTableModel *
+auto Model::ComputerSoftware::initializeViewModel() -> QSqlTableModel*
 {
     this->m_model->select();
 
     return this->m_model;
 }
 
-auto Model::ComputerSoftware::initializeListModel() -> QSqlTableModel *
+auto Model::ComputerSoftware::initializeListModel() -> QSqlTableModel*
 {
-    auto *listModel = new QSqlTableModel(this, this->m_db);
+    auto* listModel = new QSqlTableModel(this, this->m_db);
     listModel->setTable(this->m_tableName);
     listModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
     listModel->select();
@@ -77,7 +68,7 @@ auto Model::ComputerSoftware::initializeListModel() -> QSqlTableModel *
     return listModel;
 }
 
-auto Model::ComputerSoftware::generateTableString(const QString &header) -> QString
+auto Model::ComputerSoftware::generateTableString(const QString& header) -> QString
 {
     QString outString;
 
@@ -103,7 +94,7 @@ auto Model::ComputerSoftware::generateTableString(const QString &header) -> QStr
     return outString;
 }
 
-auto Model::ComputerSoftware::generateFormularString(const QString &header) -> QString
+auto Model::ComputerSoftware::generateFormularString(const QString& header) -> QString
 {
     QString outString;
 

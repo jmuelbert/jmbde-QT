@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>AccountInputArea</class>
  <widget class="QGroupBox" name="AccountInputArea">
@@ -62,35 +62,71 @@
       </item>
       <item>
        <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="1">
+         <widget class="QListView" name="systemListView">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="userNameLineEdit"/>
+        </item>
         <item row="0" column="0">
-         <widget class="QLabel" name="lbl_System">
+         <widget class="QLabel" name="systemLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string>System</string>
           </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="lbl_Username">
-          <property name="text">
-           <string>Benutzername</string>
+          <property name="buddy">
+           <cstring>systemLabel</cstring>
           </property>
          </widget>
         </item>
-        <item row="0" column="2">
-         <widget class="QListView" name="listView_System" />
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="passwordLineEdit"/>
         </item>
-        <item row="1" column="2">
-         <widget class="QLineEdit" name="lineEdit_Username" />
+        <item row="1" column="0">
+         <widget class="QLabel" name="userNameLabel">
+          <property name="text">
+           <string>Anmeldename</string>
+          </property>
+          <property name="buddy">
+           <cstring>userNameLineEdit</cstring>
+          </property>
+         </widget>
         </item>
         <item row="2" column="0">
-         <widget class="QLabel" name="lbl_Passwort">
+         <widget class="QLabel" name="passwordLabel">
           <property name="text">
            <string>Passwort</string>
           </property>
+          <property name="buddy">
+           <cstring>passwordLineEdit</cstring>
+          </property>
          </widget>
         </item>
-        <item row="2" column="2">
-         <widget class="QLineEdit" name="lineEdit_Passwort" />
+        <item row="3" column="0">
+         <widget class="QLabel" name="lastUpdateLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Letzte Änderung</string>
+          </property>
+          <property name="buddy">
+           <cstring>lastUpdateLineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLineEdit" name="lastUpdateLineEdit">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -143,6 +179,6 @@
    </item>
   </layout>
  </widget>
- <resources />
- <connections />
+ <resources/>
+ <connections/>
 </ui>

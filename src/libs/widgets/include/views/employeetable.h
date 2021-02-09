@@ -1,17 +1,8 @@
 /*
-   jmbde a BDE Tool for companies
-   Copyright (C) 2020  Jürgen Mülbert
-
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-*/
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 #pragma once
 
@@ -21,15 +12,15 @@
 #include <QMessageBox>
 #include <QObject>
 #include <QPushButton>
-#include <QWidget>
 #include <QSqlRelationalDelegate>
+#include <QWidget>
 #include <QtSql>
 
 #include "jmbdewidgets-version.h"
 #include "jmbdewidgets_export.h"
 #include "loggingcategory.h"
-#include "models/datacontext.h"
 #include "models/computer.h"
+#include "models/datacontext.h"
 #include "models/employee.h"
 #include "models/fax.h"
 #include "models/mobile.h"
@@ -61,18 +52,77 @@ public:
         @todo Init the model from here
         @todo Get the tableName from the model
      */
-    explicit EmployeeTable(const QString &tableName, QSqlTableModel *model, QWidget *parent = nullptr);
+    explicit EmployeeTable(QWidget *parent = nullptr, const QModelIndex &index = QModelIndex());
 
     /*!
         @brief The destructor
     */
     ~EmployeeTable();
 
+signals:
+    /*!
+        @brief dataChanged
+     */
+    void dataChanged();
+
+public slots:
+
+private slots:
+    /**
+     * @brief on_pushButton_EditFinish_clicked
+     */
+    void on_pushButton_EditFinish_clicked();
+
+    /**
+     * @brief on_pushButton_Add_clicked
+     */
+    void on_pushButton_Add_clicked();
+
+    /*!
+     * \brief submit
+     */
+    void submit();
+
 private:
     /*!
      * @brief ui
      */
     Ui::EmployeeTable *ui;
+
+    /*!
+     * @brief The Mode enum
+     */
+    enum Mode { Edit, Finish };
+
+    /*!
+     * @brief m_actualMode
+     */
+    Mode m_actualMode;
+
+    /*!
+     * @brief m_dataContext
+     */
+    Model::Employee *m_employeeModel = {};
+
+    /*!
+     * @brief m_model
+     */
+    QSqlTableModel *m_model;
+
+    /*!
+     * @brief m_selectionModel
+     */
+    QItemSelectionModel *m_selectionModel{};
+
+    /*!
+     * @brief m_mapper
+     */
+    QDataWidgetMapper *m_mapper;
+
+    /*!
+     * @ brief m_db
+     */
+    QSqlDatabase m_db = {};
 
     /*!
      * \brief submitButton
@@ -93,42 +143,6 @@ private:
      * \brief buttonBox
      */
     QDialogButtonBox *buttonBox;
-
-
-    /*!
-     * @brief The Mode enum
-     */
-    enum Mode { Edit, Finish };
-
-    /*!
-     * @brief m_actualMode
-     */
-    Mode m_actualMode;
-
-    /*!
-     * @brief m_dataContext
-     */
-    Model::DataContext *m_dataContext;
-
-    /*!
-     * @brief m_model
-     */
-    QSqlTableModel *m_model;
-
-    /*!
-     * @brief m_selectionModel
-     */
-    QItemSelectionModel *m_selectionModel {};
-
-    /*!
-     * @brief m_mapper
-     */
-    QDataWidgetMapper *m_mapper;
-
-    /*!
-     * @ brief m_db
-     */
-    QSqlDatabase m_db = {};
 
     /**
      * @brief setMappings
@@ -162,17 +176,4 @@ private:
      * @param index Delete the data for the ModelIndex
      */
     void deleteDataset(const QModelIndex index);
-
-    /*!
-     * @todo Implement this
-     */
-    void on_pushButton_Add_clicked();
-    void on_pushButton_EditFinish_clicked();
-
-private slots:
-
-    /*!
-     * \brief submit
-     */
-    void submit();
 };

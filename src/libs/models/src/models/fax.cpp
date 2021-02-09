@@ -1,17 +1,8 @@
 /*
-   jmbde a BDE Tool for companies
-   Copyright (C) 2013-2020 Jürgen Mülbert
-
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-*/
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 #include "models/fax.h"
 
@@ -49,7 +40,7 @@ void Model::Fax::setIndexes()
     m_LastUpdateIndex = this->m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-auto Model::Fax::initializeRelationalModel() -> QSqlRelationalTableModel *
+auto Model::Fax::initializeRelationalModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -61,7 +52,7 @@ auto Model::Fax::initializeRelationalModel() -> QSqlRelationalTableModel *
     return this->m_model;
 }
 
-auto Model::Fax::initializeInputDataModel() -> QSqlRelationalTableModel *
+auto Model::Fax::initializeInputDataModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -70,14 +61,14 @@ auto Model::Fax::initializeInputDataModel() -> QSqlRelationalTableModel *
     return this->m_model;
 }
 
-auto Model::Fax::initializeViewModel() -> QSqlTableModel *
+auto Model::Fax::initializeViewModel() -> QSqlTableModel*
 {
     this->m_model->select();
 
     return this->m_model;
 }
 
-auto Model::Fax::generateTableString(const QString &header) -> QString
+auto Model::Fax::generateTableString(const QString& header) -> QString
 {
     QString outString;
 
@@ -103,7 +94,7 @@ auto Model::Fax::generateTableString(const QString &header) -> QString
     return outString;
 }
 
-auto Model::Fax::generateFormularString(const QString &header) -> QString
+auto Model::Fax::generateFormularString(const QString& header) -> QString
 {
     QString outString;
 

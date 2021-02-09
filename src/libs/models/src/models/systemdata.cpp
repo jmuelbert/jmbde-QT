@@ -1,23 +1,14 @@
 /*
-   jmbde a BDE Tool for companies
-   Copyright (C) 2013-2020 Jürgen Mülbert
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
+#include "models/systemdata.h"
 
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-*/
+Q_LOGGING_CATEGORY(jmbdeModelsSystemDataLog, "jmuelbert.jmbde.models.SystemData", QtWarningMsg)
 
-#include "models/system.h"
-
-Q_LOGGING_CATEGORY(jmbdeModelsSystemLog, "jmuelbert.jmbde.models.system", QtWarningMsg)
-
-Model::System::System()
+Model::SystemData::SystemData()
     : CommonData()
 {
     this->m_dataContext = new Model::DataContext();
@@ -31,16 +22,16 @@ Model::System::System()
     setIndexes();
 }
 
-void Model::System::setIndexes()
+void Model::SystemData::setIndexes()
 {
-    m_SystemIdIndex = this->m_model->fieldIndex(QLatin1String("system_id"));
+    m_SystemDataIdIndex = this->m_model->fieldIndex(QLatin1String("systemdata_id"));
     m_NameIndex = this->m_model->fieldIndex(QLatin1String("name"));
     m_LocalIndex = this->m_model->fieldIndex(QLatin1String("local"));
     m_CompanyIdIndex = this->m_model->fieldIndex(QLatin1String("company_id"));
     m_LastUpdateIndex = this->m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-auto Model::System::initializeRelationalModel() -> QSqlRelationalTableModel *
+auto Model::SystemData::initializeRelationalModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -52,7 +43,7 @@ auto Model::System::initializeRelationalModel() -> QSqlRelationalTableModel *
     return this->m_model;
 }
 
-auto Model::System::initializeInputDataModel() -> QSqlRelationalTableModel *
+auto Model::SystemData::initializeInputDataModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -61,18 +52,18 @@ auto Model::System::initializeInputDataModel() -> QSqlRelationalTableModel *
     return this->m_model;
 }
 
-auto Model::System::initializeViewModel() -> QSqlTableModel *
+auto Model::SystemData::initializeViewModel() -> QSqlTableModel*
 {
     this->m_model->select();
 
     return this->m_model;
 }
 
-auto Model::System::generateTableString(const QString &header) -> QString
+auto Model::SystemData::generateTableString(const QString& header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdeModelsSystemLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(jmbdeModelsSystemDataLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     QList<int> set;
 
@@ -93,11 +84,11 @@ auto Model::System::generateTableString(const QString &header) -> QString
     return outString;
 }
 
-auto Model::System::generateFormularString(const QString &header) -> QString
+auto Model::SystemData::generateFormularString(const QString& header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdeModelsSystemLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(jmbdeModelsSystemDataLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     // Document Title
     outString = QLatin1String("<h1>");
