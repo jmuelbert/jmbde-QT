@@ -30,7 +30,7 @@ void Model::Document::setIndexes()
     m_LastUpdateIndex = this->m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-auto Model::Document::initializeRelationalModel() -> QSqlRelationalTableModel*
+auto Model::Document::initializeRelationalModel() -> QSqlRelationalTableModel *
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -42,7 +42,7 @@ auto Model::Document::initializeRelationalModel() -> QSqlRelationalTableModel*
     return this->m_model;
 }
 
-auto Model::Document::initializeInputDataModel() -> QSqlRelationalTableModel*
+auto Model::Document::initializeInputDataModel() -> QSqlRelationalTableModel *
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -51,14 +51,14 @@ auto Model::Document::initializeInputDataModel() -> QSqlRelationalTableModel*
     return this->m_model;
 }
 
-auto Model::Document::initializeViewModel() -> QSqlTableModel*
+auto Model::Document::initializeViewModel() -> QSqlTableModel *
 {
     this->m_model->select();
 
     return this->m_model;
 }
 
-auto Model::Document::generateTableString(const QString& header) -> QString
+auto Model::Document::generateTableString(const QString &header) -> QString
 {
     QString outString;
 
@@ -84,7 +84,7 @@ auto Model::Document::generateTableString(const QString& header) -> QString
     return outString;
 }
 
-auto Model::Document::generateFormularString(const QString& header) -> QString
+auto Model::Document::generateFormularString(const QString &header) -> QString
 {
     QString outString;
 

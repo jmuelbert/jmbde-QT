@@ -30,7 +30,7 @@ void Model::EmployeeAccount::setIndexes()
     m_LastUpdateIndex = this->m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-auto Model::EmployeeAccount::initializeRelationalModel() -> QSqlRelationalTableModel*
+auto Model::EmployeeAccount::initializeRelationalModel() -> QSqlRelationalTableModel *
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -42,7 +42,7 @@ auto Model::EmployeeAccount::initializeRelationalModel() -> QSqlRelationalTableM
     return this->m_model;
 }
 
-auto Model::EmployeeAccount::initializeInputDataModel() -> QSqlRelationalTableModel*
+auto Model::EmployeeAccount::initializeInputDataModel() -> QSqlRelationalTableModel *
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -51,14 +51,14 @@ auto Model::EmployeeAccount::initializeInputDataModel() -> QSqlRelationalTableMo
     return this->m_model;
 }
 
-auto Model::EmployeeAccount::initializeViewModel() -> QSqlTableModel*
+auto Model::EmployeeAccount::initializeViewModel() -> QSqlTableModel *
 {
     this->m_model->select();
 
     return this->m_model;
 }
 
-auto Model::EmployeeAccount::generateTableString(const QString& header) -> QString
+auto Model::EmployeeAccount::generateTableString(const QString &header) -> QString
 {
     QString outString;
 
@@ -84,7 +84,7 @@ auto Model::EmployeeAccount::generateTableString(const QString& header) -> QStri
     return outString;
 }
 
-auto Model::EmployeeAccount::generateFormularString(const QString& header) -> QString
+auto Model::EmployeeAccount::generateFormularString(const QString &header) -> QString
 {
     QString outString;
 

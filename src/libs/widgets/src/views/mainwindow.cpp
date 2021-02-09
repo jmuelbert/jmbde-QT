@@ -10,7 +10,7 @@
 
 Q_LOGGING_CATEGORY(jmbdeWidgetsMainWindowLog, "jmuelbert.jmbde.widgets.mainwindow", QtWarningMsg)
 
-MainWindow::MainWindow(QWidget* parent)
+MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget* parent)
     initOutline();
 
     this->dataBaseName = QString(QApplication::applicationName());
-    this->dataContext = new Model::DataContext(dynamic_cast<QObject*>(this), this->dataBaseName);
+    this->dataContext = new Model::DataContext(dynamic_cast<QObject *>(this), this->dataBaseName);
 
     qCDebug(jmbdeWidgetsMainWindowLog) << tr("ActualViewRow : ") << m_actualView;
 
@@ -42,7 +42,7 @@ MainWindow::MainWindow(QWidget* parent)
 
         actualizeEmployeeListView();
 
-        auto* employeeInputArea = new EmployeeInputArea(ui->scrollArea);
+        auto *employeeInputArea = new EmployeeInputArea(ui->scrollArea);
         QObject::connect(employeeInputArea, SIGNAL(dataChanged()), this, SLOT(actualizeEmployeListView()));
         QSize AdjustSize = employeeInputArea->size();
         AdjustSize.width();
@@ -58,7 +58,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::resizeEvent(QResizeEvent* event)
+void MainWindow::resizeEvent(QResizeEvent *event)
 {
     Q_UNUSED(event)
 
@@ -70,7 +70,7 @@ void MainWindow::resizeEvent(QResizeEvent* event)
     ui->splitter->resize(width, height);
 }
 
-void MainWindow::focusChanged(QWidget* from, QWidget* now)
+void MainWindow::focusChanged(QWidget *from, QWidget *now)
 {
     Q_UNUSED(from)
     Q_UNUSED(now)
@@ -78,7 +78,7 @@ void MainWindow::focusChanged(QWidget* from, QWidget* now)
     qCDebug(jmbdeWidgetsMainWindowLog) << tr("Der Fokus hat sich geändert");
 }
 
-void MainWindow::closeEvent(QCloseEvent* event)
+void MainWindow::closeEvent(QCloseEvent *event)
 {
     Q_UNUSED(event)
     qCDebug(jmbdeWidgetsMainWindowLog) << tr("Der Close Event");
@@ -86,7 +86,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
 
 void MainWindow::on_actionPreferences_triggered()
 {
-    PreferencesDialog* settingsDialog;
+    PreferencesDialog *settingsDialog;
 
     settingsDialog = new PreferencesDialog();
     settingsDialog->show();
@@ -94,7 +94,7 @@ void MainWindow::on_actionPreferences_triggered()
 
 void MainWindow::on_actionAbout_triggered()
 {
-    auto* view = new AboutDialog;
+    auto *view = new AboutDialog;
     view->show();
 }
 
@@ -102,28 +102,28 @@ void MainWindow::initOutline()
 {
     QHash<QString, QList<QString>> outlineData;
 
-    QList<QString> subEntries = { tr("Mitarbeiter"), tr("Funktion"), tr("Abteilung"), tr("Titel"), tr("Zugang") };
+    QList<QString> subEntries = {tr("Mitarbeiter"), tr("Funktion"), tr("Abteilung"), tr("Titel"), tr("Zugang")};
     outlineData.insert(tr("Person"), subEntries);
 
-    subEntries = { tr("Computer"), tr("Prozessor"), tr("Betriebssystem"), tr("Software"), tr("Drucker") };
+    subEntries = {tr("Computer"), tr("Prozessor"), tr("Betriebssystem"), tr("Software"), tr("Drucker")};
     outlineData.insert(tr("Gerät"), subEntries);
 
-    subEntries = { tr("Telefon"), tr("Mobiltelefon") };
+    subEntries = {tr("Telefon"), tr("Mobiltelefon")};
     outlineData.insert(tr("Kommunikation"), subEntries);
 
-    subEntries = { tr("Hersteller"), tr("Stadt"), tr("Schlüsselchip"), tr("Schlüsselchip Tür") };
+    subEntries = {tr("Hersteller"), tr("Stadt"), tr("Schlüsselchip"), tr("Schlüsselchip Tür")};
     outlineData.insert(tr("Verschiedenes"), subEntries);
 
     m_treeviewModel = new QStandardItemModel(this);
-    QStandardItem* parentItem = m_treeviewModel->invisibleRootItem();
+    QStandardItem *parentItem = m_treeviewModel->invisibleRootItem();
 
-    QStandardItem* item;
+    QStandardItem *item;
 
     QList<QString> od;
     QHashIterator<QString, QList<QString>> i(outlineData);
     while (i.hasNext()) {
         i.next();
-        auto* header = new QStandardItem(i.key());
+        auto *header = new QStandardItem(i.key());
         parentItem->appendRow(header);
         qCDebug(jmbdeWidgetsMainWindowLog) << "initOutline(): (" << i.key() << ": " << i.value() << " )";
 
@@ -210,11 +210,11 @@ void MainWindow::readSettings()
 void MainWindow::on_actionNew_triggered()
 {
     int ret = QMessageBox::warning(this,
-        QApplication::applicationDisplayName(),
-        tr("Mit diesem Befehl wird einen neue Datenbank erzeugt\n"
-           "Wenn Sie hier fortsetzen verlieren Sie möglicherweise Daten\n"
-           "Möchten Sie die den Vorgang fortsetzen ?"),
-        QMessageBox::Cancel | QMessageBox::Yes);
+                                   QApplication::applicationDisplayName(),
+                                   tr("Mit diesem Befehl wird einen neue Datenbank erzeugt\n"
+                                      "Wenn Sie hier fortsetzen verlieren Sie möglicherweise Daten\n"
+                                      "Möchten Sie die den Vorgang fortsetzen ?"),
+                                   QMessageBox::Cancel | QMessageBox::Yes);
 
     if (ret == QMessageBox::Yes) {
         QString message = tr("Noch nicht vollständig implementiert!");
@@ -236,7 +236,7 @@ void MainWindow::on_actionOpen_triggered()
 
 void MainWindow::on_actionImport_triggered()
 {
-    auto* csvImport = new CsvImportDialog();
+    auto *csvImport = new CsvImportDialog();
 
     csvImport->show();
 
@@ -258,7 +258,7 @@ void MainWindow::on_actionPrint_triggered()
     case VIEW_EMPLOYEE: {
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Mitarbeiter !");
         QString style = Model::Employee::setOutTableStyle();
-        auto* edm = new Model::Employee();
+        auto *edm = new Model::Employee();
         QString text = edm->generateTableString(tr("Mitarbeiter"));
 
         doc.setHtml(style + text);
@@ -267,7 +267,7 @@ void MainWindow::on_actionPrint_triggered()
     case VIEW_COMPUTER: {
         qDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Computer !");
         QString style = Model::Computer::setOutTableStyle();
-        auto* cdm = new Model::Computer;
+        auto *cdm = new Model::Computer;
         QString text = cdm->generateTableString(tr("Computer"));
 
         doc.setHtml(style + text);
@@ -276,7 +276,7 @@ void MainWindow::on_actionPrint_triggered()
     case VIEW_PRINTER: {
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Drucker !");
         QString style = Model::Printer::setOutTableStyle();
-        auto* pdm = new Model::Printer;
+        auto *pdm = new Model::Printer;
         QString text = pdm->generateTableString(tr("Drucker"));
 
         doc.setHtml(style + text);
@@ -285,7 +285,7 @@ void MainWindow::on_actionPrint_triggered()
     case VIEW_PHONE: {
         qCDebug(jmbdeWidgetsMainWindowLog) << "Drucke Telefone !";
         QString style = Model::Phone::setOutTableStyle();
-        auto* pdm = new Model::Phone;
+        auto *pdm = new Model::Phone;
         QString text = pdm->generateTableString(tr("Telefon"));
 
         doc.setHtml(style + text);
@@ -301,7 +301,7 @@ void MainWindow::on_actionPrint_triggered()
     QPrinter printer(QPrinter::HighResolution);
 
     printer.setPageOrientation(QPageLayout::Landscape);
-    auto* dlg = new QPrintDialog(&printer, this);
+    auto *dlg = new QPrintDialog(&printer, this);
 
     dlg->setWindowTitle(tr("Drucke Dokument"));
     if (dlg->exec() == QDialog::Accepted) {
@@ -320,7 +320,7 @@ void MainWindow::on_action_Export_Pdf_triggered()
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Mitarbeiter !");
 
         QString style = Model::Employee::setOutTableStyle();
-        auto* edm = new Model::Employee();
+        auto *edm = new Model::Employee();
         QString text = edm->generateTableString(tr("Mitarbeiter"));
 
         doc.setHtml(style + text);
@@ -330,7 +330,7 @@ void MainWindow::on_action_Export_Pdf_triggered()
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Computer !");
 
         QString style = Model::Computer::setOutTableStyle();
-        auto* cdm = new Model::Computer;
+        auto *cdm = new Model::Computer;
         QString text = cdm->generateTableString(tr("Computer"));
 
         doc.setHtml(style + text);
@@ -340,7 +340,7 @@ void MainWindow::on_action_Export_Pdf_triggered()
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Drucker !");
 
         QString style = Model::Printer::setOutTableStyle();
-        auto* pdm = new Model::Printer;
+        auto *pdm = new Model::Printer;
         QString text = pdm->generateTableString(tr("Drucker"));
 
         doc.setHtml(style + text);
@@ -350,7 +350,7 @@ void MainWindow::on_action_Export_Pdf_triggered()
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Telefone !");
 
         QString style = Model::Phone::setOutTableStyle();
-        auto* pdm = new Model::Phone;
+        auto *pdm = new Model::Phone;
         QString text = pdm->generateTableString(tr("Telefon"));
 
         doc.setHtml(style + text);
@@ -392,7 +392,7 @@ void MainWindow::on_actionPrint_Preview_triggered()
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Mitarbeiter !");
 
         QString style = Model::Employee::setOutTableStyle();
-        auto* edm = new Model::Employee();
+        auto *edm = new Model::Employee();
         QString text = edm->generateTableString(tr("Mitarbeiter"));
 
         doc.setHtml(style + text);
@@ -402,7 +402,7 @@ void MainWindow::on_actionPrint_Preview_triggered()
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Computer !");
 
         QString style = Model::Computer::setOutTableStyle();
-        auto* cdm = new Model::Computer;
+        auto *cdm = new Model::Computer;
         QString text = cdm->generateTableString(tr("Computer"));
 
         doc.setHtml(style + text);
@@ -412,7 +412,7 @@ void MainWindow::on_actionPrint_Preview_triggered()
         qDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Drucker !");
 
         QString style = Model::Printer::setOutTableStyle();
-        auto* pdm = new Model::Printer;
+        auto *pdm = new Model::Printer;
         QString text = pdm->generateTableString(tr("Drucker"));
 
         doc.setHtml(style + text);
@@ -422,7 +422,7 @@ void MainWindow::on_actionPrint_Preview_triggered()
         qDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Telefone !");
 
         QString style = Model::Phone::setOutTableStyle();
-        auto* pdm = new Model::Phone;
+        auto *pdm = new Model::Phone;
         QString text = pdm->generateTableString(tr("Telefon"));
 
         doc.setHtml(style + text);
@@ -442,12 +442,12 @@ void MainWindow::on_actionPrint_Preview_triggered()
 
     doc.print(&printer);
 
-    connect(&preview, SIGNAL(paintRequested(QPrinter*)), SLOT(printPreview(QPrinter*)));
+    connect(&preview, SIGNAL(paintRequested(QPrinter *)), SLOT(printPreview(QPrinter *)));
     preview.exec();
 #endif
 }
 
-void MainWindow::notAvailableMessage(const QString& functionName)
+void MainWindow::notAvailableMessage(const QString &functionName)
 {
     QString message = tr("In der Version %s ist die Funktion <%s>\n"
                          "noch nicht implementiert\n"
@@ -465,9 +465,9 @@ void MainWindow::on_actionHelp_triggered()
     notAvailableMessage(message);
 }
 
-void MainWindow::on_treeView_clicked(const QModelIndex& index)
+void MainWindow::on_treeView_clicked(const QModelIndex &index)
 {
-    const QStandardItem* item = m_treeviewModel->itemFromIndex(index);
+    const QStandardItem *item = m_treeviewModel->itemFromIndex(index);
     const QString selected = item->text();
 
     m_actualView = index;
@@ -484,7 +484,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex& index)
 
         actualizeEmployeeListView();
 
-        auto* employeeInput = new EmployeeInputArea(ui->scrollArea, QModelIndex());
+        auto *employeeInput = new EmployeeInputArea(ui->scrollArea, QModelIndex());
         QSize AdjustSize = employeeInput->size();
         AdjustSize.width();
         employeeInput->setMinimumSize(AdjustSize);
@@ -498,34 +498,34 @@ void MainWindow::on_treeView_clicked(const QModelIndex& index)
         actualizeFunctionListView();
 
         QModelIndex qmi = QModelIndex();
-        auto* fia = new FunctionInputArea(ui->scrollArea, qmi);
+        auto *fia = new FunctionInputArea(ui->scrollArea, qmi);
         ui->scrollArea->setWidget(fia);
     } else if (selected == tr("Abteilung")) {
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_DEPARTMENT;
 
-        auto* dpm = new Model::Department;
+        auto *dpm = new Model::Department;
 
         tableModel = dpm->initializeRelationalModel();
 
         ui->listView->setModel(tableModel);
         QModelIndex qmi = QModelIndex();
-        auto* dia = new DepartmentInputArea(ui->scrollArea, qmi);
+        auto *dia = new DepartmentInputArea(ui->scrollArea, qmi);
         ui->scrollArea->setWidget(dia);
     } else if (selected == tr("Titel")) {
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_TITLE;
 
-        auto* tdm = new Model::Title;
+        auto *tdm = new Model::Title;
 
         tableModel = tdm->initializeRelationalModel();
 
         ui->listView->setModel(tableModel);
 
         QModelIndex qmi = QModelIndex();
-        auto* tia = new TitleInputArea(ui->scrollArea, qmi);
+        auto *tia = new TitleInputArea(ui->scrollArea, qmi);
         ui->scrollArea->setWidget(tia);
 
     } else if (selected == tr("Zugang")) {
@@ -535,7 +535,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex& index)
 
         actualizeAccoutListView();
 
-        auto* accountInput = new AccountInputArea(ui->scrollArea, QModelIndex());
+        auto *accountInput = new AccountInputArea(ui->scrollArea, QModelIndex());
         QSize AdjustSize = accountInput->size();
         AdjustSize.width();
         accountInput->setMinimumSize(AdjustSize);
@@ -550,7 +550,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex& index)
 
         actualizeComputerListView();
 
-        auto* computerInput = new ComputerInputArea(ui->scrollArea, QModelIndex());
+        auto *computerInput = new ComputerInputArea(ui->scrollArea, QModelIndex());
         QSize AdjustSize = computerInput->size();
         AdjustSize.width();
         computerInput->setMinimumSize(AdjustSize);
@@ -561,56 +561,56 @@ void MainWindow::on_treeView_clicked(const QModelIndex& index)
 
         actualView = VIEW_PROCESSOR;
 
-        auto* pdm = new Model::Processor;
+        auto *pdm = new Model::Processor;
 
         tableModel = pdm->initializeRelationalModel();
 
         ui->listView->setModel(tableModel);
 
         QModelIndex qmi = QModelIndex();
-        auto* pia = new ProcessorInputArea(ui->scrollArea, qmi);
+        auto *pia = new ProcessorInputArea(ui->scrollArea, qmi);
         ui->scrollArea->setWidget(pia);
     } else if (selected == tr("Betriebssystem")) {
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_OS;
 
-        auto* odm = new Model::OS;
+        auto *odm = new Model::OS;
 
         tableModel = odm->initializeRelationalModel();
 
         ui->listView->setModel(tableModel);
 
         QModelIndex qmi = QModelIndex();
-        auto* oia = new OSInputArea(ui->scrollArea, qmi);
+        auto *oia = new OSInputArea(ui->scrollArea, qmi);
         ui->scrollArea->setWidget(oia);
     } else if (selected == tr("Software")) {
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_SOFTWARE;
 
-        auto* sdm = new Model::Software;
+        auto *sdm = new Model::Software;
 
         tableModel = sdm->initializeRelationalModel();
 
         ui->listView->setModel(tableModel);
 
         QModelIndex qmi = QModelIndex();
-        auto* sia = new SoftwareInputArea(ui->scrollArea, qmi);
+        auto *sia = new SoftwareInputArea(ui->scrollArea, qmi);
         ui->scrollArea->setWidget(sia);
     } else if (selected == tr("Drucker")) {
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_PRINTER;
 
-        auto* pdm = new Model::Printer;
+        auto *pdm = new Model::Printer;
 
         tableModel = pdm->initializeRelationalModel();
 
         ui->listView->setModel(tableModel);
 
         QModelIndex qmi = QModelIndex();
-        auto* pia = new PrinterInputArea(ui->scrollArea, qmi);
+        auto *pia = new PrinterInputArea(ui->scrollArea, qmi);
         ui->scrollArea->setWidget(pia);
         // Tree -> Communication
     } else if (selected == tr("Telefon")) {
@@ -618,28 +618,28 @@ void MainWindow::on_treeView_clicked(const QModelIndex& index)
 
         actualView = VIEW_PHONE;
 
-        auto* phdm = new Model::Phone;
+        auto *phdm = new Model::Phone;
 
         tableModel = phdm->initializeRelationalModel();
 
         ui->listView->setModel(tableModel);
 
         QModelIndex qmi = QModelIndex();
-        auto* pia = new PhoneInputArea(ui->scrollArea, qmi);
+        auto *pia = new PhoneInputArea(ui->scrollArea, qmi);
         ui->scrollArea->setWidget(pia);
     } else if (selected == tr("Mobiltelefon")) {
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_MOBILE;
 
-        auto* phdm = new Model::Mobile;
+        auto *phdm = new Model::Mobile;
 
         tableModel = phdm->initializeRelationalModel();
 
         ui->listView->setModel(tableModel);
 
         QModelIndex qmi = QModelIndex();
-        auto* mia = new MobileInputArea(ui->scrollArea, qmi);
+        auto *mia = new MobileInputArea(ui->scrollArea, qmi);
         ui->scrollArea->setWidget(mia);
         // Tree -> Misc
     } else if (selected == tr("Hersteller")) {
@@ -647,56 +647,56 @@ void MainWindow::on_treeView_clicked(const QModelIndex& index)
 
         actualView = VIEW_MANUFACTURER;
 
-        auto* mdm = new Model::Manufacturer;
+        auto *mdm = new Model::Manufacturer;
 
         tableModel = mdm->initializeRelationalModel();
 
         ui->listView->setModel(tableModel);
 
         QModelIndex qmi = QModelIndex();
-        auto* mia = new ManufacturerInputArea(ui->scrollArea, qmi);
+        auto *mia = new ManufacturerInputArea(ui->scrollArea, qmi);
         ui->scrollArea->setWidget(mia);
     } else if (selected == tr("Stadt")) {
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_CITYNAME;
 
-        auto* cnm = new Model::CityName;
+        auto *cnm = new Model::CityName;
 
         tableModel = cnm->initializeRelationalModel();
 
         ui->listView->setModel(tableModel);
 
         QModelIndex qmi = QModelIndex();
-        auto* cia = new CityInputArea(ui->scrollArea, qmi);
+        auto *cia = new CityInputArea(ui->scrollArea, qmi);
         ui->scrollArea->setWidget(cia);
     } else if (selected == tr("Schlüsselchip")) {
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_CHIPCARD;
 
-        auto* ccdm = new Model::ChipCard;
+        auto *ccdm = new Model::ChipCard;
 
         tableModel = ccdm->initializeRelationalModel();
 
         ui->listView->setModel(tableModel);
 
         QModelIndex qmi = QModelIndex();
-        auto* cia = new ChipCardInputArea(ui->scrollArea, qmi);
+        auto *cia = new ChipCardInputArea(ui->scrollArea, qmi);
         ui->scrollArea->setWidget(cia);
     } else if (selected == tr("Schlüsselchip Tür")) {
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_CHIPCARDDOOR;
 
-        auto* chipCardDoor = new Model::ChipCardDoor;
+        auto *chipCardDoor = new Model::ChipCardDoor;
 
         tableModel = chipCardDoor->initializeRelationalModel();
 
         ui->listView->setModel(tableModel);
 
         QModelIndex qmi = QModelIndex();
-        auto* cia = new ChipCardDoorInputArea(ui->scrollArea, qmi);
+        auto *cia = new ChipCardDoorInputArea(ui->scrollArea, qmi);
         ui->scrollArea->setWidget(cia);
     } else {
         const QString caller = tr("onClickedTreeView(): Unbekannte Funktion");
@@ -704,13 +704,13 @@ void MainWindow::on_treeView_clicked(const QModelIndex& index)
     }
 }
 
-void MainWindow::on_listView_clicked(const QModelIndex& index)
+void MainWindow::on_listView_clicked(const QModelIndex &index)
 {
     m_actualData = index;
     qCDebug(jmbdeWidgetsMainWindowLog) << "onClickedlistViewRow(QModelIndex : " << index;
     switch (actualView) {
     case VIEW_ACCOUNT: {
-        auto* accountInput = new AccountInputArea(ui->scrollArea, index);
+        auto *accountInput = new AccountInputArea(ui->scrollArea, index);
 
         QObject::connect(accountInput, SIGNAL(dataChanged()), this, SLOT(actualizeAccountListView()));
 
@@ -721,7 +721,7 @@ void MainWindow::on_listView_clicked(const QModelIndex& index)
         ui->scrollArea->setWidget(accountInput);
     } break;
     case VIEW_CHIPCARD: {
-        auto* chipCardInput = new ChipCardInputArea(ui->scrollArea, index);
+        auto *chipCardInput = new ChipCardInputArea(ui->scrollArea, index);
 
         QObject::connect(chipCardInput, SIGNAL(dataChanged()), this, SLOT(actualizeChipCardListView()));
 
@@ -732,7 +732,7 @@ void MainWindow::on_listView_clicked(const QModelIndex& index)
         ui->scrollArea->setWidget(chipCardInput);
     } break;
     case VIEW_CHIPCARDDOOR: {
-        auto* chipCardDoorInput = new ChipCardDoorInputArea(ui->scrollArea, index);
+        auto *chipCardDoorInput = new ChipCardDoorInputArea(ui->scrollArea, index);
 
         QObject::connect(chipCardDoorInput, SIGNAL(dataChanged()), this, SLOT(actualizeChipCardDoorListView()));
 
@@ -743,7 +743,7 @@ void MainWindow::on_listView_clicked(const QModelIndex& index)
         ui->scrollArea->setWidget(chipCardDoorInput);
     } break;
     case VIEW_CITYNAME: {
-        auto* cia = new CityInputArea(nullptr, index);
+        auto *cia = new CityInputArea(nullptr, index);
 
         QSize AdjustSize = cia->size();
         AdjustSize.width();
@@ -753,7 +753,7 @@ void MainWindow::on_listView_clicked(const QModelIndex& index)
     } break;
 
     case VIEW_COMPUTER: {
-        auto* cia = new ComputerInputArea(ui->scrollArea, index);
+        auto *cia = new ComputerInputArea(ui->scrollArea, index);
 
         QSize AdjustSize = cia->size();
         AdjustSize.width();
@@ -763,7 +763,7 @@ void MainWindow::on_listView_clicked(const QModelIndex& index)
     } break;
 
     case VIEW_DEPARTMENT: {
-        auto* dia = new DepartmentInputArea(nullptr, index);
+        auto *dia = new DepartmentInputArea(nullptr, index);
 
         QSize AdjustSize = dia->size();
         AdjustSize.width();
@@ -773,7 +773,7 @@ void MainWindow::on_listView_clicked(const QModelIndex& index)
     } break;
 
     case VIEW_EMPLOYEE: {
-        auto* eia = new EmployeeInputArea(ui->scrollArea, index);
+        auto *eia = new EmployeeInputArea(ui->scrollArea, index);
 
         QObject::connect(eia, SIGNAL(dataChanged()), this, SLOT(actualizeEmployeListView()));
 
@@ -786,7 +786,7 @@ void MainWindow::on_listView_clicked(const QModelIndex& index)
     } break;
 
     case VIEW_FUNCTION: {
-        auto* fia = new FunctionInputArea(nullptr, index);
+        auto *fia = new FunctionInputArea(nullptr, index);
 
         QSize AdjustSize = fia->size();
         AdjustSize.width();
@@ -796,7 +796,7 @@ void MainWindow::on_listView_clicked(const QModelIndex& index)
     } break;
 
     case VIEW_MANUFACTURER: {
-        auto* mia = new ManufacturerInputArea(nullptr, index);
+        auto *mia = new ManufacturerInputArea(nullptr, index);
 
         QSize AdjustSize = mia->size();
         AdjustSize.width();
@@ -806,7 +806,7 @@ void MainWindow::on_listView_clicked(const QModelIndex& index)
     } break;
 
     case VIEW_MOBILE: {
-        auto* mia = new MobileInputArea(nullptr, index);
+        auto *mia = new MobileInputArea(nullptr, index);
 
         QSize AdjustSize = mia->size();
         AdjustSize.width();
@@ -816,7 +816,7 @@ void MainWindow::on_listView_clicked(const QModelIndex& index)
     } break;
 
     case VIEW_OS: {
-        auto* oia = new OSInputArea(nullptr, index);
+        auto *oia = new OSInputArea(nullptr, index);
 
         QSize AdjustSize = oia->size();
         AdjustSize.width();
@@ -826,7 +826,7 @@ void MainWindow::on_listView_clicked(const QModelIndex& index)
     } break;
 
     case VIEW_PHONE: {
-        auto* pia = new PhoneInputArea(nullptr, index);
+        auto *pia = new PhoneInputArea(nullptr, index);
 
         QSize AdjustSize = pia->size();
         AdjustSize.width();
@@ -836,7 +836,7 @@ void MainWindow::on_listView_clicked(const QModelIndex& index)
     } break;
 
     case VIEW_PRINTER: {
-        auto* pia = new PrinterInputArea(nullptr, index);
+        auto *pia = new PrinterInputArea(nullptr, index);
 
         QSize AdjustSize = pia->size();
         AdjustSize.width();
@@ -846,7 +846,7 @@ void MainWindow::on_listView_clicked(const QModelIndex& index)
     } break;
 
     case VIEW_PROCESSOR: {
-        auto* pia = new ProcessorInputArea(nullptr, index);
+        auto *pia = new ProcessorInputArea(nullptr, index);
 
         QSize AdjustSize = pia->size();
         AdjustSize.width();
@@ -856,7 +856,7 @@ void MainWindow::on_listView_clicked(const QModelIndex& index)
     } break;
 
     case VIEW_SOFTWARE: {
-        auto* sia = new SoftwareInputArea(nullptr, index);
+        auto *sia = new SoftwareInputArea(nullptr, index);
 
         QSize AdjustSize = sia->size();
         AdjustSize.width();
@@ -866,7 +866,7 @@ void MainWindow::on_listView_clicked(const QModelIndex& index)
     } break;
 
     case VIEW_TITLE: {
-        auto* fia = new FunctionInputArea(nullptr, index);
+        auto *fia = new FunctionInputArea(nullptr, index);
 
         QSize AdjustSize = fia->size();
         AdjustSize.width();
@@ -884,10 +884,10 @@ void MainWindow::on_listView_clicked(const QModelIndex& index)
 
 void MainWindow::actualizeAccoutListView()
 {
-    auto* accountModel = new Model::Account();
+    auto *accountModel = new Model::Account();
     tableModel = accountModel->initializeRelationalModel();
 
-    QSqlTableModel* listModel = accountModel->initializeListModel();
+    QSqlTableModel *listModel = accountModel->initializeListModel();
     int modelIndex = accountModel->getUserNameIndex();
     accountModel->sort(modelIndex, Qt::AscendingOrder);
     actualizeListView(listModel, modelIndex);
@@ -895,10 +895,10 @@ void MainWindow::actualizeAccoutListView()
 
 void MainWindow::actualizeChipCardListView()
 {
-    auto* chipCardModel = new Model::ChipCard();
+    auto *chipCardModel = new Model::ChipCard();
     tableModel = chipCardModel->initializeRelationalModel();
 
-    QSqlTableModel* listModel = chipCardModel->initializeListModel();
+    QSqlTableModel *listModel = chipCardModel->initializeListModel();
     int modelIndex = chipCardModel->getNumberIndex();
     chipCardModel->sort(modelIndex, Qt::AscendingOrder);
     actualizeListView(listModel, modelIndex);
@@ -906,10 +906,10 @@ void MainWindow::actualizeChipCardListView()
 
 void MainWindow::actualizeChipCardDoorListView()
 {
-    auto* chipCardDoorModel = new Model::ChipCardDoor();
+    auto *chipCardDoorModel = new Model::ChipCardDoor();
     tableModel = chipCardDoorModel->initializeRelationalModel();
 
-    QSqlTableModel* listModel = chipCardDoorModel->initializeListModel();
+    QSqlTableModel *listModel = chipCardDoorModel->initializeListModel();
     int modelIndex = chipCardDoorModel->getNumberIndex();
     chipCardDoorModel->sort(modelIndex, Qt::AscendingOrder);
     actualizeListView(listModel, modelIndex);
@@ -917,10 +917,10 @@ void MainWindow::actualizeChipCardDoorListView()
 
 void MainWindow::actualizeComputerListView()
 {
-    auto* computerModel = new Model::Computer();
+    auto *computerModel = new Model::Computer();
     tableModel = computerModel->initializeRelationalModel();
 
-    QSqlTableModel* listModel = computerModel->initializeListModel();
+    QSqlTableModel *listModel = computerModel->initializeListModel();
     int modelIndex = computerModel->getNetworkNameIndex();
     computerModel->sort(modelIndex, Qt::AscendingOrder);
     actualizeListView(listModel, modelIndex);
@@ -932,10 +932,10 @@ void MainWindow::actualizeDepartmentListView()
 
 void MainWindow::actualizeEmployeeListView()
 {
-    auto* edm = new Model::Employee();
+    auto *edm = new Model::Employee();
     tableModel = edm->initializeRelationalModel();
 
-    QSqlTableModel* listModel = edm->initializeListModel();
+    QSqlTableModel *listModel = edm->initializeListModel();
     int modelIndex = edm->getLastNameIndex();
     edm->sort(modelIndex, Qt::AscendingOrder);
     actualizeListView(listModel, modelIndex);
@@ -943,16 +943,16 @@ void MainWindow::actualizeEmployeeListView()
 
 void MainWindow::actualizeFunctionListView()
 {
-    auto* fdm = new Model::Function();
+    auto *fdm = new Model::Function();
     tableModel = fdm->initializeRelationalModel();
 
-    QSqlTableModel* listModel = fdm->initializeListModel();
+    QSqlTableModel *listModel = fdm->initializeListModel();
     int modelIndex = fdm->getNameIndex();
     fdm->sort(modelIndex, Qt::AscendingOrder);
     actualizeListView(listModel, modelIndex);
 }
 
-void MainWindow::actualizeListView(QSqlTableModel* listModel, int idx)
+void MainWindow::actualizeListView(QSqlTableModel *listModel, int idx)
 {
     ui->listView->setModel(listModel);
     ui->listView->setModelColumn(idx);

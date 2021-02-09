@@ -40,7 +40,7 @@ void Model::Phone::setIndexes()
     m_LastUpdateIndex = this->m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-auto Model::Phone::initializeRelationalModel() -> QSqlRelationalTableModel*
+auto Model::Phone::initializeRelationalModel() -> QSqlRelationalTableModel *
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -52,7 +52,7 @@ auto Model::Phone::initializeRelationalModel() -> QSqlRelationalTableModel*
     return this->m_model;
 }
 
-auto Model::Phone::initializeInputDataModel() -> QSqlRelationalTableModel*
+auto Model::Phone::initializeInputDataModel() -> QSqlRelationalTableModel *
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -61,14 +61,14 @@ auto Model::Phone::initializeInputDataModel() -> QSqlRelationalTableModel*
     return this->m_model;
 }
 
-auto Model::Phone::initializeViewModel() -> QSqlTableModel*
+auto Model::Phone::initializeViewModel() -> QSqlTableModel *
 {
     this->m_model->select();
 
     return this->m_model;
 }
 
-auto Model::Phone::generateTableString(const QString& header) -> QString
+auto Model::Phone::generateTableString(const QString &header) -> QString
 {
     QString outString;
 
@@ -94,7 +94,7 @@ auto Model::Phone::generateTableString(const QString& header) -> QString
     return outString;
 }
 
-auto Model::Phone::generateFormularString(const QString& header) -> QString
+auto Model::Phone::generateFormularString(const QString &header) -> QString
 {
     QString outString;
 
