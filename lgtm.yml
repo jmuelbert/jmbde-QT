@@ -49,6 +49,7 @@ extraction:
                 - libquazip5-dev
         configure:
             command:
+                - pip3 install wheel
                 - pip3 install conan
                 - mkdir build
                 - cd build
