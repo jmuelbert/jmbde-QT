@@ -51,6 +51,7 @@ extraction:
             command:
                 - pip3 install wheel
                 - pip3 install conan
+                - export PATH=/opt/work/.local/bin:$PATH
                 - mkdir build
                 - cd build
                 - cmake ..
