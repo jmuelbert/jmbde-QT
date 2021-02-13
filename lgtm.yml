@@ -1,6 +1,5 @@
 #
-# .lgtml.yml configuration file for C++ analysis of Krita on https://lgtm.com/projects/g/KDE/krita/
-#
+# .lgtml.yml configuration file for C++ analysis
 path_classifiers:
     test:
         - tests
@@ -11,6 +10,7 @@ extraction:
                 - gettext
                 - build-essential
                 - cmake
+                - python-pip
                 - libboost-dev
                 - libboost-system-dev
                 - libeigen3-dev
@@ -45,13 +45,14 @@ extraction:
                 - extra-cmake-modules
                 - libqt5svg5-dev
                 - libqt5x11extras5-dev
-                - libqt5opengl5-dev                
+                - libqt5opengl5-dev
                 - libquazip5-dev
+        after-prepare:
+            - pip3 install --local wheel
+            - pip3 install --local conan
+            - export PATH=$PATH:~/.local/bin
         configure:
             command:
-                - pip3 install wheel
-                - pip3 install conan
-                - export PATH=/opt/work/.local/bin:$PATH
                 - mkdir build
                 - cd build
                 - cmake ..
