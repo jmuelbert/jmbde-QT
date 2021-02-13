@@ -118,7 +118,10 @@ feature_summary(WHAT REQUIRED_PACKAGES_NOT_FOUND FATAL_ON_MISSING_REQUIRED_PACKA
 list(APPEND CMAKE_MODULE_PATH "${ECM_MODULE_PATH}")
 
 # KDE: extra cmake modules Load extended helpers
-include(KDEClangFormat)
+if(NOT LGTM)
+    include(KDEClangFormat)
+endif()
+
 include(KDEInstallDirs)
 
 # ##########################################################################################################################################
