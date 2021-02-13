@@ -8,15 +8,15 @@ These are computers, printers and telephones.
 
 [![Gitpod Ready Code][gitpod-shield]][gitpod-url]
 [![Codacy Badge][codacy-shield]][codacy-url]
-[![Language grade: C/C++][lgtm-shield]][lgtm-url]
+[![Total Alerts][lgtm-alerts-shield]][lgtm-alerts-url]
+[![Language grade: C/C++][lgtm-cpp-shield]][lgtm-cpp-url]
+[![Language grade: Python][lgtm-python-shield]][lgtm-python-url]
+[![Language grade: JavaScript][lgtm-js-shield]][lgtm-js-url]
 [![GitHub All Releases][downloads_all-shield]][downloads_all-url]
 [![Issues][issues-shield]][issues-url]
 [![Help wanted issues][help-issues-shield]][help-issues-url]
 [![Pull Requests][pr-shield]][pr-url] [![pre-commit][pre-commit-shield]][pre-commit-url]
 [![Codecov][codecov-shield]][codecov-url]
-
-<!-- [![CDash Dashboard][cdash-shield]][cdash-url] -->
-
 [![Misspell fixer][misspell_fixer-shield]][misspell_fixer-url]
 [![Documentation][documentation-shield]][documentation-url]
 [![License][license-shield]][license-url]
@@ -283,9 +283,15 @@ GPL V3 © [Jürgen Mülbert](https:/github.com/jmuelbert/jmbde-QT)
     https://github.com/jmuelbert/jmbde-QT/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22
 [documentation-shield]: https://img.shields.io/badge/Documentation-latest-blue.svg
 [documentation-url]: https://jmuelbert.github.io/jmbde-QT
-[lgtm-shield]:
+[lgtm-alerts-shield]: https://img.shields.io/lgtm/alerts/g/jmuelbert/jmbde-QT.svg?logo=lgtm&logoWidth=18
+[lgtm-alerts-url]: https://lgtm.com/projects/g/jmuelbert/jmbde-QT/alerts/
+[lgtm-cpp-shield]:
     https://img.shields.io/lgtm/grade/cpp/g/jmuelbert/jmbde-QT.svg?logo=lgtm&logoWidth=18
-[lgtm-url]: https://lgtm.com/projects/g/jmuelbert/jmbde-QT/context:cpp
+[lgtm-cpp-url]: https://lgtm.com/projects/g/jmuelbert/jmbde-QT/context:cpp
+[lgtm-python-shield]: https://img.shields.io/lgtm/grade/python/g/jmuelbert/jmbde-QT.svg?logo=lgtm&logoWidth=18
+[lgtm-python-url]: https://lgtm.com/projects/g/jmuelbert/jmbde-QT/context:python
+[lgtm-js-shield]: https://img.shields.io/lgtm/grade/javascript/g/jmuelbert/jmbde-QT.svg?logo=lgtm&logoWidth=18
+[lgtm-js-url]: https://lgtm.com/projects/g/jmuelbert/jmbde-QT/context:javascript
 [cdash-shield]: https://img.shields.io/badge/CDash-Access-blue.svg
 [cdash-url]: http://my.cdash.org/index.php?project=jmbde-QT
 [pr-shield]: https://img.shields.io/github/issues-pr-raw/jmuelbert/jmbde-QT.svg
