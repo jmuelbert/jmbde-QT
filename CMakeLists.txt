@@ -103,7 +103,7 @@ include(Coverage)
 
 include(conan)
 
-if(NOT DEFINED LGTM)
+if(NOT LGTM)
    run_conan()
 endif()
 

@@ -55,7 +55,7 @@ extraction:
                 - export PATH=$PATH:~/.local/bin
                 - mkdir $LGTM_SRC/build
                 - cd $LGTM_SRC/build
-                - cmake .. -DLGTM
+                - cmake .. -DLGTM=ON
         index:
             build_command:
                 - cd build
