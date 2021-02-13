@@ -102,7 +102,12 @@ include(CopyDllsForDebug)
 include(Coverage)
 
 include(conan)
-run_conan()
+
+if(NOT DEFINED LGTM)
+   run_conan()
+endif()
+
+
 
 # we need some parts of the ECM CMake helpers
 
