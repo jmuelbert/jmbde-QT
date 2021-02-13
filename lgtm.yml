@@ -11,6 +11,8 @@ extraction:
                 - build-essential
                 - cmake
                 - python-pip
+                - ca-certificate
+                - apt-utils
                 - libboost-dev
                 - libboost-system-dev
                 - libeigen3-dev
