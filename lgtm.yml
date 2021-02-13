@@ -1,62 +1,61 @@
 #
 # .lgtml.yml configuration file for C++ analysis
 path_classifiers:
-    test:
-        - tests
+  test:
+    - tests
 extraction:
-    cpp:
-        prepare:
-            packages:
-                - gettext
-                - build-essential
-                - cmake
-                - python-pip
-                - libboost-dev
-                - libboost-system-dev
-                - libeigen3-dev
-                - libexiv2-dev
-                - libfftw3-dev
-                - libfontconfig1-dev
-                - libfreetype6-dev
-                - libgl1-mesa-dev
-                - libglew-dev
-                - libglib2.0-dev
-                - libglu1-mesa-dev
-                - libgsf-1-dev
-                - libgsl-dev
-                - libjpeg-dev
-                - liblcms2-dev
-                - libopenexr-dev
-                - libpng-dev
-                - libpoppler-qt5-dev
-                - libtiff5-dev
-                - libvc-dev
-                - libopencolorio-dev
-                - libx11-dev
-                - libxml2-dev
-                - libxslt1-dev
-                - libxi-dev
-                - pkg-config
-                - vc-dev
-                - zlib1g-dev
-                - libkf5kdcraw-dev
-                - shared-mime-info
-                - libopenimageio-dev
-                - extra-cmake-modules
-                - libqt5svg5-dev
-                - libqt5x11extras5-dev
-                - libqt5opengl5-dev
-                - libquazip5-dev
-        after-prepare:
-            - pip3 install --local wheel
-            - pip3 install --local conan
-            - export PATH=$PATH:~/.local/bin
-        configure:
-            command:
-                - mkdir build
-                - cd build
-                - cmake ..
-        index:
-            build_command:
-                - cd build
-                - make
+  cpp:
+    prepare:
+      packages:
+        - gettext
+        - build-essential
+        - cmake
+        - python-pip
+        - libboost-dev
+        - libboost-system-dev
+        - libeigen3-dev
+        - libexiv2-dev
+        - libfftw3-dev
+        - libfontconfig1-dev
+        - libfreetype6-dev
+        - libgl1-mesa-dev
+        - libglew-dev
+        - libglib2.0-dev
+        - libglu1-mesa-dev
+        - libgsf-1-dev
+        - libgsl-dev
+        - libjpeg-dev
+        - liblcms2-dev
+        - libopenexr-dev
+        - libpng-dev
+        - libpoppler-qt5-dev
+        - libtiff5-dev
+        - libvc-dev
+        - libopencolorio-dev
+        - libx11-dev
+        - libxml2-dev
+        - libxslt1-dev
+        - libxi-dev
+        - pkg-config
+        - vc-dev
+        - zlib1g-dev
+        - libkf5kdcraw-dev
+        - shared-mime-info
+        - libopenimageio-dev
+        - extra-cmake-modules
+        - libqt5svg5-dev
+        - libqt5x11extras5-dev
+        - libqt5opengl5-dev
+        - libquazip5-dev
+    configure:
+      command:
+        - pip3 install --local wheel
+        - pip3 install --local conan
+        - export PATH=$PATH:~/.local/bin
+        - mkdir $LGTM_SRC/build
+        - cd $LGTM_SRC/build
+        - cmake ..
+    index:
+      build_command:
+        - cd build
+        - make
