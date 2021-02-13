@@ -70,9 +70,9 @@ endif()
 project(jmbde)
 
 # Set the dependencies versions
-set(KF5_VERSION "5.71.0")
-set(KF5_DEP_VERSION "5.71.0")
-set(QT_MIN_VERSION "5.12.8")
+set(KF5_VERSION "5.62.0")
+set(KF5_DEP_VERSION "5.62.0")
+set(QT_MIN_VERSION "5.12.4")
 
 # Standard CMake modules
 include(CTest) # Must be called before adding tests but after calling project(). This automatically calls enable_testing() and configures
