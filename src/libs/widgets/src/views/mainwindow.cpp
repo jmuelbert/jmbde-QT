@@ -893,6 +893,17 @@ void MainWindow::actualizeAccoutListView()
     actualizeListView(listModel, modelIndex);
 }
 
+void MainWindow::actualizeChipCardDoorListView()
+{
+    auto* chipCardDoorModel = new Model::ChipCardDoor();
+    tableModel = chipCardDoorModel->initializeRelationalModel();
+
+    QSqlTableModel* listModel = chipCardDoorModel->initializeListModel();
+    int modelIndex = chipCardDoorModel->getNumberIndex();
+    chipCardDoorModel->sort(modelIndex, Qt::AscendingOrder);
+    actualizeListView(listModel, modelIndex);
+}
+
 void MainWindow::actualizeChipCardListView()
 {
     auto* chipCardModel = new Model::ChipCard();
@@ -904,14 +915,45 @@ void MainWindow::actualizeChipCardListView()
     actualizeListView(listModel, modelIndex);
 }
 
-void MainWindow::actualizeChipCardDoorListView()
+void MainWindow::actualizeChipCardProfileDoorListView()
 {
-    auto* chipCardDoorModel = new Model::ChipCardDoor();
-    tableModel = chipCardDoorModel->initializeRelationalModel();
+    auto* chipCardProfileDoorModel = new Model ::ChipCardProfileDoor();
+    tableModel = chipCardProfileDoorModel->initializeRelationalModel();
 
-    QSqlTableModel* listModel = chipCardDoorModel->initializeListModel();
-    int modelIndex = chipCardDoorModel->getNumberIndex();
-    chipCardDoorModel->sort(modelIndex, Qt::AscendingOrder);
+    QSqlTableModel* listModel = chipCardProfileDoorModel->initializeListModel();
+    int modelIndex = chipCardProfileDoorModel->getChipCardProfileIdIndex();
+    chipCardProfileDoorModel->sort(modelIndex, Qt::AscendingOrder);
+    actualizeListView(listModel, modelIndex);
+}
+
+void MainWindow::actualizeChipCardProfileListView()
+{
+    auto* chipCardProfileModel = new Model::ChipCardProfile();
+    tableModel = chipCardProfileModel->initializeRelationalModel();
+
+    QSqlTableModel* listModel = chipCardProfileModel->initializeListModel();
+    int modelIndex = chipCardProfileModel->getChipCardDoorIdIndex();
+    chipCardProfileModel->sort(modelIndex, Qt::AscendingOrder);
+    actualizeListView(listModel, modelIndex);
+}
+
+void MainWindow::actualizeCityListView()
+{
+    auto* cityNameModel = new Model::CityName();
+    tableModel = cityNameModel->initializeRelationalModel();
+
+    QSqlTableModel* listModel = cityNameModel->initializeListModel();
+    int modelIndex = cityNameModel->getNameIndex();
+    actualizeListView(listModel, modelIndex);
+}
+
+void MainWindow::actualizeCompanyListView()
+{
+    auto* companyModel = new Model::Company();
+    tableModel = companyModel->initializeRelationalModel();
+
+    QSqlTableModel* listModel = companyModel->initializeListModel();
+    int modelIndex = companyModel->getNameIndex();
     actualizeListView(listModel, modelIndex);
 }
 
@@ -926,29 +968,256 @@ void MainWindow::actualizeComputerListView()
     actualizeListView(listModel, modelIndex);
 }
 
+void MainWindow::actualizeComputerSoftwareListView()
+{
+    auto* computerSoftwareModel = new Model::ComputerSoftware();
+    tableModel = computerSoftwareModel->initializeRelationalModel();
+
+    QSqlTableModel* listModel = computerSoftwareModel->initializeListModel();
+    int modelIndex = computerSoftwareModel->getSoftwareIdIndex();
+    computerSoftwareModel->sort(modelIndex, Qt::AscendingOrder);
+    actualizeListView(listModel, modelIndex);
+}
+
 void MainWindow::actualizeDepartmentListView()
 {
+    auto* departmentModel = new Model::Department();
+    tableModel = departmentModel->initializeRelationalModel();
+
+    QSqlTableModel* listModel = departmentModel->initializeListModel();
+    int modelIndex = departmentModel->getNameIndex();
+    departmentModel->sort(modelIndex, Qt::AscendingOrder);
+    actualizeListView(listModel, modelIndex);
+}
+
+void MainWindow::actualizeDeviceNameListView()
+{
+    auto* deviceNameModel = new Model::DeviceName();
+    tableModel = deviceNameModel->initializeRelationalModel();
+
+    QSqlTableModel* listModel = deviceNameModel->initializeListModel();
+    int modelIndex = deviceNameModel->getNameIndex();
+    deviceNameModel->sort(modelIndex, Qt::AscendingOrder);
+    actualizeListView(listModel, modelIndex);
+}
+
+void MainWindow::actualizeDeviceTypeListView()
+{
+    auto* deviceTypeModel = new Model::DeviceType();
+    tableModel = deviceTypeModel->initializeRelationalModel();
+
+    QSqlTableModel* listModel = deviceTypeModel->initializeListModel();
+    int modelIndex = deviceTypeModel->getNameIndex();
+    deviceTypeModel->sort(modelIndex, Qt::AscendingOrder);
+    actualizeListView(listModel, modelIndex);
+}
+
+void MainWindow::actualizeDocumentListView()
+{
+    auto* documentModel = new Model::Document();
+    tableModel = documentModel->initializeRelationalModel();
+
+    QSqlTableModel* listModel = documentModel->initializeListModel();
+    int modelIndex = documentModel->getNameIndex();
+    documentModel->sort(modelIndex, Qt::AscendingOrder);
+    actualizeListView(listModel, modelIndex);
+}
+
+void MainWindow::actualizeEmployeeAccountListView()
+{
+    auto* employeeAccountModel = new Model::EmployeeAccount();
+    tableModel = employeeAccountModel->initializeRelationalModel();
+
+    QSqlTableModel* listModel = employeeAccountModel->initializeListModel();
+    int modelIndex = employeeAccountModel->getAccountIdIndex();
+    employeeAccountModel->sort(modelIndex, Qt::AscendingOrder);
+    actualizeListView(listModel, modelIndex);
+}
+
+void MainWindow::actualizeEmployeeDocumentListView()
+{
+    auto* employeeDocumentModel = new Model::EmployeeDocument();
+    tableModel = employeeDocumentModel->initializeRelationalModel();
+
+    QSqlTableModel* listModel = employeeDocumentModel->initializeListModel();
+    int modelIndex = employeeDocumentModel->getDocumentIdIndex();
+    employeeDocumentModel->sort(modelIndex, Qt::AscendingOrder);
+    actualizeListView(listModel, modelIndex);
 }
 
 void MainWindow::actualizeEmployeeListView()
 {
-    auto* edm = new Model::Employee();
-    tableModel = edm->initializeRelationalModel();
+    auto* employeeModel = new Model::Employee();
+    tableModel = employeeModel->initializeRelationalModel();
 
-    QSqlTableModel* listModel = edm->initializeListModel();
-    int modelIndex = edm->getLastNameIndex();
-    edm->sort(modelIndex, Qt::AscendingOrder);
+    QSqlTableModel* listModel = employeeModel->initializeListModel();
+    int modelIndex = employeeModel->getLastNameIndex();
+    employeeModel->sort(modelIndex, Qt::AscendingOrder);
+    actualizeListView(listModel, modelIndex);
+}
+
+void MainWindow::actualizeFaxListView()
+{
+    auto* faxModel = new Model::Fax();
+    tableModel = faxModel->initializeRelationalModel();
+
+    QSqlTableModel* listModel = faxModel->initializeListModel();
+    int modelIndex = faxModel->getNumberIndex();
+    faxModel->sort(modelIndex, Qt::AscendingOrder);
     actualizeListView(listModel, modelIndex);
 }
 
 void MainWindow::actualizeFunctionListView()
 {
-    auto* fdm = new Model::Function();
-    tableModel = fdm->initializeRelationalModel();
+    auto* functionModel = new Model::Function();
+    tableModel = functionModel->initializeRelationalModel();
 
-    QSqlTableModel* listModel = fdm->initializeListModel();
-    int modelIndex = fdm->getNameIndex();
-    fdm->sort(modelIndex, Qt::AscendingOrder);
+    QSqlTableModel* listModel = functionModel->initializeListModel();
+    int modelIndex = functionModel->getNameIndex();
+    functionModel->sort(modelIndex, Qt::AscendingOrder);
+    actualizeListView(listModel, modelIndex);
+}
+
+void MainWindow::actualizeInventoryListView()
+{
+    auto* inventoryModel = new Model::Inventory();
+    tableModel = inventoryModel->initializeRelationalModel();
+
+    QSqlTableModel* listModel = inventoryModel->initializeListModel();
+    int modelIndex = inventoryModel->getNumberIndex();
+    inventoryModel->sort(modelIndex, Qt::AscendingOrder);
+    actualizeListView(listModel, modelIndex);
+}
+
+void MainWindow::actualizeManufacturerListView()
+{
+    auto* manufacturerModel = new Model::Manufacturer();
+    tableModel = manufacturerModel->initializeRelationalModel();
+
+    QSqlTableModel* listModel = manufacturerModel->initializeListModel();
+    int modelIndex = manufacturerModel->getNameIndex();
+    manufacturerModel->sort(modelIndex, Qt::AscendingOrder);
+    actualizeListView(listModel, modelIndex);
+}
+
+void MainWindow::actualizeMobileListView()
+{
+    auto* mobileModel = new Model::Mobile();
+    tableModel = mobileModel->initializeRelationalModel();
+
+    QSqlTableModel* listModel = mobileModel->initializeListModel();
+    int modelIndex = mobileModel->getNumberIndex();
+    mobileModel->sort(modelIndex, Qt::AscendingOrder);
+    actualizeListView(listModel, modelIndex);
+}
+
+void MainWindow::actualizeOsListView()
+{
+    auto* osModel = new Model::OS();
+    tableModel = osModel->initializeListModel();
+
+    QSqlTableModel* listModel = osModel->initializeListModel();
+    int modelIndex = osModel->getNameIndex();
+    osModel->sort(modelIndex, Qt::AscendingOrder);
+    actualizeListView(listModel, modelIndex);
+}
+
+void MainWindow::actualizePhoneListView()
+{
+    auto* phoneModel = new Model::Phone();
+    tableModel = phoneModel->initializeRelationalModel();
+
+    QSqlTableModel* listModel = phoneModel->initializeListModel();
+    int modelIndex = phoneModel->getNumberIndex();
+    phoneModel->sort(modelIndex, Qt::AscendingOrder);
+    actualizeListView(listModel, modelIndex);
+}
+
+void MainWindow::actualizePlaceListView()
+{
+    auto* placeModel = new Model::Place();
+    tableModel = placeModel->initializeRelationalModel();
+
+    QSqlTableModel* listModel = placeModel->initializeListModel();
+    int modelIndex = placeModel->getRoomIndex();
+    placeModel->sort(modelIndex, Qt::AscendingOrder);
+    actualizeListView(listModel, modelIndex);
+}
+
+void MainWindow::actualizePrinterListView()
+{
+    auto* printerModel = new Model::Printer();
+    tableModel = printerModel->initializeListModel();
+
+    QSqlTableModel* listModel = printerModel->initializeListModel();
+    int modelIndex = printerModel->getNetworkNameIndex();
+    printerModel->sort(modelIndex, Qt::AscendingOrder);
+    actualizeListView(listModel, modelIndex);
+}
+
+void MainWindow::actualizeProcessorListView()
+{
+    auto* processorModel = new Model::Processor();
+    tableModel = processorModel->initializeRelationalModel();
+
+    QSqlTableModel* listModel = processorModel->initializeListModel();
+    int modelIndex = processorModel->getNameIndex();
+    processorModel->sort(modelIndex, Qt::AscendingOrder);
+    actualizeListView(listModel, modelIndex);
+}
+
+void MainWindow::actualizeSoftwareListView()
+{
+    auto* softwareModel = new Model::Software();
+    tableModel = softwareModel->initializeRelationalModel();
+
+    QSqlTableModel* listModel = softwareModel->initializeListModel();
+    int modelIndex = softwareModel->getNameIndex();
+    softwareModel->sort(modelIndex, Qt::AscendingOrder);
+    actualizeListView(listModel, modelIndex);
+}
+
+void MainWindow::actualizeSystemDataListView()
+{
+    auto* systemDataModel = new Model::SystemData();
+    tableModel = systemDataModel->initializeRelationalModel();
+
+    QSqlTableModel* listModel = systemDataModel->initializeListModel();
+    int modelIndex = systemDataModel->getNameIndex();
+    systemDataModel->sort(modelIndex, Qt::AscendingOrder);
+    actualizeListView(listModel, modelIndex);
+}
+
+void MainWindow::actualizeTitleListView()
+{
+    auto* titleModel = new Model::Title();
+    tableModel = titleModel->initializeRelationalModel();
+
+    QSqlTableModel* listModel = titleModel->initializeListModel();
+    int modelIndex = titleModel->getNameIndex();
+    titleModel->sort(modelIndex, Qt::AscendingOrder);
+    actualizeListView(listModel, modelIndex);
+}
+
+void MainWindow::actualizeZipCityListView()
+{
+    auto* zipCityModel = new Model::ZipCity();
+    tableModel = zipCityModel->initializeRelationalModel();
+
+    QSqlTableModel* listModel = zipCityModel->initializeListModel();
+    int modelIndex = zipCityModel->getCityIdIndex();
+    zipCityModel->sort(modelIndex, Qt::AscendingOrder);
+    actualizeListView(listModel, modelIndex);
+}
+
+void MainWindow::actualizeZipCodeListView()
+{
+    auto* zipCodeModel = new Model::ZipCity();
+    tableModel = zipCodeModel->initializeRelationalModel();
+
+    QSqlTableModel* listModel = zipCodeModel->initializeListModel();
+    int modelIndex = zipCodeModel->getCityIdIndex();
+    zipCodeModel->sort(modelIndex, Qt::AscendingOrder);
     actualizeListView(listModel, modelIndex);
 }
 

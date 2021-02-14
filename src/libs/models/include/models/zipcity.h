@@ -21,8 +21,8 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRelation>
-#include <QtSql>
 #include <QTextDocument>
+#include <QtSql>
 
 #include "commondata.h"
 #include "datacontext.h"
@@ -31,9 +31,7 @@
 
 Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsZipCityLog)
 
-
-namespace Model
-{
+namespace Model {
 /*!
     \class ZipCity
     \brief The ZipCity class
@@ -44,8 +42,7 @@ namespace Model
     \date 23.01.2021
     \copyright GPL-3.0-or-later
     */
-class ZipCity : public CommonData
-{
+class ZipCity : public CommonData {
 public:
     /*!
         \fn ZipCity()
@@ -76,7 +73,7 @@ public:
         \brief set the QSqlRelationalTableModel for the DataModel
         Returns The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel* initializeRelationalModel() final;
 
     /*!
         \fn virtual QSqlRelationalTableModel *initializeInputDataModel() final
@@ -84,7 +81,7 @@ public:
 
         Returns The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel* initializeInputDataModel() final;
 
     /*!
         \fn virtual QSqlTableModel *initializeViewModel() final
@@ -92,7 +89,13 @@ public:
 
         Returns QSqlTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlTableModel* initializeViewModel() final;
+
+    /*!
+        \fn QSqlTableModel *initializeListModel();
+        \brief Initiallize the list Model for select one dataset
+    */
+    virtual JMBDEMODELS_EXPORT QSqlTableModel* initializeListModel() final;
 
     /*!
      * \fn virtual auto generateTableString(
@@ -101,7 +104,7 @@ public:
 
         Returns a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString& header) -> QString final;
 
     /*!
         \fn virtual auto generateFormularString(
@@ -110,7 +113,7 @@ public:
 
         Returns a QString with the generated Table for Output
      */
-    virtual auto generateFormularString(const QString &header) -> QString final;
+    virtual auto generateFormularString(const QString& header) -> QString final;
 
     // Getter
     JMBDEMODELS_EXPORT QString getTableName() const
@@ -122,7 +125,6 @@ public:
     {
         return this->m_db;
     }
-
 
     /*!
         \fn  int ZipCityIdIndex()
@@ -187,41 +189,41 @@ private:
         \brief holds an initialised pointer to the Relationmodel
         \sa QSqlRelationalTableModel
      */
-    QSqlRelationalTableModel *m_model {nullptr};
+    QSqlRelationalTableModel* m_model { nullptr };
 
     /*!
        \brief holds an initialised pointer to the ItemSelectioModel
        \sa QItemSelectionModel
     */
-    QItemSelectionModel *m_selectionModel {nullptr};
+    QItemSelectionModel* m_selectionModel { nullptr };
 
     /*!
      * @brief DataContext
      */
-    Model::DataContext *m_dataContext = {};
+    Model::DataContext* m_dataContext = {};
 
     /*!
         \var int m_ZipCityIdIndex
         \brief The value of the ZipCityIdIndex
      */
-    int m_ZipCityIdIndex {0};
+    int m_ZipCityIdIndex { 0 };
 
     /*!
         \var int m_ZipCodeIdIndex
         \brief The value of the ZipCodeIdIndex
      */
-    int m_ZipCodeIdIndex {0};
+    int m_ZipCodeIdIndex { 0 };
 
     /*!
         \var int m_CityIdIndex
         \brief The value of the CityIdIndex
      */
-    int m_CityIdIndex {0};
+    int m_CityIdIndex { 0 };
 
     /*!
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
     */
-    int m_LastUpdateIndex {0};
+    int m_LastUpdateIndex { 0 };
 };
 } // namespace Model

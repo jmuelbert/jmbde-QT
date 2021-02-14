@@ -57,6 +57,16 @@ auto Model::DeviceType::initializeViewModel() -> QSqlTableModel*
     return this->m_model;
 }
 
+auto Model::DeviceType::initializeListModel() -> QSqlTableModel*
+{
+    auto* listModel = new QSqlTableModel(this, this->m_db);
+    listModel->setTable(this->m_tableName);
+    listModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    listModel->select();
+
+    return listModel;
+}
+
 auto Model::DeviceType::generateTableString(const QString& header) -> QString
 {
     QString outString;

@@ -39,7 +39,7 @@ void Model::ZipCity::setIndexes()
     m_LastUpdateIndex = this->m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-auto Model::ZipCity::initializeRelationalModel() -> QSqlRelationalTableModel *
+auto Model::ZipCity::initializeRelationalModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -51,7 +51,7 @@ auto Model::ZipCity::initializeRelationalModel() -> QSqlRelationalTableModel *
     return this->m_model;
 }
 
-auto Model::ZipCity::initializeInputDataModel() -> QSqlRelationalTableModel *
+auto Model::ZipCity::initializeInputDataModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -60,14 +60,24 @@ auto Model::ZipCity::initializeInputDataModel() -> QSqlRelationalTableModel *
     return this->m_model;
 }
 
-auto Model::ZipCity::initializeViewModel() -> QSqlTableModel *
+auto Model::ZipCity::initializeViewModel() -> QSqlTableModel*
 {
     this->m_model->select();
 
     return this->m_model;
 }
 
-auto Model::ZipCity::generateTableString(const QString &header) -> QString
+auto Model::ZipCity::initializeListModel() -> QSqlTableModel*
+{
+    auto* listModel = new QSqlTableModel(this, this->m_db);
+    listModel->setTable(this->m_tableName);
+    listModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    listModel->select();
+
+    return listModel;
+}
+
+auto Model::ZipCity::generateTableString(const QString& header) -> QString
 {
     QString outString;
 
@@ -92,7 +102,7 @@ auto Model::ZipCity::generateTableString(const QString &header) -> QString
     return outString;
 }
 
-auto Model::ZipCity::generateFormularString(const QString &header) -> QString
+auto Model::ZipCity::generateFormularString(const QString& header) -> QString
 {
     QString outString;
 

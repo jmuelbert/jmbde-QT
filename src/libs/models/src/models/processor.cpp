@@ -40,7 +40,7 @@ void Model::Processor::setIndexes()
     m_LastUpdateIndex = this->m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-auto Model::Processor::initializeRelationalModel() -> QSqlRelationalTableModel *
+auto Model::Processor::initializeRelationalModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -52,7 +52,7 @@ auto Model::Processor::initializeRelationalModel() -> QSqlRelationalTableModel *
     return this->m_model;
 }
 
-auto Model::Processor::initializeInputDataModel() -> QSqlRelationalTableModel *
+auto Model::Processor::initializeInputDataModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -61,14 +61,24 @@ auto Model::Processor::initializeInputDataModel() -> QSqlRelationalTableModel *
     return this->m_model;
 }
 
-auto Model::Processor::initializeViewModel() -> QSqlTableModel *
+auto Model::Processor::initializeViewModel() -> QSqlTableModel*
 {
     this->m_model->select();
 
     return this->m_model;
 }
 
-auto Model::Processor::generateTableString(const QString &header) -> QString
+auto Model::Processor::initializeListModel() -> QSqlTableModel*
+{
+    auto* listModel = new QSqlTableModel(this, this->m_db);
+    listModel->setTable(this->m_tableName);
+    listModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    listModel->select();
+
+    return listModel;
+}
+
+auto Model::Processor::generateTableString(const QString& header) -> QString
 {
     QString outString;
 
@@ -94,7 +104,7 @@ auto Model::Processor::generateTableString(const QString &header) -> QString
     return outString;
 }
 
-auto Model::Processor::generateFormularString(const QString &header) -> QString
+auto Model::Processor::generateFormularString(const QString& header) -> QString
 {
     QString outString;
 

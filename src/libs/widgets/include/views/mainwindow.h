@@ -23,35 +23,78 @@
 #include "definitions.h"
 #include "jmbdewidgets-version.h"
 #include "jmbdewidgets_export.h"
+// Models --------------------------
+#include "models/account.h"
+#include "models/chipcard.h"
+#include "models/chipcarddoor.h"
+#include "models/chipcardprofile.h"
+#include "models/chipcardprofiledoor.h"
 #include "models/cityname.h"
+#include "models/company.h"
+#include "models/computer.h"
+#include "models/computersoftware.h"
 #include "models/datacontext.h"
 #include "models/department.h"
+#include "models/devicename.h"
+#include "models/devicetype.h"
+#include "models/document.h"
+#include "models/employee.h"
+#include "models/employeeaccount.h"
+#include "models/employeedocument.h"
+#include "models/fax.h"
 #include "models/function.h"
+#include "models/inventory.h"
 #include "models/manufacturer.h"
+#include "models/mobile.h"
 #include "models/os.h"
+#include "models/phone.h"
+#include "models/place.h"
+#include "models/printer.h"
 #include "models/processor.h"
 #include "models/software.h"
+#include "models/systemdata.h"
 #include "models/title.h"
-#include "views/aboutdialog.h"
+#include "models/zipcity.h"
+#include "models/zipcode.h"
+
+// Data Widgets --------------------------
 #include "views/accountinputarea.h"
 #include "views/chipcarddoorinputarea.h"
 #include "views/chipcardinputarea.h"
+#include "views/chipcardprofiledoorinputarea.h"
+#include "views/chipcardprofileinputarea.h"
 #include "views/cityinputarea.h"
+#include "views/companyinputarea.h"
 #include "views/computerinputarea.h"
-#include "views/csvimportdialog.h"
+#include "views/computersoftwareinputarea.h"
 #include "views/departmentinputarea.h"
+#include "views/devicenameinputarea.h"
+#include "views/devicetypeinputarea.h"
+#include "views/documentinputarea.h"
+#include "views/employeeaccountinputarea.h"
+#include "views/employeedocumentinputarea.h"
 #include "views/employeeinputarea.h"
 #include "views/employeetable.h"
+#include "views/faxinputarea.h"
 #include "views/functioninputarea.h"
+#include "views/inventoryinputarea.h"
 #include "views/manufacturerinputarea.h"
 #include "views/mobileinputarea.h"
 #include "views/osinputarea.h"
 #include "views/phoneinputarea.h"
-#include "views/preferencesdialog.h"
+#include "views/placeinputarea.h"
 #include "views/printerinputarea.h"
 #include "views/processorinputarea.h"
 #include "views/softwareinputarea.h"
+#include "views/systemdatainputarea.h"
 #include "views/titleinputarea.h"
+#include "views/zipcitiyinputarea.h"
+#include "views/zipcodeinputarea.h"
+
+// Widgets ---------------------------------
+#include "views/aboutdialog.h"
+#include "views/csvimportdialog.h"
+#include "views/preferencesdialog.h"
 
 Q_DECLARE_LOGGING_CATEGORY(jmbdeWidgetsMainWindowLog)
 
@@ -178,18 +221,36 @@ private slots:
     void JMBDEWIDGETS_EXPORT on_listView_clicked(const QModelIndex& index);
 
     void actualizeAccoutListView();
-    void actualizeChipCardListView();
     void actualizeChipCardDoorListView();
+    void actualizeChipCardListView();
+    void actualizeChipCardProfileDoorListView();
+    void actualizeChipCardProfileListView();
+    void actualizeCityListView();
+    void actualizeCompanyListView();
     void actualizeComputerListView();
-
+    void actualizeComputerSoftwareListView();
     void actualizeDepartmentListView();
-
-    /*!
-        @brief Actualize the list view for employee after data changes
-     */
+    void actualizeDeviceNameListView();
+    void actualizeDeviceTypeListView();
+    void actualizeDocumentListView();
+    void actualizeEmployeeAccountListView();
+    void actualizeEmployeeDocumentListView();
     void actualizeEmployeeListView();
-
+    void actualizeFaxListView();
     void actualizeFunctionListView();
+    void actualizeInventoryListView();
+    void actualizeManufacturerListView();
+    void actualizeMobileListView();
+    void actualizeOsListView();
+    void actualizePhoneListView();
+    void actualizePlaceListView();
+    void actualizePrinterListView();
+    void actualizeProcessorListView();
+    void actualizeSoftwareListView();
+    void actualizeSystemDataListView();
+    void actualizeTitleListView();
+    void actualizeZipCityListView();
+    void actualizeZipCodeListView();
 
 private:
     /**

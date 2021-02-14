@@ -91,6 +91,12 @@ public:
     virtual JMBDEMODELS_EXPORT QSqlTableModel* initializeViewModel() final;
 
     /*!
+        \fn QSqlTableModel *initializeListModel();
+        \brief Initiallize the list Model for select one dataset
+    */
+    virtual JMBDEMODELS_EXPORT QSqlTableModel* initializeListModel() final;
+
+    /*!
      * \fn virtual auto generateTableString(
                                 const QString &header) -> QString final
         \brief generateTableString

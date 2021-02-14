@@ -82,6 +82,16 @@ auto Model::Printer::initializeViewModel() -> QSqlTableModel*
     return this->m_model;
 }
 
+auto Model::Printer::initializeListModel() -> QSqlTableModel*
+{
+    auto* listModel = new QSqlTableModel(this, this->m_db);
+    listModel->setTable(this->m_tableName);
+    listModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    listModel->select();
+
+    return listModel;
+}
+
 auto Model::Printer::generateTableString(const QString& header) -> QString
 {
     QString outString;

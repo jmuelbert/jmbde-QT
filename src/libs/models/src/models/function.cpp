@@ -42,16 +42,6 @@ auto Model::Function::initializeRelationalModel() -> QSqlRelationalTableModel*
     return this->m_model;
 }
 
-auto Model::Function::initializeListModel() -> QSqlTableModel*
-{
-    auto* listModel = new QSqlTableModel(this, this->m_db);
-    listModel->setTable(this->m_tableName);
-    listModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
-    listModel->select();
-
-    return listModel;
-}
-
 auto Model::Function::initializeInputDataModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
@@ -66,6 +56,16 @@ auto Model::Function::initializeViewModel() -> QSqlTableModel*
     this->m_model->select();
 
     return this->m_model;
+}
+
+auto Model::Function::initializeListModel() -> QSqlTableModel*
+{
+    auto* listModel = new QSqlTableModel(this, this->m_db);
+    listModel->setTable(this->m_tableName);
+    listModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    listModel->select();
+
+    return listModel;
 }
 
 auto Model::Function::generateTableString(const QString& header) -> QString
