@@ -9,7 +9,7 @@
 
 Q_LOGGING_CATEGORY(jmbdeWidgetsDepartmentInputAreaLog, "jmuelbert.jmbde.widgets.departmentinputarea", QtWarningMsg)
 
-DepartmentInputArea::DepartmentInputArea(QWidget* parent, const QModelIndex& index)
+DepartmentInputArea::DepartmentInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::DepartmentInputArea)
 {
