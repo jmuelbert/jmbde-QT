@@ -9,7 +9,7 @@
 
 Q_LOGGING_CATEGORY(jmbdeWidgetsZipCityInputAreaLog, "jmuelbert.jmbde.widgets.zipcityinputarea", QtWarningMsg)
 
-ZipCityInputArea::ZipCityInputArea(QWidget* parent, const QModelIndex& index)
+ZipCityInputArea::ZipCityInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::ZipCityInputArea)
 {
@@ -50,7 +50,7 @@ void ZipCityInputArea::setMappings()
 void ZipCityInputArea::setViewOnlyMode(bool mode)
 {
     // ui->cityComboBox->setDisabled(mode);
-    //ui->zipCodeComboBox->setDisabled(mode);
+    // ui->zipCodeComboBox->setDisabled(mode);
 }
 
 void ZipCityInputArea::createDataset()

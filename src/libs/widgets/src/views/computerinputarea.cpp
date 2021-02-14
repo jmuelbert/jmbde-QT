@@ -10,7 +10,7 @@
 
 Q_LOGGING_CATEGORY(jmbdeWidgetsComputerInputAreaLog, "jmuelbert.jmbde.widgets.computerinputarea", QtWarningMsg)
 
-ComputerInputArea::ComputerInputArea(QWidget* parent, const QModelIndex& index)
+ComputerInputArea::ComputerInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::ComputerInputArea)
 {
