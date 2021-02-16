@@ -1,6 +1,9 @@
 name: lgtm workflow
 
 on:
+    push:
+        branches:
+            - master # Set a branch name to trigger deployment
     pull_request_review:
     issue_comment:
 
