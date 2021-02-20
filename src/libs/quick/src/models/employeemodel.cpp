@@ -69,8 +69,11 @@ auto EmployeeModel::data(const QModelIndex &index, int role) const -> QVariant
 
 auto EmployeeModel::roleNames() const -> QHash<int, QByteArray>
 {
-    static const QHash<int, QByteArray> roles{
-        {FirstNameRole, "firstName"}, {LastNameRole, "lastName"}, {StreetRole, "street"}, {ZipRole, "zip"}, {CityRole, "city"}};
+    static const QHash<int, QByteArray> roles{{FirstNameRole, "firstName"},
+                                              {LastNameRole, "lastName"},
+                                              {StreetRole, "street"},
+                                              {ZipRole, "zip"},
+                                              {CityRole, "city"}};
     return roles;
 }
 
