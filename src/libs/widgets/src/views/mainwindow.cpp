@@ -101,8 +101,42 @@ void MainWindow::on_actionAbout_triggered()
 void MainWindow::initOutline()
 {
     QHash<QString, QList<QString>> outlineData;
+    QList<QString> subEntries = {
+        tr("Zugang"),
+        tr("Schlüsselchip Tür"),
+        tr("Schlüssel Chip"),
+        tr("Schlüssel Chip Profile Tür"),
+        tr("Schlüssel Chip Profil"),
+        tr("Stadt"),
+        tr("Firma"),
+        tr("Computer"),
+        tr("Computer Software"),
+        tr("Abteilung"),
+        tr("Geräte Name"),
+        tr("Geräte Typ"),
+        tr("Dokument"),
+        tr("Mitarbeiter*innen Zugang"),
+        tr("Mitarbeiter*innen Dokument"),
+        tr("Mitarbeiter*innen"),
+        tr("Fax"),
+        tr("Funktion"),
+        tr("Inventar"),
+        tr("Hersteller"),
+        tr("Mobile Telefon"),
+        tr("Betriebssystem"),
+        tr("Telefon"),
+        tr("Platz"),
+        tr("Drucker"),
+        tr("Prozessor"),
+        tr("Software"),
+        tr("System Daten"),
+        tr("Titel"),
+        tr("PLZ Stadt"),
+        tr("PLZ Code")
 
-    QList<QString> subEntries = { tr("Mitarbeiter"), tr("Funktion"), tr("Abteilung"), tr("Titel"), tr("Zugang") };
+    };
+    outlineData.insert(tr("Alles"), subEntries);
+    subEntries = { tr("Mitarbeiter"), tr("Funktion"), tr("Abteilung"), tr("Titel"), tr("Zugang") };
     outlineData.insert(tr("Person"), subEntries);
 
     subEntries = { tr("Computer"), tr("Prozessor"), tr("Betriebssystem"), tr("Software"), tr("Drucker") };
@@ -250,121 +284,318 @@ void MainWindow::on_actionExport_triggered()
     notAvailableMessage(message);
 }
 
-void MainWindow::on_actionPrint_triggered()
+void MainWindow::preparePrint(QTextDocument& doc)
 {
-    QTextDocument doc;
 
     switch (actualView) {
+    case VIEW_ACCOUNT: {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Accounts !");
+
+        auto* accountModel = new Model::Account;
+        QString style = Model::Account::setOutTableStyle();
+
+        QString text = accountModel->generateTableString(tr("Account"));
+        doc.setHtml(style + text);
+    } break;
+    case VIEW_CHIPCARD: {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Chip Karten !");
+
+        auto* chipCardModel = new Model::ChipCard;
+        QString style = Model::ChipCard::setOutTableStyle();
+
+        QString text = chipCardModel->generateTableString(tr("ChipCard"));
+        doc.setHtml(style + text);
+    } break;
+    case VIEW_CHIPCARDDOOR: {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Chip Karten Türen !");
+
+        auto* chipCardDoorModel = new Model::ChipCardDoor;
+        QString style = Model::ChipCardDoor::setOutTableStyle();
+
+        QString text = chipCardDoorModel->generateTableString(tr("ChipCardDoor"));
+        doc.setHtml(style + text);
+    } break;
+
+    case VIEW_CHIPCARDPROFILE: {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Chip Karten Profile !");
+
+        auto* chipCardProfileModel = new Model::ChipCardProfile;
+        QString style = Model::ChipCardProfile::setOutTableStyle();
+
+        QString text = chipCardProfileModel->generateTableString(tr("ChipCardProfile"));
+        doc.setHtml(style + text);
+    } break;
+    case VIEW_CHIPCARDPROFILEDOOR: {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Chip Profile Tür !");
+
+        auto* chipCardProfileDoorModel = new Model::ChipCardProfileDoor;
+        QString style = Model::ChipCardProfileDoor::setOutTableStyle();
+
+        QString text = chipCardProfileDoorModel->generateTableString(tr("ChipCardProfileDoor"));
+        doc.setHtml(style + text);
+    } break;
+    case VIEW_CITYNAME: {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Ortsnamen !");
+
+        auto* cityNameModel = new Model::CityName;
+        QString style = Model::CityName::setOutTableStyle();
+
+        QString text = cityNameModel->generateTableString(tr("CityName"));
+        doc.setHtml(style + text);
+    } break;
+    case VIEW_COMPANY: {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Firmen !");
+
+        auto* companyModel = new Model::Company;
+        QString style = Model::Company::setOutTableStyle();
+
+        QString text = companyModel->generateTableString(tr("Company"));
+        doc.setHtml(style + text);
+    } break;
+    case VIEW_COMPUTER: {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Computer !");
+
+        auto* computerModel = new Model::Computer;
+        QString style = Model::Computer::setOutTableStyle();
+
+        QString text = computerModel->generateTableString(tr("Computer"));
+        doc.setHtml(style + text);
+    } break;
+    case VIEW_COMPUTERSOFTWARE: {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Software!");
+
+        auto* computerSoftwareModel = new Model::ComputerSoftware;
+        QString style = Model::ComputerSoftware::setOutTableStyle();
+
+        QString text = computerSoftwareModel->generateTableString(tr("ComputerSoftware"));
+        doc.setHtml(style + text);
+    } break;
+    case VIEW_DEPARTMENT: {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Abteilung !");
+
+        auto* departmentModel = new Model::Department;
+        QString style = Model::Department::setOutTableStyle();
+
+        QString text = departmentModel->generateTableString(tr("department"));
+        doc.setHtml(style + text);
+    } break;
+    case VIEW_DEVICENAME: {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Gerätename !");
+
+        auto* deviceNameModel = new Model::DeviceName;
+        QString style = Model::DeviceName::setOutTableStyle();
+
+        QString text = deviceNameModel->generateTableString(tr("devicename"));
+        doc.setHtml(style + text);
+    } break;
+    case VIEW_DEVICETYPE: {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Geräte Typ !");
+
+        auto* deviceTypeModel = new Model::DeviceType;
+        QString style = Model::DeviceType::setOutTableStyle();
+
+        QString text = deviceTypeModel->generateTableString(tr("devicetype"));
+        doc.setHtml(style + text);
+    } break;
+    case VIEW_DOCUMENT: {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Dokumente !");
+
+        auto* documentModel = new Model::Document;
+        QString style = Model::Document::setOutTableStyle();
+
+        QString text = documentModel->generateTableString(tr("document"));
+        doc.setHtml(style + text);
+    } break;
+
     case VIEW_EMPLOYEE: {
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Mitarbeiter !");
+
+        auto* employeeModel = new Model::Employee;
         QString style = Model::Employee::setOutTableStyle();
-        auto* edm = new Model::Employee();
-        QString text = edm->generateTableString(tr("Mitarbeiter"));
 
+        QString text = employeeModel->generateTableString(tr("Mitarbeiter*innnen"));
+        doc.setHtml(style + text);
+    } break;
+    case VIEW_EMPLOYEEACCOUNT: {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Mitarbeiter*innen Zugänge!");
+
+        auto* employeeAccountModel = new Model::EmployeeAccount;
+        QString style = Model::EmployeeAccount::setOutTableStyle();
+
+        QString text = employeeAccountModel->generateTableString(tr("Mitarbeiter*innen Zugänge"));
+        doc.setHtml(style + text);
+    } break;
+    case VIEW_EMPLOYEEDOCUMENT: {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Mitarbeiter*innen Documente!");
+
+        auto* employeeDocumentModel = new Model::EmployeeDocument;
+        QString style = Model::EmployeeDocument::setOutTableStyle();
+
+        QString text = employeeDocumentModel->generateTableString(tr("Mitarbeiter*innen Documente"));
+        doc.setHtml(style + text);
+    } break;
+    case VIEW_EMPLOYEE_LIST: {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Mitarbeiter*innen Liste!");
+
+        auto* employeeDocumentModel = new Model::EmployeeDocument;
+        QString style = Model::EmployeeDocument::setOutTableStyle();
+
+        QString text = employeeDocumentModel->generateTableString(tr("Mitarbeiter*innen Liste"));
+        doc.setHtml(style + text);
+    } break;
+    case VIEW_FAX: {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Fax!");
+
+        auto* faxModel = new Model::Fax;
+        QString style = Model::Fax::setOutTableStyle();
+
+        QString text = faxModel->generateTableString(tr("Fax"));
+        doc.setHtml(style + text);
+    } break;
+    case VIEW_FUNCTION: {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Funktion!");
+
+        auto* functionModel = new Model::Function;
+        QString style = Model::Function::setOutTableStyle();
+
+        QString text = functionModel->generateTableString(tr("Funktion"));
+        doc.setHtml(style + text);
+    } break;
+    case VIEW_INVENTORY: {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Inventar!");
+
+        auto* inventoryModel = new Model::Inventory;
+        QString style = Model::Inventory::setOutTableStyle();
+
+        QString text = inventoryModel->generateTableString(tr("Inventar"));
         doc.setHtml(style + text);
     } break;
 
-    case VIEW_COMPUTER: {
-        qDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Computer !");
-        QString style = Model::Computer::setOutTableStyle();
-        auto* cdm = new Model::Computer;
-        QString text = cdm->generateTableString(tr("Computer"));
+    case VIEW_MANUFACTURER: {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Hersteller!");
 
+        auto* manufacturerModel = new Model::Manufacturer;
+        QString style = Model::Manufacturer::setOutTableStyle();
+
+        QString text = manufacturerModel->generateTableString(tr("Hersteller"));
+        doc.setHtml(style + text);
+    } break;
+    case VIEW_MOBILE: {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Mobiltelefon!");
+
+        auto* mobileModel = new Model::Mobile;
+        QString style = Model::Mobile::setOutTableStyle();
+
+        QString text = mobileModel->generateTableString(tr("Mobiletelefon"));
         doc.setHtml(style + text);
     } break;
 
-    case VIEW_PRINTER: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Drucker !");
-        QString style = Model::Printer::setOutTableStyle();
-        auto* pdm = new Model::Printer;
-        QString text = pdm->generateTableString(tr("Drucker"));
+    case VIEW_OS: {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Betriebssystem!");
 
+        auto* osModel = new Model::OS;
+        QString style = Model::OS::setOutTableStyle();
+
+        QString text = osModel->generateTableString(tr("Betriebssystem"));
         doc.setHtml(style + text);
     } break;
 
     case VIEW_PHONE: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << "Drucke Telefone !";
-        QString style = Model::Phone::setOutTableStyle();
-        auto* pdm = new Model::Phone;
-        QString text = pdm->generateTableString(tr("Telefon"));
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Telefon!");
 
+        auto* faxModel = new Model::Fax;
+        QString style = Model::Fax::setOutTableStyle();
+
+        QString text = faxModel->generateTableString(tr("Telefon"));
         doc.setHtml(style + text);
     } break;
 
+    case VIEW_PLACE: {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Platz!");
+
+        auto* placeModel = new Model::Place;
+        QString style = Model::Place::setOutTableStyle();
+
+        QString text = placeModel->generateTableString(tr("Platz"));
+        doc.setHtml(style + text);
+    } break;
+    case VIEW_PRINTER: {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Drucker!");
+
+        auto* printerModel = new Model::Printer;
+        QString style = Model::Printer::setOutTableStyle();
+
+        QString text = printerModel->generateTableString(tr("Drucker"));
+        doc.setHtml(style + text);
+    } break;
+
+    case VIEW_PROCESSOR: {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Prozessor!");
+
+        auto* processorModel = new Model::Processor;
+        QString style = Model::Processor::setOutTableStyle();
+
+        QString text = processorModel->generateTableString(tr("Prozessor"));
+        doc.setHtml(style + text);
+    } break;
+    case VIEW_SOFTWARE: {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Software!");
+
+        auto* softwareModel = new Model::Software;
+        QString style = Model::Software::setOutTableStyle();
+
+        QString text = softwareModel->generateTableString(tr("Software"));
+        doc.setHtml(style + text);
+    } break;
+    case VIEW_SYSTEMDATA: {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Systemdaten!");
+
+        auto* systemDataModel = new Model::SystemData;
+        QString style = Model::SystemData::setOutTableStyle();
+
+        QString text = systemDataModel->generateTableString(tr("Systemdaten"));
+        doc.setHtml(style + text);
+    } break;
+    case VIEW_TITLE: {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Titel!");
+
+        auto* titleModel = new Model::Title;
+        QString style = Model::Title::setOutTableStyle();
+
+        QString text = titleModel->generateTableString(tr("Titel"));
+        doc.setHtml(style + text);
+    } break;
+    case VIEW_ZIPCITY: {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Zip City!");
+
+        auto* zipCityModel = new Model::ZipCity;
+        QString style = Model::ZipCity::setOutTableStyle();
+
+        QString text = zipCityModel->generateTableString(tr("ZipCity"));
+        doc.setHtml(style + text);
+    } break;
+    case VIEW_ZIPCODE: {
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Zip Code!");
+
+        auto* zipCodeModel = new Model::ZipCode;
+        QString style = Model::ZipCode::setOutTableStyle();
+
+        QString text = zipCodeModel->generateTableString(tr("ZipCode"));
+        doc.setHtml(style + text);
+    } break;
     default:
         QString message = tr("Drucken unbekanntes Submodul");
         notAvailableMessage(message);
-        qCCritical(jmbdeWidgetsMainWindowLog) << tr("on_actionPrint_triggered(): Unbekanntes Sub-Modul");
+        qCCritical(jmbdeWidgetsMainWindowLog) << tr("on_action_Export_Pdf_triggered(): Unbekanntes Sub-Modul");
     }
-
-#if !defined(QT_NO_PRINTER) && !defined(QT_NO_PRINTDIALOG)
-    QPrinter printer(QPrinter::HighResolution);
-
-    printer.setPageOrientation(QPageLayout::Landscape);
-    auto* dlg = new QPrintDialog(&printer, this);
-
-    dlg->setWindowTitle(tr("Drucke Dokument"));
-    if (dlg->exec() == QDialog::Accepted) {
-        doc.print(&printer);
-    }
-    delete dlg;
-#endif
 }
 
 void MainWindow::on_action_Export_Pdf_triggered()
 {
     QTextDocument doc;
 
-    switch (actualView) {
-    case VIEW_EMPLOYEE: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Mitarbeiter !");
+    preparePrint(doc);
 
-        QString style = Model::Employee::setOutTableStyle();
-        auto* edm = new Model::Employee();
-        QString text = edm->generateTableString(tr("Mitarbeiter"));
-
-        doc.setHtml(style + text);
-    } break;
-
-    case VIEW_COMPUTER: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Computer !");
-
-        QString style = Model::Computer::setOutTableStyle();
-        auto* cdm = new Model::Computer;
-        QString text = cdm->generateTableString(tr("Computer"));
-
-        doc.setHtml(style + text);
-    } break;
-
-    case VIEW_PRINTER: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Drucker !");
-
-        QString style = Model::Printer::setOutTableStyle();
-        auto* pdm = new Model::Printer;
-        QString text = pdm->generateTableString(tr("Drucker"));
-
-        doc.setHtml(style + text);
-    } break;
-
-    case VIEW_PHONE: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Telefone !");
-
-        QString style = Model::Phone::setOutTableStyle();
-        auto* pdm = new Model::Phone;
-        QString text = pdm->generateTableString(tr("Telefon"));
-
-        doc.setHtml(style + text);
-    } break;
-
-    default:
-        QString message = tr("Drucken unbekanntes Submodul");
-        notAvailableMessage(message);
-        qCCritical(jmbdeWidgetsMainWindowLog) << tr("on_action_Export_Pdf_triggered(): Unbekanntes Sub-Modul");
-    }
-
-#ifndef QT_NO_PRINTER
-
-    // ! [0]
     QString fileName = QFileDialog::getSaveFileName(this, QLatin1String("Export PDF"), QString(), QLatin1String("*.pdf"));
 
     if (!fileName.isEmpty()) {
@@ -378,63 +609,14 @@ void MainWindow::on_action_Export_Pdf_triggered()
         printer.setOutputFileName(fileName);
         doc.print(&printer);
     }
-
-// ! [0]
-#endif
 }
 
 void MainWindow::on_actionPrint_Preview_triggered()
 {
     QTextDocument doc;
 
-    switch (actualView) {
-    case VIEW_EMPLOYEE: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Mitarbeiter !");
+    preparePrint(doc);
 
-        QString style = Model::Employee::setOutTableStyle();
-        auto* edm = new Model::Employee();
-        QString text = edm->generateTableString(tr("Mitarbeiter"));
-
-        doc.setHtml(style + text);
-    } break;
-
-    case VIEW_COMPUTER: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Computer !");
-
-        QString style = Model::Computer::setOutTableStyle();
-        auto* cdm = new Model::Computer;
-        QString text = cdm->generateTableString(tr("Computer"));
-
-        doc.setHtml(style + text);
-    } break;
-
-    case VIEW_PRINTER: {
-        qDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Drucker !");
-
-        QString style = Model::Printer::setOutTableStyle();
-        auto* pdm = new Model::Printer;
-        QString text = pdm->generateTableString(tr("Drucker"));
-
-        doc.setHtml(style + text);
-    } break;
-
-    case VIEW_PHONE: {
-        qDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Telefone !");
-
-        QString style = Model::Phone::setOutTableStyle();
-        auto* pdm = new Model::Phone;
-        QString text = pdm->generateTableString(tr("Telefon"));
-
-        doc.setHtml(style + text);
-    } break;
-
-    default:
-        QString message = tr("Drucken unbekanntes Submodul");
-        notAvailableMessage(message);
-        qCCritical(jmbdeWidgetsMainWindowLog) << "on_action_Export_Pdf_triggered(): Unbekanntes Sub-Modul";
-    }
-
-#if !defined(QT_NO_PRINTER) && !defined(QT_NO_PRINTDIALOG)
     QPrinter printer(QPrinter::HighResolution);
 
     printer.setPageOrientation(QPageLayout::Landscape);
@@ -444,7 +626,24 @@ void MainWindow::on_actionPrint_Preview_triggered()
 
     connect(&preview, SIGNAL(paintRequested(QPrinter*)), SLOT(printPreview(QPrinter*)));
     preview.exec();
-#endif
+}
+
+void MainWindow::on_actionPrint_triggered()
+{
+    QTextDocument doc;
+
+    preparePrint(doc);
+
+    QPrinter printer(QPrinter::HighResolution);
+
+    printer.setPageOrientation(QPageLayout::Landscape);
+    auto* dlg = new QPrintDialog(&printer, this);
+
+    dlg->setWindowTitle(tr("Drucke Dokument"));
+    if (dlg->exec() == QDialog::Accepted) {
+        doc.print(&printer);
+    }
+    delete dlg;
 }
 
 void MainWindow::notAvailableMessage(const QString& functionName)
@@ -490,6 +689,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex& index)
         accountInput->setMinimumSize(adjustSize);
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(accountInput);
+
     } else if (selected == tr("Schlüsselchip Tür")) { // ChipCardDoor
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
@@ -503,7 +703,8 @@ void MainWindow::on_treeView_clicked(const QModelIndex& index)
         chipCardDoorInput->setMinimumSize(adjustSize);
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(chipCardDoorInput);
-    } else if (selected == tr("Schlüsselchip")) { // ChipCard
+
+    } else if (selected == tr("Schlüssel Chip")) { // ChipCard
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_CHIPCARD;
@@ -516,7 +717,8 @@ void MainWindow::on_treeView_clicked(const QModelIndex& index)
         chipCardInput->setMinimumSize(adjustSize);
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(chipCardInput);
-    } else if (selected == tr("Schlüsselchip Profil Tür")) { // ChipCardProfileDoor
+
+    } else if (selected == tr("Schlüssel Chip Profile Tür")) { // ChipCardProfileDoor
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_CHIPCARDPROFILEDOOR;
@@ -529,7 +731,8 @@ void MainWindow::on_treeView_clicked(const QModelIndex& index)
         chipCardProfileDoorInput->setMinimumSize(adjustSize);
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(chipCardProfileDoorInput);
-    } else if (selected == tr("Schlüsselchip Profile")) { // ChipCardProfile
+
+    } else if (selected == tr("Schlüssel Chip Profil")) { // ChipCardProfile
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_CHIPCARDPROFILE;
@@ -542,6 +745,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex& index)
         chipCardProfileInput->setMinimumSize(adjustSize);
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(chipCardProfileInput);
+
     } else if (selected == tr("Stadt")) { // City
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
@@ -555,6 +759,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex& index)
         cityInput->setMinimumSize(adjustSize);
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(cityInput);
+
     } else if (selected == tr("Firma")) { // Company
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
@@ -607,7 +812,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex& index)
         departmentInput->setMinimumSize(adjustSize);
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(departmentInput);
-    } else if (selected == tr("Gerätename")) { // Device Name
+    } else if (selected == tr("Geräte Name")) { // Device Name
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_DEVICENAME;
@@ -620,7 +825,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex& index)
         deviceNameInput->setMinimumSize(adjustSize);
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(deviceNameInput);
-    } else if (selected == tr("Gerätetyp")) { // Device Type
+    } else if (selected == tr("Geräte Typ")) { // Device Type
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_DEVICETYPE;
@@ -633,6 +838,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex& index)
         deviceTypeInput->setMinimumSize(adjustSize);
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(deviceTypeInput);
+
     } else if (selected == tr("Dokument")) { // Document
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
@@ -646,7 +852,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex& index)
         documentInput->setMinimumSize(adjustSize);
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(documentInput);
-    } else if (selected == tr("Mitarbeiter Zugang")) { // Employee Account
+    } else if (selected == tr("Mitarbeiter*innen Zugang")) { // Employee Account
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_EMPLOYEEACCOUNT;
@@ -660,7 +866,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex& index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(employeeAccountInput);
 
-    } else if (selected == tr("Mitarbeiter Dokument")) { // Employee Document
+    } else if (selected == tr("Mitarbeiter*innen Dokument")) { // Employee Document
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_EMPLOYEEDOCUMENT;
@@ -674,7 +880,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex& index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(employeeDocumentInput);
 
-    } else if (selected == tr("Mitarbeiter")) { // Employee
+    } else if (selected == tr("Mitarbeiter*innen")) { // Employee
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
         actualView = VIEW_EMPLOYEE;
 
@@ -712,6 +918,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex& index)
         functionInput->setMinimumSize(adjustSize);
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(functionInput);
+
     } else if (selected == tr("Inventar")) {
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
@@ -751,7 +958,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex& index)
         manufacturerInput->setMinimumSize(adjustSize);
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(manufacturerInput);
-    } else if (selected == tr("Mobiltelefon")) { // Mobile
+    } else if (selected == tr("Mobile Telefon")) { // Mobile
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
         actualView = VIEW_MOBILE;
@@ -764,6 +971,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex& index)
         mobileInput->setMinimumSize(adjustSize);
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(mobileInput);
+
     } else if (selected == tr("Betriebssystem")) { // OS
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
@@ -816,6 +1024,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex& index)
         printerInput->setMinimumSize(adjustSize);
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(printerInput);
+
     } else if (selected == tr("Prozessor")) { // Processor
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
@@ -845,7 +1054,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex& index)
     } else if (selected == tr("System Daten")) { // System Data
         qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
 
-        actualView = VIEW_SYSTEM;
+        actualView = VIEW_SYSTEMDATA;
 
         actualizeSystemDataListView();
 
@@ -910,99 +1119,250 @@ void MainWindow::on_listView_clicked(const QModelIndex& index)
 
         QObject::connect(accountInput, SIGNAL(dataChanged()), this, SLOT(actualizeAccountListView()));
 
-        QSize AdjustSize = accountInput->size();
-        AdjustSize.width();
-        accountInput->setMinimumSize(AdjustSize);
+        QSize adjustSize = accountInput->size();
+        adjustSize.width();
+        accountInput->setMinimumSize(adjustSize);
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(accountInput);
     } break;
-    case VIEW_CHIPCARD: {
-        auto* chipCardInput = new ChipCardInputArea(ui->scrollArea, index);
 
-        QObject::connect(chipCardInput, SIGNAL(dataChanged()), this, SLOT(actualizeChipCardListView()));
-
-        QSize AdjustSize = chipCardInput->size();
-        AdjustSize.width();
-        chipCardInput->setMinimumSize(AdjustSize);
-        ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(chipCardInput);
-    } break;
     case VIEW_CHIPCARDDOOR: {
         auto* chipCardDoorInput = new ChipCardDoorInputArea(ui->scrollArea, index);
 
         QObject::connect(chipCardDoorInput, SIGNAL(dataChanged()), this, SLOT(actualizeChipCardDoorListView()));
 
-        QSize AdjustSize = chipCardDoorInput->size();
-        AdjustSize.width();
-        chipCardDoorInput->setMinimumSize(AdjustSize);
+        QSize adjustSize = chipCardDoorInput->size();
+        adjustSize.width();
+        chipCardDoorInput->setMinimumSize(adjustSize);
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(chipCardDoorInput);
     } break;
-    case VIEW_CITYNAME: {
-        auto* cia = new CityInputArea(nullptr, index);
 
-        QSize AdjustSize = cia->size();
-        AdjustSize.width();
-        cia->setMinimumSize(AdjustSize);
+    case VIEW_CHIPCARD: {
+        auto* chipCardInput = new ChipCardInputArea(ui->scrollArea, index);
+
+        QObject::connect(chipCardInput, SIGNAL(dataChanged()), this, SLOT(actualizeChipCardListView()));
+
+        QSize adjustSize = chipCardInput->size();
+        adjustSize.width();
+        chipCardInput->setMinimumSize(adjustSize);
         ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(cia);
+        ui->scrollArea->setWidget(chipCardInput);
+    } break;
+
+    case VIEW_CHIPCARDPROFILEDOOR: {
+        auto* chipCardProfileDoorInput = new ChipCardProfileDoorInputArea(ui->scrollArea, index);
+
+        QObject::connect(chipCardProfileDoorInput, SIGNAL(dataChanged()), this, SLOT(actualizeChipCardProfileDoorListView()));
+
+        QSize adjustSize = chipCardProfileDoorInput->size();
+        adjustSize.width();
+        chipCardProfileDoorInput->setMinimumSize(adjustSize);
+        ui->scrollArea->setWidgetResizable(true);
+        ui->scrollArea->setWidget(chipCardProfileDoorInput);
+    } break;
+
+    case VIEW_CHIPCARDPROFILE: {
+        auto* chipCardProfileInput = new ChipCardProfileInputArea(ui->scrollArea, index);
+
+        QObject::connect(chipCardProfileInput, SIGNAL(dataChanged()), this, SLOT(actualizeChipCardProfileListView()));
+
+        QSize adjustSize = chipCardProfileInput->size();
+        adjustSize.width();
+        chipCardProfileInput->setMinimumSize(adjustSize);
+        ui->scrollArea->setWidgetResizable(true);
+        ui->scrollArea->setWidget(chipCardProfileInput);
+    } break;
+
+    case VIEW_CITYNAME: {
+        auto* cityNameInput = new CityInputArea(ui->scrollArea, index);
+
+        QObject::connect(cityNameInput, SIGNAL(dataChanged()), this, SLOT(actualizeCityNameListView()));
+
+        QSize adjustSize = cityNameInput->size();
+        adjustSize.width();
+        cityNameInput->setMinimumSize(adjustSize);
+        ui->scrollArea->setWidgetResizable(true);
+        ui->scrollArea->setWidget(cityNameInput);
+    } break;
+
+    case VIEW_COMPANY: {
+        auto* companyInput = new CompanyInputArea(ui->scrollArea, index);
+
+        QObject::connect(companyInput, SIGNAL(dataChanged()), this, SLOT(actualizeCompanyListView()));
+
+        QSize adjustSize = companyInput->size();
+        adjustSize.width();
+        companyInput->setMinimumSize(adjustSize);
+        ui->scrollArea->setWidgetResizable(true);
+        ui->scrollArea->setWidget(companyInput);
     } break;
 
     case VIEW_COMPUTER: {
-        auto* cia = new ComputerInputArea(ui->scrollArea, index);
+        auto* computerInput = new ComputerInputArea(ui->scrollArea, index);
 
-        QSize AdjustSize = cia->size();
-        AdjustSize.width();
-        cia->setMinimumSize(AdjustSize);
+        QObject::connect(computerInput, SIGNAL(dataChanged()), this, SLOT(actualizeComputerListView()));
+
+        QSize adjustSize = computerInput->size();
+        adjustSize.width();
+        computerInput->setMinimumSize(adjustSize);
         ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(cia);
+        ui->scrollArea->setWidget(computerInput);
+    } break;
+
+    case VIEW_COMPUTERSOFTWARE: {
+        auto* computerSoftwareInput = new ComputerSoftwareInputArea(ui->scrollArea, index);
+
+        QObject::connect(computerSoftwareInput, SIGNAL(dataChanged()), this, SLOT(actualizeComputerSoftwareListView()));
+
+        QSize adjustSize = computerSoftwareInput->size();
+        adjustSize.width();
+        computerSoftwareInput->setMinimumSize(adjustSize);
+        ui->scrollArea->setWidgetResizable(true);
+        ui->scrollArea->setWidget(computerSoftwareInput);
     } break;
 
     case VIEW_DEPARTMENT: {
-        auto* dia = new DepartmentInputArea(nullptr, index);
+        auto* departmentInput = new DepartmentInputArea(ui->scrollArea, index);
 
-        QSize AdjustSize = dia->size();
-        AdjustSize.width();
-        dia->setMinimumSize(AdjustSize);
+        QObject::connect(departmentInput, SIGNAL(dataChanged()), this, SLOT(actualizeDepartmentListView()));
+
+        QSize adjustSize = departmentInput->size();
+        adjustSize.width();
+        departmentInput->setMinimumSize(adjustSize);
         ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(dia);
+        ui->scrollArea->setWidget(departmentInput);
+    } break;
+
+    case VIEW_DEVICENAME: {
+        auto* deviceNameInput = new DeviceNameInputArea(ui->scrollArea, index);
+
+        QObject::connect(deviceNameInput, SIGNAL(dataChanged()), this, SLOT(actualizeDeviceNameListView()));
+
+        QSize adjustSize = deviceNameInput->size();
+        adjustSize.width();
+        deviceNameInput->setMinimumSize(adjustSize);
+        ui->scrollArea->setWidgetResizable(true);
+        ui->scrollArea->setWidget(deviceNameInput);
+    } break;
+
+    case VIEW_DEVICETYPE: {
+        auto* deviceTypeInput = new DeviceTypeInputArea(ui->scrollArea, index);
+
+        QObject::connect(deviceTypeInput, SIGNAL(dataChanged()), this, SLOT(actualizeDeviceTypeListView()));
+
+        QSize adjustSize = deviceTypeInput->size();
+        adjustSize.width();
+        deviceTypeInput->setMinimumSize(adjustSize);
+        ui->scrollArea->setWidgetResizable(true);
+        ui->scrollArea->setWidget(deviceTypeInput);
+    } break;
+
+    case VIEW_DOCUMENT: {
+        auto* documentInput = new DocumentInputArea(ui->scrollArea, index);
+
+        QObject::connect(documentInput, SIGNAL(dataChanged()), this, SLOT(actualizeDocumentListView()));
+
+        QSize adjustSize = documentInput->size();
+        adjustSize.width();
+        documentInput->setMinimumSize(adjustSize);
+        ui->scrollArea->setWidgetResizable(true);
+        ui->scrollArea->setWidget(documentInput);
+    } break;
+
+    case VIEW_EMPLOYEEACCOUNT: {
+        auto* employeeAccountInput = new EmployeeAccountInputArea(ui->scrollArea, index);
+
+        QObject::connect(employeeAccountInput, SIGNAL(dataChanged()), this, SLOT(actualizeEmployeAccountListView()));
+
+        QSize adjustSize = employeeAccountInput->size();
+        adjustSize.width();
+        employeeAccountInput->setMinimumSize(adjustSize);
+        ui->scrollArea->setWidgetResizable(true);
+        ui->scrollArea->setWidget(employeeAccountInput);
+    } break;
+
+    case VIEW_EMPLOYEEDOCUMENT: {
+        auto* employeeDocumentInput = new EmployeeDocumentInputArea(ui->scrollArea, index);
+
+        QObject::connect(employeeDocumentInput, SIGNAL(dataChanged()), this, SLOT(actualizeEmployeDocumentListView()));
+
+        QSize adjustSize = employeeDocumentInput->size();
+        adjustSize.width();
+        employeeDocumentInput->setMinimumSize(adjustSize);
+        ui->scrollArea->setWidgetResizable(true);
+        ui->scrollArea->setWidget(employeeDocumentInput);
     } break;
 
     case VIEW_EMPLOYEE: {
-        auto* eia = new EmployeeInputArea(ui->scrollArea, index);
+        auto* employeeInput = new EmployeeInputArea(ui->scrollArea, index);
 
-        QObject::connect(eia, SIGNAL(dataChanged()), this, SLOT(actualizeEmployeListView()));
+        QObject::connect(employeeInput, SIGNAL(dataChanged()), this, SLOT(actualizeEmployeListView()));
 
-        QSize AdjustSize = eia->size();
-        AdjustSize.width();
-        eia->setMinimumSize(AdjustSize);
+        QSize adjustSize = employeeInput->size();
+        adjustSize.width();
+        employeeInput->setMinimumSize(adjustSize);
         ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(eia);
+    } break;
 
+    case VIEW_EMPLOYEE_LIST: {
+        auto* employeeList = new EmployeeTable(ui->scrollArea, index);
+
+        QSize adjustSize = employeeList->size();
+        adjustSize.width();
+        employeeList->setMinimumSize(adjustSize);
+        ui->scrollArea->setWidgetResizable(true);
+    }
+
+    case VIEW_FAX: {
+        auto* faxInput = new FaxInputArea(ui->scrollArea, index);
+
+        QObject::connect(faxInput, SIGNAL(dataChanged()), this, SLOT(actualizeFaxListView()));
+
+        QSize adjustSize = faxInput->size();
+        adjustSize.width();
+        faxInput->setMinimumSize(adjustSize);
+        ui->scrollArea->setWidgetResizable(true);
     } break;
 
     case VIEW_FUNCTION: {
-        auto* fia = new FunctionInputArea(nullptr, index);
+        auto* functionInput = new FunctionInputArea(ui->scrollArea, index);
 
-        QSize AdjustSize = fia->size();
-        AdjustSize.width();
-        fia->setMinimumSize(AdjustSize);
+        QObject::connect(functionInput, SIGNAL(dataChanged()), this, SLOT(actualizeFunctionListView()));
+
+        QSize adjustSize = functionInput->size();
+        adjustSize.width();
+        functionInput->setMinimumSize(adjustSize);
         ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(fia);
+        ui->scrollArea->setWidget(functionInput);
+    } break;
+
+    case VIEW_INVENTORY: {
+        auto* inventoryInput = new InventoryInputArea(ui->scrollArea, index);
+
+        QObject::connect(inventoryInput, SIGNAL(dataChanged()), this, SLOT(actualizeInventoryListView()));
+
+        QSize adjustSize = inventoryInput->size();
+        adjustSize.width();
+        inventoryInput->setMinimumSize(adjustSize);
+        ui->scrollArea->setWidgetResizable(true);
+        ui->scrollArea->setWidget(inventoryInput);
     } break;
 
     case VIEW_MANUFACTURER: {
-        auto* mia = new ManufacturerInputArea(nullptr, index);
+        auto* manufacturerInput = new ManufacturerInputArea(ui->scrollArea, index);
 
-        QSize AdjustSize = mia->size();
-        AdjustSize.width();
-        mia->setMinimumSize(AdjustSize);
+        QObject::connect(manufacturerInput, SIGNAL(dataChanged()), this, SLOT(actualizeManufacturersListView()));
+
+        QSize adjustSize = manufacturerInput->size();
+        adjustSize.width();
+        manufacturerInput->setMinimumSize(adjustSize);
         ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(mia);
+        ui->scrollArea->setWidget(manufacturerInput);
     } break;
 
     case VIEW_MOBILE: {
-        auto* mia = new MobileInputArea(nullptr, index);
+        auto* mia = new MobileInputArea(ui->scrollArea, index);
 
         QSize AdjustSize = mia->size();
         AdjustSize.width();
@@ -1012,65 +1372,124 @@ void MainWindow::on_listView_clicked(const QModelIndex& index)
     } break;
 
     case VIEW_OS: {
-        auto* oia = new OSInputArea(nullptr, index);
+        auto* osInput = new OSInputArea(ui->scrollArea, index);
 
-        QSize AdjustSize = oia->size();
-        AdjustSize.width();
-        oia->setMinimumSize(AdjustSize);
+        QObject::connect(osInput, SIGNAL(dataChanged()), this, SLOT(actualizeOsListView()));
+
+        QSize adjustSize = osInput->size();
+        adjustSize.width();
+        osInput->setMinimumSize(adjustSize);
         ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(oia);
+        ui->scrollArea->setWidget(osInput);
     } break;
 
     case VIEW_PHONE: {
-        auto* pia = new PhoneInputArea(nullptr, index);
+        auto* phoneInput = new PhoneInputArea(ui->scrollArea, index);
 
-        QSize AdjustSize = pia->size();
-        AdjustSize.width();
-        pia->setMinimumSize(AdjustSize);
+        QObject::connect(phoneInput, SIGNAL(dataChanged()), this, SLOT(actualizePhoneListView()));
+
+        QSize adjustSize = phoneInput->size();
+        adjustSize.width();
+        phoneInput->setMinimumSize(adjustSize);
         ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(pia);
+        ui->scrollArea->setWidget(phoneInput);
+    } break;
+
+    case VIEW_PLACE: {
+        auto* placeInput = new PlaceInputArea(ui->scrollArea, index);
+
+        QObject::connect(placeInput, SIGNAL(dataChanged()), this, SLOT(actualizeplaceListView()));
+
+        QSize adjustSize = placeInput->size();
+        adjustSize.width();
+        placeInput->setMinimumSize(adjustSize);
+        ui->scrollArea->setWidgetResizable(true);
+        ui->scrollArea->setWidget(placeInput);
     } break;
 
     case VIEW_PRINTER: {
-        auto* pia = new PrinterInputArea(nullptr, index);
+        auto* printerInput = new PrinterInputArea(ui->scrollArea, index);
 
-        QSize AdjustSize = pia->size();
-        AdjustSize.width();
-        pia->setMinimumSize(AdjustSize);
+        QObject::connect(printerInput, SIGNAL(dataChanged()), this, SLOT(actualizePrinterListView()));
+
+        QSize adjustSize = printerInput->size();
+        adjustSize.width();
+        printerInput->setMinimumSize(adjustSize);
         ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(pia);
+        ui->scrollArea->setWidget(printerInput);
     } break;
 
     case VIEW_PROCESSOR: {
-        auto* pia = new ProcessorInputArea(nullptr, index);
+        auto* processorInput = new ProcessorInputArea(ui->scrollArea, index);
 
-        QSize AdjustSize = pia->size();
-        AdjustSize.width();
-        pia->setMinimumSize(AdjustSize);
+        QObject::connect(processorInput, SIGNAL(dataChanged()), this, SLOT(actualizeProcessorListView()));
+
+        QSize adjustSize = processorInput->size();
+        adjustSize.width();
+        processorInput->setMinimumSize(adjustSize);
         ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(pia);
+        ui->scrollArea->setWidget(processorInput);
     } break;
 
     case VIEW_SOFTWARE: {
-        auto* sia = new SoftwareInputArea(nullptr, index);
+        auto* softwareInput = new SoftwareInputArea(ui->scrollArea, index);
 
-        QSize AdjustSize = sia->size();
-        AdjustSize.width();
-        sia->setMinimumSize(AdjustSize);
+        QObject::connect(softwareInput, SIGNAL(dataChanged()), this, SLOT(actualizeSoftwareListView()));
+
+        QSize adjustSize = softwareInput->size();
+        adjustSize.width();
+        softwareInput->setMinimumSize(adjustSize);
         ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(sia);
+        ui->scrollArea->setWidget(softwareInput);
+    } break;
+
+    case VIEW_SYSTEMDATA: {
+        auto* systemDataInput = new SystemDataInputArea(ui->scrollArea, index);
+
+        QObject::connect(systemDataInput, SIGNAL(dataChanged()), this, SLOT(actualizeSystemDataListView()));
+
+        QSize adjustSize = systemDataInput->size();
+        adjustSize.width();
+        systemDataInput->setMinimumSize(adjustSize);
+        ui->scrollArea->setWidgetResizable(true);
+        ui->scrollArea->setWidget(systemDataInput);
     } break;
 
     case VIEW_TITLE: {
-        auto* fia = new FunctionInputArea(nullptr, index);
+        auto* titleInput = new TitleInputArea(ui->scrollArea, index);
 
-        QSize AdjustSize = fia->size();
-        AdjustSize.width();
-        fia->setMinimumSize(AdjustSize);
+        QObject::connect(titleInput, SIGNAL(dataChanged()), this, SLOT(actualizeTitleListView()));
+
+        QSize adjustSize = titleInput->size();
+        adjustSize.width();
+        titleInput->setMinimumSize(adjustSize);
         ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(fia);
+        ui->scrollArea->setWidget(titleInput);
     } break;
 
+    case VIEW_ZIPCITY: {
+        auto* zipCityInput = new ZipCityInputArea(ui->scrollArea, index);
+
+        QObject::connect(zipCityInput, SIGNAL(dataChanged()), this, SLOT(actualizeZipCityListView()));
+
+        QSize adjustSize = zipCityInput->size();
+        adjustSize.width();
+        zipCityInput->setMinimumSize(adjustSize);
+        ui->scrollArea->setWidgetResizable(true);
+        ui->scrollArea->setWidget(zipCityInput);
+    } break;
+
+    case VIEW_ZIPCODE: {
+        auto* zipCodeInput = new ZipCodeInputArea(ui->scrollArea, index);
+
+        QObject::connect(zipCodeInput, SIGNAL(dataChanged()), this, SLOT(actualizeZipCodeListView()));
+
+        QSize adjustSize = zipCodeInput->size();
+        adjustSize.width();
+        zipCodeInput->setMinimumSize(adjustSize);
+        ui->scrollArea->setWidgetResizable(true);
+        ui->scrollArea->setWidget(zipCodeInput);
+    } break;
     default:
         const QString caller = tr("onClickedlistViewRow(): Unbekannte Funktion");
         notAvailableMessage(caller);

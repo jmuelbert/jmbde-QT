@@ -136,6 +136,38 @@ protected:
      * @param event Tehe recived event
      */
     void JMBDEWIDGETS_EXPORT resizeEvent(QResizeEvent* event);
+public slots:
+    void actualizeAccoutListView();
+    void actualizeChipCardDoorListView();
+    void actualizeChipCardListView();
+    void actualizeChipCardProfileDoorListView();
+    void actualizeChipCardProfileListView();
+    void actualizeCityListView();
+    void actualizeCompanyListView();
+    void actualizeComputerListView();
+    void actualizeComputerSoftwareListView();
+    void actualizeDepartmentListView();
+    void actualizeDeviceNameListView();
+    void actualizeDeviceTypeListView();
+    void actualizeDocumentListView();
+    void actualizeEmployeeAccountListView();
+    void actualizeEmployeeDocumentListView();
+    void actualizeEmployeeListView();
+    void actualizeFaxListView();
+    void actualizeFunctionListView();
+    void actualizeInventoryListView();
+    void actualizeManufacturerListView();
+    void actualizeMobileListView();
+    void actualizeOsListView();
+    void actualizePhoneListView();
+    void actualizePlaceListView();
+    void actualizePrinterListView();
+    void actualizeProcessorListView();
+    void actualizeSoftwareListView();
+    void actualizeSystemDataListView();
+    void actualizeTitleListView();
+    void actualizeZipCityListView();
+    void actualizeZipCodeListView();
 
 private slots:
     /**
@@ -220,38 +252,6 @@ private slots:
      */
     void JMBDEWIDGETS_EXPORT on_listView_clicked(const QModelIndex& index);
 
-    void actualizeAccoutListView();
-    void actualizeChipCardDoorListView();
-    void actualizeChipCardListView();
-    void actualizeChipCardProfileDoorListView();
-    void actualizeChipCardProfileListView();
-    void actualizeCityListView();
-    void actualizeCompanyListView();
-    void actualizeComputerListView();
-    void actualizeComputerSoftwareListView();
-    void actualizeDepartmentListView();
-    void actualizeDeviceNameListView();
-    void actualizeDeviceTypeListView();
-    void actualizeDocumentListView();
-    void actualizeEmployeeAccountListView();
-    void actualizeEmployeeDocumentListView();
-    void actualizeEmployeeListView();
-    void actualizeFaxListView();
-    void actualizeFunctionListView();
-    void actualizeInventoryListView();
-    void actualizeManufacturerListView();
-    void actualizeMobileListView();
-    void actualizeOsListView();
-    void actualizePhoneListView();
-    void actualizePlaceListView();
-    void actualizePrinterListView();
-    void actualizeProcessorListView();
-    void actualizeSoftwareListView();
-    void actualizeSystemDataListView();
-    void actualizeTitleListView();
-    void actualizeZipCityListView();
-    void actualizeZipCodeListView();
-
 private:
     /**
      * @brief ui
@@ -281,6 +281,8 @@ private:
     void notAvailableMessage(const QString& functionName);
 
     void actualizeListView(QSqlTableModel* listModel, int idx);
+
+    void preparePrint(QTextDocument& doc);
 
     /**
      * @brief model
@@ -365,6 +367,7 @@ private:
         VIEW_DEVICETYPE,
         VIEW_DOCUMENT,
         VIEW_EMPLOYEE,
+        VIEW_EMPLOYEE_LIST,
         VIEW_EMPLOYEEACCOUNT,
         VIEW_EMPLOYEEDOCUMENT,
         VIEW_FAX,
@@ -378,7 +381,7 @@ private:
         VIEW_PRINTER,
         VIEW_PROCESSOR,
         VIEW_SOFTWARE,
-        VIEW_SYSTEM,
+        VIEW_SYSTEMDATA,
         VIEW_TITLE,
         VIEW_ZIPCITY,
         VIEW_ZIPCODE

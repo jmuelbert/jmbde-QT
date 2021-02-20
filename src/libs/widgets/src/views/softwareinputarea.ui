@@ -26,7 +26,7 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-        <widget class="QLabel" name="headerLabel">
+         <widget class="QLabel" name="headerLabel">
           <property name="font">
            <font>
             <pointsize>16</pointsize>
@@ -84,7 +84,7 @@
            <string>Version</string>
           </property>
           <property name="buddy">
-           <cstring>rersionLineEdit</cstring>
+           <cstring>versionLineEdit</cstring>
           </property>
          </widget>
         </item>
