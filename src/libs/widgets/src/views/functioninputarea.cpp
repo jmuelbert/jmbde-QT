@@ -15,7 +15,7 @@ FunctionInputArea::FunctionInputArea(QWidget *parent, const QModelIndex &index)
 {
     ui->setupUi(this);
 
-    qCDebug(jmbdeWidgetsFunctionInputAreaLog) << "Init FunctionInputArea for Index :" << index.column();
+    qCDebug(jmbdeWidgetsFunctionInputAreaLog) << tr("Initialisiere FunctionInputArea mit Index :") << index.row();
 
     this->m_functionModel = new Model::Function();
     this->m_db = this->m_functionModel->getDB();
@@ -29,12 +29,22 @@ FunctionInputArea::FunctionInputArea(QWidget *parent, const QModelIndex &index)
     // Set the mapper
     m_mapper = new QDataWidgetMapper();
     m_mapper->setModel(m_model);
+    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
     setMappings();
 
-    m_mapper->setCurrentIndex(index.row());
+    qCDebug(jmbdeWidgetsFunctionInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
-    connect(ui->priorityHorizontalSlider, &QSlider::valueChanged, ui->priorityLCDNumber, &QLCDNumber::intValue);
+    if (index.row() < 0) {
+        m_mapper->toFirst();
+    } else {
+        m_mapper->setCurrentIndex(index.row());
+    }
+
+    connect(ui->priorityHorizontalSlider, &QSlider::valueChanged, ui->prioritySpinBox, &QSpinBox::setValue);
+    connect(ui->prioritySpinBox, &QSpinBox::valueChanged, ui->priorityHorizontalSlider, &QSlider::setValue);
+    QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &FunctionInputArea::addEdit);
+    QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &FunctionInputArea::editFinish);
 }
 
 FunctionInputArea::~FunctionInputArea()
@@ -45,7 +55,8 @@ FunctionInputArea::~FunctionInputArea()
 void FunctionInputArea::setMappings()
 {
     m_mapper->addMapping(ui->nameLineEdit, this->m_functionModel->getNameIndex());
-    m_mapper->addMapping(ui->priorityHorizontalSlider, this->m_functionModel->getPriorityIndex());
+    m_mapper->addMapping(ui->prioritySpinBox, this->m_functionModel->getPriorityIndex());
+    ui->priorityHorizontalSlider->setValue(ui->prioritySpinBox->value());
     m_mapper->addMapping(ui->lastUpdateLineEdit, this->m_functionModel->getLastUpdateIndex());
 }
 
@@ -53,11 +64,14 @@ void FunctionInputArea::setViewOnlyMode(bool mode)
 {
     ui->nameLineEdit->setDisabled(mode);
     ui->priorityHorizontalSlider->setDisabled(mode);
+    ui->priorityHorizontalSlider->setDisabled(mode);
+    ui->prioritySpinBox->setDisabled(mode);
+    ui->priorityHorizontalSlider->setValue(ui->prioritySpinBox->value());
 }
 
 void FunctionInputArea::createDataset()
 {
-    qCDebug(jmbdeWidgetsFunctionInputAreaLog) << "Create a new Dataset for ChipCard...";
+    qCDebug(jmbdeWidgetsFunctionInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Function...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -71,26 +85,23 @@ void FunctionInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void FunctionInputArea::retrieveDataset(const QModelIndex index)
+void FunctionInputArea::deleteDataset(const QModelIndex &index)
 {
+    qCDebug(jmbdeWidgetsFunctionInputAreaLog) << tr("Lösche Daten von Function");
+    m_mapper->setCurrentIndex(index.row());
 }
 
-void FunctionInputArea::updateDataset(const QModelIndex index)
+void FunctionInputArea::addEdit()
 {
-}
-
-void FunctionInputArea::deleteDataset(const QModelIndex index)
-{
-}
-
-void FunctionInputArea::on_pushButton_Add_clicked()
-{
+    qCDebug(jmbdeWidgetsFunctionInputAreaLog) << tr("Füge neue Daten zu Function");
     createDataset();
-    on_pushButton_EditFinish_clicked();
+    editFinish();
 }
 
-void FunctionInputArea::on_pushButton_EditFinish_clicked()
+void FunctionInputArea::editFinish()
 {
+    qCDebug(jmbdeWidgetsFunctionInputAreaLog) << tr("Bearbeite oder schließe Function Daten");
+
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
@@ -100,7 +111,7 @@ void FunctionInputArea::on_pushButton_EditFinish_clicked()
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsFunctionInputAreaLog) << "Save Data...";
+        qCDebug(jmbdeWidgetsFunctionInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -117,17 +128,17 @@ void FunctionInputArea::on_pushButton_EditFinish_clicked()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(jmbdeWidgetsFunctionInputAreaLog) << "Commit changes for Chipcard Database Table";
-                m_model->database().rollback();
+                qCDebug(jmbdeWidgetsFunctionInputAreaLog) << tr("Schreiben der Änderungen für Function in die Datenbank");
+                dataChanged();
             } else {
                 m_model->database().rollback();
-                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet einen Fehler: %1").arg(m_model->lastError().text()));
+                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
             }
         }
     } break;
 
     default: {
-        qCCritical(jmbdeWidgetsFunctionInputAreaLog) << tr("Fehler");
+        qCCritical(jmbdeWidgetsFunctionInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

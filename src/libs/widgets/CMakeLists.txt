@@ -12,18 +12,18 @@
 # details.
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.12...3.18 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.12...3.19 FATAL_ERROR)
 
-if(${CMAKE_VERSION} VERSION_LESS 3.18)
+if(${CMAKE_VERSION} VERSION_LESS 3.19)
   cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 else()
-  cmake_policy(VERSION 3.18)
+  cmake_policy(VERSION 3.19)
 endif()
 
 # JMBDEWIDGETS project
 project(
   "jmbdewidgets"
-  VERSION "0.2.0"
+  VERSION "0.3.0"
   DESCRIPTION "${PROJECT_NAME} WIDGETS-UI Library"
   HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
   LANGUAGES CXX)
@@ -37,7 +37,6 @@ message(
 
 include(GenerateExportHeader)
 include(ECMSetupVersion)
-include(ECMQtDeclareLoggingCategory)
 
 # Version setup set project version
 ecm_setup_version(
@@ -49,16 +48,6 @@ ecm_setup_version(
   VERSION_HEADER
   ${CMAKE_CURRENT_BINARY_DIR}/jmbdewidgets-version.h)
 
-ecm_qt_declare_logging_category(
-  ${PROJECT_NAME}
-  HEADER
-  loggingcategory.h
-  IDENTIFIER
-  jmbdewidgetsLog
-  CATEGORY_NAME
-  jmuelbert.jmbde.${PROJECT_NAME}
-  DEFAULT_SEVERITY
-  Warning)
 #
 # Finding Qt
 #
@@ -82,7 +71,6 @@ target_sources(
   jmbdewidgets
   PRIVATE # INCLUDES
           jmbdewidgets-version.h
-          loggingcategory.h
           include/definitions.h
           include/views/aboutdialog.h
           include/views/accountinputarea.h
@@ -122,7 +110,6 @@ target_sources(
           include/views/zipcitiyinputarea.h
           include/views/zipcodeinputarea.h
           # CPPS
-          loggingcategory.cpp
           src/views/aboutdialog.cpp
           src/views/accountinputarea.cpp
           src/views/chipcarddoorinputarea.cpp

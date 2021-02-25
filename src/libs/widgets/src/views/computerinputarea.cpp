@@ -16,7 +16,7 @@ ComputerInputArea::ComputerInputArea(QWidget *parent, const QModelIndex &index)
 {
     ui->setupUi(this);
 
-    qCDebug(jmbdeWidgetsComputerInputAreaLog) << "Init ComputerInputArea for Index :" << index.column();
+    qCDebug(jmbdeWidgetsComputerInputAreaLog) << "Initialisiere ComputerInputArea für Index :" << index.row();
 
     this->m_computerModel = new Model::Computer();
     this->m_db = this->m_computerModel->getDB();
@@ -30,10 +30,20 @@ ComputerInputArea::ComputerInputArea(QWidget *parent, const QModelIndex &index)
     // Set the mapper
     m_mapper = new QDataWidgetMapper();
     m_mapper->setModel(m_model);
+    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
     setMappings();
 
-    m_mapper->setCurrentIndex(index.row());
+    qCDebug(jmbdeWidgetsComputerInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+
+    if (index.row() < 0) {
+        m_mapper->toFirst();
+    } else {
+        m_mapper->setCurrentIndex(index.row());
+    }
+
+    QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &ComputerInputArea::addEdit);
+    QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &ComputerInputArea::editFinish);
 }
 
 ComputerInputArea::~ComputerInputArea()
@@ -92,7 +102,7 @@ void ComputerInputArea::setViewOnlyMode(bool mode)
 
 void ComputerInputArea::createDataset()
 {
-    qCDebug(jmbdeWidgetsComputerInputAreaLog) << "Create a new Dataset for Computer...";
+    qCDebug(jmbdeWidgetsComputerInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Computer...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -106,30 +116,27 @@ void ComputerInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void ComputerInputArea::retrieveDataset(const QModelIndex index)
+void ComputerInputArea::deleteDataset(const QModelIndex &index)
 {
+    qCDebug(jmbdeWidgetsComputerInputAreaLog) << tr("Lösche Daten von Computer");
+    m_mapper->setCurrentIndex(index.row());
 }
 
-void ComputerInputArea::updateDataset(const QModelIndex index)
+void ComputerInputArea::addEdit()
 {
-}
-
-void ComputerInputArea::deleteDataset(const QModelIndex index)
-{
-}
-
-void ComputerInputArea::on_pushButton_Add_clicked()
-{
+    qCDebug(jmbdeWidgetsComputerInputAreaLog) << tr("Füge neue Daten zu Computer");
     createDataset();
-    on_pushButton_EditFinish_clicked();
+    editFinish();
 }
 
-void ComputerInputArea::on_pushButton_EditFinish_clicked()
+void ComputerInputArea::editFinish()
 {
+    qCDebug(jmbdeWidgetsComputerInputAreaLog) << tr("Bearbeite oder schließe Computer Daten");
+
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
-        ui->pushButton_EditFinish->setText(tr("Finish"));
+        ui->editFinishPushButton->setText(tr("Fertig"));
         setViewOnlyMode(false);
 
     } break;
@@ -138,10 +145,10 @@ void ComputerInputArea::on_pushButton_EditFinish_clicked()
         qCDebug(jmbdeWidgetsComputerInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
-        ui->pushButton_EditFinish->setText(tr("Edit"));
+        ui->editFinishPushButton->setText(tr("Bearbeiten"));
         setViewOnlyMode(false);
 
-        QString computerName = ui->networkLineEdit->text();
+        QString computerName = ui->netWorkNameLineEdit->text();
 
         if (computerName.isEmpty()) {
             QString message(tr("Bitte geben Sie einen Computernamen an."));
@@ -152,8 +159,8 @@ void ComputerInputArea::on_pushButton_EditFinish_clicked()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(jmbdeWidgetsComputerInputAreaLog) << tr("Schreiben der Änderungen in die Datenbank");
-                emit dataChanged();
+                qCDebug(jmbdeWidgetsComputerInputAreaLog) << tr("Schreiben der Änderungen für Account in die Datenbank");
+                dataChanged();
             } else {
                 m_model->database().rollback();
                 QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
@@ -162,7 +169,7 @@ void ComputerInputArea::on_pushButton_EditFinish_clicked()
     } break;
 
     default: {
-        qCDebug(jmbdeWidgetsComputerInputAreaLog) << tr("Fehler");
+        qCDebug(jmbdeWidgetsComputerInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

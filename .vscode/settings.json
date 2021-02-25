@@ -17,6 +17,7 @@
         "USE_GIT_VERSION": "ON",
         "ENABLE_TESTING": "ON",
         "ENABLE_PCH": "ON",
+        "CMAKE_PREFIX_PATH:PATH": "/Users/juergen//Qt/6.0.1/clang_64",
         "CMAKE_INSTALL_PREFIX:PATH" :"./install",
         "VERBOSE"
     },

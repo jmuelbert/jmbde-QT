@@ -40,6 +40,9 @@
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
+          <property name="buddy">
+           <cstring>label_Header</cstring>
+          </property>
          </widget>
         </item>
        </layout>
@@ -231,19 +234,6 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="2">
-         <widget class="QLineEdit" name="printerNameLineEdit"/>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="nameLabel">
-          <property name="text">
-           <string>Name</string>
-          </property>
-          <property name="buddy">
-           <cstring>printerNameLineEdit</cstring>
-          </property>
-         </widget>
-        </item>
         <item row="7" column="2">
          <widget class="QComboBox" name="deviceNameComboBox"/>
         </item>
@@ -269,14 +259,27 @@
         <item row="7" column="3">
          <widget class="QLabel" name="deviceTypeLabel">
           <property name="text">
-           <string>Geraätetyp</string>
+           <string>Gerätetyp</string>
           </property>
           <property name="buddy">
            <cstring>deviceTypeComboBox</cstring>
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
+        <item row="0" column="0">
+         <widget class="QLabel" name="networkNameLabel">
+          <property name="text">
+           <string>Netzwerk Name</string>
+          </property>
+          <property name="buddy">
+           <cstring>networkNameLineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLineEdit" name="networkNameLineEdit"/>
+        </item>
+        <item row="1" column="3">
          <widget class="QLabel" name="ipAddressLabel">
           <property name="text">
            <string>IP Adresse</string>
@@ -286,18 +289,8 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="2">
-         <widget class="QLineEdit" name="ipAddressLineEdit"/>
-        </item>
-        <item row="1" column="3">
-         <widget class="QLabel" name="networkNameLabel">
-          <property name="text">
-           <string>Netzwerk Name</string>
-          </property>
-         </widget>
-        </item>
         <item row="1" column="4">
-         <widget class="QLineEdit" name="networkNameLineEdit"/>
+         <widget class="QLineEdit" name="ipAddressLineEdit"/>
         </item>
        </layout>
       </item>
@@ -317,7 +310,7 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QPushButton" name="pushButton_Add">
+         <widget class="QPushButton" name="addPushButton">
           <property name="text">
            <string>+</string>
           </property>
@@ -351,10 +344,9 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>printerNameLineEdit</tabstop>
+  <tabstop>networkNameLineEdit</tabstop>
   <tabstop>serialNumberLineEdit</tabstop>
   <tabstop>networkLineEdit</tabstop>
-  <tabstop>networkNameLineEdit</tabstop>
   <tabstop>ipAddressLineEdit</tabstop>
   <tabstop>resourcesTextEdit</tabstop>
   <tabstop>papersizeComboBox</tabstop>

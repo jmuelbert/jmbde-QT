@@ -18,7 +18,7 @@ TitleInputArea::TitleInputArea(QWidget *parent, const QModelIndex &index)
     ui->setupUi(this);
 
     // Init UI
-    qCDebug(jmbdeWidgetsTitleDataInputAreaLog) << "Init TitleInputarea for Index : " << index.row();
+    qCDebug(jmbdeWidgetsTitleDataInputAreaLog) << tr("Initialisiere TitleInputarea mit Index : ") << index.row();
 
     this->m_titleModel = new Model::Title();
     this->m_db = this->m_titleModel->getDB();
@@ -32,10 +32,20 @@ TitleInputArea::TitleInputArea(QWidget *parent, const QModelIndex &index)
     // Set the mapper
     m_mapper = new QDataWidgetMapper();
     m_mapper->setModel(m_model);
+    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
     setMappings();
 
-    m_mapper->setCurrentIndex(index.row());
+    qCDebug(jmbdeWidgetsTitleDataInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+
+    if (index.row() < 0) {
+        m_mapper->toFirst();
+    } else {
+        m_mapper->setCurrentIndex(index.row());
+    }
+
+    QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &TitleInputArea::addEdit);
+    QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &TitleInputArea::editFinish);
 }
 
 TitleInputArea::~TitleInputArea()
@@ -60,7 +70,7 @@ void TitleInputArea::setViewOnlyMode(bool mode)
 
 void TitleInputArea::createDataset()
 {
-    qCDebug(jmbdeWidgetsTitleDataInputAreaLog) << "Create a new Dataset for Title...";
+    qCDebug(jmbdeWidgetsTitleDataInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Title...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -74,26 +84,23 @@ void TitleInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void TitleInputArea::retrieveDataset(const QModelIndex index)
+void TitleInputArea::deleteDataset(const QModelIndex &index)
 {
+    qCDebug(jmbdeWidgetsTitleDataInputAreaLog) << tr("Lösche Daten von Title");
+    m_mapper->setCurrentIndex(index.row());
 }
 
-void TitleInputArea::updateDataset(const QModelIndex index)
+void TitleInputArea ::addEdit()
 {
-}
-
-void TitleInputArea::deleteDataset(const QModelIndex index)
-{
-}
-
-void TitleInputArea::on_pushButton_Add_clicked()
-{
+    qCDebug(jmbdeWidgetsTitleDataInputAreaLog) << tr("Füge neue Daten zu Title");
     createDataset();
-    on_pushButton_EditFinish_clicked();
+    editFinish();
 }
 
-void TitleInputArea::on_pushButton_EditFinish_clicked()
+void TitleInputArea ::editFinish()
 {
+    qCDebug(jmbdeWidgetsTitleDataInputAreaLog) << tr("Bearbeite oder schließe Title Daten");
+
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
@@ -103,7 +110,7 @@ void TitleInputArea::on_pushButton_EditFinish_clicked()
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsTitleDataInputAreaLog) << tr("Daten speichern...");
+        qCDebug(jmbdeWidgetsTitleDataInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -120,16 +127,17 @@ void TitleInputArea::on_pushButton_EditFinish_clicked()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(jmbdeWidgetsTitleDataInputAreaLog) << tr("Änderung an der Tabelle title in der Datenbank");
+                qCDebug(jmbdeWidgetsTitleDataInputAreaLog) << tr("Schreiben der Änderungen für Account in die Datenbank");
+                dataChanged();
             } else {
                 m_model->database().rollback();
-                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet einen Fehler: %1").arg(m_model->lastError().text()));
+                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
             }
         }
     } break;
 
     default: {
-        qCCritical(jmbdeWidgetsTitleDataInputAreaLog) << "Error";
+        qCCritical(jmbdeWidgetsTitleDataInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

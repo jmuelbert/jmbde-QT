@@ -18,7 +18,6 @@
 
 #include "jmbdewidgets-version.h"
 #include "jmbdewidgets_export.h"
-#include "loggingcategory.h"
 #include "models/computer.h"
 #include "models/datacontext.h"
 #include "models/employee.h"
@@ -112,7 +111,7 @@ private:
     /*!
      * @brief m_selectionModel
      */
-    QItemSelectionModel *m_selectionModel{};
+    QItemSelectionModel *m_selectionModel {};
 
     /*!
      * @brief m_mapper

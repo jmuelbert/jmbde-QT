@@ -14,7 +14,7 @@
    <string>Employee</string>
   </property>
   <property name="accessibleName">
-   <string>EmployeeInputDialog</string>
+   <string>AccountInputDialog</string>
   </property>
   <property name="title">
    <string>Zugang</string>
@@ -81,7 +81,7 @@
            <string>System</string>
           </property>
           <property name="buddy">
-           <cstring>systemLabel</cstring>
+           <cstring>systemListView</cstring>
           </property>
          </widget>
         </item>
@@ -146,7 +146,7 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QPushButton" name="pushButton_Add">
+         <widget class="QPushButton" name="addPushButton">
           <property name="text">
            <string>+</string>
           </property>
@@ -166,9 +166,9 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_EditFinish">
+         <widget class="QPushButton" name="editFinishPushButton">
           <property name="text">
-           <string>Edit</string>
+           <string>Bearbeiten</string>
           </property>
          </widget>
         </item>

@@ -11,13 +11,13 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Document</string>
+   <string>Dokument</string>
   </property>
   <property name="accessibleName">
-   <string>ChipCardInputDialog</string>
+   <string>DocumentInputDialog</string>
   </property>
   <property name="title">
-   <string>Document</string>
+   <string>Dokument</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_3">
    <item row="0" column="0">
@@ -136,7 +136,7 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QPushButton" name="pushButton_Add">
+         <widget class="QPushButton" name="addPushButton">
           <property name="text">
            <string>+</string>
           </property>
@@ -156,9 +156,9 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_EditFinish">
+         <widget class="QPushButton" name="editFinishPushButton">
           <property name="text">
-           <string>Edit</string>
+           <string>Bearbeiten</string>
           </property>
          </widget>
         </item>
@@ -173,8 +173,8 @@
   <tabstop>nameLineEdit</tabstop>
   <tabstop>documentAddPushButton</tabstop>
   <tabstop>lastUpdateLineEdit</tabstop>
-  <tabstop>pushButton_Add</tabstop>
-  <tabstop>pushButton_EditFinish</tabstop>
+  <tabstop>addPushButton</tabstop>
+  <tabstop>editFinishPushButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>

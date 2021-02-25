@@ -24,7 +24,7 @@ DeviceNameInputArea::DeviceNameInputArea(QWidget *parent, const QModelIndex &ind
 {
     ui->setupUi(this);
 
-    qCDebug(jmbdeWidgetsDeviceNameInputAreaLog) << "Init DeviceNameInputArea for Index :" << index.column();
+    qCDebug(jmbdeWidgetsDeviceNameInputAreaLog) << "Initialisiere DeviceNameInputArea mit Index :" << index.row();
 
     this->m_deviceNameModel = new Model::DeviceName();
     this->m_db = this->m_deviceNameModel->getDB();
@@ -38,10 +38,20 @@ DeviceNameInputArea::DeviceNameInputArea(QWidget *parent, const QModelIndex &ind
     // Set the mapper
     m_mapper = new QDataWidgetMapper();
     m_mapper->setModel(m_model);
+    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
     setMappings();
 
-    m_mapper->setCurrentIndex(index.row());
+    qCDebug(jmbdeWidgetsDeviceNameInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+
+    if (index.row() < 0) {
+        m_mapper->toFirst();
+    } else {
+        m_mapper->setCurrentIndex(index.row());
+    }
+
+    QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &DeviceNameInputArea::addEdit);
+    QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &DeviceNameInputArea::editFinish);
 }
 
 DeviceNameInputArea::~DeviceNameInputArea()
@@ -62,7 +72,7 @@ void DeviceNameInputArea::setViewOnlyMode(bool mode)
 
 void DeviceNameInputArea ::createDataset()
 {
-    qCDebug(jmbdeWidgetsDeviceNameInputAreaLog) << "Create a new Dataset for ChipCard...";
+    qCDebug(jmbdeWidgetsDeviceNameInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für DeviceName...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -76,63 +86,60 @@ void DeviceNameInputArea ::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void DeviceNameInputArea::retrieveDataset(const QModelIndex index)
+void DeviceNameInputArea::deleteDataset(const QModelIndex &index)
 {
+    qCDebug(jmbdeWidgetsDeviceNameInputAreaLog) << tr("Lösche Daten von DeviceName");
+    m_mapper->setCurrentIndex(index.row());
 }
 
-void DeviceNameInputArea::updateDataset(const QModelIndex index)
+void DeviceNameInputArea::addEdit()
 {
-}
-
-void DeviceNameInputArea::deleteDataset(const QModelIndex index)
-{
-}
-
-void DeviceNameInputArea::on_pushButton_Add_clicked()
-{
+    qCDebug(jmbdeWidgetsDeviceNameInputAreaLog) << tr("Füge neue Daten zu DeviceName");
     createDataset();
-    on_pushButton_EditFinish_clicked();
+    editFinish();
 }
 
-void DeviceNameInputArea::on_pushButton_EditFinish_clicked()
+void DeviceNameInputArea::editFinish()
 {
+    qCDebug(jmbdeWidgetsDeviceNameInputAreaLog) << tr("Bearbeite oder schließe DeviceName Daten");
+
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
-        ui->pushButton_EditFinish->setText(tr("Finish"));
+        ui->editFinishPushButton->setText(tr("Fertig"));
         setViewOnlyMode(false);
 
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsDeviceNameInputAreaLog) << "Save Data...";
+        qCDebug(jmbdeWidgetsDeviceNameInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
-        ui->pushButton_EditFinish->setText(tr("Edit"));
+        ui->editFinishPushButton->setText(tr("Bearbeiten"));
         setViewOnlyMode(false);
 
         QString name = ui->nameLineEdit->text();
 
         if (name.isEmpty()) {
-            QString message(tr("Please provide the chipcard number."));
+            QString message(tr("Bitte den Gerätenamen eingeben."));
 
-            QMessageBox::information(this, tr("Add Devicename"), message);
+            QMessageBox::information(this, tr("Gerätenamen hinzufügen."), message);
         } else {
             m_mapper->submit();
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(jmbdeWidgetsDeviceNameInputAreaLog) << "Commit changes for Devicename Database Table";
-                m_model->database().rollback();
+                qCDebug(jmbdeWidgetsDeviceNameInputAreaLog) << tr("Schreiben der Änderungen für DeviceName in die Datenbank");
+                dataChanged();
             } else {
                 m_model->database().rollback();
-                QMessageBox::warning(this, tr("jmbde"), tr("The database reported an error: %1").arg(m_model->lastError().text()));
+                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
             }
         }
     } break;
 
     default: {
-        qCCritical(jmbdeWidgetsDeviceNameInputAreaLog) << "Unknown Mode!";
+        qCCritical(jmbdeWidgetsDeviceNameInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

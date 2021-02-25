@@ -45,11 +45,11 @@ if(UNIX)
     set(CPACK_RPM_PACKAGE_VENDOR "Jürgen Mülbert")
     if(LSB_RELEASE_ID_SHORT EQUAL "openSUSE")
       set(CPACK_RPM_BUILDREQUIRES
-          "cmake >= 3.9, libqt5-qtbase-common-devel >= 5.11, libQt5Core-devel, libQt5Gui-devel, libQt5Network-devel, libQt5Widgets-devel, libQt5Concurrent-devel, libqt5-linguist-devel, libqt5-qtsvg-devel, update-desktop-files, ninja"
+          "cmake >= 3.15, libqt5-qtbase-common-devel >= 5.12, libQt5Core-devel, libQt5Gui-devel, libQt5Network-devel, libQt5Widgets-devel, libQt5Concurrent-devel, libqt5-linguist-devel, libqt5-qtsvg-devel, update-desktop-files, ninja"
       )
     else()
       set(CPACK_RPM_BUILDREQUIRES
-          "cmake >= 3.9, qt5-qtbase-devel >= 5.11, qt5-linguist, qt5-qtsvg-devel, desktop-file-utils, ninja-build"
+          "cmake >= 3.15, qt5-qtbase-devel >= 5.12, qt5-linguist, qt5-qtsvg-devel, desktop-file-utils, ninja-build"
       )
     endif()
     set(CPACK_RPM_PACKAGE_LICENSE "GPL3")

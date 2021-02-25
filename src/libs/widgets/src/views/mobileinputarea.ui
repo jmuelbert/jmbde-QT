@@ -329,7 +329,7 @@
         <item>
          <widget class="QPushButton" name="editFinishPushButton">
           <property name="text">
-           <string>Edit</string>
+           <string>Bearbeiten</string>
           </property>
          </widget>
         </item>
@@ -352,6 +352,9 @@
   <tabstop>deviceTypeComboBox</tabstop>
   <tabstop>manufacturerComboBox</tabstop>
   <tabstop>inventoryComboBox</tabstop>
+  <tabstop>activeCheckBox</tabstop>
+  <tabstop>replaceCheckBox</tabstop>
+  <tabstop>lastUpdateLineEdit</tabstop>
   <tabstop>addPushButton</tabstop>
   <tabstop>editFinishPushButton</tabstop>
  </tabstops>

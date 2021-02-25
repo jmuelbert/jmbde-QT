@@ -9,7 +9,7 @@
 
 using Model::EmployeeAccount;
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsEmployeeAccountInputAreaLog, "jmuelbert.jmbde.widgets.EmployeeAccountinputarea", QtWarningMsg)
+Q_LOGGING_CATEGORY(jmbdeWidgetsEmployeeAccountInputAreaLog, "jmuelbert.jmbde.widgets.employeeaccountinputarea", QtWarningMsg)
 
 EmployeeAccountInputArea::EmployeeAccountInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
@@ -17,7 +17,7 @@ EmployeeAccountInputArea::EmployeeAccountInputArea(QWidget *parent, const QModel
 {
     ui->setupUi(this);
 
-    qCDebug(jmbdeWidgetsEmployeeAccountInputAreaLog) << "Init EmployeeAccountInputArea for Index :" << index.column();
+    qCDebug(jmbdeWidgetsEmployeeAccountInputAreaLog) << tr("Initialisiere EmployeeAccountInputArea mit Index :") << index.row();
 
     this->m_employeeAccountModel = new EmployeeAccount();
     this->m_db = this->m_employeeAccountModel->getDB();
@@ -31,10 +31,20 @@ EmployeeAccountInputArea::EmployeeAccountInputArea(QWidget *parent, const QModel
     // Set the mapper
     m_mapper = new QDataWidgetMapper();
     m_mapper->setModel(m_model);
+    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
     setMappings();
 
-    m_mapper->setCurrentIndex(index.row());
+    qCDebug(jmbdeWidgetsEmployeeAccountInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+
+    if (index.row() < 0) {
+        m_mapper->toFirst();
+    } else {
+        m_mapper->setCurrentIndex(index.row());
+    }
+
+    QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &EmployeeAccountInputArea::addEdit);
+    QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &EmployeeAccountInputArea::editFinish);
 }
 
 EmployeeAccountInputArea::~EmployeeAccountInputArea()
@@ -57,7 +67,7 @@ void EmployeeAccountInputArea::setViewOnlyMode(bool mode)
 
 void EmployeeAccountInputArea::createDataset()
 {
-    qCDebug(jmbdeWidgetsEmployeeAccountInputAreaLog) << "Create a new Dataset for ChipCard...";
+    qCDebug(jmbdeWidgetsEmployeeAccountInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für EmployeeAccount...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -71,56 +81,52 @@ void EmployeeAccountInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void EmployeeAccountInputArea::retrieveDataset(const QModelIndex index)
+void EmployeeAccountInputArea::deleteDataset(const QModelIndex &index)
 {
+    qCDebug(jmbdeWidgetsEmployeeAccountInputAreaLog) << tr("Lösche Daten von EmployeeAccount");
+    m_mapper->setCurrentIndex(index.row());
 }
 
-void EmployeeAccountInputArea::updateDataset(const QModelIndex index)
+void EmployeeAccountInputArea::addEdit()
 {
-}
-
-void EmployeeAccountInputArea::deleteDataset(const QModelIndex index)
-{
-}
-
-void EmployeeAccountInputArea::on_pushButton_Add_clicked()
-{
+    qCDebug(jmbdeWidgetsEmployeeAccountInputAreaLog) << tr("Füge neue Daten zu EmployeeAccount");
     createDataset();
-    on_pushButton_EditFinish_clicked();
+    editFinish();
 }
-
-void EmployeeAccountInputArea::on_pushButton_EditFinish_clicked()
+void EmployeeAccountInputArea::editFinish()
 {
+    qCDebug(jmbdeWidgetsEmployeeAccountInputAreaLog) << tr("Bearbeite oder schließe EmployeeAccount Daten");
+
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
-        ui->pushButton_EditFinish->setText(tr("Finish"));
+        ui->editFinishPushButton->setText(tr("Fertig"));
         setViewOnlyMode(false);
 
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsEmployeeAccountInputAreaLog) << "Save Data...";
+        qCDebug(jmbdeWidgetsEmployeeAccountInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
-        ui->pushButton_EditFinish->setText(tr("Edit"));
+        ui->editFinishPushButton->setText(tr("Bearbeiten"));
         setViewOnlyMode(false);
 
         m_mapper->submit();
         m_model->database().transaction();
         if (m_model->submitAll()) {
             m_model->database().commit();
-            qCDebug(jmbdeWidgetsEmployeeAccountInputAreaLog) << "Commit changes for Employee Account Table";
-            m_model->database().rollback();
+            qCDebug(jmbdeWidgetsEmployeeAccountInputAreaLog) << tr("Schreiben der Änderungen für Account in die Datenbank");
+            dataChanged();
         } else {
             m_model->database().rollback();
-            QMessageBox::warning(this, tr("jmbde"), tr("The database reported an error: %1").arg(m_model->lastError().text()));
+            QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
         }
 
     } break;
 
     default: {
-        qCCritical(jmbdeWidgetsEmployeeAccountInputAreaLog) << "Unknown Mode!";
+        qCCritical(jmbdeWidgetsEmployeeAccountInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

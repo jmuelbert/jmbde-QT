@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>PreferencesDialog</class>
  <widget class="QDialog" name="PreferencesDialog">
@@ -18,6 +18,9 @@
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
+  </property>
+  <property name="accessibleName">
+   <string>PreferencesDialog</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -49,7 +52,7 @@
      <item row="5" column="0">
       <widget class="QLabel" name="labelPassword">
        <property name="text">
-        <string>Password</string>
+        <string>Passwort</string>
        </property>
        <property name="buddy">
         <cstring>lineEditPassword</cstring>
@@ -66,7 +69,7 @@
      <item row="4" column="0">
       <widget class="QLabel" name="labelUserName">
        <property name="text">
-        <string>Username</string>
+        <string>Benutzername</string>
        </property>
        <property name="buddy">
         <cstring>lineEditUserName</cstring>
@@ -76,7 +79,7 @@
      <item row="1" column="0">
       <widget class="QLabel" name="labelDatabaseType">
        <property name="text">
-        <string>Database Type</string>
+        <string>Datenbank Typ</string>
        </property>
        <property name="buddy">
         <cstring>comboBoxDatabaseType</cstring>
@@ -93,7 +96,7 @@
      <item row="2" column="0">
       <widget class="QLabel" name="labelDatabaseConnection">
        <property name="text">
-        <string>Database Connc.</string>
+        <string>Datenbank Verbindung</string>
        </property>
        <property name="buddy">
         <cstring>lineEditDatabaseConnection</cstring>
@@ -139,7 +142,7 @@
   <tabstop>lineEditUserName</tabstop>
   <tabstop>lineEditPassword</tabstop>
  </tabstops>
- <resources />
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>

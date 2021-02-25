@@ -46,16 +46,24 @@ public:
      */
     ~PhoneInputArea();
 
+signals:
+    /*!
+        @brief dataChanged
+     */
+    void dataChanged();
+
+public slots:
+
 private slots:
     /**
-     * @brief on_pushButton_Add_clicked
+     * @brief editFinish
      */
-    void on_pushButton_Add_clicked();
+    void editFinish();
 
     /**
-     * @brief on_pushButton_EditFinish_clicked
+     * @brief addEdit
      */
-    void on_pushButton_EditFinish_clicked();
+    void addEdit();
 
 private:
     /**
@@ -114,20 +122,8 @@ private:
     void createDataset();
 
     /**
-     * @brief retrieveDataset
-     * @param index Get the data for the ModelIndex
-     */
-    void retrieveDataset(const QModelIndex index);
-
-    /**
-     * @brief updateDataset
-     * @param index Update the Data for the ModelIndex
-     */
-    void updateDataset(const QModelIndex index);
-
-    /**
      * @brief deleteDataset
      * @param index Delete the data for the ModelIndex
      */
-    void deleteDataset(const QModelIndex index);
+    void deleteDataset(const QModelIndex &index);
 };

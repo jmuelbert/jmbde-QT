@@ -14,7 +14,7 @@
    <string>Mitarbeiter*in Dokument</string>
   </property>
   <property name="accessibleName">
-   <string>ChipCardInputDialog</string>
+   <string>EmployeeDocumentInputDialog</string>
   </property>
   <property name="title">
    <string>Mitarbeiter*in Dokument</string>
@@ -140,7 +140,7 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QPushButton" name="pushButton_Add">
+         <widget class="QPushButton" name="addPushButton">
           <property name="text">
            <string>+</string>
           </property>
@@ -160,9 +160,9 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_EditFinish">
+         <widget class="QPushButton" name="editFinishPushButton">
           <property name="text">
-           <string>Edit</string>
+           <string>Bearbeiten</string>
           </property>
          </widget>
         </item>
@@ -177,8 +177,8 @@
   <tabstop>employeeIdcomboBox</tabstop>
   <tabstop>documentIdcomboBox</tabstop>
   <tabstop>lastUpdatelineEdit</tabstop>
-  <tabstop>pushButton_Add</tabstop>
-  <tabstop>pushButton_EditFinish</tabstop>
+  <tabstop>addPushButton</tabstop>
+  <tabstop>editFinishPushButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>

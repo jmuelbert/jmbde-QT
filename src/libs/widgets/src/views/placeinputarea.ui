@@ -14,7 +14,7 @@
    <string>Platz</string>
   </property>
   <property name="accessibleName">
-   <string>ChipCardInputDialog</string>
+   <string>PlaceInputDialog</string>
   </property>
   <property name="title">
    <string>Platz</string>

@@ -136,8 +136,9 @@ protected:
      * @param event Tehe recived event
      */
     void JMBDEWIDGETS_EXPORT resizeEvent(QResizeEvent* event);
+
 public slots:
-    void actualizeAccoutListView();
+    void actualizeAccountListView();
     void actualizeChipCardDoorListView();
     void actualizeChipCardListView();
     void actualizeChipCardProfileDoorListView();

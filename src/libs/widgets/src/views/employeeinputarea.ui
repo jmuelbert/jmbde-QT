@@ -11,13 +11,13 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Employee</string>
+   <string>Mitarbeiter*innen</string>
   </property>
   <property name="accessibleName">
    <string>EmployeeInputDialog</string>
   </property>
   <property name="title">
-   <string>Employee</string>
+   <string>Mitarbeiter*in</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
@@ -35,7 +35,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Employee</string>
+           <string>Mitarbeiter*in</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -294,7 +294,7 @@
         <item row="6" column="4">
          <widget class="QCheckBox" name="activeCheckBox">
           <property name="text">
-           <string>Active</string>
+           <string>Aktiv</string>
           </property>
          </widget>
         </item>
@@ -383,7 +383,7 @@
         <item row="6" column="5">
          <widget class="QCheckBox" name="dataCareCheckBox">
           <property name="text">
-           <string>Datacare</string>
+           <string>Datenschutz</string>
           </property>
          </widget>
         </item>
@@ -574,7 +574,7 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QPushButton" name="pushButton_Add">
+         <widget class="QPushButton" name="addPushButton">
           <property name="text">
            <string>+</string>
           </property>
@@ -594,9 +594,9 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_EditFinish">
+         <widget class="QPushButton" name="editFinishPushButton">
           <property name="text">
-           <string>Edit</string>
+           <string>Bearbeiten</string>
           </property>
          </widget>
         </item>
@@ -615,6 +615,8 @@
   <tabstop>lastNameLineEdit</tabstop>
   <tabstop>zipCityIdComboBox</tabstop>
   <tabstop>cityLineEdit</tabstop>
+  <tabstop>addressLineEdit</tabstop>
+  <tabstop>birthdayDateEdit</tabstop>
   <tabstop>homeMailLineEdit</tabstop>
   <tabstop>homeMobileLineEdit</tabstop>
   <tabstop>homePhoneLineEdit</tabstop>
@@ -636,8 +638,8 @@
   <tabstop>notesTextEdit</tabstop>
   <tabstop>photoGraphicsView</tabstop>
   <tabstop>lastUpdateLineEdit</tabstop>
-  <tabstop>pushButton_Add</tabstop>
-  <tabstop>pushButton_EditFinish</tabstop>
+  <tabstop>addPushButton</tabstop>
+  <tabstop>editFinishPushButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>

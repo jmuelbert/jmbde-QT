@@ -9,13 +9,13 @@
 
 Q_LOGGING_CATEGORY(jmbdeWidgetsInventoryInputAreaLog, "jmuelbert.jmbde.widgets.inventoryinputarea", QtWarningMsg)
 
-InventoryInputArea::InventoryInputArea(QWidget *parent, const QModelIndex &index)
+InventoryInputArea::InventoryInputArea(QWidget* parent, const QModelIndex& index)
     : QGroupBox(parent)
     , ui(new Ui::InventoryInputArea)
 {
     ui->setupUi(this);
 
-    qCDebug(jmbdeWidgetsInventoryInputAreaLog) << "Init InventoryInputArea for Index :" << index.column();
+    qCDebug(jmbdeWidgetsInventoryInputAreaLog) << tr("Initialisiere InventoryInputArea mit Index :") << index.row();
 
     this->m_inventoryModel = new Model::Inventory();
     this->m_db = this->m_inventoryModel->getDB();
@@ -29,10 +29,20 @@ InventoryInputArea::InventoryInputArea(QWidget *parent, const QModelIndex &index
     // Set the mapper
     m_mapper = new QDataWidgetMapper();
     m_mapper->setModel(m_model);
+    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
     setMappings();
 
-    m_mapper->setCurrentIndex(index.row());
+    qCDebug(jmbdeWidgetsInventoryInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+
+    if (index.row() < 0) {
+        m_mapper->toFirst();
+    } else {
+        m_mapper->setCurrentIndex(index.row());
+    }
+
+    QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &InventoryInputArea::addEdit);
+    QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &InventoryInputArea::editFinish);
 }
 
 InventoryInputArea::~InventoryInputArea()
@@ -57,7 +67,7 @@ void InventoryInputArea::setViewOnlyMode(bool mode)
 
 void InventoryInputArea::createDataset()
 {
-    qCDebug(jmbdeWidgetsInventoryInputAreaLog) << "Create a new Dataset for ChipCard...";
+    qCDebug(jmbdeWidgetsInventoryInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Inventory...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -71,26 +81,23 @@ void InventoryInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void InventoryInputArea::retrieveDataset(const QModelIndex index)
+void InventoryInputArea::deleteDataset(const QModelIndex& index)
 {
+    qCDebug(jmbdeWidgetsInventoryInputAreaLog) << tr("Lösche Daten von Inventory");
+    m_mapper->setCurrentIndex(index.row());
 }
 
-void InventoryInputArea::updateDataset(const QModelIndex index)
+void InventoryInputArea::addEdit()
 {
-}
-
-void InventoryInputArea::deleteDataset(const QModelIndex index)
-{
-}
-
-void InventoryInputArea::on_pushButton_Add_clicked()
-{
+    qCDebug(jmbdeWidgetsInventoryInputAreaLog) << tr("Füge neue Daten zu Inventory");
     createDataset();
-    on_pushButton_EditFinish_clicked();
+    editFinish();
 }
 
-void InventoryInputArea::on_pushButton_EditFinish_clicked()
+void InventoryInputArea::editFinish()
 {
+    qCDebug(jmbdeWidgetsInventoryInputAreaLog) << tr("Bearbeite oder schließe Inventory Daten");
+
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
@@ -101,7 +108,7 @@ void InventoryInputArea::on_pushButton_EditFinish_clicked()
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsInventoryInputAreaLog) << tr("Dten sichern...");
+        qCDebug(jmbdeWidgetsInventoryInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -118,17 +125,17 @@ void InventoryInputArea::on_pushButton_EditFinish_clicked()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(jmbdeWidgetsInventoryInputAreaLog) << "Commit changes for Inventar Database Table";
-                m_model->database().rollback();
+                qCDebug(jmbdeWidgetsInventoryInputAreaLog) << tr("Schreiben der Änderungen für Inventory in die Datenbank");
+                dataChanged();
             } else {
                 m_model->database().rollback();
-                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet einen Fehler: %1").arg(m_model->lastError().text()));
+                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
             }
         }
     } break;
 
     default: {
-        qCCritical(jmbdeWidgetsInventoryInputAreaLog) << tr("Fehler");
+        qCCritical(jmbdeWidgetsInventoryInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

@@ -15,7 +15,7 @@ ManufacturerInputArea::ManufacturerInputArea(QWidget *parent, const QModelIndex 
 {
     ui->setupUi(this);
 
-    qCDebug(jmbdeWidgetsManufacturerInputAreaLog) << "Init ManufacturerInputArea for Index :" << index.column();
+    qCDebug(jmbdeWidgetsManufacturerInputAreaLog) << tr("Initialisiere ManufacturerInputArea mit Index :") << index.row();
 
     this->m_manufacturerModel = new Model::Manufacturer();
     this->m_db = this->m_manufacturerModel->getDB();
@@ -29,10 +29,20 @@ ManufacturerInputArea::ManufacturerInputArea(QWidget *parent, const QModelIndex 
     // Set the mapper
     m_mapper = new QDataWidgetMapper();
     m_mapper->setModel(m_model);
+    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
     setMappings();
 
-    m_mapper->setCurrentIndex(index.row());
+    qCDebug(jmbdeWidgetsManufacturerInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+
+    if (index.row() < 0) {
+        m_mapper->toFirst();
+    } else {
+        m_mapper->setCurrentIndex(index.row());
+    }
+
+    QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &ManufacturerInputArea::addEdit);
+    QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &ManufacturerInputArea::editFinish);
 }
 
 ManufacturerInputArea::~ManufacturerInputArea()
@@ -71,7 +81,7 @@ void ManufacturerInputArea::setViewOnlyMode(bool mode)
 
 void ManufacturerInputArea::createDataset()
 {
-    qCDebug(jmbdeWidgetsManufacturerInputAreaLog) << "Create a new Dataset for ChipCard...";
+    qCDebug(jmbdeWidgetsManufacturerInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Manufacturer...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -85,26 +95,23 @@ void ManufacturerInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void ManufacturerInputArea::retrieveDataset(const QModelIndex index)
+void ManufacturerInputArea::deleteDataset(const QModelIndex &index)
 {
+    qCDebug(jmbdeWidgetsManufacturerInputAreaLog) << tr("Lösche Daten von Manufacturer");
+    m_mapper->setCurrentIndex(index.row());
 }
 
-void ManufacturerInputArea::updateDataset(const QModelIndex index)
+void ManufacturerInputArea::addEdit()
 {
-}
-
-void ManufacturerInputArea::deleteDataset(const QModelIndex index)
-{
-}
-
-void ManufacturerInputArea::on_pushButton_Add_clicked()
-{
+    qCDebug(jmbdeWidgetsManufacturerInputAreaLog) << tr("Füge neue Daten zu Manufacturer");
     createDataset();
-    on_pushButton_EditFinish_clicked();
+    editFinish();
 }
 
-void ManufacturerInputArea::on_pushButton_EditFinish_clicked()
+void ManufacturerInputArea::editFinish()
 {
+    qCDebug(jmbdeWidgetsManufacturerInputAreaLog) << tr("Bearbeite oder schließe Manufacturer Daten");
+
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
@@ -114,7 +121,7 @@ void ManufacturerInputArea::on_pushButton_EditFinish_clicked()
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsManufacturerInputAreaLog) << tr("Daten speichern...");
+        qCDebug(jmbdeWidgetsManufacturerInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -131,17 +138,17 @@ void ManufacturerInputArea::on_pushButton_EditFinish_clicked()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(jmbdeWidgetsManufacturerInputAreaLog) << tr("Änderungen bestätigt für Hersteller Datenbank Tabelle");
-                m_model->database().rollback();
+                qCDebug(jmbdeWidgetsManufacturerInputAreaLog) << tr("Schreiben der Änderungen für Manufacturer in die Datenbank");
+                dataChanged();
             } else {
                 m_model->database().rollback();
-                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet einen Fehler: %1").arg(m_model->lastError().text()));
+                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
             }
         }
     } break;
 
     default: {
-        qCCritical(jmbdeWidgetsManufacturerInputAreaLog) << tr("Fehler");
+        qCCritical(jmbdeWidgetsManufacturerInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

@@ -70,6 +70,9 @@
           <property name="text">
            <string>PLZ</string>
           </property>
+          <property name="buddy">
+           <cstring>zipCodeComboBox</cstring>
+          </property>
          </widget>
         </item>
         <item row="0" column="1">
@@ -87,6 +90,9 @@
           <property name="text">
            <string>Ort</string>
           </property>
+          <property name="buddy">
+           <cstring>cityComboBox</cstring>
+          </property>
          </widget>
         </item>
         <item row="1" column="1">
@@ -103,6 +109,9 @@
           </property>
           <property name="text">
            <string>Letzte Änderung</string>
+          </property>
+          <property name="buddy">
+           <cstring>lastUpdateLineEdit</cstring>
           </property>
          </widget>
         </item>
@@ -165,6 +174,9 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>zipCodeComboBox</tabstop>
+  <tabstop>cityComboBox</tabstop>
+  <tabstop>lastUpdateLineEdit</tabstop>
   <tabstop>addPushButton</tabstop>
   <tabstop>editFinishPushButton</tabstop>
  </tabstops>

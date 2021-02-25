@@ -18,7 +18,7 @@ PrinterInputArea::PrinterInputArea(QWidget *parent, const QModelIndex &index)
     ui->setupUi(this);
 
     // Init UI
-    qCDebug(jmbdeWidgetsPrinterInputAreaLog) << "Init PrintInputarea for Index : " << index.row();
+    qCDebug(jmbdeWidgetsPrinterInputAreaLog) << tr("Initialisiere PrintInputarea mit Index : ") << index.row();
 
     this->m_printerModel = new Model::Printer();
     this->m_db = this->m_printerModel->getDB();
@@ -32,10 +32,20 @@ PrinterInputArea::PrinterInputArea(QWidget *parent, const QModelIndex &index)
     // Set the mapper
     m_mapper = new QDataWidgetMapper();
     m_mapper->setModel(m_model);
+    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
     setMappings();
 
-    m_mapper->setCurrentIndex(index.row());
+    qCDebug(jmbdeWidgetsPrinterInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+
+    if (index.row() < 0) {
+        m_mapper->toFirst();
+    } else {
+        m_mapper->setCurrentIndex(index.row());
+    }
+
+    QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &PrinterInputArea::addEdit);
+    QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &PrinterInputArea::editFinish);
 }
 
 PrinterInputArea::~PrinterInputArea()
@@ -88,7 +98,7 @@ void PrinterInputArea::setViewOnlyMode(bool mode)
 
 void PrinterInputArea::createDataset()
 {
-    qCDebug(jmbdeWidgetsPrinterInputAreaLog) << "Create a new Dataset for Processor...";
+    qCDebug(jmbdeWidgetsPrinterInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Printer...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -102,26 +112,23 @@ void PrinterInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void PrinterInputArea::retrieveDataset(const QModelIndex index)
+void PrinterInputArea::deleteDataset(const QModelIndex &index)
 {
+    qCDebug(jmbdeWidgetsPrinterInputAreaLog) << tr("Lösche Daten von Printer");
+    m_mapper->setCurrentIndex(index.row());
 }
 
-void PrinterInputArea::updateDataset(const QModelIndex index)
+void PrinterInputArea::addEdit()
 {
-}
-
-void PrinterInputArea::deleteDataset(const QModelIndex index)
-{
-}
-
-void PrinterInputArea::on_pushButton_Add_clicked()
-{
+    qCDebug(jmbdeWidgetsPrinterInputAreaLog) << tr("Füge neue Daten zu Printer");
     createDataset();
-    on_pushButton_EditFinish_clicked();
+    editFinish();
 }
 
-void PrinterInputArea::on_pushButton_EditFinish_clicked()
+void PrinterInputArea::editFinish()
 {
+    qCDebug(jmbdeWidgetsPrinterInputAreaLog) << tr("Bearbeite oder schließe Printer Daten");
+
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
@@ -131,7 +138,7 @@ void PrinterInputArea::on_pushButton_EditFinish_clicked()
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsPrinterInputAreaLog) << tr("Daten speichern...");
+        qCDebug(jmbdeWidgetsPrinterInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -141,16 +148,17 @@ void PrinterInputArea::on_pushButton_EditFinish_clicked()
         m_model->database().transaction();
         if (m_model->submitAll()) {
             m_model->database().commit();
-            qCDebug(jmbdeWidgetsPrinterInputAreaLog) << tr("Änderung an der Tabelle printer in der Datenbank");
+            qCDebug(jmbdeWidgetsPrinterInputAreaLog) << tr("Schreiben der Änderungen für Printer in die Datenbank");
+            dataChanged();
         } else {
             m_model->database().rollback();
-            QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet einen Fehler: %1").arg(m_model->lastError().text()));
+            QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
         }
 
     } break;
 
     default: {
-        qCCritical(jmbdeWidgetsPrinterInputAreaLog) << tr("Fehler");
+        qCCritical(jmbdeWidgetsPrinterInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

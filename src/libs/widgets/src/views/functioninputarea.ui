@@ -14,7 +14,7 @@
    <string>Funktion</string>
   </property>
   <property name="accessibleName">
-   <string>ChipCardInputDialog</string>
+   <string>FunctionInputDialog</string>
   </property>
   <property name="title">
    <string>Funktion</string>
@@ -64,8 +64,17 @@
        <layout class="QGridLayout" name="gridLayout">
         <item row="1" column="2">
          <widget class="QSlider" name="priorityHorizontalSlider">
+          <property name="maximum">
+           <number>100</number>
+          </property>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="tickPosition">
+           <enum>QSlider::TicksBelow</enum>
+          </property>
+          <property name="tickInterval">
+           <number>5</number>
           </property>
          </widget>
         </item>
@@ -79,13 +88,6 @@
           </property>
           <property name="buddy">
            <cstring>lastUpdateLineEdit</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="3">
-         <widget class="QLCDNumber" name="priorityLCDNumber">
-          <property name="enabled">
-           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -109,10 +111,13 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="2" colspan="2">
+        <item row="1" column="1">
+         <widget class="QSpinBox" name="prioritySpinBox"/>
+        </item>
+        <item row="0" column="1" colspan="3">
          <widget class="QLineEdit" name="nameLineEdit"/>
         </item>
-        <item row="2" column="2" colspan="2">
+        <item row="2" column="1" colspan="3">
          <widget class="QLineEdit" name="lastUpdateLineEdit">
           <property name="enabled">
            <bool>false</bool>
@@ -159,7 +164,7 @@
         <item>
          <widget class="QPushButton" name="editFinishPushButton">
           <property name="text">
-           <string>Edit</string>
+           <string>Bearbeiten</string>
           </property>
          </widget>
         </item>
@@ -172,6 +177,7 @@
  </widget>
  <tabstops>
   <tabstop>nameLineEdit</tabstop>
+  <tabstop>prioritySpinBox</tabstop>
   <tabstop>priorityHorizontalSlider</tabstop>
   <tabstop>lastUpdateLineEdit</tabstop>
   <tabstop>addPushButton</tabstop>

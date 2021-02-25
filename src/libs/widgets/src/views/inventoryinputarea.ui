@@ -14,7 +14,7 @@
    <string>Inventar</string>
   </property>
   <property name="accessibleName">
-   <string>ChipCardInputDialog</string>
+   <string>InventoryInputDialog</string>
   </property>
   <property name="title">
    <string>Inventar</string>
@@ -152,7 +152,7 @@
         <item>
          <widget class="QPushButton" name="editFinishPushButton">
           <property name="text">
-           <string>Edit</string>
+           <string>Bearbeiten</string>
           </property>
          </widget>
         </item>

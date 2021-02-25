@@ -14,7 +14,7 @@
    <string>Fax</string>
   </property>
   <property name="accessibleName">
-   <string>MobileInputDialog</string>
+   <string>FaxInputDialog</string>
   </property>
   <property name="title">
    <string>Fax</string>
@@ -297,7 +297,7 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QPushButton" name="pushButton_Add">
+         <widget class="QPushButton" name="addPushButton">
           <property name="text">
            <string>+</string>
           </property>
@@ -317,9 +317,9 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_EditFinish">
+         <widget class="QPushButton" name="editFinishPushButton">
           <property name="text">
-           <string>Edit</string>
+           <string>Bearbeiten</string>
           </property>
          </widget>
         </item>
@@ -344,8 +344,8 @@
   <tabstop>activeCheckBox</tabstop>
   <tabstop>replaceCheckBox</tabstop>
   <tabstop>lastUpdateLineEdit</tabstop>
-  <tabstop>pushButton_Add</tabstop>
-  <tabstop>pushButton_EditFinish</tabstop>
+  <tabstop>addPushButton</tabstop>
+  <tabstop>editFinishPushButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>

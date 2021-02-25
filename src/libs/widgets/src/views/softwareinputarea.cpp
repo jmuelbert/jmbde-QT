@@ -15,7 +15,7 @@ SoftwareInputArea::SoftwareInputArea(QWidget *parent, const QModelIndex &index)
 {
     ui->setupUi(this);
 
-    qCDebug(jmbdeWidgetsSoftwareInputAreaLog) << "Init SoftwareInputArea for Index :" << index.column();
+    qCDebug(jmbdeWidgetsSoftwareInputAreaLog) << tr("Initialisiere SoftwareInputArea mit Index :") << index.row();
 
     this->m_softwareModel = new Model::Software();
     this->m_db = this->m_softwareModel->getDB();
@@ -29,10 +29,20 @@ SoftwareInputArea::SoftwareInputArea(QWidget *parent, const QModelIndex &index)
     // Set the mapper
     m_mapper = new QDataWidgetMapper();
     m_mapper->setModel(m_model);
+    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
     setMappings();
 
-    m_mapper->setCurrentIndex(index.row());
+    qCDebug(jmbdeWidgetsSoftwareInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+
+    if (index.row() < 0) {
+        m_mapper->toFirst();
+    } else {
+        m_mapper->setCurrentIndex(index.row());
+    }
+
+    QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &SoftwareInputArea::addEdit);
+    QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &SoftwareInputArea::editFinish);
 }
 
 SoftwareInputArea::~SoftwareInputArea()
@@ -59,7 +69,7 @@ void SoftwareInputArea::setViewOnlyMode(bool mode)
 
 void SoftwareInputArea::createDataset()
 {
-    qCDebug(jmbdeWidgetsSoftwareInputAreaLog) << "Create a new Dataset for Software...";
+    qCDebug(jmbdeWidgetsSoftwareInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Software...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -73,39 +83,36 @@ void SoftwareInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void SoftwareInputArea::retrieveDataset(const QModelIndex index)
+void SoftwareInputArea::deleteDataset(const QModelIndex &index)
 {
+    qCDebug(jmbdeWidgetsSoftwareInputAreaLog) << tr("Lösche Daten von Software");
+    m_mapper->setCurrentIndex(index.row());
 }
 
-void SoftwareInputArea::updateDataset(const QModelIndex index)
+void SoftwareInputArea::addEdit()
 {
-}
-
-void SoftwareInputArea::deleteDataset(const QModelIndex index)
-{
-}
-
-void SoftwareInputArea::on_pushButton_Add_clicked()
-{
+    qCDebug(jmbdeWidgetsSoftwareInputAreaLog) << tr("Füge neue Daten zu Software");
     createDataset();
-    on_pushButton_EditFinish_clicked();
+    editFinish();
 }
 
-void SoftwareInputArea::on_pushButton_EditFinish_clicked()
+void SoftwareInputArea::editFinish()
 {
+    qCDebug(jmbdeWidgetsSoftwareInputAreaLog) << tr("Bearbeite oder schließe Software Daten");
+
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
-        ui->editFinishPushButton->setText(tr("Finish"));
+        ui->editFinishPushButton->setText(tr("Fertig"));
         setViewOnlyMode(false);
 
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsSoftwareInputAreaLog) << tr("Daten speichern...");
+        qCDebug(jmbdeWidgetsSoftwareInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
-        ui->editFinishPushButton->setText(tr("Fertig"));
+        ui->editFinishPushButton->setText(tr("Bearbeiten"));
         setViewOnlyMode(false);
 
         QString name = ui->nameLineEdit->text();
@@ -119,17 +126,17 @@ void SoftwareInputArea::on_pushButton_EditFinish_clicked()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(jmbdeWidgetsSoftwareInputAreaLog) << tr("Änderung an der Tabelle software in der Datenbank");
-                m_model->database().rollback();
+                qCDebug(jmbdeWidgetsSoftwareInputAreaLog) << tr("Schreiben der Änderungen für Software in die Datenbank");
+                dataChanged();
             } else {
                 m_model->database().rollback();
-                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet einen Fehler: %1").arg(m_model->lastError().text()));
+                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
             }
         }
     } break;
 
     default: {
-        qCCritical(jmbdeWidgetsSoftwareInputAreaLog) << tr("Fehler");
+        qCCritical(jmbdeWidgetsSoftwareInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

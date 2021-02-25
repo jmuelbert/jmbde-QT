@@ -42,8 +42,8 @@ MainWindow::MainWindow(QWidget *parent)
 
         actualizeEmployeeListView();
 
-        auto *employeeInputArea = new EmployeeInputArea(ui->scrollArea);
-        QObject::connect(employeeInputArea, SIGNAL(dataChanged()), this, SLOT(actualizeEmployeListView()));
+        auto *employeeInputArea = new EmployeeInputArea(ui->scrollArea, QModelIndex());
+        QObject::connect(employeeInputArea, SIGNAL(dataChanged()), this, SLOT(actualizeEmployeeListView()));
         QSize AdjustSize = employeeInputArea->size();
         AdjustSize.width();
         employeeInputArea->setMinimumSize(AdjustSize);
@@ -675,11 +675,11 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
     }
 
     if (selected == tr("Zugang")) { // Account
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_ACCOUNT;
 
-        actualizeAccoutListView();
+        actualizeAccountListView();
 
         auto *accountInput = new AccountInputArea(ui->scrollArea, QModelIndex());
         QSize adjustSize = accountInput->size();
@@ -689,7 +689,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(accountInput);
 
     } else if (selected == tr("Schlüsselchip Tür")) { // ChipCardDoor
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_CHIPCARDDOOR;
 
@@ -703,7 +703,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(chipCardDoorInput);
 
     } else if (selected == tr("Schlüssel Chip")) { // ChipCard
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_CHIPCARD;
 
@@ -717,7 +717,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(chipCardInput);
 
     } else if (selected == tr("Schlüssel Chip Profile Tür")) { // ChipCardProfileDoor
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_CHIPCARDPROFILEDOOR;
 
@@ -731,7 +731,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(chipCardProfileDoorInput);
 
     } else if (selected == tr("Schlüssel Chip Profil")) { // ChipCardProfile
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_CHIPCARDPROFILE;
 
@@ -745,7 +745,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(chipCardProfileInput);
 
     } else if (selected == tr("Stadt")) { // City
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_CITYNAME;
 
@@ -759,7 +759,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(cityInput);
 
     } else if (selected == tr("Firma")) { // Company
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_COMPANY;
 
@@ -772,7 +772,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(companyInput);
     } else if (selected == tr("Computer")) {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_COMPUTER;
 
@@ -785,20 +785,20 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(computerInput);
     } else if (selected == tr("Computer Software")) {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_COMPUTERSOFTWARE;
 
         actualizeComputerSoftwareListView();
 
-        auto *computerSoftwareInput = new ComputerInputArea(ui->scrollArea, QModelIndex());
+        auto *computerSoftwareInput = new ComputerSoftwareInputArea(ui->scrollArea, QModelIndex());
         QSize adjustSize = computerSoftwareInput->size();
         adjustSize.width();
         computerSoftwareInput->setMinimumSize(adjustSize);
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(computerSoftwareInput);
     } else if (selected == tr("Abteilung")) { // Department
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_DEPARTMENT;
 
@@ -811,7 +811,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(departmentInput);
     } else if (selected == tr("Geräte Name")) { // Device Name
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_DEVICENAME;
 
@@ -824,7 +824,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(deviceNameInput);
     } else if (selected == tr("Geräte Typ")) { // Device Type
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_DEVICETYPE;
 
@@ -838,7 +838,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(deviceTypeInput);
 
     } else if (selected == tr("Dokument")) { // Document
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_DOCUMENT;
 
@@ -851,7 +851,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(documentInput);
     } else if (selected == tr("Mitarbeiter*innen Zugang")) { // Employee Account
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_EMPLOYEEACCOUNT;
 
@@ -865,7 +865,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(employeeAccountInput);
 
     } else if (selected == tr("Mitarbeiter*innen Dokument")) { // Employee Document
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_EMPLOYEEDOCUMENT;
 
@@ -879,7 +879,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(employeeDocumentInput);
 
     } else if (selected == tr("Mitarbeiter*innen")) { // Employee
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
         actualView = VIEW_EMPLOYEE;
 
         actualizeEmployeeListView();
@@ -891,7 +891,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(employeeInput);
     } else if (selected == tr("Fax")) { // Fax
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_FAX;
 
@@ -904,7 +904,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(faxInput);
     } else if (selected == tr("Funktion")) {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_FUNCTION;
 
@@ -918,7 +918,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(functionInput);
 
     } else if (selected == tr("Inventar")) {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_INVENTORY;
 
@@ -931,7 +931,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(inventoryInput);
     } else if (selected == tr("Funktion")) { // Function
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_FUNCTION;
 
@@ -944,7 +944,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(functionInput);
     } else if (selected == tr("Hersteller")) { // Manufacturer
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_MANUFACTURER;
 
@@ -957,7 +957,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(manufacturerInput);
     } else if (selected == tr("Mobile Telefon")) { // Mobile
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_MOBILE;
 
@@ -971,7 +971,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(mobileInput);
 
     } else if (selected == tr("Betriebssystem")) { // OS
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_OS;
 
@@ -984,7 +984,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(osInput);
     } else if (selected == tr("Telefon")) { // Phone
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_PHONE;
 
@@ -997,7 +997,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(phoneInput);
     } else if (selected == tr("Platz")) { // Place
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_PLACE;
 
@@ -1010,7 +1010,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(placeInput);
     } else if (selected == tr("Drucker")) { // Printer
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_PRINTER;
 
@@ -1024,7 +1024,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(printerInput);
 
     } else if (selected == tr("Prozessor")) { // Processor
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_PROCESSOR;
 
@@ -1037,7 +1037,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(processorInput);
     } else if (selected == tr("Software")) { // Software
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_SOFTWARE;
 
@@ -1050,7 +1050,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(softwareInput);
     } else if (selected == tr("System Daten")) { // System Data
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_SYSTEMDATA;
 
@@ -1063,7 +1063,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(systemDataInput);
     } else if (selected == tr("Titel")) {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_TITLE;
 
@@ -1076,7 +1076,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(titleInput);
     } else if (selected == tr("PLZ Stadt")) { // Zip City
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_ZIPCITY;
 
@@ -1089,7 +1089,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(zipCityInput);
     } else if (selected == tr("PLZ Code")) { // Zip Code
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: %s").arg(selected);
+        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_ZIPCODE;
 
@@ -1115,8 +1115,7 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
     case VIEW_ACCOUNT: {
         auto *accountInput = new AccountInputArea(ui->scrollArea, index);
 
-        QObject::connect(accountInput, SIGNAL(dataChanged()), this, SLOT(actualizeAccountListView()));
-
+        QObject::connect(accountInput, &AccountInputArea::dataChanged, this, &MainWindow::actualizeAccountListView);
         QSize adjustSize = accountInput->size();
         adjustSize.width();
         accountInput->setMinimumSize(adjustSize);
@@ -1127,7 +1126,7 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
     case VIEW_CHIPCARDDOOR: {
         auto *chipCardDoorInput = new ChipCardDoorInputArea(ui->scrollArea, index);
 
-        QObject::connect(chipCardDoorInput, SIGNAL(dataChanged()), this, SLOT(actualizeChipCardDoorListView()));
+        QObject::connect(chipCardDoorInput, &ChipCardDoorInputArea::dataChanged, this, &MainWindow::actualizeChipCardDoorListView);
 
         QSize adjustSize = chipCardDoorInput->size();
         adjustSize.width();
@@ -1139,7 +1138,7 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
     case VIEW_CHIPCARD: {
         auto *chipCardInput = new ChipCardInputArea(ui->scrollArea, index);
 
-        QObject::connect(chipCardInput, SIGNAL(dataChanged()), this, SLOT(actualizeChipCardListView()));
+        QObject::connect(chipCardInput, &ChipCardInputArea::dataChanged, this, &MainWindow::actualizeChipCardListView);
 
         QSize adjustSize = chipCardInput->size();
         adjustSize.width();
@@ -1151,7 +1150,7 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
     case VIEW_CHIPCARDPROFILEDOOR: {
         auto *chipCardProfileDoorInput = new ChipCardProfileDoorInputArea(ui->scrollArea, index);
 
-        QObject::connect(chipCardProfileDoorInput, SIGNAL(dataChanged()), this, SLOT(actualizeChipCardProfileDoorListView()));
+        QObject::connect(chipCardProfileDoorInput, &ChipCardProfileDoorInputArea::dataChanged, this, &MainWindow::actualizeChipCardProfileDoorListView);
 
         QSize adjustSize = chipCardProfileDoorInput->size();
         adjustSize.width();
@@ -1163,7 +1162,7 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
     case VIEW_CHIPCARDPROFILE: {
         auto *chipCardProfileInput = new ChipCardProfileInputArea(ui->scrollArea, index);
 
-        QObject::connect(chipCardProfileInput, SIGNAL(dataChanged()), this, SLOT(actualizeChipCardProfileListView()));
+        QObject::connect(chipCardProfileInput, &ChipCardProfileInputArea::dataChanged, this, &MainWindow::actualizeChipCardProfileListView);
 
         QSize adjustSize = chipCardProfileInput->size();
         adjustSize.width();
@@ -1175,7 +1174,7 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
     case VIEW_CITYNAME: {
         auto *cityNameInput = new CityInputArea(ui->scrollArea, index);
 
-        QObject::connect(cityNameInput, SIGNAL(dataChanged()), this, SLOT(actualizeCityNameListView()));
+        QObject::connect(cityNameInput, &CityInputArea::dataChanged, this, &MainWindow::actualizeCityListView);
 
         QSize adjustSize = cityNameInput->size();
         adjustSize.width();
@@ -1187,7 +1186,7 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
     case VIEW_COMPANY: {
         auto *companyInput = new CompanyInputArea(ui->scrollArea, index);
 
-        QObject::connect(companyInput, SIGNAL(dataChanged()), this, SLOT(actualizeCompanyListView()));
+        QObject::connect(companyInput, &CompanyInputArea::dataChanged, this, &MainWindow::actualizeCompanyListView);
 
         QSize adjustSize = companyInput->size();
         adjustSize.width();
@@ -1199,7 +1198,7 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
     case VIEW_COMPUTER: {
         auto *computerInput = new ComputerInputArea(ui->scrollArea, index);
 
-        QObject::connect(computerInput, SIGNAL(dataChanged()), this, SLOT(actualizeComputerListView()));
+        QObject::connect(computerInput, &ComputerInputArea::dataChanged, this, &MainWindow::actualizeComputerListView);
 
         QSize adjustSize = computerInput->size();
         adjustSize.width();
@@ -1211,7 +1210,7 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
     case VIEW_COMPUTERSOFTWARE: {
         auto *computerSoftwareInput = new ComputerSoftwareInputArea(ui->scrollArea, index);
 
-        QObject::connect(computerSoftwareInput, SIGNAL(dataChanged()), this, SLOT(actualizeComputerSoftwareListView()));
+        QObject::connect(computerSoftwareInput, &ComputerSoftwareInputArea::dataChanged, this, &MainWindow::actualizeComputerSoftwareListView);
 
         QSize adjustSize = computerSoftwareInput->size();
         adjustSize.width();
@@ -1223,7 +1222,7 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
     case VIEW_DEPARTMENT: {
         auto *departmentInput = new DepartmentInputArea(ui->scrollArea, index);
 
-        QObject::connect(departmentInput, SIGNAL(dataChanged()), this, SLOT(actualizeDepartmentListView()));
+        QObject::connect(departmentInput, &DepartmentInputArea::dataChanged, this, &MainWindow::actualizeDepartmentListView);
 
         QSize adjustSize = departmentInput->size();
         adjustSize.width();
@@ -1235,7 +1234,7 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
     case VIEW_DEVICENAME: {
         auto *deviceNameInput = new DeviceNameInputArea(ui->scrollArea, index);
 
-        QObject::connect(deviceNameInput, SIGNAL(dataChanged()), this, SLOT(actualizeDeviceNameListView()));
+        QObject::connect(deviceNameInput, &DeviceNameInputArea::dataChanged, this, &MainWindow::actualizeDeviceNameListView);
 
         QSize adjustSize = deviceNameInput->size();
         adjustSize.width();
@@ -1247,7 +1246,7 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
     case VIEW_DEVICETYPE: {
         auto *deviceTypeInput = new DeviceTypeInputArea(ui->scrollArea, index);
 
-        QObject::connect(deviceTypeInput, SIGNAL(dataChanged()), this, SLOT(actualizeDeviceTypeListView()));
+        QObject::connect(deviceTypeInput, &DeviceTypeInputArea::dataChanged, this, &MainWindow::actualizeDeviceTypeListView);
 
         QSize adjustSize = deviceTypeInput->size();
         adjustSize.width();
@@ -1259,7 +1258,7 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
     case VIEW_DOCUMENT: {
         auto *documentInput = new DocumentInputArea(ui->scrollArea, index);
 
-        QObject::connect(documentInput, SIGNAL(dataChanged()), this, SLOT(actualizeDocumentListView()));
+        QObject::connect(documentInput, &DocumentInputArea::dataChanged, this, &MainWindow::actualizeDocumentListView);
 
         QSize adjustSize = documentInput->size();
         adjustSize.width();
@@ -1271,7 +1270,7 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
     case VIEW_EMPLOYEEACCOUNT: {
         auto *employeeAccountInput = new EmployeeAccountInputArea(ui->scrollArea, index);
 
-        QObject::connect(employeeAccountInput, SIGNAL(dataChanged()), this, SLOT(actualizeEmployeAccountListView()));
+        QObject::connect(employeeAccountInput, &EmployeeAccountInputArea::dataChanged, this, &MainWindow::actualizeEmployeeAccountListView);
 
         QSize adjustSize = employeeAccountInput->size();
         adjustSize.width();
@@ -1283,7 +1282,7 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
     case VIEW_EMPLOYEEDOCUMENT: {
         auto *employeeDocumentInput = new EmployeeDocumentInputArea(ui->scrollArea, index);
 
-        QObject::connect(employeeDocumentInput, SIGNAL(dataChanged()), this, SLOT(actualizeEmployeDocumentListView()));
+        QObject::connect(employeeDocumentInput, &EmployeeDocumentInputArea::dataChanged, this, &MainWindow::actualizeEmployeeDocumentListView);
 
         QSize adjustSize = employeeDocumentInput->size();
         adjustSize.width();
@@ -1295,7 +1294,7 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
     case VIEW_EMPLOYEE: {
         auto *employeeInput = new EmployeeInputArea(ui->scrollArea, index);
 
-        QObject::connect(employeeInput, SIGNAL(dataChanged()), this, SLOT(actualizeEmployeListView()));
+        QObject::connect(employeeInput, &EmployeeInputArea::dataChanged, this, &MainWindow::actualizeEmployeeListView);
 
         QSize adjustSize = employeeInput->size();
         adjustSize.width();
@@ -1310,12 +1309,12 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
         adjustSize.width();
         employeeList->setMinimumSize(adjustSize);
         ui->scrollArea->setWidgetResizable(true);
-    }
+    } break;
 
     case VIEW_FAX: {
         auto *faxInput = new FaxInputArea(ui->scrollArea, index);
 
-        QObject::connect(faxInput, SIGNAL(dataChanged()), this, SLOT(actualizeFaxListView()));
+        QObject::connect(faxInput, &FaxInputArea::dataChanged, this, &MainWindow::actualizeFaxListView);
 
         QSize adjustSize = faxInput->size();
         adjustSize.width();
@@ -1326,7 +1325,7 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
     case VIEW_FUNCTION: {
         auto *functionInput = new FunctionInputArea(ui->scrollArea, index);
 
-        QObject::connect(functionInput, SIGNAL(dataChanged()), this, SLOT(actualizeFunctionListView()));
+        QObject::connect(functionInput, &FunctionInputArea::dataChanged, this, &MainWindow::actualizeFunctionListView);
 
         QSize adjustSize = functionInput->size();
         adjustSize.width();
@@ -1338,7 +1337,7 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
     case VIEW_INVENTORY: {
         auto *inventoryInput = new InventoryInputArea(ui->scrollArea, index);
 
-        QObject::connect(inventoryInput, SIGNAL(dataChanged()), this, SLOT(actualizeInventoryListView()));
+        QObject::connect(inventoryInput, &InventoryInputArea::dataChanged, this, &MainWindow::actualizeInventoryListView);
 
         QSize adjustSize = inventoryInput->size();
         adjustSize.width();
@@ -1350,7 +1349,7 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
     case VIEW_MANUFACTURER: {
         auto *manufacturerInput = new ManufacturerInputArea(ui->scrollArea, index);
 
-        QObject::connect(manufacturerInput, SIGNAL(dataChanged()), this, SLOT(actualizeManufacturersListView()));
+        QObject::connect(manufacturerInput, &ManufacturerInputArea::dataChanged, this, &MainWindow::actualizeManufacturerListView);
 
         QSize adjustSize = manufacturerInput->size();
         adjustSize.width();
@@ -1360,19 +1359,21 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
     } break;
 
     case VIEW_MOBILE: {
-        auto *mia = new MobileInputArea(ui->scrollArea, index);
+        auto *mobileInput = new MobileInputArea(ui->scrollArea, index);
 
-        QSize AdjustSize = mia->size();
+        QObject::connect(mobileInput, &MobileInputArea::dataChanged, this, &MainWindow::actualizeMobileListView);
+
+        QSize AdjustSize = mobileInput->size();
         AdjustSize.width();
-        mia->setMinimumSize(AdjustSize);
+        mobileInput->setMinimumSize(AdjustSize);
         ui->scrollArea->setWidgetResizable(true);
-        ui->scrollArea->setWidget(mia);
+        ui->scrollArea->setWidget(mobileInput);
     } break;
 
     case VIEW_OS: {
         auto *osInput = new OSInputArea(ui->scrollArea, index);
 
-        QObject::connect(osInput, SIGNAL(dataChanged()), this, SLOT(actualizeOsListView()));
+        QObject::connect(osInput, &OSInputArea::dataChanged, this, &MainWindow::actualizeOsListView);
 
         QSize adjustSize = osInput->size();
         adjustSize.width();
@@ -1396,7 +1397,7 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
     case VIEW_PLACE: {
         auto *placeInput = new PlaceInputArea(ui->scrollArea, index);
 
-        QObject::connect(placeInput, SIGNAL(dataChanged()), this, SLOT(actualizeplaceListView()));
+        QObject::connect(placeInput, &PlaceInputArea::dataChanged, this, &MainWindow::actualizePlaceListView);
 
         QSize adjustSize = placeInput->size();
         adjustSize.width();
@@ -1408,7 +1409,7 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
     case VIEW_PRINTER: {
         auto *printerInput = new PrinterInputArea(ui->scrollArea, index);
 
-        QObject::connect(printerInput, SIGNAL(dataChanged()), this, SLOT(actualizePrinterListView()));
+        QObject::connect(printerInput, &PrinterInputArea::dataChanged, this, &MainWindow::actualizePrinterListView);
 
         QSize adjustSize = printerInput->size();
         adjustSize.width();
@@ -1420,7 +1421,7 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
     case VIEW_PROCESSOR: {
         auto *processorInput = new ProcessorInputArea(ui->scrollArea, index);
 
-        QObject::connect(processorInput, SIGNAL(dataChanged()), this, SLOT(actualizeProcessorListView()));
+        QObject::connect(processorInput, &ProcessorInputArea::dataChanged, this, &MainWindow::actualizeProcessorListView);
 
         QSize adjustSize = processorInput->size();
         adjustSize.width();
@@ -1432,7 +1433,7 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
     case VIEW_SOFTWARE: {
         auto *softwareInput = new SoftwareInputArea(ui->scrollArea, index);
 
-        QObject::connect(softwareInput, SIGNAL(dataChanged()), this, SLOT(actualizeSoftwareListView()));
+        QObject::connect(softwareInput, &SoftwareInputArea::dataChanged, this, &MainWindow::actualizeSoftwareListView);
 
         QSize adjustSize = softwareInput->size();
         adjustSize.width();
@@ -1444,7 +1445,7 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
     case VIEW_SYSTEMDATA: {
         auto *systemDataInput = new SystemDataInputArea(ui->scrollArea, index);
 
-        QObject::connect(systemDataInput, SIGNAL(dataChanged()), this, SLOT(actualizeSystemDataListView()));
+        QObject::connect(systemDataInput, &SystemDataInputArea::dataChanged, this, &MainWindow::actualizeSystemDataListView);
 
         QSize adjustSize = systemDataInput->size();
         adjustSize.width();
@@ -1456,7 +1457,7 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
     case VIEW_TITLE: {
         auto *titleInput = new TitleInputArea(ui->scrollArea, index);
 
-        QObject::connect(titleInput, SIGNAL(dataChanged()), this, SLOT(actualizeTitleListView()));
+        QObject::connect(titleInput, &TitleInputArea::dataChanged, this, &MainWindow::actualizeTitleListView);
 
         QSize adjustSize = titleInput->size();
         adjustSize.width();
@@ -1468,7 +1469,7 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
     case VIEW_ZIPCITY: {
         auto *zipCityInput = new ZipCityInputArea(ui->scrollArea, index);
 
-        QObject::connect(zipCityInput, SIGNAL(dataChanged()), this, SLOT(actualizeZipCityListView()));
+        QObject::connect(zipCityInput, &ZipCityInputArea::dataChanged, this, &MainWindow::actualizeZipCityListView);
 
         QSize adjustSize = zipCityInput->size();
         adjustSize.width();
@@ -1480,7 +1481,7 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
     case VIEW_ZIPCODE: {
         auto *zipCodeInput = new ZipCodeInputArea(ui->scrollArea, index);
 
-        QObject::connect(zipCodeInput, SIGNAL(dataChanged()), this, SLOT(actualizeZipCodeListView()));
+        QObject::connect(zipCodeInput, &ZipCodeInputArea::dataChanged, this, &MainWindow::actualizeZipCodeListView);
 
         QSize adjustSize = zipCodeInput->size();
         adjustSize.width();
@@ -1495,7 +1496,7 @@ void MainWindow::on_listView_clicked(const QModelIndex &index)
     }
 }
 
-void MainWindow::actualizeAccoutListView()
+void MainWindow::actualizeAccountListView()
 {
     auto *accountModel = new Model::Account();
     tableModel = accountModel->initializeRelationalModel();
@@ -1545,7 +1546,7 @@ void MainWindow::actualizeChipCardProfileListView()
     tableModel = chipCardProfileModel->initializeRelationalModel();
 
     QSqlTableModel *listModel = chipCardProfileModel->initializeListModel();
-    int modelIndex = chipCardProfileModel->getChipCardDoorIdIndex();
+    int modelIndex = chipCardProfileModel->getNumberIndex();
     chipCardProfileModel->sort(modelIndex, Qt::AscendingOrder);
     actualizeListView(listModel, modelIndex);
 }

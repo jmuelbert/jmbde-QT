@@ -17,7 +17,7 @@ FaxInputArea::FaxInputArea(QWidget *parent, const QModelIndex &index)
     ui->setupUi(this);
 
     // Init UI
-    qCDebug(jmbdeWidgetsFaxInputAreaLog) << "Init FaxInputarea for Index : " << index.row();
+    qCDebug(jmbdeWidgetsFaxInputAreaLog) << tr("Initialisiere FaxInputarea mit Index : ") << index.row();
 
     this->m_faxModel = new Model::Fax();
     this->m_db = this->m_faxModel->getDB();
@@ -31,10 +31,20 @@ FaxInputArea::FaxInputArea(QWidget *parent, const QModelIndex &index)
     // Set the mapper
     m_mapper = new QDataWidgetMapper(this);
     m_mapper->setModel(m_model);
+    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
     setMappings();
 
-    m_mapper->setCurrentIndex(index.row());
+    qCDebug(jmbdeWidgetsFaxInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+
+    if (index.row() < 0) {
+        m_mapper->toFirst();
+    } else {
+        m_mapper->setCurrentIndex(index.row());
+    }
+
+    QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &FaxInputArea::addEdit);
+    QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &FaxInputArea::editFinish);
 }
 
 FaxInputArea::~FaxInputArea()
@@ -77,7 +87,7 @@ void FaxInputArea::setViewOnlyMode(bool mode)
 
 void FaxInputArea::createDataset()
 {
-    qCDebug(jmbdeWidgetsFaxInputAreaLog) << "Create a new Dataset for Fax..";
+    qCDebug(jmbdeWidgetsFaxInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Fax...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -91,39 +101,35 @@ void FaxInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void FaxInputArea::retrieveDataset(const QModelIndex index)
+void FaxInputArea::deleteDataset(const QModelIndex &index)
 {
+    qCDebug(jmbdeWidgetsFaxInputAreaLog) << tr("Lösche Daten von Fax");
+    m_mapper->setCurrentIndex(index.row());
 }
-
-void FaxInputArea::updateDataset(const QModelIndex index)
+void FaxInputArea::addEdit()
 {
-}
-
-void FaxInputArea::deleteDataset(const QModelIndex index)
-{
-}
-
-void FaxInputArea::on_pushButton_Add_clicked()
-{
+    qCDebug(jmbdeWidgetsFaxInputAreaLog) << tr("Füge neue Daten zu Fax");
     createDataset();
-    on_pushButton_EditFinish_clicked();
+    editFinish();
 }
 
-void FaxInputArea::on_pushButton_EditFinish_clicked()
+void FaxInputArea::editFinish()
 {
+    qCDebug(jmbdeWidgetsFaxInputAreaLog) << tr("Bearbeite oder schließe Fax Daten");
+
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
-        ui->pushButton_EditFinish->setText(tr("Ende"));
+        ui->editFinishPushButton->setText(tr("Fertig"));
         setViewOnlyMode(false);
 
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsFaxInputAreaLog) << tr("Daten sichern...");
+        qCDebug(jmbdeWidgetsFaxInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
-        ui->pushButton_EditFinish->setText(tr("Edit"));
+        ui->editFinishPushButton->setText(tr("Bearbeiten"));
         setViewOnlyMode(false);
 
         QString number = ui->numberLineEdit->text();
@@ -137,16 +143,17 @@ void FaxInputArea::on_pushButton_EditFinish_clicked()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(jmbdeWidgetsFaxInputAreaLog) << "Commit changes for Mobile Database Table";
+                qCDebug(jmbdeWidgetsFaxInputAreaLog) << tr("Schreiben der Änderungen für Fax in die Datenbank");
+                dataChanged();
             } else {
                 m_model->database().rollback();
-                QMessageBox::warning(this, tr("jmbde"), tr("Die Daten hat einen fehler angegeben: %1").arg(m_model->lastError().text()));
+                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
             }
         }
     } break;
 
     default: {
-        qCCritical(jmbdeWidgetsFaxInputAreaLog) << tr("Fehler");
+        qCCritical(jmbdeWidgetsFaxInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

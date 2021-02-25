@@ -15,7 +15,7 @@ DocumentInputArea::DocumentInputArea(QWidget *parent, const QModelIndex &index)
 {
     ui->setupUi(this);
 
-    qCDebug(jmbdeWidgetsDocumentInputAreaLog) << "Init DocumentInputArea for Index :" << index.column();
+    qCDebug(jmbdeWidgetsDocumentInputAreaLog) << tr("Initialisiere DocumentInputArea mit Index :") << index.row();
 
     this->m_documentModel = new Model::Document();
     this->m_db = this->m_documentModel->getDB();
@@ -29,10 +29,20 @@ DocumentInputArea::DocumentInputArea(QWidget *parent, const QModelIndex &index)
     // Set the mapper
     m_mapper = new QDataWidgetMapper();
     m_mapper->setModel(m_model);
+    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
     setMappings();
 
-    m_mapper->setCurrentIndex(index.row());
+    qCDebug(jmbdeWidgetsDocumentInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+
+    if (index.row() < 0) {
+        m_mapper->toFirst();
+    } else {
+        m_mapper->setCurrentIndex(index.row());
+    }
+
+    QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &DocumentInputArea::addEdit);
+    QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &DocumentInputArea::editFinish);
 }
 
 DocumentInputArea::~DocumentInputArea()
@@ -54,7 +64,7 @@ void DocumentInputArea::setViewOnlyMode(bool mode)
 
 void DocumentInputArea::createDataset()
 {
-    qCDebug(jmbdeWidgetsDocumentInputAreaLog) << "Create a new Dataset for ChipCard...";
+    qCDebug(jmbdeWidgetsDocumentInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Document...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -68,55 +78,60 @@ void DocumentInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void DocumentInputArea::retrieveDataset(const QModelIndex index)
+void DocumentInputArea::deleteDataset(const QModelIndex &index)
 {
+    qCDebug(jmbdeWidgetsDocumentInputAreaLog) << tr("Lösche Daten von Document");
+    m_mapper->setCurrentIndex(index.row());
 }
 
-void DocumentInputArea::updateDataset(const QModelIndex index)
+void DocumentInputArea::addEdit()
 {
-}
-
-void DocumentInputArea::deleteDataset(const QModelIndex index)
-{
-}
-
-void DocumentInputArea::on_pushButton_Add_clicked()
-{
+    qCDebug(jmbdeWidgetsDocumentInputAreaLog) << tr("Füge neue Daten zu Document");
     createDataset();
-    on_pushButton_EditFinish_clicked();
+    editFinish();
 }
 
-void DocumentInputArea::on_pushButton_EditFinish_clicked()
+void DocumentInputArea::editFinish()
 {
+    qCDebug(jmbdeWidgetsDocumentInputAreaLog) << tr("Bearbeite oder schließe Document Daten");
+
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
-        ui->pushButton_EditFinish->setText(tr("Finish"));
+        ui->editFinishPushButton->setText(tr("Fertig"));
         setViewOnlyMode(false);
 
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsDocumentInputAreaLog) << "Save Data...";
+        qCDebug(jmbdeWidgetsDocumentInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
-        ui->pushButton_EditFinish->setText(tr("Edit"));
+        ui->editFinishPushButton->setText(tr("Bearbeiten"));
         setViewOnlyMode(false);
 
-        m_mapper->submit();
-        m_model->database().transaction();
-        if (m_model->submitAll()) {
-            m_model->database().commit();
-            qCDebug(jmbdeWidgetsDocumentInputAreaLog) << "Commit changes for Document Database Table";
-            m_model->database().rollback();
-        } else {
-            m_model->database().rollback();
-            QMessageBox::warning(this, tr("jmbde"), tr("The database reported an error: %1").arg(m_model->lastError().text()));
-        }
-    } break;
+        QString name = ui->nameLineEdit->text();
 
+        if (name.isEmpty()) {
+            QString message(tr("Bitte geben sie eine Dokumenten Bezeichnung ein."));
+
+            QMessageBox::information(this, tr("Dokument hinzufügen"), message);
+        } else {
+            m_mapper->submit();
+            m_model->database().transaction();
+            if (m_model->submitAll()) {
+                m_model->database().commit();
+                qCDebug(jmbdeWidgetsDocumentInputAreaLog) << tr("Schreiben der Änderungen für Document in die Datenbank");
+                m_model->database().rollback();
+            } else {
+                m_model->database().rollback();
+                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
+            }
+        }
+        break;
+    }
     default: {
-        qCCritical(jmbdeWidgetsDocumentInputAreaLog) << "Unknown Mode!";
+        qCCritical(jmbdeWidgetsDocumentInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

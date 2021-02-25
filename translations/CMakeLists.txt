@@ -12,12 +12,12 @@
 # details.
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.12...3.18 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.12...3.19 FATAL_ERROR)
 
-if(${CMAKE_VERSION} VERSION_LESS 3.18)
+if(${CMAKE_VERSION} VERSION_LESS 3.19)
   cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 else()
-  cmake_policy(VERSION 3.18)
+  cmake_policy(VERSION 3.19)
 endif()
 
 #
@@ -36,7 +36,6 @@ if(LANGUAGES STREQUAL "All")
       ca
       cs
       da
-      de
       en
       es
       fa

@@ -18,7 +18,7 @@ MobileInputArea::MobileInputArea(QWidget *parent, const QModelIndex &index)
     ui->setupUi(this);
 
     // Init UI
-    qCDebug(jmbdeWidgetsMobileInputAreaLog) << "Init Mobilenputarea for Index : " << index.row();
+    qCDebug(jmbdeWidgetsMobileInputAreaLog) << tr("Initialisiere Mobilenputarea mit Index : ") << index.row();
 
     this->m_mobileModel = new Model::Mobile();
     this->m_db = this->m_mobileModel->getDB();
@@ -32,10 +32,20 @@ MobileInputArea::MobileInputArea(QWidget *parent, const QModelIndex &index)
     // Set the mapper
     m_mapper = new QDataWidgetMapper();
     m_mapper->setModel(m_model);
+    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
     setMappings();
 
-    m_mapper->setCurrentIndex(index.row());
+    qCDebug(jmbdeWidgetsMobileInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+
+    if (index.row() < 0) {
+        m_mapper->toFirst();
+    } else {
+        m_mapper->setCurrentIndex(index.row());
+    }
+
+    QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &MobileInputArea::addEdit);
+    QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &MobileInputArea::editFinish);
 }
 
 MobileInputArea::~MobileInputArea()
@@ -80,7 +90,7 @@ void MobileInputArea::setViewOnlyMode(bool mode)
 
 void MobileInputArea::createDataset()
 {
-    qDebug(jmbdeWidgetsMobileInputAreaLog) << "Create a new Dataset for Mobile...";
+    qDebug(jmbdeWidgetsMobileInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Mobile...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -94,36 +104,33 @@ void MobileInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void MobileInputArea::retrieveDataset(const QModelIndex index)
+void MobileInputArea::deleteDataset(const QModelIndex &index)
 {
+    qCDebug(jmbdeWidgetsMobileInputAreaLog) << tr("Lösche Daten von Mobile");
+    m_mapper->setCurrentIndex(index.row());
 }
 
-void MobileInputArea::updateDataset(const QModelIndex index)
+void MobileInputArea::addEdit()
 {
-}
-
-void MobileInputArea::deleteDataset(const QModelIndex index)
-{
-}
-
-void MobileInputArea::on_pushButton_Add_clicked()
-{
+    qCDebug(jmbdeWidgetsMobileInputAreaLog) << tr("Füge neue Daten zu Mobile");
     createDataset();
-    on_pushButton_EditFinish_clicked();
+    editFinish();
 }
 
-void MobileInputArea::on_pushButton_EditFinish_clicked()
+void MobileInputArea::editFinish()
 {
+    qCDebug(jmbdeWidgetsMobileInputAreaLog) << tr("Bearbeite oder schließe Mobile Daten");
+
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
-        ui->editFinishPushButton->setText(tr("Finish"));
+        ui->editFinishPushButton->setText(tr("Fertig"));
         setViewOnlyMode(false);
 
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsMobileInputAreaLog) << tr("Sichere Daten...");
+        qCDebug(jmbdeWidgetsMobileInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -140,16 +147,17 @@ void MobileInputArea::on_pushButton_EditFinish_clicked()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(jmbdeWidgetsMobileInputAreaLog) << "Commit changes for Mobile Database Table";
+                qCDebug(jmbdeWidgetsMobileInputAreaLog) << tr("Schreiben der Änderungen für Mobile in die Datenbank");
+                dataChanged();
             } else {
                 m_model->database().rollback();
-                QMessageBox::warning(this, tr("jmbde"), tr("TDie Datenbank meldet einen Fehler: %1").arg(m_model->lastError().text()));
+                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
             }
         }
     } break;
 
     default: {
-        qCCritical(jmbdeWidgetsMobileInputAreaLog) << tr("Fehler");
+        qCCritical(jmbdeWidgetsMobileInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

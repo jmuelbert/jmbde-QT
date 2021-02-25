@@ -7,7 +7,7 @@
 #include <ui_chipcardprofileinputarea.h>
 #include <views/chipcardprofileinputarea.h>
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsChipCardProfileInputAreaLog, "jmuelbert.jmbde.widgets.chipcardinputarea", QtWarningMsg)
+Q_LOGGING_CATEGORY(jmbdeWidgetsChipCardProfileInputAreaLog, "jmuelbert.jmbde.widgets.chipcardprofileinputarea", QtWarningMsg)
 
 ChipCardProfileInputArea::ChipCardProfileInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
@@ -15,7 +15,7 @@ ChipCardProfileInputArea::ChipCardProfileInputArea(QWidget *parent, const QModel
 {
     ui->setupUi(this);
 
-    qCDebug(jmbdeWidgetsChipCardProfileInputAreaLog) << "Init ChipCardProfileInputArea for Index :" << index.column();
+    qCDebug(jmbdeWidgetsChipCardProfileInputAreaLog) << "Initialisiere ChipCardProfileInputArea mit Index :" << index.row();
 
     this->m_chipCardProfileModel = new Model::ChipCardProfile();
     this->m_db = this->m_chipCardProfileModel->getDB();
@@ -29,10 +29,20 @@ ChipCardProfileInputArea::ChipCardProfileInputArea(QWidget *parent, const QModel
     // Set the mapper
     m_mapper = new QDataWidgetMapper();
     m_mapper->setModel(m_model);
+    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
     setMappings();
 
-    m_mapper->setCurrentIndex(index.row());
+    qCDebug(jmbdeWidgetsChipCardProfileInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+
+    if (index.row() < 0) {
+        m_mapper->toFirst();
+    } else {
+        m_mapper->setCurrentIndex(index.row());
+    }
+
+    QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &ChipCardProfileInputArea::addEdit);
+    QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &ChipCardProfileInputArea::editFinish);
 }
 
 ChipCardProfileInputArea::~ChipCardProfileInputArea()
@@ -57,7 +67,7 @@ void ChipCardProfileInputArea::setViewOnlyMode(bool mode)
 
 void ChipCardProfileInputArea::createDataset()
 {
-    qCDebug(jmbdeWidgetsChipCardProfileInputAreaLog) << "Create a new Dataset for ChipCard...";
+    qCDebug(jmbdeWidgetsChipCardProfileInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für ChipCardProfile...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -71,56 +81,60 @@ void ChipCardProfileInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void ChipCardProfileInputArea::retrieveDataset(const QModelIndex index)
+void ChipCardProfileInputArea::deleteDataset(const QModelIndex &index)
 {
+    qCDebug(jmbdeWidgetsChipCardProfileInputAreaLog) << tr("Lösche Daten von ChipCardProfile");
+    m_mapper->setCurrentIndex(index.row());
 }
 
-void ChipCardProfileInputArea::updateDataset(const QModelIndex index)
+void ChipCardProfileInputArea::addEdit()
 {
-}
-
-void ChipCardProfileInputArea::deleteDataset(const QModelIndex index)
-{
-}
-
-void ChipCardProfileInputArea::on_pushButton_Add_clicked()
-{
+    qCDebug(jmbdeWidgetsChipCardProfileInputAreaLog) << tr("Füge neue Daten zu ChipCardProfile");
     createDataset();
-    on_pushButton_EditFinish_clicked();
+    editFinish();
 }
 
-void ChipCardProfileInputArea::on_pushButton_EditFinish_clicked()
+void ChipCardProfileInputArea::editFinish()
 {
+    qCDebug(jmbdeWidgetsChipCardProfileInputAreaLog) << tr("Bearbeite oder schließe ChipCardProfile Daten");
+
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
-        ui->pushButton_EditFinish->setText(tr("Finish"));
+        ui->editFinishPushButton->setText(tr("Fertig"));
         setViewOnlyMode(false);
 
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsChipCardProfileInputAreaLog) << "Save Data...";
+        qCDebug(jmbdeWidgetsChipCardProfileInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
-        ui->pushButton_EditFinish->setText(tr("Edit"));
+        ui->editFinishPushButton->setText(tr("Bearbeiten"));
         setViewOnlyMode(false);
 
-        m_mapper->submit();
-        m_model->database().transaction();
-        if (m_model->submitAll()) {
-            m_model->database().commit();
-            qCDebug(jmbdeWidgetsChipCardProfileInputAreaLog) << "Commit changes for Chipcard Database Table";
-            m_model->database().rollback();
-        } else {
-            m_model->database().rollback();
-            QMessageBox::warning(this, tr("jmbde"), tr("The database reported an error: %1").arg(m_model->lastError().text()));
-        }
+        QString number = ui->numberLineEdit->text();
 
+        if (number.isEmpty()) {
+            QString message(tr("Bitte geben sie eine Schlüsselchip Profil Nummer ein."));
+
+            QMessageBox::information(this, tr("Hinzufügen Schlüsselchip Profil"), message);
+        } else {
+            m_mapper->submit();
+            m_model->database().transaction();
+            if (m_model->submitAll()) {
+                m_model->database().commit();
+                qCDebug(jmbdeWidgetsChipCardProfileInputAreaLog) << tr("Schreiben der Änderungen für Account in die Datenbank");
+                dataChanged();
+            } else {
+                m_model->database().rollback();
+                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
+            }
+        }
     } break;
 
     default: {
-        qCCritical(jmbdeWidgetsChipCardProfileInputAreaLog) << "Unknown Mode!";
+        qCCritical(jmbdeWidgetsChipCardProfileInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

@@ -11,13 +11,13 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Operation System</string>
+   <string>Betriebssystem</string>
   </property>
   <property name="accessibleName">
    <string>OSInputDialog</string>
   </property>
   <property name="title">
-   <string>Operation System</string>
+   <string>Betriebssystem</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
@@ -35,7 +35,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Operation System</string>
+           <string>Betriebssystem</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>

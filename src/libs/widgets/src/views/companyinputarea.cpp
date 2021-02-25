@@ -7,7 +7,7 @@
 #include <ui_companyinputarea.h>
 #include <views/companyinputarea.h>
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsCompanyInputAreaLog, "jmuelbert.jmbde.widgets.compamyinputarea", QtWarningMsg)
+Q_LOGGING_CATEGORY(jmbdeWidgetsCompanyInputAreaLog, "jmuelbert.jmbde.widgets.companyinputarea", QtWarningMsg)
 
 CompanyInputArea::CompanyInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
@@ -15,7 +15,7 @@ CompanyInputArea::CompanyInputArea(QWidget *parent, const QModelIndex &index)
 {
     ui->setupUi(this);
 
-    qCDebug(jmbdeWidgetsCompanyInputAreaLog) << "Init CompanyInputArea for Index :" << index.column();
+    qCDebug(jmbdeWidgetsCompanyInputAreaLog) << "Initialisiere CompanyInputArea mit Index :" << index.row();
 
     this->m_companyModel = new Model::Company();
     this->m_db = this->m_companyModel->getDB();
@@ -29,10 +29,20 @@ CompanyInputArea::CompanyInputArea(QWidget *parent, const QModelIndex &index)
     // Set the mapper
     m_mapper = new QDataWidgetMapper(this);
     m_mapper->setModel(m_model);
+    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
     setMappings();
 
-    m_mapper->setCurrentIndex(index.row());
+    qCDebug(jmbdeWidgetsCompanyInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+
+    if (index.row() < 0) {
+        m_mapper->toFirst();
+    } else {
+        m_mapper->setCurrentIndex(index.row());
+    }
+
+    QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &CompanyInputArea::addEdit);
+    QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &CompanyInputArea::editFinish);
 }
 
 CompanyInputArea::~CompanyInputArea()
@@ -40,7 +50,6 @@ CompanyInputArea::~CompanyInputArea()
     delete ui;
 }
 
-// TODO change lineEdit to lineEdit_Number
 void CompanyInputArea::setMappings()
 {
     m_mapper->addMapping(ui->nameLineEdit, this->m_companyModel->getNameIndex());
@@ -74,7 +83,7 @@ void CompanyInputArea::setViewOnlyMode(bool mode)
 
 void CompanyInputArea::createDataset()
 {
-    qCDebug(jmbdeWidgetsCompanyInputAreaLog) << "Create a new Dataset for ChipCard...";
+    qCDebug(jmbdeWidgetsCompanyInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Company...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -88,56 +97,60 @@ void CompanyInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void CompanyInputArea::retrieveDataset(const QModelIndex index)
+void CompanyInputArea::deleteDataset(const QModelIndex &index)
 {
+    qCDebug(jmbdeWidgetsCompanyInputAreaLog) << tr("Lösche Daten von Company");
+    m_mapper->setCurrentIndex(index.row());
 }
 
-void CompanyInputArea::updateDataset(const QModelIndex index)
+void CompanyInputArea::addEdit()
 {
-}
-
-void CompanyInputArea::deleteDataset(const QModelIndex index)
-{
-}
-
-void CompanyInputArea::on_pushButton_Add_clicked()
-{
+    qCDebug(jmbdeWidgetsCompanyInputAreaLog) << tr("Füge neue Daten zu Company");
     createDataset();
-    on_pushButton_EditFinish_clicked();
+    editFinish();
 }
 
-void CompanyInputArea::on_pushButton_EditFinish_clicked()
+void CompanyInputArea::editFinish()
 {
+    qCDebug(jmbdeWidgetsCompanyInputAreaLog) << tr("Bearbeite oder schließe Company Daten");
+
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
-        ui->pushButton_EditFinish->setText(tr("Finish"));
+        ui->editFinishPushButton->setText(tr("Fertig"));
         setViewOnlyMode(false);
 
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsCompanyInputAreaLog) << "Save Data...";
+        qCDebug(jmbdeWidgetsCompanyInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
-        ui->pushButton_EditFinish->setText(tr("Edit"));
+        ui->editFinishPushButton->setText(tr("Bearbeiten"));
         setViewOnlyMode(false);
 
-        m_mapper->submit();
-        m_model->database().transaction();
-        if (m_model->submitAll()) {
-            m_model->database().commit();
-            qCDebug(jmbdeWidgetsCompanyInputAreaLog) << "Commit changes for Chipcard Database Table";
-            m_model->database().rollback();
-        } else {
-            m_model->database().rollback();
-            QMessageBox::warning(this, tr("jmbde"), tr("The database reported an error: %1").arg(m_model->lastError().text()));
-        }
+        QString name = ui->nameLineEdit->text();
 
+        if (name.isEmpty()) {
+            QString message(tr("Bitte geben sie eine den Namen der Firma an."));
+
+            QMessageBox::information(this, tr("Hinzufügen Firma"), message);
+        } else {
+            m_mapper->submit();
+            m_model->database().transaction();
+            if (m_model->submitAll()) {
+                m_model->database().commit();
+                qCDebug(jmbdeWidgetsCompanyInputAreaLog) << tr("Schreiben der Änderungen für Company in die Datenbank");
+                dataChanged();
+            } else {
+                m_model->database().rollback();
+                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
+            }
+        }
     } break;
 
     default: {
-        qCCritical(jmbdeWidgetsCompanyInputAreaLog) << "Unknown Mode!";
+        qCCritical(jmbdeWidgetsCompanyInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

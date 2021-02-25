@@ -15,7 +15,7 @@ ZipCityInputArea::ZipCityInputArea(QWidget *parent, const QModelIndex &index)
 {
     ui->setupUi(this);
 
-    qCDebug(jmbdeWidgetsZipCityInputAreaLog) << "Init ZipCityInputArea for Index :" << index.column();
+    qCDebug(jmbdeWidgetsZipCityInputAreaLog) << tr("Initialisiere ZipCityInputArea mit Index :") << index.row();
 
     this->m_zipCityModel = new Model::ZipCity();
     this->m_db = this->m_zipCityModel->getDB();
@@ -29,10 +29,20 @@ ZipCityInputArea::ZipCityInputArea(QWidget *parent, const QModelIndex &index)
     // Set the mapper
     m_mapper = new QDataWidgetMapper();
     m_mapper->setModel(m_model);
+    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
     setMappings();
 
-    m_mapper->setCurrentIndex(index.row());
+    qCDebug(jmbdeWidgetsZipCityInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+
+    if (index.row() < 0) {
+        m_mapper->toFirst();
+    } else {
+        m_mapper->setCurrentIndex(index.row());
+    }
+
+    QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &ZipCityInputArea::addEdit);
+    QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &ZipCityInputArea::editFinish);
 }
 
 ZipCityInputArea::~ZipCityInputArea()
@@ -55,7 +65,7 @@ void ZipCityInputArea::setViewOnlyMode(bool mode)
 
 void ZipCityInputArea::createDataset()
 {
-    qCDebug(jmbdeWidgetsZipCityInputAreaLog) << "Create a new Dataset for ChipCard...";
+    qCDebug(jmbdeWidgetsZipCityInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für ZipCityInputArea...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -69,26 +79,23 @@ void ZipCityInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void ZipCityInputArea::retrieveDataset(const QModelIndex index)
+void ZipCityInputArea::deleteDataset(const QModelIndex &index)
 {
+    qCDebug(jmbdeWidgetsZipCityInputAreaLog) << tr("Lösche Daten von ZipCityInputArea");
+    m_mapper->setCurrentIndex(index.row());
 }
 
-void ZipCityInputArea::updateDataset(const QModelIndex index)
+void ZipCityInputArea::addEdit()
 {
-}
-
-void ZipCityInputArea::deleteDataset(const QModelIndex index)
-{
-}
-
-void ZipCityInputArea::on_pushButton_Add_clicked()
-{
+    qCDebug(jmbdeWidgetsZipCityInputAreaLog) << tr("Füge neue Daten zu ZipCityInputArea");
     createDataset();
-    on_pushButton_EditFinish_clicked();
+    editFinish();
 }
 
-void ZipCityInputArea::on_pushButton_EditFinish_clicked()
+void ZipCityInputArea::editFinish()
 {
+    qCDebug(jmbdeWidgetsZipCityInputAreaLog) << tr("Bearbeite oder schließe ZipCityInputArea Daten");
+
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
@@ -98,7 +105,7 @@ void ZipCityInputArea::on_pushButton_EditFinish_clicked()
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsZipCityInputAreaLog) << tr("Daten speichern...");
+        qCDebug(jmbdeWidgetsZipCityInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -108,17 +115,17 @@ void ZipCityInputArea::on_pushButton_EditFinish_clicked()
         m_model->database().transaction();
         if (m_model->submitAll()) {
             m_model->database().commit();
-            qCDebug(jmbdeWidgetsZipCityInputAreaLog) << "Commit changes for Chipcard Database Table";
-            m_model->database().rollback();
+            qCDebug(jmbdeWidgetsZipCityInputAreaLog) << tr("Schreiben der Änderungen für Account in die Datenbank");
+            dataChanged();
         } else {
             m_model->database().rollback();
-            QMessageBox::warning(this, tr("jmbde"), tr("The database reported an error: %1").arg(m_model->lastError().text()));
+            QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
         }
 
     } break;
 
     default: {
-        qCCritical(jmbdeWidgetsZipCityInputAreaLog) << "Unknown Mode!";
+        qCCritical(jmbdeWidgetsZipCityInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

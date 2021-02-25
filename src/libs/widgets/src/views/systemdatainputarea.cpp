@@ -15,7 +15,7 @@ SystemDataInputArea ::SystemDataInputArea(QWidget *parent, const QModelIndex &in
 {
     ui->setupUi(this);
 
-    qCDebug(jmbdeWidgetsSystemDataInputAreaLog) << "Init SystemDataInputArea for Index :" << index.column();
+    qCDebug(jmbdeWidgetsSystemDataInputAreaLog) << tr("Initialisiere SystemDataInputArea mit Index :") << index.row();
 
     this->m_systemDataModel = new Model::SystemData();
     this->m_db = this->m_systemDataModel->getDB();
@@ -29,12 +29,21 @@ SystemDataInputArea ::SystemDataInputArea(QWidget *parent, const QModelIndex &in
     // Set the mapper
     m_mapper = new QDataWidgetMapper();
     m_mapper->setModel(m_model);
+    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
     setMappings();
 
-    m_mapper->setCurrentIndex(index.row());
-}
+    qCDebug(jmbdeWidgetsSystemDataInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
+    if (index.row() < 0) {
+        m_mapper->toFirst();
+    } else {
+        m_mapper->setCurrentIndex(index.row());
+    }
+
+    QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &SystemDataInputArea::addEdit);
+    QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &SystemDataInputArea::editFinish);
+}
 SystemDataInputArea::~SystemDataInputArea()
 {
     delete ui;
@@ -57,7 +66,7 @@ void SystemDataInputArea::setViewOnlyMode(bool mode)
 
 void SystemDataInputArea::createDataset()
 {
-    qCDebug(jmbdeWidgetsSystemDataInputAreaLog) << "Create a new Dataset for ChipCard...";
+    qCDebug(jmbdeWidgetsSystemDataInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für SystemData...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -71,26 +80,23 @@ void SystemDataInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void SystemDataInputArea::retrieveDataset(const QModelIndex index)
+void SystemDataInputArea::deleteDataset(const QModelIndex &index)
 {
+    qCDebug(jmbdeWidgetsSystemDataInputAreaLog) << tr("Lösche Daten von SystemData");
+    m_mapper->setCurrentIndex(index.row());
 }
 
-void SystemDataInputArea::updateDataset(const QModelIndex index)
+void SystemDataInputArea::addEdit()
 {
-}
-
-void SystemDataInputArea::deleteDataset(const QModelIndex index)
-{
-}
-
-void SystemDataInputArea::on_pushButton_Add_clicked()
-{
+    qCDebug(jmbdeWidgetsSystemDataInputAreaLog) << tr("Füge neue Daten zu SystemData");
     createDataset();
-    on_pushButton_EditFinish_clicked();
+    editFinish();
 }
 
-void SystemDataInputArea::on_pushButton_EditFinish_clicked()
+void SystemDataInputArea::editFinish()
 {
+    qCDebug(jmbdeWidgetsSystemDataInputAreaLog) << tr("Bearbeite oder schließe SystemData Daten");
+
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
@@ -100,7 +106,7 @@ void SystemDataInputArea::on_pushButton_EditFinish_clicked()
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsSystemDataInputAreaLog) << tr("Daten speichern...");
+        qCDebug(jmbdeWidgetsSystemDataInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -117,17 +123,17 @@ void SystemDataInputArea::on_pushButton_EditFinish_clicked()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(jmbdeWidgetsSystemDataInputAreaLog) << tr("Änderung an der Tabelle systemdatem in der Datenbank");
-                m_model->database().rollback();
+                qCDebug(jmbdeWidgetsSystemDataInputAreaLog) << tr("Schreiben der Änderungen für Systemdatem in die Datenbank");
+                dataChanged();
             } else {
                 m_model->database().rollback();
-                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet einen Fehler: %1").arg(m_model->lastError().text()));
+                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
             }
         }
     } break;
 
     default: {
-        qCCritical(jmbdeWidgetsSystemDataInputAreaLog) << tr("Fehler");
+        qCCritical(jmbdeWidgetsSystemDataInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

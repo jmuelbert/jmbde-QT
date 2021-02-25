@@ -254,7 +254,7 @@
         <item row="10" column="0">
          <widget class="QCheckBox" name="activeCheckBox">
           <property name="text">
-           <string>Activ</string>
+           <string>Aktiv</string>
           </property>
          </widget>
         </item>
@@ -425,7 +425,7 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QPushButton" name="pushButton_Add">
+         <widget class="QPushButton" name="addPushButton">
           <property name="text">
            <string>+</string>
           </property>
@@ -445,9 +445,9 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_EditFinish">
+         <widget class="QPushButton" name="editFinishPushButton">
           <property name="text">
-           <string>Edit</string>
+           <string>Bearbeiten</string>
           </property>
          </widget>
         </item>
@@ -480,8 +480,8 @@
   <tabstop>activeCheckBox</tabstop>
   <tabstop>replaceCheckBox</tabstop>
   <tabstop>lastUpdateLineEdit</tabstop>
-  <tabstop>pushButton_Add</tabstop>
-  <tabstop>pushButton_EditFinish</tabstop>
+  <tabstop>addPushButton</tabstop>
+  <tabstop>editFinishPushButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>

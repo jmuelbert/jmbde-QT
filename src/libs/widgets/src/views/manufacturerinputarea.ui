@@ -14,7 +14,7 @@
    <string>Hersteller</string>
   </property>
   <property name="accessibleName">
-   <string>ChipCardInputDialog</string>
+   <string>ManufacturerInputDialog</string>
   </property>
   <property name="title">
    <string>Hersteller</string>
@@ -231,6 +231,9 @@
           <property name="text">
            <string>Straße 2</string>
           </property>
+          <property name="buddy">
+           <cstring>address2LineEdit</cstring>
+          </property>
          </widget>
         </item>
         <item row="5" column="1" colspan="3">
@@ -276,7 +279,7 @@
         <item>
          <widget class="QPushButton" name="editFinishPushButton">
           <property name="text">
-           <string>Edit</string>
+           <string>Bearbeiten</string>
           </property>
          </widget>
         </item>
@@ -292,7 +295,9 @@
   <tabstop>name2LineEdit</tabstop>
   <tabstop>supporterLineEdit</tabstop>
   <tabstop>zipCodeComboBox</tabstop>
+  <tabstop>cityLineEdit</tabstop>
   <tabstop>addressLineEdit</tabstop>
+  <tabstop>address2LineEdit</tabstop>
   <tabstop>mailAddressLineEdit</tabstop>
   <tabstop>phoneNumberLineEdit</tabstop>
   <tabstop>hotlineNumberLineEdit</tabstop>
@@ -300,7 +305,6 @@
   <tabstop>lastUpdateLineEdit</tabstop>
   <tabstop>addPushButton</tabstop>
   <tabstop>editFinishPushButton</tabstop>
-  <tabstop>cityLineEdit</tabstop>
  </tabstops>
  <resources/>
  <connections/>

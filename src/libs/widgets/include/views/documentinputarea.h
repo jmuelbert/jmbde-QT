@@ -21,14 +21,16 @@
 
 Q_DECLARE_LOGGING_CATEGORY(jmbdeWidgetsDocumentInputAreaLog)
 
-namespace Ui {
+namespace Ui
+{
 class DocumentInputArea;
 }
 
 /**
  * @brief The DocumentInputArea class
  */
-class JMBDEWIDGETS_EXPORT DocumentInputArea : public QGroupBox {
+class JMBDEWIDGETS_EXPORT DocumentInputArea : public QGroupBox
+{
     Q_OBJECT
 
 public:
@@ -37,7 +39,7 @@ public:
        @param parent The pointer to the parent object
        @param index The index for view the data
      */
-    explicit DocumentInputArea(QWidget* parent = nullptr, const QModelIndex& index = QModelIndex());
+    explicit DocumentInputArea(QWidget *parent = nullptr, const QModelIndex &index = QModelIndex());
 
     /**
      * @brief ~DocumentInputArea();
@@ -50,28 +52,29 @@ signals:
      */
     void dataChanged();
 
+public slots:
+
 private slots:
     /**
-     * @brief on_pushButton_Add_clicked
+     * @brief editFinish
      */
-    void on_pushButton_Add_clicked();
+    void editFinish();
 
     /**
-     * @brief on_pushButton_EditFinish_clicked
+     * @brief addEdit
      */
-    void on_pushButton_EditFinish_clicked();
+    void addEdit();
 
 private:
     /**
      * @brief ui
      */
-    Ui::DocumentInputArea* ui;
+    Ui::DocumentInputArea *ui;
 
     /**
      * @brief The Mode enum
      */
-    enum Mode { Edit,
-        Finish };
+    enum Mode { Edit, Finish };
 
     /**
      * @brief m_actualMode
@@ -81,22 +84,22 @@ private:
     /*!
      * @brief m_dataContext
      */
-    Model::Document* m_documentModel = {};
+    Model::Document *m_documentModel = {};
 
     /**
      * @brief m_model
      */
-    QSqlRelationalTableModel* m_model;
+    QSqlRelationalTableModel *m_model;
 
     /**
      * @brief m_selectionModel
      */
-    QItemSelectionModel* m_selectionModel {};
+    QItemSelectionModel *m_selectionModel{};
 
     /**
      * @brief m_mapper
      */
-    QDataWidgetMapper* m_mapper;
+    QDataWidgetMapper *m_mapper;
 
     /*!
      * @ brief m_db
@@ -119,20 +122,8 @@ private:
     void createDataset();
 
     /**
-     * @brief retrieveDataset
-     * @param index Get the data for the ModelIndex
-     */
-    void retrieveDataset(const QModelIndex index);
-
-    /**
-     * @brief updateDataset
-     * @param index Update the Data for the ModelIndex
-     */
-    void updateDataset(const QModelIndex index);
-
-    /**
      * @brief deleteDataset
      * @param index Delete the data for the ModelIndex
      */
-    void deleteDataset(const QModelIndex index);
+    void deleteDataset(const QModelIndex &index);
 };

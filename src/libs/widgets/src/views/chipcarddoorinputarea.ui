@@ -11,13 +11,13 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Chip Card Tür</string>
+   <string>Schlüsselchip Tür</string>
   </property>
   <property name="accessibleName">
    <string>ChipCardDoorInputDialog</string>
   </property>
   <property name="title">
-   <string>Chip Card Tür</string>
+   <string>Schlüsselchip Tür</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_3">
    <item row="0" column="0">
@@ -35,7 +35,7 @@
            </font>
           </property>
           <property name="text">
-           <string>ChipCard Tür</string>
+           <string>Schlüsselchip Tür</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -173,7 +173,7 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QPushButton" name="pushButton_Add">
+         <widget class="QPushButton" name="addPushButton">
           <property name="text">
            <string>+</string>
           </property>
@@ -193,9 +193,12 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_EditFinish">
+         <widget class="QPushButton" name="editFinishPushButton">
+          <property name="accessibleName">
+           <string>ChipCardDoorDialog</string>
+          </property>
           <property name="text">
-           <string>Edit</string>
+           <string>Bearbeiten</string>
           </property>
          </widget>
         </item>
@@ -212,8 +215,8 @@
   <tabstop>departmentComboBox</tabstop>
   <tabstop>employeeComboBox</tabstop>
   <tabstop>lastUpdateLineEdit</tabstop>
-  <tabstop>pushButton_Add</tabstop>
-  <tabstop>pushButton_EditFinish</tabstop>
+  <tabstop>addPushButton</tabstop>
+  <tabstop>editFinishPushButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>

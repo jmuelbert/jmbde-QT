@@ -7,7 +7,7 @@
 #include <ui_computersoftwareinputarea.h>
 #include <views/computersoftwareinputarea.h>
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsComputerSoftwareInputAreaLog, "jmuelbert.jmbde.widgets.chipcardinputarea", QtWarningMsg)
+Q_LOGGING_CATEGORY(jmbdeWidgetsComputerSoftwareInputAreaLog, "jmuelbert.jmbde.widgets.computersoftwareinputarea", QtWarningMsg)
 
 ComputerSoftwareInputArea::ComputerSoftwareInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
@@ -15,7 +15,7 @@ ComputerSoftwareInputArea::ComputerSoftwareInputArea(QWidget *parent, const QMod
 {
     ui->setupUi(this);
 
-    qCDebug(jmbdeWidgetsComputerSoftwareInputAreaLog) << "Init ComputerSoftwareInputArea for Index :" << index.column();
+    qCDebug(jmbdeWidgetsComputerSoftwareInputAreaLog) << tr("Initialisiere ComputerSoftwareInputArea mit Index :") << index.row();
 
     this->m_computerSoftwareModel = new Model::ComputerSoftware();
     this->m_db = this->m_computerSoftwareModel->getDB();
@@ -29,10 +29,20 @@ ComputerSoftwareInputArea::ComputerSoftwareInputArea(QWidget *parent, const QMod
     // Set the mapper
     m_mapper = new QDataWidgetMapper();
     m_mapper->setModel(m_model);
+    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
     setMappings();
 
-    m_mapper->setCurrentIndex(index.row());
+    qCDebug(jmbdeWidgetsComputerSoftwareInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+
+    if (index.row() < 0) {
+        m_mapper->toFirst();
+    } else {
+        m_mapper->setCurrentIndex(index.row());
+    }
+
+    QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &ComputerSoftwareInputArea::addEdit);
+    QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &ComputerSoftwareInputArea::editFinish);
 }
 
 ComputerSoftwareInputArea::~ComputerSoftwareInputArea()
@@ -55,7 +65,7 @@ void ComputerSoftwareInputArea::setViewOnlyMode(bool mode)
 
 void ComputerSoftwareInputArea::createDataset()
 {
-    qCDebug(jmbdeWidgetsComputerSoftwareInputAreaLog) << "Create a new Dataset for ChipCard...";
+    qCDebug(jmbdeWidgetsComputerSoftwareInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für ComputerSoftware...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -69,56 +79,51 @@ void ComputerSoftwareInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void ComputerSoftwareInputArea::retrieveDataset(const QModelIndex index)
+void ComputerSoftwareInputArea::deleteDataset(const QModelIndex &index)
 {
+    qCDebug(jmbdeWidgetsComputerSoftwareInputAreaLog) << tr("Lösche Daten von ComputerSoftware");
+    m_mapper->setCurrentIndex(index.row());
 }
-
-void ComputerSoftwareInputArea::updateDataset(const QModelIndex index)
+void ComputerSoftwareInputArea::addEdit()
 {
-}
-
-void ComputerSoftwareInputArea::deleteDataset(const QModelIndex index)
-{
-}
-
-void ComputerSoftwareInputArea::on_pushButton_Add_clicked()
-{
+    qCDebug(jmbdeWidgetsComputerSoftwareInputAreaLog) << tr("Füge neue Daten zu ComputerSoftware");
     createDataset();
-    on_pushButton_EditFinish_clicked();
+    editFinish();
 }
 
-void ComputerSoftwareInputArea::on_pushButton_EditFinish_clicked()
+void ComputerSoftwareInputArea::editFinish()
 {
+    qCDebug(jmbdeWidgetsComputerSoftwareInputAreaLog) << tr("Bearbeite oder schließe ComputerSoftware Daten");
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
-        ui->pushButton_EditFinish->setText(tr("Finish"));
+        ui->editFinishPushButton->setText(tr("Fertig"));
         setViewOnlyMode(false);
 
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsComputerSoftwareInputAreaLog) << "Save Data...";
+        qCDebug(jmbdeWidgetsComputerSoftwareInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
-        ui->pushButton_EditFinish->setText(tr("Edit"));
+        ui->editFinishPushButton->setText(tr("Bearbeiten"));
         setViewOnlyMode(false);
 
         m_mapper->submit();
         m_model->database().transaction();
         if (m_model->submitAll()) {
             m_model->database().commit();
-            qCDebug(jmbdeWidgetsComputerSoftwareInputAreaLog) << "Commit changes for Chipcard Database Table";
+            qCDebug(jmbdeWidgetsComputerSoftwareInputAreaLog) << tr("Schreiben der Änderungen für ComputerSoftware in die Datenbank");
             m_model->database().rollback();
         } else {
             m_model->database().rollback();
-            QMessageBox::warning(this, tr("jmbde"), tr("The database reported an error: %1").arg(m_model->lastError().text()));
+            QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
         }
 
     } break;
 
     default: {
-        qCCritical(jmbdeWidgetsComputerSoftwareInputAreaLog) << "Unknown Mode!";
+        qCCritical(jmbdeWidgetsComputerSoftwareInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

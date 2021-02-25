@@ -15,7 +15,7 @@ PlaceInputArea::PlaceInputArea(QWidget *parent, const QModelIndex &index)
 {
     ui->setupUi(this);
 
-    qCDebug(jmbdeWidgetsPlaceInputAreaLog) << "Init PlaceInputArea for Index :" << index.column();
+    qCDebug(jmbdeWidgetsPlaceInputAreaLog) << tr("Initialisiere PlaceInputArea mit Index :") << index.row();
 
     this->m_placeModel = new Model::Place();
     this->m_db = this->m_placeModel->getDB();
@@ -29,10 +29,20 @@ PlaceInputArea::PlaceInputArea(QWidget *parent, const QModelIndex &index)
     // Set the mapper
     m_mapper = new QDataWidgetMapper();
     m_mapper->setModel(m_model);
+    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
     setMappings();
 
-    m_mapper->setCurrentIndex(index.row());
+    qCDebug(jmbdeWidgetsPlaceInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+
+    if (index.row() < 0) {
+        m_mapper->toFirst();
+    } else {
+        m_mapper->setCurrentIndex(index.row());
+    }
+
+    QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &PlaceInputArea::addEdit);
+    QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &PlaceInputArea::editFinish);
 }
 
 PlaceInputArea::~PlaceInputArea()
@@ -57,7 +67,7 @@ void PlaceInputArea::setViewOnlyMode(bool mode)
 
 void PlaceInputArea::createDataset()
 {
-    qCDebug(jmbdeWidgetsPlaceInputAreaLog) << "Create a new Dataset for ChipCard...";
+    qCDebug(jmbdeWidgetsPlaceInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Place...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -71,26 +81,23 @@ void PlaceInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void PlaceInputArea::retrieveDataset(const QModelIndex index)
+void PlaceInputArea::deleteDataset(const QModelIndex &index)
 {
+    qCDebug(jmbdeWidgetsPlaceInputAreaLog) << tr("Lösche Daten von Place");
+    m_mapper->setCurrentIndex(index.row());
 }
 
-void PlaceInputArea::updateDataset(const QModelIndex index)
+void PlaceInputArea::addEdit()
 {
-}
-
-void PlaceInputArea::deleteDataset(const QModelIndex index)
-{
-}
-
-void PlaceInputArea::on_pushButton_Add_clicked()
-{
+    qCDebug(jmbdeWidgetsPlaceInputAreaLog) << tr("Füge neue Daten zu Place");
     createDataset();
-    on_pushButton_EditFinish_clicked();
+    editFinish();
 }
 
-void PlaceInputArea::on_pushButton_EditFinish_clicked()
+void PlaceInputArea::editFinish()
 {
+    qCDebug(jmbdeWidgetsPlaceInputAreaLog) << tr("Bearbeite oder schließe Place Daten");
+
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
@@ -100,7 +107,7 @@ void PlaceInputArea::on_pushButton_EditFinish_clicked()
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsPlaceInputAreaLog) << tr("Speichere Daten...");
+        qCDebug(jmbdeWidgetsPlaceInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -117,17 +124,17 @@ void PlaceInputArea::on_pushButton_EditFinish_clicked()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(jmbdeWidgetsPlaceInputAreaLog) << tr("Änderung an der Tabelle place in der Datenbank");
-                m_model->database().rollback();
+                qCDebug(jmbdeWidgetsPlaceInputAreaLog) << tr("Schreiben der Änderungen für Account in die Datenbank");
+                dataChanged();
             } else {
                 m_model->database().rollback();
-                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet einen Fehler: %1").arg(m_model->lastError().text()));
+                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
             }
         }
     } break;
 
     default: {
-        qCCritical(jmbdeWidgetsPlaceInputAreaLog) << tr("Fehler");
+        qCCritical(jmbdeWidgetsPlaceInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }
