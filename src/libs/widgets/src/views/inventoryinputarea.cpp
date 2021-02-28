@@ -9,7 +9,7 @@
 
 Q_LOGGING_CATEGORY(jmbdeWidgetsInventoryInputAreaLog, "jmuelbert.jmbde.widgets.inventoryinputarea", QtWarningMsg)
 
-InventoryInputArea::InventoryInputArea(QWidget* parent, const QModelIndex& index)
+InventoryInputArea::InventoryInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::InventoryInputArea)
 {
@@ -81,7 +81,7 @@ void InventoryInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void InventoryInputArea::deleteDataset(const QModelIndex& index)
+void InventoryInputArea::deleteDataset(const QModelIndex &index)
 {
     qCDebug(jmbdeWidgetsInventoryInputAreaLog) << tr("Lösche Daten von Inventory");
     m_mapper->setCurrentIndex(index.row());

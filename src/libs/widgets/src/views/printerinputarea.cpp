@@ -11,7 +11,7 @@
 
 Q_LOGGING_CATEGORY(jmbdeWidgetsPrinterInputAreaLog, "jmuelbert.jmbde.widgets.printerinputarea", QtWarningMsg);
 
-PrinterInputArea::PrinterInputArea(QWidget* parent, const QModelIndex& index)
+PrinterInputArea::PrinterInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::PrinterInputArea)
 {
@@ -112,7 +112,7 @@ void PrinterInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void PrinterInputArea::deleteDataset(const QModelIndex& index)
+void PrinterInputArea::deleteDataset(const QModelIndex &index)
 {
     qCDebug(jmbdeWidgetsPrinterInputAreaLog) << tr("Lösche Daten von Printer");
     m_mapper->setCurrentIndex(index.row());
