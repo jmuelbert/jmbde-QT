@@ -1,17 +1,4 @@
 {
-    "env": {
-        "myDefaultIncludePath": [
-            "${workspaceFolder}",
-            "${workspaceFolder}/src/libs/models/include/models",
-            "${workspaceFolder}/src/libs/quick/include/quick",
-            "${workspaceFolder}/src/libs/widgets/include/views",
-            "${workspaceFolder}/build/src/app",
-            "${workspaceFolder}/build/src/libs/models",
-            "${workspaceFolder}/build/src//libs/quick",
-            "${workspaceFolder}/build/src/libs/widgets"
-        ],
-        "myCompilerPath": "/usr/local/bin/gcc-7"
-    },
     "configurations": [
         {
             "name": "Win32",
@@ -27,7 +14,12 @@
             "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Tools/MSVC/14.24.28314/bin/Hostx64/x64/cl.exe",
             "cStandard": "c11",
             "cppStandard": "c++17",
-            "intelliSenseMode": "msvc-x64"
+            "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Tools/MSVC/14.24.28314/bin/Hostx64/x64/cl.exe",
+            "defines": ["_DEBUG", "UNICODE", "_UNICODE"],
+            "includePath": ["${myDefaultIncludePath}"],
+            "windowsSdkVersion": "10.0.18362.0",
+            "compileCommands": "${workspaceFolder}/compile_commands.json",
+            "configurationProvider": "ms-vscode.cmake-tools"
         },
         {
             "name": "Linux",
@@ -38,7 +30,10 @@
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "c11",
             "cppStandard": "c++17",
-            "intelliSenseMode": "clang-x64"
+            "defines": ["_DEBUG"],
+            "includePath": ["${myDefaultIncludePath}"],
+            "compileCommands": "${workspaceFolder}/compile_commands.json",
+            "configurationProvider": "ms-vscode.cmake-tools"
         },
         {
             "name": "Mac",
@@ -64,5 +59,18 @@
             "configurationProvider": "ms-vscode.cmake-tools"
         }
     ],
+    "env": {
+        "myCompilerPath": "/usr/local/bin/gcc-7",
+        "myDefaultIncludePath": [
+            "${workspaceFolder}",
+            "${workspaceFolder}/src/libs/models/include/models",
+            "${workspaceFolder}/src/libs/quick/include/quick",
+            "${workspaceFolder}/src/libs/widgets/include/views",
+            "${workspaceFolder}/build/src/app",
+            "${workspaceFolder}/build/src/libs/models",
+            "${workspaceFolder}/build/src//libs/quick",
+            "${workspaceFolder}/build/src/libs/widgets"
+        ]
+    },
     "version": 4
 }

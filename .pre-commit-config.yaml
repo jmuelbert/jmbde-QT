@@ -3,7 +3,7 @@ default_language_version:
     python: python3
 repos:
     - repo: https://github.com/pre-commit/pre-commit-hooks
-      rev: v3.3.0
+      rev: v3.4.0
       hooks:
           - id: check-added-large-files
             args: [--maxkb=150]
@@ -15,10 +15,11 @@ repos:
           - id: check-docstring-first
           - id: check-executables-have-shebangs
           - id: check-json
-            exclude: .vscode/*
-          - id: pretty-format-json
-            args: [--autofix]
-            exclude: .vscode/*
+            exclude: >
+                (?x)(
+                    ^\.vscode/.*\.json|
+                    ^\.github/.*\.yml
+                )$
           - id: check-merge-conflict
           - id: check-symlinks
           - id: check-toml
@@ -28,7 +29,7 @@ repos:
             args: [--allow-multiple-documents]
           - id: debug-statements
           - id: detect-private-key
-          - id: double-quote-string-fixer
+          # - id: double-quote-string-fixer
           - id: end-of-file-fixer
             stages:
                 - commit
@@ -74,20 +75,21 @@ repos:
       rev: 2.1.4
       hooks:
           - id: bundler-audit
-          - id: check-mailmap
+          #  TODO: - id: check-mailmap
           - id: fasterer
           - id: forbid-binary
             exclude: >
                 (?x)^(
                   .+\.png|
+                  .+\.pdf|
                   .+\.woff|
                   .+\.woff2|
                   .+\.tff|
                   .+\.ico|
+                  .+\.icns|
                   .+\.svgz|
                   .+\.ttf
                 )$
-          - id: forbid-space-in-indent
           - id: git-check # Configure in .gitattributes
           - id: git-dirty # Configure in .gitignore
           # - id: markdownlint # Configure in .mdlrc
@@ -103,12 +105,6 @@ repos:
             args: ["--color=always", "--shell=bash", "-x", "-a", "--exclude=SC1090"]
             additional_dependencies: [shellcheck]
           - id: shfmt
-
-    - repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
-      rev: 0.1.0 # or specific tag
-      hooks:
-          - id: yamlfmt
-            args: [--preserve-quotes]
 
     - repo: https://github.com/Lucas-C/pre-commit-hooks-go
       rev: v1.0.1
@@ -144,13 +140,6 @@ repos:
       hooks:
           - id: check-swagger
 
-    - repo: https://github.com/adrienverge/yamllint.git
-      rev: v1.25.0 # or higher tag
-      hooks:
-          - id: yamllint
-            exclude: ^\.github/.*(\.yml)$
-            args: [--format, parsable, --strict]
-
     - repo: https://github.com/noahsark769/xcodeproj-sort-pre-commit-hook
       rev: v1.1.0
       hooks:
@@ -173,17 +162,37 @@ repos:
       hooks:
           - id: docker-compose-check
 
-    - repo: https://gitlab.com/pycqa/flake8
-      rev: 3.8.4
-      hooks:
-          - id: flake8
-            additional_dependencies: [flake8-bugbear]
+    # - repo: https://gitlab.com/pycqa/flake8
+    #   rev: 3.8.4
+    #   hooks:
+    #       - id: flake8
+    #         additional_dependencies:
+    #             [
+    #                 darglint,
+    #                 flake8-bandit,
+    #                 flake8-bugbear,
+    #                 flake8-builtins,
+    #                 flake8-comprehensions,
+    #                 flake8-docstrings,
+    #                 flake8-eradicate,
+    #                 flake8-import-order,
+    #                 flake8-isort,
+    #                 flake8-pytest-style,
+    #                 flake8-rst-docstrings,
+    #                 flake8-spellcheck,
+    #                 flakehell,
+    #                 pep8-naming,
+    #             ]
 
-    - repo: https://github.com/pre-commit/mirrors-mypy
-      rev: v0.790
-      hooks:
-          - id: mypy
-            exclude: ^docs/conf.py
+    # - repo: https://github.com/pre-commit/mirrors-mypy
+    #   rev: v0.790
+    #   hooks:
+    #       - id: mypy
+    #         exclude: >
+    #             (?x)^(
+    #                 # docs/conf\.py|
+    #                 conan\.py
+    #             )$
 
     - repo: https://github.com/prettier/pre-commit
       rev: 57f39166b5a5a504d6808b87ab98d41ebf095b46
@@ -193,11 +202,16 @@ repos:
             name: prettier + plugin-xml
             additional_dependencies:
                 - prettier@2.1.2
-                - "@prettier/plugin-xml@0.12.0"
+                - "@prettier/plugin-ruby@"
+                # - "@prettier/plugin-swift@"
+                - "@prettier/plugin-xml@"
+
             args:
                 - --write
                 - --list-different
                 - --ignore-unknown
+                - --plugin=@prettier/plugin-ruby
+                # - --plugin=@prettier/plugin-swift
                 - --plugin=@prettier/plugin-xml
                 - --prose-wrap=always
                 - --print-width=88
@@ -215,7 +229,7 @@ repos:
             args: ["--regex=PROJ-[0-9]", "--format={ticket} {commit_msg}"] # Optional
 
     - repo: https://github.com/homebysix/pre-commit-macadmin
-      rev: v1.8.0
+      rev: v1.8.1
       hooks:
           - id: check-autopkg-recipe-list
           - id: check-autopkg-recipes
@@ -231,19 +245,19 @@ repos:
           - id: forbid-autopkg-overrides
           - id: forbid-autopkg-trust-info
 
-    - repo: https://github.com/pocc/pre-commit-hooks
-      rev: v1.1.1
-      hooks:
-          - id: clang-format
-          - id: clang-tidy
-          - id: oclint
-            args: [-enable-clang-static-analyzer, -enable-global-analysis]
-          # - id: uncrustify
+    # - repo: https://github.com/pocc/pre-commit-hooks
+    #   rev: v1.1.1
+    #   hooks:
+    #       - id: clang-format
+    #       - id: clang-tidy
+    #       - id: oclint
+    #         args: [-enable-clang-static-analyzer, -enable-global-analysis]
+    #       - id: uncrustify
 
-    - repo: https://gitlab.com/daverona/pre-commit/cpp
-      rev: 0.8.0
-      hooks:
-          - id: cppcheck # static analyzer for C/C++ code
+    # - repo: https://gitlab.com/daverona/pre-commit/cpp
+    #   rev: 0.8.0
+    #   hooks:
+    #       - id: cppcheck # static analyzer for C/C++ code
 
     - repo: https://gitlab.com/smop/pre-commit-hooks
       rev: v1.0.0
@@ -261,10 +275,9 @@ repos:
       hooks:
           - id: gitlab-ci-linter
 
-    - repo: https://github.com/cheshirekow/cmake-format-precommit
-      rev: v0.6.13
-      hooks:
-          - id: cmake-format
-            args: [--in-place, --config-files=.cmake-format]
-          - id: cmake-lint
-            args: [--filter=-whitespace/indent]
+    # - repo: https://github.com/cheshirekow/cmake-format-precommit
+    #   rev: v0.6.13
+    #   hooks:
+    #       - id: cmake-format
+    #         args: [--config-files=.cmake-format, --in-place]
+    #       - id: cmake-lint

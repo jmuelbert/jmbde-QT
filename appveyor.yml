@@ -5,11 +5,11 @@ version: 0.6.{build}
 # branches to build
 branches:
     # whitelist
-    only:
-        - master
-        - develop
-        - production
-        - /v\d*\.\d*\.\d*/
+    #only:
+    #    - master
+    #    - develop
+    #    - production
+    #    - /v\d*\.\d*\.\d*/
     # blacklist
     except:
         - gh-pages
@@ -29,14 +29,11 @@ image:
 stack: python 3
 
 environment:
-    PY_DIR: C:\Python38-x64
+    PY_DIR: C:\Python39-x64
     my_secret:
     secure: NuyAKQY3nsfYHO6P59pRQCWMFPBYGuShNyCwrBWLuqK7jQ/CmRNZeuWuVRUvy/xU
     APPVEYOR_YML_DISABLE_PS_LINUX: true
     Appveyor: true
-    QT_PPA: beineri/opt-qt-5.14.2-bionic
-    QT_VER: 514
-    QT_VERSION: 5.14.2
     BUILD_TESTING: OFF
 
 clone_depth: 25
@@ -95,12 +92,6 @@ for:
           - brew ls | grep -wq conan || brew install conan
           - brew ls | grep -wq python || brew install python
           - brew ls | grep -wq qt || brew install qt
-          - brew ls | grep -wq ccache || brew install ccache
-          - brew tap kde-mac/kde https://invent.kde.org/packaging/homebrew-kde.git
-          - brew update
-          - brew install kde-extra-cmake-modules
-          - brew install graphviz doxygen
-          - pip3 install sphinx sphinx-rtd-theme breathe
           - brew link --force qt5
           - export PATH="$(brew --prefix qt)/bin:$PATH"
           - sudo ln -s "/usr/local/Cellar/qt/${QT_VERSION}/mkspecs /usr/local/mkspecs"
@@ -108,12 +99,10 @@ for:
 
           # Init conan
           - conan user
-          - conan create ./conan/ecm
 
       before_build:
-          - mkdir -p build
+          - cmake -E make_directory  build
           - cd build
-          - conan install ..
           - cmake -DCMAKE_BUILD_TYPE=$CONFIGURATION -DCMAKE_PREFIX_PATH="$(brew --prefix
             qt)"  -DCMAKE_TOOLCHAIN_FILE="$VCPKGToolChainFile" -DBUILD_SHARED_LIBS=ON
             -DBUILD_TESTING=ON  -DCMAKE_INSTALL_PREFIX:PATH=./Applications ..
@@ -154,40 +143,37 @@ for:
           - sudo apt-get -y install ccache -qq
           - sudo apt-get -y install libdrm-dev
           - sudo apt-get -y install mesa-common-dev
+          - sudo apt-get -y install build-essential ninja-build
+          - sudo apt-get -y install cmake pkgconf fcitx-frontend-qt5
+          - sudo apt-get -y install libxcb-xinerama0 libgl-dev libx11-dev
+          - sudo apt-get -y install libxkbcommon-x11-dev libxcb-image0-dev
+          - sudo apt-get -y install libxcb-icccm4-dev libssl-dev libxcb-keysyms1 libxcb-render-util0
 
-          # Qt 514 on Linux
-          - export PATH=${HOME}/Qt/latest/gcc_64/bin:$PATH
           - export CC=/usr/bin/gcc-9
           - export CXX=/usr/bin/g++-9
 
           - cmake --version
           # Install conan
-          - pip install conan
+          - pip3 install conan
           - conan user
-          - conan profile new default --detect
-          - conan profile update settings.compiler.libcxx=libstdc++11 default
-          - conan create ./conan/ecm
 
       before_build:
           - set -e # Exit immediately if anything fails
-          - mkdir -p build
-          - mkdir -p appbuild
-          - mkdir -p appdir
+          - cmake -E make_directory build
+          - cmake -E make_directory appbuild
+          - cmake -E make_directory appdir
 
       build_script:
           - cd build
-          - conan install ..
           - cmake
             -DCMAKE_BUILD_TYPE="$CONFIGURATION"  -DCMAKE_INSTALL_PREFIX:PATH=../appdir/usr
             -DBUILD_TESTING=OFF -DBUILD_SHARED_LIBS=ON ..
-          - make
+          - cmake --build . --config "$CONFIGURATION" -j2 --target install
           - export LD_LIBRARY_PATH=$APPVEYOR_BUILD_FOLDER/build/bin:$LD_LIBRARY_PATH
 
       after_build:
           #
           # Create AppImage
-          - make install
-          - cd ..
           - export
             LD_LIBRARY_PATH=$APPVEYOR_BUILD_FOLDER/appdir/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
           - if [ -z "$VERSION" ]; then export VERSION=$APPVEYOR_BUILD_VERSION; fi
@@ -226,19 +212,12 @@ for:
           - call set ENVIRONMENT_NAME=%%ENVIRONMENT_NAME:PLATFORM=%platform%%%
           - call set ENVIRONMENT_NAME=%%ENVIRONMENT_NAME:CONFIGURATION=%configuration%%%
           - ps: $ENV:PLATFORM="x64"
-          - ps: $ENV:PYTHON="C:\Python38-x64"
-          - ps: $ENV:LLVM="${ENV:ProgramFiles}\LLVM\bin"
-          - ps:
-                $ENV:CMAKE_ARGS= "-DCMAKE_C_COMPILER=clang-cl.exe
-                -DCMAKE_CXX_COMPILER=clang-cl.exe -DCMAKE_LINKER=lld-link.exe"
-          - ps: $ENV:CLANG_URL="https://releases.llvm.org/9.0.0/LLVM-9.0.0-win64.exe"
-          - ps:
-                $ENV:VSDEVCMD="${ENV:ProgramFiles(x86)}\Microsoft Visual
+          - ps: $ENV:PYTHON="C:\Python39-x64"
+          - ps: $ENV:VSDEVCMD="${ENV:ProgramFiles(x86)}\Microsoft Visual
                 Studio\2019\Community\Common7\Tools\VsDevCmd.bat"
           # MSVC
-          - ps: $ENV:QTDIR="C:\Qt\5.15.0\msvc2019_64"
-          - ps:
-                $ENV:VCREDIST_CRT_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual
+          - ps: $ENV:QTDIR="C:\Qt\6.0\msvc2019_64"
+          - ps: $ENV:VCREDIST_CRT_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual
                 Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CRT"
           - ps:
                 $ENV:VCREDIST_CXXAMP_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual
@@ -246,15 +225,12 @@ for:
           - ps:
                 $ENV:VCREDIST_OPENMP_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual
                 Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.OpenMP"
-          - ps:
-                $ENV:REDIST="${ENV:ProgramFiles(x86)}\Microsoft Visual
+          - ps: $ENV:REDIST="${ENV:ProgramFiles(x86)}\Microsoft Visual
                 Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\vcredist_%PLATFORM%.exe"
-          - ps:
-                $ENV:VCVARSALL="${ENV:ProgramFiles(x86)}\Microsoft Visual
+          - ps: $ENV:VCVARSALL="${ENV:ProgramFiles(x86)}\Microsoft Visual
                 Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat"
           - call set /p RedistVersion=<"%ProgramFiles(x86)%\\Microsoft Visual
             Studio\2019\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt"
-
           - ps:
                 $ENV:Path =  $ENV:PYTHON + ";" + $ENV:PYTHON + "/Scripts" + ";" +
                 $ENV:PATH
@@ -278,7 +254,6 @@ for:
           - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER"
           - pip install conan
           - conan user
-          - conan create .\conan\ecm
 
       before_build:
           - call "%ProgramFiles(x86)%\Microsoft Visual
@@ -292,10 +267,8 @@ for:
                 and the configuration $ENV:CONFIGURATION"
 
       build_script:
-          - ps: New-Item -itemtype directory -path ./program
-          - ps: conan install ..
-          - ps:
-                cmake -G "$ENV:CMAKE_GENERATOR"
+          - ps: New-Item -itemtype directory -path ./programs
+          - ps: cmake -G "$ENV:CMAKE_GENERATOR"
                 -DCMAKE_BUILD_TYPE="$ENV:CONFIGURATION"  -DCMAKE_PREFIX_PATH="$ENV:QTDIR"
                 -DCMAKE_INSTALL_PREFIX:PATH="$ENV:APPVEYOR_BUILD_FOLDER/program"
                 -DBUILD_TESTING=ON -DBUILD_SHARED_LIBS=ON ..

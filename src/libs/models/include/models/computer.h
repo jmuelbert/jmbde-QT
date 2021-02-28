@@ -219,6 +219,16 @@ public:
         return m_NetworkIPAddressIndex;
     }
 
+    JMBDEMODELS_EXPORT int getNetworkNameIndex() const
+    {
+        return m_NetworkNameIndex;
+    }
+
+    JMBDEMODELS_EXPORT int getNetworkIpAddressIndex() const
+    {
+        return m_NetworkIpAddressIndex;
+    }
+
     /*!
         \fn int getActiveIndex()
 
@@ -241,18 +251,6 @@ public:
     JMBDEMODELS_EXPORT int getReplaceIndex() const
     {
         return m_ReplaceIndex;
-    }
-
-    /*!
-        \fn int getDeviceNameIdIndex()
-
-        \brief Get the index of the fieldname DeviceName form the database
-
-        Returns the value of the index
-     */
-    JMBDEMODELS_EXPORT int getDeviceNameIdIndex() const
-    {
-        return m_DeviceNameIdIndex;
     }
 
     /*!
@@ -469,6 +467,10 @@ private:
         \brief The value of the NetworkIPAddressIndex
      */
     int m_NetworkIPAddressIndex { 0 };
+
+    int m_NetworkNameIndex {0};
+
+    int m_NetworkIpAddressIndex {0};
 
     /*!
         \var   int m_ActiveIndex

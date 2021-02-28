@@ -24,25 +24,21 @@ macro(add_project_meta FILES_TO_INCLUDE)
   endif()
 
   if(WIN32)
-    configure_file("${PROJECT_SOURCE_DIR}/cmake/windows_metafile.rc.in"
-                   "windows_metafile.rc")
+    configure_file("${PROJECT_SOURCE_DIR}/cmake/windows_metafile.rc.in" "windows_metafile.rc")
     set(RES_FILES "windows_metafile.rc")
     set(CMAKE_RC_COMPILER_INIT windres)
     enable_language(RC)
-    set(CMAKE_RC_COMPILE_OBJECT
-        "<CMAKE_RC_COMPILER> <FLAGS> -O coff <DEFINES> -i <SOURCE> -o <OBJECT>")
+    set(CMAKE_RC_COMPILE_OBJECT "<CMAKE_RC_COMPILER> <FLAGS> -O coff <DEFINES> -i <SOURCE> -o <OBJECT>")
   endif()
 
   if(APPLE)
-    set_source_files_properties(${ICON_FILE} PROPERTIES MACOSX_PACKAGE_LOCATION
-                                                        Resources)
+    set_source_files_properties(${ICON_FILE} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
 
     # Identify MacOS bundle
     set(MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_NAME})
     set(MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION})
     set(MACOSX_BUNDLE_LONG_VERSION_STRING ${PROJECT_VERSION})
-    set(MACOSX_BUNDLE_SHORT_VERSION_STRING
-        "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}")
+    set(MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}")
     set(MACOSX_BUNDLE_COPYRIGHT ${COPYRIGHT})
     set(MACOSX_BUNDLE_GUI_IDENTIFIER ${IDENTIFIER})
     set(MACOSX_BUNDLE_ICON_FILE ${ICON_NAME})
@@ -65,9 +61,7 @@ endmacro()
 
 macro(fix_win_compiler)
   if(MSVC)
-    set_target_properties(
-      ${PROJECT_NAME} PROPERTIES WIN32_EXECUTABLE YES LINK_FLAGS
-                                                      "/ENTRY:mainCRTStartup")
+    set_target_properties(${PROJECT_NAME} PROPERTIES WIN32_EXECUTABLE YES LINK_FLAGS "/ENTRY:mainCRTStartup")
   endif()
 endmacro()
 

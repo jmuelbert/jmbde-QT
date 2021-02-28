@@ -1,15 +1,11 @@
 #
 # jmbde a BDE Tool for companies Copyright (C) 2013-2019  Jürgen Mülbert
 #
-# This program is free software: you can redistribute it and/or modify it under
-# the terms of the GNU General Public License as published by the Free Software
-# Foundation, either version 3 of the License, or (at your option) any later
-# version.
+# This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 #
-# This program is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
-# details.
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 # minimal requirements
 cmake_minimum_required(VERSION 3.12...3.19 FATAL_ERROR)
@@ -26,14 +22,13 @@ project(
   VERSION "0.3.0"
   DESCRIPTION "${PROJECT_NAME} WIDGETS-UI Library"
   HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
-  LANGUAGES CXX)
+  LANGUAGES CXX
+)
 
 # TODO: Get SO-Version from Version. Is the first digit.
 set(SO_VERSION "0")
 
-message(
-  STATUS
-    "Build ${PROJECT_NAME} Ver ${PROJECT_VERSION} in ${CMAKE_BUILD_TYPE} mode")
+message(STATUS "Build ${PROJECT_NAME} Ver ${PROJECT_VERSION} in ${CMAKE_BUILD_TYPE} mode")
 
 include(GenerateExportHeader)
 include(ECMSetupVersion)
@@ -46,26 +41,30 @@ ecm_setup_version(
   SOVERSION
   ${SO_VERSION}
   VERSION_HEADER
-  ${CMAKE_CURRENT_BINARY_DIR}/jmbdewidgets-version.h)
+  ${CMAKE_CURRENT_BINARY_DIR}/jmbdewidgets-version.h
+)
 
 #
 # Finding Qt
 #
 # find_package(QT_NAMES Qt6 Qt5 COMPONENTS Core Requiered)
-find_package(Qt${QT_VERSION_MAJOR} CONFIG
-             COMPONENTS Core Widgets Sql PrintSupport Qml QuickWidgets)
+find_package(Qt${QT_VERSION_MAJOR} CONFIG COMPONENTS Core Widgets Sql PrintSupport Qml QuickWidgets)
 
-add_library(jmbdewidgets "")
+add_library(
+  jmbdewidgets
+  ""
+)
 generate_export_header(jmbdewidgets)
-add_library(jmuelbert::jmbdewidgets ALIAS jmbdewidgets)
+add_library(
+  jmuelbert::jmbdewidgets ALIAS jmbdewidgets
+)
 
 target_include_directories(
   jmbdewidgets
-  PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
-         $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
-         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-         $<INSTALL_INTERFACE:include>
-  PRIVATE src)
+  PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}> $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
+         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include> $<INSTALL_INTERFACE:include>
+  PRIVATE src
+)
 
 target_sources(
   jmbdewidgets
@@ -192,22 +191,22 @@ set_target_properties(
              EXPORT_NAME "jmbdewidgets")
 
 if(APPLE)
-  set_target_properties(jmbdewidgets PROPERTIES INSTALL_RPATH
-                                                "@loader_path/../Frameworks")
+  set_target_properties(jmbdewidgets PROPERTIES INSTALL_RPATH "@loader_path/../Frameworks")
 endif()
 
 target_compile_features(jmbdewidgets PUBLIC cxx_std_17)
 
 target_compile_definitions(
   jmbdewidgets
-  PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+  PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>
+)
 
 target_link_libraries(
   jmbdewidgets
   PUBLIC Qt${QT_VERSION_MAJOR}::Core jmuelbert::jmbdemodels
-  PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::PrintSupport
-          Qt${QT_VERSION_MAJOR}::Sql Qt${QT_VERSION_MAJOR}::Qml
-          Qt${QT_VERSION_MAJOR}::QuickWidgets ${CONAN_LIBS})
+  PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::PrintSupport Qt${QT_VERSION_MAJOR}::Sql Qt${QT_VERSION_MAJOR}::Qml
+          Qt${QT_VERSION_MAJOR}::QuickWidgets ${CONAN_LIBS}
+)
 
 #
 # Install instructions
@@ -219,17 +218,16 @@ install(
   EXPORT jmbdeWidgets-targets
   RUNTIME DESTINATION "${BIN_INSTALL_DIR}"
   LIBRARY DESTINATION "${LIB_INSTALL_DIR}"
-  ARCHIVE DESTINATION "${LIB_INSTALL_DIR}")
+  ARCHIVE DESTINATION "${LIB_INSTALL_DIR}"
+)
 
-# This is required so that the exported target has the name JMBDEModels and not
-# jmbdemodels
+# This is required so that the exported target has the name JMBDEModels and not jmbdemodels
 set_target_properties(jmbdewidgets PROPERTIES EXPORT_NAME jmbdewidgets)
 
 set_target_properties(
-  jmbdewidgets
-  PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-             LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-             RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+  jmbdewidgets PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+                          RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)
 
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
@@ -238,43 +236,44 @@ install(
   EXPORT jmbdeWidgets-targets
   FILE JMBDEWidgetsTargets.cmake
   NAMESPACE jmuelbert::
-  DESTINATION ${INSTALL_CONFIGDIR})
+  DESTINATION ${INSTALL_CONFIGDIR}
+)
 
 # Create a ConfigVersion.cmake file
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
   ${CMAKE_CURRENT_BINARY_DIR}/JMBDEWidgetsConfigVersion.cmake
   VERSION ${PROJECT_VERSION}
-  COMPATIBILITY AnyNewerVersion)
+  COMPATIBILITY AnyNewerVersion
+)
 
 configure_package_config_file(
-  ${CMAKE_CURRENT_LIST_DIR}/cmake/config.cmake.in
-  ${CMAKE_CURRENT_BINARY_DIR}/JMBDEWidgetsConfig.cmake
-  INSTALL_DESTINATION ${INSTALL_CONFIGDIR})
+  ${CMAKE_CURRENT_LIST_DIR}/cmake/config.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/JMBDEWidgetsConfig.cmake
+  INSTALL_DESTINATION ${INSTALL_CONFIGDIR}
+)
 
 # Install the config, configversion and custom find modules
 install(
-  FILES ${CMAKE_CURRENT_LIST_DIR}/cmake/FindJMBDEWidgets.cmake
-        ${CMAKE_CURRENT_BINARY_DIR}/JMBDEWidgetsConfig.cmake
-        ${CMAKE_CURRENT_BINARY_DIR}/JMBDEWidgetsConfigVersion.cmake
-  DESTINATION ${INSTALL_CONFIGDIR})
+  FILES ${CMAKE_CURRENT_LIST_DIR}/cmake/FindJMBDEWidgets.cmake ${CMAKE_CURRENT_BINARY_DIR}/JMBDEWidgetsConfig.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/JMBDEWidgetsConfigVersion.cmake DESTINATION ${INSTALL_CONFIGDIR}
+)
 
-# ##############################################################################
+# ##########################################################################################################################################
 # Exporting from the build tree
-configure_file(${CMAKE_CURRENT_LIST_DIR}/cmake/FindJMBDEWidgets.cmake
-               ${CMAKE_CURRENT_BINARY_DIR}/FindJMBDEWidgets.cmake COPYONLY)
+configure_file(${CMAKE_CURRENT_LIST_DIR}/cmake/FindJMBDEWidgets.cmake ${CMAKE_CURRENT_BINARY_DIR}/FindJMBDEWidgets.cmake COPYONLY)
 
 export(
   EXPORT jmbdeWidgets-targets
   FILE ${CMAKE_CURRENT_BINARY_DIR}/JMBDEWidgetsTargets.cmake
-  NAMESPACE jmuelbert::)
+  NAMESPACE jmuelbert::
+)
 
 if(MSVC AND BUILD_SHARED_LIBS)
   install(
-    FILES
-      "$<TARGET_PDB_FILE_DIR:jmbdewidgets>/$<TARGET_PDB_FILE_NAME:jmbdewidgets>"
+    FILES "$<TARGET_PDB_FILE_DIR:jmbdewidgets>/$<TARGET_PDB_FILE_NAME:jmbdewidgets>"
     DESTINATION ${BIN_INSTALL_DIR}
-    CONFIGURATIONS Debug RelWithDebInfo)
+    CONFIGURATIONS Debug RelWithDebInfo
+  )
 endif()
 
 if(BUILD_TESTING)
