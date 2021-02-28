@@ -11,7 +11,7 @@
 
 Q_LOGGING_CATEGORY(jmbdeWidgetsTitleDataInputAreaLog, "jmuelbert.jmbde.widgets.titleinputarea", QtWarningMsg)
 
-TitleInputArea::TitleInputArea(QWidget* parent, const QModelIndex& index)
+TitleInputArea::TitleInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::TitleInputArea)
 {
@@ -82,7 +82,7 @@ void TitleInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void TitleInputArea::deleteDataset(const QModelIndex& index)
+void TitleInputArea::deleteDataset(const QModelIndex &index)
 {
     qCDebug(jmbdeWidgetsTitleDataInputAreaLog) << tr("Lösche Daten von Title");
     m_mapper->setCurrentIndex(index.row());

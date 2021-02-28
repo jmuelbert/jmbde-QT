@@ -11,7 +11,7 @@
 
 Q_LOGGING_CATEGORY(jmbdeWidgetsMobileInputAreaLog, "jmuelbert.jmbde.widgets.mobileinputarea", QtWarningMsg)
 
-MobileInputArea::MobileInputArea(QWidget* parent, const QModelIndex& index)
+MobileInputArea::MobileInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::MobileInputArea)
 {
@@ -104,7 +104,7 @@ void MobileInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void MobileInputArea::deleteDataset(const QModelIndex& index)
+void MobileInputArea::deleteDataset(const QModelIndex &index)
 {
     qCDebug(jmbdeWidgetsMobileInputAreaLog) << tr("Lösche Daten von Mobile");
     m_mapper->setCurrentIndex(index.row());

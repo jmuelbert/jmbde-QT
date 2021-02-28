@@ -83,7 +83,7 @@ auto Model::Department::generateTableString(const QString &header) -> QString
     outString += header;
     outString += QLatin1String("</h1>");
     outString += QLatin1String("<hr />");
-    outString += QLatin1String{R"(<table width="100%" cellspacing="0" class="tbl">)"};
+    outString += QLatin1String {R"(<table width="100%" cellspacing="0" class="tbl">)"};
     outString += QLatin1String("<thead> <tr>");
 
     for (const auto i : set) {
