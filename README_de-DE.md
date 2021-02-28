@@ -2,7 +2,7 @@
 
 jmbde ist ein Programm für das Management von Ressourcen in Unternehmen. Mit diesem
 Programm können die Mitarbeiter und die Ausrüstung, die sie für ihre Arbeit benötigen
-erfasst werden. Das sind Computer, Drucker und Telefone.
+erfasst werden. Das sind unter anderem Computer, Drucker und Telefone.
 
 ---
 

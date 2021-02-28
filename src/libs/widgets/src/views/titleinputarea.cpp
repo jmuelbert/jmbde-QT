@@ -11,7 +11,7 @@
 
 Q_LOGGING_CATEGORY(jmbdeWidgetsTitleDataInputAreaLog, "jmuelbert.jmbde.widgets.titleinputarea", QtWarningMsg)
 
-TitleInputArea::TitleInputArea(QWidget *parent, const QModelIndex &index)
+TitleInputArea::TitleInputArea(QWidget* parent, const QModelIndex& index)
     : QGroupBox(parent)
     , ui(new Ui::TitleInputArea)
 {
@@ -55,9 +55,8 @@ TitleInputArea::~TitleInputArea()
 
 void TitleInputArea::setMappings()
 {
-    m_mapper->addMapping(ui->titleLineEdit, this->m_titleModel->getTitleIdIndex());
+    m_mapper->addMapping(ui->titleLineEdit, this->m_titleModel->getNameIndex());
     m_mapper->addMapping(ui->fromDateEdit, this->m_titleModel->getFromDateIndex());
-    m_mapper->addMapping(ui->toDateEdit, this->m_titleModel->getToDateIndex());
     m_mapper->addMapping(ui->lastUpdateLineEdit, this->m_titleModel->getLastUpdateIndex());
 }
 
@@ -65,7 +64,6 @@ void TitleInputArea::setViewOnlyMode(bool mode)
 {
     ui->titleLineEdit->setDisabled(mode);
     ui->fromDateEdit->setDisabled(mode);
-    ui->toDateEdit->setDisabled(mode);
 }
 
 void TitleInputArea::createDataset()
@@ -84,7 +82,7 @@ void TitleInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void TitleInputArea::deleteDataset(const QModelIndex &index)
+void TitleInputArea::deleteDataset(const QModelIndex& index)
 {
     qCDebug(jmbdeWidgetsTitleDataInputAreaLog) << tr("Lösche Daten von Title");
     m_mapper->setCurrentIndex(index.row());

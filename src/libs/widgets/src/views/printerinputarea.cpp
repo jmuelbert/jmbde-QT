@@ -11,7 +11,7 @@
 
 Q_LOGGING_CATEGORY(jmbdeWidgetsPrinterInputAreaLog, "jmuelbert.jmbde.widgets.printerinputarea", QtWarningMsg);
 
-PrinterInputArea::PrinterInputArea(QWidget *parent, const QModelIndex &index)
+PrinterInputArea::PrinterInputArea(QWidget* parent, const QModelIndex& index)
     : QGroupBox(parent)
     , ui(new Ui::PrinterInputArea)
 {
@@ -77,7 +77,7 @@ void PrinterInputArea::setMappings()
 
 void PrinterInputArea::setViewOnlyMode(bool mode)
 {
-    ui->deviceNameComboBox->setDisabled(mode);
+    // ui->deviceNameComboBox->setDisabled(mode);
     ui->serialNumberLineEdit->setDisabled(mode);
     ui->networkLineEdit->setDisabled(mode);
     ui->networkNameLineEdit->setDisabled(mode);
@@ -85,15 +85,15 @@ void PrinterInputArea::setViewOnlyMode(bool mode)
     ui->activeCheckBox->setDisabled(mode);
     ui->replaceCheckBox->setDisabled(mode);
     ui->resourcesTextEdit->setDisabled(mode);
-    ui->papersizeComboBox->setDisabled(mode);
+    // ui->papersizeComboBox->setDisabled(mode);
     ui->colorCheckBox->setDisabled(mode);
-    ui->deviceTypeComboBox->setDisabled(mode);
-    ui->employeeComboBox->setDisabled(mode);
-    ui->placeComboBox->setDisabled(mode);
-    ui->departmentComboBox->setDisabled(mode);
-    ui->manufacturerComboBox->setDisabled(mode);
-    ui->inventoryComboBox->setDisabled(mode);
-    ui->computerComboBox->setDisabled(mode);
+    //  ui->deviceTypeComboBox->setDisabled(mode);
+    // ui->employeeComboBox->setDisabled(mode);
+    // ui->placeComboBox->setDisabled(mode);
+    // ui->departmentComboBox->setDisabled(mode);
+    // ui->manufacturerComboBox->setDisabled(mode);
+    // ui->inventoryComboBox->setDisabled(mode);
+    // ui->computerComboBox->setDisabled(mode);
 }
 
 void PrinterInputArea::createDataset()
@@ -112,7 +112,7 @@ void PrinterInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void PrinterInputArea::deleteDataset(const QModelIndex &index)
+void PrinterInputArea::deleteDataset(const QModelIndex& index)
 {
     qCDebug(jmbdeWidgetsPrinterInputAreaLog) << tr("Lösche Daten von Printer");
     m_mapper->setCurrentIndex(index.row());
@@ -144,17 +144,24 @@ void PrinterInputArea::editFinish()
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
         setViewOnlyMode(false);
 
-        m_mapper->submit();
-        m_model->database().transaction();
-        if (m_model->submitAll()) {
-            m_model->database().commit();
-            qCDebug(jmbdeWidgetsPrinterInputAreaLog) << tr("Schreiben der Änderungen für Printer in die Datenbank");
-            dataChanged();
-        } else {
-            m_model->database().rollback();
-            QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
-        }
+        QString name = ui->networkNameLineEdit->text();
 
+        if (name.isEmpty()) {
+            QString message(tr("Bitte einen Name für den Druckernamen angeben"));
+
+            QMessageBox::information(this, tr("Drucker hinzufügen"), message);
+        } else {
+            m_mapper->submit();
+            m_model->database().transaction();
+            if (m_model->submitAll()) {
+                m_model->database().commit();
+                qCDebug(jmbdeWidgetsPrinterInputAreaLog) << tr("Schreiben der Änderungen für Printer in die Datenbank");
+                emit dataChanged();
+            } else {
+                m_model->database().rollback();
+                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
+            }
+        }
     } break;
 
     default: {

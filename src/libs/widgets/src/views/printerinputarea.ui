@@ -76,7 +76,11 @@
          </widget>
         </item>
         <item row="7" column="4">
-         <widget class="QComboBox" name="deviceTypeComboBox"/>
+         <widget class="QComboBox" name="deviceTypeComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
         <item row="9" column="0">
          <widget class="QCheckBox" name="activeCheckBox">
@@ -103,10 +107,18 @@
          </widget>
         </item>
         <item row="3" column="4">
-         <widget class="QComboBox" name="papersizeComboBox"/>
+         <widget class="QComboBox" name="papersizeComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
         <item row="5" column="2">
-         <widget class="QComboBox" name="employeeComboBox"/>
+         <widget class="QComboBox" name="employeeComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
         <item row="5" column="3">
          <widget class="QLabel" name="computerLabel">
@@ -136,7 +148,11 @@
          </widget>
         </item>
         <item row="8" column="4">
-         <widget class="QComboBox" name="inventoryComboBox"/>
+         <widget class="QComboBox" name="inventoryComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
         <item row="4" column="0">
          <widget class="QCheckBox" name="colorCheckBox">
@@ -222,7 +238,11 @@
          </widget>
         </item>
         <item row="8" column="2">
-         <widget class="QComboBox" name="manufacturerComboBox"/>
+         <widget class="QComboBox" name="manufacturerComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
         <item row="6" column="3">
          <widget class="QLabel" name="placeLabel">
@@ -235,10 +255,18 @@
          </widget>
         </item>
         <item row="7" column="2">
-         <widget class="QComboBox" name="deviceNameComboBox"/>
+         <widget class="QComboBox" name="deviceNameComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
         <item row="5" column="4">
-         <widget class="QComboBox" name="computerComboBox"/>
+         <widget class="QComboBox" name="computerComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
         <item row="0" column="3">
          <widget class="QLabel" name="serialNumberLabel">
@@ -251,10 +279,18 @@
          </widget>
         </item>
         <item row="6" column="2">
-         <widget class="QComboBox" name="departmentComboBox"/>
+         <widget class="QComboBox" name="departmentComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
         <item row="6" column="4">
-         <widget class="QComboBox" name="placeComboBox"/>
+         <widget class="QComboBox" name="placeComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
         <item row="7" column="3">
          <widget class="QLabel" name="deviceTypeLabel">
@@ -362,7 +398,6 @@
   <tabstop>activeCheckBox</tabstop>
   <tabstop>replaceCheckBox</tabstop>
   <tabstop>lastUpdateLineEdit</tabstop>
-  <tabstop>pushButton_Add</tabstop>
   <tabstop>editFinishPushButton</tabstop>
  </tabstops>
  <resources/>

@@ -192,7 +192,7 @@ private:
     /*!
         \brief The Tablename in the database \e is const
      */
-    const QString m_tableName = QLatin1String("SystemData");
+    const QString m_tableName = QLatin1String("system_data");
 
     /*!
      * @ brief m_db

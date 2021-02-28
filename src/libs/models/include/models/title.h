@@ -165,18 +165,6 @@ public:
     }
 
     /*!
-      \fn  int ToDateIndex()
-
-      \brief Get the index of the fieldname ToDate from the database
-
-      Returns the value of the index
-   */
-    JMBDEMODELS_EXPORT int getToDateIndex() const
-    {
-        return m_ToDateIndex;
-    }
-
-    /*!
         \fn  int LastUpdateIndex()
 
         \brief Get the index of the fieldname LastUpdate form the database
@@ -234,11 +222,6 @@ private:
      */
     int m_FromDateIndex { 0 };
 
-    /*!
-        \var int m_ToDateIndex
-        \brief The value of the ToDatenIdex
-     */
-    int m_ToDateIndex { 0 };
     int m_LastUpdateIndex { 0 };
 };
 } // namespace Model

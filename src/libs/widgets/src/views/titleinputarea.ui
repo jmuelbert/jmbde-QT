@@ -62,16 +62,6 @@
       </item>
       <item>
        <layout class="QGridLayout" name="gridLayout">
-        <item row="0" column="0">
-         <widget class="QLabel" name="titleLabel">
-          <property name="text">
-           <string>Titel</string>
-          </property>
-          <property name="buddy">
-           <cstring>titleLineEdit</cstring>
-          </property>
-         </widget>
-        </item>
         <item row="1" column="0">
          <widget class="QLabel" name="fromLabel">
           <property name="text">
@@ -82,26 +72,17 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="toLabel">
-          <property name="text">
-           <string>bis</string>
-          </property>
-          <property name="buddy">
-           <cstring>toDateEdit</cstring>
-          </property>
-         </widget>
-        </item>
         <item row="1" column="2">
          <widget class="QDateEdit" name="fromDateEdit"/>
         </item>
-        <item row="0" column="2">
-         <widget class="QLineEdit" name="titleLineEdit"/>
+        <item row="2" column="1" colspan="2">
+         <widget class="QLineEdit" name="lastUpdateLineEdit">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
-        <item row="2" column="2">
-         <widget class="QDateEdit" name="toDateEdit"/>
-        </item>
-        <item row="3" column="0">
+        <item row="2" column="0">
          <widget class="QLabel" name="lastUpdateLabel">
           <property name="enabled">
            <bool>false</bool>
@@ -114,12 +95,18 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="1" colspan="2">
-         <widget class="QLineEdit" name="lastUpdateLineEdit">
-          <property name="enabled">
-           <bool>false</bool>
+        <item row="0" column="0">
+         <widget class="QLabel" name="titleLabel">
+          <property name="text">
+           <string>Titel</string>
+          </property>
+          <property name="buddy">
+           <cstring>titleLineEdit</cstring>
           </property>
          </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLineEdit" name="titleLineEdit"/>
         </item>
        </layout>
       </item>
@@ -175,7 +162,6 @@
  <tabstops>
   <tabstop>titleLineEdit</tabstop>
   <tabstop>fromDateEdit</tabstop>
-  <tabstop>toDateEdit</tabstop>
   <tabstop>lastUpdateLineEdit</tabstop>
   <tabstop>addPushButton</tabstop>
   <tabstop>editFinishPushButton</tabstop>

@@ -9,7 +9,7 @@
 
 Q_LOGGING_CATEGORY(jmbdeWidgetsSystemDataInputAreaLog, "jmuelbert.jmbde.widgets.systemdatainputarea", QtWarningMsg)
 
-SystemDataInputArea ::SystemDataInputArea(QWidget *parent, const QModelIndex &index)
+SystemDataInputArea ::SystemDataInputArea(QWidget* parent, const QModelIndex& index)
     : QGroupBox(parent)
     , ui(new Ui::SystemDataInputArea)
 {
@@ -80,7 +80,7 @@ void SystemDataInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void SystemDataInputArea::deleteDataset(const QModelIndex &index)
+void SystemDataInputArea::deleteDataset(const QModelIndex& index)
 {
     qCDebug(jmbdeWidgetsSystemDataInputAreaLog) << tr("Lösche Daten von SystemData");
     m_mapper->setCurrentIndex(index.row());
@@ -117,14 +117,14 @@ void SystemDataInputArea::editFinish()
         if (name.isEmpty()) {
             QString message(tr("Bitte geben Sie den Namen fpr die Systemdatem an."));
 
-            QMessageBox::information(this, tr("Füze Systemdaten hinzu"), message);
+            QMessageBox::information(this, tr("Füge Systemdaten hinzu"), message);
         } else {
             m_mapper->submit();
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
                 qCDebug(jmbdeWidgetsSystemDataInputAreaLog) << tr("Schreiben der Änderungen für Systemdatem in die Datenbank");
-                dataChanged();
+                emit dataChanged();
             } else {
                 m_model->database().rollback();
                 QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
