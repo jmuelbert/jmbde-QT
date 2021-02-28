@@ -1,78 +1,52 @@
-/**************************************************************************
-**
-** Copyright (c) 2013-2019 Jürgen Mülbert. All rights reserved.
-**
-** This file is part of jmbde
-**
-** Licensed under the EUPL, Version 1.2 or – as soon they
-** will be approved by the European Commission - subsequent
-** versions of the EUPL (the "Licence");
-** You may not use this work except in compliance with the
-** Licence.
-** You may obtain a copy of the Licence at:
-**
-** https://joinup.ec.europa.eu/page/eupl-text-11-12
-**
-** Unless required by applicable law or agreed to in
-** writing, software distributed under the Licence is
-** distributed on an "AS IS" basis,
-** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-** express or implied.
-** See the Licence for the specific language governing
-** permissions and limitations under the Licence.
-**
-** Lizenziert unter der EUPL, Version 1.2 oder - sobald
-**  diese von der Europäischen Kommission genehmigt wurden -
-** Folgeversionen der EUPL ("Lizenz");
-** Sie dürfen dieses Werk ausschließlich gemäß
-** dieser Lizenz nutzen.
-** Eine Kopie der Lizenz finden Sie hier:
-**
-** https://joinup.ec.europa.eu/page/eupl-text-11-12
-**
-** Sofern nicht durch anwendbare Rechtsvorschriften
-** gefordert oder in schriftlicher Form vereinbart, wird
-** die unter der Lizenz verbreitete Software "so wie sie
-** ist", OHNE JEGLICHE GEWÄHRLEISTUNG ODER BEDINGUNGEN -
-** ausdrücklich oder stillschweigend - verbreitet.
-** Die sprachspezifischen Genehmigungen und Beschränkungen
-** unter der Lizenz sind dem Lizenztext zu entnehmen.
-**
-**************************************************************************/
+/*
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 #include "views/phoneinputarea.h"
 
+#include "models/phone.h"
 #include "ui_phoneinputarea.h"
 
-PhoneInputArea::PhoneInputArea(QWidget *parent, const QModelIndex index)
+Q_LOGGING_CATEGORY(jmbdeWidgetsPhoneInputAreaLog, "jmuelbert.jmbde.widgets.phoneinputarea", QtWarningMsg);
+
+PhoneInputArea::PhoneInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::PhoneInputArea)
 {
     ui->setupUi(this);
 
     // Init UI
-    qDebug() << "Init PhoneInputarea for Index : " << index;
+    qCDebug(jmbdeWidgetsPhoneInputAreaLog) << tr("Initialisiere PhoneInputarea mit Index : ") << index.row();
+
+    this->m_phoneModel = new Model::Phone();
+    this->m_db = this->m_phoneModel->getDB();
 
     m_actualMode = Mode::Edit;
     setViewOnlyMode(true);
 
     // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(QLatin1String("phone"));
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-
-    m_model->select();
+    m_model = this->m_phoneModel->initializeRelationalModel();
 
     // Set the mapper
-    m_mapper = new QDataWidgetMapper(this);
+    m_mapper = new QDataWidgetMapper();
     m_mapper->setModel(m_model);
     m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
     setMappings();
 
-    m_mapper->setCurrentIndex(index.row());
-}
+    qCDebug(jmbdeWidgetsPhoneInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
+    if (index.row() < 0) {
+        m_mapper->toFirst();
+    } else {
+        m_mapper->setCurrentIndex(index.row());
+    }
+
+    QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &PhoneInputArea::addEdit);
+    QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &PhoneInputArea::editFinish);
+}
 PhoneInputArea::~PhoneInputArea()
 {
     delete ui;
@@ -80,39 +54,40 @@ PhoneInputArea::~PhoneInputArea()
 
 void PhoneInputArea::setMappings()
 {
-    m_mapper->addMapping(ui->lineEdit_Number, m_model->fieldIndex(QLatin1String("number")));
-    m_mapper->addMapping(ui->lineEdit_Pin, m_model->fieldIndex(QLatin1String("pin")));
-    m_mapper->addMapping(ui->lineEdit_SerialNumber, m_model->fieldIndex(QLatin1String("serial_number")));
-    m_mapper->addMapping(ui->checkBox_Active, m_model->fieldIndex(QLatin1String("active")));
-    m_mapper->addMapping(ui->checkBox_Replace, m_model->fieldIndex(QLatin1String("replace")));
-    m_mapper->addMapping(ui->comboBox_Department, m_model->fieldIndex(QLatin1String("department_id")));
-    m_mapper->addMapping(ui->comboBox_DeviceName, m_model->fieldIndex(QLatin1String("device_name_id")));
-    m_mapper->addMapping(ui->comboBox_DeviceType, m_model->fieldIndex(QLatin1String("device_type_id")));
-    m_mapper->addMapping(ui->comboBox_Employee, m_model->fieldIndex(QLatin1String("employee_id")));
-    m_mapper->addMapping(ui->comboBox_Inventory, m_model->fieldIndex(QLatin1String("inventory_id")));
-    m_mapper->addMapping(ui->comboBox_Manufacturer, m_model->fieldIndex(QLatin1String("manufacturer_id")));
-    m_mapper->addMapping(ui->comboBox_Place, m_model->fieldIndex(QLatin1String("place_id")));
+    m_mapper->addMapping(ui->deviceNameComboBox, this->m_phoneModel->getDeviceNameIdIndex());
+    m_mapper->addMapping(ui->serialNumberLineEdit, this->m_phoneModel->getSerialNumberIndex());
+    m_mapper->addMapping(ui->numberLineEdit, this->m_phoneModel->getNumberIndex());
+    m_mapper->addMapping(ui->pinLineEdit, this->m_phoneModel->getPinIndex());
+    m_mapper->addMapping(ui->activeCheckBox, this->m_phoneModel->getActiveIndex());
+    m_mapper->addMapping(ui->replaceCheckBox, this->m_phoneModel->getReplaceIndex());
+    m_mapper->addMapping(ui->deviceTypeComboBox, this->m_phoneModel->getDeviceTypeIdIndex());
+    m_mapper->addMapping(ui->employeeComboBox, this->m_phoneModel->getEmployeeIdIndex());
+    m_mapper->addMapping(ui->placeComboBox, this->m_phoneModel->getPlaceIdIndex());
+    m_mapper->addMapping(ui->departmentComboBox, this->m_phoneModel->getDepartmentIdIndex());
+    m_mapper->addMapping(ui->manufacturerComboBox, this->m_phoneModel->getManufacturerIdIndex());
+    m_mapper->addMapping(ui->inventoryComboBox, this->m_phoneModel->getInventoryIdIndex());
+    m_mapper->addMapping(ui->lastUpdateLineEdit, this->m_phoneModel->getLastUpdateIndex());
 }
 
 void PhoneInputArea::setViewOnlyMode(bool mode)
 {
-    ui->checkBox_Active->setDisabled(mode);
-    ui->checkBox_Replace->setDisabled(mode);
-    ui->comboBox_Department->setDisabled(mode);
-    ui->comboBox_DeviceName->setDisabled(mode);
-    ui->comboBox_DeviceType->setDisabled(mode);
-    ui->comboBox_Employee->setDisabled(mode);
-    ui->comboBox_Inventory->setDisabled(mode);
-    ui->comboBox_Manufacturer->setDisabled(mode);
-    ui->comboBox_Place->setDisabled(mode);
-    ui->lineEdit_Number->setDisabled(mode);
-    ui->lineEdit_Pin->setDisabled(mode);
-    ui->lineEdit_SerialNumber->setDisabled(mode);
+    // ui->deviceNameComboBox->setDisabled(mode);
+    ui->serialNumberLineEdit->setDisabled(mode);
+    ui->numberLineEdit->setDisabled(mode);
+    ui->pinLineEdit->setDisabled(mode);
+    ui->activeCheckBox->setDisabled(mode);
+    ui->replaceCheckBox->setDisabled(mode);
+    // ui->deviceTypeComboBox->setDisabled(mode);
+    // ui->employeeComboBox->setDisabled(mode);
+    // ui->placeComboBox->setDisabled(mode);
+    // ui->departmentComboBox->setDisabled(mode);
+    // ui->manufacturerComboBox->setDisabled(mode);
+    // ui->inventoryComboBox->setDisabled(mode);
 }
 
 void PhoneInputArea::createDataset()
 {
-    qDebug() << "Create a new Dataset for Phone...";
+    qCDebug(jmbdeWidgetsPhoneInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Phone...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -126,64 +101,61 @@ void PhoneInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void PhoneInputArea::retrieveDataset(const QModelIndex index)
+void PhoneInputArea::deleteDataset(const QModelIndex &index)
 {
+    qCDebug(jmbdeWidgetsPhoneInputAreaLog) << tr("Lösche Daten von Phone");
+    m_mapper->setCurrentIndex(index.row());
 }
 
-void PhoneInputArea::updateDataset(const QModelIndex index)
+void PhoneInputArea::addEdit()
 {
-}
-
-void PhoneInputArea::deleteDataset(const QModelIndex index)
-{
-}
-
-void PhoneInputArea::on_pushButton_Add_clicked()
-{
+    qCDebug(jmbdeWidgetsPhoneInputAreaLog) << tr("Füge neue Daten zu Phone");
     createDataset();
-    on_pushButton_EditFinish_clicked();
+    editFinish();
 }
 
-void PhoneInputArea::on_pushButton_EditFinish_clicked()
+void PhoneInputArea::editFinish()
 {
+    qCDebug(jmbdeWidgetsPhoneInputAreaLog) << tr("Bearbeite oder schließe Phone Daten");
+
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
-        ui->pushButton_EditFinish->setText(tr("Finish"));
+        ui->editFinishPushButton->setText(tr("Fertig"));
         setViewOnlyMode(false);
 
     } break;
 
     case Mode::Finish: {
-        qDebug() << "Save Data...";
+        qCDebug(jmbdeWidgetsPhoneInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
-        ui->pushButton_EditFinish->setText(tr("Edit"));
+        ui->editFinishPushButton->setText(tr("Bearbeiten"));
         setViewOnlyMode(false);
 
-        QString number = ui->lineEdit_Number->text();
-        qDebug() << "Number : " << number;
+        QString number = ui->numberLineEdit->text();
+        qCDebug(jmbdeWidgetsPhoneInputAreaLog) << tr("Number : ") << number;
 
         if (number.isEmpty()) {
-            QString message(tr("Please provide the number for the phone."));
+            QString message(tr("Bitte eine Telefonnummer angeben."));
 
-            QMessageBox::information(this, tr("Add Phone"), message);
+            QMessageBox::information(this, tr("Telefon hinzufügen"), message);
         } else {
             m_mapper->submit();
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-
-                qDebug() << "Commit changes for Phone Databse Table";
+                qCDebug(jmbdeWidgetsPhoneInputAreaLog) << tr("Schreiben der Änderungen für Phone in die Datenbank");
+                dataChanged();
             } else {
                 m_model->database().rollback();
-                QMessageBox::warning(this, tr("jmbde"), tr("The database reported an error: %1").arg(m_model->lastError().text()));
+                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
             }
         }
     } break;
 
     default: {
-        // qDebug() << "Error";
+        qCCritical(jmbdeWidgetsPhoneInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

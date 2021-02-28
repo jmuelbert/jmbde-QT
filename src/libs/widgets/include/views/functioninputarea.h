@@ -1,30 +1,25 @@
 /*
-   jmbde a BDE Tool for companies
-   Copyright (C) 2013-2019  Jürgen Mülbert
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-*/
 #pragma once
 
 #include <QDataWidgetMapper>
-#include <QDebug>
 #include <QGroupBox>
+#include <QLoggingCategory>
 #include <QMessageBox>
-#include <QScrollArea>
+#include <QObject>
 #include <QSqlRelationalDelegate>
 #include <QtSql>
 
 #include "jmbdewidgets-version.h"
 #include "jmbdewidgets_export.h"
-#include "loggingcategory.h"
+#include "models/datacontext.h"
+#include "models/function.h"
+
+Q_DECLARE_LOGGING_CATEGORY(jmbdeWidgetsFunctionInputAreaLog)
 
 namespace Ui
 {
@@ -44,23 +39,31 @@ public:
         @param parent The pointer to the parent object
         @param index The index for view the data
      */
-    explicit FunctionInputArea(QWidget *parent = nullptr, const QModelIndex index = QModelIndex());
+    explicit FunctionInputArea(QWidget *parent = nullptr, const QModelIndex &index = QModelIndex());
 
     /**
      * @brief ~FunctionInputArea
      */
     ~FunctionInputArea();
 
+signals:
+    /*!
+        @brief dataChanged
+     */
+    void dataChanged();
+
+public slots:
+
 private slots:
     /**
-     * @brief on_pushButton_Add_clicked
+     * @brief editFinish
      */
-    void on_pushButton_Add_clicked();
+    void editFinish();
 
     /**
-     * @brief on_pushButton_EditFinish_clicked
+     * @brief addEdit
      */
-    void on_pushButton_EditFinish_clicked();
+    void addEdit();
 
 private:
     /**
@@ -78,20 +81,30 @@ private:
      */
     Mode m_actualMode;
 
-    /**
+    /*!
+     * @brief m_dataContext
+     */
+    Model::Function *m_functionModel = {};
+
+    /*!
      * @brief m_model
      */
-    QSqlRelationalTableModel *m_model;
+    QSqlTableModel *m_model;
 
-    /**
+    /*!
      * @brief m_selectionModel
      */
-    QItemSelectionModel *m_selectionModel {};
+    QItemSelectionModel *m_selectionModel{};
 
-    /**
+    /*!
      * @brief m_mapper
      */
     QDataWidgetMapper *m_mapper;
+
+    /*!
+     * @ brief m_db
+     */
+    QSqlDatabase m_db = {};
 
     /**
      * @brief setMappings
@@ -109,20 +122,8 @@ private:
     void createDataset();
 
     /**
-     * @brief retrieveDataset
-     * @param index Get the data for the ModelIndex
-     */
-    void retrieveDataset(const QModelIndex index);
-
-    /**
-     * @brief updateDataset
-     * @param index Update the Data for the ModelIndex
-     */
-    void updateDataset(const QModelIndex index);
-
-    /**
      * @brief deleteDataset
      * @param index Delete the data for the ModelIndex
      */
-    void deleteDataset(const QModelIndex index);
+    void deleteDataset(const QModelIndex &index);
 };

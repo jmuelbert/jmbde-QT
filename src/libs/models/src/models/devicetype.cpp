@@ -1,71 +1,77 @@
 /*
-   jmbde a BDE Tool for companies
-   Copyright (C) 2013-2020  Jürgen Mülbert
-
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-*/
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 #include "models/devicetype.h"
+
+Q_LOGGING_CATEGORY(jmbdeModelsDeviceTypeLog, "jmuelbert.jmbde.models.devicetype", QtWarningMsg)
 
 Model::DeviceType::DeviceType()
     : CommonData()
 {
+    this->m_dataContext = new Model::DataContext();
+    this->m_db = m_dataContext->getDatabase();
+
     // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    this->m_model = new QSqlRelationalTableModel(this, this->m_db);
+    this->m_model->setTable(this->m_tableName);
+    this->m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
     setIndexes();
 }
 
 void Model::DeviceType::setIndexes()
 {
-    m_DeviceTypeIdIndex = m_model->fieldIndex(QLatin1String("device_type_id"));
-    m_NameIndex = m_model->fieldIndex(QLatin1String("name"));
-    m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
+    m_DeviceTypeIdIndex = this->m_model->fieldIndex(QLatin1String("device_type_id"));
+    m_NameIndex = this->m_model->fieldIndex(QLatin1String("name"));
+    m_LastUpdateIndex = this->m_model->fieldIndex(QLatin1String("last_update"));
 }
 
 auto Model::DeviceType::initializeRelationalModel() -> QSqlRelationalTableModel *
 {
-    m_model = new QSqlRelationalTableModel(this);
+    this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    this->m_model->setTable(this->m_tableName);
+    this->m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-    m_model->select();
+    this->m_model->select();
 
-    return m_model;
+    return this->m_model;
 }
 
 auto Model::DeviceType::initializeInputDataModel() -> QSqlRelationalTableModel *
 {
-    m_model = new QSqlRelationalTableModel(this);
+    this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
-    m_model->setTable(this->m_tableName);
+    this->m_model->setTable(this->m_tableName);
 
-    return m_model;
+    return this->m_model;
 }
 
 auto Model::DeviceType::initializeViewModel() -> QSqlTableModel *
 {
-    m_model->select();
+    this->m_model->select();
 
-    return m_model;
+    return this->m_model;
+}
+
+auto Model::DeviceType::initializeListModel() -> QSqlTableModel *
+{
+    auto *listModel = new QSqlTableModel(this, this->m_db);
+    listModel->setTable(this->m_tableName);
+    listModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    listModel->select();
+
+    return listModel;
 }
 
 auto Model::DeviceType::generateTableString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdemodelsLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(jmbdeModelsDeviceTypeLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     QList<int> set;
 
@@ -91,7 +97,7 @@ auto Model::DeviceType::generateFormularString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdemodelsLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(jmbdeModelsDeviceTypeLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     // Document Title
     outString = QLatin1String("<h1>");

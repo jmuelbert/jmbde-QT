@@ -15,59 +15,74 @@
 
 #include "models/place.h"
 
+Q_LOGGING_CATEGORY(jmbdeModelsPlaceLog, "jmuelbert.jmbde.models.place", QtWarningMsg)
+
 Model::Place::Place()
     : CommonData()
 {
+    this->m_dataContext = new Model::DataContext();
+    this->m_db = m_dataContext->getDatabase();
+
     // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    this->m_model = new QSqlRelationalTableModel(this, this->m_db);
+    this->m_model->setTable(this->m_tableName);
+    this->m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
     setIndexes();
 }
 
 void Model::Place::setIndexes()
 {
-    m_PlaceIdIndex = m_model->fieldIndex(QLatin1String("place_id"));
-    m_NameIndex = m_model->fieldIndex(QLatin1String("name"));
-    m_RoomIndex = m_model->fieldIndex(QLatin1String("room"));
-    m_DeskIndex = m_model->fieldIndex(QLatin1String("desk"));
-    m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
+    m_PlaceIdIndex = this->m_model->fieldIndex(QLatin1String("place_id"));
+    m_NameIndex = this->m_model->fieldIndex(QLatin1String("name"));
+    m_RoomIndex = this->m_model->fieldIndex(QLatin1String("room"));
+    m_DeskIndex = this->m_model->fieldIndex(QLatin1String("desk"));
+    m_LastUpdateIndex = this->m_model->fieldIndex(QLatin1String("last_update"));
 }
 
 auto Model::Place::initializeRelationalModel() -> QSqlRelationalTableModel *
 {
-    m_model = new QSqlRelationalTableModel(this);
+    this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    this->m_model->setTable(this->m_tableName);
+    this->m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-    m_model->select();
+    this->m_model->select();
 
-    return m_model;
+    return this->m_model;
 }
 
 auto Model::Place::initializeInputDataModel() -> QSqlRelationalTableModel *
 {
-    m_model = new QSqlRelationalTableModel(this);
+    this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
-    m_model->setTable(this->m_tableName);
+    this->m_model->setTable(this->m_tableName);
 
-    return m_model;
+    return this->m_model;
 }
 
 auto Model::Place::initializeViewModel() -> QSqlTableModel *
 {
-    m_model->select();
+    this->m_model->select();
 
-    return m_model;
+    return this->m_model;
+}
+
+auto Model::Place::initializeListModel() -> QSqlTableModel *
+{
+    auto *listModel = new QSqlTableModel(this, this->m_db);
+    listModel->setTable(this->m_tableName);
+    listModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    listModel->select();
+
+    return listModel;
 }
 
 auto Model::Place::generateTableString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdemodelsLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(jmbdeModelsPlaceLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     QList<int> set;
 
@@ -93,7 +108,7 @@ auto Model::Place::generateFormularString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdemodelsLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(jmbdeModelsPlaceLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     // Document Title
     outString = QLatin1String("<h1>");

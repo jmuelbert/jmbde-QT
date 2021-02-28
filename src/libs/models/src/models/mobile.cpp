@@ -15,69 +15,84 @@
 
 #include "models/mobile.h"
 
+Q_LOGGING_CATEGORY(jmbdeModelsMobileLog, "jmuelbert.jmbde.models.mobile", QtWarningMsg)
+
 Model::Mobile::Mobile()
     : CommonData()
 {
+    this->m_dataContext = new Model::DataContext();
+    this->m_db = m_dataContext->getDatabase();
+
     // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    this->m_model = new QSqlRelationalTableModel(this, this->m_db);
+    this->m_model->setTable(this->m_tableName);
+    this->m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
     setIndexes();
 }
 
 void Model::Mobile::setIndexes()
 {
-    m_MobileIdIndex = m_model->fieldIndex(QLatin1String("mobile_id"));
-    m_DeviceNameIdIndex = m_model->fieldIndex(QLatin1String("device_name_id"));
-    m_SerialNumberIndex = m_model->fieldIndex(QLatin1String("serial_number"));
-    m_NumberIndex = m_model->fieldIndex(QLatin1String("number"));
-    m_PinIndex = m_model->fieldIndex(QLatin1String("pin"));
-    m_CardNumberIndex = m_model->fieldIndex(QLatin1String("card_number"));
-    m_ActiveIndex = m_model->fieldIndex(QLatin1String("active"));
-    m_ReplaceIndex = m_model->fieldIndex(QLatin1String("replace"));
-    m_DeviceTypeIdIndex = m_model->fieldIndex(QLatin1String("device_type_id"));
-    m_EmployeeIdIndex = m_model->fieldIndex(QLatin1String("employe_id "));
-    m_PlaceIdIndex = m_model->fieldIndex(QLatin1String("place_id "));
-    m_DepartmentIdIndex = m_model->fieldIndex(QLatin1String("department_id"));
-    m_ManufacturerIdIndex = m_model->fieldIndex(QLatin1String("manufacturer_id"));
-    m_InventoryIdIndex = m_model->fieldIndex(QLatin1String("inventory_id"));
-    m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
+    m_MobileIdIndex = this->m_model->fieldIndex(QLatin1String("mobile_id"));
+    m_DeviceNameIdIndex = this->m_model->fieldIndex(QLatin1String("device_name_id"));
+    m_SerialNumberIndex = this->m_model->fieldIndex(QLatin1String("serial_number"));
+    m_NumberIndex = this->m_model->fieldIndex(QLatin1String("number"));
+    m_PinIndex = this->m_model->fieldIndex(QLatin1String("pin"));
+    m_CardNumberIndex = this->m_model->fieldIndex(QLatin1String("card_number"));
+    m_ActiveIndex = this->m_model->fieldIndex(QLatin1String("active"));
+    m_ReplaceIndex = this->m_model->fieldIndex(QLatin1String("replace"));
+    m_DeviceTypeIdIndex = this->m_model->fieldIndex(QLatin1String("device_type_id"));
+    m_EmployeeIdIndex = this->m_model->fieldIndex(QLatin1String("employe_id "));
+    m_PlaceIdIndex = this->m_model->fieldIndex(QLatin1String("place_id "));
+    m_DepartmentIdIndex = this->m_model->fieldIndex(QLatin1String("department_id"));
+    m_ManufacturerIdIndex = this->m_model->fieldIndex(QLatin1String("manufacturer_id"));
+    m_InventoryIdIndex = this->m_model->fieldIndex(QLatin1String("inventory_id"));
+    m_LastUpdateIndex = this->m_model->fieldIndex(QLatin1String("last_update"));
 }
 
 auto Model::Mobile::initializeRelationalModel() -> QSqlRelationalTableModel *
 {
-    m_model = new QSqlRelationalTableModel(this);
+    this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    this->m_model->setTable(this->m_tableName);
+    this->m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-    m_model->select();
+    this->m_model->select();
 
-    return m_model;
+    return this->m_model;
 }
 
 auto Model::Mobile::initializeInputDataModel() -> QSqlRelationalTableModel *
 {
-    m_model = new QSqlRelationalTableModel(this);
+    this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
-    m_model->setTable(this->m_tableName);
+    this->m_model->setTable(this->m_tableName);
 
-    return m_model;
+    return this->m_model;
 }
 
 auto Model::Mobile::initializeViewModel() -> QSqlTableModel *
 {
-    m_model->select();
+    this->m_model->select();
 
-    return m_model;
+    return this->m_model;
+}
+
+auto Model::Mobile::initializeListModel() -> QSqlTableModel *
+{
+    auto *listModel = new QSqlTableModel(this, this->m_db);
+    listModel->setTable(this->m_tableName);
+    listModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    listModel->select();
+
+    return listModel;
 }
 
 auto Model::Mobile::generateTableString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdemodelsLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(jmbdeModelsMobileLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     QList<int> set;
 
@@ -103,7 +118,7 @@ auto Model::Mobile::generateFormularString(QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdemodelsLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(jmbdeModelsMobileLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     // Document Title
     outString = QLatin1String("<h1>");

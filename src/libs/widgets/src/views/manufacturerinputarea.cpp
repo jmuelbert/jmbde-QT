@@ -1,78 +1,48 @@
-/**************************************************************************
-**
-** Copyright (c) 2013-2019 Jürgen Mülbert. All rights reserved.
-**
-** This file is part of jmbde
-**
-** Licensed under the EUPL, Version 1.2 or – as soon they
-** will be approved by the European Commission - subsequent
-** versions of the EUPL (the "Licence");
-** You may not use this work except in compliance with the
-** Licence.
-** You may obtain a copy of the Licence at:
-**
-** https://joinup.ec.europa.eu/page/eupl-text-11-12
-**
-** Unless required by applicable law or agreed to in
-** writing, software distributed under the Licence is
-** distributed on an "AS IS" basis,
-** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-** express or implied.
-** See the Licence for the specific language governing
-** permissions and limitations under the Licence.
-**
-** Lizenziert unter der EUPL, Version 1.2 oder - sobald
-**  diese von der Europäischen Kommission genehmigt wurden -
-** Folgeversionen der EUPL ("Lizenz");
-** Sie dürfen dieses Werk ausschließlich gemäß
-** dieser Lizenz nutzen.
-** Eine Kopie der Lizenz finden Sie hier:
-**
-** https://joinup.ec.europa.eu/page/eupl-text-11-12
-**
-** Sofern nicht durch anwendbare Rechtsvorschriften
-** gefordert oder in schriftlicher Form vereinbart, wird
-** die unter der Lizenz verbreitete Software "so wie sie
-** ist", OHNE JEGLICHE GEWÄHRLEISTUNG ODER BEDINGUNGEN -
-** ausdrücklich oder stillschweigend - verbreitet.
-** Die sprachspezifischen Genehmigungen und Beschränkungen
-** unter der Lizenz sind dem Lizenztext zu entnehmen.
-**
-**************************************************************************/
+/*
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
-#include "views/manufacturerinputarea.h"
+#include <ui_manufacturerinputarea.h>
+#include <views/manufacturerinputarea.h>
 
-#include "ui_manufacturerinputarea.h"
+Q_LOGGING_CATEGORY(jmbdeWidgetsManufacturerInputAreaLog, "jmuelbert.jmbde.widgets.manufacturerinputarea", QtWarningMsg)
 
-ManufacturerInputArea::ManufacturerInputArea(QWidget *parent, const QModelIndex index)
+ManufacturerInputArea::ManufacturerInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::ManufacturerInputArea)
-    , m_model(nullptr)
-    , m_mapper(nullptr)
 {
     ui->setupUi(this);
 
-    // Init UI
-    qDebug() << "Init ManufacturerInputarea for Index : " << index.row();
+    qCDebug(jmbdeWidgetsManufacturerInputAreaLog) << tr("Initialisiere ManufacturerInputArea mit Index :") << index.row();
+
+    this->m_manufacturerModel = new Model::Manufacturer();
+    this->m_db = this->m_manufacturerModel->getDB();
 
     m_actualMode = Mode::Edit;
     setViewOnlyMode(true);
 
     // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(QLatin1String("manufacturer"));
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-
-    m_model->select();
+    m_model = this->m_manufacturerModel->initializeRelationalModel();
 
     // Set the mapper
-    m_mapper = new QDataWidgetMapper(this);
+    m_mapper = new QDataWidgetMapper();
     m_mapper->setModel(m_model);
     m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
     setMappings();
 
-    m_mapper->setCurrentIndex(index.row());
+    qCDebug(jmbdeWidgetsManufacturerInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+
+    if (index.row() < 0) {
+        m_mapper->toFirst();
+    } else {
+        m_mapper->setCurrentIndex(index.row());
+    }
+
+    QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &ManufacturerInputArea::addEdit);
+    QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &ManufacturerInputArea::editFinish);
 }
 
 ManufacturerInputArea::~ManufacturerInputArea()
@@ -82,35 +52,36 @@ ManufacturerInputArea::~ManufacturerInputArea()
 
 void ManufacturerInputArea::setMappings()
 {
-    m_mapper->addMapping(ui->lineEdit_Address, m_model->fieldIndex(QLatin1String("address")));
-    m_mapper->addMapping(ui->lineEdit_Address2, m_model->fieldIndex(QLatin1String("address2")));
-    m_mapper->addMapping(ui->lineEdit_Fax, m_model->fieldIndex(QLatin1String("fax_number")));
-    m_mapper->addMapping(ui->lineEdit_Hotline, m_model->fieldIndex(QLatin1String("hotline_number")));
-    m_mapper->addMapping(ui->lineEdit_MailAddress, m_model->fieldIndex(QLatin1String("mail_address")));
-    m_mapper->addMapping(ui->lineEdit_Name, m_model->fieldIndex(QLatin1String("name")));
-    m_mapper->addMapping(ui->lineEdit_Name2, m_model->fieldIndex(QLatin1String("name2")));
-    m_mapper->addMapping(ui->lineEdit_Phone, m_model->fieldIndex(QLatin1String("phone_number")));
-    m_mapper->addMapping(ui->lineEdit_Supporter, m_model->fieldIndex(QLatin1String("supporter")));
-    m_mapper->addMapping(ui->comboBox_ZipCode, m_model->fieldIndex(QLatin1String("zip_city_id")));
+    m_mapper->addMapping(ui->nameLineEdit, this->m_manufacturerModel->getNameIndex());
+    m_mapper->addMapping(ui->name2LineEdit, this->m_manufacturerModel->getName2Index());
+    m_mapper->addMapping(ui->supporterLineEdit, this->m_manufacturerModel->getSupporterIndex());
+    m_mapper->addMapping(ui->addressLineEdit, this->m_manufacturerModel->getAddressIndex());
+    m_mapper->addMapping(ui->address2LineEdit, this->m_manufacturerModel->getAddress2Index());
+    m_mapper->addMapping(ui->zipCodeComboBox, this->m_manufacturerModel->getZipCityIdIndex());
+    m_mapper->addMapping(ui->mailAddressLineEdit, this->m_manufacturerModel->getMailAddressIndex());
+    m_mapper->addMapping(ui->phoneNumberLineEdit, this->m_manufacturerModel->getPhoneNumberIndex());
+    m_mapper->addMapping(ui->faxNumberLineEdit, this->m_manufacturerModel->getFaxNumberIndex());
+    m_mapper->addMapping(ui->hotlineNumberLineEdit, this->m_manufacturerModel->getHotlineNumberIndex());
+    m_mapper->addMapping(ui->lastUpdateLineEdit, this->m_manufacturerModel->getLastUpdateIndex());
 }
 
 void ManufacturerInputArea::setViewOnlyMode(bool mode)
 {
-    ui->comboBox_ZipCode->setDisabled(mode);
-    ui->lineEdit_Address->setDisabled(mode);
-    ui->lineEdit_Address2->setDisabled(mode);
-    ui->lineEdit_Fax->setDisabled(mode);
-    ui->lineEdit_Hotline->setDisabled(mode);
-    ui->lineEdit_MailAddress->setDisabled(mode);
-    ui->lineEdit_Name->setDisabled(mode);
-    ui->lineEdit_Name2->setDisabled(mode);
-    ui->lineEdit_Phone->setDisabled(mode);
-    ui->lineEdit_Supporter->setDisabled(mode);
+    ui->nameLineEdit->setDisabled(mode);
+    ui->name2LineEdit->setDisabled(mode);
+    ui->supporterLineEdit->setDisabled(mode);
+    ui->addressLineEdit->setDisabled(mode);
+    ui->address2LineEdit->setDisabled(mode);
+    // ui->zipCodeComboBox->setDisabled(mode);
+    ui->mailAddressLineEdit->setDisabled(mode);
+    ui->phoneNumberLineEdit->setDisabled(mode);
+    ui->faxNumberLineEdit->setDisabled(mode);
+    ui->hotlineNumberLineEdit->setDisabled(mode);
 }
 
 void ManufacturerInputArea::createDataset()
 {
-    qDebug() << "Create a new Dataset for Manufacturer...";
+    qCDebug(jmbdeWidgetsManufacturerInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Manufacturer...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -119,68 +90,65 @@ void ManufacturerInputArea::createDataset()
     if (row < 0) {
         row = 0;
     }
-
     m_mapper->submit();
     m_model->insertRow(row);
     m_mapper->setCurrentIndex(row);
 }
 
-void ManufacturerInputArea::retrieveDataset(const QModelIndex index)
+void ManufacturerInputArea::deleteDataset(const QModelIndex &index)
 {
+    qCDebug(jmbdeWidgetsManufacturerInputAreaLog) << tr("Lösche Daten von Manufacturer");
+    m_mapper->setCurrentIndex(index.row());
 }
 
-void ManufacturerInputArea::updateDataset(const QModelIndex index)
+void ManufacturerInputArea::addEdit()
 {
-}
-
-void ManufacturerInputArea::deleteDataset(const QModelIndex index)
-{
-}
-
-void ManufacturerInputArea::on_pushButton_Add_clicked()
-{
+    qCDebug(jmbdeWidgetsManufacturerInputAreaLog) << tr("Füge neue Daten zu Manufacturer");
     createDataset();
-    on_pushButton_EditFinish_clicked();
+    editFinish();
 }
 
-void ManufacturerInputArea::on_pushButton_EditFinish_clicked()
+void ManufacturerInputArea::editFinish()
 {
+    qCDebug(jmbdeWidgetsManufacturerInputAreaLog) << tr("Bearbeite oder schließe Manufacturer Daten");
+
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
-        ui->pushButton_EditFinish->setText(tr("Finish"));
+        ui->editFinishPushButton->setText(tr("Fertig"));
         setViewOnlyMode(false);
 
     } break;
 
     case Mode::Finish: {
-        qDebug() << "Save Data...";
+        qCDebug(jmbdeWidgetsManufacturerInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
-        ui->pushButton_EditFinish->setText(tr("Edit"));
+        ui->editFinishPushButton->setText(tr("Bearbeiten"));
         setViewOnlyMode(false);
 
-        QString name = ui->lineEdit_Name->text();
+        QString name = ui->nameLineEdit->text();
 
         if (name.isEmpty()) {
-            QString message(tr("Please provide the name of the manufacturer."));
+            QString message(tr("Bitte einen Namen angeben."));
 
-            QMessageBox::information(this, tr("Add Manufacturer"), message);
+            QMessageBox::information(this, tr("Hersteller hinzufügen"), message);
         } else {
             m_mapper->submit();
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qDebug() << "Commit changes for Computer Databse Table";
+                qCDebug(jmbdeWidgetsManufacturerInputAreaLog) << tr("Schreiben der Änderungen für Manufacturer in die Datenbank");
+                dataChanged();
             } else {
                 m_model->database().rollback();
-                QMessageBox::warning(this, tr("jmbde"), tr("The database reported an error: %1").arg(m_model->lastError().text()));
+                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
             }
         }
     } break;
 
     default: {
-        qDebug() << "Error";
+        qCCritical(jmbdeWidgetsManufacturerInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

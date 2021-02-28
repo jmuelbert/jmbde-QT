@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>FunctionInputArea</class>
  <widget class="QGroupBox" name="FunctionInputArea">
@@ -11,22 +11,22 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Function</string>
+   <string>Funktion</string>
   </property>
   <property name="accessibleName">
    <string>FunctionInputDialog</string>
   </property>
   <property name="title">
-   <string>Function</string>
+   <string>Funktion</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_3">
-   <item>
-    <widget class="QWidget" name="formLayoutWidget" native="true">
-     <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QGridLayout" name="gridLayout_3">
+   <item row="0" column="0">
+    <widget class="QWidget" name="GroupBox" native="true">
+     <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <widget class="QLabel" name="label_Header">
+         <widget class="QLabel" name="headerLabel">
           <property name="font">
            <font>
             <pointsize>16</pointsize>
@@ -35,7 +35,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Function</string>
+           <string>Funktion</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -45,7 +45,7 @@
        </layout>
       </item>
       <item>
-       <spacer name="verticalSpacer">
+       <spacer name="verticalSpacer_2">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
@@ -62,36 +62,72 @@
       </item>
       <item>
        <layout class="QGridLayout" name="gridLayout">
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_Priority">
-          <property name="text">
-           <string>Priority</string>
+        <item row="1" column="2">
+         <widget class="QSlider" name="priorityHorizontalSlider">
+          <property name="maximum">
+           <number>100</number>
           </property>
-          <property name="buddy">
-           <cstring>spinBox_Priotity</cstring>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="tickPosition">
+           <enum>QSlider::TicksBelow</enum>
+          </property>
+          <property name="tickInterval">
+           <number>5</number>
           </property>
          </widget>
         </item>
-        <item row="0" column="3">
-         <widget class="QLineEdit" name="lineEdit_Name" />
+        <item row="2" column="0">
+         <widget class="QLabel" name="lastUpdateLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Letzte Änderung</string>
+          </property>
+          <property name="buddy">
+           <cstring>lastUpdateLineEdit</cstring>
+          </property>
+         </widget>
         </item>
         <item row="0" column="0">
-         <widget class="QLabel" name="label_Name">
+         <widget class="QLabel" name="nameLabel">
           <property name="text">
            <string>Name</string>
           </property>
           <property name="buddy">
-           <cstring>lineEdit_Name</cstring>
+           <cstring>nameLineEdit</cstring>
           </property>
          </widget>
         </item>
-        <item row="1" column="3">
-         <widget class="QSpinBox" name="spinBox_Priotity" />
+        <item row="1" column="0">
+         <widget class="QLabel" name="priorityLabel">
+          <property name="text">
+           <string>Priorität</string>
+          </property>
+          <property name="buddy">
+           <cstring>priorityHorizontalSlider</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QSpinBox" name="prioritySpinBox"/>
+        </item>
+        <item row="0" column="1" colspan="3">
+         <widget class="QLineEdit" name="nameLineEdit"/>
+        </item>
+        <item row="2" column="1" colspan="3">
+         <widget class="QLineEdit" name="lastUpdateLineEdit">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
       <item>
-       <spacer name="verticalSpacer_2">
+       <spacer name="verticalSpacer">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
@@ -106,7 +142,7 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QPushButton" name="pushButton_Add">
+         <widget class="QPushButton" name="addPushButton">
           <property name="text">
            <string>+</string>
           </property>
@@ -126,9 +162,9 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_EditFinish">
+         <widget class="QPushButton" name="editFinishPushButton">
           <property name="text">
-           <string>Edit</string>
+           <string>Bearbeiten</string>
           </property>
          </widget>
         </item>
@@ -140,11 +176,13 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>lineEdit_Name</tabstop>
-  <tabstop>spinBox_Priotity</tabstop>
-  <tabstop>pushButton_Add</tabstop>
-  <tabstop>pushButton_EditFinish</tabstop>
+  <tabstop>nameLineEdit</tabstop>
+  <tabstop>prioritySpinBox</tabstop>
+  <tabstop>priorityHorizontalSlider</tabstop>
+  <tabstop>lastUpdateLineEdit</tabstop>
+  <tabstop>addPushButton</tabstop>
+  <tabstop>editFinishPushButton</tabstop>
  </tabstops>
- <resources />
- <connections />
+ <resources/>
+ <connections/>
 </ui>

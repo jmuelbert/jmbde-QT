@@ -21,44 +21,44 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRelation>
-#include <QStandardPaths>
+#include <QTextDocument>
 #include <QtSql>
 
 #include "commondata.h"
+#include "datacontext.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
-#include "loggingcategory.h"
 
-namespace Model
-{
+Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsSystemDataDataLog)
+
+namespace Model {
 /*!
-    \class System
-    \brief The System class
-    \details This Class is for the System
+    \class SystemData
+    \brief The SystemData class
+    \details This Class is for the SystemData
     \author Jürgen Mülbert
     \since 0.2
-    \version 0.5
-    \date 17.11.2020
+    \version 0.6
+    \date 23.01.2021
     \copyright GPL-3.0-or-later
     */
-class System : public CommonData
-{
+class SystemData : public CommonData {
     Q_OBJECT
 
 public:
     /*!
-        \fn  System()
+        \fn  SystemData()
 
-        \brief Constructor for the  System
+        \brief Constructor for the  SystemData
      */
-    explicit JMBDEMODELS_EXPORT System();
+    explicit JMBDEMODELS_EXPORT SystemData();
 
     /*!
-        \fn  ~System() override;
+        \fn  ~SystemData() override;
 
-        \brief Destructor for System
+        \brief Destructor for SystemData
      */
-    JMBDEMODELS_EXPORT ~System()
+    JMBDEMODELS_EXPORT ~SystemData()
     {
     }
 
@@ -75,7 +75,7 @@ public:
         \brief set the QSqlRelationalTableModel for the DataModel
         Returns The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel* initializeRelationalModel() final;
 
     /*!
         \fn virtual QSqlRelationalTableModel *initializeInputDataModel() final
@@ -83,7 +83,7 @@ public:
 
         Returns The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel* initializeInputDataModel() final;
 
     /*!
         \fn virtual QSqlTableModel *initializeViewModel() final
@@ -91,7 +91,13 @@ public:
 
         Returns QSqlTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlTableModel* initializeViewModel() final;
+
+    /*!
+        \fn QSqlTableModel *initializeListModel();
+        \brief Initiallize the list Model for select one dataset
+    */
+    virtual JMBDEMODELS_EXPORT QSqlTableModel* initializeListModel() final;
 
     /*!
      * \fn virtual auto generateTableString(
@@ -100,7 +106,7 @@ public:
 
         Returns a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString& header) -> QString final;
 
     /*!
         \fn virtual auto generateFormularString(
@@ -109,20 +115,29 @@ public:
 
         Returns a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString& header) -> QString final;
 
     // Getter
+    JMBDEMODELS_EXPORT QString getTableName() const
+    {
+        return this->m_tableName;
+    }
+
+    JMBDEMODELS_EXPORT QSqlDatabase getDB() const
+    {
+        return this->m_db;
+    }
 
     /*!
-        \fn  int SystemIdIndex()
+        \fn  int SystemDataIdIndex()
 
-        \brief Get the index of the fieldname SystemId from the database
+        \brief Get the index of the fieldname SystemDataId from the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int SystemIdIndex() const
+    JMBDEMODELS_EXPORT int getSystemDataIdIndex() const
     {
-        return m_SystemIdIndex;
+        return m_SystemDataIdIndex;
     }
 
     /*!
@@ -132,7 +147,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int NameIndex() const
+    JMBDEMODELS_EXPORT int getNameIndex() const
     {
         return m_NameIndex;
     }
@@ -144,7 +159,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int LocalIndex() const
+    JMBDEMODELS_EXPORT int getLocalIndex() const
     {
         return m_LocalIndex;
     }
@@ -156,7 +171,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int CompanyIdIndex() const
+    JMBDEMODELS_EXPORT int getCompanyIdIndex() const
     {
         return m_CompanyIdIndex;
     }
@@ -168,7 +183,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int LastUpdateIndex() const
+    JMBDEMODELS_EXPORT int getLastUpdateIndex() const
     {
         return m_LastUpdateIndex;
     }
@@ -177,36 +192,58 @@ private:
     /*!
         \brief The Tablename in the database \e is const
      */
-    const QString m_tableName = QLatin1String("system");
+    const QString m_tableName = QLatin1String("system_data");
 
     /*!
-        \var int m_SystemIdIndex
-        \brief The value of the SystemIdIndex
+     * @ brief m_db
      */
-    int m_SystemIdIndex {0};
+    QSqlDatabase m_db = {};
+
+    /*!
+        \brief holds an initialised pointer to the Relationmodel
+        \sa QSqlRelationalTableModel
+     */
+    QSqlRelationalTableModel* m_model { nullptr };
+
+    /*!
+       \brief holds an initialised pointer to the ItemSelectioModel
+       \sa QItemSelectionModel
+    */
+    QItemSelectionModel* m_selectionModel { nullptr };
+
+    /*!
+     * @brief DataContext
+     */
+    Model::DataContext* m_dataContext = {};
+
+    /*!
+        \var int m_SystemDataIdIndex
+        \brief The value of the SystemDataIdIndex
+     */
+    int m_SystemDataIdIndex { 0 };
 
     /*!
        \var int m_NameIndex
        \brief The value of the NameIndex
     */
-    int m_NameIndex {0};
+    int m_NameIndex { 0 };
 
     /*!
        \var int m_LocalIndex
        \brief The value of the LocalIndex
     */
-    int m_LocalIndex {0};
+    int m_LocalIndex { 0 };
 
     /*!
        \var int m_CompanyIdIndex
        \brief The value of the CompanyIdIndex
     */
-    int m_CompanyIdIndex {0};
+    int m_CompanyIdIndex { 0 };
 
     /*!
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
     */
-    int m_LastUpdateIndex {0};
+    int m_LastUpdateIndex { 0 };
 };
 } // namespace Model

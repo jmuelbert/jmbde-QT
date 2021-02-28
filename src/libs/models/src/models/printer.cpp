@@ -15,73 +15,88 @@
 
 #include "models/printer.h"
 
+Q_LOGGING_CATEGORY(jmbdeModelsPrinterLog, "jmuelbert.jmbde.models.printer", QtWarningMsg)
+
 Model::Printer::Printer()
     : CommonData()
 {
+    this->m_dataContext = new Model::DataContext();
+    this->m_db = m_dataContext->getDatabase();
+
     // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    this->m_model = new QSqlRelationalTableModel(this, this->m_db);
+    this->m_model->setTable(this->m_tableName);
+    this->m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
     setIndexes();
 }
 
 void Model::Printer::setIndexes()
 {
-    m_PrinterIdIndex = m_model->fieldIndex(QLatin1String("printer_id"));
-    m_DeviceNameIdIndex = m_model->fieldIndex(QLatin1String("device_name_id"));
-    m_SerialNumberIndex = m_model->fieldIndex(QLatin1String("lserial_number"));
-    m_NetworkIndex = m_model->fieldIndex(QLatin1String("network"));
-    m_NetworkNameIndex = m_model->fieldIndex(QLatin1String("network_name"));
-    m_NetworkIpAddressIndex = m_model->fieldIndex(QLatin1String("network_ip_address"));
-    m_ActiveIndex = m_model->fieldIndex(QLatin1String("active"));
-    m_ReplaceIndex = m_model->fieldIndex(QLatin1String("replace"));
-    m_ResourcesIndex = m_model->fieldIndex(QLatin1String("resources"));
-    m_PaperSizeMaxIndex = m_model->fieldIndex(QLatin1String("paper_size_max"));
-    m_ColorIndex = m_model->fieldIndex(QLatin1String("color"));
-    m_DeviceTypeIdIndex = m_model->fieldIndex(QLatin1String("device_type_id"));
-    m_EmployeeIdIndex = m_model->fieldIndex(QLatin1String("employe_id"));
-    m_PlaceIdIndex = m_model->fieldIndex(QLatin1String("place_id"));
-    m_DepartmentIdIndex = m_model->fieldIndex(QLatin1String("department_id"));
-    m_ManufacturerIdIndex = m_model->fieldIndex(QLatin1String("manufacturer_id"));
-    m_InventoryIdIndex = m_model->fieldIndex(QLatin1String("inventory_id"));
-    m_ComputerIdIndex = m_model->fieldIndex(QLatin1String("computer_id"));
-    m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
+    m_PrinterIdIndex = this->m_model->fieldIndex(QLatin1String("printer_id"));
+    m_DeviceNameIdIndex = this->m_model->fieldIndex(QLatin1String("device_name_id"));
+    m_SerialNumberIndex = this->m_model->fieldIndex(QLatin1String("serial_number"));
+    m_NetworkIndex = this->m_model->fieldIndex(QLatin1String("network"));
+    m_NetworkNameIndex = this->m_model->fieldIndex(QLatin1String("network_name"));
+    m_NetworkIpAddressIndex = this->m_model->fieldIndex(QLatin1String("network_ip_address"));
+    m_ActiveIndex = this->m_model->fieldIndex(QLatin1String("active"));
+    m_ReplaceIndex = this->m_model->fieldIndex(QLatin1String("replace"));
+    m_ResourcesIndex = this->m_model->fieldIndex(QLatin1String("resources"));
+    m_PaperSizeMaxIndex = this->m_model->fieldIndex(QLatin1String("paper_size_max"));
+    m_ColorIndex = this->m_model->fieldIndex(QLatin1String("color"));
+    m_DeviceTypeIdIndex = this->m_model->fieldIndex(QLatin1String("device_type_id"));
+    m_EmployeeIdIndex = this->m_model->fieldIndex(QLatin1String("employe_id"));
+    m_PlaceIdIndex = this->m_model->fieldIndex(QLatin1String("place_id"));
+    m_DepartmentIdIndex = this->m_model->fieldIndex(QLatin1String("department_id"));
+    m_ManufacturerIdIndex = this->m_model->fieldIndex(QLatin1String("manufacturer_id"));
+    m_InventoryIdIndex = this->m_model->fieldIndex(QLatin1String("inventory_id"));
+    m_ComputerIdIndex = this->m_model->fieldIndex(QLatin1String("computer_id"));
+    m_LastUpdateIndex = this->m_model->fieldIndex(QLatin1String("last_update"));
 }
 
 auto Model::Printer::initializeRelationalModel() -> QSqlRelationalTableModel *
 {
-    m_model = new QSqlRelationalTableModel(this);
+    this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
-    m_model->setTable(this->m_tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    this->m_model->setTable(this->m_tableName);
+    this->m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-    m_model->select();
+    this->m_model->select();
 
-    return m_model;
+    return this->m_model;
 }
 
 auto Model::Printer::initializeInputDataModel() -> QSqlRelationalTableModel *
 {
-    m_model = new QSqlRelationalTableModel(this);
+    this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
-    m_model->setTable(this->m_tableName);
+    this->m_model->setTable(this->m_tableName);
 
-    return m_model;
+    return this->m_model;
 }
 
 auto Model::Printer::initializeViewModel() -> QSqlTableModel *
 {
-    m_model->select();
+    this->m_model->select();
 
-    return m_model;
+    return this->m_model;
+}
+
+auto Model::Printer::initializeListModel() -> QSqlTableModel *
+{
+    auto *listModel = new QSqlTableModel(this, this->m_db);
+    listModel->setTable(this->m_tableName);
+    listModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    listModel->select();
+
+    return listModel;
 }
 
 auto Model::Printer::generateTableString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdemodelsLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(jmbdeModelsPrinterLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     QList<int> set;
 
@@ -107,7 +122,7 @@ auto Model::Printer::generateFormularString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdemodelsLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(jmbdeModelsPrinterLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     // Document Title
     outString = QLatin1String("<h1>");

@@ -22,6 +22,7 @@
 #include <QSqlQuery>
 #include <QSqlRelation>
 #include <QtSql>
+#include <QTextDocument>
 
 #include "commondata.h"
 #include "datacontext.h"
@@ -120,6 +121,15 @@ public:
     virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
 
     // Getter
+    JMBDEMODELS_EXPORT QString getTableName() const
+    {
+        return this->m_tableName;
+    }
+
+    JMBDEMODELS_EXPORT QSqlDatabase getDB() const
+    {
+        return this->m_db;
+    }
 
     /*!
         \fn int getCompanyIdIndex()

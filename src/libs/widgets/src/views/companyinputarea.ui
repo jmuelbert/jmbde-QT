@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CompanyInputArea</class>
+ <widget class="QGroupBox" name="CompanyInputArea">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>730</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Firma</string>
+  </property>
+  <property name="accessibleName">
+   <string>CompanyInputDialog</string>
+  </property>
+  <property name="title">
+   <string>Firma</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_3">
+   <item row="0" column="0">
+    <widget class="QWidget" name="GroupBox" native="true">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QLabel" name="label_Header">
+          <property name="font">
+           <font>
+            <pointsize>16</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Firma</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Preferred</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QFormLayout" name="formLayout">
+        <item row="0" column="0">
+         <widget class="QLabel" name="nameLabel">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="text">
+           <string>Name</string>
+          </property>
+          <property name="buddy">
+           <cstring>nameLineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="nameLineEdit"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="name2Label">
+          <property name="text">
+           <string>Name2</string>
+          </property>
+          <property name="buddy">
+           <cstring>name2LineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="name2LineEdit"/>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="streetLabel">
+          <property name="text">
+           <string>Straße</string>
+          </property>
+          <property name="buddy">
+           <cstring>streetLineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="streetLineEdit"/>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="zipCodeLabel">
+          <property name="text">
+           <string>PLZ</string>
+          </property>
+          <property name="buddy">
+           <cstring>zipCodeLineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLineEdit" name="zipCodeLineEdit"/>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="cityLabel">
+          <property name="text">
+           <string>Ort</string>
+          </property>
+          <property name="buddy">
+           <cstring>cityLineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QLineEdit" name="cityLineEdit"/>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="phoneNumberLabel">
+          <property name="text">
+           <string>Telefon</string>
+          </property>
+          <property name="buddy">
+           <cstring>phoneNumberLineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QLineEdit" name="phoneNumberLineEdit"/>
+        </item>
+        <item row="7" column="0">
+         <widget class="QLabel" name="mobileNumberLabel">
+          <property name="text">
+           <string>Mobil Nummer</string>
+          </property>
+          <property name="buddy">
+           <cstring>mobileNumberLineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="1">
+         <widget class="QLineEdit" name="mobileNumberLineEdit"/>
+        </item>
+        <item row="8" column="0">
+         <widget class="QLabel" name="faxNumberLabel">
+          <property name="text">
+           <string>Fax</string>
+          </property>
+          <property name="buddy">
+           <cstring>faxNumberLineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="1">
+         <widget class="QLineEdit" name="faxNumberLineEdit"/>
+        </item>
+        <item row="9" column="0">
+         <widget class="QLabel" name="mailAddressLabel">
+          <property name="text">
+           <string>E Mail</string>
+          </property>
+          <property name="buddy">
+           <cstring>mailAddressLineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="1">
+         <widget class="QLineEdit" name="mailAddressLineEdit"/>
+        </item>
+        <item row="10" column="0">
+         <widget class="QLabel" name="activeLabel">
+          <property name="text">
+           <string>Aktiv</string>
+          </property>
+          <property name="buddy">
+           <cstring>activeCheckBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="1">
+         <widget class="QCheckBox" name="activeCheckBox"/>
+        </item>
+        <item row="11" column="0">
+         <widget class="QLabel" name="employeeIdLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Mitarbeiter*in</string>
+          </property>
+          <property name="buddy">
+           <cstring>employeeIdComboBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="11" column="1">
+         <widget class="QComboBox" name="employeeIdComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="12" column="0">
+         <widget class="QLabel" name="lastUpdateLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Letzte Änderung</string>
+          </property>
+          <property name="buddy">
+           <cstring>lastUpdateLineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="12" column="1">
+         <widget class="QLineEdit" name="lastUpdateLineEdit">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QPushButton" name="addPushButton">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="text">
+           <string>+</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="editFinishPushButton">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="text">
+           <string>Bearbeiten</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>nameLineEdit</tabstop>
+  <tabstop>name2LineEdit</tabstop>
+  <tabstop>streetLineEdit</tabstop>
+  <tabstop>zipCodeLineEdit</tabstop>
+  <tabstop>cityLineEdit</tabstop>
+  <tabstop>phoneNumberLineEdit</tabstop>
+  <tabstop>mobileNumberLineEdit</tabstop>
+  <tabstop>faxNumberLineEdit</tabstop>
+  <tabstop>mailAddressLineEdit</tabstop>
+  <tabstop>activeCheckBox</tabstop>
+  <tabstop>employeeIdComboBox</tabstop>
+  <tabstop>lastUpdateLineEdit</tabstop>
+  <tabstop>addPushButton</tabstop>
+  <tabstop>editFinishPushButton</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

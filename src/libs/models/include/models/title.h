@@ -15,32 +15,34 @@
 
 #pragma once
 
+#include <QLoggingCategory>
 #include <QObject>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRelation>
+#include <QTextDocument>
 #include <QtSql>
 
 #include "commondata.h"
+#include "datacontext.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
-#include "loggingcategory.h"
 
-namespace Model
-{
+Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsTitleLog)
+
+namespace Model {
 /*!
     \class Title
     \brief The Title class
     \details In this is handlet all Titles
     \author Jürgen Mülbert
     \since 0.4
-    \version 0.5
-    \date 17.11.2020
+    \version 0.6
+    \date 23.01.2021
     \copyright GPL-3.0-or-later
     */
-class Title : public CommonData
-{
+class Title : public CommonData {
     Q_OBJECT
 
 public:
@@ -73,7 +75,7 @@ public:
         \brief set the QSqlRelationalTableModel for the DataModel
         Returns The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel* initializeRelationalModel() final;
 
     /*!
         \fn virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel
@@ -81,7 +83,7 @@ public:
 
         Returns The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel* initializeInputDataModel() final;
 
     /*!
         \fn virtual QSqlTableModel *initializeViewModel() final
@@ -89,7 +91,13 @@ public:
 
         Returns QSqlTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlTableModel* initializeViewModel() final;
+
+    /*!
+        \fn QSqlTableModel *initializeListModel();
+        \brief Initiallize the list Model for select one dataset
+    */
+    virtual JMBDEMODELS_EXPORT QSqlTableModel* initializeListModel() final;
 
     /*!
      * \fn virtual auto generateTableString(
@@ -98,7 +106,7 @@ public:
 
         Returns a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString& header) -> QString final;
 
     /*!
         \fn virtual auto generateFormularString(
@@ -107,9 +115,18 @@ public:
 
         Returns a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString& header) -> QString final;
 
     // Getter
+    JMBDEMODELS_EXPORT QString getTableName() const
+    {
+        return this->m_tableName;
+    }
+
+    JMBDEMODELS_EXPORT QSqlDatabase getDB() const
+    {
+        return this->m_db;
+    }
 
     /*!
         \fn  int TitleIdIndex()
@@ -118,7 +135,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int TitleIdIndex() const
+    JMBDEMODELS_EXPORT int getTitleIdIndex() const
     {
         return m_TitleIdIndex;
     }
@@ -130,7 +147,7 @@ public:
 
       Returns the value of the index
    */
-    JMBDEMODELS_EXPORT int NameIndex() const
+    JMBDEMODELS_EXPORT int getNameIndex() const
     {
         return m_NameIndex;
     }
@@ -142,21 +159,9 @@ public:
 
       Returns the value of the index
    */
-    JMBDEMODELS_EXPORT int FromDateIndex() const
+    JMBDEMODELS_EXPORT int getFromDateIndex() const
     {
         return m_FromDateIndex;
-    }
-
-    /*!
-      \fn  int ToDateIndex()
-
-      \brief Get the index of the fieldname ToDate from the database
-
-      Returns the value of the index
-   */
-    JMBDEMODELS_EXPORT int ToDateIndex() const
-    {
-        return m_ToDateIndex;
     }
 
     /*!
@@ -166,7 +171,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int LastUpdateIndex() const
+    JMBDEMODELS_EXPORT int getLastUpdateIndex() const
     {
         return m_LastUpdateIndex;
     }
@@ -178,28 +183,45 @@ private:
     const QString m_tableName = QLatin1String("title");
 
     /*!
+     * @ brief m_db
+     */
+    QSqlDatabase m_db = {};
+
+    /*!
+        \brief holds an initialised pointer to the Relationmodel
+        \sa QSqlRelationalTableModel
+     */
+    QSqlRelationalTableModel* m_model { nullptr };
+
+    /*!
+       \brief holds an initialised pointer to the ItemSelectioModel
+       \sa QItemSelectionModel
+    */
+    QItemSelectionModel* m_selectionModel { nullptr };
+
+    /*!
+     * @brief DataContext
+     */
+    Model::DataContext* m_dataContext = {};
+
+    /*!
         \var int m_TitleIdIndex
         \brief The value of the TitleIdIndex
      */
-    int m_TitleIdIndex {0};
+    int m_TitleIdIndex { 0 };
 
     /*!
         \var int m_NameIndex
         \brief The value of the NameIndex
      */
-    int m_NameIndex {0};
+    int m_NameIndex { 0 };
 
     /*!
         \var int m_FromDateIndex
         \brief The value of the FromDateIndex
      */
-    int m_FromDateIndex {0};
+    int m_FromDateIndex { 0 };
 
-    /*!
-        \var int m_ToDateIndex
-        \brief The value of the ToDatenIdex
-     */
-    int m_ToDateIndex {0};
-    int m_LastUpdateIndex {0};
+    int m_LastUpdateIndex { 0 };
 };
 } // namespace Model

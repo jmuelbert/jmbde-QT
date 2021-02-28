@@ -1,39 +1,32 @@
 /*
-   jmbde a BDE Tool for companies
-   Copyright (C) 2013-2020 Jürgen Mülbert
-
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-*/
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 #include "views/accountinputarea.h"
 
 #include "ui_accountinputarea.h"
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsAccoutInputAreaLog, "jmuelbert.jmbde.widgets.accountinputarea", QtWarningMsg)
+Q_LOGGING_CATEGORY(jmbdeWidgetsAccountInputAreaLog, "jmuelbert.jmbde.widgets.accountinputarea", QtWarningMsg)
 
 // Edit an existing Account
-AccountInputArea::AccountInputArea(QWidget *parent, const QModelIndex index)
+AccountInputArea::AccountInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::AccountInputArea)
 {
     ui->setupUi(this);
 
-    this->accountModel = new Model::Account();
-    this->m_db = this->accountModel->getDB();
+    qCDebug(jmbdeWidgetsAccountInputAreaLog) << tr("Initialisiere AccountInputArea mit Index :") << index.row();
+
+    this->m_accountModel = new Model::Account();
+    this->m_db = this->m_accountModel->getDB();
 
     m_actualMode = Mode::Edit;
     setViewOnlyMode(true);
 
     // Set the Model
-    m_model = this->accountModel->initializeRelationalModel();
+    m_model = this->m_accountModel->initializeRelationalModel();
 
     // Set the mapper
     m_mapper = new QDataWidgetMapper();
@@ -42,7 +35,16 @@ AccountInputArea::AccountInputArea(QWidget *parent, const QModelIndex index)
 
     setMappings();
 
-    m_mapper->setCurrentIndex(index.row());
+    qCDebug(jmbdeWidgetsAccountInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+
+    if (index.row() < 0) {
+        m_mapper->toFirst();
+    } else {
+        m_mapper->setCurrentIndex(index.row());
+    }
+
+    QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &AccountInputArea::addEdit);
+    QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &AccountInputArea::editFinish);
 }
 
 AccountInputArea::~AccountInputArea()
@@ -52,14 +54,23 @@ AccountInputArea::~AccountInputArea()
 
 void AccountInputArea::setMappings()
 {
+    m_mapper->addMapping(ui->userNameLineEdit, this->m_accountModel->getUserNameIndex());
+    m_mapper->addMapping(ui->passwordLineEdit, this->m_accountModel->getPasswordIndex());
+    m_mapper->addMapping(ui->systemListView, this->m_accountModel->getSystemDataIndex());
+    m_mapper->addMapping(ui->lastUpdateLineEdit, this->m_accountModel->getLastUpdateIndex());
 }
 
 void AccountInputArea::setViewOnlyMode(bool mode)
 {
+    ui->userNameLineEdit->setDisabled(mode);
+    ui->passwordLineEdit->setDisabled(mode);
+    // ui->systemListView->setDisabled(mode);
 }
 
 void AccountInputArea::createDataset()
 {
+    qCDebug(jmbdeWidgetsAccountInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Account...");
+
     // Set all inputfields to blank
     m_mapper->toLast();
 
@@ -72,59 +83,54 @@ void AccountInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void AccountInputArea::retrieveDataset(const QModelIndex index)
+void AccountInputArea::deleteDataset(const QModelIndex &index)
 {
-}
-
-void AccountInputArea::updateDataset(const QModelIndex index)
-{
-}
-
-void AccountInputArea::deleteDataset(const QModelIndex index)
-{
+    qCDebug(jmbdeWidgetsAccountInputAreaLog) << tr("Lösche Daten von Account");
+    m_mapper->setCurrentIndex(index.row());
 }
 
 // Save the actual data
 
-void AccountInputArea::on_pushButton_Add_clicked()
+void AccountInputArea::addEdit()
 {
+    qCDebug(jmbdeWidgetsAccountInputAreaLog) << tr("Füge neue Daten zu account");
     createDataset();
-    on_pushButton_EditFinish_clicked();
+    editFinish();
 }
 
-void AccountInputArea::on_pushButton_EditFinish_clicked()
+void AccountInputArea::editFinish()
 {
-    // Set all inputfields to blank
+    qCDebug(jmbdeWidgetsAccountInputAreaLog) << tr("Bearbeite oder schließe account Daten");
 
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
-        ui->pushButton_EditFinish->setText(tr("Fertig"));
+        ui->editFinishPushButton->setText(tr("Fertig"));
         setViewOnlyMode(false);
 
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsAccoutInputAreaLog) << tr("Die Daten werden gesichert.");
+        qCDebug(jmbdeWidgetsAccountInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
-        ui->pushButton_EditFinish->setText(tr("Bearbeiten"));
+        ui->editFinishPushButton->setText(tr("Bearbeiten"));
         setViewOnlyMode(false);
 
-        QString userName = ui->lineEdit_Username->text();
+        QString userName = ui->userNameLineEdit->text();
 
         if (userName.isEmpty()) {
-            QString message(tr("Bitte geben Sie den Mitarbeiternamen ein"));
+            QString message(tr("Bitte geben Sie den Benutzernamen ein"));
 
-            QMessageBox::information(this, tr("Mitarbeiter hinzufügen"), message);
+            QMessageBox::information(this, tr("Benutzernamen hinzufügen"), message);
         } else {
-            qCDebug(jmbdeWidgetsAccoutInputAreaLog) << tr("Benutzer Name : ") << ui->lineEdit_Username->text();
+            qCDebug(jmbdeWidgetsAccountInputAreaLog) << tr("Benutzer Name : ") << ui->userNameLineEdit->text();
             m_mapper->submit();
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(jmbdeWidgetsAccoutInputAreaLog) << tr("Schreiben der Änderungen in die Datenbank");
-                emit dataChanged();
+                qCDebug(jmbdeWidgetsAccountInputAreaLog) << tr("Schreiben der Änderungen für Account in die Datenbank");
+                dataChanged();
             } else {
                 m_model->database().rollback();
                 QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
@@ -133,7 +139,7 @@ void AccountInputArea::on_pushButton_EditFinish_clicked()
     } break;
 
     default: {
-        qCDebug(jmbdeWidgetsAccoutInputAreaLog) << tr("Fehler");
+        qCDebug(jmbdeWidgetsAccountInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

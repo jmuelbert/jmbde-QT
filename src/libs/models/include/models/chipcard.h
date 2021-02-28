@@ -21,6 +21,7 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRelation>
+#include <QTextDocument>
 #include <QtSql>
 
 #include "commondata.h"
@@ -30,8 +31,7 @@
 
 Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsChipCardLog)
 
-namespace Model
-{
+namespace Model {
 /*!
     \class ChipCard
     \brief The ChipDataModel class
@@ -42,8 +42,7 @@ namespace Model
     \date 1.12.2020
     \copyright GPL-3.0-or-later
  */
-class ChipCard : public CommonData
-{
+class ChipCard : public CommonData {
     Q_OBJECT
 
 public:
@@ -76,7 +75,7 @@ public:
         \brief set the QSqlRelationalTableModel for the DataModel
         \return The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel* initializeRelationalModel() final;
 
     /*!
         \fn virtual QSqlRelationalTableModel *initializeInputDataModel() final
@@ -84,7 +83,7 @@ public:
 
         \return The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel* initializeInputDataModel() final;
 
     /*!
         \fn virtual QSqlTableModel *initializeViewModel() final
@@ -92,13 +91,13 @@ public:
 
         \return QSqlTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlTableModel* initializeViewModel() final;
 
     /*!
         \fn QSqlTableModel *initializeListModel();
         \brief Initiallize the list Model for select one dataset
     */
-    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeListModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlTableModel* initializeListModel() final;
 
     /*!
      * \fn virtual auto generateTableString(
@@ -107,7 +106,7 @@ public:
 
         \return a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString& header) -> QString final;
 
     /*!
         \fn virtual auto generateFormularString(
@@ -116,9 +115,18 @@ public:
 
         \return a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString& header) -> QString final;
 
     // Getter
+    JMBDEMODELS_EXPORT QString getTableName() const
+    {
+        return this->m_tableName;
+    }
+
+    JMBDEMODELS_EXPORT QSqlDatabase getDB() const
+    {
+        return this->m_db;
+    }
     /*!
         \fn int ChipCardIdIndex()
 
@@ -126,7 +134,7 @@ public:
 
         \return the value of the index
      */
-    JMBDEMODELS_EXPORT int ChipCardIdIndex() const
+    JMBDEMODELS_EXPORT int getChipCardIdIndex() const
     {
         return m_ChipCardIdIndex;
     }
@@ -138,7 +146,7 @@ public:
 
         \return the value of the index
      */
-    JMBDEMODELS_EXPORT int NumberIndex() const
+    JMBDEMODELS_EXPORT int getNumberIndex() const
     {
         return m_NumberIndex;
     }
@@ -150,7 +158,7 @@ public:
 
         \return the value of the index
      */
-    JMBDEMODELS_EXPORT int ChipCardDoorIdIndex() const
+    JMBDEMODELS_EXPORT int getChipCardDoorIdIndex() const
     {
         return m_ChipCardDoorIdIndex;
     }
@@ -163,7 +171,7 @@ public:
 
         \return the value of the index
      */
-    JMBDEMODELS_EXPORT int ChipCardProfileIdIndex() const
+    JMBDEMODELS_EXPORT int getChipCardProfileIdIndex() const
     {
         return m_ChipCardProfileIdIndex;
     }
@@ -175,7 +183,7 @@ public:
 
         \return the value of the index
      */
-    JMBDEMODELS_EXPORT int EmployeeIdIndex() const
+    JMBDEMODELS_EXPORT int getEmployeeIdIndex() const
     {
         return m_EmployeeIdIndex;
     }
@@ -187,7 +195,7 @@ public:
 
         \return the value of the index
      */
-    JMBDEMODELS_EXPORT int LastUpdateIndex() const
+    JMBDEMODELS_EXPORT int getLastUpdateIndex() const
     {
         return m_LastUpdateIndex;
     }
@@ -207,48 +215,48 @@ private:
         \brief holds an initialised pointer to the Relationmodel
         \sa QSqlRelationalTableModel
      */
-    QSqlRelationalTableModel *m_model {nullptr};
+    QSqlRelationalTableModel* m_model { nullptr };
 
     /*!
        \brief holds an initialised pointer to the ItemSelectioModel
        \sa QItemSelectionModel
     */
-    QItemSelectionModel *m_selectionModel {nullptr};
+    QItemSelectionModel* m_selectionModel { nullptr };
 
     /*!
      * @brief DataContext
      */
-    Model::DataContext *m_dataContext = {};
+    Model::DataContext* m_dataContext = {};
 
     /*!
         \brief The value of the ChipCardIdIndex
      */
-    int m_ChipCardIdIndex {0};
+    int m_ChipCardIdIndex { 0 };
 
     /*!
         \brief The value of the NumberIndex
      */
-    int m_NumberIndex {0};
+    int m_NumberIndex { 0 };
 
     /*!
         \brief The value of the ChipCardDoorIdIndex
      */
-    int m_ChipCardDoorIdIndex {0};
+    int m_ChipCardDoorIdIndex { 0 };
 
     /*!
         \brief The value of the hipCardProfileIdIndex
      */
-    int m_ChipCardProfileIdIndex {0};
+    int m_ChipCardProfileIdIndex { 0 };
 
     /*!
         \brief The value of the EmployeeIdIndex
      */
-    int m_EmployeeIdIndex {0};
+    int m_EmployeeIdIndex { 0 };
 
     /*!
           \brief The value of the LastUpdateIndex
       */
-    int m_LastUpdateIndex {0};
+    int m_LastUpdateIndex { 0 };
 };
 
 } // namespace Model
