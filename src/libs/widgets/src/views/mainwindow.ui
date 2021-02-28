@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
@@ -139,7 +139,7 @@
           <x>0</x>
           <y>0</y>
           <width>485</width>
-          <height>390</height>
+          <height>388</height>
          </rect>
         </property>
        </widget>
@@ -154,41 +154,41 @@
      <x>0</x>
      <y>0</y>
      <width>881</width>
-     <height>22</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>File</string>
+     <string>Datei</string>
     </property>
-    <addaction name="actionNew" />
-    <addaction name="actionOpen" />
-    <addaction name="actionImport" />
-    <addaction name="actionExport" />
-    <addaction name="actionPrint" />
-    <addaction name="actionPrint_Preview" />
-    <addaction name="action_Export_Pdf" />
-    <addaction name="actionQuit" />
+    <addaction name="actionNew"/>
+    <addaction name="actionOpen"/>
+    <addaction name="actionImport"/>
+    <addaction name="actionExport"/>
+    <addaction name="actionPrint"/>
+    <addaction name="actionPrint_Preview"/>
+    <addaction name="action_Export_Pdf"/>
+    <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
      <string>Edit</string>
     </property>
-    <addaction name="actionEditAdd" />
-    <addaction name="actionEditEdit" />
-    <addaction name="actionEditDelete" />
-    <addaction name="actionPreferences" />
+    <addaction name="actionEditAdd"/>
+    <addaction name="actionEditEdit"/>
+    <addaction name="actionEditDelete"/>
+    <addaction name="actionPreferences"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
      <string>Help</string>
     </property>
-    <addaction name="actionAbout" />
-    <addaction name="actionHelp" />
+    <addaction name="actionAbout"/>
+    <addaction name="actionHelp"/>
    </widget>
-   <addaction name="menuFile" />
-   <addaction name="menuEdit" />
-   <addaction name="menuHelp" />
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -197,28 +197,27 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="separator" />
-   <addaction name="actionEditAdd" />
-   <addaction name="actionEditEdit" />
-   <addaction name="actionEditDelete" />
-   <addaction name="separator" />
-   <addaction name="actionPrint" />
-   <addaction name="action_Export_Pdf" />
+   <addaction name="separator"/>
+   <addaction name="actionEditAdd"/>
+   <addaction name="actionEditEdit"/>
+   <addaction name="actionEditDelete"/>
+   <addaction name="separator"/>
+   <addaction name="actionPrint"/>
+   <addaction name="action_Export_Pdf"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar" />
+  <widget class="QStatusBar" name="statusBar"/>
   <action name="actionPreferences">
    <property name="icon">
     <iconset>
-     <normaloff
-                    >:/icons/tango-icon/ApplicationPreferences.png</normaloff>:/icons/tango-icon/ApplicationPreferences.png</iconset>
+     <normaloff>:/icons/tango-icon/ApplicationPreferences.png</normaloff>:/icons/tango-icon/ApplicationPreferences.png</iconset>
    </property>
    <property name="text">
-    <string>Preferences</string>
+    <string>Einstellungen...</string>
    </property>
   </action>
   <action name="actionAbout">
    <property name="text">
-    <string>About</string>
+    <string>Über...</string>
    </property>
   </action>
   <action name="actionNew">
@@ -234,11 +233,10 @@
      <activeoff>:/icons/tango-icon/22x22/document-new.png</activeoff>
      <activeon>:/icons/tango-icon/22x22/document-new.png</activeon>
      <selectedoff>:/icons/tango-icon/22x22/document-new.png</selectedoff>
-     <selectedon
-                    >:/icons/tango-icon/22x22/document-new.png</selectedon>:/icons/tango-icon/22x22/document-new.png</iconset>
+     <selectedon>:/icons/tango-icon/22x22/document-new.png</selectedon>:/icons/tango-icon/22x22/document-new.png</iconset>
    </property>
    <property name="text">
-    <string>New</string>
+    <string>Neu</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
@@ -246,7 +244,7 @@
   </action>
   <action name="actionQuit">
    <property name="text">
-    <string>Quit</string>
+    <string>jmbde beenden</string>
    </property>
   </action>
   <action name="actionOpen">
@@ -261,11 +259,10 @@
      <activeoff>:/icons/tango-icon/22x22/document-open.png</activeoff>
      <activeon>:/icons/tango-icon/22x22/document-open.png</activeon>
      <selectedoff>:/icons/tango-icon/22x22/document-open.png</selectedoff>
-     <selectedon
-                    >:/icons/tango-icon/22x22/document-open.png</selectedon>:/icons/tango-icon/22x22/document-open.png</iconset>
+     <selectedon>:/icons/tango-icon/22x22/document-open.png</selectedon>:/icons/tango-icon/22x22/document-open.png</iconset>
    </property>
    <property name="text">
-    <string>Open...</string>
+    <string>Öffnen...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
@@ -276,7 +273,7 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Import...</string>
+    <string>Importieren...</string>
    </property>
   </action>
   <action name="actionExport">
@@ -284,7 +281,7 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Export...</string>
+    <string>Exportieren..</string>
    </property>
   </action>
   <action name="actionPrint">
@@ -296,11 +293,10 @@
      <activeoff>:/icons/tango-icon/32x32/document-print.png</activeoff>
      <activeon>:/icons/tango-icon/32x32/document-print.png</activeon>
      <selectedoff>:/icons/tango-icon/32x32/document-print.png</selectedoff>
-     <selectedon
-                    >:/icons/tango-icon/32x32/document-print.png</selectedon>:/icons/tango/32x32/document-print.png</iconset>
+     <selectedon>:/icons/tango-icon/32x32/document-print.png</selectedon>:/icons/tango/32x32/document-print.png</iconset>
    </property>
    <property name="text">
-    <string>Print...</string>
+    <string>Drucken...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+P</string>
@@ -315,11 +311,10 @@
      <activeoff>:/icons/tango-icon/32x32/document-print-preview.png</activeoff>
      <activeon>:/icons/tango-icon/32x32/document-print-preview.png</activeon>
      <selectedoff>:/icons/tango-icon/32x32/document-print-preview.png</selectedoff>
-     <selectedon
-                    >:/icons/tango-icon/32x32/document-print-preview.png</selectedon>:/icons/tango-icon/32x32/document-print-preview.png</iconset>
+     <selectedon>:/icons/tango-icon/32x32/document-print-preview.png</selectedon>:/icons/tango-icon/32x32/document-print-preview.png</iconset>
    </property>
    <property name="text">
-    <string>Print Preview...</string>
+    <string>Drucken Vorschau...</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
@@ -329,11 +324,10 @@
    <property name="icon">
     <iconset resource="../../resources/res.qrc">
      <normaloff>:/icons/tango/32x32/document-print-preview.png</normaloff>
-     <normalon
-                    >:/icons/tango/32x32/document-print-preview.png</normalon>:/icons/tango/32x32/document-print-preview.png</iconset>
+     <normalon>:/icons/tango/32x32/document-print-preview.png</normalon>:/icons/tango/32x32/document-print-preview.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;Export Pdf</string>
+    <string>&amp;Exportieren Pdf</string>
    </property>
    <property name="visible">
     <bool>false</bool>
@@ -342,47 +336,43 @@
   <action name="actionHelp">
    <property name="icon">
     <iconset>
-     <normaloff
-                    >:/icons/tango-icon/icons/tango-icon/16x16/help-browser.png</normaloff>:/icons/tango-icon/icons/tango-icon/16x16/help-browser.png</iconset>
+     <normaloff>:/icons/tango-icon/icons/tango-icon/16x16/help-browser.png</normaloff>:/icons/tango-icon/icons/tango-icon/16x16/help-browser.png</iconset>
    </property>
    <property name="text">
-    <string>Help</string>
+    <string>Hilfe</string>
    </property>
   </action>
   <action name="actionEditAdd">
    <property name="icon">
     <iconset resource="../../resources/res.qrc">
-     <normaloff
-                    >:/icons/tango/white/FileNew.png</normaloff>:/icons/tango/white/FileNew.png</iconset>
+     <normaloff>:/icons/tango/white/FileNew.png</normaloff>:/icons/tango/white/FileNew.png</iconset>
    </property>
    <property name="text">
-    <string>Add</string>
+    <string>Hinzufügen</string>
    </property>
   </action>
   <action name="actionEditEdit">
    <property name="icon">
     <iconset resource="../../resources/res.qrc">
-     <normaloff
-                    >:/icons/tango/white/TaskEdit.png</normaloff>:/icons/tango/white/TaskEdit.png</iconset>
+     <normaloff>:/icons/tango/white/TaskEdit.png</normaloff>:/icons/tango/white/TaskEdit.png</iconset>
    </property>
    <property name="text">
-    <string>Edit</string>
+    <string>Bearbeiten</string>
    </property>
   </action>
   <action name="actionEditDelete">
    <property name="icon">
     <iconset resource="../../resources/res.qrc">
-     <normaloff
-                    >:/icons/tango/white/TaskDelete.png</normaloff>:/icons/tango/white/TaskDelete.png</iconset>
+     <normaloff>:/icons/tango/white/TaskDelete.png</normaloff>:/icons/tango/white/TaskDelete.png</iconset>
    </property>
    <property name="text">
-    <string>Delete</string>
+    <string>Löschen</string>
    </property>
   </action>
  </widget>
- <layoutdefault spacing="6" margin="11" />
+ <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="../../resources/res.qrc" />
+  <include location="../../resources/res.qrc"/>
  </resources>
- <connections />
+ <connections/>
 </ui>

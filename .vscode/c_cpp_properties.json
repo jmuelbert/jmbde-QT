@@ -2,7 +2,16 @@
     "configurations": [
         {
             "name": "Win32",
-            "intelliSenseMode": "msvc-x64",
+            "includePath": [
+                "${myDefaultIncludePath}"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "windowsSdkVersion": "10.0.18362.0",
+            "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Tools/MSVC/14.24.28314/bin/Hostx64/x64/cl.exe",
             "cStandard": "c11",
             "cppStandard": "c++17",
             "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Tools/MSVC/14.24.28314/bin/Hostx64/x64/cl.exe",
@@ -14,8 +23,11 @@
         },
         {
             "name": "Linux",
-            "compilerPath": "/usr/bin/clang",
-            "intelliSenseMode": "clang-x64",
+            "includePath": [
+                "${myDefaultIncludePath}"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
             "cStandard": "c11",
             "cppStandard": "c++17",
             "defines": ["_DEBUG"],
@@ -25,18 +37,26 @@
         },
         {
             "name": "Mac",
-            "cStandard": "c11",
-            "cppStandard": "c++17",
+            "includePath": [
+                "${myDefaultIncludePath}"
+            ],
+            "defines": [],
+            "macFrameworkPath": [
+                "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks"
+            ],
             "compilerPath": "/usr/bin/clang",
             "compileCommands": "${workspaceFolder}/compile_commands.json",
-            "configurationProvider": "ms-vscode.cmake-tools",
-            "defines": ["_DEBUG"],
-            "includePath": ["${myDefaultIncludePath}"],
+            "cStandard": "c11",
+            "cppStandard": "c++17",
             "intelliSenseMode": "clang-x64",
-            "macFrameworkPath": [
-                "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks",
-                "/Library/Frameworks"
-            ]
+            "browse": {
+                "path": [
+                    "${workspaceFolder}"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            },
+            "configurationProvider": "ms-vscode.cmake-tools"
         }
     ],
     "env": {

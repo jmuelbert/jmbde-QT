@@ -1,17 +1,8 @@
 /*
-   jmbde a BDE Tool for companies
-   Copyright (C) 2013-2020  Jürgen Mülbert
-
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-*/
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 #include "models/computer.h"
 
@@ -41,7 +32,7 @@ void Model::Computer::setIndexes()
     m_MemoryIndex = this->m_model->fieldIndex(QLatin1String("memory"));
     m_NetworkIndex = this->m_model->fieldIndex(QLatin1String("network"));
     m_NetworkNameIndex = this->m_model->fieldIndex(QLatin1String("network_name"));
-    m_NetworkIpAddressIndex = this->m_model->fieldIndex(QLatin1String("network_ip_address"));
+    m_NetworkIPAddressIndex = this->m_model->fieldIndex(QLatin1String("network_ip_address"));
     m_ActiveIndex = this->m_model->fieldIndex(QLatin1String("active"));
     m_ReplaceIndex = this->m_model->fieldIndex(QLatin1String("replace"));
     m_DeviceTypeIdIndex = this->m_model->fieldIndex(QLatin1String("device_type_id"));

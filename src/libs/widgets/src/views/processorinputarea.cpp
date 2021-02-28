@@ -1,78 +1,52 @@
-/**************************************************************************
-**
-** Copyright (c) 2013-2019 Jürgen Mülbert. All rights reserved.
-**
-** This file is part of jmbde
-**
-** Licensed under the EUPL, Version 1.2 or – as soon they
-** will be approved by the European Commission - subsequent
-** versions of the EUPL (the "Licence");
-** You may not use this work except in compliance with the
-** Licence.
-** You may obtain a copy of the Licence at:
-**
-** https://joinup.ec.europa.eu/page/eupl-text-11-12
-**
-** Unless required by applicable law or agreed to in
-** writing, software distributed under the Licence is
-** distributed on an "AS IS" basis,
-** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-** express or implied.
-** See the Licence for the specific language governing
-** permissions and limitations under the Licence.
-**
-** Lizenziert unter der EUPL, Version 1.2 oder - sobald
-**  diese von der Europäischen Kommission genehmigt wurden -
-** Folgeversionen der EUPL ("Lizenz");
-** Sie dürfen dieses Werk ausschließlich gemäß
-** dieser Lizenz nutzen.
-** Eine Kopie der Lizenz finden Sie hier:
-**
-** https://joinup.ec.europa.eu/page/eupl-text-11-12
-**
-** Sofern nicht durch anwendbare Rechtsvorschriften
-** gefordert oder in schriftlicher Form vereinbart, wird
-** die unter der Lizenz verbreitete Software "so wie sie
-** ist", OHNE JEGLICHE GEWÄHRLEISTUNG ODER BEDINGUNGEN -
-** ausdrücklich oder stillschweigend - verbreitet.
-** Die sprachspezifischen Genehmigungen und Beschränkungen
-** unter der Lizenz sind dem Lizenztext zu entnehmen.
-**
-**************************************************************************/
+/*
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 #include "views/processorinputarea.h"
 
+#include "models/processor.h"
 #include "ui_processorinputarea.h"
 
-ProcessorInputArea::ProcessorInputArea(QWidget *parent, const QModelIndex index)
+Q_LOGGING_CATEGORY(jmbdeWidgetsProcessorInputAreaLog, "jmuelbert.jmbde.widgets.processorinputarea", QtWarningMsg);
+
+ProcessorInputArea::ProcessorInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::ProcessorInputArea)
 {
     ui->setupUi(this);
 
     // Init UI
-    qDebug() << "Init ProcessorInputarea for Index : " << index.row();
+    qCDebug(jmbdeWidgetsProcessorInputAreaLog) << tr("Initialisiere ProcessorInputarea mit Index : ") << index.row();
+
+    this->m_processorModel = new Model::Processor();
+    this->m_db = this->m_processorModel->getDB();
 
     m_actualMode = Mode::Edit;
     setViewOnlyMode(true);
 
     // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(QLatin1String("processor"));
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-
-    m_model->select();
+    m_model = this->m_processorModel->initializeRelationalModel();
 
     // Set the mapper
-    m_mapper = new QDataWidgetMapper(this);
+    m_mapper = new QDataWidgetMapper();
     m_mapper->setModel(m_model);
     m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
     setMappings();
 
-    m_mapper->setCurrentIndex(index.row());
-}
+    qCDebug(jmbdeWidgetsProcessorInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
+    if (index.row() < 0) {
+        m_mapper->toFirst();
+    } else {
+        m_mapper->setCurrentIndex(index.row());
+    }
+
+    QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &ProcessorInputArea::addEdit);
+    QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &ProcessorInputArea::editFinish);
+}
 ProcessorInputArea::~ProcessorInputArea()
 {
     delete ui;
@@ -80,21 +54,22 @@ ProcessorInputArea::~ProcessorInputArea()
 
 void ProcessorInputArea::setMappings()
 {
-    m_mapper->addMapping(ui->doubleSpinBox_ClockRate, m_model->fieldIndex(QLatin1String("clock_rate")));
-    m_mapper->addMapping(ui->lineEdit_Name, m_model->fieldIndex(QLatin1String("name")));
-    m_mapper->addMapping(ui->spinBox_Cores, m_model->fieldIndex(QLatin1String("cores")));
+    m_mapper->addMapping(ui->nameLineEdit, this->m_processorModel->getNameIndex());
+    m_mapper->addMapping(ui->clockRateDoubleSpinBox, this->m_processorModel->getClockRateIndex());
+    m_mapper->addMapping(ui->coresSpinBox, this->m_processorModel->getCoresIndex());
+    m_mapper->addMapping(ui->lastUpdateLineEdit, this->m_processorModel->getLastUpdateIndex());
 }
 
 void ProcessorInputArea::setViewOnlyMode(bool mode)
 {
-    ui->doubleSpinBox_ClockRate->setDisabled(mode);
-    ui->lineEdit_Name->setDisabled(mode);
-    ui->spinBox_Cores->setDisabled(mode);
+    ui->nameLineEdit->setDisabled(mode);
+    ui->clockRateDoubleSpinBox->setDisabled(mode);
+    ui->coresSpinBox->setDisabled(mode);
 }
 
 void ProcessorInputArea::createDataset()
 {
-    qDebug() << "Create a new Dataset for Processor...";
+    qCDebug(jmbdeWidgetsProcessorInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Processor...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -108,62 +83,59 @@ void ProcessorInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void ProcessorInputArea::retrieveDataset(const QModelIndex index)
+void ProcessorInputArea::deleteDataset(const QModelIndex &index)
 {
+    qCDebug(jmbdeWidgetsProcessorInputAreaLog) << tr("Lösche Daten von Processor");
+    m_mapper->setCurrentIndex(index.row());
 }
 
-void ProcessorInputArea::updateDataset(const QModelIndex index)
+void ProcessorInputArea::addEdit()
 {
-}
-
-void ProcessorInputArea::deleteDataset(const QModelIndex index)
-{
-}
-
-void ProcessorInputArea::on_pushButton_Add_clicked()
-{
+    qCDebug(jmbdeWidgetsProcessorInputAreaLog) << tr("Füge neue Daten zu Processor");
     createDataset();
-    on_pushButton_EditFinish_clicked();
+    editFinish();
 }
-
-void ProcessorInputArea::on_pushButton_EditFinish_clicked()
+void ProcessorInputArea::editFinish()
 {
+    qCDebug(jmbdeWidgetsProcessorInputAreaLog) << tr("Bearbeite oder schließe Processor Daten");
+
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
-        ui->pushButton_EditFinish->setText(tr("Finish"));
+        ui->editFinishPushButton->setText(tr("Fertig"));
         setViewOnlyMode(false);
 
     } break;
 
     case Mode::Finish: {
-        qDebug() << "Save Data...";
+        qCDebug(jmbdeWidgetsProcessorInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
-        ui->pushButton_EditFinish->setText(tr("Edit"));
+        ui->editFinishPushButton->setText(tr("Bearbeiten"));
         setViewOnlyMode(false);
 
-        QString name = ui->lineEdit_Name->text();
+        QString name = ui->nameLineEdit->text();
 
         if (name.isEmpty()) {
-            QString message(tr("Please provide the name of the processor."));
+            QString message(tr("Bitte einen Name für den Prozessor angeben"));
 
-            QMessageBox::information(this, tr("Add Processor"), message);
+            QMessageBox::information(this, tr("Prozessor hinzufügen"), message);
         } else {
             m_mapper->submit();
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qDebug() << "Commit changes for Processor Databse Table";
+                qCDebug(jmbdeWidgetsProcessorInputAreaLog) << tr("Schreiben der Änderungen für Prozessor in die Datenbank");
+                dataChanged();
             } else {
                 m_model->database().rollback();
-                QMessageBox::warning(this, tr("jmbde"), tr("The database reported an error: %1").arg(m_model->lastError().text()));
+                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
             }
         }
     } break;
 
     default: {
-        qDebug() << "Error";
+        qCCritical(jmbdeWidgetsProcessorInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

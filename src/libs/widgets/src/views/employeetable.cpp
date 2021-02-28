@@ -1,17 +1,8 @@
 /*
-   jmbde a BDE Tool for companies
-   Copyright (C) 2020 Jürgen Mülbert
-
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-*/
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 #include "views/employeetable.h"
 
@@ -19,20 +10,22 @@
 
 Q_LOGGING_CATEGORY(jmbdeWidgetsEmployeeTableLog, "jmuelbert.jmbde.widgets.employeetable", QtWarningMsg)
 
-EmployeeTable::EmployeeTable(const QString &tableName, QSqlTableModel *model, QWidget *parent)
+EmployeeTable::EmployeeTable(QWidget *parent, const QModelIndex &index)
     : QWidget(parent)
     , ui(new Ui::EmployeeTable)
-    , m_model(model)
 {
     ui->setupUi(this);
 
-    m_dataContext = new Model::DataContext();
-    m_db = m_dataContext->getDatabase();
+    qCDebug(jmbdeWidgetsEmployeeTableLog) << "Init ComputerInputArea for Index :" << index.column();
+
+    this->m_employeeModel = new Model::Employee();
+    this->m_db = this->m_employeeModel->getDB();
+
+    m_actualMode = Mode::Edit;
+    setViewOnlyMode(true);
 
     // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(tableName);
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    m_model = this->m_employeeModel->initializeRelationalModel();
 
     m_model->setHeaderData(0, Qt::Horizontal, tr("ID"));
     m_model->setHeaderData(1, Qt::Horizontal, tr("First name"));
@@ -54,8 +47,7 @@ EmployeeTable::EmployeeTable(const QString &tableName, QSqlTableModel *model, QW
     ui->verticalLayout->addWidget(buttonBox);
 
     connect(submitButton, &QPushButton::clicked, this, &EmployeeTable::submit);
-    connect(revertButton, &QPushButton::clicked, model, &QSqlTableModel::revertAll);
-    // connect(quitButton, &QPushButton::clicked, this, &EmployeeTable::close);
+    connect(revertButton, &QPushButton::clicked, m_model, &QSqlTableModel::revertAll);
 }
 
 EmployeeTable::~EmployeeTable()

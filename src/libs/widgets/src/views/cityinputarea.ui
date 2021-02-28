@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>CityInputArea</class>
  <widget class="QGroupBox" name="CityInputArea">
@@ -11,13 +11,13 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>City</string>
+   <string>Ort</string>
   </property>
   <property name="accessibleName">
    <string>CityInputDialog</string>
   </property>
   <property name="title">
-   <string>City</string>
+   <string>Ort</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
@@ -35,7 +35,7 @@
            </font>
           </property>
           <property name="text">
-           <string>City</string>
+           <string>Ort</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -62,23 +62,36 @@
       </item>
       <item>
        <layout class="QGridLayout" name="gridLayout">
-        <item row="2" column="1">
-         <widget class="QLineEdit" name="lineEdit_CityName" />
-        </item>
         <item row="1" column="0">
-         <widget class="QLabel" name="label_ZipCode">
+         <widget class="QLabel" name="cityNameLabel">
           <property name="text">
-           <string>Zip Code</string>
+           <string>Ort/Name</string>
+          </property>
+          <property name="buddy">
+           <cstring>cityNameLineEdit</cstring>
           </property>
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QComboBox" name="comboBox_ZipCode" />
+         <widget class="QLineEdit" name="cityNameLineEdit"/>
         </item>
         <item row="2" column="0">
-         <widget class="QLabel" name="label_CityName">
+         <widget class="QLabel" name="lastUpdateLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
-           <string>City Name</string>
+           <string>Letzte Änderung</string>
+          </property>
+          <property name="buddy">
+           <cstring>lastUpdateLineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="lastUpdateLineEdit">
+          <property name="enabled">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -100,7 +113,7 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QPushButton" name="pushButton_Add">
+         <widget class="QPushButton" name="addPushButton">
           <property name="text">
            <string>+</string>
           </property>
@@ -120,9 +133,9 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_EditFinish">
+         <widget class="QPushButton" name="editFinishPushButton">
           <property name="text">
-           <string>Edit</string>
+           <string>Bearbeiten</string>
           </property>
          </widget>
         </item>
@@ -133,6 +146,12 @@
    </item>
   </layout>
  </widget>
- <resources />
- <connections />
+ <tabstops>
+  <tabstop>cityNameLineEdit</tabstop>
+  <tabstop>lastUpdateLineEdit</tabstop>
+  <tabstop>addPushButton</tabstop>
+  <tabstop>editFinishPushButton</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
 </ui>

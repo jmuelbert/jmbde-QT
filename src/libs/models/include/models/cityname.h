@@ -21,6 +21,7 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRelation>
+#include <QTextDocument>
 #include <QtSql>
 
 #include "commondata.h"
@@ -120,6 +121,17 @@ public:
 
     // Getter
 
+    // Getter
+    JMBDEMODELS_EXPORT QString getTableName() const
+    {
+        return this->m_tableName;
+    }
+
+    JMBDEMODELS_EXPORT QSqlDatabase getDB() const
+    {
+        return this->m_db;
+    }
+
     /*!
         \fn int CityNameIdIndex()
 
@@ -127,7 +139,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int CityNameIdIndex() const
+    JMBDEMODELS_EXPORT int getCityNameIdIndex() const
     {
         return m_CityNameIdIndex;
     }
@@ -139,7 +151,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int NameIndex() const
+    JMBDEMODELS_EXPORT int getNameIndex() const
     {
         return m_NameIndex;
     }
@@ -151,7 +163,7 @@ public:
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int LastUpdateIndex() const
+    JMBDEMODELS_EXPORT int getLastUpdateIndex() const
     {
         return m_LastUpdateIndex;
     }
@@ -171,13 +183,13 @@ private:
         \brief holds an initialised pointer to the Relationmodel
         \sa QSqlRelationalTableModel
      */
-    QSqlRelationalTableModel *m_model {nullptr};
+    QSqlRelationalTableModel *m_model{nullptr};
 
     /*!
        \brief holds an initialised pointer to the ItemSelectioModel
        \sa QItemSelectionModel
     */
-    QItemSelectionModel *m_selectionModel {nullptr};
+    QItemSelectionModel *m_selectionModel{nullptr};
 
     /*!
      * @brief DataContext
@@ -187,16 +199,16 @@ private:
     /*!
          \brief The value of the CityNameIdIndex
      */
-    int m_CityNameIdIndex {0};
+    int m_CityNameIdIndex{0};
 
     /*!
         \brief The value of the NameIndex
     */
-    int m_NameIndex {0};
+    int m_NameIndex{0};
 
     /*!
          \brief The value of the LastUpdateIndex
      */
-    int m_LastUpdateIndex {0};
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model

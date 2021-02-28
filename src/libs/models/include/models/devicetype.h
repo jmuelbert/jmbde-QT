@@ -1,47 +1,39 @@
 /*
-   jmbde a BDE Tool for companies
-   Copyright (C) 2013-2020  Jürgen Mülbert
-
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-*/
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 #pragma once
 
+#include <QLoggingCategory>
 #include <QObject>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRelation>
-#include <QStandardPaths>
+#include <QTextDocument>
 #include <QtSql>
 
 #include "commondata.h"
+#include "datacontext.h"
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
-#include "loggingcategory.h"
 
-namespace Model
-{
+Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsDeviceTypeLog)
+
+namespace Model {
 /*!
     \class DeviceType
     \brief The DeviceType class
     \details In this is handle all DeviceTypes
     \author Jürgen Mülbert
     \since 0.4
-    \version 0.5
-    \date 17.11.2020
+    \version 0.6
+    \date 21.01.2021
     \copyright GPL-3.0-or-later
     */
-class DeviceType : public CommonData
-{
+class DeviceType : public CommonData {
     Q_OBJECT
 
 public:
@@ -73,7 +65,7 @@ public:
         \brief set the QSqlRelationalTableModel for the DataModel
         Returns The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel* initializeRelationalModel() final;
 
     /*!
         \fn virtual QSqlRelationalTableModel *initializeInputDataModel() final
@@ -81,7 +73,7 @@ public:
 
         Returns The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel* initializeInputDataModel() final;
 
     /*!
         \fn virtual QSqlTableModel *initializeViewModel() final
@@ -89,7 +81,13 @@ public:
 
         Returns QSqlTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlTableModel* initializeViewModel() final;
+
+    /*!
+        \fn QSqlTableModel *initializeListModel();
+        \brief Initiallize the list Model for select one dataset
+    */
+    virtual JMBDEMODELS_EXPORT QSqlTableModel* initializeListModel() final;
 
     /*!
      * \fn virtual auto generateTableString(
@@ -98,7 +96,7 @@ public:
 
         Returns a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString& header) -> QString final;
 
     /*!
         \fn virtual auto generateFormularString(
@@ -107,9 +105,19 @@ public:
 
         Returns a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString& header) -> QString final;
 
     // Getter
+    JMBDEMODELS_EXPORT QString getTableName() const
+    {
+        return this->m_tableName;
+    }
+
+    JMBDEMODELS_EXPORT QSqlDatabase getDB() const
+    {
+        return this->m_db;
+    }
+
     /*!
         \fn int DeviceTypeIdIndex()
 
@@ -123,25 +131,25 @@ public:
     }
 
     /*!
-       \fn int NameIndex()
+       \fn int getNameIndex()
 
        \brief Get the index of the fieldname Name form the database
 
        Returns the value of the index
     */
-    JMBDEMODELS_EXPORT int NameIndex() const
+    JMBDEMODELS_EXPORT int getNameIndex() const
     {
         return m_NameIndex;
     }
 
     /*!
-        \fn  int LastUpdateIndex()
+        \fn  int getLastUpdateIndex()
 
         \brief Get the index of the fieldname LastUpdate form the database
 
         Returns the value of the index
      */
-    JMBDEMODELS_EXPORT int LastUpdateIndex() const
+    JMBDEMODELS_EXPORT int getLastUpdateIndex() const
     {
         return m_LastUpdateIndex;
     }
@@ -153,21 +161,43 @@ private:
     const QString m_tableName = QLatin1String("device_type");
 
     /*!
+     * @ brief m_db
+     */
+    QSqlDatabase m_db = {};
+
+    /*!
+        \brief holds an initialised pointer to the Relationmodel
+        \sa QSqlRelationalTableModel
+     */
+    QSqlRelationalTableModel* m_model { nullptr };
+
+    /*!
+       \brief holds an initialised pointer to the ItemSelectioModel
+       \sa QItemSelectionModel
+    */
+    QItemSelectionModel* m_selectionModel { nullptr };
+
+    /*!
+     * @brief DataContext
+     */
+    Model::DataContext* m_dataContext = {};
+
+    /*!
        \var int m_DeviceTypeIdIndex
        \brief The value of the DeviceTypeIdIndexx
     */
-    int m_DeviceTypeIdIndex {0};
+    int m_DeviceTypeIdIndex { 0 };
 
     /*!
         \var int m_NameIndex
         \brief The value of the NameIndex
      */
-    int m_NameIndex {0};
+    int m_NameIndex { 0 };
 
     /*!
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
     */
-    int m_LastUpdateIndex {0};
+    int m_LastUpdateIndex { 0 };
 };
 } // namespace Model

@@ -8,12 +8,12 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.12...3.18 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.12...3.19 FATAL_ERROR)
 
-if(${CMAKE_VERSION} VERSION_LESS 3.18)
+if(${CMAKE_VERSION} VERSION_LESS 3.19)
   cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 else()
-  cmake_policy(VERSION 3.18)
+  cmake_policy(VERSION 3.19)
 endif()
 
 #
@@ -21,7 +21,7 @@ endif()
 #
 project(
   "jmbde"
-  VERSION "0.5.4"
+  VERSION "0.6.0"
   DESCRIPTION "A BDE Tool"
   HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
   LANGUAGES CXX

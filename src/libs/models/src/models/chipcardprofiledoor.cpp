@@ -1,17 +1,8 @@
 /*
-   jmbde a BDE Tool for companies
-   Copyright (C) 2013-2020  Jürgen Mülbert
-
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-*/
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 #include "models/chipcardprofiledoor.h"
 
@@ -35,7 +26,7 @@ void Model::ChipCardProfileDoor::setIndexes()
 {
     m_ChipCardProfileDoorIdIndex = this->m_model->fieldIndex(QLatin1String("chip_card_profile_door_id"));
     m_ChipCardProfileIdIndex = this->m_model->fieldIndex(QLatin1String("chip_card_profile_id"));
-    m_ChipCardDoorsIdIndex = this->m_model->fieldIndex(QLatin1String("chip_card_doors_id"));
+    m_ChipCardDoorsIdIndex = this->m_model->fieldIndex(QLatin1String("chip_card_door_id"));
     m_LastUpdateIndex = this->m_model->fieldIndex(QLatin1String("last_update"));
 }
 

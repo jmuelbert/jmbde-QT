@@ -1,17 +1,8 @@
 /*
-   jmbde a BDE Tool for companies
-   Copyright (C) 2013-2019  Jürgen Mülbert
-
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-*/
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 #include "views/cityinputarea.h"
 
@@ -19,32 +10,40 @@
 
 Q_LOGGING_CATEGORY(jmbdeWidgetsCityInputAreaLog, "jmuelbert.jmbde.widgets.cityinputarea", QtWarningMsg)
 
-CityInputArea::CityInputArea(QWidget *parent, const QModelIndex index)
+CityInputArea::CityInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::CityInputArea)
 {
     ui->setupUi(this);
 
-    qCDebug(jmbdeWidgetsCityInputAreaLog) << "Init CityInputArea for Index : " << index;
+    qCDebug(jmbdeWidgetsCityInputAreaLog) << "Initiaisiere CityInputArea mit Index : " << index.row();
+
+    this->m_cityNameModel = new Model::CityName();
+    this->m_db = this->m_cityNameModel->getDB();
 
     m_actualMode = Mode::Edit;
     setViewOnlyMode(true);
 
     // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(QLatin1String("city_name"));
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-
-    m_model->select();
+    m_model = this->m_cityNameModel->initializeRelationalModel();
 
     // Set the mapper
-    m_mapper = new QDataWidgetMapper(this);
+    m_mapper = new QDataWidgetMapper();
     m_mapper->setModel(m_model);
     m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
     setMappings();
 
-    m_mapper->setCurrentIndex(index.row());
+    qCDebug(jmbdeWidgetsCityInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+
+    if (index.row() < 0) {
+        m_mapper->toFirst();
+    } else {
+        m_mapper->setCurrentIndex(index.row());
+    }
+
+    QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &CityInputArea::addEdit);
+    QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &CityInputArea::editFinish);
 }
 
 CityInputArea::~CityInputArea()
@@ -54,18 +53,18 @@ CityInputArea::~CityInputArea()
 
 void CityInputArea::setMappings()
 {
-    m_mapper->addMapping(ui->lineEdit_CityName, m_model->fieldIndex(QLatin1String("name")));
+    m_mapper->addMapping(ui->cityNameLineEdit, this->m_cityNameModel->getNameIndex());
+    m_mapper->addMapping(ui->lastUpdateLineEdit, this->m_cityNameModel->getLastUpdateIndex());
 }
 
 void CityInputArea::setViewOnlyMode(bool mode)
 {
-    ui->comboBox_ZipCode->setDisabled(mode);
-    ui->lineEdit_CityName->setDisabled(mode);
+    ui->cityNameLineEdit->setDisabled(mode);
 }
 
 void CityInputArea::createDataset()
 {
-    qCDebug(jmbdeWidgetsCityInputAreaLog) << "Create a new Dataset for City...";
+    qCDebug(jmbdeWidgetsCityInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für City...");
 
     m_mapper->toLast();
 
@@ -78,62 +77,60 @@ void CityInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void CityInputArea::retrieveDataset(const QModelIndex index)
+void CityInputArea::deleteDataset(const QModelIndex &index)
 {
+    qCDebug(jmbdeWidgetsCityInputAreaLog) << tr("Lösche Daten von City");
+    m_mapper->setCurrentIndex(index.row());
 }
 
-void CityInputArea::updateDataset(const QModelIndex index)
+void CityInputArea::addEdit()
 {
-}
-
-void CityInputArea::deleteDataset(const QModelIndex index)
-{
-}
-
-void CityInputArea::on_pushButton_Add_clicked()
-{
+    qCDebug(jmbdeWidgetsCityInputAreaLog) << tr("Füge neue Daten zu City");
     createDataset();
-    on_pushButton_EditFinish_clicked();
+    editFinish();
 }
 
-void CityInputArea::on_pushButton_EditFinish_clicked()
+void CityInputArea::editFinish()
 {
+    qCDebug(jmbdeWidgetsCityInputAreaLog) << tr("Bearbeite oder schließe City Daten");
+
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
-        ui->pushButton_EditFinish->setText(tr("Finish"));
+        ui->editFinishPushButton->setText(tr("Fertig"));
         setViewOnlyMode(false);
 
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsCityInputAreaLog) << "Save Data...";
+        qCDebug(jmbdeWidgetsCityInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
-        ui->pushButton_EditFinish->setText(tr("Edit"));
+        ui->editFinishPushButton->setText(tr("Bearbeiten"));
         setViewOnlyMode(false);
 
-        QString name = ui->lineEdit_CityName->text();
+        QString name = ui->cityNameLineEdit->text();
 
         if (name.isEmpty()) {
-            QString message(tr("Please provide the name of the city."));
+            QString message(tr("Bitte geben sie einen Namen für die Stadt/den Ort an."));
 
-            QMessageBox::information(this, tr("Add City"), message);
+            QMessageBox::information(this, tr("Stadt/Ort hinzufügen"), message);
         } else {
             m_mapper->submit();
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(jmbdeWidgetsCityInputAreaLog) << "Commit changes for Computer Databse Table";
+                qCDebug(jmbdeWidgetsCityInputAreaLog) << tr("Schreiben der Änderungen für City in die Datenbank");
+                dataChanged();
             } else {
                 m_model->database().rollback();
-                QMessageBox::warning(this, tr("jmbde"), tr("The database reported an error: %1").arg(m_model->lastError().text()));
+                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
             }
         }
     } break;
 
     default: {
-        qCCritical(jmbdeWidgetsCityInputAreaLog) << "Error";
+        qCCritical(jmbdeWidgetsCityInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

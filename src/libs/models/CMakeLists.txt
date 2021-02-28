@@ -8,18 +8,18 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.12...3.18 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.12...3.19 FATAL_ERROR)
 
-if(${CMAKE_VERSION} VERSION_LESS 3.18)
+if(${CMAKE_VERSION} VERSION_LESS 3.19)
   cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 else()
-  cmake_policy(VERSION 3.18)
+  cmake_policy(VERSION 3.19)
 endif()
 
 # JMBDEMODELS project
 project(
   "jmbdemodels"
-  VERSION "0.5.0"
+  VERSION "0.6.0"
   DESCRIPTION "${PROJECT_NAME} Datacontext Library"
   HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
   LANGUAGES CXX
@@ -34,7 +34,6 @@ include(GenerateExportHeader)
 include(CMakePackageConfigHelpers)
 
 include(ECMSetupVersion)
-include(ECMQtDeclareLoggingCategory)
 
 # Version setup set project version
 ecm_setup_version(
@@ -45,18 +44,6 @@ ecm_setup_version(
   ${SO_VERSION}
   VERSION_HEADER
   ${CMAKE_CURRENT_BINARY_DIR}/jmbdemodels-version.h
-)
-
-ecm_qt_declare_logging_category(
-  ${PROJECT_NAME}
-  HEADER
-  loggingcategory.h
-  IDENTIFIER
-  jmbdemodelsLog
-  CATEGORY_NAME
-  jmuelbert.jmbde.${PROJECT_NAME}
-  DEFAULT_SEVERITY
-  Warning
 )
 
 #
@@ -82,82 +69,82 @@ target_include_directories(
 
 target_sources(
   jmbdemodels
-  PRIVATE
-    # INCLUDES
-    jmbdemodels-version.h
-    loggingcategory.h
-    include/models/account.h
-    include/models/chipcard.h
-    include/models/chipcarddoor.h
-    include/models/chipcardprofile.h
-    include/models/chipcardprofiledoor.h
-    include/models/cityname.h
-    include/models/commondata.h
-    include/models/company.h
-    include/models/computer.h
-    include/models/computersoftware.h
-    include/models/datacontext.h
-    include/models/department.h
-    include/models/devicename.h
-    include/models/devicetype.h
-    include/models/document.h
-    include/models/employeeaccount.h
-    include/models/employee.h
-    include/models/employeedocument.h
-    include/models/fax.h
-    include/models/function.h
-    include/models/inventory.h
-    include/models/manufacturer.h
-    include/models/mobile.h
-    include/models/os.h
-    include/models/phone.h
-    include/models/place.h
-    include/models/printer.h
-    include/models/processor.h
-    include/models/software.h
-    include/models/system.h
-    include/models/title.h
-    include/models/zipcity.h
-    include/models/zipcode.h
-    # CPP's
-    loggingcategory.cpp
-    src/models/account.cpp
-    src/models/chipcard.cpp
-    src/models/chipcarddoor.cpp
-    src/models/chipcardprofile.cpp
-    src/models/chipcardprofiledoor.cpp
-    src/models/cityname.cpp
-    src/models/commondata.cpp
-    src/models/company.cpp
-    src/models/computer.cpp
-    src/models/computersoftware.cpp
-    src/models/datacontext.cpp
-    src/models/department.cpp
-    src/models/devicename.cpp
-    src/models/devicetype.cpp
-    src/models/document.cpp
-    src/models/employee.cpp
-    src/models/employeeaccount.cpp
-    src/models/employeedocument.cpp
-    src/models/fax.cpp
-    src/models/function.cpp
-    src/models/inventory.cpp
-    src/models/manufacturer.cpp
-    src/models/mobile.cpp
-    src/models/os.cpp
-    src/models/phone.cpp
-    src/models/place.cpp
-    src/models/printer.cpp
-    src/models/processor.cpp
-    src/models/software.cpp
-    src/models/system.cpp
-    src/models/title.cpp
-    src/models/zipcity.cpp
-    src/models/zipcode.cpp
-    resources/res.qrc
-)
+  PRIVATE # INCLUDES
+          jmbdemodels-version.h
+          include/models/account.h
+          include/models/chipcard.h
+          include/models/chipcarddoor.h
+          include/models/chipcardprofile.h
+          include/models/chipcardprofiledoor.h
+          include/models/cityname.h
+          include/models/commondata.h
+          include/models/company.h
+          include/models/computer.h
+          include/models/computersoftware.h
+          include/models/datacontext.h
+          include/models/department.h
+          include/models/devicename.h
+          include/models/devicetype.h
+          include/models/document.h
+          include/models/employeeaccount.h
+          include/models/employee.h
+          include/models/employeedocument.h
+          include/models/fax.h
+          include/models/function.h
+          include/models/inventory.h
+          include/models/manufacturer.h
+          include/models/mobile.h
+          include/models/os.h
+          include/models/phone.h
+          include/models/place.h
+          include/models/printer.h
+          include/models/processor.h
+          include/models/software.h
+          include/models/systemdata.h
+          include/models/title.h
+          include/models/zipcity.h
+          include/models/zipcode.h
+          # CPP's
+          src/models/account.cpp
+          src/models/chipcard.cpp
+          src/models/chipcarddoor.cpp
+          src/models/chipcardprofile.cpp
+          src/models/chipcardprofiledoor.cpp
+          src/models/cityname.cpp
+          src/models/commondata.cpp
+          src/models/company.cpp
+          src/models/computer.cpp
+          src/models/computersoftware.cpp
+          src/models/datacontext.cpp
+          src/models/department.cpp
+          src/models/devicename.cpp
+          src/models/devicetype.cpp
+          src/models/document.cpp
+          src/models/employee.cpp
+          src/models/employeeaccount.cpp
+          src/models/employeedocument.cpp
+          src/models/fax.cpp
+          src/models/function.cpp
+          src/models/inventory.cpp
+          src/models/manufacturer.cpp
+          src/models/mobile.cpp
+          src/models/os.cpp
+          src/models/phone.cpp
+          src/models/place.cpp
+          src/models/printer.cpp
+          src/models/processor.cpp
+          src/models/software.cpp
+          src/models/systemdata.cpp
+          src/models/title.cpp
+          src/models/zipcity.cpp
+          src/models/zipcode.cpp
+          resources/res.qrc)
 
-set_target_properties(jmbdemodels PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${SO_VERSION} EXPORT_NAME "jmbdemodels")
+set_target_properties(
+  jmbdemodels
+  PROPERTIES VERSION ${PROJECT_VERSION}
+             SOVERSION ${SO_VERSION}
+             EXPORT_NAME "jmbdemodels")
 
 if(APPLE)
   set_target_properties(jmbdemodels PROPERTIES INSTALL_RPATH "@loader_path/../Frameworks")

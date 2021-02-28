@@ -1,76 +1,51 @@
-/**************************************************************************
-**
-** Copyright (c) 2013-2019 Jürgen Mülbert. All rights reserved.
-**
-** This file is part of jmbde
-**
-** Licensed under the EUPL, Version 1.2 or – as soon they
-** will be approved by the European Commission - subsequent
-** versions of the EUPL (the "Licence");
-** You may not use this work except in compliance with the
-** Licence.
-** You may obtain a copy of the Licence at:
-**
-** https://joinup.ec.europa.eu/page/eupl-text-11-12
-**
-** Unless required by applicable law or agreed to in
-** writing, software distributed under the Licence is
-** distributed on an "AS IS" basis,
-** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-** express or implied.
-** See the Licence for the specific language governing
-** permissions and limitations under the Licence.
-**
-** Lizenziert unter der EUPL, Version 1.2 oder - sobald
-**  diese von der Europäischen Kommission genehmigt wurden -
-** Folgeversionen der EUPL ("Lizenz");
-** Sie dürfen dieses Werk ausschließlich gemäß
-** dieser Lizenz nutzen.
-** Eine Kopie der Lizenz finden Sie hier:
-**
-** https://joinup.ec.europa.eu/page/eupl-text-11-12
-**
-** Sofern nicht durch anwendbare Rechtsvorschriften
-** gefordert oder in schriftlicher Form vereinbart, wird
-** die unter der Lizenz verbreitete Software "so wie sie
-** ist", OHNE JEGLICHE GEWÄHRLEISTUNG ODER BEDINGUNGEN -
-** ausdrücklich oder stillschweigend - verbreitet.
-** Die sprachspezifischen Genehmigungen und Beschränkungen
-** unter der Lizenz sind dem Lizenztext zu entnehmen.
-**
-**************************************************************************/
+/*
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 #include "views/osinputarea.h"
 
+#include "models/os.h"
 #include "ui_osinputarea.h"
 
-OSInputArea::OSInputArea(QWidget *parent, const QModelIndex index)
+Q_LOGGING_CATEGORY(jmbdeWidgetsOsInputAreaLog, "jmuelbert.jmbde.widgets.osinputarea", QtWarningMsg);
+
+OSInputArea::OSInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::OSInputArea)
 {
     ui->setupUi(this);
 
     // Init UI
-    qDebug() << "Init EmployeeInputarea for Index : " << index.row();
+    qCDebug(jmbdeWidgetsOsInputAreaLog) << tr("Initialisiere OSInputarea mit Index : ") << index.row();
+
+    this->m_osModel = new Model::OS();
+    this->m_db = this->m_osModel->getDB();
 
     m_actualMode = Mode::Edit;
     setViewOnlyMode(true);
 
     // Set the Model
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable(QLatin1String("os"));
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-
-    m_model->select();
+    m_model = this->m_osModel->initializeRelationalModel();
 
     // Set the mapper
-    m_mapper = new QDataWidgetMapper(this);
+    m_mapper = new QDataWidgetMapper();
     m_mapper->setModel(m_model);
     m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
     setMappings();
 
-    m_mapper->setCurrentIndex(index.row());
+    qCDebug(jmbdeWidgetsOsInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+
+    if (index.row() < 0) {
+        m_mapper->toFirst();
+    } else {
+        m_mapper->setCurrentIndex(index.row());
+    }
+
+    QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &OSInputArea::addEdit);
+    QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &OSInputArea::editFinish);
 }
 
 OSInputArea::~OSInputArea()
@@ -80,22 +55,24 @@ OSInputArea::~OSInputArea()
 
 void OSInputArea::setMappings()
 {
-    m_mapper->addMapping(ui->lineEdit_Fix, m_model->fieldIndex(QLatin1String("fix")));
-    m_mapper->addMapping(ui->lineEdit_Name, m_model->fieldIndex(QLatin1String("name")));
-    m_mapper->addMapping(ui->lineEdit_Revision, m_model->fieldIndex(QLatin1String("revision")));
+    m_mapper->addMapping(ui->nameLineEdit, this->m_osModel->getNameIndex());
+    m_mapper->addMapping(ui->versionLineEdit, this->m_osModel->getVersionIndex());
+    m_mapper->addMapping(ui->revisionLineEdit, this->m_osModel->getRevisionIndex());
+    m_mapper->addMapping(ui->fixLineEdit, this->m_osModel->getFixIndex());
+    m_mapper->addMapping(ui->lastUpdateLineEdit, this->m_osModel->getLastUpdateIndex());
 }
 
 void OSInputArea::setViewOnlyMode(bool mode)
 {
-    ui->lineEdit_Fix->setDisabled(mode);
-    ui->lineEdit_Name->setDisabled(mode);
-    ui->lineEdit_Revision->setDisabled(mode);
-    ui->lineEdit_Version->setDisabled(mode);
+    ui->nameLineEdit->setDisabled(mode);
+    ui->versionLineEdit->setDisabled(mode);
+    ui->revisionLineEdit->setDisabled(mode);
+    ui->fixLineEdit->setDisabled(mode);
 }
 
 void OSInputArea::createDataset()
 {
-    qDebug() << "Create a new Dataset for Operation System...";
+    qCDebug(jmbdeWidgetsOsInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für OS...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -109,62 +86,60 @@ void OSInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void OSInputArea::retrieveDataset(const QModelIndex index)
+void OSInputArea::deleteDataset(const QModelIndex &index)
 {
+    qCDebug(jmbdeWidgetsOsInputAreaLog) << tr("Lösche Daten von OS");
+    m_mapper->setCurrentIndex(index.row());
 }
 
-void OSInputArea::updateDataset(const QModelIndex index)
+void OSInputArea::addEdit()
 {
-}
-
-void OSInputArea::deleteDataset(const QModelIndex index)
-{
-}
-
-void OSInputArea::on_pushButton_Add_clicked()
-{
+    qCDebug(jmbdeWidgetsOsInputAreaLog) << tr("Füge neue Daten zu OS");
     createDataset();
-    on_pushButton_EditFinish_clicked();
+    editFinish();
 }
 
-void OSInputArea::on_pushButton_EditFinish_clicked()
+void OSInputArea::editFinish()
 {
+    qCDebug(jmbdeWidgetsOsInputAreaLog) << tr("Bearbeite oder schließe OS Daten");
+
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
-        ui->pushButton_EditFinish->setText(tr("Finish"));
+        ui->editFinishPushButton->setText(tr("Fertig"));
         setViewOnlyMode(false);
 
     } break;
 
     case Mode::Finish: {
-        qDebug() << "Save Data...";
+        qCDebug(jmbdeWidgetsOsInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
-        ui->pushButton_EditFinish->setText(tr("Edit"));
+        ui->editFinishPushButton->setText(tr("Bearbeiten"));
         setViewOnlyMode(false);
 
-        QString name = ui->lineEdit_Name->text();
+        QString name = ui->nameLineEdit->text();
 
         if (name.isEmpty()) {
-            QString message(tr("Please provide the name of the os."));
+            QString message(tr("Bitte geben Sie den Namen des Betriebssystems an."));
 
-            QMessageBox::information(this, tr("Add Operation System"), message);
+            QMessageBox::information(this, tr("Betriebssystem hinzufügen"), message);
         } else {
             m_mapper->submit();
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qDebug() << "Commit changes for Operation System Databse Table";
+                qCDebug(jmbdeWidgetsOsInputAreaLog) << tr("Schreiben der Änderungen für OS in die Datenbank");
+                dataChanged();
             } else {
                 m_model->database().rollback();
-                QMessageBox::warning(this, tr("jmbde"), tr("The database reported an error: %1").arg(m_model->lastError().text()));
+                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet einen Fehler: %1").arg(m_model->lastError().text()));
             }
         }
     } break;
 
     default: {
-        qDebug() << "Error";
+        qCCritical(jmbdeWidgetsOsInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

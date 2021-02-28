@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>ProcessorInputArea</class>
  <widget class="QGroupBox" name="ProcessorInputArea">
@@ -11,13 +11,13 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Processor</string>
+   <string>Prozessor</string>
   </property>
   <property name="accessibleName">
    <string>ProcessorInputDialog</string>
   </property>
   <property name="title">
-   <string>Processor</string>
+   <string>Prozessor</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
@@ -35,7 +35,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Processor</string>
+           <string>Prozessor</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -62,51 +62,64 @@
       </item>
       <item>
        <layout class="QGridLayout" name="gridLayout">
-        <item row="2" column="2">
-         <widget class="QDoubleSpinBox" name="doubleSpinBox_ClockRate" />
-        </item>
-        <item row="1" column="2">
-         <widget class="QLineEdit" name="lineEdit_Name" />
+        <item row="2" column="0">
+         <widget class="QLabel" name="clockRateLabel">
+          <property name="text">
+           <string>Taktrate</string>
+          </property>
+          <property name="buddy">
+           <cstring>clockRateDoubleSpinBox</cstring>
+          </property>
+         </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QLabel" name="label_Name">
+         <widget class="QLabel" name="nameLabel">
           <property name="text">
            <string>Name</string>
           </property>
           <property name="buddy">
-           <cstring>lineEdit_Name</cstring>
+           <cstring>nameLineEdit</cstring>
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_ClockRate">
-          <property name="text">
-           <string>Clock Rate</string>
-          </property>
-          <property name="buddy">
-           <cstring>doubleSpinBox_ClockRate</cstring>
-          </property>
-         </widget>
+        <item row="3" column="2">
+         <widget class="QSpinBox" name="coresSpinBox"/>
         </item>
         <item row="2" column="3">
-         <widget class="QLabel" name="label_Frequeny">
+         <widget class="QLabel" name="clockRateLabel_2">
           <property name="text">
            <string>Ghz</string>
           </property>
          </widget>
         </item>
         <item row="3" column="0">
-         <widget class="QLabel" name="label_Cores">
+         <widget class="QLabel" name="coresLabel">
           <property name="text">
-           <string>Cores</string>
+           <string>Kerne</string>
           </property>
           <property name="buddy">
-           <cstring>spinBox_Cores</cstring>
+           <cstring>coresSpinBox</cstring>
           </property>
          </widget>
         </item>
-        <item row="3" column="2">
-         <widget class="QSpinBox" name="spinBox_Cores" />
+        <item row="1" column="2">
+         <widget class="QLineEdit" name="nameLineEdit"/>
+        </item>
+        <item row="2" column="2">
+         <widget class="QDoubleSpinBox" name="clockRateDoubleSpinBox"/>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="lastUpdateLabel">
+          <property name="text">
+           <string>Letzte Änderung</string>
+          </property>
+          <property name="buddy">
+           <cstring>lastUpdateLineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="2">
+         <widget class="QLineEdit" name="lastUpdateLineEdit"/>
         </item>
        </layout>
       </item>
@@ -126,7 +139,7 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QPushButton" name="pushButton_Add">
+         <widget class="QPushButton" name="addPushButton">
           <property name="text">
            <string>+</string>
           </property>
@@ -146,9 +159,9 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_EditFinish">
+         <widget class="QPushButton" name="editFinishPushButton">
           <property name="text">
-           <string>Edit</string>
+           <string>Bearbeiten</string>
           </property>
          </widget>
         </item>
@@ -160,12 +173,13 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>lineEdit_Name</tabstop>
-  <tabstop>doubleSpinBox_ClockRate</tabstop>
-  <tabstop>spinBox_Cores</tabstop>
-  <tabstop>pushButton_Add</tabstop>
-  <tabstop>pushButton_EditFinish</tabstop>
+  <tabstop>nameLineEdit</tabstop>
+  <tabstop>clockRateDoubleSpinBox</tabstop>
+  <tabstop>coresSpinBox</tabstop>
+  <tabstop>lastUpdateLineEdit</tabstop>
+  <tabstop>addPushButton</tabstop>
+  <tabstop>editFinishPushButton</tabstop>
  </tabstops>
- <resources />
- <connections />
+ <resources/>
+ <connections/>
 </ui>

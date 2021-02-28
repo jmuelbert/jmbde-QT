@@ -1,17 +1,8 @@
 /*
-   jmbde a BDE Tool for companies
-   Copyright (C) 2013-2019  Jürgen Mülbert
-
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-*/
+ *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 #pragma once
 
@@ -28,7 +19,7 @@
 #include "models/account.h"
 #include "models/datacontext.h"
 
-Q_DECLARE_LOGGING_CATEGORY(jmbdeWidgetsAccoutInputAreaLog)
+Q_DECLARE_LOGGING_CATEGORY(jmbdeWidgetsAccountInputAreaLog)
 
 namespace Ui
 {
@@ -36,7 +27,7 @@ class AccountInputArea;
 }
 
 /**
- * @brief The EmployeeInputDialog class
+ * @brief The AccountInputArea class
  */
 class JMBDEWIDGETS_EXPORT AccountInputArea : public QGroupBox
 
@@ -53,7 +44,7 @@ public:
         @todo Init the model from here
         @todo Get the tableName from the model
      */
-    explicit AccountInputArea(QWidget *parent = nullptr, const QModelIndex index = QModelIndex());
+    explicit AccountInputArea(QWidget *parent = nullptr, const QModelIndex &index = QModelIndex());
 
     /**
      * @brief ~AccountInputArea
@@ -70,14 +61,14 @@ public slots:
 
 private slots:
     /**
-     * @brief on_pushButton_EditFinish_clicked
+     * @brief editFinish
      */
-    void on_pushButton_EditFinish_clicked();
+    void editFinish();
 
     /**
-     * @brief on_pushButton_Add_clicked
+     * @brief addEdit
      */
-    void on_pushButton_Add_clicked();
+    void addEdit();
 
 private:
     /*!
@@ -98,7 +89,7 @@ private:
     /*!
      * @brief m_dataContext
      */
-    Model::Account *accountModel = {};
+    Model::Account *m_accountModel = {};
 
     /*!
      * @brief m_model
@@ -108,7 +99,7 @@ private:
     /*!
      * @brief m_selectionModel
      */
-    QItemSelectionModel *m_selectionModel {};
+    QItemSelectionModel *m_selectionModel{};
 
     /*!
      * @brief m_mapper
@@ -136,20 +127,8 @@ private:
     void createDataset();
 
     /**
-     * @brief retrieveDataset
-     * @param index Get the data for the ModelIndex
-     */
-    void retrieveDataset(const QModelIndex index);
-
-    /**
-     * @brief updateDataset
-     * @param index Update the Data for the ModelIndex
-     */
-    void updateDataset(const QModelIndex index);
-
-    /**
      * @brief deleteDataset
      * @param index Delete the data for the ModelIndex
      */
-    void deleteDataset(const QModelIndex index);
+    void deleteDataset(const QModelIndex &index);
 };
