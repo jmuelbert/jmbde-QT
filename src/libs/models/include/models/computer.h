@@ -142,6 +142,18 @@ public:
     }
 
     /*!
+        \fn int getDeviceNameIdIndex()
+
+        \brief Get the index of the fieldname  DeviceNameId form the database
+
+        Returns the value of the index
+     */
+    JMBDEMODELS_EXPORT int getDeviceNameIdIndex() const
+    {
+        return m_DeviceNameIdIndex;
+    }
+
+    /*!
         \fn  int getSerialNumberIndex()
 
         \brief Get the index of the fieldname SerialNumber form the database
@@ -448,8 +460,8 @@ private:
     int m_MemoryIndex {0};
 
     /*!
-        \var   nt m_NetworkNameIndex
-        \brief The value of the NetworkNameIndex
+        \var   nt m_NetworkIndex
+        \brief The value of the NetworkIndex
      */
     int m_NetworkIndex {0};
 
@@ -464,8 +476,6 @@ private:
         \brief The value of the NetworkIPAddressIndex
      */
     int m_NetworkIPAddressIndex {0};
-
-    int m_NetworkNameIndex {0};
 
     int m_NetworkIpAddressIndex {0};
 
