@@ -33,6 +33,7 @@ jobs:
             matrix:
                 qt_ver: [5.15.2]
                 qt_target: [desktop]
+                platform: [windows-latest]
                 config:
                     - {
                           arch: x86,
@@ -52,7 +53,7 @@ jobs:
                       }
                 type: [portable, installer]
             fail-fast: false
-        runs-on: ${{ matrix.os }}
+        runs-on: ${{ matrix.platform }}
 
         steps:
             - name: Checkout Source code
