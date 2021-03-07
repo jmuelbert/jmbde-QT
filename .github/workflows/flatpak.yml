@@ -35,7 +35,7 @@ jobs:
                 arch: [x64]
             fail-fast: false
 
-        runs-on: ${{ matrix.platform }}x
+        runs-on: ${{ matrix.platform }}
 
         steps:
             - name: Checkout Source code
