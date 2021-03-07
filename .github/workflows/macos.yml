@@ -16,6 +16,8 @@ on:
 
 env:
     PRODUCT: jmbde
+    targetName: jmbde
+
 jobs:
     build:
         name: Build

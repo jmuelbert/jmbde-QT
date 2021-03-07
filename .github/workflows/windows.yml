@@ -31,8 +31,6 @@ jobs:
 
         strategy:
             matrix:
-                fail-fast: false
-                matrix:
                 qt_ver: [5.15.2]
                 qt_target: [desktop]
                 config:
@@ -53,7 +51,7 @@ jobs:
                           pak_arch: win64,
                       }
                 type: [portable, installer]
-
+            fail-fast: false
         runs-on: ${{ matrix.platform }}
 
         steps:
