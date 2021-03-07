@@ -11,6 +11,7 @@ on:
 
 env:
     QT_VERSION: 6.0.0
+    targetName: jmbde
 
 jobs:
     build:

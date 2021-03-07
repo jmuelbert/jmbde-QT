@@ -124,6 +124,7 @@ jobs:
               run: cmake --build . --config $BUILD_TYPE -j2 --target install
 
             - name: ZIP package
+              working-directory: ${{runner.workspace}}/build
               env:
                   archiveName:
                       jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-${{
@@ -131,7 +132,7 @@ jobs:
               shell: pwsh
               run: |
                   New-Item -ItemType Directory ${env:archiveName}
-                  Copy-Item -Path build\app\* -Destination ${env:archiveName}\ -Recurse -Force
+                  Copy-Item -Path app\* -Destination ${env:archiveName}\ -Recurse -Force
                   windeployqt --qmldir . ${env:archiveName}\bin\${env:targetName} ${env:archiveName}\bin\jmbdemodels.dll ${env:archiveName}\bin\jmbdequick.dll ${env:archiveName}\bin\jmbdewidgets.dll
                   Compress-Archive -Path ${env:archiveName}/bin ${env:archiveName}'.zip'
                   $name = ${env:archiveName}
@@ -140,6 +141,7 @@ jobs:
                   Write-Host 'packageName:' ${env:packageName}
 
             - name: Inno package
+              working-directory: ${{runner.workspace}}/build
               env:
                   archiveName:
                       jmbde.${{
@@ -150,6 +152,7 @@ jobs:
                   cp jmbde-setup.exe jmbde-${{ steps.get_version.outputs.VERSION}}-windows-${{matrix.arch}}-Qt${{matrix.qt_version}}-${{ matrix.build_type }}.exe
 
             - name: MSI package
+              working-directory: ${{runner.workspace}}/build
               env:
                   archiveName:
                       jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-${{

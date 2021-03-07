@@ -99,12 +99,10 @@ jobs:
               run: cmake --build . --config $BUILD_TYPE -j2 --target install
 
             - name: package
-
+              working-directory: ${{runner.workspace}}/build
               env:
                   Qt5_DIR: ../Qt/${{matrix.qt_version}}/${{matrix.qt_arch}}
               run: |
-                  #mv ${env.targetName} ${env.targetName}.app
-                  cd build
                   export PATH=$Qt5_DIR/bin:$PATH
                   macdeployqt ./app/${targetName}.app -qmldir=. -appstore-compliant -libpath=./app/jmbde.app/Contents/Frameworks -verbose=1 -dmg
                   cp ./app/${targetName}.dmg ${targetName}-Qt${{matrix.qt_version}}.dmg

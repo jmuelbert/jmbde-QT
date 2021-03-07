@@ -40,7 +40,7 @@ Betriebssystemen funktioniert.
 | --------- | --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
 | Appimage  | ![CD: AppImage Qt6](https://github.com/jmuelbert/jmbde-QT/workflows/CD:%20AppImage%20Qt6/badge.svg) | ![CD: AppImage](https://github.com/jmuelbert/jmbde-QT/workflows/CD:%20AppImage/badge.svg) |
 | MacOS     | ![CD: MacOS Qt6](https://github.com/jmuelbert/jmbde-QT/workflows/CD:%20MacOS%20Qt6/badge.svg)       | ![CD: MacOS](https://github.com/jmuelbert/jmbde-QT/workflows/CD:%20MacOS/badge.svg)       |
-| Windows   | ![CD: MacOS](https://github.com/jmuelbert/jmbde-QT/workflows/CD:%20MacOS/badge.svg)                 | ![CD: Windows](https://github.com/jmuelbert/jmbde-QT/workflows/CD:%20Windows/badge.svg)   |
+| Windows   | ![CD: Windows Qt6](https://github.com/jmuelbert/jmbde-QT/workflows/CD:%20MacOS/badge.svg)           | ![CD: Windows](https://github.com/jmuelbert/jmbde-QT/workflows/CD:%20Windows/badge.svg)   |
 
 ## Setup
 
