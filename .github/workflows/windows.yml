@@ -52,7 +52,7 @@ jobs:
                       }
                 type: [portable, installer]
             fail-fast: false
-        runs-on: ${{ matrix.platform }}
+        runs-on: ${{ matrix.os }}
 
         steps:
             - name: Checkout Source code
