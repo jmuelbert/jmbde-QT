@@ -38,20 +38,26 @@ function(enable_sanitizers project_name)
     if(ENABLE_SANITIZER_MEMORY AND CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
       if("address" IN_LIST SANITIZERS
          OR "thread" IN_LIST SANITIZERS
-         OR "leak" IN_LIST SANITIZERS
-      )
+         OR "leak" IN_LIST SANITIZERS)
         message(WARNING "Memory sanitizer does not work with Address, Thread and Leak sanitizer enabled")
       else()
         list(APPEND SANITIZERS "memory")
       endif()
     endif()
 
-    list(JOIN SANITIZERS "," LIST_OF_SANITIZERS)
+    list(
+      JOIN
+      SANITIZERS
+      ","
+      LIST_OF_SANITIZERS)
 
   endif()
 
   if(LIST_OF_SANITIZERS)
-    if(NOT "${LIST_OF_SANITIZERS}" STREQUAL "")
+    if(NOT
+       "${LIST_OF_SANITIZERS}"
+       STREQUAL
+       "")
       target_compile_options(${project_name} INTERFACE -fsanitize=${LIST_OF_SANITIZERS})
       target_link_libraries(${project_name} INTERFACE -fsanitize=${LIST_OF_SANITIZERS})
     endif()

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <ui version="4.0">
  <class>DepartmentInputArea</class>
  <widget class="QGroupBox" name="DepartmentInputArea">
@@ -73,7 +73,7 @@
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QLineEdit" name="nameLineEdit"/>
+         <widget class="QLineEdit" name="nameLineEdit" />
         </item>
         <item row="1" column="0">
          <widget class="QLabel" name="priorityLabel">
@@ -148,7 +148,7 @@
         <item row="1" column="1">
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
-           <widget class="QSpinBox" name="prioritySpinBox"/>
+           <widget class="QSpinBox" name="prioritySpinBox" />
           </item>
           <item>
            <widget class="QSlider" name="priorityHorizontalSlider">
@@ -238,6 +238,6 @@
   <tabstop>addPushButton</tabstop>
   <tabstop>editFinishPushButton</tabstop>
  </tabstops>
- <resources/>
- <connections/>
+ <resources />
+ <connections />
 </ui>

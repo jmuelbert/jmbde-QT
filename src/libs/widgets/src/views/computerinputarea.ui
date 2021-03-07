@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <ui version="4.0">
  <class>ComputerInputArea</class>
  <widget class="QGroupBox" name="ComputerInputArea">
@@ -156,7 +156,7 @@
          </widget>
         </item>
         <item row="1" column="4">
-         <widget class="QLineEdit" name="serviceTagLineEdit"/>
+         <widget class="QLineEdit" name="serviceTagLineEdit" />
         </item>
         <item row="9" column="2">
          <widget class="QComboBox" name="manufacturerComboBox">
@@ -213,10 +213,10 @@
          </widget>
         </item>
         <item row="1" column="2">
-         <widget class="QLineEdit" name="serviceNumberLineEdit"/>
+         <widget class="QLineEdit" name="serviceNumberLineEdit" />
         </item>
         <item row="2" column="2">
-         <widget class="QLineEdit" name="networkLineEdit"/>
+         <widget class="QLineEdit" name="networkLineEdit" />
         </item>
         <item row="1" column="0">
          <widget class="QLabel" name="serviceNumberLabel">
@@ -293,7 +293,7 @@
          </widget>
         </item>
         <item row="0" column="4">
-         <widget class="QLineEdit" name="serialNumberLineEdit"/>
+         <widget class="QLineEdit" name="serialNumberLineEdit" />
         </item>
         <item row="7" column="0">
          <widget class="QLabel" name="departmentLabel">
@@ -309,7 +309,7 @@
          </widget>
         </item>
         <item row="3" column="4">
-         <widget class="QSpinBox" name="memorySpinBox"/>
+         <widget class="QSpinBox" name="memorySpinBox" />
         </item>
         <item row="3" column="3">
          <widget class="QLabel" name="memoryLabel">
@@ -332,7 +332,7 @@
          </widget>
         </item>
         <item row="0" column="2">
-         <widget class="QLineEdit" name="netWorkNameLineEdit"/>
+         <widget class="QLineEdit" name="netWorkNameLineEdit" />
         </item>
         <item row="2" column="3">
          <widget class="QLabel" name="ipAddressLabel">
@@ -345,7 +345,7 @@
          </widget>
         </item>
         <item row="2" column="4">
-         <widget class="QLineEdit" name="ipAddressLineEdit"/>
+         <widget class="QLineEdit" name="ipAddressLineEdit" />
         </item>
         <item row="3" column="0">
          <widget class="QLabel" name="operationSystemLabel">
@@ -483,8 +483,8 @@
   <tabstop>addPushButton</tabstop>
   <tabstop>editFinishPushButton</tabstop>
  </tabstops>
- <resources/>
- <connections/>
+ <resources />
+ <connections />
  <slots>
   <slot>slot1()</slot>
   <slot>onDestroyed()</slot>

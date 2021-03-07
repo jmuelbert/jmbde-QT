@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <ui version="4.0">
  <class>PrinterInputArea</class>
  <widget class="QGroupBox" name="PrinterInputArea">
@@ -172,7 +172,7 @@
          </widget>
         </item>
         <item row="0" column="4">
-         <widget class="QLineEdit" name="serialNumberLineEdit"/>
+         <widget class="QLineEdit" name="serialNumberLineEdit" />
         </item>
         <item row="6" column="0">
          <widget class="QLabel" name="departmentLabel">
@@ -195,7 +195,7 @@
          </widget>
         </item>
         <item row="1" column="2">
-         <widget class="QLineEdit" name="networkLineEdit"/>
+         <widget class="QLineEdit" name="networkLineEdit" />
         </item>
         <item row="7" column="0">
          <widget class="QLabel" name="deviceNameLabel">
@@ -313,7 +313,7 @@
          </widget>
         </item>
         <item row="0" column="2">
-         <widget class="QLineEdit" name="networkNameLineEdit"/>
+         <widget class="QLineEdit" name="networkNameLineEdit" />
         </item>
         <item row="1" column="3">
          <widget class="QLabel" name="ipAddressLabel">
@@ -326,7 +326,7 @@
          </widget>
         </item>
         <item row="1" column="4">
-         <widget class="QLineEdit" name="ipAddressLineEdit"/>
+         <widget class="QLineEdit" name="ipAddressLineEdit" />
         </item>
        </layout>
       </item>
@@ -400,8 +400,8 @@
   <tabstop>lastUpdateLineEdit</tabstop>
   <tabstop>editFinishPushButton</tabstop>
  </tabstops>
- <resources/>
- <connections/>
+ <resources />
+ <connections />
  <slots>
   <slot>slot1()</slot>
   <slot>onDestroyed()</slot>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <ui version="4.0">
  <class>SystemDataInputArea</class>
  <widget class="QGroupBox" name="SystemDataInputArea">
@@ -73,7 +73,7 @@
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QLineEdit" name="nameLineEdit"/>
+         <widget class="QLineEdit" name="nameLineEdit" />
         </item>
         <item row="1" column="1">
          <widget class="QCheckBox" name="localCheckBox">
@@ -181,6 +181,6 @@
   <tabstop>addPushButton</tabstop>
   <tabstop>editFinishPushButton</tabstop>
  </tabstops>
- <resources/>
- <connections/>
+ <resources />
+ <connections />
 </ui>

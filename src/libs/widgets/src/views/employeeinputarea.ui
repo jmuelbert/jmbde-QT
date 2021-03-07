@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <ui version="4.0">
  <class>EmployeeInputArea</class>
  <widget class="QGroupBox" name="EmployeeInputArea">
@@ -133,7 +133,7 @@
          </widget>
         </item>
         <item row="5" column="3">
-         <widget class="QLineEdit" name="homeMobileLineEdit"/>
+         <widget class="QLineEdit" name="homeMobileLineEdit" />
         </item>
         <item row="8" column="4">
          <widget class="QLabel" name="faxLabel">
@@ -159,7 +159,7 @@
          </widget>
         </item>
         <item row="5" column="5">
-         <widget class="QLineEdit" name="homePhoneLineEdit"/>
+         <widget class="QLineEdit" name="homePhoneLineEdit" />
         </item>
         <item row="9" column="5">
          <widget class="QComboBox" name="chipCardComboBox">
@@ -179,7 +179,7 @@
          </widget>
         </item>
         <item row="7" column="3">
-         <widget class="QDateEdit" name="hireDateDateEdit"/>
+         <widget class="QDateEdit" name="hireDateDateEdit" />
         </item>
         <item row="7" column="0">
          <widget class="QLabel" name="businessMailLabel">
@@ -250,10 +250,10 @@
          </widget>
         </item>
         <item row="5" column="1">
-         <widget class="QLineEdit" name="homeMailLineEdit"/>
+         <widget class="QLineEdit" name="homeMailLineEdit" />
         </item>
         <item row="7" column="1">
-         <widget class="QLineEdit" name="businessMailLineEdit"/>
+         <widget class="QLineEdit" name="businessMailLineEdit" />
         </item>
         <item row="3" column="0">
          <widget class="QLabel" name="zipCityIdLabel">
@@ -319,7 +319,7 @@
          </widget>
         </item>
         <item row="7" column="5">
-         <widget class="QDateEdit" name="endDateDateEdit"/>
+         <widget class="QDateEdit" name="endDateDateEdit" />
         </item>
         <item row="8" column="2">
          <widget class="QLabel" name="mobileLabel">
@@ -342,7 +342,7 @@
          </widget>
         </item>
         <item row="12" column="1" colspan="2">
-         <widget class="QTextEdit" name="notesTextEdit"/>
+         <widget class="QTextEdit" name="notesTextEdit" />
         </item>
         <item row="10" column="2">
          <widget class="QLabel" name="functionLabel">
@@ -511,13 +511,13 @@
          </widget>
         </item>
         <item row="1" column="1" colspan="2">
-         <widget class="QLineEdit" name="firstNameLineEdit"/>
+         <widget class="QLineEdit" name="firstNameLineEdit" />
         </item>
         <item row="1" column="4" colspan="2">
-         <widget class="QLineEdit" name="lastNameLineEdit"/>
+         <widget class="QLineEdit" name="lastNameLineEdit" />
         </item>
         <item row="4" column="5">
-         <widget class="QDateEdit" name="birthdayDateEdit"/>
+         <widget class="QDateEdit" name="birthdayDateEdit" />
         </item>
         <item row="4" column="4">
          <widget class="QLabel" name="birthdayLabel">
@@ -540,7 +540,7 @@
          </widget>
         </item>
         <item row="4" column="1" colspan="3">
-         <widget class="QLineEdit" name="addressLineEdit"/>
+         <widget class="QLineEdit" name="addressLineEdit" />
         </item>
         <item row="3" column="3" colspan="3">
          <widget class="QLineEdit" name="cityLineEdit">
@@ -641,6 +641,6 @@
   <tabstop>addPushButton</tabstop>
   <tabstop>editFinishPushButton</tabstop>
  </tabstops>
- <resources/>
- <connections/>
+ <resources />
+ <connections />
 </ui>

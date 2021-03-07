@@ -86,12 +86,14 @@ endif()
 # Application icons
 #
 set(ICONS_PNG
-    ${CMAKE_CURRENT_SOURCE_DIR}/icons/16-apps-jmbde.png ${CMAKE_CURRENT_SOURCE_DIR}/icons/32-apps-jmbde.png
-    ${CMAKE_CURRENT_SOURCE_DIR}/icons/128-apps-jmbde.png ${CMAKE_CURRENT_SOURCE_DIR}/icons/256-apps-jmbde.png
-    ${CMAKE_CURRENT_SOURCE_DIR}/icons/512-apps-jmbde.png
+    ${CMAKE_SOURCE_DIR}/assets/icons/16-apps-jmbde.png
+    ${CMAKE_SOURCE_DIR}/assets/icons/32-apps-jmbde.png
+    ${CMAKE_SOURCE_DIR}/assets/icons/128-apps-jmbde.png
+    ${CMAKE_SOURCE_DIR}/assets/icons/256-apps-jmbde.png
+    ${CMAKE_SOURCE_DIR}/assets/icons/512-apps-jmbde.png
 )
 
-set(ICONS_SVG ${CMAKE_CURRENT_SOURCE_DIR}/icons/sc-apps-jmbde.svgz)
+set(ICONS_SVG ${CMAKE_SOURCE_DIR}/assets/icons/sc-apps-jmbde.svgz)
 
 # Add icon files to the application's source files to have CMake bundle them in the executable.
 ecm_add_app_icon(ICONS_SOURCES ICONS ${ICONS_PNG} OUTFILE_BASENAME ${PROJECT_NAME})
@@ -137,7 +139,7 @@ target_link_libraries(
 )
 
 if(WIN32)
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/app.rc.in ${PROJECT_BINARY_DIR}/app.rc @ONLY)
+  configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/app.rc.in ${PROJECT_BINARY_DIR}/app.rc @ONLY)
 
   install(TARGETS ${PROJECT_NAME} ${INSTALL_TARGETS_DEFAULT_ARGS})
   # add_custom_command( TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${Qt5_DIR}/../../../bin/windeployqt
@@ -147,7 +149,7 @@ if(WIN32)
 elseif(APPLE)
   set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "${PROJECT_NAME}" INSTALL_RPATH "@executable_path/../Frameworks")
 
-  set_property(TARGET ${PROJECT_NAME} PROPERTY MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/data/MacOSXBundleInfo.plist.in)
+  set_property(TARGET ${PROJECT_NAME} PROPERTY MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/cmake/modules/MacOSXBundleInfo.plist.in)
 
   # the MacOSX bundle display name property (CFBundleDisplayName) is not currently supported by cmake, so has to be set for all targets in
   # this cmake file
@@ -160,7 +162,7 @@ elseif(APPLE)
   set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROJECT_VERSION}")
   set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_BUNDLE_VERSION "${PROJECT_VERSION}")
   set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_ICON_FILE "${ICONS_SOURCES}")
-  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_COPYRIGHT "2013-2020 Jürgen Mülbert")
+  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_COPYRIGHT "2013-2021 Jürgen Mülbert")
 
   install(
     TARGETS ${PROJECT_NAME}
@@ -168,7 +170,7 @@ elseif(APPLE)
     RUNTIME DESTINATION bin COMPONENT Runtime
   )
 
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/package_dmg.json.in ${CMAKE_CURRENT_BINARY_DIR}/package_dmg.json @ONLY)
+  configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/package_dmg.json.in ${CMAKE_CURRENT_BINARY_DIR}/package_dmg.json @ONLY)
 
   # add_custom_command( TARGET ${PROJECT_NAME} POST BUILD COMMAND ${Qt5_DIR}/../../../bin/macdeployqt
   # ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.app)
@@ -187,15 +189,15 @@ elseif(UNIX AND NOT APPLE)
   )
 
   # appdata
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/jmbde.appdata.xml.in ${CMAKE_CURRENT_BINARY_DIR}/jmbde.appdata.xml @ONLY)
+  configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/jmbde.appdata.xml.in ${CMAKE_CURRENT_BINARY_DIR}/jmbde.appdata.xml @ONLY)
   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde.appdata.xml DESTINATION ${APPDATA_INSTALL_DIR})
 
-  install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/io.github.jmuelbert.jmbde.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
+  install(FILES ${CMAKE_SOURCE_DIR}/cmake/modules/data/io.github.jmuelbert.jmbde.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 
   # man page
   find_program(GZIP gzip)
   if(GZIP)
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/jmbde.1.in ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1 @ONLY)
+    configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/jmbde.1.in ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1 @ONLY)
     add_custom_command(
       OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1.gz
       COMMAND ${GZIP} -c ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1 > jmbde.1.gz

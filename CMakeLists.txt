@@ -122,7 +122,11 @@ if(NOT LGTM)
     include(KDEClangFormat)
 endif()
 
-include(KDEInstallDirs)
+if(UNIX AND NOT APPLE)
+    include(KDEInstallDirs)
+else()
+    include(GNUInstallDirs)
+endif()
 
 # ##########################################################################################################################################
 # Project Options

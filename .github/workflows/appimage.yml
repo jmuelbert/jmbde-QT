@@ -1,5 +1,5 @@
 ---
-name: "CD: AppImage"
+name: "CD: appimage Qt5 package"
 
 on:
     pull_request:
@@ -58,7 +58,8 @@ jobs:
               uses: actions/cache@v2.1.4
               with:
                   path: ../Qt
-                  key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{
+                  key:
+                      QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{
                       env.QT_VERSION }}
             - name: Installing Qt - ${{ matrix.arch }}
               uses: jurplel/install-qt-action@v2
@@ -67,8 +68,8 @@ jobs:
                   arch: ${{ matrix.qtarch }}
                   mirror: "http://mirrors.ocf.berkeley.edu/qt/"
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
-            - name: Linux - ${{  env.QT_VERSION }} - Build preparation - Install
-                  Packages
+            - name:
+                  Linux - ${{  env.QT_VERSION }} - Build preparation - Install Packages
               run: |
                   sudo apt update
                   sudo apt install -y build-essential ninja-build cmake pkgconf fcitx-frontend-qt5 libxcb-xinerama0 libgl-dev libx11-dev libxkbcommon-x11-dev libxcb-image0-dev libxcb-icccm4-dev libssl-dev libxcb-keysyms1 libxcb-render-util0
@@ -133,7 +134,8 @@ jobs:
             - name: Linux - ${{  env.QT_VERSION }} - Uploading artifact
               uses: actions/upload-artifact@v2.2.2
               with:
-                  name: jmbde-${{ github.sha }}-linux-${{ matrix.arch }}-qt${{
+                  name:
+                      jmbde-${{ github.sha }}-linux-${{ matrix.arch }}-qt${{
                       env.QT_VERSION}}-${{ matrix.build_type }}.AppImage
                   path: build/jmbde.AppImage
 
@@ -142,7 +144,8 @@ jobs:
               with:
                   repo_token: ${{ secrets.GITHUB_TOKEN }}
                   file: build/jmbde.AppImage
-                  asset_name: jmbde-${{ steps.get_version.outputs.VERSION
+                  asset_name:
+                      jmbde-${{ steps.get_version.outputs.VERSION
                       }}-linux-${{matrix.arch }}-qt${{ env.QT_VERSION }}-${{
                       matrix.build_type }}.AppImage
                   tag: ${{ github.ref }}

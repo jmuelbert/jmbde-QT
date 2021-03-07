@@ -1,8 +1,8 @@
 {
-    "background": "/Users/juergen/Projects/GitHub/jmbde-QT/src/app/icons/CMakeDMGBackground.png",
+    "background": "/Users/runner/work/jmbde-QT/packaging/macos/CMakeDMGBackground.png",
     "contents": [
         {
-            "path": "./Applications/jmbde.app",
+            "path": "/Users/runner/work/jmbde-QT/jmbde-QT/build/Applications/jmbde.app",
             "type": "file",
             "x": 130,
             "y": 205
@@ -14,7 +14,7 @@
             "y": 205
         }
     ],
-    "icon": "/Users/juergen/Projects/GitHub/jmbde-QT/src/app/icons/16-apps-jmbde.png",
+    "icon": "/Users/juergen/Projects/GitHub/jmbde-QT/packaging/macos/CMakeDMGBackground.png",
     "icon-size": 128,
     "title": "jmbde ",
     "window": {

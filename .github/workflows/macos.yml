@@ -1,14 +1,21 @@
 ---
 name: "CD: MacOS"
+
 on:
+    push:
+        branches:
+            - master*
+        paths-ignore:
+            - "README.md"
+            - "LICENSE"
+
     pull_request:
         paths-ignore:
             - "README.md"
             - "LICENSE"
-            - "BUILD.md"
-    release:
-        types: [published]
 
+env:
+    PRODUCT: jmbde
 jobs:
     build:
         name: Build
@@ -103,7 +110,8 @@ jobs:
             - name: Upload artifact
               uses: actions/upload-artifact@v2.2.2
               with:
-                  name: ${{
+                  name:
+                      ${{
                       env.targetName}}-Qt${{matrix.qt_version}}-${{matrix.build_type}}.dmg
                   path: build/${{ env.targetName }}-Qt${{matrix.qt_version}}.dmg
 
@@ -112,7 +120,8 @@ jobs:
               with:
                   repo_token: ${{ secrets.GITHUB_TOKEN }}
                   file: build/${{ env.targetName }}-Qt${{matrix.qt_version}}.dmg
-                  asset_name: ${{ env.targetName }}-${{
+                  asset_name:
+                      ${{ env.targetName }}-${{
                       steps.get_version.outputs.VERSION}}-Qt${{matrix.qt_version}}-${{
                       matrix.build_type}}.dmg
                   tag: ${{ github.ref }}

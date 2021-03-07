@@ -43,8 +43,8 @@ which means that it works with most operating systems.
 |  type  |                           branch                            |                                                                                                        build                                                                                                         |                                                                     downloads                                                                      |
 | :----: | :---------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------: |
 | alpha  | [master](https://github.com/jmuelbert/jmbde-QT/tree/master) | [![GitHub Workflow Status](https://github.com/jmuelbert/jmbde-QT/workflows/CI:%20Build%20Test/badge.svg?branch=master&event=push)](https://github.com/jmuelbert/jmbde-QT/actions?query=event%3Apush+branch%3Amaster) |                                                                         -                                                                          |
-|  beta  | [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/0.5.4) | [![GitHub Workflow Status](https://github.com/jmuelbert/jmbde-QT/workflows/CI:%20Build%20Test/badge.svg?branch=0.5.4&event=push)](https://github.com/jmuelbert/jmbde-QT/actions?query=event%3Apush+branch%3A0.5.4) |[![Downloads](https://img.shields.io/github/downloads/jmuelbert/jmbde-QT/v0.5.4/total)](https://github.com/jmuelbert/jmbde-QT/releases/tag/v0.5.4) |
-| stable | [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) | [![GitHub Workflow Status](https://github.com/jmuelbert/jmbde-QT/workflows/CI:%20Build%20Test/badge.svg?branch=0.5.4&event=push)](https://github.com/jmuelbert/jmbde-QT/actions?query=event%3Apush+branch%3A0.5.4)  | [![Downloads](https://img.shields.io/github/downloads/jmuelbert/jmbde-QT/v0.5.4/total)](https://github.com/jmuelbert/jmbde-QT/releases/tag/v0.5.4) |
+|  beta  | [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/0.5.4)  |  [![GitHub Workflow Status](https://github.com/jmuelbert/jmbde-QT/workflows/CI:%20Build%20Test/badge.svg?branch=0.5.4&event=push)](https://github.com/jmuelbert/jmbde-QT/actions?query=event%3Apush+branch%3A0.5.4)  | [![Downloads](https://img.shields.io/github/downloads/jmuelbert/jmbde-QT/v0.5.4/total)](https://github.com/jmuelbert/jmbde-QT/releases/tag/v0.5.4) |
+| stable | [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) |  [![GitHub Workflow Status](https://github.com/jmuelbert/jmbde-QT/workflows/CI:%20Build%20Test/badge.svg?branch=0.5.4&event=push)](https://github.com/jmuelbert/jmbde-QT/actions?query=event%3Apush+branch%3A0.5.4)  | [![Downloads](https://img.shields.io/github/downloads/jmuelbert/jmbde-QT/v0.5.4/total)](https://github.com/jmuelbert/jmbde-QT/releases/tag/v0.5.4) |
 
 | Plattform | Build for Qt6                                                                                       | Build for Qt5                                                                             |
 | --------- | --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
@@ -283,14 +283,17 @@ GPL V3 © [Jürgen Mülbert](https:/github.com/jmuelbert/jmbde-QT)
     https://github.com/jmuelbert/jmbde-QT/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22
 [documentation-shield]: https://img.shields.io/badge/Documentation-latest-blue.svg
 [documentation-url]: https://jmuelbert.github.io/jmbde-QT
-[lgtm-alerts-shield]: https://img.shields.io/lgtm/alerts/g/jmuelbert/jmbde-QT.svg?logo=lgtm&logoWidth=18
+[lgtm-alerts-shield]:
+    https://img.shields.io/lgtm/alerts/g/jmuelbert/jmbde-QT.svg?logo=lgtm&logoWidth=18
 [lgtm-alerts-url]: https://lgtm.com/projects/g/jmuelbert/jmbde-QT/alerts/
 [lgtm-cpp-shield]:
     https://img.shields.io/lgtm/grade/cpp/g/jmuelbert/jmbde-QT.svg?logo=lgtm&logoWidth=18
 [lgtm-cpp-url]: https://lgtm.com/projects/g/jmuelbert/jmbde-QT/context:cpp
-[lgtm-python-shield]: https://img.shields.io/lgtm/grade/python/g/jmuelbert/jmbde-QT.svg?logo=lgtm&logoWidth=18
+[lgtm-python-shield]:
+    https://img.shields.io/lgtm/grade/python/g/jmuelbert/jmbde-QT.svg?logo=lgtm&logoWidth=18
 [lgtm-python-url]: https://lgtm.com/projects/g/jmuelbert/jmbde-QT/context:python
-[lgtm-js-shield]: https://img.shields.io/lgtm/grade/javascript/g/jmuelbert/jmbde-QT.svg?logo=lgtm&logoWidth=18
+[lgtm-js-shield]:
+    https://img.shields.io/lgtm/grade/javascript/g/jmuelbert/jmbde-QT.svg?logo=lgtm&logoWidth=18
 [lgtm-js-url]: https://lgtm.com/projects/g/jmuelbert/jmbde-QT/context:javascript
 [cdash-shield]: https://img.shields.io/badge/CDash-Access-blue.svg
 [cdash-url]: http://my.cdash.org/index.php?project=jmbde-QT

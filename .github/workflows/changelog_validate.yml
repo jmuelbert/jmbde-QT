@@ -11,4 +11,6 @@ jobs:
             - uses: zattoo/changelog@v1
               with:
                   token: ${{github.token}}
-                  sources: "src/app/, src/appquick/, src/libs/models, src/libs/quick, src/libs/widgets"
+                  sources:
+                      "src/app/, src/appquick/, src/libs/models, src/libs/quick,
+                      src/libs/widgets"

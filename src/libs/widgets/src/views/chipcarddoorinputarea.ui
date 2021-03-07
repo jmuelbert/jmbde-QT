@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <ui version="4.0">
  <class>ChipCardDoorInputArea</class>
  <widget class="QGroupBox" name="ChipCardDoorInputArea">
@@ -113,7 +113,7 @@
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QSpinBox" name="numberSpinBox"/>
+         <widget class="QSpinBox" name="numberSpinBox" />
         </item>
         <item row="3" column="0">
          <widget class="QLabel" name="employeeLabel">
@@ -218,6 +218,6 @@
   <tabstop>addPushButton</tabstop>
   <tabstop>editFinishPushButton</tabstop>
  </tabstops>
- <resources/>
- <connections/>
+ <resources />
+ <connections />
 </ui>

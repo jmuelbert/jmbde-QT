@@ -44,8 +44,7 @@ jobs:
             - uses: actions/checkout@v2
               with:
                   submodules: true
-            - name: macOS - ${{ env.QT_VERSION }} - Build preparation - Install
-                  Packages
+            - name: macOS - ${{ env.QT_VERSION }} - Build preparation - Install Packages
               run: |
                   brew install ninja pkg-config
 
@@ -104,7 +103,8 @@ jobs:
             - name: macOS - ${{ env.QT_VERSION }} - Uploading artifact
               uses: actions/upload-artifact@v2.2.2
               with:
-                  name: ${{
+                  name:
+                      ${{
                       env.targetName}}-Qt${{env.QT_VERSION}}-${{matrix.build_type}}.dmg
                   path: build/${{ env.targetName }}-Qt${{env.QT_VERSION}}.dmg
 
@@ -113,7 +113,8 @@ jobs:
               with:
                   repo_token: ${{ secrets.GITHUB_TOKEN }}
                   file: build/${{ env.targetName }}-Qt${{env.QT_VERSION}}.dmg
-                  asset_name: ${{ env.targetName }}-${{
+                  asset_name:
+                      ${{ env.targetName }}-${{
                       steps.get_version.outputs.VERSION}}-Qt${{env.QT_VERSION}}-${{
                       matrix.build_type}}.dmg
                   tag: ${{ github.ref }}

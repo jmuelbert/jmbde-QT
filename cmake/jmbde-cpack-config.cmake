@@ -14,7 +14,7 @@ cpack_add_component(
   DISPLAY_NAME "Applications"
   GROUP Runtime
 )
-cpack_add_component(translations DIAPLAY_NAME "Translation files" GROUP Runtime)
+cpack_add_component(translations DISPLAY_NAME "Translation files" GROUP Runtime)
 cpack_add_component(
   runtime_libraries
   DISPLAY_NAME "Runtime libraries"
