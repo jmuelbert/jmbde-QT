@@ -16,7 +16,7 @@ jobs:
               uses: actions/checkout@v2
               with:
                   ref: ${{ github.event.pull_request.head.sha }}
-            - uses: DoozyX/clang-format-lint-action@v0.9
+            - uses: DoozyX/clang-format-lint-action@v0.11
               with:
                   source: "./src"
                   extensions: "h,cpp"
