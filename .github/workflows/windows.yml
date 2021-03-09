@@ -94,10 +94,10 @@ jobs:
             #      vcpkgTriplet: ${{ matrix.config.vcpkg_triplet }}
 
             - name: Install Python 3.9 version
-              uses: actions/setup-python@v1
+              uses: actions/setup-python@v2
               with:
                   python-version: "3.9.1"
-                  architecture: $ {{ matrix.arch }}
+                  architecture: ${{ matrix.arch }}
 
             # =========================================================================================================
             - name: Install MSVC compiler
