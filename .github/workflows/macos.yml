@@ -98,31 +98,32 @@ jobs:
               # Execute the build.  You can specify a specific target with "--target <NAME>"
               run: cmake --build . --config $BUILD_TYPE -j2 --target install
 
-            - name: package
-              working-directory: ${{runner.workspace}}/build
+
+            - name: Package
               env:
-                  Qt5_DIR: ../Qt/${{matrix.qt_version}}/${{matrix.qt_arch}}
+                  Qt6_DIR: ../Qt/${{env.QT_VERSION}}/${{matrix.qt_arch}}
+              working-directory: ${{runner.workspace}}/build
               run: |
                   export PATH=$Qt5_DIR/bin:$PATH
                   macdeployqt ./app/${targetName}.app -qmldir=. -appstore-compliant -libpath=./app/jmbde.app/Contents/Frameworks -verbose=1 -dmg
-                  cp ./app/${targetName}.dmg ${targetName}-Qt${{matrix.qt_version}}.dmg
+                  cp ./app/${targetName}.dmg ${targetName}-Qt${{env.QT_VERSION}}.dmg
 
-            - name: Upload artifact
+            - name: macOS - ${{ env.QT_VERSION }} - Uploading artifact
               uses: actions/upload-artifact@v2.2.2
               with:
                   name:
                       ${{
-                      env.targetName}}-Qt${{matrix.qt_version}}-${{matrix.build_type}}.dmg
-                  path: build/${{ env.targetName }}-Qt${{matrix.qt_version}}.dmg
+                      env.targetName}}-Qt${{env.QT_VERSION}}-${{matrix.build_type}}.dmg
+                  path: build/${{ env.targetName }}-Qt${{env.QT_VERSION}}.dmg
 
-            - name: macOS - ${{ matrix.qt_versions }} - Upload binaries to release
+            - name: macOS - ${{ env.QT_VERSIONs }}- Upload binaries to release
               uses: svenstaro/upload-release-action@v2
               with:
                   repo_token: ${{ secrets.GITHUB_TOKEN }}
-                  file: build/${{ env.targetName }}-Qt${{matrix.qt_version}}.dmg
+                  file: build/${{ env.targetName }}-Qt${{env.QT_VERSION}}.dmg
                   asset_name:
                       ${{ env.targetName }}-${{
-                      steps.get_version.outputs.VERSION}}-Qt${{matrix.qt_version}}-${{
+                      steps.get_version.outputs.VERSION}}-Qt${{env.QT_VERSION}}-${{
                       matrix.build_type}}.dmg
                   tag: ${{ github.ref }}
                   overwrite: true
