@@ -1,31 +1,22 @@
 ---
 name: "Check Clang Format"
 
-on: [push, pull_request]
-
+on: [push, PR]
 jobs:
-    build:
-        runs-on: ubuntu-latest
-
-        steps:
-            - name: Checkout Source code
-              if: github.event_name == 'push'
-              uses: actions/checkout@v2
-            - name: Checkout Source code
-              if: github.event_name == 'pull_request'
-              uses: actions/checkout@v2
-              with:
-                  ref: ${{ github.event.pull_request.head.sha }}
-            - uses: DoozyX/clang-format-lint-action@v0.9
-              with:
-                  source: "./src"
-                  extensions: "h,cpp"
-                  clangFormatVersion: 11
-                  style: file
-            - uses: EndBug/add-and-commit@v4
-              with:
-                author_name: Clang Robot
-                author_email: robot@example.com
-                message: 'Committing clang-format changes'
-                env:
-                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  formatting-check:
+    name: Formatting Check
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        path:
+          - 'src'
+          - 'examples'
+          - 'tests'
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run clang-format style check for C/C++ programs.
+      uses: jidicula/clang-format-action@v3.2.0
+      with:
+        clang-format-version: '11'
+        check-path: ${{ matrix.path }}
+        fallback-style: 'Mozilla' # optional
