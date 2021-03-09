@@ -51,7 +51,7 @@ jobs:
                 fetch-depth: 0
                 ref: ${{ github.event.pull_request.head.sha }}
 
-            - name: Set env & Print flameshot version
+            - name: Set env & Print version
               shell: bash
               run: |
                 last_committed_tag=$(git tag -l --sort=-v:refname | head -1)
@@ -65,6 +65,8 @@ jobs:
             - name: Packaging snap
               uses: snapcore/action-build@v1
               id: snapcraft
+              with:
+                path: $GITHUB_WORKSPACE/packaging/snap
             - name: Rename snap name
               shell: bash
               run: |

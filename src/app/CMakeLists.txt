@@ -192,7 +192,7 @@ elseif(UNIX AND NOT APPLE)
   configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/jmbde.appdata.xml.in ${CMAKE_CURRENT_BINARY_DIR}/jmbde.appdata.xml @ONLY)
   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde.appdata.xml DESTINATION ${APPDATA_INSTALL_DIR})
 
-  install(FILES ${CMAKE_SOURCE_DIR}/cmake/modules/data/io.github.jmuelbert.jmbde.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
+  install(FILES ${CMAKE_SOURCE_DIR}/cmake/modules/io.github.jmuelbert.jmbde.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 
   # man page
   find_program(GZIP gzip)
