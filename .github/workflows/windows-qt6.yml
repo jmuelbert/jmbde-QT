@@ -38,7 +38,7 @@ jobs:
             VCPKG_VERSION: 56fffbe49dfb4dd8fae0940f272c5fd2b86be991
         strategy:
             matrix:
-                qt_version: [6.0.0]
+                qt_version: [6.0.1]
                 build_type: [Release, RelWithDebInfo]
                 platform: [windows-latest]
                 include:
@@ -108,7 +108,7 @@ jobs:
               # and build directories, but this is only available with CMake 3.13 and higher.
               # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
               run: |
-                  cmake $GITHUB_WORKSPACE \
+                  cmake $env:GITHUB_WORKSPACE \
                   -GNinja \
                   -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
                   -DJMBDE_QT6=ON \

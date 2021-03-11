@@ -14,18 +14,20 @@ on:
             - "README.md"
             - "LICENSE"
 
+env:
+    QT_VERSION: 5.15.2
+    PRODUCT: jmbde
+    targetName: jmbde
+
 jobs:
     build:
         env:
-            targetName: jmbde.exe
             # VCINSTALLDIR:
             #    C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/
             Qt5_DIR:
-                ${{ github.workspace }}\build\Qt\${{ matrix.qt_ver }}\${{
-                matrix.config.qt_arch_install }}\lib\cmake\Qt5\
+                ${{ github.workspace }}\build\Qt\${{ env.QT_VERSION }}\${{ matrix.config.qt_arch_install }}\lib\cmake\Qt5\
             QTDIR:
-                ${{ github.workspace }}\build\Qt\${{ matrix.qt_ver }}\${{
-                matrix.config.qt_arch_install }}\
+                ${{ github.workspace }}\build\Qt\${{ env.QT_VERSION }}\${{matrix.config.qt_arch_install }}\
             # 2020.07
             # VCPKG_VERSION: 56fffbe49dfb4dd8fae0940f272c5fd2b86be991
 
@@ -112,16 +114,15 @@ jobs:
               uses: actions/cache@v1
               with:
                   path:
-                      ./build/Qt/${{ matrix.qt_ver }}/${{ matrix.config.qt_arch_install
+                      ./build/Qt/${{ env.QT_VERSION }}/${{ matrix.config.qt_arch_install
                       }}
                   key:
-                      ${{ runner.os }}-QtCache/${{ matrix.qt_ver }}/${{
-                      matrix.config.qt_arch }}
+                      ${{ runner.os }}-QtCache/${{ env.QT_VERSION }}/${{matrix.config.qt_arch }}
 
-            - name: Installing Qt - $ {{ matrix.arch }}
+            - name: Installing Qt${{ env.QT_VERSION }} - $ {{ matrix.arch }}
               uses: jurplel/install-qt-action@v2
               with:
-                  version: ${{ matrix.qt_ver }}
+                  version: ${{ env.QT_VERSION }}
                   target: ${{ matrix.qt_target }}
                   arch: ${{ matrix.config.qt_arch }}
                   dir: "${{ github.workspace }}/build/"
@@ -149,7 +150,7 @@ jobs:
               # and build directories, but this is only available with CMake 3.13 and higher.
               # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
               run: |
-                  cmake $GITHUB_WORKSPACE `
+                  cmake $env:GITHUB_WORKSPACE `
                   ${{matrix.config.generator}}  `
                   -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}\vcpkg\scripts\buildsystems\vcpkg.cmake"  `
                   -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} `
