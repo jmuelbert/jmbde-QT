@@ -186,73 +186,46 @@ jobs:
                       cpack -G ZIP -B "$env:GITHUB_WORKSPACE\build\Package"
                   }
 
-            - name: Package Clean
-              shell: pwsh
-              run: |
-                  Remove-Item $env:GITHUB_WORKSPACE\build\Package\_CPack_Packages -Recurse
-                  New-Item -Path $env:GITHUB_WORKSPACE\build\Package\installer -ItemType Directory
-                  New-Item -Path $env:GITHUB_WORKSPACE\build\Package\portable -ItemType Directory
-
-            - name: Package Prepare (installer)
-              if: matrix.type == 'installer'
-              shell: pwsh
-              run: |
-                  Move-Item -Path $env:GITHUB_WORKSPACE/build/Package/jmbde-QT-*-${{ matrix.config.pak_arch }}.msi -Destination $env:GITHUB_WORKSPACE/build/Package/installer/jmbde-QT-$env:VERSION-${{ matrix.config.pak_arch }}.msi
-
-            - name: Package Prepare (installer)
-              if: matrix.type == 'installer'
-              shell: pwsh
-              run: |
-                  Move-Item -Path $env:GITHUB_WORKSPACE/build/Package/jmbde-QT-*-${{ matrix.config.pak_arch }}.msi -Destination $env:GITHUB_WORKSPACE/build/Package/installer/jmbde-QT-$env:VERSION-${{ matrix.config.pak_arch }}.msi
-
-            - name: Package Prepare (portable)
-              if: matrix.type == 'portable'
-              shell: pwsh
-              run: |
-                  Move-Item -Path $env:GITHUB_WORKSPACE/build/Package/jmbde-QT-*-${{ matrix.config.pak_arch }}.zip -Destination $env:GITHUB_WORKSPACE/build/Package/portable/jmbde-QT-$env:VERSION-${{ matrix.config.pak_arch }}.zip
-
-            - name: SHA256Sum of Windows installer(daily build)
-              if: matrix.type == 'installer'
+           - name: Inno package
+              working-directory: ${{runner.workspace}}/build
+              env:
+                  archiveName:
+                      jmbde.${{
+                      steps.get_version.outputs.VERSION}}.Windows-${{matrix.arch }}
               shell: bash
               run: |
-                  sha256sum $GITHUB_WORKSPACE/build/Package/installer/jmbde-QT-${VERSION}-${{ matrix.config.pak_arch }}.msi
-                  sha256sum $GITHUB_WORKSPACE/build/Package/installer/jmbde-QT-${VERSION}-${{ matrix.config.pak_arch }}.msi > $GITHUB_WORKSPACE/build/Package/installer/jmbde-QT-${VERSION}-${{ matrix.config.pak_arch }}.msi.sha256sum
-                  python -m pip install -U -q requests
-                  echo "============Windows installer sha256sum download link============"
-                  echo $(python $GITHUB_WORKSPACE/scripts/upload_services/transferwee.py upload $GITHUB_WORKSPACE/build/Package/installer/jmbde-QT-${VERSION}-${{ matrix.config.pak_arch }}.msi.sha256sum)
-                  echo "=======no operation for you can see link in the log console====="
+                  iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss  -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/$archiveName/bin
+                  cp jmbde-setup.exe ${{runner.workspace}}/build/jmbde-${{ steps.get_version.outputs.VERSION}}-windows-${{matrix.arch}}-Qt${{matrix.qt_version}}-${{ matrix.build_type }}.exe
 
-            - name: SHA256Sum of Windows portable(daily build)
-              if: matrix.type == 'portable'
+            - name: MSI package
+              working-directory: ${{runner.workspace}}/build
+              env:
+                  archiveName:
+                      jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-${{matrix.arch }}
               shell: bash
               run: |
-                  sha256sum $GITHUB_WORKSPACE/build/Package/portable/jmbde-QT-${VERSION}-${{ matrix.config.pak_arch }}.zip
-                  sha256sum $GITHUB_WORKSPACE/build/Package/portable/jmbde-QT-${VERSION}-${{ matrix.config.pak_arch }}.zip > $GITHUB_WORKSPACE/build/Package/portable/jmbde-QT-${VERSION}-${{ matrix.config.pak_arch }}.zip.sha256sum
-                  python -m pip install -U -q requests
-                  echo "===========Windows portable sha256sum download link============"
-                  echo $(python $GITHUB_WORKSPACE/scripts/upload_services/transferwee.py upload $GITHUB_WORKSPACE/build/Package/portable/flameshot-${VERSION}-${{ matrix.config.pak_arch }}.zip.sha256sum)
-                  echo "=====no operation for you can see link in the log console====="
+                  echo "Hello msi installer"
 
-            - name: Upload Windows installer(daily build)
-              if: matrix.type == 'installer'
-              shell: bash
-              run: |
-                  python -m pip install -U -q requests
-                  echo "================Windows installer download link================"
-                  echo $(python $GITHUB_WORKSPACE/scripts/upload_services/transferwee.py upload $GITHUB_WORKSPACE/build/Package/installer/jmbde-QT-${VERSION}-${{ matrix.config.pak_arch }}.msi)
-                  echo "=====no operation for you can see link in the log console====="
-
-            - name: Upload Windows portable(daily build)
-              if: matrix.type == 'portable'
-              shell: bash
-              run: |
-                  python -m pip install -U -q requests
-                  echo "=================Windows portable download link================"
-                  echo $(python $GITHUB_WORKSPACE/scripts/upload_services/transferwee.py upload $GITHUB_WORKSPACE/build/Package/portable/jmbde-QT-${VERSION}-${{ matrix.config.pak_arch }}.zip)
-                  echo "=====no operation for you can see link in the log console====="
-
-            - name: Artifact Upload
-              uses: actions/upload-artifact@v2
+            - name: Windows - ${{ matrix.qt_version }} - Uploading artifact
+              env:
+                  archiveName:
+                      jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-${{matrix.arch }}
+              uses: actions/upload-artifact@v2.2.2
               with:
-                  name: Windows-artifact
-                  path: ${{ github.workspace }}/build/Package/*
+                  name:
+                      jmbde-win-${{matrix.arch}}.qt${{ matrix.qt_version}}-${{matrix.build_type}}.zip
+                  path: ${{runner.workspace}}/build/${{ env.archiveName }}.zip
+
+            - name:
+                  Windows - ${{ matrix.qt_version }}.${{matrix.arch}}. - Upload binaries
+                  to release
+              uses: svenstaro/upload-release-action@v2
+              with:
+                  repo_token: ${{ secrets.GITHUB_TOKEN }}
+                  file:
+                      ${{runner.workspace}}/build/jmbde-${{steps.get_version.outputs.VERSION}}-windows-${{matrix.arch}}-Qt${{matrix.qt_version}}-${{
+                      matrix.build_type }}.exe
+                  asset_name:
+                      jmbde-${{steps.get_version.outputs.VERSION}}-windows-${{matrix.arch}}-Qt${{matrix.qt_version}}-${{matrix.build_type }}.exe
+                  tag: ${{ github.ref }}
+                  overwrite: true
