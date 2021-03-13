@@ -28,9 +28,9 @@ jobs:
             targetName: jmbde.exe
             VCINSTALLDIR:
                 C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/
-            Qt5_DIR:
+            Qt6_DIR:
                 ${{ github.workspace }}\build\Qt\${{ matrix.qt_ver }}\${{
-                matrix.config.qt_arch_install }}\lib\cmake\Qt5\
+                matrix.config.qt_arch_install }}\lib\cmake\Qt6\
             QTDIR:
                 ${{ github.workspace }}\build\Qt\${{ matrix.qt_ver }}\${{
                 matrix.config.qt_arch_install }}\
@@ -102,20 +102,26 @@ jobs:
             - name: Configure CMake
               # Use a bash shell so we can use the same syntax for environment variable
               # access regardless of the host operating system
-              shell: bash
+              shell: pwsh
               working-directory: ${{runner.workspace}}/build
               # Note the current convention is to use the -S and -B options here to specify source
               # and build directories, but this is only available with CMake 3.13 and higher.
               # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
               run: |
-                  cmake $env:GITHUB_WORKSPACE \
-                  -GNinja \
-                  -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-                  -DJMBDE_QT6=ON \
-                  -DJMBDE_BUILD_INFO="Build for Windows" \
-                  -DJMBDE_BUILD_EXTRA_INFO="Build on Windows x64" \
-                  -DBUILD_TRANSLATIONS=ON \
-                  -DCMAKE_INSTALL_PREFIX:PATH=./app
+                  cmake $env:GITHUB_WORKSPACE `
+                  ${{matrix.config.generator}}  `
+                  -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}\vcpkg\scripts\buildsystems\vcpkg.cmake"  `
+                  -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} `
+                  -DBUILD_TRANSLATIONS=ON  `
+                  -DCMAKE_INSTALL_PREFIX:PATH=./app  `
+                  -DRUN_IN_PLACE=${{ contains(matrix.type, 'portable') }}
+
+            - name: Build
+              working-directory: ${{runner.workspace}}/build
+              shell: pwsh
+              # Execute the build.  You can specify a specific target with "--target <NAME>"
+              run: cmake --build . --config $BUILD_TYPE -j2 --target install
+
 
             - name: Build
               working-directory: ${{runner.workspace}}/build
