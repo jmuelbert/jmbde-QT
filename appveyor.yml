@@ -92,7 +92,7 @@ for:
           - brew ls | grep -wq conan || brew install conan
           - brew ls | grep -wq python || brew install python
           - brew ls | grep -wq qt || brew install qt
-          - brew link --force qt5
+          - brew link --force qt6
           - export PATH="$(brew --prefix qt)/bin:$PATH"
           - sudo ln -s "/usr/local/Cellar/qt/${QT_VERSION}/mkspecs /usr/local/mkspecs"
           - sudo ln -s "/usr/local/Cellar/qt/${QT_VERSION}/plugins /usr/local/plugins"
@@ -128,7 +128,7 @@ for:
     ########## UBUNTU SPECIFIC CONFIGURATION ##########
     - matrix:
           only:
-              - image: Ubuntu
+              - image: Ubuntu2004
 
       clone_folder: /home/appveyor/projects/jmbde-QT
       cache: ccache

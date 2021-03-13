@@ -2,15 +2,22 @@
 name: "CD: flatpak package"
 
 on:
+    push:
+        branches:
+            - master*
+        paths-ignore:
+            - "README.md"
+            - "LICENSE"
+
     pull_request:
         paths-ignore:
             - "README.md"
             - "LICENSE"
-            - "BUILD.md"
-    release:
-        types: [published]
-
+#    release:
+#        types: [published]
 env:
+    PRODUCT: jmbde
+    targetName: jmbde
     QT_VERSION: 5.15.2
 
 jobs:

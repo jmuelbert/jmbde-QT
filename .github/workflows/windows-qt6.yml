@@ -1,13 +1,22 @@
 ---
 name: "CD: Windows Qt6"
+
 on:
+    push:
+        branches:
+            - master*
+        paths-ignore:
+            - "README.md"
+            - "LICENSE"
+
     pull_request:
         paths-ignore:
             - "README.md"
             - "LICENSE"
-            - "BUILD.md"
-    release:
-        types: [published]
+
+env:
+    PRODUCT: jmbde
+    targetName: jmbde
 
 jobs:
     check_commit_msg:

@@ -1,13 +1,30 @@
 ---
 name: "CD: MacOS Qt6"
+# on:
+#     pull_request:
+#         paths-ignore:
+#             - "README.md"
+#             - "LICENSE"
+#             - "BUILD.md"
+#     release:
+#         types: [published]
+
 on:
+    push:
+        branches:
+            - master*
+        paths-ignore:
+            - "README.md"
+            - "LICENSE"
+
     pull_request:
         paths-ignore:
             - "README.md"
             - "LICENSE"
-            - "BUILD.md"
-    release:
-        types: [published]
+
+env:
+    PRODUCT: jmbde
+    targetName: jmbde
 
 env:
     QT_VERSION: 6.0.1
