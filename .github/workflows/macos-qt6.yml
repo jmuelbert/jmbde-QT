@@ -60,6 +60,11 @@ jobs:
 
 
         steps:
+            - name: Get the version
+              id: get_version
+              shell: bash
+              run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+
             - name: Checkout Source code
               if: github.event_name == 'push'
               uses: actions/checkout@v2
