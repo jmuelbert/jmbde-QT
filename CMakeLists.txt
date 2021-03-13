@@ -218,14 +218,14 @@ add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050F00)
 remove_definitions(-DQT_NO_SIGNALS_SLOTS_KEYWORDS)
 
 # debug suffixes for qmake compatibility
+if(UPPERCASE_CMAKE_BUILD_TYPE MATCHES "^RELEASE$")
+  add_definitions(-DQT_NO_DEBUG_OUTPUT)
+else()
 if(WIN32)
   set(CMAKE_DEBUG_POSTFIX "d")
 elseif(APPLE)
   set(CMAKE_DEBUG_POSTFIX "_debug")
 endif()
-
-if(UPPERCASE_CMAKE_BUILD_TYPE MATCHES "^RELEASE$")
-  add_definitions(-DQT_NO_DEBUG_OUTPUT)
 endif()
 
 # Extensions: GitVersion, Clang-Format, Clang-Tidy
