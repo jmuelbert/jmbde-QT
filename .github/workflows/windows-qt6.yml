@@ -201,15 +201,14 @@ jobs:
                       steps.get_version.outputs.VERSION}}.Windows-${{matrix.arch }}
               shell: bash
               run: |
-                  iscc packaging/win/installer_Qt6_x64.iss  -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/$archiveName/bin
+                  iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss  -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/$archiveName/bin
                   cp jmbde-setup.exe ${{runner.workspace}}/build/jmbde-${{ steps.get_version.outputs.VERSION}}-windows-${{matrix.arch}}-Qt${{matrix.qt_version}}-${{ matrix.build_type }}.exe
 
             - name: MSI package
               working-directory: ${{runner.workspace}}/build
               env:
                   archiveName:
-                      jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-${{
-                      matrix.arch }}
+                      jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-${{matrix.arch }}
               shell: bash
               run: |
                   echo "Hello msi installer"
@@ -217,13 +216,11 @@ jobs:
             - name: Windows - ${{ matrix.qt_version }} - Uploading artifact
               env:
                   archiveName:
-                      jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-${{
-                      matrix.arch }}
+                      jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-${{matrix.arch }}
               uses: actions/upload-artifact@v2.2.2
               with:
                   name:
-                      jmbde-win-${{matrix.arch}}.qt${{ matrix.qt_version
-                      }}-${{matrix.build_type}}.zip
+                      jmbde-win-${{matrix.arch}}.qt${{ matrix.qt_version}}-${{matrix.build_type}}.zip
                   path: ${{runner.workspace}}/build/${{ env.archiveName }}.zip
 
             - name:
@@ -233,12 +230,9 @@ jobs:
               with:
                   repo_token: ${{ secrets.GITHUB_TOKEN }}
                   file:
-                      ${{runner.workspace}}/build/jmbde-${{
-                      steps.get_version.outputs.VERSION}}-windows-${{matrix.arch}}-Qt${{matrix.qt_version}}-${{
+                      ${{runner.workspace}}/build/jmbde-${{steps.get_version.outputs.VERSION}}-windows-${{matrix.arch}}-Qt${{matrix.qt_version}}-${{
                       matrix.build_type }}.exe
                   asset_name:
-                      jmbde-${{
-                      steps.get_version.outputs.VERSION}}-windows-${{matrix.arch}}-Qt${{matrix.qt_version}}-${{
-                      matrix.build_type }}.exe
+                      jmbde-${{steps.get_version.outputs.VERSION}}-windows-${{matrix.arch}}-Qt${{matrix.qt_version}}-${{matrix.build_type }}.exe
                   tag: ${{ github.ref }}
                   overwrite: true
