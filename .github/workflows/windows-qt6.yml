@@ -51,9 +51,12 @@ jobs:
                 build_type: [Release, RelWithDebInfo]
                 platform: [windows-latest]
                 include:
-                    - platform: windows-latest
-                      arch: x64
-                      qtarch: win64_msvc2019_64
+                    - {
+                        platform: windows-latest,
+                        arch: x64,
+                        generator: "-G'Visual Studio 16 2019' -A x64",
+                        qtarch: win64_msvc2019_64
+                    }
             fail-fast: false
 
         runs-on: ${{ matrix.platform }}
@@ -116,10 +119,11 @@ jobs:
               # Note the current convention is to use the -S and -B options here to specify source
               # and build directories, but this is only available with CMake 3.13 and higher.
               # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
+              # By using vcpkg add the following line to cmake
+              #  -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}\vcpkg\scripts\buildsystems\vcpkg.cmake"  `
               run: |
                   cmake $env:GITHUB_WORKSPACE `
-                  ${{matrix.config.generator}}  `
-                  -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}\vcpkg\scripts\buildsystems\vcpkg.cmake"  `
+                  ${{matrix.generator}}  `
                   -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} `
                   -DBUILD_TRANSLATIONS=ON  `
                   -DCMAKE_INSTALL_PREFIX:PATH=./app  `

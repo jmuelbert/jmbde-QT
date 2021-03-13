@@ -120,7 +120,7 @@ jobs:
                   key:
                       ${{ runner.os }}-QtCache/${{ matrix.qt_ver }}/${{matrix.config.qt_arch }}
 
-            - name: Installing Qt${{ matrix.qt_ver }} - $ {{ matrix.arch }}
+            - name: Installing Qt${{ matrix.qt_ver }} - $ {{ matrix.config.qt_arch }}
               uses: jurplel/install-qt-action@v2
               with:
                   version: ${{ matrix.qt_ver }}

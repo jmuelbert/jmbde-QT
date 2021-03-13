@@ -71,8 +71,6 @@ jobs:
             - name: Packaging snap
               uses: snapcore/action-build@v1
               id: snapcraft
-              with:
-                path: $GITHUB_WORKSPACE/packaging/snap
             - name: Rename snap name
               shell: bash
               run: |

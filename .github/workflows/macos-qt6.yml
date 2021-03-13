@@ -25,11 +25,7 @@ on:
 env:
     PRODUCT: jmbde
     targetName: jmbde
-
-env:
     QT_VERSION: 6.0.1
-    PRODUCT: jmbde
-    targetName: jmbde
 
 jobs:
     build:

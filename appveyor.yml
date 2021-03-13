@@ -251,7 +251,6 @@ for:
       install:
           # Windows
           - cinst png2ico
-          - cinst icotool
           - nuget install secure-file -ExcludeVersion
           # Install conan
           - call "%ProgramFiles(x86)%\Microsoft Visual
