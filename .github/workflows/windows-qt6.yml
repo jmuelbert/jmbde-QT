@@ -197,11 +197,10 @@ jobs:
               working-directory: ${{runner.workspace}}/build
               env:
                   archiveName:
-                      jmbde.${{
-                      steps.get_version.outputs.VERSION}}.Windows-${{matrix.arch }}
+                      jmbde.${{steps.get_version.outputs.VERSION}}.Windows-${{matrix.arch }}
               shell: bash
               run: |
-                  iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss  -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/$archiveName/bin
+                  iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss  -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=${{runner.workspace}}/build/bin
                   cp jmbde-setup.exe ${{runner.workspace}}/build/jmbde-${{ steps.get_version.outputs.VERSION}}-windows-${{matrix.arch}}-Qt${{matrix.qt_version}}-${{ matrix.build_type }}.exe
 
             - name: MSI package
