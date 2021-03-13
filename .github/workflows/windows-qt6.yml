@@ -30,13 +30,14 @@ jobs:
               id: get_message
               run: |
                   echo "::set-output name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
+
     build:
         needs: check_commit_msg
         if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_MAIN') }}
         env:
             targetName: jmbde.exe
-            VCINSTALLDIR:
-                C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/
+            # VCINSTALLDIR:
+            #    C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/
             Qt6_DIR:
                 ${{ github.workspace }}\build\Qt\${{ matrix.qt_ver }}\${{
                 matrix.config.qt_arch_install }}\lib\cmake\Qt6\
@@ -44,10 +45,12 @@ jobs:
                 ${{ github.workspace }}\build\Qt\${{ matrix.qt_ver }}\${{
                 matrix.config.qt_arch_install }}\
             # 2020.07
-            VCPKG_VERSION: 56fffbe49dfb4dd8fae0940f272c5fd2b86be991
+            # VCPKG_VERSION: 56fffbe49dfb4dd8fae0940f272c5fd2b86be991
+
         strategy:
             matrix:
                 qt_version: [6.0.1]
+                qt_target: [desktop]
                 build_type: [Release, RelWithDebInfo]
                 platform: [windows-latest]
                 include:
@@ -60,22 +63,50 @@ jobs:
             fail-fast: false
 
         runs-on: ${{ matrix.platform }}
+
         steps:
-            - name: Get the version
-              id: get_version
-              shell: bash
-              run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
-            - name: Checking out sources
+            - name: Checkout Source code
+              if: github.event_name == 'push'
               uses: actions/checkout@v2
               with:
-                  submodules: "recursive"
+                  fetch-depth: 0
+            #          ref: master
+
+            - name: Checkout Source code
+              if: github.event_name == 'pull_request'
+              uses: actions/checkout@v2
+              with:
+                  fetch-depth: 0
+                  ref: ${{ github.event.pull_request.head.sha }}
+
+            - name: Set env & Print jmbde-QT version
+              shell: bash
+              run: |
+                  last_committed_tag=$(git tag -l --sort=-v:refname | head -1)
+                  git_revno=$(git rev-list $(git describe --tags --abbrev=0)..HEAD --count)
+                  git_hash=$(git rev-parse --short HEAD)
+                  echo "=======jmbde-QT VERSION========"
+                  echo ${last_committed_tag:1}
+                  echo "Details: ${last_committed_tag}+git${git_revno}.${git_hash}"
+                  echo "================================"
+                  # This will allow to build pre-preleases without git tag
+                  # echo "VERSION=${last_committed_tag:1}" >> $GITHUB_ENV
+                  echo "VERSION=$(cat CMakeLists.txt |grep 'set.*(.*JMBDE_QT_VERSION' | sed 's/[^0-9.]*//' |sed 's/)//g')" >> $GITHUB_ENV
+
+            # - name: Restore from cache and run vcpkg
+            #  uses: lukka/run-vcpkg@v4
+            #  with:
+            #      vcpkgArguments: ${{env.VCPKG_PACKAGES}}
+            #      vcpkgDirectory: '${{ github.workspace }}\vcpkg'
+            #      appendedCacheKey: ${{ matrix.config.vcpkg_triplet }}
+            #      vcpkgGitCommitId: ${{ env.VCPKG_VERSION }}
+            #      vcpkgTriplet: ${{ matrix.config.vcpkg_triplet }}
+
             - name: Install Python 3.9 version
               uses: actions/setup-python@v1
               with:
-                  python-version: "3.9"
-                  architecture: x64
-            - name: Restoring submodules
-              run: git submodule update --init
+                  python-version: "3.9.1"
+                  architecture: ${{ matrix.arch }}
 
             # =========================================================================================================
             - name: Install MSVC compiler
@@ -84,17 +115,19 @@ jobs:
                   # 14.1 is for vs2017, 14.2 is vs2019, following the upstream vcpkg build from Qv2ray-deps repo
                   toolset: 14.2
                   arch: x64
+
             - name: Cache Qt
               id: cache-qt
               uses: actions/cache@v2.1.4
               with:
                   path: ../Qt
                   key: QtCache-${{ matrix.platform }}-x64-${{ matrix.qt_version }}
-            - name: Installing Qt - x64
+
+            - name: Installing Q${{ matrix.qt_version }} -  ${{ matrix.arch }}
               uses: jurplel/install-qt-action@v2
               with:
                   version: ${{ matrix.qt_version }}
-                  arch: ${{ matrix.qtarch }}
+                  arch:  ${{ matrix.arch }}
                   mirror: "http://mirrors.ocf.berkeley.edu/qt/"
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
                   setup-python: "false"
@@ -135,29 +168,20 @@ jobs:
               # Execute the build.  You can specify a specific target with "--target <NAME>"
               run: cmake --build . --config $BUILD_TYPE -j2 --target install
 
-
-            - name: Build
+            - name: cpack
               working-directory: ${{runner.workspace}}/build
-              shell: bash
-              # Execute the build.  You can specify a specific target with "--target <NAME>"
-              run: cmake --build . --config $BUILD_TYPE -j2 --target install
-
-            - name: ZIP package
-              working-directory: ${{runner.workspace}}/build
-              env:
-                  archiveName:
-                      jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-${{
-                      matrix.arch }}
               shell: pwsh
+              env:
+                  TYPE: ${{matrix.type}}
               run: |
-                  New-Item -ItemType Directory ${env:archiveName}
-                  Copy-Item -Path app\* -Destination ${env:archiveName}\ -Recurse -Force
-                  windeployqt --qmldir . ${env:archiveName}\bin\${env:targetName} ${env:archiveName}\bin\jmbdemodels.dll ${env:archiveName}\bin\jmbdequick.dll ${env:archiveName}\bin\jmbdewidgets.dll
-                  Compress-Archive -Path ${env:archiveName}/bin ${env:archiveName}'.zip'
-                  $name = ${env:archiveName}
-                  Write-Host 'Name: ' $name
-                  echo "packageName=$name" >> $GITHUB_ENV
-                  Write-Host 'packageName:' ${env:packageName}
+                  if ($env:TYPE -eq "installer")
+                  {
+                      cpack -G WIX -B "$env:GITHUB_WORKSPACE\build\Package"
+                  }
+                  Elseif($env:Type -eq "protable")
+                  {
+                      cpack -G ZIP -B "$env:GITHUB_WORKSPACE\build\Package"
+                  }
 
             - name: Inno package
               working-directory: ${{runner.workspace}}/build

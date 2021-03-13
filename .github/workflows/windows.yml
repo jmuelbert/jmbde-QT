@@ -19,8 +19,23 @@ env:
     targetName: jmbde
 
 jobs:
+    check_commit_msg:
+        outputs:
+            commit_message: ${{ steps.get_message.outputs.message }}
+        name: Check if the workflow has been disabled.
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Get commit message
+              id: get_message
+              run: |
+                  echo "::set-output name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
+
     build:
+        needs: check_commit_msg
+        if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_MAIN') }}
         env:
+            targetName: jmbde.exe
             # VCINSTALLDIR:
             #    C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/
             Qt5_DIR:
