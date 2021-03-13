@@ -59,7 +59,7 @@ jobs:
                 platform: [windows-latest]
                 build_type: [Release, RelWithDebInfo]
                 qt_version: [6.0.0]
-                qt_arch: [win64_msvc2019_64]
+                qt_target: [desktop]
                 arch: [x64]
                 generator: ["-G'Visual Studio 16 2019' -A x64"]
             fail-fast: false
@@ -135,6 +135,7 @@ jobs:
               with:
                   version: ${{ matrix.qt_version }}
                   arch:  ${{ matrix.arch }}
+                  target: ${{ matrix.qt_target }}
                   mirror: "http://mirrors.ocf.berkeley.edu/qt/"
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
                   setup-python: "false"
@@ -176,6 +177,7 @@ jobs:
               shell: bash
               # Execute the build.  You can specify a specific target with "--target <NAME>"
               run: cmake --build . --config $BUILD_TYPE -j2 --target install
+
             - name: cpack
               working-directory: ${{runner.workspace}}/build
               shell: pwsh
@@ -200,7 +202,7 @@ jobs:
               shell: bash
               run: |
                   iscc packaging/win/installer_Qt6_x64.iss  -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$(pwd)/$archiveName/bin
-                  cp jmbde-setup.exe jmbde-${{ steps.get_version.outputs.VERSION}}-windows-${{matrix.arch}}-Qt${{matrix.qt_version}}-${{ matrix.build_type }}.exe
+                  cp jmbde-setup.exe ${{runner.workspace}}/build/jmbde-${{ steps.get_version.outputs.VERSION}}-windows-${{matrix.arch}}-Qt${{matrix.qt_version}}-${{ matrix.build_type }}.exe
 
             - name: MSI package
               working-directory: ${{runner.workspace}}/build
@@ -222,7 +224,7 @@ jobs:
                   name:
                       jmbde-win-${{matrix.arch}}.qt${{ matrix.qt_version
                       }}-${{matrix.build_type}}.zip
-                  path: ${{ env.archiveName }}.zip
+                  path: ${{runner.workspace}}/build/${{ env.archiveName }}.zip
 
             - name:
                   Windows - ${{ matrix.qt_version }}.${{matrix.arch}}. - Upload binaries
@@ -231,7 +233,7 @@ jobs:
               with:
                   repo_token: ${{ secrets.GITHUB_TOKEN }}
                   file:
-                      ./jmbde-${{
+                      ${{runner.workspace}}/build/jmbde-${{
                       steps.get_version.outputs.VERSION}}-windows-${{matrix.arch}}-Qt${{matrix.qt_version}}-${{
                       matrix.build_type }}.exe
                   asset_name:
