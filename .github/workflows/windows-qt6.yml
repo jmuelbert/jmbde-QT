@@ -58,7 +58,8 @@ jobs:
             matrix:
                 platform: [windows-latest]
                 build_type: [Release, RelWithDebInfo]
-                qt_version: [6.0.0]
+                qt_version: [5.15.2]
+                qt_arch: [win64_msvc2019_64]
                 qt_target: [desktop]
                 arch: [x64]
                 generator: ["-G'Visual Studio 16 2019' -A x64"]
@@ -130,15 +131,14 @@ jobs:
                   path: ../Qt
                   key: QtCache-${{ matrix.platform }}-x64-${{ matrix.qt_version }}
 
-            - name: Installing Q${{ matrix.qt_version }} -  ${{ matrix.arch }}
+            - name: Installing Qt${{ matrix.qt_version }} - $ {{ matrix.qt_arch }}
               uses: jurplel/install-qt-action@v2
               with:
                   version: ${{ matrix.qt_version }}
+                  target:  ${{ matrix.qt_target }}
                   arch:  ${{ matrix.arch }}
-                  target: ${{ matrix.qt_target }}
                   mirror: "http://mirrors.ocf.berkeley.edu/qt/"
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
-                  setup-python: "false"
 
             - name: Install conan
               id: conan
