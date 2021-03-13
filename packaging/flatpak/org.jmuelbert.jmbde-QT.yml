@@ -2,7 +2,7 @@ app-id: org.jmuelbert.jmbde-QT
 runtime: org.kde.Platform
 runtime-version: "5.15"
 sdk: org.kde.Sdk
-command: flameshot
+command: jmbde
 finish-args:
     # X11 + XShm access
     - --share=ipc
@@ -23,7 +23,7 @@ finish-args:
     - --own-name=org.kde.*
     - --own-name=org.flameshot.Flameshot
 modules:
-    - name: flameshot
+    - name: jmbde
       buildsystem: cmake-ninja
       config-opts:
           - -DCMAKE_BUILD_TYPE=Release
