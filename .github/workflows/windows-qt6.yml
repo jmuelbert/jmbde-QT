@@ -1,6 +1,13 @@
 ---
 name: "CD: Windows Qt6"
-
+# on:
+#     pull_request:
+#         paths-ignore:
+#             - "README.md"
+#             - "LICENSE"
+#             - "BUILD.md"
+#     release:
+#
 on:
     push:
         branches:

@@ -37,7 +37,7 @@ jobs:
         if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_MAIN') }}
         strategy:
             matrix:
-                platform: [ubuntu-18.04]
+                platform: [ubuntu-20.04]
                 build_type: [Release, RelWithDebInfo]
                 arch: [x64]
             fail-fast: false

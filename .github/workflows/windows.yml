@@ -1,6 +1,13 @@
 ---
 name: "CD: Windows"
-
+# on:
+#     pull_request:
+#         paths-ignore:
+#             - "README.md"
+#             - "LICENSE"
+#             - "BUILD.md"
+#     release:
+#
 on:
     push:
         branches:
@@ -50,7 +57,6 @@ jobs:
         strategy:
             matrix:
                 qt_ver: [5.15.2]
-                qt_target: [desktop]
                 build_type: [Release, RelWithDebInfo]
                 platform: [windows-latest]
                 include:
