@@ -136,6 +136,16 @@ jobs:
                   mirror: "http://mirrors.ocf.berkeley.edu/qt/"
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
+            - name:
+                  ${{ matrix.config.os }} - ${{ matrix.config.qt_version }} - Build preparation - Install
+                  Packages
+              run: |
+                if [ "$RUNNER_OS" == "macOS" ]; then
+                  brew install ninja pkg-config
+                else
+                    echo "$RUNNER_OS not supported"
+                fi
+
             - name: Install conan
               id: conan
               run: |

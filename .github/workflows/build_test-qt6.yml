@@ -15,7 +15,7 @@ on:
 
 env:
     QT_VERSION: 6.0.1
-   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+    # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
     BUILD_TYPE: Debug
     PRODUCT: jmbde
     targetName: jmbde
@@ -135,6 +135,16 @@ jobs:
                   arch:  ${{ matrix.config.qt_arch }}
                   mirror: "http://mirrors.ocf.berkeley.edu/qt/"
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
+
+            - name:
+                  ${{ matrix.config.os }} - ${{ matrix.config.qt_version }} - Build preparation - Install
+                  Packages
+              run: |
+                if [ "$RUNNER_OS" == "macOS" ]; then
+                  brew install ninja pkg-config
+                else
+                    echo "$RUNNER_OS not supported"
+                fi
 
             - name: Install conan
               id: conan
