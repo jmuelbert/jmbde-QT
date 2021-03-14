@@ -15,7 +15,7 @@ on:
 
 env:
     QT_VERSION: 6.0.1
-    # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
     BUILD_TYPE: Debug
     PRODUCT: jmbde
     targetName: jmbde
@@ -47,7 +47,7 @@ jobs:
                         qt_arch: gcc_64,
                         qt_target: desktop,
                         arch: x64,
-                        generator: 'Unix Makefiles',
+                        generator: "-G 'Unix Makefiles'",
                         portable-option: Off
                     }
                     - {
@@ -127,7 +127,7 @@ jobs:
                   path: ../Qt
                   key: Qt-${{ matrix.config.os }}-${{ env.QT_VERSION }}
 
-            - name: Installing Qt${{ matrix.qt_version }} - ${{ matrix.config.qt_arch }}
+            - name: Installing Qt$${{ env.QT_VERSION }} - ${{ matrix.config.qt_arch }} on ${{ matrix.config.os }}
               uses: jurplel/install-qt-action@v2
               with:
                   version: ${{ env.QT_VERSION }}
