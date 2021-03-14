@@ -192,6 +192,9 @@ jobs:
                   Write-Host 'Name: ' $name
                   echo "packageName=$name" >> $GITHUB_ENV
                   Write-Host 'packageName:' ${env:packageName}
+                  ls ${{runner.workspace}}/build
+                  ls ${{runner.workspace}}/build/${archiveName}
+                  ls ${{runner.workspace}}/build/${archiveName}/bin
 
             - name: Inno package
               working-directory: ${{runner.workspace}}/build
@@ -204,6 +207,7 @@ jobs:
               # Copy-Item -Path .\app\* -Destination ${env:archiveName}\ -recurse -Force
               # windeployqt --qmldir . ${env:archiveName}\bin\${env:targetName} ${env:archiveName}\bin\jmbdemodels.dll ${env:archiveName}\bin\jmbdequick.dll ${env:archiveName}\bin\jmbdewidgets.dll
               run: |
+                  ls ${{runner.workspace}}/build
                   ls ${{runner.workspace}}/build/${archiveName}
                   ls ${{runner.workspace}}/build/${archiveName}/bin
                   iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss  -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=${{runner.workspace}}/build/${archiveName}/bin
