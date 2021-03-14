@@ -192,6 +192,7 @@ jobs:
                   Write-Host 'Name: ' $name
                   echo "packageName=$name" >> $GITHUB_ENV
                   Write-Host 'packageName:' ${env:packageName}
+                  ls ${{runner.workspace}}
                   ls ${{runner.workspace}}/build
                   ls ${{runner.workspace}}/build/${env:archiveName}
                   ls ${{runner.workspace}}/build/${env:archiveName}/bin
@@ -207,10 +208,10 @@ jobs:
               # Copy-Item -Path .\app\* -Destination ${env:archiveName}\ -recurse -Force
               # windeployqt --qmldir . ${env:archiveName}\bin\${env:targetName} ${env:archiveName}\bin\jmbdemodels.dll ${env:archiveName}\bin\jmbdequick.dll ${env:archiveName}\bin\jmbdewidgets.dll
               run: |
-                  ls
-                  ls build
-                  ls build/app
-                  ls build/bin
+                  ls ${{runner.workspace}}
+                  ls ${{runner.workspace}}/build
+                  ls ${{runner.workspace}}/build/${env:archiveName}
+                  ls ${{runner.workspace}}/build/${env:archiveName}/bin
                   iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss  -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=${{runner.workspace}}/build/${archiveName}/bin
                   cp jmbde-setup.exe jmbde-${{ steps.get_version.outputs.VERSION}}-windows-${{matrix.arch}}-Qt${{matrix.qt_version}}-${{ matrix.build_type }}.exe
 
