@@ -171,6 +171,34 @@ jobs:
               # Execute the build.  You can specify a specific target with "--target <NAME>"
               run: cmake --build . --config ${{ matrix.build_type }} -j2 --target install
 
+            - name: ZIP package
+              env:
+                  archiveName: jmbde.${{ steps.get_version.outputs.VERSION}}.Windows-${{matrix.arch }}
+              shell: pwsh
+              run: |
+                  New-Item -ItemType Directory ${env:archiveName}
+                  Copy-Item -Path build\app\* -Destination ${env:archiveName}\ -recurse -Force
+                  windeployqt --qmldir . ${env:archiveName}\bin\${env:targetName} ${env:archiveName}\bin\jmbdemodels.dll ${env:archiveName}\bin\jmbdequick.dll ${env:archiveName}\bin\jmbdewidgets.dll
+                  Compress-Archive -Path ${env:archiveName}/bin ${env:archiveName}'.zip'
+                  $name = ${env:archiveName}
+                  Write-Host 'Name: ' $name
+                  echo "packageName=$name" >> $GITHUB_ENV
+                  Write-Host 'packageName:' ${env:packageName}
+
+            - name: Inno package
+              working-directory: ${{runner.workspace}}/build
+              env:
+                  archiveName:
+                      jmbde.${{steps.get_version.outputs.VERSION}}.Windows-${{matrix.arch }}
+              shell: pwsh
+              run: |
+                  New-Item -ItemType Directory ${env:archiveName}
+                  Copy-Item -Path build\app\* -Destination ${env:archiveName}\ -recurse -Force
+                  windeployqt --qmldir . ${env:archiveName}\bin\${env:targetName} ${env:archiveName}\bin\jmbdemodels.dll ${env:archiveName}\bin\jmbdequick.dll ${env:archiveName}\bin\jmbdewidgets.dll
+                  iscc $env:GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss  -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=${{runner.workspace}}/build/app/bin
+                  cp jmbde-setup.exe ${{runner.workspace}}/build/jmbde-${{ steps.get_version.outputs.VERSION}}-windows-${{matrix.arch}}-Qt${{matrix.qt_version}}-${{ matrix.build_type }}.exe
+
+
             - name: cpack
               working-directory: ${{runner.workspace}}/build
               shell: pwsh
@@ -185,16 +213,6 @@ jobs:
                   {
                       cpack -G ZIP -B "$env:GITHUB_WORKSPACE\build\Package"
                   }
-
-            - name: Inno package
-              working-directory: ${{runner.workspace}}/build
-              env:
-                  archiveName:
-                      jmbde.${{steps.get_version.outputs.VERSION}}.Windows-${{matrix.arch }}
-              shell: bash
-              run: |
-                  iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss  -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=${{runner.workspace}}/build/bin
-                  cp jmbde-setup.exe ${{runner.workspace}}/build/jmbde-${{ steps.get_version.outputs.VERSION}}-windows-${{matrix.arch}}-Qt${{matrix.qt_version}}-${{ matrix.build_type }}.exe
 
             - name: MSI package
               working-directory: ${{runner.workspace}}/build
