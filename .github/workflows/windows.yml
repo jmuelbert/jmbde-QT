@@ -192,13 +192,13 @@ jobs:
                   archiveName:
                       jmbde.${{steps.get_version.outputs.VERSION}}.Windows-${{matrix.arch }}
               shell: pwsh
+              # Copy and windeplyqt came from ZIP Package
+              # New-Item -ItemType Directory ${env:archiveName}
+              # Copy-Item -Path .\app\* -Destination ${env:archiveName}\ -recurse -Force
+              # windeployqt --qmldir . ${env:archiveName}\bin\${env:targetName} ${env:archiveName}\bin\jmbdemodels.dll ${env:archiveName}\bin\jmbdequick.dll ${env:archiveName}\bin\jmbdewidgets.dll
               run: |
-                  New-Item -ItemType Directory ${env:archiveName}
-                  Copy-Item -Path .\app\* -Destination ${env:archiveName}\ -recurse -Force
-                  windeployqt --qmldir . ${env:archiveName}\bin\${env:targetName} ${env:archiveName}\bin\jmbdemodels.dll ${env:archiveName}\bin\jmbdequick.dll ${env:archiveName}\bin\jmbdewidgets.dll
                   iscc $env:GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss  -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=${{runner.workspace}}/build/app/bin
                   cp jmbde-setup.exe ${{runner.workspace}}/build/jmbde-${{ steps.get_version.outputs.VERSION}}-windows-${{matrix.arch}}-Qt${{matrix.qt_version}}-${{ matrix.build_type }}.exe
-
 
             - name: cpack
               working-directory: ${{runner.workspace}}/build
