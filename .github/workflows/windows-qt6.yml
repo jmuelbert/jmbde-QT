@@ -204,7 +204,7 @@ jobs:
               # Copy-Item -Path .\app\* -Destination ${env:archiveName}\ -recurse -Force
               # windeployqt --qmldir . ${env:archiveName}\bin\${env:targetName} ${env:archiveName}\bin\jmbdemodels.dll ${env:archiveName}\bin\jmbdequick.dll ${env:archiveName}\bin\jmbdewidgets.dll
               run: |
-                  iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss  -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=${archiveName}
+                  iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss  -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=${{runner.workspace}}/build/${archiveName}
                   cp jmbde-setup.exe jmbde-${{ steps.get_version.outputs.VERSION}}-windows-${{matrix.arch}}-Qt${{matrix.qt_version}}-${{ matrix.build_type }}.exe
 
             - name: cpack
