@@ -22,6 +22,7 @@ parts:
             - qttools5-dev
             - pkg-config
             - libqt5svg5-dev
+            - conan
         stage-packages:
             - qt5-default
             - libqt5svg5-dev
@@ -37,7 +38,7 @@ parts:
             snapcraftctl build
             sed -i 's|Icon=.*|Icon=${SNAP}/meta/gui/icon.png|g' ${SNAPCRAFT_PART_SRC}/res/app/jmbde-qt.desktop
             mkdir -p ${SNAPCRAFT_PART_INSTALL}/usr/share/applications/
-            cp -rf ${SNAPCRAFT_PART_SRC}/res/app/spotify-qt.desktop ${SNAPCRAFT_PART_INSTALL}/usr/share/applications/jmbde-qt.desktop
+            cp -rf ${SNAPCRAFT_PART_SRC}/packaging/snap/jmbde-qt.desktop ${SNAPCRAFT_PART_INSTALL}/usr/share/applications/jmbde-qt.desktop
         after: [desktop-qt5]
     # Snapcraft Qt5 desktop launcher
     desktop-qt5:
