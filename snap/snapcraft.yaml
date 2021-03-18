@@ -48,7 +48,6 @@ parts:
         process-dependency-links: false
         python-packages:
             - conan
-        python-version: python3
 
     # Snapcraft Qt5 desktop launcher
     desktop-qt5:
