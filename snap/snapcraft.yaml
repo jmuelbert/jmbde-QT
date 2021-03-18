@@ -22,10 +22,11 @@ parts:
             - qttools5-dev
             - pkg-config
             - libqt5svg5-dev
-            - conan
+            - python3
         stage-packages:
             - qt5-default
             - libqt5svg5-dev
+            - python3
 
         cmake-parameters:
             - -DCMAKE_INSTALL_PREFIX=/usr
@@ -39,7 +40,16 @@ parts:
             sed -i 's|Icon=.*|Icon=${SNAP}/meta/gui/icon.png|g' ${SNAPCRAFT_PART_SRC}/res/app/jmbde-qt.desktop
             mkdir -p ${SNAPCRAFT_PART_INSTALL}/usr/share/applications/
             cp -rf ${SNAPCRAFT_PART_SRC}/packaging/snap/jmbde-qt.desktop ${SNAPCRAFT_PART_INSTALL}/usr/share/applications/jmbde-qt.desktop
-        after: [desktop-qt5]
+        after: [desktop-qt5, conan]
+
+    # Ubuntu  doesn't have python-conan
+    conan:
+        plugin: python
+        process-dependency-links: false
+        python-packages:
+            - conan
+        python-version: python3
+
     # Snapcraft Qt5 desktop launcher
     desktop-qt5:
         source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
