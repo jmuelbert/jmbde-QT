@@ -1,103 +1,83 @@
 ---
-name: jmbde
-version: '0.5.4'
-base: core20
+name: jmbde-qt
 summary: A BDE tool.
-description: |
-    jmbde is a free bde tool.
+description: jmbde is a free bde tool.
+adopt-info: jmbde-qt
 grade: stable
 confinement: strict
-
-apps:
-    jmbde:
-        command: desktop-launch ${SNAP}/usr/bin/jmbde
-        environment:
-            QT_QPA_PLATFORMTHEME: gtk3
-        plugs:
-            - home
-            - x11
-            - wayland
-            - opengl
-            - network
-            - network-bind
-            - unity7
-            - pulseaudio
-            - desktop
-            - desktop-legacy
-            - gsettings
-            - network-control
-            - network-manager
-        common-id: com.github.jmuelbert.jmbde-QT
-        desktop: usr/share/applications/com.github.jmuelbet/jmbde.desktop
+base: core20
+version: '0.5.4'
+icon: assets/icons/jmbde.png
 
 parts:
-    jmbde:
+    jmbde-qt:
         plugin: cmake
         source-type: git
         source: .
-        qt-version: qt5
-        parse-info: [usr/share/metainfo/jmbde.metainfo.xml]
         build-packages:
             - build-essential
+            - g++
+            - make
+            - cmake
             - qttools5-dev
-            - qt5-default
-            - libgrpc++-dev
-            - libprotobuf-dev
-            - protobuf-compiler-grpc
             - pkg-config
-            - libzxingcore-dev
+            - libtsvg5-dev
         stage-packages:
-            - libgcc1
-            - libstdc++6
-            - libssl1.1
-            - libgrpc++1
-            - libprotobuf17
-            - libqt5core5a
-            - libqt5gui5
-            - libqt5network5
-            - libqt5widgets5
-            - libglib2.0-bin
-            - libzxingcore1
+            - qt5-default
+            - libqt5svg5-dev
+
         cmake-parameters:
             - -DCMAKE_INSTALL_PREFIX=/usr
             - -DCMAKE_BUILD_TYPE=Release
             - -DEMBED_TRANSLATIONS=ON
         override-pull: |
             snapcraftctl pull
-            build_number=$(cat makespec/BUILDVERSION)
-            tag=$(cat makespec/VERSION)
-            version=$tag.$build_number
-            snapcraftctl set-version "$version"
-            sed -i 's|^Icon=.*|Icon=/usr/share/icons/hicolor/1024x1024/apps/jmbde.png|g' packaging/linux/jmbde.desktop
-        after:
-            - desktop-qt5
+            snapcraftctl set-version "$(git describe --tags --abbrev=0)"
+        override-build: |
+            snapcraftctl build
+            sed -i 's|Icon=.*|Icon=${SNAP}/meta/gui/icon.png|g' ${SNAPCRAFT_PART_SRC}/res/app/jmbde-qt.desktop
+            mkdir -p ${SNAPCRAFT_PART_INSTALL}/usr/share/applications/
+            cp -rf ${SNAPCRAFT_PART_SRC}/res/app/spotify-qt.desktop ${SNAPCRAFT_PART_INSTALL}/usr/share/applications/jmbde-qt.desktop
+        after: [desktop-qt5]
+        # Snapcraft Qt5 desktop launcher
+        desktop-qt5:
+            source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+            source-subdir: qt
+            plugin: make
+            make-parameters: ["FLAVOR=qt5"]
+            build-packages:
+                - build-essential
+                - qtbase5-dev
+                - dpkg-dev
+            stage-packages:
+                - libxkbcommon0
+                - ttf-ubuntu-font-family
+                - dmz-cursor-theme
+                - light-themes
+                - adwaita-icon-theme
+                - gnome-themes-standard
+                - shared-mime-info
+                - libgcc1
+                - libstdc++6
+                - libgdk-pixbuf2.0-0
+                - libglib2.0-bin
+                - libqt5core5a
+                - libqt5gui5
+                - libqt5network5
+                - libqt5widgets5
+                - libqt5svg5 # for loading icon themes which are svg
 
-    desktop-qt5:
-        source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
-        source-subdir: qt
-        plugin: make
-        make-parameters: [FLAVOR=qt5]
-        build-packages:
-            - build-essential
-            - qtbase5-dev
-            - dpkg-dev
-        stage-packages:
-            - libxkbcommon0
-            - ttf-ubuntu-font-family
-            - dmz-cursor-theme
-            - light-themes
-            - adwaita-icon-theme
-            - gnome-themes-standard
-            - shared-mime-info
-            - libqt5gui5
-            - libgdk-pixbuf2.0-0
-            - libqt5svg5 # for loading icon themes which are svg
-            - try: [appmenu-qt5] # not available on core18
-            - locales-all
-            - xdg-user-dirs
-            - fcitx-frontend-qt5
+                - try: [appmenu-qt5] # not available on core18
+                - locales-all
+                - xdg-user-dirs
+                - fcitx-frontend-qt5
+                - qt5-gtk-platformtheme #Platform themes plugin
 
-    qt5-gtk-platform:
-        plugin: nil
-        stage-packages:
-            - qt5-gtk-platformtheme
+apps:
+    jmbde-qt:
+        command: bin/desktop-launch jmbde-qt
+        environment:
+            DISABLE_WAYLAND: 1
+        desktop: usr/share/applications/com.github.jmuelbert/jmbde.desktop
+        common-id: com.github.jmuelbert.jmbde-QT
+
