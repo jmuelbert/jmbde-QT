@@ -1,5 +1,6 @@
 ---
 name: jmbde
+version: '0.5.4'
 base: core20
 summary: A BDE tool.
 description: |
