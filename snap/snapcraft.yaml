@@ -21,7 +21,7 @@ parts:
             - cmake
             - qttools5-dev
             - pkg-config
-            - libqtsvg5-dev
+            - libqt5svg5-dev
         stage-packages:
             - qt5-default
             - libqt5svg5-dev
