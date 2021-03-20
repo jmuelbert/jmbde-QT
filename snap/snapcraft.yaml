@@ -45,7 +45,6 @@ parts:
     # Ubuntu  doesn't have python-conan
     conan:
         plugin: python
-        process-dependency-links: false
         python-packages:
             - conan
 
