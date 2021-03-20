@@ -46,6 +46,7 @@ parts:
     conan:
         plugin: python
         python-packages:
+            - wheel
             - conan
 
     # Snapcraft Qt5 desktop launcher
