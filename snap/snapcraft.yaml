@@ -40,7 +40,7 @@ parts:
             sed -i 's|Icon=.*|Icon=${SNAP}/meta/gui/icon.png|g' ${SNAPCRAFT_PART_SRC}/res/app/jmbde-qt.desktop
             mkdir -p ${SNAPCRAFT_PART_INSTALL}/usr/share/applications/
             cp -rf ${SNAPCRAFT_PART_SRC}/packaging/snap/jmbde-qt.desktop ${SNAPCRAFT_PART_INSTALL}/usr/share/applications/jmbde-qt.desktop
-        after: [desktop-qt5, conan]
+        after: [conan, desktop-qt5]
 
     # Ubuntu  doesn't have python-conan
     conan:
@@ -48,6 +48,8 @@ parts:
         python-packages:
             - wheel
             - conan
+        stage:
+            - lib64/*
 
     # Snapcraft Qt5 desktop launcher
     desktop-qt5:
@@ -80,7 +82,6 @@ parts:
             - locales-all
             - xdg-user-dirs
             - fcitx-frontend-qt5
-            - qt5-gtk-platformtheme #Platform themes plugin
 
 apps:
     jmbde-qt:
