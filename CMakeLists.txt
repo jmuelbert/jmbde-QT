@@ -231,6 +231,17 @@ endif()
 # Extensions: GitVersion, Clang-Format, Clang-Tidy
 # ##########################################################################################################################################
 # GitVersion
+
+# Get git version
+# git_semver(
+#    MAJOR VERSION_MAJOR
+#    MINOR VERSION_MINOR
+#    PATCH VERSION_PATCH
+#    STRING VERSION_STRING
+#    PATH "${CMAKE_CURRENT_LIST_DIR}"
+# )
+# Set version as a property to the ARticated target
+# set_target_properties(articated_app PROPERTIES VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 if(USE_GIT_VERSION)
   if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
     find_package(Git)

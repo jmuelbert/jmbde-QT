@@ -1,27 +1,45 @@
-FROM gitpod/workspace-full-vnc:latest
+FROM ubuntu:20.10
 
-USER root
+# install  compiler, build tools, git, ...
+RUN apt-get -qq update && \
+    apt-get -qq install -y --no-install-recommends \
+    build-essential \
+    gcc-10 \
+    libclang-11-dev \
+    llvm-11-dev \
+    clang-format \
+    clang-tidy \
+    cmake \
+    ninja-build \
+    qt5-default \
+    qtdeclarative5-dev \
+    qttools5-dev-tools \
+    libqt5svg5-dev \
+    git \
+    python3-pip \
+    doxygen \
+    openjdk-15-jre-headless \
+    graphviz \
+    librsvg2-bin \
+    file \
+    dpkg-dev \
+    rpm \
+    cloc && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-ENV DEBIAN_FRONTEND noninteractive
+# install conan, a C/C++ package manager
+RUN pip3 install conan==1.32.0
 
-RUN apt-get update && \
-    && apt-get install --no-install-recommends -y tzdata \
-    keyboard-configuration \
-    qt5-default qtbase5-dev \
-    qt5-default qttools5-dev-tools qttools5-dev libqt5svg5-dev \
-    libqt5help5 libqt5svg5-dev qt5-image-formats-plugins  \
-    qtdeclarative5-dev qtdeclarative5-dev-tools \
-    locales locales-all doxygen \
-    && apt-get clean && rm -rf /var/cache/apt/* \
-    && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/*
-
-# install dependencies
-RUN apt-get update \
-    && apt-get install --no-install-recommends -y  matchbox twm \
-    && apt-get clean && rm -rf /var/cache/apt/* \
-    && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/*
-
-RUN pip3 install --upgrade pip
-RUN pip3 install conan
-
-USER gitpod
+# install include-what-you-use
+# (iwyu does not provide prebuilt binaries and hence must be built from source)
+RUN git clone https://github.com/include-what-you-use/include-what-you-use.git && \
+    cd include-what-you-use && \
+    git checkout clang_11 && \
+    mkdir build && \
+    cd build && \
+    cmake -G Ninja .. && \
+    ninja && \
+    ninja install && \
+    cd ../.. && \
+    rm -rf include-what-you-use

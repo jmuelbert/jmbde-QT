@@ -43,14 +43,21 @@ parts:
         after: [conan, desktop-qt5]
 
     # Ubuntu  doesn't have python-conan
+    wheel:
+        plugin: python
+        python-packages:
+            - wheel
+            - conan
+        stage:
+            - lib64/*
+
     conan:
         plugin: python
         python-packages:
             - conan
-        stage-packages:
-          - wheel
         stage:
             - lib64/*
+        after: [wheel]
 
     # Snapcraft Qt5 desktop launcher
     desktop-qt5:
