@@ -1,4 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## Added
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/)
+## Changed
+
+## Deprecated
+
+## Removed
+
+## Fixed
+
+## Security
+
+##  Infrastructure
+## Updated
