@@ -136,7 +136,7 @@ jobs:
                   path: ../Qt
                   key: Qt-${{ matrix.config.os }}-${{ env.QT_VERSION }}
 
-            - name: Installing Qt$${{ env.QT_VERSION }} - ${{ matrix.config.qt_arch }} on ${{ matrix.config.os }}
+            - name: Installing Qt${{ env.QT_VERSION }} - ${{ matrix.config.qt_arch }} on ${{ matrix.config.os }}
               uses: jurplel/install-qt-action@v2
               with:
                   version: ${{ env.QT_VERSION }}
@@ -182,7 +182,7 @@ jobs:
                     -DCMAKE_INSTALL_PREFIX:PATH=./app
 
             - name: Configure CMake
-              if: matrix.os != 'ubuntu-16.04' || matrix.os == 'ubuntu-latest'
+              if: matrix.os != 'ubuntu-16.04' || matrix.os != 'ubuntu-latest'
               # Use a bash shell so we can use the same syntax for environment variable
               # access regardless of the host operating system
               shell: bash
@@ -212,5 +212,5 @@ jobs:
             #   run: ctest -C $BUILD_TYPE
 
             - name: collect code coverage
-              if: matrix.os == 'ubuntu-latest'
+              if: matrix.os != 'ubuntu-latest'
               run: bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
