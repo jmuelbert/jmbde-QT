@@ -142,7 +142,7 @@ jobs:
                   version: ${{ env.QT_VERSION }}
                   target:  ${{ matrix.config.qt_target }}
                   arch:  ${{ matrix.config.qt_arch }}
-                  mirror: "http://mirrors.ocf.berkeley.edu/qt/"
+                  # mirror: "http://mirrors.ocf.berkeley.edu/qt/"
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
             - name:
@@ -164,8 +164,8 @@ jobs:
               # We'll use this as our working directory for all subsequent commands
               run: cmake -E make_directory ${{runner.workspace}}/build
 
-            - name: Configure CMake
-              if: matrix.os == 'ubuntu-16.04' || matrix.os == 'ubuntu-latest'
+            - name: Configure CMake for Linux
+              if: matrix.config.os == 'ubuntu-16.04' || matrix.config.os == 'ubuntu-latest'
               # Use a bash shell so we can use the same syntax for environment variable
               # access regardless of the host operating system
               shell: bash
@@ -181,8 +181,8 @@ jobs:
                     -DBUILD_COVERAGE=ON \
                     -DCMAKE_INSTALL_PREFIX:PATH=./app
 
-            - name: Configure CMake
-              if: matrix.os != 'ubuntu-16.04' || matrix.os != 'ubuntu-latest'
+            - name: Configure CMake for macOS or Windows
+              if: matrix.config.os == 'macOS-latest' || matrix.config.os == 'windows-latest'
               # Use a bash shell so we can use the same syntax for environment variable
               # access regardless of the host operating system
               shell: bash
@@ -204,7 +204,7 @@ jobs:
               run: cmake --build . --config ${{ env.BUILD_TYPE }} -j2 --target install
 
             # - name: Test
-            #   if: matrix.os == 'ubuntu-latest'
+            #   if: matrix.config.os == 'ubuntu-latest'
             #   working-directory: ${{runner.workspace}}/build
             #   shell: bash
             #   # Execute tests defined by the CMake configuration.
@@ -212,5 +212,5 @@ jobs:
             #   run: ctest -C $BUILD_TYPE
 
             - name: collect code coverage
-              if: matrix.os != 'ubuntu-latest'
+              if: matrix.config.os != 'ubuntu-latest'
               run: bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
