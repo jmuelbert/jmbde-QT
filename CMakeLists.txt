@@ -242,6 +242,7 @@ endif()
 # )
 # Set version as a property to the ARticated target
 # set_target_properties(articated_app PROPERTIES VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
+
 if(USE_GIT_VERSION)
   if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
     find_package(Git)

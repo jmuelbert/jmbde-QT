@@ -1,29 +1,65 @@
 ---
-test_code:
-    image: rootproject/root:latest
-    stage: test
-    before_script:
-        - apt-get update
-        - DEBIAN_FRONTEND=noninteractive apt-get install -y keyboard-configuration
-          build-essential software-properties-common make cmake ninja-build git pkgconf
-          extra-cmake-modules
-        - DEBIAN_FRONTEND=noninteractive apt-get install -y qtbase5-dev qttools5-dev
-          qttools5-dev-tools libqt5help5  qtdeclarative5-dev qtdeclarative5-dev-tools
-          qt5-image-formats-plugins libqt5svg5-dev
-        - apt-get install -y python3 python3-pip
-        - add-apt-repository ppa:git-core/ppa
-        - apt-get update
-        - apt-get install -y git
-        - apt-get autoremove
+# NOTE: customize `example-project-image` name below before deploying to a new
+# project.
 
-    script:
-        - mkdir build
-        - cd build
-        - conan install ..
-        - cmake -GNinja -S .. -DCMAKE_INSTALL_PREFIX=./build/AppDir/usr
-          -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=TRUE
-        - cmake --build . -v
-        # - ctest --build --verbose .
+stages:
+  - build
+  - test
+  - coverage
+  - pages
+
+variables:
+  DOCKER_IMAGE: "jmbde-project-image"
+  CMAKE_FLAGS_BUILD: '-GNinja -DCMAKE_C_CLANG_TIDY=clang-tidy;-warnings-as-errors=* -DCMAKE_CXX_CLANG_TIDY=clang-tidy;-warnings-as-errors=*'
+  CMAKE_FLAGS_COVERAGE: "-GNinja -DCODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=Debug"
+
+build:
+  stage: build
+  tags:
+    - docker-shell  # gitlab runner must be setup as capable of building docker images from shell
+  script:
+    - docker build -t $DOCKER_IMAGE .  # build image from project Dockerfile if changed
+    - mkdir -p build
+    - docker run --rm --mount type=bind,source="$(pwd)",target=/$CI_PROJECT_NAME --workdir="/$CI_PROJECT_NAME/build" $DOCKER_IMAGE cmake $CMAKE_FLAGS_BUILD ..
+    - docker run --rm --mount type=bind,source="$(pwd)",target=/$CI_PROJECT_NAME --workdir="/$CI_PROJECT_NAME/build" $DOCKER_IMAGE cmake --build .
+  after_script:
+    - sudo chown -R gitlab-runner:gitlab-runner build  # by default, docker-written artifacts are owned by root
+    - sudo chown -R gitlab-runner:gitlab-runner cmake
+  artifacts:
+    paths:
+      - build
+      # depending on your build setup you can cache outputs to reduce the build time
+      # cache:
+      #   paths:
+      #     - build
+
+# run tests using the binary built before
+test:
+  stage: test
+  tags:
+    - docker-shell
+  script:
+    - docker build -t $DOCKER_IMAGE .
+    - docker run --rm --mount type=bind,source="$(pwd)",target=/$CI_PROJECT_NAME --workdir="/$CI_PROJECT_NAME/build" $DOCKER_IMAGE ctest
+  after_script:
+    - sudo chown -R gitlab-runner:gitlab-runner build
+    - sudo chown -R gitlab-runner:gitlab-runner cmake
+
+coverage:
+  stage: coverage
+  tags:
+    - docker-shell
+  script:
+    - docker build -t $DOCKER_IMAGE .  # build image from project Dockerfile if changed
+    - mkdir -p build_coverage
+    - docker run --rm --mount type=bind,source="$(pwd)",target=/$CI_PROJECT_NAME --workdir="/$CI_PROJECT_NAME/build_coverage" $DOCKER_IMAGE cmake $CMAKE_FLAGS_COVERAGE ..
+    - docker run --rm --mount type=bind,source="$(pwd)",target=/$CI_PROJECT_NAME --workdir="/$CI_PROJECT_NAME/build_coverage" $DOCKER_IMAGE cmake --build . --target ctest_coverage
+  after_script:
+    - sudo chown -R gitlab-runner:gitlab-runner build_coverage  # by default, docker-written artifacts are owned by root
+    - sudo chown -R gitlab-runner:gitlab-runner cmake
+  artifacts:
+    paths:
+      - build_coverage
 
 pages:
     image: node:10

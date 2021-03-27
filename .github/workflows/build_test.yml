@@ -39,7 +39,6 @@ jobs:
         name: ${{ matrix.config.os }}
 
         strategy:
-
             matrix:
                 config:
                     - {
@@ -49,6 +48,16 @@ jobs:
                         arch: x64,
                         generator: "-G 'Unix Makefiles'",
                         portable-option: Off
+                    }
+                    - {
+                        os: ubuntu-latest,
+                        qt_arch: gcc_64,
+                        qt_target: desktop,
+                        arch: x64,
+                        generator: "-G 'Unix Makefiles'",
+                        portable-option: Off,
+                        CTEST_OUTPUT_ON_FAILURE: 1
+                        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
                     }
                     - {
                         os: windows-latest,
@@ -156,6 +165,7 @@ jobs:
               run: cmake -E make_directory ${{runner.workspace}}/build
 
             - name: Configure CMake
+              if: runner.os == 'linux'
               # Use a bash shell so we can use the same syntax for environment variable
               # access regardless of the host operating system
               shell: bash
@@ -171,15 +181,36 @@ jobs:
                     -DBUILD_COVERAGE=ON \
                     -DCMAKE_INSTALL_PREFIX:PATH=./app
 
+            - name: Configure CMake
+              if: runner.os != 'linux'
+              # Use a bash shell so we can use the same syntax for environment variable
+              # access regardless of the host operating system
+              shell: bash
+              working-directory: ${{runner.workspace}}/build
+              # Note the current convention is to use the -S and -B options here to specify source
+              # and build directories, but this is only available with CMake 3.13 and higher.
+              # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
+              run: |
+                  cmake $GITHUB_WORKSPACE \
+                    ${{matrix.config.generator}} \
+                    -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
+                    -DBUILD_TRANSLATIONS=ON \
+                    -DCMAKE_INSTALL_PREFIX:PATH=./app
+
             - name: Build
               working-directory: ${{runner.workspace}}/build
               shell: bash
               # Execute the build.  You can specify a specific target with "--target <NAME>"
               run: cmake --build . --config ${{ env.BUILD_TYPE }} -j2 --target install
 
-            #- name: Test
-            #  working-directory: ${{runner.workspace}}/build
-            #  shell: bash
-            #  # Execute tests defined by the CMake configuration.
-            #  # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-            #  run: ctest -C $BUILD_TYPE
+            - name: Test
+              if: runner.os == 'linux'
+              working-directory: ${{runner.workspace}}/build
+              shell: bash
+              # Execute tests defined by the CMake configuration.
+              # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+              run: ctest -C $BUILD_TYPE
+
+            - name: collect code coverage
+              if: runner.os == 'linux'
+              run: bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"

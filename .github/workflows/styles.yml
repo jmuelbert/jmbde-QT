@@ -1,0 +1,41 @@
+---
+name: Style
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+env:
+  SOURCE_CACHE: ${{ github.workspace }}/src
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/cache@v2
+        with:
+          path: "**/src"
+          key: ${{ github.workflow }}-src-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake') }}
+
+      - name: Install format dependencies
+        run: |
+          brew install clang-format
+          pip3 install cmake_format==0.6.11 pyyaml
+      - name: configure
+        run: cmake -Stest -Bbuild
+
+      - name: check style
+        run: cmake --build build --target check-format
+
+      - name: Validate QML and JavaScript files
+        uses: liri-infra/qmllint-action@master
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
