@@ -1,19 +1,21 @@
 # Changelog
 All notable changes to this project will be documented in this file.
-## Added
 
-## Changed
+## unreleased 
+### Added
 
-## Deprecated
+### Changed
 
-## Removed
+### Deprecated
 
-## Fixed
+### Removed
 
-## Security
+### Fixed
 
-##  Infrastructure
-## Updated
+### Security
+
+###  Infrastructure
+### Updated
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 ## [Unreleased](https://github.com/jmuelbert/jmbde-QT/tree/HEAD)
