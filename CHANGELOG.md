@@ -1,5 +1,7 @@
 # Changelog
+All notable changes to this project will be documented in this file.
 
+The format is based on [Keep a Changelog](http://keepachangelog.com/)
 ## [Unreleased](https://github.com/jmuelbert/jmbde-QT/tree/HEAD)
 
 [Full Changelog](https://github.com/jmuelbert/jmbde-QT/compare/v0.5.2...HEAD)
