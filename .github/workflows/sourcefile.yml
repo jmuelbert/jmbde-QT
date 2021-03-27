@@ -2,11 +2,11 @@
 name: All Source Files
 
 on:
-    pull_request:
-        paths-ignore:
-            - "README.md"
-            - "LICENSE"
-            - "BUILD.md"
+#     pull_request:
+#         paths-ignore:
+#             - "README.md"
+#             - "LICENSE"
+#             - "BUILD.md"
     release:
         types: [published]
 

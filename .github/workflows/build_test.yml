@@ -56,7 +56,7 @@ jobs:
                         arch: x64,
                         generator: "-G 'Unix Makefiles'",
                         portable-option: Off,
-                        CTEST_OUTPUT_ON_FAILURE: 1
+                        CTEST_OUTPUT_ON_FAILURE: 1,
                         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
                     }
                     - {

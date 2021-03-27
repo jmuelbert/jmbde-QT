@@ -110,10 +110,10 @@ jobs:
             #      vcpkgGitCommitId: ${{ env.VCPKG_VERSION }}
             #      vcpkgTriplet: ${{ matrix.config.vcpkg_triplet }}
 
-            - name: Install Python 3.9 version
-              uses: actions/setup-python@v1
+            - name: Install Python 3.x version
+              uses: actions/setup-python@v2
               with:
-                  python-version: "3.9.1"
+                  python-version: "3.x"
                   architecture: ${{ matrix.arch }}
 
             # =========================================================================================================
