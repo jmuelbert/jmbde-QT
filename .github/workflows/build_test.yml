@@ -19,6 +19,8 @@ env:
     BUILD_TYPE: Debug
     PRODUCT: jmbde
     targetName: jmbde
+    CTEST_OUTPUT_ON_FAILURE: 1
+    CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
 jobs:
     check_commit_msg:
@@ -55,9 +57,7 @@ jobs:
                         qt_target: desktop,
                         arch: x64,
                         generator: "-G 'Unix Makefiles'",
-                        portable-option: Off,
-                        CTEST_OUTPUT_ON_FAILURE: 1,
-                        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+                        portable-option: Off
                     }
                     - {
                         os: windows-latest,

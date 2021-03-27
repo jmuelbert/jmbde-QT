@@ -114,7 +114,7 @@ jobs:
             #      vcpkgGitCommitId: ${{ env.VCPKG_VERSION }}
             #      vcpkgTriplet: ${{ matrix.config.vcpkg_triplet }}
 
-            - name: Install Python 3.9 version
+            - name: Install Python 3.x version
               uses: actions/setup-python@v2
               with:
                 python-version: "3.x"
@@ -127,7 +127,7 @@ jobs:
                   path: ../Qt
                   key: Qt-${{ matrix.config.os }}-${{ env.QT_VERSION }}
 
-            - name: Installing Qt$${{ env.QT_VERSION }} - ${{ matrix.config.qt_arch }} on ${{ matrix.config.os }}
+            - name: Installing Qt${{ env.QT_VERSION }} - ${{ matrix.config.qt_arch }} on ${{ matrix.config.os }}
               uses: jurplel/install-qt-action@v2
               with:
                   version: ${{ env.QT_VERSION }}

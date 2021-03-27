@@ -5,10 +5,10 @@ on:
         branches:
             - master # Set a branch name to trigger deployment
 
-on:
-  push:
-    tags:
-      - "*"
+# on:
+#   push:
+#     tags:
+#       - "*"
 
 env:
   SOURCE_CACHE: ${{ github.workspace }}/src
