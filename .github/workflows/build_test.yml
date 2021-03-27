@@ -212,5 +212,5 @@ jobs:
             #   run: ctest -C $BUILD_TYPE
 
             - name: collect code coverage
-              if: matrix.config.os != 'ubuntu-latest'
+              if: matrix.config.os == 'ubuntu-latest'
               run: bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
