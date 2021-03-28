@@ -1,6 +1,0 @@
-<map id="DepartmentInputArea::on_pushButton_Add_clicked" name="DepartmentInputArea::on_pushButton_Add_clicked">
-<area shape="rect" id="node1" title="on_pushButton_Add_clicked" alt="" coords="5,34,151,90"/>
-<area shape="rect" id="node2" href="$classDepartmentInputArea.html#a979fea804cfca15dcb1368c4905ae0b3" title="createDataset" alt="" coords="215,5,361,47"/>
-<area shape="rect" id="node3" href="$classDepartmentInputArea.html#a48c6f0e0bfb1b32c5e4cc1f6c4fc69a4" title="on_pushButton_EditFinish_clicked" alt="" coords="199,70,377,126"/>
-<area shape="rect" id="node4" href="$classDepartmentInputArea.html#a60c7813052123fa112d04767f3ae5569" title="setViewOnlyMode" alt="" coords="425,77,571,119"/>
-</map>

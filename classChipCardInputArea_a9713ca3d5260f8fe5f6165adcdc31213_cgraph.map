@@ -1,6 +1,0 @@
-<map id="ChipCardInputArea::on_pushButton_Add_clicked" name="ChipCardInputArea::on_pushButton_Add_clicked">
-<area shape="rect" id="node1" title="on_pushButton_Add_clicked" alt="" coords="5,41,192,83"/>
-<area shape="rect" id="node2" href="$classChipCardInputArea.html#a82f0cdac870b4f938ea3c524cca80ae7" title="createDataset" alt="" coords="258,5,395,47"/>
-<area shape="rect" id="node3" href="$classChipCardInputArea.html#a6cababe6e9ce8baa7b5ea83a53b542d7" title="on_pushButton_EditFinish_clicked" alt="" coords="240,70,413,126"/>
-<area shape="rect" id="node4" href="$classChipCardInputArea.html#aa7057c2c8ef8ece6f84760acd144a409" title="setViewOnlyMode" alt="" coords="461,77,599,119"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="ManufacturerInputArea::on_pushButton_Add_clicked" name="ManufacturerInputArea::on_pushButton_Add_clicked">
-<area shape="rect" id="node1" title="on_pushButton_Add_clicked" alt="" coords="5,41,199,83"/>
-<area shape="rect" id="node2" href="$classManufacturerInputArea.html#ac644879a4b3dbead3d5664fd2fc9a8d6" title="createDataset" alt="" coords="259,5,413,47"/>
-<area shape="rect" id="node3" href="$classManufacturerInputArea.html#a862fbffb7f5a5a9d6c2d23269e3efe83" title="on_pushButton_EditFinish_clicked" alt="" coords="247,70,425,126"/>
-<area shape="rect" id="node4" href="$classManufacturerInputArea.html#ad318966d5e507ad156594f80fdff82e5" title="setViewOnlyMode" alt="" coords="473,77,628,119"/>
-</map>

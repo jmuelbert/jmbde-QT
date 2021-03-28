@@ -1,6 +1,0 @@
-<map id="Model::Computer::generateTableString" name="Model::Computer::generateTableString">
-<area shape="rect" id="node1" title="generateTableString" alt="" coords="239,71,413,112"/>
-<area shape="rect" id="node2" href="$classMainWindow.html#aebce2f8d5f2c275de0a8fa53898f1572" title="on_action_Export_Pdf_triggered" alt="" coords="19,5,177,47"/>
-<area shape="rect" id="node3" href="$classMainWindow.html#abc37946de4fe89d8dd02b608df930958" title="on_actionPrint_Preview_triggered" alt="" coords="5,71,191,112"/>
-<area shape="rect" id="node4" href="$classMainWindow.html#a214a1a535fdbf35b0ed12e26231eef56" title="on_actionPrint_triggered" alt="" coords="5,136,191,177"/>
-</map>

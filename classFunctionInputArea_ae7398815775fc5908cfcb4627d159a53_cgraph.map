@@ -1,6 +1,0 @@
-<map id="FunctionInputArea::on_pushButton_Add_clicked" name="FunctionInputArea::on_pushButton_Add_clicked">
-<area shape="rect" id="node1" title="on_pushButton_Add_clicked" alt="" coords="5,41,192,83"/>
-<area shape="rect" id="node2" href="$classFunctionInputArea.html#a4163742de0d4de187db1005e0ec840bb" title="createDataset" alt="" coords="259,5,394,47"/>
-<area shape="rect" id="node3" href="$classFunctionInputArea.html#ab2019fb7347ad8696b75baa2cb2081e0" title="on_pushButton_EditFinish_clicked" alt="" coords="240,70,413,126"/>
-<area shape="rect" id="node4" href="$classFunctionInputArea.html#a86f15364244cfbecf7a4182c19f737ee" title="setViewOnlyMode" alt="" coords="461,77,596,119"/>
-</map>

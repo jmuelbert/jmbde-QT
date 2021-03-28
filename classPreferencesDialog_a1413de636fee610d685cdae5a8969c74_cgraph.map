@@ -1,5 +1,0 @@
-<map id="PreferencesDialog::on_buttonBox_accepted" name="PreferencesDialog::on_buttonBox_accepted">
-<area shape="rect" id="node1" title="on_buttonBox_accepted" alt="" coords="5,5,167,47"/>
-<area shape="rect" id="node2" href="$classPreferencesDialog.html#a37549caa7d98d382e38f30631c793313" title="writeSettings" alt="" coords="215,5,349,47"/>
-<area shape="rect" id="node3" href="$classPreferencesDialog.html#a7ddbd6e797f0d01b071fa2fdd5274d81" title="getUserDataDir" alt="" coords="397,5,532,47"/>
-</map>

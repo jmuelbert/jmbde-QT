@@ -1,6 +1,0 @@
-<map id="ManufacturerInputArea::setViewOnlyMode" name="ManufacturerInputArea::setViewOnlyMode">
-<area shape="rect" id="node1" title="setViewOnlyMode" alt="" coords="473,41,628,83"/>
-<area shape="rect" id="node2" href="$classManufacturerInputArea.html#a98e0610043f6e822ecb3e0ce39138561" title="ManufacturerInputArea." alt="" coords="256,5,416,47"/>
-<area shape="rect" id="node3" href="$classManufacturerInputArea.html#a862fbffb7f5a5a9d6c2d23269e3efe83" title="on_pushButton_EditFinish_clicked" alt="" coords="247,70,425,126"/>
-<area shape="rect" id="node4" href="$classManufacturerInputArea.html#a1c3c3d03382e5532833af1162621b075" title="on_pushButton_Add_clicked" alt="" coords="5,77,199,119"/>
-</map>

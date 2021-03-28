@@ -1,6 +1,0 @@
-<map id="OSInputArea::on_pushButton_Add_clicked" name="OSInputArea::on_pushButton_Add_clicked">
-<area shape="rect" id="node1" title="on_pushButton_Add_clicked" alt="" coords="5,27,196,69"/>
-<area shape="rect" id="node2" href="$classOSInputArea.html#ad327dcdd43afc55c42915bde00460f91" title="createDataset" alt="" coords="247,5,431,32"/>
-<area shape="rect" id="node3" href="$classOSInputArea.html#adc397d07e95ae6b2baf46b36951f79fd" title="on_pushButton_EditFinish_clicked" alt="" coords="244,57,435,98"/>
-<area shape="rect" id="node4" href="$classOSInputArea.html#aec35e9f8e9b535919b2d90c98209e4c8" title="setViewOnlyMode" alt="" coords="483,64,691,91"/>
-</map>

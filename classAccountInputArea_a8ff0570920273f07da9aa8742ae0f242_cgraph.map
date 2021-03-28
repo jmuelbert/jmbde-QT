@@ -1,6 +1,0 @@
-<map id="AccountInputArea::on_pushButton_Add_clicked" name="AccountInputArea::on_pushButton_Add_clicked">
-<area shape="rect" id="node1" title="on_pushButton_Add_clicked" alt="" coords="5,41,179,83"/>
-<area shape="rect" id="node2" href="$classAccountInputArea.html#a325cdffb479d39b304e1e725ad5c8bf2" title="createDataset" alt="" coords="227,5,395,47"/>
-<area shape="rect" id="node3" href="$classAccountInputArea.html#a44e75e260a5ea7e2d42eeedd7f6a0666" title="on_pushButton_EditFinish_clicked" alt="" coords="231,70,390,126"/>
-<area shape="rect" id="node4" href="$classAccountInputArea.html#aa981907eb2d19efbff0945446889f150" title="setViewOnlyMode" alt="" coords="443,77,621,119"/>
-</map>

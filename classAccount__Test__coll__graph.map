@@ -1,8 +1,0 @@
-<map id="Account_Test" name="Account_Test">
-<area shape="rect" id="node1" title=" " alt="" coords="33,260,136,287"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,76,32"/>
-<area shape="rect" id="node3" href="$classModel_1_1DataContext.html" title="The Main Database class." alt="" coords="44,81,179,108"/>
-<area shape="rect" id="node4" href="$classModel_1_1Account.html" title="The Account class." alt="" coords="200,171,311,197"/>
-<area shape="rect" id="node5" href="$classModel_1_1CommonData.html" title="The CommonData class." alt="" coords="203,81,345,108"/>
-<area shape="rect" id="node6" title=" " alt="" coords="200,5,348,32"/>
-</map>

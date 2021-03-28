@@ -1,5 +1,0 @@
-<map id="PreferencesDialog::PreferencesDialog" name="PreferencesDialog::PreferencesDialog">
-<area shape="rect" id="node1" title="PreferencesDialog::PreferencesDialog." alt="" coords="5,5,140,47"/>
-<area shape="rect" id="node2" href="$classPreferencesDialog.html#add472e0fa33eab4c3b97bf46c15bac02" title="readSettings" alt="" coords="188,5,323,47"/>
-<area shape="rect" id="node3" href="$classPreferencesDialog.html#a7ddbd6e797f0d01b071fa2fdd5274d81" title="getUserDataDir" alt="" coords="371,5,505,47"/>
-</map>

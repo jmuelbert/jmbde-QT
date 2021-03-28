@@ -1,6 +1,0 @@
-<map id="PrinterInputArea::on_pushButton_Add_clicked" name="PrinterInputArea::on_pushButton_Add_clicked">
-<area shape="rect" id="node1" title="on_pushButton_Add_clicked" alt="" coords="5,41,179,83"/>
-<area shape="rect" id="node2" href="$classPrinterInputArea.html#af7825b1c577df93483e55ddb4f1c02d3" title="createDataset" alt="" coords="227,5,385,47"/>
-<area shape="rect" id="node3" href="$classPrinterInputArea.html#a312e061525374f43bfd7d54bc3520830" title="on_pushButton_EditFinish_clicked" alt="" coords="227,70,385,126"/>
-<area shape="rect" id="node4" href="$classPrinterInputArea.html#a72a3864e21dd739286b1123385faee6b" title="setViewOnlyMode" alt="" coords="433,77,603,119"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="EmployeeInputArea::on_pushButton_Add_clicked" name="EmployeeInputArea::on_pushButton_Add_clicked">
-<area shape="rect" id="node1" title="on_pushButton_Add_clicked" alt="" coords="5,41,192,83"/>
-<area shape="rect" id="node2" href="$classEmployeeInputArea.html#a4cfd182d6ac421470c3e2c93e110cdca" title="createDataset" alt="" coords="257,5,397,47"/>
-<area shape="rect" id="node3" href="$classEmployeeInputArea.html#ae61740323aca414377d87e6b54456752" title="on_pushButton_EditFinish_clicked" alt="" coords="240,70,413,126"/>
-<area shape="rect" id="node4" href="$classEmployeeInputArea.html#a6d93bddc0ac4e59c44065899e532cf67" title="setViewOnlyMode" alt="" coords="461,77,601,119"/>
-</map>

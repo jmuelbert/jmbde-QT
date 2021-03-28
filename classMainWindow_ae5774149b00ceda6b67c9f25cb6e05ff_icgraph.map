@@ -1,7 +1,0 @@
-<map id="MainWindow::actualizeListView" name="MainWindow::actualizeListView">
-<area shape="rect" id="node1" title=" " alt="" coords="485,78,689,105"/>
-<area shape="rect" id="node2" href="$classMainWindow.html#a0518b86802fd784465adab9d7c76b72b" title=" " alt="" coords="228,5,437,47"/>
-<area shape="rect" id="node4" href="$classMainWindow.html#a19d083f9961344a63766aeb9f327eff3" title="Actualize the list view for employee after data changes." alt="" coords="228,71,437,112"/>
-<area shape="rect" id="node5" href="$classMainWindow.html#a0234ce1d33f918a3dfaa765bf5109561" title=" " alt="" coords="231,136,434,177"/>
-<area shape="rect" id="node3" href="$classMainWindow.html#adc7d4b2b210efab401f0b14641f80464" title="on_treeView_clicked" alt="" coords="5,71,180,112"/>
-</map>

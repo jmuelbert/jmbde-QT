@@ -1,6 +1,0 @@
-<map id="ProcessorInputArea::setViewOnlyMode" name="ProcessorInputArea::setViewOnlyMode">
-<area shape="rect" id="node1" title="setViewOnlyMode" alt="" coords="425,49,563,90"/>
-<area shape="rect" id="node2" href="$classProcessorInputArea.html#a5fb65b1aac26dd9d60f1a45fedc9b807" title="on_pushButton_EditFinish_clicked" alt="" coords="199,5,377,61"/>
-<area shape="rect" id="node4" href="$classProcessorInputArea.html#a8bd7f01fd955ee3855826a70b02effdc" title="ProcessorInputArea." alt="" coords="217,85,359,126"/>
-<area shape="rect" id="node3" href="$classProcessorInputArea.html#a80a8b7256be2f2e27af824974fdd4706" title="on_pushButton_Add_clicked" alt="" coords="5,5,151,61"/>
-</map>
