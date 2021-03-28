@@ -31,7 +31,7 @@ jobs:
           pip3 install jinja2 Pygments
       - name: Build
         run: |
-          cmake -Sdocumentation -Bbuild -DBUILD_MANUAL
+          cmake -Sdocumentation -Bbuild -DBUILD_MANUAL=ON
           cmake --build build --target GenerateDocs
       - name: Publish
         uses: peaceiris/actions-gh-pages@v3.8.0
