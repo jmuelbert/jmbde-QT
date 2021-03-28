@@ -83,7 +83,7 @@
 - Bump sphinx-rtd-theme from 0.5.0 to 0.5.1 [\#186](https://github.com/jmuelbert/jmbde-QT/pull/186)
 - Bump importlib-metadata from 3.3.0 to 3.4.0 [\#185](https://github.com/jmuelbert/jmbde-QT/pull/185)
 - Bump breathe from 4.25.1 to 4.26.0 [\#184](https://github.com/jmuelbert/jmbde-QT/pull/184)
-- Bump actions/upload-artifact from v2.2.1 to v2.2.2 [\#182](https://github.com/jmuelbert/jmbde-QT/pull/182)
+- Bump sphinx from 3.4.1 to 3.4.3 [\#183](https://github.com/jmuelbert/jmbde-QT/pull/183)
 - Modifications and Bug fixes from 0.5.4 pre-release to 0.5.4 release [\#175](https://github.com/jmuelbert/jmbde-QT/pull/175)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
