@@ -6,7 +6,11 @@ project(GreeterDocs)
 
 
 # ---- Doxygen variables ----
-
+find_package(
+  Doxygen
+  OPTIONAL_COMPONENTS dot mscgen dia
+  REQUIRED
+)
 # set Doxyfile variables
 set(DOXYGEN_PROJECT_NAME jmbde-QT)
 set(DOXYGEN_PROJECT_VERSION "0.5.4")
@@ -20,7 +24,7 @@ configure_file(${CMAKE_CURRENT_LIST_DIR}/conf.py ${CMAKE_CURRENT_BINARY_DIR}/con
 add_custom_target(
   GenerateDocs
   ${CMAKE_COMMAND} -E make_directory "${DOXYGEN_OUTPUT_DIRECTORY}"
-  COMMAND "${m.css_SOURCE_DIR}/documentation/doxygen.py" "${CMAKE_CURRENT_BINARY_DIR}/conf.py"
+  COMMAND ${DOXYGEN_EXECUTABLE} "${CMAKE_CURRENT_BINARY_DIR}/conf.py"
   COMMAND echo "Docs written to: ${DOXYGEN_OUTPUT_DIRECTORY}"
   WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
 )
