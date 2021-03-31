@@ -10,33 +10,20 @@
 
 **Implemented enhancements:**
 
-- Remove old Workflows [\#159](https://github.com/jmuelbert/jmbde-QT/issues/159)
 - Create for Windows Beta \(previews\) an Installer [\#148](https://github.com/jmuelbert/jmbde-QT/issues/148)
-- Should use Innosetup or WiX to create an Installer for Windows ? [\#147](https://github.com/jmuelbert/jmbde-QT/issues/147)
 - Ugrade UI and make this similar to db [\#216](https://github.com/jmuelbert/jmbde-QT/pull/216)
 
 **Fixed bugs:**
 
-- Windows innosetup installer [\#172](https://github.com/jmuelbert/jmbde-QT/issues/172)
-- Size of MainWindow dont fit to InputArea [\#161](https://github.com/jmuelbert/jmbde-QT/issues/161)
 - View error in Employee [\#160](https://github.com/jmuelbert/jmbde-QT/issues/160)
 - CI: Appveyor [\#158](https://github.com/jmuelbert/jmbde-QT/issues/158)
 - Workflow: CI: Build Test Qt6 [\#155](https://github.com/jmuelbert/jmbde-QT/issues/155)
 - Workflow: CD: AppImage Qt6 [\#151](https://github.com/jmuelbert/jmbde-QT/issues/151)
-- Workflow: clazy [\#150](https://github.com/jmuelbert/jmbde-QT/issues/150)
-- Workflow: pre-commit [\#149](https://github.com/jmuelbert/jmbde-QT/issues/149)
 - View Bug [\#125](https://github.com/jmuelbert/jmbde-QT/issues/125)
-
-**Closed issues:**
-
-- Workflow: CD: DEB - Debian [\#157](https://github.com/jmuelbert/jmbde-QT/issues/157)
-- Workflow: CD: DEB - Ubuntu [\#156](https://github.com/jmuelbert/jmbde-QT/issues/156)
-- Workflow:  CD: RPM - Fedora [\#154](https://github.com/jmuelbert/jmbde-QT/issues/154)
-- Workflow: CD: RPM - openSUSE Leap [\#153](https://github.com/jmuelbert/jmbde-QT/issues/153)
-- Workflow: CD: RPM - openSUSE TW [\#152](https://github.com/jmuelbert/jmbde-QT/issues/152)
 
 **Merged pull requests:**
 
+- Bump ubuntu from 20.10 to 21.04 [\#253](https://github.com/jmuelbert/jmbde-QT/pull/253)
 - Bump importlib-metadata from 3.7.0 to 3.8.0 [\#250](https://github.com/jmuelbert/jmbde-QT/pull/250)
 - Bump urllib3 from 1.26.3 to 1.26.4 [\#249](https://github.com/jmuelbert/jmbde-QT/pull/249)
 - Bump sphinx from 3.5.1 to 3.5.3 [\#248](https://github.com/jmuelbert/jmbde-QT/pull/248)
@@ -82,15 +69,13 @@
 - Bump identify from 1.5.11 to 1.5.12 [\#187](https://github.com/jmuelbert/jmbde-QT/pull/187)
 - Bump sphinx-rtd-theme from 0.5.0 to 0.5.1 [\#186](https://github.com/jmuelbert/jmbde-QT/pull/186)
 - Bump importlib-metadata from 3.3.0 to 3.4.0 [\#185](https://github.com/jmuelbert/jmbde-QT/pull/185)
-- Bump breathe from 4.25.1 to 4.26.0 [\#184](https://github.com/jmuelbert/jmbde-QT/pull/184)
-- Bump sphinx from 3.4.1 to 3.4.3 [\#183](https://github.com/jmuelbert/jmbde-QT/pull/183)
 - Modifications and Bug fixes from 0.5.4 pre-release to 0.5.4 release [\#175](https://github.com/jmuelbert/jmbde-QT/pull/175)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
 
 **Fixed bugs:**
 
-- Chenged [\#129](https://github.com/jmuelbert/jmbde-QT/issues/129)
+- Changed [\#129](https://github.com/jmuelbert/jmbde-QT/issues/129)
 - Open/Read from Database [\#6](https://github.com/jmuelbert/jmbde-QT/issues/6)
 
 **Closed issues:**
