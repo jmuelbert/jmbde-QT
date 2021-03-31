@@ -7,12 +7,11 @@ on:
             - "README.md"
             - "LICENSE"
             - "BUILD.md"
-    pull_request:
-        types: [labeled]
-        paths-ignore:
-            - "README.md"
-            - "LICENSE"
-            - "BUILD.md"
+    pull_request_target:
+      types: [labeled]
+      paths-ignore:
+        - "README.md"
+        - "LICENSE"
     release:
         types: [published]
 
