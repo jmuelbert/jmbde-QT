@@ -146,16 +146,16 @@ jobs:
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
             - name:
-                ${{ matrix.config.os }} - ${{ matrix.config.qt_version }} - macOS Build preparation - Install
+                ${{ matrix.config.os }} - ${{ matrix.config.qt_version }} - Build preparation - Install
                   Packages
               if: matrix.config.os == 'macOS'
               run: |
                   brew install ninja pkg-config
 
             - name:
-                ${{ matrix.config.os }} - ${{ matrix.config.qt_version }} - linux Build preparation - Install
+                ${{ matrix.config.os }} - ${{ matrix.config.qt_version }} - Build preparation - Install
                   Packages
-              if: matrix.config.os == 'ubuntu-20.04'
+              if: matrix.config.os == 'ubuntu-latest'
               run: |
                 sudo apt-get install freeglut3-dev
                 sudo apt-get install lcov
