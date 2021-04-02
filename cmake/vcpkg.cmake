@@ -1,4 +1,4 @@
-if(${PROJECT_NAME}_ENABLE_VCPKG)
+if(ENABLE_VCPKG)
   #
   # If `vcpkg.cmake` (from https://github.com/microsoft/vcpkg) does not exist, download it.
   #
@@ -13,7 +13,7 @@ if(${PROJECT_NAME}_ENABLE_VCPKG)
     message(STATUS "Vcpkg config downloaded succesfully.")
   endif()
 
-	if(${PROJECT_NAME}_VERBOSE_OUTPUT)
+	if(VERBOSE_OUTPUT)
 		set(VCPKG_VERBOSE ON)
 	endif()
 	set(CMAKE_TOOLCHAIN_FILE "${CMAKE_TOOLCHAIN_FILE}" "${CMAKE_BINARY_DIR}/vcpkg.cmake")

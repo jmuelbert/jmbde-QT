@@ -223,28 +223,4 @@ jobs:
             - name: collect code coverage
               if: matrix.config.os == 'ubuntu-latest'
               run: |
-                bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
-
-            - name: Coverage-Report-Gen
-              if: matrix.config.os == 'ubuntu-latest'
-              run: |
-                find .. -name *.gcno | xargs gcov
-                lcov -c -d .. -o coverage.info
-                lcov --remove coverage.info '/usr/local/include/*' '/usr/include/*' 'build' 'm3rdparty' 'cmake' 'scripts' -o coverage.info
-                genhtml coverage.info
-
-            - name: codacy-coverage-reporter
-              if: matrix.config.os == 'ubuntu-latest'
-              uses: codacy/codacy-coverage-reporter-action@master
-              with:
-                project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-                coverage-reports: coverage.info
-
-            - name: Archive Coverage HTML
-              if: matrix.config.os == 'ubuntu-latest'
-              uses: actions/upload-artifact@v2
-              with:
-                name: coverage-html
-                path: |
-                    **/*.html
-                    **/*.css
+                bash <(curl -s https://codecov.io/bash) -X gcov || echo "Codecov did not collect coverage reports"
