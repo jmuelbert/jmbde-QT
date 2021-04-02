@@ -55,15 +55,14 @@ add_library(
   jmbdemodels
   ""
 )
-generate_export_header(jmbdemodels)
-add_library(
-  jmuelbert::jmbdemodels ALIAS jmbdemodels
-)
 
+
+# Since we put the public interface headers in the include directory, we need to tell the compiler so that we can #include <file>.
 target_include_directories(
   jmbdemodels
-  PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}> $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
-         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include> $<INSTALL_INTERFACE:include>
+  PUBLIC # The folder must be used in the include path for any target using this library
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}> $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include> $<INSTALL_INTERFACE:include>
   PRIVATE src
 )
 
@@ -140,28 +139,33 @@ target_sources(
           src/models/zipcode.cpp
           resources/res.qrc)
 
+# The following properties are useful when you want to have an 'install' target
 set_target_properties(
   jmbdemodels
   PROPERTIES VERSION ${PROJECT_VERSION}
              SOVERSION ${SO_VERSION}
-             EXPORT_NAME "jmbdemodels")
+             EXPORT_NAME "jmbdemodels"
+             # PUBLIC_HEADER ${CMAKE_CURRENT_SOURCE_DIR}/include/src/models/datacontext.h # Headers listed here will automatically be copied when installing. Note that directories hierarchy is not preserved.
+             DEBUG_POSTFIX d # We had a postfix so that we can install debug and release libraries side by side (Windows way)
+      )
 
-if(APPLE)
-  set_target_properties(jmbdemodels PROPERTIES INSTALL_RPATH "@loader_path/../Frameworks")
-endif()
-
-target_compile_features(jmbdemodels PUBLIC cxx_std_17)
 
 target_compile_definitions(
   jmbdemodels
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>
 )
 
+# We tell CMake what are the target dependencies
 target_link_libraries(
   jmbdemodels
-  PUBLIC Qt${QT_VERSION_MAJOR}::Core
-  PRIVATE Qt${QT_VERSION_MAJOR}::Gui Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::PrintSupport Qt${QT_VERSION_MAJOR}::Sql
+  # PUBLIC
+  PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Gui Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::PrintSupport Qt${QT_VERSION_MAJOR}::Sql
           ${CONAN_LIBS}
+)
+
+generate_export_header(jmbdemodels)
+add_library(
+  jmuelbert::jmbdemodels ALIAS jmbdemodels
 )
 
 #

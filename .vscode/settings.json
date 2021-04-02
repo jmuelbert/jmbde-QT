@@ -8,7 +8,7 @@
         "BUILD_COVERAGE": "ON",
         "BUILD_SHARED_LIBS": "ON",
         "ENABLE_CPP_CHECK": "ON",
-        "ENABLE_CLANG_TIDY": "OFF",
+        "ENABLE_CLANG_TIDY": "ON",
         "ENABLE_INCLUDE_WHAT_YOU_USE": "OFF",
         "ENABLE_CLANG_FORMAT": "ON",
         "ENABLE_CLAZY": "ON",

@@ -1,7 +1,6 @@
 ---
 name: Update Changelog file
 
-# on: [workflow_dispatch]
 on:
     push:
         branches:
@@ -9,11 +8,11 @@ on:
         paths-ignore:
             - "README.md"
             - "LICENSE"
-
-    pull_request:
-        paths-ignore:
-            - "README.md"
-            - "LICENSE"
+    pull_request_target:
+      types: [labeled]
+      paths-ignore:
+        - "README.md"
+        - "LICENSE"
 
 env:
     PRODUCT: jmbde

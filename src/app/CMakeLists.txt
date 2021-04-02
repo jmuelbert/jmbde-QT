@@ -119,7 +119,9 @@ target_sources(
   PRIVATE ${ICONS_SOURCES}
 )
 
-target_compile_features(jmbde PUBLIC cxx_std_17)
+# Require c++17, this is better than setting CMAKE_CXX_STANDARD since it won't pollute other targets
+# note : cxx_std_* features were added in CMake 3.8.2
+target_compile_features(jmbde PRIVATE cxx_std_17)
 
 target_compile_definitions(
   ${PROJECT_NAME}
@@ -127,8 +129,11 @@ target_compile_definitions(
 )
 
 target_link_libraries(
+    #PUBLIC # Useful for libraries, see https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html for more details about transitive usage requirements.
+    #libraries/targets to link when linking this library
+    #this will automatically setup the needed flags and dependencies when linking against this target
   ${PROJECT_NAME}
-  PRIVATE
+  PRIVATE  # The following libraries are only linked for this target, and its flags/dependencies will not be used when linking against this target
     jmuelbert::jmbdewidgets
     Qt${QT_VERSION_MAJOR}::Core
     Qt${QT_VERSION_MAJOR}::Widgets
@@ -136,6 +141,8 @@ target_link_libraries(
     Qt${QT_VERSION_MAJOR}::Sql
     Qt${QT_VERSION_MAJOR}::Qml
     ${CONAN_LIBS}
+    #debug DEBUGLIBS
+    #optimized RELEASELIBS
 )
 
 if(WIN32)

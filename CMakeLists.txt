@@ -67,12 +67,28 @@ else()
   cmake_policy(VERSION 3.19)
 endif()
 
-project(jmbde)
+project(jmbde LANGUAGES CXX)
 
 # Set the dependencies versions
 set(KF5_VERSION "5.62.0")
 set(KF5_DEP_VERSION "5.62.0")
 set(QT_MIN_VERSION "5.12.4")
+
+if (APPLE)
+    set(APPLE_SUPPRESS_X11_WARNING TRUE)
+    set(KDE_SKIP_RPATH_SETTINGS TRUE)
+    set(CMAKE_MACOSX_RPATH 1)
+    set(BUILD_WITH_INSTALL_RPATH 1)
+    add_definitions(-mmacosx-version-min=10.12 -Wno-macro-redefined -Wno-deprecated-register)
+    if (CMAKE_OSX_ARCHITECTURES)
+        message(STATUS "CMake OSX architectures: ${CMAKE_OSX_ARCHITECTURES}")
+    endif()
+endif()
+
+
+############################
+##  Modules and scripts   ##
+############################
 
 # Standard CMake modules
 include(CTest) # Must be called before adding tests but after calling project(). This automatically calls enable_testing() and configures
@@ -84,6 +100,7 @@ include(InstallRequiredSystemLibraries) # Tell CMake that the `install` target n
 include(CMakePackageConfigHelpers) # Helper to create relocatable packages
 include(FeatureSummary)
 
+# Custom modules and scripts
 # ##########################################################################################################################################
 # Include cmake scripts and config
 # ##########################################################################################################################################
@@ -91,7 +108,6 @@ list(APPEND CMAKE_PREFIX_PATH "${CMAKE_MODULE_PATH}")
 # Add the local module path to the search path
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake" "{CMAKE_CURRENT_LIST_DIR}/cmake/modules")
 
-# Custom modules and scripts
 include(StandardProjectSettings)
 include(PreventInSourceBuilds)
 include(StaticAnalyzers)
@@ -102,30 +118,29 @@ include(CopyDllsForDebug)
 include(Coverage)
 
 include(conan)
+include(vcpkg)
 
 if(NOT LGTM)
    run_conan()
 endif()
 
 
-
-# we need some parts of the ECM CMake helpers
-
+# ECM Modules some parts of the ECM CMake helpers
 find_package(ECM ${KF5_DEP_VERSION} QUIET REQUIRED NO_MODULE)
 feature_summary(WHAT REQUIRED_PACKAGES_NOT_FOUND FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
 # We append to the module path so modules can be overridden from the command line.
 list(APPEND CMAKE_MODULE_PATH "${ECM_MODULE_PATH}")
-
+# ##########################################################################################################################################
 # KDE: extra cmake modules Load extended helpers
+# ##########################################################################################################################################
+# Not on LGTM
 if(NOT LGTM)
     include(KDEClangFormat)
 endif()
 
 if(UNIX AND NOT APPLE)
     include(KDEInstallDirs)
-else()
-    include(GNUInstallDirs)
 endif()
 
 # ##########################################################################################################################################
@@ -148,8 +163,6 @@ option(BUILD_COVERAGE "Add coverage information." OFF)
 add_feature_info(COVERAGE ${BUILD_COVERAGE} "Build with coverage informations.")
 option(BUILD_SHARED_LIBS "Build shared libs" ON)
 add_feature_info(SHARED_LIBS ${BUILD_SHARED_LIBS} "Build shared libs")
-option(BUILD_TESTING "Build tests." OFF)
-add_feature_info(TESTS ${BUILD_TESTING} "Build and run the tests")
 option(BUILD_DEB "Build deb format package" OFF)
 add_feature_info(DEB_ENABLE ${BUILD_DEB} "Build deb format package")
 option(BUILD_RPM "Build rpm format package" OFF)
@@ -163,6 +176,11 @@ add_feature_info(CLANG_FORMAT ${ENABLE_CLANG_FORMAT} "Format the source with cla
 option(ENABLE_CCACHE "prefix each compile command with ccache" OFF)
 add_feature_info(CCACHE ${ENABLE_CCACHE} "Compile with ccache")
 option(USE_GIT_VERSION "Append Git HEAD to jmbde version (if exists)" ON)
+
+cmake_dependent_option(BUILD_TESTS
+    "Enable ${PROJECT_NAME} project tests targets" ON # By default we want tests if CTest is enabled
+    "BUILD_TESTING" OFF # Stay coherent with CTest variables
+    )
 
 # General cmake settings
 
@@ -292,7 +310,7 @@ endif()
 
 # ##########################################################################################################################################
 # CodeCoverage.
-if(BUILD_CODECOVERAGE)
+if(BUILD_COVERAGE)
   include(UseCodeCoverage)
 endif()
 
@@ -326,7 +344,6 @@ if(APPLE)
 else()
   # Set installation paths This takes care of installing into "lib64" on distros that use that, for instance, by setting
   # CMAKE_INSTALL_FULL_LIBDIR.
-  include(GNUInstallDirs)
 
   set(BIN_INSTALL_DIR "${CMAKE_INSTALL_BINDIR}") # relative, usually "bin"
   set(LIB_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}") # "lib" or "lib64"
@@ -409,27 +426,36 @@ include(cmake/deployment.cmake)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
-message(STATUS "# TARGET_ARCHITECTURE   : " ${__arch})
+#-------------------------------------------------------------------------------
+# Wrap up of settings printed on build
+message(STATUS "")
+message(STATUS "    == Final overview for ${PROJECT_NAME} ==")
+message(STATUS "VERSION                 :  ${DISPLAY_VERSION}")
+message(STATUS "Install prefix          :  ${CMAKE_INSTALL_PREFIX}")
+message(STATUS "Compiler                :  ${CMAKE_CXX_COMPILER}")
+message(STATUS "CMAKE_BUILD_TYPE        :  ${CMAKE_BUILD_TYPE}")
+message(STATUS "TARGET_ARCHITECTURE   : " ${__arch})
 if(CROSS_COMPILING)
-  message(STATUS "# PACKAGE_ARCHITECTURE  : " ${CPACK_DEBIAN_PACKAGE_ARCHITECTURE})
+  message(STATUS "PACKAGE_ARCHITECTURE  : " ${CPACK_DEBIAN_PACKAGE_ARCHITECTURE})
 endif()
-message(STATUS "# CMAKE_BUILD_TYPE      : " ${CMAKE_BUILD_TYPE})
-message(STATUS "# CMAKE_GENERATOR       : " ${CMAKE_GENERATOR})
-message(STATUS "# Commits since last Rel: " ${COMMITS_SINCE_LAST_RELEASE})
-message(STATUS "# VERSION               : " ${DISPLAY_VERSION})
-message(STATUS "# CMAKE_INSTALL_PREFIX  : " ${CMAKE_INSTALL_PREFIX})
-message(STATUS "# CPACK_PACKAGE_INSTALL_DIRECTORY: " ${CPACK_PACKAGE_INSTALL_DIRECTORY})
+message(STATUS "CMAKE_BUILD_message(STATUS "CPACK_PACKAGE_INSTALL_DIRECTORY: " ${CPACK_PACKAGE_INSTALL_DIRECTORY})
+TYPE        : " ${CMAKE_BUILD_TYPE})
+message(STATUS "CMAKE_GENERATOR         : " ${CMAKE_GENERATOR})
+message(STATUS "Commits since last Rel  : " ${COMMITS_SINCE_LAST_RELEASE})
+
+message(STATUS "CMAKE_INSTALL_PREFIX    : " ${CMAKE_INSTALL_PREFIX})
 if(WITH_PYTHON3)
-  message(STATUS "# Python3               : " ${Python3_VERSION})
+  message(STATUS "Python3               : " ${Python3_VERSION})
 endif()
-message(STATUS "# CMAKE_CXX_STANDARD    : " ${CMAKE_CXX_STANDARD})
-message(STATUS "# Qt5_DIR               : " ${Qt5_DIR})
-message(STATUS "# Qt6_DIR               : " ${Qt6_DIR})
-message(STATUS "# QTDIR                 : " ${QTDIR})
-message(STATUS "# QMAKE                 : " ${QMAKE})
+message(STATUS "CMAKE_CXX_STANDARD      : " ${CMAKE_CXX_STANDARD})
+message(STATUS "Qt5_DIR                 : " ${Qt5_DIR})
+message(STATUS "Qt6_DIR                 : " ${Qt6_DIR})
+message(STATUS "QTDIR                   : " ${QTDIR})
+message(STATUS "QMAKE                   : " ${QMAKE})
 if(WITH_QT5 AND DEFINED $ENV{QT_PLUGIN_PATH})
   message(STATUS "################## WARNING ###################")
   message(STATUS "QT_PLUGIN_PATH has set to $ENV{QT_PLUGIN_PATH}")
   message(STATUS "################## WARNING ###################")
 endif()
+message(STATUS "CPACK_PACKAGE_INSTALL_DIRECTORY: " ${CPACK_PACKAGE_INSTALL_DIRECTORY})
 message(STATUS "---------- END SUMMARY ------------")
