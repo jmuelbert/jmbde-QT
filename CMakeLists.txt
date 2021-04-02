@@ -115,7 +115,7 @@ include(StaticAnalyzers)
 include(LTO)
 include(Warnings)
 include(CopyDllsForDebug)
-include(Coverage)
+include(coverage)
 
 include(conan)
 include(vcpkg)
@@ -306,12 +306,6 @@ if(ENABLE_CLANG_FORMAT)
   kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
 else()
   message(STATUS "Clang-format supported but disabled")
-endif()
-
-# ##########################################################################################################################################
-# CodeCoverage.
-if(BUILD_COVERAGE)
-  include(UseCodeCoverage)
 endif()
 
 # Check for LTO support (needs to be after project(...) )
