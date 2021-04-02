@@ -70,7 +70,6 @@
 - Fix typos by misspell-fixer for refs/heads/master [\#191](https://github.com/jmuelbert/jmbde-QT/pull/191)
 - Bump virtualenv from 20.3.0 to 20.3.1 [\#190](https://github.com/jmuelbert/jmbde-QT/pull/190)
 - Bump pygments from 2.7.3 to 2.7.4 [\#189](https://github.com/jmuelbert/jmbde-QT/pull/189)
-- Bump idna from 2.10 to 3.1 [\#179](https://github.com/jmuelbert/jmbde-QT/pull/179)
 - Modifications and Bug fixes from 0.5.4 pre-release to 0.5.4 release [\#175](https://github.com/jmuelbert/jmbde-QT/pull/175)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
