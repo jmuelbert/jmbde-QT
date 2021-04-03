@@ -133,7 +133,7 @@ jobs:
                   version: ${{ env.QT_VERSION }}
                   target:  ${{ matrix.config.qt_target }}
                   arch:  ${{ matrix.config.qt_arch }}
-                  mirror: "http://mirrors.ocf.berkeley.edu/qt/"
+                  # mirror: "http://mirrors.ocf.berkeley.edu/qt/"
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
             - name:

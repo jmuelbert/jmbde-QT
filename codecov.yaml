@@ -1,5 +1,8 @@
-ignore:
-  - "test"
-
-comment:
-  require_changes: true
+{
+    "ignore": [
+        "^test.*"
+    ],
+    "comment": {
+        "require_changes": true
+    }
+}
