@@ -146,16 +146,16 @@ jobs:
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
             - name:
-                ${{ matrix.config.os }} - ${{ matrix.config.qt_version }} - Build preparation - Install
+                macos - ${{ matrix.config.qt_version }} - Build preparation - Install
                   Packages
-              if: matrix.config.os == 'macOS'
+              if: runner.os == 'macOS'
               run: |
                   brew install ninja pkg-config
 
             - name:
-                ${{ matrix.config.os }} - ${{ matrix.config.qt_version }} - Build preparation - Install
+                ubuntu-latest - ${{ matrix.config.qt_version }} - Build preparation - Install
                   Packages
-              if: matrix.config.os == 'ubuntu-latest'
+              if: runner.os == 'Linux'
               run: |
                 sudo apt-get install freeglut3-dev
                 sudo apt-get install lcov
@@ -174,7 +174,7 @@ jobs:
               run: cmake -E make_directory ${{runner.workspace}}/build
 
             - name: Configure CMake for Linux
-              if: matrix.config.os == 'ubuntu-16.04' || matrix.config.os == 'ubuntu-latest'
+              if: runner.os == 'Linux'
               # Use a bash shell so we can use the same syntax for environment variable
               # access regardless of the host operating system
               shell: bash
@@ -191,7 +191,7 @@ jobs:
                     -DCMAKE_INSTALL_PREFIX:PATH=./app
 
             - name: Configure CMake for macOS or Windows
-              if: matrix.config.os == 'macOS-latest' || matrix.config.os == 'windows-latest'
+              if: runner.os != 'Linux'
               # Use a bash shell so we can use the same syntax for environment variable
               # access regardless of the host operating system
               shell: bash
