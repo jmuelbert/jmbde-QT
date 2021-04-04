@@ -1,40 +1,37 @@
 name: github pages
 
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
 on:
-    push:
-        branches:
-            - master # Set a branch name to trigger deployment
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
-# on:
-#   push:
-#     tags:
-#       - "*"
 
-env:
-  SOURCE_CACHE: ${{ github.workspace }}/src
 
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  # This workflow contains a single job called "build"
   build:
-    name: Build and publish documentation
-    runs-on: macos-latest
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: actions/checkout@v2
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
 
-      - uses: actions/cache@v2
-        with:
-          path: "**/src"
-          key: ${{ github.workflow }}-src-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake') }}
+    - name: Doxygen Action
+      uses: mattnotmitt/doxygen-action@v1.1.0
+      with:
+        # Path to Doxyfile
+        doxyfile-path: "./documentation/Doxyfile" # default is ./Doxyfile
+        # Working directory
+        working-directory: "." # default is .
 
-      - name: Install dependencies
-        run: |
-          brew install doxygen
-          pip3 install jinja2 Pygments
-      - name: Build
-        run: |
-          cmake -Sdocumentation -Bbuild -DBUILD_MANUAL=ON
-          cmake --build build --target GenerateDocs
-      - name: Publish
-        uses: peaceiris/actions-gh-pages@v3.8.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build/doxygen/html
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./html
