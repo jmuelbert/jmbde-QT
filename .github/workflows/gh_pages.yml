@@ -104,12 +104,12 @@ jobs:
                       -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
                       -DCMAKE_INSTALL_PREFIX:PATH=./app
 
-            - name: Build manual
-              run: |
-                  cd ${{runner.workspace}}/docs/manual
-                  make html
-                  cd ${{runner.workspace}}/docs/manual/_build/html
-                  touch .nojekyll
+            # - name: Build manual
+            #   run: |
+            #       cd ${{runner.workspace}}/docs/manual
+            #       make html
+            #       cd ${{runner.workspace}}/docs/manual/_build/html
+            #       touch .nojekyll
 
             - name: Build
               working-directory: ${{runner.workspace}}/build
