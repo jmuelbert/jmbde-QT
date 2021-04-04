@@ -99,13 +99,19 @@ jobs:
               # and build directories, but this is only available with CMake 3.13 and higher.
               # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
               run: |
+              env:
+                  Qt6_DIR: ../Qt/${{ matrix.qt_version }}/${{matrix.qt_arch}}
+              run: |
                   cmake $GITHUB_WORKSPACE \
-                      ${{matrix.config.generator}} \
-                      -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
-                      -DCMAKE_INSTALL_PREFIX:PATH=./app
+                    ${{matrix.generator}} \
+                    -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+                    -BUILD_MANUAL="ON"
+                    -DCMAKE_OSX_DEPLOYMENT_TARGET=10.15 \
+                    -DCMAKE_INSTALL_PREFIX:PATH=./app
 
-            # - name: Build manual
-            #   run: |
+            - name: Build manual
+              run: |
+                ls ${{runner.workspace}}/docs
             #       cd ${{runner.workspace}}/docs/manual
             #       make html
             #       cd ${{runner.workspace}}/docs/manual/_build/html
@@ -115,7 +121,7 @@ jobs:
               working-directory: ${{runner.workspace}}/build
               shell: bash
               # Execute the build.  You can specify a specific target with "--target <NAME>"
-              run: cmake --build . --config ${{ env.BUILD_TYPE }} -j2 --target sphinx
+              run: cmake --build . --config ${{ matrix.build_type }} -j2
 
             - name: Deploy manual
               uses: JamesIves/github-pages-deploy-action@releases/v3
