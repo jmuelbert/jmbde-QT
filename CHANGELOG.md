@@ -67,9 +67,6 @@
 - Bump breathe from 4.26.0 to 4.26.1 [\#196](https://github.com/jmuelbert/jmbde-QT/pull/196)
 - Bump virtualenv from 20.3.1 to 20.4.0 [\#195](https://github.com/jmuelbert/jmbde-QT/pull/195)
 - Bump identify from 1.5.12 to 1.5.13 [\#193](https://github.com/jmuelbert/jmbde-QT/pull/193)
-- Fix typos by misspell-fixer for refs/heads/master [\#191](https://github.com/jmuelbert/jmbde-QT/pull/191)
-- Bump virtualenv from 20.3.0 to 20.3.1 [\#190](https://github.com/jmuelbert/jmbde-QT/pull/190)
-- Bump pygments from 2.7.3 to 2.7.4 [\#189](https://github.com/jmuelbert/jmbde-QT/pull/189)
 - Modifications and Bug fixes from 0.5.4 pre-release to 0.5.4 release [\#175](https://github.com/jmuelbert/jmbde-QT/pull/175)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
@@ -136,6 +133,7 @@
 - Bump sphinx from 3.2.1 to 3.3.0 [\#97](https://github.com/jmuelbert/jmbde-QT/pull/97)
 - Bump identify from 1.5.6 to 1.5.7 [\#96](https://github.com/jmuelbert/jmbde-QT/pull/96)
 - Bump pre-commit from 2.7.1 to 2.8.2 [\#95](https://github.com/jmuelbert/jmbde-QT/pull/95)
+- Bump pytz from 2020.1 to 2020.4 [\#94](https://github.com/jmuelbert/jmbde-QT/pull/94)
 - Bump toml from 0.10.1 to 0.10.2 [\#93](https://github.com/jmuelbert/jmbde-QT/pull/93)
 - Bump pre-commit from 2.7.1 to 2.8.1 [\#90](https://github.com/jmuelbert/jmbde-QT/pull/90)
 
