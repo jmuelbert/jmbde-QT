@@ -110,7 +110,7 @@ jobs:
 
             - name: Build manual
               run: |
-                ls ${{runner.workspace}}/docs
+                ls ${{runner.workspace}}
             #       cd ${{runner.workspace}}/docs/manual
             #       make html
             #       cd ${{runner.workspace}}/docs/manual/_build/html
