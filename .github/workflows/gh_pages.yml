@@ -104,7 +104,7 @@ jobs:
                   cmake $GITHUB_WORKSPACE \
                     ${{matrix.generator}} \
                     -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-                    -BUILD_MANUAL="ON"
+                    -DBUILD_MANUAL="ON"
                     -DCMAKE_OSX_DEPLOYMENT_TARGET=10.15 \
                     -DCMAKE_INSTALL_PREFIX:PATH=./app
 
