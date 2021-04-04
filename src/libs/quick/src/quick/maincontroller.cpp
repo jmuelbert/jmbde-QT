@@ -40,7 +40,7 @@ auto MainController::initialize() -> bool
     mEngine->load(QUrl(QLatin1String("qrc:/qml/main.qml")));
 
     if (mEngine->rootObjects().isEmpty()) {
-        qCCritical(jmbdequickLog) << "Impossible to load object from main.qml";
+        // qCCritical(jmbdequickLog) << "Impossible to load object from main.qml";
         return false;
     }
     return true;
