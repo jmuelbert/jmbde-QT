@@ -108,21 +108,21 @@ jobs:
     #     env:
     #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: SQL Check
-        uses: yokawasa/action-sqlcheck@v1.3.0
-        id: sqlcheck
-        with:
-            post-comment: true
-            risk-level: 3
-            verbose: true
-            token: ${{ secrets.GITHUB_TOKEN }}
-            postfixes: |
-                sql
-                sqlx
-                schema
-            directories: |
-                src/models
-      - name: Get SQL CHECK output
-        run: echo "Issues found in previous step"
-        if: steps.sqlcheck.outputs.issue-found
+    #   - name: SQL Check
+    #     uses: yokawasa/action-sqlcheck@v1.3.0
+    #     id: sqlcheck
+    #     with:
+    #         post-comment: true
+    #         risk-level: 3
+    #         verbose: true
+    #         token: ${{ secrets.GITHUB_TOKEN }}
+    #         postfixes: |
+    #             sql
+    #             sqlx
+    #             schema
+    #         directories: |
+    #             src/models
+    #   - name: Get SQL CHECK output
+    #     run: echo "Issues found in previous step"
+    #     if: steps.sqlcheck.outputs.issue-found
 

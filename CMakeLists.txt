@@ -79,7 +79,7 @@ if (APPLE)
     set(KDE_SKIP_RPATH_SETTINGS TRUE)
     set(CMAKE_MACOSX_RPATH 1)
     set(BUILD_WITH_INSTALL_RPATH 1)
-    add_definitions(-mmacosx-version-min=10.12 -Wno-macro-redefined -Wno-deprecated-register)
+    add_definitions(-mmacosx-version-min=10.15 -Wno-macro-redefined -Wno-deprecated-register)
     if (CMAKE_OSX_ARCHITECTURES)
         message(STATUS "CMake OSX architectures: ${CMAKE_OSX_ARCHITECTURES}")
     endif()
@@ -106,7 +106,7 @@ include(FeatureSummary)
 # ##########################################################################################################################################
 list(APPEND CMAKE_PREFIX_PATH "${CMAKE_MODULE_PATH}")
 # Add the local module path to the search path
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake" "{CMAKE_CURRENT_LIST_DIR}/cmake/modules")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake" "${CMAKE_CURRENT_LIST_DIR}/cmake/modules")
 
 include(StandardProjectSettings)
 include(PreventInSourceBuilds)
@@ -119,6 +119,10 @@ include(coverage)
 
 include(conan)
 include(vcpkg)
+
+if(ENABLE_GRAPH)
+    include(dependency-graph)
+endif()
 
 if(NOT LGTM)
    run_conan()
@@ -383,13 +387,12 @@ if(BUILD_TRANSLATIONS)
 endif()
 
 # ##########################################################################################################################################
-# Build the API Documentation
+# Build the API Documentation and the Manual
 if(BUILD_API_DOCS OR BUILD_MANUAL)
   if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     add_compile_options(-Wdocumentation)
   endif()
   find_package(Qt${QT_VERSION_MAJOR} OPTIONAL_COMPONENTS Help LinguistTools)
-  # add_subdirectory(docs)
   add_subdirectory(documentation)
 endif()
 

@@ -2,8 +2,8 @@
     "cmake.configureOnOpen": true,
     "cmake.configureSettings": {
         "BUILD_EXAMPLES": "ON",
-        "BUILD_MANUAL": "OFF",
-        "BUILD_API_DOCS": "OFF",
+        "BUILD_MANUAL": "ON",
+        "BUILD_API_DOCS": "ON",
         "BUILD_TRANSLATIONS": "ON",
         "BUILD_COVERAGE": "ON",
         "BUILD_SHARED_LIBS": "ON",
@@ -16,6 +16,7 @@
         "USE_GIT_VERSION": "ON",
         "ENABLE_TESTING": "ON",
         "ENABLE_PCH": "ON",
+        "ENABLE_GRAPH": "ON",
         "CMAKE_INSTALL_PREFIX:PATH": "./install"
     },
     "editor.fontFamily": "'Ubuntu Mono', 'Courier Prime Code', 'Courier', 'Courier New', Consolas, monospace",

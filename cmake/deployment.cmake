@@ -3,13 +3,11 @@ set(CPACK_PACKAGE_NAME "jmbde")
 
 include(jmbde-cpack-config)
 
-
-
 set(CPACK_PACKAGE_VENDOR "Jürgen Mülbert")
 set(CPACK_PACKAGE_VERSION ${VERSION_STRING})
 set(CPACK_PACKAGE_DESCRIPTION "A tool to collect the infrastructure of a company")
 set(CPACK_PACKAGE_HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT")
-set(CPACK_PACKAGE_ICON "${CMAKE_SOURCE_DIR}/src/app/icons/jmbde-icon.ico")
+set(CPACK_PACKAGE_ICON "${CMAKE_SOURCE_DIR}/assets/icons/jmbde-icon.ico")
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSE")
 
 set(COMMON_IGNORE_FILES

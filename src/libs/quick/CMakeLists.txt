@@ -45,18 +45,6 @@ ecm_setup_version(
   ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick-version.h
 )
 
-ecm_qt_declare_logging_category(
-  ${PROJECT_NAME}
-  HEADER
-  loggingcategory.h
-  IDENTIFIER
-  jmbdequickLog
-  CATEGORY_NAME
-  jmuelbert.jmbde.${PROJECT_NAME}
-  DEFAULT_SEVERITY
-  Warning
-)
-
 #
 # Finding Qt
 #
@@ -99,11 +87,9 @@ target_sources(
   PRIVATE
     # INCLUDES
     jmbdequick-version.h
-    loggingcategory.h
     include/quick/maincontroller.h
     include/models/employeemodel.h
     # CPP's
-    loggingcategory.cpp
     src/quick/maincontroller.cpp
     src/models/employeemodel.cpp
     ${jmbdequick_Resources}

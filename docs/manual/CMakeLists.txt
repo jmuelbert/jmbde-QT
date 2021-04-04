@@ -16,7 +16,7 @@ else()
   cmake_policy(VERSION 3.18)
 endif()
 
-import(FindSphinx)
+include(FindSphinx)
 
 #
 # Part for sphinx
