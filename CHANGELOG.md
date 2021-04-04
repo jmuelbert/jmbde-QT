@@ -67,6 +67,7 @@
 - Bump breathe from 4.26.0 to 4.26.1 [\#196](https://github.com/jmuelbert/jmbde-QT/pull/196)
 - Bump virtualenv from 20.3.1 to 20.4.0 [\#195](https://github.com/jmuelbert/jmbde-QT/pull/195)
 - Bump identify from 1.5.12 to 1.5.13 [\#193](https://github.com/jmuelbert/jmbde-QT/pull/193)
+- Modifications and Bug fixes from 0.5.4 pre-release to 0.5.4 release [\#175](https://github.com/jmuelbert/jmbde-QT/pull/175)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
 
