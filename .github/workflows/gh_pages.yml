@@ -62,7 +62,7 @@ jobs:
 
             - name: Requirements
               run: brew install doxygen
-                  && brew install sphinx-doc
+                  && brew install sphinx-doc ninja pkg-config
                   && pip3 install sphinx-rtd-theme
                   && pip3 install breathe
                   && pip3 install sphinx-sitemap
