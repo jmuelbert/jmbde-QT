@@ -78,7 +78,6 @@
 - Bump urllib3 from 1.26.2 to 1.26.3 [\#203](https://github.com/jmuelbert/jmbde-QT/pull/203)
 - Bump peter-evans/create-pull-request from v3.6.0 to v3.7.0 [\#202](https://github.com/jmuelbert/jmbde-QT/pull/202)
 - Bump actions/stale from v3.0.14 to v3.0.15 [\#201](https://github.com/jmuelbert/jmbde-QT/pull/201)
-- Bump snowballstemmer from 2.0.0 to 2.1.0 [\#198](https://github.com/jmuelbert/jmbde-QT/pull/198)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
 
