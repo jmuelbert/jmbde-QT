@@ -2,9 +2,26 @@
 
 ## [Unreleased](https://github.com/jmuelbert/jmbde-QT/tree/HEAD)
 
+**Implemented enhancements:**
+
+- Remove old Workflows [\#159](https://github.com/jmuelbert/jmbde-QT/issues/159)
+- Should use Innosetup or WiX to create an Installer for Windows ? [\#147](https://github.com/jmuelbert/jmbde-QT/issues/147)
+
 **Fixed bugs:**
 
 - macOS dmg [\#174](https://github.com/jmuelbert/jmbde-QT/issues/174)
+- Windows innosetup installer [\#172](https://github.com/jmuelbert/jmbde-QT/issues/172)
+- Size of MainWindow dont fit to InputArea [\#161](https://github.com/jmuelbert/jmbde-QT/issues/161)
+- Workflow: clazy [\#150](https://github.com/jmuelbert/jmbde-QT/issues/150)
+- Workflow: pre-commit [\#149](https://github.com/jmuelbert/jmbde-QT/issues/149)
+
+**Closed issues:**
+
+- Workflow: CD: DEB - Debian [\#157](https://github.com/jmuelbert/jmbde-QT/issues/157)
+- Workflow: CD: DEB - Ubuntu [\#156](https://github.com/jmuelbert/jmbde-QT/issues/156)
+- Workflow:  CD: RPM - Fedora [\#154](https://github.com/jmuelbert/jmbde-QT/issues/154)
+- Workflow: CD: RPM - openSUSE Leap [\#153](https://github.com/jmuelbert/jmbde-QT/issues/153)
+- Workflow: CD: RPM - openSUSE TW [\#152](https://github.com/jmuelbert/jmbde-QT/issues/152)
 
 ## [master](https://github.com/jmuelbert/jmbde-QT/tree/master) (2021-03-07)
 
@@ -64,8 +81,6 @@
 - Format codes for refs/heads/add-ui-for-db-entities [\#199](https://github.com/jmuelbert/jmbde-QT/pull/199)
 - Bump snowballstemmer from 2.0.0 to 2.1.0 [\#198](https://github.com/jmuelbert/jmbde-QT/pull/198)
 - Bump pyyaml from 5.3.1 to 5.4.1 [\#197](https://github.com/jmuelbert/jmbde-QT/pull/197)
-- Bump breathe from 4.26.0 to 4.26.1 [\#196](https://github.com/jmuelbert/jmbde-QT/pull/196)
-- Bump virtualenv from 20.3.1 to 20.4.0 [\#195](https://github.com/jmuelbert/jmbde-QT/pull/195)
 - Bump identify from 1.5.12 to 1.5.13 [\#193](https://github.com/jmuelbert/jmbde-QT/pull/193)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
@@ -132,9 +147,9 @@
 - Bump sphinx from 3.2.1 to 3.3.0 [\#97](https://github.com/jmuelbert/jmbde-QT/pull/97)
 - Bump identify from 1.5.6 to 1.5.7 [\#96](https://github.com/jmuelbert/jmbde-QT/pull/96)
 - Bump pre-commit from 2.7.1 to 2.8.2 [\#95](https://github.com/jmuelbert/jmbde-QT/pull/95)
+- Bump pytz from 2020.1 to 2020.4 [\#94](https://github.com/jmuelbert/jmbde-QT/pull/94)
 - Bump toml from 0.10.1 to 0.10.2 [\#93](https://github.com/jmuelbert/jmbde-QT/pull/93)
 - Bump pre-commit from 2.7.1 to 2.8.1 [\#90](https://github.com/jmuelbert/jmbde-QT/pull/90)
-- Bump pygments from 2.7.1 to 2.7.2 [\#87](https://github.com/jmuelbert/jmbde-QT/pull/87)
 
 ## [v0.5.2](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.2) (2020-03-19)
 
