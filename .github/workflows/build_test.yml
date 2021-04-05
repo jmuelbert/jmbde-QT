@@ -58,14 +58,14 @@ jobs:
                         generator: "-G 'Unix Makefiles'",
                         build_type: 'Debug'
                     }
-                    - {
-                        os: ubuntu-latest,
-                        qt_arch: gcc_64,
-                        qt_target: desktop,
-                        arch: x64,
-                        generator: "-G 'Unix Makefiles'",
-                        build_type: 'Coverage'
-                    }
+                    # - {
+                    #     os: ubuntu-latest,
+                    #     qt_arch: gcc_64,
+                    #     qt_target: desktop,
+                    #     arch: x64,
+                    #     generator: "-G 'Unix Makefiles'",
+                    #     build_type: 'Coverage'
+                    # }
                     - {
                         os: windows-latest,
                         qt_arch: win64_msvc2019_64,
