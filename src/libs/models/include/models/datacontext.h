@@ -140,20 +140,16 @@ public:
     /* useful actions */
 
     /*!
-        \fn bool open()
+        \fn void open()
 
         \brief Open the Database with the given name
-
-        \return true ist the database successful opened.
      */
     JMBDEMODELS_EXPORT void open();
 
     /*!
-        \fn bool openDB(const QString &name)
+        \fn void openDB(const QString &name)
 
         \brief Open the Database with the given name
-
-        \return true ist the database successful opened.
      */
     JMBDEMODELS_EXPORT void open(const QString &name);
 
@@ -211,7 +207,7 @@ protected:
 
         \sa QVariantMap
      */
-    bool insert(const QString &tableName, const QVariantMap &insertData);
+    auto insert(const QString &tableName, const QVariantMap &insertData) -> bool;
 
     /*!
         \fn  bool update(const QString &table, const QString &column,
@@ -221,7 +217,7 @@ protected:
 
         \return true is successful
      */
-    bool update(const QString &table, const QString &column, const QVariant &newValue, const QVariant &op, const QString &id);
+    auto update(const QString &table, const QString &column, const QVariant &newValue, const QVariant &op, const QString &id) -> bool;
 
     /*!
         \fn QString getSqliteName()

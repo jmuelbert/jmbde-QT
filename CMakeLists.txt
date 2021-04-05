@@ -393,7 +393,7 @@ if(BUILD_API_DOCS OR BUILD_MANUAL)
     add_compile_options(-Wdocumentation)
   endif()
   find_package(Qt${QT_VERSION_MAJOR} OPTIONAL_COMPONENTS Help LinguistTools)
-  add_subdirectory(documentation)
+  add_subdirectory(docs)
 endif()
 
 # The libs
