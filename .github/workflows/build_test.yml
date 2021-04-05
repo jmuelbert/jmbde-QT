@@ -16,7 +16,6 @@ on:
 env:
     QT_VERSION: 5.15.2
    # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
-    BUILD_TYPE: Debug
     PRODUCT: jmbde
     targetName: jmbde
     CTEST_OUTPUT_ON_FAILURE: 1
@@ -49,7 +48,7 @@ jobs:
                         qt_target: desktop,
                         arch: x64,
                         generator: "-G 'Unix Makefiles'",
-                        portable-option: Off
+                        build_type: 'Debug'
                     }
                     - {
                         os: ubuntu-latest,
@@ -57,7 +56,15 @@ jobs:
                         qt_target: desktop,
                         arch: x64,
                         generator: "-G 'Unix Makefiles'",
-                        portable-option: Off
+                        build_type: 'Debug'
+                    }
+                    - {
+                        os: ubuntu-latest,
+                        qt_arch: gcc_64,
+                        qt_target: desktop,
+                        arch: x64,
+                        generator: "-G 'Unix Makefiles'",
+                        build_type: 'Coverage'
                     }
                     - {
                         os: windows-latest,
@@ -65,8 +72,7 @@ jobs:
                         qt_target: desktop,
                         arch:  x64,
                         generator: "-G'Visual Studio 16 2019' -A x64",
-                        # portable-option: Off ? On
-                        # portable-name: -setup.exe ?  -portable.zip
+                        build_type: 'Debug'
                     }
                     - {
                         os: macos-latest,
@@ -74,7 +80,7 @@ jobs:
                         qt_target: desktop,
                         arch: clang_64,
                         generator: "-G 'Ninja'",
-                        portable-option: Off
+                        build_type: 'Debug'
                     }
             fail-fast: false
 
@@ -142,7 +148,6 @@ jobs:
                   version: ${{ env.QT_VERSION }}
                   target:  ${{ matrix.config.qt_target }}
                   arch:  ${{ matrix.config.qt_arch }}
-                  # mirror: "http://mirrors.ocf.berkeley.edu/qt/"
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
             - name:
@@ -173,8 +178,20 @@ jobs:
               # We'll use this as our working directory for all subsequent commands
               run: cmake -E make_directory ${{runner.workspace}}/build
 
-            - name: Configure CMake for Linux
-              if: runner.os == 'Linux'
+            - name: Configure CMake for ${{ matrix.config.build_type }}
+              if: matrix.config.build_type == 'Coverage'
+              # Use a bash shell so we can use the same syntax for environment variable
+              # access regardless of the host operating system
+              shell: bash
+              working-directory: ${{runner.workspace}}/build
+              # Note the current convention is to use the -S and -B options here to specify source
+              # and build directories, but this is only available with CMake 3.13 and higher.
+              # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
+              run: |
+                 ctest -S cmake/ci.ctestscript.cmake --output-on-failure -VV -DCTEST_BUILD_NAME="${{matrix.config.os}}-${{matrix.config.build_type}}"
+
+            - name: Configure CMake for ${{ matrix.config.build_type }}
+              if: matrix.config.build_type != 'Coverage'
               # Use a bash shell so we can use the same syntax for environment variable
               # access regardless of the host operating system
               shell: bash
@@ -185,32 +202,17 @@ jobs:
               run: |
                   cmake $GITHUB_WORKSPACE \
                     ${{matrix.config.generator}} \
-                    -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
+                    -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} \
                     -DBUILD_TRANSLATIONS=ON \
-                    -DENABLE_COVERAGE=ON \
                     -DCMAKE_INSTALL_PREFIX:PATH=./app
 
-            - name: Configure CMake for macOS or Windows
-              if: runner.os != 'Linux'
-              # Use a bash shell so we can use the same syntax for environment variable
-              # access regardless of the host operating system
-              shell: bash
-              working-directory: ${{runner.workspace}}/build
-              # Note the current convention is to use the -S and -B options here to specify source
-              # and build directories, but this is only available with CMake 3.13 and higher.
-              # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
-              run: |
-                  cmake $GITHUB_WORKSPACE \
-                    ${{matrix.config.generator}} \
-                    -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
-                    -DBUILD_TRANSLATIONS=ON \
-                    -DCMAKE_INSTALL_PREFIX:PATH=./app
+
 
             - name: Build
               working-directory: ${{runner.workspace}}/build
               shell: bash
               # Execute the build.  You can specify a specific target with "--target <NAME>"
-              run: cmake --build . --config ${{ env.BUILD_TYPE }} -j2 --target install
+              run: cmake --build . --config ${{ matrix.config.build_type }} -j2 --target install
 
             # - name: Test
             #   if: matrix.config.os == 'ubuntu-latest'
