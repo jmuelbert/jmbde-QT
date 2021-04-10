@@ -16,8 +16,6 @@
 #
 # -DBUILD_TRANSLATIONS=[true|false] Build the translations.
 #
-# -DENABLE_COVERAGE=ON Build with coverage information
-#
 # -DBUILD_SHARED_LIBS Build shared libs and not static libs
 #
 # -DENABLE_CPP_CHECK Test quality ofs source with cppcheck
@@ -115,7 +113,6 @@ include(StaticAnalyzers)
 include(LTO)
 include(Warnings)
 include(CopyDllsForDebug)
-include(coverage)
 
 include(conan)
 include(vcpkg)
@@ -163,8 +160,6 @@ option(BUILD_TRANSLATIONS "Build translations" OFF)
 add_feature_info(TRANSL ${BUILD_TRANSLATIONS} "Build the translations")
 option(ENABLE_EMBEDDED_TRANSLATIONS "Add the translations to a QT Reesource File" OFF)
 add_feature_info(TRANS_EMB ${ENABLE_EMBEDDED_TRANSLATIONS} "Add the translations to a QT Reesource File")
-option(ENABLE_COVERAGE "Add coverage information." OFF)
-add_feature_info(COVERAGE ${ENABLE_COVERAGE} "Build with coverage informations.")
 option(BUILD_SHARED_LIBS "Build shared libs" ON)
 add_feature_info(SHARED_LIBS ${BUILD_SHARED_LIBS} "Build shared libs")
 option(BUILD_DEB "Build deb format package" OFF)
@@ -312,12 +307,6 @@ else()
   message(STATUS "Clang-format supported but disabled")
 endif()
 
-# ------------------------------------------------------------------------------
-# Coverage
-# ------------------------------------------------------------------------------
-if(ENABLE_COVERAGE)
-    include(coverage)
-endif()
 
 # Check for LTO support (needs to be after project(...) )
 find_lto(CXX)

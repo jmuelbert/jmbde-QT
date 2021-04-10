@@ -16,7 +16,6 @@ erfasst werden. Das sind unter anderem Computer, Drucker und Telefone.
 [![Issues][issues-shield]][issues-url]
 [![Help wanted issues][help-issues-shield]][help-issues-url]
 [![Pull Requests][pr-shield]][pr-url] [![pre-commit][pre-commit-shield]][pre-commit-url]
-[![Codecov][codecov-shield]][codecov-url]
 [![Misspell fixer][misspell_fixer-shield]][misspell_fixer-url]
 [![Documentation][documentation-shield]][documentation-url]
 [![License][license-shield]][license-url]
@@ -258,10 +257,6 @@ GPL V3 © [Jürgen Mülbert](https:/github.com/jmuelbert/jmbde-QT)
 [build-url]: https://github.com/jmuelbert/jmbde-QT/workflows/Build
 [gitpod-shield]: https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod
 [gitpod-url]: https://gitpod.io/#https://github.com/jmuelbert/jmbde-QT
-[codacy-shield]:
-    https://api.codacy.com/project/badge/Grade/caf2526829cb447b9ca6091cccebad27
-[codacy-url]:
-    https://app.codacy.com/manual/jmuelbert/jmbde-QT?utm_source=github.com&utm_medium=referral&utm_content=jmuelbert/jmbde-QT&utm_campaign=Badge_Grade_Dashboard
 [downloads_all-shield]:
     https://img.shields.io/github/downloads/jmuelbert/jmbde-QT/total?label=downloads%40all
 [downloads_all-url]: https://github.com/jmuelbert/jmbde-QT/releases
