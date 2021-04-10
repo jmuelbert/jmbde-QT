@@ -1,12 +1,6 @@
-# SPDX-FileCopyrightText: (C) 2013-2020  Jürgen Mülbert <juergen.muelbert@gmail.com> SPDX-License-Identifier: GNU-V3-later
+# SPDX-FileCopyrightText: (C) 2013-2021  Jürgen Mülbert <juergen.muelbert@gmail.com> SPDX-License-Identifier: GNU-V3-later
 #
-# jmbde a BDE Tool for companies Copyright (C) 2013-2020  Jürgen Mülbert
-#
-# This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+# jmbde a BDE Tool for companies Copyright (C) 2013-2021  Jürgen Mülbert
 #
 # -DBUILD_EXAMPLES=[true|false] Build the examples
 #
@@ -59,10 +53,10 @@ if(POLICY CMP0054)
   cmake_policy(SET CMP0054 NEW)
 endif()
 
-if(${CMAKE_VERSION} VERSION_LESS 3.19)
+if(${CMAKE_VERSION} VERSION_LESS 3.20)
   cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 else()
-  cmake_policy(VERSION 3.19)
+  cmake_policy(VERSION 3.20)
 endif()
 
 project(jmbde LANGUAGES CXX)
@@ -106,20 +100,11 @@ list(APPEND CMAKE_PREFIX_PATH "${CMAKE_MODULE_PATH}")
 # Add the local module path to the search path
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake" "${CMAKE_CURRENT_LIST_DIR}/cmake/modules")
 
-include(StandardProjectSettings)
 include(PreventInSourceBuilds)
 include(StaticAnalyzers)
 
-include(LTO)
-include(Warnings)
-include(CopyDllsForDebug)
-
 include(conan)
 include(vcpkg)
-
-if(ENABLE_GRAPH)
-    include(dependency-graph)
-endif()
 
 if(NOT LGTM)
    run_conan()
@@ -132,17 +117,6 @@ feature_summary(WHAT REQUIRED_PACKAGES_NOT_FOUND FATAL_ON_MISSING_REQUIRED_PACKA
 
 # We append to the module path so modules can be overridden from the command line.
 list(APPEND CMAKE_MODULE_PATH "${ECM_MODULE_PATH}")
-# ##########################################################################################################################################
-# KDE: extra cmake modules Load extended helpers
-# ##########################################################################################################################################
-# Not on LGTM
-if(NOT LGTM)
-    include(KDEClangFormat)
-endif()
-
-if(UNIX AND NOT APPLE)
-    include(KDEInstallDirs)
-endif()
 
 # ##########################################################################################################################################
 # Project Options
@@ -180,6 +154,19 @@ cmake_dependent_option(BUILD_TESTS
     "Enable ${PROJECT_NAME} project tests targets" ON # By default we want tests if CTest is enabled
     "BUILD_TESTING" OFF # Stay coherent with CTest variables
     )
+
+# ##########################################################################################################################################
+# KDE: extra cmake modules Load extended helpers
+# ##########################################################################################################################################
+# Not on LGTM
+if(NOT LGTM)
+    include(KDEClangFormat)
+endif()
+
+if(UNIX AND NOT APPLE)
+    include(KDEInstallDirs)
+endif()
+
 
 # General cmake settings
 
@@ -306,10 +293,6 @@ if(ENABLE_CLANG_FORMAT)
 else()
   message(STATUS "Clang-format supported but disabled")
 endif()
-
-
-# Check for LTO support (needs to be after project(...) )
-find_lto(CXX)
 
 # ##########################################################################################################################################
 # Set the Installation-Layout for the platforms
