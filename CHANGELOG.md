@@ -75,9 +75,6 @@
 - Bump packaging from 20.8 to 20.9 [\#207](https://github.com/jmuelbert/jmbde-QT/pull/207)
 - Bump jinja2 from 2.11.2 to 2.11.3 [\#206](https://github.com/jmuelbert/jmbde-QT/pull/206)
 - Bump pre-commit from 2.9.3 to 2.10.0 [\#204](https://github.com/jmuelbert/jmbde-QT/pull/204)
-- Bump urllib3 from 1.26.2 to 1.26.3 [\#203](https://github.com/jmuelbert/jmbde-QT/pull/203)
-- Bump peter-evans/create-pull-request from v3.6.0 to v3.7.0 [\#202](https://github.com/jmuelbert/jmbde-QT/pull/202)
-- Bump actions/stale from v3.0.14 to v3.0.15 [\#201](https://github.com/jmuelbert/jmbde-QT/pull/201)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
 
