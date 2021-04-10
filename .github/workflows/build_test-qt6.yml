@@ -39,7 +39,6 @@ jobs:
         name: ${{ matrix.config.os }}
 
         strategy:
-
             matrix:
                 config:
                     # - {
@@ -51,22 +50,22 @@ jobs:
                     #     portable-option: Off
                     # }
                     - {
-                        os: windows-latest,
-                        qt_arch: win64_msvc2019_64,
-                        qt_target: desktop,
-                        arch:  x64,
-                        generator: "-G'Visual Studio 16 2019' -A x64",
-                        # portable-option: Off ? On
-                        # portable-name: -setup.exe ?  -portable.zip
-                    }
+                          os: windows-latest,
+                          qt_arch: win64_msvc2019_64,
+                          qt_target: desktop,
+                          arch: x64,
+                          generator: "-G'Visual Studio 16 2019' -A x64",
+                      }
+                      # portable-option: Off ? On
+                      # portable-name: -setup.exe ?  -portable.zip
                     - {
-                        os: macos-latest,
-                        qt_arch: clang_64,
-                        qt_target: desktop,
-                        arch: clang_64,
-                        generator: "-G 'Ninja'",
-                        portable-option: Off
-                    }
+                          os: macos-latest,
+                          qt_arch: clang_64,
+                          qt_target: desktop,
+                          arch: clang_64,
+                          generator: "-G 'Ninja'",
+                          portable-option: Off,
+                      }
             fail-fast: false
 
         runs-on: ${{ matrix.config.os }}
@@ -117,8 +116,8 @@ jobs:
             - name: Install Python 3.x version
               uses: actions/setup-python@v2
               with:
-                python-version: "3.x"
-                architecture: ${{ matrix.arch }}
+                  python-version: "3.x"
+                  architecture: ${{ matrix.arch }}
 
             - name: Restore Qt from cache
               id: cache-qt
@@ -127,18 +126,20 @@ jobs:
                   path: ../Qt
                   key: Qt-${{ matrix.config.os }}-${{ env.QT_VERSION }}
 
-            - name: Installing Qt${{ env.QT_VERSION }} - ${{ matrix.config.qt_arch }} on ${{ matrix.config.os }}
+            - name:
+                  Installing Qt${{ env.QT_VERSION }} - ${{ matrix.config.qt_arch }} on
+                  ${{ matrix.config.os }}
               uses: jurplel/install-qt-action@v2
               with:
                   version: ${{ env.QT_VERSION }}
-                  target:  ${{ matrix.config.qt_target }}
-                  arch:  ${{ matrix.config.qt_arch }}
+                  target: ${{ matrix.config.qt_target }}
+                  arch: ${{ matrix.config.qt_arch }}
                   # mirror: "http://mirrors.ocf.berkeley.edu/qt/"
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
             - name:
-                ${{ matrix.config.os }} - ${{ matrix.config.qt_version }} - Build preparation - Install
-                  Packages
+                  ${{ matrix.config.os }} - ${{ matrix.config.qt_version }} - Build
+                  preparation - Install Packages
               if: runner.os == 'macOS'
               run: |
                   brew install ninja pkg-config

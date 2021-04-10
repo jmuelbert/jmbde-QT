@@ -8,10 +8,10 @@ on:
             - "LICENSE"
             - "BUILD.md"
     pull_request_target:
-      types: [labeled]
-      paths-ignore:
-        - "README.md"
-        - "LICENSE"
+        types: [labeled]
+        paths-ignore:
+            - "README.md"
+            - "LICENSE"
     release:
         types: [published]
 
@@ -67,7 +67,8 @@ jobs:
               with:
                   path: ../Qt
                   key:
-                      QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ env.QT_VERSION }}
+                      QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{
+                      env.QT_VERSION }}
             - name: Installing Qt - ${{ matrix.arch }}
               uses: jurplel/install-qt-action@v2
               with:
@@ -114,7 +115,8 @@ jobs:
               working-directory: ${{runner.workspace}}/build
               shell: bash
               # Execute the build.  You can specify a specific target with "--target <NAME>"
-              run: cmake --build . --config ${{ matrix.build_type }} -j2 --target install
+              run:
+                  cmake --build . --config ${{ matrix.build_type }} -j2 --target install
 
             # ========================================================================================================= Deployments
             - name: Linux - ${{  env.QT_VERSION }} - Generating AppImage
@@ -142,15 +144,17 @@ jobs:
               uses: actions/upload-artifact@v2.2.2
               with:
                   name:
-                      jmbde-${{ github.sha }}-linux-${{ matrix.arch }}-qt${{env.QT_VERSION}}-${{ matrix.build_type }}.AppImage
-                  path:  ${{runner.workspace}}/build/jmbde.AppImage
+                      jmbde-${{ github.sha }}-linux-${{ matrix.arch
+                      }}-qt${{env.QT_VERSION}}-${{ matrix.build_type }}.AppImage
+                  path: ${{runner.workspace}}/build/jmbde.AppImage
 
             - name: Linux - ${{  env.QT_VERSION }} - Upload binaries to release
               uses: svenstaro/upload-release-action@v2
               with:
                   repo_token: ${{ secrets.GITHUB_TOKEN }}
-                  file:  ${{runner.workspace}}/build/jmbde.AppImage
+                  file: ${{runner.workspace}}/build/jmbde.AppImage
                   asset_name:
-                      jmbde-${{ steps.get_version.outputs.VERSION}}-linux-${{matrix.arch }}-qt${{ env.QT_VERSION }}-${{matrix.build_type }}.AppImage
+                      jmbde-${{ steps.get_version.outputs.VERSION}}-linux-${{matrix.arch
+                      }}-qt${{ env.QT_VERSION }}-${{matrix.build_type }}.AppImage
                   tag: ${{ github.ref }}
                   overwrite: true

@@ -61,13 +61,12 @@ jobs:
                   echo "VERSION=$(cat CMakeLists.txt |grep 'set.*(.*JMBDE_QT_VERSION' | sed 's/[^0-9.]*//' |sed 's/)//g')" >> $GITHUB_ENV
 
             - name: Requirements
-              run: brew install doxygen
-                  && brew install sphinx-doc ninja pkg-config
-                  && pip3 install sphinx-rtd-theme
-                  && pip3 install breathe
-                  && pip3 install sphinx-sitemap
-                #   && pip3 install conan
-                #   && conan user
+              run:
+                  brew install doxygen && brew install sphinx-doc ninja pkg-config &&
+                  pip3 install sphinx-rtd-theme && pip3 install breathe && pip3 install
+                  sphinx-sitemap
+                  #   && pip3 install conan
+                  #   && conan user
 
             # - name: Cache Qt
             #   id: cache-qt
@@ -113,14 +112,13 @@ jobs:
             #   # Execute the build.  You can specify a specific target with "--target <NAME>"
             #   run: cmake --build . --config ${{ matrix.build_type }} -j2
 
-
             - name: Build manual
               run: |
-                ls $GITHUB_WORKSPACE/docs/manual
-                cd $GITHUB_WORKSPACE/docs/manual
-                make html
-                cd $GITHUB_WORKSPACE/docs/manual/build/html
-                touch .nojekyll
+                  ls $GITHUB_WORKSPACE/docs/manual
+                  cd $GITHUB_WORKSPACE/docs/manual
+                  make html
+                  cd $GITHUB_WORKSPACE/docs/manual/build/html
+                  touch .nojekyll
 
             - name: Deploy manual
               uses: JamesIves/github-pages-deploy-action@releases/v3

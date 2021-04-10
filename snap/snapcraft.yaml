@@ -6,7 +6,7 @@ adopt-info: jmbde-qt
 grade: stable
 confinement: strict
 base: core20
-version: '0.5.4'
+version: "0.5.4"
 icon: assets/icons/jmbde.png
 
 parts:
@@ -98,4 +98,3 @@ apps:
             DISABLE_WAYLAND: 1
         desktop: usr/share/applications/com.github.jmuelbert/jmbde.desktop
         common-id: com.github.jmuelbert.jmbde-QT
-

@@ -1,7 +1,9 @@
 # Changelog
+
 All notable changes to this project will be documented in this file.
 
-## unreleased 
+## unreleased
+
 ### Added
 
 ### Changed
@@ -14,5 +16,6 @@ All notable changes to this project will be documented in this file.
 
 ### Security
 
-###  Infrastructure
+### Infrastructure
+
 ### Updated

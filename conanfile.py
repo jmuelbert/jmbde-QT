@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from conans import ConanFile, CMake
 
 
@@ -38,7 +39,7 @@ class jmbdeQTAppConan(ConanFile):
         # self.cpp_info.libdirs = ['lib']  # Directories where libraries can be found
         # self.cpp_info.resdirs = ['res']  # Directories where resources, data, etc. can be found
         # Directories where executables and shared libs can be found
-        self.cpp_info.bindirs = ['bin']
+        self.cpp_info.bindirs = ["bin"]
         # self.cpp_info.srcdirs = []  # Directories where sources can be found (debugging, reusing sources)
         # self.cpp_info.build_modules = {}  # Build system utility module files
         # self.cpp_info.defines = []  # preprocessor definitions

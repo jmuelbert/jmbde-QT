@@ -15,7 +15,7 @@ on:
 
 env:
     QT_VERSION: 5.15.2
-   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+    # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
     PRODUCT: jmbde
     targetName: jmbde
     CTEST_OUTPUT_ON_FAILURE: 1
@@ -43,21 +43,21 @@ jobs:
             matrix:
                 config:
                     - {
-                        os: ubuntu-16.04,
-                        qt_arch: gcc_64,
-                        qt_target: desktop,
-                        arch: x64,
-                        generator: "-G 'Unix Makefiles'",
-                        build_type: 'Debug'
-                    }
+                          os: ubuntu-16.04,
+                          qt_arch: gcc_64,
+                          qt_target: desktop,
+                          arch: x64,
+                          generator: "-G 'Unix Makefiles'",
+                          build_type: "Debug",
+                      }
                     - {
-                        os: ubuntu-latest,
-                        qt_arch: gcc_64,
-                        qt_target: desktop,
-                        arch: x64,
-                        generator: "-G 'Unix Makefiles'",
-                        build_type: 'Debug'
-                    }
+                          os: ubuntu-latest,
+                          qt_arch: gcc_64,
+                          qt_target: desktop,
+                          arch: x64,
+                          generator: "-G 'Unix Makefiles'",
+                          build_type: "Debug",
+                      }
                     # - {
                     #     os: ubuntu-latest,
                     #     qt_arch: gcc_64,
@@ -67,21 +67,21 @@ jobs:
                     #     build_type: 'Coverage'
                     # }
                     - {
-                        os: windows-latest,
-                        qt_arch: win64_msvc2019_64,
-                        qt_target: desktop,
-                        arch:  x64,
-                        generator: "-G'Visual Studio 16 2019' -A x64",
-                        build_type: 'Debug'
-                    }
+                          os: windows-latest,
+                          qt_arch: win64_msvc2019_64,
+                          qt_target: desktop,
+                          arch: x64,
+                          generator: "-G'Visual Studio 16 2019' -A x64",
+                          build_type: "Debug",
+                      }
                     - {
-                        os: macos-latest,
-                        qt_arch: clang_64,
-                        qt_target: desktop,
-                        arch: clang_64,
-                        generator: "-G 'Ninja'",
-                        build_type: 'Debug'
-                    }
+                          os: macos-latest,
+                          qt_arch: clang_64,
+                          qt_target: desktop,
+                          arch: clang_64,
+                          generator: "-G 'Ninja'",
+                          build_type: "Debug",
+                      }
             fail-fast: false
 
         runs-on: ${{ matrix.config.os }}
@@ -132,8 +132,8 @@ jobs:
             - name: Install Python 3.x version
               uses: actions/setup-python@v2
               with:
-                python-version: "3.x"
-                architecture: ${{ matrix.arch }}
+                  python-version: "3.x"
+                  architecture: ${{ matrix.arch }}
 
             - name: Restore Qt from cache
               id: cache-qt
@@ -142,29 +142,30 @@ jobs:
                   path: ../Qt
                   key: Qt-${{ matrix.config.os }}-${{ env.QT_VERSION }}
 
-            - name: Installing Qt${{ env.QT_VERSION }} - ${{ matrix.config.qt_arch }} on ${{ matrix.config.os }}
+            - name:
+                  Installing Qt${{ env.QT_VERSION }} - ${{ matrix.config.qt_arch }} on
+                  ${{ matrix.config.os }}
               uses: jurplel/install-qt-action@v2
               with:
                   version: ${{ env.QT_VERSION }}
-                  target:  ${{ matrix.config.qt_target }}
-                  arch:  ${{ matrix.config.qt_arch }}
+                  target: ${{ matrix.config.qt_target }}
+                  arch: ${{ matrix.config.qt_arch }}
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
             - name:
-                macos - ${{ matrix.config.qt_version }} - Build preparation - Install
+                  macos - ${{ matrix.config.qt_version }} - Build preparation - Install
                   Packages
               if: runner.os == 'macOS'
               run: |
                   brew install ninja pkg-config
 
             - name:
-                ubuntu-latest - ${{ matrix.config.qt_version }} - Build preparation - Install
-                  Packages
+                  ubuntu-latest - ${{ matrix.config.qt_version }} - Build preparation -
+                  Install Packages
               if: runner.os == 'Linux'
               run: |
-                sudo apt-get install freeglut3-dev
-                sudo apt-get install lcov
-
+                  sudo apt-get install freeglut3-dev
+                  sudo apt-get install lcov
 
             - name: Install conan
               id: conan
@@ -188,7 +189,7 @@ jobs:
               # and build directories, but this is only available with CMake 3.13 and higher.
               # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
               run: |
-                 ctest -S $GITHUB_WORKSPACE/cmake/ci.ctestscript.cmake --output-on-failure -VV -DCTEST_BUILD_NAME="${{matrix.config.os}}-${{matrix.config.build_type}}"
+                  ctest -S $GITHUB_WORKSPACE/cmake/ci.ctestscript.cmake --output-on-failure -VV -DCTEST_BUILD_NAME="${{matrix.config.os}}-${{matrix.config.build_type}}"
 
             - name: Configure CMake for ${{ matrix.config.build_type }}
               if: matrix.config.build_type != 'Coverage'
@@ -206,14 +207,14 @@ jobs:
                     -DBUILD_TRANSLATIONS=ON \
                     -DCMAKE_INSTALL_PREFIX:PATH=./app
 
-
-
             - name: Build
               if: matrix.config.build_type != 'Coverage'
               working-directory: ${{runner.workspace}}/build
               shell: bash
               # Execute the build.  You can specify a specific target with "--target <NAME>"
-              run: cmake --build . --config ${{ matrix.config.build_type }} -j2 --target install
+              run:
+                  cmake --build . --config ${{ matrix.config.build_type }} -j2 --target
+                  install
 
             # - name: Test
             #   if: matrix.config.os == 'ubuntu-latest'
@@ -226,4 +227,4 @@ jobs:
             - name: collect code coverage
               if: matrix.config.build_type == 'Coverage'
               run: |
-                bash <(curl -s https://codecov.io/bash) -X gcov || echo "Codecov did not collect coverage reports"
+                  bash <(curl -s https://codecov.io/bash) -X gcov || echo "Codecov did not collect coverage reports"
