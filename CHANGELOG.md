@@ -9,6 +9,7 @@
 
 **Fixed bugs:**
 
+- Github Pages not build [\#263](https://github.com/jmuelbert/jmbde-QT/issues/263)
 - macOS dmg [\#174](https://github.com/jmuelbert/jmbde-QT/issues/174)
 - Windows innosetup installer [\#172](https://github.com/jmuelbert/jmbde-QT/issues/172)
 - Size of MainWindow dont fit to InputArea [\#161](https://github.com/jmuelbert/jmbde-QT/issues/161)
@@ -40,6 +41,8 @@
 
 **Merged pull requests:**
 
+- Bump pre-commit from 2.11.1 to 2.12.0 [\#267](https://github.com/jmuelbert/jmbde-QT/pull/267)
+- Bump sphinx-rtd-theme from 0.5.1 to 0.5.2 [\#265](https://github.com/jmuelbert/jmbde-QT/pull/265)
 - Bump importlib-metadata from 3.8.0 to 3.10.0 [\#259](https://github.com/jmuelbert/jmbde-QT/pull/259)
 - Bump breathe from 4.27.0 to 4.28.0 [\#258](https://github.com/jmuelbert/jmbde-QT/pull/258)
 - Bump heinrichreimer/github-changelog-generator-action from v2.1.1 to v2.2 [\#257](https://github.com/jmuelbert/jmbde-QT/pull/257)
@@ -74,7 +77,6 @@
 - Bump virtualenv from 20.4.0 to 20.4.2 [\#209](https://github.com/jmuelbert/jmbde-QT/pull/209)
 - Bump packaging from 20.8 to 20.9 [\#207](https://github.com/jmuelbert/jmbde-QT/pull/207)
 - Bump jinja2 from 2.11.2 to 2.11.3 [\#206](https://github.com/jmuelbert/jmbde-QT/pull/206)
-- Bump pre-commit from 2.9.3 to 2.10.0 [\#204](https://github.com/jmuelbert/jmbde-QT/pull/204)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
 
