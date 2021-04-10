@@ -20,19 +20,10 @@ These are computers, printers and telephones.
 [![Documentation][documentation-shield]][documentation-url]
 [![License][license-shield]][license-url]
 
-## Table of Contents
-
--   [About the Project](#about-the-project)
-    -   [Built With](#built-with)
--   [Getting Started](#getting-started)
-    -   [Prerequisites](#prerequisites)
-    -   [Installation](#installation)
--   [Usage](#usage)
--   [Roadmap](#roadmap)
--   [Contributing](#contributing)
--   [License](#license)
--   [Contact](#contact)
--   [Acknowledgements](#acknowledgements)
+[Features](https://github.com/jmuelbert/jmbde-QT) |
+[Documentation](https://jmuelbert.github.io/jmbde-QT/) | [Changelog](CHANGELOG.md) |
+[Contributing](CONTRIBUTING_de-DE.md) |
+[FAQ](https://github.com/jmuelbert/jmbde-QT/wiki/FAQ) | [deutsch](README.md)
 
 ## About jmbde
 
@@ -263,6 +254,10 @@ GPL V3 © [Jürgen Mülbert](https:/github.com/jmuelbert/jmbde-QT)
 [build-url]: https://github.com/jmuelbert/jmbde-QT/workflows/Build
 [gitpod-shield]: https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod
 [gitpod-url]: https://gitpod.io/#https://github.com/jmuelbert/jmbde-QT
+[codacy-shield]:
+    https://api.codacy.com/project/badge/Grade/caf2526829cb447b9ca6091cccebad27
+[codacy-url]:
+    https://app.codacy.com/manual/jmuelbert/jmbde-QT?utm_source=github.com&utm_medium=referral&utm_content=jmuelbert/jmbde-QT&utm_campaign=Badge_Grade_Dashboard
 [downloads_all-shield]:
     https://img.shields.io/github/downloads/jmuelbert/jmbde-QT/total?label=downloads%40all
 [downloads_all-url]: https://github.com/jmuelbert/jmbde-QT/releases
@@ -294,5 +289,3 @@ GPL V3 © [Jürgen Mülbert](https:/github.com/jmuelbert/jmbde-QT)
 [cdash-url]: http://my.cdash.org/index.php?project=jmbde-QT
 [pr-shield]: https://img.shields.io/github/issues-pr-raw/jmuelbert/jmbde-QT.svg
 [pr-url]: https://github.com/jmuelbert/jmbde-QT/pulls
-[codecov-shield]: https://codecov.io/gh/jmuelbert/jmbde-QT/branch/master/graph/badge.svg
-[codecov-url]: https://codecov.io/gh/jmuelbert/jmbde-QT
