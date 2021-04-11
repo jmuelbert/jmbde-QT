@@ -8,10 +8,10 @@ on:
             - "LICENSE"
             - "BUILD.md"
     pull_request_target:
-      types: [labeled]
-      paths-ignore:
-        - "README.md"
-        - "LICENSE"
+        types: [labeled]
+        paths-ignore:
+            - "README.md"
+            - "LICENSE"
     release:
         types: [published]
 
@@ -50,7 +50,6 @@ jobs:
             fail-fast: false
 
         runs-on: ${{ matrix.os }}
-
 
         steps:
             - name: Get the version
@@ -97,7 +96,7 @@ jobs:
               uses: jurplel/install-qt-action@v2
               with:
                   version: ${{ matrix.qt_version }}
-                  arch:  ${{ matrix.arch }}
+                  arch: ${{ matrix.arch }}
                   mirror: "http://mirrors.ocf.berkeley.edu/qt/"
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
                   setup-python: "false"
@@ -145,7 +144,8 @@ jobs:
               env:
                   Qt6_DIR: ../Qt/${{ matrix.qt_version }}/${{matrix.qt_arch}}
               # Execute the build.  You can specify a specific target with "--target <NAME>"
-              run: cmake --build . --config ${{ matrix.build_type }} -j2 --target install
+              run:
+                  cmake --build . --config ${{ matrix.build_type }} -j2 --target install
 
             - name: Package
               env:
@@ -160,15 +160,22 @@ jobs:
               uses: actions/upload-artifact@v2.2.2
               with:
                   name:
-                      ${{env.targetName}}-Qt${{ matrix.qt_version }}-${{matrix.build_type}}.dmg
-                  path: ${{runner.workspace}}/build/${{ env.targetName }}-Qt${{ matrix.qt_version }}.dmg
+                      ${{env.targetName}}-Qt${{ matrix.qt_version
+                      }}-${{matrix.build_type}}.dmg
+                  path:
+                      ${{runner.workspace}}/build/${{ env.targetName }}-Qt${{
+                      matrix.qt_version }}.dmg
 
             - name: macOS - ${{ matrix.qt_version }} - Upload binaries to release
               uses: svenstaro/upload-release-action@v2
               with:
                   repo_token: ${{ secrets.GITHUB_TOKEN }}
-                  file: ${{runner.workspace}}/build/${{ env.targetName }}-Qt${{ matrix.qt_version }}.dmg
+                  file:
+                      ${{runner.workspace}}/build/${{ env.targetName }}-Qt${{
+                      matrix.qt_version }}.dmg
                   asset_name:
-                      ${{ env.targetName }}-${{ steps.get_version.outputs.VERSION}}-Qt${{ matrix.qt_version }}-${{matrix.build_type}}.dmg
+                      ${{ env.targetName }}-${{
+                      steps.get_version.outputs.VERSION}}-Qt${{ matrix.qt_version
+                      }}-${{matrix.build_type}}.dmg
                   tag: ${{ github.ref }}
                   overwrite: true

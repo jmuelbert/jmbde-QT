@@ -1,11 +1,7 @@
+# SPDX-FileCopyrightText: (C) 2013-2021  Jürgen Mülbert <juergen.muelbert@gmail.com> SPDX-License-Identifier: GNU-V3-later
 #
-# jmbde a BDE Tool for companies Copyright (C) 2013-2020  Jürgen Mülbert
+# jmbde a BDE Tool for companies Copyright (C) 2013-2021  Jürgen Mülbert
 #
-# This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 # minimal requirements
 cmake_minimum_required(VERSION 3.12...3.19 FATAL_ERROR)
@@ -28,7 +24,6 @@ project(
 )
 
 include(ECMSetupVersion)
-include(ECMQtDeclareLoggingCategory)
 include(ECMInstallIcons)
 include(ECMAddAppIcon)
 
@@ -44,18 +39,6 @@ ecm_setup_version(
   "${CMAKE_CURRENT_BINARY_DIR}/jmbde-version.h"
   PACKAGE_VERSION_FILE
   "${CMAKE_CURRENT_BINARY_DIR}/JMBDE-ConfigVersion.cmake"
-)
-
-ecm_qt_declare_logging_category(
-  ${PROJECT_NAME}
-  HEADER
-  loggingcategory.h
-  IDENTIFIER
-  ${PROJECT_NAME}
-  CATEGORY_NAME
-  jmuelbert.${PROJECT_NAME}
-  DEFAULT_SEVERITY
-  Warning
 )
 
 if(APPLE)

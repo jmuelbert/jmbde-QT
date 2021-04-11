@@ -8,10 +8,10 @@ on:
             - "LICENSE"
             - "BUILD.md"
     pull_request_target:
-      types: [labeled]
-      paths-ignore:
-        - "README.md"
-        - "LICENSE"
+        types: [labeled]
+        paths-ignore:
+            - "README.md"
+            - "LICENSE"
     release:
         types: [published]
 
@@ -129,8 +129,8 @@ jobs:
               uses: jurplel/install-qt-action@v2
               with:
                   version: ${{ matrix.qt_version }}
-                  target:  ${{ matrix.qt_target }}
-                  arch:  ${{ matrix.qt_arch }}
+                  target: ${{ matrix.qt_target }}
+                  arch: ${{ matrix.qt_arch }}
                   mirror: "http://mirrors.ocf.berkeley.edu/qt/"
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
@@ -170,12 +170,15 @@ jobs:
               working-directory: ${{runner.workspace}}/build
               shell: bash
               # Execute the build.  You can specify a specific target with "--target <NAME>"
-              run: cmake --build . --config ${{ matrix.build_type }} -j2 --target install
+              run:
+                  cmake --build . --config ${{ matrix.build_type }} -j2 --target install
 
             - name: ZIP package
               working-directory: ${{runner.workspace}}/build
               env:
-                  archiveName: jmbde.${{ steps.get_version.outputs.VERSION}}.Windows-${{matrix.arch }}
+                  archiveName:
+                      jmbde.${{
+                      steps.get_version.outputs.VERSION}}.Windows-${{matrix.arch }}
               shell: pwsh
               run: |
                   New-Item -ItemType Directory ${env:archiveName}
@@ -191,7 +194,8 @@ jobs:
               working-directory: ${{runner.workspace}}/build
               env:
                   archiveName:
-                      jmbde.${{steps.get_version.outputs.VERSION}}.Windows-${{matrix.arch }}
+                      jmbde.${{steps.get_version.outputs.VERSION}}.Windows-${{matrix.arch
+                      }}
               shell: bash
               # Copy and windeplyqt came from ZIP Package
               # New-Item -ItemType Directory ${env:archiveName}
@@ -220,7 +224,8 @@ jobs:
               working-directory: ${{runner.workspace}}/build
               env:
                   archiveName:
-                      jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-${{matrix.arch }}
+                      jmbde.${{ steps.get_version.outputs.VERSION
+                      }}.Windows-${{matrix.arch }}
               shell: bash
               run: |
                   echo "Hello msi installer"
@@ -228,11 +233,13 @@ jobs:
             - name: Windows - ${{ matrix.qt_version }} - Uploading artifact
               env:
                   archiveName:
-                      jmbde.${{ steps.get_version.outputs.VERSION }}.Windows-${{matrix.arch }}
+                      jmbde.${{ steps.get_version.outputs.VERSION
+                      }}.Windows-${{matrix.arch }}
               uses: actions/upload-artifact@v2.2.2
               with:
                   name:
-                      jmbde-win-${{matrix.arch}}.qt${{ matrix.qt_version}}-${{matrix.build_type}}.zip
+                      jmbde-win-${{matrix.arch}}.qt${{
+                      matrix.qt_version}}-${{matrix.build_type}}.zip
                   path: ${{runner.workspace}}/build/${{ env.archiveName }}.zip
 
             - name:
@@ -245,6 +252,7 @@ jobs:
                       ${{runner.workspace}}/build/jmbde-${{steps.get_version.outputs.VERSION}}-windows-${{matrix.arch}}-Qt${{matrix.qt_version}}-${{
                       matrix.build_type }}.exe
                   asset_name:
-                      jmbde-${{steps.get_version.outputs.VERSION}}-windows-${{matrix.arch}}-Qt${{matrix.qt_version}}-${{matrix.build_type }}.exe
+                      jmbde-${{steps.get_version.outputs.VERSION}}-windows-${{matrix.arch}}-Qt${{matrix.qt_version}}-${{matrix.build_type
+                      }}.exe
                   tag: ${{ github.ref }}
                   overwrite: true

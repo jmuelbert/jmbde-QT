@@ -16,7 +16,6 @@ erfasst werden. Das sind unter anderem Computer, Drucker und Telefone.
 [![Issues][issues-shield]][issues-url]
 [![Help wanted issues][help-issues-shield]][help-issues-url]
 [![Pull Requests][pr-shield]][pr-url] [![pre-commit][pre-commit-shield]][pre-commit-url]
-[![Codecov][codecov-shield]][codecov-url]
 [![Misspell fixer][misspell_fixer-shield]][misspell_fixer-url]
 [![Documentation][documentation-shield]][documentation-url]
 [![License][license-shield]][license-url]
@@ -24,7 +23,7 @@ erfasst werden. Das sind unter anderem Computer, Drucker und Telefone.
 [Features](https://github.com/jmuelbert/jmbde-QT) |
 [Documentation](https://jmuelbert.github.io/jmbde-QT/) | [Changelog](CHANGELOG.md) |
 [Contributing](CONTRIBUTING_de-DE.md) |
-[FAQ](https://github.com/jmuelbert/jmbde-QT/wiki/FAQ) | [english](README.md)
+[FAQ](https://github.com/jmuelbert/jmbde-QT/wiki/FAQ) | [english](README_en.md)
 
 jmbde verwendet das plattformübergreifende Framework
 [Qt](http://www.qt.io/download-open-source/), was bedeutet, dass es mit den meisten
@@ -293,5 +292,3 @@ GPL V3 © [Jürgen Mülbert](https:/github.com/jmuelbert/jmbde-QT)
 [cdash-url]: http://my.cdash.org/index.php?project=jmbde-QT
 [pr-shield]: https://img.shields.io/github/issues-pr-raw/jmuelbert/jmbde-QT.svg
 [pr-url]: https://github.com/jmuelbert/jmbde-QT/pulls
-[codecov-shield]: https://codecov.io/gh/jmuelbert/jmbde-QT/branch/master/graph/badge.svg
-[codecov-url]: https://codecov.io/gh/jmuelbert/jmbde-QT

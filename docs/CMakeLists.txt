@@ -10,6 +10,7 @@
 # minimal requirements
 cmake_minimum_required(VERSION 3.12...3.18 FATAL_ERROR)
 
+project(jmbde-QT-Documentation)
 if(${CMAKE_VERSION} VERSION_LESS 3.18)
   cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 else()

@@ -16,24 +16,14 @@ These are computers, printers and telephones.
 [![Issues][issues-shield]][issues-url]
 [![Help wanted issues][help-issues-shield]][help-issues-url]
 [![Pull Requests][pr-shield]][pr-url] [![pre-commit][pre-commit-shield]][pre-commit-url]
-[![Codecov][codecov-shield]][codecov-url]
 [![Misspell fixer][misspell_fixer-shield]][misspell_fixer-url]
 [![Documentation][documentation-shield]][documentation-url]
 [![License][license-shield]][license-url]
 
-## Table of Contents
-
--   [About the Project](#about-the-project)
-    -   [Built With](#built-with)
--   [Getting Started](#getting-started)
-    -   [Prerequisites](#prerequisites)
-    -   [Installation](#installation)
--   [Usage](#usage)
--   [Roadmap](#roadmap)
--   [Contributing](#contributing)
--   [License](#license)
--   [Contact](#contact)
--   [Acknowledgements](#acknowledgements)
+[Features](https://github.com/jmuelbert/jmbde-QT) |
+[Documentation](https://jmuelbert.github.io/jmbde-QT/) | [Changelog](CHANGELOG.md) |
+[Contributing](CONTRIBUTING_de-DE.md) |
+[FAQ](https://github.com/jmuelbert/jmbde-QT/wiki/FAQ) | [deutsch](README.md)
 
 ## About jmbde
 
@@ -299,5 +289,3 @@ GPL V3 © [Jürgen Mülbert](https:/github.com/jmuelbert/jmbde-QT)
 [cdash-url]: http://my.cdash.org/index.php?project=jmbde-QT
 [pr-shield]: https://img.shields.io/github/issues-pr-raw/jmuelbert/jmbde-QT.svg
 [pr-url]: https://github.com/jmuelbert/jmbde-QT/pulls
-[codecov-shield]: https://codecov.io/gh/jmuelbert/jmbde-QT/branch/master/graph/badge.svg
-[codecov-url]: https://codecov.io/gh/jmuelbert/jmbde-QT

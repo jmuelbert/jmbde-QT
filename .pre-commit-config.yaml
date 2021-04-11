@@ -102,13 +102,12 @@ repos:
             types: [ruby, executable]
           - id: shellcheck
             args: ["--color=always", "--shell=bash", "-x", "-a", "--exclude=SC1090"]
-            additional_dependencies: [shellcheck]
           - id: shfmt
 
-    - repo: https://github.com/Lucas-C/pre-commit-hooks-go
-      rev: v1.0.1
-      hooks:
-          - id: checkmake
+    # - repo: https://github.com/Lucas-C/pre-commit-hooks-go
+    #   rev: v1.0.1
+    #   hooks:
+    #       - id: checkmake
 
     - repo: https://github.com/Lucas-C/pre-commit-hooks-java
       rev: 1.3.10
@@ -170,7 +169,6 @@ repos:
             additional_dependencies:
                 - prettier@2.1.2
                 - "@prettier/plugin-ruby@"
-                # - "@prettier/plugin-swift@"
                 - "@prettier/plugin-xml@"
 
             args:
@@ -178,7 +176,6 @@ repos:
                 - --list-different
                 - --ignore-unknown
                 - --plugin=@prettier/plugin-ruby
-                # - --plugin=@prettier/plugin-swift
                 - --plugin=@prettier/plugin-xml
                 - --prose-wrap=always
                 - --print-width=88
@@ -228,9 +225,9 @@ repos:
       hooks:
           - id: gitlab-ci-linter
 
-    # - repo: https://github.com/cheshirekow/cmake-format-precommit
-    #   rev: v0.6.13
-    #   hooks:
-    #       - id: cmake-format
-    #         args: [--config-files=.cmake-format, --in-place]
-    #       - id: cmake-lint
+    - repo: https://github.com/cheshirekow/cmake-format-precommit
+      rev: v0.6.13
+      hooks:
+          - id: cmake-format
+            args: [--config-files=.cmake-format, --in-place]
+          - id: cmake-lint

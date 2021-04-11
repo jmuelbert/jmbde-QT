@@ -27,7 +27,6 @@ appdir
 [Bb]in/
 [Ii]nstall/
 [Ll]ib/*.so*
-Makefile*
 qbs-build/
 temp*/
 [Bb]uild-*
@@ -114,7 +113,6 @@ gmon.out
 CMakeFiles/
 CMakeCache.txt
 compile_commands*.json
-Makefile*
 Thumbs.db
 core
 moc_*.cpp

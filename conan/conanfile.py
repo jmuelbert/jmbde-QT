@@ -1,30 +1,33 @@
+# -*- coding: utf-8 -*-
 from conans import ConanFile, CMake, tools
 
 
 class jmbdeQTConan(ConanFile):
     name = "jmbde-QT"
     version = "0.5.4"
-    license = (
-        "https: // raw.githubusercontent.com/jmuelber/jmbde-QT/master/LICENSE"
-    )
+    license = "https: // raw.githubusercontent.com/jmuelber/jmbde-QT/master/LICENSE"
     author = "Jürgen Mülbert juergen.muelbert@gmail.com"
     url = "https://github.com/jmuelbert/jmbde-QT.git"
     description = "A BDE tool."
     generators = "cmake"
-    options = dict({
-        "build_static": [True, False],
-        "build_examples": [True, False],
-        "build_tests": [True, False],
-        "build_python_bindings": [True, False],
-        "python_bindings_install_prefix": "ANY"
-    })
-    default_options = dict({
-        "build_static": False,
-        "build_examples": True,
-        "build_tests": False,
-        "build_python_bindings": False,
-        "python_bindings_install_prefix": "ANY"
-    })
+    options = dict(
+        {
+            "build_static": [True, False],
+            "build_examples": [True, False],
+            "build_tests": [True, False],
+            "build_python_bindings": [True, False],
+            "python_bindings_install_prefix": "ANY",
+        }
+    )
+    default_options = dict(
+        {
+            "build_static": False,
+            "build_examples": True,
+            "build_tests": False,
+            "build_python_bindings": False,
+            "python_bindings_install_prefix": "ANY",
+        }
+    )
     settings = "build_type"
 
     def requirements(self):
