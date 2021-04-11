@@ -77,6 +77,14 @@
 - Bump virtualenv from 20.4.0 to 20.4.2 [\#209](https://github.com/jmuelbert/jmbde-QT/pull/209)
 - Bump packaging from 20.8 to 20.9 [\#207](https://github.com/jmuelbert/jmbde-QT/pull/207)
 - Bump jinja2 from 2.11.2 to 2.11.3 [\#206](https://github.com/jmuelbert/jmbde-QT/pull/206)
+- Bump pre-commit from 2.9.3 to 2.10.0 [\#204](https://github.com/jmuelbert/jmbde-QT/pull/204)
+- Bump urllib3 from 1.26.2 to 1.26.3 [\#203](https://github.com/jmuelbert/jmbde-QT/pull/203)
+- Bump peter-evans/create-pull-request from v3.6.0 to v3.7.0 [\#202](https://github.com/jmuelbert/jmbde-QT/pull/202)
+- Bump actions/stale from v3.0.14 to v3.0.15 [\#201](https://github.com/jmuelbert/jmbde-QT/pull/201)
+- Format codes for refs/heads/add-ui-for-db-entities [\#199](https://github.com/jmuelbert/jmbde-QT/pull/199)
+- Bump snowballstemmer from 2.0.0 to 2.1.0 [\#198](https://github.com/jmuelbert/jmbde-QT/pull/198)
+- Bump pyyaml from 5.3.1 to 5.4.1 [\#197](https://github.com/jmuelbert/jmbde-QT/pull/197)
+- Bump identify from 1.5.12 to 1.5.13 [\#193](https://github.com/jmuelbert/jmbde-QT/pull/193)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
 
