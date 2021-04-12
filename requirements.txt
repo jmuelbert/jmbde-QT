@@ -15,7 +15,7 @@ imagesize==1.2.0
 importlib-metadata==3.10.0
 Jinja2==2.11.3
 MarkupSafe==1.1.1
-nodeenv==1.5.0
+nodeenv==1.6.0
 packaging==20.9
 pre-commit==2.12.0
 Pygments==2.8.1
