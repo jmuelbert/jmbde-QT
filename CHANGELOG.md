@@ -1,6 +1,6 @@
 # Changelog
 
-## [dependabot/pip/docutils-0.17](https://github.com/jmuelbert/jmbde-QT/tree/dependabot/pip/docutils-0.17) (2021-04-11)
+## [Unreleased](https://github.com/jmuelbert/jmbde-QT/tree/HEAD)
 
 **Implemented enhancements:**
 
@@ -24,11 +24,6 @@
 - Workflow: CD: RPM - openSUSE Leap [\#153](https://github.com/jmuelbert/jmbde-QT/issues/153)
 - Workflow: CD: RPM - openSUSE TW [\#152](https://github.com/jmuelbert/jmbde-QT/issues/152)
 
-**Merged pull requests:**
-
-- Bump peter-evans/create-pull-request from v3.7.0 to v3.8.2 [\#215](https://github.com/jmuelbert/jmbde-QT/pull/215)
-- Bump actions/stale from v3.0.15 to v3.0.16 [\#213](https://github.com/jmuelbert/jmbde-QT/pull/213)
-
 ## [master](https://github.com/jmuelbert/jmbde-QT/tree/master) (2021-03-07)
 
 **Implemented enhancements:**
@@ -46,6 +41,7 @@
 
 **Merged pull requests:**
 
+- Bump breathe from 4.28.0 to 4.29.0 [\#270](https://github.com/jmuelbert/jmbde-QT/pull/270)
 - Bump identify from 2.2.2 to 2.2.3 [\#269](https://github.com/jmuelbert/jmbde-QT/pull/269)
 - Bump pre-commit from 2.11.1 to 2.12.0 [\#267](https://github.com/jmuelbert/jmbde-QT/pull/267)
 - Bump sphinx-rtd-theme from 0.5.1 to 0.5.2 [\#265](https://github.com/jmuelbert/jmbde-QT/pull/265)
