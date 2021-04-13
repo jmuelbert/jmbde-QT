@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased](https://github.com/jmuelbert/jmbde-QT/tree/HEAD)
+## [dependabot/pip/docutils-0.17](https://github.com/jmuelbert/jmbde-QT/tree/dependabot/pip/docutils-0.17) (2021-04-11)
 
 **Implemented enhancements:**
 
@@ -73,7 +73,6 @@
 - Format codes for refs/heads/add-ui-for-db-entities [\#217](https://github.com/jmuelbert/jmbde-QT/pull/217)
 - Bump peter-evans/create-pull-request from v3.7.0 to v3.8.2 [\#215](https://github.com/jmuelbert/jmbde-QT/pull/215)
 - Bump actions/stale from v3.0.15 to v3.0.16 [\#213](https://github.com/jmuelbert/jmbde-QT/pull/213)
-- Bump pre-commit from 2.10.0 to 2.10.1 [\#212](https://github.com/jmuelbert/jmbde-QT/pull/212)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
 
