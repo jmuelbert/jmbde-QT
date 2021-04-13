@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased](https://github.com/jmuelbert/jmbde-QT/tree/HEAD)
+## [dependabot/pip/docutils-0.17](https://github.com/jmuelbert/jmbde-QT/tree/dependabot/pip/docutils-0.17) (2021-04-11)
 
 **Implemented enhancements:**
 
