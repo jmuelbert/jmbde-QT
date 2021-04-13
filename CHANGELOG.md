@@ -41,6 +41,8 @@
 
 **Merged pull requests:**
 
+- Bump breathe from 4.28.0 to 4.29.0 [\#270](https://github.com/jmuelbert/jmbde-QT/pull/270)
+- Bump identify from 2.2.2 to 2.2.3 [\#269](https://github.com/jmuelbert/jmbde-QT/pull/269)
 - Bump pre-commit from 2.11.1 to 2.12.0 [\#267](https://github.com/jmuelbert/jmbde-QT/pull/267)
 - Bump sphinx-rtd-theme from 0.5.1 to 0.5.2 [\#265](https://github.com/jmuelbert/jmbde-QT/pull/265)
 - Bump docutils from 0.16 to 0.17 [\#264](https://github.com/jmuelbert/jmbde-QT/pull/264)
@@ -71,8 +73,6 @@
 - Bump pygments from 2.7.4 to 2.8.0 [\#219](https://github.com/jmuelbert/jmbde-QT/pull/219)
 - Format codes for refs/heads/add-ui-for-db-entities [\#218](https://github.com/jmuelbert/jmbde-QT/pull/218)
 - Format codes for refs/heads/add-ui-for-db-entities [\#217](https://github.com/jmuelbert/jmbde-QT/pull/217)
-- Bump peter-evans/create-pull-request from v3.7.0 to v3.8.2 [\#215](https://github.com/jmuelbert/jmbde-QT/pull/215)
-- Bump actions/stale from v3.0.15 to v3.0.16 [\#213](https://github.com/jmuelbert/jmbde-QT/pull/213)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
 
