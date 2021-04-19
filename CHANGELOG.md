@@ -1,11 +1,10 @@
 # Changelog
 
-## [dependabot/pip/docutils-0.17](https://github.com/jmuelbert/jmbde-QT/tree/dependabot/pip/docutils-0.17) (2021-04-11)
+## [Unreleased](https://github.com/jmuelbert/jmbde-QT/tree/HEAD)
 
 **Implemented enhancements:**
 
 - Remove old Workflows [\#159](https://github.com/jmuelbert/jmbde-QT/issues/159)
-- Should use Innosetup or WiX to create an Installer for Windows ? [\#147](https://github.com/jmuelbert/jmbde-QT/issues/147)
 
 **Fixed bugs:**
 
@@ -13,16 +12,6 @@
 - macOS dmg [\#174](https://github.com/jmuelbert/jmbde-QT/issues/174)
 - Windows innosetup installer [\#172](https://github.com/jmuelbert/jmbde-QT/issues/172)
 - Size of MainWindow dont fit to InputArea [\#161](https://github.com/jmuelbert/jmbde-QT/issues/161)
-- Workflow: clazy [\#150](https://github.com/jmuelbert/jmbde-QT/issues/150)
-- Workflow: pre-commit [\#149](https://github.com/jmuelbert/jmbde-QT/issues/149)
-
-**Closed issues:**
-
-- Workflow: CD: DEB - Debian [\#157](https://github.com/jmuelbert/jmbde-QT/issues/157)
-- Workflow: CD: DEB - Ubuntu [\#156](https://github.com/jmuelbert/jmbde-QT/issues/156)
-- Workflow:  CD: RPM - Fedora [\#154](https://github.com/jmuelbert/jmbde-QT/issues/154)
-- Workflow: CD: RPM - openSUSE Leap [\#153](https://github.com/jmuelbert/jmbde-QT/issues/153)
-- Workflow: CD: RPM - openSUSE TW [\#152](https://github.com/jmuelbert/jmbde-QT/issues/152)
 
 ## [master](https://github.com/jmuelbert/jmbde-QT/tree/master) (2021-03-07)
 
@@ -43,6 +32,7 @@
 
 - Bump breathe from 4.28.0 to 4.29.0 [\#270](https://github.com/jmuelbert/jmbde-QT/pull/270)
 - Bump identify from 2.2.2 to 2.2.3 [\#269](https://github.com/jmuelbert/jmbde-QT/pull/269)
+- Bump nodeenv from 1.5.0 to 1.6.0 [\#268](https://github.com/jmuelbert/jmbde-QT/pull/268)
 - Bump pre-commit from 2.11.1 to 2.12.0 [\#267](https://github.com/jmuelbert/jmbde-QT/pull/267)
 - Bump sphinx-rtd-theme from 0.5.1 to 0.5.2 [\#265](https://github.com/jmuelbert/jmbde-QT/pull/265)
 - Bump docutils from 0.16 to 0.17 [\#264](https://github.com/jmuelbert/jmbde-QT/pull/264)
