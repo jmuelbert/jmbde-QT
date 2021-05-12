@@ -157,7 +157,7 @@ jobs:
                   ls .
 
             - name: macOS - ${{ matrix.qt_version }} - Uploading artifact
-              uses: actions/upload-artifact@v2.2.2
+              uses: actions/upload-artifact@v2.2.3
               with:
                   name:
                       ${{ env.targetName}}-Qt$${{ matrix.qt_version
