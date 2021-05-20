@@ -12,5 +12,4 @@ jobs:
               with:
                   token: ${{github.token}}
                   sources:
-                      "src/app/, src/appquick/, src/libs/models, src/libs/quick,
-                      src/libs/widgets"
+                      "/"
