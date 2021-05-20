@@ -5,7 +5,6 @@
 **Implemented enhancements:**
 
 - Remove old Workflows [\#159](https://github.com/jmuelbert/jmbde-QT/issues/159)
-- Should use Innosetup or WiX to create an Installer for Windows ? [\#147](https://github.com/jmuelbert/jmbde-QT/issues/147)
 
 **Fixed bugs:**
 
@@ -13,16 +12,6 @@
 - macOS dmg [\#174](https://github.com/jmuelbert/jmbde-QT/issues/174)
 - Windows innosetup installer [\#172](https://github.com/jmuelbert/jmbde-QT/issues/172)
 - Size of MainWindow dont fit to InputArea [\#161](https://github.com/jmuelbert/jmbde-QT/issues/161)
-- Workflow: clazy [\#150](https://github.com/jmuelbert/jmbde-QT/issues/150)
-- Workflow: pre-commit [\#149](https://github.com/jmuelbert/jmbde-QT/issues/149)
-
-**Closed issues:**
-
-- Workflow: CD: DEB - Debian [\#157](https://github.com/jmuelbert/jmbde-QT/issues/157)
-- Workflow: CD: DEB - Ubuntu [\#156](https://github.com/jmuelbert/jmbde-QT/issues/156)
-- Workflow:  CD: RPM - Fedora [\#154](https://github.com/jmuelbert/jmbde-QT/issues/154)
-- Workflow: CD: RPM - openSUSE Leap [\#153](https://github.com/jmuelbert/jmbde-QT/issues/153)
-- Workflow: CD: RPM - openSUSE TW [\#152](https://github.com/jmuelbert/jmbde-QT/issues/152)
 
 ## [master](https://github.com/jmuelbert/jmbde-QT/tree/master) (2021-03-07)
 
