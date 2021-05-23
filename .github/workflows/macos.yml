@@ -87,7 +87,7 @@ jobs:
 
             - name: Cache Qt
               id: cache-qt
-              uses: actions/cache@v2.1.4
+              uses: actions/cache@v2.1.5
               with:
                   path: ../Qt/${{matrix.qt_version}}/${{matrix.qt_arch}}
                   key: ${{ runner.os }}-Qt/${{matrix.qt_version}}/${{matrix.qt_arch}}
@@ -156,7 +156,7 @@ jobs:
                   ls .
 
             - name: macOS - ${{ matrix.qt_version }} - Uploading artifact
-              uses: actions/upload-artifact@v2.2.2
+              uses: actions/upload-artifact@v2.2.3
               with:
                   name:
                       ${{ env.targetName}}-Qt$${{ matrix.qt_version

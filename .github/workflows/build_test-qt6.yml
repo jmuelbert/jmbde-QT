@@ -114,14 +114,14 @@ jobs:
             #      vcpkgTriplet: ${{ matrix.config.vcpkg_triplet }}
 
             - name: Install Python 3.x version
-              uses: actions/setup-python@v2
+              uses: actions/setup-python@v2.2.2
               with:
                   python-version: "3.x"
                   architecture: ${{ matrix.arch }}
 
             - name: Restore Qt from cache
               id: cache-qt
-              uses: actions/cache@v2.1.4
+              uses: actions/cache@v2.1.5
               with:
                   path: ../Qt
                   key: Qt-${{ matrix.config.os }}-${{ env.QT_VERSION }}

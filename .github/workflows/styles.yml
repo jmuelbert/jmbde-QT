@@ -43,7 +43,7 @@ jobs:
                   fetch-depth: 0
                   ref: ${{ github.event.pull_request.head.sha }}
 
-            - uses: actions/cache@v2
+            - uses: actions/cache@v2.1.5
               with:
                   path: "**/src"
                   key:
@@ -52,7 +52,7 @@ jobs:
 
             - name: Cache Qt
               id: cache-qt
-              uses: actions/cache@v2.1.4
+              uses: actions/cache@v2.1.5
               with:
                   path: ../Qt/${{ env.QT_VERSION }}/${{env.QT_ARCH}}
                   key: ${{ runner.os }}-Qt/${{ env.QT_VERSION }}/${{env.QT_ARCH}}
