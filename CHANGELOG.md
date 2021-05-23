@@ -40,7 +40,9 @@
 
 **Merged pull requests:**
 
+- Bump identify from 2.2.4 to 2.2.5 [\#297](https://github.com/jmuelbert/jmbde-QT/pull/297)
 - Bump breathe from 4.29.0 to 4.30.0 [\#295](https://github.com/jmuelbert/jmbde-QT/pull/295)
+- Bump virtualenv from 20.4.3 to 20.4.6 [\#292](https://github.com/jmuelbert/jmbde-QT/pull/292)
 - Bump peter-evans/create-pull-request from 3.8.2 to 3.9.2 [\#291](https://github.com/jmuelbert/jmbde-QT/pull/291)
 - Bump actions/cache from 2.1.4 to 2.1.5 [\#290](https://github.com/jmuelbert/jmbde-QT/pull/290)
 - Bump actions/stale from 3.0.18 to 3.0.19 [\#289](https://github.com/jmuelbert/jmbde-QT/pull/289)
