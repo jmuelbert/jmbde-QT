@@ -8,10 +8,10 @@ on:
             - "LICENSE"
             - "BUILD.md"
     pull_request_target:
-        types: [labeled]
         paths-ignore:
             - "README.md"
             - "LICENSE"
+            - "BUILD.md"
     release:
         types: [published]
 
