@@ -40,6 +40,8 @@
 
 **Merged pull requests:**
 
+- Bump peter-evans/create-pull-request from 3.9.2 to 3.10.0 [\#302](https://github.com/jmuelbert/jmbde-QT/pull/302)
+- Bump pre-commit from 2.12.1 to 2.13.0 [\#301](https://github.com/jmuelbert/jmbde-QT/pull/301)
 - Bump six from 1.15.0 to 1.16.0 [\#300](https://github.com/jmuelbert/jmbde-QT/pull/300)
 - Bump sphinxcontrib-htmlhelp from 1.0.3 to 2.0.0 [\#299](https://github.com/jmuelbert/jmbde-QT/pull/299)
 - Bump sphinxcontrib-serializinghtml from 1.1.4 to 1.1.5 [\#298](https://github.com/jmuelbert/jmbde-QT/pull/298)
@@ -155,7 +157,6 @@
 - Bump pre-commit from 2.7.1 to 2.8.2 [\#95](https://github.com/jmuelbert/jmbde-QT/pull/95)
 - Bump pytz from 2020.1 to 2020.4 [\#94](https://github.com/jmuelbert/jmbde-QT/pull/94)
 - Bump toml from 0.10.1 to 0.10.2 [\#93](https://github.com/jmuelbert/jmbde-QT/pull/93)
-- Bump pre-commit from 2.7.1 to 2.8.1 [\#90](https://github.com/jmuelbert/jmbde-QT/pull/90)
 
 ## [v0.5.2](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.2) (2020-03-19)
 
