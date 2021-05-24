@@ -40,8 +40,14 @@
 
 **Merged pull requests:**
 
+- Bump six from 1.15.0 to 1.16.0 [\#300](https://github.com/jmuelbert/jmbde-QT/pull/300)
+- Bump sphinxcontrib-htmlhelp from 1.0.3 to 2.0.0 [\#299](https://github.com/jmuelbert/jmbde-QT/pull/299)
+- Bump sphinxcontrib-serializinghtml from 1.1.4 to 1.1.5 [\#298](https://github.com/jmuelbert/jmbde-QT/pull/298)
 - Bump identify from 2.2.4 to 2.2.5 [\#297](https://github.com/jmuelbert/jmbde-QT/pull/297)
+- Bump markupsafe from 1.1.1 to 2.0.1 [\#296](https://github.com/jmuelbert/jmbde-QT/pull/296)
 - Bump breathe from 4.29.0 to 4.30.0 [\#295](https://github.com/jmuelbert/jmbde-QT/pull/295)
+- Bump babel from 2.9.0 to 2.9.1 [\#294](https://github.com/jmuelbert/jmbde-QT/pull/294)
+- Bump sphinx from 3.5.3 to 4.0.2 [\#293](https://github.com/jmuelbert/jmbde-QT/pull/293)
 - Bump virtualenv from 20.4.3 to 20.4.6 [\#292](https://github.com/jmuelbert/jmbde-QT/pull/292)
 - Bump peter-evans/create-pull-request from 3.8.2 to 3.9.2 [\#291](https://github.com/jmuelbert/jmbde-QT/pull/291)
 - Bump actions/cache from 2.1.4 to 2.1.5 [\#290](https://github.com/jmuelbert/jmbde-QT/pull/290)
