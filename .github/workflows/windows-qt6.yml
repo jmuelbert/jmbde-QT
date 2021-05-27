@@ -4,16 +4,25 @@ name: "CD: Windows Qt6"
 on:
     push:
         paths-ignore:
+            - '.github/ISSUE_TEMPLATE/**'
+            - 'docker/**'
+            - 'CONTRIBUTING.md'
             - "README.md"
             - "LICENSE"
             - "BUILD.md"
     pull_request_target:
         types: [labeled]
         paths-ignore:
+            - '.github/ISSUE_TEMPLATE/**'
+            - 'docker/**'
+            - 'CONTRIBUTING.md'
             - "README.md"
             - "LICENSE"
+            - "BUILD.md"
     release:
         types: [published]
+
+    workflow_dispatch:
 
 env:
     PRODUCT: jmbde
