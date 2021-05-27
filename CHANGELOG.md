@@ -40,7 +40,11 @@
 
 **Merged pull requests:**
 
+- Bump urllib3 from 1.26.4 to 1.26.5 [\#307](https://github.com/jmuelbert/jmbde-QT/pull/307)
 - Bump importlib-metadata from 4.0.1 to 4.2.0 [\#306](https://github.com/jmuelbert/jmbde-QT/pull/306)
+- Bump ilammy/msvc-dev-cmd from 1.8.0 to 1.8.1 [\#305](https://github.com/jmuelbert/jmbde-QT/pull/305)
+- Bump identify from 2.2.5 to 2.2.6 [\#304](https://github.com/jmuelbert/jmbde-QT/pull/304)
+- Bump virtualenv from 20.4.6 to 20.4.7 [\#303](https://github.com/jmuelbert/jmbde-QT/pull/303)
 - Bump peter-evans/create-pull-request from 3.9.2 to 3.10.0 [\#302](https://github.com/jmuelbert/jmbde-QT/pull/302)
 - Bump pre-commit from 2.12.1 to 2.13.0 [\#301](https://github.com/jmuelbert/jmbde-QT/pull/301)
 - Bump six from 1.15.0 to 1.16.0 [\#300](https://github.com/jmuelbert/jmbde-QT/pull/300)
@@ -110,7 +114,6 @@
 - Bump peter-evans/create-pull-request from v3.5.2 to v3.6.0 [\#165](https://github.com/jmuelbert/jmbde-QT/pull/165)
 - Bump sphinx from 3.3.1 to 3.4.0 [\#164](https://github.com/jmuelbert/jmbde-QT/pull/164)
 - Bump requests from 2.25.0 to 2.25.1 [\#163](https://github.com/jmuelbert/jmbde-QT/pull/163)
-- Bump breathe from 4.24.1 to 4.25.1 [\#162](https://github.com/jmuelbert/jmbde-QT/pull/162)
 - Fix typos by misspell-fixer for refs/heads/master [\#146](https://github.com/jmuelbert/jmbde-QT/pull/146)
 - Format codes for refs/heads/dependabot/github\_actions/peter-evans/create-pull-request-v3.5.2 [\#145](https://github.com/jmuelbert/jmbde-QT/pull/145)
 - Fix typos by misspell-fixer for refs/heads/dependabot/github\_actions/peter-evans/create-pull-request-v3.5.2 [\#144](https://github.com/jmuelbert/jmbde-QT/pull/144)
@@ -155,7 +158,6 @@
 - Bump actions/stale from v3.0.12 to v3.0.13 [\#98](https://github.com/jmuelbert/jmbde-QT/pull/98)
 - Bump sphinx from 3.2.1 to 3.3.0 [\#97](https://github.com/jmuelbert/jmbde-QT/pull/97)
 - Bump identify from 1.5.6 to 1.5.7 [\#96](https://github.com/jmuelbert/jmbde-QT/pull/96)
-- Bump pre-commit from 2.7.1 to 2.8.2 [\#95](https://github.com/jmuelbert/jmbde-QT/pull/95)
 - Bump pytz from 2020.1 to 2020.4 [\#94](https://github.com/jmuelbert/jmbde-QT/pull/94)
 - Bump toml from 0.10.1 to 0.10.2 [\#93](https://github.com/jmuelbert/jmbde-QT/pull/93)
 - Bump pre-commit from 2.7.1 to 2.8.1 [\#90](https://github.com/jmuelbert/jmbde-QT/pull/90)
