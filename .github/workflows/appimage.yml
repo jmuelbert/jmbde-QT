@@ -72,7 +72,7 @@ jobs:
               run: git submodule update --init
             - name: Cache Qt
               id: cache-qt
-              uses: actions/cache@v2.1.5
+              uses: actions/cache@v2.1.6
               with:
                   path: ../Qt
                   key:
