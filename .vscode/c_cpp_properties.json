@@ -12,7 +12,7 @@
             "defines": ["_DEBUG", "UNICODE", "_UNICODE"],
             "includePath": ["${myDefaultIncludePath}"],
             "windowsSdkVersion": "10.0.18362.0",
-            "compileCommands": "${workspaceFolder}/compile_commands.json",
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json",
             "configurationProvider": "ms-vscode.cmake-tools"
         },
         {
@@ -24,7 +24,7 @@
             "cppStandard": "c++17",
             "defines": ["_DEBUG"],
             "includePath": ["${myDefaultIncludePath}"],
-            "compileCommands": "${workspaceFolder}/compile_commands.json",
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json",
             "configurationProvider": "ms-vscode.cmake-tools"
         },
         {
@@ -35,7 +35,7 @@
                 "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks"
             ],
             "compilerPath": "/usr/bin/clang",
-            "compileCommands": "${workspaceFolder}/compile_commands.json",
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json",
             "cStandard": "c11",
             "cppStandard": "c++17",
             "intelliSenseMode": "clang-x64",

@@ -231,3 +231,9 @@ repos:
           - id: cmake-format
             args: [--config-files=.cmake-format, --in-place]
           - id: cmake-lint
+
+    - repo: https://github.com/pocc/pre-commit-hooks
+      rev: v1.1.1
+      hooks:
+        - id: clang-format
+          args: [-i, -style=file, -fallback-style=none]

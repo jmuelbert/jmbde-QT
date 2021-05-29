@@ -20,6 +20,7 @@
         "APPLICATION_BUILD_UI": "ON",
         "CMAKE_INSTALL_PREFIX:PATH": "./install"
     },
+    "cmake.sourceDirectory": "${workspaceFolder}/",
     "editor.fontFamily": "'Ubuntu Mono', 'Courier Prime Code', 'Courier', 'Courier New', Consolas, monospace",
     "editor.tabSize": 4,
     "editor.insertSpaces": false,
