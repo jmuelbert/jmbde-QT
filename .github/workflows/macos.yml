@@ -10,8 +10,9 @@ on:
             - "README.md"
             - "LICENSE"
             - "BUILD.md"
-    pull_request_target:
-        types: [labeled]
+
+    pull_request:
+        types: [opened, reopened]
         paths-ignore:
             - '.github/ISSUE_TEMPLATE/**'
             - 'docker/**'
