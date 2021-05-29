@@ -40,6 +40,7 @@
 
 **Merged pull requests:**
 
+- Bump actions/cache from 2.1.5 to 2.1.6 [\#308](https://github.com/jmuelbert/jmbde-QT/pull/308)
 - Bump urllib3 from 1.26.4 to 1.26.5 [\#307](https://github.com/jmuelbert/jmbde-QT/pull/307)
 - Bump importlib-metadata from 4.0.1 to 4.2.0 [\#306](https://github.com/jmuelbert/jmbde-QT/pull/306)
 - Bump ilammy/msvc-dev-cmd from 1.8.0 to 1.8.1 [\#305](https://github.com/jmuelbert/jmbde-QT/pull/305)
@@ -111,7 +112,6 @@
 **Merged pull requests:**
 
 - Fix build/release workflows [\#170](https://github.com/jmuelbert/jmbde-QT/pull/170)
-- Bump pytz from 2020.4 to 2020.5 [\#167](https://github.com/jmuelbert/jmbde-QT/pull/167)
 - Bump peter-evans/create-pull-request from v3.5.2 to v3.6.0 [\#165](https://github.com/jmuelbert/jmbde-QT/pull/165)
 - Bump sphinx from 3.3.1 to 3.4.0 [\#164](https://github.com/jmuelbert/jmbde-QT/pull/164)
 - Bump requests from 2.25.0 to 2.25.1 [\#163](https://github.com/jmuelbert/jmbde-QT/pull/163)
