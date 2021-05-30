@@ -11,9 +11,7 @@ import typing
 import githelper
 
 
-def run_codespell_on_lines(
-    rootdir, filename, lines, codespell_args, ignore_matches
-):
+def run_codespell_on_lines(rootdir, filename, lines, codespell_args, ignore_matches):
     """
     Run codespell on the requested lines.
     Returns 1 if any changes were made, else 0.
@@ -66,9 +64,7 @@ def main(argv: typing.Optional[typing.List[str]] = None) -> int:
         help="ignore matches (one per line)",
     )
     parser.add_argument("--files", nargs="*", help="only check these files")
-    parser.add_argument(
-        "-v", "--verbose", action="store_true", help="Be verbose"
-    )
+    parser.add_argument("-v", "--verbose", action="store_true", help="Be verbose")
     args, codespell_args = parser.parse_known_args(argv)
 
     logging.basicConfig(
@@ -82,9 +78,7 @@ def main(argv: typing.Optional[typing.List[str]] = None) -> int:
         )
 
     if not args.to_ref:
-        args.to_ref = os.getenv("PRE_COMMIT_TO_REF") or os.getenv(
-            "PRE_COMMIT_ORIGIN"
-        )
+        args.to_ref = os.getenv("PRE_COMMIT_TO_REF") or os.getenv("PRE_COMMIT_ORIGIN")
 
     # Filter filenames
     rootdir = githelper.get_toplevel_path()

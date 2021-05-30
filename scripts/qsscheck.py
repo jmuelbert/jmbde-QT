@@ -297,8 +297,7 @@ def check_stylesheet(stylesheet, classnames, objectnames, objectnames_fuzzy):
                     continue
 
                 if any(
-                    fnmatch.fnmatchcase(value, objname)
-                    for objname in objectnames_fuzzy
+                    fnmatch.fnmatchcase(value, objname) for objname in objectnames_fuzzy
                 ):
                     continue
 
@@ -324,12 +323,9 @@ def check_skins(mixxx_path, skins, ignore_patterns=()):
                 error.__class__.__name__,
                 error.reason,
             )
-        for token, message in check_stylesheet(
-            stylesheet, classnames, objectnames, []
-        ):
+        for token, message in check_stylesheet(stylesheet, classnames, objectnames, []):
             if any(
-                fnmatch.fnmatchcase(token.value, pattern)
-                for pattern in ignore_patterns
+                fnmatch.fnmatchcase(token.value, pattern) for pattern in ignore_patterns
             ):
                 continue
             yield "%s:%d:%d: %s" % (

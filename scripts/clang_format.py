@@ -28,17 +28,14 @@ def get_clang_format_config_with_columnlimit(rootdir, limit):
         text=True,
     )
     proc.check_returncode()
-    return re.sub(
-        r"(ColumnLimit:\s*)\d+", r"\g<1>{}".format(BREAK_BEFORE), proc.stdout
-    )
+    return re.sub(r"(ColumnLimit:\s*)\d+", r"\g<1>{}".format(BREAK_BEFORE), proc.stdout)
 
 
 def run_clang_format_on_lines(rootdir, file_to_format, stylepath=None):
     logger = logging.getLogger(__name__)
 
     line_arguments = [
-        "--lines={}:{}".format(start, end)
-        for start, end in file_to_format.lines
+        "--lines={}:{}".format(start, end) for start, end in file_to_format.lines
     ]
     assert line_arguments
 
@@ -56,9 +53,7 @@ def run_clang_format_on_lines(rootdir, file_to_format, stylepath=None):
         # config file implcitly by assuming a different location of the file to
         # format
         "--assume-filename={}".format(
-            os.path.join(
-                stylepath if stylepath else rootdir, file_to_format.filename
-            )
+            os.path.join(stylepath if stylepath else rootdir, file_to_format.filename)
         ),
         *line_arguments,
     ]
@@ -83,9 +78,7 @@ def run_clang_format_on_lines(rootdir, file_to_format, stylepath=None):
 
 
 def main(argv: typing.Optional[typing.List[str]] = None) -> int:
-    logging.basicConfig(
-        format="[%(levelname)s] %(message)s", level=logging.INFO
-    )
+    logging.basicConfig(format="[%(levelname)s] %(message)s", level=logging.INFO)
 
     logger = logging.getLogger(__name__)
 
@@ -101,9 +94,7 @@ def main(argv: typing.Optional[typing.List[str]] = None) -> int:
         )
 
     if not args.to_ref:
-        args.to_ref = os.getenv("PRE_COMMIT_TO_REF") or os.getenv(
-            "PRE_COMMIT_ORIGIN"
-        )
+        args.to_ref = os.getenv("PRE_COMMIT_TO_REF") or os.getenv("PRE_COMMIT_ORIGIN")
 
     # Filter filenames
     rootdir = githelper.get_toplevel_path()
@@ -124,8 +115,7 @@ def main(argv: typing.Optional[typing.List[str]] = None) -> int:
     files_with_long_added_lines = githelper.get_changed_lines_grouped(
         from_ref=args.from_ref,
         to_ref=args.to_ref,
-        filter_lines=lambda line: line.added
-        and len(line.text) > LINE_LENGTH_THRESHOLD,
+        filter_lines=lambda line: line.added and len(line.text) > LINE_LENGTH_THRESHOLD,
         include_files=args.files,
     )
     config = get_clang_format_config_with_columnlimit(rootdir, BREAK_BEFORE)
