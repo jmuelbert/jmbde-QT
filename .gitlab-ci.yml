@@ -72,7 +72,7 @@ coverage:
 
 pages:
     image: node:10
-    stage: deploy
+    stage: pages
     only:
         - master
     cache:
