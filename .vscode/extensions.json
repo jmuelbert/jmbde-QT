@@ -1,0 +1,14 @@
+{
+    "recommendations": [
+        "ms-vscode.cpptools",
+        "matepek.vscode-catch2-test-adapter",
+        "llvm-vs-code-extensions.vscode-clangd",
+        "twxs.cmake",
+        "ms-vscode.cmake-tools",
+        "christian-kohler.path-intellisense",
+        "hbenl.vscode-test-explorer",
+        "gruntfuggly.todo-tree",
+        "cschlosser.doxdocgen",
+        "tdennis4496.cmantic"
+    ]
+}
