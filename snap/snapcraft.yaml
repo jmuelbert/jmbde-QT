@@ -9,6 +9,14 @@ base: core20
 version: "0.5.4"
 icon: assets/icons/jmbde.png
 
+apps:
+    jmbde-qt:
+        command: bin/desktop-launch jmbde-qt
+        environment:
+            DISABLE_WAYLAND: 1
+        desktop: usr/share/applications/com.github.jmuelbert/jmbde.desktop
+        common-id: com.github.jmuelbert.jmbde-QT
+
 parts:
     jmbde-qt:
         plugin: cmake
@@ -90,11 +98,3 @@ parts:
             - locales-all
             - xdg-user-dirs
             - fcitx-frontend-qt5
-
-apps:
-    jmbde-qt:
-        command: bin/desktop-launch jmbde-qt
-        environment:
-            DISABLE_WAYLAND: 1
-        desktop: usr/share/applications/com.github.jmuelbert/jmbde.desktop
-        common-id: com.github.jmuelbert.jmbde-QT
