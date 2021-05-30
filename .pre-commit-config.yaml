@@ -248,24 +248,24 @@ repos:
     - repo: local
       hooks:
         - id: qsscheck
-            name: qsscheck
-            description: Run qsscheck to detect broken QSS.
-            entry: ./tools/qsscheck.py
-            args: [.]
-            pass_filenames: false
-            language: python
-            additional_dependencies:
+          name: qsscheck
+          description: Run qsscheck to detect broken QSS.
+          entry: ./scripts/qsscheck.py
+          args: [.]
+          pass_filenames: false
+          language: python
+          additional_dependencies:
             - tinycss==0.4
-            types: [text]
-            files: ^.*\.qss$
-            stages:
+          types: [text]
+          files: ^.*\.qss$
+          stages:
             - commit
             - manual
         - id: qmlformat
-            name: qmlformat
-            entry: qmlformat -i
-            pass_filenames: true
-            require_serial: true
-            language: system
-            types: [text]
-            files: ^.*\.qml$
+          name: qmlformat
+          entry: qmlformat -i
+          pass_filenames: true
+          require_serial: true
+          language: system
+          types: [text]
+          files: ^.*\.qml$
