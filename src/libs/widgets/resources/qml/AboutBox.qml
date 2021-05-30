@@ -8,8 +8,10 @@ Dialog {
     width: 640
     title: qsTr("About jmbde")
     standardButtons: StandardButton.Ok
-    onVisibleChanged: if (visible === false) {
-        destroy();
+    onVisibleChanged: {
+        if (visible === false) {
+            destroy();
+        }
     }
     Component.onDestruction: console.log("Tschüüüs.")
 

@@ -21,7 +21,6 @@ import QtQuick.Layouts 1.15
 import QtQuick.Window 2.15
 
 Dialog {
-
     function setIcon(text) {
         labelMessageIcon.text = text;
     }
