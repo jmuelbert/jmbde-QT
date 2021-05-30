@@ -86,6 +86,7 @@ repos:
             exclude: >
                 (?x)^(
                   .+\.bmp|
+                  .+\.BMP|
                   .+\.png|
                   .+\.pdf|
                   .+\.woff|
