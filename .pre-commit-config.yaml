@@ -238,7 +238,7 @@ repos:
       rev: v0.6.13
       hooks:
           - id: cmake-format
-            args: [--config-files=.cmake-format.yml, --in-place]
+            args: [--config-files=.cmake-format.yaml, --in-place]
           - id: cmake-lint
 
     - repo: local
