@@ -195,12 +195,6 @@ repos:
                 - --prose-wrap=always
                 - --print-width=88
 
-    - repo: https://github.com/pryorda/dockerfilelint-precommit-hooks
-      rev: v0.1.0
-      hooks:
-          - id: dockerfilelint
-            stages: [commit]
-
     - repo: https://github.com/milin/giticket
       rev: v1.2
       hooks:
