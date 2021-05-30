@@ -96,7 +96,6 @@
 - Bump pre-commit from 2.10.1 to 2.11.1 [\#239](https://github.com/jmuelbert/jmbde-QT/pull/239)
 - Bump actions/stale from v3.0.17 to v3.0.18 [\#237](https://github.com/jmuelbert/jmbde-QT/pull/237)
 - Bump pygments from 2.8.0 to 2.8.1 [\#235](https://github.com/jmuelbert/jmbde-QT/pull/235)
-- Bump zipp from 3.4.0 to 3.4.1 [\#232](https://github.com/jmuelbert/jmbde-QT/pull/232)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
 
