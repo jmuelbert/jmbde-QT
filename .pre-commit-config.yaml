@@ -85,6 +85,7 @@ repos:
           - id: forbid-binary
             exclude: >
                 (?x)^(
+                  .+\.bmp|
                   .+\.png|
                   .+\.pdf|
                   .+\.woff|
