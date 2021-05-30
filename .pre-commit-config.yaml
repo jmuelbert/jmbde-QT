@@ -234,13 +234,6 @@ repos:
       hooks:
           - id: gitlab-ci-linter
 
-    - repo: https://github.com/cheshirekow/cmake-format-precommit
-      rev: v0.6.13
-      hooks:
-          - id: cmake-format
-            args: [--in-place]
-          - id: cmake-lint
-
     - repo: local
       hooks:
           - id: qsscheck
