@@ -245,15 +245,27 @@ repos:
             args: [--config-files=.cmake-format.yml, --in-place]
           - id: cmake-lint
 
-    - repo: https://github.com/pocc/pre-commit-hooks
-      rev: v1.1.1
+    - repo: local
       hooks:
-          - id: clang-format
-            args: [-i, -style=file, -fallback-style=none]
-
-    - repo: https://github.com/doublify/pre-commit-clang-format
-      # for clang-tidy we can take github.com/pocc/pre-commit-hooks
-      rev: 62302476d0da01515660132d76902359bed0f782
-      hooks:
-          - id: clang-format
-            files: \.(cpp|h)$
+        - id: qsscheck
+            name: qsscheck
+            description: Run qsscheck to detect broken QSS.
+            entry: ./tools/qsscheck.py
+            args: [.]
+            pass_filenames: false
+            language: python
+            additional_dependencies:
+            - tinycss==0.4
+            types: [text]
+            files: ^.*\.qss$
+            stages:
+            - commit
+            - manual
+        - id: qmlformat
+            name: qmlformat
+            entry: qmlformat -i
+            pass_filenames: true
+            require_serial: true
+            language: system
+            types: [text]
+            files: ^.*\.qml$
