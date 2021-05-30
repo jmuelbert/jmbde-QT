@@ -4,22 +4,22 @@ name: "CD: appimage Qt5 package"
 on:
     push:
         branches:
-            - 'master'
+            - "master"
         paths-ignore:
-            - '.github/ISSUE_TEMPLATE/**'
-            - 'docker/**'
-            - 'CONTRIBUTING.md'
+            - ".github/ISSUE_TEMPLATE/**"
+            - "docker/**"
+            - "CONTRIBUTING.md"
             - "README.md"
             - "LICENSE"
             - "BUILD.md"
     pull_request:
         branches:
-            - 'master'
+            - "master"
         types: [opened, reopened]
         paths-ignore:
-            - '.github/ISSUE_TEMPLATE/**'
-            - 'docker/**'
-            - 'CONTRIBUTING.md'
+            - ".github/ISSUE_TEMPLATE/**"
+            - "docker/**"
+            - "CONTRIBUTING.md"
             - "README.md"
             - "LICENSE"
             - "BUILD.md"
