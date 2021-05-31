@@ -91,11 +91,9 @@
 - Bump urllib3 from 1.26.3 to 1.26.4 [\#249](https://github.com/jmuelbert/jmbde-QT/pull/249)
 - Bump sphinx from 3.5.1 to 3.5.3 [\#248](https://github.com/jmuelbert/jmbde-QT/pull/248)
 - Bump peaceiris/actions-gh-pages from v3 to v3.8.0 [\#247](https://github.com/jmuelbert/jmbde-QT/pull/247)
-- Bump identify from 1.5.14 to 2.2.1 [\#246](https://github.com/jmuelbert/jmbde-QT/pull/246)
 - Bump release-drafter/release-drafter from v5.14.0 to v5.15.0 [\#243](https://github.com/jmuelbert/jmbde-QT/pull/243)
 - Bump pre-commit from 2.10.1 to 2.11.1 [\#239](https://github.com/jmuelbert/jmbde-QT/pull/239)
 - Bump actions/stale from v3.0.17 to v3.0.18 [\#237](https://github.com/jmuelbert/jmbde-QT/pull/237)
-- Bump pygments from 2.8.0 to 2.8.1 [\#235](https://github.com/jmuelbert/jmbde-QT/pull/235)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
 
@@ -112,6 +110,7 @@
 **Merged pull requests:**
 
 - Fix build/release workflows [\#170](https://github.com/jmuelbert/jmbde-QT/pull/170)
+- Bump pytz from 2020.4 to 2020.5 [\#167](https://github.com/jmuelbert/jmbde-QT/pull/167)
 - Bump peter-evans/create-pull-request from v3.5.2 to v3.6.0 [\#165](https://github.com/jmuelbert/jmbde-QT/pull/165)
 - Bump sphinx from 3.3.1 to 3.4.0 [\#164](https://github.com/jmuelbert/jmbde-QT/pull/164)
 - Bump requests from 2.25.0 to 2.25.1 [\#163](https://github.com/jmuelbert/jmbde-QT/pull/163)
