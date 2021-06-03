@@ -40,6 +40,7 @@
 
 **Merged pull requests:**
 
+- Fix typos by misspell-fixer for refs/heads/master [\#316](https://github.com/jmuelbert/jmbde-QT/pull/316)
 - Bump importlib-metadata from 4.2.0 to 4.3.0 [\#309](https://github.com/jmuelbert/jmbde-QT/pull/309)
 - Bump actions/cache from 2.1.5 to 2.1.6 [\#308](https://github.com/jmuelbert/jmbde-QT/pull/308)
 - Bump urllib3 from 1.26.4 to 1.26.5 [\#307](https://github.com/jmuelbert/jmbde-QT/pull/307)
@@ -87,6 +88,7 @@
 - Bump virtualenv from 20.4.2 to 20.4.3 [\#255](https://github.com/jmuelbert/jmbde-QT/pull/255)
 - Bump identify from 2.2.1 to 2.2.2 [\#254](https://github.com/jmuelbert/jmbde-QT/pull/254)
 - Bump ubuntu from 20.10 to 21.04 [\#253](https://github.com/jmuelbert/jmbde-QT/pull/253)
+- Bump urllib3 from 1.26.3 to 1.26.4 [\#249](https://github.com/jmuelbert/jmbde-QT/pull/249)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
 
