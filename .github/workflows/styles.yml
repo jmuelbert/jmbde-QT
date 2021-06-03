@@ -62,7 +62,6 @@ jobs:
               with:
                   version: ${{ env.QT_VERSION }}
                   arch: ${{env.QT_ARCH}}
-                  # mirror: "http://mirrors.ocf.berkeley.edu/qt/"
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
                   setup-python: "false"
 
