@@ -10,6 +10,8 @@
 **Fixed bugs:**
 
 - Github Pages not build [\#263](https://github.com/jmuelbert/jmbde-QT/issues/263)
+- Generate gh-pages don't create output [\#252](https://github.com/jmuelbert/jmbde-QT/issues/252)
+- The macOS Installer do not use the Project Version [\#251](https://github.com/jmuelbert/jmbde-QT/issues/251)
 - macOS dmg [\#174](https://github.com/jmuelbert/jmbde-QT/issues/174)
 - Windows innosetup installer [\#172](https://github.com/jmuelbert/jmbde-QT/issues/172)
 - Size of MainWindow dont fit to InputArea [\#161](https://github.com/jmuelbert/jmbde-QT/issues/161)
