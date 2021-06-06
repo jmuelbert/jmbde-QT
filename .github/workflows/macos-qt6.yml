@@ -3,7 +3,7 @@ name: "CD: MacOS Qt6"
 
 on:
     workflow_run:
-        workflows: [test]
+        workflows: [build_test-qt6]
         branches: [ master ]
         types: [ completed ]
 env:
@@ -11,17 +11,17 @@ env:
     targetName: jmbde
 
 jobs:
-    check_commit_msg:
-        outputs:
-            commit_message: ${{ steps.get_message.outputs.message }}
-        name: Check if the workflow has been disabled.
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v2
-            - name: Get commit message
-              id: get_message
-              run: |
-                  echo "::set-output name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
+    # check_commit_msg:
+    #     outputs:
+    #         commit_message: ${{ steps.get_message.outputs.message }}
+    #     name: Check if the workflow has been disabled.
+    #     runs-on: ubuntu-latest
+    #     steps:
+    #         - uses: actions/checkout@v2
+    #         - name: Get commit message
+    #           id: get_message
+    #           run: |
+    #               echo "::set-output name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
 
     release:
         if: ${{ github.event.workflow_run.conclusion == 'success' }}
