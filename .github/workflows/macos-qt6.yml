@@ -3,7 +3,7 @@ name: "CD: MacOS Qt6"
 
 on:
     workflow_run:
-        # workflows: [test]
+        workflows: [test]
         branches: [ master ]
         types: [ completed ]
 env:

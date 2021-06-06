@@ -318,11 +318,6 @@ openSUSE UndefinedSanitizer:
     CXX: clang++
     CMAKE_OPTIONS: -DUSE_SANITIZER=Undefined
   <<: *opensuse_success_template
-stages:
-    - build
-    - test
-    - coverage
-    - pages
 
 # run tests using the binary built before
 test:
