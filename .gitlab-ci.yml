@@ -7,6 +7,8 @@ stages:
   - All Code Coverage
   - Fedora
   - openSUSE
+  - test
+  - pages
 
 variables:
   CTEST_OUTPUT_ON_FAILURE: '1'
@@ -55,7 +57,7 @@ Targeted CC GCC Static:
     - cmake example/code-coverage-target/ -B build -GNinja -DCMAKE_BUILD_TYPE=Release -DCODE_COVERAGE=ON ${CMAKE_OPTIONS}
     - ninja -C build
     - ninja -C build ccov
-  
+
 Targeted CC GCC Shared:
   image: stabletec/build-core:fedora
   stage: Targeted Code Coverage
@@ -85,7 +87,7 @@ Targeted CC Clang Static:
     - ninja -C build
     - ninja -C build ccov
     - ninja -C build ccov-report
-  
+
 Targeted CC Clang Shared:
   image: stabletec/build-core:fedora
   stage: Targeted Code Coverage
@@ -116,7 +118,7 @@ Targeted CC Clang Static (Windows):
     - ninja -C build
     - ninja -C build ccov
     - ninja -C build ccov-report
-  
+
 Targeted CC Clang Shared (Windows):
   image: stabletec/build-core:windows
   stage: Targeted Code Coverage
@@ -149,7 +151,7 @@ All CC GCC Static:
     - ninja -C build
     - ninja -C build ccov
     - ninja -C build ccov-all
-  
+
 All CC GCC Shared:
   image: stabletec/build-core:fedora
   stage: All Code Coverage
@@ -181,7 +183,7 @@ All CC Clang Static:
     - ninja -C build ccov-all
     - ninja -C build ccov-report
     - ninja -C build ccov-all-report
-  
+
 All CC Clang Shared:
   image: stabletec/build-core:fedora
   stage: All Code Coverage
@@ -322,35 +324,6 @@ stages:
     - coverage
     - pages
 
-variables:
-    DOCKER_IMAGE: "jmbde-project-image"
-    CMAKE_FLAGS_BUILD:
-        "-GNinja -DCMAKE_C_CLANG_TIDY=clang-tidy;-warnings-as-errors=*
-        -DCMAKE_CXX_CLANG_TIDY=clang-tidy;-warnings-as-errors=*"
-    CMAKE_FLAGS_COVERAGE: "-GNinja -DCODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=Debug"
-
-build:
-    stage: build
-    tags:
-        - docker-shell # gitlab runner must be setup as capable of building docker images from shell
-    script:
-        - docker build -t $DOCKER_IMAGE . # build image from project Dockerfile if changed
-        - mkdir -p build
-        - docker run --rm --mount type=bind,source="$(pwd)",target=/$CI_PROJECT_NAME
-          --workdir="/$CI_PROJECT_NAME/build" $DOCKER_IMAGE cmake $CMAKE_FLAGS_BUILD ..
-        - docker run --rm --mount type=bind,source="$(pwd)",target=/$CI_PROJECT_NAME
-          --workdir="/$CI_PROJECT_NAME/build" $DOCKER_IMAGE cmake --build .
-    after_script:
-        - sudo chown -R gitlab-runner:gitlab-runner build # by default, docker-written artifacts are owned by root
-        - sudo chown -R gitlab-runner:gitlab-runner cmake
-    artifacts:
-        paths:
-            - build
-            # depending on your build setup you can cache outputs to reduce the build time
-            # cache:
-            #   paths:
-            #     - build
-
 # run tests using the binary built before
 test:
     stage: test
@@ -363,23 +336,6 @@ test:
     after_script:
         - sudo chown -R gitlab-runner:gitlab-runner build
         - sudo chown -R gitlab-runner:gitlab-runner cmake
-
-coverage:
-    stage: coverage
-    tags:
-        - docker-shell
-    script:
-        - docker build -t $DOCKER_IMAGE . # build image from project Dockerfile if changed
-        - mkdir -p build_coverage
-        - docker run --rm --mount type=bind,source="$(pwd)",target=/$CI_PROJECT_NAME
-          --workdir="/$CI_PROJECT_NAME/build_coverage" $DOCKER_IMAGE cmake
-          $CMAKE_FLAGS_COVERAGE ..
-        - docker run --rm --mount type=bind,source="$(pwd)",target=/$CI_PROJECT_NAME
-          --workdir="/$CI_PROJECT_NAME/build_coverage" $DOCKER_IMAGE cmake --build .
-          --target ctest_coverage
-    after_script:
-        - sudo chown -R gitlab-runner:gitlab-runner build_coverage # by default, docker-written artifacts are owned by root
-        - sudo chown -R gitlab
 
 pages:
     image: node:10
