@@ -10,6 +10,7 @@
 **Fixed bugs:**
 
 - Github Pages not build [\#263](https://github.com/jmuelbert/jmbde-QT/issues/263)
+- Implement Checks in Styles workflow [\#261](https://github.com/jmuelbert/jmbde-QT/issues/261)
 - Generate gh-pages don't create output [\#252](https://github.com/jmuelbert/jmbde-QT/issues/252)
 - The macOS Installer do not use the Project Version [\#251](https://github.com/jmuelbert/jmbde-QT/issues/251)
 - macOS dmg [\#174](https://github.com/jmuelbert/jmbde-QT/issues/174)
@@ -20,6 +21,7 @@
 
 **Closed issues:**
 
+- No data for codecov [\#262](https://github.com/jmuelbert/jmbde-QT/issues/262)
 - Workflow: CD: DEB - Debian [\#157](https://github.com/jmuelbert/jmbde-QT/issues/157)
 - Workflow: CD: DEB - Ubuntu [\#156](https://github.com/jmuelbert/jmbde-QT/issues/156)
 - Workflow:  CD: RPM - Fedora [\#154](https://github.com/jmuelbert/jmbde-QT/issues/154)
@@ -89,7 +91,6 @@
 - Bump heinrichreimer/github-changelog-generator-action from v2.1.1 to v2.2 [\#257](https://github.com/jmuelbert/jmbde-QT/pull/257)
 - Bump virtualenv from 20.4.2 to 20.4.3 [\#255](https://github.com/jmuelbert/jmbde-QT/pull/255)
 - Bump identify from 2.2.1 to 2.2.2 [\#254](https://github.com/jmuelbert/jmbde-QT/pull/254)
-- Bump ubuntu from 20.10 to 21.04 [\#253](https://github.com/jmuelbert/jmbde-QT/pull/253)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
 
