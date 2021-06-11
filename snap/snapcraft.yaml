@@ -55,16 +55,9 @@ parts:
         plugin: python
         python-packages:
             - wheel
-        stage:
-            - lib64/*
-
-    conan:
-        plugin: python
-        python-packages:
             - conan
         stage:
             - lib64/*
-        after: [wheel]
 
     # Snapcraft Qt5 desktop launcher
     desktop-qt5:
