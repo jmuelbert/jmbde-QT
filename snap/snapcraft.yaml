@@ -48,7 +48,7 @@ parts:
             sed -i 's|Icon=.*|Icon=${SNAP}/meta/gui/icon.png|g' ${SNAPCRAFT_PART_SRC}/res/app/jmbde-qt.desktop
             mkdir -p ${SNAPCRAFT_PART_INSTALL}/usr/share/applications/
             cp -rf ${SNAPCRAFT_PART_SRC}/packaging/snap/jmbde-qt.desktop ${SNAPCRAFT_PART_INSTALL}/usr/share/applications/jmbde-qt.desktop
-        after: [conan, desktop-qt5]
+        after: [wheel, desktop-qt5]
 
     # Ubuntu  doesn't have python-conan
     wheel:
