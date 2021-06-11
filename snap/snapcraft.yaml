@@ -55,7 +55,6 @@ parts:
         plugin: python
         python-packages:
             - wheel
-            - conan
         stage:
             - lib64/*
 
