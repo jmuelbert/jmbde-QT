@@ -4,9 +4,9 @@ name: "CD: Windows"
 on:
     push:
         paths-ignore:
-            - '.github/ISSUE_TEMPLATE/**'
-            - 'docker/**'
-            - 'CONTRIBUTING.md'
+            - ".github/ISSUE_TEMPLATE/**"
+            - "docker/**"
+            - "CONTRIBUTING.md"
             - "README.md"
             - "LICENSE"
             - "BUILD.md"
@@ -14,9 +14,9 @@ on:
     pull_request:
         types: [opened, reopened]
         paths-ignore:
-            - '.github/ISSUE_TEMPLATE/**'
-            - 'docker/**'
-            - 'CONTRIBUTING.md'
+            - ".github/ISSUE_TEMPLATE/**"
+            - "docker/**"
+            - "CONTRIBUTING.md"
             - "README.md"
             - "LICENSE"
             - "BUILD.md"
@@ -116,7 +116,7 @@ jobs:
 
             # =========================================================================================================
             - name: Install MSVC compiler
-              uses: ilammy/msvc-dev-cmd@v1.8.1
+              uses: ilammy/msvc-dev-cmd@v1.9.0
               with:
                   # 14.1 is for vs2017, 14.2 is vs2019, following the upstream vcpkg build from repo
                   toolset: 14.2

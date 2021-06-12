@@ -133,17 +133,7 @@ ApplicationWindow {
     You should have received a copy of the GNU General Public License
     along with jmbde. If not, see <http://www.gnu.org/licenses/>.
 */
-
-    id: preferencesWindow
-
-    property int margin: 10
-
-    function showWindowPreferences() {
-        show();
-    }
-
-    function saveAllPreference() {
-        /*
+    /*
     Copyright 2020, Jürgen Mülbert
 
     This file is part of jmbde.
@@ -160,6 +150,15 @@ ApplicationWindow {
     along with jmbde. If not, see <http://www.gnu.org/licenses/>.
 */
 
+    id: preferencesWindow
+
+    property int margin: 10
+
+    function showWindowPreferences() {
+        show();
+    }
+
+    function saveAllPreference() {
     }
 
     title: qsTr("Preferences")

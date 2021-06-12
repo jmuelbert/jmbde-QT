@@ -10,6 +10,9 @@
 **Fixed bugs:**
 
 - Github Pages not build [\#263](https://github.com/jmuelbert/jmbde-QT/issues/263)
+- Implement Checks in Styles workflow [\#261](https://github.com/jmuelbert/jmbde-QT/issues/261)
+- Generate gh-pages don't create output [\#252](https://github.com/jmuelbert/jmbde-QT/issues/252)
+- The macOS Installer do not use the Project Version [\#251](https://github.com/jmuelbert/jmbde-QT/issues/251)
 - macOS dmg [\#174](https://github.com/jmuelbert/jmbde-QT/issues/174)
 - Windows innosetup installer [\#172](https://github.com/jmuelbert/jmbde-QT/issues/172)
 - Size of MainWindow dont fit to InputArea [\#161](https://github.com/jmuelbert/jmbde-QT/issues/161)
@@ -18,6 +21,7 @@
 
 **Closed issues:**
 
+- No data for codecov [\#262](https://github.com/jmuelbert/jmbde-QT/issues/262)
 - Workflow: CD: DEB - Debian [\#157](https://github.com/jmuelbert/jmbde-QT/issues/157)
 - Workflow: CD: DEB - Ubuntu [\#156](https://github.com/jmuelbert/jmbde-QT/issues/156)
 - Workflow:  CD: RPM - Fedora [\#154](https://github.com/jmuelbert/jmbde-QT/issues/154)
@@ -40,6 +44,7 @@
 
 **Merged pull requests:**
 
+- Fix typos by misspell-fixer for refs/heads/master [\#316](https://github.com/jmuelbert/jmbde-QT/pull/316)
 - Bump importlib-metadata from 4.2.0 to 4.3.0 [\#309](https://github.com/jmuelbert/jmbde-QT/pull/309)
 - Bump actions/cache from 2.1.5 to 2.1.6 [\#308](https://github.com/jmuelbert/jmbde-QT/pull/308)
 - Bump urllib3 from 1.26.4 to 1.26.5 [\#307](https://github.com/jmuelbert/jmbde-QT/pull/307)
@@ -86,14 +91,6 @@
 - Bump heinrichreimer/github-changelog-generator-action from v2.1.1 to v2.2 [\#257](https://github.com/jmuelbert/jmbde-QT/pull/257)
 - Bump virtualenv from 20.4.2 to 20.4.3 [\#255](https://github.com/jmuelbert/jmbde-QT/pull/255)
 - Bump identify from 2.2.1 to 2.2.2 [\#254](https://github.com/jmuelbert/jmbde-QT/pull/254)
-- Bump ubuntu from 20.10 to 21.04 [\#253](https://github.com/jmuelbert/jmbde-QT/pull/253)
-- Bump importlib-metadata from 3.7.0 to 3.8.0 [\#250](https://github.com/jmuelbert/jmbde-QT/pull/250)
-- Bump urllib3 from 1.26.3 to 1.26.4 [\#249](https://github.com/jmuelbert/jmbde-QT/pull/249)
-- Bump sphinx from 3.5.1 to 3.5.3 [\#248](https://github.com/jmuelbert/jmbde-QT/pull/248)
-- Bump peaceiris/actions-gh-pages from v3 to v3.8.0 [\#247](https://github.com/jmuelbert/jmbde-QT/pull/247)
-- Bump release-drafter/release-drafter from v5.14.0 to v5.15.0 [\#243](https://github.com/jmuelbert/jmbde-QT/pull/243)
-- Bump pre-commit from 2.10.1 to 2.11.1 [\#239](https://github.com/jmuelbert/jmbde-QT/pull/239)
-- Bump actions/stale from v3.0.17 to v3.0.18 [\#237](https://github.com/jmuelbert/jmbde-QT/pull/237)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
 

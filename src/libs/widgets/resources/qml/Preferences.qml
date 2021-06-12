@@ -10,8 +10,10 @@ Dialog {
     width: 600
     height: 400
     standardButtons: StandardButton.Ok
-    onVisibleChanged: if (visible === false) {
-        destroy();
+    onVisibleChanged: {
+        if (visible === false)
+            destroy();
+
     }
 
     Settings {
