@@ -10,7 +10,7 @@ docutils==0.17.1
 filelock==3.0.12
 graphviz==0.16
 identify==2.2.6
-idna==3.1
+idna==3.2
 imagesize==1.2.0
 importlib-metadata==4.3.0
 Jinja2==3.0.1
