@@ -1,44 +1,102 @@
 ---
 name: jmbde-qt
+adopt-info: jmbde
+icon: assets/icons/jmbde.png
+
+base: core20
+grade: devel
+confinement: strict
+compression: lzo
+
+architectures:
+  - build-on: amd64
+  - build-on: arm64
+  - build-on: armhf
+  - build-on: ppc64el
+
 summary: A BDE tool.
 description: jmbde is a free bde tool.
-adopt-info: jmbde-qt
-grade: stable
-confinement: strict
-base: core20
+
+
+
 version: "0.5.4"
-icon: assets/icons/jmbde.png
 
 apps:
     jmbde-qt:
         command: bin/desktop-launch jmbde-qt
-        environment:
-            DISABLE_WAYLAND: 1
-        desktop: usr/share/applications/com.github.jmuelbert/jmbde.desktop
         common-id: com.github.jmuelbert.jmbde-QT
+        desktop: usr/share/applications/com.github.jmuelbert/jmbde.desktop
+        environment:
+            # Tell glib to use portals on file associations handling.
+            GTK_USE_PORTAL: 1
+            # Use sandboxed ibus api
+            IBUS_USE_PORTAL: 1
+
+        plugs:
+            - desktop
+            - desktop-legacy
+            - wayland
+            - x11
+
+plugs:
+  # Support for common GTK themes
+  # https://forum.snapcraft.io/t/how-to-use-the-system-gtk-theme-via-the-gtk-common-themes-snap/6235
+  gsettings:
+  gtk-3-themes:
+    interface: content
+    target: $SNAP/data-dir/themes
+    default-provider: gtk-common-themes
+  icon-themes:
+    interface: content
+    target: $SNAP/data-dir/icons
+    default-provider: gtk-common-themes
+  sound-themes:
+    interface: content
+    target: $SNAP/data-dir/sounds
+    default-provider: gtk-common-themes
+
+layout:
+  # /usr/share/alsa:
+  #  bind: $SNAP/usr/share/alsa
+  /usr/share/X11:
+    bind: $SNAP/usr/share/X11
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/webkit2gtk-4.0:
+    bind: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/webkit2gtk-4.0
 
 parts:
     jmbde-qt:
         plugin: cmake
-        source-type: git
         source: .
+        source-type: git
+        parse-info: [usr/share/metainfo/telegram-desktop_telegram-desktop.appdata.xml]
+        build-environment:
+            - LD_LIBRARY_PATH: $SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET:$LD_LIBRARY_PATH
         build-packages:
-            - build-essential
-            - g++
-            - make
-            - cmake
-            - qttools5-dev
-            - pkg-config
-            - libqt5svg5-dev
             - python3
+            - libglib2.0-dev
+            - libglibmm-2.4-dev
+            - libgtk-3-dev
+            - libwebkit2gtk-4.0-dev
+            - libxcb1-dev
+            - libxcb-keysyms1-dev
+            - libxcb-record0-dev
+            - libxcb-screensaver0-dev
+            - zlib1g-dev
         stage-packages:
-            - qt5-default
-            - libqt5svg5-dev
-            - python3
+            - libglib2.0-0
+            - libglibmm-2.4-1v5
+            - libgtk-3-0
+            - liblzma5
+            - libwebkit2gtk-4.0-37
+            - libxcb1
+            - libxcb-keysyms1
+            - libxcb-record0
+            - libxcb-screensaver0
+            - zlib1g
 
         cmake-parameters:
-            - -DCMAKE_INSTALL_PREFIX=/usr
             - -DCMAKE_BUILD_TYPE=Release
+            - -DCMAKE_INSTALL_PREFIX=/us
             - -DEMBED_TRANSLATIONS=ON
         override-pull: |
             snapcraftctl pull
@@ -48,53 +106,228 @@ parts:
             sed -i 's|Icon=.*|Icon=${SNAP}/meta/gui/icon.png|g' ${SNAPCRAFT_PART_SRC}/res/app/jmbde-qt.desktop
             mkdir -p ${SNAPCRAFT_PART_INSTALL}/usr/share/applications/
             cp -rf ${SNAPCRAFT_PART_SRC}/packaging/snap/jmbde-qt.desktop ${SNAPCRAFT_PART_INSTALL}/usr/share/applications/jmbde-qt.desktop
-        after: [conan, desktop-qt5]
-
-    # Ubuntu  doesn't have python-conan
-    wheel:
-        plugin: python
-        python-packages:
-            - wheel
-            - conan
         stage:
-            - lib64/*
-
-    conan:
-        plugin: python
-        python-packages:
-            - conan
-        stage:
-            - lib64/*
-        after: [wheel]
+            - -./usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libjpeg.so.8.2.2
+        after:
+            - desktop-qt5]
+            - extra-cmake-modules
+            - kwayland
+            - mozjpeg
 
     # Snapcraft Qt5 desktop launcher
-    desktop-qt5:
-        source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
-        source-subdir: qt
-        plugin: make
-        make-parameters: ["FLAVOR=qt5"]
-        build-packages:
-            - build-essential
-            - qtbase5-dev
-            - dpkg-dev
-        stage-packages:
-            - libxkbcommon0
-            - ttf-ubuntu-font-family
-            - dmz-cursor-theme
-            - light-themes
-            - adwaita-icon-theme
-            - gnome-themes-standard
-            - shared-mime-info
-            - libgcc1
-            - libstdc++6
-            - libgdk-pixbuf2.0-0
-            - libglib2.0-bin
-            - libqt5core5a
-            - libqt5gui5
-            - libqt5network5
-            - libqt5widgets5
-            - libqt5svg5 # for loading icon themes which are svg
-            - try: [appmenu-qt5] # not available on core18
-            - locales-all
-            - xdg-user-dirs
-            - fcitx-frontend-qt5
+desktop-qt5:
+    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+    source-subdir: qt
+    plugin: make
+    make-parameters: ["FLAVOR=qt5"]
+    build-packages:
+        - build-essential
+        - qtbase5-dev
+        - dpkg-dev
+    stage-packages:
+        - libxkbcommon0
+        - ttf-ubuntu-font-family
+        - dmz-cursor-theme
+        - light-themes
+        - adwaita-icon-theme
+        - gnome-themes-standard
+        - shared-mime-info
+        - libgdk-pixbuf2.0-0
+        - libglib2.0-bin
+        - try: [appmenu-qt5] # not available on core18
+        - locales-all
+        - xdg-user-dirs
+    stage:
+        - -./usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libjpeg.so.8.2.2
+    after:
+        - mozjpeg
+        - qt5
+
+extra-cmake-modules:
+    source: https://github.com/KDE/extra-cmake-modules.git
+    source-depth: 1
+    source-tag: v5.77.0
+    plugin: cmake
+    cmake-parameters:
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        - -DBUILD_TESTING=OFF
+    prime: [-./*]
+
+kwayland:
+    source: https://github.com/KDE/kwayland.git
+    source-depth: 1
+    source-tag: v5.77.0
+    plugin: cmake
+    build-packages:
+      - libwayland-dev
+      - wayland-protocols
+    stage-packages:
+      - libwayland-client0
+      - libwayland-server0
+    cmake-parameters:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DBUILD_TESTING=OFF
+    prime:
+      - -./usr/include
+      - -./usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libexec
+      - -./usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pkgconfig
+      - -./usr/lib/$SNAPCRAFT_ARCH_TRIPLET/*.so
+      - -./usr/mkspecs
+      - -./usr/share
+    after:
+      - extra-cmake-modules
+      - desktop-qt5
+      - plasma-wayland-protocols
+
+mozjpeg:
+    source: https://github.com/mozilla/mozjpeg.git
+    source-depth: 1
+    source-tag: v4.0.1-rc2
+    plugin: cmake
+    cmake-parameters:
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        - -DENABLE_STATIC=OFF
+        - -DWITH_JPEG8=ON
+        - -DPNG_SUPPORTED=OFF
+    prime:
+        - -./usr/bin
+        - -./usr/include
+        - -./usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pkgconfig
+        - -./usr/lib/$SNAPCRAFT_ARCH_TRIPLET/*.so
+        - -./usr/share
+
+qt5:
+    plugin: nil
+    build-packages:
+      - libdbus-1-dev
+      - libegl-dev
+      - libfontconfig1-dev
+      - libfreetype-dev
+      - libgl-dev
+      - libglib2.0-dev
+      - libharfbuzz-dev
+      - libicu-dev
+      - libpcre2-dev
+      - libpng-dev
+      - libssl-dev
+      - libwayland-dev
+      - libx11-dev
+      - libx11-xcb-dev
+      - libxcb1-dev
+      - libxcb-glx0-dev
+      - libxcb-icccm4-dev
+      - libxcb-image0-dev
+      - libxcb-keysyms1-dev
+      - libxcb-randr0-dev
+      - libxcb-render0-dev
+      - libxcb-render-util0-dev
+      - libxcb-shape0-dev
+      - libxcb-shm0-dev
+      - libxcb-sync-dev
+      - libxcb-util-dev
+      - libxcb-xfixes0-dev
+      - libxcb-xinerama0-dev
+      - libxcb-xinput-dev
+      - libxcb-xkb-dev
+      - libxcursor-dev
+      - libxkbcommon-dev
+      - libxkbcommon-x11-dev
+      - zlib1g-dev
+    stage-packages:
+      - libdbus-1-3
+      - libegl1
+      - libfontconfig1
+      - libfreetype6
+      - libgl1
+      - libglib2.0-0
+      - libharfbuzz0b
+      - libicu66
+      - libpcre2-16-0
+      - libpng16-16
+      - libssl1.1
+      - libwayland-client0
+      - libwayland-cursor0
+      - libwayland-egl1
+      - libx11-6
+      - libx11-xcb1
+      - libxcb1
+      - libxcb-glx0
+      - libxcb-icccm4
+      - libxcb-image0
+      - libxcb-keysyms1
+      - libxcb-randr0
+      - libxcb-render0
+      - libxcb-render-util0
+      - libxcb-shape0
+      - libxcb-shm0
+      - libxcb-sync1
+      - libxcb-util1
+      - libxcb-xfixes0
+      - libxcb-xinerama0
+      - libxcb-xinput0
+      - libxcb-xkb1
+      - libxcursor1
+      - libxkbcommon0
+      - libxkbcommon-x11-0
+      - zlib1g
+    override-pull: |
+      QT=5_15_2
+      git clone -b v5.15.2 --depth=1 git://code.qt.io/qt/qt5.git .
+      perl init-repository --module-subset=qtbase,qtwayland,qtimageformats,qtsvg
+      git submodule update qtbase qtwayland qtimageformats qtsvg
+      cd qtbase
+      find $SNAPCRAFT_STAGE/patches/qtbase_${QT} -type f -print0 | sort -z | xargs -r0 git apply
+      cd ../qtwayland
+      find $SNAPCRAFT_STAGE/patches/qtwayland_${QT} -type f -print0 | sort -z | xargs -r0 git apply
+      cd ..
+    override-build: |
+      ./configure \
+        -prefix /usr \
+        -bindir /usr/lib/qt5/bin \
+        -libdir /usr/lib/$SNAPCRAFT_ARCH_TRIPLET \
+        -docdir /usr/share/qt5/doc \
+        -headerdir /usr/include/$SNAPCRAFT_ARCH_TRIPLET/qt5 \
+        -datadir /usr/share/qt5 \
+        -archdatadir /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5 \
+        -plugindir /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/plugins \
+        -importdir /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/imports \
+        -translationdir /usr/share/qt5/translations \
+        -hostdatadir /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5 \
+        -sysconfdir /etc/xdg \
+        -examplesdir /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/examples \
+        -release \
+        -opensource \
+        -confirm-license \
+        -no-gtk \
+        -no-feature-xcb-sm \
+        -no-feature-xcomposite-egl \
+        -no-feature-xcomposite-glx \
+        -no-feature-wayland-server \
+        -openssl-linked \
+        -nomake examples \
+        -nomake tests \
+        -I $SNAPCRAFT_STAGE/usr/include \
+        -L $SNAPCRAFT_STAGE/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
+      make -j$SNAPCRAFT_PARALLEL_BUILD_COUNT
+      make INSTALL_ROOT="$SNAPCRAFT_PART_INSTALL" install
+    stage:
+      - -./usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libjpeg.so.8.2.2
+    prime:
+      - -./usr/include
+      - -./usr/lib/$SNAPCRAFT_ARCH_TRIPLET/cmake
+      - -./usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pkgconfig
+      - -./usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/bin
+      - -./usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/mkspecs
+      - -./usr/lib/$SNAPCRAFT_ARCH_TRIPLET/qt5/examples
+      - -./usr/lib/$SNAPCRAFT_ARCH_TRIPLET/*.a
+      - -./usr/lib/$SNAPCRAFT_ARCH_TRIPLET/*.la
+      - -./usr/lib/$SNAPCRAFT_ARCH_TRIPLET/*.prl
+      - -./usr/lib/$SNAPCRAFT_ARCH_TRIPLET/*.so
+      - -./usr/lib/qt5
+      - -./usr/share
+    after:
+      - mozjpeg
+      - patches

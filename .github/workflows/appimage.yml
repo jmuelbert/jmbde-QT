@@ -6,28 +6,44 @@ on:
         branches:
             - "master"
         paths-ignore:
-            - ".github/ISSUE_TEMPLATE/**"
-            - "docker/**"
-            - "CONTRIBUTING.md"
-            - "README.md"
-            - "LICENSE"
-            - "BUILD.md"
+            - 'docs/**'
+            - '.github/ISSUE_TEMPLATE/**'
+            - 'docker/**'
+            - '**.md'
+            - '!docs/building-cmake.md'
+            - 'changelog.txt'
+            - 'LICENSE'
+            - '.github/**'
+            - '!.github/workflows/appimage.yml'
+            - 'snap/**'
+            - 'build/**'
+            - 'assets/**'
+            - 'Docker/**'
+            - 'report/**'
+            - 'resources/**'
     pull_request:
         branches:
             - "master"
         types: [opened, reopened]
         paths-ignore:
-            - ".github/ISSUE_TEMPLATE/**"
-            - "docker/**"
-            - "CONTRIBUTING.md"
-            - "README.md"
-            - "LICENSE"
-            - "BUILD.md"
+            - 'docs/**'
+            - '.github/ISSUE_TEMPLATE/**'
+            - 'docker/**'
+            - '**.md'
+            - '!docs/building-cmake.md'
+            - 'changelog.txt'
+            - 'LICENSE'
+            - '.github/**'
+            - '!.github/workflows/appimage.yml'
+            - 'snap/**'
+            - 'build/**'
+            - 'assets/**'
+            - 'Docker/**'
+            - 'report/**'
+            - 'resources/**'
 
     release:
         types: [published]
-
-    workflow_dispatch:
 
 env:
     PRODUCT: jmbde
@@ -52,7 +68,7 @@ jobs:
         strategy:
             matrix:
                 platform: [ubuntu-16.04]
-                build_type: [Release, RelWithDebInfo]
+                build_type: [Releases]
                 arch: [x64]
             fail-fast: false
 
