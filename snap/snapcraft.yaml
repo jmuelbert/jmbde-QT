@@ -234,7 +234,7 @@ parts:
             - libxkbcommon-dev
             - libxkbcommon-x11-dev
             - zlib1g-dev
-            stage-packages:
+        stage-packages:
             - libdbus-1-3
             - libegl1
             - libfontconfig1
