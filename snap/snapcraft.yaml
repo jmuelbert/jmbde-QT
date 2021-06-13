@@ -96,6 +96,7 @@ parts:
 
         cmake-parameters:
             - -DCMAKE_BUILD_TYPE=Release
+            - -DLGTM=ON
             - -DCMAKE_INSTALL_PREFIX=/us
             - -DEMBED_TRANSLATIONS=ON
         override-pull: |
