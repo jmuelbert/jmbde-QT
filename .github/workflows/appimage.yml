@@ -68,6 +68,10 @@ jobs:
         strategy:
             matrix:
                 platform: [ubuntu-16.04]
+                # The ubuntu-16.04 environment is deprecated and
+                # will be removed on September 20, 2021.
+                # Migrate to ubuntu-latest instead. For more details see
+                # actions/virtual-environments/issues/3287
                 build_type: [Releases]
                 arch: [x64]
             fail-fast: false
