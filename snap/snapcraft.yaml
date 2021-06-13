@@ -114,6 +114,14 @@ parts:
             - kwayland
             - mozjpeg
 
+    patches:
+        source: https://github.com/desktop-app/patches.git
+        source-depth: 1
+        plugin: dump
+        organize:
+            "*": patches/
+        prime: [-./*]
+
     desktop-qt5:
         source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
         source-subdir: qt
@@ -178,6 +186,7 @@ parts:
         after:
             - extra-cmake-modules
             - desktop-qt5
+            - plasma-wayland-protocols
 
     mozjpeg:
         source: https://github.com/mozilla/mozjpeg.git
@@ -196,6 +205,18 @@ parts:
             - -./usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pkgconfig
             - -./usr/lib/$SNAPCRAFT_ARCH_TRIPLET/*.so
             - -./usr/share
+
+    plasma-wayland-protocols:
+        source: https://github.com/KDE/plasma-wayland-protocols.git
+        source-depth: 1
+        source-tag: v1.1.1
+        plugin: cmake
+        cmake-parameters:
+            - -DCMAKE_BUILD_TYPE=Release
+            - -DCMAKE_INSTALL_PREFIX=/usr
+        prime: [-./*]
+        after:
+            - extra-cmake-modules
 
     qt5:
         plugin: nil
@@ -328,3 +349,4 @@ parts:
             - -./usr/share
         after:
             - mozjpeg
+            - patches
