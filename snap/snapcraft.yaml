@@ -178,7 +178,6 @@ kwayland:
     after:
       - extra-cmake-modules
       - desktop-qt5
-      - plasma-wayland-protocols
 
 mozjpeg:
     source: https://github.com/mozilla/mozjpeg.git
