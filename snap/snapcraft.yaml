@@ -114,7 +114,6 @@ parts:
             - kwayland
             - mozjpeg
 
-    # Snapcraft Qt5 desktop launcher
 desktop-qt5:
     source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
     source-subdir: qt
