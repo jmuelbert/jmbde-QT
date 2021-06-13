@@ -109,7 +109,7 @@ parts:
         stage:
             - -./usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libjpeg.so.8.2.2
         after:
-            - desktop-qt5]
+            - desktop-qt5
             - extra-cmake-modules
             - kwayland
             - mozjpeg
