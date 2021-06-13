@@ -16,7 +16,7 @@ variables:
 # Analysis
 
 cmake-format Check:
-  image: fedora
+  image: stabletec/build-core:fedora
   stage: Analysis
   tags:
     - docker-linux
