@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased](https://github.com/jmuelbert/jmbde-QT/tree/HEAD)
+## [dependabot/pip/importlib-metadata-4.3.1](https://github.com/jmuelbert/jmbde-QT/tree/dependabot/pip/importlib-metadata-4.3.1) (2021-06-12)
 
 **Implemented enhancements:**
 
@@ -45,6 +45,11 @@
 **Merged pull requests:**
 
 - Fix typos by misspell-fixer for refs/heads/master [\#316](https://github.com/jmuelbert/jmbde-QT/pull/316)
+- Bump idna from 3.1 to 3.2 [\#315](https://github.com/jmuelbert/jmbde-QT/pull/315)
+- Bump distlib from 0.3.1 to 0.3.2 [\#313](https://github.com/jmuelbert/jmbde-QT/pull/313)
+- Bump certifi from 2020.12.5 to 2021.5.30 [\#312](https://github.com/jmuelbert/jmbde-QT/pull/312)
+- Bump ilammy/msvc-dev-cmd from 1.8.1 to 1.9.0 [\#311](https://github.com/jmuelbert/jmbde-QT/pull/311)
+- Bump importlib-metadata from 4.3.0 to 4.3.1 [\#310](https://github.com/jmuelbert/jmbde-QT/pull/310)
 - Bump importlib-metadata from 4.2.0 to 4.3.0 [\#309](https://github.com/jmuelbert/jmbde-QT/pull/309)
 - Bump actions/cache from 2.1.5 to 2.1.6 [\#308](https://github.com/jmuelbert/jmbde-QT/pull/308)
 - Bump urllib3 from 1.26.4 to 1.26.5 [\#307](https://github.com/jmuelbert/jmbde-QT/pull/307)
@@ -86,11 +91,6 @@
 - Bump sphinx-rtd-theme from 0.5.1 to 0.5.2 [\#265](https://github.com/jmuelbert/jmbde-QT/pull/265)
 - Bump docutils from 0.16 to 0.17 [\#264](https://github.com/jmuelbert/jmbde-QT/pull/264)
 - Fix typos by misspell-fixer for refs/heads/master [\#260](https://github.com/jmuelbert/jmbde-QT/pull/260)
-- Bump importlib-metadata from 3.8.0 to 3.10.0 [\#259](https://github.com/jmuelbert/jmbde-QT/pull/259)
-- Bump breathe from 4.27.0 to 4.28.0 [\#258](https://github.com/jmuelbert/jmbde-QT/pull/258)
-- Bump heinrichreimer/github-changelog-generator-action from v2.1.1 to v2.2 [\#257](https://github.com/jmuelbert/jmbde-QT/pull/257)
-- Bump virtualenv from 20.4.2 to 20.4.3 [\#255](https://github.com/jmuelbert/jmbde-QT/pull/255)
-- Bump identify from 2.2.1 to 2.2.2 [\#254](https://github.com/jmuelbert/jmbde-QT/pull/254)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
 
@@ -107,7 +107,6 @@
 **Merged pull requests:**
 
 - Fix build/release workflows [\#170](https://github.com/jmuelbert/jmbde-QT/pull/170)
-- Bump pytz from 2020.4 to 2020.5 [\#167](https://github.com/jmuelbert/jmbde-QT/pull/167)
 - Bump peter-evans/create-pull-request from v3.5.2 to v3.6.0 [\#165](https://github.com/jmuelbert/jmbde-QT/pull/165)
 - Bump sphinx from 3.3.1 to 3.4.0 [\#164](https://github.com/jmuelbert/jmbde-QT/pull/164)
 - Bump requests from 2.25.0 to 2.25.1 [\#163](https://github.com/jmuelbert/jmbde-QT/pull/163)
