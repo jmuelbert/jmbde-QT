@@ -56,7 +56,7 @@
         "*.in": "cpp"
     },
     "python.linting.pylintEnabled": false,
-    "python.pythonPath": "/Users/juergen/.pyenv/shims/python",
+    "python.pythonPath": "/usr/local/Cellar/python@3.9/3.9.5/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
     "python.testing.nosetestsEnabled": false,
     "python.testing.promptToConfigure": false,
     "python.testing.pytestEnabled": false,

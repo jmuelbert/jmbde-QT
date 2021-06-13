@@ -2,60 +2,68 @@
 name: "CD: MacOS Qt6"
 
 on:
-    push:
-        paths-ignore:
-            - ".github/ISSUE_TEMPLATE/**"
-            - "docker/**"
-            - "CONTRIBUTING.md"
-            - "README.md"
-            - "LICENSE"
-            - "BUILD.md"
-
-    pull_request:
-        types: [opened, reopened]
-        paths-ignore:
-            - ".github/ISSUE_TEMPLATE/**"
-            - "docker/**"
-            - "CONTRIBUTING.md"
-            - "README.md"
-            - "LICENSE"
-            - "BUILD.md"
-    release:
-        types: [published]
-
-    workflow_dispatch:
-
+    workflow_run:
+        workflows: [build_test-qt6]
+        branches: [ master ]
+        types: [ completed ]
 env:
     PRODUCT: jmbde
     targetName: jmbde
 
 jobs:
-    check_commit_msg:
-        outputs:
-            commit_message: ${{ steps.get_message.outputs.message }}
-        name: Check if the workflow has been disabled.
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v2
-            - name: Get commit message
-              id: get_message
-              run: |
-                  echo "::set-output name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
+    # check_commit_msg:
+    #     outputs:
+    #         commit_message: ${{ steps.get_message.outputs.message }}
+    #     name: Check if the workflow has been disabled.
+    #     runs-on: ubuntu-latest
+    #     steps:
+    #         - uses: actions/checkout@v2
+    #         - name: Get commit message
+    #           id: get_message
+    #           run: |
+    #               echo "::set-output name=message::$(git log --format=%B -n 1 ${{ github.event.after }})"
 
-    build:
-        needs: check_commit_msg
-        if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_MAIN') }}
+    release:
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+        runs-on: ubuntu-latest
+
+        outputs:
+            published: ${{ steps.release.outputs.published }}
+            release-version: ${{ steps.release.outputs.release-version }}
+            release-version-major: ${{ steps.release.outputs.release-version-major }}
+            release-version-minor: ${{ steps.release.outputs.release-version-minor }}
+
+        steps:
+            - name: Checkout Source code
+              uses: actions/checkout@v2
+              id: release
+
+            - name: semver
+              uses: ahmadnassri/action-semantic-release@v1
+              with:
+                config: ${{ github.workspace }}/.semantic.json
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    alias:
+        needs: release
+
+        if: needs.release.outputs.published == 'true'
 
         name: Build
 
         strategy:
             matrix:
                 os: [macos-latest]
-                build_type: [Release, RelWithDebInfo]
-                qt_version: [6.0.1]
+                build_type: [Release]
+                qt_version: [6.1.0]
                 qt_arch: [clang_64]
                 arch: [clang_64]
                 generator: ["-G 'Ninja'"]
+                alias:
+                    - version: v${{ needs.release.outputs.release-version-major }}
+                    - version: v${{ needs.release.outputs.release-version-major }}.${{ needs.release.outputs.release-version-minor }}
 
             fail-fast: false
 
@@ -66,20 +74,6 @@ jobs:
               id: get_version
               shell: bash
               run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
-
-            - name: Checkout Source code
-              if: github.event_name == 'push'
-              uses: actions/checkout@v2
-              with:
-                  fetch-depth: 0
-            #          ref: master
-
-            - name: Checkout Source code
-              if: github.event_name == 'pull_request'
-              uses: actions/checkout@v2
-              with:
-                  fetch-depth: 0
-                  ref: ${{ github.event.pull_request.head.sha }}
 
             - name: Set env & Print jmbde-QT version
               shell: bash

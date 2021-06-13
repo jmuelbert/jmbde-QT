@@ -3,27 +3,44 @@ name: "CD: Windows Qt6"
 
 on:
     push:
+        branches:
+            - "master"
         paths-ignore:
-            - ".github/ISSUE_TEMPLATE/**"
-            - "docker/**"
-            - "CONTRIBUTING.md"
-            - "README.md"
-            - "LICENSE"
-            - "BUILD.md"
-
+            - 'docs/**'
+            - '.github/ISSUE_TEMPLATE/**'
+            - 'docker/**'
+            - '**.md'
+            - '!docs/building-cmake.md'
+            - 'changelog.txt'
+            - 'LICENSE'
+            - '.github/**'
+            - '!.github/workflows/windows-qt6.yml'
+            - 'snap/**'
+            - 'build/**'
+            - 'assets/**'
+            - 'Docker/**'
+            - 'report/**'
+            - 'resources/**'
     pull_request:
+        branches:
+            - "master"
         types: [opened, reopened]
         paths-ignore:
-            - ".github/ISSUE_TEMPLATE/**"
-            - "docker/**"
-            - "CONTRIBUTING.md"
-            - "README.md"
-            - "LICENSE"
-            - "BUILD.md"
-    release:
-        types: [published]
-
-    workflow_dispatch:
+            - 'docs/**'
+            - '.github/ISSUE_TEMPLATE/**'
+            - 'docker/**'
+            - '**.md'
+            - '!docs/building-cmake.md'
+            - 'changelog.txt'
+            - 'LICENSE'
+            - '.github/**'
+            - '!.github/workflows/windows-qt6.yml'
+            - 'snap/**'
+            - 'build/**'
+            - 'assets/**'
+            - 'Docker/**'
+            - 'report/**'
+            - 'resources/**'
 
 env:
     PRODUCT: jmbde
@@ -61,8 +78,8 @@ jobs:
         strategy:
             matrix:
                 platform: [windows-latest]
-                build_type: [Release, RelWithDebInfo]
-                qt_version: [6.0.1]
+                build_type: [Release]
+                qt_version: [6.1.0]
                 qt_arch: [win64_msvc2019_64]
                 qt_target: [desktop]
                 arch: [x64]
@@ -122,7 +139,7 @@ jobs:
 
             # =========================================================================================================
             - name: Install MSVC compiler
-              uses: ilammy/msvc-dev-cmd@v1.8.1
+              uses: ilammy/msvc-dev-cmd@v1.9.0
               with:
                   # 14.1 is for vs2017, 14.2 is vs2019, following the upstream vcpkg build from Qv2ray-deps repo
                   toolset: 14.2
@@ -141,7 +158,6 @@ jobs:
                   version: ${{ matrix.qt_version }}
                   target: ${{ matrix.qt_target }}
                   arch: ${{ matrix.qt_arch }}
-                  mirror: "http://mirrors.ocf.berkeley.edu/qt/"
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
             - name: Install conan

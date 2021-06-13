@@ -1,41 +1,323 @@
 ---
 # NOTE: customize `example-project-image` name below before deploying to a new
 # project.
-
 stages:
-    - build
-    - test
-    - coverage
-    - pages
+  - Analysis
+  - Targeted Code Coverage
+  - All Code Coverage
+  - Fedora
+  - openSUSE
+  - test
+  - pages
 
 variables:
-    DOCKER_IMAGE: "jmbde-project-image"
-    CMAKE_FLAGS_BUILD:
-        "-GNinja -DCMAKE_C_CLANG_TIDY=clang-tidy;-warnings-as-errors=*
-        -DCMAKE_CXX_CLANG_TIDY=clang-tidy;-warnings-as-errors=*"
-    CMAKE_FLAGS_COVERAGE: "-GNinja -DCODE_COVERAGE=ON -DCMAKE_BUILD_TYPE=Debug"
+  CTEST_OUTPUT_ON_FAILURE: '1'
 
-build:
-    stage: build
-    tags:
-        - docker-shell # gitlab runner must be setup as capable of building docker images from shell
-    script:
-        - docker build -t $DOCKER_IMAGE . # build image from project Dockerfile if changed
-        - mkdir -p build
-        - docker run --rm --mount type=bind,source="$(pwd)",target=/$CI_PROJECT_NAME
-          --workdir="/$CI_PROJECT_NAME/build" $DOCKER_IMAGE cmake $CMAKE_FLAGS_BUILD ..
-        - docker run --rm --mount type=bind,source="$(pwd)",target=/$CI_PROJECT_NAME
-          --workdir="/$CI_PROJECT_NAME/build" $DOCKER_IMAGE cmake --build .
-    after_script:
-        - sudo chown -R gitlab-runner:gitlab-runner build # by default, docker-written artifacts are owned by root
-        - sudo chown -R gitlab-runner:gitlab-runner cmake
-    artifacts:
-        paths:
-            - build
-            # depending on your build setup you can cache outputs to reduce the build time
-            # cache:
-            #   paths:
-            #     - build
+# Analysis
+
+cmake-format Check:
+  image: stabletec/build-core:fedora
+  stage: Analysis
+  tags:
+    - docker-linux
+  allow_failure: true
+  script:
+    - pip install cmake-format
+    - cmake-format --version
+    - cmake-format -i $(find . -name "*.cmake")
+    - cmake-format -i $(find . -name "CMakeLists.txt")
+    - git diff --exit-code
+
+clang-format Check:
+  image: stabletec/build-core:fedora
+  stage: Analysis
+  tags:
+    - docker-linux
+  allow_failure: true
+  script:
+    - clang-format --version
+    - clang-format -i $(find . -name "*.c")
+    - clang-format -i $(find . -name "*.cpp")
+    - clang-format -i $(find . -name "*.h")
+    - clang-format -i $(find . -name "*.hpp")
+    - git diff --exit-code
+
+# Targeted Code Coverage
+
+Targeted CC GCC Static:
+  image: stabletec/build-core:fedora
+  stage: Targeted Code Coverage
+  tags:
+    - docker-linux
+    - amd64
+  variables:
+    CC: gcc
+    CXX: g++
+  script:
+    - cmake example/code-coverage-target/ -B build -GNinja -DCMAKE_BUILD_TYPE=Release -DCODE_COVERAGE=ON ${CMAKE_OPTIONS}
+    - ninja -C build
+    - ninja -C build ccov
+
+Targeted CC GCC Shared:
+  image: stabletec/build-core:fedora
+  stage: Targeted Code Coverage
+  tags:
+    - docker-linux
+    - amd64
+  variables:
+    CC: gcc
+    CXX: g++
+    CMAKE_OPTIONS: -DBUILD_SHARED_LIBS=ON
+  script:
+    - cmake example/code-coverage-target/ -B build -GNinja -DCMAKE_BUILD_TYPE=Release -DCODE_COVERAGE=ON ${CMAKE_OPTIONS}
+    - ninja -C build
+    - ninja -C build ccov
+
+Targeted CC Clang Static:
+  image: stabletec/build-core:fedora
+  stage: Targeted Code Coverage
+  tags:
+    - docker-linux
+    - amd64
+  variables:
+    CC: clang
+    CXX: clang++
+  script:
+    - cmake example/code-coverage-target/ -B build -GNinja -DCMAKE_BUILD_TYPE=Release -DCODE_COVERAGE=ON ${CMAKE_OPTIONS}
+    - ninja -C build
+    - ninja -C build ccov
+    - ninja -C build ccov-report
+
+Targeted CC Clang Shared:
+  image: stabletec/build-core:fedora
+  stage: Targeted Code Coverage
+  tags:
+    - docker-linux
+    - amd64
+  variables:
+    CC: clang
+    CXX: clang++
+    CMAKE_OPTIONS: -DBUILD_SHARED_LIBS=ON
+  script:
+    - cmake example/code-coverage-target/ -B build -GNinja -DCMAKE_BUILD_TYPE=Release -DCODE_COVERAGE=ON ${CMAKE_OPTIONS}
+    - ninja -C build
+    - ninja -C build ccov
+    - ninja -C build ccov-report
+
+Targeted CC Clang Static (Windows):
+  image: stabletec/build-core:windows
+  stage: Targeted Code Coverage
+  tags:
+    - docker-windows
+    - amd64
+  variables:
+    CC: clang
+    CXX: clang++
+  script:
+    - cmake example/code-coverage-target/ -B build -GNinja -DCMAKE_BUILD_TYPE=Release -DCODE_COVERAGE=ON ${CMAKE_OPTIONS}
+    - ninja -C build
+    - ninja -C build ccov
+    - ninja -C build ccov-report
+
+Targeted CC Clang Shared (Windows):
+  image: stabletec/build-core:windows
+  stage: Targeted Code Coverage
+  tags:
+    - docker-windows
+    - amd64
+  variables:
+    CC: clang
+    CXX: clang++
+    CMAKE_OPTIONS: -DBUILD_SHARED_LIBS=ON
+  script:
+    - cmake example/code-coverage-target/ -B build -GNinja -DCMAKE_BUILD_TYPE=Release -DCODE_COVERAGE=ON ${CMAKE_OPTIONS}
+    - ninja -C build
+    - ninja -C build ccov
+    - ninja -C build ccov-report
+
+# All Code Coverage
+
+All CC GCC Static:
+  image: stabletec/build-core:fedora
+  stage: All Code Coverage
+  tags:
+    - docker-linux
+    - amd64
+  variables:
+    CC: gcc
+    CXX: g++
+  script:
+    - cmake example/code-coverage-all/ -B build -GNinja -DCMAKE_BUILD_TYPE=Release -DCODE_COVERAGE=ON ${CMAKE_OPTIONS}
+    - ninja -C build
+    - ninja -C build ccov
+    - ninja -C build ccov-all
+
+All CC GCC Shared:
+  image: stabletec/build-core:fedora
+  stage: All Code Coverage
+  tags:
+    - docker-linux
+    - amd64
+  variables:
+    CC: gcc
+    CXX: g++
+    CMAKE_OPTIONS: -DBUILD_SHARED_LIBS=ON
+  script:
+    - cmake example/code-coverage-all/ -B build -GNinja -DCMAKE_BUILD_TYPE=Release -DCODE_COVERAGE=ON ${CMAKE_OPTIONS}
+    - ninja -C build
+    - ninja -C build ccov
+    - ninja -C build ccov-all
+
+All CC Clang Static:
+  image: stabletec/build-core:fedora
+  stage: All Code Coverage
+  tags:
+    - docker-linux
+    - amd64
+  variables:
+    CC: clang
+    CXX: clang++
+  script:
+    - cmake example/code-coverage-all/ -B build -GNinja -DCMAKE_BUILD_TYPE=Release -DCODE_COVERAGE=ON ${CMAKE_OPTIONS}
+    - ninja -C build
+    - ninja -C build ccov-all
+    - ninja -C build ccov-report
+    - ninja -C build ccov-all-report
+
+All CC Clang Shared:
+  image: stabletec/build-core:fedora
+  stage: All Code Coverage
+  tags:
+    - docker-linux
+    - amd64
+  variables:
+    CC: clang
+    CXX: clang++
+    CMAKE_OPTIONS: -DBUILD_SHARED_LIBS=ON
+  script:
+    - cmake example/code-coverage-all/ -B build -GNinja -DCMAKE_BUILD_TYPE=Release -DCODE_COVERAGE=ON ${CMAKE_OPTIONS}
+    - ninja -C build
+    - ninja -C build ccov
+    - ninja -C build ccov-all
+    - ninja -C build ccov-report
+    - ninja -C build ccov-all-report
+
+# Fedora
+
+.fedora_success_template: &fedora_success_template
+  stage: Fedora
+  image: stabletec/build-core:fedora
+  tags:
+    - docker-linux
+    - amd64
+  script:
+    - cmake example/all -B build -GNinja -DCMAKE_BUILD_TYPE=Release ${CMAKE_OPTIONS}
+    - ninja -C build
+    - ninja -C build test
+
+.fedora_failure_template: &fedora_failure_template
+  stage: Fedora
+  image: stabletec/build-core:fedora
+  tags:
+    - docker-linux
+    - amd64
+  script:
+    - cmake example/all -B build -GNinja -DCMAKE_BUILD_TYPE=Release ${CMAKE_OPTIONS}
+    - ninja -C build
+    - "! ninja -C build test"
+
+Fedora Static Analysis:
+  variables:
+    CC: clang
+    CXX: clang++
+    CMAKE_OPTIONS: -DCLANG_TIDY=ON -DCPPCHECK=ON
+  <<: *fedora_success_template
+
+Fedora ThreadSanitizer:
+  variables:
+    CC: clang
+    CXX: clang++
+    CMAKE_OPTIONS: -DUSE_SANITIZER=Thread
+  <<: *fedora_failure_template
+
+Fedora AddressSanitizer:
+  variables:
+    CC: clang
+    CXX: clang++
+    CMAKE_OPTIONS: -DUSE_SANITIZER=Address
+  <<: *fedora_failure_template
+
+Fedora LeakSanitizer:
+  variables:
+    CC: clang
+    CXX: clang++
+    CMAKE_OPTIONS: -DUSE_SANITIZER=Leak
+  <<: *fedora_failure_template
+
+Fedora UndefinedSanitizer:
+  variables:
+    CC: clang
+    CXX: clang++
+    CMAKE_OPTIONS: -DUSE_SANITIZER=Undefined
+  <<: *fedora_success_template
+
+# openSUSE
+
+.opensuse_success_template: &opensuse_success_template
+  stage: openSUSE
+  image: stabletec/build-core:opensuse
+  tags:
+    - docker-linux
+    - amd64
+  script:
+    - cmake example/all -B build -GNinja -DCMAKE_BUILD_TYPE=Release ${CMAKE_OPTIONS}
+    - ninja -C build
+    - ninja -C build test
+
+.opensuse_failure_template: &opensuse_failure_template
+  stage: openSUSE
+  image: stabletec/build-core:opensuse
+  tags:
+    - docker-linux
+  script:
+    - cmake example/all -B build -GNinja -DCMAKE_BUILD_TYPE=Release ${CMAKE_OPTIONS}
+    - ninja -C build
+    - "! ninja -C build test"
+
+openSUSE Static Analysis:
+  variables:
+    CC: clang
+    CXX: clang++
+    CMAKE_OPTIONS: -DCLANG_TIDY=ON -DCPPCHECK=ON
+  <<: *opensuse_success_template
+
+openSUSE ThreadSanitizer:
+  variables:
+    CC: clang
+    CXX: clang++
+    CMAKE_OPTIONS: -DUSE_SANITIZER=Thread
+  <<: *opensuse_failure_template
+
+openSUSE AddressSanitizer:
+  variables:
+    CC: clang
+    CXX: clang++
+    CMAKE_OPTIONS: -DUSE_SANITIZER=Address
+  <<: *opensuse_failure_template
+
+openSUSE LeakSanitizer:
+  variables:
+    CC: clang
+    CXX: clang++
+    CMAKE_OPTIONS: -DUSE_SANITIZER=Leak
+  <<: *opensuse_failure_template
+
+openSUSE UndefinedSanitizer:
+  variables:
+    CC: clang
+    CXX: clang++
+    CMAKE_OPTIONS: -DUSE_SANITIZER=Undefined
+  <<: *opensuse_success_template
 
 # run tests using the binary built before
 test:
@@ -49,26 +331,6 @@ test:
     after_script:
         - sudo chown -R gitlab-runner:gitlab-runner build
         - sudo chown -R gitlab-runner:gitlab-runner cmake
-
-coverage:
-    stage: coverage
-    tags:
-        - docker-shell
-    script:
-        - docker build -t $DOCKER_IMAGE . # build image from project Dockerfile if changed
-        - mkdir -p build_coverage
-        - docker run --rm --mount type=bind,source="$(pwd)",target=/$CI_PROJECT_NAME
-          --workdir="/$CI_PROJECT_NAME/build_coverage" $DOCKER_IMAGE cmake
-          $CMAKE_FLAGS_COVERAGE ..
-        - docker run --rm --mount type=bind,source="$(pwd)",target=/$CI_PROJECT_NAME
-          --workdir="/$CI_PROJECT_NAME/build_coverage" $DOCKER_IMAGE cmake --build .
-          --target ctest_coverage
-    after_script:
-        - sudo chown -R gitlab-runner:gitlab-runner build_coverage # by default, docker-written artifacts are owned by root
-        - sudo chown -R gitlab-runner:gitlab-runner cmake
-    artifacts:
-        paths:
-            - build_coverage
 
 pages:
     image: node:10

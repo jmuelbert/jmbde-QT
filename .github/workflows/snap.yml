@@ -3,27 +3,44 @@ name: "CD: snapcraft package"
 
 on:
     push:
+        branches:
+            - "master"
         paths-ignore:
-            - ".github/ISSUE_TEMPLATE/**"
-            - "docker/**"
-            - "CONTRIBUTING.md"
-            - "README.md"
-            - "LICENSE"
-            - "BUILD.md"
-
+            - 'docs/**'
+            - '.github/ISSUE_TEMPLATE/**'
+            - 'docker/**'
+            - '**.md'
+            - '!docs/building-cmake.md'
+            - 'changelog.txt'
+            - 'LICENSE'
+            - '.github/**'
+            - '!.github/workflows/snap.yml'
+            - 'snap/**'
+            - 'build/**'
+            - 'assets/**'
+            - 'Docker/**'
+            - 'report/**'
+            - 'resources/**'
     pull_request:
+        branches:
+            - "master"
         types: [opened, reopened]
         paths-ignore:
-            - ".github/ISSUE_TEMPLATE/**"
-            - "docker/**"
-            - "CONTRIBUTING.md"
-            - "README.md"
-            - "LICENSE"
-            - "BUILD.md"
-    release:
-        types: [published]
-
-    workflow_dispatch:
+            - 'docs/**'
+            - '.github/ISSUE_TEMPLATE/**'
+            - 'docker/**'
+            - '**.md'
+            - '!docs/building-cmake.md'
+            - 'changelog.txt'
+            - 'LICENSE'
+            - '.github/**'
+            - '!.github/workflows/snap.yml'
+            - 'snap/**'
+            - 'build/**'
+            - 'assets/**'
+            - 'Docker/**'
+            - 'report/**'
+            - 'resources/**'
 
 env:
     PRODUCT: jmbde
@@ -48,7 +65,7 @@ jobs:
         strategy:
             matrix:
                 platform: [ubuntu-latest]
-                build_type: [Release, RelWithDebInfo]
+                build_type: [Release]
                 arch: [x64]
             fail-fast: false
 
