@@ -329,4 +329,3 @@ qt5:
       - -./usr/share
     after:
       - mozjpeg
-      - patches
