@@ -152,7 +152,6 @@ jobs:
                   version: ${{ matrix.qt_version }}
                   target: ${{ matrix.qt_target }}
                   arch: ${{ matrix.qt_arch }}
-                  mirror: "http://mirrors.ocf.berkeley.edu/qt/"
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
             - name: Install conan

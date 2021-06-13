@@ -78,7 +78,7 @@ jobs:
         strategy:
             matrix:
                 platform: [windows-latest]
-                build_type: [Release, RelWithDebInfo]
+                build_type: [Release]
                 qt_version: [6.1.0]
                 qt_arch: [win64_msvc2019_64]
                 qt_target: [desktop]
@@ -158,7 +158,6 @@ jobs:
                   version: ${{ matrix.qt_version }}
                   target: ${{ matrix.qt_target }}
                   arch: ${{ matrix.qt_arch }}
-                  mirror: "http://mirrors.ocf.berkeley.edu/qt/"
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
             - name: Install conan
