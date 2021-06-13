@@ -28,7 +28,7 @@ jobs:
             --fail-if-warnings
             --wrap=preserve
             docs/README.md
-      - uses: actions/github-script@v3
+      - uses: actions/github-script@v4.0.2
         with:
           github-token: ${{secrets.GH_TOKEN}}
           script: |
