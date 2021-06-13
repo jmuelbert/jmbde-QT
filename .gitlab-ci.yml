@@ -2,7 +2,7 @@
 # NOTE: customize `example-project-image` name below before deploying to a new
 # project.
 stages:
-#  - Analysis
+  - Analysis
   - Targeted Code Coverage
   - All Code Coverage
   - Fedora
