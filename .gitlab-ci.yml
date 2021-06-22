@@ -2,6 +2,11 @@
 # NOTE: customize `example-project-image` name below before deploying to a new
 # project.
 
+stages:
+  - build
+  - test
+  - deploy
+
 build:
   stage: build
   # instead of calling g++ directly you can also use some build toolkit like make
