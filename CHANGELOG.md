@@ -44,6 +44,8 @@
 
 **Merged pull requests:**
 
+- Bump urllib3 from 1.26.5 to 1.26.6 [\#322](https://github.com/jmuelbert/jmbde-QT/pull/322)
+- Bump identify from 2.2.6 to 2.2.10 [\#321](https://github.com/jmuelbert/jmbde-QT/pull/321)
 - Bump importlib-metadata from 4.3.1 to 4.5.0 [\#320](https://github.com/jmuelbert/jmbde-QT/pull/320)
 - Bump actions/github-script from 3 to 4.0.2 [\#319](https://github.com/jmuelbert/jmbde-QT/pull/319)
 - Bump identify from 2.2.6 to 2.2.8 [\#317](https://github.com/jmuelbert/jmbde-QT/pull/317)
