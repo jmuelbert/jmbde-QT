@@ -40,7 +40,10 @@ on:
             - 'assets/**'
             - 'Docker/**'
             - 'report/**'
-            - 'resources/**
+            - 'resources/**'
+
+    release:
+        types: [published]
 
 env:
     PRODUCT: jmbde
@@ -64,7 +67,7 @@ jobs:
         if: ${{ !contains( needs.check_commit_msg.outputs.commit_message, 'NO_MAIN') }}
         strategy:
             matrix:
-                platform: [ubuntu-20.04]
+                platform: [ubuntu-latest]
                 build_type: [Release, RelWithDebInfo]
                 arch: [x64]
             fail-fast: false
@@ -84,7 +87,7 @@ jobs:
               with:
                   fetch-depth: 0
                   ref: ${{ github.event.pull_request.head.sha }}
-            - name: Set env & Print flameshot version
+            - name: Set env & Print jmbde version
               shell: bash
               run: |
                   last_committed_tag=$(git tag -l --sort=-v:refname | head -1)
