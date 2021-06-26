@@ -296,8 +296,8 @@ parts:
         override-pull: |
             QT=5_15_2
             git clone -b v5.15.2 --depth=1 git://code.qt.io/qt/qt5.git .
-            perl init-repository --module-subset=qtbase,qtwayland,qtimageformats,qtsvg
-            git submodule update qtbase qtwayland qtimageformats qtsvg
+            perl init-repository --module-subset=qtbase,qtwayland,qtimageformats,qtsvg,qml,quick,quickwidgets
+            git submodule update qtbase qtwayland qtimageformats qtsvg qml quick quickwidgets
             cd qtbase
             find $SNAPCRAFT_STAGE/patches/qtbase_${QT} -type f -print0 | sort -z | xargs -r0 git apply
             cd ../qtwayland
