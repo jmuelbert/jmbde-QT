@@ -254,7 +254,7 @@ jobs:
                   archiveName:
                       jmbde.${{ steps.get_version.outputs.VERSION
                       }}.Windows-${{matrix.arch }}
-              uses: actions/upload-artifact@v2.2.3
+              uses: actions/upload-artifact@v2.2.4
               with:
                   name:
                       jmbde-win-${{matrix.arch}}.qt${{

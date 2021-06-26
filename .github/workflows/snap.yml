@@ -117,7 +117,7 @@ jobs:
                   echo $(sh $GITHUB_WORKSPACE/scripts/upload_services/${UPLOAD_SERVICE}.sh $GITHUB_WORKSPACE/build/${PRODUCT}-${VERSION}-${RELEASE}.amd64.snap)
                   echo "======no operation for you can see link in the log console====="
             - name: Artifact Upload
-              uses: actions/upload-artifact@v2.2.3
+              uses: actions/upload-artifact@v2.2.4
               with:
                   name: Linux-distribution-artifact
                   path: |
