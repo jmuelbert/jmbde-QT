@@ -184,7 +184,7 @@ jobs:
                   mv ./jmbde*.AppImage  ${{runner.workspace}}/build/jmbde.AppImage
 
             - name: Linux - ${{  env.QT_VERSION }} - Uploading artifact
-              uses: actions/upload-artifact@v2.2.3
+              uses: actions/upload-artifact@v2.2.4
               with:
                   name:
                       jmbde-${{ github.sha }}-linux-${{ matrix.arch

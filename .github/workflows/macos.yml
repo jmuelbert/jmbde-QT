@@ -186,7 +186,7 @@ jobs:
               if: >
                 ${{ github.event.workflow_run.event == 'pull_request' &&
                 github.event.workflow_run.conclusion == 'success' }}
-              uses: actions/upload-artifact@v2.2.3
+              uses: actions/upload-artifact@v2.2.4
               with:
                   name:
                       ${{ env.targetName}}-Qt${{ matrix.qt_version
