@@ -100,7 +100,10 @@ list(APPEND CMAKE_PREFIX_PATH "${CMAKE_MODULE_PATH}")
 # Add the local module path to the search path
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake" "${CMAKE_CURRENT_LIST_DIR}/cmake/modules")
 
-include(PreventInSourceBuilds)
+
+# include(PreventInSourceBuilds)
+
+
 include(StaticAnalyzers)
 
 include(conan)
