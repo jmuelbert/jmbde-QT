@@ -17,7 +17,7 @@ on:
 
 env:
     SOURCE_CACHE: ${{ github.workspace }}/src
-    QT_VERSION: 6.0.1
+    QT_VERSION: 6.1.0
     QT_ARCH: clang_64
     # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
     BUILD_TYPE: Debug
@@ -72,7 +72,7 @@ jobs:
                   brew install clang-format
                   brew install ninja pkg-config
                   pip3 install --upgrade pip
-                  pip3 install conan cmake_format==0.6.11 pyyaml
+                  pip3 install conan cmakelang[YAML]
 
             - name: Install conan
               id: conan
@@ -102,8 +102,7 @@ jobs:
               shell: bash
               # Execute the build.  You can specify a specific target with "--target <NAME>"
               run:
-                  cmake --build . --config ${{ env.BUILD_TYPE }} -j2
-                  -DENABLE_CLANG_FORMAT
+                  cmake --build . --config ${{ env.BUILD_TYPE }} -j2 -DENABLE_CLANG_FORMAT
 
         # Run only on linux
         #   - name: Validate QML and JavaScript files

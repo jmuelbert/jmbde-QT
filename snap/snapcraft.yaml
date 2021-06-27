@@ -41,8 +41,8 @@ parts:
         parse-info:
             - usr/share/metainfo/jmbde.appdata.xml
         build-snaps:
-            - kde-framework-5-core18-sdk
-            - kde-framework-5-core18
+            - kde-frameworks-5-core18-sdk
+            - kde-frameworks-5-core18
         build-packages:
             - libmpfr-dev
             - libgmp-dev
