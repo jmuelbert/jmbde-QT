@@ -28,6 +28,11 @@
 - Workflow: CD: RPM - openSUSE Leap [\#153](https://github.com/jmuelbert/jmbde-QT/issues/153)
 - Workflow: CD: RPM - openSUSE TW [\#152](https://github.com/jmuelbert/jmbde-QT/issues/152)
 
+**Merged pull requests:**
+
+- Bump pre-commit from 2.11.1 to 2.12.0 [\#267](https://github.com/jmuelbert/jmbde-QT/pull/267)
+- Bump sphinx-rtd-theme from 0.5.1 to 0.5.2 [\#265](https://github.com/jmuelbert/jmbde-QT/pull/265)
+
 ## [master](https://github.com/jmuelbert/jmbde-QT/tree/master) (2021-03-07)
 
 **Implemented enhancements:**
@@ -44,6 +49,7 @@
 
 **Merged pull requests:**
 
+- Bump actions/upload-artifact from 2.2.3 to 2.2.4 [\#323](https://github.com/jmuelbert/jmbde-QT/pull/323)
 - Bump urllib3 from 1.26.5 to 1.26.6 [\#322](https://github.com/jmuelbert/jmbde-QT/pull/322)
 - Bump identify from 2.2.6 to 2.2.10 [\#321](https://github.com/jmuelbert/jmbde-QT/pull/321)
 - Bump importlib-metadata from 4.3.1 to 4.5.0 [\#320](https://github.com/jmuelbert/jmbde-QT/pull/320)
@@ -92,8 +98,6 @@
 - Bump breathe from 4.28.0 to 4.29.0 [\#270](https://github.com/jmuelbert/jmbde-QT/pull/270)
 - Bump identify from 2.2.2 to 2.2.3 [\#269](https://github.com/jmuelbert/jmbde-QT/pull/269)
 - Bump nodeenv from 1.5.0 to 1.6.0 [\#268](https://github.com/jmuelbert/jmbde-QT/pull/268)
-- Bump pre-commit from 2.11.1 to 2.12.0 [\#267](https://github.com/jmuelbert/jmbde-QT/pull/267)
-- Bump sphinx-rtd-theme from 0.5.1 to 0.5.2 [\#265](https://github.com/jmuelbert/jmbde-QT/pull/265)
 - Bump docutils from 0.16 to 0.17 [\#264](https://github.com/jmuelbert/jmbde-QT/pull/264)
 - Fix typos by misspell-fixer for refs/heads/master [\#260](https://github.com/jmuelbert/jmbde-QT/pull/260)
 
@@ -117,8 +121,8 @@
 - Bump requests from 2.25.0 to 2.25.1 [\#163](https://github.com/jmuelbert/jmbde-QT/pull/163)
 - Bump breathe from 4.24.1 to 4.25.1 [\#162](https://github.com/jmuelbert/jmbde-QT/pull/162)
 - Fix typos by misspell-fixer for refs/heads/master [\#146](https://github.com/jmuelbert/jmbde-QT/pull/146)
+- Format codes for refs/heads/dependabot/github\_actions/peter-evans/create-pull-request-v3.5.2 [\#145](https://github.com/jmuelbert/jmbde-QT/pull/145)
 - Fix typos by misspell-fixer for refs/heads/dependabot/github\_actions/peter-evans/create-pull-request-v3.5.2 [\#144](https://github.com/jmuelbert/jmbde-QT/pull/144)
-- Fix typos by misspell-fixer for refs/heads/dependabot/github\_actions/actions/cache-v2.1.3 [\#143](https://github.com/jmuelbert/jmbde-QT/pull/143)
 - Fix typos by misspell-fixer for refs/heads/master [\#142](https://github.com/jmuelbert/jmbde-QT/pull/142)
 - Format codes for refs/heads/dependabot/github\_actions/crazy-max/ghaction-github-labeler-v3.1.1 [\#141](https://github.com/jmuelbert/jmbde-QT/pull/141)
 - Bump crazy-max/ghaction-github-labeler from v3.1.0 to v3.1.1 [\#140](https://github.com/jmuelbert/jmbde-QT/pull/140)
