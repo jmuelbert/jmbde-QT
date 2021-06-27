@@ -4,16 +4,46 @@ name: Style
 on:
     push:
         branches:
-            - master*
+            - "master"
         paths-ignore:
-            - "README.md"
-            - "LICENSE"
+            - 'docs/**'
+            - '.github/ISSUE_TEMPLATE/**'
+            - 'docker/**'
+            - '**.md'
+            - '!docs/building-cmake.md'
+            - 'changelog.txt'
+            - 'LICENSE'
+            - '.github/**'
+            - '!.github/workflows/styles.yml'
+            - 'snap/**'
+            - 'build/**'
+            - 'assets/**'
+            - 'Docker/**'
+            - 'report/**'
+            - 'resources/**'
+    pull_request:
+        branches:
+            - "master"
+        types: [opened, reopened]
+        paths-ignore:
+            - 'docs/**'
+            - '.github/ISSUE_TEMPLATE/**'
+            - 'docker/**'
+            - '**.md'
+            - '!docs/building-cmake.md'
+            - 'changelog.txt'
+            - 'LICENSE'
+            - '.github/**'
+            - '!.github/workflows/styles.yml'
+            - 'snap/**'
+            - 'build/**'
+            - 'assets/**'
+            - 'Docker/**'
+            - 'report/**'
+            - 'resources/**'
 
-    pull_request_target:
-        types: [labeled]
-        paths-ignore:
-            - "README.md"
-            - "LICENSE"
+    release:
+        types: [published]
 
 env:
     SOURCE_CACHE: ${{ github.workspace }}/src
@@ -26,7 +56,7 @@ env:
 
 jobs:
     build:
-        runs-on: macos-latest
+        runs-on: ubuntu-latest
 
         steps:
             - name: Checkout Source code
@@ -47,36 +77,34 @@ jobs:
               with:
                   path: "**/src"
                   key:
-                      ${{ github.workflow }}-src-${{ hashFiles('**/CMakeLists.txt',
-                      '**/*.cmake') }}
+                      ${{ github.workflow }}-src-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake') }}
 
             - name: Cache Qt
               id: cache-qt
-              uses: actions/cache@v2.1.6
+              uses: actions/cache@v2.1.5
               with:
-                  path: ../Qt/${{ env.QT_VERSION }}/${{env.QT_ARCH}}
-                  key: ${{ runner.os }}-Qt/${{ env.QT_VERSION }}/${{env.QT_ARCH}}
-
-            - name: Installing Q${{ env.QT_VERSION }} -  ${{env.QT_ARCH}}
+                  path: ../Qt
+                  key:
+                      QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{
+                      env.QT_VERSION }}
+            - name: Installing Qt - ${{ matrix.arch }}
               uses: jurplel/install-qt-action@v2
               with:
-                  version: ${{ env.QT_VERSION }}
-                  arch: ${{env.QT_ARCH}}
+                  version: ${{  env.QT_VERSION }}
+                  arch: ${{ matrix.qtarch }}
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
-                  setup-python: "false"
 
             - name:
-                  macOS -${{ env.QT_VERSION }}/${{env.QT_ARCH}} - Build preparation -
-                  Install Packages
+                  Linux - ${{  env.QT_VERSION }} - Build preparation - Install Packages
               run: |
-                  brew install clang-format
-                  brew install ninja pkg-config
-                  pip3 install --upgrade pip
-                  pip3 install conan cmakelang[YAML]
+                  sudo apt update
+                  sudo apt install -y build-essential ninja-build cmake pkgconf fcitx-frontend-qt5 libxcb-xinerama0 libgl-dev libx11-dev libxkbcommon-x11-dev libxcb-image0-dev libxcb-icccm4-dev libssl-dev libxcb-keysyms1 libxcb-render-util0
 
             - name: Install conan
               id: conan
               run: |
+                  pip3 install --upgrade pip
+                  pip3 install conan
                   conan user
 
             - name: Create Build Environment
