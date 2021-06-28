@@ -123,6 +123,7 @@
 - Fix typos by misspell-fixer for refs/heads/master [\#146](https://github.com/jmuelbert/jmbde-QT/pull/146)
 - Format codes for refs/heads/dependabot/github\_actions/peter-evans/create-pull-request-v3.5.2 [\#145](https://github.com/jmuelbert/jmbde-QT/pull/145)
 - Fix typos by misspell-fixer for refs/heads/dependabot/github\_actions/peter-evans/create-pull-request-v3.5.2 [\#144](https://github.com/jmuelbert/jmbde-QT/pull/144)
+- Fix typos by misspell-fixer for refs/heads/dependabot/github\_actions/actions/cache-v2.1.3 [\#143](https://github.com/jmuelbert/jmbde-QT/pull/143)
 - Fix typos by misspell-fixer for refs/heads/master [\#142](https://github.com/jmuelbert/jmbde-QT/pull/142)
 - Format codes for refs/heads/dependabot/github\_actions/crazy-max/ghaction-github-labeler-v3.1.1 [\#141](https://github.com/jmuelbert/jmbde-QT/pull/141)
 - Bump crazy-max/ghaction-github-labeler from v3.1.0 to v3.1.1 [\#140](https://github.com/jmuelbert/jmbde-QT/pull/140)
