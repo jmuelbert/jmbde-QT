@@ -14,5 +14,6 @@ function(AssureOutOfSourceBuilds)
     message(FATAL_ERROR "Quitting configuration")
   endif()
 endfunction()
-
-assureoutofsourcebuilds()
+if(NOT LGTM)
+    assureoutofsourcebuilds()
+endif()

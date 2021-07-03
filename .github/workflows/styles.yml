@@ -124,7 +124,7 @@ jobs:
                   cmake $GITHUB_WORKSPACE \
                       ${{matrix.config.generator}} \
                       -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
-                      -DENABLE_CLANG_FORMAT
+                      -DENABLE_CLANG_FORMAT=ON
 
             - name: Build
               working-directory: ${{runner.workspace}}/build
