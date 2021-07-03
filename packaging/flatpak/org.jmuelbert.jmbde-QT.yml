@@ -19,14 +19,13 @@ finish-args:
     # Notification access
     - --talk-name=org.freedesktop.Notifications
     # System Tray Icon
-    - --talk-name=org.kde.StatusNotifierWatcher
-    - --own-name=org.kde.*
-    - --own-name=org.flameshot.Flameshot
+
 modules:
     - name: jmbde
       buildsystem: cmake-ninja
       config-opts:
           - -DCMAKE_BUILD_TYPE=Release
+          - -DLGTM=ON
       sources:
           - type: git
             url: https://github.com/jmuelbert/jmbde-QT.git
