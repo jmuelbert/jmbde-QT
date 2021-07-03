@@ -213,7 +213,7 @@ jobs:
                     ${{matrix.config.generator}} \
                     -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} \
                     -DBUILD_TRANSLATIONS=ON \
-                    -DENABLE_TESTING=OFF \
+                    -DBUILD_TESTING=OFF \
                     -DCMAKE_INSTALL_PREFIX:PATH=./app
 
             - name: Configure CMake for ${{ matrix.config.build_type }}
