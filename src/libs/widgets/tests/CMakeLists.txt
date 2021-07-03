@@ -21,7 +21,7 @@ include(ECMAddTests)
 # find_package(QT_NAMES Qt6 Qt5 COMPONENTS Core Requiered)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets Sql PrintSupport Test)
 ecm_add_tests(
-  tst_widgetstest
+  tst_widgetstest.cpp
   LINK_LIBRARIES
   LINK_LIBRARIES
   Qt${QT_VERSION_MAJOR}::Core
