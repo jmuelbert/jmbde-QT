@@ -32,6 +32,7 @@
 
 - Bump pre-commit from 2.11.1 to 2.12.0 [\#267](https://github.com/jmuelbert/jmbde-QT/pull/267)
 - Bump sphinx-rtd-theme from 0.5.1 to 0.5.2 [\#265](https://github.com/jmuelbert/jmbde-QT/pull/265)
+- Fix typos by misspell-fixer for refs/heads/master [\#260](https://github.com/jmuelbert/jmbde-QT/pull/260)
 
 ## [master](https://github.com/jmuelbert/jmbde-QT/tree/master) (2021-03-07)
 
@@ -49,6 +50,7 @@
 
 **Merged pull requests:**
 
+- Bump importlib-metadata from 4.5.0 to 4.6.0 [\#324](https://github.com/jmuelbert/jmbde-QT/pull/324)
 - Bump actions/upload-artifact from 2.2.3 to 2.2.4 [\#323](https://github.com/jmuelbert/jmbde-QT/pull/323)
 - Bump urllib3 from 1.26.5 to 1.26.6 [\#322](https://github.com/jmuelbert/jmbde-QT/pull/322)
 - Bump identify from 2.2.6 to 2.2.10 [\#321](https://github.com/jmuelbert/jmbde-QT/pull/321)
@@ -99,7 +101,6 @@
 - Bump identify from 2.2.2 to 2.2.3 [\#269](https://github.com/jmuelbert/jmbde-QT/pull/269)
 - Bump nodeenv from 1.5.0 to 1.6.0 [\#268](https://github.com/jmuelbert/jmbde-QT/pull/268)
 - Bump docutils from 0.16 to 0.17 [\#264](https://github.com/jmuelbert/jmbde-QT/pull/264)
-- Fix typos by misspell-fixer for refs/heads/master [\#260](https://github.com/jmuelbert/jmbde-QT/pull/260)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
 
