@@ -46,7 +46,7 @@ cmake_policy(SET CMP0043 NEW)
 cmake_policy(SET CMP0053 NEW)
 cmake_policy(SET CMP0063 NEW)
 cmake_policy(SET CMP0068 NEW)
-cmake_policy(SET CMP0072 NEW)
+
 
 # Let AUTOMOC and AUTOUIC process GENERATED files.
 if(POLICY CMP0071)
@@ -58,6 +58,12 @@ if(POLICY CMP0054)
   cmake_policy(SET CMP0054 NEW)
 endif()
 
+Only interpret if() arguments as variables or keywords when unquoted.
+if(POLICY CMP0072)
+    cmake_policy(SET CMP0072 NEW)
+endif()
+
+
 if(${CMAKE_VERSION} VERSION_LESS 3.20)
   cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 else()
@@ -67,8 +73,8 @@ endif()
 project(jmbde LANGUAGES CXX)
 
 # Set the dependencies versions
-set(KF5_VERSION "5.62.0")
-set(KF5_DEP_VERSION "5.62.0")
+set(KF5_VERSION "5.61.0")
+set(KF5_DEP_VERSION "5.61.0")
 set(QT_MIN_VERSION "5.12.4")
 
 if (APPLE)
