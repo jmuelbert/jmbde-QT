@@ -1,4 +1,4 @@
-app-id: org.jmuelbert.jmbde-QT
+app-id: org.jmuelbert.jmbde_QT
 runtime: org.kde.Platform
 runtime-version: "5.15"
 sdk: org.kde.Sdk

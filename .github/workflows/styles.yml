@@ -123,14 +123,17 @@ jobs:
               run: |
                   cmake $GITHUB_WORKSPACE \
                       ${{matrix.config.generator}} \
-                      -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}
+                      -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
+                      -DENABLE_CLANG_FORMAT
 
             - name: Build
               working-directory: ${{runner.workspace}}/build
               shell: bash
               # Execute the build.  You can specify a specific target with "--target <NAME>"
-              run:
-                  cmake --build . --config ${{ env.BUILD_TYPE }} -j2 -DENABLE_CLANG_FORMAT
+              run: |
+                  cmake --build . \
+                    --config ${{ env.BUILD_TYPE }} \
+                    -j2
 
         # Run only on linux
         #   - name: Validate QML and JavaScript files
