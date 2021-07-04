@@ -15,6 +15,4 @@ function(AssureOutOfSourceBuilds)
   endif()
 endfunction()
 
-if(NOT LGTM)
-    assureoutofsourcebuilds()
-endif()
+assureoutofsourcebuilds()
