@@ -32,6 +32,7 @@
 
 - Bump breathe from 4.28.0 to 4.29.0 [\#270](https://github.com/jmuelbert/jmbde-QT/pull/270)
 - Bump identify from 2.2.2 to 2.2.3 [\#269](https://github.com/jmuelbert/jmbde-QT/pull/269)
+- Bump nodeenv from 1.5.0 to 1.6.0 [\#268](https://github.com/jmuelbert/jmbde-QT/pull/268)
 - Bump pre-commit from 2.11.1 to 2.12.0 [\#267](https://github.com/jmuelbert/jmbde-QT/pull/267)
 - Bump sphinx-rtd-theme from 0.5.1 to 0.5.2 [\#265](https://github.com/jmuelbert/jmbde-QT/pull/265)
 - Bump docutils from 0.16 to 0.17 [\#264](https://github.com/jmuelbert/jmbde-QT/pull/264)
@@ -100,7 +101,6 @@
 - Bump importlib-metadata from 3.10.0 to 4.0.1 [\#277](https://github.com/jmuelbert/jmbde-QT/pull/277)
 - Bump pre-commit from 2.12.0 to 2.12.1 [\#276](https://github.com/jmuelbert/jmbde-QT/pull/276)
 - Bump docutils from 0.17 to 0.17.1 [\#274](https://github.com/jmuelbert/jmbde-QT/pull/274)
-- Bump nodeenv from 1.5.0 to 1.6.0 [\#268](https://github.com/jmuelbert/jmbde-QT/pull/268)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
 
@@ -120,6 +120,7 @@
 - Bump peter-evans/create-pull-request from v3.5.2 to v3.6.0 [\#165](https://github.com/jmuelbert/jmbde-QT/pull/165)
 - Bump sphinx from 3.3.1 to 3.4.0 [\#164](https://github.com/jmuelbert/jmbde-QT/pull/164)
 - Bump requests from 2.25.0 to 2.25.1 [\#163](https://github.com/jmuelbert/jmbde-QT/pull/163)
+- Bump breathe from 4.24.1 to 4.25.1 [\#162](https://github.com/jmuelbert/jmbde-QT/pull/162)
 - Fix typos by misspell-fixer for refs/heads/master [\#146](https://github.com/jmuelbert/jmbde-QT/pull/146)
 - Format codes for refs/heads/dependabot/github\_actions/peter-evans/create-pull-request-v3.5.2 [\#145](https://github.com/jmuelbert/jmbde-QT/pull/145)
 - Fix typos by misspell-fixer for refs/heads/dependabot/github\_actions/peter-evans/create-pull-request-v3.5.2 [\#144](https://github.com/jmuelbert/jmbde-QT/pull/144)
