@@ -23,7 +23,6 @@ project(
   "jmbdeappquick"
   VERSION "0.1.2"
   DESCRIPTION "A BDE Tool"
-  HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
   LANGUAGES CXX
 )
 

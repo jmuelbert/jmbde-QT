@@ -21,7 +21,6 @@ project(
   "jmbdewidgets"
   VERSION "0.3.0"
   DESCRIPTION "${PROJECT_NAME} WIDGETS-UI Library"
-  HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
   LANGUAGES CXX
 )
 

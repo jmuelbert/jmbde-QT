@@ -21,7 +21,6 @@ project(
   "jmbdequick"
   VERSION "0.1.1"
   DESCRIPTION "${PROJECT_NAME} Quick UI Library"
-  HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
   LANGUAGES CXX
 )
 

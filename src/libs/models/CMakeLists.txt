@@ -21,7 +21,6 @@ project(
   "jmbdemodels"
   VERSION "0.6.0"
   DESCRIPTION "${PROJECT_NAME} Datacontext Library"
-  HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
   LANGUAGES CXX
 )
 

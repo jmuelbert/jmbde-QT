@@ -19,7 +19,6 @@ project(
   "jmbde"
   VERSION "0.6.0"
   DESCRIPTION "A BDE Tool"
-  HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
   LANGUAGES CXX
 )
 
