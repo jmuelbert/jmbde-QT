@@ -46,7 +46,7 @@ cmake_policy(SET CMP0043 NEW)
 cmake_policy(SET CMP0053 NEW)
 cmake_policy(SET CMP0063 NEW) # ENABLE CMP0063: Honor visibility properties for all target types.
 cmake_policy(SET CMP0068 NEW)
-cmake_policy(SET_CMP0077 NEW) # ENABLE CMP0077: option() honors normal variables
+cmake_policy(SET CMP0077 NEW) # ENABLE CMP0077: option() honors normal variables
 
 # Only interpret if() arguments as variables or keywords when unquoted.
 if(POLICY CMP0054)
@@ -71,7 +71,10 @@ else()
 endif()
 
 # The Project
-project(jmbde 0.6.0 LANGUAGES CXX)
+project("jmbde"
+    VERSION 0.6.0
+    DESCRIPTION "A BDE Tool"
+    LANGUAGES CXX)
 
 # Set the dependencies versions
 set(KF5_VERSION "5.61.0")

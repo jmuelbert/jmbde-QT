@@ -8,16 +8,8 @@ grade: devel
 confinement: devmode
 compression: lzo
 
-architectures:
-  - build-on: amd64
-  - build-on: arm64
-  - build-on: armhf
-  - build-on: ppc64el
-
 summary: A BDE tool.
 description: jmbde is a free bde tool.
-
-
 
 version: "0.6.0"
 
