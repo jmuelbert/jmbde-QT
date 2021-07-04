@@ -18,7 +18,7 @@ apps:
         command: jmbde
         common-id: com.github.jmuelbert.jmbde-QT
         extensions:
-            - kde-frameworks-5-core20
+            - kde-neon
         plugs:
             - home
             - desktop
@@ -33,8 +33,7 @@ parts:
         parse-info:
             - usr/share/metainfo/jmbde.appdata.xml
         build-snaps:
-            - kde-frameworks-5-core20-sdk
-            - kde-frameworks-5-core20
+            - kde-frameworks-5-qt-5-15-core20
         build-packages:
             - libmpfr-dev
             - libgmp-dev
