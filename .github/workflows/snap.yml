@@ -102,7 +102,7 @@ jobs:
               uses: snapcore/action-build@v1.0.8
               id: snapcraft
               with:
-                snapcraft-args: --enable-experimental-*
+                snapcraft-args: --enable-experimental
             - name: Rename snap name
               shell: bash
               run: |
