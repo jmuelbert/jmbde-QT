@@ -41,21 +41,21 @@ else()
 endif()
 
 cmake_policy(SET CMP0020 NEW)
-cmake_policy(SET CMP0042 NEW) # MAC OSX RPATH
+cmake_policy(SET CMP0042 NEW) # ENABLE CMP0042: MACOSX_RPATH is enabled by default.
 cmake_policy(SET CMP0043 NEW)
 cmake_policy(SET CMP0053 NEW)
-cmake_policy(SET CMP0063 NEW)
+cmake_policy(SET CMP0063 NEW) # ENABLE CMP0063: Honor visibility properties for all target types.
 cmake_policy(SET CMP0068 NEW)
-
-
-# Let AUTOMOC and AUTOUIC process GENERATED files.
-if(POLICY CMP0071)
-  cmake_policy(SET CMP0071 NEW)
-endif()
+cmake_policy(SET_CMP0077 NEW) # ENABLE CMP0077: option() honors normal variables
 
 # Only interpret if() arguments as variables or keywords when unquoted.
 if(POLICY CMP0054)
   cmake_policy(SET CMP0054 NEW)
+endif()
+
+# Let AUTOMOC and AUTOUIC process GENERATED files.
+if(POLICY CMP0071)
+  cmake_policy(SET CMP0071 NEW)
 endif()
 
 # Only interpret if() arguments as variables or keywords when unquoted.
@@ -70,7 +70,8 @@ else()
   cmake_policy(VERSION 3.20)
 endif()
 
-project(jmbde LANGUAGES CXX)
+# The Project
+project(jmbde 0.6.0 LANGUAGES CXX)
 
 # Set the dependencies versions
 set(KF5_VERSION "5.61.0")
