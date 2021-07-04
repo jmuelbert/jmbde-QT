@@ -18,7 +18,7 @@ endif()
 
 # JMBDEWIDGETS project
 project(
-  "jmbdewidgets"
+  jmbdewidgets
   VERSION "0.3.0"
   DESCRIPTION "${PROJECT_NAME} WIDGETS-UI Library"
   LANGUAGES CXX

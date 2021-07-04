@@ -18,7 +18,7 @@ endif()
 
 # JMBDEMODELS project
 project(
-  "jmbdemodels"
+  jmbdemodels
   VERSION "0.6.0"
   DESCRIPTION "${PROJECT_NAME} Datacontext Library"
   LANGUAGES CXX

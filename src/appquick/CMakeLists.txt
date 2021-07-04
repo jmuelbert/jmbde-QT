@@ -20,7 +20,7 @@ endif()
 # the jmbde application (QtQuick-Version)
 #
 project(
-  "jmbdeappquick"
+  jmbdeappquick
   VERSION "0.1.2"
   DESCRIPTION "A BDE Tool"
   LANGUAGES CXX

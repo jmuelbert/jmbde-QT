@@ -16,7 +16,7 @@ endif()
 # the jmbde application (Widgets-Version)
 #
 project(
-  "jmbde"
+  jmbde
   VERSION "0.6.0"
   DESCRIPTION "A BDE Tool"
   LANGUAGES CXX

@@ -18,7 +18,7 @@ endif()
 
 # JMBDEQUICK project
 project(
-  "jmbdequick"
+  jmbdequick
   VERSION "0.1.1"
   DESCRIPTION "${PROJECT_NAME} Quick UI Library"
   LANGUAGES CXX
