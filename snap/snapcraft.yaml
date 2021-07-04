@@ -18,7 +18,7 @@ apps:
         command: jmbde
         common-id: com.github.jmuelbert.jmbde-QT
         extensions:
-            - kde-neon
+            - kde-frameworks-5-core20
         plugs:
             - home
             - desktop
