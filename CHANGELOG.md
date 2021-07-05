@@ -101,6 +101,7 @@
 - Bump importlib-metadata from 3.10.0 to 4.0.1 [\#277](https://github.com/jmuelbert/jmbde-QT/pull/277)
 - Bump pre-commit from 2.12.0 to 2.12.1 [\#276](https://github.com/jmuelbert/jmbde-QT/pull/276)
 - Bump docutils from 0.17 to 0.17.1 [\#274](https://github.com/jmuelbert/jmbde-QT/pull/274)
+- Bump importlib-metadata from 3.8.0 to 3.10.0 [\#259](https://github.com/jmuelbert/jmbde-QT/pull/259)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
 
