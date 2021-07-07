@@ -16,7 +16,7 @@ importlib-metadata==4.6.1
 Jinja2==3.0.1
 MarkupSafe==2.0.1
 nodeenv==1.6.0
-packaging==20.9
+packaging==21.0
 pre-commit==2.13.0
 Pygments==2.8.1
 pyparsing==2.4.7
