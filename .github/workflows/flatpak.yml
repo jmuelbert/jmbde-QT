@@ -109,13 +109,12 @@ jobs:
                   flatpak install -y flathub org.kde.Sdk//5.15 org.kde.Platform//5.15
             - name: Packaging flatpak
               run: |
-                  mkdir $GITHUB_WORKSPACE/build
                   BUNDLE="org.jmuelbert.jmbde-QT_${VERSION}_x86_64.flatpak"
                   MANIFEST_PATH=$GITHUB_WORKSPACE/packaging/flatpak/org.jmuelbert.jmbde-QT.yml
                   RUNTIME_REPO="https://flathub.org/repo/flathub.flatpakrepo"
                   APP_ID="org.jmuelbert.jmbde-QT"
                   BRANCH="master"
-                  flatpak-builder --user --disable-rofiles-fuse --repo=repo --force-clean flatpak_app ${MANIFEST_PATH} --install-deps-from=flathub $GITHUB_WORKSPACE/build
+                  flatpak-builder --user --disable-rofiles-fuse --repo=repo --force-clean flatpak_app ${MANIFEST_PATH} --install-deps-from=flathub
                   flatpak build-bundle repo ${BUNDLE} --runtime-repo=${RUNTIME_REPO} ${APP_ID} ${BRANCH}
                   mv $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT_${VERSION}_x86_64.flatpak $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT-${VERSION}.x86_64.flatpak
             - name: SHA256Sum of flatpak package(daily build)
