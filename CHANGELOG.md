@@ -1,8 +1,10 @@
 # Changelog
 
-## [v0.5.6](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.6) (2021-07-07)
+## [0.5.6](https://github.com/jmuelbert/jmbde-QT/tree/0.5.6) (2021-07-07)
 
 ## [v0.5.5](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.5) (2021-07-07)
+
+## [v0.5.6](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.6) (2021-07-07)
 
 ## [dependabot/pip/importlib-metadata-4.3.1](https://github.com/jmuelbert/jmbde-QT/tree/dependabot/pip/importlib-metadata-4.3.1) (2021-06-12)
 
@@ -34,6 +36,7 @@
 
 **Merged pull requests:**
 
+- Bump pre-commit from 2.12.0 to 2.12.1 [\#276](https://github.com/jmuelbert/jmbde-QT/pull/276)
 - Bump breathe from 4.28.0 to 4.29.0 [\#270](https://github.com/jmuelbert/jmbde-QT/pull/270)
 - Bump identify from 2.2.2 to 2.2.3 [\#269](https://github.com/jmuelbert/jmbde-QT/pull/269)
 - Bump nodeenv from 1.5.0 to 1.6.0 [\#268](https://github.com/jmuelbert/jmbde-QT/pull/268)
@@ -58,6 +61,7 @@
 
 **Merged pull requests:**
 
+- Bump packaging from 20.9 to 21.0 [\#327](https://github.com/jmuelbert/jmbde-QT/pull/327)
 - Bump importlib-metadata from 4.6.0 to 4.6.1 [\#326](https://github.com/jmuelbert/jmbde-QT/pull/326)
 - Bump importlib-metadata from 4.5.0 to 4.6.0 [\#324](https://github.com/jmuelbert/jmbde-QT/pull/324)
 - Bump actions/upload-artifact from 2.2.3 to 2.2.4 [\#323](https://github.com/jmuelbert/jmbde-QT/pull/323)
@@ -104,7 +108,6 @@
 - Bump peter-evans/create-pull-request from v3.8.2 to v3.9.1 [\#279](https://github.com/jmuelbert/jmbde-QT/pull/279)
 - Bump identify from 2.2.3 to 2.2.4 [\#278](https://github.com/jmuelbert/jmbde-QT/pull/278)
 - Bump importlib-metadata from 3.10.0 to 4.0.1 [\#277](https://github.com/jmuelbert/jmbde-QT/pull/277)
-- Bump pre-commit from 2.12.0 to 2.12.1 [\#276](https://github.com/jmuelbert/jmbde-QT/pull/276)
 - Bump docutils from 0.17 to 0.17.1 [\#274](https://github.com/jmuelbert/jmbde-QT/pull/274)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
@@ -122,7 +125,6 @@
 **Merged pull requests:**
 
 - Fix build/release workflows [\#170](https://github.com/jmuelbert/jmbde-QT/pull/170)
-- Bump pytz from 2020.4 to 2020.5 [\#167](https://github.com/jmuelbert/jmbde-QT/pull/167)
 - Bump peter-evans/create-pull-request from v3.5.2 to v3.6.0 [\#165](https://github.com/jmuelbert/jmbde-QT/pull/165)
 - Bump sphinx from 3.3.1 to 3.4.0 [\#164](https://github.com/jmuelbert/jmbde-QT/pull/164)
 - Bump requests from 2.25.0 to 2.25.1 [\#163](https://github.com/jmuelbert/jmbde-QT/pull/163)
