@@ -37,6 +37,7 @@
 **Merged pull requests:**
 
 - Bump identify from 2.2.3 to 2.2.4 [\#278](https://github.com/jmuelbert/jmbde-QT/pull/278)
+- Bump importlib-metadata from 3.10.0 to 4.0.1 [\#277](https://github.com/jmuelbert/jmbde-QT/pull/277)
 - Bump pre-commit from 2.12.0 to 2.12.1 [\#276](https://github.com/jmuelbert/jmbde-QT/pull/276)
 - Bump breathe from 4.28.0 to 4.29.0 [\#270](https://github.com/jmuelbert/jmbde-QT/pull/270)
 - Bump identify from 2.2.2 to 2.2.3 [\#269](https://github.com/jmuelbert/jmbde-QT/pull/269)
@@ -107,7 +108,6 @@
 - Bump ilammy/msvc-dev-cmd from 1 to 1.8.0 [\#282](https://github.com/jmuelbert/jmbde-QT/pull/282)
 - Bump sphinx from 3.5.3 to 4.0.1 [\#281](https://github.com/jmuelbert/jmbde-QT/pull/281)
 - Bump peter-evans/create-pull-request from v3.8.2 to v3.9.1 [\#279](https://github.com/jmuelbert/jmbde-QT/pull/279)
-- Bump importlib-metadata from 3.10.0 to 4.0.1 [\#277](https://github.com/jmuelbert/jmbde-QT/pull/277)
 - Bump docutils from 0.17 to 0.17.1 [\#274](https://github.com/jmuelbert/jmbde-QT/pull/274)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
