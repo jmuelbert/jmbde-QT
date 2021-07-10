@@ -1,17 +1,14 @@
+
 on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
-name: "Flatpak"
+  schedule:
+    - cron: "0 0 * * *"
+name: "Flatpak Testing"
 jobs:
   flatpak:
     name: "Flatpak"
     runs-on: ubuntu-latest
     container:
-      image: bilelmoussaoui/flatpak-github-actions:kde-5.15
+      image: bilelmoussaoui/flatpak-github-actions:gnome-40
       options: --privileged
     steps:
     - uses: actions/checkout@v2
@@ -22,4 +19,4 @@ jobs:
       with:
         bundle: com.github.rafostar.Clapper.flatpak
         manifest-path: packaging/flatpak/org.jmuelbert.jmbde-QT.yml
-        cache-key: flatpak-builder-${{ github.sha }}
+        cache-key: flatpak-builder-${{ github.sha }}-testing-${{ github.run_number }}

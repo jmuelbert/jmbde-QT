@@ -61,5 +61,7 @@
     "python.testing.promptToConfigure": false,
     "python.testing.pytestEnabled": false,
     "python.testing.unittestEnabled": false,
-    "terminal.integrated.shell.windows": "C:/Program Files/Git/bin/bash.exe"
+    "yaml.schemas": {
+        "https://raw.githubusercontent.com/TingPing/flatpak-manifest-schema/master/flatpak-manifest.schema": ["com.github.Desktop.yaml"]
+    },
 }

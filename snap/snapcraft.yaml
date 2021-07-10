@@ -3,7 +3,7 @@ name: jmbde-qt
 adopt-info: jmbde
 icon: assets/icons/jmbde.png
 
-base: core20
+base: core18
 grade: devel
 confinement: devmode
 compression: lzo
@@ -13,6 +13,9 @@ description: jmbde is a free bde tool.
 
 version: "0.6.0"
 
+architectures:
+  - build-on: amd64
+    run-on: amd64
 apps:
     jmbde-qt:
         command: jmbde
