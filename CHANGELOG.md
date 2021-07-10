@@ -36,7 +36,9 @@
 
 **Merged pull requests:**
 
+- Bump actions/upload-artifact from 2.2.2 to 2.2.3 [\#285](https://github.com/jmuelbert/jmbde-QT/pull/285)
 - Bump actions/setup-python from 2 to 2.2.2 [\#284](https://github.com/jmuelbert/jmbde-QT/pull/284)
+- Bump snapcore/action-build from 1 to 1.0.8 [\#283](https://github.com/jmuelbert/jmbde-QT/pull/283)
 - Bump identify from 2.2.3 to 2.2.4 [\#278](https://github.com/jmuelbert/jmbde-QT/pull/278)
 - Bump importlib-metadata from 3.10.0 to 4.0.1 [\#277](https://github.com/jmuelbert/jmbde-QT/pull/277)
 - Bump pre-commit from 2.12.0 to 2.12.1 [\#276](https://github.com/jmuelbert/jmbde-QT/pull/276)
@@ -104,8 +106,6 @@
 - Bump jinja2 from 2.11.3 to 3.0.1 [\#288](https://github.com/jmuelbert/jmbde-QT/pull/288)
 - Bump pygments from 2.8.1 to 2.9.0 [\#287](https://github.com/jmuelbert/jmbde-QT/pull/287)
 - Bump cfgv from 3.2.0 to 3.3.0 [\#286](https://github.com/jmuelbert/jmbde-QT/pull/286)
-- Bump actions/upload-artifact from 2.2.2 to 2.2.3 [\#285](https://github.com/jmuelbert/jmbde-QT/pull/285)
-- Bump snapcore/action-build from 1 to 1.0.8 [\#283](https://github.com/jmuelbert/jmbde-QT/pull/283)
 - Bump ilammy/msvc-dev-cmd from 1 to 1.8.0 [\#282](https://github.com/jmuelbert/jmbde-QT/pull/282)
 - Bump sphinx from 3.5.3 to 4.0.1 [\#281](https://github.com/jmuelbert/jmbde-QT/pull/281)
 - Bump peter-evans/create-pull-request from v3.8.2 to v3.9.1 [\#279](https://github.com/jmuelbert/jmbde-QT/pull/279)
@@ -178,7 +178,6 @@
 - Bump pytz from 2020.1 to 2020.4 [\#94](https://github.com/jmuelbert/jmbde-QT/pull/94)
 - Bump toml from 0.10.1 to 0.10.2 [\#93](https://github.com/jmuelbert/jmbde-QT/pull/93)
 - Bump pre-commit from 2.7.1 to 2.8.1 [\#90](https://github.com/jmuelbert/jmbde-QT/pull/90)
-- Bump zipp from 3.3.1 to 3.4.0 [\#89](https://github.com/jmuelbert/jmbde-QT/pull/89)
 
 ## [v0.5.2](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.2) (2020-03-19)
 
