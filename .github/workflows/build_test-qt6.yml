@@ -6,41 +6,41 @@ on:
         branches:
             - "master"
         paths-ignore:
-            - 'docs/**'
-            - '.github/ISSUE_TEMPLATE/**'
-            - 'docker/**'
-            - '**.md'
-            - '!docs/building-cmake.md'
-            - 'changelog.txt'
-            - 'LICENSE'
-            - '.github/**'
-            - '!.github/workflows/build_test-qt6.yml'
-            - 'snap/**'
-            - 'build/**'
-            - 'assets/**'
-            - 'Docker/**'
-            - 'report/**'
-            - 'resources/**'
+            - "docs/**"
+            - ".github/ISSUE_TEMPLATE/**"
+            - "docker/**"
+            - "**.md"
+            - "!docs/building-cmake.md"
+            - "changelog.txt"
+            - "LICENSE"
+            - ".github/**"
+            - "!.github/workflows/build_test-qt6.yml"
+            - "snap/**"
+            - "build/**"
+            - "assets/**"
+            - "Docker/**"
+            - "report/**"
+            - "resources/**"
     pull_request:
         branches:
             - "master"
         types: [opened, reopened]
         paths-ignore:
-            - 'docs/**'
-            - '.github/ISSUE_TEMPLATE/**'
-            - 'docker/**'
-            - '**.md'
-            - '!docs/building-cmake.md'
-            - 'changelog.txt'
-            - 'LICENSE'
-            - '.github/**'
-            - '!.github/workflows/build_test-qt6.yml'
-            - 'snap/**'
-            - 'build/**'
-            - 'assets/**'
-            - 'Docker/**'
-            - 'report/**'
-            - 'resources/**'
+            - "docs/**"
+            - ".github/ISSUE_TEMPLATE/**"
+            - "docker/**"
+            - "**.md"
+            - "!docs/building-cmake.md"
+            - "changelog.txt"
+            - "LICENSE"
+            - ".github/**"
+            - "!.github/workflows/build_test-qt6.yml"
+            - "snap/**"
+            - "build/**"
+            - "assets/**"
+            - "Docker/**"
+            - "report/**"
+            - "resources/**"
 
 env:
     QT_VERSION: 6.1.0
@@ -72,19 +72,44 @@ jobs:
                 config:
                     - {
                           os: windows-latest,
+                          name: "windows-2019-msvc2019",
                           qt_arch: win64_msvc2019_64,
                           qt_target: desktop,
                           arch: x64,
+                          compiler: cl,
+                          version: Visual Studio 16 2019,
+                          version2: 2019
                           generator: "-G'Visual Studio 16 2019' -A x64",
                       }
-                      # portable-option: Off ? On
-                      # portable-name: -setup.exe ?  -portable.zip
                     - {
                           os: macos-latest,
+                          name: "macos",
                           qt_arch: clang_64,
                           qt_target: desktop,
                           arch: clang_64,
                           generator: "-G 'Ninja'",
+                      }
+                    - {
+                          os: ubuntu-latest,
+                          name: "ubuntu-20.04-gcc-10",
+                          qt_arch: gcc_64,
+                          qt_target: desktop,
+                          arch: x64,
+                          compiler: gcc,
+                          version: 10,
+                          generator: "-G 'Unix Makefiles'",
+                          build_type: "Debug",
+                      }
+                    - {
+                          os: ubuntu-latest,
+                          name ubuntu-20.04-clang-12",
+                          qt_arch: clang_64,
+                          qt_target: desktop,
+                          arch: x64,
+                          compiler: clang,
+                          version: 12
+                          generator: "-G 'Unix Makefiles'",
+                          build_type: "Debug",
                       }
             fail-fast: false
 
@@ -163,12 +188,12 @@ jobs:
               run: |
                   brew install ninja pkg-config
 
-            - name: Install conan
+            - name: Get conan
               id: conan
-              run: |
-                  pip3 install --upgrade pip
-                  pip3 install conan
-                  conan user
+              uses: turtlebrowser/get-conan@v1.0
+
+            - name: Add Bincrafters Remote
+              run: conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 
             - name: Create Build Environment
               # Some projects don't allow in-source building, so create a separate build directory

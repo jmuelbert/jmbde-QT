@@ -4,8 +4,8 @@ name: "CD: MacOS Qt6"
 on:
     workflow_run:
         workflows: [build_test-qt6]
-        branches: [ master ]
-        types: [ completed ]
+        branches: [master]
+        types: [completed]
 env:
     PRODUCT: jmbde
     targetName: jmbde
@@ -42,9 +42,9 @@ jobs:
             - name: semver
               uses: ahmadnassri/action-semantic-release@v1
               with:
-                config: ${{ github.workspace }}/.semantic.json
+                  config: ${{ github.workspace }}/.semantic.json
               env:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     alias:
         needs: release
@@ -56,7 +56,12 @@ jobs:
         strategy:
             matrix:
                 os: [macos-latest]
-                build_type: [Release]
+                macos_target: [10.15]
+                build_type: [Debug, Release]
+                coverage: ["ON", "OFF"]
+                exclude:
+                    - build_type: Release
+                      coverage: ON
                 qt_version: [6.1.0]
                 qt_arch: [clang_64]
                 arch: [clang_64]
@@ -67,6 +72,8 @@ jobs:
 
             fail-fast: false
 
+        env:
+            BUILD_TYPE: ${{ matrix.build_type }}
         runs-on: ${{ matrix.os }}
 
         steps:
@@ -108,14 +115,16 @@ jobs:
                   macOS - ${{ matrix.qt_version }} - Build preparation - Install
                   Packages
               run: |
+                  brew upgrade cmake
+                  cmake --version
                   brew install ninja pkg-config
 
-            - name: Install conan
+            - name: Get conan
               id: conan
-              run: |
-                  pip3 install --upgrade pip
-                  pip3 install conan
-                  conan user
+              uses: turtlebrowser/get-conan@v1.0
+
+            - name: Add Bincrafters Remote
+              run: conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 
             - name: Create Build Environment
               # Some projects don't allow in-source building, so create a separate build directory
@@ -136,7 +145,8 @@ jobs:
                   cmake $GITHUB_WORKSPACE \
                     ${{matrix.generator}} \
                     -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-                    -DCMAKE_OSX_DEPLOYMENT_TARGET=10.15 \
+                    -DCMAKE_OSX_DEPLOYMENT_TARGET=${{ matrix.macos_target }} \
+                    -DCODE_COVERAGE=${{matrix.coverage}}
                     -DBUILD_TRANSLATIONS=ON \
                     -DCMAKE_INSTALL_PREFIX:PATH=./app
 
@@ -147,8 +157,7 @@ jobs:
               env:
                   Qt6_DIR: ../Qt/${{ matrix.qt_version }}/${{matrix.qt_arch}}
               # Execute the build.  You can specify a specific target with "--target <NAME>"
-              run:
-                  cmake --build . --config ${{ matrix.build_type }} -j2 --target install
+              run: cmake --build . --config ${{ matrix.build_type }} -j2 --target install
 
             - name: Package
               env:
@@ -162,23 +171,35 @@ jobs:
             - name: macOS - ${{ matrix.qt_version }} - Uploading artifact
               uses: actions/upload-artifact@v2.2.4
               with:
-                  name:
-                      ${{env.targetName}}-Qt${{ matrix.qt_version
+                  name: ${{env.targetName}}-Qt${{ matrix.qt_version
                       }}-${{matrix.build_type}}.dmg
-                  path:
-                      ${{runner.workspace}}/build/${{ env.targetName }}-Qt${{
+                  path: ${{runner.workspace}}/build/${{ env.targetName }}-Qt${{
                       matrix.qt_version }}.dmg
 
             - name: macOS - ${{ matrix.qt_version }} - Upload binaries to release
               uses: svenstaro/upload-release-action@v2
               with:
                   repo_token: ${{ secrets.GITHUB_TOKEN }}
-                  file:
-                      ${{runner.workspace}}/build/${{ env.targetName }}-Qt${{
+                  file: ${{runner.workspace}}/build/${{ env.targetName }}-Qt${{
                       matrix.qt_version }}.dmg
-                  asset_name:
-                      ${{ env.targetName }}-${{
+                  asset_name: ${{ env.targetName }}-${{
                       steps.get_version.outputs.VERSION}}-Qt${{ matrix.qt_version
                       }}-${{matrix.build_type}}.dmg
                   tag: ${{ github.ref }}
                   overwrite: true
+
+            - name: Tests
+              working-directory: ${{github.workspace}}/build
+              shell: bash
+                run: ctest --rerun-failed --output-on-failure
+
+            - name: CodeCoverage
+              if: ${{ matrix.coverage == 'ON' && matrix.build_type == 'Debug'}}
+              shell: bash
+              working-directory: ${{github.workspace}}/build
+              run:  |
+                brew install lcov
+                lcov -d $GITHUB_WORKSPACE -c -o $GITHUB_WORKSPACE/coverage.info
+                lcov -r $GITHUB_WORKSPACE/coverage.info "*Qt*.framework*" "*Xcode.app*" "*.moc" "*moc_*.cpp" "*/test/*" "*Qt*" "*v1*" -o $GITHUB_WORKSPACE/coverage.info
+                lcov --list $GITHUB_WORKSPACE/coverage.info
+                bash <(curl -s https://codecov.io/bash) -f $GITHUB_WORKSPACE/coverage.info || echo "Codecov did not collect coverage reports"

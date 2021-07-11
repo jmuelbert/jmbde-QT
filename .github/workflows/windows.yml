@@ -6,41 +6,41 @@ on:
         branches:
             - "master"
         paths-ignore:
-            - 'docs/**'
-            - '.github/ISSUE_TEMPLATE/**'
-            - 'docker/**'
-            - '**.md'
-            - '!docs/building-cmake.md'
-            - 'changelog.txt'
-            - 'LICENSE'
-            - '.github/**'
-            - '!.github/workflows/windows.yml'
-            - 'snap/**'
-            - 'build/**'
-            - 'assets/**'
-            - 'Docker/**'
-            - 'report/**'
-            - 'resources/**'
+            - "docs/**"
+            - ".github/ISSUE_TEMPLATE/**"
+            - "docker/**"
+            - "**.md"
+            - "!docs/building-cmake.md"
+            - "changelog.txt"
+            - "LICENSE"
+            - ".github/**"
+            - "!.github/workflows/windows.yml"
+            - "snap/**"
+            - "build/**"
+            - "assets/**"
+            - "Docker/**"
+            - "report/**"
+            - "resources/**"
     pull_request:
         branches:
             - "master"
         types: [opened, reopened]
         paths-ignore:
-            - 'docs/**'
-            - '.github/ISSUE_TEMPLATE/**'
-            - 'docker/**'
-            - '**.md'
-            - '!docs/building-cmake.md'
-            - 'changelog.txt'
-            - 'LICENSE'
-            - '.github/**'
-            - '!.github/workflows/windows.yml'
-            - 'snap/**'
-            - 'build/**'
-            - 'assets/**'
-            - 'Docker/**'
-            - 'report/**'
-            - 'resources/**'
+            - "docs/**"
+            - ".github/ISSUE_TEMPLATE/**"
+            - "docker/**"
+            - "**.md"
+            - "!docs/building-cmake.md"
+            - "changelog.txt"
+            - "LICENSE"
+            - ".github/**"
+            - "!.github/workflows/windows.yml"
+            - "snap/**"
+            - "build/**"
+            - "assets/**"
+            - "Docker/**"
+            - "report/**"
+            - "resources/**"
 
 env:
     PRODUCT: jmbde
@@ -154,12 +154,12 @@ jobs:
                   arch: ${{ matrix.qt_arch }}
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
-            - name: Install conan
+            - name: Get conan
               id: conan
-              run: |
-                  pip3 install --upgrade pip
-                  pip3 install conan
-                  conan user
+              uses: turtlebrowser/get-conan@v1.0
+
+            - name: Add Bincrafters Remote
+              run: conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 
             - name: Create Build Environment
               # Some projects don't allow in-source building, so create a separate build directory
@@ -189,14 +189,12 @@ jobs:
               working-directory: ${{runner.workspace}}/build
               shell: bash
               # Execute the build.  You can specify a specific target with "--target <NAME>"
-              run:
-                  cmake --build . --config ${{ matrix.build_type }} -j2 --target install
+              run: cmake --build . --config ${{ matrix.build_type }} -j2 --target install
 
             - name: ZIP package
               working-directory: ${{runner.workspace}}/build
               env:
-                  archiveName:
-                      jmbde.${{
+                  archiveName: jmbde.${{
                       steps.get_version.outputs.VERSION}}.Windows-${{matrix.arch }}
               shell: pwsh
               run: |
@@ -242,8 +240,7 @@ jobs:
             - name: MSI package
               working-directory: ${{runner.workspace}}/build
               env:
-                  archiveName:
-                      jmbde.${{ steps.get_version.outputs.VERSION
+                  archiveName: jmbde.${{ steps.get_version.outputs.VERSION
                       }}.Windows-${{matrix.arch }}
               shell: bash
               run: |
@@ -251,13 +248,11 @@ jobs:
 
             - name: Windows - ${{ matrix.qt_version }} - Uploading artifact
               env:
-                  archiveName:
-                      jmbde.${{ steps.get_version.outputs.VERSION
+                  archiveName: jmbde.${{ steps.get_version.outputs.VERSION
                       }}.Windows-${{matrix.arch }}
               uses: actions/upload-artifact@v2.2.4
               with:
-                  name:
-                      jmbde-win-${{matrix.arch}}.qt${{
+                  name: jmbde-win-${{matrix.arch}}.qt${{
                       matrix.qt_version}}-${{matrix.build_type}}.zip
                   path: ${{runner.workspace}}/build/${{ env.archiveName }}.zip
 
