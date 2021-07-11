@@ -78,15 +78,27 @@ jobs:
                           arch: x64,
                           compiler: cl,
                           version: Visual Studio 16 2019,
-                          version2: 2019
+                          version2: 2019,
                           generator: "-G'Visual Studio 16 2019' -A x64",
                       }
                     - {
                           os: macos-latest,
-                          name: "macos",
+                          name: "macos-12.0-x86_64",
                           qt_arch: clang_64,
                           qt_target: desktop,
                           arch: clang_64,
+                          compiler: xcode,
+                          version: 12.2,
+                          generator: "-G 'Ninja'",
+                      }
+                    - {
+                          os: macos-latest,
+                          name: "macos-12.0-arm64",
+                          qt_arch: clang_64,
+                          qt_target: desktop,
+                          arch: clang_64,
+                          compiler: xcode,
+                          version: 12.2,
                           generator: "-G 'Ninja'",
                       }
                     - {
