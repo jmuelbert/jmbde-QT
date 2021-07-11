@@ -119,7 +119,7 @@ jobs:
                           qt_target: desktop,
                           arch: x64,
                           compiler: clang,
-                          version: 12
+                          version: 12,
                           generator: "-G 'Unix Makefiles'",
                           build_type: "Debug",
                       }
