@@ -110,6 +110,7 @@
 - Bump sphinx from 3.5.3 to 4.0.1 [\#281](https://github.com/jmuelbert/jmbde-QT/pull/281)
 - Bump peter-evans/create-pull-request from v3.8.2 to v3.9.1 [\#279](https://github.com/jmuelbert/jmbde-QT/pull/279)
 - Bump docutils from 0.17 to 0.17.1 [\#274](https://github.com/jmuelbert/jmbde-QT/pull/274)
+- Bump importlib-metadata from 3.8.0 to 3.10.0 [\#259](https://github.com/jmuelbert/jmbde-QT/pull/259)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
 
