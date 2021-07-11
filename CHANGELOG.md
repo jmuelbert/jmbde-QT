@@ -36,6 +36,8 @@
 
 **Merged pull requests:**
 
+- Bump actions/stale from 3.0.18 to 3.0.19 [\#289](https://github.com/jmuelbert/jmbde-QT/pull/289)
+- Bump pygments from 2.8.1 to 2.9.0 [\#287](https://github.com/jmuelbert/jmbde-QT/pull/287)
 - Bump cfgv from 3.2.0 to 3.3.0 [\#286](https://github.com/jmuelbert/jmbde-QT/pull/286)
 - Bump actions/upload-artifact from 2.2.2 to 2.2.3 [\#285](https://github.com/jmuelbert/jmbde-QT/pull/285)
 - Bump actions/setup-python from 2 to 2.2.2 [\#284](https://github.com/jmuelbert/jmbde-QT/pull/284)
@@ -108,9 +110,7 @@
 - Bump virtualenv from 20.4.3 to 20.4.6 [\#292](https://github.com/jmuelbert/jmbde-QT/pull/292)
 - Bump peter-evans/create-pull-request from 3.8.2 to 3.9.2 [\#291](https://github.com/jmuelbert/jmbde-QT/pull/291)
 - Bump actions/cache from 2.1.4 to 2.1.5 [\#290](https://github.com/jmuelbert/jmbde-QT/pull/290)
-- Bump actions/stale from 3.0.18 to 3.0.19 [\#289](https://github.com/jmuelbert/jmbde-QT/pull/289)
 - Bump jinja2 from 2.11.3 to 3.0.1 [\#288](https://github.com/jmuelbert/jmbde-QT/pull/288)
-- Bump pygments from 2.8.1 to 2.9.0 [\#287](https://github.com/jmuelbert/jmbde-QT/pull/287)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
 
