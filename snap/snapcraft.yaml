@@ -19,7 +19,7 @@ version: "0.6.0"
 
 
 apps:
-    jmbde-qt:
+    jmbde:
         command: jmbde
         common-id: com.github.jmuelbert.jmbde-QT
         extensions:
@@ -31,7 +31,7 @@ apps:
             - wayland
             - x11
 parts:
-    jmbde-qt:
+    jmbde:
         plugin: cmake
         source: .
         cmake-parameters:
