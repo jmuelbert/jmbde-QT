@@ -43,7 +43,7 @@ parts:
             - "-DBUILD_TESTING=OFF"
         source-type: git
         parse-info:
-            - usr/share/metainfo/jmbde.appdata.xml
+            - usr/share/appdata/jmbde.appdata.xml
         build-snaps:
             - kde-frameworks-5-qt-5-15-core20
         build-packages:
