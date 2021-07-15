@@ -20,7 +20,7 @@ version: "0.6.0"
 
 apps:
     jmbde:
-        command: jmbde
+        command: usr/bin/jmbde
         common-id: com.github.jmuelbert.jmbde
         extensions:
             - kde-neon
