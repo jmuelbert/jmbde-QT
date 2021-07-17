@@ -2,86 +2,115 @@
 # NOTE: customize `example-project-image` name below before deploying to a new
 # project.
 
+variables:
+    CCACHE_COMPILERCHECK: content
+    CCACHE_DIR: "${CI_PROJECT_DIR}/.ccache"
+    # prevent configure tzdata hanging apt install commands
+    DEBIAN_FRONTEND: noninteractive
+
 stages:
-  - Analysis
-  - build
-  - test
-  - deploy
-  - pages
+    - Analysis
+    - build
+    - test
+    - deploy
+    - pages
 
 cmake-format Check:
-  image: stabletec/build-core:fedora
-  stage: Analysis
-  # tags:
-  #   - docker-linux
-  allow_failure: true
-  script:
-    - pip install cmakelang[YAML]
-    - cmake-format --version
-    - cmake-format -i $(find . -name "*.cmake")
-    - cmake-format -i $(find . -name "CMakeLists.txt")
-    - git diff --exit-code
+    image: stabletec/build-core:fedora
+    stage: Analysis
+    # tags:
+    #   - docker-linux
+    allow_failure: true
+    script:
+        - pip install cmakelang[YAML]
+        - cmake-format --version
+        - cmake-format -i $(find . -name "*.cmake")
+        - cmake-format -i $(find . -name "CMakeLists.txt")
+        - git diff --exit-code
 
 clang-format Check:
-  image: stabletec/build-core:fedora
-  stage: Analysis
-  # tags:
-  #   - docker-linux
-  allow_failure: true
-  script:
-    - clang-format --version
-    - clang-format -i $(find . -name "*.c")
-    - clang-format -i $(find . -name "*.cpp")
-    - clang-format -i $(find . -name "*.h")
-    - clang-format -i $(find . -name "*.hpp")
-    - git diff --exit-code
+    image: stabletec/build-core:fedora
+    stage: Analysis
+    # tags:
+    #   - docker-linux
+    allow_failure: true
+    script:
+        - clang-format --version
+        - clang-format -i $(find . -name "*.c")
+        - clang-format -i $(find . -name "*.cpp")
+        - clang-format -i $(find . -name "*.h")
+        - clang-format -i $(find . -name "*.hpp")
+        - git diff --exit-code
 
-
-
-build:
-  stage: build
-  # instead of calling g++ directly you can also use some build toolkit like make
-  # install the necessary build tools when needed
-  # before_script:
-  #   - apt update && apt -y install make autoconf
-  script:
-    - g++ helloworld.cpp -o mybinary
-  artifacts:
-    paths:
-      - mybinary
-      # depending on your build setup it's most likely a good idea to cache outputs to reduce the build time
-      # cache:
-      #   paths:
-      #     - "*.o"
+build-gcc7:
+    stage: build
+    image: ubuntu:16.04
+    # tags: [docker]
+    variables:
+        CXX: g++-7
+        CC: gcc-7
+        QT_PKG: 515
+        TRAVIS_OS_NAME: linux
+    before_script:
+        - apt-get update
+        - apt-get install -y software-properties-common
+        - add-apt-repository ppa:ubuntu-toolchain-r/test -y
+        - add-apt-repository ppa:beineri/opt-qt-5.15.2-xenial -y
+        - apt-get update && apt-get -y install --no-install-recommends g++-7 build-essential ninja-build qt${QT_PKG}{base,declarative,tools,multimedia,script,quickcontrols2,svg} liblmdb-dev libgl1-mesa-dev libssl-dev git ccache
+        # need recommended deps for wget
+        - apt-get -y install wget
+        - wget https://github.com/Kitware/CMake/releases/download/v3.19.0/cmake-3.19.0-Linux-x86_64.sh && sh cmake-3.19.0-Linux-x86_64.sh  --skip-license  --prefix=/usr/local
+        - /usr/sbin/update-ccache-symlinks
+        - update-alternatives --install /usr/bin/gcc gcc "/usr/bin/${CC}" 10
+        - update-alternatives --install /usr/bin/g++ g++ "/usr/bin/${CXX}" 10
+        - update-alternatives --set gcc "/usr/bin/${CC}"
+        - update-alternatives --set g++ "/usr/bin/${CXX}"
+        - rm -rf ../.hunter &&  mv .hunter ../.hunter || true
+    script:
+        - export PATH="/usr/lib/ccache:${PATH}"
+        - export CMAKE_BUILD_PARALLEL_LEVEL=$(cat /proc/cpuinfo | awk '/^processor/{print $3}' | wc -l)
+        - export PATH="/usr/local/bin/:${PATH}"
+        - . "/opt/qt${QT_PKG}/bin/qt${QT_PKG}-env.sh" || true
+        - cmake -GNinja -H. -Bbuild
+          -DCMAKE_INSTALL_PREFIX=.deps/usr
+          -DBUILD_SHARED_LIBS=OFF
+          -DCMAKE_BUILD_TYPE=Release
+        - cmake --build build
+    after_script:
+        - echo "Build finish"
+    cache:
+        key: "$CI_JOB_NAME"
+        paths:
+            - .ccache
 
 # run tests using the binary built before
 test:
-  stage: test
-  script:
-    - ./runmytests.sh
+    stage: test
+    script:
+        - ./runmytests.sh
 
 build-job:
-  stage: build
-  script:
-    - echo "Hello, $GITLAB_USER_LOGIN!"
+    stage: build
+    script:
+        - echo "Hello, $GITLAB_USER_LOGIN!"
 
 test-job1:
-  stage: test
-  script:
-    - echo "This job tests something"
+    stage: test
+    script:
+        - echo "This job tests something"
 
 test-job2:
-  stage: test
-  script:
-    - echo "This job tests something, but takes more time than test-job1."
-    - echo "After the echo commands complete, it runs the sleep command for 20 seconds"
-    - echo "which simulates a test that runs 20 seconds longer than test-job1"
-    - sleep 20
+    stage: test
+    script:
+        - echo "This job tests something, but takes more time than test-job1."
+        - echo "After the echo commands complete, it runs the sleep command for 20 seconds"
+        - echo "which simulates a test that runs 20 seconds longer than test-job1"
+        - sleep 20
 
 deploy-prod:
-  stage: deploy
-  script:
-    - echo "This job deploys something from the $CI_COMMIT_BRANCH branch."
+    stage: deploy
+    script:
+        - echo "This job deploys something from the $CI_COMMIT_BRANCH branch."
 
 pages:
     image: node:10

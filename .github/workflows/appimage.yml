@@ -6,41 +6,41 @@ on:
         branches:
             - "master"
         paths-ignore:
-            - 'docs/**'
-            - '.github/ISSUE_TEMPLATE/**'
-            - 'docker/**'
-            - '**.md'
-            - '!docs/building-cmake.md'
-            - 'changelog.txt'
-            - 'LICENSE'
-            - '.github/**'
-            - '!.github/workflows/appimage.yml'
-            - 'snap/**'
-            - 'build/**'
-            - 'assets/**'
-            - 'Docker/**'
-            - 'report/**'
-            - 'resources/**'
+            - "docs/**"
+            - ".github/ISSUE_TEMPLATE/**"
+            - "docker/**"
+            - "**.md"
+            - "!docs/building-cmake.md"
+            - "changelog.txt"
+            - "LICENSE"
+            - ".github/**"
+            - "!.github/workflows/appimage.yml"
+            - "snap/**"
+            - "build/**"
+            - "assets/**"
+            - "Docker/**"
+            - "report/**"
+            - "resources/**"
     pull_request:
         branches:
             - "master"
         types: [opened, reopened]
         paths-ignore:
-            - 'docs/**'
-            - '.github/ISSUE_TEMPLATE/**'
-            - 'docker/**'
-            - '**.md'
-            - '!docs/building-cmake.md'
-            - 'changelog.txt'
-            - 'LICENSE'
-            - '.github/**'
-            - '!.github/workflows/appimage.yml'
-            - 'snap/**'
-            - 'build/**'
-            - 'assets/**'
-            - 'Docker/**'
-            - 'report/**'
-            - 'resources/**'
+            - "docs/**"
+            - ".github/ISSUE_TEMPLATE/**"
+            - "docker/**"
+            - "**.md"
+            - "!docs/building-cmake.md"
+            - "changelog.txt"
+            - "LICENSE"
+            - ".github/**"
+            - "!.github/workflows/appimage.yml"
+            - "snap/**"
+            - "build/**"
+            - "assets/**"
+            - "Docker/**"
+            - "report/**"
+            - "resources/**"
 
     release:
         types: [published]
@@ -97,8 +97,7 @@ jobs:
               uses: actions/cache@v2.1.5
               with:
                   path: ../Qt
-                  key:
-                      QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{
+                  key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{
                       env.QT_VERSION }}
             - name: Installing Qt - ${{ matrix.arch }}
               uses: jurplel/install-qt-action@v2
@@ -107,8 +106,7 @@ jobs:
                   arch: ${{ matrix.qtarch }}
                   cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
-            - name:
-                  Linux - ${{  env.QT_VERSION }} - Build preparation - Install Packages
+            - name: Linux - ${{  env.QT_VERSION }} - Build preparation - Install Packages
               run: |
                   sudo apt update
                   sudo apt install -y build-essential ninja-build cmake pkgconf fcitx-frontend-qt5 libxcb-xinerama0 libgl-dev libx11-dev libxkbcommon-x11-dev libxcb-image0-dev libxcb-icccm4-dev libssl-dev libxcb-keysyms1 libxcb-render-util0
@@ -146,20 +144,25 @@ jobs:
               working-directory: ${{runner.workspace}}/build
               shell: bash
               # Execute the build.  You can specify a specific target with "--target <NAME>"
-              run:
-                  cmake --build . --config ${{ matrix.build_type }} -j2 --target install
+              run: cmake --build . --config ${{ matrix.build_type }} -j2 --target install
 
             - name: Get go-appimage tool
               working-directory: ${{runner.workspace}}/build
-            # Will not use linuxdeployqt anymore, because it suopprts currently still-supported mainstream distribution,
-            # which is glibc 2.23. For more information, please see https://github.com/probonopd/linuxdeployqt/issues/340.
-            # Will try new tool https://github.com/probonopd/go-appimage written in golang by probonopd.
+              # Will not use linuxdeployqt anymore, because it suopprts currently still-supported mainstream distribution,
+              # which is glibc 2.23. For more information, please see https://github.com/probonopd/linuxdeployqt/issues/340.
+              # Will try new tool https://github.com/probonopd/go-appimage written in golang by probonopd.
               run: |
-                wget -c https://github.com/$(wget -q https://github.com/probonopd/go-appimage/releases -O - \
-                | grep "appimagetool-.*-${APPIMAGETOOL_ARCH}.AppImage" | head -n 1 | cut -d '"' -f 2) -O appimagetool
-                chmod +x appimagetool
+                  wget -c https://github.com/$(wget -q https://github.com/probonopd/go-appimage/releases -O - \
+                  | grep "appimagetool-.*-${APPIMAGETOOL_ARCH}.AppImage" | head -n 1 | cut -d '"' -f 2) -O appimagetool
+                  chmod +x appimagetool
               env:
-                APPIMAGETOOL_ARCH: x86_64
+                  APPIMAGETOOL_ARCH: x86_64
+
+            - name: Packaging appimage
+              run: |
+                  sed  -i 's|Exec=/usr/bin/flameshot|Exec=flameshot|g' data/desktopEntry/package/org.flameshot.Flameshot.desktop
+                  APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${PRODUCT}.AppDir
+                  mkdir -p ${APPIMAGE_DST_PATH}
 
             # ========================================================================================================= Deployments
             - name: Linux - ${{  env.QT_VERSION }} - Generating AppImage
@@ -186,8 +189,7 @@ jobs:
             - name: Linux - ${{  env.QT_VERSION }} - Uploading artifact
               uses: actions/upload-artifact@v2.2.4
               with:
-                  name:
-                      jmbde-${{ github.sha }}-linux-${{ matrix.arch
+                  name: jmbde-${{ github.sha }}-linux-${{ matrix.arch
                       }}-qt${{env.QT_VERSION}}-${{ matrix.build_type }}.AppImage
                   path: ${{runner.workspace}}/build/jmbde.AppImage
 
