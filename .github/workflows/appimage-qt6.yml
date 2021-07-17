@@ -48,6 +48,7 @@ on:
 env:
     PRODUCT: jmbde
     targetName: jmbde
+    QT_VERSION: 6.1.0
 
 jobs:
     check_commit_msg:

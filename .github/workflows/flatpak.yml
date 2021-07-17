@@ -82,23 +82,3 @@ jobs:
                   bundle: org.jmuelbert.jmbde-QT.flatpak
                   manifest-path: packaging/flatpak/org.jmuelbert.jmbde-QT.yml
                   cache-key: flatpak-builder-${{ github.sha }}
-
-            - name: SHA256Sum of flatpak package(daily build)
-              run: |
-                  sha256sum $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT-${VERSION}.x86_64.flatpak
-                  sha256sum $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT-${VERSION}.x86_64.flatpak > $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT-${VERSION}.x86_64.flatpak.sha256sum
-                  echo "================flatpak sha256sum download link===================="
-                  echo $(sh $GITHUB_WORKSPACE/scripts/upload_services/${UPLOAD_SERVICE}.sh $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT-${VERSION}.x86_64.flatpak.sha256sum)
-                  echo "========no operation for you can see link in the log console======="
-            - name: Upload flatpak package(daily build)
-              run: |
-                  echo "=====================flatpak download link====================="
-                  echo $(sh $GITHUB_WORKSPACE/scripts/upload_services/${UPLOAD_SERVICE}.sh $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT-${VERSION}.x86_64.flatpak0)
-                  echo "======no operation for you can see link in the log console====="
-            - name: Artifact Upload
-              uses: actions/upload-artifact@v2.2.4
-              with:
-                  name: Linux-distribution-artifact
-                  path: |
-                      ${{ github.workspace }}/org.jmuelbert.jmbde-QT-*.x86_64.flatpak
-                      ${{ github.workspace }}/org.jmuelbert.jmbde-QT-*.x86_64.flatpak.sha256sum
