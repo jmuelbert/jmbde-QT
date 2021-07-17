@@ -2,16 +2,52 @@
 name: "CD: AppImage Qt6"
 
 on:
-    pull_request:
+    push:
+        branches:
+            - "master"
         paths-ignore:
-            - "README.md"
+            - "docs/**"
+            - ".github/ISSUE_TEMPLATE/**"
+            - "docker/**"
+            - "**.md"
+            - "!docs/building-cmake.md"
+            - "changelog.txt"
             - "LICENSE"
-            - "BUILD.md"
+            - ".github/**"
+            - "!.github/workflows/appimage-qt6.yml"
+            - "snap/**"
+            - "build/**"
+            - "assets/**"
+            - "Docker/**"
+            - "report/**"
+            - "resources/**"
+    pull_request:
+        branches:
+            - "master"
+        types: [opened, reopened]
+        paths-ignore:
+            - "docs/**"
+            - ".github/ISSUE_TEMPLATE/**"
+            - "docker/**"
+            - "**.md"
+            - "!docs/building-cmake.md"
+            - "changelog.txt"
+            - "LICENSE"
+            - ".github/**"
+            - "!.github/workflows/appimage-qt6.yml"
+            - "snap/**"
+            - "build/**"
+            - "assets/**"
+            - "Docker/**"
+            - "report/**"
+            - "resources/**"
+
     release:
         types: [published]
 
 env:
-    QT_VERSION: 6.0.0
+    PRODUCT: jmbde
+    targetName: jmbde
 
 jobs:
     check_commit_msg:
