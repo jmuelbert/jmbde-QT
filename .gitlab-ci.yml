@@ -42,40 +42,93 @@ clang-format Check:
         - clang-format -i $(find . -name "*.hpp")
         - git diff --exit-code
 
-build-gcc7: # https://github.com/Nheko-Reborn/nheko/blob/master/.gitlab-ci.yml
-    stage: build
+cppcheck:
+  image: ubuntu:bionic
+  stage: analysis
+  before_script:
+    - apt update
+    - apt install -y --no-install-recommends cppcheck=1.82-1 python3-pygments python-pygments
+    - cppcheck --version
+  script:
+    - mkdir cppcheck
+    #- cppcheck . -I include/ --verbose --enable=all --inconclusive --language=c++ --error-exitcode=1
+    - cppcheck . -I include/ --enable=all --inconclusive --xml-version=2 --force --library=windows,posix,gnu . 2> cppcheck/result.xml
+    - cppcheck-htmlreport --source-encoding="iso8859-1" --title="my project name" --source-dir . --report-dir=cppcheck --file=cppcheck/result.xml
+  artifacts:
+    paths:
+      - cppcheck/
+    expire_in: 1 week
 
-    image: stabletec/build-core:fedora
-    # tags: [docker]
-    variables:
-        CXX: g++-11
-        CC: gcc-11
-        QT_PKG: 515
-    before_script:
-        - sudo dnf install qt5-devel
-        - pip install conan
-    script:
-        - export PATH="/usr/lib/ccache:${PATH}"
-        - export CMAKE_BUILD_PARALLEL_LEVEL=$(cat /proc/cpuinfo | awk '/^processor/{print $3}' | wc -l)
-        - export PATH="/usr/local/bin/:${PATH}"
-        - . "/opt/qt${QT_PKG}/bin/qt${QT_PKG}-env.sh" || true
-        - cmake -GNinja -H. -Bbuild
-          -DCMAKE_INSTALL_PREFIX=.deps/usr
-          -DBUILD_SHARED_LIBS=OFF
-          -DCMAKE_BUILD_TYPE=Release
-        - cmake --build build
-    after_script:
-        - echo "Build finish"
-    cache:
-        key: "$CI_JOB_NAME"
-        paths:
-            - .ccache
-
-# run tests using the binary built before
-test:
+.build-gcc:
+    image: lasote/conangcc7
     stage: test
+    before_script:
+      - sudo apt update
+      - sudo apt install gcovr
+      - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
     script:
-        - ./runmytests.sh
+      - mkdir -p build && cd build
+      #- conan install --build missing ..
+      - if [ -f ../conanfile.txt ]; then conan install --build missing ..; fi
+      - cmake -D CPPBOILERPLATE_ENABLE_COVERAGE:BOOL=TRUE -D CPPBOILERPLATE_BUILD_TESTS:BOOL=TRUE ..
+      - cmake --build .
+      - ctest
+      - mkdir coverage
+      - gcovr . -r .. --html-details --html -o coverage/index.html -e ../test/third_party
+    artifacts:
+      paths:
+        - build/coverage/
+      expire_in: 1 week
+
+
+build-gcc5:
+    extends: .build-gcc
+    image: lasote/conangcc5
+
+build-gcc6:
+    extends: .build-gcc
+    image: lasote/conangcc6
+
+build-gcc7:
+    extends: .build-gcc
+    image: lasote/conangcc7
+
+
+
+.build-clang:
+    image: lasote/conanclang60
+    stage: test
+    before_script:
+      - sudo apt update
+      #- sudo apt install -y --no-install-recommends gcovr
+      - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+    script:
+      - mkdir -p build && cd build
+      #- conan install --build missing ..
+      - if [ -f ../conanfile.txt ]; then conan install --build missing ..; fi
+      - cmake -D CPPBOILERPLATE_ENABLE_COVERAGE:BOOL=TRUE -D CPPBOILERPLATE_BUILD_TESTS:BOOL=TRUE ..
+      - cmake --build .
+      - ctest
+
+build-clang38:
+    extends: .build-clang
+    image: lasote/conanclang38
+
+build-clang39:
+    extends: .build-clang
+    image: lasote/conanclang39
+
+build-clang40:
+    extends: .build-clang
+    image: lasote/conanclang40
+
+build-clang50:
+    extends: .build-clang
+    image: lasote/conanclang50
+
+build-clang60:
+    extends: .build-clang
+    image: lasote/conanclang60
 
 build-job:
     stage: build
