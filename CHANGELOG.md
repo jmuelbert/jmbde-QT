@@ -36,7 +36,6 @@
 
 **Merged pull requests:**
 
-- Bump peter-evans/create-pull-request from 3.9.2 to 3.10.0 [\#302](https://github.com/jmuelbert/jmbde-QT/pull/302)
 - Bump pre-commit from 2.12.1 to 2.13.0 [\#301](https://github.com/jmuelbert/jmbde-QT/pull/301)
 - Bump six from 1.15.0 to 1.16.0 [\#300](https://github.com/jmuelbert/jmbde-QT/pull/300)
 - Bump sphinxcontrib-htmlhelp from 1.0.3 to 2.0.0 [\#299](https://github.com/jmuelbert/jmbde-QT/pull/299)
@@ -114,6 +113,7 @@
 - Bump ilammy/msvc-dev-cmd from 1.8.0 to 1.8.1 [\#305](https://github.com/jmuelbert/jmbde-QT/pull/305)
 - Bump identify from 2.2.5 to 2.2.6 [\#304](https://github.com/jmuelbert/jmbde-QT/pull/304)
 - Bump virtualenv from 20.4.6 to 20.4.7 [\#303](https://github.com/jmuelbert/jmbde-QT/pull/303)
+- Bump peter-evans/create-pull-request from 3.9.2 to 3.10.0 [\#302](https://github.com/jmuelbert/jmbde-QT/pull/302)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
 
