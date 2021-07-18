@@ -69,6 +69,7 @@
 - Bump sphinx-rtd-theme from 0.5.1 to 0.5.2 [\#265](https://github.com/jmuelbert/jmbde-QT/pull/265)
 - Bump docutils from 0.16 to 0.17 [\#264](https://github.com/jmuelbert/jmbde-QT/pull/264)
 - Fix typos by misspell-fixer for refs/heads/master [\#260](https://github.com/jmuelbert/jmbde-QT/pull/260)
+- Bump ubuntu from 20.10 to 21.04 [\#253](https://github.com/jmuelbert/jmbde-QT/pull/253)
 
 ## [master](https://github.com/jmuelbert/jmbde-QT/tree/master) (2021-03-07)
 
