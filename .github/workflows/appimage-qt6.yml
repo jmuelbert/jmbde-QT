@@ -2,16 +2,53 @@
 name: "CD: AppImage Qt6"
 
 on:
-    pull_request:
+    push:
+        branches:
+            - "master"
         paths-ignore:
-            - "README.md"
+            - "docs/**"
+            - ".github/ISSUE_TEMPLATE/**"
+            - "docker/**"
+            - "**.md"
+            - "!docs/building-cmake.md"
+            - "changelog.txt"
             - "LICENSE"
-            - "BUILD.md"
+            - ".github/**"
+            - "!.github/workflows/appimage-qt6.yml"
+            - "snap/**"
+            - "build/**"
+            - "assets/**"
+            - "Docker/**"
+            - "report/**"
+            - "resources/**"
+    pull_request:
+        branches:
+            - "master"
+        types: [opened, reopened]
+        paths-ignore:
+            - "docs/**"
+            - ".github/ISSUE_TEMPLATE/**"
+            - "docker/**"
+            - "**.md"
+            - "!docs/building-cmake.md"
+            - "changelog.txt"
+            - "LICENSE"
+            - ".github/**"
+            - "!.github/workflows/appimage-qt6.yml"
+            - "snap/**"
+            - "build/**"
+            - "assets/**"
+            - "Docker/**"
+            - "report/**"
+            - "resources/**"
+
     release:
         types: [published]
 
 env:
-    QT_VERSION: 6.0.0
+    PRODUCT: jmbde
+    targetName: jmbde
+    QT_VERSION: 6.1.0
 
 jobs:
     check_commit_msg:
@@ -111,28 +148,28 @@ jobs:
               # Execute the build.  You can specify a specific target with "--target <NAME>"
               run: cmake --build . --config ${{ matrix.build_type }} -j2 --target install
 
+            - name: Get go-appimage tool
+              working-directory: ${{runner.workspace}}/build
+              # Will not use linuxdeployqt anymore, because it suopprts currently still-supported mainstream distribution,
+              # which is glibc 2.23. For more information, please see https://github.com/probonopd/linuxdeployqt/issues/340.
+              # Will try new tool https://github.com/probonopd/go-appimage written in golang by probonopd.
+              run: |
+                  wget -c https://github.com/$(wget -q https://github.com/probonopd/go-appimage/releases -O - | grep "appimagetool-.*-x86_64.AppImage" | head -n 1 | cut -d '"' -f 2)
+                  chmod +x appimagetool-*.AppImage
+              env:
+                  APPIMAGETOOL_ARCH: x86_64
+
             # ========================================================================================================= Deployments
             - name: Linux - ${{  env.QT_VERSION }} - Generating AppImage
               shell: bash
               working-directory: ${{runner.workspace}}/build
               run: |
-                  wget https://github.com/probonopd/linuxdeployqt/releases/download/7/linuxdeployqt-7-x86_64.AppImage
-                  chmod +x ./linuxdeployqt-7-x86_64.AppImage
-                  cd AppDir
-                  wget -c https://github.com/darealshinji/AppImageKit-checkrt/releases/download/continuous/AppRun-patched-x86_64 -O AppRun
-                  chmod a+x AppRun
-                  mkdir -p ./usr/{lib,optional}/
-                  wget -c https://github.com/darealshinji/AppImageKit-checkrt/releases/download/continuous/exec-x86_64.so -O ./usr/optional/exec.so
-                  mkdir -p ./usr/optional/libstdc++/
-                  cp -fv /usr/lib/x86_64-linux-gnu/libstdc++.so.6 ./usr/optional/libstdc++/
-                  mkdir -p ./usr/optional/libgcc_s/
-                  cp -fv /lib/x86_64-linux-gnu/libgcc_s.so.1 ./usr/optional/libgcc_s/
-                  cp -fv /usr/lib/x86_64-linux-gnu/{libssl.so.1.1,libcrypto.so.1.1} ./usr/lib/
-                  cd ..
-                  cp ../src/app/icons/256-apps-jmbde.png ./AppDir/jmbde.png
+
+                  cp $GITHUB_WORKSPACE/assets/icons/256-apps-jmbde.png ./AppDir/jmbde.png
                   export LD_LIBRARY_PATH=./AppDir/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
-                  ./linuxdeployqt-7-x86_64.AppImage ./AppDir/usr/share/applications/io.github.jmuelbert.jmbde.desktop -appimage -no-strip -always-overwrite -extra-plugins=iconengines,imageformats,platforminputcontexts -verbose=2
-                  mv ./jmbde*.AppImage ./jmbde.AppImage
+                  ./appimagetool-*.AppImage deploy ./AppDir/usr/share/applications/*.desktop
+                  ./appimagetool-*.AppImage ./AppDir
+                  mv ./jmbde*.AppImage  ${{runner.workspace}}/build/jmbde.AppImage
 
             - name: Linux - ${{  env.QT_VERSION }} - Uploading artifact
               uses: actions/upload-artifact@v2.2.2

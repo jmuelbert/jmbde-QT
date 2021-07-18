@@ -1,5 +1,5 @@
 ---
-name: jmbde-qt
+name: jmbde
 adopt-info: jmbde
 icon: assets/icons/jmbde.png
 
@@ -19,9 +19,9 @@ version: "0.6.0"
 
 
 apps:
-    jmbde-qt:
-        command: jmbde
-        common-id: com.github.jmuelbert.jmbde-QT
+    jmbde:
+        command: usr/bin/jmbde
+        common-id: com.github.jmuelbert.jmbde
         extensions:
             - kde-neon
         plugs:
@@ -31,7 +31,7 @@ apps:
             - wayland
             - x11
 parts:
-    jmbde-qt:
+    jmbde:
         plugin: cmake
         source: .
         cmake-parameters:
@@ -43,7 +43,7 @@ parts:
             - "-DBUILD_TESTING=OFF"
         source-type: git
         parse-info:
-            - usr/share/metainfo/jmbde.appdata.xml
+            - usr/share/appdata/jmbde.appdata.xml
         build-snaps:
             - kde-frameworks-5-qt-5-15-core20
         build-packages:
