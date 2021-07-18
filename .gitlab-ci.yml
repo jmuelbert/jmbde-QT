@@ -9,7 +9,7 @@ variables:
     DEBIAN_FRONTEND: noninteractive
 
 stages:
-    - Analysis
+    - analysis
     - build
     - test
     - deploy
@@ -17,7 +17,7 @@ stages:
 
 cmake-format Check:
     image: stabletec/build-core:fedora
-    stage: Analysis
+    stage: analysis
     # tags:
     #   - docker-linux
     allow_failure: true
@@ -30,7 +30,7 @@ cmake-format Check:
 
 clang-format Check:
     image: stabletec/build-core:fedora
-    stage: Analysis
+    stage: analysis
     # tags:
     #   - docker-linux
     allow_failure: true
