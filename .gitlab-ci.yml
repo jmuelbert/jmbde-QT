@@ -48,10 +48,9 @@ build-gcc7: # https://github.com/Nheko-Reborn/nheko/blob/master/.gitlab-ci.yml
     image: stabletec/build-core:fedora
     # tags: [docker]
     variables:
-        CXX: g++-7
-        CC: gcc-7
+        CXX: g++-11
+        CC: gcc-11
         QT_PKG: 515
-        TRAVIS_OS_NAME: linux
     before_script:
         - sudo dnf install qt5-devel
         - pip install conan
