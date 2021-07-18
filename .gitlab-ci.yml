@@ -42,7 +42,7 @@ clang-format Check:
         - clang-format -i $(find . -name "*.hpp")
         - git diff --exit-code
 
-build-gcc7:
+build-gcc7: # https://github.com/Nheko-Reborn/nheko/blob/master/.gitlab-ci.yml
     stage: build
     image: ubuntu:16.04
     # tags: [docker]

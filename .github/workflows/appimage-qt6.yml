@@ -165,22 +165,10 @@ jobs:
               shell: bash
               working-directory: ${{runner.workspace}}/build
               run: |
-                  wget https://github.com/probonopd/linuxdeployqt/releases/download/7/linuxdeployqt-7-x86_64.AppImage
-                  chmod +x ./linuxdeployqt-7-x86_64.AppImage
-                  cd AppDir
-                  wget -c https://github.com/darealshinji/AppImageKit-checkrt/releases/download/continuous/AppRun-patched-x86_64 -O AppRun
-                  chmod a+x AppRun
-                  mkdir -p ./usr/{lib,optional}/
-                  wget -c https://github.com/darealshinji/AppImageKit-checkrt/releases/download/continuous/exec-x86_64.so -O ./usr/optional/exec.so
-                  mkdir -p ./usr/optional/libstdc++/
-                  cp -fv /usr/lib/x86_64-linux-gnu/libstdc++.so.6 ./usr/optional/libstdc++/
-                  mkdir -p ./usr/optional/libgcc_s/
-                  cp -fv /lib/x86_64-linux-gnu/libgcc_s.so.1 ./usr/optional/libgcc_s/
-                  cp -fv /usr/lib/x86_64-linux-gnu/{libssl.so.1.1,libcrypto.so.1.1} ./usr/lib/
-                  cd ..
+
                   cp $GITHUB_WORKSPACE/assets/icons/256-apps-jmbde.png ./AppDir/jmbde.png
                   export LD_LIBRARY_PATH=./AppDir/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
-                  ./linuxdeployqt-7-x86_64.AppImage ./AppDir/usr/share/applications/io.github.jmuelbert.jmbde.desktop -appimage -no-strip -always-overwrite -extra-plugins=iconengines,imageformats,platforminputcontexts -verbose=1
+                  ./appimagetool deploy ./AppDir/usr/share/applications/*.desktop
                   mv ./jmbde*.AppImage  ${{runner.workspace}}/build/jmbde.AppImage
 
             - name: Linux - ${{  env.QT_VERSION }} - Uploading artifact
