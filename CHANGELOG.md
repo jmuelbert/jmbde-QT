@@ -36,7 +36,10 @@
 
 **Merged pull requests:**
 
+- Bump peter-evans/create-pull-request from 3.9.2 to 3.10.0 [\#302](https://github.com/jmuelbert/jmbde-QT/pull/302)
 - Bump pre-commit from 2.12.1 to 2.13.0 [\#301](https://github.com/jmuelbert/jmbde-QT/pull/301)
+- Bump six from 1.15.0 to 1.16.0 [\#300](https://github.com/jmuelbert/jmbde-QT/pull/300)
+- Bump sphinxcontrib-htmlhelp from 1.0.3 to 2.0.0 [\#299](https://github.com/jmuelbert/jmbde-QT/pull/299)
 - Bump sphinxcontrib-serializinghtml from 1.1.4 to 1.1.5 [\#298](https://github.com/jmuelbert/jmbde-QT/pull/298)
 - Bump identify from 2.2.4 to 2.2.5 [\#297](https://github.com/jmuelbert/jmbde-QT/pull/297)
 - Bump markupsafe from 1.1.1 to 2.0.1 [\#296](https://github.com/jmuelbert/jmbde-QT/pull/296)
@@ -84,6 +87,8 @@
 
 **Merged pull requests:**
 
+- build\(deps\): bump actions/stale from 3.0.19 to 4 [\#334](https://github.com/jmuelbert/jmbde-QT/pull/334)
+- build\(deps\): bump requests from 2.25.1 to 2.26.0 [\#333](https://github.com/jmuelbert/jmbde-QT/pull/333)
 - build\(deps\): bump identify from 2.2.10 to 2.2.11 [\#331](https://github.com/jmuelbert/jmbde-QT/pull/331)
 - Bump sphinx from 4.0.2 to 4.0.3 [\#328](https://github.com/jmuelbert/jmbde-QT/pull/328)
 - Bump packaging from 20.9 to 21.0 [\#327](https://github.com/jmuelbert/jmbde-QT/pull/327)
@@ -109,9 +114,6 @@
 - Bump ilammy/msvc-dev-cmd from 1.8.0 to 1.8.1 [\#305](https://github.com/jmuelbert/jmbde-QT/pull/305)
 - Bump identify from 2.2.5 to 2.2.6 [\#304](https://github.com/jmuelbert/jmbde-QT/pull/304)
 - Bump virtualenv from 20.4.6 to 20.4.7 [\#303](https://github.com/jmuelbert/jmbde-QT/pull/303)
-- Bump peter-evans/create-pull-request from 3.9.2 to 3.10.0 [\#302](https://github.com/jmuelbert/jmbde-QT/pull/302)
-- Bump six from 1.15.0 to 1.16.0 [\#300](https://github.com/jmuelbert/jmbde-QT/pull/300)
-- Bump sphinxcontrib-htmlhelp from 1.0.3 to 2.0.0 [\#299](https://github.com/jmuelbert/jmbde-QT/pull/299)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
 
