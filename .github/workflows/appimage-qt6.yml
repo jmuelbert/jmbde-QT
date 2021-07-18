@@ -168,6 +168,7 @@ jobs:
                   cp $GITHUB_WORKSPACE/assets/icons/256-apps-jmbde.png ./AppDir/jmbde.png
                   export LD_LIBRARY_PATH=./AppDir/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
                   ./appimagetool-*.AppImage deploy ./AppDir/usr/share/applications/*.desktop
+                  ./appimagetool-*.AppImage ./AppDir
                   mv ./jmbde*.AppImage  ${{runner.workspace}}/build/jmbde.AppImage
 
             - name: Linux - ${{  env.QT_VERSION }} - Uploading artifact
