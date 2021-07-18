@@ -76,7 +76,7 @@ jobs:
         strategy:
             matrix:
                 platform: [windows-latest]
-                build_type: [Debug, Release]
+                build_type: [Release]
                 qt_version: [6.1.0]
                 qt_arch: [win64_msvc2019_64]
                 qt_target: [desktop]
