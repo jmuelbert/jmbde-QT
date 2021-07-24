@@ -1,16 +1,34 @@
 # Changelog
 
-## [0.5.6](https://github.com/jmuelbert/jmbde-QT/tree/0.5.6) (2021-07-07)
+## [master](https://github.com/jmuelbert/jmbde-QT/tree/master) (2021-07-18)
 
-## [v0.5.5](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.5) (2021-07-07)
+**Merged pull requests:**
 
-## [v0.5.6](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.6) (2021-07-07)
+- build\(deps\): bump sphinx from 4.1.0 to 4.1.1 [\#337](https://github.com/jmuelbert/jmbde-QT/pull/337)
+- build\(deps\): bump virtualenv from 20.4.7 to 20.6.0 [\#336](https://github.com/jmuelbert/jmbde-QT/pull/336)
+- build\(deps\): bump graphviz from 0.16 to 0.17 [\#335](https://github.com/jmuelbert/jmbde-QT/pull/335)
+- build\(deps\): bump actions/stale from 3.0.19 to 4 [\#334](https://github.com/jmuelbert/jmbde-QT/pull/334)
+- build\(deps\): bump requests from 2.25.1 to 2.26.0 [\#333](https://github.com/jmuelbert/jmbde-QT/pull/333)
+- build\(deps\): bump identify from 2.2.10 to 2.2.11 [\#331](https://github.com/jmuelbert/jmbde-QT/pull/331)
+- build\(deps\): bump sphinx from 4.0.3 to 4.1.0 [\#330](https://github.com/jmuelbert/jmbde-QT/pull/330)
+- Bump sphinx from 4.0.2 to 4.0.3 [\#328](https://github.com/jmuelbert/jmbde-QT/pull/328)
+- Bump packaging from 20.9 to 21.0 [\#327](https://github.com/jmuelbert/jmbde-QT/pull/327)
+- Bump importlib-metadata from 4.6.0 to 4.6.1 [\#326](https://github.com/jmuelbert/jmbde-QT/pull/326)
+- Bump zipp from 3.4.1 to 3.5.0 [\#325](https://github.com/jmuelbert/jmbde-QT/pull/325)
+- Bump importlib-metadata from 4.5.0 to 4.6.0 [\#324](https://github.com/jmuelbert/jmbde-QT/pull/324)
+- Bump actions/upload-artifact from 2.2.3 to 2.2.4 [\#323](https://github.com/jmuelbert/jmbde-QT/pull/323)
+- Bump urllib3 from 1.26.5 to 1.26.6 [\#322](https://github.com/jmuelbert/jmbde-QT/pull/322)
+- Bump identify from 2.2.6 to 2.2.10 [\#321](https://github.com/jmuelbert/jmbde-QT/pull/321)
+- Bump importlib-metadata from 4.3.1 to 4.5.0 [\#320](https://github.com/jmuelbert/jmbde-QT/pull/320)
+- Bump actions/github-script from 3 to 4.0.2 [\#319](https://github.com/jmuelbert/jmbde-QT/pull/319)
+- Bump identify from 2.2.6 to 2.2.8 [\#317](https://github.com/jmuelbert/jmbde-QT/pull/317)
 
 ## [dependabot/pip/importlib-metadata-4.3.1](https://github.com/jmuelbert/jmbde-QT/tree/dependabot/pip/importlib-metadata-4.3.1) (2021-06-12)
 
 **Implemented enhancements:**
 
 - Remove old Workflows [\#159](https://github.com/jmuelbert/jmbde-QT/issues/159)
+- Create for Windows Beta \(previews\) an Installer [\#148](https://github.com/jmuelbert/jmbde-QT/issues/148)
 - Should use Innosetup or WiX to create an Installer for Windows ? [\#147](https://github.com/jmuelbert/jmbde-QT/issues/147)
 
 **Fixed bugs:**
@@ -22,8 +40,13 @@
 - macOS dmg [\#174](https://github.com/jmuelbert/jmbde-QT/issues/174)
 - Windows innosetup installer [\#172](https://github.com/jmuelbert/jmbde-QT/issues/172)
 - Size of MainWindow dont fit to InputArea [\#161](https://github.com/jmuelbert/jmbde-QT/issues/161)
+- View error in Employee [\#160](https://github.com/jmuelbert/jmbde-QT/issues/160)
+- CI: Appveyor [\#158](https://github.com/jmuelbert/jmbde-QT/issues/158)
+- Workflow: CI: Build Test Qt6 [\#155](https://github.com/jmuelbert/jmbde-QT/issues/155)
+- Workflow: CD: AppImage Qt6 [\#151](https://github.com/jmuelbert/jmbde-QT/issues/151)
 - Workflow: clazy [\#150](https://github.com/jmuelbert/jmbde-QT/issues/150)
 - Workflow: pre-commit [\#149](https://github.com/jmuelbert/jmbde-QT/issues/149)
+- View Bug [\#125](https://github.com/jmuelbert/jmbde-QT/issues/125)
 
 **Closed issues:**
 
@@ -36,6 +59,14 @@
 
 **Merged pull requests:**
 
+- Fix typos by misspell-fixer for refs/heads/master [\#316](https://github.com/jmuelbert/jmbde-QT/pull/316)
+- Bump idna from 3.1 to 3.2 [\#315](https://github.com/jmuelbert/jmbde-QT/pull/315)
+- Bump distlib from 0.3.1 to 0.3.2 [\#313](https://github.com/jmuelbert/jmbde-QT/pull/313)
+- Bump certifi from 2020.12.5 to 2021.5.30 [\#312](https://github.com/jmuelbert/jmbde-QT/pull/312)
+- Bump ilammy/msvc-dev-cmd from 1.8.1 to 1.9.0 [\#311](https://github.com/jmuelbert/jmbde-QT/pull/311)
+- Bump importlib-metadata from 4.3.0 to 4.3.1 [\#310](https://github.com/jmuelbert/jmbde-QT/pull/310)
+- Bump importlib-metadata from 4.2.0 to 4.3.0 [\#309](https://github.com/jmuelbert/jmbde-QT/pull/309)
+- Bump actions/cache from 2.1.5 to 2.1.6 [\#308](https://github.com/jmuelbert/jmbde-QT/pull/308)
 - Bump urllib3 from 1.26.4 to 1.26.5 [\#307](https://github.com/jmuelbert/jmbde-QT/pull/307)
 - Bump importlib-metadata from 4.0.1 to 4.2.0 [\#306](https://github.com/jmuelbert/jmbde-QT/pull/306)
 - Bump ilammy/msvc-dev-cmd from 1.8.0 to 1.8.1 [\#305](https://github.com/jmuelbert/jmbde-QT/pull/305)
@@ -75,47 +106,6 @@
 - Bump sphinx-rtd-theme from 0.5.1 to 0.5.2 [\#265](https://github.com/jmuelbert/jmbde-QT/pull/265)
 - Bump docutils from 0.16 to 0.17 [\#264](https://github.com/jmuelbert/jmbde-QT/pull/264)
 - Fix typos by misspell-fixer for refs/heads/master [\#260](https://github.com/jmuelbert/jmbde-QT/pull/260)
-
-## [master](https://github.com/jmuelbert/jmbde-QT/tree/master) (2021-03-07)
-
-**Implemented enhancements:**
-
-- Create for Windows Beta \(previews\) an Installer [\#148](https://github.com/jmuelbert/jmbde-QT/issues/148)
-
-**Fixed bugs:**
-
-- View error in Employee [\#160](https://github.com/jmuelbert/jmbde-QT/issues/160)
-- CI: Appveyor [\#158](https://github.com/jmuelbert/jmbde-QT/issues/158)
-- Workflow: CI: Build Test Qt6 [\#155](https://github.com/jmuelbert/jmbde-QT/issues/155)
-- Workflow: CD: AppImage Qt6 [\#151](https://github.com/jmuelbert/jmbde-QT/issues/151)
-- View Bug [\#125](https://github.com/jmuelbert/jmbde-QT/issues/125)
-
-**Merged pull requests:**
-
-- build\(deps\): bump virtualenv from 20.4.7 to 20.6.0 [\#336](https://github.com/jmuelbert/jmbde-QT/pull/336)
-- build\(deps\): bump actions/stale from 3.0.19 to 4 [\#334](https://github.com/jmuelbert/jmbde-QT/pull/334)
-- build\(deps\): bump requests from 2.25.1 to 2.26.0 [\#333](https://github.com/jmuelbert/jmbde-QT/pull/333)
-- build\(deps\): bump identify from 2.2.10 to 2.2.11 [\#331](https://github.com/jmuelbert/jmbde-QT/pull/331)
-- build\(deps\): bump sphinx from 4.0.3 to 4.1.0 [\#330](https://github.com/jmuelbert/jmbde-QT/pull/330)
-- Bump sphinx from 4.0.2 to 4.0.3 [\#328](https://github.com/jmuelbert/jmbde-QT/pull/328)
-- Bump packaging from 20.9 to 21.0 [\#327](https://github.com/jmuelbert/jmbde-QT/pull/327)
-- Bump importlib-metadata from 4.6.0 to 4.6.1 [\#326](https://github.com/jmuelbert/jmbde-QT/pull/326)
-- Bump zipp from 3.4.1 to 3.5.0 [\#325](https://github.com/jmuelbert/jmbde-QT/pull/325)
-- Bump importlib-metadata from 4.5.0 to 4.6.0 [\#324](https://github.com/jmuelbert/jmbde-QT/pull/324)
-- Bump actions/upload-artifact from 2.2.3 to 2.2.4 [\#323](https://github.com/jmuelbert/jmbde-QT/pull/323)
-- Bump urllib3 from 1.26.5 to 1.26.6 [\#322](https://github.com/jmuelbert/jmbde-QT/pull/322)
-- Bump identify from 2.2.6 to 2.2.10 [\#321](https://github.com/jmuelbert/jmbde-QT/pull/321)
-- Bump importlib-metadata from 4.3.1 to 4.5.0 [\#320](https://github.com/jmuelbert/jmbde-QT/pull/320)
-- Bump actions/github-script from 3 to 4.0.2 [\#319](https://github.com/jmuelbert/jmbde-QT/pull/319)
-- Bump identify from 2.2.6 to 2.2.8 [\#317](https://github.com/jmuelbert/jmbde-QT/pull/317)
-- Fix typos by misspell-fixer for refs/heads/master [\#316](https://github.com/jmuelbert/jmbde-QT/pull/316)
-- Bump idna from 3.1 to 3.2 [\#315](https://github.com/jmuelbert/jmbde-QT/pull/315)
-- Bump distlib from 0.3.1 to 0.3.2 [\#313](https://github.com/jmuelbert/jmbde-QT/pull/313)
-- Bump certifi from 2020.12.5 to 2021.5.30 [\#312](https://github.com/jmuelbert/jmbde-QT/pull/312)
-- Bump ilammy/msvc-dev-cmd from 1.8.1 to 1.9.0 [\#311](https://github.com/jmuelbert/jmbde-QT/pull/311)
-- Bump importlib-metadata from 4.3.0 to 4.3.1 [\#310](https://github.com/jmuelbert/jmbde-QT/pull/310)
-- Bump importlib-metadata from 4.2.0 to 4.3.0 [\#309](https://github.com/jmuelbert/jmbde-QT/pull/309)
-- Bump actions/cache from 2.1.5 to 2.1.6 [\#308](https://github.com/jmuelbert/jmbde-QT/pull/308)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
 
