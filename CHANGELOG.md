@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- build\(deps\): bump sphinx from 4.1.0 to 4.1.1 [\#337](https://github.com/jmuelbert/jmbde-QT/pull/337)
 - build\(deps\): bump virtualenv from 20.4.7 to 20.6.0 [\#336](https://github.com/jmuelbert/jmbde-QT/pull/336)
 - build\(deps\): bump graphviz from 0.16 to 0.17 [\#335](https://github.com/jmuelbert/jmbde-QT/pull/335)
 - build\(deps\): bump actions/stale from 3.0.19 to 4 [\#334](https://github.com/jmuelbert/jmbde-QT/pull/334)
