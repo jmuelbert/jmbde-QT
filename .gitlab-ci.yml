@@ -89,52 +89,51 @@ cppcheck:
             - build/coverage/
         expire_in: 1 week
 
-build-gcc5:
-    extends: .build-gcc
-    image: lasote/conangcc5
-
-build-gcc6:
-    extends: .build-gcc
-    image: lasote/conangcc6
-
 build-gcc7:
     extends: .build-gcc
-    image: lasote/conangcc7
+    image: conanio/gcc7:1.38.0
 
-.build-clang:
-    image: lasote/conanclang60
+build-gcc8:
+    extends: .build-gcc
+    image: conanio/gcc8:1.38.0
+
+build-gcc9:
+    extends: .build-gcc
+    image: conanio/gcc9:1.38.0
+
+build-gcc10:
+    extends: .build-gcc
+    image: conanio/gcc10:1.38.0
+
+.build-clang9:
+    image: conanio/clang9-jnlp-slave:1.35
     stage: test
     before_script:
+        - uname -a
         - sudo apt update
-        #- sudo apt install -y --no-install-recommends gcovr
+        - sudo apt install gcovr
+        - sudo apt sudo qt5-default
+        # Upgrade Conan version
+        - sudo pip install --upgrade conan
+        # Automatic detection of your arch, compiler, etc.
+        - conan user
         - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+
     script:
+        # Download dependencies, build, test and create package
+        - conan create . user/channel
         - mkdir -p build && cd build
         #- conan install --build missing ..
         - if [ -f ../conanfile.txt ]; then conan install --build missing ..; fi
         - cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS:BOOL=TRUE ..
         - cmake --build .
         - ctest
+        - mkdir coverage
+        - gcovr . -r .. --html-details --html -o coverage/index.html -e ../test/third_party
 
-build-clang38:
+build-clang10:
     extends: .build-clang
-    image: lasote/conanclang38
-
-build-clang39:
-    extends: .build-clang
-    image: lasote/conanclang39
-
-build-clang40:
-    extends: .build-clang
-    image: lasote/conanclang40
-
-build-clang50:
-    extends: .build-clang
-    image: lasote/conanclang50
-
-build-clang60:
-    extends: .build-clang
-    image: lasote/conanclang60
+    image: conanio/clang9-jnlp-slave:1.35
 
 build-job:
     stage: build
