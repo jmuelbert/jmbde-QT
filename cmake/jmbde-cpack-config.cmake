@@ -1,7 +1,8 @@
 # include( "version" )
 
 set(CPACK_PACKAGE_VENDOR "Jürgen Mülbert")
-set(CPACK_PACKAGE_VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}.${VERSION_TWEAK})
+set(CPACK_PACKAGE_VERSION
+    ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}.${VERSION_TWEAK})
 set(CPACK_PACKAGE_VERSION_MAJOR ${VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${VERSION_PATCH})
@@ -12,39 +13,36 @@ include(CPackComponent)
 cpack_add_component(
   applications
   DISPLAY_NAME "Applications"
-  GROUP Runtime
-)
-cpack_add_component(translations DISPLAY_NAME "Translation files" GROUP Runtime)
+  GROUP Runtime)
+cpack_add_component(
+  translations
+  DISPLAY_NAME "Translation files"
+  GROUP Runtime)
 cpack_add_component(
   runtime_libraries
   DISPLAY_NAME "Runtime libraries"
   DESCRIPTION "libraries"
-  GROUP Runtime
-)
+  GROUP Runtime)
 cpack_add_component(
   plugins
   DISPLAY_NAME "Plugins"
-  GROUP Runtime
-)
+  GROUP Runtime)
 cpack_add_component(
   modules
   DISPLAY_NAME "Modules"
-  GROUP Runtime
-)
+  GROUP Runtime)
 
 cpack_add_component(
   libraries
   DISPLAY_NAME "Development libraries"
   DESCRIPTION "Static and import libraries"
-  GROUP Development
-)
+  GROUP Development)
 
 cpack_add_component(
   headers
   DISPLAY_NAME "C++ Headers"
   DESCRIPTION "C++ header files for use with jmbde Toolkit"
-  GROUP Development
-)
+  GROUP Development)
 
 cpack_add_component_group(Runtime)
 
