@@ -43,43 +43,51 @@ clang-format Check:
         - git diff --exit-code
 
 cppcheck:
-  image: ubuntu:bionic
-  stage: analysis
-  before_script:
-    - apt update
-    - apt install -y --no-install-recommends cppcheck=1.82-1 python3-pygments python-pygments
-    - cppcheck --version
-  script:
-    - mkdir cppcheck
-    #- cppcheck . -I include/ --verbose --enable=all --inconclusive --language=c++ --error-exitcode=1
-    - cppcheck . -I include/ --enable=all --inconclusive --xml-version=2 --force --library=windows,posix,gnu . 2> cppcheck/result.xml
-    - cppcheck-htmlreport --source-encoding="iso8859-1" --title="my project name" --source-dir . --report-dir=cppcheck --file=cppcheck/result.xml
-  artifacts:
-    paths:
-      - cppcheck/
-    expire_in: 1 week
+    image: ubuntu:bionic
+    stage: analysis
+    before_script:
+        - apt update
+        - apt install -y --no-install-recommends cppcheck=1.82-1 python3-pygments python-pygments
+        - cppcheck --version
+    script:
+        - mkdir cppcheck
+        #- cppcheck . -I include/ --verbose --enable=all --inconclusive --language=c++ --error-exitcode=1
+        - cppcheck . -I include/ --enable=all --inconclusive --xml-version=2 --force --library=windows,posix,gnu . 2> cppcheck/result.xml
+        - cppcheck-htmlreport --source-encoding="iso8859-1" --title="my project name" --source-dir . --report-dir=cppcheck --file=cppcheck/result.xml
+    artifacts:
+        paths:
+            - cppcheck/
+        expire_in: 1 week
 
 .build-gcc:
-    image: lasote/conangcc7
+    image: conanio/gcc10:1.38.0
     stage: test
     before_script:
-      - sudo apt update
-      - sudo apt install gcovr
-      - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
-    script:
-      - mkdir -p build && cd build
-      #- conan install --build missing ..
-      - if [ -f ../conanfile.txt ]; then conan install --build missing ..; fi
-      - cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS:BOOL=TRUE ..
-      - cmake --build .
-      - ctest
-      - mkdir coverage
-      - gcovr . -r .. --html-details --html -o coverage/index.html -e ../test/third_party
-    artifacts:
-      paths:
-        - build/coverage/
-      expire_in: 1 week
+         uname -a
+        - sudo apt update
+        - sudo apt install gcovr
+        - sudo apt sudo qt5-default
+        # Upgrade Conan version
+        - sudo pip install --upgrade conan
+        # Automatic detection of your arch, compiler, etc.
+        - conan user
+        - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 
+    script:
+        # Download dependencies, build, test and create package
+        - conan create . user/channel
+        - mkdir -p build && cd build
+        #- conan install --build missing ..
+        - if [ -f ../conanfile.txt ]; then conan install --build missing ..; fi
+        - cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS:BOOL=TRUE ..
+        - cmake --build .
+        - ctest
+        - mkdir coverage
+        - gcovr . -r .. --html-details --html -o coverage/index.html -e ../test/third_party
+    artifacts:
+        paths:
+            - build/coverage/
+        expire_in: 1 week
 
 build-gcc5:
     extends: .build-gcc
@@ -93,22 +101,20 @@ build-gcc7:
     extends: .build-gcc
     image: lasote/conangcc7
 
-
-
 .build-clang:
     image: lasote/conanclang60
     stage: test
     before_script:
-      - sudo apt update
-      #- sudo apt install -y --no-install-recommends gcovr
-      - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+        - sudo apt update
+        #- sudo apt install -y --no-install-recommends gcovr
+        - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
     script:
-      - mkdir -p build && cd build
-      #- conan install --build missing ..
-      - if [ -f ../conanfile.txt ]; then conan install --build missing ..; fi
-      - cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS:BOOL=TRUE ..
-      - cmake --build .
-      - ctest
+        - mkdir -p build && cd build
+        #- conan install --build missing ..
+        - if [ -f ../conanfile.txt ]; then conan install --build missing ..; fi
+        - cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS:BOOL=TRUE ..
+        - cmake --build .
+        - ctest
 
 build-clang38:
     extends: .build-clang
