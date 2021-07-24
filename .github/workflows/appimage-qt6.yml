@@ -176,13 +176,13 @@ jobs:
               with:
                   name: jmbde-${{ github.sha }}-linux-${{ matrix.arch
                       }}-qt${{matrix.qt_version }}-${{ matrix.build_type }}.AppImage
-                  path: build/jmbde.AppImage
+                  path: ${{runner.workspace}}/build/jmbde.AppImage
 
             - name: Linux - ${{ env.QT_VERSION }} - Upload binaries to release
               uses: svenstaro/upload-release-action@v2
               with:
                   repo_token: ${{ secrets.GITHUB_TOKEN }}
-                  file: build/jmbde.AppImage
+                  file: ${{runner.workspace}}/build/jmbde.AppImage
                   asset_name: jmbde-${{ steps.get_version.outputs.VERSION
                       }}-linux-${{matrix.arch }}-qt${{  env.QT_VERSION }}-${{
                       matrix.build_type }}.AppImage

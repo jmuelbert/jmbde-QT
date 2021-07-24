@@ -18,17 +18,19 @@
 #include "jmbdewidgets-version.h"
 #include "jmbdewidgets_export.h"
 
-namespace Ui {
+namespace Ui
+{
 class AboutDialog;
 }
 
-class AboutDialog : public QDialog {
+class AboutDialog : public QDialog
+{
     Q_OBJECT
 
 public:
-    explicit AboutDialog(QWidget* parent = nullptr);
+    explicit AboutDialog(QWidget *parent = nullptr);
     ~AboutDialog();
 
 private:
-    Ui::AboutDialog* ui;
+    Ui::AboutDialog *ui;
 };

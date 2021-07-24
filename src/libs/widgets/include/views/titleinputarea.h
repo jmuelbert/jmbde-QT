@@ -94,12 +94,12 @@ private:
     /**
      * @brief m_selectionModel
      */
-    QItemSelectionModel *m_selectionModel {};
+    QItemSelectionModel *m_selectionModel{};
 
     /**
      * @brief m_mapper
      */
-    QDataWidgetMapper *m_mapper {};
+    QDataWidgetMapper *m_mapper{};
 
     /*!
      * @ brief m_db

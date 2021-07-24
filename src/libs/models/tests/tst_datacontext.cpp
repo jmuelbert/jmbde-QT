@@ -90,16 +90,40 @@ void DataContext_Test::constructor_Test()
     local_dataContext = new DataContext(nullptr, QStringLiteral("testDB"));
     QVERIFY(local_dataContext != nullptr);
 
-    local_dataContext = new DataContext(nullptr, QStringLiteral("BADDB"), QStringLiteral("testDB_BADDB"), QStringLiteral("user"), QStringLiteral("password"), QStringLiteral("dbhosts"), 1533);
+    local_dataContext = new DataContext(nullptr,
+                                        QStringLiteral("BADDB"),
+                                        QStringLiteral("testDB_BADDB"),
+                                        QStringLiteral("user"),
+                                        QStringLiteral("password"),
+                                        QStringLiteral("dbhosts"),
+                                        1533);
     QVERIFY(local_dataContext != nullptr);
 
-    local_dataContext = new DataContext(nullptr, QStringLiteral("ODBC"), QStringLiteral("testDB_ODBC"), QStringLiteral("user"), QStringLiteral("password"), QStringLiteral("dbhosts"), 1533);
+    local_dataContext = new DataContext(nullptr,
+                                        QStringLiteral("ODBC"),
+                                        QStringLiteral("testDB_ODBC"),
+                                        QStringLiteral("user"),
+                                        QStringLiteral("password"),
+                                        QStringLiteral("dbhosts"),
+                                        1533);
     QVERIFY(local_dataContext != nullptr);
 
-    local_dataContext = new DataContext(nullptr, QStringLiteral("PGSQL"), QStringLiteral("testDB_PSQL"), QStringLiteral("user"), QStringLiteral("password"), QStringLiteral("dbhosts"), 1533);
+    local_dataContext = new DataContext(nullptr,
+                                        QStringLiteral("PGSQL"),
+                                        QStringLiteral("testDB_PSQL"),
+                                        QStringLiteral("user"),
+                                        QStringLiteral("password"),
+                                        QStringLiteral("dbhosts"),
+                                        1533);
     QVERIFY(local_dataContext != nullptr);
 
-    local_dataContext = new DataContext(nullptr, QStringLiteral("SQLITE"), QStringLiteral("testDB_SQLITE"), QStringLiteral("user"), QStringLiteral("password"), QStringLiteral("dbhosts"), 1533);
+    local_dataContext = new DataContext(nullptr,
+                                        QStringLiteral("SQLITE"),
+                                        QStringLiteral("testDB_SQLITE"),
+                                        QStringLiteral("user"),
+                                        QStringLiteral("password"),
+                                        QStringLiteral("dbhosts"),
+                                        1533);
     QVERIFY(local_dataContext != nullptr);
 
     local_dataContext = new DataContext();

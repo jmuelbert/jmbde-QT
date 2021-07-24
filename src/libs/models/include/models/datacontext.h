@@ -101,7 +101,13 @@ public:
         \param port - Port for connect to the Database Server
      */
 
-    explicit JMBDEMODELS_EXPORT DataContext(QObject *parent, const QString &name, const QString &dbType, const QString &userName, const QString &passWord, const QString &hostName, const int port);
+    explicit JMBDEMODELS_EXPORT DataContext(QObject *parent,
+                                            const QString &name,
+                                            const QString &dbType,
+                                            const QString &userName,
+                                            const QString &passWord,
+                                            const QString &hostName,
+                                            const int port);
 
     /*!
           \fn  ~DataContext() override;
@@ -258,7 +264,7 @@ private:
         \var int m_dbType
         \brief The holder for the DB-Type
      */
-    int m_dbType {0};
+    int m_dbType{0};
 
     /*!
         \var  QString m_dbHostName
@@ -278,7 +284,7 @@ private:
       */
     QString m_dbPassWord;
 
-    int m_dbPort {0};
+    int m_dbPort{0};
 };
 } // namespace Model
 

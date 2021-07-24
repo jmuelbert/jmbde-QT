@@ -37,8 +37,10 @@ public:
     JMBDEQUICK_EXPORT QHash<int, QByteArray> roleNames() const;
 
     Q_INVOKABLE JMBDEQUICK_EXPORT QVariantMap get(int row) const;
-    Q_INVOKABLE JMBDEQUICK_EXPORT void append(const QString &firstName, const QString &lastName, const QString &street, const QString &zip, const QString &city);
-    Q_INVOKABLE JMBDEQUICK_EXPORT void set(int row, const QString &firstName, const QString &lastName, const QString &street, const QString &zip, const QString &city);
+    Q_INVOKABLE JMBDEQUICK_EXPORT void
+    append(const QString &firstName, const QString &lastName, const QString &street, const QString &zip, const QString &city);
+    Q_INVOKABLE JMBDEQUICK_EXPORT void
+    set(int row, const QString &firstName, const QString &lastName, const QString &street, const QString &zip, const QString &city);
     Q_INVOKABLE JMBDEQUICK_EXPORT void remove(int row);
 
 private:

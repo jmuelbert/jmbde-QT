@@ -21,8 +21,8 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRelation>
-#include <QtSql>
 #include <QTextDocument>
+#include <QtSql>
 
 #include "commondata.h"
 #include "datacontext.h"
@@ -299,31 +299,31 @@ private:
         \brief holds an initialised pointer to the Relationmodel
         \sa QSqlRelationalTableModel
      */
-    QSqlRelationalTableModel *m_model {nullptr};
+    QSqlRelationalTableModel *m_model{nullptr};
 
     /*!
        \brief holds an initialised pointer to the ItemSelectioModel
        \sa QItemSelectionModel
     */
-    QItemSelectionModel *m_selectionModel {nullptr};
+    QItemSelectionModel *m_selectionModel{nullptr};
 
     /*!
      * @brief DataContext
      */
     Model::DataContext *m_dataContext = {};
 
-    int m_CompanyIdIndex {0}; ///< int CompanyIdIndex
-    int m_NameIndex {0}; ///< int NameIndex
-    int m_Name2Index {0}; ///< int Name2Index
-    int m_StreetIndex {0}; ///< int m_StreetIndex
-    int m_CityIndex {0}; ///< int CityIndex
-    int m_ZipCodeIndex {0}; ///< int ZipCodeIndex
-    int m_PhoneNumberIndex {0}; ///< int PhoneNumberIndex
-    int m_FaxNumberIndex {0}; ///< int FaxNumberIndex
-    int m_MobileNumberIndex {0}; ///< int MobileNumberIndex
-    int m_MailAddressIndex {0}; ///< int MailAddressIndex
-    int m_ActiveIndex {0}; ///< int ActiveIndex
-    int m_EmployeeIdIndex {0}; ///< int EmployeeIdIndex
-    int m_LastUpdateIndex {0}; ///< int LastUpdateIndex
+    int m_CompanyIdIndex{0}; ///< int CompanyIdIndex
+    int m_NameIndex{0}; ///< int NameIndex
+    int m_Name2Index{0}; ///< int Name2Index
+    int m_StreetIndex{0}; ///< int m_StreetIndex
+    int m_CityIndex{0}; ///< int CityIndex
+    int m_ZipCodeIndex{0}; ///< int ZipCodeIndex
+    int m_PhoneNumberIndex{0}; ///< int PhoneNumberIndex
+    int m_FaxNumberIndex{0}; ///< int FaxNumberIndex
+    int m_MobileNumberIndex{0}; ///< int MobileNumberIndex
+    int m_MailAddressIndex{0}; ///< int MailAddressIndex
+    int m_ActiveIndex{0}; ///< int ActiveIndex
+    int m_EmployeeIdIndex{0}; ///< int EmployeeIdIndex
+    int m_LastUpdateIndex{0}; ///< int LastUpdateIndex
 };
 } // namespace Model

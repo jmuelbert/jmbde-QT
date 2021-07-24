@@ -22,8 +22,7 @@ find_path(
   JMBDEModels_INCLUDE_DIR
   NAMES datacontext.h
   PATHS ${PC_JMBDEModels_INCLUDE_DIRS}
-  PATH_SUFFIXES jmbdemodels
-)
+  PATH_SUFFIXES jmbdemodels)
 
 set(JMBDEModels_VERSION ${PC_JMBDEModels_VERSION})
 
@@ -33,15 +32,18 @@ include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(
   JMBDEModels
   REQUIRED_VARS JMBDEModels_INCLUDE_DIR
-  VERSION_VAR JMBDEModels_VERSION
-)
+  VERSION_VAR JMBDEModels_VERSION)
 
 if(JMBDEModels_FOUND)
-  # Set include dirs to parent, to enable includes like #include <rapidjson/document.h>
-  get_filename_component(JMBDEModels_INCLUDE_DIRS ${JMBDEModels_INCLUDE_DIR} DIRECTORY)
+  # Set include dirs to parent, to enable includes like #include
+  # <rapidjson/document.h>
+  get_filename_component(JMBDEModels_INCLUDE_DIRS ${JMBDEModels_INCLUDE_DIR}
+                         DIRECTORY)
 endif()
 
 if(JMBDEModels_FOUND AND NOT TARGET jmuelbert::jmbdemodels)
   add_library(jmuelbert::jmbdemodels INTERFACE IMPORTED)
-  set_target_properties(jmuelbert::jmbdemodels PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${JMBDEModels_INCLUDE_DIRS}")
+  set_target_properties(
+    jmuelbert::jmbdemodels PROPERTIES INTERFACE_INCLUDE_DIRECTORIES
+                                      "${JMBDEModels_INCLUDE_DIRS}")
 endif()

@@ -31,7 +31,8 @@
 
 Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsTitleLog)
 
-namespace Model {
+namespace Model
+{
 /*!
     \class Title
     \brief The Title class
@@ -42,7 +43,8 @@ namespace Model {
     \date 23.01.2021
     \copyright GPL-3.0-or-later
     */
-class Title : public CommonData {
+class Title : public CommonData
+{
     Q_OBJECT
 
 public:
@@ -75,7 +77,7 @@ public:
         \brief set the QSqlRelationalTableModel for the DataModel
         Returns The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel* initializeRelationalModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel() final;
 
     /*!
         \fn virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel
@@ -83,7 +85,7 @@ public:
 
         Returns The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel* initializeInputDataModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel() final;
 
     /*!
         \fn virtual QSqlTableModel *initializeViewModel() final
@@ -91,13 +93,13 @@ public:
 
         Returns QSqlTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlTableModel* initializeViewModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
 
     /*!
         \fn QSqlTableModel *initializeListModel();
         \brief Initiallize the list Model for select one dataset
     */
-    virtual JMBDEMODELS_EXPORT QSqlTableModel* initializeListModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeListModel() final;
 
     /*!
      * \fn virtual auto generateTableString(
@@ -106,7 +108,7 @@ public:
 
         Returns a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString& header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString final;
 
     /*!
         \fn virtual auto generateFormularString(
@@ -115,7 +117,7 @@ public:
 
         Returns a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString& header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
 
     // Getter
     JMBDEMODELS_EXPORT QString getTableName() const
@@ -191,37 +193,37 @@ private:
         \brief holds an initialised pointer to the Relationmodel
         \sa QSqlRelationalTableModel
      */
-    QSqlRelationalTableModel* m_model { nullptr };
+    QSqlRelationalTableModel *m_model{nullptr};
 
     /*!
        \brief holds an initialised pointer to the ItemSelectioModel
        \sa QItemSelectionModel
     */
-    QItemSelectionModel* m_selectionModel { nullptr };
+    QItemSelectionModel *m_selectionModel{nullptr};
 
     /*!
      * @brief DataContext
      */
-    Model::DataContext* m_dataContext = {};
+    Model::DataContext *m_dataContext = {};
 
     /*!
         \var int m_TitleIdIndex
         \brief The value of the TitleIdIndex
      */
-    int m_TitleIdIndex { 0 };
+    int m_TitleIdIndex{0};
 
     /*!
         \var int m_NameIndex
         \brief The value of the NameIndex
      */
-    int m_NameIndex { 0 };
+    int m_NameIndex{0};
 
     /*!
         \var int m_FromDateIndex
         \brief The value of the FromDateIndex
      */
-    int m_FromDateIndex { 0 };
+    int m_FromDateIndex{0};
 
-    int m_LastUpdateIndex { 0 };
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model

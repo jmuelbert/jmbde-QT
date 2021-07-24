@@ -21,8 +21,8 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRelation>
-#include <QtSql>
 #include <QTextDocument>
+#include <QtSql>
 
 #include "commondata.h"
 #include "datacontext.h"
@@ -119,7 +119,7 @@ public:
     virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
 
     // Getter
-        // Getter
+    // Getter
     JMBDEMODELS_EXPORT QString getTableName() const
     {
         return this->m_tableName;
@@ -217,13 +217,13 @@ private:
         \brief holds an initialised pointer to the Relationmodel
         \sa QSqlRelationalTableModel
      */
-    QSqlRelationalTableModel *m_model {nullptr};
+    QSqlRelationalTableModel *m_model{nullptr};
 
     /*!
        \brief holds an initialised pointer to the ItemSelectioModel
        \sa QItemSelectionModel
     */
-    QItemSelectionModel *m_selectionModel {nullptr};
+    QItemSelectionModel *m_selectionModel{nullptr};
 
     /*!
      * @brief DataContext
@@ -233,36 +233,36 @@ private:
         \var  int m_DepartmentIdIndex
         \brief The value of the DepartmentIdIndex
     */
-    int m_DepartmentIdIndex {0};
+    int m_DepartmentIdIndex{0};
 
     /*!
        \var int m_NameIndex
        \brief The value of the NameIndex
    */
-    int m_NameIndex {0};
+    int m_NameIndex{0};
 
     /*!
        \var  int m_PriorityIndex
        \brief The value of the PriorityIndex
    */
-    int m_PriorityIndex {0};
+    int m_PriorityIndex{0};
 
     /*!
        \var int m_PrinterIdIndex
        \brief The value of the PrinterIdIndex
    */
-    int m_PrinterIdIndex {0};
+    int m_PrinterIdIndex{0};
 
     /*!
         \var int m_FaxIdIndex
         \brief The value of the FaxIdIndex
     */
-    int m_FaxIdIndex {0};
+    int m_FaxIdIndex{0};
 
     /*!
        \var int m_LastUpdateIndex
        \brief The value of the LastUpdateIndex
    */
-    int m_LastUpdateIndex {0};
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model
