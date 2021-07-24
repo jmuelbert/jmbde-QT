@@ -132,8 +132,8 @@ build-gcc10:
         - gcovr . -r .. --html-details --html -o coverage/index.html -e ../test/third_party
 
 build-clang10:
-    extends: .build-clang
-    image: conanio/clang9-jnlp-slave:1.35
+    extends: .build-clang9
+    image: conanio/clang10-jnlp-slave:1.35
 
 build-job:
     stage: build
