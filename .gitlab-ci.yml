@@ -63,7 +63,7 @@ cppcheck:
     image: conanio/gcc10:1.38.0
     stage: test
     before_script:
-         uname -a
+        - uname -a
         - sudo apt update
         - sudo apt install gcovr
         - sudo apt sudo qt5-default
