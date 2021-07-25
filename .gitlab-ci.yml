@@ -59,14 +59,14 @@ cppcheck:
             - cppcheck/
         expire_in: 1 week
 
-.build-gcc:
-    image: conanio/gcc10:1.38.0
+.build-fedora:
+    image: stabletec/build-core:fedora
     stage: test
     before_script:
         - uname -a
         - sudo apt update
-        - sudo apt install gcovr
-        - sudo apt sudo qt5-default
+        - sudo apt install gcovr --yes
+        - sudo apt sudo qt5-default --yes
         # Upgrade Conan version
         - sudo pip install --upgrade conan
         # Automatic detection of your arch, compiler, etc.
@@ -89,30 +89,14 @@ cppcheck:
             - build/coverage/
         expire_in: 1 week
 
-build-gcc7:
-    extends: .build-gcc
-    image: conanio/gcc7:1.38.0
-
-build-gcc8:
-    extends: .build-gcc
-    image: conanio/gcc8:1.38.0
-
-build-gcc9:
-    extends: .build-gcc
-    image: conanio/gcc9:1.38.0
-
-build-gcc10:
-    extends: .build-gcc
-    image: conanio/gcc10:1.38.0
-
-.build-clang9:
-    image: conanio/clang9-jnlp-slave:1.35
+.build-opensuse:
+    image: stabletec/build-core:opensuse
     stage: test
     before_script:
         - uname -a
         - sudo apt update
-        - sudo apt install gcovr
-        - sudo apt sudo qt5-default
+        - sudo apt install gcovr --yes
+        - sudo apt sudo qt5-default --yes
         # Upgrade Conan version
         - sudo pip install --upgrade conan
         # Automatic detection of your arch, compiler, etc.
@@ -130,10 +114,94 @@ build-gcc10:
         - ctest
         - mkdir coverage
         - gcovr . -r .. --html-details --html -o coverage/index.html -e ../test/third_party
+    artifacts:
+        paths:
+            - build/coverage/
+        expire_in: 1 week
 
-build-clang10:
-    extends: .build-clang9
-    image: conanio/clang10-jnlp-slave:1.35
+.build-ubuntu:
+    image: stabletec/build-core:ubuntu
+    stage: test
+    before_script:
+        - uname -a
+        - sudo apt update
+        - sudo apt install gcovr --yes
+        - sudo apt sudo qt5-default --yes
+        # Upgrade Conan version
+        - sudo pip install --upgrade conan
+        # Automatic detection of your arch, compiler, etc.
+        - conan user
+        - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+
+    script:
+        # Download dependencies, build, test and create package
+        - conan create . user/channel
+        - mkdir -p build && cd build
+        #- conan install --build missing ..
+        - if [ -f ../conanfile.txt ]; then conan install --build missing ..; fi
+        - cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS:BOOL=TRUE ..
+        - cmake --build .
+        - ctest
+        - mkdir coverage
+        - gcovr . -r .. --html-details --html -o coverage/index.html -e ../test/third_party
+    artifacts:
+        paths:
+            - build/coverage/
+        expire_in: 1 week
+
+.build-windows:
+    image: stabletec/build-core:windows
+    stage: test
+    before_script:
+        - uname -a
+        - sudo apt update
+        - sudo apt install gcovr --yes
+        - sudo apt sudo qt5-default --yes
+        # Upgrade Conan version
+        - sudo pip install --upgrade conan
+        # Automatic detection of your arch, compiler, etc.
+        - conan user
+        - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+
+    script:
+        # Download dependencies, build, test and create package
+        - conan create . user/channel
+        - mkdir -p build && cd build
+        #- conan install --build missing ..
+        - if [ -f ../conanfile.txt ]; then conan install --build missing ..; fi
+        - cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS:BOOL=TRUE ..
+        - cmake --build .
+        - ctest
+        - mkdir coverage
+        - gcovr . -r .. --html-details --html -o coverage/index.html -e ../test/third_party
+    artifacts:
+        paths:
+            - build/coverage/
+        expire_in: 1 week
+
+build-fedora33:
+    extends: .build-fedora
+    image: stabletec/build-core:fedora33
+
+build-fedora34:
+    extends: .build-fedora
+    image: stabletec/build-core:fedora33
+
+build-opensuse15:
+    extends: .build-opensuse
+    image: stabletec/build-core:opensuse-15
+
+build-ubuntu-18.04:
+    extends: .build-ubuntu
+    image: stabletec/build-core:ubuntu-18.04
+
+build-ubuntu-20.04:
+    extends: .build-ubuntu
+    image: stabletec/build-core:ubuntu-20.04
+
+build-windows:
+    extends: .build-ubuntu
+    image: stabletec/build-core:windows
 
 build-job:
     stage: build
