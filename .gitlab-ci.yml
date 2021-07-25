@@ -64,11 +64,6 @@ cppcheck:
     stage: test
     before_script:
         - uname -a
-        - sudo apt update
-        - sudo apt install gcovr --yes
-        - sudo apt sudo qt5-default --yes
-        # Upgrade Conan version
-        - sudo pip install --upgrade conan
         # Automatic detection of your arch, compiler, etc.
         - conan user
         - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
@@ -82,8 +77,6 @@ cppcheck:
         - cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS:BOOL=TRUE ..
         - cmake --build .
         - ctest
-        - mkdir coverage
-        - gcovr . -r .. --html-details --html -o coverage/index.html -e ../test/third_party
     artifacts:
         paths:
             - build/coverage/
@@ -94,11 +87,8 @@ cppcheck:
     stage: test
     before_script:
         - uname -a
-        - sudo apt update
-        - sudo apt install gcovr --yes
-        - sudo apt sudo qt5-default --yes
         # Upgrade Conan version
-        - sudo pip install --upgrade conan
+        - pip install --upgrade conan
         # Automatic detection of your arch, compiler, etc.
         - conan user
         - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
@@ -112,8 +102,6 @@ cppcheck:
         - cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS:BOOL=TRUE ..
         - cmake --build .
         - ctest
-        - mkdir coverage
-        - gcovr . -r .. --html-details --html -o coverage/index.html -e ../test/third_party
     artifacts:
         paths:
             - build/coverage/
@@ -124,11 +112,11 @@ cppcheck:
     stage: test
     before_script:
         - uname -a
-        - sudo apt update
-        - sudo apt install gcovr --yes
-        - sudo apt sudo qt5-default --yes
+        - apt update
+        - apt install gcovr --yes
+        - apt qt5-default --yes
         # Upgrade Conan version
-        - sudo pip install --upgrade conan
+        - pip install --upgrade conan
         # Automatic detection of your arch, compiler, etc.
         - conan user
         - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
@@ -154,11 +142,11 @@ cppcheck:
     stage: test
     before_script:
         - uname -a
-        - sudo apt update
-        - sudo apt install gcovr --yes
-        - sudo apt sudo qt5-default --yes
+        - apt update
+        - apt install gcovr --yes
+        - apt sudo qt5-default --yes
         # Upgrade Conan version
-        - sudo pip install --upgrade conan
+        - pip install --upgrade conan
         # Automatic detection of your arch, compiler, etc.
         - conan user
         - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
