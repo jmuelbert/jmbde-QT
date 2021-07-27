@@ -63,7 +63,8 @@ portable-source:
     stage: source
     #   tags:
     #     - linux
-
+    script:
+      - echo "test"
 pages:
     image: node:10
     stage: deploy
