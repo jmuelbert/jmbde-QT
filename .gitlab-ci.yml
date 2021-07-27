@@ -61,8 +61,8 @@ portable-source:
     needs:
         - docker_build_ubuntu-18.04
     stage: source
-    tags:
-        - linux
+    #   tags:
+    #     - linux
 
 pages:
     image: node:10
