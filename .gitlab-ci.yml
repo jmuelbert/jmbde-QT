@@ -7,8 +7,8 @@ stages:
     # - push_docker_images
     - source
     - analysis
-    # - build
-    # - test
+    - build
+    - test
     - deploy
 
 cmake-format Check:
@@ -77,7 +77,7 @@ deploy-prod:
   stage: deploy
   script:
     - echo "This job deploys something from the $CI_COMMIT_BRANCH branch."
-    
+
 pages:
     image: node:10
     stage: deploy
