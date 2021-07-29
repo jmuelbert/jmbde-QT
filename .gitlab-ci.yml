@@ -2,6 +2,9 @@
 # NOTE: customize `example-project-image` name below before deploying to a new
 # project.
 
+include:
+    - template: Security/License-Scanning.gitlab-ci.yml
+
 stages:
     # - build_docker_images
     # - push_docker_images
