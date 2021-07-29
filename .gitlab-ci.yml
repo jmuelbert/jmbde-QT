@@ -73,13 +73,11 @@ test-job2:
         - echo "which simulates a test that runs 20 seconds longer than test-job1"
         - sleep 20
 
-image: python:3.7-alpine
-
 test-pages:
     image: python:3.7-alpine
     stage: test
     script:
-        - pip install -U sphinx
+        - pip install -U sphinx sphinx-rdt-theme breathe
         - sphinx-build -b html . public
     only:
         - branches
@@ -95,7 +93,7 @@ pages:
     image: python:3.7-alpine
     stage: deploy
     script:
-        - pip install -U sphinx
+        - pip install -U sphinx sphinx-rdt-theme breathe
         - sphinx-build -b html ./docs/manual public
     artifacts:
         paths:
