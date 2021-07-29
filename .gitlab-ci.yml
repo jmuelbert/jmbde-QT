@@ -95,7 +95,7 @@ pages:
         - npx gitbook build . public
         - 'sed -i "s/puppeteer.launch();/puppeteer.launch({args:
           [\"--no-sandbox\"]});/g" node_modules/svgexport/render.js'
-        - npx gitbook pdf jmbde-QT.pdf
+        # - npx gitbook pdf jmbde-QT.pdf
         # - cp jmbde-QT.pdf public/jmbde-QT.pdf
     artifacts:
         paths:
