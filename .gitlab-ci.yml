@@ -77,7 +77,7 @@ test-pages:
     image: python:3.7-alpine
     stage: test
     script:
-        - pip install -U sphinx sphinx-rdt-theme breathe
+        - pip install -U sphinx sphinx-rtd-theme breathe
         - sphinx-build -b html . public
     only:
         - branches
@@ -93,7 +93,7 @@ pages:
     image: python:3.7-alpine
     stage: deploy
     script:
-        - pip install -U sphinx sphinx-rdt-theme breathe
+        - pip install -U sphinx sphinx-rtd-theme breathe
         - sphinx-build -b html ./docs/manual public
     artifacts:
         paths:
