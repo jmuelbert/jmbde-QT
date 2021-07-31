@@ -7,6 +7,7 @@ These are computers, printers and telephones.
 ---
 
 [![Gitpod Ready Code][gitpod-shield]][gitpod-url]
+[![Pipeline Status](https://gitlab.com/jmuelbert/jmbde-QT/badges/master/pipeline.svg)](https://gitlab.com/jmuelbert/jmbde-QT/commits/master)
 [![Codacy Badge][codacy-shield]][codacy-url]
 [![Total Alerts][lgtm-alerts-shield]][lgtm-alerts-url]
 [![Language grade: C/C++][lgtm-cpp-shield]][lgtm-cpp-url]

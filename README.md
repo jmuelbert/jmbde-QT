@@ -5,7 +5,8 @@ Programm können die Mitarbeiter und die Ausrüstung, die sie für ihre Arbeit b
 erfasst werden. Das sind unter anderem Computer, Drucker und Telefone.
 
 ---
-
+[![Gitpod Ready Code][gitpod-shield]][gitpod-url]
+[![Pipeline Status](https://gitlab.com/jmuelbert/jmbde-QT/badges/master/pipeline.svg)](https://gitlab.com/jmuelbert/jmbde-QT/commits/master)
 [![Gitpod Ready Code][gitpod-shield]][gitpod-url]
 [![Codacy Badge][codacy-shield]][codacy-url]
 [![Total Alerts][lgtm-alerts-shield]][lgtm-alerts-url]

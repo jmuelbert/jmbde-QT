@@ -1,32 +1,17 @@
----
-# NOTE: customize `example-project-image` name below before deploying to a new
-# project.
-
-include:
-  - template: Security/License-Scanning.gitlab-ci.yml
-# Include the DAST template
-  - template: DAST.gitlab-ci.yml
 stages:
-  # - build_docker_images
-  # - push_docker_images
-  # - sync
-  # - prepare
-  # - build-images
-  - build
-  # - fixtures
+  - sync
+  - prepare
+  - build-images
+  - fixtures
   - test
-  # - post-test
-  # - review-prepare
-  # - review
-  # Add `dast` to your `stages:` configuration
+  - post-test
+  - review-prepare
+  - review
   - dast
-  # - qa
-  # - post-qa
+  - qa
+  - post-qa
   - pages
-  # - notify
-  - source
-  - analysis
-  - deploy
+  - notify
 
 # always use `gitlab-org` runners, however
 # in cases where jobs require Docker-in-Docker, the job
@@ -40,171 +25,97 @@ default:
   # Default job timeout set to 90m https://gitlab.com/gitlab-com/gl-infra/infrastructure/-/issues/10520
   timeout: 90m
 
-cmake-format Check:
-    image: stabletec/build-core:fedora
-    stage: analysis
-    # tags:
-    #   - docker-linux
-    allow_failure: true
-    script:
-        - pip install cmakelang[YAML]
-        - cmake-format --version
-        - cmake-format -i $(find . -name "*.cmake")
-        - cmake-format -i $(find . -name "CMakeLists.txt")
-        - git diff --exit-code
-
-clang-format Check:
-    image: stabletec/build-core:fedora
-    stage: analysis
-    # tags:
-    #   - docker-linux
-    allow_failure: true
-    script:
-        - clang-format --version
-        - clang-format -i $(find . -name "*.c")
-        - clang-format -i $(find . -name "*.cpp")
-        - clang-format -i $(find . -name "*.h")
-        - clang-format -i $(find . -name "*.hpp")
-        - git diff --exit-code
-
-cppcheck:
-    image: ubuntu:bionic
-    stage: analysis
-    before_script:
-        - apt update
-        - apt install -y --no-install-recommends cppcheck=1.82-1 python3-pygments python-pygments
-        - cppcheck --version
-    script:
-        - mkdir cppcheck
-        #- cppcheck . -I include/ --verbose --enable=all --inconclusive --language=c++ --error-exitcode=1
-        - cppcheck . -I include/ --enable=all --inconclusive --xml-version=2 --force --library=windows,posix,gnu . 2> cppcheck/result.xml
-        - cppcheck-htmlreport --source-encoding="iso8859-1" --title="my project name" --source-dir . --report-dir=cppcheck --file=cppcheck/result.xml
-    artifacts:
-        paths:
-            - cppcheck/
-        expire_in: 1 week
-
-build-job:
-    stage: build
-    script:
-        - echo "Hello, $GITLAB_USER_LOGIN!"
-
-test-job1:
-    stage: test
-    script:
-        - echo "This job tests something"
-
-test-job2:
-    stage: test
-    script:
-        - echo "This job tests something, but takes more time than test-job1."
-        - echo "After the echo commands complete, it runs the sleep command for 20 seconds"
-        - echo "which simulates a test that runs 20 seconds longer than test-job1"
-        - sleep 20
-
-test-pages:
-    image: python:3.7-alpine
-    stage: test
-    script:
-        - pip install -U sphinx sphinx-rtd-theme breathe
-        - sphinx-build -b html . public
-    only:
-        - branches
-    except:
-        - master
-
-code_intelligence_go:
-  stage: test
-  needs: []
-  allow_failure: true
-  image: sourcegraph/lsif-go:v1
+workflow:
   rules:
-    - if: $CODE_INTELLIGENCE_DISABLED
+    # If `$FORCE_GITLAB_CI` is set, create a pipeline.
+    - if: "$FORCE_GITLAB_CI"
+    # As part of the process of creating RCs automatically, we update stable
+    # branches with the changes of the most recent production deployment. The
+    # merge requests used for this merge a branch release-tools/X into a stable
+    # branch. For these merge requests we don't want to run any pipelines, as
+    # they serve no purpose and will run anyway when the changes are merged.
+    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^release-tools\/\d+\.\d+\.\d+-rc\d+$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^[\d-]+-stable(-ee)?$/ && $CI_PROJECT_PATH == "gitlab-org/gitlab"'
       when: never
-    - if: $CI_COMMIT_BRANCH
-      exists:
-        - '**/*.go'
-  script:
-    - lsif-go
-  artifacts:
-    reports:
-      lsif: dump.lsif
-
-code_quality:
-  stage: test
-  image: docker:19.03.12
-  allow_failure: true
-  services:
-    - docker:19.03.12-dind
-  variables:
-    DOCKER_DRIVER: overlay2
-    DOCKER_TLS_CERTDIR: ""
-    CODE_QUALITY_IMAGE: "registry.gitlab.com/gitlab-org/ci-cd/codequality:0.85.24"
-  needs: []
-  script:
-    - export SOURCE_CODE=$PWD
-    - |
-      if ! docker info &>/dev/null; then
-        if [ -z "$DOCKER_HOST" -a "$KUBERNETES_PORT" ]; then
-          export DOCKER_HOST='tcp://localhost:2375'
-        fi
-      fi
-    - | # this is required to avoid undesirable reset of Docker image ENV variables being set on build stage
-      function propagate_env_vars() {
-        CURRENT_ENV=$(printenv)
-
-        for VAR_NAME; do
-          echo $CURRENT_ENV | grep "${VAR_NAME}=" > /dev/null && echo "--env $VAR_NAME "
-        done
-      }
-    - docker pull --quiet "$CODE_QUALITY_IMAGE"
-    - |
-      docker run \
-        $(propagate_env_vars \
-          SOURCE_CODE \
-          TIMEOUT_SECONDS \
-          CODECLIMATE_DEBUG \
-          CODECLIMATE_DEV \
-          REPORT_STDOUT \
-          REPORT_FORMAT \
-          ENGINE_MEMORY_LIMIT_BYTES \
-          CODECLIMATE_PREFIX \
-        ) \
-        --volume "$PWD":/code \
-        --volume /var/run/docker.sock:/var/run/docker.sock \
-        "$CODE_QUALITY_IMAGE" /code
-  artifacts:
-    reports:
-      codequality: gl-code-quality-report.json
-    expire_in: 1 week
-  dependencies: []
-  rules:
-    - if: '$CODE_QUALITY_DISABLED'
+    # For merged result pipelines, set $QA_IMAGE, since $CI_MERGE_REQUEST_SOURCE_BRANCH_SHA is only available for merged result pipelines.
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "merged_result" || $CI_MERGE_REQUEST_EVENT_TYPE == "merge_train"'
+      variables:
+        QA_IMAGE: "${CI_REGISTRY}/${CI_PROJECT_PATH}/gitlab-ee-qa:${CI_MERGE_REQUEST_SOURCE_BRANCH_SHA}"
+    # Also run (detached) merge request pipelines.
+    - if: "$CI_MERGE_REQUEST_IID"
+    # For the 2-hourly scheduled pipelines, we set specific variables.
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "schedule" && $FREQUENCY == "2-hourly"'
+      variables:
+        CRYSTALBALL: "true"
+    # For `$CI_DEFAULT_BRANCH` branch, create a pipeline (this includes on schedules, pushes, merges, etc.).
+    - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH"
+    # For tags, create a pipeline.
+    - if: "$CI_COMMIT_TAG"
+    # If `$GITLAB_INTERNAL` isn't set, don't create a pipeline.
+    - if: "$GITLAB_INTERNAL == null"
       when: never
-    - if: '$CI_COMMIT_TAG || $CI_COMMIT_BRANCH'
+    # For stable, auto-deploy, and security branches, create a pipeline.
+    - if: '$CI_COMMIT_BRANCH =~ /^[\d-]+-stable(-ee)?$/'
+    - if: '$CI_COMMIT_BRANCH =~ /^\d+-\d+-auto-deploy-\d+$/'
+    - if: '$CI_COMMIT_BRANCH =~ /^security\//'
 
+variables:
+  RAILS_ENV: "test"
+  NODE_ENV: "test"
+  BUNDLE_WITHOUT: "production:development"
+  BUNDLE_INSTALL_FLAGS: "--jobs=$(nproc) --retry=3 --quiet"
+  # we override the max_old_space_size to prevent OOM errors
+  NODE_OPTIONS: --max_old_space_size=3584
+  GIT_DEPTH: "20"
+  GIT_SUBMODULE_STRATEGY: "none"
+  GET_SOURCES_ATTEMPTS: "3"
 
-deploy-prod:
-    stage: deploy
-    script:
-        - echo "This job deploys something from the $CI_COMMIT_BRANCH branch."
+  KNAPSACK_RSPEC_SUITE_REPORT_PATH: knapsack/report-master.json
+  FLAKY_RSPEC_SUITE_REPORT_PATH: rspec_flaky/report-suite.json
+  RSPEC_TESTS_MAPPING_PATH: crystalball/mapping.json
+  RSPEC_PACKED_TESTS_MAPPING_PATH: crystalball/packed-mapping.json
 
-pages:
-    image: python:3.7-alpine
-    stage: deploy
-    script:
-        - pip install -U sphinx sphinx-rtd-theme breathe
-        - sphinx-build -b html ./docs/manual public
-    artifacts:
-        paths:
-            - public
-    only:
-        - master
+  ES_JAVA_OPTS: "-Xms256m -Xmx256m"
+  ELASTIC_URL: "http://elastic:changeme@elasticsearch:9200"
+  DOCKER_VERSION: "20.10.1"
+  CACHE_CLASSES: "true"
+  CHECK_PRECOMPILED_ASSETS: "true"
+  FF_USE_FASTZIP: "true"
 
-# Your selected site and scanner profiles:
-dast:
-  stage: dast
-  dast_configuration:
-    site_profile: "security-site-profile"
-    scanner_profile: "dast-profile"
+  DOCS_REVIEW_APPS_DOMAIN: "178.62.207.141.nip.io"
+  DOCS_GITLAB_REPO_SUFFIX: "ee"
 
+  REVIEW_APPS_DOMAIN: "gitlab-review.app"
+  REVIEW_APPS_GCP_PROJECT: "gitlab-review-apps"
+  REVIEW_APPS_GCP_REGION: "us-central1"
+
+  BUILD_ASSETS_IMAGE: "true" # Set it to "false" to disable assets image building, used in `build-assets-image`
+  RSPEC_FAIL_FAST_ENABLED: "true" # Set it to "false" to disable RSpec fail-fast
+  SIMPLECOV: "true"
+
+  # For the default QA image, we use $CI_COMMIT_SHA as tag since it's always available and we override it for specific workflow.rules (see above)
+  QA_IMAGE: "${CI_REGISTRY}/${CI_PROJECT_PATH}/gitlab-ee-qa:${CI_COMMIT_SHA}"
+
+  # Preparing custom clone path to reduce space used by all random forks
+  # on GitLab.com's Shared Runners. Our main forks - especially the security
+  # ones - will have this variable overwritten in the project settings, so that
+  # a security-related code or code using our protected variables will be never
+  # stored on the same path as the community forks.
+  # Part of the solution for the `no space left on device` problem described at
+  # https://gitlab.com/gitlab-org/gitlab/issues/197876.
+  #
+  # For this purpose the https://gitlab.com/gitlab-org-forks group was created
+  # to host a placeholder for the `/builds/gitlab-org-forks` path and ensure
+  # that no legitimate project will ever use it and - by mistake - execute its
+  # job on a shared working directory. It also requires proper configuration of
+  # the Runner that executes the job (which was prepared for our shared runners
+  # by https://ops.gitlab.net/gitlab-cookbooks/chef-repo/-/merge_requests/3977).
+  #
+  # Because of all of that PLEASE DO NOT CHANGE THE PATH.
+  #
+  # For more details and reasoning that brought this change please check
+  # https://gitlab.com/gitlab-org/gitlab/-/merge_requests/24887
+  GIT_CLONE_PATH: "/builds/gitlab-org-forks/${CI_PROJECT_NAME}"
+
+include:
+  - local: .gitlab/ci/*.gitlab-ci.yml
+  - remote: "https://gitlab.com/gitlab-org/frontend/untamper-my-lockfile/-/raw/main/.gitlab-ci-template.yml"
