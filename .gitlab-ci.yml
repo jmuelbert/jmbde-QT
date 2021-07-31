@@ -1,121 +1,25 @@
 stages:
-  - sync
   - prepare
-  - build-images
-  - fixtures
+  - prebuild
   - test
-  - post-test
-  - review-prepare
-  - review
-  - dast
-  - qa
-  - post-qa
-  - pages
-  - notify
-
-# always use `gitlab-org` runners, however
-# in cases where jobs require Docker-in-Docker, the job
-# definition must be extended with `.use-docker-in-docker`
-default:
-  image: "registry.gitlab.com/gitlab-org/gitlab-build-images:ruby-2.7.2.patched-golang-1.14-git-2.31-lfs-2.9-chrome-89-node-14.15-yarn-1.22-postgresql-11-graphicsmagick-1.3.36"
-  tags:
-    - gitlab-org
-  # All jobs are interruptible by default
-  interruptible: true
-  # Default job timeout set to 90m https://gitlab.com/gitlab-com/gl-infra/infrastructure/-/issues/10520
-  timeout: 90m
-
-workflow:
-  rules:
-    # If `$FORCE_GITLAB_CI` is set, create a pipeline.
-    - if: "$FORCE_GITLAB_CI"
-    # As part of the process of creating RCs automatically, we update stable
-    # branches with the changes of the most recent production deployment. The
-    # merge requests used for this merge a branch release-tools/X into a stable
-    # branch. For these merge requests we don't want to run any pipelines, as
-    # they serve no purpose and will run anyway when the changes are merged.
-    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^release-tools\/\d+\.\d+\.\d+-rc\d+$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^[\d-]+-stable(-ee)?$/ && $CI_PROJECT_PATH == "gitlab-org/gitlab"'
-      when: never
-    # For merged result pipelines, set $QA_IMAGE, since $CI_MERGE_REQUEST_SOURCE_BRANCH_SHA is only available for merged result pipelines.
-    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "merged_result" || $CI_MERGE_REQUEST_EVENT_TYPE == "merge_train"'
-      variables:
-        QA_IMAGE: "${CI_REGISTRY}/${CI_PROJECT_PATH}/gitlab-ee-qa:${CI_MERGE_REQUEST_SOURCE_BRANCH_SHA}"
-    # Also run (detached) merge request pipelines.
-    - if: "$CI_MERGE_REQUEST_IID"
-    # For the 2-hourly scheduled pipelines, we set specific variables.
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "schedule" && $FREQUENCY == "2-hourly"'
-      variables:
-        CRYSTALBALL: "true"
-    # For `$CI_DEFAULT_BRANCH` branch, create a pipeline (this includes on schedules, pushes, merges, etc.).
-    - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH"
-    # For tags, create a pipeline.
-    - if: "$CI_COMMIT_TAG"
-    # If `$GITLAB_INTERNAL` isn't set, don't create a pipeline.
-    - if: "$GITLAB_INTERNAL == null"
-      when: never
-    # For stable, auto-deploy, and security branches, create a pipeline.
-    - if: '$CI_COMMIT_BRANCH =~ /^[\d-]+-stable(-ee)?$/'
-    - if: '$CI_COMMIT_BRANCH =~ /^\d+-\d+-auto-deploy-\d+$/'
-    - if: '$CI_COMMIT_BRANCH =~ /^security\//'
-
-variables:
-  RAILS_ENV: "test"
-  NODE_ENV: "test"
-  BUNDLE_WITHOUT: "production:development"
-  BUNDLE_INSTALL_FLAGS: "--jobs=$(nproc) --retry=3 --quiet"
-  # we override the max_old_space_size to prevent OOM errors
-  NODE_OPTIONS: --max_old_space_size=3584
-  GIT_DEPTH: "20"
-  GIT_SUBMODULE_STRATEGY: "none"
-  GET_SOURCES_ATTEMPTS: "3"
-
-  KNAPSACK_RSPEC_SUITE_REPORT_PATH: knapsack/report-master.json
-  FLAKY_RSPEC_SUITE_REPORT_PATH: rspec_flaky/report-suite.json
-  RSPEC_TESTS_MAPPING_PATH: crystalball/mapping.json
-  RSPEC_PACKED_TESTS_MAPPING_PATH: crystalball/packed-mapping.json
-
-  ES_JAVA_OPTS: "-Xms256m -Xmx256m"
-  ELASTIC_URL: "http://elastic:changeme@elasticsearch:9200"
-  DOCKER_VERSION: "20.10.1"
-  CACHE_CLASSES: "true"
-  CHECK_PRECOMPILED_ASSETS: "true"
-  FF_USE_FASTZIP: "true"
-
-  DOCS_REVIEW_APPS_DOMAIN: "178.62.207.141.nip.io"
-  DOCS_GITLAB_REPO_SUFFIX: "ee"
-
-  REVIEW_APPS_DOMAIN: "gitlab-review.app"
-  REVIEW_APPS_GCP_PROJECT: "gitlab-review-apps"
-  REVIEW_APPS_GCP_REGION: "us-central1"
-
-  BUILD_ASSETS_IMAGE: "true" # Set it to "false" to disable assets image building, used in `build-assets-image`
-  RSPEC_FAIL_FAST_ENABLED: "true" # Set it to "false" to disable RSpec fail-fast
-  SIMPLECOV: "true"
-
-  # For the default QA image, we use $CI_COMMIT_SHA as tag since it's always available and we override it for specific workflow.rules (see above)
-  QA_IMAGE: "${CI_REGISTRY}/${CI_PROJECT_PATH}/gitlab-ee-qa:${CI_COMMIT_SHA}"
-
-  # Preparing custom clone path to reduce space used by all random forks
-  # on GitLab.com's Shared Runners. Our main forks - especially the security
-  # ones - will have this variable overwritten in the project settings, so that
-  # a security-related code or code using our protected variables will be never
-  # stored on the same path as the community forks.
-  # Part of the solution for the `no space left on device` problem described at
-  # https://gitlab.com/gitlab-org/gitlab/issues/197876.
-  #
-  # For this purpose the https://gitlab.com/gitlab-org-forks group was created
-  # to host a placeholder for the `/builds/gitlab-org-forks` path and ensure
-  # that no legitimate project will ever use it and - by mistake - execute its
-  # job on a shared working directory. It also requires proper configuration of
-  # the Runner that executes the job (which was prepared for our shared runners
-  # by https://ops.gitlab.net/gitlab-cookbooks/chef-repo/-/merge_requests/3977).
-  #
-  # Because of all of that PLEASE DO NOT CHANGE THE PATH.
-  #
-  # For more details and reasoning that brought this change please check
-  # https://gitlab.com/gitlab-org/gitlab/-/merge_requests/24887
-  GIT_CLONE_PATH: "/builds/gitlab-org-forks/${CI_PROJECT_NAME}"
+  - coverage
+  - build
+  - integration
+  - package
+  - release
+  - postrelease
+  - docs
 
 include:
-  - local: .gitlab/ci/*.gitlab-ci.yml
-  - remote: "https://gitlab.com/gitlab-org/frontend/untamper-my-lockfile/-/raw/main/.gitlab-ci-template.yml"
+  - local: /.gitlab/ci/_common.gitlab-ci.yml
+  - local: /.gitlab/ci/_rules.gitlab-ci.yml
+  - local: /.gitlab/ci/prepare.gitlab-ci.yml
+  - local: /.gitlab/ci/prebuild.gitlab-ci.yml
+  - local: /.gitlab/ci/test.gitlab-ci.yml
+  - local: /.gitlab/ci/coverage.gitlab-ci.yml
+  - local: /.gitlab/ci/build.gitlab-ci.yml
+  - local: /.gitlab/ci/integration.gitlab-ci.yml
+  - local: /.gitlab/ci/package.gitlab-ci.yml
+  - local: /.gitlab/ci/release.gitlab-ci.yml
+  - local: /.gitlab/ci/postrelease.gitlab-ci.yml
+  - local: /.gitlab/ci/docs.gitlab-ci.yml
