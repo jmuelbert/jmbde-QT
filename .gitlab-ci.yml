@@ -9,13 +9,36 @@ include:
 stages:
   # - build_docker_images
   # - push_docker_images
-  - source
-  - analysis
+  # - sync
+  # - prepare
+  # - build-images
   - build
+  # - fixtures
   - test
-  - deploy
+  # - post-test
+  # - review-prepare
+  # - review
   # Add `dast` to your `stages:` configuration
   - dast
+  # - qa
+  # - post-qa
+  - pages
+  # - notify
+  - source
+  - analysis
+  - deploy
+
+# always use `gitlab-org` runners, however
+# in cases where jobs require Docker-in-Docker, the job
+# definition must be extended with `.use-docker-in-docker`
+default:
+  image: "registry.gitlab.com/gitlab-org/gitlab-build-images:ruby-2.7.2.patched-golang-1.14-git-2.31-lfs-2.9-chrome-89-node-14.15-yarn-1.22-postgresql-11-graphicsmagick-1.3.36"
+  tags:
+    - gitlab-org
+  # All jobs are interruptible by default
+  interruptible: true
+  # Default job timeout set to 90m https://gitlab.com/gitlab-com/gl-infra/infrastructure/-/issues/10520
+  timeout: 90m
 
 cmake-format Check:
     image: stabletec/build-core:fedora
