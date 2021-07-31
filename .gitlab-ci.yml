@@ -3,8 +3,9 @@
 # project.
 
 include:
-    - template: Security/License-Scanning.gitlab-ci.yml
-
+  - template: Security/License-Scanning.gitlab-ci.yml
+# Include the DAST template
+  - template: DAST.gitlab-ci.yml
 stages:
     # - build_docker_images
     # - push_docker_images
@@ -13,6 +14,8 @@ stages:
     - build
     - test
     - deploy
+    # Add `dast` to your `stages:` configuration
+  - dast
 
 cmake-format Check:
     image: stabletec/build-core:fedora
@@ -174,3 +177,11 @@ pages:
             - public
     only:
         - master
+
+# Your selected site and scanner profiles:
+dast:
+  stage: dast
+  dast_configuration:
+    site_profile: "security-site-profile"
+    scanner_profile: "dast-profile"
+
