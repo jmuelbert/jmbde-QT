@@ -7,14 +7,14 @@ include:
 # Include the DAST template
   - template: DAST.gitlab-ci.yml
 stages:
-    # - build_docker_images
-    # - push_docker_images
-    - source
-    - analysis
-    - build
-    - test
-    - deploy
-    # Add `dast` to your `stages:` configuration
+  # - build_docker_images
+  # - push_docker_images
+  - source
+  - analysis
+  - build
+  - test
+  - deploy
+  # Add `dast` to your `stages:` configuration
   - dast
 
 cmake-format Check:
