@@ -29,6 +29,8 @@ before_script:
     && apt-get -o dir::cache::archives="$APT_CACHE_DIR" install -yq
       build-essential cmake ninja-build git
       qtbase5-dev
+      libqt5svg5-dev
+      qttools5-dev
       qtdeclarative5-dev
       libssl-dev
       libavahi-client-dev libavahi-common-dev
