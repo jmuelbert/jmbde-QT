@@ -3,39 +3,39 @@
 # https://docs.gitlab.com/ee/api/repositories.html#generate-changelog-data for
 # more information.
 categories:
-    added: Added
-    fixed: Fixed
-    changed: Changed
-    deprecated: Deprecated
-    removed: Removed
-    security: Security
-    performance: Performance
-    other: Other
+  added: Added
+  fixed: Fixed
+  changed: Changed
+  deprecated: Deprecated
+  removed: Removed
+  security: Security
+  performance: Performance
+  other: Other
 template: |
-    {% if categories %}
-    {% each categories %}
-    ### {{ title }} ({% if single_change %}1 change{% else %}{{ count }} changes{% end %})
+  {% if categories %}
+  {% each categories %}
+  ### {{ title }} ({% if single_change %}1 change{% else %}{{ count }} changes{% end %})
 
-    {% each entries %}
-    - [{{ title }}]({{ commit.reference }})\
-    {% if author.contributor %} by {{ author.reference }}{% end %}\
-    {% if commit.trailers.MR %}\
-     ([merge request]({{ commit.trailers.MR }}))\
-    {% else %}\
-    {% if merge_request %}\
-     ([merge request]({{ merge_request.reference }}))\
-    {% end %}\
-    {% end %}\
-    {% if commit.trailers.EE %}\
-     **GitLab Enterprise Edition**\
-    {% end %}
+  {% each entries %}
+  - [{{ title }}]({{ commit.reference }})\
+  {% if author.contributor %} by {{ author.reference }}{% end %}\
+  {% if commit.trailers.MR %}\
+   ([merge request]({{ commit.trailers.MR }}))\
+  {% else %}\
+  {% if merge_request %}\
+   ([merge request]({{ merge_request.reference }}))\
+  {% end %}\
+  {% end %}\
+  {% if commit.trailers.EE %}\
+   **GitLab Enterprise Edition**\
+  {% end %}
 
-    {% end %}
+  {% end %}
 
-    {% end %}
-    {% else %}
-    No changes.
-    {% end %}
+  {% end %}
+  {% else %}
+  No changes.
+  {% end %}
 # The tag format for gitlab-org/gitlab is vX.Y.Z(-rcX)-ee. The -ee prefix would
 # be treated as a pre-release identifier, which can result in the wrong tag
 # being used as the starting point of a changelog commit range. The custom regex

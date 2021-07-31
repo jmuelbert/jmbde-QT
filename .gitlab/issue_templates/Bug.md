@@ -1,85 +1,91 @@
-<!---
-Please read this!
+## Summary
 
-Before opening a new issue, make sure to search for keywords in the issues
-filtered by the "regression" or "bug" label:
+<!--
+Briefly summarize the bug
+-->
 
-- https://gitlab.com/gitlab-org/gitlab/issues?label_name%5B%5D=regression
-- https://gitlab.com/gitlab-org/gitlab/issues?label_name%5B%5D=bug
+## Steps to reproduce
 
-and verify the issue you're about to submit isn't a duplicate.
+<!--
+What do you need to do to reproduce the bug? Please include job definitions or git repository structure if relevant
+-->
+
+<!--
+Please add the definition of the job from `.gitlab-ci.yml` that is failing
+inside of the code blocks (```) below.
+-->
+<details>
+<summary> .gitlab-ci.yml </summary>
+
+```yml
+Add the job definition that is failing here
+```
+</details>
+
+## Actual behavior
+
+<!--
+What actually happens
+-->
+
+## Expected behavior
+
+<!--
+What you should see instead
+-->
+
+## Relevant logs and/or screenshots
+
+<!--
+Paste the job logs inside of the code blocks (```) below so it would be
+easier to read.
+-->
+
+<details>
+<summary> job log </summary>
+
+```sh
+Add the job log
+```
+</details>
+
+## Environment description
+
+<!--
+Are you using shared Runners on GitLab.com? Or is it a custom installation?
+Which executors are used? Please also provide the versions of related tools
+like `docker info` if you are using the Docker executor.
+-->
+
+<!--
+Please add the contents of `config.toml` inside of the code blocks (```)
+below, remember to remove any secret tokens!
+-->
+<details>
+<summary> config.toml contents </summary>
+
+```toml
+Add your configuration here
+```
+</details>
+
+### Used GitLab Runner version
+
+<!--
+Please run and paste the output of `gitlab-runner --version`. If you are using
+a Runner where you don't have access to, please paste at least the first lines
+the from build log, like:
+
+```
+Running with gitlab-ci-multi-runner 1.4.2 (bcc1794)
+Using Docker executor with image golang:1.8 ...
+```
+-->
+
+## Possible fixes
+
+<!--
+(If you can, link to the line of code that might be responsible for the problem)
 --->
-
-### Summary
-
-<!-- Summarize the bug encountered concisely. -->
-
-### Steps to reproduce
-
-<!-- Describe how one can reproduce the issue - this is very important. Please use an ordered list. -->
-
-### Example Project
-
-<!-- If possible, please create an example project here on GitLab.com that exhibits the problematic 
-behavior, and link to it here in the bug report. If you are using an older version of GitLab, this 
-will also determine whether the bug is fixed in a more recent version. -->
-
-### What is the current *bug* behavior?
-
-<!-- Describe what actually happens. -->
-
-### What is the expected *correct* behavior?
-
-<!-- Describe what you should see instead. -->
-
-### Relevant logs and/or screenshots
-
-<!-- Paste any relevant logs - please use code blocks (```) to format console output, logs, and code
- as it's tough to read otherwise. -->
-
-### Output of checks
-
-<!-- If you are reporting a bug on GitLab.com, write: This bug happens on GitLab.com -->
-
-#### Results of GitLab environment info
-
-<!--  Input any relevant GitLab environment information if needed. -->
-
-<details>
-<summary>Expand for output related to GitLab environment info</summary>
-
-<pre>
-
-(For installations with omnibus-gitlab package run and paste the output of:
-`sudo gitlab-rake gitlab:env:info`)
-
-(For installations from source run and paste the output of:
-`sudo -u git -H bundle exec rake gitlab:env:info RAILS_ENV=production`)
-
-</pre>
-</details>
-
-#### Results of GitLab application Check
-
-<!--  Input any relevant GitLab application check information if needed. -->
-
-<details>
-<summary>Expand for output related to the GitLab application check</summary>
-<pre>
-
-(For installations with omnibus-gitlab package run and paste the output of:
-`sudo gitlab-rake gitlab:check SANITIZE=true`)
-
-(For installations from source run and paste the output of:
-`sudo -u git -H bundle exec rake gitlab:check RAILS_ENV=production SANITIZE=true`)
-
-(we will only investigate if the tests are passing)
-
-</pre>
-</details>
-
-### Possible fixes
-
-<!-- If you can, link to the line of code that might be responsible for the problem. -->
 
 /label ~bug
