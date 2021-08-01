@@ -22,6 +22,7 @@
 - Bump importlib-metadata from 4.3.1 to 4.5.0 [\#320](https://github.com/jmuelbert/jmbde-QT/pull/320)
 - Bump actions/github-script from 3 to 4.0.2 [\#319](https://github.com/jmuelbert/jmbde-QT/pull/319)
 - Bump identify from 2.2.6 to 2.2.8 [\#317](https://github.com/jmuelbert/jmbde-QT/pull/317)
+- Bump importlib-metadata from 4.2.0 to 4.3.0 [\#309](https://github.com/jmuelbert/jmbde-QT/pull/309)
 
 ## [dependabot/pip/importlib-metadata-4.3.1](https://github.com/jmuelbert/jmbde-QT/tree/dependabot/pip/importlib-metadata-4.3.1) (2021-06-12)
 
@@ -65,7 +66,6 @@
 - Bump certifi from 2020.12.5 to 2021.5.30 [\#312](https://github.com/jmuelbert/jmbde-QT/pull/312)
 - Bump ilammy/msvc-dev-cmd from 1.8.1 to 1.9.0 [\#311](https://github.com/jmuelbert/jmbde-QT/pull/311)
 - Bump importlib-metadata from 4.3.0 to 4.3.1 [\#310](https://github.com/jmuelbert/jmbde-QT/pull/310)
-- Bump importlib-metadata from 4.2.0 to 4.3.0 [\#309](https://github.com/jmuelbert/jmbde-QT/pull/309)
 - Bump actions/cache from 2.1.5 to 2.1.6 [\#308](https://github.com/jmuelbert/jmbde-QT/pull/308)
 - Bump urllib3 from 1.26.4 to 1.26.5 [\#307](https://github.com/jmuelbert/jmbde-QT/pull/307)
 - Bump importlib-metadata from 4.0.1 to 4.2.0 [\#306](https://github.com/jmuelbert/jmbde-QT/pull/306)
