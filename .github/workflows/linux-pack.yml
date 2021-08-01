@@ -215,7 +215,7 @@ jobs:
           flatpak-builder --user --disable-rofiles-fuse --repo=repo --force-clean flatpak_app ${MANIFEST_PATH} --install-deps-from=flathub
           flatpak build-bundle repo ${BUNDLE} --runtime-repo=${RUNTIME_REPO} ${APP_ID} ${BRANCH}
           ls $GITHUB_WORKSPACE
-          mv $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT_x86_64.flatpak GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT_${VERSION}.x86_64.flatpak
+          mv $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT.flatpak GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT_${VERSION}.x86_64.flatpak
 
       - name: SHA256Sum of jmbde package(daily build)
         run: |
