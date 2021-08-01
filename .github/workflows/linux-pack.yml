@@ -104,7 +104,7 @@ jobs:
         with:
           version: ${{  matrix.qt_version }}
           arch: ${{ matrix.qtarch }}
-          ached: ${{ steps.cache-qt.outputs.cache-hit }}
+          cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
       - name: Get conan
         id: conan
