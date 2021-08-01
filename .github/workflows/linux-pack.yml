@@ -170,8 +170,8 @@ jobs:
             ${{ github.workspace }}/JMBDE-*.x86_64.AppImage.sha256sum
 
   flatpak-pack:
-    name: Build flatpack
-    runs-on: ubuntu-latest
+    name: Build flatpak on ubuntu-20.04
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout Source Code
         if: github.event_name == 'push'
@@ -214,7 +214,7 @@ jobs:
 
           flatpak-builder --user --disable-rofiles-fuse --repo=repo --force-clean flatpak_app ${MANIFEST_PATH} --install-deps-from=flathub
           flatpak build-bundle repo ${BUNDLE} --runtime-repo=${RUNTIME_REPO} ${APP_ID} ${BRANCH}
-
+          ls $GITHUB_WORKSPACE
           mv $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT_${VERSION}_x86_64.flatpak GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT_${VERSION}.x86_64.flatpak
 
       - name: SHA256Sum of jmbde package(daily build)
@@ -236,3 +236,58 @@ jobs:
           path: |
             ${{ github.workspace }}/org.jmuelbert.jmbde-QT-*.x86_64.flatpak
             ${{ github.workspace }}/org.jmuelbert.jmbde-QT-*.x86_64.flatpak.sha256sum
+
+  snap_pack:
+    name: Build snap on ubuntu-20.04
+    runs-on: ubuntu-20.04
+    step:
+      - name: Checkout Source Code
+        if: github.event_name == 'push'
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: master
+      - name: Checkout Source code
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Set env & Print jmbde version
+        shell: bash
+        run: |
+          last_committed_tag=$(git tag -l --sort=-v:refname | head -1)
+          git_revno=$(git rev-list $(git describe --tags --abbrev=0)..HEAD --count)
+          git_hash=$(git rev-parse --short HEAD)
+          echo "=======jmbde VERSION========"
+          echo ${last_committed_tag:1}
+          echo "Details: ${last_committed_tag}+git${git_revno}.${git_hash}"
+          echo "================================"
+          echo "VERSION=${last_committed_tag:1}" >> $GITHUB_ENV
+      - name: Packaging snap
+        uses: snapcore/action-build@v1
+        id: snapcraft
+      - name: Rename snap name
+        shell: bash
+        run: |
+          mkdir -p $GITHUB_WORKSPACE/build
+          cp ${{ steps.snapcraft.outputs.snap }} $GITHUB_WORKSPACE/build/${PRODUCT}-${VERSION}-${RELEASE}.amd64.snap
+      - name: SHA256Sum of snap package(daily build)
+        run: |
+          sha256sum $GITHUB_WORKSPACE/build/${PRODUCT}-${VERSION}-${RELEASE}.amd64.snap
+          sha256sum $GITHUB_WORKSPACE/build/${PRODUCT}-${VERSION}-${RELEASE}.amd64.snap > $GITHUB_WORKSPACE/build/${PRODUCT}-${VERSION}-${RELEASE}.amd64.snap.sha256sum
+          echo "================snap sha256sum download link=================="
+          echo $(sh $GITHUB_WORKSPACE/scripts/upload_services/${UPLOAD_SERVICE}.sh $GITHUB_WORKSPACE/build/${PRODUCT}-${VERSION}-${RELEASE}.amd64.snap.sha256sum)
+          echo "=====no operation for you can see link in the log console====="
+      - name: Upload snap package(daily build)
+        run: |
+          echo "=======================snap download link======================"
+          echo $(sh $GITHUB_WORKSPACE/scripts/upload_services/${UPLOAD_SERVICE}.sh $GITHUB_WORKSPACE/build/${PRODUCT}-${VERSION}-${RELEASE}.amd64.snap)
+          echo "======no operation for you can see link in the log console====="
+      - name: Artifact Upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: Linux-distribution-artifact
+          path: |
+            ${{ github.workspace }}/build/${{ env.PRODUCT }}-*-${{ env.RELEASE }}.amd64.snap
+            ${{ github.workspace }}/build/${{ env.PRODUCT }}-*-${{ env.RELEASE }}.amd64.snap.sha256sum
