@@ -170,7 +170,7 @@ jobs:
             ${{ github.workspace }}/JMBDE-*.x86_64.AppImage.sha256sum
 
   flatpak-pack:
-    name: Build flatpack on ${{ runner.os }}
+    name: Build flatpack
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Source Code
