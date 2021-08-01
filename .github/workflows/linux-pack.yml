@@ -40,7 +40,17 @@ jobs:
               build_type: RelWithDebInfo,
               arch: amd64,
               qt_arch: gcc_64,
-              qt_version: [5.15.2, 6.1.0],
+              qt_version: 5.15.2,
+              image_repo: jmuelbert/ci-building-images,
+            }
+            - {
+              name: ubuntu-20.04,
+              os: ubuntu,
+              symbol: focal,
+              build_type: RelWithDebInfo,
+              arch: amd64,
+              qt_arch: gcc_64,
+              qt_version: 6.1.2,
               image_repo: jmuelbert/ci-building-images,
             }
     # container:
