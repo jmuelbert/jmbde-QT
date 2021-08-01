@@ -45,7 +45,7 @@ jobs:
       options: --cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined
     steps:
       - name: Checkout Source Code
-        if: guthub.event_name == 'push'
+        if: github.event_name == 'push'
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
