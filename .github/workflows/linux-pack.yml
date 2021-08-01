@@ -103,7 +103,7 @@ jobs:
           path: ../Qt
           key: QtCache-${{ matrix.config.name }}-${{ matrix.config.arch }}-${{matrix.config.qt_version }}
 
-      - name: Installing Qt - ${{ matrix.arch }}
+      - name: Installing Qt - ${{ matrix.config.name }}-${{ matrix.config.arch }}-v${{matrix.config.qt_version }}
         uses: jurplel/install-qt-action@v2
         with:
           version: ${{  matrix.config.qt_version }}
@@ -135,7 +135,7 @@ jobs:
           cd $GITHUB_WORKSPACE
           cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=/usr -DUSE_LAUNCHER_ABSOLUTE_PATH:BOOL=OFF
           make -j$(nproc) DESTDIR=${APPIMAGE_DST_PATH} install
-          $GITHUB_WORKSPACE/appimagetool -s deploy ${APPIMAGE_DST_PATH}/usr/share/applications/org.jmuelbert.jmbde-QT.desktop
+          $GITHUB_WORKSPACE/appimagetool -s deploy ${APPIMAGE_DST_PATH}/usr/share/applications/io.github.jmuelbert.jmbde.desktop
           mkdir -p ${APPIMAGE_DST_PATH}/usr/plugins/platforminputcontexts
           cp \
             /usr/lib/x86_64-linux-gnu/qt5/plugins/platforminputcontexts/libfcitxplatforminputcontextplugin.so \
