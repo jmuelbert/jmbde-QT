@@ -1,0 +1,134 @@
+---
+name: Packaging(Linux Qt5.15)
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+
+  pull_request:
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+
+env:
+  PRODUCT: jmbde
+  RELEASE: 1
+  # dockerfiles, see https://github.com/jmuelbert/jmbde-QT
+  # docker images, see https://hub.docker.com/r/jmuelbert/ci-building-images
+  # jmuelbert/ci-building-images or packpack/packpack
+  # DOCKER_REPO: jmuelbert/ci-building/images
+  # PACKPACK_REPO: jmuelbert/packpack
+  # available upload services: wetransfer.com, file.io, 0x0.st
+  # UPLOAD_SERVICE: wetransfer.com
+
+jobs:
+  appimage-pack:
+    name: Build appimage on ${{ matrix.config.name }}
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {
+              name: ubuntu-20.04,
+              os: ubuntu,
+              symbol: focal,
+              arch: amd64,
+              image_repo: jmuelbert/ci-building-images,
+            }
+    container:
+      image: ${{ matrix.config.image_repo }}:${{ matrix.config.os }}-${{ matrix.config.symbol }}
+      options: --cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined
+    steps:
+      - name: Checkout Source Code
+        if: guthub.event_name == 'push'
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: master
+      - name: Checkout Source code
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Set env & Print jmbde version
+        shell: bash
+        run: |
+          last_committed_tag=$(git tag -l --sort=-v:refname | head -1)
+          git_revno=$(git rev-list $(git describe --tags --abbrev=0)..HEAD --count)
+          git_hash=$(git rev-parse --short HEAD)
+          echo "=======jmbde VERSION========"
+          echo ${last_committed_tag:1}
+          echo "Details: ${last_committed_tag}+git${git_revno}.${git_hash}"
+          echo "================================"
+          echo "VERSION=${last_committed_tag:1}" >> $GITHUB_ENV
+      - name: Install Dependencies
+        run: |
+          sudo apt-get -y -qq update
+          sudo apt-get -y --no-install-recommends install \
+            python3 \
+            python3-pip \
+            fuse \
+            patchelf \
+            cmake \
+            extra-cmake-modules \
+            build-essential \
+            qt5-default \
+            qttools5-dev-tools \
+            qttools5-dev \
+            libqt5dbus5 \
+            libqt5network5 \
+            libqt5core5a \
+            libqt5widgets5 \
+            libqt5gui5 \
+            libqt5svg5-dev \
+            appstream \
+            hicolor-icon-theme \
+            fcitx-frontend-qt5 \
+            openssl \
+            ca-certificates
+      - name: Packaging appimage
+        run: |
+          APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${PRODUCT}.AppDir
+          mkdir -p ${APPIMAGE_DST_PATH}
+          cd $GITHUB_WORKSPACE
+          cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=/usr -DUSE_LAUNCHER_ABSOLUTE_PATH:BOOL=OFF
+          make -j$(nproc) DESTDIR=${APPIMAGE_DST_PATH} install
+          $GITHUB_WORKSPACE/appimagetool -s deploy ${APPIMAGE_DST_PATH}/usr/share/applications/org.jmuelbert.jmbde-QT.desktop
+          mkdir -p ${APPIMAGE_DST_PATH}/usr/plugins/platforminputcontexts
+          cp \
+            /usr/lib/x86_64-linux-gnu/qt5/plugins/platforminputcontexts/libfcitxplatforminputcontextplugin.so \
+            ${APPIMAGE_DST_PATH}/usr/plugins/platforminputcontexts/
+          cp \
+            $GITHUB_WORKSPACE/assets/icons/256-apps-jmbde.png \
+            ${APPIMAGE_DST_PATH}/
+          if [ -f "${APPIMAGE_DST_PATH}/lib/x86_64-linux-gnu/libxcb-glx.so.0" ]; then
+            rm ${APPIMAGE_DST_PATH}/lib/x86_64-linux-gnu/libxcb-glx.so.0
+          fi
+          chmod +x ${APPIMAGE_DST_PATH}/usr/lib64/ld-*.so.*
+          VERSION=${VERSION} $GITHUB_WORKSPACE/appimagetool ${APPIMAGE_DST_PATH}
+          mv $GITHUB_WORKSPACE/JMBDE-${VERSION}-x86_64.AppImage $GITHUB_WORKSPACE/JMBDE-${VERSION}.x86_64.AppImage
+      - name: SHA256Sum of appimage package(daily build)
+        run: |
+          sha256sum $GITHUB_WORKSPACE/JMBDE-${VERSION}.x86_64.AppImage
+          sha256sum $GITHUB_WORKSPACE/JMBDE-${VERSION}.x86_64.AppImage > $GITHUB_WORKSPACE/JMBDE-${VERSION}.x86_64.AppImage.sha256sum
+          echo "================appimage sha256sum download link==============="
+          echo $(sh $GITHUB_WORKSPACE/scripts/upload_services/${UPLOAD_SERVICE}.sh $GITHUB_WORKSPACE/JMBDE-${VERSION}.x86_64.AppImage.sha256sum)
+          echo "======no operation for you can see link in the log console====="
+      - name: Upload appimage package for daily build
+        run: |
+          echo "====================appimage download link====================="
+          echo $(sh $GITHUB_WORKSPACE/scripts/upload_services/${UPLOAD_SERVICE}.sh $GITHUB_WORKSPACE/JMBDE-${VERSION}.x86_64.AppImage)
+          echo "======no operation for you can see link in the log console====="
+      - name: Artifact Upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: Linux-distribution-artifact
+          path: |
+            ${{ github.workspace }}/JMBDE-*.x86_64.AppImage
+            ${{ github.workspace }}/JMBDE-*.x86_64.AppImage.sha256sum
