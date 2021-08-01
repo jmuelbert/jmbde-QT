@@ -27,7 +27,7 @@ env:
 
 jobs:
   appimage-pack:
-    name: Build appimage on ${{ matrix.config.name }}
+    name: Build appimage on ${{ matrix.config.name }} for ${{ matrix.config.qt_version }}
     runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
@@ -37,16 +37,10 @@ jobs:
               name: ubuntu-20.04,
               os: ubuntu,
               symbol: focal,
+              build_type: RelWithDebInfo,
               arch: amd64,
-              qt_version: 5.15.2,
-              image_repo: jmuelbert/ci-building-images,
-            }
-          - {
-              name: ubuntu-20.04,
-              os: ubuntu,
-              symbol: focal,
-              arch: amd64,
-              qt_version: 6.1.0,
+              qt_arch: gcc_64,
+              qt_version: [5.15.2, 6.1.0],
               image_repo: jmuelbert/ci-building-images,
             }
     # container:
@@ -97,13 +91,13 @@ jobs:
         uses: actions/cache@v2.1.5
         with:
           path: ../Qt
-          key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{matrix.qt_version }}
+          key: QtCache-${{ matrix.config.name }}-${{ matrix.config.arch }}-${{matrix.config.qt_version }}
 
       - name: Installing Qt - ${{ matrix.arch }}
         uses: jurplel/install-qt-action@v2
         with:
-          version: ${{  matrix.qt_version }}
-          arch: ${{ matrix.qtarch }}
+          version: ${{  matrix.config.qt_version }}
+          arch: ${{ matrix.config.qt_arch }}
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
       - name: Get conan
