@@ -148,6 +148,7 @@ jobs:
           fi
           chmod +x ${APPIMAGE_DST_PATH}/usr/lib64/ld-*.so.*
           VERSION=${VERSION} $GITHUB_WORKSPACE/appimagetool ${APPIMAGE_DST_PATH}
+          ls $GITHUB_WORKSPACE
           mv $GITHUB_WORKSPACE/JMBDE-${VERSION}-x86_64.AppImage $GITHUB_WORKSPACE/JMBDE-${VERSION}--qt${{matrix.qt_version}}.x86_64.AppImage
       - name: SHA256Sum of appimage package(daily build)
         run: |
