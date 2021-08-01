@@ -38,6 +38,15 @@ jobs:
               os: ubuntu,
               symbol: focal,
               arch: amd64,
+              qt_version: 5.15.2,
+              image_repo: jmuelbert/ci-building-images,
+            }
+          - {
+              name: ubuntu-20.04,
+              os: ubuntu,
+              symbol: focal,
+              arch: amd64,
+              qt_version: 6.1.0,
               image_repo: jmuelbert/ci-building-images,
             }
     # container:
@@ -78,20 +87,32 @@ jobs:
             cmake \
             extra-cmake-modules \
             build-essential \
-            qt5-default \
-            qttools5-dev-tools \
-            qttools5-dev \
-            libqt5dbus5 \
-            libqt5network5 \
-            libqt5core5a \
-            libqt5widgets5 \
-            libqt5gui5 \
-            libqt5svg5-dev \
             appstream \
             hicolor-icon-theme \
             fcitx-frontend-qt5 \
             openssl \
             ca-certificates
+      - name: Cache Qt
+        id: cache-qt
+        uses: actions/cache@v2.1.5
+        with:
+          path: ../Qt
+          key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{matrix.qt_version }}
+
+      - name: Installing Qt - ${{ matrix.arch }}
+        uses: jurplel/install-qt-action@v2
+        with:
+          version: ${{  matrix.qt_version }}
+          arch: ${{ matrix.qtarch }}
+          ached: ${{ steps.cache-qt.outputs.cache-hit }}
+
+      - name: Get conan
+        id: conan
+        uses: turtlebrowser/get-conan@v1.0
+
+      - name: Add Bincrafters Remote
+        run: conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+
       - name: Packaging appimage
         run: |
           APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${PRODUCT}.AppDir
@@ -112,18 +133,18 @@ jobs:
           fi
           chmod +x ${APPIMAGE_DST_PATH}/usr/lib64/ld-*.so.*
           VERSION=${VERSION} $GITHUB_WORKSPACE/appimagetool ${APPIMAGE_DST_PATH}
-          mv $GITHUB_WORKSPACE/JMBDE-${VERSION}-x86_64.AppImage $GITHUB_WORKSPACE/JMBDE-${VERSION}.x86_64.AppImage
+          mv $GITHUB_WORKSPACE/JMBDE-${VERSION}-x86_64.AppImage $GITHUB_WORKSPACE/JMBDE-${VERSION}--qt${{matrix.qt_version}}.x86_64.AppImage
       - name: SHA256Sum of appimage package(daily build)
         run: |
           sha256sum $GITHUB_WORKSPACE/JMBDE-${VERSION}.x86_64.AppImage
-          sha256sum $GITHUB_WORKSPACE/JMBDE-${VERSION}.x86_64.AppImage > $GITHUB_WORKSPACE/JMBDE-${VERSION}.x86_64.AppImage.sha256sum
+          sha256sum $GITHUB_WORKSPACE/JMBDE-${VERSION}.x86_64.AppImage > $GITHUB_WORKSPACE/JMBDE-${VERSION}--qt${{matrix.qt_version}}.x86_64.AppImage.sha256sum
           echo "================appimage sha256sum download link==============="
-          echo $(sh $GITHUB_WORKSPACE/scripts/upload_services/${UPLOAD_SERVICE}.sh $GITHUB_WORKSPACE/JMBDE-${VERSION}.x86_64.AppImage.sha256sum)
+          echo $(sh $GITHUB_WORKSPACE/scripts/upload_services/${UPLOAD_SERVICE}.sh $GITHUB_WORKSPACE/JMBDE-${VERSION}-qt${{matrix.qt_version}}.x86_64.AppImage.sha256sum)
           echo "======no operation for you can see link in the log console====="
       - name: Upload appimage package for daily build
         run: |
           echo "====================appimage download link====================="
-          echo $(sh $GITHUB_WORKSPACE/scripts/upload_services/${UPLOAD_SERVICE}.sh $GITHUB_WORKSPACE/JMBDE-${VERSION}.x86_64.AppImage)
+          echo $(sh $GITHUB_WORKSPACE/scripts/upload_services/${UPLOAD_SERVICE}.sh $GITHUB_WORKSPACE/JMBDE-${VERSION}--qt${{matrix.qt_version}}.x86_64.AppImage)
           echo "======no operation for you can see link in the log console====="
       - name: Artifact Upload
         uses: actions/upload-artifact@v2
