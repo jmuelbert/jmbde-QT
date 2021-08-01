@@ -240,7 +240,7 @@ jobs:
   snap_pack:
     name: Build snap on ubuntu-20.04
     runs-on: ubuntu-20.04
-    step:
+    steps:
       - name: Checkout Source Code
         if: github.event_name == 'push'
         uses: actions/checkout@v2
