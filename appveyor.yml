@@ -250,30 +250,33 @@ for:
       before_build:
         - call "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
         - call "%QTDIR%\bin\qtenv2.bat"
-        - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER"
-        - ps: New-Item -itemtype directory -path ./build
-        - ps: Set-Location "build"
-        - ps: Write-Host "Generate the Project with the $ENV:CMAKE_GENERATOR generator and the configuration $ENV:CONFIGURATION"
+        - ps: >-
+          Set-Location "$ENV:APPVEYOR_BUILD_FOLDER"
+          New-Item -itemtype directory -path ./build
+          Set-Location "build"
+          Write-Host "Generate the Project with the $ENV:CMAKE_GENERATOR generator and the configuration $ENV:CONFIGURATION"
 
       build_script:
-        - ps: New-Item -itemtype directory -path ./programs
-        - ps: cmake -G "'$ENV:CMAKE_GENERATOR' -A x64" \
-          -DCMAKE_BUILD_TYPE="$ENV:CONFIGURATION" \
-          -DCMAKE_PREFIX_PATH="$ENV:QTDIR" \
-          -DCMAKE_INSTALL_PREFIX:PATH="$ENV:APPVEYOR_BUILD_FOLDER/program" \
-          -DBUILD_TESTING=ON -DBUILD_SHARED_LIBS=ON ..
-        - ps: cmake --build . --config $ENV:CONFIGURATION --target install
+        - ps: >-
+          New-Item -itemtype directory -path ./programs
+          cmake -G "'$ENV:CMAKE_GENERATOR' -A x64"  `
+            -DCMAKE_BUILD_TYPE="$ENV:CONFIGURATION"  `
+            -DCMAKE_PREFIX_PATH="$ENV:QTDIR"  `
+            -DCMAKE_INSTALL_PREFIX:PATH="$ENV:APPVEYOR_BUILD_FOLDER/program"  `
+            -DBUILD_TESTING=ON -DBUILD_SHARED_LIBS=ON ..
+          cmake --build . --config $ENV:CONFIGURATION --target install
 
       after_build:
-        - ps: cpack -G WIX -B Package
-        - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER/build/program"
-        - ps: Write-Host "$ENV:APPVEYOR_REPO_TAG_NAME"
-        - ps: Get-ChildItem
-        - ps: windeployqt bin/jmbde.exe bin/jmbdewidgets.dll bin/jmbdemodels.dll
-        - ps: Get-ChildItem bin
-        - cp %APPVEYOR_BUILD_FOLDER%/packaging/win/installer_%PLATFORM%.iss .
-        - ps: $installerfile="installer_" + $ENV:PLATFORM + ".iss"
-        - ps: iscc $installerfile
+        - ps: >-
+            cpack -G WIX -B Package
+            Set-Location "$ENV:APPVEYOR_BUILD_FOLDER/build/program"
+            Write-Host "$ENV:APPVEYOR_REPO_TAG_NAME"
+            Get-ChildItem
+            windeployqt bin/jmbde.exe bin/jmbdewidgets.dll bin/jmbdemodels.dll
+            Get-ChildItem bin
+            Copy-Item %APPVEYOR_BUILD_FOLDER%/packaging/win/installer_%PLATFORM%.iss -Destination .
+            $installerfile="installer_" + $ENV:PLATFORM + ".iss"
+            iscc $installerfile
 
       articfacts:
         - path: build\package\*.msi
