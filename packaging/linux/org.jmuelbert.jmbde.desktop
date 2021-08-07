@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=jmbde
+GenericName=jmbde
+Exec=@LAUNCHER_EXECUTABLE@
+Icon=org.jmuelbert.jmbde
+Terminal=false
+Type=Application
+Categories=Business
+StartupNotify=false
+StartupWMClass=jmbde

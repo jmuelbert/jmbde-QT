@@ -15,59 +15,57 @@ architectures:
 summary: A BDE tool.
 description: jmbde is a free bde tool.
 
-version: "0.6.0"
-
+version: '0.6.0'
 
 apps:
-    jmbde:
-        command: usr/bin/jmbde
-        common-id: com.github.jmuelbert.jmbde
-        extensions:
-            - kde-neon
-        plugs:
-            - home
-            - desktop
-            - desktop-legacy
-            - wayland
-            - x11
+  jmbde:
+    command: usr/bin/jmbde
+    common-id: com.github.jmuelbert.jmbde
+    extensions:
+      - kde-neon
+    plugs:
+      - home
+      - desktop
+      - desktop-legacy
+      - wayland
+      - x11
 parts:
-    jmbde:
-        plugin: cmake
-        source: .
-        cmake-parameters:
-            - "-DLGTM=ON"
-            - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
-            - "-DCMAKE_INSTALL_PREFIX=/usr"
-            - "-DCMAKE_BUILD_TYPE=Release"
-            - "-DENABLE_TESTING=OFF"
-            - "-DBUILD_TESTING=OFF"
-        source-type: git
-        parse-info:
-            - usr/share/appdata/jmbde.appdata.xml
-        build-snaps:
-            - kde-frameworks-5-qt-5-15-core20
-        build-packages:
-            - python
-            - libmpfr-dev
-            - libgmp-dev
-            - kdoctools-dev
-        stage-packages:
-            - libmpfr6
-            - libgmp10
-        override-pull: |
-            snapcraftctl pull
+  jmbde:
+    plugin: cmake
+    source: .
+    cmake-parameters:
+      - '-DLGTM=ON'
+      - '-DKDE_INSTALL_USE_QT_SYS_PATHS=ON'
+      - '-DCMAKE_INSTALL_PREFIX=/usr'
+      - '-DCMAKE_BUILD_TYPE=Release'
+      - '-DENABLE_TESTING=OFF'
+      - '-DBUILD_TESTING=OFF'
+    source-type: git
+    parse-info:
+      - usr/share/appdata/jmbde.appdata.xml
+    build-snaps:
+      - kde-frameworks-5-qt-5-15-core20
+    build-packages:
+      - python
+      - libmpfr-dev
+      - libgmp-dev
+      - kdoctools-dev
+    stage-packages:
+      - libmpfr6
+      - libgmp10
+    override-pull: |
+      snapcraftctl pull
 
-        after:
-            - extra-cmake-modules
+    after:
+      - extra-cmake-modules
 
-
-    extra-cmake-modules:
-        source: https://github.com/KDE/extra-cmake-modules.git
-        source-depth: 1
-        source-tag: v5.77.0
-        plugin: cmake
-        cmake-parameters:
-            - -DCMAKE_BUILD_TYPE=Release
-            - -DCMAKE_INSTALL_PREFIX=/usr
-            - -DBUILD_TESTING=OFF
-        prime: [-./*]
+  extra-cmake-modules:
+    source: https://github.com/KDE/extra-cmake-modules.git
+    source-depth: 1
+    source-tag: v5.77.0
+    plugin: cmake
+    cmake-parameters:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DBUILD_TESTING=OFF
+    prime: [-./*]

@@ -3,17 +3,17 @@
 set -eo pipefail
 
 if [[ -z "${CI_JOB_TOKEN}" ]]; then
-    echo -e "\033[0;31mMissing CI_JOB_TOKEN, cannot release\033[0m"
+  echo -e "\033[0;31mMissing CI_JOB_TOKEN, cannot release\033[0m"
 
-    exit 1
+  exit 1
 fi
 
 tag=${1:-$CI_COMMIT_TAG}
 
 if [[ -z "${tag}" ]]; then
-    echo -e "usage:\n\t$0 tag"
+  echo -e "usage:\n\t$0 tag"
 
-    exit 2
+  exit 2
 fi
 
 api=${CI_API_V4_URL:-https://gitlab.com/api/v4}
@@ -22,7 +22,7 @@ runner_id=${CI_PROJECT_ID:-250833}
 changelog="https://gitlab.com/gitlab-org/gitlab-runner/blob/$tag/CHANGELOG.md"
 s3="https://gitlab-runner-downloads.s3.amazonaws.com/$tag"
 release=$(
-    cat <<EOS
+  cat <<EOS
 {
   "name": "$tag",
   "tag_name": "$tag",
@@ -56,4 +56,4 @@ EOS
 )
 
 curl -f --header 'Content-Type: application/json' --header "PRIVATE-TOKEN: ${CI_JOB_TOKEN}" \
-    --data "$release" --request POST "$api/projects/$runner_id/releases"
+  --data "$release" --request POST "$api/projects/$runner_id/releases"

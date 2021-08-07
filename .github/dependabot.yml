@@ -6,34 +6,34 @@
 
 version: 2
 updates:
-    # Maintain dependencies for GitHub Actions
-    - package-ecosystem: github-actions
-      directory: /
-      schedule:
-          interval: daily
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: daily
 
-    # Maintain dependencies for pip
-    - package-ecosystem: pip # See documentation for possible values
-      directory: /.github/workflows # Location of package manifests
-      schedule:
-          interval: weekly
+  # Maintain dependencies for pip
+  - package-ecosystem: pip # See documentation for possible values
+    directory: /.github/workflows # Location of package manifests
+    schedule:
+      interval: weekly
 
-    # Maintain dependencies for pip
-    - package-ecosystem: pip # See documentation for possible values
-      directory: /docs # Location of package manifests
-      schedule:
-          interval: weekly
+  # Maintain dependencies for pip
+  - package-ecosystem: pip # See documentation for possible values
+    directory: /docs # Location of package manifests
+    schedule:
+      interval: weekly
 
-    # Maintain dependencies for pip
-    - package-ecosystem: pip # See documentation for possible values
-      directory: / # Location of package manifests
-      schedule:
-          interval: weekly
+  # Maintain dependencies for pip
+  - package-ecosystem: pip # See documentation for possible values
+    directory: / # Location of package manifests
+    schedule:
+      interval: weekly
 
-    # Enable version updates for Docker
-    - package-ecosystem: docker
-      # Look for a `Dockerfile` in the `root` directory
-      directory: /
-      # Check for updates once a week
-      schedule:
-          interval: weekly
+  # Enable version updates for Docker
+  - package-ecosystem: docker
+    # Look for a `Dockerfile` in the `root` directory
+    directory: /
+    # Check for updates once a week
+    schedule:
+      interval: weekly

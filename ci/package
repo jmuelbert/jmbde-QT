@@ -21,11 +21,11 @@ create_package() {
     shift
 
     local customOptions
-    read -r -a customOptions <<< "${@}"
+    read -r -a customOptions <<<"${@}"
 
     if [ -z "${PACKAGE_ARCH}" ]; then
-      echo "PACKAGE_ARCH not specified, aborting."
-      exit 1
+        echo "PACKAGE_ARCH not specified, aborting."
+        exit 1
     fi
 
     local uname_s
@@ -99,7 +99,7 @@ create_rpm() {
 
     create_package rpm "${options[@]}"
 
-    if [ -n "${GPG_KEYID}" ] ; then
+    if [ -n "${GPG_KEYID}" ]; then
         echo "yes" | setsid rpm \
             --define "_gpg_name ${GPG_KEYID}" \
             --define "_signature gpg" \
@@ -110,13 +110,13 @@ create_rpm() {
 }
 
 case "${1}" in
-    deb)
-        create_deb
-        ;;
-    rpm)
-        create_rpm
-        ;;
-    *)
-        echo "Usage: ${0} (deb|rpm)"
-        ;;
+deb)
+    create_deb
+    ;;
+rpm)
+    create_rpm
+    ;;
+*)
+    echo "Usage: ${0} (deb|rpm)"
+    ;;
 esac

@@ -1,3 +1,0 @@
-#!/bin/bash -e
-ln -fs /usr/share/jmbde/jmbde.sh /usr/bin/jmbde
-chmod a+x /usr/bin/jmbde

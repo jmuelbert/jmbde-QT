@@ -1,21 +1,21 @@
 name: lgtm workflow
 
 on:
-    push:
-        branches:
-            - master # Set a branch name to trigger deployment
-    pull_request_review:
-    issue_comment:
+  push:
+    branches:
+      - master # Set a branch name to trigger deployment
+  pull_request_review:
+  issue_comment:
 
 jobs:
-    build-and-push:
-        runs-on: ubuntu-16.04
-        timeout-minutes: 3
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v2
+  build-and-push:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
-            - name: lgtm action
-              uses: docker://jonyhy/lgtm-action:v1
-              with:
-                  token: ${{ secrets.GITHUB_TOKEN }}
+      - name: lgtm action
+        uses: docker://jonyhy/lgtm-action:v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}

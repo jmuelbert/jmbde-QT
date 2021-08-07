@@ -17,10 +17,11 @@
     "icon": "/Users/juergen/Projects/GitHub/jmbde-QT/packaging/macos/CMakeDMGBackground.png",
     "icon-size": 128,
     "title": "jmbde ",
-    "window": {
-        "size": {
-            "height": 365,
-            "width": 500
+    "window":
+    {
+        "size":
+        {
+            "height" : 365, "width" : 500
         }
     }
 }

@@ -52,10 +52,8 @@ $InformationPreference = "Continue"
 # ---------------------------------------------------------------------------
 $imagesBasePath = "dockerfiles/runner-helper/Dockerfile.x86_64"
 
-function Main
-{
-    if (-not (Test-Path Env:IS_LATEST))
-    {
+function Main {
+    if (-not (Test-Path Env:IS_LATEST)) {
         $Env:IS_LATEST = Is-Latest
     }
 
@@ -63,15 +61,13 @@ function Main
 
     Build-Image $tag
 
-    if ($Env:PUSH_TO_DOCKER_HUB -eq "true")
-    {
+    if ($Env:PUSH_TO_DOCKER_HUB -eq "true") {
         $namespace = DockerHub-Namespace
 
         Connect-Registry $Env:DOCKER_HUB_USER $Env:DOCKER_HUB_PASSWORD
         Push-Tag $namespace $tag
 
-        if ($Env:IS_LATEST -eq "true")
-        {
+        if ($Env:IS_LATEST -eq "true") {
             Add-LatestTag $namespace $tag
             Push-Latest $namespace
         }
@@ -79,14 +75,12 @@ function Main
         Disconnect-Registry
     }
 
-    if ($Env:PUBLISH_IMAGES -eq "true")
-    {
+    if ($Env:PUBLISH_IMAGES -eq "true") {
         Connect-Registry $Env:CI_REGISTRY_USER $Env:CI_REGISTRY_PASSWORD $Env:CI_REGISTRY
 
         Push-Tag "${Env:CI_REGISTRY_IMAGE}" $tag
 
-        if ($Env:IS_LATEST -eq "true")
-        {
+        if ($Env:IS_LATEST -eq "true") {
             Add-LatestTag $Env:CI_REGISTRY_IMAGE $tag
             Push-Latest $Env:CI_REGISTRY_IMAGE
         }
@@ -94,16 +88,14 @@ function Main
         Disconnect-Registry $env:CI_REGISTRY
     }
 
-    if ($Env:PUSH_TO_ECR_PUBLIC -eq "true")
-    {
+    if ($Env:PUSH_TO_ECR_PUBLIC -eq "true") {
         $ecrPublicRegistry = ECR-Public-Registry
 
         Connect-Registry AWS $Env:ECR_PUBLIC_PASSWORD $ecrPublicRegistry
 
         Push-Tag $ecrPublicRegistry $tag
 
-        if ($Env:IS_LATEST -eq "true")
-        {
+        if ($Env:IS_LATEST -eq "true") {
             Add-LatestTag $ecrPublicRegistry $tag
             Push-Latest $ecrPublicRegistry
         }
@@ -112,47 +104,41 @@ function Main
     }
 }
 
-function Get-Tag
-{
+function Get-Tag {
     $revision = & 'git' rev-parse --short=8 HEAD
 
     return "x86_64-$revision-$Env:WINDOWS_VERSION"
 }
 
-function Get-Latest-Stable-Tag
-{
+function Get-Latest-Stable-Tag {
     $versions = & git -c versionsort.prereleaseSuffix="-rc" -c versionsort.prereleaseSuffix="-RC" tag -l "v*.*.*" |
-        Where-Object { $_ -notlike "*-rc*" } |
-        %{[System.Version]$_.Substring(1)} |
-        sort -descending
+    Where-Object { $_ -notlike "*-rc*" } |
+    % { [System.Version]$_.Substring(1) } |
+    sort -descending
     $latestTag = $versions[0].ToString()
 
     return "v$latestTag"
 }
 
-function Is-Latest
-{
+function Is-Latest {
     $prevErrorPreference = $ErrorActionPreference
     $ErrorActionPreference = 'Continue' # We expect errors from `git describe`, so temporarily disable handling
 
-    try
-    {
+    try {
         $latestTag = Get-Latest-Stable-Tag
         & git describe --exact-match --match $latestTag 2>&1 | out-null
         $isLatest = $LASTEXITCODE -eq 0
     }
-    finally
-    {
+    finally {
         $ErrorActionPreference = $prevErrorPreference
     }
 
     return $isLatest
 }
 
-function Build-Image($tag)
-{
-    $windowsFlavor = $env:WINDOWS_VERSION.Substring(0, $env:WINDOWS_VERSION.length -4)
-    $windowsVersion = $env:WINDOWS_VERSION.Substring($env:WINDOWS_VERSION.length -4)
+function Build-Image($tag) {
+    $windowsFlavor = $env:WINDOWS_VERSION.Substring(0, $env:WINDOWS_VERSION.length - 4)
+    $windowsVersion = $env:WINDOWS_VERSION.Substring($env:WINDOWS_VERSION.length - 4)
     $dockerHubNamespace = DockerHub-Namespace
     $ecrPublicRegistry = ECR-Public-Registry
 
@@ -185,8 +171,7 @@ function Build-Image($tag)
     }
 }
 
-function Push-Tag($namespace, $tag)
-{
+function Push-Tag($namespace, $tag) {
     Write-Information "Push $tag"
 
     & 'docker' push ${namespace}/gitlab-runner-helper:$tag
@@ -195,8 +180,7 @@ function Push-Tag($namespace, $tag)
     }
 }
 
-function Add-LatestTag($namespace, $tag)
-{
+function Add-LatestTag($namespace, $tag) {
     Write-Information "Tag $tag as latest"
 
     & 'docker' tag "${namespace}/gitlab-runner-helper:$tag" "${namespace}/gitlab-runner-helper:x86_64-latest-$Env:WINDOWS_VERSION"
@@ -205,8 +189,7 @@ function Add-LatestTag($namespace, $tag)
     }
 }
 
-function Push-Latest($namespace)
-{
+function Push-Latest($namespace) {
     Write-Information "Push latest tag"
 
     & 'docker' push "${namespace}/gitlab-runner-helper:x86_64-latest-$Env:WINDOWS_VERSION"
@@ -215,8 +198,7 @@ function Push-Latest($namespace)
     }
 }
 
-function Connect-Registry($username, $password, $registry)
-{
+function Connect-Registry($username, $password, $registry) {
     Write-Information "Login registry $registry"
 
     & 'docker' login --username $username --password $password $registry
@@ -225,8 +207,7 @@ function Connect-Registry($username, $password, $registry)
     }
 }
 
-function Disconnect-Registry($registry)
-{
+function Disconnect-Registry($registry) {
     Write-Information "Logout registry $registry"
 
     & 'docker' logout $registry
@@ -235,39 +216,31 @@ function Disconnect-Registry($registry)
     }
 }
 
-function DockerHub-Namespace
-{
-    if(-not (Test-Path env:DOCKER_HUB_NAMESPACE))
-    {
+function DockerHub-Namespace {
+    if (-not (Test-Path env:DOCKER_HUB_NAMESPACE)) {
         return "gitlab"
     }
 
     return $Env:DOCKER_HUB_NAMESPACE
 }
 
-function ECR-Public-Registry
-{
-    if(-not (Test-Path env:ECR_PUBLIC_REGISTRY))
-    {
+function ECR-Public-Registry {
+    if (-not (Test-Path env:ECR_PUBLIC_REGISTRY)) {
         return "public.ecr.aws/gitlab"
     }
 
     return $Env:ECR_PUBLIC_REGISTRY
 }
 
-Try
-{
-    if (-not (Test-Path env:WINDOWS_VERSION))
-    {
+Try {
+    if (-not (Test-Path env:WINDOWS_VERSION)) {
         throw '$Env:WINDOWS_VERSION is not set'
     }
 
     Main
 }
-Finally
-{
-    if (-not (Test-Path env:SKIP_CLEANUP))
-    {
+Finally {
+    if (-not (Test-Path env:SKIP_CLEANUP)) {
         Write-Information "Cleaning up the build image"
         $tag = Get-Tag
         $dockerHubNamespace = DockerHub-Namespace

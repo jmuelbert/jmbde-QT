@@ -21,41 +21,40 @@ logout() {
     docker logout "${CI_REGISTRY}"
 }
 
-pull () {
+pull() {
     echo "Pulling base image"
     registry_credentials_available || return 0
     docker pull "${BUILD_IMAGE}" || echo "${BUILD_IMAGE} image is not available. Will not use cache."
 }
 
-push () {
+push() {
     echo "Pushing image"
     registry_credentials_available || return 0
     docker push "${BUILD_IMAGE}"
 }
 
-
 build() {
     echo "Building image: ${BUILD_IMAGE}"
     docker build \
-           --cache-from "${BUILD_IMAGE}" \
-           --build-arg DOCKER_VERSION="${DOCKER_VERSION}" \
-           --build-arg BUILDX_VERSION="${BUILDX_VERSION}" \
-           --build-arg PWSH_VERSION="${PWSH_VERSION}" \
-           --build-arg GIT_LFS_VERSION="${GIT_LFS_VERSION}" \
-           --build-arg GIT_LFS_AMD64_CHECKSUM="${GIT_LFS_LINUX_AMD64_CHECKSUM}" \
-           --build-arg KUBECTL_VERSION="${KUBECTL_VERSION}" \
-           --build-arg AWS_CLI_VERSION="${AWS_CLI_VERSION}" \
-           -t "${BUILD_IMAGE}" \
-           -f "${BUILD_DOCKERFILE}" \
-           "${GIT_ROOT}"
+        --cache-from "${BUILD_IMAGE}" \
+        --build-arg DOCKER_VERSION="${DOCKER_VERSION}" \
+        --build-arg BUILDX_VERSION="${BUILDX_VERSION}" \
+        --build-arg PWSH_VERSION="${PWSH_VERSION}" \
+        --build-arg GIT_LFS_VERSION="${GIT_LFS_VERSION}" \
+        --build-arg GIT_LFS_AMD64_CHECKSUM="${GIT_LFS_LINUX_AMD64_CHECKSUM}" \
+        --build-arg KUBECTL_VERSION="${KUBECTL_VERSION}" \
+        --build-arg AWS_CLI_VERSION="${AWS_CLI_VERSION}" \
+        -t "${BUILD_IMAGE}" \
+        -f "${BUILD_DOCKERFILE}" \
+        "${GIT_ROOT}"
 }
 
 scan() {
     echo "Triggering container scan for ${BUILD_IMAGE}"
     curl -X POST --form token="${CONTAINER_SCANNING_PIPELINE_TRIGGER_TOKEN}" \
-        --form ref=master  \
+        --form ref=master \
         --form "variables[IMAGES]= ${BUILD_IMAGE}" \
-         https://gitlab.com/api/v4/projects/16505542/trigger/pipeline
+        https://gitlab.com/api/v4/projects/16505542/trigger/pipeline
 }
 
 login

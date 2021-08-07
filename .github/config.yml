@@ -4,7 +4,7 @@
 # *OPTIONAL* Comment to reply with
 # Can be either a string :
 requestInfoReplyComment: >
-    We would appreciate it if you could provide us with more info about this issue/pr!
+  We would appreciate it if you could provide us with more info about this issue/pr!
 # Or an array:
 # requestInfoReplyComment:
 #  - Ah no! young blade! That was a trifle short!
@@ -14,8 +14,8 @@ requestInfoReplyComment: >
 # *OPTIONAL* default titles to check against for lack of descriptiveness
 # MUST BE ALL LOWERCASE
 requestInfoDefaultTitles:
-    - update readme.md
-    - updates
+  - update readme.md
+  - updates
 
 # *OPTIONAL* Label to be added to Issues and Pull Requests with insufficient information given
 requestInfoLabelToAdd: needs-more-info
@@ -31,11 +31,11 @@ checkPullRequestTemplate: true
 # *OPTIONAL* Only warn about insufficient information on these events type
 # Keys must be lowercase. Valid values are 'issue' and 'pullRequest'
 requestInfoOn:
-    pullRequest: true
-    issue: true
+  pullRequest: true
+  issue: true
 
 newPRWelcomeComment: >
-    Thanks so much for opening your first PR here!
+  Thanks so much for opening your first PR here!
 
 newIssueWelcomeComment: >
-    Thanks for opening this issue, a maintainer will get back to you shortly!
+  Thanks for opening this issue, a maintainer will get back to you shortly!

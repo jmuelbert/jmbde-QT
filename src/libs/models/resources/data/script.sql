@@ -5,7 +5,6 @@ CREATE TABLE account (
     system_data_id INTEGER,
     last_update TIMESTAMP
 );
-
 CREATE TABLE chip_card (
     chip_card_id INTEGER PRIMARY KEY,
     number VARCHAR(10),
@@ -14,7 +13,6 @@ CREATE TABLE chip_card (
     employee_id INTEGER,
     last_update TIMESTAMP
 );
-
 CREATE TABLE chip_card_door (
     chip_card_door_id INTEGER PRIMARY KEY,
     number VARCHAR(10),
@@ -23,7 +21,6 @@ CREATE TABLE chip_card_door (
     employee_id INTEGER,
     last_update TIMESTAMP
 );
-
 CREATE TABLE chip_card_profile (
     chip_card_profile_id INTEGER PRIMARY KEY,
     number VARCHAR(10),
@@ -31,20 +28,17 @@ CREATE TABLE chip_card_profile (
     employee_id INTEGER,
     last_update TIMESTAMP
 );
-
 CREATE TABLE chip_card_profile_door (
     chip_card_profile_door_id INTEGER PRIMARY KEY,
     chip_card_profile_id INTEGER,
     chip_card_door_id INTEGER,
     last_update TIMESTAMP
 );
-
 CREATE TABLE city_name (
     city_name_id INTEGER PRIMARY KEY,
     name VARCHAR,
     last_update TIMESTAMP
 );
-
 CREATE TABLE company (
     company_id INTEGER PRIMARY KEY,
     name VARCHAR,
@@ -60,7 +54,6 @@ CREATE TABLE company (
     employee_id INTEGER,
     last_update TIMESTAMP
 );
-
 CREATE TABLE computer (
     computer_id INTEGER PRIMARY KEY,
     device_name_id INTEGER,
@@ -85,14 +78,12 @@ CREATE TABLE computer (
     printer_id INTEGER,
     last_update TIMESTAMP
 );
-
 CREATE TABLE computer_software (
     computer_software_id INTEGER PRIMARY KEY,
     computer_id INTEGER,
     software_id INTEGER,
     last_update TIMESTAMP
 );
-
 CREATE TABLE department (
     department_id INTEGER PRIMARY KEY,
     name VARCHAR,
@@ -100,34 +91,29 @@ CREATE TABLE department (
     printer_id INTEGER,
     fax_id INTEGER,
     last_update TIMESTAMP
- );
-
+);
 CREATE TABLE device_name (
     device_name_id INTEGER PRIMARY KEY,
     name VARCHAR,
     last_update TIMESTAMP
- );
-
+);
 CREATE TABLE device_type (
     device_type_id INTEGER PRIMARY KEY,
     name VARCHAR,
     last_update TIMESTAMP
 );
-
 CREATE TABLE document (
     document_id INTEGER PRIMARY KEY,
     name VARCHAR,
     document_data BLOB,
     last_update TIMESTAMP
 );
-
 CREATE TABLE employee_account (
     employee_account_id INTEGER PRIMARY KEY,
     employe_id INTEGER,
     account_id INTEGER,
     last_update TIMESTAMP
 );
-
 CREATE TABLE employee (
     employee_id INTEGER PRIMARY KEY,
     employee_nr INTEGER,
@@ -159,15 +145,13 @@ CREATE TABLE employee (
     employee_document_id INTGER,
     chip_card_id INTEGER,
     last_update TIMESTAMP
- );
-
+);
 CREATE TABLE employee_document (
     employee_document_id INTEGER PRIMARY KEY,
     employe_id INTEGER,
     document_id INTEGER,
     last_update TIMESTAMP
- );
-
+);
 CREATE TABLE fax (
     fax_id INTEGER PRIMARY KEY,
     device_name_id INTEGER,
@@ -184,14 +168,12 @@ CREATE TABLE fax (
     inventory_id INTEGER,
     last_update TIMESTAMP
 );
-
 CREATE TABLE function (
     function_id INTEGER PRIMARY KEY,
     name VARCHAR,
     priority INTEGER,
     last_update TIMESTAMP
 );
-
 CREATE TABLE inventory (
     inventory_id INTEGER PRIMARY KEY,
     number VARCHAR,
@@ -199,7 +181,6 @@ CREATE TABLE inventory (
     active BOOLEAN,
     last_update TIMESTAMP
 );
-
 CREATE TABLE manufacturer (
     manufacturer_id INTEGER PRIMARY KEY,
     name VARCHAR,
@@ -214,7 +195,6 @@ CREATE TABLE manufacturer (
     hotline_number VARCHAR,
     last_update TIMESTAMP
 );
-
 CREATE TABLE mobile (
     mobile_id INTEGER PRIMARY KEY,
     device_name_id INTEGER,
@@ -232,7 +212,6 @@ CREATE TABLE mobile (
     inventory_id INTEGER,
     last_update TIMESTAMP
 );
-
 CREATE TABLE os (
     os_id INTEGER PRIMARY KEY,
     name VARCHAR,
@@ -241,7 +220,6 @@ CREATE TABLE os (
     fix VARCHAR,
     last_update TIMESTAMP
 );
-
 CREATE TABLE phone (
     phone_id INTEGER PRIMARY KEY,
     device_name_id INTEGER,
@@ -258,7 +236,6 @@ CREATE TABLE phone (
     inventory_id INTEGER,
     last_update TIMESTAMP
 );
-
 CREATE TABLE place (
     place_id INTEGER PRIMARY KEY,
     name VARCHAR,
@@ -266,7 +243,6 @@ CREATE TABLE place (
     desk VARCHAR,
     last_update TIMESTAMP
 );
-
 CREATE TABLE printer (
     printer_id INTEGER PRIMARY KEY,
     device_name_id INTEGER,
@@ -288,7 +264,6 @@ CREATE TABLE printer (
     computer_id INTEGER,
     last_update TIMESTAMP
 );
-
 CREATE TABLE processor (
     processor_id INTEGER PRIMARY KEY,
     name VARCHAR,
@@ -296,7 +271,6 @@ CREATE TABLE processor (
     cores INTEGER,
     last_update TIMESTAMP
 );
-
 CREATE TABLE software (
     software_id INTEGER PRIMARY KEY,
     name VARCHAR,
@@ -305,7 +279,6 @@ CREATE TABLE software (
     fix VARCHAR,
     last_update TIMESTAMP
 );
-
 CREATE TABLE system_data (
     system_data_id INTEGER PRIMARY KEY,
     name VARCHAR,
@@ -313,34 +286,29 @@ CREATE TABLE system_data (
     company_id INTEGER,
     last_update TIMESTAMP
 );
-
 CREATE TABLE title (
     title_id INTEGER PRIMARY KEY,
     name VARCHAR(50),
     from_date DATE,
     last_update TIMESTAMP
 );
-
 CREATE TABLE zip_city (
     zip_city_id INTEGER PRIMARY KEY,
     zip_code_id INTEGER,
     city_id INTEGER,
     last_update TIMESTAMP
 );
-
 CREATE TABLE zip_code (
     zip_code_id INTEGER PRIMARY KEY,
     code VARCHAR(10),
     last_update TIMESTAMP
 );
-
 CREATE TABLE database_version (
     database_version_id INTEGER PRIMARY KEY,
     version VARCHAR(10),
     revision VARCHAR (10),
     patch VARCHAR(10)
 );
-
 --First insertions
-
-INSERT INTO database_version VALUES(1, "0", "90", "0");
+INSERT INTO database_version
+VALUES(1, "0", "90", "0");

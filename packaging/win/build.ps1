@@ -19,71 +19,58 @@ Param(
 
 # Globaö values
 $Global:outputPath = "C:\develop\github\"
-$Global:inputPath =  "C:\downloads\jmbde-QT\"
+$Global:inputPath = "C:\downloads\jmbde-QT\"
 $Global:7ZipBinaryPath = "C:\Program Files\7-Zip\7z.exe"
 $Global:innoBinaryPath = "C:\Program Files (x86)\Inno Setup 5\ISCC.exe"
 $Global:innoScriptPath = ".\installer.iss"
 $Global:configPath = ".\jmbde\config.h"
 
 # Main-function
-function main
-{
+function main {
     "Packaging..."
 
     # Find version information
-    ForEach ($line in Get-Content $Global:configPath)
-    {
-        if ($line -like '*APP_VERSION_MAIN*')
-        {
+    ForEach ($line in Get-Content $Global:configPath) {
+        if ($line -like '*APP_VERSION_MAIN*') {
             $mainVersion = $line -replace '^#define APP_VERSION_MAIN ' -replace '"'
         }
 
-        if ($line -like '*APP_VERSION_WEEKLY*')
-        {
+        if ($line -like '*APP_VERSION_WEEKLY*') {
             $weeklyVersion = $line -replace '^#define APP_VERSION_WEEKLY ' -replace '"'
         }
 
-        if ($line -like '*APP_VERSION_CONTEXT*')
-        {
+        if ($line -like '*APP_VERSION_CONTEXT*') {
             $contextVersion = $line -replace '^#define APP_VERSION_CONTEXT ' -replace '"'
         }
     }
 
     # Set architecture
-    if ($a -eq 64)
-    {
+    if ($a -eq 64) {
         $architecture = 64
     }
-    else
-    {
+    else {
         $architecture = 32
     }
 
-    if (!$o)
-    {
+    if (!$o) {
         # Type of build
-        switch($t)
-        {
-        "beta"
-           {
-               $packageName = "app-browser-win" + $architecture + "-" + $contextVersion
-               $setupName = "app-browser-win" + $architecture + "-" + $contextVersion + "-setup"
-           }
-           "release"
-           {
-               #TODO
-           }
-           default
-           {
-               $packageName = "app-browser-win" + $architecture + "-weekly" + $weeklyVersion
-               $setupName = "app-browser-win" + $architecture + "-weekly" + $weeklyVersion + "-setup"
-           }
+        switch ($t) {
+            "beta" {
+                $packageName = "app-browser-win" + $architecture + "-" + $contextVersion
+                $setupName = "app-browser-win" + $architecture + "-" + $contextVersion + "-setup"
+            }
+            "release" {
+                #TODO
+            }
+            default {
+                $packageName = "app-browser-win" + $architecture + "-weekly" + $weeklyVersion
+                $setupName = "app-browser-win" + $architecture + "-weekly" + $weeklyVersion + "-setup"
+            }
         }
     }
-    else
-    {
-         $packageName = $o;
-         $setupName =  $packageName + "-setup";
+    else {
+        $packageName = $o;
+        $setupName = $packageName + "-setup";
     }
 
     $7zipFileName = $Global:outputPath + $packageName + ".7z"
@@ -96,8 +83,7 @@ function main
     Select-String -Pattern "ArchitecturesInstallIn64BitMode=x64" -NotMatch |
     Select-String -Pattern "ArchitecturesAllowed=x64" -NotMatch |
     ForEach-Object {
-        if ($architecture -eq 64 -and $_ -match "^DefaultGroupName.+")
-        {
+        if ($architecture -eq 64 -and $_ -match "^DefaultGroupName.+") {
             "ArchitecturesInstallIn64BitMode=x64"
             "ArchitecturesAllowed=x64"
         }
@@ -112,8 +98,7 @@ function main
     "Finished!"
 }
 
-function fullBuild ($7zipFileName, $zipFileName)
-{
+function fullBuild ($7zipFileName, $zipFileName) {
     Start-Process -NoNewWindow -Wait $Global:innoBinaryPath -ArgumentList $Global:innoScriptPath
     Start-Process -NoNewWindow -Wait $Global:7ZipBinaryPath -ArgumentList "a", $7zipFileName, ($Global:inputPath + "*"), "-mmt4", "-mx9", "-m0=lzma2"
     Start-Process -NoNewWindow -Wait $Global:7ZipBinaryPath -ArgumentList "a", "-tzip", $zipFileName, $Global:inputPath, "-mx5"

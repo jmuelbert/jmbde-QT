@@ -1,5 +1,9 @@
 ---
-# SPDX-License-Identifier: GPL-2.0-or-later
+#
+#  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+#
+#  SPDX-License-Identifier: GPL-3.0-or-later
+#
 version: '{branch}-{build}'
 
 # branches to build
@@ -196,10 +200,10 @@ for:
   ########## WINDOWS SPECIFIC CONFIGURATION ##########
 
   - matrix:
-      only:
-        - image: Visual Studio 2019
+    only:
+      - image: Visual Studio 2019
 
-      fast_finish: false # set this flag to true to immediately finish build once one of the jobs fails.
+    fast_finish: false # set this flag to true to immediately finish build once one of the jobs fails.
 
     cache:
       - C:\tools\vcpkg\installed -> .appveyor.yml
@@ -254,20 +258,20 @@ for:
       - conan user
 
     before_build:
-      - call "%ProgramFiles(x86)%\Microsoft Visual
-        Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
+      - call "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
       - call "%QTDIR%\bin\qtenv2.bat"
       - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER"
       - ps: New-Item -itemtype directory -path ./build
       - ps: Set-Location "build"
-      - ps: Write-Host "Generate the Project with the $ENV:CMAKE_GENERATOR gnerator
+      - ps: Write-Host "Generate the Project with the $ENV:CMAKE_GENERATOR generator
           and the configuration $ENV:CONFIGURATION"
 
     build_script:
       - ps: New-Item -itemtype directory -path ./programs
-      - ps: cmake -G "$ENV:CMAKE_GENERATOR" -A x64
-          -DCMAKE_BUILD_TYPE="$ENV:CONFIGURATION"  -DCMAKE_PREFIX_PATH="$ENV:QTDIR"
-          -DCMAKE_INSTALL_PREFIX:PATH="$ENV:APPVEYOR_BUILD_FOLDER/program"
+      - ps: cmake -G "$ENV:CMAKE_GENERATOR" -A x64 \
+          -DCMAKE_BUILD_TYPE="$ENV:CONFIGURATION" \
+          -DCMAKE_PREFIX_PATH="$ENV:QTDIR" \
+          -DCMAKE_INSTALL_PREFIX:PATH="$ENV:APPVEYOR_BUILD_FOLDER/program" \
           -DBUILD_TESTING=ON -DBUILD_SHARED_LIBS=ON ..
       - ps: cmake --build . --config $ENV:CONFIGURATION --target install
 

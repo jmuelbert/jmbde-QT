@@ -3,10 +3,10 @@
 function Controller() {
   //installer.installationFinished.connect(onInstalled)
   installer.uninstallationFinished.connect(function () {
-    console.log("uninstall done");
-    if (installer.value("os") === "win") {
-      installer.executeDetached("reg", unreg.split(";"));
-      installer.executeDetached("reg", unreg2.split(";"));
+    console.log('uninstall done');
+    if (installer.value('os') === 'win') {
+      installer.executeDetached('reg', unreg.split(';'));
+      installer.executeDetached('reg', unreg2.split(';'));
       //QMessageBox.information("", "finish", "unreg: " + unreg2.split(";"))
     }
   });

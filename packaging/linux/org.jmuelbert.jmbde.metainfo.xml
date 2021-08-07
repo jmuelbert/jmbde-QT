@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+SPDX-FileCopyrightText: none
+SPDX-License-Identifier: CC0-1.0
+-->
+<omponent type="desktop-application">
+    <id>org.jmuelbert.jmbde</id>
+    <metadata_license>CC0-1.0</metadata_license>
+    <project_license>GPL-3.0-or-later</project_license>
+    <name>jmbde</name>
+    <releases>
+        <release version="0.4.7" date="2018-11-22"/>
+        <release version="0.5.2" date="2020-03-21"/>
+        <release version="0.5.4" date="2020-12-31"/>
+    </releases>
+    <summary>Simply BDE</summary>
+    <description>
+        <p>
+            Collect data of a company. Computers, Printer and Phones
+        </p>
+    </description>
+    <content_rating type="oars-1.1" />
+    <translation type="qt">jmbde</translation>
+    <!-- screenshots>
+        <screenshot></screenshot>
+    </screenshots -->
+    <url type="homepage">https://github.com/jmuelbert/jmbde-QT</url>
+    <update_contact>https://github.com/jmuelbert/jmbde-QT/issues/new</update_contact>
+    <launchable type="desktop-id">org.jmuelbert.jmbde.desktop</launchable>
+</component>
