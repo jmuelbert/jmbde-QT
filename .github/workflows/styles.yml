@@ -158,7 +158,7 @@ jobs:
         if: steps.sqlcheck.outputs.issue-found
 
       - name: Clang Format
-      - uses: DoozyX/clang-format-lint-action@v0.9
+      - uses: DoozyX/clang-format-lint-action@v0.12
         with:
           source: './src'
           extensions: 'h,cpp'
