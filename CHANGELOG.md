@@ -4,6 +4,13 @@
 
 **Merged pull requests:**
 
+- build\(deps\): bump pre-commit from 2.13.0 to 2.14.0 [\#344](https://github.com/jmuelbert/jmbde-QT/pull/344)
+- build\(deps\): bump identify from 2.2.11 to 2.2.13 [\#343](https://github.com/jmuelbert/jmbde-QT/pull/343)
+- build\(deps\): bump DoozyX/clang-format-lint-action from 0.9 to 0.12 [\#342](https://github.com/jmuelbert/jmbde-QT/pull/342)
+- Fix typos by misspell-fixer for refs/heads/master [\#341](https://github.com/jmuelbert/jmbde-QT/pull/341)
+- build\(deps\): bump importlib-metadata from 4.6.1 to 4.6.3 [\#340](https://github.com/jmuelbert/jmbde-QT/pull/340)
+- build\(deps\): bump sphinx from 4.1.1 to 4.1.2 [\#339](https://github.com/jmuelbert/jmbde-QT/pull/339)
+- build\(deps\): bump virtualenv from 20.6.0 to 20.7.0 [\#338](https://github.com/jmuelbert/jmbde-QT/pull/338)
 - build\(deps\): bump sphinx from 4.1.0 to 4.1.1 [\#337](https://github.com/jmuelbert/jmbde-QT/pull/337)
 - build\(deps\): bump virtualenv from 20.4.7 to 20.6.0 [\#336](https://github.com/jmuelbert/jmbde-QT/pull/336)
 - build\(deps\): bump graphviz from 0.16 to 0.17 [\#335](https://github.com/jmuelbert/jmbde-QT/pull/335)
@@ -19,9 +26,6 @@
 - Bump actions/upload-artifact from 2.2.3 to 2.2.4 [\#323](https://github.com/jmuelbert/jmbde-QT/pull/323)
 - Bump urllib3 from 1.26.5 to 1.26.6 [\#322](https://github.com/jmuelbert/jmbde-QT/pull/322)
 - Bump identify from 2.2.6 to 2.2.10 [\#321](https://github.com/jmuelbert/jmbde-QT/pull/321)
-- Bump importlib-metadata from 4.3.1 to 4.5.0 [\#320](https://github.com/jmuelbert/jmbde-QT/pull/320)
-- Bump actions/github-script from 3 to 4.0.2 [\#319](https://github.com/jmuelbert/jmbde-QT/pull/319)
-- Bump identify from 2.2.6 to 2.2.8 [\#317](https://github.com/jmuelbert/jmbde-QT/pull/317)
 
 ## [dependabot/pip/importlib-metadata-4.3.1](https://github.com/jmuelbert/jmbde-QT/tree/dependabot/pip/importlib-metadata-4.3.1) (2021-06-12)
 
