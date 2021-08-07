@@ -203,91 +203,91 @@ for:
       only:
         - image: Visual Studio 2019
 
-    fast_finish: false # set this flag to true to immediately finish build once one of the jobs fails.
+      fast_finish: false # set this flag to true to immediately finish build once one of the jobs fails.
 
-    cache:
-      - C:\tools\vcpkg\installed -> .appveyor.yml
-      - C:\Users\appveyor\clcache -> .appveyor.yml, build_msvc\**, **\Makefile.am, **\*.vcxproj.in
+      cache:
+        - C:\tools\vcpkg\installed -> .appveyor.yml
+        - C:\Users\appveyor\clcache -> .appveyor.yml, build_msvc\**, **\Makefile.am, **\*.vcxproj.in
 
-    init:
-      - git config --global core.autocrlf input
-      # Uncomment the following line to show RDP info at beginning of job
-      #    - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
-      - call set ENVIRONMENT_NAME=%%ENVIRONMENT_NAME:PLATFORM=%platform%%%
-      - call set ENVIRONMENT_NAME=%%ENVIRONMENT_NAME:CONFIGURATION=%configuration%%%
-      - ps: $ENV:PLATFORM="x64"
-      - ps: $ENV:PYTHON="C:\Python39-x64"
-      - ps: $ENV:VSDEVCMD="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\Common7\Tools\VsDevCmd.bat"
-      # MSVC
-      - ps: $ENV:QTDIR="C:\Qt\6.0\msvc2019_64"
-      - ps: $ENV:VCREDIST_CRT_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CRT"
-      - ps: $ENV:VCREDIST_CXXAMP_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CXXAMP"
-      - ps: $ENV:VCREDIST_OPENMP_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.OpenMP"
-      - ps: $ENV:REDIST="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\vcredist_%PLATFORM%.exe"
-      - ps: $ENV:VCVARSALL="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat"
-      - call set /p RedistVersion=<"%ProgramFiles(x86)%\\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt"
-      - ps: $ENV:Path =  $ENV:PYTHON + ";" + $ENV:PYTHON + "/Scripts" + ";" + $ENV:PATH
-      - ps: $ENV:INNO="${ENV:ProgramFiles(x86)}\Inno Setup 6"
-      - ps: $ENV:NSIS="${ENV:ProgramFiles(x86)}\NSIS"
-      - ps: $ENV:CMAKE_GENERATOR="Visual Studio 16 2019" # Ninja
-      - ps: $ENV:Path += ";" + $ENV:QTDIR + "\bin"
-      - ps: $ENV:Path += ";" + $ENV:INNO + ";" + $ENV:NSIS
-      - echo QTDIR=%QTDIR%
+      init:
+        - git config --global core.autocrlf input
+        # Uncomment the following line to show RDP info at beginning of job
+        #    - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+        - call set ENVIRONMENT_NAME=%%ENVIRONMENT_NAME:PLATFORM=%platform%%%
+        - call set ENVIRONMENT_NAME=%%ENVIRONMENT_NAME:CONFIGURATION=%configuration%%%
+        - ps: $ENV:PLATFORM="x64"
+        - ps: $ENV:PYTHON="C:\Python39-x64"
+        - ps: $ENV:VSDEVCMD="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\Common7\Tools\VsDevCmd.bat"
+        # MSVC
+        - ps: $ENV:QTDIR="C:\Qt\6.0\msvc2019_64"
+        - ps: $ENV:VCREDIST_CRT_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CRT"
+        - ps: $ENV:VCREDIST_CXXAMP_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.CXXAMP"
+        - ps: $ENV:VCREDIST_OPENMP_DIR="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\x64\Microsoft.VC141.OpenMP"
+        - ps: $ENV:REDIST="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\%RedistVersion%\vcredist_%PLATFORM%.exe"
+        - ps: $ENV:VCVARSALL="${ENV:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat"
+        - call set /p RedistVersion=<"%ProgramFiles(x86)%\\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt"
+        - ps: $ENV:Path =  $ENV:PYTHON + ";" + $ENV:PYTHON + "/Scripts" + ";" + $ENV:PATH
+        - ps: $ENV:INNO="${ENV:ProgramFiles(x86)}\Inno Setup 6"
+        - ps: $ENV:NSIS="${ENV:ProgramFiles(x86)}\NSIS"
+        - ps: $ENV:CMAKE_GENERATOR="Visual Studio 16 2019" # Ninja
+        - ps: $ENV:Path += ";" + $ENV:QTDIR + "\bin"
+        - ps: $ENV:Path += ";" + $ENV:INNO + ";" + $ENV:NSIS
+        - echo QTDIR=%QTDIR%
 
-    clone_folder: c:\projects\jmbde-QT
+      clone_folder: c:\projects\jmbde-QT
 
-    install:
-      # Windows
-      - cinst png2ico
-      - nuget install secure-file -ExcludeVersion
-      - call "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
-      - call "%QTDIR%\bin\qtenv2.bat"
-      - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER"
-      # Install conan
-      - pip install conan
-      - conan user
+      install:
+        # Windows
+        - cinst png2ico
+        - nuget install secure-file -ExcludeVersion
+        - call "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
+        - call "%QTDIR%\bin\qtenv2.bat"
+        - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER"
+        # Install conan
+        - pip install conan
+        - conan user
 
-    before_build:
-      - call "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
-      - call "%QTDIR%\bin\qtenv2.bat"
-      - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER"
-      - ps: New-Item -itemtype directory -path ./build
-      - ps: Set-Location "build"
-      - ps: Write-Host "Generate the Project with the $ENV:CMAKE_GENERATOR generator and the configuration $ENV:CONFIGURATION"
+      before_build:
+        - call "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
+        - call "%QTDIR%\bin\qtenv2.bat"
+        - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER"
+        - ps: New-Item -itemtype directory -path ./build
+        - ps: Set-Location "build"
+        - ps: Write-Host "Generate the Project with the $ENV:CMAKE_GENERATOR generator and the configuration $ENV:CONFIGURATION"
 
-    build_script:
-      - ps: New-Item -itemtype directory -path ./programs
-      - ps: cmake -G "'$ENV:CMAKE_GENERATOR' -A x64" \
+      build_script:
+        - ps: New-Item -itemtype directory -path ./programs
+        - ps: cmake -G "'$ENV:CMAKE_GENERATOR' -A x64" \
           -DCMAKE_BUILD_TYPE="$ENV:CONFIGURATION" \
           -DCMAKE_PREFIX_PATH="$ENV:QTDIR" \
           -DCMAKE_INSTALL_PREFIX:PATH="$ENV:APPVEYOR_BUILD_FOLDER/program" \
           -DBUILD_TESTING=ON -DBUILD_SHARED_LIBS=ON ..
-      - ps: cmake --build . --config $ENV:CONFIGURATION --target install
+        - ps: cmake --build . --config $ENV:CONFIGURATION --target install
 
-    after_build:
-      - ps: cpack -G WIX -B Package
-      - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER/build/program"
-      - ps: Write-Host "$ENV:APPVEYOR_REPO_TAG_NAME"
-      - ps: Get-ChildItem
-      - ps: windeployqt bin/jmbde.exe bin/jmbdewidgets.dll bin/jmbdemodels.dll
-      - ps: Get-ChildItem bin
-      - cp %APPVEYOR_BUILD_FOLDER%/packaging/win/installer_%PLATFORM%.iss .
-      - ps: $installerfile="installer_" + $ENV:PLATFORM + ".iss"
-      - ps: iscc $installerfile
+      after_build:
+        - ps: cpack -G WIX -B Package
+        - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER/build/program"
+        - ps: Write-Host "$ENV:APPVEYOR_REPO_TAG_NAME"
+        - ps: Get-ChildItem
+        - ps: windeployqt bin/jmbde.exe bin/jmbdewidgets.dll bin/jmbdemodels.dll
+        - ps: Get-ChildItem bin
+        - cp %APPVEYOR_BUILD_FOLDER%/packaging/win/installer_%PLATFORM%.iss .
+        - ps: $installerfile="installer_" + $ENV:PLATFORM + ".iss"
+        - ps: iscc $installerfile
 
-    articfacts:
-      - path: build\package\*.msi
-        name: installer
-      - path: build\src\Release\*.exe
-        name: executable
-      - path: build\articfat.zip
-        name: archive
+      articfacts:
+        - path: build\package\*.msi
+          name: installer
+        - path: build\src\Release\*.exe
+          name: executable
+        - path: build\articfat.zip
+          name: archive
 
-    on_finish:
-      # Uncomment the following line if you don't want the build VM to be destroyed
-      # and be able to RDP on it until a special “lock” file on VM desktop is deleted
-      # The RDP session is limited by overall build time (60 min).
-      # - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+      on_finish:
+        # Uncomment the following line if you don't want the build VM to be destroyed
+        # and be able to RDP on it until a special “lock” file on VM desktop is deleted
+        # The RDP session is limited by overall build time (60 min).
+        # - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 ########## END WINDOWS SPECIFIC CONFIGURATION ##########
 
