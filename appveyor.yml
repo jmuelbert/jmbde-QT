@@ -256,7 +256,7 @@ for:
 
     build_script:
       - ps: New-Item -itemtype directory -path ./programs
-      - ps: cmake -G $ENV:CMAKE_GENERATOR  `
+      - ps: cmake -G "Visual Studio 16 2019" -A x64  `
           -DCMAKE_BUILD_TYPE="$ENV:CONFIGURATION"  `
           -DCMAKE_PREFIX_PATH="$ENV:QTDIR"  `
           -DCMAKE_INSTALL_PREFIX:PATH="$ENV:APPVEYOR_BUILD_FOLDER/program"  `
