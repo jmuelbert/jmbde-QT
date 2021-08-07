@@ -113,15 +113,15 @@ jobs:
         # We'll use this as our working directory for all subsequent commands
         run: cmake -E make_directory ${{runner.workspace}}/build
 
-      - name: Set the Qt6 environment
-        if: matrix.config.qt_main == '6'
-        env:
-          Qt5_DIR: ../Qt/${{ matrix.config.qt_version }}/${{matrix.config.qt_arch}}
+      # - name: Set the Qt6 environment
+      #  if: matrix.config.qt_main == '6'
+      #  env:
+      #    Qt5_DIR: ../Qt/${{ matrix.config.qt_version }}/${{matrix.config.qt_arch}}
 
-      - name: Set the Qt5 environment
-        if: matrix.config.qt_main == '6'
-        env:
-          Qt6_DIR: ../Qt/${{ matrix.config.qt_version }}/${{matrix.config.qt_arch}}
+      # - name: Set the Qt5 environment
+      #  if: matrix.config.qt_main == '6'
+      #  env:
+      #    Qt6_DIR: ../Qt/${{ matrix.config.qt_version }}/${{matrix.config.qt_arch}}
 
       - name: Configure CMake
         # Use a bash shell so we can use the same syntax for environment variable
