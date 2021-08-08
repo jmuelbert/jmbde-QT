@@ -87,7 +87,7 @@ jobs:
       - name: Installing Q${{ matrix.qt_version }} -  ${{ matrix.config.arch }}
         uses: jurplel/install-qt-action@v2
         with:
-          version: ${{ matrix.config.qt_version }}
+          version: ${{ matrix.qt_version }}
           arch: ${{ matrix.config.arch }}
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
           setup-python: 'false'
