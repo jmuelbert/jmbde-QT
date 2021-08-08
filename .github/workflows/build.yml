@@ -67,12 +67,12 @@ jobs:
         uses: actions/cache@v2.1.5
         with:
           path: ../Qt
-          key: QtCache-${{ matrix.config.name }}-${{ matrix.config.arch }}-${{matrix.config.qt_version }}
+          key: QtCache-${{ matrix.config.name }}-${{ matrix.config.arch }}-${{matrix.qt_version }}
 
-      - name: Installing Qt - ${{ matrix.config.name }}-${{ matrix.config.arch }}-v${{matrix.config.qt_version }}
+      - name: Installing Qt - ${{ matrix.config.name }}-${{ matrix.config.arch }}-v${{matrix.qt_version }}
         uses: jurplel/install-qt-action@v2
         with:
-          version: ${{  matrix.config.qt_version }}
+          version: ${{  matrix.qt_version }}
           arch: ${{ matrix.config.qt_arch }}
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
 

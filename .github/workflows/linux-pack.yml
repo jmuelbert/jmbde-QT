@@ -71,7 +71,6 @@ jobs:
               build_type: RelWithDebInfo,
               arch: amd64,
               qt_arch: gcc_64,
-              qt_version: 5.15.2,
               image_repo: jmuelbert/ci-building-images,
             }
           - {
@@ -81,9 +80,9 @@ jobs:
               build_type: RelWithDebInfo,
               arch: amd64,
               qt_arch: gcc_64,
-              qt_version: 6.1.0,
               image_repo: jmuelbert/ci-building-images,
             }
+        qt_version: [5.15.2, 6.1.0]
     # container:
     #   image: ${{ matrix.config.image_repo }}:${{ matrix.config.os }}-${{ matrix.config.symbol }}
     #   options: --cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined
@@ -132,12 +131,12 @@ jobs:
         uses: actions/cache@v2.1.5
         with:
           path: ../Qt
-          key: QtCache-${{ matrix.config.name }}-${{ matrix.config.arch }}-${{matrix.config.qt_version }}
+          key: QtCache-${{ matrix.config.name }}-${{ matrix.config.arch }}-${{matrix.qt_version }}
 
-      - name: Installing Qt - ${{ matrix.config.name }}-${{ matrix.config.arch }}-v${{matrix.config.qt_version }}
+      - name: Installing Qt - ${{ matrix.config.name }}-${{ matrix.config.arch }}-v${{matrix.qt_version }}
         uses: jurplel/install-qt-action@v2
         with:
-          version: ${{  matrix.config.qt_version }}
+          version: ${{  matrix.qt_version }}
           arch: ${{ matrix.config.qt_arch }}
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
 

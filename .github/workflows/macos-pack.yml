@@ -60,14 +60,6 @@ jobs:
               arch: [clang_64],
               generator: ["-G 'Ninja'"],
             }
-          - {
-              os: [macos-10.15],
-              macos_target: [10.15],
-              build_type: [RelWithDebInfo],
-              qt_arch: [clang_64],
-              arch: [clang_64],
-              generator: ["-G 'Ninja'"],
-            }
         qt_version: [5.15.2, 6.1.2]
       fail-fast: false
 
@@ -81,8 +73,8 @@ jobs:
         id: cache-qt
         uses: actions/cache@v2.1.6
         with:
-          path: ../Qt/${{matrix.config.qt_version}}/${{matrix.config.qt_arch}}
-          key: ${{ runner.os }}-Qt/${{matrix.config.qt_version}}/${{matrix.config.qt_arch}}
+          path: ../Qt/${{matrix.config.qt_version}}/${{matrix.qt_arch}}
+          key: ${{ runner.os }}-Qt/${{matrix.config.qt_version}}/${{matrix.qt_arch}}
 
       - name: Installing Q${{ matrix.qt_version }} -  ${{ matrix.config.arch }}
         uses: jurplel/install-qt-action@v2
