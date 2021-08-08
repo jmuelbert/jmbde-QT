@@ -159,6 +159,13 @@ jobs:
           target: desktop
           dir: '${{ github.workspace }}/build/'
 
+      - name: Get conan
+        id: conan
+        uses: turtlebrowser/get-conan@v1.0
+
+      - name: Add Bincrafters Remote
+        run: conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+
       - name: Configure
         working-directory: build
         shell: powershell
