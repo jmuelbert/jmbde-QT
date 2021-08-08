@@ -153,8 +153,8 @@ jobs:
 
       - name: Install Build deps
         run: |
-          - cinst png2ico
-          - cinst conan
+          cinst png2ico
+          cinst conan
 
       - name: Add Bincrafters Remote
         run: conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan

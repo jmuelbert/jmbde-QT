@@ -238,17 +238,16 @@ for:
     install:
       # Windows
       - cinst png2ico
+      - cinst conan
       - nuget install secure-file -ExcludeVersion
       - call "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
       - call "%QTDIR%\bin\qtenv2.bat"
       - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER"
-      # Install conan
-      - pip install conan
-      - conan user
 
     before_build:
       - call "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
       - call "%QTDIR%\bin\qtenv2.bat"
+      - ps: conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
       - ps: Set-Location "$ENV:APPVEYOR_BUILD_FOLDER"
       - ps: New-Item -itemtype directory -path ./build
       - ps: Set-Location "build"
@@ -256,7 +255,7 @@ for:
 
     build_script:
       - ps: New-Item -itemtype directory -path ./programs
-      - ps: cmake -G "Visual Studio 16 2019" -A x64  `
+      - ps: cmake -G "Visual Studio 16 2019"  `
           -DCMAKE_BUILD_TYPE="$ENV:CONFIGURATION"  `
           -DCMAKE_PREFIX_PATH="$ENV:QTDIR"  `
           -DCMAKE_INSTALL_PREFIX:PATH="$ENV:APPVEYOR_BUILD_FOLDER/program"  `
