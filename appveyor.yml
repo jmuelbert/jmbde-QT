@@ -232,6 +232,7 @@ for:
       - ps: $ENV:Path += ";" + $ENV:QTDIR + "\bin"
       - ps: $ENV:Path += ";" + $ENV:INNO + ";" + $ENV:NSIS
       - ps: $ENV:Path += ";" + "C:\Program Files\Conan\"
+      - ps: $ENV:Parh += ";" + "C:\ProgramData\chocolatey\lib\png2ico\tools"
       - echo QTDIR=%QTDIR%
 
     clone_folder: c:\projects\jmbde-QT
