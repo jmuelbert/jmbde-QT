@@ -81,7 +81,7 @@ jobs:
               build_type: RelWithDebInfo,
               arch: amd64,
               qt_arch: gcc_64,
-              qt_version: 6.1.2,
+              qt_version: 6.1.0,
               image_repo: jmuelbert/ci-building-images,
             }
     # container:

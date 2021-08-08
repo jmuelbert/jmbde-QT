@@ -234,8 +234,6 @@ for:
       - ps: $ENV:Path += ";" + "C:\Program Files\Conan\"
       - ps: $ENV:Parh += ";" + "C:\ProgramData\chocolatey\lib\png2ico\tools"
       - echo QTDIR=%QTDIR%
-      - ps: Get-ChildItem "C:\Program Files\Conan\"
-      - ps: Get-ChildItem "C:\Program Files\Conan\bin"
 
     clone_folder: c:\projects\jmbde-QT
 
@@ -243,6 +241,8 @@ for:
       # Windows
       - cinst png2ico
       - cinst conan
+      - ps: Get-ChildItem "C:\Program Files\Conan\"
+      - ps: Get-ChildItem "C:\Program Files\Conan\bin"
       - nuget install secure-file -ExcludeVersion
       - call "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%
       - call "%QTDIR%\bin\qtenv2.bat"
