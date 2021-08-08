@@ -19,8 +19,8 @@ env:
 
 jobs:
   linux-build:
-    name: ${{ matrix.config.os }}
-    runs-on: ${{ matrix.config.os }}
+    name: Ubuntu-Latest(Build)
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         config:
@@ -151,10 +151,13 @@ jobs:
           target: desktop
           dir: '${{ github.workspace }}/build/'
 
+      - name: Get conan
+        id: conan
+        uses: turtlebrowser/get-conan@v1.0
+
       - name: Install Build deps
         run: |
           cinst png2ico
-          cinst conan
 
       - name: Add Bincrafters Remote
         run: conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan

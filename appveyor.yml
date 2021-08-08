@@ -231,6 +231,7 @@ for:
       - ps: $ENV:CMAKE_GENERATOR="Visual Studio 16 2019" # Ninja
       - ps: $ENV:Path += ";" + $ENV:QTDIR + "\bin"
       - ps: $ENV:Path += ";" + $ENV:INNO + ";" + $ENV:NSIS
+      - ps: $ENV:Path += ";" + "C:\Program Files\Conan\"
       - echo QTDIR=%QTDIR%
 
     clone_folder: c:\projects\jmbde-QT
