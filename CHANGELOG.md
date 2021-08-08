@@ -63,7 +63,6 @@
 
 **Merged pull requests:**
 
-- Fix typos by misspell-fixer for refs/heads/master [\#316](https://github.com/jmuelbert/jmbde-QT/pull/316)
 - Bump idna from 3.1 to 3.2 [\#315](https://github.com/jmuelbert/jmbde-QT/pull/315)
 - Bump distlib from 0.3.1 to 0.3.2 [\#313](https://github.com/jmuelbert/jmbde-QT/pull/313)
 - Bump certifi from 2020.12.5 to 2021.5.30 [\#312](https://github.com/jmuelbert/jmbde-QT/pull/312)
