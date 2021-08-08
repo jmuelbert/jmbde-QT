@@ -31,19 +31,9 @@ jobs:
               build_type: RelWithDebInfo,
               arch: amd64,
               qt_arch: gcc_64,
-              qt_version: 5.15.2,
               image_repo: jmuelbert/ci-building-images,
             }
-          - {
-              name: ubuntu-20.04,
-              os: ubuntu,
-              symbol: focal,
-              build_type: RelWithDebInfo,
-              arch: amd64,
-              qt_arch: gcc_64,
-              qt_version: 6.1.2,
-              image_repo: jmuelbert/ci-building-images,
-            }
+        qt_version: [5.15.2, 6.1.0]
 
     steps:
       - name: Checkout Source code
@@ -141,6 +131,7 @@ jobs:
               cc: 'gcc',
               cxx: 'g++',
             }
+        qt_version: [5.15.2, 6.1.0]
 
     steps:
       - uses: actions/checkout@v2
@@ -152,16 +143,18 @@ jobs:
           path: ./build/Qt
           key: ${{ runner.os }}-QtCache
 
-      - name: Install Qt
+      - name: Install Qt5
+
         uses: jurplel/install-qt-action@v2
         with:
-          version: 5.15.2
+          version: ${{ matrix.qt_version }}
           target: desktop
           dir: '${{ github.workspace }}/build/'
 
-      - name: Get conan
-        id: conan
-        uses: turtlebrowser/get-conan@v1.0
+      - name: Install Build deps
+        run: |
+          - cinst png2ico
+          - cinst conan
 
       - name: Add Bincrafters Remote
         run: conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
