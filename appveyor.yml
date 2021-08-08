@@ -231,7 +231,8 @@ for:
       - ps: $ENV:CMAKE_GENERATOR="Visual Studio 16 2019" # Ninja
       - ps: $ENV:Path += ";" + $ENV:QTDIR + "\bin"
       - ps: $ENV:Path += ";" + $ENV:INNO + ";" + $ENV:NSIS
-      - ps: $ENV:Path += ";" + "C:\Program Files\Conan\bin"
+      - ps: $ENV:Path += ";" + "C:\Program Files\Conan\"
+      - ps: $ENV:Parh += ";" + "C:\ProgramData\chocolatey\lib\png2ico\tools"
       - echo QTDIR=%QTDIR%
       - ps: Get-ChildItem "C:\Program Files\Conan\"
       - ps: Get-ChildItem "C:\Program Files\Conan\bin"
