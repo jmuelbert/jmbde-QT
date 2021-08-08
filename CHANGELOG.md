@@ -125,7 +125,6 @@
 
 **Merged pull requests:**
 
-- Bump sphinx-rtd-theme from 0.5.0 to 0.5.1 [\#180](https://github.com/jmuelbert/jmbde-QT/pull/180)
 - Fix build/release workflows [\#170](https://github.com/jmuelbert/jmbde-QT/pull/170)
 - Bump peter-evans/create-pull-request from v3.5.2 to v3.6.0 [\#165](https://github.com/jmuelbert/jmbde-QT/pull/165)
 - Bump sphinx from 3.3.1 to 3.4.0 [\#164](https://github.com/jmuelbert/jmbde-QT/pull/164)
