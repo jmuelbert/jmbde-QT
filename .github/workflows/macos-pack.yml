@@ -56,8 +56,6 @@ jobs:
               os: [macos-10.15],
               macos_target: [10.15],
               build_type: [RelWithDebInfo],
-              qt_main: 5,
-              qt_version: [5.15.2],
               qt_arch: [clang_64],
               arch: [clang_64],
               generator: ["-G 'Ninja'"],
@@ -66,12 +64,11 @@ jobs:
               os: [macos-10.15],
               macos_target: [10.15],
               build_type: [RelWithDebInfo],
-              qt_main: 6,
-              qt_version: [6.1.2],
               qt_arch: [clang_64],
               arch: [clang_64],
               generator: ["-G 'Ninja'"],
             }
+        qt_version: [5.15.2, 6.1.2]
       fail-fast: false
 
     runs-on: ${{ matrix.config.os }}
@@ -87,7 +84,7 @@ jobs:
           path: ../Qt/${{matrix.config.qt_version}}/${{matrix.config.qt_arch}}
           key: ${{ runner.os }}-Qt/${{matrix.config.qt_version}}/${{matrix.config.qt_arch}}
 
-      - name: Installing Q${{ matrix.config.qt_version }} -  ${{ matrix.config.arch }}
+      - name: Installing Q${{ matrix.qt_version }} -  ${{ matrix.config.arch }}
         uses: jurplel/install-qt-action@v2
         with:
           version: ${{ matrix.config.qt_version }}
@@ -95,7 +92,7 @@ jobs:
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
           setup-python: 'false'
 
-      - name: macOS - ${{ matrix.config.qt_version }} - Build preparation - Install Packages
+      - name: macOS - ${{ matrix.qt_version }} - Build preparation - Install Packages
         run: |
           brew upgrade cmake
           cmake --version
@@ -112,16 +109,6 @@ jobs:
         # Some projects don't allow in-source building, so create a separate build directory
         # We'll use this as our working directory for all subsequent commands
         run: cmake -E make_directory ${{runner.workspace}}/build
-
-      # - name: Set the Qt6 environment
-      #  if: matrix.config.qt_main == '6'
-      #  env:
-      #    Qt5_DIR: ../Qt/${{ matrix.config.qt_version }}/${{matrix.config.qt_arch}}
-
-      # - name: Set the Qt5 environment
-      #  if: matrix.config.qt_main == '6'
-      #  env:
-      #    Qt6_DIR: ../Qt/${{ matrix.config.qt_version }}/${{matrix.config.qt_arch}}
 
       - name: Configure CMake
         # Use a bash shell so we can use the same syntax for environment variable
@@ -145,26 +132,11 @@ jobs:
         # Execute the build.  You can specify a specific target with "--target <NAME>"
         run: cmake --build . --config ${{ matrix.config.build_type }} -j2 --target install
 
-      - name: Package Qt5
-        if: matrix.config.qt_main == '5'
-        env:
-          Qt5_DIR: ../Qt/${{ matrix.config.qt_version }}/${{matrix.config.qt_arch}}
+      - name: Package Qt
         working-directory: ${{runner.workspace}}/build
         run: |
-          export PATH=$Qt5_DIR/bin:$PATH
           macdeployqt ./app/${{env.targetName}}.app -qmldir=. -appstore-compliant -libpath=./app/jmbde.app/Contents/Frameworks -verbose=1 -dmg
           cp ./app/${{env.targetName}}.dmg ./${{env.targetName}}-Qt${{ matrix.qt_version }}.dmg
-          ls .
-
-      - name: Package Qt6
-        if: matrix.config.qt_main == '6'
-        env:
-          Qt6_DIR: ../Qt/${{ matrix.config.qt_version }}/${{matrix.config.qt_arch}}
-        working-directory: ${{runner.workspace}}/build
-        run: |
-          export PATH=$Qt6_DIR/bin:$PATH
-          macdeployqt ./app/${{env.targetName}}.app -qmldir=. -appstore-compliant -libpath=./app/jmbde.app/Contents/Frameworks -verbose=1 -dmg
-          cp ./app/${{env.targetName}}.dmg ./${{env.targetName}}-Qt${{ matrix.config.qt_version }}.dmg
           ls .
 
       - name: macOS - ${{ matrix.config.qt_version }} - Uploading artifact
@@ -178,7 +150,7 @@ jobs:
           path: ${{runner.workspace}}/build/${{ env.targetName }}-Qt${{
             matrix.config.qt_version }}.dmg
 
-      - name: macOS - ${{ matrix.config.qt_version }} - Upload binaries to release
+      - name: macOS - ${{ matrix.qt_version }} - Upload binaries to release
         if: >
           ${{ github.event.workflow_run.event == 'pull_request' &&
           github.event.workflow_run.conclusion == 'success' }}
