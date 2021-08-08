@@ -23,7 +23,27 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-20.04, ubuntu-latest]
+        config:
+          - {
+              name: ubuntu-20.04,
+              os: ubuntu,
+              symbol: focal,
+              build_type: RelWithDebInfo,
+              arch: amd64,
+              qt_arch: gcc_64,
+              qt_version: 5.15.2,
+              image_repo: jmuelbert/ci-building-images,
+            }
+          - {
+              name: ubuntu-20.04,
+              os: ubuntu,
+              symbol: focal,
+              build_type: RelWithDebInfo,
+              arch: amd64,
+              qt_arch: gcc_64,
+              qt_version: 6.1.2,
+              image_repo: jmuelbert/ci-building-images,
+            }
 
     steps:
       - name: Checkout Source code
@@ -38,10 +58,9 @@ jobs:
 
       - name: Install Dependencies
         run: |
+          sudo add-apt-repository ppa:beineri/opt-qt-5.15.2-focal
           sudo apt-get -y -qq update
           sudo apt-get -y --no-install-recommends install \
-            python3 \
-            python3-pip \
             fuse \
             patchelf \
             cmake \
@@ -51,20 +70,18 @@ jobs:
             hicolor-icon-theme \
             fcitx-frontend-qt5 \
             openssl \
-            ca-certificates
-      - name: Cache Qt
-        id: cache-qt
-        uses: actions/cache@v2.1.5
-        with:
-          path: ../Qt
-          key: QtCache-${{ matrix.config.name }}-${{ matrix.config.arch }}-${{matrix.config.qt_version }}
-
-      - name: Installing Qt - ${{ matrix.config.name }}-${{ matrix.config.arch }}-v${{matrix.config.qt_version }}
-        uses: jurplel/install-qt-action@v2
-        with:
-          version: ${{  matrix.config.qt_version }}
-          arch: ${{ matrix.config.qt_arch }}
-          cached: ${{ steps.cache-qt.outputs.cache-hit }}
+            ca-certificates \
+            qt5-default \
+            qttools5-dev-tools \
+            qttools5-dev \
+            libqt5dbus5 \
+            libqt5network5 \
+            libqt5core5a \
+            libqt5widgets5 \
+            libqt5gui5 \
+            libqt5svg5-dev \
+            python3 \
+            python3-pip
 
       - name: Get conan
         id: conan
