@@ -163,6 +163,7 @@ jobs:
           cinst png2ico
 
       - name: Configure
+        shell: bash
         working-directory: build
         run: |
           cmake ..  ${{matrix.config.generator}}  `
@@ -173,8 +174,8 @@ jobs:
           -DBUILD_TRANSLATIONS=ON
 
       - name: Compile
+        shell: bash
         working-directory: build
-        shell: pwsh
         run: cmake --build . --config $BUILD_TYPE
 
       - name: CPack
