@@ -129,20 +129,20 @@ jobs:
       - name: Package Qt
         working-directory: ${{runner.workspace}}/build
         run: |
-          macdeployqt ./app/${{env.targetName}}.app -qmldir=. -appstore-compliant -libpath=./app/jmbde.app/Contents/Frameworks -verbose=1 -dmg
-          cp ./app/${{env.targetName}}.dmg ./${{env.targetName}}-Qt${{ matrix.qt_version }}.dmg
+          macdeployqt ./app/${{env.PRODUCT}}.app -qmldir=. -appstore-compliant -libpath=./app/jmbde.app/Contents/Frameworks -verbose=1 -dmg
+          cp ./app/${{env.PRODUCT}}.dmg ./${{env.PRODUCT}}-Qt${{ matrix.qt_version }}.dmg
           ls .
 
-      - name: macOS - ${{ matrix.config.qt_version }} - Uploading artifact
+      - name: macOS - ${{ matrix.qt_version }} - Uploading artifact
         if: >
           ${{ github.event.workflow_run.event == 'pull_request' &&
                 github.event.workflow_run.conclusion == 'success' }}
         uses: actions/upload-artifact@v2.2.4
         with:
-          name: ${{ env.targetName}}-Qt${{ matrix.config.qt_version
+          name: ${{env.PRODUCT}}-Qt${{ matrix.qt_version
             }}-${{matrix.config.build_type}}.dmg
-          path: ${{runner.workspace}}/build/${{ env.targetName }}-Qt${{
-            matrix.config.qt_version }}.dmg
+          path: ${{runner.workspace}}/build/${{ env.PRODUCT }}-Qt${{
+            matrix.qt_version }}.dmg
 
       - name: macOS - ${{ matrix.qt_version }} - Upload binaries to release
         if: >
@@ -151,10 +151,10 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{runner.workspace}}/build/${{ env.targetName }}-Qt${{
-            matrix.config.qt_version }}.dmg
-          asset_name: ${{ env.targetName }}-${{
-            steps.get_version.outputs.VERSION}}-Qt${{ matrix.config.qt_version
-            }}-${{matrix.config.build_type}}.dmg
+          file: ${{runner.workspace}}/build/${{ env.PRODUCT }}-Qt${{
+            matrix.qt_version }}.dmg
+          asset_name: ${{ env.PRODUCT }}-${{
+            steps.get_version.outputs.VERSION}}-Qt${{ matrix.qt_version
+            }}-${{env.build_type}}.dmg
           tag: ${{ github.ref }}
           overwrite: true

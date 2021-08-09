@@ -131,6 +131,7 @@ jobs:
               qt_arch: win32_msvc2019,
               qt_arch_install: msvc2019,
               pak_arch: win32,
+              environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars32.bat"
             }
           - {
               os: windows-latest,
@@ -140,6 +141,7 @@ jobs:
               qt_arch: win64_msvc2019_64,
               qt_arch_install: msvc2019_64,
               pak_arch: win64,
+environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
             }
 
         fail-fast: false
@@ -192,7 +194,7 @@ jobs:
         uses: turtlebrowser/get-conan@v1.0
 
       - name: Add Bincrafters Remote
-         shell: pwsh
+        shell: pwsh
         run: conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 
       - name: Install Build deps

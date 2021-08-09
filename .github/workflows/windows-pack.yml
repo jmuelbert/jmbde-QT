@@ -75,6 +75,7 @@ jobs:
               qt_arch: win32_msvc2019,
               qt_arch_install: msvc2019,
               pak_arch: win32,
+              environment_script: 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars32.bat',
             }
           - {
               os: windows-2019,
@@ -84,6 +85,7 @@ jobs:
               qt_arch: win64_msvc2019_64,
               qt_arch_install: msvc2019_64,
               pak_arch: win64,
+              environment_script: 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat',
             }
 
       fail-fast: false
@@ -142,7 +144,7 @@ jobs:
           target: ${{ matrix.qt_target }}
           arch: ${{ matrix.config.qt_arch }}
           dir: '${{ github.workspace }}/build/'
-          modules: 'qtscript'
+          # modules: 'qtscript'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
       - name: Get conan
@@ -151,7 +153,8 @@ jobs:
 
       - name: Add Bincrafters Remote
         shell: pwsh
-        run: conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+        run: |
+          conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 
       - name: Install Build deps
         run: |
