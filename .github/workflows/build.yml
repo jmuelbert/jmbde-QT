@@ -118,7 +118,6 @@ jobs:
 
   windows-build:
     strategy:
-      fail-fast: false
       matrix:
         qt_version: [5.15.2, 6.1.0]
         qt_target: [desktop]
@@ -144,9 +143,9 @@ jobs:
               cxx: 'g++',
             }
 
-        fail-fast: false
+      fail-fast: false
 
-      runs-on: ${{ matrix.config.os }}
+    runs-on: ${{ matrix.config.os }}
 
     steps:
       - name: Checkout Source Code
