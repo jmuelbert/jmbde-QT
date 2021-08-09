@@ -85,6 +85,7 @@ jobs:
           path: ../Qt
           key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{
             env.QT_VERSION }}
+
       - name: Installing Qt - ${{ matrix.arch }}
         uses: jurplel/install-qt-action@v2
         with:
@@ -154,11 +155,11 @@ jobs:
             src/models
 
       - name: Get SQL CHECK output
-        run: echo "Issues found in previous step"
         if: steps.sqlcheck.outputs.issue-found
+        run: echo "Issues found in previous step"
 
       - name: Clang Format
-      - uses: DoozyX/clang-format-lint-action@v0.12
+        uses: DoozyX/clang-format-lint-action@v0.12
         with:
           source: './src'
           extensions: 'h,cpp'

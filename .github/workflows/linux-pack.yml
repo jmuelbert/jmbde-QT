@@ -155,6 +155,9 @@ jobs:
 
       - name: Packaging appimage
         run: |
+          ls /home/qt/work/install
+          ls /home/qt/work
+          ls /home/qt
           APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${PRODUCT}.AppDir
           mkdir -p ${APPIMAGE_DST_PATH}
           cd $GITHUB_WORKSPACE
