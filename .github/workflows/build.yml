@@ -183,17 +183,17 @@ jobs:
         id: cache-qt
         uses: actions/cache@v2.1.6
         with:
-          path: ./build/Qt/${{ matrix.qt_ver }}/${{ matrix.config.qt_arch_install }}
+          path: ./build/Qt/${{ matrix.qt_version }}/${{ matrix.config.qt_arch_install }}
           key: ${{ runner.os }}-QtCache/${{ matrix.qt_ver }}/${{ matrix.config.qt_arch }}
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
-          version: ${{ matrix.qt_ver }}
+          version: ${{ matrix.qt_version }}
           target: ${{ matrix.qt_target }}
           arch: ${{ matrix.config.qt_arch }}
           dir: '${{ github.workspace }}/build/'
-          modules: 'qtscript'
+          # modules: 'qtscript'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
       - name: Get conan
