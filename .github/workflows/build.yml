@@ -163,16 +163,17 @@ jobs:
           cinst png2ico
 
       - name: Add Bincrafters Remote
+        shell: powershell
         run: conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 
       - name: Configure
         working-directory: build
         shell: powershell
         run: |
-          cmake -DCMAKE_BUILD_TYPE=$env:BUILD_TYPE ../
+          cmake -DCMAKE_BUILD_TYPE="$env:BUILD_TYPE"../
 
       - name: Build
         working-directory: build
         shell: powershell
         run: |
-          cmake --build . --config $env:BUILD_TYPE
+          cmake --build . --config "$env:BUILD_TYPE"
