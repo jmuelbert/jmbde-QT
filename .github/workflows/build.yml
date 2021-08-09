@@ -138,10 +138,7 @@ jobs:
               qt_arch: win64_msvc2019_64,
               qt_arch_install: msvc2019_64,
               artifact: 'Windows-MSVC.tar.xz',
-              pak_arch: win64,
-              environment_script: 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat',
-              cc: 'cl',
-              cxx: 'cl',
+              pak_arch: win64
             }
           - {
               name: 'Windows 2019 MinGW',
