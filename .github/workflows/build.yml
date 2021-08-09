@@ -26,7 +26,7 @@ jobs:
         qt_version: [5.15.2, 6.1.0]
         config:
           - {
-              name: ubuntu-20.04,
+              name: ubuntu-latest,
               os: ubuntu-latest,
               symbol: focal,
               arch: amd64,
@@ -139,8 +139,6 @@ jobs:
               qt_arch_install: msvc2019_64,
               artifact: 'Windows-MSVC.tar.xz',
               pak_arch: win64,
-              cc: 'cl',
-              cxx: 'cl',
             }
           - {
               name: 'Windows 2019 MinGW',
@@ -207,7 +205,6 @@ jobs:
         uses: turtlebrowser/get-conan@v1.0
 
       - name: Add Bincrafters Remote
-        shell: pwsh
         run: conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 
       - name: Install Build deps
@@ -216,15 +213,13 @@ jobs:
 
       - name: Configure
         working-directory: build
-        shell: pwsh
         run: |
           cmake ..  ${{matrix.config.generator}}  `
           -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}\vcpkg\scripts\buildsystems\vcpkg.cmake"  `
           -DENABLE_OPENSSL=ON `
-          -DCMAKE_BUILD_TYPE=$env:BUILD_TYPE  `
+          -DCMAKE_BUILD_TYPE=$BUILD_TYPE  `
           -DRUN_IN_PLACE=${{ contains(matrix.type, 'portable') }}
 
       - name: Compile
         working-directory: build
-        shell: pwsh
-        run: cmake --build . --config $env:BUILD_TYPE
+        run: cmake --build . --config $BUILD_TYPE

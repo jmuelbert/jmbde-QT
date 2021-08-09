@@ -53,7 +53,7 @@ jobs:
 
     strategy:
       matrix:
-        qt_version: [5.15.2, 6.1.2]
+        qt_version: [5.15.2, 6.1.0]
         config:
           - {
               os: macos-10.15,
