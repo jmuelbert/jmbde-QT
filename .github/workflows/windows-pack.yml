@@ -44,6 +44,8 @@ on:
 
 env:
   PRODUCT: jmbde
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: RelWithDebInfo
 
 jobs:
   windows-pack:
@@ -62,6 +64,7 @@ jobs:
       matrix:
         qt_ver: [5.15.2, 6.1.0]
         qt_target: [desktop]
+        type: [portable, installer]
         config:
           - {
               arch: x86,
@@ -79,7 +82,6 @@ jobs:
               qt_arch_install: msvc2019_64,
               pak_arch: win64,
             }
-        type: [portable, installer]
     steps:
       - name: Checkout Source Code
         if: github.event_name == 'push'
@@ -142,6 +144,10 @@ jobs:
       - name: Add Bincrafters Remote
         run: conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 
+      - name: Install Build deps
+        run: |
+          cinst png2ico
+
       - name: Configure
         working-directory: build
         shell: pwsh
@@ -149,7 +155,7 @@ jobs:
           cmake ..  ${{matrix.config.generator}}  `
           -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}\vcpkg\scripts\buildsystems\vcpkg.cmake"  `
           -DENABLE_OPENSSL=ON `
-          -DCMAKE_BUILD_TYPE=Release  `
+          -DCMAKE_BUILD_TYPE=$env:BUILD_TYPE  `
           -DRUN_IN_PLACE=${{ contains(matrix.type, 'portable') }}
 
       - name: Compile

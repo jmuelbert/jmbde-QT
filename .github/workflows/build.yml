@@ -28,7 +28,6 @@ jobs:
               name: ubuntu-20.04,
               os: ubuntu,
               symbol: focal,
-              build_type: RelWithDebInfo,
               arch: amd64,
               qt_arch: gcc_64,
               image_repo: jmuelbert/ci-building-images,
@@ -118,62 +117,89 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        qt_version: [5.15.2, 6.1.0]
+        qt_target: [desktop]
         config:
           - {
-              name: 'Windows 2019 MSVC',
-              artifact: 'Windows-MSVC.tar.xz',
-              os: windows-2019,
-              cc: 'cl',
-              cxx: 'cl',
-              environment_script: 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat',
+              arch: x86,
+              generator: "-G'Visual Studio 16 2019' -A Win32",
+              vcpkg_triplet: x86-windows,
+              qt_arch: win32_msvc2019,
+              qt_arch_install: msvc2019,
+              pak_arch: win32,
             }
           - {
-              name: 'Windows 2019 MinGW',
-              artifact: 'Windows-MinGW.tar.xz',
-              os: windows-2019,
-              cc: 'gcc',
-              cxx: 'g++',
+              arch: x64,
+              generator: "-G'Visual Studio 16 2019' -A x64",
+              vcpkg_triplet: x64-windows,
+              qt_arch: win64_msvc2019_64,
+              qt_arch_install: msvc2019_64,
+              pak_arch: win64,
             }
-        qt_version: [5.15.2, 6.1.0]
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout Source Code
+        if: github.event_name == 'push'
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      #          ref: master
+
+      - name: Checkout Source Code
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Restore from cache and run vcpkg
+        uses: lukka/run-vcpkg@v4
+        with:
+          vcpkgArguments: ${{env.VCPKG_PACKAGES}}
+          vcpkgDirectory: '${{ github.workspace }}\vcpkg'
+          appendedCacheKey: ${{ matrix.config.vcpkg_triplet }}
+          vcpkgGitCommitId: ${{ env.VCPKG_VERSION }}
+          vcpkgTriplet: ${{ matrix.config.vcpkg_triplet }}
 
       - name: Cache Qt
         id: cache-qt
-        uses: actions/cache@v1
+        uses: actions/cache@v2.1.6
         with:
-          path: ./build/Qt
-          key: ${{ runner.os }}-QtCache
+          path: ./build/Qt/${{ matrix.qt_ver }}/${{ matrix.config.qt_arch_install }}
+          key: ${{ runner.os }}-QtCache/${{ matrix.qt_ver }}/${{ matrix.config.qt_arch }}
 
-      - name: Install Qt5
-
+      - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
-          version: ${{ matrix.qt_version }}
-          target: desktop
+          version: ${{ matrix.qt_ver }}
+          target: ${{ matrix.qt_target }}
+          arch: ${{ matrix.config.qt_arch }}
           dir: '${{ github.workspace }}/build/'
+          modules: 'qtscript'
+          cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
       - name: Get conan
         id: conan
         uses: turtlebrowser/get-conan@v1.0
 
+      - name: Add Bincrafters Remote
+        run: conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+
       - name: Install Build deps
         run: |
           cinst png2ico
 
-      - name: Add Bincrafters Remote
-        shell: powershell
-        run: conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
-
       - name: Configure
         working-directory: build
-        shell: powershell
+        shell: pwsh
         run: |
-          cmake -DCMAKE_BUILD_TYPE="$env:BUILD_TYPE"../
+          cmake ..  ${{matrix.config.generator}}  `
+          -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}\vcpkg\scripts\buildsystems\vcpkg.cmake"  `
+          -DENABLE_OPENSSL=ON `
+          -DCMAKE_BUILD_TYPE=$env:BUILD_TYPE  `
+          -DRUN_IN_PLACE=${{ contains(matrix.type, 'portable') }}
 
-      - name: Build
+      - name: Compile
         working-directory: build
-        shell: powershell
-        run: |
-          cmake --build . --config "$env:BUILD_TYPE"
+        shell: pwsh
+        run: cmake --build . --config $env:BUILD_TYPE
