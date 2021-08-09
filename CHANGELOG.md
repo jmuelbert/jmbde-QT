@@ -24,7 +24,6 @@
 - Bump zipp from 3.4.1 to 3.5.0 [\#325](https://github.com/jmuelbert/jmbde-QT/pull/325)
 - Bump importlib-metadata from 4.5.0 to 4.6.0 [\#324](https://github.com/jmuelbert/jmbde-QT/pull/324)
 - Bump actions/upload-artifact from 2.2.3 to 2.2.4 [\#323](https://github.com/jmuelbert/jmbde-QT/pull/323)
-- Bump urllib3 from 1.26.5 to 1.26.6 [\#322](https://github.com/jmuelbert/jmbde-QT/pull/322)
 
 ## [dependabot/pip/importlib-metadata-4.3.1](https://github.com/jmuelbert/jmbde-QT/tree/dependabot/pip/importlib-metadata-4.3.1) (2021-06-12)
 
