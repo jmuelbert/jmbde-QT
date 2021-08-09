@@ -21,7 +21,6 @@
 - Bump sphinx from 4.0.2 to 4.0.3 [\#328](https://github.com/jmuelbert/jmbde-QT/pull/328)
 - Bump packaging from 20.9 to 21.0 [\#327](https://github.com/jmuelbert/jmbde-QT/pull/327)
 - Bump importlib-metadata from 4.6.0 to 4.6.1 [\#326](https://github.com/jmuelbert/jmbde-QT/pull/326)
-- Bump zipp from 3.4.1 to 3.5.0 [\#325](https://github.com/jmuelbert/jmbde-QT/pull/325)
 - Bump importlib-metadata from 4.5.0 to 4.6.0 [\#324](https://github.com/jmuelbert/jmbde-QT/pull/324)
 - Bump actions/upload-artifact from 2.2.3 to 2.2.4 [\#323](https://github.com/jmuelbert/jmbde-QT/pull/323)
 
@@ -124,6 +123,7 @@
 **Merged pull requests:**
 
 - Fix build/release workflows [\#170](https://github.com/jmuelbert/jmbde-QT/pull/170)
+- Bump pytz from 2020.4 to 2020.5 [\#167](https://github.com/jmuelbert/jmbde-QT/pull/167)
 - Bump peter-evans/create-pull-request from v3.5.2 to v3.6.0 [\#165](https://github.com/jmuelbert/jmbde-QT/pull/165)
 - Bump sphinx from 3.3.1 to 3.4.0 [\#164](https://github.com/jmuelbert/jmbde-QT/pull/164)
 - Bump requests from 2.25.0 to 2.25.1 [\#163](https://github.com/jmuelbert/jmbde-QT/pull/163)
