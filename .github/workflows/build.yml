@@ -34,7 +34,7 @@ jobs:
               image_repo: jmuelbert/ci-building-images,
             }
 
-        fail-fast: false
+      fail-fast: false
 
     runs-on: ${{ matrix.config.os }}
 
