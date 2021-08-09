@@ -138,13 +138,9 @@ jobs:
               qt_arch: win64_msvc2019_64,
               qt_arch_install: msvc2019_64,
               artifact: 'Windows-MSVC.tar.xz',
-<<<<<<< HEAD
               pak_arch: win64,
               cc: 'cl',
               cxx: 'cl',
-=======
-              pak_arch: win64
->>>>>>> 696059fcea33ed7c18866f6cf824af6778232ed3
             }
           - {
               name: 'Windows 2019 MinGW',
@@ -176,7 +172,7 @@ jobs:
       - name: Install MSVC compiler
         uses: ilammy/msvc-dev-cmd@v1.9.0
         with:
-        # 14.1 is for vs2017, 14.2 is vs2019, following the upstream vcpkg build from repo
+          # 14.1 is for vs2017, 14.2 is vs2019, following the upstream vcpkg build from repo
           toolset: 14.2
           arch: x64
 
