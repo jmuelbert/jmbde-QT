@@ -20,19 +20,23 @@ env:
 jobs:
   linux-build:
     name: Ubuntu-Latest(Build)
-    runs-on: ubuntu-latest
+
     strategy:
       matrix:
+        qt_version: [5.15.2, 6.1.0]
         config:
           - {
               name: ubuntu-20.04,
-              os: ubuntu,
+              os: ubuntu-latest,
               symbol: focal,
               arch: amd64,
               qt_arch: gcc_64,
               image_repo: jmuelbert/ci-building-images,
             }
-        qt_version: [5.15.2, 6.1.0]
+
+        fail-fast: false
+
+    runs-on: ${{ matrix.config.os }}
 
     steps:
       - name: Checkout Source code
@@ -113,7 +117,6 @@ jobs:
         run: ctest -C $BUILD_TYPE
 
   windows-build:
-    runs-on: ${{ matrix.config.os }}
     strategy:
       fail-fast: false
       matrix:
@@ -121,6 +124,7 @@ jobs:
         qt_target: [desktop]
         config:
           - {
+              os: windows-latest
               arch: x86,
               generator: "-G'Visual Studio 16 2019' -A Win32",
               vcpkg_triplet: x86-windows,
@@ -129,6 +133,7 @@ jobs:
               pak_arch: win32,
             }
           - {
+              os: windows-latest
               arch: x64,
               generator: "-G'Visual Studio 16 2019' -A x64",
               vcpkg_triplet: x64-windows,
@@ -136,6 +141,10 @@ jobs:
               qt_arch_install: msvc2019_64,
               pak_arch: win64,
             }
+
+        fail-fast: false
+
+      runs-on: ${{ matrix.config.os }}
 
     steps:
       - name: Checkout Source Code

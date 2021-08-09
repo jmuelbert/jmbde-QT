@@ -50,7 +50,7 @@ env:
 jobs:
   windows-pack:
     name: VS 2019 ${{ matrix.config.arch }}-${{ matrix.type}}
-    runs-on: windows-2019
+
     env:
       VCINSTALLDIR: C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/
       Qt5_DIR: ${{ github.workspace }}\build\Qt\${{ matrix.qt_ver }}\${{ matrix.config.qt_arch_install }}\lib\cmake\Qt5\
@@ -60,13 +60,13 @@ jobs:
       VCPKG_PACKAGES: openssl-windows
       OPENSSL_ROOT_DIR: ${{ github.workspace }}\vcpkg\installed\${{ matrix.config.vcpkg_triplet }}\
     strategy:
-      fail-fast: false
       matrix:
         qt_ver: [5.15.2, 6.1.0]
         qt_target: [desktop]
         type: [portable, installer]
         config:
           - {
+              os: windows-2019,
               arch: x86,
               generator: "-G'Visual Studio 16 2019' -A Win32",
               vcpkg_triplet: x86-windows,
@@ -75,6 +75,7 @@ jobs:
               pak_arch: win32,
             }
           - {
+              os: windows-2019,
               arch: x64,
               generator: "-G'Visual Studio 16 2019' -A x64",
               vcpkg_triplet: x64-windows,
@@ -82,6 +83,11 @@ jobs:
               qt_arch_install: msvc2019_64,
               pak_arch: win64,
             }
+
+      fail-fast: false
+
+    runs-on: ${{ matrix.config.os }}
+
     steps:
       - name: Checkout Source Code
         if: github.event_name == 'push'
@@ -142,6 +148,7 @@ jobs:
         uses: turtlebrowser/get-conan@v1.0
 
       - name: Add Bincrafters Remote
+        shell: pwsh
         run: conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 
       - name: Install Build deps

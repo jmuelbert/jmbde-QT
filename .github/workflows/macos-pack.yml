@@ -115,7 +115,7 @@ jobs:
         run: |
           cmake $GITHUB_WORKSPACE \
             ${{matrix.config.generator}} \
-            -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} \
+            -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
             -DCMAKE_OSX_DEPLOYMENT_TARGET=${{ matrix.config.macos_target }} \
             -DBUILD_TRANSLATIONS=ON \
             -DCMAKE_INSTALL_PREFIX:PATH=./app
