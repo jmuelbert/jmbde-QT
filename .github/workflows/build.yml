@@ -124,7 +124,7 @@ jobs:
         qt_target: [desktop]
         config:
           - {
-              os: windows-latest
+              os: windows-latest,
               arch: x86,
               generator: "-G'Visual Studio 16 2019' -A Win32",
               vcpkg_triplet: x86-windows,

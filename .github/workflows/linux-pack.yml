@@ -61,20 +61,23 @@ env:
 jobs:
   appimage-pack:
     name: Build appimage on ${{ matrix.config.name }} for ${{ matrix.config.qt_version }}
-    runs-on: ubuntu-20.04
+
     strategy:
-      fail-fast: false
       matrix:
+        qt_version: [5.15.2, 6.1.0]
         config:
           - {
               name: ubuntu-20.04,
-              os: ubuntu,
+              os: ubuntu-20.04,
               symbol: focal,
               arch: amd64,
               qt_arch: gcc_64,
               image_repo: jmuelbert/ci-building-images,
             }
-        qt_version: [5.15.2, 6.1.0]
+      fail-fast: false
+
+    runs-on: ${{ matrix.config.os }}
+
     # container:
     #   image: ${{ matrix.config.image_repo }}:${{ matrix.config.os }}-${{ matrix.config.symbol }}
     #   options: --cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined
@@ -155,7 +158,10 @@ jobs:
           APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${PRODUCT}.AppDir
           mkdir -p ${APPIMAGE_DST_PATH}
           cd $GITHUB_WORKSPACE
-          cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX=/usr -DUSE_LAUNCHER_ABSOLUTE_PATH:BOOL=OFF
+          cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
+              -DCMAKE_INSTALL_PREFIX=/usr \
+              -DUSE_LAUNCHER_ABSOLUTE_PATH:BOOL=OFF \
+              -DBUILD_TRANSLATIONS=ON
           make -j$(nproc) DESTDIR=${APPIMAGE_DST_PATH} install
           $GITHUB_WORKSPACE/appimagetool -s deploy ${APPIMAGE_DST_PATH}/usr/share/applications/io.github.jmuelbert.jmbde.desktop
           mkdir -p ${APPIMAGE_DST_PATH}/usr/plugins/platforminputcontexts

@@ -46,6 +46,8 @@ env:
   PRODUCT: jmbde
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: RelWithDebInfo
+  cc: 'cl'
+  cxx: 'cl'
 
 jobs:
   windows-pack:
@@ -163,7 +165,8 @@ jobs:
           -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}\vcpkg\scripts\buildsystems\vcpkg.cmake"  `
           -DENABLE_OPENSSL=ON `
           -DCMAKE_BUILD_TYPE=$env:BUILD_TYPE  `
-          -DRUN_IN_PLACE=${{ contains(matrix.type, 'portable') }}
+          -DRUN_IN_PLACE=${{ contains(matrix.type, 'portable') }} \
+          -DBUILD_TRANSLATIONS=ON
 
       - name: Compile
         working-directory: build
