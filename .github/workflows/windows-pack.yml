@@ -165,7 +165,7 @@ jobs:
           -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}\vcpkg\scripts\buildsystems\vcpkg.cmake"  `
           -DENABLE_OPENSSL=ON `
           -DCMAKE_BUILD_TYPE=$env:BUILD_TYPE  `
-          -DRUN_IN_PLACE=${{ contains(matrix.type, 'portable') }} \
+          -DRUN_IN_PLACE=${{ contains(matrix.type, 'portable') }} `
           -DBUILD_TRANSLATIONS=ON
 
       - name: Compile

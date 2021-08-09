@@ -133,7 +133,7 @@ jobs:
               pak_arch: win32,
             }
           - {
-              os: windows-latest
+              os: windows-latest,
               arch: x64,
               generator: "-G'Visual Studio 16 2019' -A x64",
               vcpkg_triplet: x64-windows,
@@ -192,6 +192,7 @@ jobs:
         uses: turtlebrowser/get-conan@v1.0
 
       - name: Add Bincrafters Remote
+         shell: pwsh
         run: conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 
       - name: Install Build deps
