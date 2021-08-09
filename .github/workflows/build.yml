@@ -125,23 +125,23 @@ jobs:
         config:
           - {
               os: windows-latest,
-              arch: x86,
-              generator: "-G'Visual Studio 16 2019' -A Win32",
-              vcpkg_triplet: x86-windows,
-              qt_arch: win32_msvc2019,
-              qt_arch_install: msvc2019,
-              pak_arch: win32,
-              environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars32.bat"
-            }
-          - {
-              os: windows-latest,
               arch: x64,
               generator: "-G'Visual Studio 16 2019' -A x64",
               vcpkg_triplet: x64-windows,
               qt_arch: win64_msvc2019_64,
               qt_arch_install: msvc2019_64,
+              artifact: 'Windows-MSVC.tar.xz',
               pak_arch: win64,
-environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
+              environment_script: 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat',
+              cc: 'cl',
+              cxx: 'cl',
+            }
+          - {
+              name: 'Windows 2019 MinGW',
+              artifact: 'Windows-MinGW.tar.xz',
+              os: windows-2019,
+              cc: 'gcc',
+              cxx: 'g++',
             }
 
         fail-fast: false

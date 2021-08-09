@@ -140,7 +140,7 @@ jobs:
         uses: actions/upload-artifact@v2.2.4
         with:
           name: ${{env.PRODUCT}}-Qt${{ matrix.qt_version
-            }}-${{matrix.config.build_type}}.dmg
+            }}-${{matrix.build_type}}.dmg
           path: ${{runner.workspace}}/build/${{ env.PRODUCT }}-Qt${{
             matrix.qt_version }}.dmg
 
