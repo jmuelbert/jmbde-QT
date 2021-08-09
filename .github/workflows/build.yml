@@ -170,6 +170,13 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
 
+      - name: Install MSVC compiler
+        uses: ilammy/msvc-dev-cmd@v1.9.0
+        with:
+        # 14.1 is for vs2017, 14.2 is vs2019, following the upstream vcpkg build from repo
+          toolset: 14.2
+          arch: x64
+
       - name: Restore from cache and run vcpkg
         uses: lukka/run-vcpkg@v4
         with:
