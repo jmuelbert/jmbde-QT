@@ -148,8 +148,9 @@ jobs:
         working-directory: build
         run: |
           cmake ..  ${{matrix.config.generator}}  `
-          -DCMAKE_BUILD_TYPE="$env:BUILD_TYPE"  `
-          -DBUILD_TRANSLATIONS=ON `
+            -DCMAKE_BUILD_TYPE="$env:BUILD_TYPE"  `
+            -DBUILD_TESTING=OFF  `
+            -DBUILD_TRANSLATIONS=ON `
           -DRUN_IN_PLACE=${{ contains(matrix.type, 'portable') }}
 
       - name: Compile

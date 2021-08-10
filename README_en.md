@@ -6,8 +6,13 @@ These are computers, printers and telephones.
 
 ---
 
+---
 [![Gitpod Ready Code][gitpod-shield]][gitpod-url]
-[![Pipeline Status](https://gitlab.com/jmuelbert/jmbde-QT/badges/master/pipeline.svg)](https://gitlab.com/jmuelbert/jmbde-QT/commits/master)
+[![Gitlab Status](https://gitlab.com/jmuelbert/jmbde-QT/badges/master/pipeline.svg)](https://gitlab.com/jmuelbert/jmbde-QT/commits/master)
+[![Building(CMake)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/build.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/build.yml)
+[![Packaging Linux](https://github.com/jmuelbert/jmbde-QT/actions/workflows/linux-pack.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/linux-pack.yml)
+[![Packaging(macOS)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/macos-pack.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/macos-pack.yml)
+[![Packaging(Windows)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/windows-pack.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/windows-pack.yml)
 [![Codacy Badge][codacy-shield]][codacy-url]
 [![Total Alerts][lgtm-alerts-shield]][lgtm-alerts-url]
 [![Language grade: C/C++][lgtm-cpp-shield]][lgtm-cpp-url]
@@ -16,8 +21,10 @@ These are computers, printers and telephones.
 [![GitHub All Releases][downloads_all-shield]][downloads_all-url]
 [![Issues][issues-shield]][issues-url]
 [![Help wanted issues][help-issues-shield]][help-issues-url]
-[![Pull Requests][pr-shield]][pr-url] [![pre-commit][pre-commit-shield]][pre-commit-url]
+[![Pull Requests][pr-shield]][pr-url] 
+[![pre-commit][pre-commit-shield]][pre-commit-url]
 [![Misspell fixer][misspell_fixer-shield]][misspell_fixer-url]
+[![Release](https://img.shields.io/github/release/jmuelbert/jmbde-QT.svg?style=flat-square)](https://github.com/jmuelbert/jmbde-QT/releases)
 [![Documentation][documentation-shield]][documentation-url]
 [![License][license-shield]][license-url]
 

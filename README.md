@@ -6,8 +6,11 @@ erfasst werden. Das sind unter anderem Computer, Drucker und Telefone.
 
 ---
 [![Gitpod Ready Code][gitpod-shield]][gitpod-url]
-[![Pipeline Status](https://gitlab.com/jmuelbert/jmbde-QT/badges/master/pipeline.svg)](https://gitlab.com/jmuelbert/jmbde-QT/commits/master)
-[![Gitpod Ready Code][gitpod-shield]][gitpod-url]
+[![Gitlab Status](https://gitlab.com/jmuelbert/jmbde-QT/badges/master/pipeline.svg)](https://gitlab.com/jmuelbert/jmbde-QT/commits/master)
+[![Building(CMake)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/build.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/build.yml)
+[![Packaging Linux](https://github.com/jmuelbert/jmbde-QT/actions/workflows/linux-pack.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/linux-pack.yml)
+[![Packaging(macOS)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/macos-pack.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/macos-pack.yml)
+[![Packaging(Windows)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/windows-pack.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/windows-pack.yml)
 [![Codacy Badge][codacy-shield]][codacy-url]
 [![Total Alerts][lgtm-alerts-shield]][lgtm-alerts-url]
 [![Language grade: C/C++][lgtm-cpp-shield]][lgtm-cpp-url]
@@ -16,8 +19,10 @@ erfasst werden. Das sind unter anderem Computer, Drucker und Telefone.
 [![GitHub All Releases][downloads_all-shield]][downloads_all-url]
 [![Issues][issues-shield]][issues-url]
 [![Help wanted issues][help-issues-shield]][help-issues-url]
-[![Pull Requests][pr-shield]][pr-url] [![pre-commit][pre-commit-shield]][pre-commit-url]
+[![Pull Requests][pr-shield]][pr-url] 
+[![pre-commit][pre-commit-shield]][pre-commit-url]
 [![Misspell fixer][misspell_fixer-shield]][misspell_fixer-url]
+[![Release](https://img.shields.io/github/release/jmuelbert/jmbde-QT.svg?style=flat-square)](https://github.com/jmuelbert/jmbde-QT/releases)
 [![Documentation][documentation-shield]][documentation-url]
 [![License][license-shield]][license-url]
 
@@ -26,24 +31,11 @@ erfasst werden. Das sind unter anderem Computer, Drucker und Telefone.
 [Contributing](CONTRIBUTING_de-DE.md) |
 [FAQ](https://github.com/jmuelbert/jmbde-QT/wiki/FAQ) | [english](README_en.md)
 
+
 jmbde verwendet das plattformübergreifende Framework
 [Qt](http://www.qt.io/download-open-source/), was bedeutet, dass es mit den meisten
 Betriebssystemen funktioniert.
-
-|  type  |                           branch                            |                                                                                                        build                                                                                                         |                                                                     downloads                                                                      |
-| :----: | :---------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------: |
-| alpha  | [master](https://github.com/jmuelbert/jmbde-QT/tree/master) | [![GitHub Workflow Status](https://github.com/jmuelbert/jmbde-QT/workflows/CI:%20Build%20Test/badge.svg?branch=master&event=push)](https://github.com/jmuelbert/jmbde-QT/actions?query=event%3Apush+branch%3Amaster) |                                                                         -                                                                          |
-|  beta  | [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/0.5.4)  |  [![GitHub Workflow Status](https://github.com/jmuelbert/jmbde-QT/workflows/CI:%20Build%20Test/badge.svg?branch=0.5.4&event=push)](https://github.com/jmuelbert/jmbde-QT/actions?query=event%3Apush+branch%3A0.5.4)  | [![Downloads](https://img.shields.io/github/downloads/jmuelbert/jmbde-QT/v0.5.4/total)](https://github.com/jmuelbert/jmbde-QT/releases/tag/v0.5.4) |
-| stable | [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) |  [![GitHub Workflow Status](https://github.com/jmuelbert/jmbde-QT/workflows/CI:%20Build%20Test/badge.svg?branch=0.5.4&event=push)](https://github.com/jmuelbert/jmbde-QT/actions?query=event%3Apush+branch%3A0.5.4)  | [![Downloads](https://img.shields.io/github/downloads/jmuelbert/jmbde-QT/v0.5.4/total)](https://github.com/jmuelbert/jmbde-QT/releases/tag/v0.5.4) |
-
-| Plattform | Build für Qt6                                                                                                                                                                       | Build für Qt5                                                                                                                                                                       |
-| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Appimage  | [![CD: AppImage Qt6](https://github.com/jmuelbert/jmbde-QT/actions/workflows/appimage-qt6.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/appimage-qt6.yml) | [![CD: appimage Qt5 package](https://github.com/jmuelbert/jmbde-QT/actions/workflows/appimage.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/appimage.yml) |
-| Flatpak   |                                                                                                                                                                                     | [![CD: flatpak package](https://github.com/jmuelbert/jmbde-QT/actions/workflows/flatpak.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/flatpak.yml)        |
-| Snapcraft |                                                                                                                                                                                     | [![CD: snapcraft package](https://github.com/jmuelbert/jmbde-QT/actions/workflows/snap.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/snap.yml)            |
-| MacOS     | ![CD: MacOS Qt6](https://github.com/jmuelbert/jmbde-QT/workflows/CD:%20MacOS%20Qt6/badge.svg)                                                                                       | ![CD: MacOS](https://github.com/jmuelbert/jmbde-QT/workflows/CD:%20MacOS/badge.svg)                                                                                                 |
-| Windows   | [![CD: Windows Qt6](https://github.com/jmuelbert/jmbde-QT/actions/workflows/windows-qt6.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/windows-qt6.yml)    | ![CD: Windows](https://github.com/jmuelbert/jmbde-QT/workflows/CD:%20Windows/badge.svg)                                                                                             |
-
+                                                                                      
 ## Setup
 
 Das Programm verwendet die [QT-Bibliothek](https://www.qt.io). Daher kann es auf fast
@@ -253,9 +245,6 @@ GPL V3 © [Jürgen Mülbert](https:/github.com/jmuelbert/jmbde-QT)
 [license-shield]: https://img.shields.io/github/license/jmuelbert/jmbde-QT
 [license-url]: https://github.com//jmuelbert/jmbde-QT/blob/release/LICENSE
 [product-screenshot]: images/doc/images/Logo_template.png
-[build-shield]:
-    https://img.shields.io/github/workflow/status/jmuelbert/jmbde-QT/Build/release
-[build-url]: https://github.com/jmuelbert/jmbde-QT/workflows/Build
 [gitpod-shield]: https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod
 [gitpod-url]: https://gitpod.io/#https://github.com/jmuelbert/jmbde-QT
 [codacy-shield]:
