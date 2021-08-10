@@ -64,7 +64,7 @@ jobs:
 
     strategy:
       matrix:
-        qt_version: [5.15.2, 6.1.0]
+        qt_version: [6.1.0]
         config:
           - {
               name: ubuntu-20.04,
@@ -154,7 +154,6 @@ jobs:
           APPIMAGETOOL_ARCH: x86_64
 
       - name: Packaging appimage
-        if: ${{ matrix.qt_version != '5.15.2' }}
         run: |
           APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${PRODUCT}.AppDir
           mkdir -p ${APPIMAGE_DST_PATH}
