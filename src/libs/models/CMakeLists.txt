@@ -226,7 +226,7 @@ if(MSVC AND BUILD_SHARED_LIBS)
     CONFIGURATIONS Debug RelWithDebInfo)
 endif()
 
-if(BUILD_TESTING)
+if(BUILD_TESTING_0)
   enable_testing()
   add_subdirectory(tests)
 endif()

@@ -59,19 +59,26 @@ jobs:
         config:
           - {
               os: windows-2019,
+              artifact: 'Windows-MSVC',
               arch: x86,
               generator: "-G'Visual Studio 16 2019' -A Win32",
               qt_arch: win32_msvc2019,
               qt_arch_install: msvc2019,
               pak_arch: win32,
+              cc: 'cl',
+              cxx: 'cl',
             }
           - {
+              name: 'Windows Latest MSVC',
+              artifact: 'Windows-MSVC',
               os: windows-2019,
               arch: x64,
               generator: "-G'Visual Studio 16 2019' -A x64",
               qt_arch: win64_msvc2019_64,
               qt_arch_install: msvc2019_64,
               pak_arch: win64,
+              cc: 'cl',
+              cxx: 'cl',
             }
       fail-fast: false
 

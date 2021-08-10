@@ -109,7 +109,11 @@ jobs:
         #
         # We need to source the profile file to make sure conan is in PATH
         run: |
-          cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+          cmake $GITHUB_WORKSPACE \
+            -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
+            -DBUILD_TESTING=ON
+            -DBUILD_TRANSLATIONS=ON
+
       - name: Build
         working-directory: ${{runner.workspace}}/build
         shell: bash
@@ -145,12 +149,11 @@ jobs:
               os: windows-latest,
               arch: x64,
               generator: "-G'Visual Studio 16 2019' -A x64",
-              vcpkg_triplet: x64-windows,
               qt_arch: win64_msvc2019_64,
               qt_arch_install: msvc2019_64,
+              pak_arch: win64,
               cc: 'cl',
               cxx: 'cl',
-              pak_arch: win64,
             }
           - {
               name: 'Windows Latest MinGW',
@@ -215,7 +218,8 @@ jobs:
         run: |
           cmake ..  ${{matrix.config.generator}}  `
           -DCMAKE_BUILD_TYPE="$env:BUILD_TYPE"  `
-          -DRUN_IN_PLACE=${{ contains(matrix.type, 'portable') }}
+            -DBUILD_TESTING=OFF  `
+            -DBUILD_TRANSLATIONS=ON
 
       - name: Compile
         shell: bash
