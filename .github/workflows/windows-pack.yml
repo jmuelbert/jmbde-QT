@@ -144,17 +144,17 @@ jobs:
           cinst png2ico
 
       - name: Configure
-        shell: bash
+        shell: pwsh
         working-directory: build
         run: |
           cmake ..  ${{matrix.config.generator}}  `
             -DCMAKE_BUILD_TYPE="$env:BUILD_TYPE"  `
             -DBUILD_TESTING=OFF  `
             -DBUILD_TRANSLATIONS=ON `
-          -DRUN_IN_PLACE=${{ contains(matrix.type, 'portable') }}
+            -DRUN_IN_PLACE=${{ contains(matrix.type, 'portable') }}
 
       - name: Compile
-        shell: bash
+        shell: pwsh
         working-directory: build
         run: cmake --build . --config "$env:BUILD_TYPE"
 
