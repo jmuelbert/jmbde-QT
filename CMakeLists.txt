@@ -129,7 +129,10 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake"
 
 include(StaticAnalyzers)
 
+if(NOT LGTM)
 include(conan)
+endif()
+
 include(vcpkg)
 
 # ECM Modules some parts of the ECM CMake helpers
