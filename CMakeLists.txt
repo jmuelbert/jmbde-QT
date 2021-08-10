@@ -132,10 +132,6 @@ include(StaticAnalyzers)
 include(conan)
 include(vcpkg)
 
-if(NOT LGTM)
-  run_conan()
-endif()
-
 # ECM Modules some parts of the ECM CMake helpers
 find_package(ECM ${KF5_DEP_VERSION} QUIET REQUIRED NO_MODULE)
 feature_summary(WHAT REQUIRED_PACKAGES_NOT_FOUND
