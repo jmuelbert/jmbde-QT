@@ -224,8 +224,8 @@ jobs:
         working-directory: build
         run: |
           Write-Host  $env.BUILD_TYPE
-          Get-ChildItem ${{ github.workspace }}
-          Get-ChildItem ../..
+          Get-ChildItem -Hidden ${{ github.workspace }}
+          Get-ChildItem -Hidden
           cmake ..  ${{matrix.config.generator}}  `
           -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}\vcpkg\scripts\buildsystems\vcpkg.cmake"  `
           -DENABLE_OPENSSL=ON `
