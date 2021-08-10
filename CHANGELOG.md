@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- build\(deps\): bump virtualenv from 20.7.0 to 20.7.1 [\#345](https://github.com/jmuelbert/jmbde-QT/pull/345)
 - build\(deps\): bump pre-commit from 2.13.0 to 2.14.0 [\#344](https://github.com/jmuelbert/jmbde-QT/pull/344)
 - build\(deps\): bump identify from 2.2.11 to 2.2.13 [\#343](https://github.com/jmuelbert/jmbde-QT/pull/343)
 - build\(deps\): bump DoozyX/clang-format-lint-action from 0.9 to 0.12 [\#342](https://github.com/jmuelbert/jmbde-QT/pull/342)
