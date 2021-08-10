@@ -21,7 +21,6 @@
 - build\(deps\): bump sphinx from 4.0.3 to 4.1.0 [\#330](https://github.com/jmuelbert/jmbde-QT/pull/330)
 - Bump sphinx from 4.0.2 to 4.0.3 [\#328](https://github.com/jmuelbert/jmbde-QT/pull/328)
 - Bump packaging from 20.9 to 21.0 [\#327](https://github.com/jmuelbert/jmbde-QT/pull/327)
-- Bump importlib-metadata from 4.6.0 to 4.6.1 [\#326](https://github.com/jmuelbert/jmbde-QT/pull/326)
 - Bump zipp from 3.4.1 to 3.5.0 [\#325](https://github.com/jmuelbert/jmbde-QT/pull/325)
 
 ## [dependabot/pip/importlib-metadata-4.3.1](https://github.com/jmuelbert/jmbde-QT/tree/dependabot/pip/importlib-metadata-4.3.1) (2021-06-12)
