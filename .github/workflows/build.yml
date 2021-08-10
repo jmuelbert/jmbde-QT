@@ -16,6 +16,7 @@ on:
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: RelWithDebInfo
+  DISPLAY: ':99'
 
 jobs:
   linux-build:
@@ -31,6 +32,8 @@ jobs:
               symbol: focal,
               arch: amd64,
               qt_arch: gcc_64,
+              cc: 'gcc',
+              cxx: 'g++',
               image_repo: jmuelbert/ci-building-images,
             }
 
@@ -48,6 +51,11 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Xvfb install and run
+        run: |
+          sudo apt-get install -y xvfb
+          Xvfb -ac ${{ env.DISPLAY }} -screen 0 1280x780x24 &
 
       - name: Install Dependencies
         run: |
@@ -117,6 +125,8 @@ jobs:
         run: ctest -C $BUILD_TYPE
 
   windows-build:
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
     env:
       VCINSTALLDIR: C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/
       # Qt5_DIR: ${{ github.workspace }}\build\Qt\${{ matrix.qt_version }}\${{ matrix.config.qt_arch_install }}\lib\cmake\Qt5\
@@ -131,26 +141,27 @@ jobs:
         qt_target: [desktop]
         config:
           - {
+              name: 'Windows Latest MSVC',
+              artifact: 'Windows-MSVC',
               os: windows-latest,
               arch: x64,
               generator: "-G'Visual Studio 16 2019' -A x64",
               vcpkg_triplet: x64-windows,
               qt_arch: win64_msvc2019_64,
               qt_arch_install: msvc2019_64,
-              artifact: 'Windows-MSVC.tar.xz',
+              cc: 'cl',
+              cxx: 'cl',
               pak_arch: win64,
             }
           - {
-              name: 'Windows 2019 MinGW',
-              artifact: 'Windows-MinGW.tar.xz',
+              name: 'Windows Latest MinGW',
+              artifact: 'Windows-MinGW',
               os: windows-2019,
               cc: 'gcc',
               cxx: 'g++',
             }
 
       fail-fast: false
-
-    runs-on: ${{ matrix.config.os }}
 
     steps:
       - name: Checkout Source Code
@@ -213,13 +224,15 @@ jobs:
 
       - name: Configure
         shell: bash
+        env: CC=cl.exe
+          CXX=cl.exe
         working-directory: build
         run: |
           echo $BUILD_TYPE
           cmake ..  ${{matrix.config.generator}}  `
           -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}\vcpkg\scripts\buildsystems\vcpkg.cmake"  `
           -DENABLE_OPENSSL=ON `
-          -DCMAKE_BUILD_TYPE=Release  `
+          -DCMAKE_BUILD_TYPE="$BUILD_TYPE"  `
           -DRUN_IN_PLACE=${{ contains(matrix.type, 'portable') }}
 
       - name: Compile
