@@ -17,10 +17,12 @@ env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: RelWithDebInfo
   DISPLAY: ':99'
+  CTEST_OUTPUT_ON_FAILURE: 1
+  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
 jobs:
   linux-build:
-    name: Ubuntu-Latest(Build)
+    name: ${{ matrix.config.name }}
 
     strategy:
       matrix:
@@ -90,9 +92,6 @@ jobs:
       - name: Get conan
         id: conan
         uses: turtlebrowser/get-conan@v1.0
-
-      - name: Add Bincrafters Remote
-        run: conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 
       - name: Create Build Environment
         # Some projects don't allow in-source building, so create a separate build directory
@@ -185,15 +184,6 @@ jobs:
           toolset: 14.2
           arch: x64
 
-      - name: Restore from cache and run vcpkg
-        uses: lukka/run-vcpkg@v4
-        with:
-          vcpkgArguments: ${{env.VCPKG_PACKAGES}}
-          vcpkgDirectory: '${{ github.workspace }}\vcpkg'
-          appendedCacheKey: ${{ matrix.config.vcpkg_triplet }}
-          vcpkgGitCommitId: ${{ env.VCPKG_VERSION }}
-          vcpkgTriplet: ${{ matrix.config.vcpkg_triplet }}
-
       - name: Cache Qt
         id: cache-qt
         uses: actions/cache@v2.1.6
@@ -223,12 +213,7 @@ jobs:
         shell: pwsh
         working-directory: build
         run: |
-          Write-Host  $env.BUILD_TYPE
-          Get-ChildItem ${{ github.workspace }}
-          Get-ChildItem ${{ github.workspace }}/build
           cmake ..  ${{matrix.config.generator}}  `
-          -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}\vcpkg\scripts\buildsystems\vcpkg.cmake"  `
-          -DENABLE_OPENSSL=ON `
           -DCMAKE_BUILD_TYPE="$env.BUILD_TYPE"  `
           -DRUN_IN_PLACE=${{ contains(matrix.type, 'portable') }}
 
