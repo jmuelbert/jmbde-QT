@@ -127,7 +127,6 @@
 - Bump sphinx from 3.3.1 to 3.4.0 [\#164](https://github.com/jmuelbert/jmbde-QT/pull/164)
 - Bump requests from 2.25.0 to 2.25.1 [\#163](https://github.com/jmuelbert/jmbde-QT/pull/163)
 - Bump breathe from 4.24.1 to 4.25.1 [\#162](https://github.com/jmuelbert/jmbde-QT/pull/162)
-- Fix typos by misspell-fixer for refs/heads/master [\#146](https://github.com/jmuelbert/jmbde-QT/pull/146)
 - Format codes for refs/heads/dependabot/github\_actions/peter-evans/create-pull-request-v3.5.2 [\#145](https://github.com/jmuelbert/jmbde-QT/pull/145)
 - Fix typos by misspell-fixer for refs/heads/dependabot/github\_actions/peter-evans/create-pull-request-v3.5.2 [\#144](https://github.com/jmuelbert/jmbde-QT/pull/144)
 - Fix typos by misspell-fixer for refs/heads/dependabot/github\_actions/actions/cache-v2.1.3 [\#143](https://github.com/jmuelbert/jmbde-QT/pull/143)
