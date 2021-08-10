@@ -215,9 +215,6 @@ jobs:
         id: conan
         uses: turtlebrowser/get-conan@v1.0
 
-      - name: Add Bincrafters Remote
-        run: conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
-
       - name: Install Build deps
         run: |
           cinst png2ico
@@ -227,6 +224,7 @@ jobs:
         working-directory: build
         run: |
           echo $BUILD_TYPE
+          ls ${{ github.workspace }}
           cmake ..  ${{matrix.config.generator}}  `
           -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}\vcpkg\scripts\buildsystems\vcpkg.cmake"  `
           -DENABLE_OPENSSL=ON `
