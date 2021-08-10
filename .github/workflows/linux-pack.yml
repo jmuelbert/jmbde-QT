@@ -154,6 +154,7 @@ jobs:
           APPIMAGETOOL_ARCH: x86_64
 
       - name: Packaging appimage
+        if: ${{ matrix.qt_version != '5.15.2' }}
         run: |
           APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${PRODUCT}.AppDir
           mkdir -p ${APPIMAGE_DST_PATH}

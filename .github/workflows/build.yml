@@ -111,7 +111,7 @@ jobs:
         run: |
           cmake $GITHUB_WORKSPACE \
             -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
-            -DBUILD_TESTING=ON
+            -DBUILD_TESTING=ON \
             -DBUILD_TRANSLATIONS=ON
 
       - name: Build
