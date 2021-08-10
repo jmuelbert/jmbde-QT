@@ -220,11 +220,11 @@ jobs:
           cinst png2ico
 
       - name: Configure
-        shell: bash
+        shell: pwsh
         working-directory: build
         run: |
-          echo $BUILD_TYPE
-          ls ${{ github.workspace }}
+          Write-Host  $env.BUILD_TYPE
+          Get-ChildItem ${{ github.workspace }}
           cmake ..  ${{matrix.config.generator}}  `
           -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}\vcpkg\scripts\buildsystems\vcpkg.cmake"  `
           -DENABLE_OPENSSL=ON `
