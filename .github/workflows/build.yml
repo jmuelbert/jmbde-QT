@@ -124,7 +124,7 @@ jobs:
         run: ctest -C $BUILD_TYPE
 
   windows-build:
-    name: ${{ matrix.config.name }}
+    name: ${{ matrix.config.name }} ${{ matrix.config.arch }}-${{ matrix.qt_version}}
     runs-on: ${{ matrix.config.os }}
     env:
       VCINSTALLDIR: C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/
