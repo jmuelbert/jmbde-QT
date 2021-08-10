@@ -224,8 +224,6 @@ jobs:
 
       - name: Configure
         shell: bash
-        env: CC=cl.exe
-          CXX=cl.exe
         working-directory: build
         run: |
           echo $BUILD_TYPE
