@@ -26,9 +26,13 @@ set(COMMON_IGNORE_FILES
     ".gz$"
     "/src/config.h$")
 
-set(CPACK_PACKAGE_IGNORE_FILES ${PRJ_COMMON_IGNORE_FILES})
+set(CPACK_PACKAGE_IGNORE_FILES ${COMMON_IGNORE_FILES})
 
 if(WIN32)
+
+  # Include all dynamically linked runtime libraries such as MSVCRxxx.dll
+  include(InstallRequiredSystemLibraries)
+
   if(RUN_IN_PLACE)
     if(CMAKE_SIZEOF_VOID_P EQUAL 8)
       set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}-${PROJECT_VERSION}-win64")
@@ -52,7 +56,8 @@ if(WIN32)
     set(CPACK_WIX_PRODUCT_ICON "${CMAKE_SOURCE_DIR}/assets/icons/jmbde.ico")
     # languages can be found at
     # http://wixtoolset.org/documentation/manual/v3/wixui/wixui_localization.html
-    # set(CPACK_WIX_CULTURES
+    set(CPACK_WIX_CULTURES
+        "en-US","de-DE")
     # "ar-SA,bg-BG,ca-ES,hr-HR,cs-CZ,da-DK,nl-NL,en-US,et-EE,fi-FI,fr-FR,de-DE")
     # set(CPACK_WIX_UI_BANNER
     set(CPACK_WIX_UI_BANNER
