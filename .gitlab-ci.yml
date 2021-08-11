@@ -25,6 +25,7 @@ before_script:
   - echo "--- Setting up apt cache ---"
     && mkdir -pv $APT_CACHE_DIR
   - echo "--- Installing build tools and dependencies ---"
+    && add-apt-repository ppa:beineri/opt-qt-5.15.2-focal
     && apt-get update
     && apt-get -o dir::cache::archives="$APT_CACHE_DIR" install -yq
       build-essential cmake ninja-build git
