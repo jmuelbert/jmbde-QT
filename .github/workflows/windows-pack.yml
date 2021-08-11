@@ -58,17 +58,6 @@ jobs:
         type: [portable, installer]
         config:
           - {
-              os: windows-2019,
-              artifact: 'Windows-MinGW',
-              arch: x86,
-              generator: "-G 'MinGW Makefiles'",
-              qt_arch: win64_mingw81,
-              qt_arch_install: msvc2019,
-              pak_arch: win64,
-              cc: 'gcc',
-              cxx: 'g++',
-            }
-          - {
               name: 'Windows Latest MSVC',
               artifact: 'Windows-MSVC',
               os: windows-2019,
@@ -165,10 +154,15 @@ jobs:
           If ($env:TYPE -eq "installer")
           {
             cpack -G WIX -B "$env:GITHUB_WORKSPACE\build\Package"
+
           }
           ElseIf($env:TYPE -eq "portable")
           {
+            <# Use Innosetup for now
             cpack -G ZIP -B "$env:GITHUB_WORKSPACE\build\Package"
+            #>
+            $env:archiveName=jmbde.$env.VERSION.Windows-$env:matrix.config.arch
+            iscc $env.GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=$env.VERSION -DMyProjectRoot=. -DMyOutRoot=./$env:archiveName/bin
           }
         env:
           TYPE: ${{matrix.type}}

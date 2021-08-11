@@ -15,51 +15,95 @@ on:
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
-  BUILD_TYPE: RelWithDebInfo
+  BUILD_TYPE: Debug
   DISPLAY: ':99'
   CTEST_OUTPUT_ON_FAILURE: 1
   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
 jobs:
-  linux-build:
-    name: ${{ matrix.config.name }}
-
+  build:
+    name: ${{ matrix.config.os}} ${{ matrix.config.qt_arch }}-${{ matrix.qt_version}}-${{ matrix.config.cxx}}
+    runs-on: ${{ matrix.config.os }}
     strategy:
       matrix:
         qt_version: [5.15.2, 6.1.0]
+        qt_target: [desktop]
         config:
           - {
-              name: ubuntu-latest,
-              os: ubuntu-latest,
-              symbol: focal,
-              arch: amd64,
-              qt_arch: gcc_64,
+              os: windows-latest,
+              name: 'Windows Latest MSVC',
+              qt_arch: win64_msvc2019_64,
+              qt_arch_install: msvc2019_64,
+              arch: x64,
+              artifact: 'Windows-MSVC',
+              generator: "-G'Visual Studio 16 2019' -A x64",
+              pak_arch: win64,
+              cc: 'cl',
+              cxx: 'cl',
+            }
+          - {
+              os: windows-2019,
+              artifact: 'Windows-MinGW',
+              arch: x86,
+              generator: "-G 'MinGW Makefiles'",
+              qt_arch: win64_mingw81,
+              qt_arch_install: msvc2019,
+              pak_arch: win64,
               cc: 'gcc',
               cxx: 'g++',
+            }
+          - {
+              os: ubuntu-latest,
+              name: "Ubuntu Latest gcc-10",
+              qt_arch: gcc_64,
+              arch: amd64,
+              artifact: 'Ubuntu-gcc'
+              generator: "-G 'Unix Makefiles'",
+              cc: 'gcc-10',
+              cxx: 'g++-10',
               image_repo: jmuelbert/ci-building-images,
+            }
+          - {
+              os: ubuntu-latest,
+              name: "Ubuntu Latest gcc-10",
+              qt_arch: gcc_64,
+              arch: amd64,
+              artifact: 'Ubuntu-gcc'
+              generator: "-G 'Unix Makefiles'",
+              cc: 'clang-12',
+              cxx: 'clang-12',
+              image_repo: jmuelbert/ci-building-images,
+            }
+          - {
+              os: macos-latest,
+              name: "macos-12.0-x86_64",
+              qt_arch: clang_64,
+              arch: clang_64,
+              cc=clang,
+              cxx=clang++,
+              generator: "-G 'Ninja'",
             }
 
       fail-fast: false
 
-    runs-on: ${{ matrix.config.os }}
-
     steps:
-      - name: Checkout Source code
+      - name: Checkout Source Code
         if: github.event_name == 'push'
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      #          ref: master
 
-      - name: Checkout Source code
+      - name: Checkout Source Code
         if: github.event_name == 'pull_request'
         uses: actions/checkout@v2
         with:
+          fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: Xvfb install and run
-        run: |
-          sudo apt-get install -y xvfb
-          Xvfb -ac ${{ env.DISPLAY }} -screen 0 1280x780x24 &
-
-      - name: Install Dependencies
+      # Linux
+      - name: Install Dependencies for ${{ runner.os }}
+        if: runner.os == 'Linux'
         run: |
           sudo apt-get -y -qq update
           sudo apt-get -y --no-install-recommends install \
@@ -75,18 +119,48 @@ jobs:
             fcitx-frontend-qt5 \
             openssl \
             ca-certificates
+
+      - name: Xvfb install and run for ${{ runner.os }}
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get install -y xvfb
+          Xvfb -ac ${{ env.DISPLAY }} -screen 0 1280x780x24 &
+
+      # Windows
+      - name: Install MSVC compiler for ${{ runner.os }}
+        if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@v1.9.0
+        with:
+          # 14.1 is for vs2017, 14.2 is vs2019, following the upstream vcpkg build from repo
+          toolset: 14.2
+          arch: x64
+
+      - name:  ${{ runner.os }} - ${{ matrix.config.qt_version }} - Build preparation - Install Packages
+        if: runner.os == 'Windows'
+        run: |
+          cinst png2ico
+
+      - name: ${{ runner.os }} - ${{ matrix.config.qt_version }} - Build preparation - Install Packages
+        if: ${{ runner.os == 'macOS' }}
+        run: |
+            brew install ninja pkg-config
+
+      # Common
       - name: Cache Qt
         id: cache-qt
-        uses: actions/cache@v2.1.5
+        uses: actions/cache@v2.1.6
         with:
-          path: ../Qt
-          key: QtCache-${{ matrix.config.name }}-${{ matrix.config.arch }}-${{matrix.qt_version }}
+          path: ./build/Qt/${{ matrix.qt_version }}/${{ matrix.config.qt_arch_install }}
+          key: ${{ runner.os }}-QtCache/${{ matrix.qt_ver }}/${{ matrix.config.qt_arch }}
 
-      - name: Installing Qt - ${{ matrix.config.name }}-${{ matrix.config.arch }}-v${{matrix.qt_version }}
+      - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
-          version: ${{  matrix.qt_version }}
+          version: ${{ matrix.qt_version }}
+          target: ${{ matrix.qt_target }}
           arch: ${{ matrix.config.qt_arch }}
+          dir: '${{ github.workspace }}/build/'
+          # modules: 'qtscript'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
       - name: Get conan
@@ -110,6 +184,7 @@ jobs:
         # We need to source the profile file to make sure conan is in PATH
         run: |
           cmake $GITHUB_WORKSPACE \
+            ${{ matrix.config.generator }}
             -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
             -DBUILD_TESTING=ON \
             -DBUILD_TRANSLATIONS=ON
@@ -120,108 +195,11 @@ jobs:
         # Execute the build.  You can specify a specific target with "--target <NAME>"
         run: cmake --build . --config $BUILD_TYPE
 
+      # Linux
       - name: Test
+        if: runner.os == 'Linux'
         working-directory: ${{runner.workspace}}/build
         shell: bash
         # Execute tests defined by the CMake configuration.
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
         run: ctest -C $BUILD_TYPE
-
-  windows-build:
-    name: ${{ matrix.config.name }} ${{ matrix.config.arch }}-${{ matrix.qt_version}}
-    runs-on: ${{ matrix.config.os }}
-    env:
-      VCINSTALLDIR: C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/
-      # Qt5_DIR: ${{ github.workspace }}\build\Qt\${{ matrix.qt_version }}\${{ matrix.config.qt_arch_install }}\lib\cmake\Qt5\
-      # QTDIR: ${{ github.workspace }}\build\Qt\${{ matrix.qt_version }}\${{ matrix.config.qt_arch_install }}\
-      # 2020.07
-      VCPKG_VERSION: 56fffbe49dfb4dd8fae0940f272c5fd2b86be991
-      VCPKG_PACKAGES: openssl-windows
-      OPENSSL_ROOT_DIR: ${{ github.workspace }}\vcpkg\installed\${{ matrix.config.vcpkg_triplet }}\
-    strategy:
-      matrix:
-        qt_version: [5.15.2, 6.1.0]
-        qt_target: [desktop]
-        config:
-          - {
-              name: 'Windows Latest MSVC',
-              artifact: 'Windows-MSVC',
-              os: windows-latest,
-              arch: x64,
-              generator: "-G'Visual Studio 16 2019' -A x64",
-              qt_arch: win64_msvc2019_64,
-              qt_arch_install: msvc2019_64,
-              pak_arch: win64,
-              cc: 'cl',
-              cxx: 'cl',
-            }
-          - {
-              name: 'Windows Latest MinGW',
-              artifact: 'Windows-MinGW',
-              os: windows-2019,
-              cc: 'gcc',
-              cxx: 'g++',
-            }
-
-      fail-fast: false
-
-    steps:
-      - name: Checkout Source Code
-        if: github.event_name == 'push'
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      #          ref: master
-
-      - name: Checkout Source Code
-        if: github.event_name == 'pull_request'
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: Install MSVC compiler
-        uses: ilammy/msvc-dev-cmd@v1.9.0
-        with:
-          # 14.1 is for vs2017, 14.2 is vs2019, following the upstream vcpkg build from repo
-          toolset: 14.2
-          arch: x64
-
-      - name: Cache Qt
-        id: cache-qt
-        uses: actions/cache@v2.1.6
-        with:
-          path: ./build/Qt/${{ matrix.qt_version }}/${{ matrix.config.qt_arch_install }}
-          key: ${{ runner.os }}-QtCache/${{ matrix.qt_ver }}/${{ matrix.config.qt_arch }}
-
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v2
-        with:
-          version: ${{ matrix.qt_version }}
-          target: ${{ matrix.qt_target }}
-          arch: ${{ matrix.config.qt_arch }}
-          dir: '${{ github.workspace }}/build/'
-          # modules: 'qtscript'
-          cached: ${{ steps.cache-qt.outputs.cache-hit }}
-
-      - name: Get conan
-        id: conan
-        uses: turtlebrowser/get-conan@v1.0
-
-      - name: Install Build deps
-        run: |
-          cinst png2ico
-
-      - name: Configure
-        shell: pwsh
-        working-directory: build
-        run: |
-          cmake ..  ${{matrix.config.generator}}  `
-            -DCMAKE_BUILD_TYPE="$env:BUILD_TYPE"  `
-            -DBUILD_TESTING=OFF  `
-            -DBUILD_TRANSLATIONS=ON
-
-      - name: Compile
-        shell: pwsh
-        working-directory: build
-        run: cmake --build . --config "$env:BUILD_TYPE"
