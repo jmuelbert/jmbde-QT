@@ -162,11 +162,11 @@ jobs:
                          #>
              If ($env:QT_MAIN_VER6 -eq $True)
              {
-               iscc "$env:GITHUB_WORKSPACE\packaging\win\installer_Qt6_x64.iss" -DMyAppVersion=$env:VERSION -DMyProjectRoot=. -DMyOutRoot=$env:GITHUB_WORKSPACE/build/Package/jmbde.$env:VERSION.Windows-$env:matrix.config.arch
+               iscc "$env:GITHUB_WORKSPACE\packaging\win\installer_Qt6_x64.iss" -DMyAppVersion=$env:VERSION -DMyProjectRoot=$env:GITHUB_WORKSPACE\build -DMyOutRoot=$env:GITHUB_WORKSPACE\build\Package\jmbde.$env:VERSION.Windows-$env:matrix.config.arch
              }
              else
              {
-               iscc "$env:GITHUB_WORKSPACE\packaging\win\installer_Qt5_x64.iss" -DMyAppVersion=$env:VERSION -DMyProjectRoot=. -DMyOutRoot=$env:GITHUB_WORKSPACE/build/Package/jmbde.$env:VERSION.Windows-$env:matrix.config.arch
+               iscc "$env:GITHUB_WORKSPACE\packaging\win\installer_Qt5_x64.iss" -DMyAppVersion=$env:VERSION -DMyProjectRoot=. -DMyOutRoot=$env:GITHUB_WORKSPACE\build\Package\jmbde.$env:VERSION.Windows-$env:matrix.config.arch
 
              }
 
@@ -180,7 +180,10 @@ jobs:
       - name: Package Clean
         shell: pwsh
         run: |
-          Remove-Item $env:GITHUB_WORKSPACE\build\Package\_CPack_Packages -Recurse
+          If (matrix.type -eq 'portable')
+          {
+            Remove-Item $env:GITHUB_WORKSPACE\build\Package\_CPack_Packages -Recurse
+          }
           New-Item -Path $env:GITHUB_WORKSPACE\build\Package\installer -ItemType Directory
           New-Item -Path $env:GITHUB_WORKSPACE\build\Package\portable -ItemType Directory
 
