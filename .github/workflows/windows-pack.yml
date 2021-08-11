@@ -161,8 +161,7 @@ jobs:
             <# Use Innosetup for now
             cpack -G ZIP -B "$env:GITHUB_WORKSPACE\build\Package"
             #>
-            $archiveName=jmbde.$env.VERSION.Windows-$env:matrix.config.arch
-            iscc $env.GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=$env.VERSION -DMyProjectRoot=. -DMyOutRoot=./$archiveName/bin
+            iscc $env.GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=$env.VERSION -DMyProjectRoot=. -DMyOutRoot=./jmbde.$env.VERSION.Windows-$env:matrix.config.arch/bin
           }
         env:
           TYPE: ${{matrix.type}}

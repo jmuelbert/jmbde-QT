@@ -184,7 +184,7 @@ jobs:
         # We need to source the profile file to make sure conan is in PATH
         run: |
           cmake $GITHUB_WORKSPACE \
-            ${{ matrix.config.generator }}
+            ${{ matrix.config.generator }} \
             -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
             -DBUILD_TESTING=ON \
             -DBUILD_TRANSLATIONS=ON
@@ -193,7 +193,7 @@ jobs:
         working-directory: ${{runner.workspace}}/build
         shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
-        run: cmake --build . --config $BUILD_TYPE
+        run: cmake --build . --config $BUILD_TYPE -j2
 
       # Linux
       - name: Test
