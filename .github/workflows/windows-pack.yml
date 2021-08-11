@@ -160,7 +160,7 @@ jobs:
             <# Use Innosetup for now
             cpack -G WIX -B "$env:GITHUB_WORKSPACE\build\Package"
                         #>
-            If ($env:QT_MAIN_VER6 -eq true)
+            If ($env:QT_MAIN_VER6 -eq $True)
             {
               iscc "$env:GITHUB_WORKSPACE\packaging\win\installer_Qt6_x64.iss" -DMyAppVersion=$env:VERSION -DMyProjectRoot=. -DMyOutRoot=./jmbde.$env:VERSION.Windows-$env:matrix.config.arch/bin
             }
