@@ -149,6 +149,7 @@ jobs:
 
       - name: CPack
         env:
+          TYPE: ${{matrix.type}}
           QT_MAIN_VER6: ${{ contains(matrix.config.qt_version, '[6]')}}
         working-directory: build
         shell: pwsh
@@ -161,11 +162,11 @@ jobs:
                         #>
             If ($env:QT_MAIN_VER6 -eq true)
             {
-              iscc "$env:GITHUB_WORKSPACE\packaging\win\installer_Qt6_x64.iss" -DMyAppVersion=$env.VERSION -DMyProjectRoot=. -DMyOutRoot=./jmbde.$env.VERSION.Windows-$env:matrix.config.arch/bin
+              iscc "$env:GITHUB_WORKSPACE\packaging\win\installer_Qt6_x64.iss" -DMyAppVersion=$env:VERSION -DMyProjectRoot=. -DMyOutRoot=./jmbde.$env:VERSION.Windows-$env:matrix.config.arch/bin
             }
             else
             {
-              iscc "$env:GITHUB_WORKSPACE\packaging\win\installer_Qt5_x64.iss" -DMyAppVersion=$env.VERSION -DMyProjectRoot=. -DMyOutRoot=./jmbde.$env.VERSION.Windows-$env:matrix.config.arch/bin
+              iscc "$env:GITHUB_WORKSPACE\packaging\win\installer_Qt5_x64.iss" -DMyAppVersion=$env:VERSION -DMyProjectRoot=. -DMyOutRoot=./jmbde.$env:VERSION.Windows-$env:matrix.config.arch/bin
             }
 
           }
@@ -174,8 +175,6 @@ jobs:
 
             cpack -G ZIP -B "$env:GITHUB_WORKSPACE\build\Package"
           }
-        env:
-          TYPE: ${{matrix.type}}
 
       # - name: Package Clean
       #   shell: pwsh
