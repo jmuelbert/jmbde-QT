@@ -19,6 +19,7 @@
 - build\(deps\): bump requests from 2.25.1 to 2.26.0 [\#333](https://github.com/jmuelbert/jmbde-QT/pull/333)
 - build\(deps\): bump identify from 2.2.10 to 2.2.11 [\#331](https://github.com/jmuelbert/jmbde-QT/pull/331)
 - build\(deps\): bump sphinx from 4.0.3 to 4.1.0 [\#330](https://github.com/jmuelbert/jmbde-QT/pull/330)
+- Bump sphinx from 4.0.2 to 4.0.3 [\#328](https://github.com/jmuelbert/jmbde-QT/pull/328)
 
 ## [dependabot/pip/importlib-metadata-4.3.1](https://github.com/jmuelbert/jmbde-QT/tree/dependabot/pip/importlib-metadata-4.3.1) (2021-06-12)
 
