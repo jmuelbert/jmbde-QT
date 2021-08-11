@@ -151,36 +151,30 @@ jobs:
         env:
           TYPE: ${{matrix.type}}
           QT_MAIN_VER6: ${{ contains(matrix.config.qt_version, '[6]')}}
+          CONFIG_ARCH: $${{matrix.config.arch}}
         working-directory: build
-        shell: PWSH
+        shell: bash
         run: |
 
-          if ($env:TYPE -eq "installer")
-           {
+          if ${TYPE} -eq "installer"; then
              <# Use Innosetup for now
-             cpack -G WIX -B "$env:GITHUB_WORKSPACE\build\Package"
-                         #>
-             If ($env:QT_MAIN_VER6 -eq $True)
-             {
-               iscc "$env:GITHUB_WORKSPACE\packaging\win\installer_Qt6_x64.iss" -DMyAppVersion=$env:VERSION -DMyProjectRoot=$env:GITHUB_WORKSPACE\build -DMyOutRoot=$env:GITHUB_WORKSPACE\build\Package\jmbde.$env:VERSION.Windows-$env:matrix.config.arch
-             }
+                cpack -G WIX -B "$env:GITHUB_WORKSPACE\build\Package"
+             #>
+             if ${QT_MAIN_VER6) == true; then
+               iscc "$GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss" -DMyAppVersion=$VERSION -DMyProjectRoot=$GITHUB_WORKSPACE/build -DMyOutRoot=$GITHUB_WORKSPACE/build/Package/jmbde.$VERSION.Windows-$CONFIG_ARCH
              else
-             {
-               iscc "$env:GITHUB_WORKSPACE\packaging\win\installer_Qt5_x64.iss" -DMyAppVersion=$env:VERSION -DMyProjectRoot=. -DMyOutRoot=$env:GITHUB_WORKSPACE\build\Package\jmbde.$env:VERSION.Windows-$env:matrix.config.arch
-
-             }
-
-           }
-           ElseIf($env:TYPE -eq "portable")
-           {
-
+               iscc "$GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss" -DMyAppVersion=$VERSION -DMyProjectRoot=$GITHUB_WORKSPACE/build -DMyOutRoot=$GITHUB_WORKSPACE/build/Package/jmbde.$VERSION.Windows-$CONFIG_ARCH
+             fi
+           else
              cpack -G ZIP -B "$env:GITHUB_WORKSPACE\build\Package"
-           }
+           fi
 
       - name: Package Clean
+        env:
+          TYPE: ${{matrix.type}}
         shell: pwsh
         run: |
-          If (matrix.type -eq 'portable')
+          if ($env:TYPE -eq 'portable')
           {
             Remove-Item $env:GITHUB_WORKSPACE\build\Package\_CPack_Packages -Recurse
           }
