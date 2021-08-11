@@ -49,7 +49,7 @@ env:
 
 jobs:
   windows-pack:
-    name: VS 2019 ${{ matrix.config.arch }}-${{ matrix.type}}
+    name: VS 2019 ${{ matrix.config.arch }}-${{matrix.qt_version}}-${{ matrix.type}}
     runs-on: ${{ matrix.config.os }}
     strategy:
       matrix:
@@ -162,11 +162,12 @@ jobs:
                          #>
              If ($env:QT_MAIN_VER6 -eq $True)
              {
-               iscc "$env:GITHUB_WORKSPACE\packaging\win\installer_Qt6_x64.iss" -DMyAppVersion=$env:VERSION -DMyProjectRoot=. -DMyOutRoot=./jmbde.$env:VERSION.Windows-$env:matrix.config.arch/bin
+               iscc "$env:GITHUB_WORKSPACE\packaging\win\installer_Qt6_x64.iss" -DMyAppVersion=$env:VERSION -DMyProjectRoot=. -DMyOutRoot=$env:GITHUB_WORKSPACE/build/Package/jmbde.$env:VERSION.Windows-$env:matrix.config.arch
              }
              else
              {
-               iscc "$env:GITHUB_WORKSPACE\packaging\win\installer_Qt5_x64.iss"
+               iscc "$env:GITHUB_WORKSPACE\packaging\win\installer_Qt5_x64.iss" -DMyAppVersion=$env:VERSION -DMyProjectRoot=. -DMyOutRoot=$env:GITHUB_WORKSPACE/build/Package/jmbde.$env:VERSION.Windows-$env:matrix.config.arch
+
              }
 
            }
@@ -187,7 +188,10 @@ jobs:
         if: matrix.type == 'installer'
         shell: pwsh
         run: |
+          <#
           Move-Item -Path $env:GITHUB_WORKSPACE/build/Package/jmbde-*-${{ matrix.config.pak_arch }}.msi -Destination $env:GITHUB_WORKSPACE/build/Package/installer/jmbde-$env:VERSION-${{ matrix.config.pak_arch }}.msi
+          #>
+          Move-Item -Path $env:GITHUB_WORKSPACE/build/Package/jmbde-*-${{ matrix.config.pak_arch }}.exe -Destination $env:GITHUB_WORKSPACE/build/Package/installer/jmbde-$env:VERSION-${{ matrix.config.pak_arch }}.exe
 
       - name: Package Prepare (portable)
         if: matrix.type == 'portable'
@@ -195,16 +199,16 @@ jobs:
         run: |
           Move-Item -Path $env:GITHUB_WORKSPACE/build/Package/jmbde-*-${{ matrix.config.pak_arch }}.zip -Destination $env:GITHUB_WORKSPACE/build/Package/portable/jmbde-$env:VERSION-${{ matrix.config.pak_arch }}.zip
 
-      # - name: SHA256Sum of Windows installer(daily build)
-      #   if: matrix.type == 'installer'
-      #   shell: bash
-      #   run: |
-      #     sha256sum $GITHUB_WORKSPACE/build/Package/installer/jmbde-${VERSION}-${{ matrix.config.pak_arch }}.msi
-      #     sha256sum $GITHUB_WORKSPACE/build/Package/installer/jmbde-${VERSION}-${{ matrix.config.pak_arch }}.msi > $GITHUB_WORKSPACE/build/Package/installer/jmbde-${VERSION}-${{ matrix.config.pak_arch }}.msi.sha256sum
-      #     python -m pip install -U -q requests
-      #     echo "============Windows installer sha256sum download link============"
-      #     echo $(python $GITHUB_WORKSPACE/scripts/upload_services/transferwee.py upload $GITHUB_WORKSPACE/build/Package/installer/jmbde-${VERSION}-${{ matrix.config.pak_arch }}.msi.sha256sum)
-      #     echo "=======no operation for you can see link in the log console====="
+      - name: SHA256Sum of Windows installer(daily build)
+        if: matrix.type == 'installer'
+        shell: bash
+        run: |
+          sha256sum $GITHUB_WORKSPACE/build/Package/installer/jmbde-${VERSION}-${{ matrix.config.pak_arch }}.exe
+          sha256sum $GITHUB_WORKSPACE/build/Package/installer/jmbde-${VERSION}-${{ matrix.config.pak_arch }}.exe > $GITHUB_WORKSPACE/build/Package/installer/jmbde-${VERSION}-${{ matrix.config.pak_arch }}.exe.sha256sum
+          python -m pip install -U -q requests
+          echo "============Windows installer sha256sum download link============"
+          echo $(python $GITHUB_WORKSPACE/scripts/upload_services/transferwee.py upload $GITHUB_WORKSPACE/build/Package/installer/jmbde-${VERSION}-${{ matrix.config.pak_arch }}.exe.sha256sum)
+          echo "=======no operation for you can see link in the log console====="
 
       - name: SHA256Sum of Windows portable(daily build)
         if: matrix.type == 'portable'
