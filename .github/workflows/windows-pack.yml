@@ -152,36 +152,36 @@ jobs:
           TYPE: ${{matrix.type}}
           QT_MAIN_VER6: ${{ contains(matrix.config.qt_version, '[6]')}}
         working-directory: build
-        shell: pwsh
+        shell: PWSH
         run: |
 
-          If ($env:TYPE -eq "installer")
-          {
-            <# Use Innosetup for now
-            cpack -G WIX -B "$env:GITHUB_WORKSPACE\build\Package"
-                        #>
-            If ($env:QT_MAIN_VER6 -eq $True)
-            {
-              iscc "$env:GITHUB_WORKSPACE\packaging\win\installer_Qt6_x64.iss" -DMyAppVersion=$env:VERSION -DMyProjectRoot=. -DMyOutRoot=./jmbde.$env:VERSION.Windows-$env:matrix.config.arch/bin
-            }
-            else
-            {
-              iscc "$env:GITHUB_WORKSPACE\packaging\win\installer_Qt5_x64.iss" -DMyAppVersion=$env:VERSION -DMyProjectRoot=. -DMyOutRoot=./jmbde.$env:VERSION.Windows-$env:matrix.config.arch/bin
-            }
+          if ($env:TYPE -eq "installer")
+           {
+             <# Use Innosetup for now
+             cpack -G WIX -B "$env:GITHUB_WORKSPACE\build\Package"
+                         #>
+             If ($env:QT_MAIN_VER6 -eq $True)
+             {
+               iscc "$env:GITHUB_WORKSPACE\packaging\win\installer_Qt6_x64.iss" -DMyAppVersion=$env:VERSION -DMyProjectRoot=. -DMyOutRoot=./jmbde.$env:VERSION.Windows-$env:matrix.config.arch/bin
+             }
+             else
+             {
+               iscc "$env:GITHUB_WORKSPACE\packaging\win\installer_Qt5_x64.iss"
+             }
 
-          }
-          ElseIf($env:TYPE -eq "portable")
-          {
+           }
+           ElseIf($env:TYPE -eq "portable")
+           {
 
-            cpack -G ZIP -B "$env:GITHUB_WORKSPACE\build\Package"
-          }
+             cpack -G ZIP -B "$env:GITHUB_WORKSPACE\build\Package"
+           }
 
-      # - name: Package Clean
-      #   shell: pwsh
-      #   run: |
-      #     Remove-Item $env:GITHUB_WORKSPACE\build\Package\_CPack_Packages -Recurse
-      #     New-Item -Path $env:GITHUB_WORKSPACE\build\Package\installer -ItemType Directory
-      #     New-Item -Path $env:GITHUB_WORKSPACE\build\Package\portable -ItemType Directory
+      - name: Package Clean
+        shell: pwsh
+        run: |
+          Remove-Item $env:GITHUB_WORKSPACE\build\Package\_CPack_Packages -Recurse
+          New-Item -Path $env:GITHUB_WORKSPACE\build\Package\installer -ItemType Directory
+          New-Item -Path $env:GITHUB_WORKSPACE\build\Package\portable -ItemType Directory
 
       - name: Package Prepare (installer)
         if: matrix.type == 'installer'
