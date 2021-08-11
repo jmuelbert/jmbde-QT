@@ -148,20 +148,22 @@ jobs:
         run: cmake --build . --config "$env:BUILD_TYPE"
 
       - name: CPack
+        if: matrix.config.qt_version == '6.1.0'
         working-directory: build
         shell: pwsh
         run: |
           If ($env:TYPE -eq "installer")
           {
+            <# Use Innosetup for now
             cpack -G WIX -B "$env:GITHUB_WORKSPACE\build\Package"
 
+            iscc "$env.GITHUB_WORKSPACE\packaging\win\installer_Qt6_x64.iss" -DMyAppVersion=$env.VERSION -DMyProjectRoot=. -DMyOutRoot=./jmbde.$env.VERSION.Windows-$env:matrix.config.arch/bin
+            #>
           }
           ElseIf($env:TYPE -eq "portable")
           {
-            <# Use Innosetup for now
+
             cpack -G ZIP -B "$env:GITHUB_WORKSPACE\build\Package"
-            #>
-            iscc $env.GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=$env.VERSION -DMyProjectRoot=. -DMyOutRoot=./jmbde.$env.VERSION.Windows-$env:matrix.config.arch/bin
           }
         env:
           TYPE: ${{matrix.type}}

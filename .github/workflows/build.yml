@@ -41,17 +41,17 @@ jobs:
               cc: 'cl',
               cxx: 'cl',
             }
-          - {
-              os: windows-2019,
-              artifact: 'Windows-MinGW',
-              arch: x86,
-              generator: "-G 'MinGW Makefiles'",
-              qt_arch: win64_mingw81,
-              qt_arch_install: msvc2019,
-              pak_arch: win64,
-              cc: 'gcc',
-              cxx: 'g++',
-            }
+          # - {
+          #     os: windows-2019,
+          #     artifact: 'Windows-MinGW',
+          #     arch: x86,
+          #     generator: "-G 'MinGW Makefiles'",
+          #     qt_arch: win64_mingw81,
+          #     qt_arch_install: msvc2019,
+          #     pak_arch: win64,
+          #     cc: 'gcc',
+          #     cxx: 'g++',
+          #   }
           - {
               os: ubuntu-latest,
               name: 'Ubuntu Latest gcc-10',
@@ -135,12 +135,12 @@ jobs:
           toolset: 14.2
           arch: x64
 
-      - name: ${{ runner.os }} - ${{ matrix.config.qt_version }} - Build preparation - Install Packages
+      - name: Build preparation for ${{ runner.os }} - ${{ matrix.config.qt_version }}  - Install Packages
         if: runner.os == 'Windows'
         run: |
           cinst png2ico
 
-      - name: ${{ runner.os }} - ${{ matrix.config.qt_version }} - Build preparation - Install Packages
+      - name: Build preparation for  ${{ runner.os }} - ${{ matrix.config.qt_version }} - Install Packages
         if: ${{ runner.os == 'macOS' }}
         run: |
           brew install ninja pkg-config
