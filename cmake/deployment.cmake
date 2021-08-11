@@ -66,7 +66,7 @@ if(WIN32)
         "${CPACK_PACKAGE_DESCRIPTION_SUMMARY}")
     set(CPACK_WIX_LIGHT_EXTRA_FLAGS "-dcl:high") # set high compression
 
-    set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSE")
+    set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/packeging/win/License.rtf")
     set(CPACK_RESOURCE_FILE_README "${CMAKE_SOURCE_DIR}/README.md")
 
     set(CPACK_SET_DESTDIR OFF) # WiX does not support this, and raise an error
