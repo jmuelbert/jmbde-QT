@@ -54,10 +54,10 @@ jobs:
             }
           - {
               os: ubuntu-latest,
-              name: "Ubuntu Latest gcc-10",
+              name: 'Ubuntu Latest gcc-10',
               qt_arch: gcc_64,
               arch: amd64,
-              artifact: 'Ubuntu-gcc'
+              artifact: 'Ubuntu-gcc',
               generator: "-G 'Unix Makefiles'",
               cc: 'gcc-10',
               cxx: 'g++-10',
@@ -65,10 +65,10 @@ jobs:
             }
           - {
               os: ubuntu-latest,
-              name: "Ubuntu Latest gcc-10",
+              name: 'Ubuntu Latest clang-12',
               qt_arch: gcc_64,
               arch: amd64,
-              artifact: 'Ubuntu-gcc'
+              artifact: 'Ubuntu-clang',
               generator: "-G 'Unix Makefiles'",
               cc: 'clang-12',
               cxx: 'clang-12',
@@ -76,7 +76,7 @@ jobs:
             }
           - {
               os: macos-latest,
-              name: "macos-12.0-x86_64",
+              name: 'macos-12.0-x86_64',
               qt_arch: clang_64,
               arch: clang_64,
               cc=clang,
@@ -135,7 +135,7 @@ jobs:
           toolset: 14.2
           arch: x64
 
-      - name:  ${{ runner.os }} - ${{ matrix.config.qt_version }} - Build preparation - Install Packages
+      - name: ${{ runner.os }} - ${{ matrix.config.qt_version }} - Build preparation - Install Packages
         if: runner.os == 'Windows'
         run: |
           cinst png2ico
@@ -143,7 +143,7 @@ jobs:
       - name: ${{ runner.os }} - ${{ matrix.config.qt_version }} - Build preparation - Install Packages
         if: ${{ runner.os == 'macOS' }}
         run: |
-            brew install ninja pkg-config
+          brew install ninja pkg-config
 
       # Common
       - name: Cache Qt
