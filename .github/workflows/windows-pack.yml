@@ -136,33 +136,39 @@ jobs:
         shell: pwsh
         working-directory: build
         run: |
-          cmake ..  ${{matrix.config.generator}}  `
+          cmake $GITHUB_WORKSPACE `
+            ${{matrix.config.generator}}  `
             -DCMAKE_BUILD_TYPE="$env:BUILD_TYPE"  `
             -DBUILD_TESTING=OFF  `
             -DBUILD_TRANSLATIONS=ON `
+            -DCMAKE_INSTALL_PREFIX:PATH=./app `
             -DRUN_IN_PLACE=${{ contains(matrix.type, 'portable') }}
 
       - name: Compile
         shell: pwsh
         working-directory: build
-        run: cmake --build . --config "$env:BUILD_TYPE"
+        run: cmake --build . --config "$env:BUILD_TYPE" -j2 --target install
 
       - name: CPack
         env:
           TYPE: ${{matrix.type}}
           QT_MAIN_VER6: ${{ contains(matrix.config.qt_version, '[6]')}}
           CONFIG_ARCH: ${{matrix.config.arch}}
-        working-directory: build
+          ARCHIVE_NAME: $GITHUB_WORKSPACE/build/Package/jmbde.$VERSION.Windows-$CONFIG_ARCH
+        working-directory: ${{runner.workspace}}/build
         shell: bash
         run: |
           if [ ${TYPE} = "installer" ]; then
             # Use Innosetup for now
             #  cpack -G WIX -B "$env:GITHUB_WORKSPACE\build\Package"
             #
+            mkdir -p $ARCHIVE_NAME
+            cp -r $GITHUB_WORKSPACE/build/app $ARCHIVE_NAME
+            windeployqt --qmldir . $ARCHIVE_NAME/bin/$PRODUCT.exe $ARCHIVE_NAME/bin/$PRODUCTmodels.dll $ARCHIVE_NAME/bin/$PRODUCTquick.dll $ARCHIVE_NAME/bin/$PRODUCTwidgets.dll
             if [ ${QT_MAIN_VER6} = true ]; then
-              iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=$VERSION -DMyProjectRoot=$GITHUB_WORKSPACE/build -DMyOutRoot=$GITHUB_WORKSPACE/build/Package/jmbde.$VERSION.Windows-$CONFIG_ARCH
+              iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=$VERSION -DMyProjectRoot=$(pwd) -DMyOutRoot=$ARCHIVE_NAME
             else
-              iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss -DMyAppVersion=$VERSION -DMyProjectRoot=$GITHUB_WORKSPACE/build -DMyOutRoot=$GITHUB_WORKSPACE/build/Package/jmbde.$VERSION.Windows-$CONFIG_ARCH
+              iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss -DMyAppVersion=$VERSION -DMyProjectRoot=$(pwd) -DMyOutRoot=$ARCHIVE_NAME
             fi
           else
             cpack -G ZIP -B $GITHUB_WORKSPACE/build/Package
