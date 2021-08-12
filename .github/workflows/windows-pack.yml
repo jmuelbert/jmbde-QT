@@ -151,7 +151,7 @@ jobs:
         env:
           TYPE: ${{matrix.type}}
           QT_MAIN_VER6: ${{ contains(matrix.config.qt_version, '[6]')}}
-          CONFIG_ARCH: $${{matrix.config.arch}}
+          CONFIG_ARCH: ${{matrix.config.arch}}
         working-directory: build
         shell: bash
         run: |
@@ -166,7 +166,7 @@ jobs:
               iscc "$GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss" -DMyAppVersion=$VERSION -DMyProjectRoot=$GITHUB_WORKSPACE/build -DMyOutRoot=$GITHUB_WORKSPACE/build/Package/jmbde.$VERSION.Windows-$CONFIG_ARCH
             fi
           else
-            cpack -G ZIP -B "$env:GITHUB_WORKSPACE\build\Package"
+            cpack -G ZIP -B "$GITHUB_WORKSPACE\build\Package"
           fi
 
       - name: Package Clean
