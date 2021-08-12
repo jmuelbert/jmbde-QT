@@ -167,9 +167,9 @@ jobs:
             cp -rv ./app/* ./Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH
             windeployqt --qmldir . ./Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH/bin/$PRODUCT.exe ./Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH/bin/${PRODUCT}models.dll ./Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH/bin/${PRODUCT}quick.dll ./Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH/bin/${PRODUCT}widgets.dll
             if [ ${QT_MAIN_VER6} = true ]; then
-              iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=$VERSION -DMyProjectRoot=$(pwd) -DMyOutRoot=$GITHUB_WORKSPACE/build/Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH
+              iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=$VERSION -DMyProjectRoot=$(pwd) -DMyOutRoot=$GITHUB_WORKSPACE/build/Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH/bin
             else
-              iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss -DMyAppVersion=$VERSION -DMyProjectRoot=$(pwd) -DMyOutRoot=$GITHUB_WORKSPACE/build/Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH
+              iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss -DMyAppVersion=$VERSION -DMyProjectRoot=$(pwd) -DMyOutRoot=$GITHUB_WORKSPACE/build/Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH/bin
             fi
           else
             cpack -G ZIP -B $GITHUB_WORKSPACE/build/Package
