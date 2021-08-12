@@ -166,6 +166,7 @@ jobs:
             mkdir -p $GITHUB_WORKSPACE/build/Package
             ls
             mkdir -p $GITHUB_WORKSPACE/build/Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH
+            ls Package
             cp -r $GITHUB_WORKSPACE/build/app $GITHUB_WORKSPACE/build/Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH
             windeployqt --qmldir . $ARCHIVE_NAME/bin/$PRODUCT.exe $ARCHIVE_NAME/bin/$PRODUCTmodels.dll $ARCHIVE_NAME/bin/$PRODUCTquick.dll $ARCHIVE_NAME/bin/$PRODUCTwidgets.dll
             if [ ${QT_MAIN_VER6} = true ]; then
