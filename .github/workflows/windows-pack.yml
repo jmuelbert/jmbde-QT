@@ -181,7 +181,6 @@ jobs:
           TYPE: ${{matrix.type}}
         shell: pwsh
         run: |
-          if ($env:TYPE -eq 'portable')
           Remove-Item $env:GITHUB_WORKSPACE\build\Package\_CPack_Packages -Recurse
           New-Item -Path $env:GITHUB_WORKSPACE\build\Package\installer -ItemType Directory
           New-Item -Path $env:GITHUB_WORKSPACE\build\Package\portable -ItemType Directory
