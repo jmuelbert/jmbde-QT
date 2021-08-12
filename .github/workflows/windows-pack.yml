@@ -155,7 +155,7 @@ jobs:
           QT_MAIN_VER6: ${{ contains(matrix.config.qt_version, '[6]')}}
           CONFIG_ARCH: ${{matrix.config.arch}}
           ARCHIVE_NAME: $GITHUB_WORKSPACE/build/Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH
-        working-directory: ${{runner.workspace}}/build
+        working-directory: build
         shell: bash
         run: |
           if [ ${TYPE} = "installer" ]; then
