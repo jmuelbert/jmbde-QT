@@ -166,8 +166,9 @@ jobs:
             mkdir -p $GITHUB_WORKSPACE/build/Package
             ls
             mkdir -p $GITHUB_WORKSPACE/build/Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH
-            ls Package
-            cp -rv ./app/*  $ARCHIVE_NAME/
+            ls -l Package
+            ls -l app
+            cp -rv ./app/*  $PRODUCT.$VERSION.Windows-$CONFIG_ARCH/
             windeployqt --qmldir . $ARCHIVE_NAME/bin/$PRODUCT.exe $ARCHIVE_NAME/bin/$PRODUCTmodels.dll $ARCHIVE_NAME/bin/$PRODUCTquick.dll $ARCHIVE_NAME/bin/$PRODUCTwidgets.dll
             if [ ${QT_MAIN_VER6} = true ]; then
               iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=$VERSION -DMyProjectRoot=$(pwd) -DMyOutRoot=$ARCHIVE_NAME
