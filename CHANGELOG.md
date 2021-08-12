@@ -15,8 +15,6 @@
 - build\(deps\): bump sphinx from 4.1.0 to 4.1.1 [\#337](https://github.com/jmuelbert/jmbde-QT/pull/337)
 - build\(deps\): bump virtualenv from 20.4.7 to 20.6.0 [\#336](https://github.com/jmuelbert/jmbde-QT/pull/336)
 - build\(deps\): bump graphviz from 0.16 to 0.17 [\#335](https://github.com/jmuelbert/jmbde-QT/pull/335)
-- build\(deps\): bump actions/stale from 3.0.19 to 4 [\#334](https://github.com/jmuelbert/jmbde-QT/pull/334)
-- build\(deps\): bump requests from 2.25.1 to 2.26.0 [\#333](https://github.com/jmuelbert/jmbde-QT/pull/333)
 - build\(deps\): bump sphinx from 4.0.3 to 4.1.0 [\#330](https://github.com/jmuelbert/jmbde-QT/pull/330)
 
 ## [dependabot/pip/importlib-metadata-4.3.1](https://github.com/jmuelbert/jmbde-QT/tree/dependabot/pip/importlib-metadata-4.3.1) (2021-06-12)
