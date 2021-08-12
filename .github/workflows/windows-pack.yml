@@ -136,7 +136,7 @@ jobs:
         shell: pwsh
         working-directory: build
         run: |
-          cmake $GITHUB_WORKSPACE `
+          cmake $env:GITHUB_WORKSPACE `
             ${{matrix.config.generator}}  `
             -DCMAKE_BUILD_TYPE="$env:BUILD_TYPE"  `
             -DBUILD_TESTING=OFF  `
