@@ -171,6 +171,7 @@ jobs:
             else
               iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss -DMyAppVersion=$VERSION -DMyProjectRoot=$(pwd) -DMyOutRoot=$GITHUB_WORKSPACE/build/Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH/bin
             fi
+            cp ./jmbde-setup.exe ./Package/installer/jmbde-${VERSION}-win64.exe
           else
             cpack -G ZIP -B $GITHUB_WORKSPACE/build/Package
           fi
@@ -194,7 +195,7 @@ jobs:
           <#
           Move-Item -Path $env:GITHUB_WORKSPACE/build/Package/jmbde-*-${{ matrix.config.pak_arch }}.msi -Destination $env:GITHUB_WORKSPACE/build/Package/installer/jmbde-$env:VERSION-${{ matrix.config.pak_arch }}.msi
           #>
-          Move-Item -Path $env:GITHUB_WORKSPACE/build/Package/jmbde-*-${{ matrix.config.pak_arch }}.exe -Destination $env:GITHUB_WORKSPACE/build/Package/installer/jmbde-$env:VERSION-${{ matrix.config.pak_arch }}.exe
+          Move-Item -Path $env:GITHUB_WORKSPACE/build/Package/jmbde-*-${{ matrix.config.pak_arch }}.exe -Destination $env:GITHUB_WORKSPACE/build/Package/installer/jmbde-$env:VERSION-${{ matrix.config.pak_arch }}-Qt${{matrix.qt_verion}}.exe
 
       - name: Package Prepare (portable)
         if: matrix.type == 'portable'
@@ -206,8 +207,8 @@ jobs:
         if: matrix.type == 'installer'
         shell: bash
         run: |
-          sha256sum $GITHUB_WORKSPACE/build/Package/installer/jmbde-${VERSION}-${{ matrix.config.pak_arch }}.exe
-          sha256sum $GITHUB_WORKSPACE/build/Package/installer/jmbde-${VERSION}-${{ matrix.config.pak_arch }}.exe > $GITHUB_WORKSPACE/build/Package/installer/jmbde-${VERSION}-${{ matrix.config.pak_arch }}.exe.sha256sum
+          sha256sum $GITHUB_WORKSPACE/build/Package/installer/jmbde-${VERSION}-${{ matrix.config.pak_arch }}-Qt${{matrix.qt_verion}}.exe
+          sha256sum $GITHUB_WORKSPACE/build/Package/installer/jmbde-${VERSION}-${{ matrix.config.pak_arch }}-Qt${{matrix.qt_verion}}.exe > $GITHUB_WORKSPACE/build/Package/installer/jmbde-${VERSION}-${{ matrix.config.pak_arch }}-Qt${{matrix.qt_verion}}.exe.sha256sum
           python -m pip install -U -q requests
           echo "============Windows installer sha256sum download link============"
           echo $(python $GITHUB_WORKSPACE/scripts/upload_services/transferwee.py upload $GITHUB_WORKSPACE/build/Package/installer/jmbde-${VERSION}-${{ matrix.config.pak_arch }}.exe.sha256sum)
@@ -217,11 +218,11 @@ jobs:
         if: matrix.type == 'portable'
         shell: bash
         run: |
-          sha256sum $GITHUB_WORKSPACE/build/Package/portable/jmbde-${VERSION}-${{ matrix.config.pak_arch }}.zip
-          sha256sum $GITHUB_WORKSPACE/build/Package/portable/jmbde-${VERSION}-${{ matrix.config.pak_arch }}.zip > $GITHUB_WORKSPACE/build/Package/portable/jmbde-${VERSION}-${{ matrix.config.pak_arch }}.zip.sha256sum
+          sha256sum $GITHUB_WORKSPACE/build/Package/portable/jmbde-${VERSION}-${{ matrix.config.pak_arch }}-Qt${{matrix.qt_verion}}.zip
+          sha256sum $GITHUB_WORKSPACE/build/Package/portable/jmbde-${VERSION}-${{ matrix.config.pak_arch }}-Qt${{matrix.qt_verion}}.zip > $GITHUB_WORKSPACE/build/Package/portable/jmbde-${VERSION}-${{ matrix.config.pak_arch }}-Qt${{matrix.qt_verion}}.zip.sha256sum
           python -m pip install -U -q requests
           echo "===========Windows portable sha256sum download link============"
-          echo $(python $GITHUB_WORKSPACE/scripts/upload_services/transferwee.py upload $GITHUB_WORKSPACE/build/Package/portable/jmbde-${VERSION}-${{ matrix.config.pak_arch }}.zip.sha256sum)
+          echo $(python $GITHUB_WORKSPACE/scripts/upload_services/transferwee.py upload $GITHUB_WORKSPACE/build/Package/portable/jmbde-${VERSION}-${{ matrix.config.pak_arch }}-Qt${{matrix.qt_verion}}.zip.sha256sum)
           echo "=====no operation for you can see link in the log console====="
 
       - name: Upload Windows installer(daily build)
@@ -230,7 +231,7 @@ jobs:
         run: |
           python -m pip install -U -q requests
           echo "================Windows installer download link================"
-          echo $(python $GITHUB_WORKSPACE/scripts/upload_services/transferwee.py upload $GITHUB_WORKSPACE/build/Package/installer/jmbde-${VERSION}-${{ matrix.config.pak_arch }}.msi)
+          echo $(python $GITHUB_WORKSPACE/scripts/upload_services/transferwee.py upload $GITHUB_WORKSPACE/build/Package/installer/jmbde-${VERSION}-${{ matrix.config.pak_arch }}-Qt${{matrix.qt_verion}}.exe)
           echo "=====no operation for you can see link in the log console====="
 
       - name: Upload Windows portable(daily build)
@@ -239,7 +240,7 @@ jobs:
         run: |
           python -m pip install -U -q requests
           echo "=================Windows portable download link================"
-          echo $(python $GITHUB_WORKSPACE/scripts/upload_services/transferwee.py upload $GITHUB_WORKSPACE/build/Package/portable/jmbde-${VERSION}-${{ matrix.config.pak_arch }}.zip)
+          echo $(python $GITHUB_WORKSPACE/scripts/upload_services/transferwee.py upload $GITHUB_WORKSPACE/build/Package/portable/jmbde-${VERSION}-${{ matrix.config.pak_arch }}-Qt${{matrix.qt_verion}}.zip)
           echo "=====no operation for you can see link in the log console====="
 
       - name: Artifact Upload
