@@ -158,7 +158,7 @@ jobs:
         working-directory: build
         shell: bash
         run: |
-          if [ ${TYPE} = "installer" ]; then
+          if [ "${TYPE}" = "installer" ]; then
             # Use Innosetup for now
             #  cpack -G WIX -B "$env:GITHUB_WORKSPACE\build\Package"
             #
@@ -166,7 +166,7 @@ jobs:
             mkdir -p $GITHUB_WORKSPACE/build/Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH
             cp -rv ./app/* ./Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH
             windeployqt --qmldir . ./Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH/bin/$PRODUCT.exe ./Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH/bin/${PRODUCT}models.dll ./Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH/bin/${PRODUCT}quick.dll ./Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH/bin/${PRODUCT}widgets.dll
-            if [ "${QT_MAIN_VER6}" ]; then
+            if [ "${QT_MAIN_VER6}" = true ]; then
               iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=$VERSION -DMyProjectRoot=$(pwd) -DMyOutRoot=$GITHUB_WORKSPACE/build/Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH/bin
             else
               iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss -DMyAppVersion=$VERSION -DMyProjectRoot=$(pwd) -DMyOutRoot=$GITHUB_WORKSPACE/build/Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH/bin
