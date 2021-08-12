@@ -162,6 +162,8 @@ jobs:
             # Use Innosetup for now
             #  cpack -G WIX -B "$env:GITHUB_WORKSPACE\build\Package"
             #
+            mkdir -p $GITHUB_WORKSPACE/build/Package
+            mkdir -p $GITHUB_WORKSPACE/build/Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH
             cp -rv ./app/* ./Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH
             windeployqt --qmldir . ./Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH/bin/$PRODUCT.exe ./Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH/bin/${PRODUCT}models.dll ./Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH/bin/${PRODUCT}quick.dll ./Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH/bin/${PRODUCT}widgets.dll
             if [ ${QT_MAIN_VER6} = true ]; then
