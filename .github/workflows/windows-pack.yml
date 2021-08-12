@@ -155,18 +155,17 @@ jobs:
         working-directory: build
         shell: bash
         run: |
-
           if ${TYPE} == "installer"; then
             # Use Innosetup for now
             #  cpack -G WIX -B "$env:GITHUB_WORKSPACE\build\Package"
             #
             if ${QT_MAIN_VER6} == true; then
-               iscc "$GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss" -DMyAppVersion=$VERSION -DMyProjectRoot=$GITHUB_WORKSPACE/build -DMyOutRoot=$GITHUB_WORKSPACE/build/Package/jmbde.$VERSION.Windows-$CONFIG_ARCH
+               iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=$VERSION -DMyProjectRoot=$GITHUB_WORKSPACE/build -DMyOutRoot=$GITHUB_WORKSPACE/build/Package/jmbde.$VERSION.Windows-$CONFIG_ARCH
             else
-              iscc "$GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss" -DMyAppVersion=$VERSION -DMyProjectRoot=$GITHUB_WORKSPACE/build -DMyOutRoot=$GITHUB_WORKSPACE/build/Package/jmbde.$VERSION.Windows-$CONFIG_ARCH
+              iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss" -DMyAppVersion=$VERSION -DMyProjectRoot=$GITHUB_WORKSPACE/build -DMyOutRoot=$GITHUB_WORKSPACE/build/Package/jmbde.$VERSION.Windows-$CONFIG_ARCH
             fi
           else
-            cpack -G ZIP -B "$GITHUB_WORKSPACE\build\Package"
+            cpack -G ZIP -B $GITHUB_WORKSPACE/build/Package
           fi
 
       - name: Package Clean
