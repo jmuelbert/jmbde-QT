@@ -3,7 +3,7 @@
 SPDX-FileCopyrightText: none
 SPDX-License-Identifier: CC0-1.0
 -->
-<omponent type="desktop-application">
+<component type="desktop-application">
     <id>org.jmuelbert.jmbde</id>
     <metadata_license>CC0-1.0</metadata_license>
     <project_license>GPL-3.0-or-later</project_license>

@@ -19,7 +19,7 @@ erfasst werden. Das sind unter anderem Computer, Drucker und Telefone.
 [![GitHub All Releases][downloads_all-shield]][downloads_all-url]
 [![Issues][issues-shield]][issues-url]
 [![Help wanted issues][help-issues-shield]][help-issues-url]
-[![Pull Requests][pr-shield]][pr-url] 
+[![Pull Requests][pr-shield]][pr-url]
 [![pre-commit][pre-commit-shield]][pre-commit-url]
 [![Misspell fixer][misspell_fixer-shield]][misspell_fixer-url]
 [![Release](https://img.shields.io/github/release/jmuelbert/jmbde-QT.svg?style=flat-square)](https://github.com/jmuelbert/jmbde-QT/releases)
@@ -35,7 +35,7 @@ erfasst werden. Das sind unter anderem Computer, Drucker und Telefone.
 jmbde verwendet das plattformübergreifende Framework
 [Qt](http://www.qt.io/download-open-source/), was bedeutet, dass es mit den meisten
 Betriebssystemen funktioniert.
-                                                                                      
+
 ## Setup
 
 Das Programm verwendet die [QT-Bibliothek](https://www.qt.io). Daher kann es auf fast

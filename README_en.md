@@ -21,7 +21,7 @@ These are computers, printers and telephones.
 [![GitHub All Releases][downloads_all-shield]][downloads_all-url]
 [![Issues][issues-shield]][issues-url]
 [![Help wanted issues][help-issues-shield]][help-issues-url]
-[![Pull Requests][pr-shield]][pr-url] 
+[![Pull Requests][pr-shield]][pr-url]
 [![pre-commit][pre-commit-shield]][pre-commit-url]
 [![Misspell fixer][misspell_fixer-shield]][misspell_fixer-url]
 [![Release](https://img.shields.io/github/release/jmuelbert/jmbde-QT.svg?style=flat-square)](https://github.com/jmuelbert/jmbde-QT/releases)

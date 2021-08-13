@@ -63,4 +63,3 @@ After your merge request has been approved according to our [approval guidelines
 [issue as related]: https://docs.gitlab.com/ee/user/project/issues/related_issues.html#adding-a-related-issue
 
 /label ~security ~"Category:Runner" ~"devops::verify" ~"group::runner"
-

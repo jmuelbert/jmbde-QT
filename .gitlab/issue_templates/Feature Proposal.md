@@ -13,4 +13,3 @@ Please paste a link of the related issues or/and merge requests
 -->
 
 /label ~feature
-

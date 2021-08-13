@@ -2,278 +2,269 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 
-exclude: "^3rd-party|COPYING|.gitmodules|conan"
+exclude: '^3rd-party|COPYING|.gitmodules|conan'
 default_language_version:
-    python: python3
+  python: python3
 fail_fast: true
 repos:
-    - repo: https://github.com/pre-commit/pre-commit-hooks
-      rev: v4.0.1
-      hooks:
-          - id: check-added-large-files
-            args: [--maxkb=150]
-          - id: check-ast
-          - id: check-byte-order-marker
-            exclude: ^.*(\.cbproj|\.groupproj|\.props|\.sln|\.vcxproj|\.vcxproj.filters)$
-          - id: check-builtin-literals
-          - id: check-case-conflict
-          - id: check-docstring-first
-          - id: check-executables-have-shebangs
-          - id: check-json
-            exclude: >
-                (?x)(
-                    ^\.vscode/.*\.json|
-                    ^\.github/.*\.yml
-                )$
-          - id: check-merge-conflict
-          - id: check-symlinks
-          - id: check-toml
-          - id: check-vcs-permalinks
-          - id: check-xml
-          - id: check-yaml
-            args: [--allow-multiple-documents]
-          - id: debug-statements
-          - id: detect-private-key
-          # - id: double-quote-string-fixer
-          - id: end-of-file-fixer
-            stages:
-                - commit
-                - manual
-          - id: file-contents-sorter
-          - id: fix-byte-order-marker
-            exclude: ^.*(\.cbproj|\.groupproj|\.props|\.sln|\.vcxproj|\.vcxproj.filters)$
-          - id: fix-encoding-pragma
-          - id: forbid-new-submodules
-          - id: mixed-line-ending
-            args: [--fix=auto]
-          - id: name-tests-test
-          - id: no-commit-to-branch
-            args: [--branch, gh-pages]
-          - id: requirements-txt-fixer
-          - id: sort-simple-yaml
-          - id: trailing-whitespace
-            args: [--markdown-linebreak-ext=md]
-            stages:
-                - commit
-                - manual
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.0.1
+    hooks:
+      - id: check-added-large-files
+        args: [--maxkb=150]
+      - id: check-ast
+      - id: check-byte-order-marker
+        exclude: ^.*(\.cbproj|\.groupproj|\.props|\.sln|\.vcxproj|\.vcxproj.filters)$
+      - id: check-builtin-literals
+      - id: check-case-conflict
+      - id: check-docstring-first
+      - id: check-executables-have-shebangs
+      - id: check-json
+        exclude: >
+          (?x)(
+              ^\.vscode/.*\.json|
+              ^\.github/.*\.yml
+          )$
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: check-toml
+      - id: check-vcs-permalinks
+      - id: check-xml
+      - id: check-yaml
+        args: [--allow-multiple-documents]
+      - id: debug-statements
+      - id: detect-private-key
+      # - id: double-quote-string-fixer
+      - id: end-of-file-fixer
+        stages:
+          - commit
+          - manual
+      - id: file-contents-sorter
+      - id: fix-byte-order-marker
+        exclude: ^.*(\.cbproj|\.groupproj|\.props|\.sln|\.vcxproj|\.vcxproj.filters)$
+      - id: fix-encoding-pragma
+      - id: forbid-new-submodules
+      - id: mixed-line-ending
+        args: [--fix=auto]
+      - id: name-tests-test
+      - id: no-commit-to-branch
+        args: [--branch, gh-pages]
+      - id: requirements-txt-fixer
+      - id: sort-simple-yaml
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+        stages:
+          - commit
+          - manual
 
-    - repo: https://github.com/pre-commit/pygrep-hooks
-      rev: v1.8.0 # Use the ref you want to point at
-      hooks:
-          - id: python-check-blanket-noqa
-          - id: python-check-mock-methods
-          - id: python-no-eval
-          - id: python-no-log-warn
-          - id: python-use-type-annotations
-          - id: rst-backticks
-          - id: rst-directive-colons
-          - id: rst-inline-touching-normal
-          - id: text-unicode-replacement-char
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: v1.9.0 # Use the ref you want to point at
+    hooks:
+      - id: python-check-blanket-noqa
+      - id: python-check-mock-methods
+      - id: python-no-eval
+      - id: python-no-log-warn
+      - id: python-use-type-annotations
+      - id: rst-backticks
+      - id: rst-directive-colons
+      - id: rst-inline-touching-normal
+      - id: text-unicode-replacement-char
 
-    - repo: https://github.com/asottile/blacken-docs
-      rev: v1.10.0
-      hooks:
-          - id: blacken-docs
-            additional_dependencies: [black==20.8b1]
+  - repo: https://github.com/asottile/blacken-docs
+    rev: v1.10.0
+    hooks:
+      - id: blacken-docs
+        additional_dependencies: [black==20.8b1]
 
-    - repo: https://github.com/jumanjihouse/pre-commit-hooks
-      rev: 2.1.5
-      hooks:
-          - id: bundler-audit
-          #  TODO: - id: check-mailmap
-          - id: fasterer
-          - id: forbid-binary
-            exclude: >
-                (?x)^(
-                  .+\.bmp|
-                  .+\.BMP|
-                  .+\.png|
-                  .+\.pdf|
-                  .+\.woff|
-                  .+\.woff2|
-                  .+\.tff|
-                  .+\.ico|
-                  .+\.icns|
-                  .+\.svgz|
-                  .+\.ttf
-                )$
-          - id: git-check # Configure in .gitattributes
-          - id: git-dirty # Configure in .gitignore
-          - id: reek
-          - id: rubocop
-          - id: script-must-not-have-extension
-            name: Local policy is to exclude extension from all shell files
-            types: [shell]
-          - id: script-must-not-have-extension
-            name: Executable Ruby scripts must not have a file extension
-            types: [ruby, executable]
-          - id: shellcheck
-            args: ["--color=always", "--shell=bash", "-x", "-a", "--exclude=SC1090"]
-          - id: shfmt
+  - repo: https://github.com/jumanjihouse/pre-commit-hooks
+    rev: 2.1.5
+    hooks:
+      - id: bundler-audit
+      #  TODO: - id: check-mailmap
+      - id: fasterer
+      - id: forbid-binary
+        exclude: >
+          (?x)^(
+            .+\.bmp|
+            .+\.BMP|
+            .+\.png|
+            .+\.pdf|
+            .+\.woff|
+            .+\.woff2|
+            .+\.tff|
+            .+\.ico|
+            .+\.icns|
+            .+\.svgz|
+            .+\.ttf
+          )$
+      - id: git-check # Configure in .gitattributes
+      - id: git-dirty # Configure in .gitignore
+      - id: reek
+      - id: rubocop
+      - id: script-must-not-have-extension
+        name: Local policy is to exclude extension from all shell files
+        types: [shell]
+      - id: script-must-not-have-extension
+        name: Executable Ruby scripts must not have a file extension
+        types: [ruby, executable]
+      - id: shellcheck
+        args: ['--color=always', '--shell=bash', '-x', '-a', '--exclude=SC1090']
+      - id: shfmt
 
-    # - repo: https://github.com/Lucas-C/pre-commit-hooks-go
-    #   rev: v1.0.1
-    #   hooks:
-    #       - id: checkmake
+  # - repo: https://github.com/Lucas-C/pre-commit-hooks-go
+  #   rev: v1.0.1
+  #   hooks:
+  #       - id: checkmake
 
-    - repo: https://github.com/Lucas-C/pre-commit-hooks
-      rev: v1.1.10
-      hooks:
-          - id: remove-crlf
-          - id: forbid-crlf
-          - id: remove-tabs
-          - id: forbid-tabs
+  - repo: https://github.com/Lucas-C/pre-commit-hooks
+    rev: v1.1.10
+    hooks:
+      - id: remove-crlf
+      - id: forbid-crlf
+      - id: remove-tabs
+      - id: forbid-tabs
 
-    - repo: https://github.com/Lucas-C/pre-commit-hooks-java
-      rev: 1.3.10
-      hooks:
-          - id: validate-html
+  - repo: https://github.com/Lucas-C/pre-commit-hooks-java
+    rev: 1.3.10
+    hooks:
+      - id: validate-html
 
-    - repo: https://github.com/Lucas-C/pre-commit-hooks-lxml
-      rev: v1.1.0
-      hooks:
-          - id: forbid-html-img-without-alt-text
-          - id: forbid-non-std-html-attributes
-          - id: detect-missing-css-classes
-            args:
-                - --css-files-dir
-                - .
-                - --html-files-dir
-                - .
-          - id: html-tags-blacklist
-          - id: html-attributes-blacklist
+  - repo: https://github.com/Lucas-C/pre-commit-hooks-lxml
+    rev: v1.1.0
+    hooks:
+      - id: forbid-html-img-without-alt-text
+      - id: forbid-non-std-html-attributes
+      - id: detect-missing-css-classes
+        args:
+          - --css-files-dir
+          - .
+          - --html-files-dir
+          - .
+      - id: html-tags-blacklist
+      - id: html-attributes-blacklist
 
-    - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
-      rev: v1.2.1
-      hooks:
-          - id: python-safety-dependencies-check
+  - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
+    rev: v1.2.1
+    hooks:
+      - id: python-safety-dependencies-check
 
-    - repo: https://github.com/jstewmon/check-swagger
-      rev: v0.1.4
-      hooks:
-          - id: check-swagger
+  - repo: https://github.com/jstewmon/check-swagger
+    rev: v0.1.4
+    hooks:
+      - id: check-swagger
 
-    - repo: https://github.com/noahsark769/xcodeproj-sort-pre-commit-hook
-      rev: v1.1.0
-      hooks:
-          - id: xcodeproj-sort
-            args: [--groups-position=above]
+  - repo: https://github.com/noahsark769/xcodeproj-sort-pre-commit-hook
+    rev: v1.1.0
+    hooks:
+      - id: xcodeproj-sort
+        args: [--groups-position=above]
 
-    - repo: https://github.com/jorisroovers/gitlint
-      rev: v0.15.1
-      hooks:
-          - id: gitlint
-            stages: [commit-msg]
+  - repo: https://github.com/jorisroovers/gitlint
+    rev: v0.15.1
+    hooks:
+      - id: gitlint
+        stages: [commit-msg]
 
-    - repo: https://github.com/psf/black
-      rev: 21.5b1
-      hooks:
-          - id: black
+  - repo: https://github.com/psf/black
+    rev: 21.7b0
+    hooks:
+      - id: black
 
-    - repo: https://github.com/IamTheFij/docker-pre-commit
-      rev: v2.0.0
-      hooks:
-          - id: docker-compose-check
+  - repo: https://github.com/IamTheFij/docker-pre-commit
+    rev: v2.0.1
+    hooks:
+      - id: docker-compose-check
 
-    - repo: https://github.com/prettier/pre-commit
-      rev: 57f39166b5a5a504d6808b87ab98d41ebf095b46
-      hooks:
-          - id: prettier
-            exclude: ^.*(\.ts|\.xib)$
-            name: prettier + plugin-xml
-            additional_dependencies:
-                - prettier@2.1.2
-                - "@prettier/plugin-ruby@"
-                - "@prettier/plugin-xml@"
+  - repo: https://github.com/prettier/pre-commit
+    rev: 57f39166b5a5a504d6808b87ab98d41ebf095b46
+    hooks:
+      - id: prettier
+        exclude: ^.*(\.ts|\.xib)$
+        name: prettier + plugin-xml
+        additional_dependencies:
+          - prettier@2.1.2
+          - '@prettier/plugin-ruby@'
 
-            args:
-                - --write
-                - --list-different
-                - --ignore-unknown
-                - --plugin=@prettier/plugin-ruby
-                - --plugin=@prettier/plugin-xml
-                - --prose-wrap=always
-                - --print-width=88
+        args:
+          - --write
+          - --list-different
+          - --ignore-unknown
+          - --plugin=@prettier/plugin-ruby
+          - --prose-wrap=always
+          - --print-width=88
 
-    - repo: https://github.com/milin/giticket
-      rev: v1.2
-      hooks:
-          - id: giticket
-            args: ["--regex=PROJ-[0-9]", "--format={ticket} {commit_msg}"] # Optional
+  - repo: https://github.com/milin/giticket
+    rev: v1.3
+    hooks:
+      - id: giticket
+        args: ['--regex=PROJ-[0-9]', '--format={ticket} {commit_msg}'] # Optional
 
-    - repo: https://github.com/homebysix/pre-commit-macadmin
-      rev: v1.10.1
-      hooks:
-          - id: check-autopkg-recipe-list
-          - id: check-autopkg-recipes
-          - id: check-git-config-email
-          - id: check-jamf-extension-attributes
-          - id: check-jamf-scripts
-          - id: check-jamf-profiles
-          - id: check-munki-pkgsinfo
-          - id: check-munkiadmin-scripts
-          - id: check-munkipkg-buildinfo
-          - id: check-outset-scripts
-          - id: check-plists
-          - id: forbid-autopkg-overrides
-          - id: forbid-autopkg-trust-info
+  - repo: https://github.com/homebysix/pre-commit-macadmin
+    rev: v1.10.1
+    hooks:
+      - id: check-autopkg-recipe-list
+      - id: check-autopkg-recipes
+      - id: check-git-config-email
+      - id: check-jamf-extension-attributes
+      - id: check-jamf-scripts
+      - id: check-jamf-profiles
+      - id: check-munki-pkgsinfo
+      - id: check-munkiadmin-scripts
+      - id: check-munkipkg-buildinfo
+      - id: check-outset-scripts
+      - id: check-plists
+      - id: forbid-autopkg-overrides
+      - id: forbid-autopkg-trust-info
 
-    - repo: https://gitlab.com/smop/pre-commit-hooks
-      rev: v1.0.0
-      hooks:
-          - id: check-poetry
-          - id: check-gitlab-ci
+  - repo: https://gitlab.com/smop/pre-commit-hooks
+    rev: v1.0.0
+    hooks:
+      - id: check-poetry
 
-    - repo: https://github.com/APIDevTools/swagger-cli
-      rev: v4.0.4
-      hooks:
-          - id: swagger-validation
+  - repo: https://github.com/APIDevTools/swagger-cli
+    rev: v4.0.4
+    hooks:
+      - id: swagger-validation
 
-    - repo: https://gitlab.com/devopshq/gitlab-ci-linter
-      rev: v1.0.3
-      hooks:
-          - id: gitlab-ci-linter
-
-    - repo: local
-      hooks:
-          - id: qsscheck
-            name: qsscheck
-            description: Run qsscheck to detect broken QSS.
-            entry: ./scripts/qsscheck.py
-            args: [.]
-            pass_filenames: false
-            language: python
-            additional_dependencies:
-                - tinycss==0.4
-            types: [text]
-            files: ^.*\.qss$
-            stages:
-                - commit
-                - manual
-          - id: qmlformat
-            name: qmlformat
-            entry: qmlformat -i
-            pass_filenames: true
-            require_serial: true
-            language: system
-            types: [text]
-            files: ^.*\.qml$
-          - id: qmllint
-            name: qmllint
-            entry: qmllint
-            pass_filenames: true
-            require_serial: true
-            language: system
-            types: [text]
-            files: ^.*\.qml$
-          - id: clang-format
-            name: clang-format
-            description:
-                "Run clang-format in two passes (reformat, then break long lines)"
-            entry: ./scripts/clang_format.py
-            require_serial: true
-            stages:
-                - commit
-                - manual
-            language: python
-            files: \.(c|cc|cxx|cpp|frag|glsl|h|hpp|hxx|ih|ispc|ipp|java|m|mm|proto|vert)$
+  - repo: local
+    hooks:
+      - id: qsscheck
+        name: qsscheck
+        description: Run qsscheck to detect broken QSS.
+        entry: ./scripts/qsscheck.py
+        args: [.]
+        pass_filenames: false
+        language: python
+        additional_dependencies:
+          - tinycss==0.4
+        types: [text]
+        files: ^.*\.qss$
+        stages:
+          - commit
+          - manual
+      - id: qmlformat
+        name: qmlformat
+        entry: qmlformat -i
+        pass_filenames: true
+        require_serial: true
+        language: system
+        types: [text]
+        files: ^.*\.qml$
+      - id: qmllint
+        name: qmllint
+        entry: qmllint
+        pass_filenames: true
+        require_serial: true
+        language: system
+        types: [text]
+        files: ^.*\.qml$
+      - id: clang-format
+        name: clang-format
+        description: 'Run clang-format in two passes (reformat, then break long lines)'
+        entry: ./scripts/clang_format.py
+        require_serial: true
+        stages:
+          - commit
+          - manual
+        language: python
+        files: \.(c|cc|cxx|cpp|frag|glsl|h|hpp|hxx|ih|ispc|ipp|java|m|mm|proto|vert)$
