@@ -211,7 +211,7 @@ jobs:
             ${{ github.workspace }}/JMBDE-*.x86_64.AppImage.sha256sum
 
   flatpak-pack:
-    name: Build flatpak on ${{runner.os}}
+    name: Build flatpak on ubuntu-20.04
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout Source Code
@@ -279,7 +279,7 @@ jobs:
             ${{ github.workspace }}/org.jmuelbert.jmbde-QT-*.x86_64.flatpak.sha256sum
 
   snap_pack:
-    name: Build snap on ${{ runner.os }}
+    name: Build snap on ubuntu-20.04
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout Source Code
