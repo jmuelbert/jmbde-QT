@@ -141,7 +141,7 @@ jobs:
       - name: Package Qt
         working-directory: ${{runner.workspace}}/build
         run: |
-          macdeployqt ./app/${{env.PRODUCT}}.app -qmldir=. -appstore-compliant -libpath=./app/jmbde.app/Contents/Frameworks -verbose=1 -dmg
+          macdeployqt ./app/${{env.PRODUCT}}.app -qmldir=. -appstore-compliant -libpath=./app/${{env.PRODUCT}}.app/Contents/Frameworks -verbose=1 -dmg
           cp ./app/${{env.PRODUCT}}.dmg ./${{env.PRODUCT}}-Qt${{ matrix.qt_version }}.dmg
           ls .
 
@@ -151,8 +151,8 @@ jobs:
                 github.event.workflow_run.conclusion == 'success' }}
         uses: actions/upload-artifact@v2.2.4
         with:
-          name: ${PRODUCT}-Qt${{ matrix.qt_version }}-${BUILD_TYPE}.dmg
-          path: ${{runner.workspace}}/build/${PRODUCT }-Qt${{ matrix.qt_version }}.dmg
+          name: ${{env.PRODUCT}}-Qt${{ matrix.qt_version }}-${BUILD_TYPE}.dmg
+          path: ${{runner.workspace}}/build/${{env.PRODUCT}}-Qt${{ matrix.qt_version }}.dmg
 
       - name: macOS - ${{ matrix.qt_version }} - Upload binaries to release
         if: >
@@ -161,9 +161,9 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${GITHUB_TOKEN}
-          file: ${{runner.workspace}}/build/${PRODUCT}-Qt${{ matrix.qt_version }}.dmg
+          file: ${{runner.workspace}}/build/${{env.PRODUCT}}-Qt${{ matrix.qt_version }}.dmg
           asset_name:
-            ${PRODUCT}-${{ steps.get_version.outputs.VERSION}}-Qt${{ matrix.qt_version
-            }}-${BUILD_TYPE}.dmg
+            ${{env.PRODUCT}}-${{ steps.get_version.outputs.VERSION}}-Qt${{ matrix.qt_version
+            }}-${{env.BUILD_TYPE}}.dmg
           tag: ${{ github.ref }}
           overwrite: true
