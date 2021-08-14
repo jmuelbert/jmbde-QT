@@ -1,20 +1,6 @@
 # Changelog
 
-## [master](https://github.com/jmuelbert/jmbde-QT/tree/master) (2021-07-18)
-
-**Merged pull requests:**
-
-- build\(deps\): bump virtualenv from 20.7.0 to 20.7.1 [\#345](https://github.com/jmuelbert/jmbde-QT/pull/345)
-- build\(deps\): bump pre-commit from 2.13.0 to 2.14.0 [\#344](https://github.com/jmuelbert/jmbde-QT/pull/344)
-- build\(deps\): bump identify from 2.2.11 to 2.2.13 [\#343](https://github.com/jmuelbert/jmbde-QT/pull/343)
-- build\(deps\): bump DoozyX/clang-format-lint-action from 0.9 to 0.12 [\#342](https://github.com/jmuelbert/jmbde-QT/pull/342)
-- Fix typos by misspell-fixer for refs/heads/master [\#341](https://github.com/jmuelbert/jmbde-QT/pull/341)
-- build\(deps\): bump importlib-metadata from 4.6.1 to 4.6.3 [\#340](https://github.com/jmuelbert/jmbde-QT/pull/340)
-- build\(deps\): bump sphinx from 4.1.1 to 4.1.2 [\#339](https://github.com/jmuelbert/jmbde-QT/pull/339)
-- build\(deps\): bump virtualenv from 20.6.0 to 20.7.0 [\#338](https://github.com/jmuelbert/jmbde-QT/pull/338)
-- build\(deps\): bump sphinx from 4.1.0 to 4.1.1 [\#337](https://github.com/jmuelbert/jmbde-QT/pull/337)
-
-## [dependabot/pip/importlib-metadata-4.3.1](https://github.com/jmuelbert/jmbde-QT/tree/dependabot/pip/importlib-metadata-4.3.1) (2021-06-12)
+## [master](https://github.com/jmuelbert/jmbde-QT/tree/master) (2021-08-14)
 
 **Implemented enhancements:**
 
@@ -50,53 +36,14 @@
 
 **Merged pull requests:**
 
-- Fix typos by misspell-fixer for refs/heads/master [\#316](https://github.com/jmuelbert/jmbde-QT/pull/316)
-- Bump idna from 3.1 to 3.2 [\#315](https://github.com/jmuelbert/jmbde-QT/pull/315)
-- Bump distlib from 0.3.1 to 0.3.2 [\#313](https://github.com/jmuelbert/jmbde-QT/pull/313)
-- Bump certifi from 2020.12.5 to 2021.5.30 [\#312](https://github.com/jmuelbert/jmbde-QT/pull/312)
-- Bump ilammy/msvc-dev-cmd from 1.8.1 to 1.9.0 [\#311](https://github.com/jmuelbert/jmbde-QT/pull/311)
-- Bump importlib-metadata from 4.3.0 to 4.3.1 [\#310](https://github.com/jmuelbert/jmbde-QT/pull/310)
-- Bump importlib-metadata from 4.2.0 to 4.3.0 [\#309](https://github.com/jmuelbert/jmbde-QT/pull/309)
-- Bump actions/cache from 2.1.5 to 2.1.6 [\#308](https://github.com/jmuelbert/jmbde-QT/pull/308)
-- Bump urllib3 from 1.26.4 to 1.26.5 [\#307](https://github.com/jmuelbert/jmbde-QT/pull/307)
-- Bump importlib-metadata from 4.0.1 to 4.2.0 [\#306](https://github.com/jmuelbert/jmbde-QT/pull/306)
-- Bump ilammy/msvc-dev-cmd from 1.8.0 to 1.8.1 [\#305](https://github.com/jmuelbert/jmbde-QT/pull/305)
-- Bump identify from 2.2.5 to 2.2.6 [\#304](https://github.com/jmuelbert/jmbde-QT/pull/304)
-- Bump virtualenv from 20.4.6 to 20.4.7 [\#303](https://github.com/jmuelbert/jmbde-QT/pull/303)
-- Bump peter-evans/create-pull-request from 3.9.2 to 3.10.0 [\#302](https://github.com/jmuelbert/jmbde-QT/pull/302)
-- Bump pre-commit from 2.12.1 to 2.13.0 [\#301](https://github.com/jmuelbert/jmbde-QT/pull/301)
-- Bump six from 1.15.0 to 1.16.0 [\#300](https://github.com/jmuelbert/jmbde-QT/pull/300)
-- Bump sphinxcontrib-htmlhelp from 1.0.3 to 2.0.0 [\#299](https://github.com/jmuelbert/jmbde-QT/pull/299)
-- Bump sphinxcontrib-serializinghtml from 1.1.4 to 1.1.5 [\#298](https://github.com/jmuelbert/jmbde-QT/pull/298)
-- Bump identify from 2.2.4 to 2.2.5 [\#297](https://github.com/jmuelbert/jmbde-QT/pull/297)
-- Bump markupsafe from 1.1.1 to 2.0.1 [\#296](https://github.com/jmuelbert/jmbde-QT/pull/296)
-- Bump breathe from 4.29.0 to 4.30.0 [\#295](https://github.com/jmuelbert/jmbde-QT/pull/295)
-- Bump babel from 2.9.0 to 2.9.1 [\#294](https://github.com/jmuelbert/jmbde-QT/pull/294)
-- Bump sphinx from 3.5.3 to 4.0.2 [\#293](https://github.com/jmuelbert/jmbde-QT/pull/293)
-- Bump virtualenv from 20.4.3 to 20.4.6 [\#292](https://github.com/jmuelbert/jmbde-QT/pull/292)
-- Bump peter-evans/create-pull-request from 3.8.2 to 3.9.2 [\#291](https://github.com/jmuelbert/jmbde-QT/pull/291)
-- Bump actions/cache from 2.1.4 to 2.1.5 [\#290](https://github.com/jmuelbert/jmbde-QT/pull/290)
-- Bump actions/stale from 3.0.18 to 3.0.19 [\#289](https://github.com/jmuelbert/jmbde-QT/pull/289)
-- Bump jinja2 from 2.11.3 to 3.0.1 [\#288](https://github.com/jmuelbert/jmbde-QT/pull/288)
-- Bump pygments from 2.8.1 to 2.9.0 [\#287](https://github.com/jmuelbert/jmbde-QT/pull/287)
-- Bump cfgv from 3.2.0 to 3.3.0 [\#286](https://github.com/jmuelbert/jmbde-QT/pull/286)
-- Bump actions/upload-artifact from 2.2.2 to 2.2.3 [\#285](https://github.com/jmuelbert/jmbde-QT/pull/285)
-- Bump actions/setup-python from 2 to 2.2.2 [\#284](https://github.com/jmuelbert/jmbde-QT/pull/284)
-- Bump snapcore/action-build from 1 to 1.0.8 [\#283](https://github.com/jmuelbert/jmbde-QT/pull/283)
-- Bump ilammy/msvc-dev-cmd from 1 to 1.8.0 [\#282](https://github.com/jmuelbert/jmbde-QT/pull/282)
-- Bump sphinx from 3.5.3 to 4.0.1 [\#281](https://github.com/jmuelbert/jmbde-QT/pull/281)
-- Bump peter-evans/create-pull-request from v3.8.2 to v3.9.1 [\#279](https://github.com/jmuelbert/jmbde-QT/pull/279)
-- Bump identify from 2.2.3 to 2.2.4 [\#278](https://github.com/jmuelbert/jmbde-QT/pull/278)
-- Bump importlib-metadata from 3.10.0 to 4.0.1 [\#277](https://github.com/jmuelbert/jmbde-QT/pull/277)
-- Bump pre-commit from 2.12.0 to 2.12.1 [\#276](https://github.com/jmuelbert/jmbde-QT/pull/276)
-- Bump docutils from 0.17 to 0.17.1 [\#274](https://github.com/jmuelbert/jmbde-QT/pull/274)
-- Bump breathe from 4.28.0 to 4.29.0 [\#270](https://github.com/jmuelbert/jmbde-QT/pull/270)
-- Bump identify from 2.2.2 to 2.2.3 [\#269](https://github.com/jmuelbert/jmbde-QT/pull/269)
-- Bump nodeenv from 1.5.0 to 1.6.0 [\#268](https://github.com/jmuelbert/jmbde-QT/pull/268)
-- Bump pre-commit from 2.11.1 to 2.12.0 [\#267](https://github.com/jmuelbert/jmbde-QT/pull/267)
-- Bump sphinx-rtd-theme from 0.5.1 to 0.5.2 [\#265](https://github.com/jmuelbert/jmbde-QT/pull/265)
-- Bump docutils from 0.16 to 0.17 [\#264](https://github.com/jmuelbert/jmbde-QT/pull/264)
-- Fix typos by misspell-fixer for refs/heads/master [\#260](https://github.com/jmuelbert/jmbde-QT/pull/260)
+- build\(deps\): bump virtualenv from 20.7.0 to 20.7.1 [\#345](https://github.com/jmuelbert/jmbde-QT/pull/345)
+- build\(deps\): bump pre-commit from 2.13.0 to 2.14.0 [\#344](https://github.com/jmuelbert/jmbde-QT/pull/344)
+- build\(deps\): bump identify from 2.2.11 to 2.2.13 [\#343](https://github.com/jmuelbert/jmbde-QT/pull/343)
+- build\(deps\): bump DoozyX/clang-format-lint-action from 0.9 to 0.12 [\#342](https://github.com/jmuelbert/jmbde-QT/pull/342)
+- Fix typos by misspell-fixer for refs/heads/master [\#341](https://github.com/jmuelbert/jmbde-QT/pull/341)
+- build\(deps\): bump importlib-metadata from 4.6.1 to 4.6.3 [\#340](https://github.com/jmuelbert/jmbde-QT/pull/340)
+- build\(deps\): bump sphinx from 4.1.1 to 4.1.2 [\#339](https://github.com/jmuelbert/jmbde-QT/pull/339)
+- build\(deps\): bump virtualenv from 20.6.0 to 20.7.0 [\#338](https://github.com/jmuelbert/jmbde-QT/pull/338)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
 
