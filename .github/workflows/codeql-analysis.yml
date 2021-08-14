@@ -15,7 +15,7 @@ name: CodeQL
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
-  
+
 on:
   push:
     branches: [master]
@@ -74,7 +74,9 @@ jobs:
         id: cache-qt
         uses: actions/cache@v2.1.6
         with:
-          path: ./build/Qt/${{ matrix.qt_version }}/${{ matrix.config.qt_arch }}
+          path:
+            ${{ runner.workspace}}/build/Qt/${{ matrix.qt_version }}/${{
+            matrix.config.qt_arch }}
           key:
             ${{ runner.os }}-QtCache/${{ matrix.qt_version }}/${{ matrix.config.qt_arch
             }}
@@ -109,8 +111,8 @@ jobs:
         #
         # We need to source the profile file to make sure conan is in PATH
         run: |
-          cmake ${{runner.workspace}} \
-            ${{ matrix.config.generator }} \ 
+          cmake $GITHUB_WORKSPACE \
+            ${{ matrix.config.generator }} \
             -DCMAKE_VERBOSE_MAKEFILE=ON \
             -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
             -DBUILD_TESTING=ON \
