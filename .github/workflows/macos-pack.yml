@@ -49,7 +49,9 @@ env:
 
 jobs:
   catalina:
-    name: macOS Catalina 10.15
+    name:
+      ${{ runner.os }} ${{ matrix.config.qt_arch }}-${{ matrix.qt_version}}-${{
+      matrix.config.cxx}}
 
     strategy:
       matrix:
@@ -57,9 +59,12 @@ jobs:
         config:
           - {
               os: macos-10.15,
+              name: 'macos-12.0-x86_64',
               macos_target: 10.15,
               qt_arch: clang_64,
               arch: clang_64,
+              cc: 'clang',
+              cxx: 'clang++',
               generator: "-G 'Ninja'",
             }
 
@@ -71,20 +76,27 @@ jobs:
       - name: Checkout Source Code
         uses: actions/checkout@v1
 
-      - name: Cache Qt
-        id: cache-qt
-        uses: actions/cache@v2.1.6
-        with:
-          path: ../Qt/${{matrix.config.qt_version}}/${{matrix.qt_arch}}
-          key: ${{ runner.os }}-Qt/${{matrix.config.qt_version}}/${{matrix.qt_arch}}
+      # # Common
+      # - name: Cache Qt
+      #   id: cache-qt
+      #   uses: actions/cache@v2.1.6
+      #   with:
+      #     path:
+      #       ${{ runner.workspace}}/build/Qt/${{ matrix.qt_version }}/${{
+      #       matrix.config.qt_arch }}
+      #     key:
+      #       ${{ runner.os }}-QtCache/${{ matrix.qt_version }}/${{ matrix.config.qt_arch
+      #       }}
 
-      - name: Installing Q${{ matrix.qt_version }} -  ${{ matrix.config.arch }}
+      - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
           version: ${{ matrix.qt_version }}
-          arch: ${{ matrix.config.arch }}
+          target: ${{ matrix.qt_target }}
+          arch: ${{ matrix.config.qt_arch }}
+          dir: '${{ github.workspace }}/build/'
+          # modules: 'qtscript'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
-          setup-python: 'false'
 
       - name: macOS - ${{ matrix.qt_version }} - Build preparation - Install Packages
         run: |
@@ -95,9 +107,6 @@ jobs:
       - name: Get conan
         id: conan
         uses: turtlebrowser/get-conan@v1.0
-
-      - name: Add Bincrafters Remote
-        run: conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 
       - name: Create Build Environment
         # Some projects don't allow in-source building, so create a separate build directory
@@ -117,8 +126,10 @@ jobs:
             ${{matrix.config.generator}} \
             -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
             -DCMAKE_OSX_DEPLOYMENT_TARGET=${{ matrix.config.macos_target }} \
+            -DUSE_LAUNCHER_ABSOLUTE_PATH:BOOL=OFF \
+            -DCMAKE_INSTALL_PREFIX:PATH=/app \
+            -DBUILD_TESTING=OFF  \
             -DBUILD_TRANSLATIONS=ON \
-            -DCMAKE_INSTALL_PREFIX:PATH=./app
 
       - name: Build
         working-directory: ${{runner.workspace}}/build
@@ -139,10 +150,8 @@ jobs:
                 github.event.workflow_run.conclusion == 'success' }}
         uses: actions/upload-artifact@v2.2.4
         with:
-          name: ${{env.PRODUCT}}-Qt${{ matrix.qt_version
-            }}-${{env.BUILD_TYPE}}.dmg
-          path: ${{runner.workspace}}/build/${{ env.PRODUCT }}-Qt${{
-            matrix.qt_version }}.dmg
+          name: ${PRODUCT}-Qt${{ matrix.qt_version }}-${BUILD_TYPE}.dmg
+          path: ${{runner.workspace}}/build/${PRODUCT }-Qt${{ matrix.qt_version }}.dmg
 
       - name: macOS - ${{ matrix.qt_version }} - Upload binaries to release
         if: >
@@ -150,11 +159,10 @@ jobs:
           github.event.workflow_run.conclusion == 'success' }}
         uses: svenstaro/upload-release-action@v2
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{runner.workspace}}/build/${{ env.PRODUCT }}-Qt${{
-            matrix.qt_version }}.dmg
-          asset_name: ${{ env.PRODUCT }}-${{
-            steps.get_version.outputs.VERSION}}-Qt${{ matrix.qt_version
-            }}-${{env.build_type}}.dmg
+          repo_token: ${GITHUB_TOKEN}
+          file: ${{runner.workspace}}/build/${PRODUCT}-Qt${{ matrix.qt_version }}.dmg
+          asset_name:
+            ${PRODUCT}-${{ steps.get_version.outputs.VERSION}}-Qt${{ matrix.qt_version
+            }}-${BUILD_TYPE}.dmg
           tag: ${{ github.ref }}
           overwrite: true

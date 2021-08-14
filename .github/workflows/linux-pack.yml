@@ -60,23 +60,28 @@ env:
 
 jobs:
   appimage-pack:
-    name: Build appimage on ${{ matrix.config.name }} for ${{ matrix.config.qt_version }}
+    name:
+      Build appimage on ${{ matrix.config.name }} for ${{ matrix.config.qt_version }}
+
+    runs-on: ${{ matrix.config.os }}
 
     strategy:
       matrix:
         qt_version: [6.1.0]
+        qt_target: [desktop]
         config:
           - {
-              name: ubuntu-20.04,
               os: ubuntu-20.04,
-              symbol: focal,
-              arch: amd64,
+              name: 'Ubuntu-20.04 gcc-10',
               qt_arch: gcc_64,
+              arch: amd64,
+              artifact: 'Ubuntu-gcc',
+              generator: "-G 'Unix Makefiles'",
+              cc: 'gcc-10',
+              cxx: 'g++-10',
               image_repo: jmuelbert/ci-building-images,
             }
       fail-fast: false
-
-    runs-on: ${{ matrix.config.os }}
 
     # container:
     #   image: ${{ matrix.config.image_repo }}:${{ matrix.config.os }}-${{ matrix.config.symbol }}
@@ -121,26 +126,32 @@ jobs:
             fcitx-frontend-qt5 \
             openssl \
             ca-certificates
-      - name: Cache Qt
-        id: cache-qt
-        uses: actions/cache@v2.1.5
-        with:
-          path: ../Qt
-          key: QtCache-${{ matrix.config.name }}-${{ matrix.config.arch }}-${{matrix.qt_version }}
 
-      - name: Installing Qt - ${{ matrix.config.name }}-${{ matrix.config.arch }}-v${{matrix.qt_version }}
+      # # Common
+      # - name: Cache Qt
+      #   id: cache-qt
+      #   uses: actions/cache@v2.1.6
+      #   with:
+      #     path:
+      #       ${{ runner.workspace}}/build/Qt/${{ matrix.qt_version }}/${{
+      #       matrix.config.qt_arch }}
+      #     key:
+      #       ${{ runner.os }}-QtCache/${{ matrix.qt_version }}/${{ matrix.config.qt_arch
+      #       }}
+
+      - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
-          version: ${{  matrix.qt_version }}
+          version: ${{ matrix.qt_version }}
+          target: ${{ matrix.qt_target }}
           arch: ${{ matrix.config.qt_arch }}
+          dir: '${{ github.workspace }}/build/'
+          # modules: 'qtscript'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
       - name: Get conan
         id: conan
         uses: turtlebrowser/get-conan@v1.0
-
-      - name: Add Bincrafters Remote
-        run: conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 
       - name: Get go-appimage tool
         # Will not use linuxdeployqt anymore, because it suopprts currently still-supported mainstream distribution,
@@ -161,6 +172,7 @@ jobs:
           cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
               -DCMAKE_INSTALL_PREFIX=/usr \
               -DUSE_LAUNCHER_ABSOLUTE_PATH:BOOL=OFF \
+              -DBUILD_TESTING=OFF \
               -DBUILD_TRANSLATIONS=ON
           make -j$(nproc) DESTDIR=${APPIMAGE_DST_PATH} install
           $GITHUB_WORKSPACE/appimagetool -s deploy ${APPIMAGE_DST_PATH}/usr/share/applications/io.github.jmuelbert.jmbde.desktop
@@ -199,7 +211,7 @@ jobs:
             ${{ github.workspace }}/JMBDE-*.x86_64.AppImage.sha256sum
 
   flatpak-pack:
-    name: Build flatpak on ubuntu-20.04
+    name: Build flatpak on ${{runner.os}}
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout Source Code
@@ -267,7 +279,7 @@ jobs:
             ${{ github.workspace }}/org.jmuelbert.jmbde-QT-*.x86_64.flatpak.sha256sum
 
   snap_pack:
-    name: Build snap on ubuntu-20.04
+    name: Build snap on ${{ runner.os }}
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout Source Code
