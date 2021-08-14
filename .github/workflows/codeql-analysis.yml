@@ -70,17 +70,17 @@ jobs:
       # Prefix the list here with "+" to use these queries and those in the config file.
       # queries: ./path/to/local/query, your-org/your-repo/queries@main
 
-      - name: Cache Qt
-        if: matrix.language == 'cpp'
-        id: cache-qt
-        uses: actions/cache@v2.1.6
-        with:
-          path:
-            ${{ runner.workspace}}/build/Qt/${{ matrix.qt_version }}/${{
-            matrix.config.qt_arch }}
-          key:
-            ${{ runner.os }}-QtCache/${{ matrix.qt_version }}/${{ matrix.config.qt_arch
-            }}
+      # - name: Cache Qt
+      #   if: matrix.language == 'cpp'
+      #   id: cache-qt
+      #   uses: actions/cache@v2.1.6
+      #   with:
+      #     path:
+      #.     ${{ runner.workspace}}/build/Qt/${{ matrix.qt_version }}/${{
+      #       matrix.config.qt_arch }}
+      #     key:
+      #.       ${{ runner.os }}-QtCache/${{ matrix.qt_version }}/${{ matrix.config.qt_arch
+      #       }}
 
       - name: Install Qt
         if: matrix.language == 'cpp'
