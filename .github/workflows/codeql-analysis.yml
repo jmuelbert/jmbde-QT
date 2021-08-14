@@ -15,6 +15,7 @@ name: CodeQL
 env:
   QT_VERSION: 6.1.0
   QT_ARCH: gcc_64
+  QT_TARGET: desktop
   ARCH: amd64
   ARTIFACT: 'Ubuntu-clang'
   GENERATOR: "-G 'Unix Makefiles'"
