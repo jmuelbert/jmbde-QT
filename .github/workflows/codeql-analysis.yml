@@ -45,6 +45,20 @@ jobs:
       fail-fast: false
       matrix:
         language: [cpp, python]
+        qt_version: [6.1.0]
+        qt_target: [desktop]
+        config:
+          - {
+              os: ubuntu-latest,
+              name: 'Ubuntu Latest clang-12',
+              qt_arch: gcc_64,
+              arch: amd64,
+              artifact: 'Ubuntu-clang',
+              generator: "-G 'Unix Makefiles'",
+              cc: 'clang-12',
+              cxx: 'clang-12',
+              image_repo: jmuelbert/ci-building-images,
+            }
     # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python' ]
     # Learn more:
     # https://docs.github.com/en/free-pro-team@latest/github/finding-security-vulnerabilities-and-errors-in-your-code/configuring-code-scanning#changing-the-languages-that-are-analyzed
@@ -63,20 +77,21 @@ jobs:
       # Prefix the list here with "+" to use these queries and those in the config file.
       # queries: ./path/to/local/query, your-org/your-repo/queries@main
 
-      # Common
       - name: Cache Qt
         id: cache-qt
         uses: actions/cache@v2.1.6
         with:
-          path: ./build/Qt/$QT_VERSION/$QT_ARCH
-          key: ${{ runner.os }}-QtCache/$QT_VERSION/$QT_ARCH
+          path: ./build/Qt/${{ matrix.qt_version }}/${{ matrix.config.qt_arch }}
+          key:
+            ${{ runner.os }}-QtCache/${{ matrix.qt_version }}/${{ matrix.config.qt_arch
+            }}
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
-          version: $QT_VERSION
-          target: $QT_TARGET
-          arch: $QT_ARCH
+          version: ${{ matrix.qt_version }}
+          target: ${{ matrix.qt_target }}
+          arch: ${{ matrix.config.qt_arch }}
           dir: '${{ github.workspace }}/build/'
           # modules: 'qtscript'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
