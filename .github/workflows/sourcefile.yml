@@ -3,16 +3,45 @@ name: All Source Files
 
 on:
   push:
+    branches:
+      - 'master'
     paths-ignore:
-      - 'README.md'
+      - 'docs/**'
+      - '.github/ISSUE_TEMPLATE/**'
+      - 'docker/**'
+      - '**.md'
+      - '!docs/building-cmake.md'
+      - 'changelog.txt'
       - 'LICENSE'
-      - 'BUILD.md'
+      - '.github/**'
+      - '!.github/workflows/sourcefile.yml'
+      - 'snap/**'
+      - 'build/**'
+      - 'assets/**'
+      - 'Docker/**'
+      - 'report/**'
+      - 'resources/**'
   pull_request:
-    types: [labeled]
+    branches:
+      - 'master'
+    types: [opened, reopened]
     paths-ignore:
-      - 'README.md'
+      - 'docs/**'
+      - '.github/ISSUE_TEMPLATE/**'
+      - 'docker/**'
+      - '**.md'
+      - '!docs/building-cmake.md'
+      - 'changelog.txt'
       - 'LICENSE'
-      - 'BUILD.md'
+      - '.github/**'
+      - '!.github/workflows/sourcefile.yml'
+      - 'snap/**'
+      - 'build/**'
+      - 'assets/**'
+      - 'Docker/**'
+      - 'report/**'
+      - 'resources/**'
+
   release:
     types: [published]
 

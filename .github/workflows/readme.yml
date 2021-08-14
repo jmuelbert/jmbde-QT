@@ -20,17 +20,12 @@ jobs:
       - uses: docker://pandoc/core:2.11.4
         with:
           args: >-
-            --metadata-file=colophon.yml
-            --template=docs/README.template
-            --output=README.md
-            --from=gfm
-            --to=gfm
-            --fail-if-warnings
-            --wrap=preserve
+            --metadata-file=colophon.yml --template=docs/README.template
+            --output=README.md --from=gfm --to=gfm --fail-if-warnings --wrap=preserve
             docs/README.md
       - uses: actions/github-script@v4.0.2
         with:
-          github-token: ${{secrets.GH_TOKEN}}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const { readFileSync } = require('fs')
             const path = 'README.md'

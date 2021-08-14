@@ -102,6 +102,7 @@ jobs:
         run: |
           cmake $GITHUB_WORKSPACE \
             $GENERATOR \
+            -DCMAKE_VERBOSE_MAKEFILE=ON \
             -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
             -DBUILD_TESTING=ON \
             -DBUILD_TRANSLATIONS=ON
