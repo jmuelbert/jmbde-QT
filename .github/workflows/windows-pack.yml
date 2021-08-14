@@ -148,7 +148,6 @@ jobs:
             -DCMAKE_INSTALL_PREFIX:PATH=./app `
             -DBUILD_TESTING=OFF  `
             -DBUILD_TRANSLATIONS=ON `
-
             -DRUN_IN_PLACE=${{ contains(matrix.type, 'portable') }}
 
       - name: Compile
