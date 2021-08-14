@@ -53,7 +53,7 @@ def run_clang_format_on_lines(rootdir, file_to_format, stylepath=None):
         # config file implcitly by assuming a different location of the file to
         # format
         "--assume-filename={}".format(
-            os.path.join(stylepath if stylepath else rootdir, file_to_format.filename)
+            os.path.join(stylepath if stylepath else rootdir, file_to_format.filename),
         ),
         *line_arguments,
     ]
@@ -90,7 +90,7 @@ def main(argv: typing.Optional[typing.List[str]] = None) -> int:
 
     if not args.from_ref:
         args.from_ref = os.getenv("PRE_COMMIT_FROM_REF") or os.getenv(
-            "PRE_COMMIT_SOURCE"
+            "PRE_COMMIT_SOURCE",
         )
 
     if not args.to_ref:

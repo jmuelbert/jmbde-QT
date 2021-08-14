@@ -14,7 +14,7 @@ RE_CPP_OBJNAME = re.compile(r'setObjectName\(.*"([^"]+)"')
 RE_UI_OBJNAME = re.compile(r'<widget[^>]+name="([^"]+)"')
 RE_XML_OBJNAME = re.compile(r"<ObjectName>(.*)</ObjectName>")
 RE_XML_OBJNAME_SETVAR = re.compile(
-    r'<SetVariable\s+name="ObjectName">(.*)</SetVariable>'
+    r'<SetVariable\s+name="ObjectName">(.*)</SetVariable>',
 )
 RE_CLASSNAME = re.compile(r"^[A-Z]\w+$")
 RE_OBJNAME_VARTAG = re.compile(r"<.*>")

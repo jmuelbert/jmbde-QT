@@ -166,7 +166,7 @@ def _prepare_session() -> requests.Session:
         {
             "x-csrf-token": m.group(1),
             "x-requested-with": "XMLHttpRequest",
-        }
+        },
     )
 
     return s
@@ -213,7 +213,9 @@ def _verify_email_upload(transfer_id: str, session: requests.Session) -> str:
 
 
 def _prepare_link_upload(
-    filenames: List[str], message: str, session: requests.Session
+    filenames: List[str],
+    message: str,
+    session: requests.Session,
 ) -> str:
     """Given a list of filenames and a message prepare for the link upload.
 
@@ -301,7 +303,10 @@ def _finalize_upload(transfer_id: str, session: requests.Session) -> str:
 
 
 def upload(
-    files: List[str], message: str = "", sender: str = None, recipients: List[str] = []
+    files: List[str],
+    message: str = "",
+    sender: str = None,
+    recipients: List[str] = [],
 ) -> str:
     """Given a list of files upload them and return the corresponding URL.
 
@@ -352,7 +357,8 @@ if __name__ == "__main__":
     import argparse
 
     ap = argparse.ArgumentParser(
-        prog="transferwee", description="Download/upload files via wetransfer.com"
+        prog="transferwee",
+        description="Download/upload files via wetransfer.com",
     )
     sp = ap.add_subparsers(dest="action", help="action")
 
@@ -364,7 +370,11 @@ if __name__ == "__main__":
         help="only print the direct link (without downloading it)",
     )
     dp.add_argument(
-        "-o", type=str, default="", metavar="file", help="output file to be used"
+        "-o",
+        type=str,
+        default="",
+        metavar="file",
+        help="output file to be used",
     )
     dp.add_argument(
         "url",
@@ -386,7 +396,11 @@ if __name__ == "__main__":
     up.add_argument("-f", type=str, metavar="from", help="sender email")
     up.add_argument("-t", nargs="+", type=str, metavar="to", help="recipient emails")
     up.add_argument(
-        "files", nargs="+", type=str, metavar="file", help="files to upload"
+        "files",
+        nargs="+",
+        type=str,
+        metavar="file",
+        help="files to upload",
     )
 
     args = ap.parse_args()

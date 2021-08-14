@@ -74,7 +74,7 @@ def main(argv: typing.Optional[typing.List[str]] = None) -> int:
 
     if not args.from_ref:
         args.from_ref = os.getenv("PRE_COMMIT_FROM_REF") or os.getenv(
-            "PRE_COMMIT_SOURCE"
+            "PRE_COMMIT_SOURCE",
         )
 
     if not args.to_ref:
@@ -96,7 +96,8 @@ def main(argv: typing.Optional[typing.List[str]] = None) -> int:
 
     result = 0
     for filename, file_lines in itertools.groupby(
-        files_with_added_lines, key=lambda line: line.sourcefile
+        files_with_added_lines,
+        key=lambda line: line.sourcefile,
     ):
         lines = set(line.number for line in file_lines)
         result |= run_codespell_on_lines(

@@ -2,7 +2,7 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 
-exclude: '^3rd-party|COPYING|.gitmodules|conan'
+exclude: ^3rd-party|COPYING|.gitmodules|conan
 default_language_version:
   python: python3
 fail_fast: true
@@ -25,6 +25,14 @@ repos:
               ^\.vscode/.*\.json|
               ^\.github/.*\.yml
           )$
+      - id: check-shebang-scripts-are-executable
+      - id: pretty-format-json
+        exclude: >
+          (?x)(
+            ^\.vscode/.*\.json|
+            ^\.github/.*\.yml
+          )$
+        args: [--autofix]
       - id: check-merge-conflict
       - id: check-symlinks
       - id: check-toml
@@ -32,7 +40,12 @@ repos:
       - id: check-xml
       - id: check-yaml
         args: [--allow-multiple-documents]
+        exclude: >
+          (?x)(
+            ^\.gitlab/.*\.yml
+            )$
       - id: debug-statements
+      - id: destroyed-symlinks
       - id: detect-private-key
       # - id: double-quote-string-fixer
       - id: end-of-file-fixer
@@ -61,6 +74,7 @@ repos:
     rev: v1.9.0 # Use the ref you want to point at
     hooks:
       - id: python-check-blanket-noqa
+      - id: python-check-blanket-type-ignore
       - id: python-check-mock-methods
       - id: python-no-eval
       - id: python-no-log-warn
@@ -70,17 +84,22 @@ repos:
       - id: rst-inline-touching-normal
       - id: text-unicode-replacement-char
 
+  - repo: https://github.com/asottile/add-trailing-comma
+    rev: v2.1.0
+    hooks:
+      - id: add-trailing-comma
+
   - repo: https://github.com/asottile/blacken-docs
     rev: v1.10.0
     hooks:
       - id: blacken-docs
-        additional_dependencies: [black==20.8b1]
+        additional_dependencies: [black==21.7b0]
 
   - repo: https://github.com/jumanjihouse/pre-commit-hooks
     rev: 2.1.5
     hooks:
       - id: bundler-audit
-      #  TODO: - id: check-mailmap
+      - id: check-mailmap
       - id: fasterer
       - id: forbid-binary
         exclude: >
@@ -108,13 +127,8 @@ repos:
         name: Executable Ruby scripts must not have a file extension
         types: [ruby, executable]
       - id: shellcheck
-        args: ['--color=always', '--shell=bash', '-x', '-a', '--exclude=SC1090']
-      - id: shfmt
-
-  # - repo: https://github.com/Lucas-C/pre-commit-hooks-go
-  #   rev: v1.0.1
-  #   hooks:
-  #       - id: checkmake
+        args: [--color=always, --shell=bash, -x, -a, '--exclude=SC1090,SC2155']
+  # - id: shfmt
 
   - repo: https://github.com/Lucas-C/pre-commit-hooks
     rev: v1.1.10
@@ -175,16 +189,16 @@ repos:
     hooks:
       - id: docker-compose-check
 
-  - repo: https://github.com/prettier/pre-commit
-    rev: 57f39166b5a5a504d6808b87ab98d41ebf095b46
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v2.3.2
     hooks:
       - id: prettier
         exclude: ^.*(\.ts|\.xib)$
         name: prettier + plugin-xml
         additional_dependencies:
-          - prettier@2.1.2
+          - prettier@2.3.2
           - '@prettier/plugin-ruby@'
-
+          - '@prettier/plugin-xml@0.12.0'
         args:
           - --write
           - --list-different
@@ -226,6 +240,11 @@ repos:
     hooks:
       - id: swagger-validation
 
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.28.1
+    hooks:
+      - id: markdownlint
+
   - repo: local
     hooks:
       - id: qsscheck
@@ -260,7 +279,7 @@ repos:
         files: ^.*\.qml$
       - id: clang-format
         name: clang-format
-        description: 'Run clang-format in two passes (reformat, then break long lines)'
+        description: Run clang-format in two passes (reformat, then break long lines)
         entry: ./scripts/clang_format.py
         require_serial: true
         stages:

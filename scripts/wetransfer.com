@@ -9,21 +9,21 @@
 #=========================================================================================================================
 
 if [ $# -eq 0 ]; then
-    echo "Usage: python3 transferwee.py FILE\n"
-    exit 1
+        printf "Usage: python3 transferwee.py FILE\n"
+        exit 1
 fi
 
 FILE=$1
 
 if [ ! -f "$FILE" ]; then
-    echo "File ${FILE} not found"
-    exit 1
+        echo "File ${FILE} not found"
+        exit 1
 fi
 
-scripts_path=$(dirname $0)
+scripts_path=$(dirname "$0")
 
 python3 -m pip install -U -q requests
 
-RESPONSE=$(python3 ${scripts_path}/transferwee.py upload "${FILE}")
+RESPONSE=$(python3 "${scripts_path}"/transferwee.py upload "${FILE}")
 
 echo "${RESPONSE}" # to terminal

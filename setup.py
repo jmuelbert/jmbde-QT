@@ -19,7 +19,7 @@ import urllib.request
 
 if not platform.machine().endswith("64"):
     print(
-        f"Craft requires a 64bit operating system. You are using: {platform.machine()}"
+        f"Craft requires a 64bit operating system. You are using: {platform.machine()}",
     )
     exit(1)
 
@@ -33,7 +33,9 @@ class CraftBootstrap(object):
         if not dryRun:
             with open(
                 os.path.join(
-                    craftRoot, f"craft-{branch}", "CraftSettings.ini.template"
+                    craftRoot,
+                    f"craft-{branch}",
+                    "CraftSettings.ini.template",
                 ),
                 "rt",
                 encoding="UTF-8",
@@ -70,8 +72,10 @@ class CraftBootstrap(object):
         times = int(width / 100 * percent)
         sys.stdout.write(
             "\r[{progress}{space}]{percent}%".format(
-                progress="#" * times, space=" " * (width - times), percent=percent
-            )
+                progress="#" * times,
+                space=" " * (width - times),
+                percent=percent,
+            ),
         )
         sys.stdout.flush()
 
@@ -85,10 +89,11 @@ class CraftBootstrap(object):
         selection = ", ".join(
             [
                 "[{index}] {value}".format(
-                    index=index, value=value[0] if isinstance(value, tuple) else value
+                    index=index,
+                    value=value[0] if isinstance(value, tuple) else value,
                 )
                 for index, value in enumerate(choices)
-            ]
+            ],
         )
         promp = "{selection} (Default is {default}): ".format(
             selection=selection,
@@ -167,7 +172,9 @@ class CraftBootstrap(object):
                 sys.stdout.flush()
 
         urllib.request.urlretrieve(
-            url, filename=os.path.join(destdir, filename), reporthook=dlProgress
+            url,
+            filename=os.path.join(destdir, filename),
+            reporthook=dlProgress,
         )
         print()
         return os.path.exists(os.path.join(destdir, filename))
@@ -183,7 +190,7 @@ class CraftBootstrap(object):
                 "--user",
                 "--upgrade",
                 "coloredlogs",
-            ]
+            ],
         )
 
 
@@ -223,7 +230,8 @@ def getABI():
             elif CraftBootstrap.isFreeBSD():
                 platform = "freebsd"
             compiler = CraftBootstrap.promptForChoice(
-                "Select compiler", ["gcc", "clang"]
+                "Select compiler",
+                ["gcc", "clang"],
             )
         abi = "64"
 
@@ -235,7 +243,7 @@ def setUp(args):
         print("Where to you want us to install Craft")
         prefix = Path("C:/CraftRoot/" if CraftBootstrap.isWin() else "~/CraftRoot")
         args.prefix = os.path.expanduser(
-            input(f"Craft install root: [{prefix}]: ") or prefix
+            input(f"Craft install root: [{prefix}]: ") or prefix,
         )
 
     if not args.dry_run and not os.path.exists(args.prefix):
@@ -291,14 +299,16 @@ def setUp(args):
     py = shutil.which("py")
     if py:
         py2 = subprocess.getoutput(
-            f"""{py} -2 -c "import sys; print(sys.executable)" """
+            f"""{py} -2 -c "import sys; print(sys.executable)" """,
         )
         if os.path.isfile(py2):
             boot.setSettignsValue("Paths", "Python27", os.path.dirname(py2))
 
     if CraftBootstrap.isWin():
         boot.setSettignsValue(
-            "Compile", "MakeProgram", "mingw32-make" if "mingw" in abi else "jom"
+            "Compile",
+            "MakeProgram",
+            "mingw32-make" if "mingw" in abi else "jom",
         )
     else:
         boot.setSettignsValue("Compile", "MakeProgram", "make")
@@ -331,11 +341,16 @@ def setUp(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(prog="CraftSetupHelper")
     parser.add_argument(
-        "--root", action="store", help="Deprecated: use prefix instead."
+        "--root",
+        action="store",
+        help="Deprecated: use prefix instead.",
     )
     parser.add_argument("--prefix", action="store", help="The installation directory.")
     parser.add_argument(
-        "--branch", action="store", default="master", help="The branch to install"
+        "--branch",
+        action="store",
+        default="master",
+        help="The branch to install",
     )
     parser.add_argument("--verbose", action="store_true", help="The verbosity.")
     parser.add_argument(
