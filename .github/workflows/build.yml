@@ -22,7 +22,9 @@ env:
 
 jobs:
   build:
-    name: ${{ matrix.config.os}} ${{ matrix.config.qt_arch }}-${{ matrix.qt_version}}-${{ matrix.config.cxx}}
+    name:
+      ${{ matrix.config.os}} ${{ matrix.config.qt_arch }}-${{ matrix.qt_version}}-${{
+      matrix.config.cxx}}
     runs-on: ${{ matrix.config.os }}
     strategy:
       matrix:
@@ -33,7 +35,6 @@ jobs:
               os: windows-latest,
               name: 'Windows Latest MSVC',
               qt_arch: win64_msvc2019_64,
-              qt_arch_install: msvc2019_64,
               arch: x64,
               artifact: 'Windows-MSVC',
               generator: "-G'Visual Studio 16 2019' -A x64",
@@ -135,12 +136,16 @@ jobs:
           toolset: 14.2
           arch: x64
 
-      - name: Build preparation for ${{ runner.os }} - ${{ matrix.config.qt_version }}  - Install Packages
+      - name:
+          Build preparation for ${{ runner.os }} - ${{ matrix.config.qt_version }}  -
+          Install Packages
         if: runner.os == 'Windows'
         run: |
           cinst png2ico
 
-      - name: Build preparation for  ${{ runner.os }} - ${{ matrix.config.qt_version }} - Install Packages
+      - name:
+          Build preparation for  ${{ runner.os }} - ${{ matrix.config.qt_version }} -
+          Install Packages
         if: ${{ runner.os == 'macOS' }}
         run: |
           brew install ninja pkg-config
@@ -150,8 +155,10 @@ jobs:
         id: cache-qt
         uses: actions/cache@v2.1.6
         with:
-          path: ./build/Qt/${{ matrix.qt_version }}/${{ matrix.config.qt_arch_install }}
-          key: ${{ runner.os }}-QtCache/${{ matrix.qt_ver }}/${{ matrix.config.qt_arch }}
+          path: ./build/Qt/${{ matrix.qt_version }}/${{ matrix.config.qt_arch }}
+          key:
+            ${{ runner.os }}-QtCache/${{ matrix.qt_version }}/${{ matrix.config.qt_arch
+            }}
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
