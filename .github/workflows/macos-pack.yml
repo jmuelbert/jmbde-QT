@@ -50,7 +50,7 @@ env:
 jobs:
   catalina:
     name:
-      ${{ runner.os }} ${{ matrix.config.qt_arch }}-${{ matrix.qt_version}}-${{
+      macOS 10.15 ${{ matrix.config.qt_arch }}-${{ matrix.qt_version}}-${{
       matrix.config.cxx}}
 
     strategy:
