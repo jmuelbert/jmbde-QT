@@ -109,7 +109,7 @@ jobs:
         #
         # We need to source the profile file to make sure conan is in PATH
         run: |
-          cmake .. \
+          cmake ${{runner.workspace}} \
             ${{ matrix.config.generator }} \ 
             -DCMAKE_VERBOSE_MAKEFILE=ON \
             -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
