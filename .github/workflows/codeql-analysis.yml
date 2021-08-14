@@ -13,16 +13,9 @@
 name: CodeQL
 
 env:
-  QT_VERSION: 6.1.0
-  QT_ARCH: gcc_64
-  QT_TARGET: desktop
-  ARCH: amd64
-  ARTIFACT: 'Ubuntu-clang'
-  GENERATOR: "-G 'Unix Makefiles'"
-  CC: 'clang-12'
-  CXX: 'clang-12'
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
-
+  
 on:
   push:
     branches: [master]
@@ -117,7 +110,7 @@ jobs:
         # We need to source the profile file to make sure conan is in PATH
         run: |
           cmake $GITHUB_WORKSPACE \
-            $GENERATOR \
+            ${{ matrix.config.generator }} \ 
             -DCMAKE_VERBOSE_MAKEFILE=ON \
             -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
             -DBUILD_TESTING=ON \
