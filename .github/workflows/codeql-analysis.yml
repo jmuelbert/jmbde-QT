@@ -71,6 +71,7 @@ jobs:
       # queries: ./path/to/local/query, your-org/your-repo/queries@main
 
       - name: Cache Qt
+        if: matrix.language == 'cpp'
         id: cache-qt
         uses: actions/cache@v2.1.6
         with:
@@ -82,6 +83,7 @@ jobs:
             }}
 
       - name: Install Qt
+        if: matrix.language == 'cpp'
         uses: jurplel/install-qt-action@v2
         with:
           version: ${{ matrix.qt_version }}
@@ -92,15 +94,18 @@ jobs:
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
       - name: Get conan
+        if: matrix.language == 'cpp'
         id: conan
         uses: turtlebrowser/get-conan@v1.0
 
       - name: Create Build Environment
+        if: matrix.language ==X 'cpp'
         # Some projects don't allow in-source building, so create a separate build directory
         # We'll use this as our working directory for all subsequent commands
         run: cmake -E make_directory ${{runner.workspace}}/build
 
       - name: Configure CMake
+        if: matrix.language == 'cpp'
         # Use a bash shell so we can use the same syntax for environment variable
         # access regardless of the host operating system
         shell: bash
@@ -119,6 +124,7 @@ jobs:
             -DBUILD_TRANSLATIONS=ON
 
       - name: Build
+        if: matrix.language == 'cpp'
         working-directory: ${{runner.workspace}}/build
         shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
@@ -126,8 +132,9 @@ jobs:
 
       # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
       # If this step fails, then you should remove it and run the build manually (see below)
-      # - name: Autobuild
-      # uses: github/codeql-action/autobuild@v1
+      - name: Autobuild
+        if: matrix.language == 'python'
+        uses: github/codeql-action/autobuild@v1
       #  run: |
       #    pip3 install --user wheel
       #    pip3 install --user conan
