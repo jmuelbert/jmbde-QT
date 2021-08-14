@@ -12,6 +12,7 @@ erfasst werden. Das sind unter anderem Computer, Drucker und Telefone.
 [![Packaging(macOS)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/macos-pack.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/macos-pack.yml)
 [![Packaging(Windows)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/windows-pack.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/windows-pack.yml)
 [![Codacy Security Scan](https://github.com/jmuelbert/jmbde-QT/actions/workflows/codacy-analysis.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/codacy-analysis.yml)
+[![.github/workflows/codeql-analysis.yml](https://github.com/jmuelbert/jmbde-QT/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/codeql-analysis.yml)
 [![Total Alerts][lgtm-alerts-shield]][lgtm-alerts-url]
 [![Language grade: C/C++][lgtm-cpp-shield]][lgtm-cpp-url]
 [![Language grade: Python][lgtm-python-shield]][lgtm-python-url]
@@ -30,7 +31,6 @@ erfasst werden. Das sind unter anderem Computer, Drucker und Telefone.
 [Documentation](https://jmuelbert.github.io/jmbde-QT/) | [Changelog](CHANGELOG.md) |
 [Contributing](CONTRIBUTING_de-DE.md) |
 [FAQ](https://github.com/jmuelbert/jmbde-QT/wiki/FAQ) | [english](README_en.md)
-
 
 jmbde verwendet das plattformübergreifende Framework
 [Qt](http://www.qt.io/download-open-source/), was bedeutet, dass es mit den meisten
@@ -53,9 +53,9 @@ auch hier gibt es komplette Installationspakete mit allem, auch QT.
 Die ausführbaren Programme und Installer werden für die folgenden Plattformen zur
 Verfügung gestellt:
 
--   macOS ab der Version 10.10
--   Windows ab der Version 7
--   Linux
+- macOS ab der Version 10.10
+- Windows ab der Version 7
+- Linux
 
 ## Ausführen
 
@@ -80,26 +80,26 @@ Ziehen Sie jmbde in Ihren Anwendungsordner und führen Sie jmbde aus.
 
 ## Anforderungen und Fehlerberichte
 
--   [GitHub issues (preferred)](https://github.com/jmuelbert/jmbde-QT/issues)
+- [GitHub issues (preferred)](https://github.com/jmuelbert/jmbde-QT/issues)
 
 ## Fragen und Kommentare
 
 ## Wiki
 
--   [Main Page](https://github.com/jmuelbert/jmbde-QT/wiki)
--   [User Manual](http://jmuelbert.github.io/jmbde-QT/)
+- [Main Page](https://github.com/jmuelbert/jmbde-QT/wiki)
+- [User Manual](http://jmuelbert.github.io/jmbde-QT/)
 
 ## Datenbank Schema
 
--   [Datenbank Quellcode SQL](docs/database-design.md)
+- [Datenbank Quellcode SQL](docs/database-design.md)
 
 ## Code-Quellen
 
 In dem master branch befindet sich der aktuellste Pre-Release Code.
 
--   [Releases](https://github.com/jmuelbert/jmbde-QT/releases)
+- [Releases](https://github.com/jmuelbert/jmbde-QT/releases)
 
--   [Milestones](https://github.com/jmuelbert/jmbde-QT/milestones)
+- [Milestones](https://github.com/jmuelbert/jmbde-QT/milestones)
 
 ## Programm erstellen
 
@@ -109,15 +109,15 @@ den notwendigen Maßnahmen. Bibliotheken, Kompilierungs-Flags, etc.
 
 ### Abhängigkeiten
 
--   Das Programm benötigt qt5 ab der Version 5.12.9
--   cmake ab der Version 3.13.3
--   ninja
--   c++ Entwicklungssystem
+- Das Programm benötigt qt5 ab der Version 5.12.9
+- cmake ab der Version 3.13.3
+- ninja
+- c++ Entwicklungssystem
 
 #### Auf macOS
 
--   Die neueste Xcode Version.
--   Brew [Installationsanleitung](https://brew.sh)
+- Die neueste Xcode Version.
+- Brew [Installationsanleitung](https://brew.sh)
 
 ```bash
   brew install cmake
@@ -126,7 +126,7 @@ den notwendigen Maßnahmen. Bibliotheken, Kompilierungs-Flags, etc.
   brew link qt5 --force
 ```
 
--   Alternativ können Sie auch
+- Alternativ können Sie auch
     [Qt hier herunterladen](https://www.qt.io/download-qt-installer)
 
 Führen Sie `cmake` aus, um jmbde zu erstellen:
@@ -152,9 +152,9 @@ Führen Sie `cmake` aus, um jmbde zu erstellen:
 
 ### Unter Windows
 
--   Visual Studio 2017 oder höher
--   Sie können [Qt hier herunterladen](https://www.qt.io/download-qt-installer)
--   Sie können viele Werkzeuge mit choco installieren.
+- Visual Studio 2017 oder höher
+- Sie können [Qt hier herunterladen](https://www.qt.io/download-qt-installer)
+- Sie können viele Werkzeuge mit choco installieren.
     [Installationsanleitung](https://chocolatey.org/install#installing-chocolatey)
 
 ```cmd
@@ -183,15 +183,15 @@ Führen Sie `cmake` aus, um jmbde zu erstellen:
 
 ### Unter Linux
 
--   Auf Ubuntu/Debian:
+- Auf Ubuntu/Debian:
     `sudo apt install qt5-default qttools5-dev-tools zlib1g-dev qtdeclarative5-dev cmake ninja`.
--   Auf Fedora: `sudo dnf builddep jmbde-QT cmake ninja`
--   Auf Arch Linux: `pacman -S qt cmake ninja`
+- Auf Fedora: `sudo dnf builddep jmbde-QT cmake ninja`
+- Auf Arch Linux: `pacman -S qt cmake ninja`
 
 Die installierten Toolchains müssen mit derjenigen übereinstimmen, mit der Qt kompiliert
 wurde.
 
--   Als nächstes kompilieren Sie durch Ausführen:
+- Als nächstes kompilieren Sie durch Ausführen:
 
 #### Für die Release-Version
 
