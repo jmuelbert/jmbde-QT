@@ -11,7 +11,7 @@ erfasst werden. Das sind unter anderem Computer, Drucker und Telefone.
 [![Packaging Linux](https://github.com/jmuelbert/jmbde-QT/actions/workflows/linux-pack.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/linux-pack.yml)
 [![Packaging(macOS)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/macos-pack.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/macos-pack.yml)
 [![Packaging(Windows)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/windows-pack.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/windows-pack.yml)
-[![Codacy Badge][codacy-shield]][codacy-url]
+[![Codacy Security Scan](https://github.com/jmuelbert/jmbde-QT/actions/workflows/codacy-analysis.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/codacy-analysis.yml)
 [![Total Alerts][lgtm-alerts-shield]][lgtm-alerts-url]
 [![Language grade: C/C++][lgtm-cpp-shield]][lgtm-cpp-url]
 [![Language grade: Python][lgtm-python-shield]][lgtm-python-url]
