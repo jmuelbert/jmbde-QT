@@ -128,7 +128,7 @@ jobs:
             -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
             -DCMAKE_OSX_DEPLOYMENT_TARGET=${{ matrix.config.macos_target }} \
             -DUSE_LAUNCHER_ABSOLUTE_PATH:BOOL=OFF \
-            -DCMAKE_INSTALL_PREFIX:PATH=/app \
+            -DCMAKE_INSTALL_PREFIX:PATH=./app \
             -DBUILD_TESTING=OFF  \
             -DBUILD_TRANSLATIONS=ON \
 
