@@ -8,12 +8,14 @@ on:
       - cmake/**
       - src/**
       - CMakeLists.txt
+      - '.github/workflows/build.yml'
   pull_request:
     branches: [master]
     paths:
       - cmake/**
       - src/**
       - CMakeLists.txt'
+      - '.github/workflows/build.yml'
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
