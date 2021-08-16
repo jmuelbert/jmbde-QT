@@ -9,14 +9,9 @@ erfasst werden. Das sind unter anderem Computer, Drucker und Telefone.
 [![Gitlab Status](https://gitlab.com/jmuelbert/jmbde-QT/badges/master/pipeline.svg)](https://gitlab.com/jmuelbert/jmbde-QT/commits/master)
 [![Building(CMake)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/build.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/build.yml)
 [![Packaging Linux](https://github.com/jmuelbert/jmbde-QT/actions/workflows/linux-pack.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/linux-pack.yml)
-[![Packaging(macOS)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/macos-pack.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/macos-pack.yml)
-[![Packaging(Windows)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/windows-pack.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/windows-pack.yml)
-[![Codacy Security Scan](https://github.com/jmuelbert/jmbde-QT/actions/workflows/codacy-analysis.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/codacy-analysis.yml)
-[![.github/workflows/codeql-analysis.yml](https://github.com/jmuelbert/jmbde-QT/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/codeql-analysis.yml)
-[![Total Alerts][lgtm-alerts-shield]][lgtm-alerts-url]
-[![Language grade: C/C++][lgtm-cpp-shield]][lgtm-cpp-url]
-[![Language grade: Python][lgtm-python-shield]][lgtm-python-url]
-[![Language grade: JavaScript][lgtm-js-shield]][lgtm-js-url]
+[![Packaging macOS](https://github.com/jmuelbert/jmbde-QT/actions/workflows/macos-pack.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/macos-pack.yml)
+[![Packaging Windows](https://github.com/jmuelbert/jmbde-QT/actions/workflows/windows-pack.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/windows-pack.yml)
+[![CodeQL](https://github.com/jmuelbert/jmbde-QT/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/codeql-analysis.yml)
 [![GitHub All Releases][downloads_all-shield]][downloads_all-url]
 [![Issues][issues-shield]][issues-url]
 [![Help wanted issues][help-issues-shield]][help-issues-url]
@@ -247,10 +242,6 @@ GPL V3 © [Jürgen Mülbert](https:/github.com/jmuelbert/jmbde-QT)
 [product-screenshot]: images/doc/images/Logo_template.png
 [gitpod-shield]: https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod
 [gitpod-url]: https://gitpod.io/#https://github.com/jmuelbert/jmbde-QT
-[codacy-shield]:
-    https://api.codacy.com/project/badge/Grade/caf2526829cb447b9ca6091cccebad27
-[codacy-url]:
-    https://app.codacy.com/manual/jmuelbert/jmbde-QT?utm_source=github.com&utm_medium=referral&utm_content=jmuelbert/jmbde-QT&utm_campaign=Badge_Grade_Dashboard
 [downloads_all-shield]:
     https://img.shields.io/github/downloads/jmuelbert/jmbde-QT/total?label=downloads%40all
 [downloads_all-url]: https://github.com/jmuelbert/jmbde-QT/releases
@@ -266,18 +257,6 @@ GPL V3 © [Jürgen Mülbert](https:/github.com/jmuelbert/jmbde-QT)
     https://github.com/jmuelbert/jmbde-QT/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22
 [documentation-shield]: https://img.shields.io/badge/Documentation-latest-blue.svg
 [documentation-url]: https://jmuelbert.github.io/jmbde-QT
-[lgtm-alerts-shield]:
-    https://img.shields.io/lgtm/alerts/g/jmuelbert/jmbde-QT.svg?logo=lgtm&logoWidth=18
-[lgtm-alerts-url]: https://lgtm.com/projects/g/jmuelbert/jmbde-QT/alerts/
-[lgtm-cpp-shield]:
-    https://img.shields.io/lgtm/grade/cpp/g/jmuelbert/jmbde-QT.svg?logo=lgtm&logoWidth=18
-[lgtm-cpp-url]: https://lgtm.com/projects/g/jmuelbert/jmbde-QT/context:cpp
-[lgtm-python-shield]:
-    https://img.shields.io/lgtm/grade/python/g/jmuelbert/jmbde-QT.svg?logo=lgtm&logoWidth=18
-[lgtm-python-url]: https://lgtm.com/projects/g/jmuelbert/jmbde-QT/context:python
-[lgtm-js-shield]:
-    https://img.shields.io/lgtm/grade/javascript/g/jmuelbert/jmbde-QT.svg?logo=lgtm&logoWidth=18
-[lgtm-js-url]: https://lgtm.com/projects/g/jmuelbert/jmbde-QT/context:javascript
 [cdash-shield]: https://img.shields.io/badge/CDash-Access-blue.svg
 [cdash-url]: http://my.cdash.org/index.php?project=jmbde-QT
 [pr-shield]: https://img.shields.io/github/issues-pr-raw/jmuelbert/jmbde-QT.svg

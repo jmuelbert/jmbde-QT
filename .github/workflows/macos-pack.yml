@@ -1,5 +1,5 @@
 ---
-name: Packaging(macOS)
+name: Packaging macOS
 
 on:
   push:
@@ -76,7 +76,7 @@ jobs:
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v1
-        
+
       - name: Set env & Print jmbde version
         shell: bash
         run: |
@@ -164,7 +164,8 @@ jobs:
         uses: actions/upload-artifact@v2.2.4
         with:
           name: ${{env.PRODUCT}}-Qt${{ matrix.qt_version }}-${{env.BUILD_TYPE}}.dmg
-          path: ${{runner.workspace}}/build/${{env.PRODUCT}}-Qt${{ matrix.qt_version }}.dmg
+          path:
+            ${{runner.workspace}}/build/${{env.PRODUCT}}-Qt${{ matrix.qt_version }}.dmg
 
       - name: macOS - ${{ matrix.qt_version }} - Upload binaries to release
         if: >
@@ -173,7 +174,8 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{runner.workspace}}/build/${{env.PRODUCT}}-Qt${{ matrix.qt_version }}.dmg
+          file:
+            ${{runner.workspace}}/build/${{env.PRODUCT}}-Qt${{ matrix.qt_version }}.dmg
           asset_name:
             ${{env.PRODUCT}}-${{ env.VERSION}}-Qt${{ matrix.qt_version
             }}-${{env.BUILD_TYPE}}.dmg

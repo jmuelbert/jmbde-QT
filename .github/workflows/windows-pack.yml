@@ -1,5 +1,5 @@
 ---
-name: Packaging(Windows)
+name: Packaging Windows
 
 on:
   push:
@@ -50,7 +50,7 @@ env:
 jobs:
   windows-pack:
     name:
-     Windows 2019 ${{ matrix.config.arch }}-${{matrix.qt_version}}-${{ matrix.type}}
+      Windows 2019 ${{ matrix.config.arch }}-${{matrix.qt_version}}-${{ matrix.type}}
     runs-on: ${{ matrix.config.os }}
     strategy:
       matrix:
