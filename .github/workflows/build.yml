@@ -4,14 +4,16 @@ name: Building(CMake)
 on:
   push:
     branches: [master]
-    paths-ignore:
-      - 'README.md'
-      - 'LICENSE'
+    paths:
+      - cmake/**
+      - src/**
+      - CMakeLists.txt
   pull_request:
     branches: [master]
-    paths-ignore:
-      - 'README.md'
-      - 'LICENSE'
+    paths:
+      - cmake/**
+      - src/**
+      - CMakeLists.txt'
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
@@ -22,9 +24,7 @@ env:
 
 jobs:
   build:
-    name:
-      ${{ matrix.config.os}} ${{ matrix.config.qt_arch }}-${{ matrix.qt_version}}-${{
-      matrix.config.cxx}}
+    name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
     strategy:
       matrix:
@@ -101,8 +101,6 @@ jobs:
             python3-pip \
             fuse \
             patchelf \
-            cmake \
-            extra-cmake-modules \
             build-essential \
             appstream \
             hicolor-icon-theme \
@@ -115,6 +113,9 @@ jobs:
         run: |
           sudo apt-get install -y xvfb
           Xvfb -ac ${{ env.DISPLAY }} -screen 0 1280x780x24 &
+
+      - name: Get latest CMake
+        uses: lukka/get-cmake@latest
 
       # Windows
       - name: Install MSVC compiler for ${{ runner.os }}
@@ -171,6 +172,7 @@ jobs:
         run: cmake -E make_directory ${{runner.workspace}}/build
 
       - name: Configure CMake
+
         # Use a bash shell so we can use the same syntax for environment variable
         # access regardless of the host operating system
         shell: bash
@@ -180,6 +182,16 @@ jobs:
         # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
         #
         # We need to source the profile file to make sure conan is in PATH
+        uses: lukka/run-cmake@v3
+        with:
+          cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
+          cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
+          cmakeAppendedArgs:
+            ' ${{ matrix.config.generator }} \ -DCMAKE_BUILD_TYPE=Debug -DASSIMP_ASAN=ON
+            -DCMAKE_VERBOSE_MAKEFILE=ON \ -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
+            -DBUILD_TESTING=ON \ -DBUILD_TRANSLATIONS=ON'
+          buildWithCMakeArgs: '-- -v'
+          buildDirectory: '${{ github.workspace }}/build/'
         run: |
           cmake $GITHUB_WORKSPACE \
             ${{ matrix.config.generator }} \
@@ -188,11 +200,11 @@ jobs:
             -DBUILD_TESTING=ON \
             -DBUILD_TRANSLATIONS=ON
 
-      - name: Build
-        working-directory: ${{runner.workspace}}/build
-        shell: bash
-        # Execute the build.  You can specify a specific target with "--target <NAME>"
-        run: cmake --build . --config $BUILD_TYPE -j2
+      # - name: Build
+      #   working-directory: ${{runner.workspace}}/build
+      #   shell: bash
+      #   # Execute the build.  You can specify a specific target with "--target <NAME>"
+      #   run: cmake --build . --config $BUILD_TYPE -j2
 
       # Linux
       - name: Test

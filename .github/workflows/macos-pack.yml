@@ -5,42 +5,21 @@ on:
   push:
     branches:
       - 'master'
-    paths-ignore:
-      - 'docs/**'
-      - '.github/ISSUE_TEMPLATE/**'
-      - 'docker/**'
-      - '**.md'
-      - '!docs/building-cmake.md'
-      - 'changelog.txt'
-      - 'LICENSE'
-      - '.github/**'
-      - '!.github/workflows/macos-pack.yml'
-      - 'snap/**'
-      - 'build/**'
-      - 'assets/**'
-      - 'Docker/**'
-      - 'report/**'
-      - 'resources/**'
+    paths:
+      - cmake/**
+      - src/**
+      - CMakeLists.txt
+      - '.github/workflows/macos-pack.yml'
+
   pull_request:
     branches:
       - 'master'
     types: [opened, reopened]
-    paths-ignore:
-      - 'docs/**'
-      - '.github/ISSUE_TEMPLATE/**'
-      - 'docker/**'
-      - '**.md'
-      - '!docs/building-cmake.md'
-      - 'changelog.txt'
-      - 'LICENSE'
-      - '.github/**'
-      - '!.github/workflows/macos-pack.yml'
-      - 'snap/**'
-      - 'build/**'
-      - 'assets/**'
-      - 'Docker/**'
-      - 'report/**'
-      - 'resources/**'
+    paths:
+      - cmake/**
+      - src/**
+      - CMakeLists.txt
+      - '.github/workflows/macos-pack.yml'
 
 env:
   PRODUCT: jmbde
