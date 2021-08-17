@@ -26,7 +26,7 @@ env:
 
 jobs:
   build:
-    name: ${{ matrix.config.name }}
+    name: ${{ matrix.config.name }}-Qt${{matrix.qt_version}}
     runs-on: ${{ matrix.config.os }}
     strategy:
       matrix:
@@ -118,7 +118,7 @@ jobs:
           Xvfb -ac ${{ env.DISPLAY }} -screen 0 1280x780x24 &
 
       - name: Get latest CMake
-        uses: lukka/get-cmake@latest
+        uses: lukka/get-cmake@3.19.6
 
       # Windows
       - name: Install MSVC compiler for ${{ runner.os }}
