@@ -104,7 +104,7 @@ jobs:
             fuse \
             patchelf \
             build-essential \
-            extra-cmake-files \
+            extra-cmake-modules \
             appstream \
             hicolor-icon-theme \
             fcitx-frontend-qt5 \
@@ -181,7 +181,7 @@ jobs:
           cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
           cmakeAppendedArgs:
             ' ${{ matrix.config.generator }} \ -DCMAKE_BUILD_TYPE=Debug -DASSIMP_ASAN=ON
-            -DCMAKE_VERBOSE_MAKEFILE=ON \ -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
+            -DCMAKE_VERBOSE_MAKEFILE=ON \ -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} \
             -DBUILD_TESTING=ON \ -DBUILD_TRANSLATIONS=ON'
           buildWithCMakeArgs: '--config $BUILD_TYPE -- -v'
           buildDirectory: '${{ github.workspace }}/build/'
