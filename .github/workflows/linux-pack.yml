@@ -111,7 +111,6 @@ jobs:
             python3-pip \
             fuse \
             patchelf \
-            cmake \
             extra-cmake-modules \
             build-essential \
             appstream \
@@ -119,6 +118,9 @@ jobs:
             fcitx-frontend-qt5 \
             openssl \
             ca-certificates
+
+      - name: Get latest CMake
+        uses: lukka/get-cmake@latest
 
       # # Common
       # - name: Cache Qt
