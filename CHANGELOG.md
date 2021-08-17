@@ -48,7 +48,6 @@
 - build\(deps\): bump importlib-metadata from 4.6.1 to 4.6.3 [\#340](https://github.com/jmuelbert/jmbde-QT/pull/340)
 - build\(deps\): bump sphinx from 4.1.1 to 4.1.2 [\#339](https://github.com/jmuelbert/jmbde-QT/pull/339)
 - build\(deps\): bump virtualenv from 20.6.0 to 20.7.0 [\#338](https://github.com/jmuelbert/jmbde-QT/pull/338)
-- build\(deps\): bump graphviz from 0.16 to 0.17 [\#335](https://github.com/jmuelbert/jmbde-QT/pull/335)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
 
