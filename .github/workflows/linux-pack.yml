@@ -158,8 +158,7 @@ jobs:
           wget -c https://github.com/$(wget -q https://github.com/probonopd/appimage/releases -O - \
           | grep "appimagetool-.*-${APPIMAGETOOL_ARCH}.AppImage" | head -n 1 | cut -d '"' -f 2) -O appimagetool
           chmod +x appimagetool
-          ls $GITHUB_WORKSPACE
-          ls $GITHUB_WORKSPACE/build
+          ls $GITHUB_WORKSPACE/Qt
           export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$GITHUB_WORKSPACE/build/Qt/5.15.2/gcc_64/plugins
         env:
           APPIMAGETOOL_ARCH: x86_64
