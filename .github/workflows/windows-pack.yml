@@ -175,7 +175,7 @@ jobs:
         shell: pwsh
         run: |
           <#
-          Move-Item -Path $env:GITHUB_WORKSPACE/build/Package/jmbde-*-${{ matrix.config.pak_arch }}.msi -Destination $env:GITHUB_WORKSPACE/build/Package/installer/jmbde-$env:VERSION-${{ matrix.config.pak_arch }}.msi
+           Move-Item -Path $env:GITHUB_WORKSPACE/build/Package/jmbde-*-${{ matrix.config.pak_arch }}.msi -Destination $env:GITHUB_WORKSPACE/build/Package/installer/jmbde-$env:VERSION-${{ matrix.config.pak_arch }}.msi
           #>
           Get-ChildItem "$env:GITHUB_WORKSPACE/build"
           Move-Item -Path $env:GITHUB_WORKSPACE/build/jmbde-setup.exe -Destination $env:GITHUB_WORKSPACE/build/Package/installer/jmbde-$env:VERSION-${{ matrix.config.pak_arch }}-Qt${{matrix.qt_version}}.exe
