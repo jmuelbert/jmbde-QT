@@ -120,7 +120,7 @@ jobs:
             ca-certificates
 
       - name: Get latest CMake
-        uses: lukka/get-cmake@3.19.6
+        uses: lukka/get-cmake@latest
 
       # # Common
       # - name: Cache Qt

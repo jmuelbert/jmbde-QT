@@ -118,7 +118,7 @@ jobs:
           Xvfb -ac ${{ env.DISPLAY }} -screen 0 1280x780x24 &
 
       - name: Get latest CMake
-        uses: lukka/get-cmake@3.19.6
+        uses: lukka/get-cmake@latest
 
       # Windows
       - name: Install MSVC compiler for ${{ runner.os }}
