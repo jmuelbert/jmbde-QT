@@ -19,7 +19,7 @@ class jmbdeQTAppConan(ConanFile):
     description = "A BDE Tool"
 
     def build_requirements(self):
-        self.build_requires("cmake@3.16.3")
+        self.build_requires("cmake@3.21.1")
         self.build_requires("extra-cmake-modules@5.84.0")
 
     def export_sources(self):
