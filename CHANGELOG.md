@@ -36,6 +36,10 @@
 
 **Merged pull requests:**
 
+- build\(deps\): bump importlib-metadata from 4.6.3 to 4.6.4 [\#349](https://github.com/jmuelbert/jmbde-QT/pull/349)
+- build\(deps\): bump virtualenv from 20.7.1 to 20.7.2 [\#348](https://github.com/jmuelbert/jmbde-QT/pull/348)
+- build\(deps\): bump pygments from 2.8.1 to 2.10.0 [\#347](https://github.com/jmuelbert/jmbde-QT/pull/347)
+- build\(deps\): bump codacy/codacy-analysis-cli-action from 1.1.0 to 4.0.0 [\#346](https://github.com/jmuelbert/jmbde-QT/pull/346)
 - build\(deps\): bump virtualenv from 20.7.0 to 20.7.1 [\#345](https://github.com/jmuelbert/jmbde-QT/pull/345)
 - build\(deps\): bump pre-commit from 2.13.0 to 2.14.0 [\#344](https://github.com/jmuelbert/jmbde-QT/pull/344)
 - build\(deps\): bump identify from 2.2.11 to 2.2.13 [\#343](https://github.com/jmuelbert/jmbde-QT/pull/343)
@@ -60,7 +64,6 @@
 **Merged pull requests:**
 
 - Fix build/release workflows [\#170](https://github.com/jmuelbert/jmbde-QT/pull/170)
-- Bump pytz from 2020.4 to 2020.5 [\#167](https://github.com/jmuelbert/jmbde-QT/pull/167)
 - Bump peter-evans/create-pull-request from v3.5.2 to v3.6.0 [\#165](https://github.com/jmuelbert/jmbde-QT/pull/165)
 - Bump sphinx from 3.3.1 to 3.4.0 [\#164](https://github.com/jmuelbert/jmbde-QT/pull/164)
 - Bump requests from 2.25.0 to 2.25.1 [\#163](https://github.com/jmuelbert/jmbde-QT/pull/163)
