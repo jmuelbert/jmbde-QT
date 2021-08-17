@@ -149,7 +149,20 @@ jobs:
         id: conan
         uses: turtlebrowser/get-conan@v1.0
 
+      - name: Get appimage tool
+        if: matrix.config.os == 'ubuntu-18.04'
+        # Will not use linuxdeployqt anymore, because it suopprts currently still-supported mainstream distribution,
+        # which is glibc 2.23. For more information, please see https://github.com/probonopd/linuxdeployqt/issues/340.
+        # Will try new tool https://github.com/probonopd/go-appimage written in golang by probonopd.
+        run: |
+          wget -c https://github.com/$(wget -q https://github.com/probonopd/appimage/releases -O - \
+          | grep "appimagetool-.*-${APPIMAGETOOL_ARCH}.AppImage" | head -n 1 | cut -d '"' -f 2) -O appimagetool
+          chmod +x appimagetool
+        env:
+          APPIMAGETOOL_ARCH: x86_64
+
       - name: Get go-appimage tool
+        if: matrix.config.os == 'ubuntu-20.04'
         # Will not use linuxdeployqt anymore, because it suopprts currently still-supported mainstream distribution,
         # which is glibc 2.23. For more information, please see https://github.com/probonopd/linuxdeployqt/issues/340.
         # Will try new tool https://github.com/probonopd/go-appimage written in golang by probonopd.
