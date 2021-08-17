@@ -180,10 +180,12 @@ jobs:
           cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
           cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
           cmakeAppendedArgs:
-            ' ${{ matrix.config.generator }} \ -DCMAKE_BUILD_TYPE=Debug -DASSIMP_ASAN=ON
-            -DCMAKE_VERBOSE_MAKEFILE=ON \ -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} \
+            ' ${{ matrix.config.generator }} \ 
+            -DASSIMP_ASAN=ON \
+            -DCMAKE_VERBOSE_MAKEFILE=ON \ 
+            -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} \
             -DBUILD_TESTING=ON \ -DBUILD_TRANSLATIONS=ON'
-          buildWithCMakeArgs: '--config ${{env.BUILD_TYPE}} -- -v'
+          buildWithCMakeArgs: '--config ${{env.BUILD_TYPE}} -v'
           buildDirectory: '${{ github.workspace }}/build/'
 
       # - name: Build
