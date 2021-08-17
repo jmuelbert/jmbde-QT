@@ -225,7 +225,6 @@ jobs:
 
           flatpak-builder --user --disable-rofiles-fuse --repo=repo --force-clean flatpak_app ${MANIFEST_PATH} --install-deps-from=flathub
           flatpak build-bundle repo ${BUNDLE} --runtime-repo=${RUNTIME_REPO} ${APP_ID} ${BRANCH}
-          ls $GITHUB_WORKSPACE
           mv $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT.flatpak $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT_${VERSION}.x86_64.flatpak
 
       - name: SHA256Sum of jmbde package(daily build)
@@ -245,8 +244,8 @@ jobs:
         with:
           name: Linux-distribution-artifact
           path: |
-            ${{ github.workspace }}/org.jmuelbert.jmbde-QT-*.x86_64.flatpak
-            ${{ github.workspace }}/org.jmuelbert.jmbde-QT-*.x86_64.flatpak.sha256sum
+            ${{ github.workspace }}/org.jmuelbert.jmbde-QT_*.x86_64.flatpak
+            ${{ github.workspace }}/org.jmuelbert.jmbde-QT_*.x86_64.flatpak.sha256sum
 
   snap_pack:
     name: Build snap on ubuntu-20.04
