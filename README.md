@@ -6,6 +6,7 @@ erfasst werden. Das sind unter anderem Computer, Drucker und Telefone.
 
 ---
 [![Gitpod Ready Code][gitpod-shield]][gitpod-url]
+[![Release](https://img.shields.io/github/release/jmuelbert/jmbde-QT.svg?style=flat-square)](https://github.com/jmuelbert/jmbde-QT/releases)
 [![Gitlab Status](https://gitlab.com/jmuelbert/jmbde-QT/badges/master/pipeline.svg)](https://gitlab.com/jmuelbert/jmbde-QT/commits/master)
 [![Building(CMake)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/build.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/build.yml)
 [![Packaging Linux](https://github.com/jmuelbert/jmbde-QT/actions/workflows/linux-pack.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/linux-pack.yml)
