@@ -53,14 +53,14 @@ jobs:
         config:
           - {
               os: ubuntu-20.04,
-              name: 'Ubuntu-20.04 gcc-10',
+              name: 'Ubuntu-20.04 clang',
               qt_version: 6.1.0,
               qt_arch: gcc_64,
               arch: amd64,
               artifact: 'Ubuntu-gcc',
               generator: "-G 'Ninja'",
-              cc: 'clang',
-              cxx: 'clang++',
+              cc: 'clang-12',
+              cxx: 'clang-12++',
               image_repo: jmuelbert/ci-building-images,
             }
       fail-fast: false
@@ -144,6 +144,7 @@ jobs:
           cmake ${{matrix.config.generator}} \
               -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
               -DCMAKE_INSTALL_PREFIX=/usr \
+              -DUSE_LAUNCHER_ABSOLUTE_PATH:BOOL=OFF \
               -DBUILD_TESTING=OFF \
               -DBUILD_TRANSLATIONS=ON
           cmake --build . --config $BUILD_TYPE -j2 --target install
