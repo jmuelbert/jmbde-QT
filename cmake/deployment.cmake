@@ -1,7 +1,7 @@
 # Packaging
 set(CPACK_PACKAGE_NAME "jmbde")
 
-include(jmbde-cpack-config)
+# include(jmbde-cpack-config)
 
 set(CPACK_PACKAGE_VENDOR "Jürgen Mülbert")
 set(CPACK_PACKAGE_VERSION ${VERSION_STRING})
