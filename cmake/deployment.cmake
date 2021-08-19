@@ -1,7 +1,7 @@
 # Packaging
 set(CPACK_PACKAGE_NAME "jmbde")
 
-# include(jmbde-cpack-config)
+include(jmbde-cpack-config)
 
 set(CPACK_PACKAGE_VENDOR "Jürgen Mülbert")
 set(CPACK_PACKAGE_VERSION ${VERSION_STRING})
@@ -46,12 +46,11 @@ if(WIN32)
     # Include all dynamically linked runtime libraries such as MSVCRxxx.dll
     include(InstallRequiredSystemLibraries)
 
-    set(CPACK_GENERATOR WIX ZIP)
+    set(CPACK_GENERATOR NSIS64 WIX ZIP)
     set(CPACK_PACKAGE_NAME "${PROJECT_NAME_CAPITALIZED}")
     set(CPACK_PACKAGE_INSTALL_DIRECTORY "${PROJECT_NAME_CAPITALIZED}")
     set(CPACK_PACKAGE_EXECUTABLES ${PROJECT_NAME} "${PROJECT_NAME_CAPITALIZED}")
     set(CPACK_CREATE_DESKTOP_LINKS ${PROJECT_NAME})
-    set(CPACK_COMPONENTS_ALL Unspecified)
 
     # WIX (Windows .msi installer) 48x48 pixels
     set(CPACK_WIX_PRODUCT_ICON "${CMAKE_SOURCE_DIR}/assets/icons/jmbde.ico")
