@@ -25,15 +25,8 @@ repos:
               ^\.vscode/.*\.json|
               ^\.github/.*\.yml
           )$
-      - id: check-shebang-scripts-are-executable
-      - id: pretty-format-json
-        exclude: >
-          (?x)(
-            ^\.vscode/.*\.json|
-            ^\.github/.*\.yml
-          )$
-        args: [--autofix]
       - id: check-merge-conflict
+      - id: check-shebang-scripts-are-executable
       - id: check-symlinks
       - id: check-toml
       - id: check-vcs-permalinks
@@ -43,6 +36,7 @@ repos:
         exclude: >
           (?x)(
             ^\.gitlab/.*\.yml
+            ^\.clang-format$
             )$
       - id: debug-statements
       - id: destroyed-symlinks
@@ -62,6 +56,13 @@ repos:
       - id: name-tests-test
       - id: no-commit-to-branch
         args: [--branch, gh-pages]
+      - id: pretty-format-json
+        exclude: >
+          (?x)(
+            ^\.vscode/.*\.json|
+            ^\.github/.*\.yml
+          )$
+        args: [--autofix]
       - id: requirements-txt-fixer
       - id: sort-simple-yaml
       - id: trailing-whitespace

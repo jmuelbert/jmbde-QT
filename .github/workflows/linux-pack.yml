@@ -58,9 +58,9 @@ jobs:
               qt_arch: gcc_64,
               arch: amd64,
               artifact: 'Ubuntu-gcc',
-              generator: "-G 'Unix Makefiles'",
-              cc: 'gcc-10',
-              cxx: 'g++-10',
+              generator: "-G 'Ninja'",
+              cc: 'clang',
+              cxx: 'clang++',
               image_repo: jmuelbert/ci-building-images,
             }
       fail-fast: false
@@ -109,7 +109,7 @@ jobs:
             ca-certificates
 
       - name: Get latest CMake
-        uses: lukka/get-cmake@v3.21.1
+        uses: lukka/get-cmake@latest
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v2

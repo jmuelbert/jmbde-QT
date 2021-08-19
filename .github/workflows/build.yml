@@ -39,7 +39,8 @@ jobs:
               qt_arch: win64_msvc2019_64,
               arch: x64,
               artifact: 'Windows-MSVC',
-              generator: "-G'Visual Studio 16 2019' -A x64",
+              # generator: "-G'Visual Studio 16 2019' -A x64",
+              generator: "-G 'Ninja'",
               pak_arch: win64,
               cc: 'cl',
               cxx: 'cl',
@@ -61,9 +62,9 @@ jobs:
               qt_arch: gcc_64,
               arch: amd64,
               artifact: 'Ubuntu-gcc',
-              generator: "-G 'Unix Makefiles'",
-              cc: 'gcc-10',
-              cxx: 'g++-10',
+              generator: "-G 'Ninja'",
+              cc: 'clang',
+              cxx: 'clang++',
               image_repo: jmuelbert/ci-building-images,
             }
           - {
