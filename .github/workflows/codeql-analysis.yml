@@ -49,7 +49,7 @@ jobs:
               artifact: 'Ubuntu-clang',
               generator: "-G 'Unix Makefiles'",
               cc: 'clang-12',
-              cxx: 'clang-12',
+              cxx: 'clang-12++',
               image_repo: jmuelbert/ci-building-images,
             }
     # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python' ]
