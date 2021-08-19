@@ -155,6 +155,10 @@ jobs:
               iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=$VERSION -DMyProjectRoot=$(pwd) -DMyOutRoot=$GITHUB_WORKSPACE/build/Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH/bin
             else
               iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss -DMyAppVersion=$VERSION -DMyProjectRoot=$(pwd) -DMyOutRoot=$GITHUB_WORKSPACE/build/Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH/bin
+              cpack -G WIX -B "$env:GITHUB_WORKSPACE\build\Package" --verbose
+              echo "---------------------"
+              cat ./Package/_CPack_Packages/win64/WIX/wix.log
+              echo "---------------------"
             fi
             mkdir -p ./Package/_CPack_Packages
           else
