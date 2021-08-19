@@ -144,10 +144,9 @@ jobs:
           cmake ${{matrix.config.generator}} \
               -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
               -DCMAKE_INSTALL_PREFIX=/usr \
-              -DUSE_LAUNCHER_ABSOLUTE_PATH:BOOL=OFF \
               -DBUILD_TESTING=OFF \
               -DBUILD_TRANSLATIONS=ON
-          make -j$(nproc) DESTDIR=${APPIMAGE_DST_PATH} install
+          cmake --build . --config $BUILD_TYPE -j2 --target install
           $GITHUB_WORKSPACE/appimagetool -s deploy ${APPIMAGE_DST_PATH}/usr/share/applications/io.github.jmuelbert.jmbde.desktop
           mkdir -p ${APPIMAGE_DST_PATH}/usr/plugins/platforminputcontexts
           cp \
