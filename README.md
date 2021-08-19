@@ -21,6 +21,7 @@ erfasst werden. Das sind unter anderem Computer, Drucker und Telefone.
 [![Misspell fixer][misspell_fixer-shield]][misspell_fixer-url]
 [![Release](https://img.shields.io/github/release/jmuelbert/jmbde-QT.svg?style=flat-square)](https://github.com/jmuelbert/jmbde-QT/releases)
 [![Documentation][documentation-shield]][documentation-url]
+[![Open Source Helpers](https://www.codetriage.com/jmuelbert/jmbde-qt/badges/users.svg)](https://www.codetriage.com/jmuelbert/jmbde-qt)
 [![License][license-shield]][license-url]
 
 [Features](https://github.com/jmuelbert/jmbde-QT) |

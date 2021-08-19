@@ -58,7 +58,7 @@ jobs:
           #   }
           - {
               os: ubuntu-latest,
-              name: 'Ubuntu Latest gcc-10',
+              name: 'Ubuntu Latest clang',
               qt_arch: gcc_64,
               arch: amd64,
               artifact: 'Ubuntu-gcc',
