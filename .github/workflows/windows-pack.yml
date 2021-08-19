@@ -43,7 +43,7 @@ jobs:
               qt_arch: win64_msvc2019_64,
               arch: x64,
               artifact: 'Windows-MSVC',
-              generator: "-G'Visual Studio 16 2019' -A x64",
+              generator: "-G 'Ninja'",
               pak_arch: win64,
               cc: 'cl',
               cxx: 'cl',
@@ -150,7 +150,7 @@ jobs:
             mkdir -p $GITHUB_WORKSPACE/build/Package
             mkdir -p $GITHUB_WORKSPACE/build/Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH
             cp -rv ./app/* ./Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH
-            windeployqt --qmldir . ./Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH/bin/$PRODUCT.exe ./Package/$PRODUCT.$env:VERSION.Windows-$CONFIG_ARCH/bin/${PRODUCT}models.dll ./Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH/bin/${PRODUCT}quick.dll ./Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH/bin/${PRODUCT}widgets.dll
+            windeployqt --qmldir . ./Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH/bin/$PRODUCT.exe ./Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH/bin/${PRODUCT}models.dll ./Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH/bin/${PRODUCT}quick.dll ./Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH/bin/${PRODUCT}widgets.dll
             if [ "${QT_MAIN_VER6}" = true ]; then
               iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=$VERSION -DMyProjectRoot=$(pwd) -DMyOutRoot=$GITHUB_WORKSPACE/build/Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH/bin
               cpack -"$env:BUILD_TYPE" -G NSIS64 -B "$env:GITHUB_WORKSPACE\build\Package" --verbose
@@ -158,7 +158,7 @@ jobs:
               cat ./Package/_CPack_Packages/win64/WIX/wix.log
               echo "---------------------"
             else
-              iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss -DMyAppVersion=$env:VERSION -DMyProjectRoot=$(pwd) -DMyOutRoot=$GITHUB_WORKSPACE/build/Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH/bin
+              iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss -DMyAppVersion=$VERSION -DMyProjectRoot=$(pwd) -DMyOutRoot=$GITHUB_WORKSPACE/build/Package/$PRODUCT.$VERSION.Windows-$CONFIG_ARCH/bin
               cpack -G WIX -B "$env:GITHUB_WORKSPACE\build\Package" --verbose
               echo "---------------------"
               cat ./Package/_CPack_Packages/win64/WIX/wix.log
