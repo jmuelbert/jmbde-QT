@@ -10,12 +10,13 @@ root = true
 [*]
 end_of_line = lf
 indent_style = space
+indent_size = 4
 charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
 
 # Indentation override for all JS under lib directory
-[*.{js,json,vue,scss,rb,haml,yml,yaml}]
+[*.{js,json,vue,scss,rb,haml,yml,yaml,toml}]
 indent_size = 2
 
 [*.{js,json,vue,scss,rb,haml,yml,md}]
@@ -31,20 +32,33 @@ indent_size = 2
 indent_size = 2
 indent_style = space
 
+# Override for Makefile
+[{Makefile, makefile, GNUmakefile}]
+indent_style = tab
+indent_size = 4
+
 # Matches multiple files with brace expansion notation
 # Set default charset
 [*.py]
 indent_size = 4
+max_line_length = 80
 
 [*.rst]
 indent_size = 3
 
-# Tab indentation (no size specified)
-[Makefile]
-indent_style = tab
+[*.coffee]
+indent_style = space
+indent_size = 4
+
+[*.html]
+indent_style = space
+indent_size = 2
 
 [*.{bat,cmd}]
 end_of_line = crlf
 
 [*.{md,markdown,js.snap}]
 trim_trailing_whitespace = false
+
+[LICENSE]
+insert_final_newline = false
