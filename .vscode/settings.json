@@ -21,16 +21,19 @@
     "CMAKE_INSTALL_PREFIX:PATH": "./install"
   },
   "cmake.sourceDirectory": "${workspaceFolder}/",
-  "editor.fontFamily": "'Ubuntu Mono', 'Courier Prime Code', 'Courier', 'Courier New', Consolas, monospace",
-  "editor.tabSize": 4,
-  "editor.insertSpaces": true,
+  "docker-linter.debug": true,
+  "docker-linter.flake8.enable": true,
+  "docker-linter.rubocop.enable": true,
   "editor.formatOnSave": true,
   "files.encoding": "utf8",
   "files.eol": "\n",
+  "files.autoSave": "afterDelay",
   "files.exclude": {
-    //".vscode/_*.json": true,
-    // ".vscode/tasks.json": true,
-    ".vscode/launch.json": true,
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/*.7z": true,
+    "**/*.rar": true,
+    "**/Thumbs.db": true
     "env/windows/*.sh": true,
     "env/osx/dmg.applescript": true,
     "Makefile": true,
@@ -38,11 +41,6 @@
     "gmon.out": true,
     "bin/": true,
     "build/": true,
-    "**/.git": true,
-    "**/.DS_Store": true,
-    "**/*.7z": true,
-    "**/*.rar": true,
-    "**/Thumbs.db": true
   },
   "files.associations": {
     "*.json": "jsonc",
@@ -55,6 +53,7 @@
     "*.desktop.in": "pip-requirements",
     "*.in": "cpp"
   },
+  "powershell.codeFormatting.addWhitespaceAroundPipe": true  
   "python.linting.pylintEnabled": false,
   "python.pythonPath": "/usr/local/Cellar/python@3.9/3.9.5/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
   "python.testing.nosetestsEnabled": false,
