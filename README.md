@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+
+SPDX-License-Identifier: CC-BY-4.0
+-->
+
 # jmbde
 
 jmbde ist ein Programm für das Management von Ressourcen in Unternehmen. Mit diesem
@@ -5,24 +11,16 @@ Programm können die Mitarbeiter und die Ausrüstung, die sie für ihre Arbeit b
 erfasst werden. Das sind unter anderem Computer, Drucker und Telefone.
 
 ---
-[![Gitpod Ready Code][gitpod-shield]][gitpod-url]
-[![Release](https://img.shields.io/github/release/jmuelbert/jmbde-QT.svg?style=flat-square)](https://github.com/jmuelbert/jmbde-QT/releases)
-[![Gitlab Status](https://gitlab.com/jmuelbert/jmbde-QT/badges/master/pipeline.svg)](https://gitlab.com/jmuelbert/jmbde-QT/commits/master)
-[![Building(CMake)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/build.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/build.yml)
+
 [![Packaging Linux](https://github.com/jmuelbert/jmbde-QT/actions/workflows/linux-pack.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/linux-pack.yml)
-[![Packaging macOS](https://github.com/jmuelbert/jmbde-QT/actions/workflows/macos-pack.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/macos-pack.yml)
 [![Packaging Windows](https://github.com/jmuelbert/jmbde-QT/actions/workflows/windows-pack.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/windows-pack.yml)
-[![CodeQL](https://github.com/jmuelbert/jmbde-QT/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/codeql-analysis.yml)
-[![GitHub All Releases][downloads_all-shield]][downloads_all-url]
-[![Issues][issues-shield]][issues-url]
-[![Help wanted issues][help-issues-shield]][help-issues-url]
-[![Pull Requests][pr-shield]][pr-url]
-[![pre-commit][pre-commit-shield]][pre-commit-url]
-[![Misspell fixer][misspell_fixer-shield]][misspell_fixer-url]
+[![Packaging macOS](https://github.com/jmuelbert/jmbde-QT/actions/workflows/macos-pack.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/macos-pack.yml)
 [![Release](https://img.shields.io/github/release/jmuelbert/jmbde-QT.svg?style=flat-square)](https://github.com/jmuelbert/jmbde-QT/releases)
-[![Documentation][documentation-shield]][documentation-url]
-[![Open Source Helpers](https://www.codetriage.com/jmuelbert/jmbde-qt/badges/users.svg)](https://www.codetriage.com/jmuelbert/jmbde-qt)
-[![License][license-shield]][license-url]
+[![GitHub All Releases](https://img.shields.io/github/downloads/jmuelbert/jmbde-QT/total?label=downloads%40all)](https://github.com/jmuelbert/jmbde-QT/releases)
+[![License](https://img.shields.io/github/license/jmuelbert/jmbde-QT)](https://github.com//jmuelbert/jmbde-QT/blob/release/LICENSE)
+[![jmbde-QT.github.io][docs-badge]][docs]
+
+---
 
 [Features](https://github.com/jmuelbert/jmbde-QT) |
 [Documentation](https://jmuelbert.github.io/jmbde-QT/) | [Changelog](CHANGELOG.md) |
@@ -106,7 +104,7 @@ den notwendigen Maßnahmen. Bibliotheken, Kompilierungs-Flags, etc.
 
 ### Abhängigkeiten
 
-- Das Programm benötigt qt5 ab der Version 5.12.9
+- Das Programm benötigt qt5 ab der Version 5.15.1 oder qt6
 - cmake ab der Version 3.13.3
 - ninja
 - c++ Entwicklungssystem
@@ -164,9 +162,8 @@ Führen Sie `cmake` aus, um jmbde zu erstellen:
 ```cmd
         mkdir build
         cd build
-        cmake -G "Ninja" ....
-        cmake --build . --target install
-        cpack .
+        cmake -G "Ninja" -DCMAKE_BUILD_TYPE=RelWithDebInfo ....
+        cmake -C RelWithDebInfo --build . --target install
 ```
 
 #### Für die Debug-Version
@@ -175,7 +172,8 @@ Führen Sie `cmake` aus, um jmbde zu erstellen:
         mkdir build
         cd build
         cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Debug ..
-        cmake --build .
+        cmake -C Debug --build .
+        ctest -C Debug -VV
 ```
 
 ### Unter Linux
@@ -195,9 +193,8 @@ wurde.
 ```bash
         mkdir build
         cd build
-        cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Release ..
+        cmake -G "Ninja" -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
         cmake --build . --target install
-        cpack .
 ```
 
 #### Für die Debug-Version
@@ -207,6 +204,8 @@ wurde.
         cd build
         cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Debug ..
         cmake --build .
+        ctest -VV
+
 ```
 
 Sie können nun `jmbde` mit dem Befehl `bin/jmbde` aus der Kommandozeile starten.
@@ -233,33 +232,5 @@ GPL V3 © [Jürgen Mülbert](https:/github.com/jmuelbert/jmbde-QT)
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-[contributors-shield]: https://img.shields.io/github/contributors/jmuelbert/jmbde-QT
-[contributors-url]: https://github.com/jmuelbert/jmbde-QT/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/jmuelbert/jmbde-QT
-[forks-url]: https://github.com/jmuelbert/jmbde-QT/network/members
-[issues-shield]: https://img.shields.io/github/issues-raw/jmuelbert/jmbde-QT
-[issues-url]: https://github.com//jmuelbert/jmbde-QT/issues
-[license-shield]: https://img.shields.io/github/license/jmuelbert/jmbde-QT
-[license-url]: https://github.com//jmuelbert/jmbde-QT/blob/release/LICENSE
-[product-screenshot]: images/doc/images/Logo_template.png
-[gitpod-shield]: https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod
-[gitpod-url]: https://gitpod.io/#https://github.com/jmuelbert/jmbde-QT
-[downloads_all-shield]:
-    https://img.shields.io/github/downloads/jmuelbert/jmbde-QT/total?label=downloads%40all
-[downloads_all-url]: https://github.com/jmuelbert/jmbde-QT/releases
-[pre-commit-shield]:
-    https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
-[pre-commit-url]: https://github.com/pre-commit/pre-commit
-[misspell_fixer-shield]:
-    https://github.com/jmuelbert/jmbde-QT/workflows/Misspell%20fixer/badge.svg
-[misspell_fixer-url]: https://github.com/marketplace/actions/misspell-fixer-action
-[help-issues-shield]:
-    https://img.shields.io/github/issues/jmuelbert/jmbde-QT/help%20wanted
-[help-issues-url]:
-    https://github.com/jmuelbert/jmbde-QT/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22
-[documentation-shield]: https://img.shields.io/badge/Documentation-latest-blue.svg
-[documentation-url]: https://jmuelbert.github.io/jmbde-QT
-[cdash-shield]: https://img.shields.io/badge/CDash-Access-blue.svg
-[cdash-url]: http://my.cdash.org/index.php?project=jmbde-QT
-[pr-shield]: https://img.shields.io/github/issues-pr-raw/jmuelbert/jmbde-QT.svg
-[pr-url]: https://github.com/jmuelbert/jmbde-QT/pulls
+[docs-badge]: https://img.shields.io/badge/Docs-github.io-blue
+[docs]: https://jmuelbert.github.io/jmbde-QT/
