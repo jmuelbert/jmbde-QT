@@ -36,6 +36,16 @@
 
 **Merged pull requests:**
 
+- build\(deps\): bump virtualenv from 20.7.2 to 20.8.0 [\#360](https://github.com/jmuelbert/jmbde-QT/pull/360)
+- build\(deps\): bump breathe from 4.30.0 to 4.31.0 [\#359](https://github.com/jmuelbert/jmbde-QT/pull/359)
+- build\(deps\): bump sphinx-rtd-theme from 0.5.2 to 1.0.0 [\#358](https://github.com/jmuelbert/jmbde-QT/pull/358)
+- build\(deps\): bump tomwhross/write-good-action from 1.2 to 1.5 [\#357](https://github.com/jmuelbert/jmbde-QT/pull/357)
+- build\(deps\): bump identify from 2.2.13 to 2.2.14 [\#356](https://github.com/jmuelbert/jmbde-QT/pull/356)
+- build\(deps\): bump pre-commit from 2.14.0 to 2.15.0 [\#355](https://github.com/jmuelbert/jmbde-QT/pull/355)
+- build\(deps\): bump importlib-metadata from 4.6.4 to 4.8.1 [\#354](https://github.com/jmuelbert/jmbde-QT/pull/354)
+- build\(deps\): bump david-a-wheeler/flawfinder from 2.0.19.pre.alpha1 to 2.0.19 [\#353](https://github.com/jmuelbert/jmbde-QT/pull/353)
+- build\(deps\): bump cfgv from 3.2.0 to 3.3.1 [\#352](https://github.com/jmuelbert/jmbde-QT/pull/352)
+- build\(deps\): bump peter-evans/create-pull-request from 3.10.0 to 3.10.1 [\#350](https://github.com/jmuelbert/jmbde-QT/pull/350)
 - build\(deps\): bump importlib-metadata from 4.6.3 to 4.6.4 [\#349](https://github.com/jmuelbert/jmbde-QT/pull/349)
 - build\(deps\): bump virtualenv from 20.7.1 to 20.7.2 [\#348](https://github.com/jmuelbert/jmbde-QT/pull/348)
 - build\(deps\): bump pygments from 2.8.1 to 2.10.0 [\#347](https://github.com/jmuelbert/jmbde-QT/pull/347)
