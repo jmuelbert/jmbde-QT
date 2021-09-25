@@ -36,6 +36,11 @@
 
 **Merged pull requests:**
 
+- build\(deps\): bump distlib from 0.3.2 to 0.3.3 [\#367](https://github.com/jmuelbert/jmbde-QT/pull/367)
+- build\(deps\): bump urllib3 from 1.26.6 to 1.26.7 [\#366](https://github.com/jmuelbert/jmbde-QT/pull/366)
+- build\(deps\): bump sphinx from 4.1.2 to 4.2.0 [\#365](https://github.com/jmuelbert/jmbde-QT/pull/365)
+- build\(deps\): bump identify from 2.2.14 to 2.2.15 [\#364](https://github.com/jmuelbert/jmbde-QT/pull/364)
+- build\(deps\): bump virtualenv from 20.8.0 to 20.8.1 [\#363](https://github.com/jmuelbert/jmbde-QT/pull/363)
 - build\(deps\): bump virtualenv from 20.7.2 to 20.8.0 [\#360](https://github.com/jmuelbert/jmbde-QT/pull/360)
 - build\(deps\): bump breathe from 4.30.0 to 4.31.0 [\#359](https://github.com/jmuelbert/jmbde-QT/pull/359)
 - build\(deps\): bump sphinx-rtd-theme from 0.5.2 to 1.0.0 [\#358](https://github.com/jmuelbert/jmbde-QT/pull/358)
