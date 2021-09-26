@@ -14,7 +14,7 @@ repos:
         args: [--maxkb=150]
       - id: check-ast
       - id: check-byte-order-marker
-        exclude: ^.*(\.cbproj|\.groupproj|\.props|\.sln|\.vcxproj|\.vcxproj.filters)$
+        exclude: ^.*(\.cs|\.cbproj|\.groupproj|\.props|\.sln|\.vcxproj|\.vcxproj.filters)$
       - id: check-builtin-literals
       - id: check-case-conflict
       - id: check-docstring-first
@@ -48,7 +48,7 @@ repos:
           - manual
       - id: file-contents-sorter
       - id: fix-byte-order-marker
-        exclude: ^.*(\.cbproj|\.groupproj|\.props|\.sln|\.vcxproj|\.vcxproj.filters)$
+        exclude: ^.*(\.cs|\.cbproj|\.groupproj|\.props|\.sln|\.vcxproj|\.vcxproj.filters)$
       - id: fix-encoding-pragma
       - id: forbid-new-submodules
       - id: mixed-line-ending
@@ -129,7 +129,7 @@ repos:
         types: [ruby, executable]
       - id: shellcheck
         args: [--color=always, --shell=bash, -x, -a, '--exclude=SC1090,SC2155']
-  # - id: shfmt
+      - id: shfmt
 
   - repo: https://github.com/Lucas-C/pre-commit-hooks
     rev: v1.1.10
