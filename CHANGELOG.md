@@ -36,6 +36,8 @@
 
 **Merged pull requests:**
 
+- build\(deps\): bump filelock from 3.0.12 to 3.2.0 [\#371](https://github.com/jmuelbert/jmbde-QT/pull/371)
+- build\(deps\): bump zipp from 3.5.0 to 3.6.0 [\#370](https://github.com/jmuelbert/jmbde-QT/pull/370)
 - build\(deps\): bump distlib from 0.3.2 to 0.3.3 [\#367](https://github.com/jmuelbert/jmbde-QT/pull/367)
 - build\(deps\): bump urllib3 from 1.26.6 to 1.26.7 [\#366](https://github.com/jmuelbert/jmbde-QT/pull/366)
 - build\(deps\): bump sphinx from 4.1.2 to 4.2.0 [\#365](https://github.com/jmuelbert/jmbde-QT/pull/365)
@@ -55,7 +57,6 @@
 - build\(deps\): bump virtualenv from 20.7.1 to 20.7.2 [\#348](https://github.com/jmuelbert/jmbde-QT/pull/348)
 - build\(deps\): bump pygments from 2.8.1 to 2.10.0 [\#347](https://github.com/jmuelbert/jmbde-QT/pull/347)
 - build\(deps\): bump codacy/codacy-analysis-cli-action from 1.1.0 to 4.0.0 [\#346](https://github.com/jmuelbert/jmbde-QT/pull/346)
-- build\(deps\): bump virtualenv from 20.7.0 to 20.7.1 [\#345](https://github.com/jmuelbert/jmbde-QT/pull/345)
 
 ## [v0.5.4](https://github.com/jmuelbert/jmbde-QT/tree/v0.5.4) (2021-01-02)
 
@@ -76,7 +77,6 @@
 - Bump sphinx from 3.3.1 to 3.4.0 [\#164](https://github.com/jmuelbert/jmbde-QT/pull/164)
 - Bump requests from 2.25.0 to 2.25.1 [\#163](https://github.com/jmuelbert/jmbde-QT/pull/163)
 - Bump breathe from 4.24.1 to 4.25.1 [\#162](https://github.com/jmuelbert/jmbde-QT/pull/162)
-- Fix typos by misspell-fixer for refs/heads/master [\#146](https://github.com/jmuelbert/jmbde-QT/pull/146)
 - Format codes for refs/heads/dependabot/github\_actions/peter-evans/create-pull-request-v3.5.2 [\#145](https://github.com/jmuelbert/jmbde-QT/pull/145)
 - Fix typos by misspell-fixer for refs/heads/dependabot/github\_actions/peter-evans/create-pull-request-v3.5.2 [\#144](https://github.com/jmuelbert/jmbde-QT/pull/144)
 - Fix typos by misspell-fixer for refs/heads/dependabot/github\_actions/actions/cache-v2.1.3 [\#143](https://github.com/jmuelbert/jmbde-QT/pull/143)
