@@ -231,7 +231,7 @@ def get_global_names(mixxx_path):
     """Returns 2 sets with all class and object names in the Mixxx codebase."""
     classnames = set()
     objectnames = set()
-    for root, dirs, fnames in os.walk(os.path.join(mixxx_path, "src")):
+    for root, fnames in os.walk(os.path.join(mixxx_path, "src")):
         for fname in fnames:
             ext = os.path.splitext(fname)[1]
             if ext in (".h", ".cpp"):
@@ -253,7 +253,7 @@ def get_skin_objectnames(skin_path):
     Note the names may contain one or more <Variable name="x"> tags, so it's
     not enough to check if a name CSS object name is in this list using "in".
     """
-    for root, dirs, fnames in os.walk(skin_path):
+    for root, fnames in os.walk(skin_path):
         for fname in fnames:
             if os.path.splitext(fname)[1] != ".xml":
                 continue
@@ -336,7 +336,7 @@ def check_skins(mixxx_path, skins, ignore_patterns=()):
             )
 
     # Check skin stylesheets
-    for skin_name, skin_path in sorted(skins):
+    for skin_path in sorted(skins):
         # If the skin objectname is something like 'Deck<Variable name="i">',
         # then replace it with 'Deck*' and use glob-like matching
         skin_objectnames = objectnames.copy()
