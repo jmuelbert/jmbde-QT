@@ -7,7 +7,7 @@ cfgv==3.3.1
 chardet==4.0.0
 distlib==0.3.3
 docutils==0.17.1
-filelock==3.0.12
+filelock==3.2.0
 graphviz==0.17
 identify==2.2.15
 idna==3.2
