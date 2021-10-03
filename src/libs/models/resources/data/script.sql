@@ -1,7 +1,7 @@
 CREATE TABLE account (
     account_id INTEGER PRIMARY KEY,
-    user_name VARCHAR,
-    password VARCHAR,
+    user_name VARCHAR(50),
+    password VARCHAR(64),
     system_data_id INTEGER,
     last_update TIMESTAMP
 );
@@ -36,20 +36,20 @@ CREATE TABLE chip_card_profile_door (
 );
 CREATE TABLE city_name (
     city_name_id INTEGER PRIMARY KEY,
-    name VARCHAR,
+    name VARCHAR(50),
     last_update TIMESTAMP
 );
 CREATE TABLE company (
     company_id INTEGER PRIMARY KEY,
-    name VARCHAR,
+    name VARCHAR(50),
     name2 VARCHAR,
-    street VARCHAR,
-    city VARCHAR,
+    street VARCHAR(50),
+    city VARCHAR(50),
     zip_code INTEGER,
-    phone_number VARCHAR,
-    fax_number VARCHAR,
-    mobile_number VARCHAR,
-    mail_address VARCHAR,
+    phone_number VARCHAR(50),
+    fax_number VARCHAR(50),
+    mobile_number VARCHAR(50),
+    mail_address VARCHAR(50),
     active BOOLEAN,
     employee_id INTEGER,
     last_update TIMESTAMP
@@ -57,13 +57,13 @@ CREATE TABLE company (
 CREATE TABLE computer (
     computer_id INTEGER PRIMARY KEY,
     device_name_id INTEGER,
-    serial_number VARCHAR,
-    service_tag VARCHAR,
-    service_number VARCHAR,
+    serial_number VARCHAR(20),
+    service_tag VARCHAR(20),
+    service_number VARCHAR(20),
     memory INTEGER,
-    network VARCHAR,
-    network_name VARCHAR,
-    network_ip_address VARCHAR,
+    network VARCHAR(30),
+    network_name VARCHAR(30),
+    network_ip_address VARCHAR(30),
     active BOOLEAN,
     replace BOOLEAN,
     device_type_id INTEGER,
