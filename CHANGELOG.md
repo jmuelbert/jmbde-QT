@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased](https://github.com/jmuelbert/jmbde-QT/tree/HEAD)
+## [master](https://github.com/jmuelbert/jmbde-QT/tree/master) (2021-10-09)
 
 **Implemented enhancements:**
 
@@ -36,6 +36,12 @@
 
 **Merged pull requests:**
 
+- build\(deps\): bump urllib3 from 1.26.6 to 1.26.7 [\#377](https://github.com/jmuelbert/jmbde-QT/pull/377)
+- build\(deps\): bump pytz from 2021.1 to 2021.3 [\#376](https://github.com/jmuelbert/jmbde-QT/pull/376)
+- build\(deps\): bump filelock from 3.2.0 to 3.3.0 [\#375](https://github.com/jmuelbert/jmbde-QT/pull/375)
+- build\(deps\): bump identify from 2.2.15 to 2.3.0 [\#374](https://github.com/jmuelbert/jmbde-QT/pull/374)
+- build\(deps\): bump jinja2 from 3.0.1 to 3.0.2 [\#373](https://github.com/jmuelbert/jmbde-QT/pull/373)
+- build\(deps\): bump ilammy/msvc-dev-cmd from 1.9.0 to 1.10.0 [\#372](https://github.com/jmuelbert/jmbde-QT/pull/372)
 - build\(deps\): bump filelock from 3.0.12 to 3.2.0 [\#371](https://github.com/jmuelbert/jmbde-QT/pull/371)
 - build\(deps\): bump zipp from 3.5.0 to 3.6.0 [\#370](https://github.com/jmuelbert/jmbde-QT/pull/370)
 - build\(deps\): bump distlib from 0.3.2 to 0.3.3 [\#367](https://github.com/jmuelbert/jmbde-QT/pull/367)
