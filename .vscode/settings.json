@@ -1,5 +1,4 @@
 {
-  "cmake.configureOnOpen": true,
   "cmake.configureSettings": {
     "BUILD_EXAMPLES": "ON",
     "BUILD_MANUAL": "OFF",
@@ -20,51 +19,14 @@
     "APPLICATION_BUILD_UI": "ON",
     "CMAKE_INSTALL_PREFIX:PATH": "./install"
   },
-  "cmake.sourceDirectory": "${workspaceFolder}/",
-  "docker-linter.debug": true,
-  "docker-linter.flake8.enable": true,
-  "docker-linter.rubocop.enable": true,
-  "editor.formatOnSave": true,
-  "files.encoding": "utf8",
-  "files.eol": "\n",
-  "files.autoSave": "afterDelay",
-  "files.exclude": {
-    "**/.git": true,
-    "**/.DS_Store": true,
-    "**/*.7z": true,
-    "**/*.rar": true,
-    "**/Thumbs.db": true,
-    "env/windows/*.sh": true,
-    "env/osx/dmg.applescript": true,
-    "Makefile": true,
-    "build.sh": true,
-    "gmon.out": true,
-    "bin/": true,
-    "build/": true
-  },
+
   "files.associations": {
-    "*.json": "jsonc",
-    "*.stats": "cpp",
-    ".clang-format": "yaml",
-    ".clang-tidy": "yaml",
-    ".drone.env": "shellscript",
-    "*.ts": "xml",
-    "*.desktop": "pip-requirements",
-    "*.desktop.in": "pip-requirements",
-    "*.in": "cpp"
+    "*.ts": "xml"
   },
-  "powershell.codeFormatting.preset": "OTBS",
-  "python.linting.pylintEnabled": false,
-  "python.pythonPath": "/usr/local/Cellar/python@3.9/3.9.5/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
-  "python.testing.nosetestsEnabled": false,
-  "python.testing.promptToConfigure": false,
-  "python.testing.pytestEnabled": false,
-  "python.testing.unittestEnabled": false,
+
   "yaml.schemas": {
     "https://raw.githubusercontent.com/TingPing/flatpak-manifest-schema/master/flatpak-manifest.schema": [
       "com.github.Desktop.yaml"
     ]
-  },
-  "python.formatting.provider": "black",
-  "restructuredtext.confPath": "/Users/juergen/.pyenv/shims/python3.8"
+  }
 }

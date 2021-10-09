@@ -42,7 +42,7 @@ CREATE TABLE city_name (
 CREATE TABLE company (
     company_id INTEGER PRIMARY KEY,
     name VARCHAR(50),
-    name2 VARCHAR,
+    name2 VARCHAR(50),
     street VARCHAR(50),
     city VARCHAR(50),
     zip_code INTEGER,
@@ -86,7 +86,7 @@ CREATE TABLE computer_software (
 );
 CREATE TABLE department (
     department_id INTEGER PRIMARY KEY,
-    name VARCHAR,
+    name (50),
     priority INTEGER,
     printer_id INTEGER,
     fax_id INTEGER,
@@ -94,12 +94,12 @@ CREATE TABLE department (
 );
 CREATE TABLE device_name (
     device_name_id INTEGER PRIMARY KEY,
-    name VARCHAR,
+    name VARCHAR(50),
     last_update TIMESTAMP
 );
 CREATE TABLE device_type (
     device_type_id INTEGER PRIMARY KEY,
-    name VARCHAR,
+    name VARCHAR(50),
     last_update TIMESTAMP
 );
 CREATE TABLE document (
@@ -119,19 +119,19 @@ CREATE TABLE employee (
     employee_nr INTEGER,
     gender INTEGER,
     title_id INTEGER,
-    first_name VARCHAR,
-    last_name VARCHAR,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
     birth_day DATE,
-    address VARCHAR,
+    address VARCHAR(50),
     zip_city_id INTEGER,
-    home_phone VARCHAR,
-    home_mobile VARCHAR,
-    home_mail_address VARCHAR,
-    business_mail_address VARCHAR,
+    home_phone VARCHAR(50),
+    home_mobile VARCHAR(50),
+    home_mail_address VARCHAR(50),
+    business_mail_address VARCHAR(50),
     data_care BOOLEAN,
     active BOOLEAN,
     photo BLOB,
-    notes VARCHAR,
+    notes VARCHAR(200),
     hire_date DATE,
     end_date DATE,
     department_id INTEGER,
@@ -155,9 +155,9 @@ CREATE TABLE employee_document (
 CREATE TABLE fax (
     fax_id INTEGER PRIMARY KEY,
     device_name_id INTEGER,
-    serial_number VARCHAR,
-    number VARCHAR,
-    pin VARCHAR,
+    serial_number (20),
+    number VARCHAR(50),
+    pin VARCHAR(10),
     active BOOLEAN,
     replace BOOLEAN,
     device_type_id INTEGER,
@@ -170,38 +170,38 @@ CREATE TABLE fax (
 );
 CREATE TABLE function (
     function_id INTEGER PRIMARY KEY,
-    name VARCHAR,
+    name VARCHAR(50),
     priority INTEGER,
     last_update TIMESTAMP
 );
 CREATE TABLE inventory (
     inventory_id INTEGER PRIMARY KEY,
-    number VARCHAR,
-    text VARCHAR,
+    number VARCHAR(25),
+    text VARCHAR(50),
     active BOOLEAN,
     last_update TIMESTAMP
 );
 CREATE TABLE manufacturer (
     manufacturer_id INTEGER PRIMARY KEY,
-    name VARCHAR,
-    name2 VARCHAR,
-    supporter VARCHAR,
-    address VARCHAR,
-    address2 VARCHAR,
+    name VARCHAR(50),
+    name2 VARCHAR(50),
+    supporter VARCHAR(50),
+    address VARCHAR(50),
+    address2 VARCHAR(50),
     zip_city_id INTEGER,
-    mail_address VARCHAR,
-    phone_number VARCHAR,
-    fax_number VARCHAR,
-    hotline_number VARCHAR,
+    mail_address VARCHAR(50),
+    phone_number VARCHAR(50),
+    fax_number VARCHAR(50),
+    hotline_number VARCHAR(50),
     last_update TIMESTAMP
 );
 CREATE TABLE mobile (
     mobile_id INTEGER PRIMARY KEY,
     device_name_id INTEGER,
-    serial_number VARCHAR,
-    number VARCHAR,
-    pin VARCHAR,
-    card_number VARCHAR,
+    serial_number VARCHAR(20),
+    number VARCHAR(50),
+    pin VARCHAR(25),
+    card_number VARCHAR(50),
     active BOOLEAN,
     replace BOOLEAN,
     device_type_id INTEGER,
@@ -214,18 +214,18 @@ CREATE TABLE mobile (
 );
 CREATE TABLE os (
     os_id INTEGER PRIMARY KEY,
-    name VARCHAR,
-    version VARCHAR,
-    revision VARCHAR,
-    fix VARCHAR,
+    name VARCHAR(50),
+    version VARCHAR(20),
+    revision VARCHAR(20),
+    fix VARCHAR(20),
     last_update TIMESTAMP
 );
 CREATE TABLE phone (
     phone_id INTEGER PRIMARY KEY,
     device_name_id INTEGER,
-    serial_number VARCHAR,
+    serial_number VARCHAR(25),
     number VARCHAR,
-    pin VARCHAR,
+    pin VARCHAR(20),
     active BOOLEAN,
     replace BOOLEAN,
     device_type_id INTEGER,
@@ -238,22 +238,22 @@ CREATE TABLE phone (
 );
 CREATE TABLE place (
     place_id INTEGER PRIMARY KEY,
-    name VARCHAR,
-    room VARCHAR,
-    desk VARCHAR,
+    name VARCHAR(50),
+    room VARCHAR(50),
+    desk VARCHAR(50),
     last_update TIMESTAMP
 );
 CREATE TABLE printer (
     printer_id INTEGER PRIMARY KEY,
     device_name_id INTEGER,
-    serial_number VARCHAR,
-    network VARCHAR,
-    network_name VARCHAR,
-    network_ip_address VARCHAR,
+    serial_number VARCHAR(25),
+    network VARCHAR(50),
+    network_name VARCHAR(50),
+    network_ip_address VARCHAR(50),
     active BOOLEAN,
     replace BOOLEAN,
-    resources VARCHAR,
-    paper_size_max VARCHAR,
+    resources VARCHAR(50),
+    paper_size_max VARCHAR(50),
     color BOOLEAN,
     device_type_id INTEGER,
     employe_id INTEGER,
@@ -266,22 +266,22 @@ CREATE TABLE printer (
 );
 CREATE TABLE processor (
     processor_id INTEGER PRIMARY KEY,
-    name VARCHAR,
+    name VARCHAR(50),
     clock_rate DECIMAL,
     cores INTEGER,
     last_update TIMESTAMP
 );
 CREATE TABLE software (
     software_id INTEGER PRIMARY KEY,
-    name VARCHAR,
-    version VARCHAR,
-    revision VARCHAR,
-    fix VARCHAR,
+    name VARCHAR(50),
+    version VARCHAR(25),
+    revision VARCHAR(25),
+    fix VARCHAR(25),
     last_update TIMESTAMP
 );
 CREATE TABLE system_data (
     system_data_id INTEGER PRIMARY KEY,
-    name VARCHAR,
+    name VARCHAR(50),
     local BOOLEAN,
     company_id INTEGER,
     last_update TIMESTAMP
