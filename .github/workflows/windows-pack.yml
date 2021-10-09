@@ -80,7 +80,7 @@ jobs:
           echo "VERSION=$(cat CMakeLists.txt |grep 'set.*(.*jmbde_VERSION' | sed 's/[^0-9.]*//' |sed 's/)//g')" >> $GITHUB_ENV
 
       - name: Install MSVC compiler
-        uses: ilammy/msvc-dev-cmd@v1.9.0
+        uses: ilammy/msvc-dev-cmd@v1.10.0
         with:
           # 14.1 is for vs2017, 14.2 is vs2019, following the upstream vcpkg build from Qv2ray-deps repo
           toolset: 14.2
