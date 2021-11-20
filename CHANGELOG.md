@@ -36,6 +36,11 @@
 
 **Merged pull requests:**
 
+- build\(deps\): bump virtualenv from 20.8.1 to 20.10.0 [\#391](https://github.com/jmuelbert/jmbde-QT/pull/391)
+- build\(deps\): bump peter-evans/create-pull-request from 3.10.1 to 3.11.0 [\#390](https://github.com/jmuelbert/jmbde-QT/pull/390)
+- build\(deps\): bump docutils from 0.17.1 to 0.18 [\#389](https://github.com/jmuelbert/jmbde-QT/pull/389)
+- build\(deps\): bump DoozyX/clang-format-lint-action from 0.12 to 0.13 [\#384](https://github.com/jmuelbert/jmbde-QT/pull/384)
+- build\(deps\): bump heinrichreimer/github-changelog-generator-action from 2.2 to 2.3 [\#383](https://github.com/jmuelbert/jmbde-QT/pull/383)
 - build\(deps\): bump idna from 3.2 to 3.3 [\#381](https://github.com/jmuelbert/jmbde-QT/pull/381)
 - build\(deps\): bump certifi from 2021.5.30 to 2021.10.8 [\#380](https://github.com/jmuelbert/jmbde-QT/pull/380)
 - build\(deps\): bump filelock from 3.3.0 to 3.3.1 [\#379](https://github.com/jmuelbert/jmbde-QT/pull/379)
@@ -84,7 +89,6 @@
 
 - Fix build/release workflows [\#170](https://github.com/jmuelbert/jmbde-QT/pull/170)
 - Bump peter-evans/create-pull-request from v3.5.2 to v3.6.0 [\#165](https://github.com/jmuelbert/jmbde-QT/pull/165)
-- Bump sphinx from 3.3.1 to 3.4.0 [\#164](https://github.com/jmuelbert/jmbde-QT/pull/164)
 - Bump requests from 2.25.0 to 2.25.1 [\#163](https://github.com/jmuelbert/jmbde-QT/pull/163)
 - Bump breathe from 4.24.1 to 4.25.1 [\#162](https://github.com/jmuelbert/jmbde-QT/pull/162)
 - Fix typos by misspell-fixer for refs/heads/master [\#146](https://github.com/jmuelbert/jmbde-QT/pull/146)
