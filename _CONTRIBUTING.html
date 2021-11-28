@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Contributor Guide &#8212; Python  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="contributor-guide">
+<h1>Contributor Guide<a class="headerlink" href="#contributor-guide" title="Permalink to this headline">¶</a></h1>
+<p>Thank you for your interest in improving this project.
+This project is open-source under the <a class="reference external" href="https://opensource.org/licenses/MIT">MIT license</a> and
+welcomes contributions in the form of bug reports, feature requests, and pull requests.</p>
+<p>Here is a list of important resources for contributors:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.project_name}}">Source Code</a></p></li>
+<li><p><a class="reference external" href="https://{{cookiecutter.project_name}}.readthedocs.io/">Documentation</a></p></li>
+<li><p><a class="reference external" href="https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.project_name}}/issues">Issue Tracker</a></p></li>
+<li><p><a class="reference external" href="CODE_OF_CONDUCT.rst">Code of Conduct</a></p></li>
+</ul>
+<section id="how-to-report-a-bug">
+<h2>How to report a bug<a class="headerlink" href="#how-to-report-a-bug" title="Permalink to this headline">¶</a></h2>
+<p>Report bugs on the <a class="reference external" href="https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.project_name}}/issues">Issue Tracker</a>.</p>
+<p>When filing an issue, make sure to answer these questions:</p>
+<ul class="simple">
+<li><p>Which operating system and Python version are you using?</p></li>
+<li><p>Which version of this project are you using?</p></li>
+<li><p>What did you do?</p></li>
+<li><p>What did you expect to see?</p></li>
+<li><p>What did you see instead?</p></li>
+</ul>
+<p>The best way to get your bug fixed is to provide a test case,
+and/or steps to reproduce the issue.</p>
+</section>
+<section id="how-to-request-a-feature">
+<h2>How to request a feature<a class="headerlink" href="#how-to-request-a-feature" title="Permalink to this headline">¶</a></h2>
+<p>Request features on the <a class="reference external" href="https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.project_name}}/issues">Issue Tracker</a>.</p>
+</section>
+<section id="how-to-set-up-your-development-environment">
+<h2>How to set up your development environment<a class="headerlink" href="#how-to-set-up-your-development-environment" title="Permalink to this headline">¶</a></h2>
+<p>You need Python 3.6+ and the following tools:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://python-poetry.org/">Poetry</a></p></li>
+<li><p><a class="reference external" href="https://nox.thea.codes/">Nox</a></p></li>
+</ul>
+<p>Install the package with development requirements:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>poetry install
+</pre></div>
+</div>
+<p>You can now run an interactive Python session,
+or the command-line interface:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>poetry run python
+<span class="gp">$ </span>poetry run jmbde-python
+</pre></div>
+</div>
+</section>
+<section id="how-to-test-the-project">
+<h2>How to test the project<a class="headerlink" href="#how-to-test-the-project" title="Permalink to this headline">¶</a></h2>
+<p>Run the full test suite:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>nox
+</pre></div>
+</div>
+<p>List the available Nox sessions:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>nox --list-sessions
+</pre></div>
+</div>
+<p>You can also run a specific Nox session.
+For example, invoke the unit test suite like this:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>nox --session<span class="o">=</span>tests
+</pre></div>
+</div>
+<p>Unit tests are located in the <code class="docutils literal notranslate"><span class="pre">tests</span></code> directory,
+and are written using the <a class="reference external" href="https://pytest.readthedocs.io/">pytest</a> testing framework.</p>
+</section>
+<section id="how-to-submit-changes">
+<h2>How to submit changes<a class="headerlink" href="#how-to-submit-changes" title="Permalink to this headline">¶</a></h2>
+<p>Open a <a class="reference external" href="https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.project_name}}/pulls">pull request</a> to submit changes to this project.</p>
+<p>Your pull request needs to meet the following guidelines for acceptance:</p>
+<ul class="simple">
+<li><p>The Nox test suite must pass without errors and warnings.</p></li>
+<li><p>Include unit tests. This project maintains 100% code coverage.</p></li>
+<li><p>If your changes add functionality, update the documentation accordingly.</p></li>
+</ul>
+<p>Feel free to submit early, though—we can always iterate on this.</p>
+<p>You can ensure that your changes adhere to the code style by reformatting with <a class="reference external" href="https://black.readthedocs.io/">Black</a>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>nox --session<span class="o">=</span>black
+</pre></div>
+</div>
+<p>It is recommended to open an issue before starting work on anything.
+This will allow a chance to talk it over with the owners and validate your approach.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Python</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="chapters/introduction.html">1. Introduction to jmbde</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/getting_started.html">2. Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/user_interface.html">3. An Overview of the jmbde Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/preferences.html">4. Preferences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/database.html">5. Database Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/appendix.html">6. Appendix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="codeofconduct.html">7. Code of Conduct</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpl-3.0.html">8. GNU GENERAL PUBLIC LICENSE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpl-3.0.html#preamble">9. Preamble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpl-3.0.html#terms-and-conditions">10. TERMS AND CONDITIONS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpl-3.0.html#how-to-apply-these-terms-to-your-new-programs">11. How to Apply These Terms to Your New Programs</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/jmuelbert/jmbde-QT/releases">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">12. Glossary of Terms</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/_CONTRIBUTING.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
