@@ -41,7 +41,7 @@ env:
   TEST_BUILD_TYPE: Debug
 
 jobs:
-  appimage-pack:
+  appimage-build:
     name: Build appimage on ${{ matrix.config.name }} for ${{ matrix.config.qt_version }}
 
     runs-on: ${{ matrix.config.os }}
@@ -179,7 +179,7 @@ jobs:
             ${{ github.workspace }}/JMBDE-*.x86_64.AppImage
             ${{ github.workspace }}/JMBDE-*.x86_64.AppImage.sha256sum
 
-  flatpak-pack:
+  flatpak-build:
     name: Build flatpak on ubuntu-20.04
     runs-on: ubuntu-20.04
     needs: tests
@@ -496,8 +496,9 @@ jobs:
     runs-on: ubuntu-20.04
     environment: PreRelease
     needs:
-      - build
       - tests
+      - appimage-build
+      - flatpak-build
       - deployGHPages
 
     steps:
@@ -517,8 +518,9 @@ jobs:
     runs-on: ubuntu-20.04
     environment: Release
     needs:
-      - build
       - tests
+      - appimage-build
+      - flatpak-build
       - changeLog
       - releaseNotes
       - deployGHPages
