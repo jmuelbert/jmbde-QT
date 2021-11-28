@@ -22,8 +22,7 @@
 
 Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsCityNameLog)
 
-namespace Model
-{
+namespace Model {
 /*!
     \class  CityName
     \brief The  CityName class. Handle the City Names
@@ -34,8 +33,7 @@ namespace Model
     \date 03.12.2020
     \copyright GPL-3.0-or-later
     */
-class CityName : public CommonData
-{
+class CityName : public CommonData {
     Q_OBJECT
 
 public:
@@ -44,7 +42,19 @@ public:
 
         \brief The Constructor of the CityName
      */
-    explicit JMBDEMODELS_EXPORT CityName();
+    explicit JMBDEMODELS_EXPORT CityName()
+        : CommonData()
+    {
+        this->m_dataContext = new Model::DataContext();
+        this->m_db = m_dataContext->getDatabase();
+
+        // Set the Model
+        this->m_model = new QSqlRelationalTableModel(this, this->m_db);
+        this->m_model->setTable(this->m_tableName);
+        this->m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+
+        setIndexes();
+    }
 
     /*!
      * \fn ~CityName() override
@@ -68,7 +78,7 @@ public:
         \brief set the QSqlRelationalTableModel for the DataModel
         Returns The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel* initializeRelationalModel() final;
 
     /*!
         \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
@@ -76,7 +86,7 @@ public:
 
         Returns The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel* initializeInputDataModel() final;
 
     /*!
         \fn virtual QSqlTableModel *initializeViewModel()
@@ -84,13 +94,13 @@ public:
 
         Returns QSqlTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlTableModel* initializeViewModel() final;
 
     /*!
         \fn QSqlTableModel *initializeListModel();
         \brief Initiallize the list Model for select one dataset
     */
-    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeListModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlTableModel* initializeListModel() final;
 
     /*!
       * \fn virtual auto generateTableString(
@@ -99,7 +109,7 @@ public:
 
          Returns a QString with the generated Table for Output
       */
-    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString& header) -> QString final;
 
     /*!
         \fn virtual auto generateFormularString(
@@ -108,7 +118,7 @@ public:
 
         Returns a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString& header) -> QString final;
 
     // Getter
 
@@ -174,32 +184,32 @@ private:
         \brief holds an initialised pointer to the Relationmodel
         \sa QSqlRelationalTableModel
      */
-    QSqlRelationalTableModel *m_model{nullptr};
+    QSqlRelationalTableModel* m_model { nullptr };
 
     /*!
        \brief holds an initialised pointer to the ItemSelectioModel
        \sa QItemSelectionModel
     */
-    QItemSelectionModel *m_selectionModel{nullptr};
+    QItemSelectionModel* m_selectionModel { nullptr };
 
     /*!
      * @brief DataContext
      */
-    Model::DataContext *m_dataContext = {};
+    Model::DataContext* m_dataContext = {};
 
     /*!
          \brief The value of the CityNameIdIndex
      */
-    int m_CityNameIdIndex{0};
+    int m_CityNameIdIndex { 0 };
 
     /*!
         \brief The value of the NameIndex
     */
-    int m_NameIndex{0};
+    int m_NameIndex { 0 };
 
     /*!
          \brief The value of the LastUpdateIndex
      */
-    int m_LastUpdateIndex{0};
+    int m_LastUpdateIndex { 0 };
 };
 } // namespace Model

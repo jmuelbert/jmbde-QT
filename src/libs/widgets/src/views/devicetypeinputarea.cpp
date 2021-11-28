@@ -7,8 +7,6 @@
 #include <ui_devicetypeinputarea.h>
 #include <views/devicetypeinputarea.h>
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsDeviceTypeInputAreaLog, "jmuelbert.jmbde.widgets.devicetypeinputarea", QtWarningMsg)
-
 DeviceTypeInputArea::DeviceTypeInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::DeviceTypeInputArea)

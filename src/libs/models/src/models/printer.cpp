@@ -6,8 +6,6 @@
 
 #include "models/printer.h"
 
-Q_LOGGING_CATEGORY(jmbdeModelsPrinterLog, "jmuelbert.jmbde.models.printer", QtWarningMsg)
-
 Model::Printer::Printer()
     : CommonData()
 {

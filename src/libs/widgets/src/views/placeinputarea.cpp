@@ -7,8 +7,6 @@
 #include <ui_placeinputarea.h>
 #include <views/placeinputarea.h>
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsPlaceInputAreaLog, "jmuelbert.jmbde.widgets.placeinputarea", QtWarningMsg)
-
 PlaceInputArea::PlaceInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::PlaceInputArea)

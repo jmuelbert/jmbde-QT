@@ -5,7 +5,6 @@
  */
 
 #include "quick/maincontroller.h"
-
 #include "models/employeemodel.h"
 
 MainController::MainController(/* QObject *parent */) = default;

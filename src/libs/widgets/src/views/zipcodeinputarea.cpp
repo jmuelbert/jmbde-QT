@@ -7,8 +7,6 @@
 #include <ui_zipcodeinputarea.h>
 #include <views/zipcodeinputarea.h>
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsZipCodeInputAreaLog, "jmuelbert.jmbde.widgets.zipcodeinputarea", QtWarningMsg)
-
 ZipCodeInputArea::ZipCodeInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::ZipCodeInputArea)

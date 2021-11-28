@@ -6,8 +6,6 @@
 
 #include "models/employeedocument.h"
 
-Q_LOGGING_CATEGORY(jmbdeModelsEmployeeDocumentLog, "jmuelbert.jmbde.models.employeedocument", QtWarningMsg)
-
 Model::EmployeeDocument::EmployeeDocument()
     : CommonData()
 {

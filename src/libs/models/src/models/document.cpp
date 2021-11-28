@@ -6,8 +6,6 @@
 
 #include "models/document.h"
 
-Q_LOGGING_CATEGORY(jmbdeModelsDocumentLog, "jmuelbert.jmbde.models.document", QtWarningMsg)
-
 Model::Document::Document()
     : CommonData()
 {

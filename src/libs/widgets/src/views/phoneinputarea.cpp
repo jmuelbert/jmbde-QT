@@ -9,8 +9,6 @@
 #include "models/phone.h"
 #include "ui_phoneinputarea.h"
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsPhoneInputAreaLog, "jmuelbert.jmbde.widgets.phoneinputarea", QtWarningMsg);
-
 PhoneInputArea::PhoneInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::PhoneInputArea)

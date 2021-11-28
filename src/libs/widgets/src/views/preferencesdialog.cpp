@@ -7,8 +7,6 @@
 #include "views/preferencesdialog.h"
 #include "ui_preferencesdialog.h"
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsPreferencesLog, "jmuelbert.jmbde.widgets.preferences", QtWarningMsg)
-
 PreferencesDialog::PreferencesDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::PreferencesDialog)

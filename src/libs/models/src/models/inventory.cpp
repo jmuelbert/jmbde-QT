@@ -6,8 +6,6 @@
 
 #include "models/inventory.h"
 
-Q_LOGGING_CATEGORY(jmbdeModelsInventoryLog, "jmuelbert.jmbde.models.inventurer", QtWarningMsg)
-
 Model::Inventory::Inventory()
     : CommonData()
 {

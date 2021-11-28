@@ -8,8 +8,6 @@
 
 #include "ui_employeetable.h"
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsEmployeeTableLog, "jmuelbert.jmbde.widgets.employeetable", QtWarningMsg)
-
 EmployeeTable::EmployeeTable(QWidget *parent, const QModelIndex &index)
     : QWidget(parent)
     , ui(new Ui::EmployeeTable)

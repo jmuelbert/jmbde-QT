@@ -9,8 +9,6 @@
 #include "models/os.h"
 #include "ui_osinputarea.h"
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsOsInputAreaLog, "jmuelbert.jmbde.widgets.osinputarea", QtWarningMsg);
-
 OSInputArea::OSInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::OSInputArea)

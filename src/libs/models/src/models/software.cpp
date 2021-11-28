@@ -6,8 +6,6 @@
 
 #include "models/software.h"
 
-Q_LOGGING_CATEGORY(jmbdeModelsSoftwareLog, "jmuelbert.jmbde.models.software", QtWarningMsg)
-
 Model::Software::Software()
     : CommonData()
 {

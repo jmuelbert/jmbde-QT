@@ -8,8 +8,6 @@
 
 #include "ui_accountinputarea.h"
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsAccountInputAreaLog, "jmuelbert.jmbde.widgets.accountinputarea", QtWarningMsg)
-
 // Edit an existing Account
 AccountInputArea::AccountInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)

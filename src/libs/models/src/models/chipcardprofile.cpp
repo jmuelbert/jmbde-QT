@@ -6,22 +6,6 @@
 
 #include "models/chipcardprofile.h"
 
-Q_LOGGING_CATEGORY(jmbdeModelsChipCardProfileLog, "jmuelbert.jmbde.models.chipcardprofile", QtWarningMsg)
-
-Model::ChipCardProfile::ChipCardProfile()
-    : CommonData()
-{
-    this->m_dataContext = new Model::DataContext();
-    this->m_db = m_dataContext->getDatabase();
-
-    // Set the Model
-    this->m_model = new QSqlRelationalTableModel(this, this->m_db);
-    this->m_model->setTable(this->m_tableName);
-    this->m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-
-    setIndexes();
-}
-
 void Model::ChipCardProfile::setIndexes()
 {
     m_ChipCardProfileIdIndex = this->m_model->fieldIndex(QLatin1String("chip_card_profile_id"));
@@ -31,7 +15,7 @@ void Model::ChipCardProfile::setIndexes()
     m_LastUpdateIndex = this->m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-auto Model::ChipCardProfile::initializeRelationalModel() -> QSqlRelationalTableModel *
+auto Model::ChipCardProfile::initializeRelationalModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -43,7 +27,7 @@ auto Model::ChipCardProfile::initializeRelationalModel() -> QSqlRelationalTableM
     return this->m_model;
 }
 
-auto Model::ChipCardProfile::initializeInputDataModel() -> QSqlRelationalTableModel *
+auto Model::ChipCardProfile::initializeInputDataModel() -> QSqlRelationalTableModel*
 {
     m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -52,23 +36,23 @@ auto Model::ChipCardProfile::initializeInputDataModel() -> QSqlRelationalTableMo
     return m_model;
 }
 
-auto Model::ChipCardProfile::initializeViewModel() -> QSqlTableModel *
+auto Model::ChipCardProfile::initializeViewModel() -> QSqlTableModel*
 {
     m_model->select();
 
     return m_model;
 }
 
-auto Model::ChipCardProfile::initializeListModel() -> QSqlTableModel *
+auto Model::ChipCardProfile::initializeListModel() -> QSqlTableModel*
 {
-    auto *listModel = new QSqlTableModel(this, this->m_db);
+    auto* listModel = new QSqlTableModel(this, this->m_db);
     listModel->setTable(this->m_tableName);
     listModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
     listModel->select();
 
     return listModel;
 }
-auto Model::ChipCardProfile::generateTableString(const QString &header) -> QString
+auto Model::ChipCardProfile::generateTableString(const QString& header) -> QString
 {
     QString outString;
 
@@ -94,7 +78,7 @@ auto Model::ChipCardProfile::generateTableString(const QString &header) -> QStri
     return outString;
 }
 
-auto Model::ChipCardProfile::generateFormularString(const QString &header) -> QString
+auto Model::ChipCardProfile::generateFormularString(const QString& header) -> QString
 {
     QString outString;
 

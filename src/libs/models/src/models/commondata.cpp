@@ -6,17 +6,15 @@
 
 #include "models/commondata.h"
 
-Q_LOGGING_CATEGORY(jmbdeModelsCommonDataLog, "jmuelbert.jmbde.models.commondata", QtWarningMsg)
-
 Model::CommonData::CommonData()
     : m_model(nullptr)
     , m_selectionModel(nullptr)
 {
 }
 
-auto Model::CommonData::createSheet() -> QTextDocument *
+auto Model::CommonData::createSheet() -> QTextDocument*
 {
-    auto *document = new QTextDocument;
+    auto* document = new QTextDocument;
 
     return document;
 }

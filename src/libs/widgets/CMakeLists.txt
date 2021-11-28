@@ -175,7 +175,7 @@ target_sources(
           src/views/titleinputarea.ui
           src/views/zipcityinputarea.ui
           src/views/zipcodeinputarea.ui
-          resources/res.qrc)
+          resources/resources.qrc)
 
 set_target_properties(
   jmbdewidgets
@@ -197,9 +197,13 @@ target_compile_definitions(
 target_link_libraries(
   jmbdewidgets
   PUBLIC Qt${QT_VERSION_MAJOR}::Core jmuelbert::jmbdemodels
-  PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::PrintSupport
-          Qt${QT_VERSION_MAJOR}::Sql Qt${QT_VERSION_MAJOR}::Qml
-          Qt${QT_VERSION_MAJOR}::QuickWidgets ${CONAN_LIBS})
+  PRIVATE Qt${QT_VERSION_MAJOR}::Widgets
+        Qt${QT_VERSION_MAJOR}::Network
+        Qt${QT_VERSION_MAJOR}::PrintSupport
+        Qt${QT_VERSION_MAJOR}::Sql
+        Qt${QT_VERSION_MAJOR}::Qml
+        Qt${QT_VERSION_MAJOR}::QuickWidgets
+        ${CONAN_LIBS})
 
 #
 # Install instructions

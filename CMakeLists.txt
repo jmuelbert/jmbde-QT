@@ -395,13 +395,13 @@ endif()
 
 # ##############################################################################
 # Build the API Documentation and the Manual
-if(BUILD_API_DOCS OR BUILD_MANUAL)
-  if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    add_compile_options(-Wdocumentation)
-  endif()
-  find_package(Qt${QT_VERSION_MAJOR} OPTIONAL_COMPONENTS Help LinguistTools)
-  add_subdirectory(docs)
-endif()
+# if(BUILD_API_DOCS OR BUILD_MANUAL)
+#   if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+#     add_compile_options(-Wdocumentation)
+#   endif()
+#   find_package(Qt${QT_VERSION_MAJOR} OPTIONAL_COMPONENTS Help LinguistTools)
+#   add_subdirectory(docs)
+# endif()
 
 # The libs
 add_subdirectory(src/libs)

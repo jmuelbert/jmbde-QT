@@ -7,8 +7,6 @@
 #include <ui_companyinputarea.h>
 #include <views/companyinputarea.h>
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsCompanyInputAreaLog, "jmuelbert.jmbde.widgets.companyinputarea", QtWarningMsg)
-
 CompanyInputArea::CompanyInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::CompanyInputArea)

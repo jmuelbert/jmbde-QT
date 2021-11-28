@@ -7,8 +7,6 @@
 #include <ui_functioninputarea.h>
 #include <views/functioninputarea.h>
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsFunctionInputAreaLog, "jmuelbert.jmbde.widgets.functioninputarea", QtWarningMsg)
-
 FunctionInputArea::FunctionInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::FunctionInputArea)

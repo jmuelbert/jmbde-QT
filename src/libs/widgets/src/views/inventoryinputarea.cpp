@@ -7,8 +7,6 @@
 #include <ui_inventoryinputarea.h>
 #include <views/inventoryinputarea.h>
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsInventoryInputAreaLog, "jmuelbert.jmbde.widgets.inventoryinputarea", QtWarningMsg)
-
 InventoryInputArea::InventoryInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::InventoryInputArea)

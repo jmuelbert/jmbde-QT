@@ -5,8 +5,6 @@
  */
 #include "models/devicename.h"
 
-Q_LOGGING_CATEGORY(jmbdeModelsDeviceNameLog, "jmuelbert.jmbde.models.devicename", QtWarningMsg)
-
 Model::DeviceName::DeviceName()
     : CommonData()
 {

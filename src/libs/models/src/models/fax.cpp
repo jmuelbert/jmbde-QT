@@ -6,8 +6,6 @@
 
 #include "models/fax.h"
 
-Q_LOGGING_CATEGORY(jmbdeModelsFaxLog, "jmuelbert.jmbde.models.fax", QtWarningMsg)
-
 Model::Fax::Fax()
     : CommonData()
 {

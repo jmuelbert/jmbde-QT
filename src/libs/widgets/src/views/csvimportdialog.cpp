@@ -8,8 +8,6 @@
 
 #include "ui_csvimportdialog.h"
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsCsvInputDialogLog, "jmuelbert.jmbde.widgets.csvinputdialog", QtWarningMsg)
-
 CsvImportDialog::CsvImportDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::CsvImportDialog)

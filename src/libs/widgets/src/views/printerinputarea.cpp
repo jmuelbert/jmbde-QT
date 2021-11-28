@@ -9,8 +9,6 @@
 #include "models/printer.h"
 #include "ui_printerinputarea.h"
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsPrinterInputAreaLog, "jmuelbert.jmbde.widgets.printerinputarea", QtWarningMsg);
-
 PrinterInputArea::PrinterInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::PrinterInputArea)

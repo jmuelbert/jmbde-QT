@@ -6,8 +6,6 @@
 
 #include "models/processor.h"
 
-Q_LOGGING_CATEGORY(jmbdeModelsProcessorLog, "jmuelbert.jmbde.models.processor", QtWarningMsg)
-
 Model::Processor::Processor()
     : CommonData()
 {

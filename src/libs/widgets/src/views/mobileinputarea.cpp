@@ -9,8 +9,6 @@
 #include "models/mobile.h"
 #include "ui_mobileinputarea.h"
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsMobileInputAreaLog, "jmuelbert.jmbde.widgets.mobileinputarea", QtWarningMsg)
-
 MobileInputArea::MobileInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::MobileInputArea)

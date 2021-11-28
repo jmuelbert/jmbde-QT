@@ -6,8 +6,6 @@
 
 #include "models/title.h"
 
-Q_LOGGING_CATEGORY(jmbdeModelsTitleLog, "jmuelbert.jmbde.models.title", QtWarningMsg)
-
 Model::Title::Title()
     : CommonData()
 {

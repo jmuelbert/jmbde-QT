@@ -7,8 +7,6 @@
 #include <ui_computersoftwareinputarea.h>
 #include <views/computersoftwareinputarea.h>
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsComputerSoftwareInputAreaLog, "jmuelbert.jmbde.widgets.computersoftwareinputarea", QtWarningMsg)
-
 ComputerSoftwareInputArea::ComputerSoftwareInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::ComputerSoftwareInputArea)

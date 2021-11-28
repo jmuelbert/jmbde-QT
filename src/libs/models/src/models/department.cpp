@@ -6,8 +6,6 @@
 
 #include "models/department.h"
 
-Q_LOGGING_CATEGORY(jmbdeModelsDepartmentLog, "jmuelbert.jmbde.models.department", QtWarningMsg)
-
 Model::Department::Department()
     : CommonData()
 {

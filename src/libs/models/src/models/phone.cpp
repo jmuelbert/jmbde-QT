@@ -6,8 +6,6 @@
 
 #include "models/phone.h"
 
-Q_LOGGING_CATEGORY(jmbdeModelsPhoneLog, "jmuelbert.jmbde.models.phone", QtWarningMsg)
-
 Model::Phone::Phone()
     : CommonData()
 {

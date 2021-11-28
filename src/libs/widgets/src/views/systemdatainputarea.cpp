@@ -7,8 +7,6 @@
 #include <ui_systemdatainputarea.h>
 #include <views/systemdatainputarea.h>
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsSystemDataInputAreaLog, "jmuelbert.jmbde.widgets.systemdatainputarea", QtWarningMsg)
-
 SystemDataInputArea ::SystemDataInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::SystemDataInputArea)

@@ -9,8 +9,6 @@
 
 using Model::EmployeeAccount;
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsEmployeeAccountInputAreaLog, "jmuelbert.jmbde.widgets.employeeaccountinputarea", QtWarningMsg)
-
 EmployeeAccountInputArea::EmployeeAccountInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::EmployeeAccountInputArea)

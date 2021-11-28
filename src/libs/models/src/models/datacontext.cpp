@@ -6,8 +6,6 @@
 
 #include "models/datacontext.h"
 
-Q_LOGGING_CATEGORY(jmbdeModelsDatacontextLog, "jmuelbert.jmbde.models.datacontext", QtWarningMsg)
-
 Model::DataContext::DataContext(QObject *parent)
     : QObject(parent)
     , m_Name(QApplication::applicationName())

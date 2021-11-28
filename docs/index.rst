@@ -26,10 +26,14 @@ Table of Contents
     chapters/preferences
     chapters/database
     chapters/appendix
+    usage
+    reference
+    Code of Conduct <codeofconduct>
+    License <gpl-3.0>
+    Changelog <https://github.com/jmuelbert/jmbde-QT/releases>
     glossary
 
-..  doxygenstruct:: jmbde
-    :members:
+
 
 Indices and tables
 ==================

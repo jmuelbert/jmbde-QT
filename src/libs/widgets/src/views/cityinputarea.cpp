@@ -8,8 +8,6 @@
 
 #include "ui_cityinputarea.h"
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsCityInputAreaLog, "jmuelbert.jmbde.widgets.cityinputarea", QtWarningMsg)
-
 CityInputArea::CityInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::CityInputArea)

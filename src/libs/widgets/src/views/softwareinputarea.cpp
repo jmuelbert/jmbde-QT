@@ -7,8 +7,6 @@
 #include <ui_softwareinputarea.h>
 #include <views/softwareinputarea.h>
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsSoftwareInputAreaLog, "jmuelbert.jmbde.widgets.softwareinputarea", QtWarningMsg)
-
 SoftwareInputArea::SoftwareInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::SoftwareInputArea)

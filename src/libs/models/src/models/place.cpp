@@ -6,8 +6,6 @@
 
 #include "models/place.h"
 
-Q_LOGGING_CATEGORY(jmbdeModelsPlaceLog, "jmuelbert.jmbde.models.place", QtWarningMsg)
-
 Model::Place::Place()
     : CommonData()
 {

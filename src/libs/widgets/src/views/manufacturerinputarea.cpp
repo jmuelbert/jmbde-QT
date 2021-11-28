@@ -7,8 +7,6 @@
 #include <ui_manufacturerinputarea.h>
 #include <views/manufacturerinputarea.h>
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsManufacturerInputAreaLog, "jmuelbert.jmbde.widgets.manufacturerinputarea", QtWarningMsg)
-
 ManufacturerInputArea::ManufacturerInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::ManufacturerInputArea)

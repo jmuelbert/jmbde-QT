@@ -6,8 +6,6 @@
 
 #include "models/os.h"
 
-Q_LOGGING_CATEGORY(jmbdeModelsOsLog, "jmuelbert.jmbde.models.os", QtWarningMsg)
-
 Model::OS::OS()
     : CommonData()
 {

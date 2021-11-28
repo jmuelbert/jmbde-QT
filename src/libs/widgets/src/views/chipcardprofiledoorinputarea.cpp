@@ -7,8 +7,6 @@
 #include <ui_chipcardprofiledoorinputarea.h>
 #include <views/chipcardprofiledoorinputarea.h>
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsChipCardProfileDoorInputAreaLog, "jmuelbert.jmbde.widgets.chipcardprofiledoorinputarea", QtWarningMsg)
-
 ChipCardProfileDoorInputArea::ChipCardProfileDoorInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::ChipCardProfileDoorInputArea)

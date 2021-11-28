@@ -7,8 +7,6 @@
 #include <ui_employeedocumentinputarea.h>
 #include <views/employeedocumentinputarea.h>
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsEmployeeDocumentInputAreaLog, "jmuelbert.jmbde.widgets.employeedocumentinputarea", QtWarningMsg)
-
 EmployeeDocumentInputArea::EmployeeDocumentInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::EmployeeDocumentInputArea)

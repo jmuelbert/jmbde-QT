@@ -8,8 +8,6 @@
 
 #include "ui_employeeinputarea.h"
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsEmployeeInputAreaLog, "jmuelbert.jmbde.widgets.employeeinputarea", QtWarningMsg)
-
 // Edit an existing Employee
 EmployeeInputArea::EmployeeInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)

@@ -6,8 +6,6 @@
 
 #include "models/employeeaccount.h"
 
-Q_LOGGING_CATEGORY(jmbdeModelsEmployeeAccountLog, "jmuelbert.jmbde.models.employeeaccount", QtWarningMsg)
-
 Model::EmployeeAccount::EmployeeAccount()
     : CommonData()
 {

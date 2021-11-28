@@ -6,8 +6,6 @@
 
 #include "models/manufacturer.h"
 
-Q_LOGGING_CATEGORY(jmbdeModelsManufacturerLog, "jmuelbert.jmbde.models.manufacturer", QtWarningMsg)
-
 Model::Manufacturer::Manufacturer()
     : CommonData()
 {

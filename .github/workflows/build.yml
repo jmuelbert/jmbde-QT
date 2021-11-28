@@ -1,5 +1,5 @@
 ---
-name: Building(CMake)
+name: Build
 
 on:
   push:
@@ -9,56 +9,52 @@ on:
       - src/**
       - CMakeLists.txt
       - '.github/workflows/build.yml'
+      - 'snap/**'
+      - 'packaging/flatpak/*.yml'
+    tags:
+      - '*'
   pull_request:
-    branches: [master]
+    branches:
+      - 'master'
+    types: [opened, reopened]
     paths:
       - cmake/**
       - src/**
       - CMakeLists.txt'
       - '.github/workflows/build.yml'
+      - 'snap/**'
+      - 'packaging/flatpak/*.yml'
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
-  BUILD_TYPE: Debug
+  PRODUCT: jmbde
+  BUILD_TYPE: RelWithDebInfo
   DISPLAY: ':99'
   CTEST_OUTPUT_ON_FAILURE: 1
   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+  QT_TEST_VERSION: '6.1.0'
+  QT_TEST_ARCH: 'gcc_64'
+  TEST_ARCH: 'amd_64'
+  TEST_ARTIFACT: 'Ubuntu-gcc'
+  TEST_CC: 'clang'
+  TEST_CXX: 'clang++'
+  TEST_BUILD_TYPE: Debug
 
 jobs:
-  build:
-    name: ${{ matrix.config.name }}-Qt${{matrix.qt_version}}
+  appimage-pack:
+    name: Build appimage on ${{ matrix.config.name }} for ${{ matrix.config.qt_version }}
+
     runs-on: ${{ matrix.config.os }}
+    needs: tests
+
     strategy:
       matrix:
-        qt_version: [5.15.2, 6.1.0]
         qt_target: [desktop]
         config:
           - {
-              os: windows-latest,
-              name: 'Windows Latest MSVC',
-              qt_arch: win64_msvc2019_64,
-              arch: x64,
-              artifact: 'Windows-MSVC',
-              # generator: "-G'Visual Studio 16 2019' -A x64",
-              generator: "-G 'Ninja'",
-              pak_arch: win64,
-              cc: 'cl',
-              cxx: 'cl',
-            }
-          # - {
-          #     os: windows-2019,
-          #     artifact: 'Windows-MinGW',
-          #     arch: x86,
-          #     generator: "-G 'MinGW Makefiles'",
-          #     qt_arch: win64_mingw81,
-          #     qt_arch_install: msvc2019,
-          #     pak_arch: win64,
-          #     cc: 'gcc',
-          #     cxx: 'g++',
-          #   }
-          - {
-              os: ubuntu-latest,
-              name: 'Ubuntu Latest clang',
+              os: ubuntu-20.04,
+              name: 'Ubuntu-20.04 gcc-10',
+              qt_version: 6.1.0,
               qt_arch: gcc_64,
               arch: amd64,
               artifact: 'Ubuntu-gcc',
@@ -67,17 +63,126 @@ jobs:
               cxx: 'clang++',
               image_repo: jmuelbert/ci-building-images,
             }
-          - {
-              os: macos-latest,
-              name: 'macos-12.0-x86_64',
-              qt_arch: clang_64,
-              arch: clang_64,
-              cc: 'clang',
-              cxx: 'clang++',
-              generator: "-G 'Ninja'",
-            }
-
       fail-fast: false
+
+    # container:
+    #   image: ${{ matrix.config.image_repo }}:${{ matrix.config.os }}-${{ matrix.config.symbol }}
+    #   options: --cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined
+    steps:
+      - name: Checkout Source Code
+        if: github.event_name == 'push'
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: master
+      - name: Checkout Source code
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Set env & Print jmbde version
+        shell: bash
+        run: |
+          last_committed_tag=$(git tag -l --sort=-v:refname | head -1)
+          git_revno=$(git rev-list $(git describe --tags --abbrev=0)..HEAD --count)
+          git_hash=$(git rev-parse --short HEAD)
+          echo "=======jmbde VERSION========"
+          echo ${last_committed_tag:1}
+          echo "Details: ${last_committed_tag}+git${git_revno}.${git_hash}"
+          echo "================================"
+          echo "VERSION=${last_committed_tag:1}" >> $GITHUB_ENV
+      - name: Install Dependencies
+        run: |
+          sudo apt-get -y -qq update
+          sudo apt-get -y --no-install-recommends install \
+            python3 \
+            python3-pip \
+            fuse \
+            patchelf \
+            extra-cmake-modules \
+            build-essential \
+            appstream \
+            hicolor-icon-theme \
+            fcitx-frontend-qt5 \
+            openssl \
+            ca-certificates
+
+      - name: Get latest CMake
+        uses: lukka/get-cmake@latest
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2
+        with:
+          version: ${{ matrix.config.qt_version }}
+          target: ${{ matrix.qt_target }}
+          arch: ${{ matrix.config.qt_arch }}
+          dir: '${{ github.workspace }}/build/'
+          # modules: 'qtscript'
+          cached: ${{ steps.cache-qt.outputs.cache-hit }}
+
+      - name: Get conan
+        id: conan
+        uses: turtlebrowser/get-conan@v1.0
+
+      - name: Get go-appimage tool
+        # Will not use linuxdeployqt anymore, because it suopprts currently still-supported mainstream distribution,
+        # which is glibc 2.23. For more information, please see https://github.com/probonopd/linuxdeployqt/issues/340.
+        # Will try new tool https://github.com/probonopd/go-appimage written in golang by probonopd.
+        run: |
+          wget -c https://github.com/$(wget -q https://github.com/probonopd/go-appimage/releases -O - \
+          | grep "appimagetool-.*-${APPIMAGETOOL_ARCH}.AppImage" | head -n 1 | cut -d '"' -f 2) -O appimagetool
+          chmod +x appimagetool
+        env:
+          APPIMAGETOOL_ARCH: x86_64
+
+      - name: Packaging appimage
+        run: |
+          APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${PRODUCT}.AppDir
+          mkdir -p ${APPIMAGE_DST_PATH}
+          cd $GITHUB_WORKSPACE
+          cmake ${{matrix.config.generator}} \
+              -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
+              -DCMAKE_INSTALL_PREFIX:PATH="${APPIMAGE_DST_PATH}/usr" \
+              -DBUILD_TESTING=OFF \
+              -DBUILD_TRANSLATIONS=ON
+          cmake --build . --config $BUILD_TYPE -j2 --target install
+          $GITHUB_WORKSPACE/appimagetool -s deploy ${APPIMAGE_DST_PATH}/usr/share/applications/io.github.jmuelbert.jmbde.desktop
+          mkdir -p ${APPIMAGE_DST_PATH}/usr/plugins/platforminputcontexts
+          cp \
+            $GITHUB_WORKSPACE/assets/icons/256-apps-jmbde.png \
+            ${APPIMAGE_DST_PATH}/
+          if [ -f "${APPIMAGE_DST_PATH}/lib/x86_64-linux-gnu/libxcb-glx.so.0" ]; then
+            rm ${APPIMAGE_DST_PATH}/lib/x86_64-linux-gnu/libxcb-glx.so.0
+          fi
+          chmod +x ${APPIMAGE_DST_PATH}/usr/lib64/ld-*.so.*
+          VERSION=${VERSION} $GITHUB_WORKSPACE/appimagetool ${APPIMAGE_DST_PATH}
+          ls $GITHUB_WORKSPACE
+          mv $GITHUB_WORKSPACE/jmbde-${VERSION}-x86_64.AppImage $GITHUB_WORKSPACE/JMBDE-${VERSION}-qt${{matrix.qt_version}}.x86_64.AppImage
+      - name: SHA256Sum of appimage package(daily build)
+        run: |
+          sha256sum $GITHUB_WORKSPACE/JMBDE-${VERSION}-qt${{matrix.qt_version}}.x86_64.AppImage
+          sha256sum $GITHUB_WORKSPACE/JMBDE-${VERSION}-qt${{matrix.qt_version}}.x86_64.AppImage >$GITHUB_WORKSPACE/JMBDE-${VERSION}-qt${{matrix.qt_version}}.x86_64.AppImage.sha256sum
+          echo "================appimage sha256sum download link==============="
+          echo $(sh $GITHUB_WORKSPACE/scripts/upload_services/${UPLOAD_SERVICE}.sh $GITHUB_WORKSPACE/JMBDE-${VERSION}-qt${{matrix.qt_version}}.x86_64.AppImage.sha256sum)
+          echo "======no operation for you can see link in the log console====="
+      - name: Upload appimage package for daily build
+        run: |
+          echo "====================appimage download link====================="
+          echo $(sh $GITHUB_WORKSPACE/scripts/upload_services/${UPLOAD_SERVICE}.sh $GITHUB_WORKSPACE/JMBDE-${VERSION}-qt${{matrix.qt_version}}.x86_64.AppImage)
+          echo "======no operation for you can see link in the log console====="
+      - name: Artifact Upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: Linux-distribution-artifact
+          path: |
+            ${{ github.workspace }}/JMBDE-*.x86_64.AppImage
+            ${{ github.workspace }}/JMBDE-*.x86_64.AppImage.sha256sum
+
+  flatpak-pack:
+    name: Build flatpak on ubuntu-20.04
+    runs-on: ubuntu-20.04
+    needs: tests
 
     steps:
       - name: Checkout Source Code
@@ -85,18 +190,165 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      #          ref: master
-
-      - name: Checkout Source Code
+          ref: master
+      - name: Checkout Source code
         if: github.event_name == 'pull_request'
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
+      - name: Set env & Print jmbde version
+        shell: bash
+        run: |
+          last_committed_tag=$(git tag -l --sort=-v:refname | head -1)
+          git_revno=$(git rev-list $(git describe --tags --abbrev=0)..HEAD --count)
+          git_hash=$(git rev-parse --short HEAD)
+          echo "=======jmbde VERSION========"
+          echo ${last_committed_tag:1}
+          echo "Details: ${last_committed_tag}+git${git_revno}.${git_hash}"
+          echo "================================"
+          echo "VERSION=${last_committed_tag:1}" >> $GITHUB_ENV
+      - name: Setup flatpak
+        run: |
+          sudo apt-get -y -qq update
+          sudo apt-get install -y flatpak flatpak-builder
+      - name: Setup Flathub
+        run: |
+          flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+          flatpak install -y --noninteractive flathub org.kde.Sdk//5.15 org.kde.Platform//5.15
+      - name: Packaging flatpak
+        run: |
+          BUNDLE="org.jmuelbert.jmbde-QT.flatpak"
+          MANIFEST_PATH=$GITHUB_WORKSPACE/packaging/flatpak/org.jmuelbert.jmbde-QT.yml
+          RUNTIME_REPO="https://flathub.org/repo/flathub.flatpakrepo"
+          APP_ID="org.jmuelbert.jmbde_QT"
+          BRANCH="master"
 
-      # Linux
+          flatpak-builder --user --disable-rofiles-fuse --repo=repo --force-clean flatpak_app ${MANIFEST_PATH} --install-deps-from=flathub
+          flatpak build-bundle repo ${BUNDLE} --runtime-repo=${RUNTIME_REPO} ${APP_ID} ${BRANCH}
+          mv $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT.flatpak $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT_${VERSION}.x86_64.flatpak
+
+      - name: SHA256Sum of jmbde package(daily build)
+        run: |
+          sha256sum $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT_${VERSION}.x86_64.flatpak
+          sha256sum $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT_${VERSION}.x86_64.flatpak > $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT_${VERSION}.x86_64.flatpak.sha256sum
+          echo "================flatpak sha256sum download link===================="
+          echo $(sh $GITHUB_WORKSPACE/scripts/upload_services/${UPLOAD_SERVICE}.sh $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT_${VERSION}.x86_64.flatpak.sha256sum)
+          echo "========no operation for you can see link in the log console======="
+      - name: Upload flatpak package(daily build)
+        run: |
+          echo "=====================flatpak download link====================="
+          echo $(sh $GITHUB_WORKSPACE/scripts/upload_services/${UPLOAD_SERVICE}.sh $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT_${VERSION}.x86_64.flatpak)
+          echo "======no operation for you can see link in the log console====="
+      - name: Artifact Upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: Linux-distribution-artifact
+          path: |
+            ${{ github.workspace }}/org.jmuelbert.jmbde-QT_*.x86_64.flatpak
+            ${{ github.workspace }}/org.jmuelbert.jmbde-QT_*.x86_64.flatpak.sha256sum
+
+  snap_pack:
+    name: Build snap on ubuntu-20.04
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout Source Code
+        if: github.event_name == 'push'
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: master
+      - name: Checkout Source code
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Set env & Print jmbde version
+        shell: bash
+        run: |
+          last_committed_tag=$(git tag -l --sort=-v:refname | head -1)
+          git_revno=$(git rev-list $(git describe --tags --abbrev=0)..HEAD --count)
+          git_hash=$(git rev-parse --short HEAD)
+          echo "=======jmbde VERSION========"
+          echo ${last_committed_tag:1}
+          echo "Details: ${last_committed_tag}+git${git_revno}.${git_hash}"
+          echo "================================"
+          echo "VERSION=${last_committed_tag:1}" >> $GITHUB_ENV
+      - name: Packaging snap
+        uses: snapcore/action-build@v1
+        id: snapcraft
+        with:
+          snapcraft-args: --enable-experimental-extensions
+      - name: Rename snap name
+        shell: bash
+        run: |
+          mkdir -p $GITHUB_WORKSPACE/build
+          cp ${{ steps.snapcraft.outputs.snap }} $GITHUB_WORKSPACE/build/${PRODUCT}-${VERSION}-${RELEASE}.amd64.snap
+      - name: SHA256Sum of snap package(daily build)
+        run: |
+          sha256sum $GITHUB_WORKSPACE/build/${PRODUCT}-${VERSION}-${RELEASE}.amd64.snap
+          sha256sum $GITHUB_WORKSPACE/build/${PRODUCT}-${VERSION}-${RELEASE}.amd64.snap > $GITHUB_WORKSPACE/build/${PRODUCT}-${VERSION}-${RELEASE}.amd64.snap.sha256sum
+          echo "================snap sha256sum download link=================="
+          echo $(sh $GITHUB_WORKSPACE/scripts/upload_services/${UPLOAD_SERVICE}.sh $GITHUB_WORKSPACE/build/${PRODUCT}-${VERSION}-${RELEASE}.amd64.snap.sha256sum)
+          echo "=====no operation for you can see link in the log console====="
+      - name: Upload snap package(daily build)
+        run: |
+          echo "=======================snap download link======================"
+          echo $(sh $GITHUB_WORKSPACE/scripts/upload_services/${UPLOAD_SERVICE}.sh $GITHUB_WORKSPACE/build/${PRODUCT}-${VERSION}-${RELEASE}.amd64.snap)
+          echo "======no operation for you can see link in the log console====="
+      - name: Artifact Upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: Linux-distribution-artifact
+          path: |
+            ${{ github.workspace }}/build/${{ env.PRODUCT }}-*-${{ env.RELEASE }}.amd64.snap
+            ${{ github.workspace }}/build/${{ env.PRODUCT }}-*-${{ env.RELEASE }}.amd64.snap.sha256sum
+
+  build_GH_Pages:
+    name: Build GH Pages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.4.0
+        with:
+          fetch-depth: 2
+      - name: Fetch all history for all tags and branches
+        run: git fetch --prune --unshallow
+
+      - name: Set up Python
+        uses: actions/setup-python@v2.3.0
+        with:
+          python-version: '3.10'
+
+      - name: Install sphinx
+        run: |
+          pip install -r docs/requirements.txt
+      - name: Running the Sphinx to gh-pages Action
+        run: |
+          sphinx-build docs docs/_build
+        # uses: uibcdf/action-sphinx-docs-to-gh-pages@v1.0-beta.2
+        # with:
+        #   branch: master
+        #   dir_docs: docs/manual
+        #   sphinxopts: ''
+
+      - name: Upload documentation
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: docs
+          path: docs/_build
+
+  tests:
+    name: Tests on ubuntu-latest
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast:
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2.4.0
+
       - name: Install Dependencies for ${{ runner.os }}
-        if: runner.os == 'Linux'
         run: |
           sudo apt-get -y -qq update
           sudo apt-get -y --no-install-recommends install \
@@ -113,7 +365,6 @@ jobs:
             ca-certificates
 
       - name: Xvfb install and run for ${{ runner.os }}
-        if: runner.os == 'Linux'
         run: |
           sudo apt-get install -y xvfb
           Xvfb -ac ${{ env.DISPLAY }} -screen 0 1280x780x24 &
@@ -121,47 +372,12 @@ jobs:
       - name: Get latest CMake
         uses: lukka/get-cmake@latest
 
-      # Windows
-      - name: Install MSVC compiler for ${{ runner.os }}
-        if: runner.os == 'Windows'
-        uses: ilammy/msvc-dev-cmd@v1.10.0
-        with:
-          # 14.1 is for vs2017, 14.2 is vs2019, following the upstream vcpkg build from repo
-          toolset: 14.2
-          arch: x64
-
-      - name:
-          Build preparation for ${{ runner.os }} - ${{ matrix.config.qt_version }}  -
-          Install Packages
-        if: runner.os == 'Windows'
-        run: |
-          cinst png2ico
-
-      - name:
-          Build preparation for  ${{ runner.os }} - ${{ matrix.config.qt_version }} -
-          Install Packages
-        if: ${{ runner.os == 'macOS' }}
-        run: |
-          brew install ninja pkg-config
-
-      # # Common
-      # - name: Cache Qt
-      #   id: cache-qt
-      #   uses: actions/cache@v2.1.6
-      #   with:
-      #     path:
-      #       ${{ runner.workspace}}/build/Qt/${{ matrix.qt_version }}/${{
-      #       matrix.config.qt_arch }}
-      #     key:
-      #       ${{ runner.os }}-QtCache/${{ matrix.qt_version }}/${{ matrix.config.qt_arch
-      #       }}
-
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
-          version: ${{ matrix.qt_version }}
-          target: ${{ matrix.qt_target }}
-          arch: ${{ matrix.config.qt_arch }}
+          version: ${{ env.TEST_QT_VERSION }}
+          target: ${{ env.TEST_QT_TARGET }}
+          arch: ${{ env.TEST_QT_ARCH }}
           dir: '${{ github.workspace }}/build/'
           # modules: 'qtscript'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
@@ -186,7 +402,7 @@ jobs:
         run: |
           cmake $GITHUB_WORKSPACE \
             ${{matrix.config.generator}} \
-            -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
+            -DCMAKE_BUILD_TYPE=$TEST_BUILD_TYPE \
             -DCMAKE_INSTALL_PREFIX:PATH=./app \
             -DBUILD_TESTING=OFF  \
             -DBUILD_TRANSLATIONS=ON \
@@ -199,9 +415,121 @@ jobs:
 
       # Linux
       - name: Test
-        if: runner.os == 'Linux'
         working-directory: ${{runner.workspace}}/build
         shell: bash
         # Execute tests defined by the CMake configuration.
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-        run: ctest -VV -C $BUILD_TYPE
+        run: ctest -VV -C $TEST_BUILD_TYPE
+
+  coverage:
+    runs-on: ubuntu-latest
+    needs: tests
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2.4.0
+
+      - name: Download coverage data
+        uses: actions/download-artifact@v2.0.10
+        with:
+          name: coverage-data
+
+      - name: Combine coverage data and dispay human readable report
+        run: |
+          echo "Build report"
+
+      - name: Create coverage report
+        run: echo "Create coverage report"
+
+  releaseNotes:
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build Releasenotes
+        id: github_releasenotes
+        uses: release-drafter/release-drafter@v5.15.0
+        with:
+          publish: "${{ steps.check-version.outputs.tag != '' }}"
+          tag: '${{ steps.check-version.outputs.tag }}'
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+
+  changeLog:
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build ChangeLog
+        id: github_changelog
+        uses: mikepenz/release-changelog-builder-action@v2.5.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          body: ${{ steps.check-version.outputs }}
+        env:
+          GITHUB_TOKEN: $${{ secrets.GITHUB_TOKEN }}
+
+  deployGHPages:
+    runs-on: ubuntu-latest
+    needs: build_GH_Pages
+    steps:
+      - name: Download Artifact with Pages
+        uses: actions/download-artifact@v2.0.10
+        with:
+          name: docs
+          path: docs/_build
+
+      - name: Deploy to GitHub Pages
+        uses: Cecilapp/GitHub-Pages-deploy@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          email: juergen.muelbert@gmail.com
+          build_dir: docs/_build
+
+  deployPrereleases:
+    name: Deploy Pre-Release
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-20.04
+    environment: PreRelease
+    needs:
+      - build
+      - tests
+      - deployGHPages
+
+    steps:
+      - name: Restore Builds
+        uses: actions/download-artifact@v2
+        with:
+          name: appimageqt6
+          path: dist
+
+      - name: Publish
+        run: |
+          echo "Publish Pre-Release"
+
+  deploy:
+    name: Deploy Release on PyPi
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-20.04
+    environment: Release
+    needs:
+      - build
+      - tests
+      - changeLog
+      - releaseNotes
+      - deployGHPages
+
+    steps:
+      - name: Restore Builds
+        uses: actions/download-artifact@v2
+        with:
+          name: appimageqt6
+          path: dist
+
+      - name: Publish
+        run: |
+          echo "Publish Pre-Release"

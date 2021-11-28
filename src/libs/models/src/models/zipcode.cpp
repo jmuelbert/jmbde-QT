@@ -6,8 +6,6 @@
 
 #include "models/zipcode.h"
 
-Q_LOGGING_CATEGORY(jmbdeModelsZipCodeLog, "jmuelbert.jmbde.models.zipcode", QtWarningMsg)
-
 Model::ZipCode::ZipCode()
     : CommonData()
 {

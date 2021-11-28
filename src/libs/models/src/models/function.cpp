@@ -6,8 +6,6 @@
 
 #include "models/function.h"
 
-Q_LOGGING_CATEGORY(jmbdeModelsFunctionLog, "jmuelbert.jmbde.models.function", QtWarningMsg)
-
 Model::Function::Function()
     : CommonData()
 {

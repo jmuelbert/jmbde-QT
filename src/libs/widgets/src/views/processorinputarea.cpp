@@ -9,8 +9,6 @@
 #include "models/processor.h"
 #include "ui_processorinputarea.h"
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsProcessorInputAreaLog, "jmuelbert.jmbde.widgets.processorinputarea", QtWarningMsg);
-
 ProcessorInputArea::ProcessorInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::ProcessorInputArea)

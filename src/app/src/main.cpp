@@ -19,12 +19,6 @@ auto main(int argc, char *argv[]) -> int
     QLoggingCategory::setFilterRules(QLatin1String("jmuelbert.jmbde.*.debug=true\njmuelbert.jmbde.*.info=true"));
 
     /**
-     * enable high dpi support
-     */
-    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-
-    /**
      * allow fractional scaling
      * we only activate this on Windows, it seems to creates problems on unices
      * (and there the fractional scaling with the QT_... env vars as set by

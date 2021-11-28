@@ -8,8 +8,6 @@
 
 #include "ui_faxinputarea.h"
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsFaxInputAreaLog, "jmuelbert.jmbde.widgets.faxinputarea", QtWarningMsg)
-
 FaxInputArea::FaxInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::FaxInputArea)

@@ -382,7 +382,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11" />
  <resources>
-  <include location="../../resources/res.qrc" />
+  <include location="../../resources/resources.qrc" />
  </resources>
  <connections />
 </ui>

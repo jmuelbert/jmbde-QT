@@ -9,8 +9,6 @@
 #include "models/title.h"
 #include "ui_titleinputarea.h"
 
-Q_LOGGING_CATEGORY(jmbdeWidgetsTitleDataInputAreaLog, "jmuelbert.jmbde.widgets.titleinputarea", QtWarningMsg)
-
 TitleInputArea::TitleInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::TitleInputArea)
