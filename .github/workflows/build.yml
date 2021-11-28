@@ -32,7 +32,7 @@ env:
   DISPLAY: ':99'
   CTEST_OUTPUT_ON_FAILURE: 1
   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-  TEST_QT_TARGET: 'Desktop'
+  TEST_QT_TARGET: 'desktop'
   TEST_QT_VERSION: '6.1.0'
   TEST_QT_ARCH: 'gcc_64'
   TEST_ARCH: 'amd_64'
