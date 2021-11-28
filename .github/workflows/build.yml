@@ -32,8 +32,9 @@ env:
   DISPLAY: ':99'
   CTEST_OUTPUT_ON_FAILURE: 1
   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-  QT_TEST_VERSION: '6.1.0'
-  QT_TEST_ARCH: 'gcc_64'
+  TEST_QT_TARGET: 'Desktop'
+  TEST_QT_VERSION: '6.1.0'
+  TEST_QT_ARCH: 'gcc_64'
   TEST_ARCH: 'amd_64'
   TEST_ARTIFACT: 'Ubuntu-gcc'
   TEST_CC: 'clang'
@@ -251,6 +252,7 @@ jobs:
   snap_pack:
     name: Build snap on ubuntu-20.04
     runs-on: ubuntu-20.04
+    needs: tests
     steps:
       - name: Checkout Source Code
         if: github.event_name == 'push'
@@ -308,6 +310,7 @@ jobs:
   build_GH_Pages:
     name: Build GH Pages
     runs-on: ubuntu-latest
+    needs: tests
     steps:
       - uses: actions/checkout@v2.4.0
         with:
@@ -372,7 +375,7 @@ jobs:
       - name: Get latest CMake
         uses: lukka/get-cmake@latest
 
-      - name: Install Qt
+        - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
           version: ${{ env.TEST_QT_VERSION }}
