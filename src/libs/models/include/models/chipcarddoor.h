@@ -20,7 +20,7 @@
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 
-Q_DECLARE_LOGGING_CATEGORY(jmbdeChipCardDoorLog)
+Q_DECLARE_LOGGING_CATEGORY(m_ChipcardDoorLog)
 
 namespace Model {
 /*!
@@ -45,6 +45,7 @@ public:
      */
     explicit JMBDEMODELS_EXPORT ChipCardDoor()
         : CommonData()
+        , m_ChipcardDoorLog(QLoggingCategory("jmbde.jmbdemodels.chipcarddoor"))
     {
         this->m_dataContext = new Model::DataContext();
         this->m_db = m_dataContext->getDatabase();
@@ -260,5 +261,9 @@ private:
         \brief The value of the LastUpdateIndex
     */
     int m_LastUpdateIndex { 0 };
+    /*!
+     * Logging Category
+     */
+    QLoggingCategory m_ChipcardDoorLog;
 };
 } // namespace Model

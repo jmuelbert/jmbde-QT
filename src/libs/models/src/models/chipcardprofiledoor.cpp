@@ -56,7 +56,7 @@ auto Model::ChipCardProfileDoor::generateTableString(const QString& header) -> Q
 {
     QString outString;
 
-    qCDebug(jmbdeModelsChipCardProfileDoorLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(m_ChipcardProfileDoorLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     QList<int> set;
 
@@ -82,7 +82,7 @@ auto Model::ChipCardProfileDoor::generateFormularString(const QString& header) -
 {
     QString outString;
 
-    qCDebug(jmbdeModelsChipCardProfileDoorLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(m_ChipcardProfileDoorLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     // Document Title
     outString = QLatin1String("<h1>");

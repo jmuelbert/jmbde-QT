@@ -20,7 +20,7 @@
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 
-Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsChipCardProfileLog)
+Q_DECLARE_LOGGING_CATEGORY(m_ChipcardProfileLog)
 
 namespace Model {
 /*!
@@ -44,6 +44,7 @@ public:
      */
     explicit JMBDEMODELS_EXPORT ChipCardProfile()
         : CommonData()
+        , m_ChipcardProfileLog(QLoggingCategory("jmbde.jmbdemodels.chipcardprofile"))
     {
         this->m_dataContext = new Model::DataContext();
         this->m_db = m_dataContext->getDatabase();
@@ -247,5 +248,10 @@ private:
        \brief The value of the LastUpdateIndex
     */
     int m_LastUpdateIndex { 0 }; ///< int m_LastUpdateIndex
+
+    /*!
+     * Logging Category
+     */
+    QLoggingCategory m_ChipcardProfileLog;
 };
 } // namespace Model

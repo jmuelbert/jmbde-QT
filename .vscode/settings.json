@@ -28,5 +28,6 @@
     "https://raw.githubusercontent.com/TingPing/flatpak-manifest-schema/master/flatpak-manifest.schema": [
       "com.github.Desktop.yaml"
     ]
-  }
+  },
+  "python.pythonPath": "/usr/local/Caskroom/miniconda/base/envs/develop310/bin/python"
 }

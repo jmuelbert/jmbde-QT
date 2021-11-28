@@ -44,10 +44,10 @@ public:
      */
     explicit JMBDEMODELS_EXPORT Account()
         : CommonData()
+        , m_AccountLog(QLoggingCategory("jmbde.jmbdemodels.account"))
     {
-        m_AccountLog = QLoggingCategory("jmbde.jmbdemodels.account") this->m_dataContext = new Model::DataContext();
+        this->m_dataContext = new Model::DataContext();
         this->m_db = m_dataContext->getDatabase();
-        this->m_AccountLog = QLoggingCategory("");
 
         // Set the Model
         this->m_model = new QSqlRelationalTableModel(this, this->m_db);
@@ -251,7 +251,7 @@ private:
     int m_LastUpdateIndex { 0 };
 
     /*!
-     * LOgging Category
+     * Logging Category
      */
     QLoggingCategory m_AccountLog;
 };

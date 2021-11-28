@@ -57,7 +57,7 @@ auto Model::Account::generateTableString(const QString& header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdeModelsAccountLog) << "Header:" << header << "( Columns: " << this->m_model->columnCount() << " Rows: " << this->m_model->rowCount() << " )";
+    qCDebug(m_AccountLog) << "Header:" << header << "( Columns: " << this->m_model->columnCount() << " Rows: " << this->m_model->rowCount() << " )";
 
     QList<int> set;
 
@@ -82,7 +82,7 @@ auto Model::Account::generateFormularString(const QString& header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdeModelsAccountLog) << "Header:" << header << "( Columns: " << this->m_model->columnCount() << " Rows: " << this->m_model->rowCount() << " )";
+    qCDebug(m_AccountLog) << "Header:" << header << "( Columns: " << this->m_model->columnCount() << " Rows: " << this->m_model->rowCount() << " )";
 
     // Document Title
     outString = QLatin1String("<h1>");
