@@ -8,6 +8,7 @@
 
 Model::Software::Software()
     : CommonData()
+    , m_SoftwareLog(QLoggingCategory("jmbde.models.software"))
 {
     this->m_dataContext = new Model::DataContext();
     this->m_db = m_dataContext->getDatabase();
@@ -72,7 +73,7 @@ auto Model::Software::generateTableString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdeModelsSoftwareLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(m_SoftwareLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     QList<int> set;
 
@@ -98,7 +99,7 @@ auto Model::Software::generateFormularString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdeModelsSoftwareLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(m_SoftwareLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     // Document Title
     outString = QLatin1String("<h1>");

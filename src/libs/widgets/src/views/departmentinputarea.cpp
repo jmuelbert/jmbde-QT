@@ -10,10 +10,12 @@
 DepartmentInputArea::DepartmentInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::DepartmentInputArea)
+    , m_DepartmentInputAreaLog(QLoggingCategory("jmbde.widgets.departmentinputarea"))
+
 {
     ui->setupUi(this);
 
-    qCDebug(jmbdeWidgetsDepartmentInputAreaLog) << tr("Initialisiere DepartmentInputArea mit Index :") << index.row();
+    qCDebug(m_DepartmentInputAreaLog) << tr("Initialisiere DepartmentInputArea mit Index :") << index.row();
 
     this->m_departmentModel = new Model::Department();
     this->m_db = this->m_departmentModel->getDB();
@@ -32,7 +34,7 @@ DepartmentInputArea::DepartmentInputArea(QWidget *parent, const QModelIndex &ind
 
     setMappings();
 
-    qCDebug(jmbdeWidgetsDepartmentInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+    qCDebug(m_DepartmentInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
     if (index.row() < 0) {
         m_mapper->toFirst();
@@ -75,7 +77,7 @@ void DepartmentInputArea::setViewOnlyMode(bool mode)
 
 void DepartmentInputArea::createDataset()
 {
-    qCDebug(jmbdeWidgetsDepartmentInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Department");
+    qCDebug(m_DepartmentInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Department");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -91,20 +93,20 @@ void DepartmentInputArea::createDataset()
 
 void DepartmentInputArea::deleteDataset(const QModelIndex &index)
 {
-    qCDebug(jmbdeWidgetsDepartmentInputAreaLog) << tr("Lösche Daten von Department");
+    qCDebug(m_DepartmentInputAreaLog) << tr("Lösche Daten von Department");
     m_mapper->setCurrentIndex(index.row());
 }
 
 void DepartmentInputArea::addEdit()
 {
-    qCDebug(jmbdeWidgetsDepartmentInputAreaLog) << tr("Füge neue Daten zu Department");
+    qCDebug(m_DepartmentInputAreaLog) << tr("Füge neue Daten zu Department");
     createDataset();
     editFinish();
 }
 
 void DepartmentInputArea::editFinish()
 {
-    qCDebug(jmbdeWidgetsDepartmentInputAreaLog) << tr("Bearbeite oder schließe Department Daten");
+    qCDebug(m_DepartmentInputAreaLog) << tr("Bearbeite oder schließe Department Daten");
 
     switch (m_actualMode) {
     case Mode::Edit: {
@@ -115,7 +117,7 @@ void DepartmentInputArea::editFinish()
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsDepartmentInputAreaLog) << tr("Die Daten werden gesichert.");
+        qCDebug(m_DepartmentInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -132,7 +134,7 @@ void DepartmentInputArea::editFinish()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(jmbdeWidgetsDepartmentInputAreaLog) << tr("Schreiben der Änderungen für Account in die Datenbank");
+                qCDebug(m_DepartmentInputAreaLog) << tr("Schreiben der Änderungen für Account in die Datenbank");
                 m_model->database().rollback();
             } else {
                 m_model->database().rollback();
@@ -142,7 +144,7 @@ void DepartmentInputArea::editFinish()
     } break;
 
     default: {
-        qCCritical(jmbdeWidgetsDepartmentInputAreaLog) << tr("Fehler: Unbekannter Modus");
+        qCCritical(m_DepartmentInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

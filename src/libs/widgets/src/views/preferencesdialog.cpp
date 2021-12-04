@@ -10,10 +10,12 @@
 PreferencesDialog::PreferencesDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::PreferencesDialog)
+    , m_PreferencesDialogLog(QLoggingCategory("jmbde.widgets.preferencesdialog"))
+
 {
     ui->setupUi(this);
 
-    qCDebug(jmbdeWidgetsPreferencesLog) << "Init the Preferences Dialog";
+    qCDebug(m_PreferencesDialogLog) << "Init the Preferences Dialog";
 
     ui->comboBoxDatabaseType->addItem(QLatin1String(Database::Type::SQLITE));
     ui->comboBoxDatabaseType->addItem(QLatin1String(Database::Type::MYSQL));

@@ -10,6 +10,7 @@
 AboutDialog::AboutDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::AboutDialog)
+    , m_AboutDialogLog(QLoggingCategory("jmbde.widget.aboutdialog"))
 {
     ui->setupUi(this);
 

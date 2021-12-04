@@ -10,10 +10,12 @@
 ComputerSoftwareInputArea::ComputerSoftwareInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::ComputerSoftwareInputArea)
+    , m_ComputerSoftwareInputAreaLog(QLoggingCategory("jmbde.widgets.computersoftwareinputarea"))
+
 {
     ui->setupUi(this);
 
-    qCDebug(jmbdeWidgetsComputerSoftwareInputAreaLog) << tr("Initialisiere ComputerSoftwareInputArea mit Index :") << index.row();
+    qCDebug(m_ComputerSoftwareInputAreaLog) << tr("Initialisiere ComputerSoftwareInputArea mit Index :") << index.row();
 
     this->m_computerSoftwareModel = new Model::ComputerSoftware();
     this->m_db = this->m_computerSoftwareModel->getDB();
@@ -31,7 +33,7 @@ ComputerSoftwareInputArea::ComputerSoftwareInputArea(QWidget *parent, const QMod
 
     setMappings();
 
-    qCDebug(jmbdeWidgetsComputerSoftwareInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+    qCDebug(m_ComputerSoftwareInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
     if (index.row() < 0) {
         m_mapper->toFirst();
@@ -63,7 +65,7 @@ void ComputerSoftwareInputArea::setViewOnlyMode(bool mode)
 
 void ComputerSoftwareInputArea::createDataset()
 {
-    qCDebug(jmbdeWidgetsComputerSoftwareInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für ComputerSoftware...");
+    qCDebug(m_ComputerSoftwareInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für ComputerSoftware...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -79,19 +81,19 @@ void ComputerSoftwareInputArea::createDataset()
 
 void ComputerSoftwareInputArea::deleteDataset(const QModelIndex &index)
 {
-    qCDebug(jmbdeWidgetsComputerSoftwareInputAreaLog) << tr("Lösche Daten von ComputerSoftware");
+    qCDebug(m_ComputerSoftwareInputAreaLog) << tr("Lösche Daten von ComputerSoftware");
     m_mapper->setCurrentIndex(index.row());
 }
 void ComputerSoftwareInputArea::addEdit()
 {
-    qCDebug(jmbdeWidgetsComputerSoftwareInputAreaLog) << tr("Füge neue Daten zu ComputerSoftware");
+    qCDebug(m_ComputerSoftwareInputAreaLog) << tr("Füge neue Daten zu ComputerSoftware");
     createDataset();
     editFinish();
 }
 
 void ComputerSoftwareInputArea::editFinish()
 {
-    qCDebug(jmbdeWidgetsComputerSoftwareInputAreaLog) << tr("Bearbeite oder schließe ComputerSoftware Daten");
+    qCDebug(m_ComputerSoftwareInputAreaLog) << tr("Bearbeite oder schließe ComputerSoftware Daten");
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
@@ -101,7 +103,7 @@ void ComputerSoftwareInputArea::editFinish()
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsComputerSoftwareInputAreaLog) << tr("Die Daten werden gesichert.");
+        qCDebug(m_ComputerSoftwareInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -111,7 +113,7 @@ void ComputerSoftwareInputArea::editFinish()
         m_model->database().transaction();
         if (m_model->submitAll()) {
             m_model->database().commit();
-            qCDebug(jmbdeWidgetsComputerSoftwareInputAreaLog) << tr("Schreiben der Änderungen für ComputerSoftware in die Datenbank");
+            qCDebug(m_ComputerSoftwareInputAreaLog) << tr("Schreiben der Änderungen für ComputerSoftware in die Datenbank");
             m_model->database().rollback();
         } else {
             m_model->database().rollback();
@@ -121,7 +123,7 @@ void ComputerSoftwareInputArea::editFinish()
     } break;
 
     default: {
-        qCCritical(jmbdeWidgetsComputerSoftwareInputAreaLog) << tr("Fehler: Unbekannter Modus");
+        qCCritical(m_ComputerSoftwareInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

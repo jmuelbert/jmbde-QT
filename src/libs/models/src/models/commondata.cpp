@@ -6,12 +6,6 @@
 
 #include "models/commondata.h"
 
-Model::CommonData::CommonData()
-    : m_model(nullptr)
-    , m_selectionModel(nullptr)
-{
-}
-
 auto Model::CommonData::createSheet() -> QTextDocument*
 {
     auto* document = new QTextDocument;
@@ -33,8 +27,6 @@ auto Model::CommonData::setOutTableStyle() -> QString
     css += QLatin1String("table.tbl th {padding: 3px;}");
     css += QLatin1String("</style>");
 
-    qCDebug(jmbdeModelsCommonDataLog) << "Set Outtable Style to : " << css;
-
     return css;
 }
 
@@ -44,8 +36,6 @@ auto Model::CommonData::setOutFormularStyle() -> QString
 
     css = QLatin1String("<style type=\"text/css\">");
     css += QLatin1String("H1 { color: #f00;}");
-
-    qCDebug(jmbdeModelsCommonDataLog) << "Set Outformular Style to : " << css;
 
     return css;
 }

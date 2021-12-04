@@ -8,6 +8,7 @@
 
 Model::Computer::Computer()
     : CommonData()
+    , m_ComputerLog(QLoggingCategory("jmbde.models.computer"))
 {
     this->m_dataContext = new Model::DataContext();
     this->m_db = m_dataContext->getDatabase();
@@ -88,7 +89,7 @@ auto Model::Computer::generateTableString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdeModelsComputerLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(m_ComputerLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     QList<int> set;
 
@@ -114,7 +115,7 @@ auto Model::Computer::generateFormularString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdeModelsComputerLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(m_ComputerLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     // Document Title
     outString = QLatin1String("<h1>");

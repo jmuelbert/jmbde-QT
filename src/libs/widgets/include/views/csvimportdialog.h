@@ -20,7 +20,7 @@
 #include "jmbdewidgets-version.h"
 #include "jmbdewidgets_export.h"
 
-Q_DECLARE_LOGGING_CATEGORY(jmbdeWidgetsCsvInputDialogLog)
+Q_DECLARE_LOGGING_CATEGORY(m_CsvInputDialogLog)
 
 namespace Ui
 {
@@ -46,6 +46,20 @@ public:
      */
     ~CsvImportDialog();
 
+private slots:
+
+    /**
+     * @brief CsvImportDialog::checkString
+     * @param temp Check the String
+     * @param character The character to checking
+     */
+    void checkString(QString &temp, QChar character = QChar(' '));
+
+    /**
+     * @brief CsvImportDialog::on_buttonBox_accepted
+     */
+    void on_buttonBox_accepted();
+
 private:
     /**
      * @brief ui
@@ -66,18 +80,8 @@ private:
      * @brief standardItemList
      */
     QList<QStandardItem *> standardItemList;
-
-private slots:
-
-    /**
-     * @brief CsvImportDialog::checkString
-     * @param temp Check the String
-     * @param character The character to checking
+    /*!
+     * Logging Category
      */
-    void checkString(QString &temp, QChar character = QChar(' '));
-
-    /**
-     * @brief CsvImportDialog::on_buttonBox_accepted
-     */
-    void on_buttonBox_accepted();
+    QLoggingCategory m_CsvInputDialogLog;
 };

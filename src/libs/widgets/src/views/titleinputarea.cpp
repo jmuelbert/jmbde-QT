@@ -12,11 +12,13 @@
 TitleInputArea::TitleInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::TitleInputArea)
+    , m_TitleInputAreaLog(QLoggingCategory("jmbde.widgets.titleinputarea"))
+
 {
     ui->setupUi(this);
 
     // Init UI
-    qCDebug(jmbdeWidgetsTitleDataInputAreaLog) << tr("Initialisiere TitleInputarea mit Index : ") << index.row();
+    qCDebug(m_TitleInputAreaLog) << tr("Initialisiere TitleInputarea mit Index : ") << index.row();
 
     this->m_titleModel = new Model::Title();
     this->m_db = this->m_titleModel->getDB();
@@ -34,7 +36,7 @@ TitleInputArea::TitleInputArea(QWidget *parent, const QModelIndex &index)
 
     setMappings();
 
-    qCDebug(jmbdeWidgetsTitleDataInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+    qCDebug(m_TitleInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
     if (index.row() < 0) {
         m_mapper->toFirst();
@@ -66,7 +68,7 @@ void TitleInputArea::setViewOnlyMode(bool mode)
 
 void TitleInputArea::createDataset()
 {
-    qCDebug(jmbdeWidgetsTitleDataInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Title...");
+    qCDebug(m_TitleInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Title...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -82,20 +84,20 @@ void TitleInputArea::createDataset()
 
 void TitleInputArea::deleteDataset(const QModelIndex &index)
 {
-    qCDebug(jmbdeWidgetsTitleDataInputAreaLog) << tr("Lösche Daten von Title");
+    qCDebug(m_TitleInputAreaLog) << tr("Lösche Daten von Title");
     m_mapper->setCurrentIndex(index.row());
 }
 
 void TitleInputArea ::addEdit()
 {
-    qCDebug(jmbdeWidgetsTitleDataInputAreaLog) << tr("Füge neue Daten zu Title");
+    qCDebug(m_TitleInputAreaLog) << tr("Füge neue Daten zu Title");
     createDataset();
     editFinish();
 }
 
 void TitleInputArea ::editFinish()
 {
-    qCDebug(jmbdeWidgetsTitleDataInputAreaLog) << tr("Bearbeite oder schließe Title Daten");
+    qCDebug(m_TitleInputAreaLog) << tr("Bearbeite oder schließe Title Daten");
 
     switch (m_actualMode) {
     case Mode::Edit: {
@@ -106,7 +108,7 @@ void TitleInputArea ::editFinish()
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsTitleDataInputAreaLog) << tr("Die Daten werden gesichert.");
+        qCDebug(m_TitleInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -123,7 +125,7 @@ void TitleInputArea ::editFinish()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(jmbdeWidgetsTitleDataInputAreaLog) << tr("Schreiben der Änderungen für Account in die Datenbank");
+                qCDebug(m_TitleInputAreaLog) << tr("Schreiben der Änderungen für Account in die Datenbank");
                 dataChanged();
             } else {
                 m_model->database().rollback();
@@ -133,7 +135,7 @@ void TitleInputArea ::editFinish()
     } break;
 
     default: {
-        qCCritical(jmbdeWidgetsTitleDataInputAreaLog) << tr("Fehler: Unbekannter Modus");
+        qCCritical(m_TitleInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

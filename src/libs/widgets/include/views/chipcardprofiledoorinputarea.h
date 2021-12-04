@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include <QLoggingCategory>
 #include <QDataWidgetMapper>
 #include <QGroupBox>
 #include <QLoggingCategory>
@@ -19,7 +20,7 @@
 #include "models/chipcardprofiledoor.h"
 #include "models/datacontext.h"
 
-Q_DECLARE_LOGGING_CATEGORY(jmbdeWidgetsChipCardProfileDoorInputAreaLog)
+Q_DECLARE_LOGGING_CATEGORY(m_chipCardProfileDoorInputAreaLog)
 
 namespace Ui
 {
@@ -126,4 +127,10 @@ private:
      * @param index Delete the data for the ModelIndex
      */
     void deleteDataset(const QModelIndex &index);
+
+    /*!
+     * Logging Category
+     */
+    QLoggingCategory m_chipCardProfileDoorInputAreaLog;
+
 };

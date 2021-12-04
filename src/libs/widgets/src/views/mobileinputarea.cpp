@@ -12,11 +12,13 @@
 MobileInputArea::MobileInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::MobileInputArea)
+    , m_MobileInputAreaLog(QLoggingCategory("jmbde.widgets.mobileinputarea"))
+
 {
     ui->setupUi(this);
 
     // Init UI
-    qCDebug(jmbdeWidgetsMobileInputAreaLog) << tr("Initialisiere Mobilenputarea mit Index : ") << index.row();
+    qCDebug(m_MobileInputAreaLog) << tr("Initialisiere Mobilenputarea mit Index : ") << index.row();
 
     this->m_mobileModel = new Model::Mobile();
     this->m_db = this->m_mobileModel->getDB();
@@ -34,7 +36,7 @@ MobileInputArea::MobileInputArea(QWidget *parent, const QModelIndex &index)
 
     setMappings();
 
-    qCDebug(jmbdeWidgetsMobileInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+    qCDebug(m_MobileInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
     if (index.row() < 0) {
         m_mapper->toFirst();
@@ -88,7 +90,7 @@ void MobileInputArea::setViewOnlyMode(bool mode)
 
 void MobileInputArea::createDataset()
 {
-    qDebug(jmbdeWidgetsMobileInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Mobile...");
+    qDebug(m_MobileInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Mobile...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -104,20 +106,20 @@ void MobileInputArea::createDataset()
 
 void MobileInputArea::deleteDataset(const QModelIndex &index)
 {
-    qCDebug(jmbdeWidgetsMobileInputAreaLog) << tr("Lösche Daten von Mobile");
+    qCDebug(m_MobileInputAreaLog) << tr("Lösche Daten von Mobile");
     m_mapper->setCurrentIndex(index.row());
 }
 
 void MobileInputArea::addEdit()
 {
-    qCDebug(jmbdeWidgetsMobileInputAreaLog) << tr("Füge neue Daten zu Mobile");
+    qCDebug(m_MobileInputAreaLog) << tr("Füge neue Daten zu Mobile");
     createDataset();
     editFinish();
 }
 
 void MobileInputArea::editFinish()
 {
-    qCDebug(jmbdeWidgetsMobileInputAreaLog) << tr("Bearbeite oder schließe Mobile Daten");
+    qCDebug(m_MobileInputAreaLog) << tr("Bearbeite oder schließe Mobile Daten");
 
     switch (m_actualMode) {
     case Mode::Edit: {
@@ -128,7 +130,7 @@ void MobileInputArea::editFinish()
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsMobileInputAreaLog) << tr("Die Daten werden gesichert.");
+        qCDebug(m_MobileInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -145,7 +147,7 @@ void MobileInputArea::editFinish()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(jmbdeWidgetsMobileInputAreaLog) << tr("Schreiben der Änderungen für Mobile in die Datenbank");
+                qCDebug(m_MobileInputAreaLog) << tr("Schreiben der Änderungen für Mobile in die Datenbank");
                 dataChanged();
             } else {
                 m_model->database().rollback();
@@ -155,7 +157,7 @@ void MobileInputArea::editFinish()
     } break;
 
     default: {
-        qCCritical(jmbdeWidgetsMobileInputAreaLog) << tr("Fehler: Unbekannter Modus");
+        qCCritical(m_MobileInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

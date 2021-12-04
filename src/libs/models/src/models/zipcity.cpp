@@ -8,6 +8,7 @@
 
 Model::ZipCity::ZipCity()
     : CommonData()
+    , m_ZipCityLog(QLoggingCategory("jmbde.models.zipcity"))
 {
     this->m_dataContext = new Model::DataContext();
     this->m_db = m_dataContext->getDatabase();
@@ -70,7 +71,7 @@ auto Model::ZipCity::generateTableString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdeModelsZipCityLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(m_ZipCityLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     QList<int> set;
 
@@ -95,7 +96,7 @@ auto Model::ZipCity::generateFormularString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdeModelsZipCityLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(m_ZipCityLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     // Document Title
     outString = QLatin1String("<h1>");

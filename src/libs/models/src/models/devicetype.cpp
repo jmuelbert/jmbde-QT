@@ -8,6 +8,7 @@
 
 Model::DeviceType::DeviceType()
     : CommonData()
+    , m_DeviceTypeLog(QLoggingCategory("jmbde.models.devicetype"))
 {
     this->m_dataContext = new Model::DataContext();
     this->m_db = m_dataContext->getDatabase();
@@ -69,7 +70,7 @@ auto Model::DeviceType::generateTableString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdeModelsDeviceTypeLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(m_DeviceTypeLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     QList<int> set;
 
@@ -95,7 +96,7 @@ auto Model::DeviceType::generateFormularString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdeModelsDeviceTypeLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(m_DeviceTypeLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     // Document Title
     outString = QLatin1String("<h1>");

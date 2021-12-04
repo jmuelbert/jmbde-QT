@@ -19,7 +19,7 @@
 #include "models/chipcardprofile.h"
 #include "models/datacontext.h"
 
-Q_DECLARE_LOGGING_CATEGORY(jmbdeWidgetsChipCardProfileInputAreaLog)
+Q_DECLARE_LOGGING_CATEGORY(m_ChipCardProfileInputAreaLog)
 
 namespace Ui
 {
@@ -126,4 +126,10 @@ private:
      * @param index Delete the data for the ModelIndex
      */
     void deleteDataset(const QModelIndex &index);
+
+    /*!
+     * Logging Category
+     */
+    QLoggingCategory m_ChipCardProfileInputAreaLog;
+
 };

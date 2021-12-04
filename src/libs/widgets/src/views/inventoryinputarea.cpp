@@ -10,10 +10,12 @@
 InventoryInputArea::InventoryInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::InventoryInputArea)
+    , m_InventoryInputAreaLog(QLoggingCategory("jmbde.widgets.inventoryinputarea"))
+
 {
     ui->setupUi(this);
 
-    qCDebug(jmbdeWidgetsInventoryInputAreaLog) << tr("Initialisiere InventoryInputArea mit Index :") << index.row();
+    qCDebug(m_InventoryInputAreaLog) << tr("Initialisiere InventoryInputArea mit Index :") << index.row();
 
     this->m_inventoryModel = new Model::Inventory();
     this->m_db = this->m_inventoryModel->getDB();
@@ -31,7 +33,7 @@ InventoryInputArea::InventoryInputArea(QWidget *parent, const QModelIndex &index
 
     setMappings();
 
-    qCDebug(jmbdeWidgetsInventoryInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+    qCDebug(m_InventoryInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
     if (index.row() < 0) {
         m_mapper->toFirst();
@@ -65,7 +67,7 @@ void InventoryInputArea::setViewOnlyMode(bool mode)
 
 void InventoryInputArea::createDataset()
 {
-    qCDebug(jmbdeWidgetsInventoryInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Inventory...");
+    qCDebug(m_InventoryInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Inventory...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -81,20 +83,20 @@ void InventoryInputArea::createDataset()
 
 void InventoryInputArea::deleteDataset(const QModelIndex &index)
 {
-    qCDebug(jmbdeWidgetsInventoryInputAreaLog) << tr("Lösche Daten von Inventory");
+    qCDebug(m_InventoryInputAreaLog) << tr("Lösche Daten von Inventory");
     m_mapper->setCurrentIndex(index.row());
 }
 
 void InventoryInputArea::addEdit()
 {
-    qCDebug(jmbdeWidgetsInventoryInputAreaLog) << tr("Füge neue Daten zu Inventory");
+    qCDebug(m_InventoryInputAreaLog) << tr("Füge neue Daten zu Inventory");
     createDataset();
     editFinish();
 }
 
 void InventoryInputArea::editFinish()
 {
-    qCDebug(jmbdeWidgetsInventoryInputAreaLog) << tr("Bearbeite oder schließe Inventory Daten");
+    qCDebug(m_InventoryInputAreaLog) << tr("Bearbeite oder schließe Inventory Daten");
 
     switch (m_actualMode) {
     case Mode::Edit: {
@@ -106,7 +108,7 @@ void InventoryInputArea::editFinish()
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsInventoryInputAreaLog) << tr("Die Daten werden gesichert.");
+        qCDebug(m_InventoryInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -123,7 +125,7 @@ void InventoryInputArea::editFinish()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(jmbdeWidgetsInventoryInputAreaLog) << tr("Schreiben der Änderungen für Inventory in die Datenbank");
+                qCDebug(m_InventoryInputAreaLog) << tr("Schreiben der Änderungen für Inventory in die Datenbank");
                 dataChanged();
             } else {
                 m_model->database().rollback();
@@ -133,7 +135,7 @@ void InventoryInputArea::editFinish()
     } break;
 
     default: {
-        qCCritical(jmbdeWidgetsInventoryInputAreaLog) << tr("Fehler: Unbekannter Modus");
+        qCCritical(m_InventoryInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

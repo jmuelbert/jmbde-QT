@@ -10,10 +10,12 @@
 ZipCityInputArea::ZipCityInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::ZipCityInputArea)
+    , m_ZipCityInputAreaLog(QLoggingCategory("jmbde.widgets.zipcityinputarea"))
+
 {
     ui->setupUi(this);
 
-    qCDebug(jmbdeWidgetsZipCityInputAreaLog) << tr("Initialisiere ZipCityInputArea mit Index :") << index.row();
+    qCDebug(m_ZipCityInputAreaLog) << tr("Initialisiere ZipCityInputArea mit Index :") << index.row();
 
     this->m_zipCityModel = new Model::ZipCity();
     this->m_db = this->m_zipCityModel->getDB();
@@ -31,7 +33,7 @@ ZipCityInputArea::ZipCityInputArea(QWidget *parent, const QModelIndex &index)
 
     setMappings();
 
-    qCDebug(jmbdeWidgetsZipCityInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+    qCDebug(m_ZipCityInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
     if (index.row() < 0) {
         m_mapper->toFirst();
@@ -63,7 +65,7 @@ void ZipCityInputArea::setViewOnlyMode(bool mode)
 
 void ZipCityInputArea::createDataset()
 {
-    qCDebug(jmbdeWidgetsZipCityInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für ZipCityInputArea...");
+    qCDebug(m_ZipCityInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für ZipCityInputArea...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -79,20 +81,20 @@ void ZipCityInputArea::createDataset()
 
 void ZipCityInputArea::deleteDataset(const QModelIndex &index)
 {
-    qCDebug(jmbdeWidgetsZipCityInputAreaLog) << tr("Lösche Daten von ZipCityInputArea");
+    qCDebug(m_ZipCityInputAreaLog) << tr("Lösche Daten von ZipCityInputArea");
     m_mapper->setCurrentIndex(index.row());
 }
 
 void ZipCityInputArea::addEdit()
 {
-    qCDebug(jmbdeWidgetsZipCityInputAreaLog) << tr("Füge neue Daten zu ZipCityInputArea");
+    qCDebug(m_ZipCityInputAreaLog) << tr("Füge neue Daten zu ZipCityInputArea");
     createDataset();
     editFinish();
 }
 
 void ZipCityInputArea::editFinish()
 {
-    qCDebug(jmbdeWidgetsZipCityInputAreaLog) << tr("Bearbeite oder schließe ZipCityInputArea Daten");
+    qCDebug(m_ZipCityInputAreaLog) << tr("Bearbeite oder schließe ZipCityInputArea Daten");
 
     switch (m_actualMode) {
     case Mode::Edit: {
@@ -103,7 +105,7 @@ void ZipCityInputArea::editFinish()
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsZipCityInputAreaLog) << tr("Die Daten werden gesichert.");
+        qCDebug(m_ZipCityInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -113,7 +115,7 @@ void ZipCityInputArea::editFinish()
         m_model->database().transaction();
         if (m_model->submitAll()) {
             m_model->database().commit();
-            qCDebug(jmbdeWidgetsZipCityInputAreaLog) << tr("Schreiben der Änderungen für Account in die Datenbank");
+            qCDebug(m_ZipCityInputAreaLog) << tr("Schreiben der Änderungen für Account in die Datenbank");
             dataChanged();
         } else {
             m_model->database().rollback();
@@ -123,7 +125,7 @@ void ZipCityInputArea::editFinish()
     } break;
 
     default: {
-        qCCritical(jmbdeWidgetsZipCityInputAreaLog) << tr("Fehler: Unbekannter Modus");
+        qCCritical(m_ZipCityInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

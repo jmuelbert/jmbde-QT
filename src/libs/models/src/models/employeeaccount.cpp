@@ -8,6 +8,7 @@
 
 Model::EmployeeAccount::EmployeeAccount()
     : CommonData()
+    , m_EmployeeAccountLog(QLoggingCategory("jmbde.models.employeeaccount"))
 {
     this->m_dataContext = new Model::DataContext();
     this->m_db = m_dataContext->getDatabase();
@@ -69,7 +70,7 @@ auto Model::EmployeeAccount::generateTableString(const QString &header) -> QStri
 {
     QString outString;
 
-    qCDebug(jmbdeModelsEmployeeAccountLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(m_EmployeeAccountLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     QList<int> set;
 
@@ -95,7 +96,7 @@ auto Model::EmployeeAccount::generateFormularString(const QString &header) -> QS
 {
     QString outString;
 
-    qCDebug(jmbdeModelsEmployeeAccountLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(m_EmployeeAccountLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     // Document Title
     outString = QLatin1String("<h1>");

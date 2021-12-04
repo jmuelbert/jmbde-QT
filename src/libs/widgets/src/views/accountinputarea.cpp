@@ -12,10 +12,11 @@
 AccountInputArea::AccountInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::AccountInputArea)
+    , m_AccountInputAreaLog(QLoggingCategory("jmbde.widgets.accountinputarea"))
 {
     ui->setupUi(this);
 
-    qCDebug(jmbdeWidgetsAccountInputAreaLog) << tr("Initialisiere AccountInputArea mit Index :") << index.row();
+    qCDebug(m_AccountInputAreaLog) << tr("Initialisiere AccountInputArea mit Index :") << index.row();
 
     this->m_accountModel = new Model::Account();
     this->m_db = this->m_accountModel->getDB();
@@ -33,7 +34,7 @@ AccountInputArea::AccountInputArea(QWidget *parent, const QModelIndex &index)
 
     setMappings();
 
-    qCDebug(jmbdeWidgetsAccountInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+    qCDebug(m_AccountInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
     if (index.row() < 0) {
         m_mapper->toFirst();
@@ -67,7 +68,7 @@ void AccountInputArea::setViewOnlyMode(bool mode)
 
 void AccountInputArea::createDataset()
 {
-    qCDebug(jmbdeWidgetsAccountInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Account...");
+    qCDebug(m_AccountInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Account...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -83,7 +84,7 @@ void AccountInputArea::createDataset()
 
 void AccountInputArea::deleteDataset(const QModelIndex &index)
 {
-    qCDebug(jmbdeWidgetsAccountInputAreaLog) << tr("Lösche Daten von Account");
+    qCDebug(m_AccountInputAreaLog) << tr("Lösche Daten von Account");
     m_mapper->setCurrentIndex(index.row());
 }
 
@@ -91,14 +92,14 @@ void AccountInputArea::deleteDataset(const QModelIndex &index)
 
 void AccountInputArea::addEdit()
 {
-    qCDebug(jmbdeWidgetsAccountInputAreaLog) << tr("Füge neue Daten zu account");
+    qCDebug(m_AccountInputAreaLog) << tr("Füge neue Daten zu account");
     createDataset();
     editFinish();
 }
 
 void AccountInputArea::editFinish()
 {
-    qCDebug(jmbdeWidgetsAccountInputAreaLog) << tr("Bearbeite oder schließe account Daten");
+    qCDebug(m_AccountInputAreaLog) << tr("Bearbeite oder schließe account Daten");
 
     switch (m_actualMode) {
     case Mode::Edit: {
@@ -109,7 +110,7 @@ void AccountInputArea::editFinish()
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsAccountInputAreaLog) << tr("Die Daten werden gesichert.");
+        qCDebug(m_AccountInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -122,12 +123,12 @@ void AccountInputArea::editFinish()
 
             QMessageBox::information(this, tr("Benutzernamen hinzufügen"), message);
         } else {
-            qCDebug(jmbdeWidgetsAccountInputAreaLog) << tr("Benutzer Name : ") << ui->userNameLineEdit->text();
+            qCDebug(m_AccountInputAreaLog) << tr("Benutzer Name : ") << ui->userNameLineEdit->text();
             m_mapper->submit();
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(jmbdeWidgetsAccountInputAreaLog) << tr("Schreiben der Änderungen für Account in die Datenbank");
+                qCDebug(m_AccountInputAreaLog) << tr("Schreiben der Änderungen für Account in die Datenbank");
                 dataChanged();
             } else {
                 m_model->database().rollback();
@@ -137,7 +138,7 @@ void AccountInputArea::editFinish()
     } break;
 
     default: {
-        qCDebug(jmbdeWidgetsAccountInputAreaLog) << tr("Fehler: Unbekannter Modus");
+        qCDebug(m_AccountInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

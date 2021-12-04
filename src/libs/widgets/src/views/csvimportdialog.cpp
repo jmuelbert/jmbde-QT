@@ -11,6 +11,8 @@
 CsvImportDialog::CsvImportDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::CsvImportDialog)
+    , m_CsvInputDialogLog(QLoggingCategory("jmbde.widgets.csvinputdialog"))
+
 {
     ui->setupUi(this);
     model = new QStandardItemModel(this);
@@ -86,7 +88,7 @@ void CsvImportDialog::on_buttonBox_accepted()
     int columnCount = model->columnCount();
     int rowCount = model->rowCount();
 
-    qCDebug(jmbdeWidgetsCsvInputDialogLog) << "Columns : " << columnCount << " Rows : " << rowCount;
+    qCDebug(m_CsvInputDialogLog) << "Columns : " << columnCount << " Rows : " << rowCount;
     QString tempString;
 
     for (int i = 0; i < rowCount; i++) {
@@ -96,7 +98,7 @@ void CsvImportDialog::on_buttonBox_accepted()
             tempString.append(ind.data(Qt::DisplayRole).toString() + QLatin1String(", "));
         }
 
-        qCDebug(jmbdeWidgetsCsvInputDialogLog) << "SqlState : " << tempString;
+        qCDebug(m_CsvInputDialogLog) << "SqlState : " << tempString;
         tempString.clear();
     }
 }

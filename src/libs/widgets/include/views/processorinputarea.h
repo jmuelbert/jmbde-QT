@@ -19,7 +19,7 @@
 #include "models/datacontext.h"
 #include "models/processor.h"
 
-Q_DECLARE_LOGGING_CATEGORY(jmbdeWidgetsProcessorInputAreaLog)
+Q_DECLARE_LOGGING_CATEGORY(m_ProcessorInputAreaLog)
 
 namespace Ui
 {
@@ -126,4 +126,9 @@ private:
      * @param index Delete the data for the ModelIndex
      */
     void deleteDataset(const QModelIndex &index);
+
+    /*!
+     * Logging Category
+     */
+    QLoggingCategory m_ProcessorInputAreaLog;
 };

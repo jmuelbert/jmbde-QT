@@ -25,7 +25,7 @@
 #include "models/place.h"
 #include "models/printer.h"
 
-Q_DECLARE_LOGGING_CATEGORY(jmbdeWidgetsEmployeeInputAreaLog)
+Q_DECLARE_LOGGING_CATEGORY(m_EmployeeInputAreaLog)
 
 namespace Ui
 {
@@ -137,4 +137,9 @@ private:
      * @param index Delete the data for the ModelIndex
      */
     void deleteDataset(const QModelIndex &index);
+
+    /*!
+     * Logging Category
+     */
+    QLoggingCategory m_EmployeeInputAreaLog;
 };

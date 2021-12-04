@@ -20,7 +20,7 @@
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 
-Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsPhoneLog)
+Q_DECLARE_LOGGING_CATEGORY(m_PhoneLog)
 
 namespace Model
 {
@@ -396,5 +396,10 @@ private:
        \brief The value of the LastUpdateIndex
     */
     int m_LastUpdateIndex{0};
+
+    /*!
+     * Logging Category
+     */
+    QLoggingCategory m_PhoneLog;
 };
 } // namespace Model

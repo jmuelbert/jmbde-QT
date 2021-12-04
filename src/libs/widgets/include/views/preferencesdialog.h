@@ -26,7 +26,7 @@
 #include "definitions.h"
 #include <QStandardPaths>
 
-Q_DECLARE_LOGGING_CATEGORY(jmbdeWidgetsPreferencesAreaLog)
+Q_DECLARE_LOGGING_CATEGORY(m_PreferencesDialogLog)
 
 namespace Ui
 {
@@ -84,4 +84,9 @@ private:
      * @return
      */
     static auto getUserDataDir() -> QString;
+
+    /*!
+     * Logging Category
+     */
+    QLoggingCategory m_PreferencesDialogLog;
 };

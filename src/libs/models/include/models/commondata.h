@@ -20,10 +20,7 @@
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 
-Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsCommonDataLog)
-
-namespace Model
-{
+namespace Model {
 /*!
     \class CommonData
 
@@ -36,8 +33,7 @@ namespace Model
     \copyright GPL-3.0-or-later
     */
 
-class CommonData : public QAbstractTableModel
-{
+class CommonData : public QAbstractTableModel {
     Q_OBJECT
 
 public:
@@ -45,7 +41,11 @@ public:
         \fn  CommonData()
         \brief The Constructor for the CommonData
      */
-    explicit JMBDEMODELS_EXPORT CommonData();
+    explicit JMBDEMODELS_EXPORT CommonData()
+        : m_model(nullptr)
+        , m_selectionModel(nullptr)
+    {
+    }
 
     /*!
         \fn ~CommonData()
@@ -64,7 +64,7 @@ public:
 
         \sa  QTextDocument
      */
-    static JMBDEMODELS_EXPORT QTextDocument *createSheet();
+    static JMBDEMODELS_EXPORT QTextDocument* createSheet();
 
     /*!
         \fn QString setOutTableStyle()
@@ -87,17 +87,17 @@ public:
      */
     static JMBDEMODELS_EXPORT QString setOutFormularStyle();
 
-    JMBDEMODELS_EXPORT int rowCount(const QModelIndex & = QModelIndex()) const override
+    JMBDEMODELS_EXPORT int rowCount(const QModelIndex& = QModelIndex()) const override
     {
         return 200;
     }
 
-    JMBDEMODELS_EXPORT int columnCount(const QModelIndex & = QModelIndex()) const override
+    JMBDEMODELS_EXPORT int columnCount(const QModelIndex& = QModelIndex()) const override
     {
         return 200;
     }
 
-    JMBDEMODELS_EXPORT QVariant data(const QModelIndex &index, int role) const override
+    JMBDEMODELS_EXPORT QVariant data(const QModelIndex& index, int role) const override
     {
         switch (role) {
         case Qt::DisplayRole:
@@ -111,7 +111,7 @@ public:
 
     JMBDEMODELS_EXPORT QHash<int, QByteArray> roleNames() const override
     {
-        return {{Qt::DisplayRole, "display"}};
+        return { { Qt::DisplayRole, "display" } };
     }
 
 protected:
@@ -119,14 +119,15 @@ protected:
         \brief holds an initialised pointer to the Relationmodel
         \sa QSqlRelationalTableModel
      */
-    QSqlRelationalTableModel *m_model{nullptr};
+    QSqlRelationalTableModel* m_model { nullptr };
 
     /*!
        \brief holds an initialised pointer to the ItemSelectioModel
        \sa QItemSelectionModel
     */
-    QItemSelectionModel *m_selectionModel{nullptr};
+    QItemSelectionModel* m_selectionModel { nullptr };
 
 private:
+    int m_LastUpdateIndex { 0 };
 };
 } // namespace Model

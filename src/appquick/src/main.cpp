@@ -68,8 +68,6 @@ int main(int argc, char *argv[])
     /**
      * enable high dpi support
      */
-    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
 
     /**
      * allow fractional scaling
@@ -121,7 +119,7 @@ int main(int argc, char *argv[])
     parser.process(app);
 
     // Setup and load translator for localization
-    QString locale = QLocale::system().name();
+    static QString locale = QLocale::system().name();
     QTranslator qtTranslator;
     qtTranslator.load(QLatin1String("qt_") + locale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     QApplication::installTranslator(&qtTranslator);

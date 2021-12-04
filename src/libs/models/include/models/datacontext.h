@@ -29,7 +29,7 @@
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 
-Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsDatacontextLog)
+Q_DECLARE_LOGGING_CATEGORY(m_DataContextLog)
 
 namespace Model
 {
@@ -61,7 +61,7 @@ public:
         \details Constructur with a name for the database to use.
      */
     explicit JMBDEMODELS_EXPORT DataContext(QObject *parent = nullptr);
-
+    
     /*!
         \fn DataContext( QObject *parent = nullptr,
                         const QString &name = QString() );
@@ -276,6 +276,10 @@ private:
     QString m_dbPassWord;
 
     int m_dbPort{0};
+    /*!
+     * Logging Category
+     */
+    QLoggingCategory m_DataContextLog;
 };
 } // namespace Model
 

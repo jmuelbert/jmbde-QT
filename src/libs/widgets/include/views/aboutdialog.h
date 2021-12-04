@@ -10,6 +10,7 @@
 #include <QDialog>
 #include <QFile>
 #include <QFileDialog>
+#include <QLoggingCategory>
 #include <QStandardItemModel>
 #include <QStandardPaths>
 #include <QString>
@@ -18,6 +19,7 @@
 #include "jmbdewidgets-version.h"
 #include "jmbdewidgets_export.h"
 
+Q_DECLARE_LOGGING_CATEGORY(m_AboutDialogLog)
 namespace Ui
 {
 class AboutDialog;
@@ -33,4 +35,9 @@ public:
 
 private:
     Ui::AboutDialog *ui;
+
+    /*!
+     * Logging Category
+     */
+    QLoggingCategory m_AboutDialogLog;
 };

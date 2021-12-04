@@ -8,6 +8,7 @@
 
 Model::SystemData::SystemData()
     : CommonData()
+    , m_SystemDataLog(QLoggingCategory("jmbde.models.systemdata"))
 {
     this->m_dataContext = new Model::DataContext();
     this->m_db = m_dataContext->getDatabase();
@@ -29,7 +30,7 @@ void Model::SystemData::setIndexes()
     m_LastUpdateIndex = this->m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-auto Model::SystemData::initializeRelationalModel() -> QSqlRelationalTableModel*
+auto Model::SystemData::initializeRelationalModel() -> QSqlRelationalTableModel *
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -41,7 +42,7 @@ auto Model::SystemData::initializeRelationalModel() -> QSqlRelationalTableModel*
     return this->m_model;
 }
 
-auto Model::SystemData::initializeInputDataModel() -> QSqlRelationalTableModel*
+auto Model::SystemData::initializeInputDataModel() -> QSqlRelationalTableModel *
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -50,16 +51,16 @@ auto Model::SystemData::initializeInputDataModel() -> QSqlRelationalTableModel*
     return this->m_model;
 }
 
-auto Model::SystemData::initializeViewModel() -> QSqlTableModel*
+auto Model::SystemData::initializeViewModel() -> QSqlTableModel *
 {
     this->m_model->select();
 
     return this->m_model;
 }
 
-auto Model::SystemData::initializeListModel() -> QSqlTableModel*
+auto Model::SystemData::initializeListModel() -> QSqlTableModel *
 {
-    auto* listModel = new QSqlTableModel(this, this->m_db);
+    auto *listModel = new QSqlTableModel(this, this->m_db);
     listModel->setTable(this->m_tableName);
     listModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
     listModel->select();
@@ -67,11 +68,11 @@ auto Model::SystemData::initializeListModel() -> QSqlTableModel*
     return listModel;
 }
 
-auto Model::SystemData::generateTableString(const QString& header) -> QString
+auto Model::SystemData::generateTableString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdeModelsSystemDataLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(m_SystemDataLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     QList<int> set;
 
@@ -92,11 +93,11 @@ auto Model::SystemData::generateTableString(const QString& header) -> QString
     return outString;
 }
 
-auto Model::SystemData::generateFormularString(const QString& header) -> QString
+auto Model::SystemData::generateFormularString(const QString &header) -> QString
 {
     QString outString;
 
-    qCDebug(jmbdeModelsSystemDataLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qCDebug(m_SystemDataLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     // Document Title
     outString = QLatin1String("<h1>");

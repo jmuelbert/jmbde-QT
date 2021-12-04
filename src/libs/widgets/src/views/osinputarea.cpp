@@ -12,11 +12,13 @@
 OSInputArea::OSInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::OSInputArea)
+    , m_OsInputAreaLog(QLoggingCategory("jmbde.widgets.osinputarea"))
+
 {
     ui->setupUi(this);
 
     // Init UI
-    qCDebug(jmbdeWidgetsOsInputAreaLog) << tr("Initialisiere OSInputarea mit Index : ") << index.row();
+    qCDebug(m_OsInputAreaLog) << tr("Initialisiere OSInputarea mit Index : ") << index.row();
 
     this->m_osModel = new Model::OS();
     this->m_db = this->m_osModel->getDB();
@@ -34,7 +36,7 @@ OSInputArea::OSInputArea(QWidget *parent, const QModelIndex &index)
 
     setMappings();
 
-    qCDebug(jmbdeWidgetsOsInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+    qCDebug(m_OsInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
     if (index.row() < 0) {
         m_mapper->toFirst();
@@ -70,7 +72,7 @@ void OSInputArea::setViewOnlyMode(bool mode)
 
 void OSInputArea::createDataset()
 {
-    qCDebug(jmbdeWidgetsOsInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für OS...");
+    qCDebug(m_OsInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für OS...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -86,20 +88,20 @@ void OSInputArea::createDataset()
 
 void OSInputArea::deleteDataset(const QModelIndex &index)
 {
-    qCDebug(jmbdeWidgetsOsInputAreaLog) << tr("Lösche Daten von OS");
+    qCDebug(m_OsInputAreaLog) << tr("Lösche Daten von OS");
     m_mapper->setCurrentIndex(index.row());
 }
 
 void OSInputArea::addEdit()
 {
-    qCDebug(jmbdeWidgetsOsInputAreaLog) << tr("Füge neue Daten zu OS");
+    qCDebug(m_OsInputAreaLog) << tr("Füge neue Daten zu OS");
     createDataset();
     editFinish();
 }
 
 void OSInputArea::editFinish()
 {
-    qCDebug(jmbdeWidgetsOsInputAreaLog) << tr("Bearbeite oder schließe OS Daten");
+    qCDebug(m_OsInputAreaLog) << tr("Bearbeite oder schließe OS Daten");
 
     switch (m_actualMode) {
     case Mode::Edit: {
@@ -110,7 +112,7 @@ void OSInputArea::editFinish()
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsOsInputAreaLog) << tr("Die Daten werden gesichert.");
+        qCDebug(m_OsInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -127,7 +129,7 @@ void OSInputArea::editFinish()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(jmbdeWidgetsOsInputAreaLog) << tr("Schreiben der Änderungen für OS in die Datenbank");
+                qCDebug(m_OsInputAreaLog) << tr("Schreiben der Änderungen für OS in die Datenbank");
                 dataChanged();
             } else {
                 m_model->database().rollback();
@@ -137,7 +139,7 @@ void OSInputArea::editFinish()
     } break;
 
     default: {
-        qCCritical(jmbdeWidgetsOsInputAreaLog) << tr("Fehler: Unbekannter Modus");
+        qCCritical(m_OsInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

@@ -19,7 +19,7 @@
 #include "models/datacontext.h"
 #include "models/fax.h"
 
-Q_DECLARE_LOGGING_CATEGORY(jmbdeWidgetsFaxInputAreaLog)
+Q_DECLARE_LOGGING_CATEGORY(m_FaxInputAreaLog)
 
 namespace Ui
 {
@@ -126,4 +126,9 @@ private:
      * @param index Delete the data for the ModelIndex
      */
     void deleteDataset(const QModelIndex &index);
+
+    /*!
+     * Logging Category
+     */
+    QLoggingCategory m_FaxInputAreaLog;
 };

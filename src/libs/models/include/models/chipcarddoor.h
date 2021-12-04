@@ -22,7 +22,8 @@
 
 Q_DECLARE_LOGGING_CATEGORY(m_ChipcardDoorLog)
 
-namespace Model {
+namespace Model
+{
 /*!
     \class ChipCardDoor
     \brief The ChipCardDoor class
@@ -33,7 +34,8 @@ namespace Model {
     \date 1.12.2020
     \copyright GPL-3.0-or-later
     */
-class ChipCardDoor : public CommonData {
+class ChipCardDoor : public CommonData
+{
     Q_OBJECT
 
 public:
@@ -43,20 +45,7 @@ public:
         \brief Constructor for the ChipCardDoor
         \param parent The pointer to the parent Object
      */
-    explicit JMBDEMODELS_EXPORT ChipCardDoor()
-        : CommonData()
-        , m_ChipcardDoorLog(QLoggingCategory("jmbde.jmbdemodels.chipcarddoor"))
-    {
-        this->m_dataContext = new Model::DataContext();
-        this->m_db = m_dataContext->getDatabase();
-
-        // Set the Model
-        this->m_model = new QSqlRelationalTableModel(this, this->m_db);
-        this->m_model->setTable(this->m_tableName);
-        this->m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-
-        setIndexes();
-    }
+    explicit JMBDEMODELS_EXPORT ChipCardDoor();
 
     /*!
      * \fn  ~ChipCardDoor() override;
@@ -80,7 +69,7 @@ public:
         \brief set the QSqlRelationalTableModel for the DataModel
         \return The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel* initializeRelationalModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel() final;
 
     /*!
         \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
@@ -88,7 +77,7 @@ public:
 
         \return  The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel* initializeInputDataModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel() final;
 
     /*!
         \fn virtual QSqlTableModel *initializeViewModel()
@@ -96,13 +85,13 @@ public:
 
         \return  QSqlTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlTableModel* initializeViewModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
 
     /*!
         \fn QSqlTableModel *initializeListModel();
         \brief Initiallize the list Model for select one dataset
     */
-    virtual JMBDEMODELS_EXPORT QSqlTableModel* initializeListModel() final;
+    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeListModel() final;
 
     /*!
      * \fn virtual auto generateTableString(
@@ -111,7 +100,7 @@ public:
 
         \return  a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString& header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString final;
 
     /*!
         \fn virtual auto generateFormularString(
@@ -120,7 +109,7 @@ public:
 
         \return  a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString& header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
 
     // Getter
     JMBDEMODELS_EXPORT QString getTableName() const
@@ -219,48 +208,48 @@ private:
         \brief holds an initialised pointer to the Relationmodel
         \sa QSqlRelationalTableModel
      */
-    QSqlRelationalTableModel* m_model { nullptr };
+    QSqlRelationalTableModel *m_model{nullptr};
 
     /*!
        \brief holds an initialised pointer to the ItemSelectioModel
        \sa QItemSelectionModel
     */
-    QItemSelectionModel* m_selectionModel { nullptr };
+    QItemSelectionModel *m_selectionModel{nullptr};
 
     /*!
      * @brief DataContext
      */
-    Model::DataContext* m_dataContext = {};
+    Model::DataContext *m_dataContext = {};
 
     /*!
         \brief The value of the ChipCardDoorIdIndex
     */
-    int m_ChipCardDoorIdIndex { 0 };
+    int m_ChipCardDoorIdIndex{0};
 
     /*!
         \brief The value of the NumberIndex
     */
-    int m_NumberIndex { 0 };
+    int m_NumberIndex{0};
 
     /*!
         \brief The value of the PlaceIdIndex
     */
-    int m_PlaceIdIndex { 0 };
+    int m_PlaceIdIndex{0};
 
     /*!
         \brief The value of the DepartmetIdIndex
     */
-    int m_DepartmetIdIndex { 0 };
+    int m_DepartmetIdIndex{0};
 
     /*!
       \brief The value of the EmployeeIdIndex
   */
-    int m_EmployeeIdIndex { 0 };
+    int m_EmployeeIdIndex{0};
 
     /*!
         \brief The value of the LastUpdateIndex
     */
-    int m_LastUpdateIndex { 0 };
+    int m_LastUpdateIndex{0};
     /*!
      * Logging Category
      */

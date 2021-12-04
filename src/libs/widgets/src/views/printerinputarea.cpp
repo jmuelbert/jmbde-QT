@@ -12,11 +12,13 @@
 PrinterInputArea::PrinterInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::PrinterInputArea)
+    , m_PrinterInputAreaLog(QLoggingCategory("jmbde.widgets.printerinputarea"))
+
 {
     ui->setupUi(this);
 
     // Init UI
-    qCDebug(jmbdeWidgetsPrinterInputAreaLog) << tr("Initialisiere PrintInputarea mit Index : ") << index.row();
+    qCDebug(m_PrinterInputAreaLog) << tr("Initialisiere PrintInputarea mit Index : ") << index.row();
 
     this->m_printerModel = new Model::Printer();
     this->m_db = this->m_printerModel->getDB();
@@ -34,7 +36,7 @@ PrinterInputArea::PrinterInputArea(QWidget *parent, const QModelIndex &index)
 
     setMappings();
 
-    qCDebug(jmbdeWidgetsPrinterInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+    qCDebug(m_PrinterInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
     if (index.row() < 0) {
         m_mapper->toFirst();
@@ -96,7 +98,7 @@ void PrinterInputArea::setViewOnlyMode(bool mode)
 
 void PrinterInputArea::createDataset()
 {
-    qCDebug(jmbdeWidgetsPrinterInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Printer...");
+    qCDebug(m_PrinterInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Printer...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -112,20 +114,20 @@ void PrinterInputArea::createDataset()
 
 void PrinterInputArea::deleteDataset(const QModelIndex &index)
 {
-    qCDebug(jmbdeWidgetsPrinterInputAreaLog) << tr("Lösche Daten von Printer");
+    qCDebug(m_PrinterInputAreaLog) << tr("Lösche Daten von Printer");
     m_mapper->setCurrentIndex(index.row());
 }
 
 void PrinterInputArea::addEdit()
 {
-    qCDebug(jmbdeWidgetsPrinterInputAreaLog) << tr("Füge neue Daten zu Printer");
+    qCDebug(m_PrinterInputAreaLog) << tr("Füge neue Daten zu Printer");
     createDataset();
     editFinish();
 }
 
 void PrinterInputArea::editFinish()
 {
-    qCDebug(jmbdeWidgetsPrinterInputAreaLog) << tr("Bearbeite oder schließe Printer Daten");
+    qCDebug(m_PrinterInputAreaLog) << tr("Bearbeite oder schließe Printer Daten");
 
     switch (m_actualMode) {
     case Mode::Edit: {
@@ -136,7 +138,7 @@ void PrinterInputArea::editFinish()
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsPrinterInputAreaLog) << tr("Die Daten werden gesichert.");
+        qCDebug(m_PrinterInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -153,7 +155,7 @@ void PrinterInputArea::editFinish()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(jmbdeWidgetsPrinterInputAreaLog) << tr("Schreiben der Änderungen für Printer in die Datenbank");
+                qCDebug(m_PrinterInputAreaLog) << tr("Schreiben der Änderungen für Printer in die Datenbank");
                 emit dataChanged();
             } else {
                 m_model->database().rollback();
@@ -163,7 +165,7 @@ void PrinterInputArea::editFinish()
     } break;
 
     default: {
-        qCCritical(jmbdeWidgetsPrinterInputAreaLog) << tr("Fehler: Unbekannter Modus");
+        qCCritical(m_PrinterInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

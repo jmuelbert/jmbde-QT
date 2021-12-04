@@ -20,7 +20,7 @@
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 
-Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsComputerLog)
+Q_DECLARE_LOGGING_CATEGORY(m_ComputerLog)
 
 namespace Model
 {
@@ -45,7 +45,6 @@ public:
         \brief Constructor for the Account
      */
     explicit JMBDEMODELS_EXPORT Computer();
-
     /*!
         \fn  ~Computer() override;
 
@@ -553,5 +552,10 @@ private:
        \brief The value of the LastUpdateIndex
     */
     int m_LastUpdateIndex{0};
+
+    /*!
+     * Logging Category
+     */
+    QLoggingCategory m_ComputerLog;
 };
 } // namespace Model

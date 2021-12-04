@@ -20,7 +20,7 @@
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 
-Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsOsLog)
+Q_DECLARE_LOGGING_CATEGORY(m_OsLog)
 
 namespace Model
 {
@@ -255,5 +255,10 @@ private:
         \brief The value of the LastUpdateIndex
     */
     int m_LastUpdateIndex{0};
+
+    /*!
+     * Logging Category
+     */
+    QLoggingCategory m_OsLog;
 };
 } // namespace Model

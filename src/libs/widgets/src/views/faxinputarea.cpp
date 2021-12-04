@@ -11,11 +11,13 @@
 FaxInputArea::FaxInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::FaxInputArea)
+    , m_FaxInputAreaLog(QLoggingCategory("jmbde.widgets.faxinputarea"))
+
 {
     ui->setupUi(this);
 
     // Init UI
-    qCDebug(jmbdeWidgetsFaxInputAreaLog) << tr("Initialisiere FaxInputarea mit Index : ") << index.row();
+    qCDebug(m_FaxInputAreaLog) << tr("Initialisiere FaxInputarea mit Index : ") << index.row();
 
     this->m_faxModel = new Model::Fax();
     this->m_db = this->m_faxModel->getDB();
@@ -33,7 +35,7 @@ FaxInputArea::FaxInputArea(QWidget *parent, const QModelIndex &index)
 
     setMappings();
 
-    qCDebug(jmbdeWidgetsFaxInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+    qCDebug(m_FaxInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
     if (index.row() < 0) {
         m_mapper->toFirst();
@@ -85,7 +87,7 @@ void FaxInputArea::setViewOnlyMode(bool mode)
 
 void FaxInputArea::createDataset()
 {
-    qCDebug(jmbdeWidgetsFaxInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Fax...");
+    qCDebug(m_FaxInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Fax...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -101,19 +103,19 @@ void FaxInputArea::createDataset()
 
 void FaxInputArea::deleteDataset(const QModelIndex &index)
 {
-    qCDebug(jmbdeWidgetsFaxInputAreaLog) << tr("Lösche Daten von Fax");
+    qCDebug(m_FaxInputAreaLog) << tr("Lösche Daten von Fax");
     m_mapper->setCurrentIndex(index.row());
 }
 void FaxInputArea::addEdit()
 {
-    qCDebug(jmbdeWidgetsFaxInputAreaLog) << tr("Füge neue Daten zu Fax");
+    qCDebug(m_FaxInputAreaLog) << tr("Füge neue Daten zu Fax");
     createDataset();
     editFinish();
 }
 
 void FaxInputArea::editFinish()
 {
-    qCDebug(jmbdeWidgetsFaxInputAreaLog) << tr("Bearbeite oder schließe Fax Daten");
+    qCDebug(m_FaxInputAreaLog) << tr("Bearbeite oder schließe Fax Daten");
 
     switch (m_actualMode) {
     case Mode::Edit: {
@@ -124,7 +126,7 @@ void FaxInputArea::editFinish()
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsFaxInputAreaLog) << tr("Die Daten werden gesichert.");
+        qCDebug(m_FaxInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -141,7 +143,7 @@ void FaxInputArea::editFinish()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(jmbdeWidgetsFaxInputAreaLog) << tr("Schreiben der Änderungen für Fax in die Datenbank");
+                qCDebug(m_FaxInputAreaLog) << tr("Schreiben der Änderungen für Fax in die Datenbank");
                 dataChanged();
             } else {
                 m_model->database().rollback();
@@ -151,7 +153,7 @@ void FaxInputArea::editFinish()
     } break;
 
     default: {
-        qCCritical(jmbdeWidgetsFaxInputAreaLog) << tr("Fehler: Unbekannter Modus");
+        qCCritical(m_FaxInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

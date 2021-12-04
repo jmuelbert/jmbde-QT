@@ -19,7 +19,7 @@
 #include "models/datacontext.h"
 #include "models/zipcode.h"
 
-Q_DECLARE_LOGGING_CATEGORY(jmbdeWidgetsZipCodeInputAreaLog)
+Q_DECLARE_LOGGING_CATEGORY(m_ZipCodeInputAreaLog)
 
 namespace Ui
 {
@@ -126,4 +126,9 @@ private:
      * @param index Delete the data for the ModelIndex
      */
     void deleteDataset(const QModelIndex &index);
+
+    /*!
+     * Logging Category
+     */
+    QLoggingCategory m_ZipCodeInputAreaLog;
 };

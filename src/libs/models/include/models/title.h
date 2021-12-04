@@ -20,7 +20,7 @@
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 
-Q_DECLARE_LOGGING_CATEGORY(jmbdeModelsTitleLog)
+Q_DECLARE_LOGGING_CATEGORY(m_TitleLog)
 
 namespace Model
 {
@@ -216,5 +216,10 @@ private:
     int m_FromDateIndex{0};
 
     int m_LastUpdateIndex{0};
+
+    /*!
+     * Logging Category
+     */
+    QLoggingCategory m_TitleLog;
 };
 } // namespace Model

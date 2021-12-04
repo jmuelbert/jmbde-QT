@@ -96,7 +96,7 @@
 #include "views/csvimportdialog.h"
 #include "views/preferencesdialog.h"
 
-Q_DECLARE_LOGGING_CATEGORY(jmbdeWidgetsMainWindowLog)
+Q_DECLARE_LOGGING_CATEGORY(m_MainWindowLog)
 
 /**
  * Namespace for the UserInterface
@@ -404,4 +404,9 @@ private:
      * @brief m_actualData
      */
     QModelIndex m_actualData;
+
+    /*!
+     * Logging Category
+     */
+    QLoggingCategory m_MainWindowLog;
 };

@@ -19,6 +19,8 @@
 #include "models/datacontext.h"
 #include "models/manufacturer.h"
 
+Q_DECLARE_LOGGING_CATEGORY(m_ManufacturerInputAreaLog)
+
 namespace Ui
 {
 class ManufacturerInputArea;
@@ -124,4 +126,9 @@ private:
      * @param index Delete the data for the ModelIndex
      */
     void deleteDataset(const QModelIndex &index);
+
+    /*!
+     * Logging Category
+     */
+    QLoggingCategory m_ManufacturerInputAreaLog;
 };

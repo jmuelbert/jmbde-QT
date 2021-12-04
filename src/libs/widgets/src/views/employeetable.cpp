@@ -11,10 +11,11 @@
 EmployeeTable::EmployeeTable(QWidget *parent, const QModelIndex &index)
     : QWidget(parent)
     , ui(new Ui::EmployeeTable)
+    , m_EmployeeTableLog(QLoggingCategory("jmbde.widgets.employeetable"))
 {
-    ui->setupUi(this);
+        ui->setupUi(this);
 
-    qCDebug(jmbdeWidgetsEmployeeTableLog) << "Init ComputerInputArea for Index :" << index.column();
+    qCDebug(m_EmployeeTableLog) << "Init ComputerInputArea for Index :" << index.column();
 
     this->m_employeeModel = new Model::Employee();
     this->m_db = this->m_employeeModel->getDB();
@@ -114,7 +115,7 @@ void EmployeeTable::on_pushButton_EditFinish_clicked()
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsEmployeeTableLog) << tr("Die Daten werden gesichert.");
+        qCDebug(m_EmployeeTableLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         // TODO: To Implement
@@ -130,12 +131,12 @@ void EmployeeTable::on_pushButton_EditFinish_clicked()
         // } else {
         {
             // TODO: To Implement
-            // qCDebug(jmbdeWidgetsEmployeeTableLog) << tr("Mitarbeiter : ") << ui->lineEdit_Lastname->text();
+            // qCDebug(m_EmployeeTableLog) << tr("Mitarbeiter : ") << ui->lineEdit_Lastname->text();
             m_mapper->submit();
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(jmbdeWidgetsEmployeeTableLog) << tr("Schreiben der Änderungen in die Datenbank");
+                qCDebug(m_EmployeeTableLog) << tr("Schreiben der Änderungen in die Datenbank");
             } else {
                 m_model->database().rollback();
                 QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
@@ -144,7 +145,7 @@ void EmployeeTable::on_pushButton_EditFinish_clicked()
     } break;
 
     default: {
-        qCDebug(jmbdeWidgetsEmployeeTableLog) << tr("Fehler");
+        qCDebug(m_EmployeeTableLog) << tr("Fehler");
     }
     }
 }

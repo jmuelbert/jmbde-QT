@@ -10,10 +10,12 @@
 DeviceTypeInputArea::DeviceTypeInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::DeviceTypeInputArea)
+    , m_DeviceTypeInputAreaLog(QLoggingCategory("jmbde.widgets.devicetyoeinputarea"))
+
 {
     ui->setupUi(this);
 
-    qCDebug(jmbdeWidgetsDeviceTypeInputAreaLog) << tr("Initialisiere DeviceTypeInputArea mit Index :") << index.row();
+    qCDebug(m_DeviceTypeInputAreaLog) << tr("Initialisiere DeviceTypeInputArea mit Index :") << index.row();
 
     this->m_deviceTypeModel = new Model::DeviceType();
     this->m_db = this->m_deviceTypeModel->getDB();
@@ -31,7 +33,7 @@ DeviceTypeInputArea::DeviceTypeInputArea(QWidget *parent, const QModelIndex &ind
 
     setMappings();
 
-    qCDebug(jmbdeWidgetsDeviceTypeInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+    qCDebug(m_DeviceTypeInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
     if (index.row() < 0) {
         m_mapper->toFirst();
@@ -61,7 +63,7 @@ void DeviceTypeInputArea::setViewOnlyMode(bool mode)
 
 void DeviceTypeInputArea::createDataset()
 {
-    qCDebug(jmbdeWidgetsDeviceTypeInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für DeviceType...");
+    qCDebug(m_DeviceTypeInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für DeviceType...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -77,20 +79,20 @@ void DeviceTypeInputArea::createDataset()
 
 void DeviceTypeInputArea::deleteDataset(const QModelIndex &index)
 {
-    qCDebug(jmbdeWidgetsDeviceTypeInputAreaLog) << tr("Lösche Daten von DeviceType");
+    qCDebug(m_DeviceTypeInputAreaLog) << tr("Lösche Daten von DeviceType");
     m_mapper->setCurrentIndex(index.row());
 }
 
 void DeviceTypeInputArea::addEdit()
 {
-    qCDebug(jmbdeWidgetsDeviceTypeInputAreaLog) << tr("Füge neue Daten zu DeviceType");
+    qCDebug(m_DeviceTypeInputAreaLog) << tr("Füge neue Daten zu DeviceType");
     createDataset();
     editFinish();
 }
 
 void DeviceTypeInputArea::editFinish()
 {
-    qCDebug(jmbdeWidgetsDeviceTypeInputAreaLog) << tr("Bearbeite oder schließe DeviceType Daten");
+    qCDebug(m_DeviceTypeInputAreaLog) << tr("Bearbeite oder schließe DeviceType Daten");
 
     switch (m_actualMode) {
     case Mode::Edit: {
@@ -101,7 +103,7 @@ void DeviceTypeInputArea::editFinish()
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsDeviceTypeInputAreaLog) << tr("Die Daten werden gesichert.");
+        qCDebug(m_DeviceTypeInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -118,7 +120,7 @@ void DeviceTypeInputArea::editFinish()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(jmbdeWidgetsDeviceTypeInputAreaLog) << tr("Schreiben der Änderungen für Account in die Datenbank");
+                qCDebug(m_DeviceTypeInputAreaLog) << tr("Schreiben der Änderungen für Account in die Datenbank");
                 m_model->database().rollback();
             } else {
                 m_model->database().rollback();
@@ -128,7 +130,7 @@ void DeviceTypeInputArea::editFinish()
     } break;
 
     default: {
-        qCCritical(jmbdeWidgetsDeviceTypeInputAreaLog) << tr("Fehler: Unbekannter Modus");
+        qCCritical(m_DeviceTypeInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

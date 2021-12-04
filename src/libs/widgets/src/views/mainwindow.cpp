@@ -11,6 +11,8 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , m_MainWindowLog(QLoggingCategory("jmbde.widgets.mainwindow"))
+
 {
     ui->setupUi(this);
 
@@ -29,13 +31,13 @@ MainWindow::MainWindow(QWidget *parent)
     this->dataBaseName = QString(QApplication::applicationName());
     this->dataContext = new Model::DataContext(dynamic_cast<QObject *>(this), this->dataBaseName);
 
-    qCDebug(jmbdeWidgetsMainWindowLog) << tr("ActualViewRow : ") << m_actualView;
+    qCDebug(m_MainWindowLog) << tr("ActualViewRow : ") << m_actualView;
 
     if (m_actualView.row() > 0) {
         ui->treeView->setCurrentIndex(m_actualView);
         on_treeView_clicked(m_actualView);
     } else {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Setze aktuelle Ansicht: Mitarbeiter - Tabelle");
+        qCDebug(m_MainWindowLog) << tr("Setze aktuelle Ansicht: Mitarbeiter - Tabelle");
         actualView = VIEW_EMPLOYEE;
 
         actualizeEmployeeListView();
@@ -73,13 +75,13 @@ void MainWindow::focusChanged(QWidget *from, QWidget *now)
     Q_UNUSED(from)
     Q_UNUSED(now)
 
-    qCDebug(jmbdeWidgetsMainWindowLog) << tr("Der Fokus hat sich geändert");
+    qCDebug(m_MainWindowLog) << tr("Der Fokus hat sich geändert");
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     Q_UNUSED(event)
-    qCDebug(jmbdeWidgetsMainWindowLog) << tr("Der Close Event");
+    qCDebug(m_MainWindowLog) << tr("Der Close Event");
 }
 
 void MainWindow::on_actionPreferences_triggered()
@@ -156,13 +158,13 @@ void MainWindow::initOutline()
         i.next();
         auto *header = new QStandardItem(i.key());
         parentItem->appendRow(header);
-        qCDebug(jmbdeWidgetsMainWindowLog) << "initOutline(): (" << i.key() << ": " << i.value() << " )";
+        qCDebug(m_MainWindowLog) << "initOutline(): (" << i.key() << ": " << i.value() << " )";
 
         od = i.value();
         for (int index = 0; index < od.size(); ++index) {
             item = new QStandardItem(od.value(index));
             header->appendRow(item);
-            qCDebug(jmbdeWidgetsMainWindowLog) << "initOutline(): (Gefunden :" << od.value(index) << " an der Position)" << index;
+            qCDebug(m_MainWindowLog) << "initOutline(): (Gefunden :" << od.value(index) << " an der Position)" << index;
         }
     }
 
@@ -285,7 +287,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
 {
     switch (actualView) {
     case VIEW_ACCOUNT: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Accounts !");
+        qCDebug(m_MainWindowLog) << tr("Drucke Accounts !");
 
         auto *accountModel = new Model::Account;
         QString style = Model::Account::setOutTableStyle();
@@ -294,7 +296,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
         doc.setHtml(style + text);
     } break;
     case VIEW_CHIPCARD: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Chip Karten !");
+        qCDebug(m_MainWindowLog) << tr("Drucke Chip Karten !");
 
         auto *chipCardModel = new Model::ChipCard;
         QString style = Model::ChipCard::setOutTableStyle();
@@ -303,7 +305,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
         doc.setHtml(style + text);
     } break;
     case VIEW_CHIPCARDDOOR: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Chip Karten Türen !");
+        qCDebug(m_MainWindowLog) << tr("Drucke Chip Karten Türen !");
 
         auto *chipCardDoorModel = new Model::ChipCardDoor;
         QString style = Model::ChipCardDoor::setOutTableStyle();
@@ -313,7 +315,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
     } break;
 
     case VIEW_CHIPCARDPROFILE: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Chip Karten Profile !");
+        qCDebug(m_MainWindowLog) << tr("Drucke Chip Karten Profile !");
 
         auto *chipCardProfileModel = new Model::ChipCardProfile;
         QString style = Model::ChipCardProfile::setOutTableStyle();
@@ -322,7 +324,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
         doc.setHtml(style + text);
     } break;
     case VIEW_CHIPCARDPROFILEDOOR: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Chip Profile Tür !");
+        qCDebug(m_MainWindowLog) << tr("Drucke Chip Profile Tür !");
 
         auto *chipCardProfileDoorModel = new Model::ChipCardProfileDoor;
         QString style = Model::ChipCardProfileDoor::setOutTableStyle();
@@ -331,7 +333,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
         doc.setHtml(style + text);
     } break;
     case VIEW_CITYNAME: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Ortsnamen !");
+        qCDebug(m_MainWindowLog) << tr("Drucke Ortsnamen !");
 
         auto *cityNameModel = new Model::CityName;
         QString style = Model::CityName::setOutTableStyle();
@@ -340,7 +342,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
         doc.setHtml(style + text);
     } break;
     case VIEW_COMPANY: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Firmen !");
+        qCDebug(m_MainWindowLog) << tr("Drucke Firmen !");
 
         auto *companyModel = new Model::Company;
         QString style = Model::Company::setOutTableStyle();
@@ -349,7 +351,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
         doc.setHtml(style + text);
     } break;
     case VIEW_COMPUTER: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Computer !");
+        qCDebug(m_MainWindowLog) << tr("Drucke Computer !");
 
         auto *computerModel = new Model::Computer;
         QString style = Model::Computer::setOutTableStyle();
@@ -358,7 +360,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
         doc.setHtml(style + text);
     } break;
     case VIEW_COMPUTERSOFTWARE: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Software!");
+        qCDebug(m_MainWindowLog) << tr("Drucke Software!");
 
         auto *computerSoftwareModel = new Model::ComputerSoftware;
         QString style = Model::ComputerSoftware::setOutTableStyle();
@@ -367,7 +369,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
         doc.setHtml(style + text);
     } break;
     case VIEW_DEPARTMENT: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Abteilung !");
+        qCDebug(m_MainWindowLog) << tr("Drucke Abteilung !");
 
         auto *departmentModel = new Model::Department;
         QString style = Model::Department::setOutTableStyle();
@@ -376,7 +378,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
         doc.setHtml(style + text);
     } break;
     case VIEW_DEVICENAME: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Gerätename !");
+        qCDebug(m_MainWindowLog) << tr("Drucke Gerätename !");
 
         auto *deviceNameModel = new Model::DeviceName;
         QString style = Model::DeviceName::setOutTableStyle();
@@ -385,7 +387,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
         doc.setHtml(style + text);
     } break;
     case VIEW_DEVICETYPE: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Geräte Typ !");
+        qCDebug(m_MainWindowLog) << tr("Drucke Geräte Typ !");
 
         auto *deviceTypeModel = new Model::DeviceType;
         QString style = Model::DeviceType::setOutTableStyle();
@@ -394,7 +396,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
         doc.setHtml(style + text);
     } break;
     case VIEW_DOCUMENT: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Dokumente !");
+        qCDebug(m_MainWindowLog) << tr("Drucke Dokumente !");
 
         auto *documentModel = new Model::Document;
         QString style = Model::Document::setOutTableStyle();
@@ -404,7 +406,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
     } break;
 
     case VIEW_EMPLOYEE: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Mitarbeiter !");
+        qCDebug(m_MainWindowLog) << tr("Drucke Mitarbeiter !");
 
         auto *employeeModel = new Model::Employee;
         QString style = Model::Employee::setOutTableStyle();
@@ -413,7 +415,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
         doc.setHtml(style + text);
     } break;
     case VIEW_EMPLOYEEACCOUNT: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Mitarbeiter*innen Zugänge!");
+        qCDebug(m_MainWindowLog) << tr("Drucke Mitarbeiter*innen Zugänge!");
 
         auto *employeeAccountModel = new Model::EmployeeAccount;
         QString style = Model::EmployeeAccount::setOutTableStyle();
@@ -422,7 +424,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
         doc.setHtml(style + text);
     } break;
     case VIEW_EMPLOYEEDOCUMENT: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Mitarbeiter*innen Documente!");
+        qCDebug(m_MainWindowLog) << tr("Drucke Mitarbeiter*innen Documente!");
 
         auto *employeeDocumentModel = new Model::EmployeeDocument;
         QString style = Model::EmployeeDocument::setOutTableStyle();
@@ -431,7 +433,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
         doc.setHtml(style + text);
     } break;
     case VIEW_EMPLOYEE_LIST: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Mitarbeiter*innen Liste!");
+        qCDebug(m_MainWindowLog) << tr("Drucke Mitarbeiter*innen Liste!");
 
         auto *employeeDocumentModel = new Model::EmployeeDocument;
         QString style = Model::EmployeeDocument::setOutTableStyle();
@@ -440,7 +442,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
         doc.setHtml(style + text);
     } break;
     case VIEW_FAX: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Fax!");
+        qCDebug(m_MainWindowLog) << tr("Drucke Fax!");
 
         auto *faxModel = new Model::Fax;
         QString style = Model::Fax::setOutTableStyle();
@@ -449,7 +451,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
         doc.setHtml(style + text);
     } break;
     case VIEW_FUNCTION: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Funktion!");
+        qCDebug(m_MainWindowLog) << tr("Drucke Funktion!");
 
         auto *functionModel = new Model::Function;
         QString style = Model::Function::setOutTableStyle();
@@ -458,7 +460,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
         doc.setHtml(style + text);
     } break;
     case VIEW_INVENTORY: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Inventar!");
+        qCDebug(m_MainWindowLog) << tr("Drucke Inventar!");
 
         auto *inventoryModel = new Model::Inventory;
         QString style = Model::Inventory::setOutTableStyle();
@@ -468,7 +470,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
     } break;
 
     case VIEW_MANUFACTURER: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Hersteller!");
+        qCDebug(m_MainWindowLog) << tr("Drucke Hersteller!");
 
         auto *manufacturerModel = new Model::Manufacturer;
         QString style = Model::Manufacturer::setOutTableStyle();
@@ -477,7 +479,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
         doc.setHtml(style + text);
     } break;
     case VIEW_MOBILE: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Mobiltelefon!");
+        qCDebug(m_MainWindowLog) << tr("Drucke Mobiltelefon!");
 
         auto *mobileModel = new Model::Mobile;
         QString style = Model::Mobile::setOutTableStyle();
@@ -487,7 +489,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
     } break;
 
     case VIEW_OS: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Betriebssystem!");
+        qCDebug(m_MainWindowLog) << tr("Drucke Betriebssystem!");
 
         auto *osModel = new Model::OS;
         QString style = Model::OS::setOutTableStyle();
@@ -497,7 +499,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
     } break;
 
     case VIEW_PHONE: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Telefon!");
+        qCDebug(m_MainWindowLog) << tr("Drucke Telefon!");
 
         auto *faxModel = new Model::Fax;
         QString style = Model::Fax::setOutTableStyle();
@@ -507,7 +509,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
     } break;
 
     case VIEW_PLACE: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Platz!");
+        qCDebug(m_MainWindowLog) << tr("Drucke Platz!");
 
         auto *placeModel = new Model::Place;
         QString style = Model::Place::setOutTableStyle();
@@ -516,7 +518,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
         doc.setHtml(style + text);
     } break;
     case VIEW_PRINTER: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Drucker!");
+        qCDebug(m_MainWindowLog) << tr("Drucke Drucker!");
 
         auto *printerModel = new Model::Printer;
         QString style = Model::Printer::setOutTableStyle();
@@ -526,7 +528,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
     } break;
 
     case VIEW_PROCESSOR: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Prozessor!");
+        qCDebug(m_MainWindowLog) << tr("Drucke Prozessor!");
 
         auto *processorModel = new Model::Processor;
         QString style = Model::Processor::setOutTableStyle();
@@ -535,7 +537,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
         doc.setHtml(style + text);
     } break;
     case VIEW_SOFTWARE: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Software!");
+        qCDebug(m_MainWindowLog) << tr("Drucke Software!");
 
         auto *softwareModel = new Model::Software;
         QString style = Model::Software::setOutTableStyle();
@@ -544,7 +546,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
         doc.setHtml(style + text);
     } break;
     case VIEW_SYSTEMDATA: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Systemdaten!");
+        qCDebug(m_MainWindowLog) << tr("Drucke Systemdaten!");
 
         auto *systemDataModel = new Model::SystemData;
         QString style = Model::SystemData::setOutTableStyle();
@@ -553,7 +555,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
         doc.setHtml(style + text);
     } break;
     case VIEW_TITLE: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Titel!");
+        qCDebug(m_MainWindowLog) << tr("Drucke Titel!");
 
         auto *titleModel = new Model::Title;
         QString style = Model::Title::setOutTableStyle();
@@ -562,7 +564,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
         doc.setHtml(style + text);
     } break;
     case VIEW_ZIPCITY: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Zip City!");
+        qCDebug(m_MainWindowLog) << tr("Drucke Zip City!");
 
         auto *zipCityModel = new Model::ZipCity;
         QString style = Model::ZipCity::setOutTableStyle();
@@ -571,7 +573,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
         doc.setHtml(style + text);
     } break;
     case VIEW_ZIPCODE: {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Drucke Zip Code!");
+        qCDebug(m_MainWindowLog) << tr("Drucke Zip Code!");
 
         auto *zipCodeModel = new Model::ZipCode;
         QString style = Model::ZipCode::setOutTableStyle();
@@ -582,7 +584,7 @@ void MainWindow::preparePrint(QTextDocument &doc)
     default:
         QString message = tr("Drucken unbekanntes Submodul");
         notAvailableMessage(message);
-        qCCritical(jmbdeWidgetsMainWindowLog) << tr("on_action_Export_Pdf_triggered(): Unbekanntes Sub-Modul");
+        qCCritical(m_MainWindowLog) << tr("on_action_Export_Pdf_triggered(): Unbekanntes Sub-Modul");
     }
 }
 
@@ -666,14 +668,14 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
     const QString selected = item->text();
 
     m_actualView = index;
-    qCDebug(jmbdeWidgetsMainWindowLog) << "ActualViewRow : " << index << " Item : " << selected;
+    qCDebug(m_MainWindowLog) << "ActualViewRow : " << index << " Item : " << selected;
     // Headers -> no action
     if ((selected == tr("Person")) || (selected == tr("Gerät")) || (selected == tr("Kommunikation")) || (selected == tr("Verschiedenes"))) {
         return;
     }
 
     if (selected == tr("Zugang")) { // Account
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_ACCOUNT;
 
@@ -687,7 +689,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(accountInput);
 
     } else if (selected == tr("Schlüsselchip Tür")) { // ChipCardDoor
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_CHIPCARDDOOR;
 
@@ -701,7 +703,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(chipCardDoorInput);
 
     } else if (selected == tr("Schlüssel Chip")) { // ChipCard
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_CHIPCARD;
 
@@ -715,7 +717,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(chipCardInput);
 
     } else if (selected == tr("Schlüssel Chip Profile Tür")) { // ChipCardProfileDoor
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_CHIPCARDPROFILEDOOR;
 
@@ -729,7 +731,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(chipCardProfileDoorInput);
 
     } else if (selected == tr("Schlüssel Chip Profil")) { // ChipCardProfile
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_CHIPCARDPROFILE;
 
@@ -743,7 +745,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(chipCardProfileInput);
 
     } else if (selected == tr("Stadt")) { // City
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_CITYNAME;
 
@@ -757,7 +759,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(cityInput);
 
     } else if (selected == tr("Firma")) { // Company
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_COMPANY;
 
@@ -770,7 +772,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(companyInput);
     } else if (selected == tr("Computer")) {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_COMPUTER;
 
@@ -783,7 +785,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(computerInput);
     } else if (selected == tr("Computer Software")) {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_COMPUTERSOFTWARE;
 
@@ -796,7 +798,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(computerSoftwareInput);
     } else if (selected == tr("Abteilung")) { // Department
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_DEPARTMENT;
 
@@ -809,7 +811,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(departmentInput);
     } else if (selected == tr("Geräte Name")) { // Device Name
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_DEVICENAME;
 
@@ -822,7 +824,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(deviceNameInput);
     } else if (selected == tr("Geräte Typ")) { // Device Type
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_DEVICETYPE;
 
@@ -836,7 +838,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(deviceTypeInput);
 
     } else if (selected == tr("Dokument")) { // Document
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_DOCUMENT;
 
@@ -849,7 +851,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(documentInput);
     } else if (selected == tr("Mitarbeiter*innen Zugang")) { // Employee Account
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_EMPLOYEEACCOUNT;
 
@@ -863,7 +865,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(employeeAccountInput);
 
     } else if (selected == tr("Mitarbeiter*innen Dokument")) { // Employee Document
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_EMPLOYEEDOCUMENT;
 
@@ -877,7 +879,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(employeeDocumentInput);
 
     } else if (selected == tr("Mitarbeiter*innen")) { // Employee
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
         actualView = VIEW_EMPLOYEE;
 
         actualizeEmployeeListView();
@@ -889,7 +891,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(employeeInput);
     } else if (selected == tr("Fax")) { // Fax
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_FAX;
 
@@ -902,7 +904,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(faxInput);
     } else if (selected == tr("Funktion")) {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_FUNCTION;
 
@@ -916,7 +918,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(functionInput);
 
     } else if (selected == tr("Inventar")) {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_INVENTORY;
 
@@ -929,7 +931,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(inventoryInput);
     } else if (selected == tr("Funktion")) { // Function
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_FUNCTION;
 
@@ -942,7 +944,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(functionInput);
     } else if (selected == tr("Hersteller")) { // Manufacturer
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_MANUFACTURER;
 
@@ -955,7 +957,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(manufacturerInput);
     } else if (selected == tr("Mobile Telefon")) { // Mobile
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_MOBILE;
 
@@ -969,7 +971,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(mobileInput);
 
     } else if (selected == tr("Betriebssystem")) { // OS
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_OS;
 
@@ -982,7 +984,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(osInput);
     } else if (selected == tr("Telefon")) { // Phone
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_PHONE;
 
@@ -995,7 +997,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(phoneInput);
     } else if (selected == tr("Platz")) { // Place
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_PLACE;
 
@@ -1008,7 +1010,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(placeInput);
     } else if (selected == tr("Drucker")) { // Printer
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_PRINTER;
 
@@ -1022,7 +1024,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(printerInput);
 
     } else if (selected == tr("Prozessor")) { // Processor
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_PROCESSOR;
 
@@ -1035,7 +1037,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(processorInput);
     } else if (selected == tr("Software")) { // Software
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_SOFTWARE;
 
@@ -1048,7 +1050,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(softwareInput);
     } else if (selected == tr("System Daten")) { // System Data
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_SYSTEMDATA;
 
@@ -1061,7 +1063,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(systemDataInput);
     } else if (selected == tr("Titel")) {
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_TITLE;
 
@@ -1074,7 +1076,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(titleInput);
     } else if (selected == tr("PLZ Stadt")) { // Zip City
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_ZIPCITY;
 
@@ -1087,7 +1089,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(zipCityInput);
     } else if (selected == tr("PLZ Code")) { // Zip Code
-        qCDebug(jmbdeWidgetsMainWindowLog) << tr("Auswahl: ") << selected;
+        qCDebug(m_MainWindowLog) << tr("Auswahl: ") << selected;
 
         actualView = VIEW_ZIPCODE;
 
@@ -1108,7 +1110,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
 void MainWindow::on_listView_clicked(const QModelIndex &index)
 {
     m_actualData = index;
-    qCDebug(jmbdeWidgetsMainWindowLog) << "onClickedlistViewRow(QModelIndex : " << index;
+    qCDebug(m_MainWindowLog) << "onClickedlistViewRow(QModelIndex : " << index;
     switch (actualView) {
     case VIEW_ACCOUNT: {
         auto *accountInput = new AccountInputArea(ui->scrollArea, index);
@@ -1663,7 +1665,7 @@ void MainWindow::actualizeEmployeeDocumentListView()
 
 void MainWindow::actualizeEmployeeListView()
 {
-    qCDebug(jmbdeWidgetsMainWindowLog) << tr("Aufruf von: void MainWindow::actualizeEmployeeListView()");
+    qCDebug(m_MainWindowLog) << tr("Aufruf von: void MainWindow::actualizeEmployeeListView()");
 
     auto *employeeModel = new Model::Employee();
     tableModel = employeeModel->initializeRelationalModel();

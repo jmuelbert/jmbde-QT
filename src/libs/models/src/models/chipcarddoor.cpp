@@ -6,6 +6,21 @@
 
 #include "models/chipcarddoor.h"
 
+Model::ChipCardDoor::ChipCardDoor()
+    : CommonData()
+    , m_ChipcardDoorLog(QLoggingCategory("jmbde.models.chipcarddoor"))
+{
+    this->m_dataContext = new Model::DataContext();
+    this->m_db = m_dataContext->getDatabase();
+
+    // Set the Model
+    this->m_model = new QSqlRelationalTableModel(this, this->m_db);
+    this->m_model->setTable(this->m_tableName);
+    this->m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+
+    setIndexes();
+}
+
 void Model::ChipCardDoor::setIndexes()
 {
     m_ChipCardDoorIdIndex = m_model->fieldIndex(QLatin1String("chip_card_door_id"));
@@ -16,7 +31,7 @@ void Model::ChipCardDoor::setIndexes()
     m_LastUpdateIndex = m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-auto Model::ChipCardDoor::initializeRelationalModel() -> QSqlRelationalTableModel*
+auto Model::ChipCardDoor::initializeRelationalModel() -> QSqlRelationalTableModel *
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -28,7 +43,7 @@ auto Model::ChipCardDoor::initializeRelationalModel() -> QSqlRelationalTableMode
     return this->m_model;
 }
 
-auto Model::ChipCardDoor::initializeInputDataModel() -> QSqlRelationalTableModel*
+auto Model::ChipCardDoor::initializeInputDataModel() -> QSqlRelationalTableModel *
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -37,16 +52,16 @@ auto Model::ChipCardDoor::initializeInputDataModel() -> QSqlRelationalTableModel
     return this->m_model;
 }
 
-auto Model::ChipCardDoor::initializeViewModel() -> QSqlTableModel*
+auto Model::ChipCardDoor::initializeViewModel() -> QSqlTableModel *
 {
     this->m_model->select();
 
     return this->m_model;
 }
 
-auto Model::ChipCardDoor::initializeListModel() -> QSqlTableModel*
+auto Model::ChipCardDoor::initializeListModel() -> QSqlTableModel *
 {
-    auto* listModel = new QSqlTableModel(this, this->m_db);
+    auto *listModel = new QSqlTableModel(this, this->m_db);
     listModel->setTable(this->m_tableName);
     listModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
     listModel->select();
@@ -54,7 +69,7 @@ auto Model::ChipCardDoor::initializeListModel() -> QSqlTableModel*
     return listModel;
 }
 
-auto Model::ChipCardDoor::generateTableString(const QString& header) -> QString
+auto Model::ChipCardDoor::generateTableString(const QString &header) -> QString
 {
     QString outString;
 
@@ -80,7 +95,7 @@ auto Model::ChipCardDoor::generateTableString(const QString& header) -> QString
     return outString;
 }
 
-auto Model::ChipCardDoor::generateFormularString(const QString& header) -> QString
+auto Model::ChipCardDoor::generateFormularString(const QString &header) -> QString
 {
     QString outString;
 

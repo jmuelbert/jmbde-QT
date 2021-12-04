@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include <QLoggingCategory>
 #include <QDataWidgetMapper>
 #include <QGroupBox>
 #include <QLoggingCategory>
@@ -19,7 +20,7 @@
 #include "models/account.h"
 #include "models/datacontext.h"
 
-Q_DECLARE_LOGGING_CATEGORY(jmbdeWidgetsAccountInputAreaLog)
+Q_DECLARE_LOGGING_CATEGORY(m_AccountInputAreaLog)
 
 namespace Ui
 {
@@ -131,4 +132,9 @@ private:
      * @param index Delete the data for the ModelIndex
      */
     void deleteDataset(const QModelIndex &index);
+
+    /*!
+     * Logging Category
+     */
+    QLoggingCategory m_AccountInputAreaLog;
 };

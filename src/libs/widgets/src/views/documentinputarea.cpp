@@ -10,10 +10,11 @@
 DocumentInputArea::DocumentInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::DocumentInputArea)
+    , m_DocumentInputAreaLog(QLoggingCategory("jmbde.widgets.documentinputarea"))
 {
     ui->setupUi(this);
 
-    qCDebug(jmbdeWidgetsDocumentInputAreaLog) << tr("Initialisiere DocumentInputArea mit Index :") << index.row();
+    qCDebug(m_DocumentInputAreaLog) << tr("Initialisiere DocumentInputArea mit Index :") << index.row();
 
     this->m_documentModel = new Model::Document();
     this->m_db = this->m_documentModel->getDB();
@@ -31,7 +32,7 @@ DocumentInputArea::DocumentInputArea(QWidget *parent, const QModelIndex &index)
 
     setMappings();
 
-    qCDebug(jmbdeWidgetsDocumentInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+    qCDebug(m_DocumentInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
     if (index.row() < 0) {
         m_mapper->toFirst();
@@ -62,7 +63,7 @@ void DocumentInputArea::setViewOnlyMode(bool mode)
 
 void DocumentInputArea::createDataset()
 {
-    qCDebug(jmbdeWidgetsDocumentInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Document...");
+    qCDebug(m_DocumentInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Document...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -78,20 +79,20 @@ void DocumentInputArea::createDataset()
 
 void DocumentInputArea::deleteDataset(const QModelIndex &index)
 {
-    qCDebug(jmbdeWidgetsDocumentInputAreaLog) << tr("Lösche Daten von Document");
+    qCDebug(m_DocumentInputAreaLog) << tr("Lösche Daten von Document");
     m_mapper->setCurrentIndex(index.row());
 }
 
 void DocumentInputArea::addEdit()
 {
-    qCDebug(jmbdeWidgetsDocumentInputAreaLog) << tr("Füge neue Daten zu Document");
+    qCDebug(m_DocumentInputAreaLog) << tr("Füge neue Daten zu Document");
     createDataset();
     editFinish();
 }
 
 void DocumentInputArea::editFinish()
 {
-    qCDebug(jmbdeWidgetsDocumentInputAreaLog) << tr("Bearbeite oder schließe Document Daten");
+    qCDebug(m_DocumentInputAreaLog) << tr("Bearbeite oder schließe Document Daten");
 
     switch (m_actualMode) {
     case Mode::Edit: {
@@ -102,7 +103,7 @@ void DocumentInputArea::editFinish()
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsDocumentInputAreaLog) << tr("Die Daten werden gesichert.");
+        qCDebug(m_DocumentInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -119,7 +120,7 @@ void DocumentInputArea::editFinish()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(jmbdeWidgetsDocumentInputAreaLog) << tr("Schreiben der Änderungen für Document in die Datenbank");
+                qCDebug(m_DocumentInputAreaLog) << tr("Schreiben der Änderungen für Document in die Datenbank");
                 m_model->database().rollback();
             } else {
                 m_model->database().rollback();
@@ -129,7 +130,7 @@ void DocumentInputArea::editFinish()
         break;
     }
     default: {
-        qCCritical(jmbdeWidgetsDocumentInputAreaLog) << tr("Fehler: Unbekannter Modus");
+        qCCritical(m_DocumentInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }

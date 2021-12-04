@@ -11,10 +11,12 @@
 CityInputArea::CityInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::CityInputArea)
+    , m_CityInputAreaLog(QLoggingCategory("jmbde.widgts.cityinputarea"))
+
 {
     ui->setupUi(this);
 
-    qCDebug(jmbdeWidgetsCityInputAreaLog) << "Initiaisiere CityInputArea mit Index : " << index.row();
+    qCDebug(m_CityInputAreaLog) << "Initiaisiere CityInputArea mit Index : " << index.row();
 
     this->m_cityNameModel = new Model::CityName();
     this->m_db = this->m_cityNameModel->getDB();
@@ -32,7 +34,7 @@ CityInputArea::CityInputArea(QWidget *parent, const QModelIndex &index)
 
     setMappings();
 
-    qCDebug(jmbdeWidgetsCityInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+    qCDebug(m_CityInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
     if (index.row() < 0) {
         m_mapper->toFirst();
@@ -62,7 +64,7 @@ void CityInputArea::setViewOnlyMode(bool mode)
 
 void CityInputArea::createDataset()
 {
-    qCDebug(jmbdeWidgetsCityInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für City...");
+    qCDebug(m_CityInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für City...");
 
     m_mapper->toLast();
 
@@ -77,20 +79,20 @@ void CityInputArea::createDataset()
 
 void CityInputArea::deleteDataset(const QModelIndex &index)
 {
-    qCDebug(jmbdeWidgetsCityInputAreaLog) << tr("Lösche Daten von City");
+    qCDebug(m_CityInputAreaLog) << tr("Lösche Daten von City");
     m_mapper->setCurrentIndex(index.row());
 }
 
 void CityInputArea::addEdit()
 {
-    qCDebug(jmbdeWidgetsCityInputAreaLog) << tr("Füge neue Daten zu City");
+    qCDebug(m_CityInputAreaLog) << tr("Füge neue Daten zu City");
     createDataset();
     editFinish();
 }
 
 void CityInputArea::editFinish()
 {
-    qCDebug(jmbdeWidgetsCityInputAreaLog) << tr("Bearbeite oder schließe City Daten");
+    qCDebug(m_CityInputAreaLog) << tr("Bearbeite oder schließe City Daten");
 
     switch (m_actualMode) {
     case Mode::Edit: {
@@ -101,7 +103,7 @@ void CityInputArea::editFinish()
     } break;
 
     case Mode::Finish: {
-        qCDebug(jmbdeWidgetsCityInputAreaLog) << tr("Die Daten werden gesichert.");
+        qCDebug(m_CityInputAreaLog) << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -118,7 +120,7 @@ void CityInputArea::editFinish()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(jmbdeWidgetsCityInputAreaLog) << tr("Schreiben der Änderungen für City in die Datenbank");
+                qCDebug(m_CityInputAreaLog) << tr("Schreiben der Änderungen für City in die Datenbank");
                 dataChanged();
             } else {
                 m_model->database().rollback();
@@ -128,7 +130,7 @@ void CityInputArea::editFinish()
     } break;
 
     default: {
-        qCCritical(jmbdeWidgetsCityInputAreaLog) << tr("Fehler: Unbekannter Modus");
+        qCCritical(m_CityInputAreaLog) << tr("Fehler: Unbekannter Modus");
     }
     }
 }
