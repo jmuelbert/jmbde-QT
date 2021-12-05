@@ -5,7 +5,7 @@
 exclude: ^3rd-party|COPYING|.gitmodules|conan
 default_language_version:
   python: python3
-fail_fast: false
+fail_fast: true
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.0.1
