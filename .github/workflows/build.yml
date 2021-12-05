@@ -590,7 +590,7 @@ jobs:
         with:
           fetch-depth: 2
       - name: Fetch all history for all tags and branches
-        run: get fetch --prune --unshallow
+        run: git fetch --prune --unshallow
       - name: Set env & Print jmbde version
         shell: bash
         run: |
