@@ -1,3 +1,4 @@
+---
 # Documentation
 - source: /docs/(.+?)\.md/
   public: '\1.html'

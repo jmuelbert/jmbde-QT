@@ -1,3 +1,4 @@
+---
 ####################
 # Changes patterns #
 ####################
@@ -39,31 +40,52 @@
   if: $CI_PIPELINE_SOURCE == "merge_request_event"
 
 .if-runner-merge-request-pipeline: &if-runner-merge-request-pipeline
-  if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_PROJECT_PATH == "gitlab-org/gitlab-runner"
+  if:
+    $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_PROJECT_PATH ==
+    "gitlab-org/gitlab-runner"
 
 .if-runner-security-merge-request-pipeline: &if-runner-security-merge-request-pipeline
-  if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_PROJECT_PATH == "gitlab-org/security/gitlab-runner"
+  if:
+    $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_PROJECT_PATH ==
+    "gitlab-org/security/gitlab-runner"
 
 .if-runner-default-branch: &if-runner-default-branch
-  if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PROJECT_PATH == "gitlab-org/gitlab-runner"
+  if:
+    $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PROJECT_PATH ==
+    "gitlab-org/gitlab-runner"
 
-.if-runner-or-security-runner-default-branch: &if-runner-or-security-runner-default-branch
-  if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && ($CI_PROJECT_PATH == "gitlab-org/gitlab-runner" || $CI_PROJECT_PATH == "gitlab-org/security/gitlab-runner")
+.if-runner-or-security-runner-default-branch:
+  &if-runner-or-security-runner-default-branch
+  if:
+    $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && ($CI_PROJECT_PATH ==
+    "gitlab-org/gitlab-runner" || $CI_PROJECT_PATH ==
+    "gitlab-org/security/gitlab-runner")
 
 .if-runner-or-security-runner-stable-ref: &if-runner-or-security-runner-stable-ref
-  if: $CI_COMMIT_REF_NAME =~ /\A[0-9]+-[0-9]+-stable\z/ && ($CI_PROJECT_PATH == "gitlab-org/gitlab-runner" || $CI_PROJECT_PATH == "gitlab-org/security/gitlab-runner")
+  if:
+    $CI_COMMIT_REF_NAME =~ /\A[0-9]+-[0-9]+-stable\z/ && ($CI_PROJECT_PATH ==
+    "gitlab-org/gitlab-runner" || $CI_PROJECT_PATH ==
+    "gitlab-org/security/gitlab-runner")
 
 .if-runner-release-ref: &if-runner-release-ref
-  if: $CI_COMMIT_REF_NAME =~ /\Av[0-9]+\.[0-9]+\.[0-9]+(-rc[0-9]+)?\z/ && $CI_PROJECT_PATH == "gitlab-org/gitlab-runner"
+  if:
+    $CI_COMMIT_REF_NAME =~ /\Av[0-9]+\.[0-9]+\.[0-9]+(-rc[0-9]+)?\z/ && $CI_PROJECT_PATH
+    == "gitlab-org/gitlab-runner"
 
 .if-runner-stable-release-ref: &if-runner-stable-release-ref
-  if: $CI_COMMIT_REF_NAME =~ /\Av[0-9]+\.[0-9]+\.[0-9]+?\z/ && $CI_PROJECT_PATH == "gitlab-org/gitlab-runner"
+  if:
+    $CI_COMMIT_REF_NAME =~ /\Av[0-9]+\.[0-9]+\.[0-9]+?\z/ && $CI_PROJECT_PATH ==
+    "gitlab-org/gitlab-runner"
 
 .if-security-runner-release-ref: &if-security-runner-release-ref
-  if: $CI_COMMIT_REF_NAME =~ /\Av[0-9]+\.[0-9]+\.[0-9]+?\z/ && $CI_PROJECT_PATH == "gitlab-org/security/gitlab-runner"
+  if:
+    $CI_COMMIT_REF_NAME =~ /\Av[0-9]+\.[0-9]+\.[0-9]+?\z/ && $CI_PROJECT_PATH ==
+    "gitlab-org/security/gitlab-runner"
 
 .if-runner-bleeding-edge-release-ref: &if-runner-bleeding-edge-release-ref
-  if: $CI_COMMIT_REF_NAME =~ /\Av[0-9]+\.[0-9]+\.[0-9]+-rc[0-9]+\z/ && $CI_PROJECT_PATH == "gitlab-org/gitlab-runner"
+  if:
+    $CI_COMMIT_REF_NAME =~ /\Av[0-9]+\.[0-9]+\.[0-9]+-rc[0-9]+\z/ && $CI_PROJECT_PATH ==
+    "gitlab-org/gitlab-runner"
 
 ########################
 # Default branch rules #
@@ -144,10 +166,14 @@
 
 .rules:release:stable-or-rc:
   rules:
-    - if: $CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+(-rc[0-9]+)?$/ && $CI_PROJECT_PATH == "gitlab-org/gitlab-runner"
+    - if:
+        $CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+(-rc[0-9]+)?$/ && $CI_PROJECT_PATH ==
+        "gitlab-org/gitlab-runner"
       changes: *code-backstage-patterns
       when: on_success
-    - if: $CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+(-rc[0-9]+)?$/ && $CI_PROJECT_PATH == "gitlab-org/security/gitlab-runner"
+    - if:
+        $CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+(-rc[0-9]+)?$/ && $CI_PROJECT_PATH ==
+        "gitlab-org/security/gitlab-runner"
       changes: *code-backstage-patterns
       when: manual
 

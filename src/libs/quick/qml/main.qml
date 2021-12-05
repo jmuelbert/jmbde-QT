@@ -1,4 +1,3 @@
-
 /*
  *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
  *
@@ -7,7 +6,6 @@
 
 // TODO:
 // - make designer-friendly
-
 import Qt.labs.platform 1.1 as Platform
 import Qt.labs.settings 1.1
 import QtQuick 2.15
@@ -20,13 +18,12 @@ import "ui" as Ui
 
 ApplicationWindow {
     // Signals ----------------------
-
     id: applicationWindow
-
     property int currentEmployee: -1
-    property int margin: 10
-    property int theme: Material.theme
 
+    property int margin: 10
+
+    property int theme: Material.theme
     objectName: "window"
     title: qsTr("jmbde")
     visible: true
@@ -41,52 +38,38 @@ ApplicationWindow {
         sequence: StandardKey.Open
         onActivated: openDialog.open()
     }
-
     Shortcut {
         sequence: StandardKey.SaveAs
         onActivated: saveDialog.open()
     }
-
     Shortcut {
         sequence: StandardKey.Quit
         onActivated: applicationWindow.close()
     }
-
     Ui.About {
         id: windowAbout
     }
-
     Ui.Message {
         id: dialogMessage
-
         modal: true
-
         footer: DialogButtonBox {
             Button {
                 id: buttonDialogMessageOK
-
                 text: qsTr("OK")
                 onClicked: dialogMessage.close()
             }
-
         }
-
     }
-
     Platform.FileDialog {
         // onAccepted: document.load(file)
-
         id: openDialog
-
         fileMode: Platform.FileDialog.OpenFile
         selectedNameFilter.index: 1
         nameFilters: ["Text files (*.txt, *.csv)"]
         folder: Platform.StandardPaths.writableLocation(Platform.StandardPaths.DocumentsLocation)
     }
-
     Platform.FolderDialog {
         id: saveDialog
-
         options: Platform.FolderDialog.ShowDirsOnly
         onAccepted: {
             var saveToURI = folderDialogSaveTo.folder.toString();
@@ -102,10 +85,8 @@ ApplicationWindow {
             applicationWindow.setSaveToDir(saveToURI);
         }
     }
-
     Models.EmployeeDialog {
         id: employeeDialog
-
         onFinished: {
             if (currentEmployee === -1)
                 employeeView.model.append(lastName, street, zip, city);
@@ -113,16 +94,13 @@ ApplicationWindow {
                 employeeView.model.set(currentEmployee, lastname, street, zip, city);
         }
     }
-
     Models.EmployeeView {
         id: employeeView
-
         anchors.fill: parent
         onPressAndHold: {
             currentEmployee = index;
         }
     }
-
     RoundButton {
         text: qsTr("+")
         highlighted: true
@@ -138,13 +116,10 @@ ApplicationWindow {
     menuBar: Ui.MenuBar {
         id: menuBar
     }
-
     header: Ui.ToolBar {
         id: toolBar
     }
-
     footer: Ui.TabBar {
         id: tabBar
     }
-
 }

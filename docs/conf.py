@@ -6,10 +6,11 @@
 # http://www.sphinx-doc.org/en/master/config
 """Sphinx configuration."""
 from datetime import datetime
+
 # -- Project information -----------------------------------------------------
 
-PROJECT = u"jmbde-QT"
-AUTHOR = u"Jürgen Mülbert"
+PROJECT = "jmbde-QT"
+AUTHOR = "Jürgen Mülbert"
 COPYRIGHT = f"2013-{datetime.now().year}, {AUTHOR}"
 EXTENSIONS = [
     "sphinx.ext.autodoc",

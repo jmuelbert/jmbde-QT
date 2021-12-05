@@ -1,3 +1,4 @@
+---
 .release_docker_images:
   extends:
     - .docker

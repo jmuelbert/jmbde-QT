@@ -1,49 +1,50 @@
+---
 image:
-    file: Docker/Dockerfile
+  file: Docker/Dockerfile
 
 ports:
-    - port: 5900
-      onOpen: ignore
-    - port: 6080
-      onOpen: open-browser
-    - port: 35900
-      onOpen: ignore
+  - port: 5900
+    onOpen: ignore
+  - port: 6080
+    onOpen: open-browser
+  - port: 35900
+    onOpen: ignore
 
 tasks:
-    - init: >
-          cmake -S. -Bbuild -G Ninja -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-                    -DCMAKE_INSTALL_PREFIX=./AppDir/usr \
-                    -DCMAKE_BUILD_TYPE=Release \
-                    -DBUILD_TRANSLATIONS=ON \
-                    -DBUILD_TESTING=ON  \
-                    -DBUILD_COVERAGE=ON \
-                    -DENABLE_CLANG_FORMAT=ON \
-                    -DENABLE_CPPCHECK=ON \
-                    -DENABLE_CLANG_TIDY=ON \
-                    -DUSE_GIT_VERSION=ON &&
-            cmake --build build --config Release -j2 --target install
+  - init: >
+      cmake -S. -Bbuild -G Ninja -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+                -DCMAKE_INSTALL_PREFIX=./AppDir/usr \
+                -DCMAKE_BUILD_TYPE=Release \
+                -DBUILD_TRANSLATIONS=ON \
+                -DBUILD_TESTING=ON  \
+                -DBUILD_COVERAGE=ON \
+                -DENABLE_CLANG_FORMAT=ON \
+                -DENABLE_CPPCHECK=ON \
+                -DENABLE_CLANG_TIDY=ON \
+                -DUSE_GIT_VERSION=ON &&
+        cmake --build build --config Release -j2 --target install
 
-                    # -DBUILD_MANUAL=ON \
-                    # -DBUILD_API_DOCS=ON \
+                # -DBUILD_MANUAL=ON \
+                # -DBUILD_API_DOCS=ON \
 github:
-    prebuilds:
-        # enable for the master/default branch (defaults to true)
-        master: true
-        # enable for all branches in this repo (defaults to false)
-        branches: false
-        # enable for pull requests coming from this repo (defaults to true)
-        pullRequests: true
-        # enable for pull requests coming from forks (defaults to false)
-        pullRequestsFromForks: false
-        # add a "Review in Gitpod" button as a comment to pull requests (defaults to true)
-        addComment: true
-        # add a "Review in Gitpod" button to pull requests (defaults to false)
-        addBadge: true
-        # add a label once the prebuild is ready to pull requests (defaults to false)
-        addLabel: prebuilt-in-gitpods
+  prebuilds:
+    # enable for the master/default branch (defaults to true)
+    master: true
+    # enable for all branches in this repo (defaults to false)
+    branches: false
+    # enable for pull requests coming from this repo (defaults to true)
+    pullRequests: true
+    # enable for pull requests coming from forks (defaults to false)
+    pullRequestsFromForks: false
+    # add a "Review in Gitpod" button as a comment to pull requests (defaults to true)
+    addComment: true
+    # add a "Review in Gitpod" button to pull requests (defaults to false)
+    addBadge: true
+    # add a label once the prebuild is ready to pull requests (defaults to false)
+    addLabel: prebuilt-in-gitpods
 
 vscode:
-    extensions:
-        - twxs.cmake@0.0.17:aQNzlYa74rJFJ5/BnUF1yA==
-        - ms-vscode.cmake-tools@1.5.3:QI2POGDzx7mhyCmZyf/3vg==
-        - xaver.clang-format@1.9.0:auCYfQ5pnsZ6Cjf4ZxkAtA==
+  extensions:
+    - twxs.cmake@0.0.17:aQNzlYa74rJFJ5/BnUF1yA==
+    - ms-vscode.cmake-tools@1.5.3:QI2POGDzx7mhyCmZyf/3vg==
+    - xaver.clang-format@1.9.0:auCYfQ5pnsZ6Cjf4ZxkAtA==

@@ -14,7 +14,6 @@
     You should have received a copy of the GNU General Public License
     along with jmbde. If not, see <http://www.gnu.org/licenses/>.
 */
-
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
@@ -149,15 +148,12 @@ ApplicationWindow {
     You should have received a copy of the GNU General Public License
     along with jmbde. If not, see <http://www.gnu.org/licenses/>.
 */
-
     id: preferencesWindow
-
     property int margin: 10
 
     function showWindowPreferences() {
         show();
     }
-
     function saveAllPreference() {
     }
 
@@ -170,19 +166,15 @@ ApplicationWindow {
 
     ColumnLayout {
         id: columnLayoutPreferences
-
         anchors.fill: parent
         anchors.margins: margin
         focus: true
 
         RowLayout {
             id: rowLayoutPreferencesTabs
-
             spacing: 0
             Layout.fillHeight: true
             Layout.fillWidth: true
         }
-
     }
-
 }

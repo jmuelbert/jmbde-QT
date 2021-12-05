@@ -1,2 +1,2 @@
-furo
-Sphinx
+furo==2021.11.23
+Sphinx==4.3.1

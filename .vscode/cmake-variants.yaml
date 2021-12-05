@@ -1,3 +1,4 @@
+---
 buildType:
   default: debug
   description: CMake build type

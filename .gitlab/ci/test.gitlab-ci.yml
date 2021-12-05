@@ -1,3 +1,4 @@
+---
 include:
   - template: Security/Dependency-Scanning.gitlab-ci.yml
   - template: Coverage-Fuzzing.gitlab-ci.yml
@@ -232,10 +233,12 @@ fuzz variable mask:
     COVFUZZ_SEED_CORPUS: './helpers/trace/testdata/corpus'
   script:
     - apt update && apt install -y clang
-    - go get github.com/dvyukov/go-fuzz/go-fuzz && go get github.com/dvyukov/go-fuzz/go-fuzz-build
+    - go get github.com/dvyukov/go-fuzz/go-fuzz && go get
+      github.com/dvyukov/go-fuzz/go-fuzz-build
     - go-fuzz-build -libfuzzer -o fuzz_variable_mask.a ./helpers/trace
     - clang -fsanitize=fuzzer fuzz_variable_mask.a -o fuzz_variable_mask
-    - ./gitlab-cov-fuzz run -- ./fuzz_variable_mask -only_ascii=1 -max_len=128 -max_total_time=300
+    - ./gitlab-cov-fuzz run -- ./fuzz_variable_mask -only_ascii=1 -max_len=128
+      -max_total_time=300
 
 .go-cache-windows_before_script: &go-cache-windows_before_script
   - New-Item -Path .gocache-$CI_COMMIT_REF_PROTECTED -Type Directory -Force
@@ -317,8 +320,11 @@ git 1.8.3.1:
     CGO_ENABLED: 0
   before_script:
     - yum install -y -q git make && git version
-    - curl https://storage.googleapis.com/golang/go1.13.8.linux-amd64.tar.gz | tar zx -C $(dirname "$GOROOT")
-    - curl -L https://github.com/git-lfs/git-lfs/releases/download/v${GIT_LFS_VERSION}/git-lfs-linux-amd64-v${GIT_LFS_VERSION}.tar.gz | tar zx -C /usr/bin
+    - curl https://storage.googleapis.com/golang/go1.13.8.linux-amd64.tar.gz | tar zx -C
+      $(dirname "$GOROOT")
+    - curl -L
+      https://github.com/git-lfs/git-lfs/releases/download/v${GIT_LFS_VERSION}/git-lfs-linux-amd64-v${GIT_LFS_VERSION}.tar.gz
+      | tar zx -C /usr/bin
     - git-lfs install --skip-repo
     - export PATH=${GOPATH}/bin:${GOROOT}/bin:$PATH
     - source ci/touch_make_dependencies
@@ -342,4 +348,5 @@ integration_k8s:
     - kubectl cluster-info
   script:
     # use env -i to clear parent environment variables for go test
-    - ./scripts/go_test_no_env -tags=integration,kubernetes -v gitlab.com/gitlab-org/gitlab-runner/executors/kubernetes
+    - ./scripts/go_test_no_env -tags=integration,kubernetes -v
+      gitlab.com/gitlab-org/gitlab-runner/executors/kubernetes

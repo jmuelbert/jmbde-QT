@@ -64,7 +64,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-        #          ref: master
+      #          ref: master
 
       - name: Checkout Source code
         if: github.event_name == 'pull_request'
@@ -169,24 +169,24 @@ jobs:
           clangFormatVersion: 11
           style: file
 
-      # - name: PMD Code Analyzer Action
-      #   uses: billyan2018/setup-pmd@PMDAnalyzer1.0
-      #   run: pmd -d ./src -R category/apex/design.xml -f text
+  # - name: PMD Code Analyzer Action
+  #   uses: billyan2018/setup-pmd@PMDAnalyzer1.0
+  #   run: pmd -d ./src -R category/apex/design.xml -f text
 
-      # - name: Check_for_duplicate_code
-      #   uses: platisd/duplicate-code-detection-tool@master
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     directories: 'src'
-      #     # Ignore the specified directories
-      #     ignore_directories: 'src/external_libraries'
-      #     # Only examine .h and .cpp files
-      #     file_extensions: 'h, cpp'
-      #     # Only report similarities above 5%
-      #     ignore_below: 5
-      #     # If a file is more than 70% similar to another, then the job fails
-      #     fail_above: 70
-      #     # If a file is more than 15% similar to another, show a warning symbol in the report
-      #     warn_above: 15
-      #     # Remove `src/` from the file paths when reporting similarities
-      #     project_root_dir: 'src'
+  # - name: Check_for_duplicate_code
+  #   uses: platisd/duplicate-code-detection-tool@master
+  #   with:
+  #     github_token: ${{ secrets.GITHUB_TOKEN }}
+  #     directories: 'src'
+  #     # Ignore the specified directories
+  #     ignore_directories: 'src/external_libraries'
+  #     # Only examine .h and .cpp files
+  #     file_extensions: 'h, cpp'
+  #     # Only report similarities above 5%
+  #     ignore_below: 5
+  #     # If a file is more than 70% similar to another, then the job fails
+  #     fail_above: 70
+  #     # If a file is more than 15% similar to another, show a warning symbol in the report
+  #     warn_above: 15
+  #     # Remove `src/` from the file paths when reporting similarities
+  #     project_root_dir: 'src'

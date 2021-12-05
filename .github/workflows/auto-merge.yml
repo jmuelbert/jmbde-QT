@@ -1,7 +1,8 @@
+---
 name: Auto-merge minor/patch
 on:
   schedule:
-    - cron: "0 * * * *"
+    - cron: '0 * * * *'
 jobs:
   test:
     name: Auto-merge minor and patch updates

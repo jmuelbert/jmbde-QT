@@ -61,7 +61,7 @@ public:
         \details Constructur with a name for the database to use.
      */
     explicit JMBDEMODELS_EXPORT DataContext(QObject *parent = nullptr);
-    
+
     /*!
         \fn DataContext( QObject *parent = nullptr,
                         const QString &name = QString() );

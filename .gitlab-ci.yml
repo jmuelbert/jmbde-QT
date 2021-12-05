@@ -1,3 +1,4 @@
+---
 image: fmeinicke/grpc-docker
 
 variables:

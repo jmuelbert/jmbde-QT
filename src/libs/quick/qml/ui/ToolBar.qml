@@ -14,7 +14,6 @@
     You should have received a copy of the GNU General Public License
     along with jmbde. If not, see <http://www.gnu.org/licenses/>.
 */
-
 import QtQml 2.15
 import QtQuick 2.15
 import QtQuick.Controls 2.15
@@ -25,22 +24,16 @@ ToolBar {
 
     Flow {
         id: flow
-
         width: parent.width
 
         Row {
             id: fileRow
-
             ToolButton {
                 id: openButton
-
                 text: "" // icon-folder-open-empty
                 font.family: "fontello"
                 onClicked: openDialog.open()
             }
-
         }
-
     }
-
 }

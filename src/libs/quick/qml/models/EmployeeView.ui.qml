@@ -19,16 +19,13 @@ Designer {
     D{i:0;autoSize:true;height:480;width:640}
 }
 ##^##*/
-
 import Backend 1.0
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
 ListView {
     // onPressAndHold: listView.pressAndHold(index)
-
     id: listView
-
     signal pressAndHold(int index)
 
     width: 320
@@ -37,22 +34,16 @@ ListView {
     boundsBehavior: Flickable.StopAtBounds
     section.property: "lastName"
     section.criteria: ViewSection.FirstCharacter
-
     section.delegate: SectionDelegate {
         width: listView.width
     }
-
     delegate: EmployeeDelegate {
         id: delegate
-
         width: listView.width
     }
-
     model: EmployeeModel {
         id: employeeModel
     }
-
     ScrollBar.vertical: ScrollBar {
     }
-
 }

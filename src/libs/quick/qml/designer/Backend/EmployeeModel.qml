@@ -3,7 +3,6 @@
  *
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
-
 import QtQuick 2.15
 
 ListModel {
@@ -14,7 +13,6 @@ ListModel {
         zip: "99999"
         city: "Entenhausen"
     }
-
     ListElement {
         firstName: "Willy"
         lastName: "Winzig"
@@ -22,7 +20,6 @@ ListModel {
         zip: "99999"
         city: "Entenhausen"
     }
-
     ListElement {
         firstName: "Harry"
         lastName: "Hirsch"
@@ -30,7 +27,6 @@ ListModel {
         zip: "99999"
         city: "Entenhausen"
     }
-
     ListElement {
         firstName: "Willy"
         lastName: "Förster"
@@ -38,7 +34,6 @@ ListModel {
         zip: "99999"
         city: "Entenhausen"
     }
-
     ListElement {
         firstName: "Benjamin"
         lastName: "Blümchen"
@@ -46,5 +41,4 @@ ListModel {
         zip: "99999"
         city: "Entenhausen"
     }
-
 }

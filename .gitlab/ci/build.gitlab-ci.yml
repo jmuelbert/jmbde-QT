@@ -1,3 +1,4 @@
+---
 .binaries: &binaries
   extends:
     - .rules:merge_request_pipelines:no_docs

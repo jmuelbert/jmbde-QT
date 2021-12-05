@@ -3,14 +3,12 @@
  *
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
-
 import QtQuick 2.14
 import QtQuick.Controls 2.14
 import QtQuick.Dialogs 1.2
 
 Dialog {
     id: aboutdialog
-
     width: 640
     title: qsTr("About jmbde")
     standardButtons: StandardButton.Ok
@@ -18,7 +16,6 @@ Dialog {
     onVisibleChanged: {
         if (visible === false)
             destroy();
-
     }
 
     Text {
@@ -40,7 +37,5 @@ Dialog {
             acceptedButtons: Qt.NoButton
             cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
         }
-
     }
-
 }

@@ -32,8 +32,10 @@ env:
   DISPLAY: ':99'
   CTEST_OUTPUT_ON_FAILURE: 1
   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+  QT5_VERSION: '5.15.2'
+  QT6_VERSION: '6.2.0'
   TEST_QT_TARGET: 'desktop'
-  TEST_QT_VERSION: '6.1.0'
+  TEST_QT_VERSION: '6.2.0'
   TEST_QT_ARCH: 'gcc_64'
   TEST_ARCH: 'amd_64'
   TEST_ARTIFACT: 'Ubuntu-gcc'
@@ -43,10 +45,11 @@ env:
 
 jobs:
   appimage-build:
-    name: Build appimage on ${{ matrix.config.name }} for ${{ matrix.config.qt_version }}
+    name:
+      Build appimage on ${{ matrix.config.name }} for ${{ matrix.config.qt_version }}
 
     runs-on: ${{ matrix.config.os }}
-    needs: tests
+    needs: [tests, getVersion]
 
     strategy:
       matrix:
@@ -55,11 +58,12 @@ jobs:
           - {
               os: ubuntu-20.04,
               name: 'Ubuntu-20.04 gcc-10',
-              qt_version: 6.1.0,
+              qt_version: 6.2.0,
               qt_arch: gcc_64,
               arch: amd64,
               artifact: 'Ubuntu-gcc',
-              generator: "-G 'Ninja'",
+              generator: "-G\
+                \ 'Ninja'",
               cc: 'clang',
               cxx: 'clang++',
               image_repo: jmuelbert/ci-building-images,
@@ -82,17 +86,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
-      - name: Set env & Print jmbde version
-        shell: bash
-        run: |
-          last_committed_tag=$(git tag -l --sort=-v:refname | head -1)
-          git_revno=$(git rev-list $(git describe --tags --abbrev=0)..HEAD --count)
-          git_hash=$(git rev-parse --short HEAD)
-          echo "=======jmbde VERSION========"
-          echo ${last_committed_tag:1}
-          echo "Details: ${last_committed_tag}+git${git_revno}.${git_hash}"
-          echo "================================"
-          echo "VERSION=${last_committed_tag:1}" >> $GITHUB_ENV
+
       - name: Install Dependencies
         run: |
           sudo apt-get -y -qq update
@@ -183,7 +177,7 @@ jobs:
   flatpak-build:
     name: Build flatpak on ubuntu-20.04
     runs-on: ubuntu-20.04
-    needs: tests
+    needs: [tests, getVersion]
 
     steps:
       - name: Checkout Source Code
@@ -198,17 +192,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
-      - name: Set env & Print jmbde version
-        shell: bash
-        run: |
-          last_committed_tag=$(git tag -l --sort=-v:refname | head -1)
-          git_revno=$(git rev-list $(git describe --tags --abbrev=0)..HEAD --count)
-          git_hash=$(git rev-parse --short HEAD)
-          echo "=======jmbde VERSION========"
-          echo ${last_committed_tag:1}
-          echo "Details: ${last_committed_tag}+git${git_revno}.${git_hash}"
-          echo "================================"
-          echo "VERSION=${last_committed_tag:1}" >> $GITHUB_ENV
+
       - name: Setup flatpak
         run: |
           sudo apt-get -y -qq update
@@ -252,7 +236,7 @@ jobs:
   snap-build:
     name: Build snap on ubuntu-20.04
     runs-on: ubuntu-20.04
-    needs: tests
+    needs: [tests, getVersion]
     steps:
       - name: Checkout Source Code
         if: github.event_name == 'push'
@@ -266,17 +250,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
-      - name: Set env & Print jmbde version
-        shell: bash
-        run: |
-          last_committed_tag=$(git tag -l --sort=-v:refname | head -1)
-          git_revno=$(git rev-list $(git describe --tags --abbrev=0)..HEAD --count)
-          git_hash=$(git rev-parse --short HEAD)
-          echo "=======jmbde VERSION========"
-          echo ${last_committed_tag:1}
-          echo "Details: ${last_committed_tag}+git${git_revno}.${git_hash}"
-          echo "================================"
-          echo "VERSION=${last_committed_tag:1}" >> $GITHUB_ENV
+
       - name: Packaging snap
         uses: snapcore/action-build@v1
         id: snapcraft
@@ -308,12 +282,13 @@ jobs:
             ${{ github.workspace }}/build/${{ env.PRODUCT }}-*-${{ env.RELEASE }}.amd64.snap.sha256sum
 
   macos-build:
-    name: macOS 10.15 ${{ matrix.config.qt_arch }}-${{ matrix.qt_version}}-${{
+    name:
+      macOS 10.15 ${{ matrix.config.qt_arch }}-${{ matrix.qt_version}}-${{
       matrix.config.cxx}}
 
     strategy:
       matrix:
-        qt_version: [5.15.2, 6.1.0]
+        qt_version: [5.15.2, 6.2.0]
         qt_target: [desktop]
         config:
           - {
@@ -330,35 +305,11 @@ jobs:
       fail-fast: false
 
     runs-on: ${{ matrix.config.os }}
-    needs: tests
+    needs: [tests, getVersion]
 
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v1
-
-      - name: Set env & Print jmbde version
-        shell: bash
-        run: |
-          last_committed_tag=$(git tag -l --sort=-v:refname | head -1)
-          git_revno=$(git rev-list $(git describe --tags --abbrev=0)..HEAD --count)
-          git_hash=$(git rev-parse --short HEAD)
-          echo "=======jmbde VERSION========"
-          echo ${last_committed_tag:1}
-          echo "Details: ${last_committed_tag}+git${git_revno}.${git_hash}"
-          echo "================================"
-          echo "VERSION=${last_committed_tag:1}" >> $GITHUB_ENV
-
-      # # Common
-      # - name: Cache Qt
-      #   id: cache-qt
-      #   uses: actions/cache@v2.1.6
-      #   with:
-      #     path:
-      #       ${{ runner.workspace}}/build/Qt/${{ matrix.qt_version }}/${{
-      #       matrix.config.qt_arch }}
-      #     key:
-      #       ${{ runner.os }}-QtCache/${{ matrix.qt_version }}/${{ matrix.config.qt_arch
-      #       }}
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
@@ -423,7 +374,8 @@ jobs:
         uses: actions/upload-artifact@v2.2.4
         with:
           name: ${{env.PRODUCT}}-Qt${{ matrix.qt_version }}-${{env.BUILD_TYPE}}.dmg
-          path: ${{runner.workspace}}/build/${{env.PRODUCT}}-Qt${{ matrix.qt_version }}.dmg
+          path:
+            ${{runner.workspace}}/build/${{env.PRODUCT}}-Qt${{ matrix.qt_version }}.dmg
 
       - name: macOS - ${{ matrix.qt_version }} - Upload binaries to release
         if: >
@@ -432,18 +384,21 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{runner.workspace}}/build/${{env.PRODUCT}}-Qt${{ matrix.qt_version }}.dmg
-          asset_name: ${{env.PRODUCT}}-${{ env.VERSION}}-Qt${{ matrix.qt_version
+          file:
+            ${{runner.workspace}}/build/${{env.PRODUCT}}-Qt${{ matrix.qt_version }}.dmg
+          asset_name:
+            ${{env.PRODUCT}}-${{ env.VERSION}}-Qt${{ matrix.qt_version
             }}-${{env.BUILD_TYPE}}.dmg
           tag: ${{ github.ref }}
           overwrite: true
 
   windows-build:
-    name: Windows 2019 ${{ matrix.config.arch }}-${{matrix.qt_version}}-${{ matrix.type}}
+    name:
+      Windows 2019 ${{ matrix.config.arch }}-${{matrix.qt_version}}-${{ matrix.type}}
     runs-on: ${{ matrix.config.os }}
     strategy:
       matrix:
-        qt_version: [5.15.2, 6.1.0]
+        qt_version: [5.15.2, 6.2.0]
         qt_target: [desktop]
         type: [portable, installer]
         config:
@@ -453,13 +408,14 @@ jobs:
               qt_arch: win64_msvc2019_64,
               arch: x64,
               artifact: 'Windows-MSVC',
-              generator: "-G 'Ninja'",
+              generator: "-G\
+                \ 'Ninja'",
               pak_arch: win64,
               cc: 'cl',
               cxx: 'cl',
             }
       fail-fast: false
-    needs: tests
+    needs: [tests, getVersion]
 
     steps:
       - name: Checkout Source Code
@@ -476,38 +432,12 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: Set env & Print jmbde version
-        shell: bash
-        run: |
-          last_committed_tag=$(git tag -l --sort=-v:refname | head -1)
-          git_revno=$(git rev-list $(git describe --tags --abbrev=0)..HEAD --count)
-          git_hash=$(git rev-parse --short HEAD)
-          echo "=======jmbde VERSION========"
-          echo ${last_committed_tag:1}
-          echo "Details: ${last_committed_tag}+git${git_revno}.${git_hash}"
-          echo "================================"
-          # This will allow to build pre-preleases without git tag
-          # echo "VERSION=${last_committed_tag:1}" >> $GITHUB_ENV
-          echo "VERSION=$(cat CMakeLists.txt |grep 'set.*(.*jmbde_VERSION' | sed 's/[^0-9.]*//' |sed 's/)//g')" >> $GITHUB_ENV
-
       - name: Install MSVC compiler
         uses: ilammy/msvc-dev-cmd@v1.10.0
         with:
           # 14.1 is for vs2017, 14.2 is vs2019, following the upstream vcpkg build from Qv2ray-deps repo
           toolset: 14.2
           arch: ${{ matrix.config.pak_arch }}
-
-      # # Common
-      # - name: Cache Qt
-      #   id: cache-qt
-      #   uses: actions/cache@v2.1.6
-      #   with:
-      #     path:
-      #       ${{ runner.workspace}}/build/Qt/${{ matrix.qt_version }}/${{
-      #       matrix.config.qt_arch }}
-      #     key:
-      #       ${{ runner.os }}-QtCache/${{ matrix.qt_version }}/${{ matrix.config.qt_arch
-      #       }}
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
@@ -652,6 +582,29 @@ jobs:
           name: Windows-artifact
           path: ${{ github.workspace }}/build/Package/*
 
+  getVersion:
+    name: Get the last tagged version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.4.0
+        with:
+          fetch-depth: 2
+      - name: Fetch all history for all tags and branches
+        run: get fetch --prune --unshallow
+      - name: Set env & Print jmbde version
+        shell: bash
+        run: |
+          last_committed_tag=$(git tag -l --sort=-v:refname | head -1)
+          git_revno=$(git rev-list $(git describe --tags --abbrev=0)..HEAD --count)
+          git_hash=$(git rev-parse --short HEAD)
+          echo "=======jmbde VERSION========"
+          echo ${last_committed_tag:1}
+          echo "Details: ${last_committed_tag}+git${git_revno}.${git_hash}"
+          echo "================================"
+          # This will allow to build pre-preleases without git tag
+          # echo "VERSION=${last_committed_tag:1}" >> $GITHUB_ENV
+          echo "VERSION=$(cat CMakeLists.txt |grep 'set.*(.*jmbde_VERSION' | sed 's/[^0-9.]*//' |sed 's/)//g')" >> $GITHUB_ENV
+
   build_GH_Pages:
     name: Build GH Pages
     runs-on: ubuntu-latest
@@ -674,11 +627,6 @@ jobs:
       - name: Running the Sphinx to gh-pages Action
         run: |
           sphinx-build docs docs/_build
-        # uses: uibcdf/action-sphinx-docs-to-gh-pages@v1.0-beta.2
-        # with:
-        #   branch: master
-        #   dir_docs: docs/manual
-        #   sphinxopts: ''
 
       - name: Upload documentation
         uses: actions/upload-artifact@v2.2.4

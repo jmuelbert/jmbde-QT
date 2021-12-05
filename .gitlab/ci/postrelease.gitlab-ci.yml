@@ -1,3 +1,4 @@
+---
 trigger UBI images build:
   stage: postrelease
   variables:
@@ -6,4 +7,6 @@ trigger UBI images build:
   rules:
     - if: $CI_PROJECT_PATH != "gitlab-org/gitlab-runner"
       when: never
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME =~ /\Av[0-9]+\.[0-9]+\.[0-9]+(-rc[0-9]+)?\z/
+    - if:
+        $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME =~
+        /\Av[0-9]+\.[0-9]+\.[0-9]+(-rc[0-9]+)?\z/

@@ -5,7 +5,7 @@
 # To use this workflow, you will need to set up a .github/labeler.yml
 # file with configuration.  For more information, see:
 # https://github.com/actions/labeler
-name: "Pull Request Labeler"
+name: 'Pull Request Labeler'
 on:
   - pull_request_target
 
@@ -15,4 +15,4 @@ jobs:
     steps:
       - uses: actions/labeler@v3
         with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          repo-token: '${{ secrets.GITHUB_TOKEN }}'

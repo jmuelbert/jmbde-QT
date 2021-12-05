@@ -9,15 +9,15 @@
 #=========================================================================================================================
 
 if [ $# -eq 0 ]; then
-        printf "Usage: python3 transferwee.py FILE\n"
-        exit 1
+    printf "Usage: python3 transferwee.py FILE\n"
+    exit 1
 fi
 
 FILE=$1
 
 if [ ! -f "$FILE" ]; then
-        echo "File ${FILE} not found"
-        exit 1
+    echo "File ${FILE} not found"
+    exit 1
 fi
 
 scripts_path=$(dirname "$0")
