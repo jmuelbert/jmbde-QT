@@ -725,7 +725,7 @@ jobs:
         uses: actions/checkout@v2.4.0
 
       # - name: Download coverage data
-      # uses: actions/download-artifact@v2.0.10
+      # uses: actions/download-artifact@v2.1.0
       #  with:
       #   name: coverage-data
 
@@ -773,7 +773,7 @@ jobs:
     needs: build_GH_Pages
     steps:
       - name: Download Artifact with Pages
-        uses: actions/download-artifact@v2.0.10
+        uses: actions/download-artifact@v2.1.0
         with:
           name: docs
           path: docs/_build
@@ -802,7 +802,7 @@ jobs:
 
     steps:
       - name: Restore Builds
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v2.1.0
         with:
           name: appimageqt6
           path: dist
@@ -829,7 +829,7 @@ jobs:
 
     steps:
       - name: Restore Builds
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v2.1.0
         with:
           name: appimageqt6
           path: dist
