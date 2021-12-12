@@ -24,6 +24,8 @@ on:
       - '.github/workflows/build.yml'
       - 'snap/**'
       - 'packaging/flatpak/*.yml'
+  release:
+    types: [published]
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
@@ -45,46 +47,32 @@ env:
 
 jobs:
   appimage-build:
-    name: Build appimage on ${{ matrix.config.name }} for ${{ matrix.config.qt_version }}
+    name: Build appimage on ${{ matrix.name }} for ${{ matrix.qt_version }}
 
-    runs-on: ${{ matrix.config.os }}
+    runs-on: ${{ matrix.os }}
     needs: [tests]
 
     strategy:
       matrix:
         qt_target: [desktop]
-        config:
-          - {
-              os: ubuntu-20.04,
-              name: 'Ubuntu-20.04 gcc-10',
-              qt_version: 6.2.0,
-              qt_arch: gcc_64,
-              arch: amd64,
-              artifact: 'Ubuntu-gcc',
-              generator: "-G\
-                \ 'Ninja'",
-              cc: 'clang',
-              cxx: 'clang++',
-              image_repo: jmuelbert/ci-building-images,
-            }
+        os: [ubuntu-latest]
+        build_type: [Release, RelWithDebInfo]
+        name: [Ubuntu-20.04 gcc-10]
+        qt_version: [6.2.0]
+        qt_arch: [gcc_64]
+        arch: [amd64]
+        artifact: [Ubuntu-gcc]
+        generator: [-G'Ninja']
+        cc: [clang]
+        cxx: [clang++]
       fail-fast: false
 
-    # container:
-    #   image: ${{ matrix.config.image_repo }}:${{ matrix.config.os }}-${{ matrix.config.symbol }}
-    #   options: --cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined
     steps:
       - name: Checkout Source Code
         if: github.event_name == 'push'
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0
-          ref: master
-      - name: Checkout Source code
-        if: github.event_name == 'pull_request'
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
+          submodules: true
 
       - name: Install Dependencies
         run: |
@@ -108,10 +96,9 @@ jobs:
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
-          version: ${{ matrix.config.qt_version }}
+          version: ${{ matrix.qt_version }}
           target: ${{ matrix.qt_target }}
-          arch: ${{ matrix.config.qt_arch }}
-          dir: '${{ github.workspace }}/build/'
+          arch: ${{ matrix.qt_arch }}
           # modules: 'qtscript'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
@@ -135,12 +122,12 @@ jobs:
           APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
           mkdir -p ${APPIMAGE_DST_PATH}
           cd $GITHUB_WORKSPACE
-          cmake ${{matrix.config.generator}} \
-              -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
+          cmake ${{matrix.generator}} \
+              -DCMAKE_BUILD_TYPE=${{ matrix.build_type}} \
               -DCMAKE_INSTALL_PREFIX:PATH="${APPIMAGE_DST_PATH}/usr" \
               -DBUILD_TESTING=OFF \
               -DBUILD_TRANSLATIONS=ON
-          cmake --build . --config $BUILD_TYPE -j2 --target install
+          cmake --build . --config ${{matrix.build_type}} --target install --parallel $(sysctl -n hw.logicalcpu)
           $GITHUB_WORKSPACE/appimagetool -s deploy ${APPIMAGE_DST_PATH}/usr/share/applications/io.github.jmuelbert.jmbde.desktop
           mkdir -p ${APPIMAGE_DST_PATH}/usr/plugins/platforminputcontexts
           cp \
@@ -360,20 +347,20 @@ jobs:
         working-directory: ${{runner.workspace}}/build
         run: |
           macdeployqt ./app/${{env.TARGET_NAME}}.app -qmldir=. -appstore-compliant -libpath=./app/${{env.TARGET_NAME}}.app/Contents/Frameworks -verbose=1 -dmg
-          cp ./app/${{env.TARGET_NAME}}.dmg ./${{env.TARGET_NAME}}.dmg
+          cp ./app/${{env.TARGET_NAME}}.dmg ${{runner.workspace}}/${{env.TARGET_NAME}}.dmg
 
       - name: Upload artifact for macOS - ${{ matrix.qt_version }}-${{matrix.build_type}}
         uses: actions/upload-artifact@v2
         with:
           name: ${{ env.TARGET_NAME }}-Qt${{ matrix.qt_version}}-${{matrix.build-type}}.dmg
-          path: ${{ env.TARGET_NAME }}.dmg
+          path: ${{runner.workspace}}/${{ env.TARGET_NAME }}.dmg
 
       - name: Upload release for  macOS - ${{ matrix.qt_version }}-${{matrix.build_type}}
         if: startsWith(github.event.ref, 'refs/tags/')
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./${{env.TARGET_NAME}}.dmg
+          file: ${{runner.workspace}}/${{env.TARGET_NAME}}.dmg
           asset_name: ${{env.TARGET_NAME}}-Qt${{ matrix.qt_version}}-${{matrix.build_type}}.dmg
           tag: ${{ github.ref }}
           overwrite: true
@@ -458,7 +445,7 @@ jobs:
           archiveName: $TARGET_NAME.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         shell: pwsh
         run: |
-          New-Item -ItemType Directory ${{ env.TARGET_NAME}}
+          New-Item -ItemType Directory ${{ env.archiveName }}
           Copy-Item -PATH ./app/ -Destination ${{ env.archiveName }} -Recurse
           windeployqt --qmldir . ${{ env.archiveName }}/${{ env.TARGET_NAME}} ${{ env.archiveName }}/*.dll
           Compress-Archive -Path ${{ env.archiveName}} ${{ env.archiveName}}'.zip'
