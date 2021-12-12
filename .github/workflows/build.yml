@@ -27,7 +27,7 @@ on:
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
-  PRODUCT: jmbde
+  TARGET_NAME: jmbde
   BUILD_TYPE: RelWithDebInfo
   DISPLAY: ':99'
   CTEST_OUTPUT_ON_FAILURE: 1
@@ -45,8 +45,7 @@ env:
 
 jobs:
   appimage-build:
-    name:
-      Build appimage on ${{ matrix.config.name }} for ${{ matrix.config.qt_version }}
+    name: Build appimage on ${{ matrix.config.name }} for ${{ matrix.config.qt_version }}
 
     runs-on: ${{ matrix.config.os }}
     needs: [tests, getVersion]
@@ -133,7 +132,7 @@ jobs:
 
       - name: Packaging appimage
         run: |
-          APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${PRODUCT}.AppDir
+          APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
           mkdir -p ${APPIMAGE_DST_PATH}
           cd $GITHUB_WORKSPACE
           cmake ${{matrix.config.generator}} \
@@ -260,64 +259,61 @@ jobs:
         shell: bash
         run: |
           mkdir -p $GITHUB_WORKSPACE/build
-          cp ${{ steps.snapcraft.outputs.snap }} $GITHUB_WORKSPACE/build/${PRODUCT}-${VERSION}-${RELEASE}.amd64.snap
+          cp ${{ steps.snapcraft.outputs.snap }} $GITHUB_WORKSPACE/build/${TARGET_NAME}-${VERSION}-${RELEASE}.amd64.snap
       - name: SHA256Sum of snap package(daily build)
         run: |
-          sha256sum $GITHUB_WORKSPACE/build/${PRODUCT}-${VERSION}-${RELEASE}.amd64.snap
-          sha256sum $GITHUB_WORKSPACE/build/${PRODUCT}-${VERSION}-${RELEASE}.amd64.snap > $GITHUB_WORKSPACE/build/${PRODUCT}-${VERSION}-${RELEASE}.amd64.snap.sha256sum
+          sha256sum $GITHUB_WORKSPACE/build/${TARGET_NAME}-${VERSION}-${RELEASE}.amd64.snap
+          sha256sum $GITHUB_WORKSPACE/build/${TARGET_NAME}-${VERSION}-${RELEASE}.amd64.snap > $GITHUB_WORKSPACE/build/${TARGET_NAME}-${VERSION}-${RELEASE}.amd64.snap.sha256sum
           echo "================snap sha256sum download link=================="
-          echo $(sh $GITHUB_WORKSPACE/scripts/upload_services/${UPLOAD_SERVICE}.sh $GITHUB_WORKSPACE/build/${PRODUCT}-${VERSION}-${RELEASE}.amd64.snap.sha256sum)
+          echo $(sh $GITHUB_WORKSPACE/scripts/upload_services/${UPLOAD_SERVICE}.sh $GITHUB_WORKSPACE/build/${TARGET_NAME}-${VERSION}-${RELEASE}.amd64.snap.sha256sum)
           echo "=====no operation for you can see link in the log console====="
       - name: Upload snap package(daily build)
         run: |
           echo "=======================snap download link======================"
-          echo $(sh $GITHUB_WORKSPACE/scripts/upload_services/${UPLOAD_SERVICE}.sh $GITHUB_WORKSPACE/build/${PRODUCT}-${VERSION}-${RELEASE}.amd64.snap)
+          echo $(sh $GITHUB_WORKSPACE/scripts/upload_services/${UPLOAD_SERVICE}.sh $GITHUB_WORKSPACE/build/${TARGET_NAME}-${VERSION}-${RELEASE}.amd64.snap)
           echo "======no operation for you can see link in the log console====="
       - name: Artifact Upload
         uses: actions/upload-artifact@v2
         with:
           name: Linux-distribution-artifact
           path: |
-            ${{ github.workspace }}/build/${{ env.PRODUCT }}-*-${{ env.RELEASE }}.amd64.snap
-            ${{ github.workspace }}/build/${{ env.PRODUCT }}-*-${{ env.RELEASE }}.amd64.snap.sha256sum
+            ${{ github.workspace }}/build/${{ env.TARGET_NAME }}-*-${{ env.RELEASE }}.amd64.snap
+            ${{ github.workspace }}/build/${{ env.TARGET_NAME }}-*-${{ env.RELEASE }}.amd64.snap.sha256sum
 
   macos-build:
-    name:
-      macOS 10.15 ${{ matrix.config.qt_arch }}-${{ matrix.qt_version}}-${{
-      matrix.config.cxx}}
+    name: ${{ matrix.os }} -${{ matrix.qt_version}}-${{matrix.build_type}}
 
     strategy:
       matrix:
         qt_version: [5.15.2, 6.2.0]
         qt_target: [desktop]
-        config:
-          - {
-              os: macos-10.15,
-              name: 'macos-12.0-x86_64',
-              macos_target: 10.15,
-              qt_arch: clang_64,
-              arch: clang_64,
-              cc: 'clang',
-              cxx: 'clang++',
-              generator: "-G 'Ninja'",
-            }
+        os: [macos-latest]
+        build_type: [Release, RelWithDebInfo]
+        name: [macos-12.0-x86_64]
+        macos_target: [10.15]
+        qt_arch: [clang_64]
+        arch: [clang_64]
+        cc: [clang]
+        cxx: [clang++']
+        generator: [-G 'Ninja']
 
       fail-fast: false
 
-    runs-on: ${{ matrix.config.os }}
-    needs: [tests, getVersion]
+    runs-on: ${{ matrix.os }}
+    needs: [tests]
 
     steps:
       - name: Checkout Source Code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
+        with:
+          submodules: true
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
           version: ${{ matrix.qt_version }}
           target: ${{ matrix.qt_target }}
-          arch: ${{ matrix.config.qt_arch }}
-          dir: '${{ github.workspace }}/build/'
+          arch: ${{ matrix.qt_arch }}
           # modules: 'qtscript'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
@@ -346,9 +342,9 @@ jobs:
         # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
         run: |
           cmake $GITHUB_WORKSPACE \
-            ${{matrix.config.generator}} \
-            -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
-            -DCMAKE_OSX_DEPLOYMENT_TARGET=${{ matrix.config.macos_target }} \
+            ${{matrix.generator}} \
+            -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+            -DCMAKE_OSX_DEPLOYMENT_TARGET=${{ matrix.macos_target }} \
             -DUSE_LAUNCHER_ABSOLUTE_PATH:BOOL=OFF \
             -DCMAKE_INSTALL_PREFIX:PATH=./app \
             -DBUILD_TESTING=OFF  \
@@ -358,93 +354,76 @@ jobs:
         working-directory: ${{runner.workspace}}/build
         shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
-        run: cmake --build . --config $BUILD_TYPE -j2 --target install
+        run: cmake --build . --target install --parallel $(sysctl -n hw.logicalcpu)
 
       - name: Package Qt
         working-directory: ${{runner.workspace}}/build
         run: |
-          macdeployqt ./app/${{env.PRODUCT}}.app -qmldir=. -appstore-compliant -libpath=./app/${{env.PRODUCT}}.app/Contents/Frameworks -verbose=1 -dmg
-          cp ./app/${{env.PRODUCT}}.dmg ./${{env.PRODUCT}}-Qt${{ matrix.qt_version }}.dmg
-          ls .
+          macdeployqt ./app/${{env.TARGET_NAME}}.app -qmldir=. -appstore-compliant -libpath=./app/${{env.TARGET_NAME}}.app/Contents/Frameworks -verbose=1 -dmg
+          cp ./app/${{env.TARGET_NAME}}.dmg ./${{env.TARGET_NAME}}.dmg
 
-      - name: macOS - ${{ matrix.qt_version }} - Uploading artifact
-        if: >
-          ${{ github.event.workflow_run.event == 'pull_request' &&
-                github.event.workflow_run.conclusion == 'success' }}
-        uses: actions/upload-artifact@v2.2.4
+      - name: Upload artifact for macOS - ${{ matrix.qt_version }}-${{matrix.build_type}}
+        uses: actions/upload-artifact@v2
         with:
-          name: ${{env.PRODUCT}}-Qt${{ matrix.qt_version }}-${{env.BUILD_TYPE}}.dmg
-          path:
-            ${{runner.workspace}}/build/${{env.PRODUCT}}-Qt${{ matrix.qt_version }}.dmg
+          name: ${{ env.TARGET_NAME }}-Qt${{ matrix.qt_version}}-${{matrix.build-type}}.dmg
+          path: ${{ env.TARGET_NAME }}.dmg
 
-      - name: macOS - ${{ matrix.qt_version }} - Upload binaries to release
-        if: >
-          ${{ github.event.workflow_run.event == 'pull_request' &&
-          github.event.workflow_run.conclusion == 'success' }}
+      - name: Upload release for  macOS - ${{ matrix.qt_version }}-${{matrix.build_type}}
+        if: startsWith(github.event.ref, 'refs/tags/')
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file:
-            ${{runner.workspace}}/build/${{env.PRODUCT}}-Qt${{ matrix.qt_version }}.dmg
-          asset_name:
-            ${{env.PRODUCT}}-${{ env.VERSION}}-Qt${{ matrix.qt_version
-            }}-${{env.BUILD_TYPE}}.dmg
+          file: ./${{env.TARGET_NAME}}.dmg
+          asset_name: ${{env.TARGET_NAME}}-Qt${{ matrix.qt_version}}-${{matrix.build_type}}.dmg
           tag: ${{ github.ref }}
           overwrite: true
 
   windows-build:
-    name:
-      Windows 2019 ${{ matrix.config.arch }}-${{matrix.qt_version}}-${{ matrix.type}}
-    runs-on: ${{ matrix.config.os }}
+    name: ${{ matrix.platform }} ${{matrix.qt_version}}-${{ matrix.build_type}}
+    runs-on: ${{ matrix.platform }}
     strategy:
       matrix:
         qt_version: [5.15.2, 6.2.0]
+        build_type: [Release, RelWithDebInfo]
         qt_target: [desktop]
-        type: [portable, installer]
-        config:
-          - {
-              os: windows-2019,
-              name: 'Windows 2019 MS Visual C',
-              qt_arch: win64_msvc2019_64,
-              arch: x64,
-              artifact: 'Windows-MSVC',
-              generator: "-G\
-                \ 'Ninja'",
-              pak_arch: win64,
-              cc: 'cl',
-              cxx: 'cl',
-            }
+        platform: [windows-latest]
+        name: [Windows 2019 MS Visual C]
+        qt_arch: [win64_msvc2019_64]
+        arch: [x64]
+        artifact: [Windows-MSVC]
+        pak_arch: [win64]
+        cc: [cl]
+        cxx: [cl]
       fail-fast: false
-    needs: [tests, getVersion]
+    needs: [tests]
 
     steps:
-      - name: Checkout Source Code
-        if: github.event_name == 'push'
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      #          ref: master
+      - name: Get the version
+        id: get_version
+        shell: bash
+        run: echo ::set-output name=VERSION::$(echo GITHUB_REF | cut -d / -f 3)
 
       - name: Checkout Source Code
-        if: github.event_name == 'pull_request'
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
+          submodules: 'recursive'
+
+      - name: Restoring submodules
+        run: git submodule update --init
 
       - name: Install MSVC compiler
         uses: ilammy/msvc-dev-cmd@v1.10.0
         with:
           # 14.1 is for vs2017, 14.2 is vs2019, following the upstream vcpkg build from Qv2ray-deps repo
           toolset: 14.2
-          arch: ${{ matrix.config.pak_arch }}
+          arch: ${{ matrix.pak_arch }}
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
           version: ${{ matrix.qt_version }}
           target: ${{ matrix.qt_target }}
-          arch: ${{ matrix.config.qt_arch }}
+          arch: ${{ matrix.qt_arch }}
           dir: '${{ github.workspace }}/build/'
           # modules: 'qtscript'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
@@ -462,101 +441,122 @@ jobs:
         working-directory: build
         run: |
           cmake $env:GITHUB_WORKSPACE `
-            ${{matrix.config.generator}}  `
-            -DCMAKE_BUILD_TYPE="$env:BUILD_TYPE"  `
+            -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}  `
             -DUSE_LAUNCHER_ABSOLUTE_PATH:BOOL=OFF  `
             -DCMAKE_INSTALL_PREFIX:PATH=./app `
             -DBUILD_TESTING=OFF  `
-            -DBUILD_TRANSLATIONS=ON `
-            -DRUN_IN_PLACE=${{ contains(matrix.type, 'portable') }}
+            -DBUILD_TRANSLATIONS=ON
 
       - name: Compile
         shell: pwsh
         working-directory: build
-        run: cmake --build . --config "$env:BUILD_TYPE" -j2 --target install
+        run: cmake --build . --config ${{ matrix.build_type}} --target install --parallel $(nproc)
+
+      - name: package
+        working-directory: build
+        env:
+          archiveName: $TARGET_NAME.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory ${{ env.TARGET_NAME}}
+          Copy-Item -PATH ./app/ -Destination ${{ env.archiveName }} -Recurse
+          windeployqt --qmldir . ${{ env.archiveName }}/${{ env.TARGET_NAME}} ${{ env.archiveName }}/*.dll
+          Compress-Archive -Path ${{ env.archiveName}} ${{ env.archiveName}}'.zip'
+
+      - name: Upload Zip archive
+        uses: actions/upload-artifact@v2
+        env:
+          archiveName: $TARGET_NAME.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+        with:
+          name: $TARGET_NAME-win-${{matrix.qt_version}}-${{matrix.arch}}-${{ matrix.build_type }}.zip
+          path: ${{ env.archiveName}}.zip
+
+      - name: uploadZipRelease
+        if: startsWith(github.event.ref, 'refs/tags/')
+        uses: svenstaro/upload-release-action@v1-release
+        env:
+          archiveName: $TARGET_NAME.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./${{ env.archiveName }}.zip
+          asset_name: $TARGET_NAME-win-${{matrix.qt_version}}-${{matrix.arch}}-${{ matrix.build_type }}.zip
+          tag: ${{ github.ref }}
+          overwrite: true
+
+      - name: build ISS-Installer
+        working-directory: build
+        shell: bash
+        run: |
+          mkdir -p $GITHUB_WORKSPACE/build/Package
+          mkdir -p $GITHUB_WORKSPACE/build/Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}
+          cp -rv ./app/* ./Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}
+          windeployqt --qmldir . ./Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}/bin/${TARGET_NAME}.exe ./Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}/bin/${TARGET_NAME}models.dll ./Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}/bin/${TARGET_NAME}quick.dll ./Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}/bin/${TARGET_NAME}widgets.dll
+          if [ "${QT_MAIN_VER6}" = true ]; then
+            iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=${VERSION} -DMyProjectRoot=$(pwd) -DMyOutRoot=$GITHUB_WORKSPACE/build/${TARGET_NAME}
+          else
+            iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss -DMyAppVersion=${VERSION} -DMyProjectRoot=$(pwd) -DMyOutRoot=$GITHUB_WORKSPACE/build/${TARGET_NAME}
+          fi
+
+      - name: Upload ISS archive
+        uses: actions/upload-artifact@v2
+        env:
+          archiveName: $TARGET_NAME.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+        with:
+          name: $TARGET_NAME-win-${{matrix.qt_version}}-${{matrix.arch}}-${{ matrix.build_type }}.exe
+          path: ${{ env.archiveName}}.exe
+
+      - name: upload ISS Release
+        if: startsWith(github.event.ref, 'refs/tags/')
+        uses: svenstaro/upload-release-action@v1-release
+        env:
+          archiveName: $TARGET_NAME.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./${{ env.archiveName }}.exe
+          asset_name: $TARGET_NAME-win-${{matrix.qt_version}}-${{matrix.arch}}-${{ matrix.build_type }}.exe
+          tag: ${{ github.ref }}
+          overwrite: true
 
       - name: CPack
         env:
-          TYPE: ${{matrix.type}}
+          TYPE: ${{matrix.build_type}}
           QT_MAIN_VER6: ${{ contains(matrix.qt_version, '6')}}
-          CONFIG_ARCH: ${{matrix.config.arch}}
-          ARCHIVE_NAME: $GITHUB_WORKSPACE/build/Package/${PRODUCT}.${VERSION}.Windows-${CONFIG_ARCH}
+          CONFIG_ARCH: ${{matrix.arch}}
+          ARCHIVE_NAME: $GITHUB_WORKSPACE/build/Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}
         working-directory: build
         shell: bash
         run: |
           if [ "${TYPE}" = "installer" ]; then
-            # Use Innosetup for now
-            #  cpack -G WIX -B "$env:GITHUB_WORKSPACE\build\Package"
+            cpack -G WIX -B "$env:GITHUB_WORKSPACE\build\Package"
             #
             mkdir -p $GITHUB_WORKSPACE/build/Package
-            mkdir -p $GITHUB_WORKSPACE/build/Package/${PRODUCT}.${VERSION}.Windows-${CONFIG_ARCH}
-            cp -rv ./app/* ./Package/${PRODUCT}.${VERSION}.Windows-${CONFIG_ARCH}
-            windeployqt --qmldir . ./Package/${PRODUCT}.${VERSION}.Windows-${CONFIG_ARCH}/bin/${PRODUCT}.exe ./Package/${PRODUCT}.${VERSION}.Windows-${CONFIG_ARCH}/bin/${PRODUCT}models.dll ./Package/${PRODUCT}.${VERSION}.Windows-${CONFIG_ARCH}/bin/${PRODUCT}quick.dll ./Package/${PRODUCT}.${VERSION}.Windows-${CONFIG_ARCH}/bin/${PRODUCT}widgets.dll
+            mkdir -p $GITHUB_WORKSPACE/build/Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}
+            cp -rv ./app/* ./Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}
+            windeployqt --qmldir . ./Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}/bin/${TARGET_NAME}.exe ./Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}/bin/${TARGET_NAME}models.dll ./Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}/bin/${TARGET_NAME}quick.dll ./Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}/bin/${TARGET_NAME}widgets.dll
             if [ "${QT_MAIN_VER6}" = true ]; then
-              iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=${VERSION} -DMyProjectRoot=$(pwd) -DMyOutRoot=$GITHUB_WORKSPACE/build/Package/${PRODUCT}.${VERSION}.Windows-${CONFIG_ARCH}/bin
-              # cpack -C"$env:BUILD_TYPE" -G NSIS64 -B "$env:GITHUB_WORKSPACE\build\Package" --verbose
-              # echo "---------------------"
-              # cat ./Package/_CPack_Packages/win64/WIX/wix.log
-              # echo "---------------------"
+              echo "---------------------"
+              cat ./Package/_CPack_Packages/win64/WIX/wix.log
+              echo "---------------------"
             else
-              iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss -DMyAppVersion=${VERSION} -DMyProjectRoot=$(pwd) -DMyOutRoot=$GITHUB_WORKSPACE/build/Package/${PRODUCT}.${VERSION}.Windows-${CONFIG_ARCH}/bin
-              # cpack -G WIX -B "$env:GITHUB_WORKSPACE\build\Package" --verbose
-              # echo "---------------------"
-              # cat ./Package/_CPack_Packages/win64/WIX/wix.log
-              # echo "---------------------"
+              cpack -G WIX -B "$env:GITHUB_WORKSPACE\build\Package" --verbose
+              echo "---------------------"
+              cat ./Package/_CPack_Packages/win64/WIX/wix.log
+              echo "---------------------"
             fi
             mkdir -p ./Package/_CPack_Packages
           else
             cpack -G ZIP -B $GITHUB_WORKSPACE/build/Package
           fi
 
-      - name: Package Clean
-        env:
-          TYPE: ${{matrix.type}}
-        shell: pwsh
-        run: |
-          Remove-Item $env:GITHUB_WORKSPACE\build\Package\_CPack_Packages -Recurse
-          New-Item -Path $env:GITHUB_WORKSPACE\build\Package\installer -ItemType Directory
-          New-Item -Path $env:GITHUB_WORKSPACE\build\Package\portable -ItemType Directory
-
-      - name: Package Prepare (installer)
-        if: matrix.type == 'installer'
-        shell: pwsh
-        run: |
-          <#
-           Move-Item -Path $env:GITHUB_WORKSPACE/build/Package/jmbde-*-${{ matrix.config.pak_arch }}.msi -Destination $env:GITHUB_WORKSPACE/build/Package/installer/jmbde-$env:VERSION-${{ matrix.config.pak_arch }}.msi
-          #>
-          Get-ChildItem "$env:GITHUB_WORKSPACE/build"
-          Move-Item -Path $env:GITHUB_WORKSPACE/build/jmbde-setup.exe -Destination $env:GITHUB_WORKSPACE/build/Package/installer/jmbde-$env:VERSION-${{ matrix.config.pak_arch }}-Qt${{matrix.qt_version}}.exe
-          Get-ChildItem "$env:GITHUB_WORKSPACE/build/Package/installer"
-
-      - name: Package Prepare (portable)
-        if: matrix.type == 'portable'
-        shell: pwsh
-        run: |
-          Move-Item -Path $env:GITHUB_WORKSPACE/build/Package/jmbde-*-${{ matrix.config.pak_arch }}.zip -Destination $env:GITHUB_WORKSPACE/build/Package/portable/jmbde-$env:VERSION-${{ matrix.config.pak_arch }}-Qt${{matrix.qt_version}}.zip
-
       - name: SHA256Sum of Windows installer(daily build)
         if: matrix.type == 'installer'
         shell: bash
         run: |
-          sha256sum $GITHUB_WORKSPACE/build/Package/installer/jmbde-${VERSION}-${{ matrix.config.pak_arch }}-Qt${{matrix.qt_version}}.exe
-          sha256sum $GITHUB_WORKSPACE/build/Package/installer/jmbde-${VERSION}-${{ matrix.config.pak_arch }}-Qt${{matrix.qt_version}}.exe > $GITHUB_WORKSPACE/build/Package/installer/jmbde-${VERSION}-${{ matrix.config.pak_arch }}-Qt${{matrix.qt_version}}.exe.sha256sum
+          sha256sum $GITHUB_WORKSPACE/build/Package/installer/jmbde-${VERSION}-${{ matrix.pak_arch }}-Qt${{matrix.qt_version}}.exe
+          sha256sum $GITHUB_WORKSPACE/build/Package/installer/jmbde-${VERSION}-${{ matrix.pak_arch }}-Qt${{matrix.qt_version}}.exe > $GITHUB_WORKSPACE/build/Package/installer/jmbde-${VERSION}-${{ matrix.pak_arch }}-Qt${{matrix.qt_version}}.exe.sha256sum
           python -m pip install -U -q requests
           echo "============Windows installer sha256sum download link============"
-          echo $(python $GITHUB_WORKSPACE/scripts/upload_services/transferwee.py upload $GITHUB_WORKSPACE/build/Package/installer/jmbde-${VERSION}-${{ matrix.config.pak_arch }}.exe.sha256sum)
           echo "=======no operation for you can see link in the log console====="
-
-      - name: SHA256Sum of Windows portable(daily build)
-        if: matrix.type == 'portable'
-        shell: bash
-        run: |
-          sha256sum $GITHUB_WORKSPACE/build/Package/portable/jmbde-${VERSION}-${{ matrix.config.pak_arch }}-Qt${{matrix.qt_version}}.zip
-          sha256sum $GITHUB_WORKSPACE/build/Package/portable/jmbde-${VERSION}-${{ matrix.config.pak_arch }}-Qt${{matrix.qt_version}}.zip > $GITHUB_WORKSPACE/build/Package/portable/jmbde-${VERSION}-${{ matrix.config.pak_arch }}-Qt${{matrix.qt_version}}.zip.sha256sum
-          python -m pip install -U -q requests
-          echo "===========Windows portable sha256sum download link============"
-          echo $(python $GITHUB_WORKSPACE/scripts/upload_services/transferwee.py upload $GITHUB_WORKSPACE/build/Package/portable/jmbde-${VERSION}-${{ matrix.config.pak_arch }}-Qt${{matrix.qt_version}}.zip.sha256sum)
-          echo "=====no operation for you can see link in the log console====="
 
       - name: Upload Windows installer(daily build)
         if: matrix.type == 'installer'
@@ -564,46 +564,7 @@ jobs:
         run: |
           python -m pip install -U -q requests
           echo "================Windows installer download link================"
-          echo $(python $GITHUB_WORKSPACE/scripts/upload_services/transferwee.py upload $GITHUB_WORKSPACE/build/Package/installer/jmbde-${VERSION}-${{ matrix.config.pak_arch }}-Qt${{matrix.qt_version}}.exe)
           echo "=====no operation for you can see link in the log console====="
-
-      - name: Upload Windows portable(daily build)
-        if: matrix.type == 'portable'
-        shell: bash
-        run: |
-          python -m pip install -U -q requests
-          echo "=================Windows portable download link================"
-          echo $(python $GITHUB_WORKSPACE/scripts/upload_services/transferwee.py upload $GITHUB_WORKSPACE/build/Package/portable/jmbde-${VERSION}-${{ matrix.config.pak_arch }}-Qt${{matrix.qt_version}}.zip)
-          echo "=====no operation for you can see link in the log console====="
-
-      - name: Artifact Upload
-        uses: actions/upload-artifact@v2
-        with:
-          name: Windows-artifact
-          path: ${{ github.workspace }}/build/Package/*
-
-  getVersion:
-    name: Get the last tagged version
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2.4.0
-        with:
-          fetch-depth: 2
-      - name: Fetch all history for all tags and branches
-        run: git fetch --prune --unshallow
-      - name: Set env & Print jmbde version
-        shell: bash
-        run: |
-          last_committed_tag=$(git tag -l --sort=-v:refname | head -1)
-          git_revno=$(git rev-list $(git describe --tags --abbrev=0)..HEAD --count)
-          git_hash=$(git rev-parse --short HEAD)
-          echo "=======jmbde VERSION========"
-          echo ${last_committed_tag:1}
-          echo "Details: ${last_committed_tag}+git${git_revno}.${git_hash}"
-          echo "================================"
-          # This will allow to build pre-preleases without git tag
-          # echo "VERSION=${last_committed_tag:1}" >> $GITHUB_ENV
-          echo "VERSION=$(cat CMakeLists.txt |grep 'set.*(.*jmbde_VERSION' | sed 's/[^0-9.]*//' |sed 's/)//g')" >> $GITHUB_ENV
 
   build_GH_Pages:
     name: Build GH Pages
