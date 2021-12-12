@@ -48,7 +48,7 @@ jobs:
     name: Build appimage on ${{ matrix.config.name }} for ${{ matrix.config.qt_version }}
 
     runs-on: ${{ matrix.config.os }}
-    needs: [tests, getVersion]
+    needs: [tests]
 
     strategy:
       matrix:
@@ -176,7 +176,7 @@ jobs:
   flatpak-build:
     name: Build flatpak on ubuntu-20.04
     runs-on: ubuntu-20.04
-    needs: [tests, getVersion]
+    needs: [tests]
 
     steps:
       - name: Checkout Source Code
@@ -235,7 +235,7 @@ jobs:
   snap-build:
     name: Build snap on ubuntu-20.04
     runs-on: ubuntu-20.04
-    needs: [tests, getVersion]
+    needs: [tests]
     steps:
       - name: Checkout Source Code
         if: github.event_name == 'push'
