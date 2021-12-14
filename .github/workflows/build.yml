@@ -442,7 +442,7 @@ jobs:
       - name: package
         working-directory: build
         env:
-          archiveName: $env:TARGET_NAME.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+          archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         shell: pwsh
         run: |
           New-Item -ItemType Directory ${{ env.archiveName }}
