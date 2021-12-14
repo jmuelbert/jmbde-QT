@@ -449,7 +449,8 @@ jobs:
           Get-Childitem 
           Get-ChildItem ./app/*
           Copy-Item -PATH ./app/* -Destination ${{ env.archiveName }} -Recurse
-          windeployqt --qmldir . ${{ env.archiveName }}/${{ env.TARGET_NAME}} ${{ env.archiveName }}/*.dll
+          Get-ChildItem ${{ env.archiveName }}
+          windeployqt --qmldir . ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}.exe ${{ env.archiveName }}/bin/*.dll
           Compress-Archive -Path ${{ env.archiveName}} ${{ env.archiveName}}'.zip'
 
       - name: Upload Zip archive
