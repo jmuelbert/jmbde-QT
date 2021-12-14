@@ -388,7 +388,7 @@ jobs:
       - name: Get the version
         id: get_version
         shell: bash
-        run: echo ::set-output name=VERSION::$(echo GITHUB_REF | cut -d / -f 3)
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
 
       - name: Checkout Source Code
         uses: actions/checkout@v2
@@ -446,6 +446,8 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory ${{ env.archiveName }}
+          Get-Childitem 
+          Get-ChildItem ./app/*
           Copy-Item -PATH ./app/* -Destination ${{ env.archiveName }} -Recurse
           windeployqt --qmldir . ${{ env.archiveName }}/${{ env.TARGET_NAME}} ${{ env.archiveName }}/*.dll
           Compress-Archive -Path ${{ env.archiveName}} ${{ env.archiveName}}'.zip'
