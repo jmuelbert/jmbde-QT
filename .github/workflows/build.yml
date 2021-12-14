@@ -446,7 +446,7 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory ${{ env.archiveName }}
-          Copy-Item -PATH ./app/ -Destination ${{ env.archiveName }} -Recurse
+          Copy-Item -PATH ./app/* -Destination ${{ env.archiveName }} -Recurse
           windeployqt --qmldir . ${{ env.archiveName }}/${{ env.TARGET_NAME}} ${{ env.archiveName }}/*.dll
           Compress-Archive -Path ${{ env.archiveName}} ${{ env.archiveName}}'.zip'
 
