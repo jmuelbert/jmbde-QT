@@ -442,7 +442,7 @@ jobs:
       - name: package
         working-directory: build
         env:
-          archiveName: $TARGET_NAME.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+          archiveName: $env:TARGET_NAME.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         shell: pwsh
         run: |
           New-Item -ItemType Directory ${{ env.archiveName }}
@@ -453,20 +453,20 @@ jobs:
       - name: Upload Zip archive
         uses: actions/upload-artifact@v2
         env:
-          archiveName: $TARGET_NAME.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+          archiveName: $env:TARGET_NAME.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         with:
-          name: $TARGET_NAME-win-${{matrix.qt_version}}-${{matrix.arch}}-${{ matrix.build_type }}.zip
+          name: $env:TARGET_NAME-win-${{matrix.qt_version}}-${{matrix.arch}}-${{ matrix.build_type }}.zip
           path: ${{ env.archiveName}}.zip
 
       - name: uploadZipRelease
         if: startsWith(github.event.ref, 'refs/tags/')
         uses: svenstaro/upload-release-action@v1-release
         env:
-          archiveName: $TARGET_NAME.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+          archiveName: $env:TARGET_NAME.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./${{ env.archiveName }}.zip
-          asset_name: $TARGET_NAME-win-${{matrix.qt_version}}-${{matrix.arch}}-${{ matrix.build_type }}.zip
+          asset_name: $env:TARGET_NAME-win-${{matrix.qt_version}}-${{matrix.arch}}-${{ matrix.build_type }}.zip
           tag: ${{ github.ref }}
           overwrite: true
 
