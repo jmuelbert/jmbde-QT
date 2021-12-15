@@ -381,7 +381,7 @@ jobs:
         pak_arch: [win64]
         cc: [cl]
         cxx: [cl]
-      fail-fast: false
+      fail-fast: true
     needs: [tests]
 
     steps:
@@ -450,7 +450,7 @@ jobs:
           Get-ChildItem ./app/*
           Copy-Item -PATH ./app/* -Destination ${{ env.archiveName }} -Recurse
           Get-ChildItem ${{ env.archiveName }}
-          windeployqt --qmldir . ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}.exe ${{ env.archiveName }}/bin/*.dll
+          windeployqt --qmldir . ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}.exe ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}models.dll ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}quick.dll ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}widgets.dll
           Compress-Archive -Path ${{ env.archiveName}} ${{ env.archiveName}}'.zip'
 
       - name: Upload Zip archive
