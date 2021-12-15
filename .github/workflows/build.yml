@@ -456,35 +456,33 @@ jobs:
       - name: Upload Zip archive
         uses: actions/upload-artifact@v2
         env:
-          archiveName: $env:TARGET_NAME.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+          archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         with:
-          name: $env:TARGET_NAME-win-${{matrix.qt_version}}-${{matrix.arch}}-${{ matrix.build_type }}.zip
+          name: ${{ env.TARGET_NAME}}-win-${{matrix.qt_version}}-${{matrix.arch}}-${{ matrix.build_type }}.zip
           path: ${{ env.archiveName}}.zip
 
       - name: uploadZipRelease
         if: startsWith(github.event.ref, 'refs/tags/')
         uses: svenstaro/upload-release-action@v1-release
         env:
-          archiveName: $env:TARGET_NAME.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+          archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./${{ env.archiveName }}.zip
-          asset_name: $env:TARGET_NAME-win-${{matrix.qt_version}}-${{matrix.arch}}-${{ matrix.build_type }}.zip
+          asset_name: ${{ env.TARGET_NAME}}-win-${{matrix.qt_version}}-${{matrix.arch}}-${{ matrix.build_type }}.zip
           tag: ${{ github.ref }}
           overwrite: true
 
       - name: build ISS-Installer
         working-directory: build
+        env:
+          archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         shell: bash
-        run: |
-          mkdir -p $GITHUB_WORKSPACE/build/Package
-          mkdir -p $GITHUB_WORKSPACE/build/Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}
-          cp -rv ./app/* ./Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}
-          windeployqt --qmldir . ./Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}/bin/${TARGET_NAME}.exe ./Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}/bin/${TARGET_NAME}models.dll ./Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}/bin/${TARGET_NAME}quick.dll ./Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}/bin/${TARGET_NAME}widgets.dll
+        run: 
           if [ "${QT_MAIN_VER6}" = true ]; then
-            iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=${VERSION} -DMyProjectRoot=$(pwd) -DMyOutRoot=$GITHUB_WORKSPACE/build/${TARGET_NAME}
+            iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=.${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=${archiveName} -DMyOutRoot=$GITHUB_WORKSPACE/build/${TARGET_NAME}
           else
-            iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss -DMyAppVersion=${VERSION} -DMyProjectRoot=$(pwd) -DMyOutRoot=$GITHUB_WORKSPACE/build/${TARGET_NAME}
+            iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss -DMyAppVersion=.${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=${archiveName}  -DMyOutRoot=$GITHUB_WORKSPACE/build/${TARGET_NAME}
           fi
 
       - name: Upload ISS archive
@@ -512,7 +510,7 @@ jobs:
           TYPE: ${{matrix.build_type}}
           QT_MAIN_VER6: ${{ contains(matrix.qt_version, '6')}}
           CONFIG_ARCH: ${{matrix.arch}}
-          ARCHIVE_NAME: $GITHUB_WORKSPACE/build/Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}
+          ARCHIVE_NAME: $GITHUB_WORKSPACE/build/$TARGET_NAME.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         working-directory: build
         shell: bash
         run: |
