@@ -480,9 +480,9 @@ jobs:
         shell: bash
         run: |
           if [ "${QT_MAIN_VER6}" = true ]; then
-            iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$GITHUB_WORKSPACE/${archiveName} -DMyOutRoot= $GITHUB_WORKSPACE/${archiveName}}
+            iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$GITHUB_WORKSPACE/${archiveName}/bin -DMyOutRoot= $GITHUB_WORKSPACE/${archiveName}}
           else
-            iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$GITHUB_WORKSPACE/${archiveName}  -DMyOutRoot=$GITHUB_WORKSPACE/${archiveName}
+            iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$GITHUB_WORKSPACE/${archiveName}/bin  -DMyOutRoot=$GITHUB_WORKSPACE/${archiveName}
           fi
 
       - name: Upload ISS archive
@@ -519,8 +519,8 @@ jobs:
             #
             mkdir -p $GITHUB_WORKSPACE/build/Package
             mkdir -p $GITHUB_WORKSPACE/build/Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}
-            cp -rv ./app/* ./Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}
-            windeployqt --qmldir . ./Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}/bin/${TARGET_NAME}.exe ./Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}/bin/${TARGET_NAME}models.dll ./Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}/bin/${TARGET_NAME}quick.dll ./Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}/bin/${TARGET_NAME}widgets.dll
+            # cp -rv ./app/* ./Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}
+            # windeployqt --qmldir . ./Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}/bin/${TARGET_NAME}.exe ./Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}/bin/${TARGET_NAME}models.dll ./Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}/bin/${TARGET_NAME}quick.dll ./Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}/bin/${TARGET_NAME}widgets.dll
             if [ "${QT_MAIN_VER6}" = true ]; then
               echo "---------------------"
               cat ./Package/_CPack_Packages/win64/WIX/wix.log
