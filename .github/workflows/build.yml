@@ -599,7 +599,7 @@ jobs:
         generator: [-G'Ninja']
         cc: [clang]
         cxx: [clang++]
-        matrix.build_type: [Debug]
+        build_type: [Debug]
       fail-fast: true
 
     steps:
