@@ -56,7 +56,6 @@ jobs:
       matrix:
         qt_target: [desktop]
         os: [ubuntu-latest]
-        build_type: [Release]
         name: [Ubuntu-20.04 gcc-10]
         qt_version: [6.2.0]
         qt_arch: [gcc_64]
@@ -68,6 +67,11 @@ jobs:
       fail-fast: true
 
     steps:
+      - name: Get the version
+        id: get_version
+        shell: bash
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+
       - name: Checkout Source Code
         if: github.event_name == 'push'
         uses: actions/checkout@v2
@@ -123,11 +127,11 @@ jobs:
           mkdir -p ${APPIMAGE_DST_PATH}
           cd $GITHUB_WORKSPACE
           cmake ${{matrix.generator}} \
-              -DCMAKE_BUILD_TYPE=${{ matrix.build_type}} \
+              -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE}} \
               -DCMAKE_INSTALL_PREFIX:PATH="${APPIMAGE_DST_PATH}/usr" \
               -DBUILD_TESTING=OFF \
               -DBUILD_TRANSLATIONS=ON
-          cmake --build . --config ${{matrix.build_type}} --target install --parallel $(sysctl -n hw.logicalcpu)
+          cmake --build . --config ${{env.BUILD_TYPE}} --target install --parallel $(sysctl -n hw.logicalcpu)
           $GITHUB_WORKSPACE/appimagetool -s deploy ${APPIMAGE_DST_PATH}/usr/share/applications/io.github.jmuelbert.jmbde.desktop
           mkdir -p ${APPIMAGE_DST_PATH}/usr/plugins/platforminputcontexts
           cp \
@@ -268,20 +272,19 @@ jobs:
             ${{ github.workspace }}/build/${{ env.TARGET_NAME }}-*-${{ env.RELEASE }}.amd64.snap.sha256sum
 
   macos-build:
-    name: ${{ matrix.os }} -${{ matrix.qt_version}}-${{matrix.build_type}}
+    name: ${{ matrix.os }} -${{ matrix.qt_version}}-${{env.BUILD_TYPE}}
 
     strategy:
       matrix:
         qt_version: [5.15.2, 6.2.0]
         qt_target: [desktop]
         os: [macos-latest]
-        build_type: [Release]
         name: [macos-12.0-x86_64]
         macos_target: [10.15]
         qt_arch: [clang_64]
         arch: [clang_64]
         cc: [clang]
-        cxx: [clang++']
+        cxx: [clang++]
         generator: [-G 'Ninja']
 
       fail-fast: true
@@ -330,7 +333,7 @@ jobs:
         run: |
           cmake $GITHUB_WORKSPACE \
             ${{matrix.generator}} \
-            -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+            -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
             -DCMAKE_OSX_DEPLOYMENT_TARGET=${{ matrix.macos_target }} \
             -DUSE_LAUNCHER_ABSOLUTE_PATH:BOOL=OFF \
             -DCMAKE_INSTALL_PREFIX:PATH=./app \
@@ -349,29 +352,28 @@ jobs:
           macdeployqt ./app/${{env.TARGET_NAME}}.app -qmldir=. -appstore-compliant -libpath=./app/${{env.TARGET_NAME}}.app/Contents/Frameworks -verbose=1 -dmg
           cp ./app/${{env.TARGET_NAME}}.dmg ${{runner.workspace}}/${{env.TARGET_NAME}}.dmg
 
-      - name: Upload artifact for macOS - ${{ matrix.qt_version }}-${{matrix.build_type}}
+      - name: Upload artifact for macOS - ${{ matrix.qt_version }}-${env.BUILD_TYPE}}
         uses: actions/upload-artifact@v2
         with:
           name: ${{ env.TARGET_NAME }}-Qt${{ matrix.qt_version}}-${{matrix.build-type}}.dmg
           path: ${{runner.workspace}}/${{ env.TARGET_NAME }}.dmg
 
-      - name: Upload release for  macOS - ${{ matrix.qt_version }}-${{matrix.build_type}}
+      - name: Upload release for  macOS - ${{ matrix.qt_version }}-${{env.BUILD_TYPE}}
         if: startsWith(github.event.ref, 'refs/tags/')
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{runner.workspace}}/${{env.TARGET_NAME}}.dmg
-          asset_name: ${{env.TARGET_NAME}}-Qt${{ matrix.qt_version}}-${{matrix.build_type}}.dmg
+          asset_name: ${{env.TARGET_NAME}}-Qt${{ matrix.qt_version}}-${{env.BUILD_TYPE}.dmg
           tag: ${{ github.ref }}
           overwrite: true
 
   windows-build:
-    name: ${{ matrix.platform }} ${{matrix.qt_version}}-${{ matrix.build_type}}
+    name: ${{ matrix.platform }} ${{matrix.qt_version}}-${{ env.BUILD_TYPE}}
     runs-on: ${{ matrix.platform }}
     strategy:
       matrix:
         qt_version: [5.15.2, 6.2.0]
-        build_type: [Release]
         qt_target: [desktop]
         platform: [windows-latest]
         name: [Windows 2019 MS Visual C]
@@ -430,7 +432,7 @@ jobs:
         run: |
           cmake $env:GITHUB_WORKSPACE `
             ${{ matrix.generator }} `
-            -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}  `
+            -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}  `
             -DUSE_LAUNCHER_ABSOLUTE_PATH:BOOL=OFF  `
             -DCMAKE_INSTALL_PREFIX:PATH=./app `
             -DBUILD_TESTING=OFF  `
@@ -439,7 +441,7 @@ jobs:
       - name: Compile
         shell: pwsh
         working-directory: build
-        run: cmake --build . --config ${{ matrix.build_type}} --target install --parallel $(nproc)
+        run: cmake --build . --config ${{ env.BUILD_TYPE }} --target install --parallel $(nproc)
 
       - name: package
         working-directory: build
@@ -451,6 +453,11 @@ jobs:
           Copy-Item -PATH ./app/* -Destination ${{ env.archiveName }} -Recurse
           Get-ChildItem ${{ env.archiveName }}/bin
           windeployqt --qmldir . ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}.exe ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}models.dll ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}quick.dll ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}widgets.dll
+
+      - name: Compress Zip Archive
+        shell: pwsh
+        working-directory: build
+        run: |
           Compress-Archive -Path ${{ env.archiveName}} ${{ env.archiveName}}'.zip'
 
       - name: Upload Zip archive
@@ -480,9 +487,9 @@ jobs:
         shell: bash
         run: |
           if [ "${QT_MAIN_VER6}" = true ]; then
-            iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$GITHUB_WORKSPACE/${archiveName} -DMyOutRoot= $GITHUB_WORKSPACE/${archiveName}/bin
+            iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$GITHUB_WORKSPACE/${archiveName}/bin
           else
-            iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$GITHUB_WORKSPACE/${archiveName} -DMyOutRoot=$GITHUB_WORKSPACE/${archiveName}/bin
+            iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$GITHUB_WORKSPACE/${archiveName}/bin
           fi
 
       - name: Upload ISS archive
@@ -515,12 +522,7 @@ jobs:
         shell: bash
         run: |
           if [ "${TYPE}" = "installer" ]; then
-            cpack -G WIX -B "$env:GITHUB_WORKSPACE\build\Package"
-            #
-            mkdir -p $GITHUB_WORKSPACE/build/Package
-            mkdir -p $GITHUB_WORKSPACE/build/Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}
-            # cp -rv ./app/* ./Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}
-            # windeployqt --qmldir . ./Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}/bin/${TARGET_NAME}.exe ./Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}/bin/${TARGET_NAME}models.dll ./Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}/bin/${TARGET_NAME}quick.dll ./Package/${TARGET_NAME}.${VERSION}.Windows-${CONFIG_ARCH}/bin/${TARGET_NAME}widgets.dll
+            cpack -G WIX -B "$env:GITHUB_WORKSPACE\build\Package
             if [ "${QT_MAIN_VER6}" = true ]; then
               echo "---------------------"
               cat ./Package/_CPack_Packages/win64/WIX/wix.log
@@ -587,6 +589,18 @@ jobs:
     name: Tests on ubuntu-latest
     runs-on: ubuntu-latest
     strategy:
+      matrix:
+        qt_target: [desktop]
+        os: [ubuntu-latest]
+        name: [Ubuntu-20.04 gcc-10]
+        qt_version: [6.2.0]
+        qt_arch: [gcc_64]
+        arch: [amd64]
+        artifact: [Ubuntu-gcc]
+        generator: [-G'Ninja']
+        cc: [clang]
+        cxx: [clang++]
+        matrix.build_type: [Debug]
       fail-fast: true
 
     steps:
@@ -620,10 +634,9 @@ jobs:
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
-          version: ${{ env.TEST_QT_VERSION }}
-          target: ${{ env.TEST_QT_TARGET }}
-          arch: ${{ env.TEST_QT_ARCH }}
-          dir: '${{ github.workspace }}/build/'
+          version: ${{ matrix.qt_version }}
+          target: ${{ matrix.qt_target }}
+          arch: ${{ matrix.qt_arch }}
           # modules: 'qtscript'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
@@ -646,10 +659,10 @@ jobs:
         # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
         run: |
           cmake $GITHUB_WORKSPACE \
-            ${{matrix.config.generator}} \
-            -DCMAKE_BUILD_TYPE=$TEST_BUILD_TYPE \
+            ${{matrix.generator}} \
+            -DCMAKE_BUILD_TYPE=${{ matrix.build_type}} \
             -DCMAKE_INSTALL_PREFIX:PATH=./app \
-            -DBUILD_TESTING=OFF  \
+            -DBUILD_TESTING=ON  \
             -DBUILD_TRANSLATIONS=ON \
 
       - name: Build
@@ -664,7 +677,7 @@ jobs:
         shell: bash
         # Execute tests defined by the CMake configuration.
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-        run: ctest -VV -C $TEST_BUILD_TYPE
+        run: ctest -VV -C 4{{ matrix.build_type}}
 
   coverage:
     runs-on: ubuntu-latest
