@@ -368,7 +368,7 @@ jobs:
           overwrite: true
 
   windows-build:
-    name: ${{ matrix.platform }} ${{matrix.qt_version}}-${{ env.BUILD_TYPE}}
+    name: ${{ matrix.platform }} ${{matrix.qt_version}}
     runs-on: ${{ matrix.platform }}
     strategy:
       matrix:
