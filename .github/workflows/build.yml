@@ -56,7 +56,7 @@ jobs:
       matrix:
         qt_target: [desktop]
         os: [ubuntu-latest]
-        build_type: [Release, RelWithDebInfo]
+        build_type: [Release]
         name: [Ubuntu-20.04 gcc-10]
         qt_version: [6.2.0]
         qt_arch: [gcc_64]
@@ -65,7 +65,7 @@ jobs:
         generator: [-G'Ninja']
         cc: [clang]
         cxx: [clang++]
-      fail-fast: false
+      fail-fast: true
 
     steps:
       - name: Checkout Source Code
@@ -275,7 +275,7 @@ jobs:
         qt_version: [5.15.2, 6.2.0]
         qt_target: [desktop]
         os: [macos-latest]
-        build_type: [Release, RelWithDebInfo]
+        build_type: [Release]
         name: [macos-12.0-x86_64]
         macos_target: [10.15]
         qt_arch: [clang_64]
@@ -284,7 +284,7 @@ jobs:
         cxx: [clang++']
         generator: [-G 'Ninja']
 
-      fail-fast: false
+      fail-fast: true
 
     runs-on: ${{ matrix.os }}
     needs: [tests]
@@ -371,7 +371,7 @@ jobs:
     strategy:
       matrix:
         qt_version: [5.15.2, 6.2.0]
-        build_type: [Release, RelWithDebInfo]
+        build_type: [Release]
         qt_target: [desktop]
         platform: [windows-latest]
         name: [Windows 2019 MS Visual C]
@@ -381,6 +381,7 @@ jobs:
         pak_arch: [win64]
         cc: [cl]
         cxx: [cl]
+        generator: [-G 'Ninja']
       fail-fast: true
     needs: [tests]
 
@@ -428,6 +429,7 @@ jobs:
         working-directory: build
         run: |
           cmake $env:GITHUB_WORKSPACE `
+            ${{ matrix.generator }} `
             -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}  `
             -DUSE_LAUNCHER_ABSOLUTE_PATH:BOOL=OFF  `
             -DCMAKE_INSTALL_PREFIX:PATH=./app `
@@ -480,9 +482,9 @@ jobs:
         shell: bash
         run: |
           if [ "${QT_MAIN_VER6}" = true ]; then
-            iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$GITHUB_WORKSPACE/${archiveName}/bin -DMyOutRoot= $GITHUB_WORKSPACE/${archiveName}}
+            iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$GITHUB_WORKSPACE/${archiveName} -DMyOutRoot= $GITHUB_WORKSPACE/${archiveName}/bin
           else
-            iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$GITHUB_WORKSPACE/${archiveName}/bin  -DMyOutRoot=$GITHUB_WORKSPACE/${archiveName}
+            iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$GITHUB_WORKSPACE/${archiveName} -DMyOutRoot=$GITHUB_WORKSPACE/${archiveName}/bin
           fi
 
       - name: Upload ISS archive
