@@ -123,6 +123,9 @@ jobs:
 
       - name: Packaging appimage
         run: |
+          set(ENV{CC} ${ { matrix.cc } })
+          set(ENV{CXX} ${ { matrix.cxx } })
+
           APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
           mkdir -p ${APPIMAGE_DST_PATH}
           cd $GITHUB_WORKSPACE
@@ -454,8 +457,10 @@ jobs:
           windeployqt --qmldir . ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}.exe ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}models.dll ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}quick.dll ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}widgets.dll
 
       - name: Compress Zip Archive
-        shell: pwsh
         working-directory: build
+        env:
+          archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+        shell: pwsh
         run: |
           Compress-Archive -Path ${{ env.archiveName}} ${{ env.archiveName}}'.zip'
 
@@ -657,6 +662,9 @@ jobs:
         # and build directories, but this is only available with CMake 3.13 and higher.
         # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
         run: |
+          set(ENV{CC} ${ { matrix.cc } })
+          set(ENV{CXX} ${ { matrix.cxx } })
+
           cmake $GITHUB_WORKSPACE \
             ${{matrix.generator}} \
             -DCMAKE_BUILD_TYPE=${{ matrix.build_type}} \
