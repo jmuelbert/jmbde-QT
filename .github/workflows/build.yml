@@ -448,10 +448,8 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory ${{ env.archiveName }}
-          Get-Childitem 
-          Get-ChildItem ./app/*
           Copy-Item -PATH ./app/* -Destination ${{ env.archiveName }} -Recurse
-          Get-ChildItem ${{ env.archiveName }}
+          Get-ChildItem ${{ env.archiveName }}/bin
           windeployqt --qmldir . ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}.exe ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}models.dll ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}quick.dll ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}widgets.dll
           Compress-Archive -Path ${{ env.archiveName}} ${{ env.archiveName}}'.zip'
 
