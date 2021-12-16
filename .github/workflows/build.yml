@@ -122,6 +122,7 @@ jobs:
           APPIMAGETOOL_ARCH: x86_64
 
       - name: Packaging appimage
+        shell: cmake -P {0}
         run: |
           set(ENV{CC} ${ { matrix.cc } })
           set(ENV{CXX} ${ { matrix.cxx } })
@@ -135,6 +136,13 @@ jobs:
               -DBUILD_TESTING=OFF \
               -DBUILD_TRANSLATIONS=ON
           cmake --build . --config ${{env.BUILD_TYPE}} --target install --parallel $(sysctl -n hw.logicalcpu)
+
+      - name: Build appimage
+        shell: bash
+        run: |
+          APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
+          cd $GITHUB_WORKSPACE
+
           $GITHUB_WORKSPACE/appimagetool -s deploy ${APPIMAGE_DST_PATH}/usr/share/applications/io.github.jmuelbert.jmbde.desktop
           mkdir -p ${APPIMAGE_DST_PATH}/usr/plugins/platforminputcontexts
           cp \
@@ -656,7 +664,7 @@ jobs:
       - name: Configure CMake
         # Use a bash shell so we can use the same syntax for environment variable
         # access regardless of the host operating system
-        shell: bash
+        shell: cmake -P {0}
         working-directory: ${{runner.workspace}}/build
         # Note the current convention is to use the -S and -B options here to specify source
         # and build directories, but this is only available with CMake 3.13 and higher.
@@ -754,55 +762,3 @@ jobs:
         with:
           email: juergen.muelbert@gmail.com
           build_dir: docs/_build
-
-  deployPrereleases:
-    name: Deploy Pre-Release
-    if: github.ref == 'refs/heads/master'
-    runs-on: ubuntu-20.04
-    environment: PreRelease
-    needs:
-      - tests
-      - appimage-build
-      - flatpak-build
-      - snap-build
-      - macos-build
-      - windows-build
-      - deployGHPages
-
-    steps:
-      - name: Restore Builds
-        uses: actions/download-artifact@v2.1.0
-        with:
-          name: appimageqt6
-          path: dist
-
-      - name: Publish
-        run: |
-          echo "Publish Pre-Release"
-
-  deploy:
-    name: Deploy Release on PyPi
-    if: startsWith(github.ref, 'refs/tags/')
-    runs-on: ubuntu-20.04
-    environment: Release
-    needs:
-      - tests
-      - appimage-build
-      - flatpak-build
-      - macos-build
-      - snap-build
-      - windows-build
-      - changeLog
-      - releaseNotes
-      - deployGHPages
-
-    steps:
-      - name: Restore Builds
-        uses: actions/download-artifact@v2.1.0
-        with:
-          name: appimageqt6
-          path: dist
-
-      - name: Publish
-        run: |
-          echo "Publish Pre-Release"
