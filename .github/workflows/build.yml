@@ -272,8 +272,7 @@ jobs:
             ${{ github.workspace }}/build/${{ env.TARGET_NAME }}-*-${{ env.RELEASE }}.amd64.snap.sha256sum
 
   macos-build:
-    name: ${{ matrix.os }} -${{ matrix.qt_version}}-${{env.BUILD_TYPE}}
-
+    name: ${{ matrix.os }} -${{ matrix.qt_version}}
     strategy:
       matrix:
         qt_version: [5.15.2, 6.2.0]
