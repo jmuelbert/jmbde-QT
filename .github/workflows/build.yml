@@ -454,7 +454,7 @@ jobs:
         run: cmake --build . --config ${{ env.BUILD_TYPE }} --target install --parallel $(nproc)
 
       - name: package
-        working-directory: build
+        waorking-directory: build
         env:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         shell: pwsh
@@ -525,12 +525,13 @@ jobs:
           overwrite: true
 
       - name: CPack
+        waorking-directory: build
         env:
+          archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
           TYPE: ${{matrix.build_type}}
           QT_MAIN_VER6: ${{ contains(matrix.qt_version, '6')}}
           CONFIG_ARCH: ${{matrix.arch}}
           ARCHIVE_NAME: $GITHUB_WORKSPACE/build/$TARGET_NAME.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
-        working-directory: build
         shell: bash
         run: |
           if [ "${TYPE}" = "installer" ]; then
@@ -547,7 +548,7 @@ jobs:
             fi
             mkdir -p ./Package/_CPack_Packages
           else
-            cpack -G ZIP -B $GITHUB_WORKSPACE/build/Package
+            cpack -G ZIP -B $GITHUB_WORKSPACE/build//${archiveName}/bin
           fi
 
       - name: SHA256Sum of Windows installer(daily build)
