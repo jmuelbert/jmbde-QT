@@ -470,7 +470,7 @@ jobs:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         shell: pwsh
         run: |
-          Compress-Archive -Path ${{ env.archiveName}} ${{ env.archiveName}}'.zip'
+          Compress-Archive -Path ${{ env.archiveName}}/bin ${{ env.archiveName}}'.zip'
 
       - name: Upload Zip archive
         uses: actions/upload-artifact@v2
@@ -548,7 +548,7 @@ jobs:
             fi
             mkdir -p ./Package/_CPack_Packages
           else
-            cpack -G ZIP -B $GITHUB_WORKSPACE/build//${archiveName}/bin
+            cpack -G ZIP -B $GITHUB_WORKSPACE/build
           fi
 
       - name: SHA256Sum of Windows installer(daily build)
