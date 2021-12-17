@@ -525,7 +525,7 @@ jobs:
           overwrite: true
 
       - name: CPack
-        waorking-directory: build
+        working-directory: build
         env:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
           TYPE: ${{matrix.build_type}}
