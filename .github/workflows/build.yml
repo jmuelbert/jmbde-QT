@@ -535,7 +535,7 @@ jobs:
         shell: bash
         run: |
           if [ "${TYPE}" = "installer" ]; then
-            cpack -G WIX -B "$env:GITHUB_WORKSPACE\build\Package
+            cpack -G WIX -B "$env:GITHUB_WORKSPACE\build\Package"
             if [ "${QT_MAIN_VER6}" = true ]; then
               echo "---------------------"
               cat ./Package/_CPack_Packages/win64/WIX/wix.log
