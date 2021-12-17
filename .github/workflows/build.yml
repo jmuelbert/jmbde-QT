@@ -499,9 +499,9 @@ jobs:
         shell: bash
         run: |
           if [ "${QT_MAIN_VER6}" = true ]; then
-            iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$env:GITHUB_WORKSPACE/${archiveName}/bin
+            iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=${{runner.workspace}}build//${archiveName}/bin
           else
-            iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$env:GITHUB_WORKSPACE/${archiveName}/bin
+            iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=${{runner.workspace}}build//${archiveName}/bin
           fi
 
       - name: Upload ISS archive
