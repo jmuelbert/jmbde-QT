@@ -465,12 +465,11 @@ jobs:
           windeployqt --qmldir . ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}.exe ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}models.dll ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}quick.dll ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}widgets.dll
 
       - name: Compress Zip Archive
-        working-directory: build
         env:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         shell: pwsh
         run: |
-          Compress-Archive -Path ${{ env.archiveName}}/bin ${{ env.archiveName}}'.zip'
+          Compress-Archive -Path ${{env.GITHUB_WORKSPACE}}/build//${archiveName}/bin${{ env.archiveName}}/bin -DestinationPath ${{ env.archiveName}}'.zip'
 
       - name: Upload Zip archive
         uses: actions/upload-artifact@v2
@@ -498,7 +497,7 @@ jobs:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         shell: bash
         run: |
-          if [ "${QT_MAIN_VER6}" = true ]; then
+          if [ "${Qt5_Dir}" = "" ]; then
             iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$GITHUB_WORKSPACE/build//${archiveName}/bin
           else
             iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$GITHUB_WORKSPACE/build//${archiveName}/bin
@@ -507,7 +506,7 @@ jobs:
       - name: Upload ISS archive
         uses: actions/upload-artifact@v2
         env:
-          archiveName: $${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+          archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         with:
           name: ${{ env.TARGET_NAME}}-win-${{matrix.qt_version}}-${{matrix.arch}}-${{ matrix.build_type }}.exe
           path: ${{ env.archiveName}}.exe
@@ -524,32 +523,32 @@ jobs:
           tag: ${{ github.ref }}
           overwrite: true
 
-      - name: CPack
-        working-directory: build
-        env:
-          archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
-          TYPE: ${{matrix.build_type}}
-          QT_MAIN_VER6: ${{ contains(matrix.qt_version, '6')}}
-          CONFIG_ARCH: ${{matrix.arch}}
-          ARCHIVE_NAME: $GITHUB_WORKSPACE/build/$TARGET_NAME.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
-        shell: bash
-        run: |
-          if [ "${TYPE}" = "installer" ]; then
-            cpack -G WIX -B "$env:GITHUB_WORKSPACE\build\Package"
-            if [ "${QT_MAIN_VER6}" = true ]; then
-              echo "---------------------"
-              cat ./Package/_CPack_Packages/win64/WIX/wix.log
-              echo "---------------------"
-            else
-              cpack -G WIX -B "$env:GITHUB_WORKSPACE\build\Package" --verbose
-              echo "---------------------"
-              cat ./Package/_CPack_Packages/win64/WIX/wix.log
-              echo "---------------------"
-            fi
-            mkdir -p ./Package/_CPack_Packages
-          else
-            cpack -G ZIP -B $GITHUB_WORKSPACE/build
-          fi
+      # - name: CPack
+      #   working-directory: build
+      #   env:
+      #     archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+      #     TYPE: ${{matrix.build_type}}
+      #     QT_MAIN_VER6: ${{ contains(matrix.qt_version, '6')}}
+      #     CONFIG_ARCH: ${{matrix.arch}}
+      #     ARCHIVE_NAME: $GITHUB_WORKSPACE/build/$TARGET_NAME.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+      #   shell: bash
+      #   run: |
+      #     if [ "${TYPE}" = "installer" ]; then
+      #       cpack -G WIX -B "$env:GITHUB_WORKSPACE\build\Package"
+      #       if [ "${QT_MAIN_VER6}" = true ]; then
+      #         echo "---------------------"
+      #         cat ./Package/_CPack_Packages/win64/WIX/wix.log
+      #         echo "---------------------"
+      #       else
+      #         cpack -G WIX -B "$env:GITHUB_WORKSPACE\build\Package" --verbose
+      #         echo "---------------------"
+      #         cat ./Package/_CPack_Packages/win64/WIX/wix.log
+      #         echo "---------------------"
+      #       fi
+      #       mkdir -p ./Package/_CPack_Packages
+      #     else
+      #       cpack -G ZIP -B $GITHUB_WORKSPACE/build
+      #     fi
 
       - name: SHA256Sum of Windows installer(daily build)
         if: matrix.type == 'installer'
@@ -718,6 +717,7 @@ jobs:
   releaseNotes:
     if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
+    needs: flatpak-build
     steps:
       - name: Build Releasenotes
         id: github_releasenotes
@@ -731,6 +731,7 @@ jobs:
   changeLog:
     if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
+    needs: flatpak-build
     steps:
       - name: Build ChangeLog
         id: github_changelog
@@ -749,7 +750,7 @@ jobs:
 
   deployGHPages:
     runs-on: ubuntu-latest
-    needs: build_GH_Pages
+    needs: [build_GH_Pages, flatpak-build]
     steps:
       - name: Download Artifact with Pages
         uses: actions/download-artifact@v2.1.0
