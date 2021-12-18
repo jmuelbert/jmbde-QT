@@ -473,7 +473,7 @@ jobs:
         env:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         with:
-          name: ${{ env.TARGET_NAME}}-win-${{{ steps.get_version.outputs.VERSION }}.exe
+          name: ${{ env.TARGET_NAME}}-win-${{ steps.get_version.outputs.VERSION }}.exe
           path: ${{ env.archiveName}}.exe
 
   tests:
