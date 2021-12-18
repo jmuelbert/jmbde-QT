@@ -47,7 +47,7 @@ env:
 
 jobs:
   appimage-build:
-    name: Build appimage on ${{ matrix.name }} for ${{ matrix.qt_version }}
+    name: '🐧 Build appimage on ${{ matrix.name }} for ${{ matrix.qt_version }}'
 
     runs-on: ${{ matrix.os }}
     needs: [tests]
@@ -61,24 +61,31 @@ jobs:
         qt_arch: [gcc_64]
         arch: [amd64]
         artifact: [Ubuntu-gcc]
-        generator: [-G'Ninja']
+        cmake_generator: [Ninja]
         cc: [clang]
         cxx: [clang++]
       fail-fast: true
 
     steps:
-      - name: Get the version
-        id: get_version
+      - name: Set env & Print version
         shell: bash
-        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+        run: |
+          last_committed_tag=$(git tag -l --sort=-v:refname | head -1)
+          git_revno=$(git rev-list $(git describe --tags --abbrev=0)..HEAD --count)
+          git_hash=$(git rev-parse --short HEAD)
+          echo "=======VERSION========"
+          echo ${last_committed_tag:1}
+          echo "Details: ${last_committed_tag}+git${git_revno}.${git_hash}"
+          echo "================================"
+          echo "VERSION=${last_committed_tag:1}" >> $GITHUB_ENV
 
-      - name: Checkout Source Code
+      - name: '🧰 Checkout Source Code'
         if: github.event_name == 'push'
         uses: actions/checkout@v2
         with:
           submodules: true
 
-      - name: Install Dependencies
+      - name: '⚙️ Install dependencies'
         run: |
           sudo apt-get -y -qq update
           sudo apt-get -y --no-install-recommends install \
@@ -97,7 +104,7 @@ jobs:
       - name: Get latest CMake
         uses: lukka/get-cmake@latest
 
-      - name: Install Qt
+      - name: '⚙️ Install Qt'
         uses: jurplel/install-qt-action@v2
         with:
           version: ${{ matrix.qt_version }}
@@ -110,7 +117,7 @@ jobs:
         id: conan
         uses: turtlebrowser/get-conan@v1.0
 
-      - name: Get go-appimage tool
+      - name: '⚙️ Install go-appimage tool'
         # Will not use linuxdeployqt anymore, because it suopprts currently still-supported mainstream distribution,
         # which is glibc 2.23. For more information, please see https://github.com/probonopd/linuxdeployqt/issues/340.
         # Will try new tool https://github.com/probonopd/go-appimage written in golang by probonopd.
@@ -121,7 +128,7 @@ jobs:
         env:
           APPIMAGETOOL_ARCH: x86_64
 
-      - name: Packaging appimage
+      - name: '🚧 Compile application'
         shell: bash
         env:
           CC: ${{ matrix.cc }}
@@ -130,14 +137,14 @@ jobs:
           APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
           mkdir -p ${APPIMAGE_DST_PATH}
           cd $GITHUB_WORKSPACE
-          cmake ${{matrix.generator}} \
+          cmake -G ${{matrix.cmake_generator}} \
               -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE}} \
               -DCMAKE_INSTALL_PREFIX:PATH="${APPIMAGE_DST_PATH}/usr" \
               -DBUILD_TESTING=OFF \
               -DBUILD_TRANSLATIONS=ON
           cmake --build . --config ${{env.BUILD_TYPE}} --target install --parallel $(sysctl -n hw.logicalcpu)
 
-      - name: Build appimage
+      - name: '📦 Create AppImage'
         shell: bash
         run: |
           APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
@@ -152,42 +159,40 @@ jobs:
             rm ${APPIMAGE_DST_PATH}/lib/x86_64-linux-gnu/libxcb-glx.so.0
           fi
           chmod +x ${APPIMAGE_DST_PATH}/usr/lib64/ld-*.so.*
-          VERSION=${VERSION} $GITHUB_WORKSPACE/appimagetool ${APPIMAGE_DST_PATH}
-          ls $GITHUB_WORKSPACE
+          $GITHUB_WORKSPACE/appimagetool ${APPIMAGE_DST_PATH}
           mv $GITHUB_WORKSPACE/jmbde-*-x86_64.AppImage $GITHUB_WORKSPACE/JMBDE-${VERSION}-qt${{matrix.qt_version}}.x86_64.AppImage
-      - name: SHA256Sum of appimage package(daily build)
-        run: |
-          sha256sum $GITHUB_WORKSPACE/JMBDE-${VERSION}-qt${{matrix.qt_version}}.x86_64.AppImage
-          sha256sum $GITHUB_WORKSPACE/JMBDE-${VERSION}-qt${{matrix.qt_version}}.x86_64.AppImage >$GITHUB_WORKSPACE/JMBDE-${VERSION}-qt${{matrix.qt_version}}.x86_64.AppImage.sha256sum
-          echo "================appimage sha256sum download link==============="
-          echo $(sh $GITHUB_WORKSPACE/scripts/upload_services/${UPLOAD_SERVICE}.sh $GITHUB_WORKSPACE/JMBDE-${VERSION}-qt${{matrix.qt_version}}.x86_64.AppImage.sha256sum)
-          echo "======no operation for you can see link in the log console====="
-      - name: Upload appimage package for daily build
-        run: |
-          echo "====================appimage download link====================="
-          echo $(sh $GITHUB_WORKSPACE/scripts/upload_services/${UPLOAD_SERVICE}.sh $GITHUB_WORKSPACE/JMBDE-${VERSION}-qt${{matrix.qt_version}}.x86_64.AppImage)
-          echo "======no operation for you can see link in the log console====="
-      - name: Artifact Upload
+
+      - name: '📤 Upload artifact: AppImage'
         uses: actions/upload-artifact@v2
         with:
-          name: Linux-distribution-artifact
+          name: ${{ env.TARGET_NAME }}-Qt${{ matrix.qt_version}}-${{matrix.build-type}}.appimage
           path: |
             ${{ github.workspace }}/JMBDE-*.x86_64.AppImage
-            ${{ github.workspace }}/JMBDE-*.x86_64.AppImage.sha256sum
+
+      - name: Upload Release
+        if: startsWith(github.event.ref, 'refs/tags/')
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{runner.workspace}}/${{env.TARGET_NAME}}.appimage
+          asset_name: ${{env.TARGET_NAME}}-Qt${{ matrix.qt_version}}-${{env.BUILD_TYPE}}.appimage
+          tag: ${{ github.ref }}
+          overwrite: true
 
   flatpak-build:
-    name: Build flatpak on ubuntu-20.04
+    name: '🐧 Build flatpak on ubuntu-20.04'
     runs-on: ubuntu-20.04
     needs: [tests]
 
     steps:
-      - name: Checkout Source Code
+      - name: '🧰 Checkout Source Code'
         if: github.event_name == 'push'
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
           ref: master
-      - name: Checkout Source code
+
+      - name: '🧰 Checkout Source Code'
         if: github.event_name == 'pull_request'
         uses: actions/checkout@v2
         with:
@@ -198,11 +203,13 @@ jobs:
         run: |
           sudo apt-get -y -qq update
           sudo apt-get install -y flatpak flatpak-builder
+
       - name: Setup Flathub
         run: |
           flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
           flatpak install -y --noninteractive flathub org.kde.Sdk//5.15 org.kde.Platform//5.15
-      - name: Packaging flatpak
+
+      - name: '📦 Create flatpak'
         run: |
           BUNDLE="org.jmuelbert.jmbde-QT.flatpak"
           MANIFEST_PATH=$GITHUB_WORKSPACE/packaging/flatpak/org.jmuelbert.jmbde-QT.yml
@@ -214,76 +221,74 @@ jobs:
           flatpak build-bundle repo ${BUNDLE} --runtime-repo=${RUNTIME_REPO} ${APP_ID} ${BRANCH}
           mv $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT.flatpak $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT_${VERSION}.x86_64.flatpak
 
-      - name: SHA256Sum of jmbde package(daily build)
-        run: |
-          sha256sum $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT_${VERSION}.x86_64.flatpak
-          sha256sum $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT_${VERSION}.x86_64.flatpak > $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT_${VERSION}.x86_64.flatpak.sha256sum
-          echo "================flatpak sha256sum download link===================="
-          echo $(sh $GITHUB_WORKSPACE/scripts/upload_services/${UPLOAD_SERVICE}.sh $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT_${VERSION}.x86_64.flatpak.sha256sum)
-          echo "========no operation for you can see link in the log console======="
-      - name: Upload flatpak package(daily build)
-        run: |
-          echo "=====================flatpak download link====================="
-          echo $(sh $GITHUB_WORKSPACE/scripts/upload_services/${UPLOAD_SERVICE}.sh $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT_${VERSION}.x86_64.flatpak)
-          echo "======no operation for you can see link in the log console====="
-      - name: Artifact Upload
+      - name: '📤 Upload artifact: FlatPak'
         uses: actions/upload-artifact@v2
         with:
-          name: Linux-distribution-artifact
+          name: ${{ env.TARGET_NAME }}-Qt${{ matrix.qt_version}}-${{matrix.build-type}}.flatpak
           path: |
-            ${{ github.workspace }}/org.jmuelbert.jmbde-QT_*.x86_64.flatpak
-            ${{ github.workspace }}/org.jmuelbert.jmbde-QT_*.x86_64.flatpak.sha256sum
+            ${{ github.workspace }}/JMBDE-*.x86_64.AppImage
+
+      - name: Upload Release
+        if: startsWith(github.event.ref, 'refs/tags/')
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{runner.workspace}}/${{env.TARGET_NAME}}.appimage
+          asset_name: ${{env.TARGET_NAME}}-Qt${{ matrix.qt_version}}-${{env.BUILD_TYPE}}.flatpak
+          tag: ${{ github.ref }}
+          overwrite: true
 
   snap-build:
-    name: Build snap on ubuntu-20.04
+    name: '🐧 Build snap on ubuntu-20.04'
     runs-on: ubuntu-20.04
     needs: [tests]
+
     steps:
-      - name: Checkout Source Code
+      - name: '🧰 Checkout Source Code'
         if: github.event_name == 'push'
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
           ref: master
-      - name: Checkout Source code
+
+      - name: '🧰 Checkout Source Code'
         if: github.event_name == 'pull_request'
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: Packaging snap
+      - name: '📦 Create snap'
         uses: snapcore/action-build@v1
         id: snapcraft
         with:
           snapcraft-args: --enable-experimental-extensions
+
       - name: Rename snap name
         shell: bash
         run: |
           mkdir -p $GITHUB_WORKSPACE/build
           cp ${{ steps.snapcraft.outputs.snap }} $GITHUB_WORKSPACE/build/${TARGET_NAME}-${VERSION}-${RELEASE}.amd64.snap
-      - name: SHA256Sum of snap package(daily build)
-        run: |
-          sha256sum $GITHUB_WORKSPACE/build/${TARGET_NAME}-${VERSION}-${RELEASE}.amd64.snap
-          sha256sum $GITHUB_WORKSPACE/build/${TARGET_NAME}-${VERSION}-${RELEASE}.amd64.snap > $GITHUB_WORKSPACE/build/${TARGET_NAME}-${VERSION}-${RELEASE}.amd64.snap.sha256sum
-          echo "================snap sha256sum download link=================="
-          echo $(sh $GITHUB_WORKSPACE/scripts/upload_services/${UPLOAD_SERVICE}.sh $GITHUB_WORKSPACE/build/${TARGET_NAME}-${VERSION}-${RELEASE}.amd64.snap.sha256sum)
-          echo "=====no operation for you can see link in the log console====="
-      - name: Upload snap package(daily build)
-        run: |
-          echo "=======================snap download link======================"
-          echo $(sh $GITHUB_WORKSPACE/scripts/upload_services/${UPLOAD_SERVICE}.sh $GITHUB_WORKSPACE/build/${TARGET_NAME}-${VERSION}-${RELEASE}.amd64.snap)
-          echo "======no operation for you can see link in the log console====="
-      - name: Artifact Upload
+
+      - name: '📤 Upload artifact: SnapPack'
         uses: actions/upload-artifact@v2
         with:
-          name: Linux-distribution-artifact
+          name: ${{ env.TARGET_NAME }}-Qt${{ matrix.qt_version}}-${{matrix.build-type}}.amd64.snap
           path: |
-            ${{ github.workspace }}/build/${{ env.TARGET_NAME }}-*-${{ env.RELEASE }}.amd64.snap
-            ${{ github.workspace }}/build/${{ env.TARGET_NAME }}-*-${{ env.RELEASE }}.amd64.snap.sha256sum
+            ${{ github.workspace }}/JMBDE-*.x86_64.AppImage
+
+      - name: Upload Release
+        if: startsWith(github.event.ref, 'refs/tags/')
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{runner.workspace}}/${{env.TARGET_NAME}}.appimage
+          asset_name: ${{env.TARGET_NAME}}-Qt${{ matrix.qt_version}}-${{env.BUILD_TYPE}}.amd64.snap
+          tag: ${{ github.ref }}
+          overwrite: true
 
   macos-build:
-    name: ${{ matrix.os }} -${{ matrix.qt_version}}
+    name: '🍎 ${{ matrix.os }} -${{ matrix.qt_version}}'
     strategy:
       matrix:
         qt_version: [5.15.2, 6.2.0]
@@ -295,7 +300,7 @@ jobs:
         arch: [clang_64]
         cc: [clang]
         cxx: [clang++]
-        generator: [-G 'Ninja']
+        cmake_generator: [Ninja]
 
       fail-fast: true
 
@@ -303,12 +308,17 @@ jobs:
     needs: [tests]
 
     steps:
-      - name: Checkout Source Code
+      - name: Get the version
+        id: get_version
+        shell: bash
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+
+      - name: '🧰 Checkout Source Code'
         uses: actions/checkout@v2
         with:
           submodules: true
 
-      - name: Install Qt
+      - name: '⚙️ Install Qt'
         uses: jurplel/install-qt-action@v2
         with:
           version: ${{ matrix.qt_version }}
@@ -317,13 +327,13 @@ jobs:
           # modules: 'qtscript'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
-      - name: macOS - ${{ matrix.qt_version }} - Build preparation - Install Packages
+      - name: '⚙️ Install dependencies'
         run: |
           brew upgrade cmake
           cmake --version
           brew install ninja pkg-config
 
-      - name: Get conan
+      - name: '⚙️ Get conan'
         id: conan
         uses: turtlebrowser/get-conan@v1.0
 
@@ -332,7 +342,7 @@ jobs:
         # We'll use this as our working directory for all subsequent commands
         run: cmake -E make_directory ${{runner.workspace}}/build
 
-      - name: Configure CMake
+      - name: '🚧 Compile application'
         # Use a bash shell so we can use the same syntax for environment variable
         # access regardless of the host operating system
         shell: bash
@@ -342,7 +352,7 @@ jobs:
         # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
         run: |
           cmake $GITHUB_WORKSPACE \
-            ${{matrix.generator}} \
+            -G ${{matrix.cmake_generator}} \
             -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
             -DCMAKE_OSX_DEPLOYMENT_TARGET=${{ matrix.macos_target }} \
             -DUSE_LAUNCHER_ABSOLUTE_PATH:BOOL=OFF \
@@ -356,17 +366,27 @@ jobs:
         # Execute the build.  You can specify a specific target with "--target <NAME>"
         run: cmake --build . --target install --parallel $(sysctl -n hw.logicalcpu)
 
-      - name: Package Qt
+      - name: '📦 Package application (macdeployqt and zipfile)'
         working-directory: ${{runner.workspace}}/build
         run: |
           macdeployqt ./app/${{env.TARGET_NAME}}.app -qmldir=. -appstore-compliant -libpath=./app/${{env.TARGET_NAME}}.app/Contents/Frameworks -verbose=1 -dmg
           cp ./app/${{env.TARGET_NAME}}.dmg ${{runner.workspace}}/${{env.TARGET_NAME}}.dmg
 
-      - name: Upload artifact for macOS - ${{ matrix.qt_version }}-${env.BUILD_TYPE}}
+          # ZIP application "%AppName%-%Version%-macOS.zip"
+          ditto -c -k --sequesterRsrc --keepParent "${{env.TARGET_NAME}}.app" ${{env.TARGET_NAME}}.zip
+          cp ./${{env.TARGET_NAME}}-macos.zip ${{runner.workspace}}/${{env.TARGET_NAME}}-macos.zip
+
+      - name: Upload dmg artifact for macOS - ${{ matrix.qt_version }}-${env.BUILD_TYPE}}
         uses: actions/upload-artifact@v2
         with:
           name: ${{ env.TARGET_NAME }}-Qt${{ matrix.qt_version}}-${{matrix.build-type}}.dmg
           path: ${{runner.workspace}}/${{ env.TARGET_NAME }}.dmg
+
+      - name: Upload zip artifact for macOS - ${{ matrix.qt_version }}-${env.BUILD_TYPE}}
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.TARGET_NAME }}-Qt${{ matrix.qt_version}}-${{matrix.build-type}}.zip
+          path: ${{runner.workspace}}/${{ env.TARGET_NAME }}.zip
 
       - name: Upload release for  macOS - ${{ matrix.qt_version }}-${{env.BUILD_TYPE}}
         if: startsWith(github.event.ref, 'refs/tags/')
@@ -393,7 +413,7 @@ jobs:
         pak_arch: [win64]
         cc: [cl]
         cxx: [cl]
-        generator: [-G 'Ninja']
+        cmake_generator: [Ninja]
       fail-fast: true
     needs: [tests]
 
@@ -441,7 +461,7 @@ jobs:
         working-directory: build
         run: |
           cmake $env:GITHUB_WORKSPACE `
-            ${{ matrix.generator }} `
+            -G ${{ matrix.cmake_generator }} `
             -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}  `
             -DUSE_LAUNCHER_ABSOLUTE_PATH:BOOL=OFF  `
             -DCMAKE_INSTALL_PREFIX:PATH=./app `
@@ -469,7 +489,7 @@ jobs:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         shell: pwsh
         run: |
-          Compress-Archive -Path ${{env.GITHUB_WORKSPACE}}/build/${{ env.archiveName}}/bin -DestinationPath ${{ env.archiveName}}'.zip'
+          Compress-Archive -Path $ENV:GITHUB_WORKSPACE/build/${{ env.archiveName}}/bin -DestinationPath ${{ env.archiveName}}'.zip'
 
       - name: Upload Zip archive
         uses: actions/upload-artifact@v2
@@ -491,17 +511,23 @@ jobs:
           tag: ${{ github.ref }}
           overwrite: true
 
-      - name: build ISS-Installer
+      - name: build ISS-Installer for Qt5
+        if: ${{ startsWith( matrix.qt_ver, 5 ) }}
         working-directory: build
         env:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         shell: bash
         run: |
-          if [ "${Qt5_Dir}" = "" ]; then
-            iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$GITHUB_WORKSPACE/build//${archiveName}/bin
-          else
-            iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$GITHUB_WORKSPACE/build//${archiveName}/bin
-          fi
+          iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$GITHUB_WORKSPACE/build//${archiveName}/bin
+
+      - name: build ISS-Installer for Qt6
+        if: ${{ startsWith( matrix.qt_ver, 6 ) }}
+        working-directory: build
+        env:
+          archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+        shell: bash
+        run: |
+          iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$GITHUB_WORKSPACE/build//${archiveName}/bin
 
       - name: Upload ISS archive
         uses: actions/upload-artifact@v2
@@ -522,51 +548,6 @@ jobs:
           asset_name: ${{ env.TARGET_NAME}}-win-${{matrix.qt_version}}-${{matrix.arch}}-${{ matrix.build_type }}.exe
           tag: ${{ github.ref }}
           overwrite: true
-
-      # - name: CPack
-      #   working-directory: build
-      #   env:
-      #     archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
-      #     TYPE: ${{matrix.build_type}}
-      #     QT_MAIN_VER6: ${{ contains(matrix.qt_version, '6')}}
-      #     CONFIG_ARCH: ${{matrix.arch}}
-      #     ARCHIVE_NAME: $GITHUB_WORKSPACE/build/$TARGET_NAME.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
-      #   shell: bash
-      #   run: |
-      #     if [ "${TYPE}" = "installer" ]; then
-      #       cpack -G WIX -B "$env:GITHUB_WORKSPACE\build\Package"
-      #       if [ "${QT_MAIN_VER6}" = true ]; then
-      #         echo "---------------------"
-      #         cat ./Package/_CPack_Packages/win64/WIX/wix.log
-      #         echo "---------------------"
-      #       else
-      #         cpack -G WIX -B "$env:GITHUB_WORKSPACE\build\Package" --verbose
-      #         echo "---------------------"
-      #         cat ./Package/_CPack_Packages/win64/WIX/wix.log
-      #         echo "---------------------"
-      #       fi
-      #       mkdir -p ./Package/_CPack_Packages
-      #     else
-      #       cpack -G ZIP -B $GITHUB_WORKSPACE/build
-      #     fi
-
-      - name: SHA256Sum of Windows installer(daily build)
-        if: matrix.type == 'installer'
-        shell: bash
-        run: |
-          sha256sum $GITHUB_WORKSPACE/build/Package/installer/jmbde-${VERSION}-${{ matrix.pak_arch }}-Qt${{matrix.qt_version}}.exe
-          sha256sum $GITHUB_WORKSPACE/build/Package/installer/jmbde-${VERSION}-${{ matrix.pak_arch }}-Qt${{matrix.qt_version}}.exe > $GITHUB_WORKSPACE/build/Package/installer/jmbde-${VERSION}-${{ matrix.pak_arch }}-Qt${{matrix.qt_version}}.exe.sha256sum
-          python -m pip install -U -q requests
-          echo "============Windows installer sha256sum download link============"
-          echo "=======no operation for you can see link in the log console====="
-
-      - name: Upload Windows installer(daily build)
-        if: matrix.type == 'installer'
-        shell: bash
-        run: |
-          python -m pip install -U -q requests
-          echo "================Windows installer download link================"
-          echo "=====no operation for you can see link in the log console====="
 
   build_GH_Pages:
     name: Build GH Pages
@@ -609,7 +590,7 @@ jobs:
         qt_arch: [gcc_64]
         arch: [amd64]
         artifact: [Ubuntu-gcc]
-        generator: [-G'Ninja']
+        cmake_generator: [Ninja]
         cc: [clang]
         cxx: [clang++]
         build_type: [Debug]
@@ -675,7 +656,7 @@ jobs:
         # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
         run: |
           cmake $GITHUB_WORKSPACE \
-            ${{matrix.generator}} \
+            -G ${{matrix.cmake_generator}} \
             -DCMAKE_BUILD_TYPE=${{ matrix.build_type}} \
             -DCMAKE_INSTALL_PREFIX:PATH=./app \
             -DBUILD_TESTING=ON  \
