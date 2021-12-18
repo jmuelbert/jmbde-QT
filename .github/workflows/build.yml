@@ -67,17 +67,10 @@ jobs:
       fail-fast: true
 
     steps:
-      - name: Set env & Print version
+      - name: Get the version
+        id: get_version
         shell: bash
-        run: |
-          last_committed_tag=$(git tag -l --sort=-v:refname | head -1)
-          git_revno=$(git rev-list $(git describe --tags --abbrev=0)..HEAD --count)
-          git_hash=$(git rev-parse --short HEAD)
-          echo "=======VERSION========"
-          echo ${last_committed_tag:1}
-          echo "Details: ${last_committed_tag}+git${git_revno}.${git_hash}"
-          echo "================================"
-          echo "VERSION=${last_committed_tag:1}" >> $GITHUB_ENV
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
 
       - name: '🧰 Checkout Source Code'
         if: github.event_name == 'push'
@@ -160,24 +153,14 @@ jobs:
           fi
           chmod +x ${APPIMAGE_DST_PATH}/usr/lib64/ld-*.so.*
           $GITHUB_WORKSPACE/appimagetool ${APPIMAGE_DST_PATH}
-          mv $GITHUB_WORKSPACE/jmbde-*-x86_64.AppImage $GITHUB_WORKSPACE/JMBDE-${VERSION}-qt${{matrix.qt_version}}.x86_64.AppImage
+          mv $GITHUB_WORKSPACE/jmbde-*-x86_64.AppImage $GITHUB_WORKSPACE/${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}-qt${{matrix.qt_version}}.x86_64.AppImage
 
       - name: '📤 Upload artifact: AppImage'
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ env.TARGET_NAME }}-Qt${{ matrix.qt_version}}-${{matrix.build-type}}.appimage
+          name: ${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}-qt${{matrix.qt_version}}-Linux.AppImage
           path: |
-            ${{ github.workspace }}/JMBDE-*.x86_64.AppImage
-
-      - name: Upload Release
-        if: startsWith(github.event.ref, 'refs/tags/')
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{runner.workspace}}/${{env.TARGET_NAME}}.appimage
-          asset_name: ${{env.TARGET_NAME}}-Qt${{ matrix.qt_version}}-${{env.BUILD_TYPE}}.appimage
-          tag: ${{ github.ref }}
-          overwrite: true
+            ${{ github.workspace }}/${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}-qt${{matrix.qt_version}}.x86_64.AppImage
 
   flatpak-build:
     name: '🐧 Build flatpak on ubuntu-20.04'
@@ -228,16 +211,6 @@ jobs:
           path: |
             ${{ github.workspace }}/JMBDE-*.x86_64.AppImage
 
-      - name: Upload Release
-        if: startsWith(github.event.ref, 'refs/tags/')
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{runner.workspace}}/${{env.TARGET_NAME}}.appimage
-          asset_name: ${{env.TARGET_NAME}}-Qt${{ matrix.qt_version}}-${{env.BUILD_TYPE}}.flatpak
-          tag: ${{ github.ref }}
-          overwrite: true
-
   snap-build:
     name: '🐧 Build snap on ubuntu-20.04'
     runs-on: ubuntu-20.04
@@ -277,12 +250,48 @@ jobs:
           path: |
             ${{ github.workspace }}/JMBDE-*.x86_64.AppImage
 
-      - name: Upload Release
+  # Upload continous build
+  upload:
+    name: '🗂 Create release and upload artifacts'
+    needs:
+      - appimage-build
+      - flatpak-build
+    runs-on: ubuntu-latest
+    steps:
+      - name: '📥 Download artifacts'
+        uses: actions/download-artifact@v2
+      - name: '🗂 Inspect directory after downloading artifacts'
+        run: ls -alFR
+      - name: '🚀 Create release and upload artifacts'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: '📤 Upload Release: AppImage'
         if: startsWith(github.event.ref, 'refs/tags/')
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{runner.workspace}}/${{env.TARGET_NAME}}.appimage
+          asset_name: ${{env.TARGET_NAME}}-Qt${{ matrix.qt_version}}.appimage
+          tag: ${{ github.ref }}
+          overwrite: true
+
+      - name: '📤 Upload Release: FlatPak'
+        if: startsWith(github.event.ref, 'refs/tags/')
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{runner.workspace}}/${{env.TARGET_NAME}}.flatpak
+          asset_name: ${{env.TARGET_NAME}}-Qt${{ matrix.qt_version}}.flatpak
+          tag: ${{ github.ref }}
+          overwrite: true
+
+      - name: '📤 Upload Release: snap'
+        if: startsWith(github.event.ref, 'refs/tags/')
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{runner.workspace}}/${{env.TARGET_NAME}}.amd64.snap
           asset_name: ${{env.TARGET_NAME}}-Qt${{ matrix.qt_version}}-${{env.BUILD_TYPE}}.amd64.snap
           tag: ${{ github.ref }}
           overwrite: true
@@ -373,8 +382,8 @@ jobs:
           cp ./app/${{env.TARGET_NAME}}.dmg ${{runner.workspace}}/${{env.TARGET_NAME}}.dmg
 
           # ZIP application "%AppName%-%Version%-macOS.zip"
-          ditto -c -k --sequesterRsrc --keepParent "${{env.TARGET_NAME}}.app" ${{env.TARGET_NAME}}.zip
-          cp ./${{env.TARGET_NAME}}-macos.zip ${{runner.workspace}}/${{env.TARGET_NAME}}-macos.zip
+          # ditto -c -k --sequesterRsrc --keepParent "${{env.TARGET_NAME}}.app" ${{env.TARGET_NAME}}.zip
+          # cp ./${{env.TARGET_NAME}}-macos.zip ${{runner.workspace}}/${{env.TARGET_NAME}}-macos.zip
 
       - name: Upload dmg artifact for macOS - ${{ matrix.qt_version }}-${env.BUILD_TYPE}}
         uses: actions/upload-artifact@v2
@@ -382,11 +391,11 @@ jobs:
           name: ${{ env.TARGET_NAME }}-Qt${{ matrix.qt_version}}-${{matrix.build-type}}.dmg
           path: ${{runner.workspace}}/${{ env.TARGET_NAME }}.dmg
 
-      - name: Upload zip artifact for macOS - ${{ matrix.qt_version }}-${env.BUILD_TYPE}}
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ env.TARGET_NAME }}-Qt${{ matrix.qt_version}}-${{matrix.build-type}}.zip
-          path: ${{runner.workspace}}/${{ env.TARGET_NAME }}.zip
+      # - name: Upload zip artifact for macOS - ${{ matrix.qt_version }}-${env.BUILD_TYPE}}
+      #  uses: actions/upload-artifact@v2
+      #  with:
+      #    name: ${{ env.TARGET_NAME }}-Qt${{ matrix.qt_version}}-${{matrix.build-type}}.zip
+      #    path: ${{runner.workspace}}/${{ env.TARGET_NAME }}.zip
 
       - name: Upload release for  macOS - ${{ matrix.qt_version }}-${{env.BUILD_TYPE}}
         if: startsWith(github.event.ref, 'refs/tags/')
