@@ -345,20 +345,20 @@ jobs:
           cp ./app/${{env.TARGET_NAME}}.dmg ${{runner.workspace}}/${{env.TARGET_NAME}}.dmg
 
           # ZIP application "%AppName%-%Version%-macOS.zip"
-          # ditto -c -k --sequesterRsrc --keepParent "${{env.TARGET_NAME}}.app" ${{env.TARGET_NAME}}.zip
-          # cp ./${{env.TARGET_NAME}}-macos.zip ${{runner.workspace}}/${{env.TARGET_NAME}}-macos.zip
+          ditto -c -k --sequesterRsrc --keepParent "bin/${{env.TARGET_NAME}}.app" ${{env.TARGET_NAME}}.zip
+          cp ./${{env.TARGET_NAME}}.zip ${{runner.workspace}}/${{env.TARGET_NAME}}.zip
 
-      - name: Upload dmg artifact for macOS - ${{ matrix.qt_version }}-${env.BUILD_TYPE}}
+      - name: Upload dmg artifact for macOS - ${{ matrix.qt_version }}
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ env.TARGET_NAME }}-Q$GITHUB_WORKSPACE/build/${TARGET_NAME}-${{ steps.get_version.outputs.VERSION }}.dmg
+          name: ${TARGET_NAME}-${{ steps.get_version.outputs.VERSION }}.dmg
           path: ${{runner.workspace}}/${{ env.TARGET_NAME }}.dmg
 
-      # - name: Upload zip artifact for macOS - ${{ matrix.qt_version }}-${env.BUILD_TYPE}}
-      #  uses: actions/upload-artifact@v2
-      #  with:
-      #    name: ${{ env.TARGET_NAME }}-Qt${{ matrix.qt_version}}-${{matrix.build-type}}.zip
-      #    path: ${{runner.workspace}}/${{ env.TARGET_NAME }}.zip
+      - name: Upload zip artifact for macOS - ${{ matrix.qt_version }}-${env.BUILD_TYPE}}
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.TARGET_NAME }}-${{ steps.get_version.outputs.VERSION }}-macos.zip
+          path: ${{runner.workspace}}/${{ env.TARGET_NAME }}*.zip
 
   windows-build:
     name: '🧊 ${{ matrix.platform }} ${{matrix.qt_version}}'
