@@ -469,7 +469,7 @@ jobs:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         shell: pwsh
         run: |
-          Compress-Archive -Path ${{env.GITHUB_WORKSPACE}}/build//${archiveName}/bin${{ env.archiveName}}/bin -DestinationPath ${{ env.archiveName}}'.zip'
+          Compress-Archive -Path ${{env.GITHUB_WORKSPACE}}/build/${{ env.archiveName}}/bin -DestinationPath ${{ env.archiveName}}'.zip'
 
       - name: Upload Zip archive
         uses: actions/upload-artifact@v2
