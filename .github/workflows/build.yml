@@ -159,7 +159,7 @@ jobs:
         with:
           name: ${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}-qt${{matrix.qt_version}}-Linux.AppImage
           path: |
-            ${{ github.workspace }}/${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}.AppImage
+            $GITHUB_WORKSPACE/${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}}.x86_64.AppImage
 
   flatpak-build:
     name: '🐧 Build flatpak on ubuntu-20.04'
@@ -167,6 +167,11 @@ jobs:
     needs: [tests]
 
     steps:
+      - name: Get the version
+        id: get_version
+        shell: bash
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+
       - name: '🧰 Checkout Source Code'
         if: github.event_name == 'push'
         uses: actions/checkout@v2
@@ -201,14 +206,14 @@ jobs:
 
           flatpak-builder --user --disable-rofiles-fuse --repo=repo --force-clean flatpak_app ${MANIFEST_PATH} --install-deps-from=flathub
           flatpak build-bundle repo ${BUNDLE} --runtime-repo=${RUNTIME_REPO} ${APP_ID} ${BRANCH}
-          mv $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT.flatpak $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT_${VERSION}.x86_64.flatpak
+          mv $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT.flatpak $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT_${{ steps.get_version.outputs.VERSION }}.x86_64.flatpak
 
       - name: '📤 Upload artifact: FlatPak'
         uses: actions/upload-artifact@v2
         with:
           name: ${{ env.TARGET_NAME }}-Qt${{ matrix.qt_version}}-${{matrix.build-type}}.flatpak
           path: |
-            ${{ github.workspace }}/JMBDE-*.x86_64.flatpak
+            $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT_${{ steps.get_version.outputs.VERSION }}.x86_64.flatpak
 
   snap-build:
     name: '🐧 Build snap on ubuntu-20.04'
@@ -216,6 +221,11 @@ jobs:
     needs: [tests]
 
     steps:
+      - name: Get the version
+        id: get_version
+        shell: bash
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+
       - name: '🧰 Checkout Source Code'
         if: github.event_name == 'push'
         uses: actions/checkout@v2
@@ -240,14 +250,14 @@ jobs:
         shell: bash
         run: |
           mkdir -p $GITHUB_WORKSPACE/build
-          cp ${{ steps.snapcraft.outputs.snap }} $GITHUB_WORKSPACE/build/${TARGET_NAME}-${VERSION}-${RELEASE}.amd64.snap
+          cp ${{ steps.snapcraft.outputs.snap }} $GITHUB_WORKSPACE/build/${TARGET_NAME}-${{ steps.get_version.outputs.VERSION }}.amd64.snap
 
       - name: '📤 Upload artifact: SnapPack'
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ env.TARGET_NAME }}-Qt${{ matrix.qt_version}}-${{matrix.build-type}}.amd64.snap
+          name: ${{ env.TARGET_NAME }}-$GITHUB_WORKSPACE/build/${TARGET_NAME}-${{ steps.get_version.outputs.VERSION }}.amd64.snap.amd64.snap
           path: |
-            ${{ github.workspace }}/JMBDE-*.amd64.snap
+            $GITHUB_WORKSPACE/build/${TARGET_NAME}-${{ steps.get_version.outputs.VERSION }}.amd64.snap
 
   macos-build:
     name: '🍎 ${{ matrix.os }} -${{ matrix.qt_version}}'
@@ -341,7 +351,7 @@ jobs:
       - name: Upload dmg artifact for macOS - ${{ matrix.qt_version }}-${env.BUILD_TYPE}}
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ env.TARGET_NAME }}-Qt${{ matrix.qt_version}}-${{matrix.build-type}}.dmg
+          name: ${{ env.TARGET_NAME }}-Q$GITHUB_WORKSPACE/build/${TARGET_NAME}-${{ steps.get_version.outputs.VERSION }}.dmg
           path: ${{runner.workspace}}/${{ env.TARGET_NAME }}.dmg
 
       # - name: Upload zip artifact for macOS - ${{ matrix.qt_version }}-${env.BUILD_TYPE}}
@@ -446,35 +456,12 @@ jobs:
 
       - name: Upload Zip archive
         uses: actions/upload-artifact@v2
-        env:
-          archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         with:
-          name: ${{ env.TARGET_NAME}}-win-${{matrix.qt_version}}-${{matrix.arch}}-${{ matrix.build_type }}.zip
+          name: ${{ env.TARGET_NAME}}-win.zip
           path: ${{ env.archiveName}}.zip
 
-      - name: uploadZipRelease
-        if: startsWith(github.event.ref, 'refs/tags/')
-        uses: svenstaro/upload-release-action@v1-release
-        env:
-          archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./${{ env.archiveName }}.zip
-          asset_name: ${{ env.TARGET_NAME}}-win-${{matrix.qt_version}}-${{matrix.arch}}-${{ matrix.build_type }}.zip
-          tag: ${{ github.ref }}
-          overwrite: true
 
-      - name: '📦 Make ISS-Installer for Qt5'
-        if: ${{ startsWith( matrix.qt_ver, 5 ) }}
-        working-directory: build
-        env:
-          archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
-        shell: bash
-        run: |
-          iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt5_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$GITHUB_WORKSPACE/build//${archiveName}/bin
-
-      - name: '📦 Make ISS-Installer for Qt6'
-        if: ${{ startsWith( matrix.qt_ver, 6 ) }}
+      - name: '📦 Make ISS-Installer for ${{ matrix.qt_version }}'
         working-directory: build
         env:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
@@ -487,37 +474,9 @@ jobs:
         env:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         with:
-          name: ${{ env.TARGET_NAME}}-win-${{matrix.qt_version}}-${{matrix.arch}}-${{ matrix.build_type }}.exe
+          name: ${{ env.TARGET_NAME}}-win-${{{ steps.get_version.outputs.VERSION }}.exe
           path: ${{ env.archiveName}}.exe
 
-  build_GH_Pages:
-    name: Build GH Pages
-    runs-on: ubuntu-latest
-    needs: tests
-    steps:
-      - uses: actions/checkout@v2.4.0
-        with:
-          fetch-depth: 2
-      - name: Fetch all history for all tags and branches
-        run: git fetch --prune --unshallow
-
-      - name: Set up Python
-        uses: actions/setup-python@v2.3.1
-        with:
-          python-version: '3.10'
-
-      - name: Install sphinx
-        run: |
-          pip install -r docs/requirements.txt
-      - name: Running the Sphinx to gh-pages Action
-        run: |
-          sphinx-build docs docs/_build
-
-      - name: Upload documentation
-        uses: actions/upload-artifact@v2.2.4
-        with:
-          name: docs
-          path: docs/_build
 
   tests:
     name: Tests on ubuntu-latest
@@ -670,9 +629,38 @@ jobs:
         env:
           GITHUB_TOKEN: $${{ secrets.GITHUB_TOKEN }}
 
-  deployGHPages:
+build_GH_Pages:
+    name: Build GH Pages
     runs-on: ubuntu-latest
     needs: upload
+    steps:
+      - uses: actions/checkout@v2.4.0
+        with:
+          fetch-depth: 2
+      - name: Fetch all history for all tags and branches
+        run: git fetch --prune --unshallow
+
+      - name: Set up Python
+        uses: actions/setup-python@v2.3.1
+        with:
+          python-version: '3.10'
+
+      - name: Install sphinx
+        run: |
+          pip install -r docs/requirements.txt
+      - name: Running the Sphinx to gh-pages Action
+        run: |
+          sphinx-build docs docs/_build
+
+      - name: Upload documentation
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: docs
+          path: docs/_build
+
+  deployGHPages:
+    runs-on: ubuntu-latest
+    needs: build_GH_Pagess
     steps:
       - name: Download Artifact with Pages
         uses: actions/download-artifact@v2.1.0
@@ -752,5 +740,15 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./${{ env.TARGET_NAME }}.exe
           asset_name: ${{ env.TARGET_NAME}}-win.exe
+          tag: ${{ github.ref }}
+          overwrite: true
+
+      - name: 📤 Upload Release: zip for windows'
+        if: startsWith(github.event.ref, 'refs/tags/')
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./${{ env.archiveName }}-win.zip
+          asset_name: ${{ env.TARGET_NAME}}-win-${{ steps.get_version.outputs.VERSION }}.zip
           tag: ${{ github.ref }}
           overwrite: true
