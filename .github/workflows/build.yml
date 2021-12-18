@@ -460,7 +460,6 @@ jobs:
           name: ${{ env.TARGET_NAME}}-win.zip
           path: ${{ env.archiveName}}.zip
 
-
       - name: '📦 Make ISS-Installer for ${{ matrix.qt_version }}'
         working-directory: build
         env:
@@ -476,7 +475,6 @@ jobs:
         with:
           name: ${{ env.TARGET_NAME}}-win-${{{ steps.get_version.outputs.VERSION }}.exe
           path: ${{ env.archiveName}}.exe
-
 
   tests:
     name: Tests on ubuntu-latest
@@ -743,7 +741,7 @@ jobs:
           tag: ${{ github.ref }}
           overwrite: true
 
-      - name: 📤 Upload Release: zip for windows'
+      - name: '📤 Upload Release: zip for windows'
         if: startsWith(github.event.ref, 'refs/tags/')
         uses: svenstaro/upload-release-action@v1-release
         with:
