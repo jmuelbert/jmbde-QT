@@ -29,5 +29,5 @@
       "com.github.Desktop.yaml"
     ]
   },
-  "python.pythonPath": "/usr/local/Caskroom/miniconda/base/envs/develop310/bin/python"
+  "python.pythonPath": "/usr/local/Caskroom/miniconda/base/envs/develop/bin/python"
 }

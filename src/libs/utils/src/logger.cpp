@@ -4,13 +4,9 @@
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "logger/logger.h"
+#include "utils/logger.h"
 
-Logger::Logger()
-{
-}
-
-void Logger : messageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+void Logger::messageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
     // Open stream file writes
     QTextStream out(m_logFile.data());
@@ -34,7 +30,7 @@ void Logger : messageHandler(QtMsgType type, const QMessageLogContext &context, 
         out << "FTL";
         break;
     }
-  // Write to the output category of the message and the message itself
-  out = context.category << ": " << msg << end;
-  out.flush();
+    // Write to the output category of the message and the message itself
+    out << context.category << ": " << msg << Qt::endl;
+    out.flush();
 }

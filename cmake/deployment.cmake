@@ -57,7 +57,7 @@ if(WIN32)
     # languages can be found at
     # http://wixtoolset.org/documentation/manual/v3/wixui/wixui_localization.html
     set(CPACK_WIX_CULTURES
-        "en-US","de-DE")
+        "en-US", "de-DE")
     # "ar-SA,bg-BG,ca-ES,hr-HR,cs-CZ,da-DK,nl-NL,en-US,et-EE,fi-FI,fr-FR,de-DE")
     # set(CPACK_WIX_UI_BANNER
     set(CPACK_WIX_UI_BANNER

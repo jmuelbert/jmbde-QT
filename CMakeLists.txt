@@ -80,72 +80,11 @@ project(
   DESCRIPTION "A BDE Tool"
   LANGUAGES CXX)
 
-# Set the dependencies versions
-set(KF5_VERSION "5.61.0")
-set(KF5_DEP_VERSION "5.61.0")
-set(QT_MIN_VERSION "5.12.4")
-
-if(APPLE)
-  set(APPLE_SUPPRESS_X11_WARNING TRUE)
-  set(KDE_SKIP_RPATH_SETTINGS TRUE)
-  set(CMAKE_MACOSX_RPATH ON)
-  set(BUILD_WITH_INSTALL_RPATH ON)
-  add_definitions(-mmacosx-version-min=10.15 -Wno-macro-redefined
-                  -Wno-deprecated-register)
-  if(CMAKE_OSX_ARCHITECTURES)
-    message(STATUS "CMake OSX architectures: ${CMAKE_OSX_ARCHITECTURES}")
-  endif()
-endif()
-
-# ##############################################################################
-# Modules and scripts   ##
-# ##############################################################################
-
-# Standard CMake modules
-include(CTest) # Must be called before adding tests but after calling project().
-               # This automatically calls enable_testing() and configures ctest
-               # targets when using Make/Ninja
-include(CMakeDependentOption) # This is a really useful scripts that creates
-                              # options that depends on other options. It can
-                              # even be used with generator expressions !
-include(GNUInstallDirs) # This will define the default values for installation
-                        # directories (all platforms even if named GNU)
-include(InstallRequiredSystemLibraries) # Tell CMake that the `install` target
-                                        # needs to install required system
-                                        # libraries (eg: Windows SDK)
-include(CMakePackageConfigHelpers) # Helper to create relocatable packages
 include(FeatureSummary)
-
-# Custom modules and scripts
-# ##############################################################################
-# Include cmake scripts and config
-# ##############################################################################
-list(APPEND CMAKE_PREFIX_PATH "${CMAKE_MODULE_PATH}")
-# Add the local module path to the search path
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake"
-     "${CMAKE_CURRENT_LIST_DIR}/cmake/modules")
-
-# include(PreventInSourceBuilds)
-
-include(StaticAnalyzers)
-
-if(NOT LGTM)
-include(conan)
-endif()
-
-# ECM Modules some parts of the ECM CMake helpers
-find_package(ECM ${KF5_DEP_VERSION} QUIET REQUIRED NO_MODULE)
-feature_summary(WHAT REQUIRED_PACKAGES_NOT_FOUND
-                FATAL_ON_MISSING_REQUIRED_PACKAGES)
-
-# We append to the module path so modules can be overridden from the command
-# line.
-list(APPEND CMAKE_MODULE_PATH "${ECM_MODULE_PATH}")
-
-# ##############################################################################
-# Project Options
-# ##############################################################################
-
+include(CMakeDependentOption) 
+# ------------------------------------------------------------------------------- #
+# Define Options 
+# ------------------------------------------------------------------------------- #
 option(BUILD_EXAMPLES "Build examples." OFF)
 add_feature_info(EXAMPLES ${BUILD_EXAMPLES} "Build the the examples")
 option(BUILD_MANUAL "Build manual." OFF)
@@ -187,6 +126,75 @@ cmake_dependent_option(
   "BUILD_TESTING"
   OFF # Stay coherent with CTest variables
 )
+
+# ------------------------------------------------------------------------------- #
+# Define CMake Module Imports
+# ------------------------------------------------------------------------------- #
+# This will define the default values for installation
+# directories (all platforms even if named GNU)
+include(GNUInstallDirs)
+# Helper to create relocatable packages
+include(CMakePackageConfigHelpers)
+# Tell CMake that the `install` target
+# needs to install required system
+# libraries (eg: Windows SDK)
+include(InstallRequiredSystemLibraries)
+include(GenerateExportHeader)
+# Standard CMake modules
+include(CTest) # Must be called before adding tests but after calling project().
+               # This automatically calls enable_testing() and configures ctest
+               # targets when using Make/Ninja
+# This is a really useful scripts that creates
+                              # options that depends on other options. It can
+                              # even be used with generator expressions !
+
+include(${CMAKE_SOURCE_DIR}/cmake/clang_format.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake/compiler_options.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake/cpack.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake/dependencies.cmake)
+
+# Set the dependencies versions
+set(KF5_VERSION "5.61.0")
+set(KF5_DEP_VERSION "5.61.0")
+set(QT_MIN_VERSION "5.12.4")
+
+if(APPLE)
+  set(APPLE_SUPPRESS_X11_WARNING TRUE)
+  set(KDE_SKIP_RPATH_SETTINGS TRUE)
+  set(CMAKE_MACOSX_RPATH ON)
+  set(BUILD_WITH_INSTALL_RPATH ON)
+  add_definitions(-mmacosx-version-min=10.15 -Wno-macro-redefined
+                  -Wno-deprecated-register)
+  if(CMAKE_OSX_ARCHITECTURES)
+    message(STATUS "CMake OSX architectures: ${CMAKE_OSX_ARCHITECTURES}")
+  endif()
+endif()
+
+# Custom modules and scripts
+# ##############################################################################
+# Include cmake scripts and config
+# ##############################################################################
+list(APPEND CMAKE_PREFIX_PATH "${CMAKE_MODULE_PATH}")
+# Add the local module path to the search path
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake"
+     "${CMAKE_CURRENT_LIST_DIR}/cmake/modules")
+
+# include(PreventInSourceBuilds)
+
+include(StaticAnalyzers)
+
+if(NOT LGTM)
+include(conan)
+endif()
+
+# ECM Modules some parts of the ECM CMake helpers
+find_package(ECM ${KF5_DEP_VERSION} QUIET REQUIRED NO_MODULE)
+feature_summary(WHAT REQUIRED_PACKAGES_NOT_FOUND
+                FATAL_ON_MISSING_REQUIRED_PACKAGES)
+
+# We append to the module path so modules can be overridden from the command
+# line.
+list(APPEND CMAKE_MODULE_PATH "${ECM_MODULE_PATH}")
 
 # ##############################################################################
 # KDE: extra cmake modules Load extended helpers
@@ -430,11 +438,6 @@ if(BUILD_TESTING)
   add_subdirectory(tests)
 endif()
 
-# ==================================================================================
-# CPack Config
-# ==================================================================================
-
-include(cmake/deployment.cmake)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
