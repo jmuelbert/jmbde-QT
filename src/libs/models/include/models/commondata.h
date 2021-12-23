@@ -57,6 +57,59 @@ public:
     }
 
     /*!
+        \fn virtual void setIndexes()
+        \brief Set the fieldindexes from the datafieldnames of the db.
+     */
+    virtual JMBDEMODELS_EXPORT void setIndexes() = 0;
+
+    /*!
+        \fn virtual QSqlRelationalTableModel *initializeRelationalModel() final
+        \brief set the QSqlRelationalTableModel for the DataModel
+        \return The QSqlRelationalTableModel
+     */
+    virtual JMBDEMODELS_EXPORT auto initializeRelationalModel() -> QSqlRelationalTableModel* = 0;
+
+    /*!
+        \fn virtual QSqlRelationalTableModel *initializeInputDataModel() final
+        \brief Initialize the InputDataModel
+
+         \return The QSqlRelationalTableModel
+     */
+    virtual JMBDEMODELS_EXPORT auto initializeInputDataModel() -> QSqlRelationalTableModel* = 0;
+
+    /*!
+        \fn virtual QSqlTableModel *initializeViewModel() final
+        \brief Initialize the ViewModel
+
+        \return QSqlTableModel
+     */
+    virtual JMBDEMODELS_EXPORT auto initializeViewModel() -> QSqlTableModel* = 0;
+
+    /*!
+        \fn QSqlTableModel *initializeListModel();
+        \brief Initiallize the list Model for select one dataset
+    */
+    virtual JMBDEMODELS_EXPORT auto initializeListModel() -> QSqlTableModel* = 0;
+
+    /*!
+     * \fn virtual auto generateTableString(
+                                const QString &header) final
+        \brief generateTableString
+
+        \return a QString with the generated Table for Output
+     */
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString& header) -> QString = 0;
+
+    /*!
+        \fn virtual auto generateFormularString(
+                                   const QString &header) final
+        \brief generateFormularString
+
+        \return a QString with the generated Table for Output
+     */
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString& header) -> QString = 0;
+
+    /*!
         \fn  QTextDocument *createSheet()
         \brief Create a TextDocument for the Output to the Printer
 

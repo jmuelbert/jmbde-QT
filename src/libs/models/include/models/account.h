@@ -20,10 +20,7 @@
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 
-Q_DECLARE_LOGGING_CATEGORY(m_AccountLog)
-
-namespace Model
-{
+namespace Model {
 /*!
     \class Account
     \brief The Account class
@@ -34,8 +31,8 @@ namespace Model
     \date 1.12.2020
     \copyright GPL-3.0-or-later
     */
-class Account : public CommonData
-{
+
+class Account : public CommonData {
     Q_OBJECT
 
 public:
@@ -67,7 +64,7 @@ public:
         \brief set the QSqlRelationalTableModel for the DataModel
         \return The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel() final;
+    virtual JMBDEMODELS_EXPORT auto initializeRelationalModel() -> QSqlRelationalTableModel* final;
 
     /*!
         \fn virtual QSqlRelationalTableModel *initializeInputDataModel() final
@@ -75,7 +72,7 @@ public:
 
          \return The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel() final;
+    virtual JMBDEMODELS_EXPORT auto initializeInputDataModel() -> QSqlRelationalTableModel* final;
 
     /*!
         \fn virtual QSqlTableModel *initializeViewModel() final
@@ -83,13 +80,13 @@ public:
 
         \return QSqlTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
+    virtual JMBDEMODELS_EXPORT auto initializeViewModel() -> QSqlTableModel* final;
 
     /*!
         \fn QSqlTableModel *initializeListModel();
         \brief Initiallize the list Model for select one dataset
     */
-    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeListModel() final;
+    virtual JMBDEMODELS_EXPORT auto initializeListModel() -> QSqlTableModel* final;
 
     /*!
      * \fn virtual auto generateTableString(
@@ -98,7 +95,7 @@ public:
 
         \return a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString& header) -> QString final;
 
     /*!
         \fn virtual auto generateFormularString(
@@ -107,15 +104,15 @@ public:
 
         \return a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString& header) -> QString final;
 
     // Getter
-    JMBDEMODELS_EXPORT QString getTableName() const
+    JMBDEMODELS_EXPORT auto getTableName() const -> QString
     {
         return this->m_tableName;
     }
 
-    JMBDEMODELS_EXPORT QSqlDatabase getDB() const
+    JMBDEMODELS_EXPORT auto getDB() const -> QSqlDatabase
     {
         return this->m_db;
     }
@@ -127,7 +124,7 @@ public:
 
         \return the value of the index
      */
-    JMBDEMODELS_EXPORT int getAccountIdIndex() const
+    JMBDEMODELS_EXPORT auto getAccountIdIndex() const -> int
     {
         return m_AccountIdIndex;
     }
@@ -139,7 +136,7 @@ public:
 
         \return the value of the index
      */
-    JMBDEMODELS_EXPORT int getUserNameIndex() const
+    JMBDEMODELS_EXPORT auto getUserNameIndex() const -> int
     {
         return m_UserNameIndex;
     }
@@ -151,7 +148,7 @@ public:
 
         \return the value of the index
      */
-    JMBDEMODELS_EXPORT int getPasswordIndex() const
+    JMBDEMODELS_EXPORT auto getPasswordIndex() const -> int
     {
         return m_PasswordIndex;
     }
@@ -163,7 +160,7 @@ public:
 
         \return the value of the index
      */
-    JMBDEMODELS_EXPORT int getSystemDataIndex() const
+    JMBDEMODELS_EXPORT auto getSystemDataIndex() const -> int
     {
         return m_SystemDataIdIndex;
     }
@@ -175,7 +172,7 @@ public:
 
         \return the value of the index
      */
-    JMBDEMODELS_EXPORT int getLastUpdateIndex() const
+    JMBDEMODELS_EXPORT auto getLastUpdateIndex() const -> int
     {
         return m_LastUpdateIndex;
     }
@@ -192,55 +189,38 @@ private:
     QSqlDatabase m_db = {};
 
     /*!
-        \brief holds an initialised pointer to the Relationmodel
-        \sa QSqlRelationalTableModel
-     */
-    QSqlRelationalTableModel *m_model{nullptr};
-
-    /*!
-       \brief holds an initialised pointer to the ItemSelectioModel
-       \sa QItemSelectionModel
-    */
-    QItemSelectionModel *m_selectionModel{nullptr};
-
-    /*!
      * @brief DataContext
      */
-    Model::DataContext *m_dataContext = {};
+    Model::DataContext* m_dataContext = {};
 
     /*!
         \var int m_AccountIdIndex
         \brief The value of the AccountIdIndex
      */
-    int m_AccountIdIndex{0};
+    int m_AccountIdIndex { 0 };
 
     /*!
         \var int m_UserNameIndex
         \brief The value of the UserNameIndex
     */
-    int m_UserNameIndex{0};
+    int m_UserNameIndex { 0 };
 
     /*!
          \var int m_PasswordIndex;
          \brief The value of the PasswordIndex
      */
-    int m_PasswordIndex{0};
+    int m_PasswordIndex { 0 };
 
     /*!
         \var int m_SystemDataIdIndex
         \brief The value of the SystemDataIdIndex
     */
-    int m_SystemDataIdIndex{0};
+    int m_SystemDataIdIndex { 0 };
 
     /*!
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
     */
-    int m_LastUpdateIndex{0};
-
-    /*!
-     * Logging Category
-     */
-    QLoggingCategory m_AccountLog;
+    int m_LastUpdateIndex { 0 };
 };
 } // namespace Model
