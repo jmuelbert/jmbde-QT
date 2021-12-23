@@ -7,7 +7,6 @@
 #include "models/account.h"
 
 Model::Account::Account()
-    : CommonData()
 {
     this->m_dataContext = new Model::DataContext();
     this->m_db = m_dataContext->getDatabase();
