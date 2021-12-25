@@ -20,23 +20,19 @@
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 
-Q_DECLARE_LOGGING_CATEGORY(m_CompanyLog)
-
-namespace Model
-{
+namespace Model {
 /*!
     \class Company
     \brief The Companyl class
     \details In this is handlet all Companies in the Database
     \author Jürgen Mülbert
     \since 0.4
-    \version 0.6
-    \date 05.12.2020
+    \version 0.7
+    \date 25.12.2021
     \copyright GPL-3.0-or-later
     */
 
-class Company : public CommonData
-{
+class Company : public CommonData {
     Q_OBJECT
 
 public:
@@ -59,65 +55,69 @@ public:
     // implement the virtuals
 
     /*!
-        \fn virtual void setIndexes() final
+        \fn virtual void setIndexes()
         \brief Set the fieldindexes from the datafieldnames of the db.
      */
     virtual JMBDEMODELS_EXPORT void setIndexes() final;
 
     /*!
-        \fn virtual QSqlRelationalTableModel *initializeRelationalModel()
+        \fn virtual JMBDEMODELS_EXPORT auto initializeRelationalModel() -> QSqlRelationalTableModel* final
         \brief set the QSqlRelationalTableModel for the DataModel
-        Returns The QSqlRelationalTableModel
+        \return The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel() final;
+    virtual JMBDEMODELS_EXPORT auto initializeRelationalModel() -> QSqlRelationalTableModel* final;
 
     /*!
-        \fn virtual QSqlRelationalTableModel *initializeInputDataModel() final
+        \fn virtual auto initializeInputDataModel() -> QSqlRelationalTableModel* fina
         \brief Initialize the InputDataModel
 
-        Returns The QSqlRelationalTableModel
-    */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel() final;
+         \return The QSqlRelationalTableModel
+     */
+    virtual JMBDEMODELS_EXPORT auto initializeInputDataModel() -> QSqlRelationalTableModel* final;
 
     /*!
-        \fn virtual QSqlTableModel *initializeViewModel() final
+        \fn virtual auto initializeViewModel() -> QSqlTableModel* final
         \brief Initialize the ViewModel
 
-          Returns QSqlTableModel
-    */
-    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
+        \return QSqlTableModel
+     */
+    virtual JMBDEMODELS_EXPORT auto initializeViewModel() -> QSqlTableModel* final;
 
     /*!
-        \fn QSqlTableModel *initializeListModel();
+        \fn virtual auto initializeListModel() -> QSqlTableModel* final
         \brief Initiallize the list Model for select one dataset
     */
-    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeListModel() final;
+    virtual JMBDEMODELS_EXPORT auto initializeListModel() -> QSqlTableModel* final;
 
     /*!
-     * \fn virtual auto generateTableString(
-                                const QString &header) -> QString final
+     * \fn virtual auto generateTableString(const QString& header) -> QString final
         \brief generateTableString
 
-        Returns a QString with the generated Table for Output
+        \return a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString& header) -> QString final;
 
     /*!
-        \fn virtual auto generateFormularString(
-                                   const QString &header) -> QString final
+        \fn virtual auto generateFormularString(const QString& header) -> QString final
         \brief generateFormularString
 
-        Returns a QString with the generated Table for Output
+        \return a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString& header) -> QString final;
 
     // Getter
-    JMBDEMODELS_EXPORT QString getTableName() const
+    /*!
+     * \brief getTableName
+     * \return
+     */
+    JMBDEMODELS_EXPORT auto getTableName() const -> QString
     {
         return this->m_tableName;
     }
-
-    JMBDEMODELS_EXPORT QSqlDatabase getDB() const
+    /*!
+        \fn auot getDB() const -> QSqlDatabase
+     */
+    JMBDEMODELS_EXPORT auto getDB() const -> QSqlDatabase
     {
         return this->m_db;
     }
@@ -287,38 +287,22 @@ private:
     QSqlDatabase m_db = {};
 
     /*!
-        \brief holds an initialised pointer to the Relationmodel
-        \sa QSqlRelationalTableModel
-     */
-    QSqlRelationalTableModel *m_model{nullptr};
-
-    /*!
-       \brief holds an initialised pointer to the ItemSelectioModel
-       \sa QItemSelectionModel
-    */
-    QItemSelectionModel *m_selectionModel{nullptr};
-
-    /*!
      * @brief DataContext
      */
-    Model::DataContext *m_dataContext = {};
+    Model::DataContext* m_dataContext = {};
 
-    int m_CompanyIdIndex{0}; ///< int CompanyIdIndex
-    int m_NameIndex{0}; ///< int NameIndex
-    int m_Name2Index{0}; ///< int Name2Index
-    int m_StreetIndex{0}; ///< int m_StreetIndex
-    int m_CityIndex{0}; ///< int CityIndex
-    int m_ZipCodeIndex{0}; ///< int ZipCodeIndex
-    int m_PhoneNumberIndex{0}; ///< int PhoneNumberIndex
-    int m_FaxNumberIndex{0}; ///< int FaxNumberIndex
-    int m_MobileNumberIndex{0}; ///< int MobileNumberIndex
-    int m_MailAddressIndex{0}; ///< int MailAddressIndex
-    int m_ActiveIndex{0}; ///< int ActiveIndex
-    int m_EmployeeIdIndex{0}; ///< int EmployeeIdIndex
-    int m_LastUpdateIndex{0}; ///< int LastUpdateIndex
-    /*!
-     * Logging Category
-     */
-    QLoggingCategory m_CompanyLog;
+    int m_CompanyIdIndex { 0 }; ///< int CompanyIdIndex
+    int m_NameIndex { 0 }; ///< int NameIndex
+    int m_Name2Index { 0 }; ///< int Name2Index
+    int m_StreetIndex { 0 }; ///< int m_StreetIndex
+    int m_CityIndex { 0 }; ///< int CityIndex
+    int m_ZipCodeIndex { 0 }; ///< int ZipCodeIndex
+    int m_PhoneNumberIndex { 0 }; ///< int PhoneNumberIndex
+    int m_FaxNumberIndex { 0 }; ///< int FaxNumberIndex
+    int m_MobileNumberIndex { 0 }; ///< int MobileNumberIndex
+    int m_MailAddressIndex { 0 }; ///< int MailAddressIndex
+    int m_ActiveIndex { 0 }; ///< int ActiveIndex
+    int m_EmployeeIdIndex { 0 }; ///< int EmployeeIdIndex
+    int m_LastUpdateIndex { 0 }; ///< int LastUpdateIndex
 };
 } // namespace Model

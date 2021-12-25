@@ -8,7 +8,6 @@
 
 Model::Employee::Employee()
     : CommonData()
-    , m_EmployeeLog(QLoggingCategory("jmbde.models.employee"))
 {
     this->m_dataContext = new Model::DataContext();
     this->m_db = m_dataContext->getDatabase();
@@ -55,7 +54,7 @@ void Model::Employee::setIndexes()
     m_LastUpdateIndex = this->m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-auto Model::Employee::initializeRelationalModel() -> QSqlRelationalTableModel *
+auto Model::Employee::initializeRelationalModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -67,7 +66,7 @@ auto Model::Employee::initializeRelationalModel() -> QSqlRelationalTableModel *
     return this->m_model;
 }
 
-auto Model::Employee::initializeInputDataModel() -> QSqlRelationalTableModel *
+auto Model::Employee::initializeInputDataModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -76,16 +75,16 @@ auto Model::Employee::initializeInputDataModel() -> QSqlRelationalTableModel *
     return this->m_model;
 }
 
-auto Model::Employee::initializeViewModel() -> QSqlTableModel *
+auto Model::Employee::initializeViewModel() -> QSqlTableModel*
 {
     this->m_model->select();
 
     return this->m_model;
 }
 
-auto Model::Employee::initializeListModel() -> QSqlTableModel *
+auto Model::Employee::initializeListModel() -> QSqlTableModel*
 {
-    auto *listModel = new QSqlTableModel(this, this->m_db);
+    auto* listModel = new QSqlTableModel(this, this->m_db);
     listModel->setTable(this->m_tableName);
     listModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
     listModel->select();
@@ -93,11 +92,11 @@ auto Model::Employee::initializeListModel() -> QSqlTableModel *
     return listModel;
 }
 
-auto Model::Employee::generateTableString(const QString &header) -> QString
+auto Model::Employee::generateTableString(const QString& header) -> QString
 {
     QString outString;
 
-    qCDebug(m_EmployeeLog) << "Header:" << header << "( Columns: " << this->m_model->columnCount() << " Rows: " << this->m_model->rowCount() << " )";
+    qDebug() << "Header:" << header << "( Columns: " << this->m_model->columnCount() << " Rows: " << this->m_model->rowCount() << " )";
 
     QList<int> set;
 
@@ -119,11 +118,11 @@ auto Model::Employee::generateTableString(const QString &header) -> QString
     return outString;
 }
 
-auto Model::Employee::generateFormularString(const QString &header) -> QString
+auto Model::Employee::generateFormularString(const QString& header) -> QString
 {
     QString outString;
 
-    qCDebug(m_EmployeeLog) << "Header:" << header << "( Columns: " << this->m_model->columnCount() << " Rows: " << this->m_model->rowCount() << " )";
+    qDebug() << "Header:" << header << "( Columns: " << this->m_model->columnCount() << " Rows: " << this->m_model->rowCount() << " )";
 
     // Document Title
     outString = QLatin1String("<h1>");

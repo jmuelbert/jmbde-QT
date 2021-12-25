@@ -20,10 +20,7 @@
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 
-Q_DECLARE_LOGGING_CATEGORY(m_EmployeeLog)
-
-namespace Model
-{
+namespace Model {
 /*!
     \class Employee
     \brief The Employee class
@@ -62,12 +59,11 @@ digraph g {
 
     \author Jürgen Mülbert
     \since 0.4
-    \version 0.6
-    \date 23.01.2021
+    \version 0.7
+    \date 25.12.2021
     \copyright GPL-3.0-or-later
     */
-class Employee : public CommonData
-{
+class Employee : public CommonData {
     Q_OBJECT
 
 public:
@@ -89,65 +85,69 @@ public:
     // implement the virtuals
 
     /*!
-        \fn virtual void setIndexes() final
+        \fn virtual void setIndexes()
         \brief Set the fieldindexes from the datafieldnames of the db.
      */
     virtual JMBDEMODELS_EXPORT void setIndexes() final;
 
     /*!
-        \fn virtual QSqlRelationalTableModel *initializeRelationalModel() final
+        \fn virtual JMBDEMODELS_EXPORT auto initializeRelationalModel() -> QSqlRelationalTableModel* final
         \brief set the QSqlRelationalTableModel for the DataModel
-        Returns The QSqlRelationalTableModel
+        \return The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel() final;
+    virtual JMBDEMODELS_EXPORT auto initializeRelationalModel() -> QSqlRelationalTableModel* final;
 
     /*!
-        \fn virtual QSqlRelationalTableModel *initializeInputDataModel() final
+        \fn virtual auto initializeInputDataModel() -> QSqlRelationalTableModel* fina
         \brief Initialize the InputDataModel
 
-        Returns The QSqlRelationalTableModel
+         \return The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel() final;
+    virtual JMBDEMODELS_EXPORT auto initializeInputDataModel() -> QSqlRelationalTableModel* final;
 
     /*!
-         \fn virtual QSqlTableModel *initializeViewModel()
-         \brief Initialize the ViewModel
+        \fn virtual auto initializeViewModel() -> QSqlTableModel* final
+        \brief Initialize the ViewModel
 
-         Returns QSqlTableModel
-      */
-    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
+        \return QSqlTableModel
+     */
+    virtual JMBDEMODELS_EXPORT auto initializeViewModel() -> QSqlTableModel* final;
 
     /*!
-        \fn QSqlTableModel *initializeListModel();
+        \fn virtual auto initializeListModel() -> QSqlTableModel* final
         \brief Initiallize the list Model for select one dataset
     */
-    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeListModel() final;
+    virtual JMBDEMODELS_EXPORT auto initializeListModel() -> QSqlTableModel* final;
 
     /*!
-     * \fn virtual auto generateTableString(
-                                const QString &header) -> QString final
+     * \fn virtual auto generateTableString(const QString& header) -> QString final
         \brief generateTableString
 
-        Returns a QString with the generated Table for Output
+        \return a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString& header) -> QString final;
 
     /*!
-         \fn virtual auto generateFormularString(
-                                    const QString &header) -> QString final
-         \brief generateFormularString
+        \fn virtual auto generateFormularString(const QString& header) -> QString final
+        \brief generateFormularString
 
-         Returns a QString with the generated Table for Output
-      */
-    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
+        \return a QString with the generated Table for Output
+     */
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString& header) -> QString final;
 
     // Getter
-    JMBDEMODELS_EXPORT QString getTableName() const
+    /*!
+     * \brief getTableName
+     * \return
+     */
+    JMBDEMODELS_EXPORT auto getTableName() const -> QString
     {
         return this->m_tableName;
     }
-
-    JMBDEMODELS_EXPORT QSqlDatabase getDB() const
+    /*!
+        \fn auot getDB() const -> QSqlDatabase
+     */
+    JMBDEMODELS_EXPORT auto getDB() const -> QSqlDatabase
     {
         return this->m_db;
     }
@@ -527,205 +527,188 @@ private:
     QSqlDatabase m_db = {};
 
     /*!
-        \brief holds an initialised pointer to the Relationmodel
-        \sa QSqlRelationalTableModel
-     */
-    QSqlRelationalTableModel *m_model{nullptr};
-
-    /*!
-       \brief holds an initialised pointer to the ItemSelectioModel
-       \sa QItemSelectionModel
-    */
-    QItemSelectionModel *m_selectionModel{nullptr};
-
-    /*!
      * @brief DataContext
      */
-    Model::DataContext *m_dataContext = {};
+    Model::DataContext* m_dataContext = {};
 
     /*!
        \var int m_EmployeeIdIndex
        \brief The value of the EmployeeIdIndex
     */
-    int m_EmployeeIdIndex{0};
+    int m_EmployeeIdIndex { 0 };
 
     /*!
        \var int m_EmployeeNrIndex
        \brief The value of the EmployeeNrIndex
     */
-    int m_EmployeeNrIndex{0};
+    int m_EmployeeNrIndex { 0 };
 
     /*!
        \var int m_GenderIndex
        \brief The value of the GenderIndex
     */
-    int m_GenderIndex{0};
+    int m_GenderIndex { 0 };
 
     /*!
        \var int m_TitleIdIndex
        \brief The value of the TitleIdIndex
     */
-    int m_TitleIdIndex{0};
+    int m_TitleIdIndex { 0 };
 
     /*!
        \var int m_FirstNameIndex
        \brief The value of the FirstNameIndex
     */
-    int m_FirstNameIndex{0};
+    int m_FirstNameIndex { 0 };
 
     /*!
         \var int m_LastNameIndex
         \brief The value of the LastNameIndex
      */
-    int m_LastNameIndex{0};
+    int m_LastNameIndex { 0 };
 
     /*!
         \var int m_BirthDayIndex
         \brief The value of the BirthDayIndex
      */
-    int m_BirthDayIndex{0};
+    int m_BirthDayIndex { 0 };
 
     /*!
         \var int m_AddressIndex
         \brief The value of the AddressIndex
      */
-    int m_AddressIndex{0};
+    int m_AddressIndex { 0 };
 
     /*!
         \var int m_ZipCityIdIndex
         \brief The value of the ZipCityIdIndex
      */
-    int m_ZipCityIdIndex{0};
+    int m_ZipCityIdIndex { 0 };
 
     /*!
         \var int m_HomePhoneIndex
         \brief The value of the HomePhoneIndex
      */
-    int m_HomePhoneIndex{0};
+    int m_HomePhoneIndex { 0 };
 
     /*!
         \var int m_HomeMobileIndex
         \brief The value of the HomeMobileIndex
      */
-    int m_HomeMobileIndex{0};
+    int m_HomeMobileIndex { 0 };
 
     /*!
         \var int m_HomeMailIndex
         \brief The value of the HomeMailIndex
      */
-    int m_HomeMailIndex{0};
+    int m_HomeMailIndex { 0 };
 
     /*!
         \var int m_BusinessMailIndex
         \brief The value of the BusinessMailIndex
      */
-    int m_BusinessMailIndex{0};
+    int m_BusinessMailIndex { 0 };
 
     /*!
         \var int m_DataCareIndex
         \brief The value of the DataCareIndex
      */
-    int m_DataCareIndex{0};
+    int m_DataCareIndex { 0 };
 
     /*!
         \var int m_ActiveIndex
         \brief The value of the ActiveIndex
      */
-    int m_ActiveIndex{0};
+    int m_ActiveIndex { 0 };
 
     /*!
         \var int m_PhotoIndex
         \brief The value of the PhotoIndex
      */
-    int m_PhotoIndex{0};
+    int m_PhotoIndex { 0 };
 
     /*!
         \var int m_NotesIndex
         \brief The value of the NotesIndex
      */
-    int m_NotesIndex{0};
+    int m_NotesIndex { 0 };
 
     /*!
         \var int m_HireDateIndex
         \brief The value of the HireDateIndex
      */
-    int m_HireDateIndex{0};
+    int m_HireDateIndex { 0 };
 
     /*!
         \var int m_EndDateIndex
         \brief The value of the EndDateIndex
      */
-    int m_EndDateIndex{0};
+    int m_EndDateIndex { 0 };
 
     /*!
         \var int m_DepartmentIdIndex
         \brief The value of the DepartmentIdIndex
      */
-    int m_DepartmentIdIndex{0};
+    int m_DepartmentIdIndex { 0 };
 
     /*!
         \var int m_FunctionIdIndex
         \brief The value of the FunctionIdIndex
      */
-    int m_FunctionIdIndex{0};
+    int m_FunctionIdIndex { 0 };
 
     /*!
         \var int m_ComputerIdIndex
         \brief The value of the ComputerIdIndex
      */
-    int m_ComputerIdIndex{0};
+    int m_ComputerIdIndex { 0 };
 
     /*!
         \var int m_PrinterIdIndex
         \brief The value of the PrinterIdIndex
      */
-    int m_PrinterIdIndex{0};
+    int m_PrinterIdIndex { 0 };
 
     /*!
         \var int m_PhoneIdIndex
         \brief The value of the PhoneIdIndex
      */
-    int m_PhoneIdIndex{0};
+    int m_PhoneIdIndex { 0 };
 
     /*!
         \var int m_MobileIdIndex
         \brief The value of the MobileIdIndex
      */
-    int m_MobileIdIndex{0};
+    int m_MobileIdIndex { 0 };
 
     /*!
         \var int m_FaxIdIndex
         \brief The value of the FaxIdIndex
      */
-    int m_FaxIdIndex{0};
+    int m_FaxIdIndex { 0 };
 
     /*!
         \var int m_EmployeeAccountIdIndex
         \brief The value of the EmployeeAccountIdIndex
      */
-    int m_EmployeeAccountIdIndex{0};
+    int m_EmployeeAccountIdIndex { 0 };
 
     /*!
         \var int m_EmployeeDocumentIdIndex
         \brief The value of the EmployeeDocumentIdIndex
      */
-    int m_EmployeeDocumentIdIndex{0};
+    int m_EmployeeDocumentIdIndex { 0 };
 
     /*!
         \var int m_ChipCardIdIndex
         \brief The value of the ChipCardIdIndex
      */
-    int m_ChipCardIdIndex{0};
+    int m_ChipCardIdIndex { 0 };
 
     /*!
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
     */
-    int m_LastUpdateIndex{0};
-
-    /*!
-     * Logging Category
-     */
-    QLoggingCategory m_EmployeeLog;
+    int m_LastUpdateIndex { 0 };
 };
 } // namespace Model

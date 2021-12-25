@@ -8,7 +8,6 @@
 
 Model::Place::Place()
     : CommonData()
-    , m_PlaceLog(QLoggingCategory("jmbde.models.place"))
 {
     this->m_dataContext = new Model::DataContext();
     this->m_db = m_dataContext->getDatabase();
@@ -30,7 +29,7 @@ void Model::Place::setIndexes()
     m_LastUpdateIndex = this->m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-auto Model::Place::initializeRelationalModel() -> QSqlRelationalTableModel *
+auto Model::Place::initializeRelationalModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -42,7 +41,7 @@ auto Model::Place::initializeRelationalModel() -> QSqlRelationalTableModel *
     return this->m_model;
 }
 
-auto Model::Place::initializeInputDataModel() -> QSqlRelationalTableModel *
+auto Model::Place::initializeInputDataModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -51,16 +50,16 @@ auto Model::Place::initializeInputDataModel() -> QSqlRelationalTableModel *
     return this->m_model;
 }
 
-auto Model::Place::initializeViewModel() -> QSqlTableModel *
+auto Model::Place::initializeViewModel() -> QSqlTableModel*
 {
     this->m_model->select();
 
     return this->m_model;
 }
 
-auto Model::Place::initializeListModel() -> QSqlTableModel *
+auto Model::Place::initializeListModel() -> QSqlTableModel*
 {
-    auto *listModel = new QSqlTableModel(this, this->m_db);
+    auto* listModel = new QSqlTableModel(this, this->m_db);
     listModel->setTable(this->m_tableName);
     listModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
     listModel->select();
@@ -68,11 +67,11 @@ auto Model::Place::initializeListModel() -> QSqlTableModel *
     return listModel;
 }
 
-auto Model::Place::generateTableString(const QString &header) -> QString
+auto Model::Place::generateTableString(const QString& header) -> QString
 {
     QString outString;
 
-    qCDebug(m_PlaceLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qDebug() << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     QList<int> set;
 
@@ -94,11 +93,11 @@ auto Model::Place::generateTableString(const QString &header) -> QString
     return outString;
 }
 
-auto Model::Place::generateFormularString(const QString &header) -> QString
+auto Model::Place::generateFormularString(const QString& header) -> QString
 {
     QString outString;
 
-    qCDebug(m_PlaceLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qDebug() << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     // Document Title
     outString = QLatin1String("<h1>");

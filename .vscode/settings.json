@@ -19,7 +19,11 @@
     "APPLICATION_BUILD_UI": "ON",
     "CMAKE_INSTALL_PREFIX:PATH": "./install"
   },
-
+  "code-runner.executorMapByFileExtension": {
+    ".qml": "qml",
+    ".qrc": "qtcreator -client",
+    ".ui": "qtcreator -client"
+  },
   "files.associations": {
     "*.ts": "xml"
   },

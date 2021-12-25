@@ -5,18 +5,18 @@
 #
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.10...3.20 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.10...3.21 FATAL_ERROR)
 
-if(${CMAKE_VERSION} VERSION_LESS 3.20)
+if(${CMAKE_VERSION} VERSION_LESS 3.21)
   cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 else()
-  cmake_policy(VERSION 3.20)
+  cmake_policy(VERSION 3.21)
 endif()
 
 # JMBDEMODELS project
 project(
   jmbdemodels
-  VERSION "0.6.0"
+  VERSION "0.7.0"
   DESCRIPTION "${PROJECT_NAME} Datacontext Library"
   LANGUAGES CXX)
 
@@ -40,7 +40,7 @@ ecm_setup_version(
   SOVERSION
   ${SO_VERSION}
   VERSION_HEADER
-  ${CMAKE_CURRENT_BINARY_DIR}/jmbdemodels-version.h)
+  ${CMAKE_CURRENT_BINARY_DIR}/export/jmbdemodels-version.h)
 
 #
 # Finding Qt
@@ -145,7 +145,7 @@ set_target_properties(
              # ${CMAKE_CURRENT_SOURCE_DIR}/include/src/models/datacontext.h #
              # Headers listed here will automatically be copied when installing.
              # Note that directories hierarchy is not preserved.
-             DEBUG_POSTFIX d # We had a postfix so that we can install debug and
+             # DEBUG_POSTFIX d # We had a postfix so that we can install debug and
                              # release libraries side by side (Windows way)
 )
 
@@ -226,7 +226,7 @@ if(MSVC AND BUILD_SHARED_LIBS)
     CONFIGURATIONS Debug RelWithDebInfo)
 endif()
 
-if(BUILD_TESTING_0)
+if(BUILD_TESTING)
   enable_testing()
   add_subdirectory(tests)
 endif()

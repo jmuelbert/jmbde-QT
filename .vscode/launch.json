@@ -8,11 +8,40 @@
       "name": "GDB/LLDB",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspacefolder}/build/bin/${fileBasenameNoExtension}",
+      "program": "${workspaceFolder:folder1}/build/bin/${fileBasenameNoExtension}",
       "args": [],
       "cwd": "${workspaceFolder}",
       "preLaunchTask": "Build: Debug",
       "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "name": "App",
+      "type": "cppvsdbg",
+      "program": "${workspaceFolder:folder1}/build/bin/${fileBasenameNoExtension}",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder:folder1}/build/bin/${fileBasenameNoExtension}",
+      "externalConsole": false
+    },
+    {
+      "name": "Launch current CMake target with GammaRay",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "GammaRay",
+      "args": ["${command:cmake.launchTargetPath}"],
+      "console": "internalConsole",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Profile current CMake target with qmlprofile",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "qmlprofiler",
+      "args": [
+        "-o",
+        "your/favourite/output/dir/qmlprofiler.qtd",
+        "${command:cmake.launchTargetPath}"
+      ]
     }
   ]
 }

@@ -20,22 +20,18 @@
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 
-Q_DECLARE_LOGGING_CATEGORY(m_OsLog)
-
-namespace Model
-{
+namespace Model {
 /*!
     \class OS
     \brief The OS class
     \details In this is handle all OS
     \author Jürgen Mülbert
     \since 0.4
-    \version 0.6
-    \date 23.01.2021
+    \version 0.7
+    \date 25.12.2021
     \copyright GPL-3.0-or-later
     */
-class OS : public CommonData
-{
+class OS : public CommonData {
     Q_OBJECT
 
 public:
@@ -57,65 +53,69 @@ public:
     // implement the virtuals
 
     /*!
-        \fn virtual void setIndexes() final
+        \fn virtual void setIndexes()
         \brief Set the fieldindexes from the datafieldnames of the db.
      */
     virtual JMBDEMODELS_EXPORT void setIndexes() final;
 
     /*!
-        \fn virtual QSqlRelationalTableModel *initializeRelationalModel() final
+        \fn virtual JMBDEMODELS_EXPORT auto initializeRelationalModel() -> QSqlRelationalTableModel* final
         \brief set the QSqlRelationalTableModel for the DataModel
-        Returns The QSqlRelationalTableModel
+        \return The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeRelationalModel() final;
+    virtual JMBDEMODELS_EXPORT auto initializeRelationalModel() -> QSqlRelationalTableModel* final;
 
     /*!
-            \fn virtual QSqlRelationalTableModel *initializeInputDataModel()
-            \brief Initialize the InputDataModel
+        \fn virtual auto initializeInputDataModel() -> QSqlRelationalTableModel* fina
+        \brief Initialize the InputDataModel
 
-            Returns The QSqlRelationalTableModel
-        */
-    virtual JMBDEMODELS_EXPORT QSqlRelationalTableModel *initializeInputDataModel() final;
-
-    /*!
-         \fn virtual QSqlTableModel *initializeViewModel() final
-         \brief Initialize the ViewModel
-
-         Returns QSqlTableModel
-      */
-    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeViewModel() final;
+         \return The QSqlRelationalTableModel
+     */
+    virtual JMBDEMODELS_EXPORT auto initializeInputDataModel() -> QSqlRelationalTableModel* final;
 
     /*!
-        \fn QSqlTableModel *initializeListModel();
+        \fn virtual auto initializeViewModel() -> QSqlTableModel* final
+        \brief Initialize the ViewModel
+
+        \return QSqlTableModel
+     */
+    virtual JMBDEMODELS_EXPORT auto initializeViewModel() -> QSqlTableModel* final;
+
+    /*!
+        \fn virtual auto initializeListModel() -> QSqlTableModel* final
         \brief Initiallize the list Model for select one dataset
     */
-    virtual JMBDEMODELS_EXPORT QSqlTableModel *initializeListModel() final;
+    virtual JMBDEMODELS_EXPORT auto initializeListModel() -> QSqlTableModel* final;
 
     /*!
-     * \fn virtual auto generateTableString(
-                                const QString &header) -> QString
+     * \fn virtual auto generateTableString(const QString& header) -> QString final
         \brief generateTableString
 
-        Returns a QString with the generated Table for Output
+        \return a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString& header) -> QString final;
 
     /*!
-         \fn virtual auto generateFormularString(
-                                    const QString &header) -> QString final
-         \brief generateFormularString
+        \fn virtual auto generateFormularString(const QString& header) -> QString final
+        \brief generateFormularString
 
-         Returns a QString with the generated Table for Output
-      */
-    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
+        \return a QString with the generated Table for Output
+     */
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString& header) -> QString final;
 
     // Getter
-    JMBDEMODELS_EXPORT QString getTableName() const
+    /*!
+     * \brief getTableName
+     * \return
+     */
+    JMBDEMODELS_EXPORT auto getTableName() const -> QString
     {
         return this->m_tableName;
     }
-
-    JMBDEMODELS_EXPORT QSqlDatabase getDB() const
+    /*!
+        \fn auot getDB() const -> QSqlDatabase
+     */
+    JMBDEMODELS_EXPORT auto getDB() const -> QSqlDatabase
     {
         return this->m_db;
     }
@@ -204,61 +204,44 @@ private:
     QSqlDatabase m_db = {};
 
     /*!
-        \brief holds an initialised pointer to the Relationmodel
-        \sa QSqlRelationalTableModel
-     */
-    QSqlRelationalTableModel *m_model{nullptr};
-
-    /*!
-       \brief holds an initialised pointer to the ItemSelectioModel
-       \sa QItemSelectionModel
-    */
-    QItemSelectionModel *m_selectionModel{nullptr};
-
-    /*!
      * @brief DataContext
      */
-    Model::DataContext *m_dataContext = {};
+    Model::DataContext* m_dataContext = {};
 
     /*!
        \var int m_OSIdIndex
        \brief The value of the OSId
     */
-    int m_OSIdIndex{0};
+    int m_OSIdIndex { 0 };
 
     /*!
        \var int m_NameIndex
        \brief The value of the Name
     */
-    int m_NameIndex{0};
+    int m_NameIndex { 0 };
 
     /*!
        \var int m_VersionIndex
        \brief The value of the Version
     */
-    int m_VersionIndex{0};
+    int m_VersionIndex { 0 };
 
     /*!
        \var int m_RevisionIndex
        \brief The value of the Revision
     */
-    int m_RevisionIndex{0};
+    int m_RevisionIndex { 0 };
 
     /*!
        \var int m_FixIndex
        \brief The value of the Fix
     */
-    int m_FixIndex{0};
+    int m_FixIndex { 0 };
 
     /*!
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
     */
-    int m_LastUpdateIndex{0};
-
-    /*!
-     * Logging Category
-     */
-    QLoggingCategory m_OsLog;
+    int m_LastUpdateIndex { 0 };
 };
 } // namespace Model
