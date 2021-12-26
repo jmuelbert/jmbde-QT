@@ -134,7 +134,7 @@ jobs:
         shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
         run: |
-          $GITHUB_PATH/build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build . --config Debug -j$(nproc)
+          build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build . --config Debug -j$(nproc)
 
       - name: Test
         working-directory: ${{runner.workspace}}/build
@@ -146,9 +146,6 @@ jobs:
       - name: Generate coverage reports
         working-directory: ${{runner.workspace}}/build
         run: |
-          lcov -v
-          gcov -v 
-
           lcov --capture --directory . --output-file coverage.info
           lcov --remove coverage.info '/usr/*' '*/usr/include/*' --output-file coverage.info
           lcov --list coverage.info
