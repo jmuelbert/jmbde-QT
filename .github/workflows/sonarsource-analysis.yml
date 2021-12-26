@@ -166,6 +166,6 @@ jobs:
           projectBaseDir: src
           args: >
             -Dsonar.python.coverage.reportPaths=${{runner.workspace}}/coverage.xml
-            sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}" 
+            -Dsonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}" 
             -Dsonar.tests=tests/
             -Dsonar.verbose=true
