@@ -134,7 +134,7 @@ jobs:
         shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
         run: |
-          build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build . --config Debug -j$(nproc)
+          $GITHUB_PATH/build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build . --config Debug -j$(nproc)
 
       - name: Test
         working-directory: ${{runner.workspace}}/build
