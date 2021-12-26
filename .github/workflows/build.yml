@@ -603,7 +603,7 @@ jobs:
             -DCMAKE_INSTALL_PREFIX:PATH=./app \
             -DBUILD_TESTING=ON  \
             -DBUILD_TRANSLATIONS=ON \
-            -DENABLE_CODE_COVERAGE=YES
+            -DBUILD_COVERAGE=YES
 
       - name: Build
         working-directory: ${{runner.workspace}}/build

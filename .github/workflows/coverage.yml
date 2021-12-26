@@ -11,12 +11,11 @@ on:
       - main
   workflow_dispatch:
 
-
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   SONAR_SCANNER_VERSION: 4.6.1.2450
-  SONAR_SERVER_URL: "https://sonarcloud.io"
+  SONAR_SERVER_URL: 'https://sonarcloud.io'
   BUILD_WRAPPER_OUT_DIR: bw_output # Directory where build-wrapper output will be placed
 
 jobs:
@@ -29,30 +28,30 @@ jobs:
 
       - name: Install Dependencies for ${{ runner.os }}
         run: |
-            sudo apt-get -y -qq update
-            sudo apt-get -y --no-install-recommends install \
-             python3 \
-            python3-pip \
-            fuse \
-             patchelf \
-            build-essential \
-            extra-cmake-modules \
-            appstream \
-            hicolor-icon-theme \
-            fcitx-frontend-qt5 \
-            openssl \
-            ca-certificates \
-            lcov gcovr
+          sudo apt-get -y -qq update
+          sudo apt-get -y --no-install-recommends install \
+           python3 \
+          python3-pip \
+          fuse \
+           patchelf \
+          build-essential \
+          extra-cmake-modules \
+          appstream \
+          hicolor-icon-theme \
+          fcitx-frontend-qt5 \
+          openssl \
+          ca-certificates \
+          lcov gcovr
 
       - name: Set up JDK 11
         uses: actions/setup-java@v1
         with:
-            java-version: 11
+          java-version: 11
 
       - name: Configure cache
         uses: actions/cache@v2
         with:
-          path: "**/cpm_modules"
+          path: '**/cpm_modules'
           key: ${{ runner.os }}-cpm-modules-${{ hashFiles('**/CMakeLists.txt') }}-${{ hashFiles('**/*.cmake') }}
 
       - name: Cache SonarCloud packages
@@ -81,8 +80,8 @@ jobs:
 
       - name: Xvfb install and run for ${{ runner.os }}
         run: |
-            sudo apt-get install -y xvfb
-            Xvfb -ac ${{ env.DISPLAY }} -screen 0 1280x780x24 &
+          sudo apt-get install -y xvfb
+          Xvfb -ac ${{ env.DISPLAY }} -screen 0 1280x780x24 &
 
       - name: Get latest CMake
         uses: lukka/get-cmake@latest
@@ -90,11 +89,11 @@ jobs:
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
-            version: ${{ matrix.qt_version }}
-            target: ${{ matrix.qt_target }}
-            arch: ${{ matrix.qt_arch }}
-            # modules: 'qtscript'
-            cached: ${{ steps.cache-qt.outputs.cache-hit }}
+          version: ${{ matrix.qt_version }}
+          target: ${{ matrix.qt_target }}
+          arch: ${{ matrix.qt_arch }}
+          # modules: 'qtscript'
+          cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
       - name: Get conan
         id: conan
@@ -111,27 +110,27 @@ jobs:
         shell: bash
         working-directory: ${{runner.workspace}}/build
         env:
-            CC: ${{ matrix.cc }}
-            CXX: ${{ matrix.cxx}}
+          CC: ${{ matrix.cc }}
+          CXX: ${{ matrix.cxx}}
 
-      # Note the current convention is to use the -S and -B options here to specify source
-      # and build directories, but this is only available with CMake 3.13 and higher.
-      # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
-      run: |
-        cmake $GITHUB_WORKSPACE \
+        # Note the current convention is to use the -S and -B options here to specify source
+        # and build directories, but this is only available with CMake 3.13 and higher.
+        # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
+        run: |
+          cmake $GITHUB_WORKSPACE \
             -G ${{matrix.cmake_generator}} \
             -DCMAKE_BUILD_TYPE=${{ matrix.build_type}} \
             -DCMAKE_INSTALL_PREFIX:PATH=./app \
             -DBUILD_TESTING=ON  \
             -DBUILD_TRANSLATIONS=ON \
-            -DENABLE_CODE_COVERAGE=YES
+            -DBUILD_COVERAGE=YES
 
       - name: Build
         working-directory: ${{runner.workspace}}/build
         shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
         run: |
-            build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build . --config Debug -j$(nproc)
+          build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build . --config Debug -j$(nproc)
 
       - name: Tests
         working-directory: build

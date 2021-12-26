@@ -85,6 +85,7 @@ include(CMakeDependentOption)
 # ------------------------------------------------------------------------------- #
 # Define Options 
 # ------------------------------------------------------------------------------- #
+option(BUILD_COVERAGE "Build the project with gcov support" OFF)
 option(BUILD_EXAMPLES "Build examples." OFF)
 add_feature_info(EXAMPLES ${BUILD_EXAMPLES} "Build the the examples")
 option(BUILD_MANUAL "Build manual." OFF)
@@ -101,6 +102,8 @@ option(ENABLE_EMBEDDED_TRANSLATIONS
        "Add the translations to a QT Reesource File" OFF)
 add_feature_info(TRANS_EMB ${ENABLE_EMBEDDED_TRANSLATIONS}
                  "Add the translations to a QT Reesource File")
+
+option(ENABLE_CODE_COVERAGE "Build for codecov Reports" OFF)
 option(BUILD_SHARED_LIBS "Build shared libs" ON)
 add_feature_info(SHARED_LIBS ${BUILD_SHARED_LIBS} "Build shared libs")
 option(BUILD_DEB "Build deb format package" OFF)
@@ -272,6 +275,14 @@ else()
   elseif(APPLE)
     set(CMAKE_DEBUG_POSTFIX "_debug")
   endif()
+endif()
+
+
+
+
+if(BUILD_COVERAGE)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lgcov")
 endif()
 
 # Extensions: GitVersion, Clang-Format, Clang-Tidy
