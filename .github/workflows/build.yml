@@ -615,8 +615,11 @@ jobs:
         run: ctest -VV -C ${{ matrix.build_type}}
 
       - name: Generate coverage reports
-        working-directory: build
+        working-directory: ${{runner.workspace}}/build
         run: |
+          lcov -v
+          gcov -v 
+
           lcov --capture --directory . --output-file coverage.info
           lcov --remove coverage.info '/usr/*' '*/usr/include/*' --output-file coverage.info
           lcov --list coverage.info
@@ -625,7 +628,7 @@ jobs:
       - name: Publish to codecov
         uses: codecov/codecov-action@v2
         with:
-          files: ./build/coverage.info
+          files: ${{runner.workspace}}/coverage.info
 
       - name: Publish to sonarcloud
         run: |

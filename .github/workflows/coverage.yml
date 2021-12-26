@@ -109,6 +109,11 @@ jobs:
           # modules: 'qtscript'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
+      - name: Xvfb install and run for ${{ runner.os }}
+        run: |
+          sudo apt-get install -y xvfb
+          Xvfb -ac ${{ env.DISPLAY }} -screen 0 1280x780x24 &
+
       - name: Get conan
         id: conan
         uses: turtlebrowser/get-conan@v1.0
@@ -151,7 +156,7 @@ jobs:
         run: ctest -VV -C ${{ matrix.build_type}}
 
       - name: Generate coverage reports
-        working-directory: build
+        working-directory: ${{runner.workspace}}/build
         run: |
           lcov --capture --directory . --output-file coverage.info
           lcov --remove coverage.info '/usr/*' '*/usr/include/*' --output-file coverage.info
@@ -161,7 +166,7 @@ jobs:
       - name: Publish to codecov
         uses: codecov/codecov-action@v2
         with:
-          files: ./build/coverage.info
+          files: ${{runner.workspace}}/coverage.info
 
       - name: Publish to sonarcloud
         run: |
