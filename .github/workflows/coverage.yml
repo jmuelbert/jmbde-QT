@@ -22,6 +22,20 @@ jobs:
   build:
     name: Build and test and analyse on Ubuntu
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        qt_target: [desktop]
+        os: [ubuntu-latest]
+        name: [Ubuntu-20.04 gcc-10]
+        qt_version: [6.2.0]
+        qt_arch: [gcc_64]
+        arch: [amd64]
+        artifact: [Ubuntu-gcc]
+        cmake_generator: [Ninja]
+        build_type: [Debug]
+      fail-fast: true
+
     steps:
       - name: Check out the repository
         uses: actions/checkout@v2
