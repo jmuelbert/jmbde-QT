@@ -33,7 +33,7 @@ jobs:
            python3 \
           python3-pip \
           fuse \
-           patchelf \
+          patchelf \
           build-essential \
           extra-cmake-modules \
           appstream \
@@ -120,7 +120,7 @@ jobs:
           cmake $GITHUB_WORKSPACE \
             -G ${{matrix.cmake_generator}} \
             -DCMAKE_BUILD_TYPE=${{ matrix.build_type}} \
-            -DCMAKE_INSTALL_PREFIX:PATH=./app \
+            -DCMAKE_INSTALL_PREFIX:PATH=$(pwd)/usr \
             -DBUILD_TESTING=ON  \
             -DBUILD_TRANSLATIONS=ON \
             -DBUILD_COVERAGE=YES
