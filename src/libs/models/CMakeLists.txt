@@ -40,7 +40,7 @@ ecm_setup_version(
   SOVERSION
   ${SO_VERSION}
   VERSION_HEADER
-  ${CMAKE_CURRENT_BINARY_DIR}/export/jmbdemodels-version.h)
+  ${CMAKE_CURRENT_BINARY_DIR}/jmbdemodels-version.h)
 
 #
 # Finding Qt
@@ -49,6 +49,7 @@ ecm_setup_version(
 find_package(Qt${QT_VERSION_MAJOR} CONFIG COMPONENTS Core Widgets Sql
                                                      PrintSupport)
 add_library(jmbdemodels "")
+add_library(jmuelbert::jmbdemodels ALIAS jmbdemodels)
 
 # Since we put the public interface headers in the include directory, we need to
 # tell the compiler so that we can #include <file>.
@@ -162,7 +163,7 @@ target_link_libraries(
           Qt${QT_VERSION_MAJOR}::Sql ${CONAN_LIBS})
 
 generate_export_header(jmbdemodels)
-add_library(jmuelbert::jmbdemodels ALIAS jmbdemodels)
+
 
 #
 # Install instructions
