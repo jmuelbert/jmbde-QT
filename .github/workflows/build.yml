@@ -630,9 +630,17 @@ jobs:
         with:
           files: ${{runner.workspace}}/coverage.info
 
-      - name: Publish to sonarcloud
+      - name: Run sonar-scanner
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          sonar-scanner --define sonar.host.url="${{ env.SONAR_SERVER_URL }}" --define sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}" --define sonar.coverageReportPaths=build/coverage.xml
+          sonar-scanner
+            --define sonar.projectKey=jmuelbert_jmbde-QT
+            --define sonar.organization=jmuelbert 
+            --define sonar.host.url="${{ env.SONAR_SERVER_URL }}"
+            --define sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}" 
+            --define sonar.coverageReportPaths=${{runner.workspace}}/coverage.xml
 
   coverage:
     runs-on: ubuntu-latest
