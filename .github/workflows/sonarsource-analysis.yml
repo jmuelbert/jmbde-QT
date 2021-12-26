@@ -156,12 +156,16 @@ jobs:
         with:
           files: ${{runner.workspace}}/coverage.info
 
-      - name: Run sonar-scanner
+      - name: SonarQube Scan
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          sonar-scanner
-            --define sonar.host.url="${{ env.SONAR_SERVER_URL }}"
-            --define sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}" 
-            --define sonar.coverageReportPaths=${{runner.workspace}}/coverage.xml
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        uses: sonarsource/sonarqube-scan-action@master
+        with:
+          projectBaseDir: src
+          args: >
+            -Dsonar.python.coverage.reportPaths=${{runner.workspace}}/coverage.xml
+            sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}" 
+            -Dsonar.tests=tests/
+            -Dsonar.verbose=true
