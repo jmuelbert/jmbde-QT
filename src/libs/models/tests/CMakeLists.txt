@@ -29,4 +29,4 @@ ecm_add_tests(
   Qt${QT_VERSION_MAJOR}::Widgets
   Qt${QT_VERSION_MAJOR}::Sql
   Qt${QT_VERSION_MAJOR}::Test
-  jmuelbert::jmbdemodels)
+)
