@@ -109,7 +109,11 @@ jobs:
             -DBUILD_TESTING=ON  \
             -DBUILD_TRANSLATIONS=ON \
             -DBUILD_COVERAGE=YES
-
+         
+      - name: Run build-wrapper
+        run: |
+          build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build build/ --config Release
+        
       - name: Test
         working-directory: ${{runner.workspace}}/build
         shell: bash
@@ -124,14 +128,11 @@ jobs:
           lcov --remove coverage.info '/usr/*' '*/usr/include/*' --output-file coverage.info
           lcov --list coverage.info
           gcovr -j $(nproc) --root ../ --keep --delete --sonarqube coverage.xml
+          
       - name: Publish to codecov
         uses: codecov/codecov-action@v2
         with:
-          files: ${{runner.workspace}}/coverage.info
-          
-      - name: Run build-wrapper
-        run: |
-          build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build build/ --config Release
+          files: ${{runner.workspace}}/coverage.info        
           
       - name: Run sonar-scanner
         env:
