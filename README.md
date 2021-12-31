@@ -11,16 +11,16 @@ Programm können die Mitarbeiter und die Ausrüstung, die sie für ihre Arbeit b
 erfasst werden. Das sind unter anderem Computer, Drucker und Telefone.
 
 ---
-
-[![Packaging Linux](https://github.com/jmuelbert/jmbde-QT/actions/workflows/linux-pack.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/linux-pack.yml)
-[![Packaging Windows](https://github.com/jmuelbert/jmbde-QT/actions/workflows/windows-pack.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/windows-pack.yml)
-[![Packaging macOS](https://github.com/jmuelbert/jmbde-QT/actions/workflows/macos-pack.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/macos-pack.yml)
+[![Build](https://github.com/jmuelbert/jmbde-QT/actions/workflows/build.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/build.yml)
+[![CodeQL](https://github.com/jmuelbert/jmbde-QT/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/codeql-analysis.yml)
+[![Codacy Security Scan](https://github.com/jmuelbert/jmbde-QT/actions/workflows/codacy-analysis.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/codacy-analysis.yml)
+[![DevSkim](https://github.com/jmuelbert/jmbde-QT/actions/workflows/devskim-analysis.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/devskim-analysis.yml)
 [![Release](https://img.shields.io/github/release/jmuelbert/jmbde-QT.svg?style=flat-square)](https://github.com/jmuelbert/jmbde-QT/releases)
 [![GitHub All Releases](https://img.shields.io/github/downloads/jmuelbert/jmbde-QT/total?label=downloads%40all)](https://github.com/jmuelbert/jmbde-QT/releases)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
 [![License](https://img.shields.io/github/license/jmuelbert/jmbde-QT)](https://github.com//jmuelbert/jmbde-QT/blob/release/LICENSE)
 [![jmbde-QT.github.io][docs-badge]][docs]
 
----
 
 [Features](https://github.com/jmuelbert/jmbde-QT) |
 [Documentation](https://jmuelbert.github.io/jmbde-QT/) | [Changelog](CHANGELOG.md) |

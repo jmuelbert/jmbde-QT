@@ -80,6 +80,82 @@ project(
   DESCRIPTION "A BDE Tool"
   LANGUAGES CXX)
 
+include(FeatureSummary)
+include(CMakeDependentOption) 
+# ------------------------------------------------------------------------------- #
+# Define Options 
+# ------------------------------------------------------------------------------- #
+option(BUILD_COVERAGE "Build the project with gcov support" OFF)
+option(BUILD_EXAMPLES "Build examples." OFF)
+add_feature_info(EXAMPLES ${BUILD_EXAMPLES} "Build the the examples")
+option(BUILD_MANUAL "Build manual." OFF)
+add_feature_info(MANUAL ${BUILD_MANUAL} "Build the Documentation and man pages")
+option(BUILD_API_DOCS "Build the api-docs." OFF)
+add_feature_info(API_DOCS ${BUILD_API_DOCS}
+                 "Build the Documentation and man pages")
+option(BUILD_QCH "Build API documentation in QCH format" OFF)
+add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format"
+                 " (for e.g. Qt Assistant, Qt Creator & KDevelop)")
+option(BUILD_TRANSLATIONS "Build translations" OFF)
+add_feature_info(TRANSL ${BUILD_TRANSLATIONS} "Build the translations")
+option(ENABLE_EMBEDDED_TRANSLATIONS
+       "Add the translations to a QT Reesource File" OFF)
+add_feature_info(TRANS_EMB ${ENABLE_EMBEDDED_TRANSLATIONS}
+                 "Add the translations to a QT Reesource File")
+
+option(ENABLE_CODE_COVERAGE "Build for codecov Reports" OFF)
+option(BUILD_SHARED_LIBS "Build shared libs" ON)
+add_feature_info(SHARED_LIBS ${BUILD_SHARED_LIBS} "Build shared libs")
+option(BUILD_DEB "Build deb format package" OFF)
+add_feature_info(DEB_ENABLE ${BUILD_DEB} "Build deb format package")
+option(BUILD_RPM "Build rpm format package" OFF)
+add_feature_info(RPM_ENABLE ${BUILD_RPM} "Build rpm format package")
+option(ENABLE_CLAZY "Enable clazy" OFF)
+add_feature_info(CLAZY ${ENABLE_CLAZY} "Build with clazy hints")
+option(ENABLE_CLANG_TIDY "activate clang tidy messages" OFF)
+add_feature_info(CLANG_TIDY ${ENABLE_CLANG_TIDY}
+                 "Check the source with clang tidy")
+option(ENABLE_CLANG_FORMAT "activate clang format" OFF)
+add_feature_info(CLANG_FORMAT ${ENABLE_CLANG_FORMAT}
+                 "Format the source with clang format")
+option(ENABLE_CCACHE "prefix each compile command with ccache" OFF)
+add_feature_info(CCACHE ${ENABLE_CCACHE} "Compile with ccache")
+option(USE_GIT_VERSION "Append Git HEAD to jmbde version (if exists)" ON)
+
+cmake_dependent_option(
+  BUILD_TESTS
+  "Enable ${PROJECT_NAME} project tests targets"
+  ON # By default we want tests if CTest is enabled
+  "BUILD_TESTING"
+  OFF # Stay coherent with CTest variables
+)
+
+# ------------------------------------------------------------------------------- #
+# Define CMake Module Imports
+# ------------------------------------------------------------------------------- #
+# This will define the default values for installation
+# directories (all platforms even if named GNU)
+include(GNUInstallDirs)
+# Helper to create relocatable packages
+include(CMakePackageConfigHelpers)
+# Tell CMake that the `install` target
+# needs to install required system
+# libraries (eg: Windows SDK)
+include(InstallRequiredSystemLibraries)
+include(GenerateExportHeader)
+# Standard CMake modules
+include(CTest) # Must be called before adding tests but after calling project().
+               # This automatically calls enable_testing() and configures ctest
+               # targets when using Make/Ninja
+# This is a really useful scripts that creates
+                              # options that depends on other options. It can
+                              # even be used with generator expressions !
+
+include(${CMAKE_SOURCE_DIR}/cmake/clang_format.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake/compiler_options.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake/cpack.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake/dependencies.cmake)
+
 # Set the dependencies versions
 set(KF5_VERSION "5.61.0")
 set(KF5_DEP_VERSION "5.61.0")
@@ -96,25 +172,6 @@ if(APPLE)
     message(STATUS "CMake OSX architectures: ${CMAKE_OSX_ARCHITECTURES}")
   endif()
 endif()
-
-# ##############################################################################
-# Modules and scripts   ##
-# ##############################################################################
-
-# Standard CMake modules
-include(CTest) # Must be called before adding tests but after calling project().
-               # This automatically calls enable_testing() and configures ctest
-               # targets when using Make/Ninja
-include(CMakeDependentOption) # This is a really useful scripts that creates
-                              # options that depends on other options. It can
-                              # even be used with generator expressions !
-include(GNUInstallDirs) # This will define the default values for installation
-                        # directories (all platforms even if named GNU)
-include(InstallRequiredSystemLibraries) # Tell CMake that the `install` target
-                                        # needs to install required system
-                                        # libraries (eg: Windows SDK)
-include(CMakePackageConfigHelpers) # Helper to create relocatable packages
-include(FeatureSummary)
 
 # Custom modules and scripts
 # ##############################################################################
@@ -141,52 +198,6 @@ feature_summary(WHAT REQUIRED_PACKAGES_NOT_FOUND
 # We append to the module path so modules can be overridden from the command
 # line.
 list(APPEND CMAKE_MODULE_PATH "${ECM_MODULE_PATH}")
-
-# ##############################################################################
-# Project Options
-# ##############################################################################
-
-option(BUILD_EXAMPLES "Build examples." OFF)
-add_feature_info(EXAMPLES ${BUILD_EXAMPLES} "Build the the examples")
-option(BUILD_MANUAL "Build manual." OFF)
-add_feature_info(MANUAL ${BUILD_MANUAL} "Build the Documentation and man pages")
-option(BUILD_API_DOCS "Build the api-docs." OFF)
-add_feature_info(API_DOCS ${BUILD_API_DOCS}
-                 "Build the Documentation and man pages")
-option(BUILD_QCH "Build API documentation in QCH format" OFF)
-add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format"
-                 " (for e.g. Qt Assistant, Qt Creator & KDevelop)")
-option(BUILD_TRANSLATIONS "Build translations" OFF)
-add_feature_info(TRANSL ${BUILD_TRANSLATIONS} "Build the translations")
-option(ENABLE_EMBEDDED_TRANSLATIONS
-       "Add the translations to a QT Reesource File" OFF)
-add_feature_info(TRANS_EMB ${ENABLE_EMBEDDED_TRANSLATIONS}
-                 "Add the translations to a QT Reesource File")
-option(BUILD_SHARED_LIBS "Build shared libs" ON)
-add_feature_info(SHARED_LIBS ${BUILD_SHARED_LIBS} "Build shared libs")
-option(BUILD_DEB "Build deb format package" OFF)
-add_feature_info(DEB_ENABLE ${BUILD_DEB} "Build deb format package")
-option(BUILD_RPM "Build rpm format package" OFF)
-add_feature_info(RPM_ENABLE ${BUILD_RPM} "Build rpm format package")
-option(ENABLE_CLAZY "Enable clazy" OFF)
-add_feature_info(CLAZY ${ENABLE_CLAZY} "Build with clazy hints")
-option(ENABLE_CLANG_TIDY "activate clang tidy messages" OFF)
-add_feature_info(CLANG_TIDY ${ENABLE_CLANG_TIDY}
-                 "Check the source with clang tidy")
-option(ENABLE_CLANG_FORMAT "activate clang format" OFF)
-add_feature_info(CLANG_FORMAT ${ENABLE_CLANG_FORMAT}
-                 "Format the source with clang format")
-option(ENABLE_CCACHE "prefix each compile command with ccache" OFF)
-add_feature_info(CCACHE ${ENABLE_CCACHE} "Compile with ccache")
-option(USE_GIT_VERSION "Append Git HEAD to jmbde version (if exists)" ON)
-
-cmake_dependent_option(
-  BUILD_TESTS
-  "Enable ${PROJECT_NAME} project tests targets"
-  ON # By default we want tests if CTest is enabled
-  "BUILD_TESTING"
-  OFF # Stay coherent with CTest variables
-)
 
 # ##############################################################################
 # KDE: extra cmake modules Load extended helpers
@@ -264,6 +275,14 @@ else()
   elseif(APPLE)
     set(CMAKE_DEBUG_POSTFIX "_debug")
   endif()
+endif()
+
+
+
+
+if(BUILD_COVERAGE)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage -fprofile-arcs -ftest-coverage")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage -lgcov")
 endif()
 
 # Extensions: GitVersion, Clang-Format, Clang-Tidy
@@ -430,11 +449,6 @@ if(BUILD_TESTING)
   add_subdirectory(tests)
 endif()
 
-# ==================================================================================
-# Package
-# ==================================================================================
-
-include(cmake/deployment.cmake)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 

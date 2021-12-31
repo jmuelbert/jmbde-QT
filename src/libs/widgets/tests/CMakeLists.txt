@@ -14,17 +14,3 @@ else()
 endif()
 
 include(ECMAddTests)
-
-# find_package(QT_NAMES Qt6 Qt5 COMPONENTS Core Requiered)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets Sql
-                                                       PrintSupport Test)
-ecm_add_tests(
-  tst_widgetstest.cpp
-  LINK_LIBRARIES
-  LINK_LIBRARIES
-  Qt${QT_VERSION_MAJOR}::Core
-  Qt${QT_VERSION_MAJOR}::Gui
-  Qt${QT_VERSION_MAJOR}::Widgets
-  Qt${QT_VERSION_MAJOR}::Sql
-  Qt${QT_VERSION_MAJOR}::Test
-  jmuelbert::jmbdemodels)

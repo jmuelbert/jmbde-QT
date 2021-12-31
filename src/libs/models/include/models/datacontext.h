@@ -29,24 +29,20 @@
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 
-Q_DECLARE_LOGGING_CATEGORY(m_DataContextLog)
-
-namespace Model
-{
+namespace Model {
 /**
   \class DataContext
   \brief The Main Database class
   \details Here will handle all db actions...
   \author Jürgen Mülbert
-  \version 0.5
-  \date 17.11.2020
+  \version 0.6
+  \date 25.12.2021
   \copyright GPL-3.0-or-later
 
   \todo Remove UI for Testing
   \todo Move Code for every Table in his own class
  */
-class DataContext : public QObject
-{
+class DataContext : public QObject {
     Q_OBJECT
 
 public:
@@ -60,7 +56,7 @@ public:
         \brief Constructor for the DataContext
         \details Constructur with a name for the database to use.
      */
-    explicit JMBDEMODELS_EXPORT DataContext(QObject *parent = nullptr);
+    explicit JMBDEMODELS_EXPORT DataContext(QObject* parent = nullptr);
 
     /*!
         \fn DataContext( QObject *parent = nullptr,
@@ -69,7 +65,7 @@ public:
         \brief Constructor for the DataContext
         \details Constructur with a name for the database to use.
      */
-    explicit JMBDEMODELS_EXPORT DataContext(QObject *parent, const QString &name);
+    explicit JMBDEMODELS_EXPORT DataContext(QObject* parent, const QString& name);
 
     /*!
         \fn DataContext( QObject *parent = nullptr,
@@ -92,13 +88,13 @@ public:
         \param port - Port for connect to the Database Server
      */
 
-    explicit JMBDEMODELS_EXPORT DataContext(QObject *parent,
-                                            const QString &name,
-                                            const QString &dbType,
-                                            const QString &userName,
-                                            const QString &passWord,
-                                            const QString &hostName,
-                                            const int port);
+    explicit JMBDEMODELS_EXPORT DataContext(QObject* parent,
+        const QString& name,
+        const QString& dbType,
+        const QString& userName,
+        const QString& passWord,
+        const QString& hostName,
+        const int port);
 
     /*!
           \fn  ~DataContext() override;
@@ -113,7 +109,7 @@ public:
 
         \brief get the reference to the QSqlDatabase
     */
-    JMBDEMODELS_EXPORT const QSqlDatabase getDatabase()
+    JMBDEMODELS_EXPORT auto getDatabase() -> const QSqlDatabase
     {
         return m_db;
     }
@@ -128,11 +124,11 @@ public:
         \sa QSqlQuery
      */
 
-    JMBDEMODELS_EXPORT static QSqlQuery getQuery(const QString &query);
+    JMBDEMODELS_EXPORT static auto getQuery(const QString& query) -> QSqlQuery;
 
     /* basic public actions */
 
-    JMBDEMODELS_EXPORT auto checkExistence(const QString &tableName, const QString &searchId, const QString &search) -> bool;
+    JMBDEMODELS_EXPORT auto checkExistence(const QString& tableName, const QString& searchId, const QString& search) -> bool;
 
     /* useful actions */
 
@@ -148,21 +144,21 @@ public:
 
         \brief Open the Database with the given name
      */
-    JMBDEMODELS_EXPORT void open(const QString &name);
+    JMBDEMODELS_EXPORT void open(const QString& name);
 
     /*!
         \fn   void renameDB(const QString &oldName, const QString &newName)
 
         \brief Rename the database to newName
      */
-    JMBDEMODELS_EXPORT void renameDB(const QString &newName);
+    JMBDEMODELS_EXPORT void renameDB(const QString& newName);
 
     /*!
         \fn void deleteDB(const QString &name)
 
         \brief delete the database with the given name.
      */
-    JMBDEMODELS_EXPORT void deleteDB(const QString &name);
+    JMBDEMODELS_EXPORT void deleteDB(const QString& name);
 
 protected:
     /*!
@@ -182,7 +178,7 @@ protected:
     void init();
 
     /*!
-        \fn bool prepareDB()
+        \fn void prepareDB()
 
         \brief Create the database from sql
      */
@@ -194,7 +190,7 @@ protected:
 
         \return False has the DB a wrong version
      */
-    auto checkDBVersion(const QString &actualVersion, const QString &actualRevision /*, const QString &actualBuild */) -> bool;
+    auto checkDBVersion(const QString& actualVersion, const QString& actualRevision /*, const QString &actualBuild */) const -> bool;
 
     /*!
         \fn bool insert(const QString &tableName, const QVariantMap &insertData)
@@ -204,7 +200,7 @@ protected:
 
         \sa QVariantMap
      */
-    auto insert(const QString &tableName, const QVariantMap &insertData) -> bool;
+    auto insert(const QString& tableName, const QVariantMap& insertData) const -> bool;
 
     /*!
         \fn  bool update(const QString &table, const QString &column,
@@ -214,7 +210,7 @@ protected:
 
         \return true is successful
      */
-    auto update(const QString &table, const QString &column, const QVariant &newValue, const QVariant &op, const QString &id) -> bool;
+    auto update(const QString& table, const QString& column, const QVariant& newValue, const QVariant& op, const QString& id) const -> bool;
 
     /*!
         \fn QString getSqliteName()
@@ -222,7 +218,9 @@ protected:
      */
     void setDatabaseConnection();
 
-    enum DBTypes { SQLITE, PGSQL, ODBC };
+    enum DBTypes { SQLITE,
+        PGSQL,
+        ODBC };
 
 signals:
     /*!
@@ -255,7 +253,7 @@ private:
         \var int m_dbType
         \brief The holder for the DB-Type
      */
-    int m_dbType{0};
+    int m_dbType { 0 };
 
     /*!
         \var  QString m_dbHostName
@@ -275,11 +273,7 @@ private:
       */
     QString m_dbPassWord;
 
-    int m_dbPort{0};
-    /*!
-     * Logging Category
-     */
-    QLoggingCategory m_DataContextLog;
+    int m_dbPort { 0 };
 };
 } // namespace Model
 

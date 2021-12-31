@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+    <DisplayNameComponent>Main</DisplayNameComponent>
+    <Description>The Application</Description>
+    <Version>0.0.1-1</Version>
+    <ReleaseDate>2021-12-11</ReleaseDate>
+    <SortingPriority>100</SortingPriority>
+    <AutoDependOn>models, widgets</AutoDependOn>
+</Package>

@@ -4,37 +4,61 @@
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "logger/logger.h"
+#include "utils/logger.h"
 
-Logger::Logger()
+#include <QDateTime>
+#include <QDir>
+#include <QFile>
+#include <QHash>
+#include <QObject>
+
+QFile* Logger::logFile = Q_NULLPTR;
+bool Logger::isInit = false;
+QHash<QtMsgType, QString> Logger::contextNames = {
+    { QtMsgType::QtDebugMsg, " Debug  " },
+    { QtMsgType::QtInfoMsg, "  Info  " },
+    { QtMsgType::QtWarningMsg, "Warning " },
+    { QtMsgType::QtCriticalMsg, "Critical" },
+    { QtMsgType::QtFatalMsg, " Fatal  " }
+};
+
+void Logger::init()
 {
+    if (isInit) {
+        return;
+    }
+
+    // Create log file
+    logFile = new QFile;
+    logFile->setFileName("./MyLog.log");
+    logFile->open(QIODevice::Append | QIODevice::Text);
+
+    // Redirect logs to messageOutput
+    qInstallMessageHandler(Logger::messageOutput);
+
+    // Clear file contents
+    logFile->resize(0);
+
+    Logger::isInit = true;
 }
 
-void Logger : messageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+void Logger::clean()
 {
-    // Open stream file writes
-    QTextStream out(m_logFile.data());
-    // Write the date of recording
-    out << QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz ");
-    // By type determine to what level belongs message
-    switch (type) {
-    case QtInfoMsg:
-        out << "INF";
-        break;
-    case QtDebugMsg:
-        out << "DGB";
-        break;
-    case QtWarningMsg:
-        out << "WRN";
-        break;
-    case QtCriticalMsg:
-        out << "CRT";
-        break;
-    case QtFatalMsg:
-        out << "FTL";
-        break;
+    if (logFile != Q_NULLPTR) {
+        logFile->close();
+        delete logFile;
     }
-  // Write to the output category of the message and the message itself
-  out = context.category << ": " << msg << end;
-  out.flush();
+}
+
+void Logger::messageOutput(QtMsgType type, const QMessageLogContext& context, const QString& msg)
+{
+
+    QString log = QObject::tr("%1 | %2 | %3 | %4 | %5 | %6\n").arg(QDateTime::currentDateTime().toString("dd-MM-yyyy hh:mm:ss")).arg(Logger::contextNames.value(type)).arg(context.line).arg(QString(context.file).section('\\', -1)). // File name without file path
+                  arg(QString(context.function).section('(', -2, -2). // Function name only
+                                                                                                                                                                                                                                         section(' ', -1)
+                                                                                                                                                                                                                                             .section(':', -1))
+                      .arg(msg);
+
+    logFile->write(log.toLocal8Bit());
+    logFile->flush();
 }

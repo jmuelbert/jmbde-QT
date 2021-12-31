@@ -7,8 +7,6 @@
 #include "models/account.h"
 
 Model::Account::Account()
-    : CommonData()
-    , m_AccountLog(QLoggingCategory("jmbde.models.account"))
 {
     this->m_dataContext = new Model::DataContext();
     this->m_db = m_dataContext->getDatabase();
@@ -30,7 +28,7 @@ void Model::Account::setIndexes()
     m_LastUpdateIndex = this->m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-auto Model::Account::initializeRelationalModel() -> QSqlRelationalTableModel *
+auto Model::Account::initializeRelationalModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -42,7 +40,7 @@ auto Model::Account::initializeRelationalModel() -> QSqlRelationalTableModel *
     return this->m_model;
 }
 
-auto Model::Account::initializeInputDataModel() -> QSqlRelationalTableModel *
+auto Model::Account::initializeInputDataModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -51,16 +49,16 @@ auto Model::Account::initializeInputDataModel() -> QSqlRelationalTableModel *
     return this->m_model;
 }
 
-auto Model::Account::initializeViewModel() -> QSqlTableModel *
+auto Model::Account::initializeViewModel() -> QSqlTableModel*
 {
     this->m_model->select();
 
     return this->m_model;
 }
 
-auto Model::Account::initializeListModel() -> QSqlTableModel *
+auto Model::Account::initializeListModel() -> QSqlTableModel*
 {
-    auto *listModel = new QSqlTableModel(this, this->m_db);
+    auto* listModel = new QSqlTableModel(this, this->m_db);
     listModel->setTable(this->m_tableName);
     listModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
     listModel->select();
@@ -68,11 +66,11 @@ auto Model::Account::initializeListModel() -> QSqlTableModel *
     return listModel;
 }
 
-auto Model::Account::generateTableString(const QString &header) -> QString
+auto Model::Account::generateTableString(const QString& header) -> QString
 {
     QString outString;
 
-    qCDebug(m_AccountLog) << "Header:" << header << "( Columns: " << this->m_model->columnCount() << " Rows: " << this->m_model->rowCount() << " )";
+    qDebug() << "Header:" << header << "( Columns: " << this->m_model->columnCount() << " Rows: " << this->m_model->rowCount() << " )";
 
     QList<int> set;
 
@@ -93,11 +91,11 @@ auto Model::Account::generateTableString(const QString &header) -> QString
     return outString;
 }
 
-auto Model::Account::generateFormularString(const QString &header) -> QString
+auto Model::Account::generateFormularString(const QString& header) -> QString
 {
     QString outString;
 
-    qCDebug(m_AccountLog) << "Header:" << header << "( Columns: " << this->m_model->columnCount() << " Rows: " << this->m_model->rowCount() << " )";
+    qDebug() << "Header:" << header << "( Columns: " << this->m_model->columnCount() << " Rows: " << this->m_model->rowCount() << " )";
 
     // Document Title
     outString = QLatin1String("<h1>");

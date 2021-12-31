@@ -8,7 +8,6 @@
 
 Model::ChipCardProfile::ChipCardProfile()
     : CommonData()
-    , m_ChipcardProfileLog(QLoggingCategory("jmbde.models.chipcardprofile"))
 {
     this->m_dataContext = new Model::DataContext();
     this->m_db = m_dataContext->getDatabase();
@@ -30,7 +29,7 @@ void Model::ChipCardProfile::setIndexes()
     m_LastUpdateIndex = this->m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-auto Model::ChipCardProfile::initializeRelationalModel() -> QSqlRelationalTableModel *
+auto Model::ChipCardProfile::initializeRelationalModel() -> QSqlRelationalTableModel*
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -42,7 +41,7 @@ auto Model::ChipCardProfile::initializeRelationalModel() -> QSqlRelationalTableM
     return this->m_model;
 }
 
-auto Model::ChipCardProfile::initializeInputDataModel() -> QSqlRelationalTableModel *
+auto Model::ChipCardProfile::initializeInputDataModel() -> QSqlRelationalTableModel*
 {
     m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -51,27 +50,27 @@ auto Model::ChipCardProfile::initializeInputDataModel() -> QSqlRelationalTableMo
     return m_model;
 }
 
-auto Model::ChipCardProfile::initializeViewModel() -> QSqlTableModel *
+auto Model::ChipCardProfile::initializeViewModel() -> QSqlTableModel*
 {
     m_model->select();
 
     return m_model;
 }
 
-auto Model::ChipCardProfile::initializeListModel() -> QSqlTableModel *
+auto Model::ChipCardProfile::initializeListModel() -> QSqlTableModel*
 {
-    auto *listModel = new QSqlTableModel(this, this->m_db);
+    auto* listModel = new QSqlTableModel(this, this->m_db);
     listModel->setTable(this->m_tableName);
     listModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
     listModel->select();
 
     return listModel;
 }
-auto Model::ChipCardProfile::generateTableString(const QString &header) -> QString
+auto Model::ChipCardProfile::generateTableString(const QString& header) -> QString
 {
     QString outString;
 
-    qCDebug(m_ChipcardProfileLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qDebug() << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     QList<int> set;
 
@@ -93,11 +92,11 @@ auto Model::ChipCardProfile::generateTableString(const QString &header) -> QStri
     return outString;
 }
 
-auto Model::ChipCardProfile::generateFormularString(const QString &header) -> QString
+auto Model::ChipCardProfile::generateFormularString(const QString& header) -> QString
 {
     QString outString;
 
-    qCDebug(m_ChipcardProfileLog) << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
+    qDebug() << "Header:" << header << "( Columns: " << m_model->columnCount() << " Rows: " << m_model->rowCount() << " )";
 
     // Document Title
     outString = QLatin1String("<h1>");

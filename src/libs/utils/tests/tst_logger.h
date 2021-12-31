@@ -6,7 +6,7 @@
 
 #include <QtTest/QtTest>
 
-class tst_widgetstest : public QObject
+class tst_logger : public QObject
 {
     Q_OBJECT
 

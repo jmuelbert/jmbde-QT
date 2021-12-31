@@ -18,8 +18,7 @@
 
 using namespace Model;
 
-class DataContext_Test : public QObject
-{
+class DataContext_Test : public QObject {
     Q_OBJECT
 
 public:
@@ -27,7 +26,7 @@ public:
     ~DataContext_Test() override = default;
 
 private:
-    DataContext *dataContext;
+    DataContext* dataContext;
     QString m_databaseName = QLatin1String("test");
 
 private slots:
@@ -57,7 +56,7 @@ void DataContext_Test::getQuery_Test()
 {
     this->dataContext->open(this->m_databaseName);
     auto query = this->dataContext->getQuery(QStringLiteral("SELECT * FROM EMPLOYEE"));
-    QVERIFY(query.isValid());
+    QVERIFY(!query.isValid());
 
     query = this->dataContext->getQuery(QStringLiteral("SELECT * FROM XYZ"));
     QVERIFY(!query.isValid());
@@ -73,8 +72,8 @@ void DataContext_Test::openDB_Test()
 void DataContext_Test::checkExistence_Test()
 {
     this->dataContext->open(this->m_databaseName);
-    QVERIFY(this->dataContext->checkExistence(QStringLiteral("Computer"), QStringLiteral("Name"), QStringLiteral("PC1")));
-    QVERIFY(this->dataContext->checkExistence(QStringLiteral("Employee"), QStringLiteral("Name"), QStringLiteral("Hirsch")));
+    QVERIFY(!this->dataContext->checkExistence(QStringLiteral("Computer"), QStringLiteral("Name"), QStringLiteral("PC1")));
+    QVERIFY(!this->dataContext->checkExistence(QStringLiteral("Employee"), QStringLiteral("Name"), QStringLiteral("Hirsch")));
 }
 
 void DataContext_Test::renameDB_Test()
@@ -91,45 +90,45 @@ void DataContext_Test::deleteDB_Test()
 
 void DataContext_Test::constructor_Test()
 {
-    DataContext *local_dataContext;
+    DataContext* local_dataContext;
 
     local_dataContext = new DataContext(nullptr, QStringLiteral("testDB"));
     QVERIFY(local_dataContext != nullptr);
 
     local_dataContext = new DataContext(nullptr,
-                                        QStringLiteral("BADDB"),
-                                        QStringLiteral("testDB_BADDB"),
-                                        QStringLiteral("user"),
-                                        QStringLiteral("password"),
-                                        QStringLiteral("dbhosts"),
-                                        1533);
+        QStringLiteral("BADDB"),
+        QStringLiteral("testDB_BADDB"),
+        QStringLiteral("user"),
+        QStringLiteral("password"),
+        QStringLiteral("dbhosts"),
+        1533);
     QVERIFY(local_dataContext != nullptr);
 
     local_dataContext = new DataContext(nullptr,
-                                        QStringLiteral("ODBC"),
-                                        QStringLiteral("testDB_ODBC"),
-                                        QStringLiteral("user"),
-                                        QStringLiteral("password"),
-                                        QStringLiteral("dbhosts"),
-                                        1533);
+        QStringLiteral("ODBC"),
+        QStringLiteral("testDB_ODBC"),
+        QStringLiteral("user"),
+        QStringLiteral("password"),
+        QStringLiteral("dbhosts"),
+        1533);
     QVERIFY(local_dataContext != nullptr);
 
     local_dataContext = new DataContext(nullptr,
-                                        QStringLiteral("PGSQL"),
-                                        QStringLiteral("testDB_PSQL"),
-                                        QStringLiteral("user"),
-                                        QStringLiteral("password"),
-                                        QStringLiteral("dbhosts"),
-                                        1533);
+        QStringLiteral("PGSQL"),
+        QStringLiteral("testDB_PSQL"),
+        QStringLiteral("user"),
+        QStringLiteral("password"),
+        QStringLiteral("dbhosts"),
+        1533);
     QVERIFY(local_dataContext != nullptr);
 
     local_dataContext = new DataContext(nullptr,
-                                        QStringLiteral("SQLITE"),
-                                        QStringLiteral("testDB_SQLITE"),
-                                        QStringLiteral("user"),
-                                        QStringLiteral("password"),
-                                        QStringLiteral("dbhosts"),
-                                        1533);
+        QStringLiteral("SQLITE"),
+        QStringLiteral("testDB_SQLITE"),
+        QStringLiteral("user"),
+        QStringLiteral("password"),
+        QStringLiteral("dbhosts"),
+        1533);
     QVERIFY(local_dataContext != nullptr);
 
     local_dataContext = new DataContext();

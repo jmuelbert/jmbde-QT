@@ -9,56 +9,73 @@ root = true
 # ------------------
 [*]
 end_of_line = lf
+charset = utf-8
+
+# C++ source files
+[*.{cpp,h,hpp}]
 indent_style = space
 indent_size = 4
-charset = utf-8
-trim_trailing_whitespace = true
+max_line_length = 120
 insert_final_newline = true
+trim_trailing_whitespace = true
 
-# Indentation override for all JS under lib directory
-[*.{js,json,vue,scss,rb,haml,yml,yaml,toml}]
-indent_size = 2
-
-[*.{js,json,vue,scss,rb,haml,yml,md}]
-indent_style = space
-charset = utf-8
-
-# Source code files
-[*.{c,cxx,cpp,h,hxx,hpp,java,m,mm,py,swift,xsl}]
-indent_style = space
-indent_size = 2
-
-[CMakeLists.txt,*.cmake{,.in}]
+# CMake configuration files
+[CMakeLists.txt,CMakeSettings.json,*.cmake{,.in}]
 indent_size = 2
 indent_style = space
+trim_trailing_whitespace = true
 
 # Override for Makefile
 [{Makefile, makefile, GNUmakefile}]
 indent_style = tab
-indent_size = 4
 
-# Matches multiple files with brace expansion notation
-# Set default charset
+# CI configuration files
+[{.travis.yml,appveyor.yml,Vagrantfile}]
+indent_size = 2
+indent_style = space
+trim_trailing_whitespace = true
+
+# Markdown/reStructuredText documentation files
+[*.{md,markdown,rst}]
+indent_size = 2
+indent_style = space
+trim_trailing_whitespace = true
+max_line_length = 120
+
+# Windows shell scripts
+[*.{bat,cmd,ps1}]
+end_of_line = crlf
+indent_size = 4
+indent_style = space
+insert_final_newline = false
+trim_trailing_whitespace = true
+
+# Unix shell scripts
+[*.sh]
+end_of_line = lf
+indent_size = 4
+indent_style = space
+insert_final_newline = false
+trim_trailing_whitespace = true
+
+# Python scripts
 [*.py]
 indent_size = 4
-max_line_length = 80
-
-[*.rst]
-indent_size = 3
-
-[*.coffee]
 indent_style = space
-indent_size = 4
+
+# Yaml files
+[*.{yml,yaml,json,toml}]
+indent_size = 2
+indent_style = space
+
+# Visual studio property sheets
+[*.{props,targets}]
+indent_size = 2
+indent_style = space
 
 [*.html]
 indent_style = space
 indent_size = 2
-
-[*.{bat,cmd}]
-end_of_line = crlf
-
-[*.{md,markdown,js.snap}]
-trim_trailing_whitespace = false
 
 [LICENSE]
 insert_final_newline = false

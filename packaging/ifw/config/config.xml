@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Installer>
+    <Name>Installer for jmbde</Name>
+    <Version>0.0.1</Version>
+    <Title>Installer for jmbde</Title>
+    <Publisher>Jürgen Mülbert</Publisher>
+    <StartMenuDir>jmbde</StartMenuDir>
+    <TargetDir>@HomeDir@/jmbde</TargetDir>
+    <CreateLocalRepository>true</CreateLocalRepository>
+    <InstallActionColumnVisible>true</InstallActionColumnVisible>
+</Installer>
