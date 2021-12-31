@@ -125,15 +125,15 @@ jobs:
         working-directory: build
         run: |
           sudo apt-get install -y lcov gcovr
-          lcov --capture --directory . --output-file coverage.info
-          lcov --remove coverage.info '/usr/*' '*/usr/include/*' --output-file coverage.info
-          lcov --list coverage.info
-          gcovr -j $(nproc) --root ../ --keep --delete --sonarqube coverage.xml
+          # lcov --capture --directory . --output-file coverage.info
+          # lcov --remove coverage.info '/usr/*' '*/usr/include/*' --output-file coverage.info
+          # lcov --list coverage.info
+          # gcovr -j $(nproc) --root ../ --keep --delete --sonarqube coverage.xml
           
-      - name: Publish to codecov
-        uses: codecov/codecov-action@v2
-        with:
-          files: coverage.info        
+      # - name: Publish to codecov
+      #  uses: codecov/codecov-action@v2
+      #  with:
+      #    files: coverage.info        
           
       - name: Run sonar-scanner
         env:
