@@ -47,7 +47,7 @@ on:
 
 env:
   SOURCE_CACHE: ${{ github.workspace }}/src
-  QT_VERSION: 6.1.0
+  QT_VERSION: 6.2.0
   QT_ARCH: clang_64
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Debug
@@ -165,9 +165,16 @@ jobs:
         uses: DoozyX/clang-format-lint-action@v0.13
         with:
           source: './src'
-          extensions: 'h,cpp'
-          clangFormatVersion: 11
-          style: file
+          clangFormatVersion: 12
+          inplace: True
+          
+      - uses: EndBug/add-and-commit@v4
+        with:
+          author_name: Clang Robot
+          author_email: robot@example.com
+          message: 'Committing clang-format changes'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}          
 
   # - name: PMD Code Analyzer Action
   #   uses: billyan2018/setup-pmd@PMDAnalyzer1.0
