@@ -56,6 +56,10 @@ jobs:
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
+      - name: Install deps
+        run: |
+          sudo apt-get install -y ninja-build
+
       - name: Cache SonarCloud packages
         uses: actions/cache@v2.1.7
         with:
@@ -92,7 +96,7 @@ jobs:
           key: ${{ runner.os }}-QtCache
 
       - name: Install Qt
-        uses: jurplel/install-qt-action@v2
+        uses: jurplel/install-qt-action@v2.14.0
         with:
           version: ${{ matrix.qt_version }}
           target: ${{ matrix.qt_target }}

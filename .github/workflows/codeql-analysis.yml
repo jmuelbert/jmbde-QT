@@ -63,10 +63,9 @@ jobs:
               qt_arch: gcc_64,
               arch: amd64,
               artifact: 'Ubuntu-clang',
-              generator: "-G 'Unix Makefiles'",
+              generator: "-G 'Ninja'",
               cc: 'clang-12',
               cxx: 'clang-12',
-              image_repo: jmuelbert/ci-building-images,
             }
     # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python' ]
     # Learn more:
@@ -95,6 +94,10 @@ jobs:
       # By default, queries listed here will override any specified in a config file.
       # Prefix the list here with "+" to use these queries and those in the config file.
       # queries: ./path/to/local/query, your-org/your-repo/queries@main
+
+      - name: Install deps
+        run: |
+          sudo apt-get install -y ninja-build
 
       - name: Cache Qt
         id: cache-qt
