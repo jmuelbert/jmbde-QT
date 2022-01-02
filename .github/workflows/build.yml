@@ -148,6 +148,9 @@ jobs:
           chmod +x ${APPIMAGE_DST_PATH}/usr/lib64/ld-*.so.*
           $GITHUB_WORKSPACE/appimagetool ${APPIMAGE_DST_PATH}
           mv $GITHUB_WORKSPACE/jmbde-*-x86_64.AppImage $GITHUB_WORKSPACE/${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}}.x86_64.AppImage
+          pwd
+          ls
+          ls $GITHUB_WORKSPACE
 
       - name: '📤 Upload artifact: AppImage'
         uses: actions/upload-artifact@v2
@@ -203,6 +206,9 @@ jobs:
           flatpak-builder --user --disable-rofiles-fuse --repo=repo --force-clean flatpak_app ${MANIFEST_PATH} --install-deps-from=flathub
           flatpak build-bundle repo ${BUNDLE} --runtime-repo=${RUNTIME_REPO} ${APP_ID} ${BRANCH}
           mv $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT.flatpak $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT_${{ steps.get_version.outputs.VERSION }}.x86_64.flatpak
+          pwd
+          ls
+          ls $GITHUB_WORKSPACE
 
       - name: '📤 Upload artifact: FlatPak'
         uses: actions/upload-artifact@v2.3.1
@@ -247,6 +253,9 @@ jobs:
         run: |
           mkdir -p $GITHUB_WORKSPACE/build
           cp ${{ steps.snapcraft.outputs.snap }} $GITHUB_WORKSPACE/build/${TARGET_NAME}-${{ steps.get_version.outputs.VERSION }}.amd64.snap
+          pwd
+          ls
+          ls $GITHUB_WORKSPACE
 
       - name: '📤 Upload artifact: SnapPack'
         uses: actions/upload-artifact@v2.3.1
@@ -461,14 +470,13 @@ jobs:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         shell: pwsh
         run: |
-          Compress-Archive -Path $ENV:GITHUB_WORKSPACE/build/${{ env.archiveName}}/bin -DestinationPath ${{ env.archiveName}}.zip'
-          Get-ChildItem ${{ env.archiveName }}/bin
+          Compress-Archive -Path $ENV:GITHUB_WORKSPACE/build/${{ env.archiveName}}/bin -DestinationPath ${{runner.workspace}}/${{ env.archiveName}}.'zip'
 
       - name: Upload Zip archive
         uses: actions/upload-artifact@v2.3.1
         with:
           name: ${{ env.TARGET_NAME}}-win.zip
-          path: ${{ env.archiveName}}.zip
+          path: ${{ runner.workspace}}/${{ env.archiveName}}.zip
 
       - name: '📦 Make ISS-Installer for ${{ matrix.qt_version }}'
         working-directory: build
@@ -476,8 +484,8 @@ jobs:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         shell: bash
         run: |
-          iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$GITHUB_WORKSPACE/build//${archiveName}/bin
-          ls
+          iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=${{runner.workspace}} -DMyOutRoot=$GITHUB_WORKSPACE/build//${archiveName}/bin
+          ls ${{runner.workspace}}
 
       - name: '📤 Upload artifact: ISS Installer'
         uses: actions/upload-artifact@v2
@@ -485,7 +493,7 @@ jobs:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         with:
           name: ${{ env.TARGET_NAME}}-win-${{ steps.get_version.outputs.VERSION }}.exe
-          path: ${{ env.archiveName}}.exe
+          path: ${{runner.workpace}}/${{ env.archiveName}}.exe
 
   tests:
     name: Tests on ubuntu-latest
