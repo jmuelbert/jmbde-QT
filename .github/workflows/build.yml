@@ -737,7 +737,7 @@ jobs:
           overwrite: true
 
   # Upload continous build
-  upload-releases:
+  upload:
     name: '🗂 Create release and upload artifacts'
     environment: Release
     needs:
