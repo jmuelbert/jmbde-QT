@@ -67,14 +67,14 @@ jobs:
       fail-fast: true
 
     steps:
-      - name: Get the version
+      - name: '⚙️ Get the version'
         id: get_version
         shell: bash
         run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
 
       - name: '🧰 Checkout Source Code'
         if: github.event_name == 'push'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.4.0
         with:
           submodules: true
 
@@ -82,23 +82,17 @@ jobs:
         run: |
           sudo apt-get -y -qq update
           sudo apt-get -y --no-install-recommends install \
-            python3 \
-            python3-pip \
-            fuse \
-            patchelf \
-            extra-cmake-modules \
-            build-essential \
-            appstream \
-            hicolor-icon-theme \
-            fcitx-frontend-qt5 \
-            openssl \
-            ca-certificates
+            ninja-build
 
-      - name: Get latest CMake
-        uses: lukka/get-cmake@latest
+      - name: '⚙️ Cache Qt'
+        id: cache-qt
+        uses: actions/cache@v1 # not v2!
+        with:
+            path: ${{ runner.workspace }}/Qt
+            key: ${{ runner.os }}-${{ matrix.qt_version }}-${{ matrix.qt_target }}-QtCache
 
       - name: '⚙️ Install Qt'
-        uses: jurplel/install-qt-action@v2
+        uses: jurplel/install-qt-action@v2.14.0
         with:
           version: ${{ matrix.qt_version }}
           target: ${{ matrix.qt_target }}
@@ -106,7 +100,7 @@ jobs:
           # modules: 'qtscript'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
-      - name: Get conan
+      - name: '⚙️ Get conan'
         id: conan
         uses: turtlebrowser/get-conan@v1.0
 
@@ -175,24 +169,25 @@ jobs:
 
       - name: '🧰 Checkout Source Code'
         if: github.event_name == 'push'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.4.0
         with:
           fetch-depth: 0
           ref: master
 
       - name: '🧰 Checkout Source Code'
         if: github.event_name == 'pull_request'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.4.0
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: Setup flatpak
+      - name: '⚙️ Setup flatpak'
         run: |
-          sudo apt-get -y -qq update
-          sudo apt-get install -y flatpak flatpak-builder
+            sudo apt-get -y -qq update
+            sudo apt-get -y --no-install-recommends install \
+                flatpak flatpak-builder
 
-      - name: Setup Flathub
+      - name: '⚙️ Setup Flathub'
         run: |
           flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
           flatpak install -y --noninteractive flathub org.kde.Sdk//5.15 org.kde.Platform//5.15
@@ -210,7 +205,7 @@ jobs:
           mv $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT.flatpak $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT_${{ steps.get_version.outputs.VERSION }}.x86_64.flatpak
 
       - name: '📤 Upload artifact: FlatPak'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2.3.1
         with:
           name: ${{ env.TARGET_NAME }}-Qt${{ matrix.qt_version}}-${{matrix.build-type}}.flatpak
           path: |
@@ -222,7 +217,7 @@ jobs:
     needs: [tests]
 
     steps:
-      - name: Get the version
+      - name: '⚙️ Get the version'
         id: get_version
         shell: bash
         run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
@@ -247,16 +242,16 @@ jobs:
         with:
           snapcraft-args: --enable-experimental-extensions
 
-      - name: Rename snap name
+      - name: '⚙️ Rename snap name'
         shell: bash
         run: |
           mkdir -p $GITHUB_WORKSPACE/build
           cp ${{ steps.snapcraft.outputs.snap }} $GITHUB_WORKSPACE/build/${TARGET_NAME}-${{ steps.get_version.outputs.VERSION }}.amd64.snap
 
       - name: '📤 Upload artifact: SnapPack'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2.3.1
         with:
-          name: ${{ env.TARGET_NAME }}-$GITHUB_WORKSPACE/build/${TARGET_NAME}-${{ steps.get_version.outputs.VERSION }}.amd64.snap.amd64.snap
+          name: ${{ env.TARGET_NAME }}-$GITHUB_WORKSPACE/build/${TARGET_NAME}-${{ steps.get_version.outputs.VERSION }}.amd64.snap
           path: |
             $GITHUB_WORKSPACE/build/${TARGET_NAME}-${{ steps.get_version.outputs.VERSION }}.amd64.snap
 
@@ -281,7 +276,7 @@ jobs:
     needs: [tests]
 
     steps:
-      - name: Get the version
+      - name: '⚙️ Get the version'
         id: get_version
         shell: bash
         run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
@@ -290,6 +285,13 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: true
+
+      - name: '⚙️ Cache Qt'
+        id: cache-qt
+        uses: actions/cache@v1 # not v2!
+        with:
+            path: ${{ runner.workspace }}/Qt
+            key: ${{ runner.os }}-${{ matrix.qt_version }}-${{ matrix.qt_target }}-QtCache
 
       - name: '⚙️ Install Qt'
         uses: jurplel/install-qt-action@v2
@@ -302,9 +304,7 @@ jobs:
 
       - name: '⚙️ Install dependencies'
         run: |
-          brew upgrade cmake
-          cmake --version
-          brew install ninja pkg-config
+          brew install ninja
 
       - name: '⚙️ Get conan'
         id: conan
@@ -315,7 +315,7 @@ jobs:
         # We'll use this as our working directory for all subsequent commands
         run: cmake -E make_directory ${{runner.workspace}}/build
 
-      - name: '🚧 Compile application'
+      - name: '⚙️ Configure cmake build'
         # Use a bash shell so we can use the same syntax for environment variable
         # access regardless of the host operating system
         shell: bash
@@ -333,7 +333,7 @@ jobs:
             -DBUILD_TESTING=OFF  \
             -DBUILD_TRANSLATIONS=ON \
 
-      - name: Build
+      - name: '🚧 Build'
         working-directory: ${{runner.workspace}}/build
         shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
@@ -350,13 +350,13 @@ jobs:
           cp ./${{env.TARGET_NAME}}.zip ${{runner.workspace}}/${{env.TARGET_NAME}}.zip
 
       - name: Upload dmg artifact for macOS - ${{ matrix.qt_version }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2.3.1
         with:
           name: ${TARGET_NAME}-${{ steps.get_version.outputs.VERSION }}.dmg
           path: ${{runner.workspace}}/${{ env.TARGET_NAME }}.dmg
 
       - name: Upload zip artifact for macOS - ${{ matrix.qt_version }}-${env.BUILD_TYPE}}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2.3.1
         with:
           name: ${{ env.TARGET_NAME }}-${{ steps.get_version.outputs.VERSION }}-macos.zip
           path: ${{runner.workspace}}/${{ env.TARGET_NAME }}*.zip
@@ -387,7 +387,7 @@ jobs:
         run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
 
       - name: Checkout Source Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.4.0
         with:
           submodules: 'recursive'
 
@@ -397,9 +397,16 @@ jobs:
       - name: '⚙️ Configure MSVC'
         uses: ilammy/msvc-dev-cmd@v1.10.0
         with:
-          # 14.1 is for vs2017, 14.2 is vs2019, following the upstream vcpkg build from Qv2ray-deps repo
+          # 14.1 is for vs2017, 14.2 is vs2019, following the upstream vcpkg build
           toolset: 14.2
           arch: ${{ matrix.pak_arch }}
+
+      - name: '⚙️ Cache Qt'
+        id: cache-qt
+        uses: actions/cache@v1 # not v2!
+        with:
+            path: ${{ runner.workspace }}/Qt
+            key: ${{ runner.os }}-${{ matrix.qt_version }}-${{ matrix.qt_target }}-QtCache
 
       - name: '⚙️ Install Qt'
         uses: jurplel/install-qt-action@v2
@@ -411,13 +418,14 @@ jobs:
           # modules: 'qtscript'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
-      - name: Get conan
+      - name: '⚙️ Get conan'
         id: conan
         uses: turtlebrowser/get-conan@v1.0
 
-      - name: Install Build deps
+      - name: '⚙️ Install Build deps'
         run: |
-          cinst png2ico
+          choco install png2ico
+          choco install ninja
 
       - name: '🚧 Compile application'
         shell: pwsh
@@ -431,7 +439,7 @@ jobs:
             -DBUILD_TESTING=OFF  `
             -DBUILD_TRANSLATIONS=ON
 
-      - name: Run CMake Install
+      - name: '⚙️ Run CMake Install'
         shell: pwsh
         working-directory: build
         run: cmake --build . --config ${{ env.BUILD_TYPE }} --target install --parallel $(nproc)
@@ -456,7 +464,7 @@ jobs:
           Compress-Archive -Path $ENV:GITHUB_WORKSPACE/build/${{ env.archiveName}}/bin -DestinationPath ${{ env.archiveName}}'.zip'
 
       - name: Upload Zip archive
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2.3.1
         with:
           name: ${{ env.TARGET_NAME}}-win.zip
           path: ${{ env.archiveName}}.zip
@@ -482,10 +490,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      SONAR_SCANNER_VERSION: 4.6.1.2450
-      SONAR_SERVER_URL: 'https://sonarcloud.io'
-      BUILD_WRAPPER_OUT_DIR: bw_output # Directory where build-wrapper output will be placed
 
     strategy:
       matrix:
@@ -502,44 +506,37 @@ jobs:
 
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.4.0
 
-      - name: Install Dependencies for ${{ runner.os }}
+      - name: '⚙️ Install dependencies'
         run: |
-          sudo apt-get -y -qq update
-          sudo apt-get -y --no-install-recommends install \
-            python3 \
-            python3-pip \
-            fuse \
-            patchelf \
-            build-essential \
-            extra-cmake-modules \
-            appstream \
-            hicolor-icon-theme \
-            fcitx-frontend-qt5 \
-            openssl \
-            ca-certificates
+            sudo apt-get -y -qq update
+            sudo apt-get -y --no-install-recommends install \
+                ninja-build
 
-      - name: Xvfb install and run for ${{ runner.os }}
-        run: |
-          sudo apt-get install -y xvfb
-          Xvfb -ac ${{ env.DISPLAY }} -screen 0 1280x780x24 &
-
-      - name: Get latest CMake
-        uses: lukka/get-cmake@latest
-
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v2
+      - name: '⚙️ Cache Qt'
+        id: cache-qt
+        uses: actions/cache@v1 # not v2!
         with:
-          version: ${{ matrix.qt_version }}
-          target: ${{ matrix.qt_target }}
-          arch: ${{ matrix.qt_arch }}
-          # modules: 'qtscript'
-          cached: ${{ steps.cache-qt.outputs.cache-hit }}
+            path: ${{ runner.workspace }}/Qt
+            key: ${{ runner.os }}-${{ matrix.qt_version }}-${{ matrix.qt_target }}-QtCache
 
-      - name: Get conan
+      - name: '⚙️ Install Qt'
+        uses: jurplel/install-qt-action@v2.14.0
+        with:
+            version: ${{ matrix.qt_version }}
+            target: ${{ matrix.qt_target }}
+            arch: ${{ matrix.qt_arch }}
+            # modules: 'qtscript'
+            cached: ${{ steps.cache-qt.outputs.cache-hit }}
+
+      - name: '⚙️ Get conan'
         id: conan
         uses: turtlebrowser/get-conan@v1.0
+
+      - name: Xvfb run for ${{ runner.os }}
+        run: |
+          Xvfb -ac ${{ env.DISPLAY }} -screen 0 1280x780x24 &
 
       - name: Create Build Environment
         # Some projects don't allow in-source building, so create a separate build directory
@@ -559,7 +556,7 @@ jobs:
           cmake $GITHUB_WORKSPACE \
             -G ${{matrix.cmake_generator}} \
             -DCMAKE_BUILD_TYPE=${{ matrix.build_type}} \
-            -DCMAKE_INSTALL_PREFIX:PATH=./app \
+            -DCMAKE_INSTALL_PREFIX:PATH=$(pwd)/app \
             -DBUILD_TESTING=ON  \
             -DBUILD_TRANSLATIONS=ON
 
@@ -666,13 +663,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: '📥 Download artifacts'
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v2.1.0
       - name: '🗂 Inspect directory after downloading artifacts'
         run: ls -alFR
 
       - name: '📤 Upload Release: AppImage'
         if: startsWith(github.event.ref, 'refs/tags/')
-        uses: svenstaro/upload-release-action@v2
+        uses: svenstaro/upload-release-action@v2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{runner.workspace}}/${{env.TARGET_NAME}}.appimage
@@ -682,7 +679,7 @@ jobs:
 
       - name: '📤 Upload Release: FlatPak'
         if: startsWith(github.event.ref, 'refs/tags/')
-        uses: svenstaro/upload-release-action@v2
+        uses: svenstaro/upload-release-action@v2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{runner.workspace}}/${{env.TARGET_NAME}}.flatpak
@@ -692,7 +689,7 @@ jobs:
 
       - name: '📤 Upload Release: snap'
         if: startsWith(github.event.ref, 'refs/tags/')
-        uses: svenstaro/upload-release-action@v2
+        uses: svenstaro/upload-release-action@v2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{runner.workspace}}/${{env.TARGET_NAME}}.amd64.snap
@@ -702,7 +699,7 @@ jobs:
 
       - name: '📤 Upload Release: macOS'
         if: startsWith(github.event.ref, 'refs/tags/')
-        uses: svenstaro/upload-release-action@v2
+        uses: svenstaro/upload-release-action@v2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{runner.workspace}}/${{env.TARGET_NAME}}.dmg
@@ -712,7 +709,7 @@ jobs:
 
       - name: '📤 Upload Release: windows'
         if: startsWith(github.event.ref, 'refs/tags/')
-        uses: svenstaro/upload-release-action@v1-release
+        uses: svenstaro/upload-release-action@v2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./${{ env.TARGET_NAME }}.exe
@@ -722,7 +719,7 @@ jobs:
 
       - name: '📤 Upload Release: zip for windows'
         if: startsWith(github.event.ref, 'refs/tags/')
-        uses: svenstaro/upload-release-action@v1-release
+        uses: svenstaro/upload-release-action@v2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./${{ env.archiveName }}-win.zip
