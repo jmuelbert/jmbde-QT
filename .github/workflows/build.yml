@@ -250,6 +250,7 @@ jobs:
       - name: Rename snap name
         shell: bash
         run: |
+          ls
           mkdir -p $GITHUB_WORKSPACE/build
           cp ${{ steps.snapcraft.outputs.snap }} $GITHUB_WORKSPACE/build/${TARGET_NAME}-${{ steps.get_version.outputs.VERSION }}.amd64.snap
 
