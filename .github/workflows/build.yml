@@ -659,6 +659,7 @@ jobs:
   # Upload continous build
   upload-prereleases:
     name: '🗂 Create pre-release and upload artifacts'
+    environment: PreRelease
     needs:
       - appimage-build
       - flatpak-build
@@ -677,7 +678,6 @@ jobs:
 
       - name: '📤 Upload Release: AppImage'
         if: github.ref == 'refs/heads/master'
-        environment: PreRelease
         uses: svenstaro/upload-release-action@v2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -688,7 +688,6 @@ jobs:
 
       - name: '📤 Upload Release: FlatPak'
         if: github.ref == 'refs/heads/master'
-        environment: PreRelease
         uses: svenstaro/upload-release-action@v2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -699,7 +698,6 @@ jobs:
 
       - name: '📤 Upload Release: snap'
         if: github.ref == 'refs/heads/master'
-        environment: PreRelease
         uses: svenstaro/upload-release-action@v2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -710,7 +708,6 @@ jobs:
 
       - name: '📤 Upload Release: macOS'
         if: github.ref == 'refs/heads/master'
-        environment: PreRelease
         uses: svenstaro/upload-release-action@v2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -721,7 +718,6 @@ jobs:
 
       - name: '📤 Upload Release: windows'
         if: github.ref == 'refs/heads/master'
-        environment: PreRelease
         uses: svenstaro/upload-release-action@v2.2.1
         with:
          repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -732,7 +728,6 @@ jobs:
 
       - name: '📤 Upload Release: zip for windows'
         if: github.ref == 'refs/heads/master'
-        environment: PreRelease
         uses: svenstaro/upload-release-action@v2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -744,6 +739,7 @@ jobs:
   # Upload continous build
   upload-releases:
     name: '🗂 Create release and upload artifacts'
+    environment: Release
     needs:
       - appimage-build
       - flatpak-build
@@ -760,7 +756,6 @@ jobs:
 
       - name: '📤 Upload Release: AppImage'
         if: startsWith(github.event.ref, 'refs/tags/')
-        environment: Release
         uses: svenstaro/upload-release-action@v2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -771,7 +766,6 @@ jobs:
 
       - name: '📤 Upload Release: FlatPak'
         if: startsWith(github.event.ref, 'refs/tags/')
-        environment: Release
         uses: svenstaro/upload-release-action@v2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -782,7 +776,6 @@ jobs:
 
       - name: '📤 Upload Release: snap'
         if: startsWith(github.event.ref, 'refs/tags/')
-        environment: Release
         uses: svenstaro/upload-release-action@v2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -793,7 +786,6 @@ jobs:
 
       - name: '📤 Upload Release: macOS'
         if: startsWith(github.event.ref, 'refs/tags/')
-        environment: Release
         uses: svenstaro/upload-release-action@v2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -804,7 +796,6 @@ jobs:
 
       - name: '📤 Upload Release: windows'
         if: startsWith(github.event.ref, 'refs/tags/')
-        environment: Release
         uses: svenstaro/upload-release-action@v2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -815,7 +806,6 @@ jobs:
 
       - name: '📤 Upload Release: zip for windows'
         if: startsWith(github.event.ref, 'refs/tags/')
-        environment: Release
         uses: svenstaro/upload-release-action@v2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
