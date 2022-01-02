@@ -147,14 +147,15 @@ jobs:
           fi
           chmod +x ${APPIMAGE_DST_PATH}/usr/lib64/ld-*.so.*
           $GITHUB_WORKSPACE/appimagetool ${APPIMAGE_DST_PATH}
-          mv $GITHUB_WORKSPACE/jmbde-*-x86_64.AppImage $GITHUB_WORKSPACE/${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}.x86_64.AppImage
+          cp $GITHUB_WORKSPACE/jmbde-*-x86_64.AppImage ${{runner.workspace}}/${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}.x86_64.AppImage
+          ls ${{runner.workspace}}
 
       - name: '📤 Upload artifact: AppImage'
         uses: actions/upload-artifact@v2
         with:
           name: ${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}-qt${{matrix.qt_version}}-Linux.AppImage
           path: |
-            $GITHUB_WORKSPACE/${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}.x86_64.AppImage
+           ${{runner.workspace}}/${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}.x86_64.AppImage
 
   flatpak-build:
     name: '🐧 Build flatpak on ubuntu-20.04'
@@ -202,16 +203,16 @@ jobs:
 
           flatpak-builder --user --disable-rofiles-fuse --repo=repo --force-clean flatpak_app ${MANIFEST_PATH} --install-deps-from=flathub
           flatpak build-bundle repo ${BUNDLE} --runtime-repo=${RUNTIME_REPO} ${APP_ID} ${BRANCH}
-          mv $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT.flatpak $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT_${{ steps.get_version.outputs.VERSION }}.x86_64.flatpak
+          cp $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT.flatpak ${{runner.workspace}}/org.jmuelbert.jmbde-QT_${{ steps.get_version.outputs.VERSION }}.x86_64.flatpak
           pwd
-          ls $GITHUB_WORKSPACE
+          ls ${{runner.workspace}}
 
       - name: '📤 Upload artifact: FlatPak'
         uses: actions/upload-artifact@v2.3.1
         with:
           name: ${{ env.TARGET_NAME }}_${{ steps.get_version.outputs.VERSION }}.flatpak
           path: |
-            $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT_${{ steps.get_version.outputs.VERSION }}.x86_64.flatpak
+            ${{runner.workspace}}/org.jmuelbert.jmbde-QT_${{ steps.get_version.outputs.VERSION }}.x86_64.flatpak
 
   snap-build:
     name: '🐧 Build snap on ubuntu-20.04'
@@ -248,16 +249,16 @@ jobs:
         shell: bash
         run: |
           mkdir -p $GITHUB_WORKSPACE/build
-          cp ${{ steps.snapcraft.outputs.snap }} $GITHUB_WORKSPACE/${TARGET_NAME}-${{ steps.get_version.outputs.VERSION }}.amd64.snap
+          cp ${{ steps.snapcraft.outputs.snap }} $${{runner.workspace}}/${TARGET_NAME}-${{ steps.get_version.outputs.VERSION }}.amd64.snap
           pwd
-          ls $GITHUB_WORKSPACE
+          ls ${{runner.workspace}}
 
       - name: '📤 Upload artifact: SnapPack'
         uses: actions/upload-artifact@v2.3.1
         with:
           name: ${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}.amd64.snap
           path: |
-            $GITHUB_WORKSPACE/${TARGET_NAME}-${{ steps.get_version.outputs.VERSION }}.amd64.snap
+            ${{runner.workspace}}/${TARGET_NAME}-${{ steps.get_version.outputs.VERSION }}.amd64.snap
 
   macos-build:
     name: '🍎 ${{ matrix.os }} -${{ matrix.qt_version}}'
@@ -461,11 +462,12 @@ jobs:
           windeployqt --qmldir . ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}.exe ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}models.dll ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}quick.dll ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}widgets.dll
 
       - name: Compress Zip Archive
+        working-directory: build
         shell: pwsh
         env:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         run: |
-          Compress-Archive -Path $ENV:GITHUB_WORKSPACE/build/${{ env.archiveName}}/bin -DestinationPath ${{runner.workspace}}/${{ env.archiveName}}.'zip'
+          Compress-Archive -Path ${{ env.archiveName}}/bin -DestinationPath ${{runner.workspace}}/${{ env.archiveName}}.'zip'
 
       - name: Upload Zip archive
         uses: actions/upload-artifact@v2.3.1
@@ -480,7 +482,6 @@ jobs:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         run: |
           iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=${{runner.workspace}} -DMyOutRoot=$GITHUB_WORKSPACE/build//${archiveName}/bin
-          get-ChildItem
 
       - name: '📤 Upload artifact: ISS Installer'
         uses: actions/upload-artifact@v2
@@ -656,7 +657,92 @@ jobs:
           build_dir: docs/_build
 
   # Upload continous build
-  upload:
+  upload-prereleases:
+    name: '🗂 Create pre-release and upload artifacts'
+    needs:
+      - appimage-build
+      - flatpak-build
+      - snap-build
+      - macos-build
+      - windows-build
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: '📥 Download artifacts'
+        uses: actions/download-artifact@v2.1.0
+
+      - name: '🗂 Inspect directory after downloading artifacts'
+        run: ls -alFR
+
+      - name: '📤 Upload Release: AppImage'
+        if: github.ref == 'refs/heads/master'
+        environment: PreRelease
+        uses: svenstaro/upload-release-action@v2.2.1
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{runner.workspace}}/${{env.TARGET_NAME}}.appimage
+          asset_name: ${{env.TARGET_NAME}}.appimage
+          tag: ${{ github.ref }}
+          overwrite: true
+
+      - name: '📤 Upload Release: FlatPak'
+        if: github.ref == 'refs/heads/master'
+        environment: PreRelease
+        uses: svenstaro/upload-release-action@v2.2.1
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{runner.workspace}}/${{env.TARGET_NAME}}.flatpak
+          asset_name: ${{env.TARGET_NAME}}.flatpak
+          tag: ${{ github.ref }}
+          overwrite: true
+
+      - name: '📤 Upload Release: snap'
+        if: github.ref == 'refs/heads/master'
+        environment: PreRelease
+        uses: svenstaro/upload-release-action@v2.2.1
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{runner.workspace}}/${{env.TARGET_NAME}}.amd64.snap
+          asset_name: ${{env.TARGET_NAME}}.amd64.snap
+          tag: ${{ github.ref }}
+          overwrite: true
+
+      - name: '📤 Upload Release: macOS'
+        if: github.ref == 'refs/heads/master'
+        environment: PreRelease
+        uses: svenstaro/upload-release-action@v2.2.1
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{runner.workspace}}/${{env.TARGET_NAME}}.dmg
+          asset_name: ${{env.TARGET_NAME}}.dmg
+          tag: ${{ github.ref }}
+          overwrite: true
+
+      - name: '📤 Upload Release: windows'
+        if: github.ref == 'refs/heads/master'
+        environment: PreRelease
+        uses: svenstaro/upload-release-action@v2.2.1
+        with:
+         repo_token: ${{ secrets.GITHUB_TOKEN }}
+         file: ./${{ env.TARGET_NAME }}.exe
+         asset_name: ${{ env.TARGET_NAME}}-win.exe
+         tag: ${{ github.ref }}
+         overwrite: true
+
+      - name: '📤 Upload Release: zip for windows'
+        if: github.ref == 'refs/heads/master'
+        environment: PreRelease
+        uses: svenstaro/upload-release-action@v2.2.1
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./${{ env.archiveName }}-win.zip
+          asset_name: ${{ env.TARGET_NAME}}-win-${{ steps.get_version.outputs.VERSION }}.zip
+          tag: ${{ github.ref }}
+          overwrite: true
+
+  # Upload continous build
+  upload-releases:
     name: '🗂 Create release and upload artifacts'
     needs:
       - appimage-build
@@ -674,6 +760,7 @@ jobs:
 
       - name: '📤 Upload Release: AppImage'
         if: startsWith(github.event.ref, 'refs/tags/')
+        environment: Release
         uses: svenstaro/upload-release-action@v2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -684,6 +771,7 @@ jobs:
 
       - name: '📤 Upload Release: FlatPak'
         if: startsWith(github.event.ref, 'refs/tags/')
+        environment: Release
         uses: svenstaro/upload-release-action@v2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -694,6 +782,7 @@ jobs:
 
       - name: '📤 Upload Release: snap'
         if: startsWith(github.event.ref, 'refs/tags/')
+        environment: Release
         uses: svenstaro/upload-release-action@v2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -704,6 +793,7 @@ jobs:
 
       - name: '📤 Upload Release: macOS'
         if: startsWith(github.event.ref, 'refs/tags/')
+        environment: Release
         uses: svenstaro/upload-release-action@v2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -714,6 +804,7 @@ jobs:
 
       - name: '📤 Upload Release: windows'
         if: startsWith(github.event.ref, 'refs/tags/')
+        environment: Release
         uses: svenstaro/upload-release-action@v2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -724,6 +815,7 @@ jobs:
 
       - name: '📤 Upload Release: zip for windows'
         if: startsWith(github.event.ref, 'refs/tags/')
+        environment: Release
         uses: svenstaro/upload-release-action@v2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
