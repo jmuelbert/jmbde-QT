@@ -4,8 +4,25 @@ on:
   push:
     branches:
       - master
+    paths:
+      - '**.cpp'
+      - '**.h'
+      - '**.py'
+      - cmake/**
+      - src/**
+      - CMakeLists.txt
+      - '.github/workflows/sonarcloud-analysis.yml'
   pull_request:
     types: [opened, synchronize, reopened]
+    paths:
+      - '**.cpp'
+      - '**.h'
+      - '**.py'
+      - cmake/**
+      - src/**
+      - CMakeLists.txt
+      - '.github/workflows/sonarcloud-analysis.yml'
+
   schedule: # This trigger is here only to make sure
     - cron: '17 0 * * SUN' # the example itself doesn't become stale
 
@@ -14,12 +31,13 @@ jobs:
     name: Sonar Cloud Analysis
     runs-on: ubuntu-latest
     env:
-      SONAR_SCANNER_VERSION: 4.6.1.2450 # Find the latest version in the "Linux" link on this page:
-                                        # https://sonarcloud.io/documentation/analysis/scan/sonarscanner/
-      SONAR_SERVER_URL: "https://sonarcloud.io"
+      SONAR_SCANNER_VERSION:
+        4.6.1.2450 # Find the latest version in the "Linux" link on this page:
+        # https://sonarcloud.io/documentation/analysis/scan/sonarscanner/
+      SONAR_SERVER_URL: 'https://sonarcloud.io'
       BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory # Directory where build-wrapper output will be placed
       DISPLAY: ':99'
-      
+
     strategy:
       matrix:
         qt_target: [desktop]
@@ -32,26 +50,20 @@ jobs:
         cmake_generator: [Ninja]
         build_type: [Release]
       fail-fast: true
-      
+
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2.4.0
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-          
-      - name: Set up JDK 17 
-        uses: actions/setup-java@v2.5.0
-        with:
-          distribution: 'temurin' # See 'Supported distributions' for available options
-          java-version: '17'
+
       - name: Cache SonarCloud packages
-      
-        uses: actions/cache@v1
+        uses: actions/cache@v2.1.7
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
       - name: Download and set up sonar-scanner
-      
+
         env:
           SONAR_SCANNER_DOWNLOAD_URL: https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${{ env.SONAR_SCANNER_VERSION }}-linux.zip
         run: |
@@ -59,7 +71,7 @@ jobs:
           curl -sSLo $HOME/.sonar/sonar-scanner.zip ${{ env.SONAR_SCANNER_DOWNLOAD_URL }} 
           unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
           echo "$HOME/.sonar/sonar-scanner-${{ env.SONAR_SCANNER_VERSION }}-linux/bin" >> $GITHUB_PATH
-          
+
       - name: Download and set up build-wrapper
         env:
           BUILD_WRAPPER_DOWNLOAD_URL: ${{ env.SONAR_SERVER_URL }}/static/cpp/build-wrapper-linux-x86.zip
@@ -68,12 +80,16 @@ jobs:
           unzip -o $HOME/.sonar/build-wrapper-linux-x86.zip -d $HOME/.sonar/
           echo "$HOME/.sonar/build-wrapper-linux-x86" >> $GITHUB_PATH
 
-      - name: Xvfb install and run for ${{ runner.os }}
+      - name: Xvfb run for ${{ runner.os }}
         run: |
-          sudo apt-get install -y xvfb
           Xvfb -ac ${{ env.DISPLAY }} -screen 0 1280x780x24 &
-      - name: Get latest CMake
-        uses: lukka/get-cmake@latest
+
+      - name: Cache Qt
+        id: cache-qt
+        uses: actions/cache@v1 # not v2!
+        with:
+          path: ${{ runner.workspace }}/Qt
+          key: ${{ runner.os }}-QtCache
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
@@ -110,11 +126,11 @@ jobs:
             -DBUILD_TESTING=ON  \
             -DBUILD_TRANSLATIONS=ON \
             -DBUILD_COVERAGE=YES
-         
+
       - name: Run build-wrapper
         run: |
           build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build build/ --config Release
-        
+
       - name: Test
         working-directory: build
         shell: bash
@@ -122,24 +138,23 @@ jobs:
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
         run: ctest -VV -C ${{ matrix.build_type}}
 
-      - name: Generate coverage reports
-        working-directory: build
-        run: |
-          sudo apt-get install -y lcov gcovr
-          # lcov --capture --directory . --output-file coverage.info
-          # lcov --remove coverage.info '/usr/*' '*/usr/include/*' --output-file coverage.info
-          # lcov --list coverage.info
-          # gcovr -j $(nproc) --root ../ --keep --delete --sonarqube coverage.xml
-          
+      # - name: Generate coverage reports
+      #   working-directory: build
+      #   run: |
+      #     sudo apt-get install -y lcov gcovr
+      #     lcov --capture --directory . --output-file coverage.info
+      #     lcov --remove coverage.info '/usr/*' '*/usr/include/*' --output-file coverage.info
+      #     lcov --list coverage.info
+      #     gcovr -j $(nproc) --root ../ --keep --delete --sonarqube coverage.xml
+
       # - name: Publish to codecov
       #  uses: codecov/codecov-action@v2
       #  with:
-      #    files: coverage.info        
-          
+      #    files: coverage.info
+
       - name: Run sonar-scanner
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           sonar-scanner --define sonar.host.url="${{ env.SONAR_SERVER_URL }}" --define sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}"
-
