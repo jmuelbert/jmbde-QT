@@ -154,7 +154,7 @@ jobs:
         with:
           name: ${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}-qt${{matrix.qt_version}}-Linux.AppImage
           path: |
-            $GITHUB_WORKSPACE/${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}}.x86_64.AppImage
+            $GITHUB_WORKSPACE/${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}.x86_64.AppImage
 
   flatpak-build:
     name: '🐧 Build flatpak on ubuntu-20.04'
@@ -185,7 +185,7 @@ jobs:
         run: |
             sudo apt-get -y -qq update
             sudo apt-get -y --no-install-recommends install \
-                flatpak flatpak-builder
+                elfutils flatpak flatpak-builder
 
       - name: '⚙️ Setup Flathub'
         run: |
@@ -251,7 +251,7 @@ jobs:
       - name: '📤 Upload artifact: SnapPack'
         uses: actions/upload-artifact@v2.3.1
         with:
-          name: ${{ env.TARGET_NAME }}-$GITHUB_WORKSPACE/build/${TARGET_NAME}-${{ steps.get_version.outputs.VERSION }}.amd64.snap
+          name: ${{ env.TARGET_NAME }}-$GITHUB_WORKSPACE/build/${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}.amd64.snap
           path: |
             $GITHUB_WORKSPACE/build/${TARGET_NAME}-${{ steps.get_version.outputs.VERSION }}.amd64.snap
 
@@ -461,7 +461,8 @@ jobs:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         shell: pwsh
         run: |
-          Compress-Archive -Path $ENV:GITHUB_WORKSPACE/build/${{ env.archiveName}}/bin -DestinationPath ${{ env.archiveName}}'.zip'
+          Compress-Archive -Path $ENV:GITHUB_WORKSPACE/build/${{ env.archiveName}}/bin -DestinationPath ${{ env.archiveName}}.zip'
+          Get-ChildItem ${{ env.archiveName }}/bin
 
       - name: Upload Zip archive
         uses: actions/upload-artifact@v2.3.1
@@ -476,6 +477,7 @@ jobs:
         shell: bash
         run: |
           iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$GITHUB_WORKSPACE/build//${archiveName}/bin
+          ls
 
       - name: '📤 Upload artifact: ISS Installer'
         uses: actions/upload-artifact@v2
