@@ -87,7 +87,7 @@ jobs:
         id: cache-qt
         uses: actions/cache@v1 # not v2!
         with:
-          path: ${{ runner.workspace }}/Qt
+          path: '${{ github.workspace }}/Qt'
           key: QtCache-${{ matrix.platform }}-{{ matrix.arch }}-${{ env.QT_VERSION }}
 
       - name: '⚙️ Install Qt'
@@ -203,8 +203,6 @@ jobs:
           flatpak-builder --user --disable-rofiles-fuse --repo=repo --force-clean flatpak_app ${MANIFEST_PATH} --install-deps-from=flathub
           flatpak build-bundle repo ${BUNDLE} --runtime-repo=${RUNTIME_REPO} ${APP_ID} ${BRANCH}
           cp $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT.flatpak ${{runner.workspace}}/org.jmuelbert.jmbde-QT_${{ steps.get_version.outputs.VERSION }}.x86_64.flatpak
-          pwd
-          ls ${{runner.workspace}}
 
       - name: '📤 Upload artifact: FlatPak'
         uses: actions/upload-artifact@v2
@@ -293,7 +291,7 @@ jobs:
         id: cache-qt
         uses: actions/cache@v1 # not v2!
         with:
-          path: ${{ runner.workspace }}/Qt
+          path: '${{ github.workspace }}/Qt'
           key: QtCache-${{ matrix.platform }}-{{ matrix.arch }}-${{ env.QT_VERSION }}
 
       - name: '⚙️ Install Qt'
@@ -406,7 +404,7 @@ jobs:
         id: cache-qt
         uses: actions/cache@v1 # not v2!
         with:
-          path: ${{ runner.workspace }}/Qt
+          path: '${{ github.workspace }}/Qt'
           key: QtCache-${{ matrix.platform }}-{{ matrix.arch }}-${{ env.QT_VERSION }}
 
       - name: '⚙️ Install Qt'
@@ -431,7 +429,7 @@ jobs:
         shell: bash
         working-directory: ${{ runner.workspace }}/build
         run: |
-          cmake ${{ env.GITHUB_WORKSPACE }} \
+          cmake ${{ github.workspace }} \
             -G ${{ matrix.cmake_generator }} \
             -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}  \
             -DCMAKE_INSTALL_PREFIX:PATH=./programs \
@@ -552,7 +550,7 @@ jobs:
         id: cache-qt
         uses: actions/cache@v1 # not v2!
         with:
-          path: ${{ runner.workspace }}/Qt
+          path: '${{ github.workspace }}/Qt'
           key: ${{ runner.os }}-${{ env.QT_VERSION }}-${{ env.QT_TARGET }}-QtCache
 
       - name: '⚙️ Install Qt'
@@ -587,7 +585,7 @@ jobs:
         # and build directories, but this is only available with CMake 3.13 and higher.
         # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
         run: |
-          cmake $GITHUB_WORKSPACE \
+          cmake ${{ github.workspace }} \
             -G ${{matrix.cmake_generator}} \
             -DCMAKE_BUILD_TYPE=${{ matrix.build_type}} \
             -DCMAKE_INSTALL_PREFIX:PATH=$(pwd)/app \
