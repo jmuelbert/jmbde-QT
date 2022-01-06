@@ -430,7 +430,9 @@ jobs:
         shell: pwsh
         working-directory: ${{ runner.workspace }}/build
         run: |
-          cmake $env:GITHUB_WORKSPACE `
+          Get-ChildItem
+          Get-ChildItem ${{ env.GITHUB_WORKSPACE }}
+          cmake ${{ env.GITHUB_WORKSPACE }} `
             -G ${{ matrix.cmake_generator }} `
             -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}  `
             -DUSE_LAUNCHER_ABSOLUTE_PATH:BOOL=OFF  `
