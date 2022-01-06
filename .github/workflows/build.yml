@@ -74,7 +74,7 @@ jobs:
 
       - name: '🧰 Checkout Source Code'
         if: github.event_name == 'push'
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v2
         with:
           submodules: true
 
@@ -92,7 +92,7 @@ jobs:
             key: ${{ runner.os }}-${{ matrix.qt_version }}-${{ matrix.qt_target }}-QtCache
 
       - name: '⚙️ Install Qt'
-        uses: jurplel/install-qt-action@v2.14.0
+        uses: jurplel/install-qt-action@v2
         with:
           version: ${{ matrix.qt_version }}
           target: ${{ matrix.qt_target }}
@@ -102,7 +102,7 @@ jobs:
 
       - name: '⚙️ Get conan'
         id: conan
-        uses: turtlebrowser/get-conan@v1.0
+        uses: turtlebrowser/get-conan@v1
 
       - name: '⚙️ Install go-appimage tool'
         # Will not use linuxdeployqt anymore, because it suopprts currently still-supported mainstream distribution,
@@ -170,14 +170,14 @@ jobs:
 
       - name: '🧰 Checkout Source Code'
         if: github.event_name == 'push'
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
           ref: master
 
       - name: '🧰 Checkout Source Code'
         if: github.event_name == 'pull_request'
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
@@ -313,7 +313,7 @@ jobs:
 
       - name: '⚙️ Get conan'
         id: conan
-        uses: turtlebrowser/get-conan@v1.0
+        uses: turtlebrowser/get-conan@v1
 
       - name: Create Build Environment
         # Some projects don't allow in-source building, so create a separate build directory
@@ -392,7 +392,7 @@ jobs:
         run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
 
       - name: Checkout Source Code
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v2
         with:
           submodules: 'recursive'
 
@@ -400,7 +400,7 @@ jobs:
         run: git submodule update --init
 
       - name: '⚙️ Configure MSVC'
-        uses: ilammy/msvc-dev-cmd@v1.10.0
+        uses: ilammy/msvc-dev-cmd@v1
         with:
           # 14.1 is for vs2017, 14.2 is vs2019, following the upstream vcpkg build
           toolset: 14.2
@@ -425,7 +425,7 @@ jobs:
 
       - name: '⚙️ Get conan'
         id: conan
-        uses: turtlebrowser/get-conan@v1.0
+        uses: turtlebrowser/get-conan@v1
 
       - name: '⚙️ Install Build deps'
         run: |
@@ -516,8 +516,8 @@ jobs:
         with:
           submodules: 'recursive'
 
-      - name: Create 7z Release
-        uses: DuckSoft/create-7z-action@v1
+      - name: Create 7z source-archive
+        uses: DuckSoft/create-7z-action@v1.0
         with:
           pathSource: ./
           pathTarget: ./jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
@@ -550,7 +550,7 @@ jobs:
 
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v2
 
       - name: '⚙️ Install dependencies'
         run: |
@@ -566,7 +566,7 @@ jobs:
             key: ${{ runner.os }}-${{ matrix.qt_version }}-${{ matrix.qt_target }}-QtCache
 
       - name: '⚙️ Install Qt'
-        uses: jurplel/install-qt-action@v2.14.0
+        uses: jurplel/install-qt-action@v2
         with:
             version: ${{ matrix.qt_version }}
             target: ${{ matrix.qt_target }}
@@ -576,7 +576,7 @@ jobs:
 
       - name: '⚙️ Get conan'
         id: conan
-        uses: turtlebrowser/get-conan@v1.0
+        uses: turtlebrowser/get-conan@v1
 
       - name: Xvfb run for ${{ runner.os }}
         run: |
@@ -625,7 +625,7 @@ jobs:
     steps:
       - name: Build Releasenotes
         id: github_releasenotes
-        uses: release-drafter/release-drafter@v5.15.0
+        uses: release-drafter/release-drafter@v5
         with:
           publish: "${{ steps.check-version.outputs.tag != '' }}"
           tag: '${{ steps.check-version.outputs.tag }}'
