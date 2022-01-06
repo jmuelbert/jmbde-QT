@@ -249,7 +249,7 @@ jobs:
         shell: bash
         run: |
           mkdir -p $GITHUB_WORKSPACE/build
-          cp ${{ steps.snapcraft.outputs.snap }} $${{runner.workspace}}/${TARGET_NAME}-${{ steps.get_version.outputs.VERSION }}.amd64.snap
+          cp ${{ steps.snapcraft.outputs.snap }} ${{runner.workspace}}/${TARGET_NAME}-${{ steps.get_version.outputs.VERSION }}.amd64.snap
           pwd
           ls ${{runner.workspace}}
 
@@ -491,6 +491,43 @@ jobs:
           name: ${{ env.TARGET_NAME}}-win-${{ steps.get_version.outputs.VERSION }}.exe
           path: ${{runner.workpace}}/${{ env.archiveName}}.exe
 
+
+  source-archive:
+    name: All Source Files
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+
+      - name: Restoring submodules
+        run: git submodule update --init
+
+      - name: Get the version
+        id: get_version
+        shell: bash
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+
+      - name: Checking out sources
+        uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+
+      - name: Create 7z Release
+        uses: DuckSoft/create-7z-action@v1.0
+        with:
+          pathSource: ./
+          pathTarget: ./jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
+          path: jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
+
+
   tests:
     name: Tests on ubuntu-latest
     runs-on: ubuntu-latest
@@ -666,6 +703,7 @@ jobs:
       - snap-build
       - macos-build
       - windows-build
+      - source-archive
 
     runs-on: ubuntu-latest
 
@@ -736,6 +774,17 @@ jobs:
           tag: ${{ github.ref }}
           overwrite: true
 
+      - name: Upload source archive
+        if: github.ref == 'refs/heads/master'
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
+          asset_name: jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
+          tag: ${{ github.ref }}
+          overwrite: true
+
+
   # Upload continous build
   upload:
     name: '🗂 Create release and upload artifacts'
@@ -746,6 +795,7 @@ jobs:
       - snap-build
       - macos-build
       - windows-build
+      - source-archive
 
     runs-on: ubuntu-latest
     steps:
@@ -811,5 +861,15 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./${{ env.archiveName }}-win.zip
           asset_name: ${{ env.TARGET_NAME}}-win-${{ steps.get_version.outputs.VERSION }}.zip
+          tag: ${{ github.ref }}
+          overwrite: true
+
+      - name: Upload source archive
+        if: startsWith(github.event.ref, 'refs/tags/')
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
+          asset_name: jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
           tag: ${{ github.ref }}
           overwrite: true
