@@ -1,0 +1,10 @@
+{
+  "name": "jmbde-QT",
+  "files": [{ "git" : 1 }],
+  "build": {
+    "directory": "build",
+    "build": "cmake --build build",
+    "clean": "cmake --target clean",
+    "install": cmake --install"
+  }
+}
