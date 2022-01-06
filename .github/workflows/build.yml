@@ -56,6 +56,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
+        platform: [ubuntu-latest]
         qt_arch: [gcc_64]
         arch: [amd64]
         artifact: [Ubuntu-gcc]
@@ -86,8 +87,8 @@ jobs:
         id: cache-qt
         uses: actions/cache@v1 # not v2!
         with:
-            path: ${{ runner.workspace }}/Qt
-            key: ${{ runner.os }}-${{ env.QT_VERSION }}-${{ env.QT_TARGET }}-QtCache
+          path: ${{ runner.workspace }}/Qt
+          key: QtCache-${{ matrix.platform }}-{{ matrix.arch }}-${{ env.QT_VERSION }}
 
       - name: '⚙️ Install Qt'
         uses: jurplel/install-qt-action@v2
@@ -153,7 +154,7 @@ jobs:
         with:
           name: ${{env.TARGET_NAME}}.AppImage
           path: |
-           ${{runner.workspace}}/${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}.x86_64.AppImage
+            ${{runner.workspace}}/${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}.x86_64.AppImage
 
   flatpak-build:
     name: '🐧 Build flatpak on ubuntu-20.04'
@@ -182,9 +183,9 @@ jobs:
 
       - name: '⚙️ Setup flatpak'
         run: |
-            sudo apt-get -y -qq update
-            sudo apt-get -y --no-install-recommends install \
-                elfutils flatpak flatpak-builder
+          sudo apt-get -y -qq update
+          sudo apt-get -y --no-install-recommends install \
+              elfutils flatpak flatpak-builder
 
       - name: '⚙️ Setup Flathub'
         run: |
@@ -263,6 +264,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest]
+        platform: [macos-latest]
         name: [macos-12.0-x86_64]
         macos_target: [10.15]
         qt_arch: [clang_64]
@@ -291,8 +293,8 @@ jobs:
         id: cache-qt
         uses: actions/cache@v1 # not v2!
         with:
-            path: ${{ runner.workspace }}/Qt
-            key: ${{ runner.os }}-${{ env.QT_VERSION }}-${{ env.QT_TARGET }}-QtCache
+          path: ${{ runner.workspace }}/Qt
+          key: QtCache-${{ matrix.platform }}-{{ matrix.arch }}-${{ env.QT_VERSION }}
 
       - name: '⚙️ Install Qt'
         uses: jurplel/install-qt-action@v2
@@ -404,8 +406,8 @@ jobs:
         id: cache-qt
         uses: actions/cache@v1 # not v2!
         with:
-            path: ${{ runner.workspace }}/Qt
-            key: ${{ runner.os }}-${{ env.QT_VERSION }}-${{ env.QT_TARGET }}-QtCache
+          path: ${{ runner.workspace }}/Qt
+          key: QtCache-${{ matrix.platform }}-{{ matrix.arch }}-${{ env.QT_VERSION }}
 
       - name: '⚙️ Install Qt'
         uses: jurplel/install-qt-action@v2
@@ -413,7 +415,6 @@ jobs:
           version: ${{ env.QT_VERSION }}
           target: ${{ env.QT_TARGET }}
           arch: ${{ matrix.qt_arch }}
-          dir: '${{ github.workspace }}/build/'
           # modules: 'qtscript'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
@@ -427,17 +428,14 @@ jobs:
           choco install ninja
 
       - name: '🚧 Compile application'
-        shell: pwsh
+        shell: bash
         working-directory: ${{ runner.workspace }}/build
         run: |
-          Get-ChildItem
-          Get-ChildItem ${{ env.GITHUB_WORKSPACE }}
-          cmake ${{ env.GITHUB_WORKSPACE }} `
-            -G ${{ matrix.cmake_generator }} `
-            -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}  `
-            -DUSE_LAUNCHER_ABSOLUTE_PATH:BOOL=OFF  `
-            -DCMAKE_INSTALL_PREFIX:PATH=./app `
-            -DBUILD_TESTING=OFF  `
+          cmake ${{ env.GITHUB_WORKSPACE }} \
+            -G ${{ matrix.cmake_generator }} \
+            -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}  \
+            -DCMAKE_INSTALL_PREFIX:PATH=./programs \
+            -DBUILD_TESTING=OFF  \
             -DBUILD_TRANSLATIONS=ON
 
       - name: '⚙️ Run CMake Install'
@@ -453,7 +451,7 @@ jobs:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         run: |
           New-Item -ItemType Directory ${{ env.archiveName }}
-          Copy-Item -PATH ./app/* -Destination ${{ env.archiveName }} -Recurse
+          Copy-Item -PATH ./programs/* -Destination ${{ env.archiveName }} -Recurse
           Get-ChildItem ${{ env.archiveName }}/bin
           windeployqt --qmldir . ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}.exe ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}models.dll ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}quick.dll ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}widgets.dll
 
@@ -485,8 +483,7 @@ jobs:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         with:
           name: ${{ env.TARGET_NAME}}-win
-          path: ${{runner.workpace}}/${{ env.archiveName}}.exe
-
+          path: ${{runner.workspace}}/${{ env.archiveName}}.exe
 
   source-archive:
     name: All Source Files
@@ -524,7 +521,6 @@ jobs:
           name: source-files
           path: jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
 
-
   tests:
     name: Tests on ubuntu-latest
     runs-on: ubuntu-latest
@@ -548,25 +544,25 @@ jobs:
 
       - name: '⚙️ Install dependencies'
         run: |
-            sudo apt-get -y -qq update
-            sudo apt-get -y --no-install-recommends install \
-                ninja-build
+          sudo apt-get -y -qq update
+          sudo apt-get -y --no-install-recommends install \
+              ninja-build
 
       - name: '⚙️ Cache Qt'
         id: cache-qt
         uses: actions/cache@v1 # not v2!
         with:
-            path: ${{ runner.workspace }}/Qt
-            key: ${{ runner.os }}-${{ env.QT_VERSION }}-${{ env.QT_TARGET }}-QtCache
+          path: ${{ runner.workspace }}/Qt
+          key: ${{ runner.os }}-${{ env.QT_VERSION }}-${{ env.QT_TARGET }}-QtCache
 
       - name: '⚙️ Install Qt'
         uses: jurplel/install-qt-action@v2
         with:
-            version: ${{ env.QT_VERSION }}
-            target: ${{ env.QT_TARGET }}
-            arch: ${{ matrix.qt_arch }}
-            # modules: 'qtscript'
-            cached: ${{ steps.cache-qt.outputs.cache-hit }}
+          version: ${{ env.QT_VERSION }}
+          target: ${{ env.QT_TARGET }}
+          arch: ${{ matrix.qt_arch }}
+          # modules: 'qtscript'
+          cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
       - name: '⚙️ Get conan'
         id: conan
@@ -708,7 +704,6 @@ jobs:
         shell: bash
         run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
 
-
       - name: '📥 Download artifacts'
         uses: actions/download-artifact@v2
 
@@ -769,11 +764,11 @@ jobs:
         if: github.ref == 'refs/heads/master'
         uses: svenstaro/upload-release-action@v2
         with:
-         repo_token: ${{ secrets.GITHUB_TOKEN }}
-         file: ./${{ env.TARGET_NAME }}.exe
-         asset_name: ${{ env.TARGET_NAME}}${{ steps.get_version.outputs.VERSION }}-win64.exe
-         tag: ${{ github.ref }}
-         overwrite: true
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./${{ env.TARGET_NAME }}.exe
+          asset_name: ${{ env.TARGET_NAME}}${{ steps.get_version.outputs.VERSION }}-win64.exe
+          tag: ${{ github.ref }}
+          overwrite: true
 
       - name: '📤 Upload Release: zip for windows'
         if: github.ref == 'refs/heads/master'
@@ -794,7 +789,6 @@ jobs:
           asset_name: jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
           tag: ${{ github.ref }}
           overwrite: true
-
 
   # Upload continous build
   upload:
@@ -869,11 +863,11 @@ jobs:
         if: startsWith(github.event.ref, 'refs/tags/')
         uses: svenstaro/upload-release-action@v2
         with:
-         repo_token: ${{ secrets.GITHUB_TOKEN }}
-         file: ./${{ env.TARGET_NAME }}.exe
-         asset_name: ${{ env.TARGET_NAME}}${{ steps.get_version.outputs.VERSION }}-win64.exe
-         tag: ${{ github.ref }}
-         overwrite: true
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./${{ env.TARGET_NAME }}.exe
+          asset_name: ${{ env.TARGET_NAME}}${{ steps.get_version.outputs.VERSION }}-win64.exe
+          tag: ${{ github.ref }}
+          overwrite: true
 
       - name: '📤 Upload Release: zip for windows'
         if: startsWith(github.event.ref, 'refs/tags/')
