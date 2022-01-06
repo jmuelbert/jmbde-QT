@@ -153,7 +153,7 @@ jobs:
       - name: '📤 Upload artifact: AppImage'
         uses: actions/upload-artifact@v2
         with:
-          name: ${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}-qt${{matrix.qt_version}}-Linux.AppImage
+          name: ${{env.TARGET_NAME}}.AppImage
           path: |
            ${{runner.workspace}}/${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}.x86_64.AppImage
 
@@ -208,9 +208,9 @@ jobs:
           ls ${{runner.workspace}}
 
       - name: '📤 Upload artifact: FlatPak'
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v2
         with:
-          name: ${{ env.TARGET_NAME }}_${{ steps.get_version.outputs.VERSION }}.flatpak
+          name: ${{ env.TARGET_NAME }}.flatpak
           path: |
             ${{runner.workspace}}/org.jmuelbert.jmbde-QT_${{ steps.get_version.outputs.VERSION }}.x86_64.flatpak
 
@@ -254,9 +254,9 @@ jobs:
           ls ${{runner.workspace}}
 
       - name: '📤 Upload artifact: SnapPack'
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v2
         with:
-          name: ${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}.amd64.snap
+          name: ${{env.TARGET_NAME}}.snap
           path: |
             ${{runner.workspace}}/${TARGET_NAME}-${{ steps.get_version.outputs.VERSION }}.amd64.snap
 
@@ -355,15 +355,15 @@ jobs:
           cp ./${{env.TARGET_NAME}}.zip ${{runner.workspace}}/${{env.TARGET_NAME}}.zip
 
       - name: Upload dmg artifact for macOS - ${{ matrix.qt_version }}
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v2
         with:
-          name: ${TARGET_NAME}-${{ steps.get_version.outputs.VERSION }}.dmg
+          name: ${TARGET_NAME}.dmg
           path: ${{runner.workspace}}/${{ env.TARGET_NAME }}.dmg
 
       - name: Upload zip artifact for macOS - ${{ matrix.qt_version }}-${env.BUILD_TYPE}}
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v2
         with:
-          name: ${{ env.TARGET_NAME }}-${{ steps.get_version.outputs.VERSION }}-macos.zip
+          name: ${{ env.TARGET_NAME }}-macos.zip
           path: ${{runner.workspace}}/${{ env.TARGET_NAME }}*.zip
 
   windows-build:
@@ -470,7 +470,7 @@ jobs:
           Compress-Archive -Path ${{ env.archiveName}}/bin -DestinationPath ${{runner.workspace}}/${{ env.archiveName}}.'zip'
 
       - name: Upload Zip archive
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v2
         with:
           name: ${{ env.TARGET_NAME}}-win.zip
           path: ${{ runner.workspace}}/${{ env.archiveName}}.zip
@@ -488,13 +488,14 @@ jobs:
         env:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         with:
-          name: ${{ env.TARGET_NAME}}-win-${{ steps.get_version.outputs.VERSION }}.exe
+          name: ${{ env.TARGET_NAME}}-win.exe
           path: ${{runner.workpace}}/${{ env.archiveName}}.exe
 
 
   source-archive:
     name: All Source Files
     runs-on: ubuntu-latest
+    needs: tests
 
     steps:
       - name: Checkout Source Code
@@ -516,15 +517,15 @@ jobs:
           submodules: 'recursive'
 
       - name: Create 7z Release
-        uses: DuckSoft/create-7z-action@v1.0
+        uses: DuckSoft/create-7z-action@v1
         with:
           pathSource: ./
           pathTarget: ./jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2.2.4
+        uses: actions/upload-artifact@v2
         with:
-          name: jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
+          name: source-files
           path: jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
 
 
@@ -680,7 +681,7 @@ jobs:
     needs: build_GH_Pages
     steps:
       - name: Download Artifact with Pages
-        uses: actions/download-artifact@v2.1.0
+        uses: actions/download-artifact@v2
         with:
           name: docs
           path: docs/_build
@@ -709,14 +710,14 @@ jobs:
 
     steps:
       - name: '📥 Download artifacts'
-        uses: actions/download-artifact@v2.1.0
+        uses: actions/download-artifact@v2
 
       - name: '🗂 Inspect directory after downloading artifacts'
         run: ls -alFR
 
       - name: '📤 Upload Release: AppImage'
         if: github.ref == 'refs/heads/master'
-        uses: svenstaro/upload-release-action@v2.2.1
+        uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{runner.workspace}}/${{env.TARGET_NAME}}.appimage
@@ -726,7 +727,7 @@ jobs:
 
       - name: '📤 Upload Release: FlatPak'
         if: github.ref == 'refs/heads/master'
-        uses: svenstaro/upload-release-action@v2.2.1
+        uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{runner.workspace}}/${{env.TARGET_NAME}}.flatpak
@@ -736,7 +737,7 @@ jobs:
 
       - name: '📤 Upload Release: snap'
         if: github.ref == 'refs/heads/master'
-        uses: svenstaro/upload-release-action@v2.2.1
+        uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{runner.workspace}}/${{env.TARGET_NAME}}.amd64.snap
@@ -746,7 +747,7 @@ jobs:
 
       - name: '📤 Upload Release: macOS'
         if: github.ref == 'refs/heads/master'
-        uses: svenstaro/upload-release-action@v2.2.1
+        uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{runner.workspace}}/${{env.TARGET_NAME}}.dmg
@@ -756,7 +757,7 @@ jobs:
 
       - name: '📤 Upload Release: windows'
         if: github.ref == 'refs/heads/master'
-        uses: svenstaro/upload-release-action@v2.2.1
+        uses: svenstaro/upload-release-action@v2
         with:
          repo_token: ${{ secrets.GITHUB_TOKEN }}
          file: ./${{ env.TARGET_NAME }}.exe
@@ -766,7 +767,7 @@ jobs:
 
       - name: '📤 Upload Release: zip for windows'
         if: github.ref == 'refs/heads/master'
-        uses: svenstaro/upload-release-action@v2.2.1
+        uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./${{ env.archiveName }}-win.zip
@@ -800,13 +801,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: '📥 Download artifacts'
-        uses: actions/download-artifact@v2.1.0
+        uses: actions/download-artifact@v2
       - name: '🗂 Inspect directory after downloading artifacts'
         run: ls -alFR
 
       - name: '📤 Upload Release: AppImage'
         if: startsWith(github.event.ref, 'refs/tags/')
-        uses: svenstaro/upload-release-action@v2.2.1
+        uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{runner.workspace}}/${{env.TARGET_NAME}}.appimage
@@ -816,7 +817,7 @@ jobs:
 
       - name: '📤 Upload Release: FlatPak'
         if: startsWith(github.event.ref, 'refs/tags/')
-        uses: svenstaro/upload-release-action@v2.2.1
+        uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{runner.workspace}}/${{env.TARGET_NAME}}.flatpak
@@ -826,7 +827,7 @@ jobs:
 
       - name: '📤 Upload Release: snap'
         if: startsWith(github.event.ref, 'refs/tags/')
-        uses: svenstaro/upload-release-action@v2.2.1
+        uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{runner.workspace}}/${{env.TARGET_NAME}}.amd64.snap
@@ -836,7 +837,7 @@ jobs:
 
       - name: '📤 Upload Release: macOS'
         if: startsWith(github.event.ref, 'refs/tags/')
-        uses: svenstaro/upload-release-action@v2.2.1
+        uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{runner.workspace}}/${{env.TARGET_NAME}}.dmg
@@ -846,7 +847,7 @@ jobs:
 
       - name: '📤 Upload Release: windows'
         if: startsWith(github.event.ref, 'refs/tags/')
-        uses: svenstaro/upload-release-action@v2.2.1
+        uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./${{ env.TARGET_NAME }}.exe
@@ -856,7 +857,7 @@ jobs:
 
       - name: '📤 Upload Release: zip for windows'
         if: startsWith(github.event.ref, 'refs/tags/')
-        uses: svenstaro/upload-release-action@v2.2.1
+        uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./${{ env.archiveName }}-win.zip
