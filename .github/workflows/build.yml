@@ -36,8 +36,8 @@ env:
   CTEST_OUTPUT_ON_FAILURE: 1
   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
   QT5_VERSION: '5.15.2'
-  QT6_VERSION: '6.2.0'
-  TEST_QT_TARGET: 'desktop'
+  QT_VERSION: '6.2.0'
+  QT_TARGET: 'desktop'
   TEST_QT_VERSION: '6.2.0'
   TEST_QT_ARCH: 'gcc_64'
   TEST_ARCH: 'amd_64'
@@ -55,9 +55,7 @@ jobs:
 
     strategy:
       matrix:
-        qt_target: [desktop]
         os: [ubuntu-latest]
-        qt_version: [6.2.0]
         qt_arch: [gcc_64]
         arch: [amd64]
         artifact: [Ubuntu-gcc]
@@ -89,13 +87,13 @@ jobs:
         uses: actions/cache@v1 # not v2!
         with:
             path: ${{ runner.workspace }}/Qt
-            key: ${{ runner.os }}-${{ matrix.qt_version }}-${{ matrix.qt_target }}-QtCache
+            key: ${{ runner.os }}-${{ env.QT_VERSION }}-${{ env.QT_TARGET }}-QtCache
 
       - name: '⚙️ Install Qt'
         uses: jurplel/install-qt-action@v2
         with:
-          version: ${{ matrix.qt_version }}
-          target: ${{ matrix.qt_target }}
+          version: ${{ env.QT_VERSION }}
+          target: ${{ env.QT_TARGET }}
           arch: ${{ matrix.qt_arch }}
           # modules: 'qtscript'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
@@ -249,7 +247,7 @@ jobs:
         shell: bash
         run: |
           mkdir -p $GITHUB_WORKSPACE/build
-          cp ${{ steps.snapcraft.outputs.snap }} ${{runner.workspace}}/${TARGET_NAME}-${{ steps.get_version.outputs.VERSION }}.amd64.snap
+          cp ${{ steps.snapcraft.outputs.snap }} ${{runner.workspace}}/${{ env.TARGET_NAME }}-${{ steps.get_version.outputs.VERSION }}.amd64.snap
           pwd
           ls ${{runner.workspace}}
 
@@ -258,14 +256,12 @@ jobs:
         with:
           name: ${{env.TARGET_NAME}}.snap
           path: |
-            ${{runner.workspace}}/${TARGET_NAME}-${{ steps.get_version.outputs.VERSION }}.amd64.snap
+            ${{runner.workspace}}/${{ env.TARGET_NAME }}-${{ steps.get_version.outputs.VERSION }}.amd64.snap
 
   macos-build:
     name: '🍎 ${{ matrix.os }} -${{ matrix.qt_version}}'
     strategy:
       matrix:
-        qt_version: [6.2.0]
-        qt_target: [desktop]
         os: [macos-latest]
         name: [macos-12.0-x86_64]
         macos_target: [10.15]
@@ -296,13 +292,13 @@ jobs:
         uses: actions/cache@v1 # not v2!
         with:
             path: ${{ runner.workspace }}/Qt
-            key: ${{ runner.os }}-${{ matrix.qt_version }}-${{ matrix.qt_target }}-QtCache
+            key: ${{ runner.os }}-${{ env.QT_VERSION }}-${{ env.QT_TARGET }}-QtCache
 
       - name: '⚙️ Install Qt'
         uses: jurplel/install-qt-action@v2
         with:
-          version: ${{ matrix.qt_version }}
-          target: ${{ matrix.qt_target }}
+          version: ${{ env.QT_VERSION }}
+          target: ${{ env.QT_TARGET }}
           arch: ${{ matrix.qt_arch }}
           # modules: 'qtscript'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
@@ -357,13 +353,13 @@ jobs:
       - name: Upload dmg artifact for macOS - ${{ matrix.qt_version }}
         uses: actions/upload-artifact@v2
         with:
-          name: ${TARGET_NAME}.dmg
+          name: ${env.TARGET_NAME}-dmg
           path: ${{runner.workspace}}/${{ env.TARGET_NAME }}.dmg
 
       - name: Upload zip artifact for macOS - ${{ matrix.qt_version }}-${env.BUILD_TYPE}}
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ env.TARGET_NAME }}-macos.zip
+          name: ${{ env.TARGET_NAME }}-macos-zip
           path: ${{runner.workspace}}/${{ env.TARGET_NAME }}*.zip
 
   windows-build:
@@ -371,8 +367,6 @@ jobs:
     runs-on: ${{ matrix.platform }}
     strategy:
       matrix:
-        qt_version: [6.2.0]
-        qt_target: [desktop]
         platform: [windows-latest]
         name: [Windows 2019 MS Visual C]
         qt_arch: [win64_msvc2019_64]
@@ -411,15 +405,14 @@ jobs:
         uses: actions/cache@v1 # not v2!
         with:
             path: ${{ runner.workspace }}/Qt
-            key: ${{ runner.os }}-${{ matrix.qt_version }}-${{ matrix.qt_target }}-QtCache
+            key: ${{ runner.os }}-${{ env.QT_VERSION }}-${{ env.QT_TARGET }}-QtCache
 
       - name: '⚙️ Install Qt'
         uses: jurplel/install-qt-action@v2
         with:
-          version: ${{ matrix.qt_version }}
-          target: ${{ matrix.qt_target }}
+          version: ${{ env.QT_VERSION }}
+          target: ${{ env.QT_TARGET }}
           arch: ${{ matrix.qt_arch }}
-          dir: '${{ github.workspace }}/build/'
           # modules: 'qtscript'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
@@ -472,7 +465,7 @@ jobs:
       - name: Upload Zip archive
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ env.TARGET_NAME}}-win.zip
+          name: ${{ env.TARGET_NAME}}-win-zip
           path: ${{ runner.workspace}}/${{ env.archiveName}}.zip
 
       - name: '📦 Make ISS-Installer for ${{ matrix.qt_version }}'
@@ -488,7 +481,7 @@ jobs:
         env:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         with:
-          name: ${{ env.TARGET_NAME}}-win.exe
+          name: ${{ env.TARGET_NAME}}-win
           path: ${{runner.workpace}}/${{ env.archiveName}}.exe
 
 
@@ -537,10 +530,8 @@ jobs:
 
     strategy:
       matrix:
-        qt_target: [desktop]
         os: [ubuntu-latest]
         name: [Ubuntu-20.04 gcc-10]
-        qt_version: [6.2.0]
         qt_arch: [gcc_64]
         arch: [amd64]
         artifact: [Ubuntu-gcc]
@@ -563,13 +554,13 @@ jobs:
         uses: actions/cache@v1 # not v2!
         with:
             path: ${{ runner.workspace }}/Qt
-            key: ${{ runner.os }}-${{ matrix.qt_version }}-${{ matrix.qt_target }}-QtCache
+            key: ${{ runner.os }}-${{ env.QT_VERSION }}-${{ env.QT_TARGET }}-QtCache
 
       - name: '⚙️ Install Qt'
         uses: jurplel/install-qt-action@v2
         with:
-            version: ${{ matrix.qt_version }}
-            target: ${{ matrix.qt_target }}
+            version: ${{ env.QT_VERSION }}
+            target: ${{ env.QT_TARGET }}
             arch: ${{ matrix.qt_arch }}
             # modules: 'qtscript'
             cached: ${{ steps.cache-qt.outputs.cache-hit }}
@@ -639,7 +630,7 @@ jobs:
     steps:
       - name: Build ChangeLog
         id: github_changelog
-        uses: mikepenz/release-changelog-builder-action@v2.7.1
+        uses: mikepenz/release-changelog-builder-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -657,7 +648,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: upload
     steps:
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 2
       - name: Fetch all history for all tags and branches
@@ -671,7 +662,7 @@ jobs:
           sphinx-build docs docs/_build
 
       - name: Upload documentation
-        uses: actions/upload-artifact@v2.2.4
+        uses: actions/upload-artifact@v2
         with:
           name: docs
           path: docs/_build
@@ -709,6 +700,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Get the version
+        id: get_version
+        shell: bash
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+
+
       - name: '📥 Download artifacts'
         uses: actions/download-artifact@v2
 
@@ -721,7 +718,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{runner.workspace}}/${{env.TARGET_NAME}}.appimage
-          asset_name: ${{env.TARGET_NAME}}.appimage
+          asset_name: ${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}.appimage
           tag: ${{ github.ref }}
           overwrite: true
 
@@ -731,7 +728,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{runner.workspace}}/${{env.TARGET_NAME}}.flatpak
-          asset_name: ${{env.TARGET_NAME}}.flatpak
+          asset_name: ${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}.flatpak
           tag: ${{ github.ref }}
           overwrite: true
 
@@ -741,7 +738,17 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{runner.workspace}}/${{env.TARGET_NAME}}.amd64.snap
-          asset_name: ${{env.TARGET_NAME}}.amd64.snap
+          asset_name: ${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}.amd64.snap
+          tag: ${{ github.ref }}
+          overwrite: true
+
+      - name: '📤 Upload Release: macOS-zip'
+        if: github.ref == 'refs/heads/master'
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{runner.workspace}}${env.TARGET_NAME}-zip/${{env.TARGET_NAME}}.zip
+          asset_name: ${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}-macos.zip
           tag: ${{ github.ref }}
           overwrite: true
 
@@ -750,8 +757,8 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{runner.workspace}}/${{env.TARGET_NAME}}.dmg
-          asset_name: ${{env.TARGET_NAME}}.dmg
+          file: ${{runner.workspace}}${env.TARGET_NAME}-dmg/${{env.TARGET_NAME}}.dmg
+          asset_name: ${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}.dmg
           tag: ${{ github.ref }}
           overwrite: true
 
@@ -761,7 +768,7 @@ jobs:
         with:
          repo_token: ${{ secrets.GITHUB_TOKEN }}
          file: ./${{ env.TARGET_NAME }}.exe
-         asset_name: ${{ env.TARGET_NAME}}-win.exe
+         asset_name: ${{ env.TARGET_NAME}}${{ steps.get_version.outputs.VERSION }}-win64.exe
          tag: ${{ github.ref }}
          overwrite: true
 
@@ -771,7 +778,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./${{ env.archiveName }}-win.zip
-          asset_name: ${{ env.TARGET_NAME}}-win-${{ steps.get_version.outputs.VERSION }}.zip
+          asset_name: ${{ env.TARGET_NAME}}-win-${{ steps.get_version.outputs.VERSION }}-win.zip
           tag: ${{ github.ref }}
           overwrite: true
 
@@ -811,7 +818,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{runner.workspace}}/${{env.TARGET_NAME}}.appimage
-          asset_name: ${{env.TARGET_NAME}}.appimage
+          asset_name: ${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}.appimage
           tag: ${{ github.ref }}
           overwrite: true
 
@@ -821,7 +828,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{runner.workspace}}/${{env.TARGET_NAME}}.flatpak
-          asset_name: ${{env.TARGET_NAME}}.flatpak
+          asset_name: ${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}.flatpak
           tag: ${{ github.ref }}
           overwrite: true
 
@@ -831,7 +838,17 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{runner.workspace}}/${{env.TARGET_NAME}}.amd64.snap
-          asset_name: ${{env.TARGET_NAME}}.amd64.snap
+          asset_name: ${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}.amd64.snap
+          tag: ${{ github.ref }}
+          overwrite: true
+
+      - name: '📤 Upload Release: macOS-zip'
+        if: startsWith(github.event.ref, 'refs/tags/')
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{runner.workspace}}${env.TARGET_NAME}-zip/${{env.TARGET_NAME}}.zip
+          asset_name: ${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}-macos.zip
           tag: ${{ github.ref }}
           overwrite: true
 
@@ -840,8 +857,8 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{runner.workspace}}/${{env.TARGET_NAME}}.dmg
-          asset_name: ${{env.TARGET_NAME}}.dmg
+          file: ${{runner.workspace}}${env.TARGET_NAME}-dmg/${{env.TARGET_NAME}}.dmg
+          asset_name: ${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}.dmg
           tag: ${{ github.ref }}
           overwrite: true
 
@@ -849,11 +866,11 @@ jobs:
         if: startsWith(github.event.ref, 'refs/tags/')
         uses: svenstaro/upload-release-action@v2
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./${{ env.TARGET_NAME }}.exe
-          asset_name: ${{ env.TARGET_NAME}}-win.exe
-          tag: ${{ github.ref }}
-          overwrite: true
+         repo_token: ${{ secrets.GITHUB_TOKEN }}
+         file: ./${{ env.TARGET_NAME }}.exe
+         asset_name: ${{ env.TARGET_NAME}}${{ steps.get_version.outputs.VERSION }}-win64.exe
+         tag: ${{ github.ref }}
+         overwrite: true
 
       - name: '📤 Upload Release: zip for windows'
         if: startsWith(github.event.ref, 'refs/tags/')
@@ -861,7 +878,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./${{ env.archiveName }}-win.zip
-          asset_name: ${{ env.TARGET_NAME}}-win-${{ steps.get_version.outputs.VERSION }}.zip
+          asset_name: ${{ env.TARGET_NAME}}-win-${{ steps.get_version.outputs.VERSION }}-win.zip
           tag: ${{ github.ref }}
           overwrite: true
 
