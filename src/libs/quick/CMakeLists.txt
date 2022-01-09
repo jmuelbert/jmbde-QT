@@ -48,6 +48,7 @@ ecm_setup_version(
 # find_package(QT_NAMES Qt6 Qt5 COMPONENTS Core Requiered)
 find_package(Qt${QT_VERSION_MAJOR} CONFIG COMPONENTS Core Quick Svg Qml Sql)
 
+
 # Find Qt5QuickCompiler
 if(Qt5_FOUND)
   find_package(Qt5QuickCompiler)
