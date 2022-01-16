@@ -550,6 +550,8 @@ jobs:
         arch: [amd64]
         artifact: [Ubuntu-gcc]
         cmake_generator: [Ninja]
+        cc: [clang-12]
+        cxx: [clang-12]
         build_type: [Debug]
       fail-fast: true
 
@@ -596,6 +598,9 @@ jobs:
         # Use a bash shell so we can use the same syntax for environment variable
         # access regardless of the host operating system
         shell: bash
+        env:
+          CC: ${{ matrix.cc }}
+          CXX: ${{ matrix.cxx}}
         working-directory: ${{runner.workspace}}/build
 
         # Note the current convention is to use the -S and -B options here to specify source

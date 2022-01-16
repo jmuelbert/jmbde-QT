@@ -145,7 +145,7 @@ jobs:
         run: |
           cmake --build . \
             --config ${{ env.BUILD_TYPE }} \
-            -j2
+            -j$(nproc)
 
       # Run only on linux
       - name: Validate QML and JavaScript files
