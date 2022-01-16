@@ -180,9 +180,9 @@ jobs:
           clangFormatVersion: 11
           style: file
 
-      - name: PMD Code Analyzer Action
-        uses: billyan2018/setup-pmd@PMDAnalyzer1.0
-        run: pmd -d ./src -R category/apex/design.xml -f text
+      # - name: PMD Code Analyzer Action
+      #   uses: billyan2018/setup-pmd@PMDAnalyzer1.0
+      #   run: pmd -d ./src -R category/apex/design.xml -f text
 
       # - name: Check_for_duplicate_code
       #   uses: platisd/duplicate-code-detection-tool@master
