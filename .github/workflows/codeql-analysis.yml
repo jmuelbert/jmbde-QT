@@ -56,7 +56,7 @@ jobs:
               qt_arch: gcc_64,
               arch: amd64,
               artifact: 'Ubuntu-clang',
-              generator: "-G 'Unix Makefiles'",
+              cmake_generator: 'Ninja',
               cc: 'clang-12',
               cxx: 'clang-12',
               image_repo: jmuelbert/ci-building-images,
@@ -66,18 +66,19 @@ jobs:
     # https://docs.github.com/en/free-pro-team@latest/github/finding-security-vulnerabilities-and-errors-in-your-code/configuring-code-scanning#changing-the-languages-that-are-analyzed
 
     steps:
-      - name: Checkout repository
+      - name: '🧰 Checkout Source Code'
+        if: github.event_name == 'push'
         uses: actions/checkout@v2
         with:
-          # We must fetch at least the immediate parents so that if this is
-          # a pull request then we can checkout the head.
-          fetch-depth: 2
+          fetch-depth: 0
+          ref: master
 
-      # If this run was triggered by a pull request event, then checkout
-      # the head of a pull request instead of the merge commit.
-      - name: Checkout from pullrequest
-        if: ${{ github.event_name == 'pull_request' }}
-        run: git checkout HEAD^2
+      - name: '🧰 Checkout Source Code'
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
 
       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
@@ -89,21 +90,35 @@ jobs:
       # Prefix the list here with "+" to use these queries and those in the config file.
       # queries: ./path/to/local/query, your-org/your-repo/queries@main
 
-      - name: Install Qt
+      - name: '⚙️ Install dependencies'
+        if: matrix.language == 'cpp'
+        run: |
+          sudo apt-get -y -qq update
+          sudo apt-get -y --no-install-recommends install \
+            ninja-build
+
+      - name: '⚙️ install python dependencies'
+        if: matrix.language == 'cpp'
+        run: |
+          pipx install conan
+
+      - name: '⚙️ Cache Qt'
+        if: matrix.language == 'cpp'
+        id: cache-qt
+        uses: actions/cache@v1 # not v2!
+        with:
+          path: '${{ github.workspace }}/Qt'
+          key: QtCache-${{ matrix.platform }}-{{ matrix.arch }}-${{ env.QT_VERSION }}
+
+      - name: '⚙️ Install Qt'
         if: matrix.language == 'cpp'
         uses: jurplel/install-qt-action@v2
         with:
-          version: ${{ matrix.qt_version }}
-          target: ${{ matrix.qt_target }}
-          arch: ${{ matrix.config.qt_arch }}
-          dir: '${{ github.workspace }}/build/'
+          version: ${{ env.QT_VERSION }}
+          target: ${{ env.QT_TARGET }}
+          arch: ${{ matrix.qt_arch }}
           # modules: 'qtscript'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
-
-      - name: Get conan
-        if: matrix.language == 'cpp'
-        id: conan
-        uses: turtlebrowser/get-conan@v1.0
 
       - name: Create Build Environment
         if: matrix.language == 'cpp'
@@ -124,7 +139,7 @@ jobs:
         # We need to source the profile file to make sure conan is in PATH
         run: |
           cmake $GITHUB_WORKSPACE \
-            ${{ matrix.config.generator }} \
+             -G ${{matrix.cmake_generator}} \
             -DCMAKE_VERBOSE_MAKEFILE=ON \
             -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
             -DBUILD_TESTING=ON \
