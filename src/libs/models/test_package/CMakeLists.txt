@@ -21,7 +21,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets Sql
 
 # find_package(jmbdemodels CONFIG REQUIRED)
 
-list(APPEND TEST_CASES example tst_models)
+list(APPEND TEST_CASES tst_models)
 foreach(TEST_CASE ${TEST_CASES})
   add_executable(${TEST_CASE} ${CMAKE_CURRENT_SOURCE_DIR}/src/${TEST_CASE}.cpp)
   target_link_libraries(${TEST_CASE} 
