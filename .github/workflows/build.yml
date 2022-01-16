@@ -551,7 +551,7 @@ jobs:
         artifact: [Ubuntu-gcc]
         cmake_generator: [Ninja]
         cc: [clang-12]
-        cxx: [clang-12]
+        cxx: [clang++-12]
         build_type: [Debug]
       fail-fast: true
 
