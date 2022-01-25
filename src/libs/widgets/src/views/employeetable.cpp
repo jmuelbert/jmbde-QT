@@ -13,7 +13,7 @@ EmployeeTable::EmployeeTable(QWidget *parent, const QModelIndex &index)
     , ui(new Ui::EmployeeTable)
     , m_EmployeeTableLog(QLoggingCategory("jmbde.widgets.employeetable"))
 {
-        ui->setupUi(this);
+    ui->setupUi(this);
 
     qCDebug(m_EmployeeTableLog) << "Init ComputerInputArea for Index :" << index.column();
 

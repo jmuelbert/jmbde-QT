@@ -20,7 +20,8 @@
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 
-namespace Model {
+namespace Model
+{
 /*!
     \class EmployeeDocument
     \brief The EmployeeDocument class
@@ -31,7 +32,8 @@ namespace Model {
     \date 25.12.2021
     \copyright GPL-3.0-or-later
     */
-class EmployeeDocument : public CommonData {
+class EmployeeDocument : public CommonData
+{
     Q_OBJECT
 
 public:
@@ -63,7 +65,7 @@ public:
         \brief set the QSqlRelationalTableModel for the DataModel
         \return The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT auto initializeRelationalModel() -> QSqlRelationalTableModel* final;
+    virtual JMBDEMODELS_EXPORT auto initializeRelationalModel() -> QSqlRelationalTableModel * final;
 
     /*!
         \fn virtual auto initializeInputDataModel() -> QSqlRelationalTableModel* fina
@@ -71,7 +73,7 @@ public:
 
          \return The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT auto initializeInputDataModel() -> QSqlRelationalTableModel* final;
+    virtual JMBDEMODELS_EXPORT auto initializeInputDataModel() -> QSqlRelationalTableModel * final;
 
     /*!
         \fn virtual auto initializeViewModel() -> QSqlTableModel* final
@@ -79,13 +81,13 @@ public:
 
         \return QSqlTableModel
      */
-    virtual JMBDEMODELS_EXPORT auto initializeViewModel() -> QSqlTableModel* final;
+    virtual JMBDEMODELS_EXPORT auto initializeViewModel() -> QSqlTableModel * final;
 
     /*!
         \fn virtual auto initializeListModel() -> QSqlTableModel* final
         \brief Initiallize the list Model for select one dataset
     */
-    virtual JMBDEMODELS_EXPORT auto initializeListModel() -> QSqlTableModel* final;
+    virtual JMBDEMODELS_EXPORT auto initializeListModel() -> QSqlTableModel * final;
 
     /*!
      * \fn virtual auto generateTableString(const QString& header) -> QString final
@@ -93,7 +95,7 @@ public:
 
         \return a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString& header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString final;
 
     /*!
         \fn virtual auto generateFormularString(const QString& header) -> QString final
@@ -101,7 +103,7 @@ public:
 
         \return a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString& header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
 
     // Getter
     /*!
@@ -183,30 +185,30 @@ private:
     /*!
      * @brief DataContext
      */
-    Model::DataContext* m_dataContext = {};
+    Model::DataContext *m_dataContext = {};
 
     /*!
        \var int m_EmployeeDocumentIdIndex
        \brief The value of the EmployeeDocumentIdIndex
     */
-    int m_EmployeeDocumentIdIndex { 0 };
+    int m_EmployeeDocumentIdIndex{0};
 
     /*!
        \var int m_EmployeeIdIndex
        \brief The value of the EmployeeIdIndex
     */
-    int m_EmployeeIdIndex { 0 };
+    int m_EmployeeIdIndex{0};
 
     /*!
        \var int m_DocumentIdIndex
        \brief The value of the DocumentIdIndex
     */
-    int m_DocumentIdIndex { 0 };
+    int m_DocumentIdIndex{0};
 
     /*!
         \var int m_LastUpdateIndex
         \brief The value of the LastUpdateIndex
     */
-    int m_LastUpdateIndex { 0 };
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model

@@ -20,7 +20,8 @@
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 
-namespace Model {
+namespace Model
+{
 /*!
     \class Company
     \brief The Companyl class
@@ -32,7 +33,8 @@ namespace Model {
     \copyright GPL-3.0-or-later
     */
 
-class Company : public CommonData {
+class Company : public CommonData
+{
     Q_OBJECT
 
 public:
@@ -65,7 +67,7 @@ public:
         \brief set the QSqlRelationalTableModel for the DataModel
         \return The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT auto initializeRelationalModel() -> QSqlRelationalTableModel* final;
+    virtual JMBDEMODELS_EXPORT auto initializeRelationalModel() -> QSqlRelationalTableModel * final;
 
     /*!
         \fn virtual auto initializeInputDataModel() -> QSqlRelationalTableModel* fina
@@ -73,7 +75,7 @@ public:
 
          \return The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT auto initializeInputDataModel() -> QSqlRelationalTableModel* final;
+    virtual JMBDEMODELS_EXPORT auto initializeInputDataModel() -> QSqlRelationalTableModel * final;
 
     /*!
         \fn virtual auto initializeViewModel() -> QSqlTableModel* final
@@ -81,13 +83,13 @@ public:
 
         \return QSqlTableModel
      */
-    virtual JMBDEMODELS_EXPORT auto initializeViewModel() -> QSqlTableModel* final;
+    virtual JMBDEMODELS_EXPORT auto initializeViewModel() -> QSqlTableModel * final;
 
     /*!
         \fn virtual auto initializeListModel() -> QSqlTableModel* final
         \brief Initiallize the list Model for select one dataset
     */
-    virtual JMBDEMODELS_EXPORT auto initializeListModel() -> QSqlTableModel* final;
+    virtual JMBDEMODELS_EXPORT auto initializeListModel() -> QSqlTableModel * final;
 
     /*!
      * \fn virtual auto generateTableString(const QString& header) -> QString final
@@ -95,7 +97,7 @@ public:
 
         \return a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString& header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString final;
 
     /*!
         \fn virtual auto generateFormularString(const QString& header) -> QString final
@@ -103,7 +105,7 @@ public:
 
         \return a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString& header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
 
     // Getter
     /*!
@@ -289,20 +291,20 @@ private:
     /*!
      * @brief DataContext
      */
-    Model::DataContext* m_dataContext = {};
+    Model::DataContext *m_dataContext = {};
 
-    int m_CompanyIdIndex { 0 }; ///< int CompanyIdIndex
-    int m_NameIndex { 0 }; ///< int NameIndex
-    int m_Name2Index { 0 }; ///< int Name2Index
-    int m_StreetIndex { 0 }; ///< int m_StreetIndex
-    int m_CityIndex { 0 }; ///< int CityIndex
-    int m_ZipCodeIndex { 0 }; ///< int ZipCodeIndex
-    int m_PhoneNumberIndex { 0 }; ///< int PhoneNumberIndex
-    int m_FaxNumberIndex { 0 }; ///< int FaxNumberIndex
-    int m_MobileNumberIndex { 0 }; ///< int MobileNumberIndex
-    int m_MailAddressIndex { 0 }; ///< int MailAddressIndex
-    int m_ActiveIndex { 0 }; ///< int ActiveIndex
-    int m_EmployeeIdIndex { 0 }; ///< int EmployeeIdIndex
-    int m_LastUpdateIndex { 0 }; ///< int LastUpdateIndex
+    int m_CompanyIdIndex{0}; ///< int CompanyIdIndex
+    int m_NameIndex{0}; ///< int NameIndex
+    int m_Name2Index{0}; ///< int Name2Index
+    int m_StreetIndex{0}; ///< int m_StreetIndex
+    int m_CityIndex{0}; ///< int CityIndex
+    int m_ZipCodeIndex{0}; ///< int ZipCodeIndex
+    int m_PhoneNumberIndex{0}; ///< int PhoneNumberIndex
+    int m_FaxNumberIndex{0}; ///< int FaxNumberIndex
+    int m_MobileNumberIndex{0}; ///< int MobileNumberIndex
+    int m_MailAddressIndex{0}; ///< int MailAddressIndex
+    int m_ActiveIndex{0}; ///< int ActiveIndex
+    int m_EmployeeIdIndex{0}; ///< int EmployeeIdIndex
+    int m_LastUpdateIndex{0}; ///< int LastUpdateIndex
 };
 } // namespace Model

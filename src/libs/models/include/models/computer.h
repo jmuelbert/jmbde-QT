@@ -20,7 +20,8 @@
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 
-namespace Model {
+namespace Model
+{
 /*!
     \class Computer
     \brief The Computer class
@@ -31,7 +32,8 @@ namespace Model {
     \date 25.12.2021
     \copyright GPL-3.0-or-later
     */
-class Computer : public CommonData {
+class Computer : public CommonData
+{
     Q_OBJECT
 
 public:
@@ -63,7 +65,7 @@ public:
         \brief set the QSqlRelationalTableModel for the DataModel
         \return The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT auto initializeRelationalModel() -> QSqlRelationalTableModel* final;
+    virtual JMBDEMODELS_EXPORT auto initializeRelationalModel() -> QSqlRelationalTableModel * final;
 
     /*!
         \fn virtual auto initializeInputDataModel() -> QSqlRelationalTableModel* fina
@@ -71,7 +73,7 @@ public:
 
          \return The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT auto initializeInputDataModel() -> QSqlRelationalTableModel* final;
+    virtual JMBDEMODELS_EXPORT auto initializeInputDataModel() -> QSqlRelationalTableModel * final;
 
     /*!
         \fn virtual auto initializeViewModel() -> QSqlTableModel* final
@@ -79,13 +81,13 @@ public:
 
         \return QSqlTableModel
      */
-    virtual JMBDEMODELS_EXPORT auto initializeViewModel() -> QSqlTableModel* final;
+    virtual JMBDEMODELS_EXPORT auto initializeViewModel() -> QSqlTableModel * final;
 
     /*!
         \fn virtual auto initializeListModel() -> QSqlTableModel* final
         \brief Initiallize the list Model for select one dataset
     */
-    virtual JMBDEMODELS_EXPORT auto initializeListModel() -> QSqlTableModel* final;
+    virtual JMBDEMODELS_EXPORT auto initializeListModel() -> QSqlTableModel * final;
 
     /*!
      * \fn virtual auto generateTableString(const QString& header) -> QString final
@@ -93,7 +95,7 @@ public:
 
         \return a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString& header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString final;
 
     /*!
         \fn virtual auto generateFormularString(const QString& header) -> QString final
@@ -101,7 +103,7 @@ public:
 
         \return a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString& header) -> QString final;
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString final;
 
     // Getter
     /*!
@@ -401,146 +403,146 @@ private:
     /*!
      * @brief DataContext
      */
-    Model::DataContext* m_dataContext = {};
+    Model::DataContext *m_dataContext = {};
 
     /*!
         \var   int m_ComputerIdIndex
         \brief The value of the ComputerIdIndex
      */
-    int m_ComputerIdIndex { 0 };
+    int m_ComputerIdIndex{0};
 
     /*!
         \var   int  m_NameIndex
         \brief The value of the NameIndex
      */
-    int m_NameIndex { 0 };
+    int m_NameIndex{0};
 
     /*!
        \var   int m_Name
        \brief The value of the NameIndex
     */
-    int m_SerialNumberIndex { 0 };
+    int m_SerialNumberIndex{0};
 
     /*!
        \var   int m_ServiceTagIndex
        \brief The value of the ServiceTagIndex
     */
-    int m_ServiceTagIndex { 0 };
+    int m_ServiceTagIndex{0};
 
     /*!
        \var   int m_ServiceNumberIndex
        \brief The value of the ServiceNumberIndex
     */
-    int m_ServiceNumberIndex { 0 };
+    int m_ServiceNumberIndex{0};
 
     /*!
         \var   int m_MemoryIndex
         \brief The value of the NameIndex
      */
-    int m_MemoryIndex { 0 };
+    int m_MemoryIndex{0};
 
     /*!
         \var   nt m_NetworkIndex
         \brief The value of the NetworkIndex
      */
-    int m_NetworkIndex { 0 };
+    int m_NetworkIndex{0};
 
     /*!
         \var   nt m_NetworkNameIndex
         \brief The value of the NetworkIndex
      */
-    int m_NetworkNameIndex { 0 };
+    int m_NetworkNameIndex{0};
 
     /*!
         \var   nt m_NetworkIPAddressIndex
         \brief The value of the NetworkIPAddressIndex
      */
-    int m_NetworkIPAddressIndex { 0 };
+    int m_NetworkIPAddressIndex{0};
 
-    int m_NetworkIpAddressIndex { 0 };
+    int m_NetworkIpAddressIndex{0};
 
     /*!
         \var   int m_ActiveIndex
         \brief The value of the ActiveIndex
      */
-    int m_ActiveIndex { 0 };
+    int m_ActiveIndex{0};
 
     /*!
         \var   int m_ReplaceIndex
         \brief The value of the ReplaceIndex
      */
-    int m_ReplaceIndex { 0 };
+    int m_ReplaceIndex{0};
 
     /*!
         \var   int m_DeviceNameIdIndex
         \brief The value of the DeviceNameIdIndex
      */
-    int m_DeviceNameIdIndex { 0 };
+    int m_DeviceNameIdIndex{0};
 
     /*!
        \var   int m_DeviceTypeIdIndex
        \brief The value of the DeviceTypeIdIndex
     */
-    int m_DeviceTypeIdIndex { 0 };
+    int m_DeviceTypeIdIndex{0};
 
     /*!
        \var   int m_EmployeeIdIndex
        \brief The value of the EmployeeIdIndexx
     */
-    int m_EmployeeIdIndex { 0 };
+    int m_EmployeeIdIndex{0};
 
     /*!
         \var   int m_PlaceIdIndex
         \brief The value of the NameIndex
      */
-    int m_PlaceIdIndex { 0 };
+    int m_PlaceIdIndex{0};
 
     /*!
         \var   int m_DepartmentIdIndex
         \brief The value of the DepartmentIdIndex
      */
-    int m_DepartmentIdIndex { 0 };
+    int m_DepartmentIdIndex{0};
 
     /*!
         \var   int m_ManufacturerIdIndex
         \brief The value of the ManufacturerIdIndex
      */
-    int m_ManufacturerIdIndex { 0 };
+    int m_ManufacturerIdIndex{0};
 
     /*!
        \var   int m_InventoryIdIndex
        \brief The value of the InventoryIdIndex
     */
-    int m_InventoryIdIndex { 0 };
+    int m_InventoryIdIndex{0};
 
     /*!
        \var   int m_ProcessorIdIndex
        \brief The value of the ProcessorIdIndex
     */
-    int m_ProcessorIdIndex { 0 };
+    int m_ProcessorIdIndex{0};
 
     /*!
        \var   int m_OSIdIndex
        \brief The value of the OSIdIndex
     */
-    int m_OSIdIndex { 0 };
+    int m_OSIdIndex{0};
 
     /*!
         \var   int m_ComputerSoftwareIdIndex
         \brief The value of the ComputerSoftwareIdIndex
      */
-    int m_ComputerSoftwareIdIndex { 0 };
+    int m_ComputerSoftwareIdIndex{0};
 
     /*!
         \var   int m_PrinterIdIndex
         \brief The value of the PrinterIdIndex
      */
-    int m_PrinterIdIndex { 0 };
+    int m_PrinterIdIndex{0};
 
     /*!
        \var   int m_LastUpdateIndex
        \brief The value of the LastUpdateIndex
     */
-    int m_LastUpdateIndex { 0 };
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model

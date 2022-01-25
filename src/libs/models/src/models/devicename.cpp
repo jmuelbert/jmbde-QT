@@ -26,7 +26,7 @@ void Model::DeviceName::setIndexes()
     m_LastUpdateIndex = this->m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-auto Model::DeviceName::initializeRelationalModel() -> QSqlRelationalTableModel*
+auto Model::DeviceName::initializeRelationalModel() -> QSqlRelationalTableModel *
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -38,7 +38,7 @@ auto Model::DeviceName::initializeRelationalModel() -> QSqlRelationalTableModel*
     return this->m_model;
 }
 
-auto Model::DeviceName::initializeInputDataModel() -> QSqlRelationalTableModel*
+auto Model::DeviceName::initializeInputDataModel() -> QSqlRelationalTableModel *
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -47,16 +47,16 @@ auto Model::DeviceName::initializeInputDataModel() -> QSqlRelationalTableModel*
     return this->m_model;
 }
 
-auto Model::DeviceName::initializeViewModel() -> QSqlTableModel*
+auto Model::DeviceName::initializeViewModel() -> QSqlTableModel *
 {
     this->m_model->select();
 
     return this->m_model;
 }
 
-auto Model::DeviceName::initializeListModel() -> QSqlTableModel*
+auto Model::DeviceName::initializeListModel() -> QSqlTableModel *
 {
-    auto* listModel = new QSqlTableModel(this, this->m_db);
+    auto *listModel = new QSqlTableModel(this, this->m_db);
     listModel->setTable(this->m_tableName);
     listModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
     listModel->select();
@@ -64,7 +64,7 @@ auto Model::DeviceName::initializeListModel() -> QSqlTableModel*
     return listModel;
 }
 
-auto Model::DeviceName::generateTableString(const QString& header) -> QString
+auto Model::DeviceName::generateTableString(const QString &header) -> QString
 {
     QString outString;
 
@@ -90,7 +90,7 @@ auto Model::DeviceName::generateTableString(const QString& header) -> QString
     return outString;
 }
 
-auto Model::DeviceName::generateFormularString(const QString& header) -> QString
+auto Model::DeviceName::generateFormularString(const QString &header) -> QString
 {
     QString outString;
 

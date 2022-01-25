@@ -6,9 +6,9 @@
 
 #include "models/commondata.h"
 
-auto Model::CommonData::createSheet() -> QTextDocument*
+auto Model::CommonData::createSheet() -> QTextDocument *
 {
-    auto* document = new QTextDocument;
+    auto *document = new QTextDocument;
 
     return document;
 }

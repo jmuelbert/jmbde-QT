@@ -20,7 +20,8 @@
 #include "jmbdemodels-version.h"
 #include "jmbdemodels_export.h"
 
-namespace Model {
+namespace Model
+{
 /*!
     \class CommonData
 
@@ -33,7 +34,8 @@ namespace Model {
     \copyright GPL-3.0-or-later
     */
 
-class CommonData : public QAbstractTableModel {
+class CommonData : public QAbstractTableModel
+{
     Q_OBJECT
 
 public:
@@ -67,7 +69,7 @@ public:
         \brief set the QSqlRelationalTableModel for the DataModel
         \return The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT auto initializeRelationalModel() -> QSqlRelationalTableModel* = 0;
+    virtual JMBDEMODELS_EXPORT auto initializeRelationalModel() -> QSqlRelationalTableModel * = 0;
 
     /*!
         \fn virtual QSqlRelationalTableModel *initializeInputDataModel() final
@@ -75,7 +77,7 @@ public:
 
          \return The QSqlRelationalTableModel
      */
-    virtual JMBDEMODELS_EXPORT auto initializeInputDataModel() -> QSqlRelationalTableModel* = 0;
+    virtual JMBDEMODELS_EXPORT auto initializeInputDataModel() -> QSqlRelationalTableModel * = 0;
 
     /*!
         \fn virtual QSqlTableModel *initializeViewModel() final
@@ -83,13 +85,13 @@ public:
 
         \return QSqlTableModel
      */
-    virtual JMBDEMODELS_EXPORT auto initializeViewModel() -> QSqlTableModel* = 0;
+    virtual JMBDEMODELS_EXPORT auto initializeViewModel() -> QSqlTableModel * = 0;
 
     /*!
         \fn QSqlTableModel *initializeListModel();
         \brief Initiallize the list Model for select one dataset
     */
-    virtual JMBDEMODELS_EXPORT auto initializeListModel() -> QSqlTableModel* = 0;
+    virtual JMBDEMODELS_EXPORT auto initializeListModel() -> QSqlTableModel * = 0;
 
     /*!
      * \fn virtual auto generateTableString(
@@ -98,7 +100,7 @@ public:
 
         \return a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString& header) -> QString = 0;
+    virtual JMBDEMODELS_EXPORT auto generateTableString(const QString &header) -> QString = 0;
 
     /*!
         \fn virtual auto generateFormularString(
@@ -107,7 +109,7 @@ public:
 
         \return a QString with the generated Table for Output
      */
-    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString& header) -> QString = 0;
+    virtual JMBDEMODELS_EXPORT auto generateFormularString(const QString &header) -> QString = 0;
 
     /*!
         \fn  QTextDocument *createSheet()
@@ -117,7 +119,7 @@ public:
 
         \sa  QTextDocument
      */
-    static JMBDEMODELS_EXPORT QTextDocument* createSheet();
+    static JMBDEMODELS_EXPORT QTextDocument *createSheet();
 
     /*!
         \fn QString setOutTableStyle()
@@ -140,17 +142,17 @@ public:
      */
     static JMBDEMODELS_EXPORT QString setOutFormularStyle();
 
-    JMBDEMODELS_EXPORT int rowCount(const QModelIndex& = QModelIndex()) const override
+    JMBDEMODELS_EXPORT int rowCount(const QModelIndex & = QModelIndex()) const override
     {
         return 200;
     }
 
-    JMBDEMODELS_EXPORT int columnCount(const QModelIndex& = QModelIndex()) const override
+    JMBDEMODELS_EXPORT int columnCount(const QModelIndex & = QModelIndex()) const override
     {
         return 200;
     }
 
-    JMBDEMODELS_EXPORT QVariant data(const QModelIndex& index, int role) const override
+    JMBDEMODELS_EXPORT QVariant data(const QModelIndex &index, int role) const override
     {
         switch (role) {
         case Qt::DisplayRole:
@@ -164,7 +166,7 @@ public:
 
     JMBDEMODELS_EXPORT QHash<int, QByteArray> roleNames() const override
     {
-        return { { Qt::DisplayRole, "display" } };
+        return {{Qt::DisplayRole, "display"}};
     }
 
 protected:
@@ -172,15 +174,15 @@ protected:
         \brief holds an initialised pointer to the Relationmodel
         \sa QSqlRelationalTableModel
      */
-    QSqlRelationalTableModel* m_model { nullptr };
+    QSqlRelationalTableModel *m_model{nullptr};
 
     /*!
        \brief holds an initialised pointer to the ItemSelectioModel
        \sa QItemSelectionModel
     */
-    QItemSelectionModel* m_selectionModel { nullptr };
+    QItemSelectionModel *m_selectionModel{nullptr};
 
 private:
-    int m_LastUpdateIndex { 0 };
+    int m_LastUpdateIndex{0};
 };
 } // namespace Model

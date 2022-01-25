@@ -6,7 +6,6 @@
 
 #pragma once
 
-#include <QLoggingCategory>
 #include <QDataWidgetMapper>
 #include <QGroupBox>
 #include <QLoggingCategory>
@@ -132,5 +131,4 @@ private:
      * Logging Category
      */
     QLoggingCategory m_chipCardProfileDoorInputAreaLog;
-
 };

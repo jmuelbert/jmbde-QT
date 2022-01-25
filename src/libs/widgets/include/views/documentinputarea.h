@@ -130,5 +130,5 @@ private:
     /*!
      * Logging Category
      */
-    QLoggingCategory  m_DocumentInputAreaLog;
+    QLoggingCategory m_DocumentInputAreaLog;
 };

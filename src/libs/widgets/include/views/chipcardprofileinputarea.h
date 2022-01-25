@@ -131,5 +131,4 @@ private:
      * Logging Category
      */
     QLoggingCategory m_ChipCardProfileInputAreaLog;
-
 };

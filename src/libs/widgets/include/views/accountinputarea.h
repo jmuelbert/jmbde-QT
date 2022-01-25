@@ -6,7 +6,6 @@
 
 #pragma once
 
-#include <QLoggingCategory>
 #include <QDataWidgetMapper>
 #include <QGroupBox>
 #include <QLoggingCategory>
