@@ -1,3 +1,8 @@
+#
+#  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
+#
+#  SPDX-License-Identifier: GPL-3.0-or-later
+#
 # -------------------------------------------------------------------------------------------------------------------- #
 # Define directory path
 # -------------------------------------------------------------------------------------------------------------------- #
@@ -84,8 +89,8 @@ set(SOURCES
     ${SOURCE_DIR}/title.cpp
     ${SOURCE_DIR}/zipcity.cpp
     ${SOURCE_DIR}/zipcode.cpp
-    ${SOURCE_DIR}/res.qrc)
-  
+    ${SOURCE_DIR}/res.qrc
+    )
 
 # Group files in IDE project
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})

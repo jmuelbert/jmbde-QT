@@ -1,5 +1,5 @@
 #
-#  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+#  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
 #
 #  SPDX-License-Identifier: GPL-3.0-or-later
 #
@@ -14,11 +14,11 @@ else()
 endif()
 
 
-project(jmbde_models)
+project(jmbde_models LANGUAGES CXX)
 
-# ------------------------------------------------------------------------------- #
+# ---------------------------------------------------------------------------- #
 # Define CMake Module Imports
-# ------------------------------------------------------------------------------- #
+# ---------------------------------------------------------------------------- #
 # This will define the default values for installation
 # directories (all platforms even if named GNU)
 include(GNUInstallDirs)
@@ -40,7 +40,7 @@ string(TOLOWER ${TARGET_ID} TARGET_ID_LOWER)
 set(TARGET_NAMESPACE jmuelbert)
 set(TARGET_NAME ${TARGET_ID_LOWER})
 set(TARGET_DESCRIPTION "Models for jmdbde")
-set(TARGET_COPYRIGHT "© 2021 Jürgen Mülbert")
+set(TARGET_COPYRIGHT "© 2013-2022 Jürgen Mülbert")
 set(TARGET_URL "https://github.com/jmuelbert/jmdbe-QT")
 set(TARGET_VERSION_MAJOR 0)
 set(TARGET_VERSION_MINOR 7)
@@ -52,7 +52,7 @@ set(TARGET_AUTHOR_DOMAIN "https://github.com/jmuelbert")
 set(TARGET_AUTHOR_MAINTAINER "Jürgen Mülbert")
 
 
-message(STATUS "Building ${}" " Version ${TARGET_VERSION} SO_Version ${TARGET_SO_VERSION}"
+message(STATUS "Building ${TARGET_NAMESPACE}::${TARGET_NAME}" " Version ${TARGET_VERSION} SO_Version ${TARGET_SO_VERSION}"
                " in ${CMAKE_BUILD_TYPE} mode"
 )
 
@@ -61,9 +61,9 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 
-# -------------------------------------------------------------------------------------------------------------------- #
+# ---------------------------------------------------------------------------- #
 # Define Target according to options
-# -------------------------------------------------------------------------------------------------------------------- #
+# ---------------------------------------------------------------------------- #
 if(BUILD_SHARED_LIBS)
     add_library(${TARGET_NAME} SHARED "")
 else()
@@ -72,10 +72,9 @@ endif()
 
 add_library(${TARGET_NAMESPACE}::${TARGET_NAME} ALIAS ${TARGET_NAME} )
 
-
-# -------------------------------------------------------------------------------------------------------------------- #
+# ---------------------------------------------------------------------------- #
 # Get the Sources and the include directory
-# -------------------------------------------------------------------------------------------------------------------- #
+# ---------------------------------------------------------------------------- #
 set(TARGET_INCLUDE_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/include)
 # Define source files for the library
 include(CMakeLists_files.cmake)
@@ -85,10 +84,9 @@ target_sources(
   PRIVATE ${SOURCES} ${HEADERS}
 )
 
-# -------------------------------------------------------------------------------------------------------------------- #
+# ---------------------------------------------------------------------------- #
 # Define Target properties and optional Dependencies
-# -------------------------------------------------------------------------------------------------------------------- #
-
+# ---------------------------------------------------------------------------- #
 
 # This is required so that the exported target has the name  and not
 # 
@@ -114,10 +112,12 @@ set_target_properties(
              LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
              RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-# BUILD_INTERFACE specifies where to find includes during build time here we set the include directory to be our src
-# include directory as well as CMAKE_CURRENT_BINARY_DIR, which is where the generated export.h file is located. the
-# command must be included in double quotes so the two directories, separated by a ';' can both be used (cmake needs it
-# to be a string)
+# BUILD_INTERFACE specifies where to find includes during build time here we set
+# the include directory to be our src include directory as well as
+# CMAKE_CURRENT_BINARY_DIR, which is where the generated export.h file is
+# located. the command must be included in double quotes so the two
+# directories, separated by a ';' can both be used (cmake needs it to be a
+# string)
 # include all the necessary directories
 target_include_directories(${TARGET_NAME}
   PUBLIC
@@ -148,14 +148,14 @@ find_package(
   COMPONENTS Core
   REQUIRED)
 
-# -------------------------------------------------------------------------------------------------------------------- #
+# ---------------------------------------------------------------------------- #
 # Finding Qt5 or Qt6
-# -------------------------------------------------------------------------------------------------------------------- #
+# ---------------------------------------------------------------------------- #
 find_package(Qt${QT_VERSION_MAJOR} CONFIG COMPONENTS Core Widgets Sql PrintSupport)
 
-#
+# ---------------------------------------------------------------------------- #
 # Install instructions
-#
+# ---------------------------------------------------------------------------- #
 set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/${TARGET_NAME})
 
 install(
@@ -167,14 +167,18 @@ install(
 
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
+# ---------------------------------------------------------------------------- #
 # Export the targets to a script
+# ---------------------------------------------------------------------------- #
 install(
   EXPORT ${TARGET_NAME}-Targets
   FILE ${TARGET_NAME}Targets.cmake
   NAMESPACE ${TARGET_NAMESPACE}::
   DESTINATION ${INSTALL_CONFIGDIR})
 
+# ---------------------------------------------------------------------------- #
 # Create a ConfigVersion.cmake file
+# ---------------------------------------------------------------------------- #
 write_basic_package_version_file(
   ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_ID}ConfigVersion.cmake
   VERSION ${TARGET_VERSION}
@@ -185,15 +189,18 @@ configure_package_config_file(
   ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_ID}Config.cmake
   INSTALL_DESTINATION ${INSTALL_CONFIGDIR})
 
+# ---------------------------------------------------------------------------- #
 # Install the config, configversion and custom find modules
+# ---------------------------------------------------------------------------- #
 install(
   FILES ${CMAKE_CURRENT_LIST_DIR}/cmake/Find${TARGET_ID}.cmake
         ${CMAKE_CURRENT_BINARY_DIR}/Config${TARGET_ID}.cmake
         ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_ID}ConfigVersion.cmake
   DESTINATION ${INSTALL_CONFIGDIR})
 
-##############################################################################
+# ---------------------------------------------------------------------------- #
 # Exporting from the build tree
+# ---------------------------------------------------------------------------- #
 configure_file(${CMAKE_CURRENT_LIST_DIR}/cmake/Find${TARGET_ID}.cmake
                ${CMAKE_CURRENT_BINARY_DIR}/Find${TARGET_ID}.cmake COPYONLY)
 
@@ -210,6 +217,9 @@ if(MSVC AND BUILD_SHARED_LIBS)
     CONFIGURATIONS Debug RelWithDebInfo)
 endif()
 
+# ---------------------------------------------------------------------------- #
+# Testing
+# ---------------------------------------------------------------------------- #
 if(BUILD_TESTING)
   enable_testing()
   add_subdirectory(test_package)

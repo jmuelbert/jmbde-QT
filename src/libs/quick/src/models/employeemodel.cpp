@@ -4,7 +4,7 @@
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "models/employeemodel.h"
+#include "jmbdemodels/models/employeemodel.h"
 
 EmployeeModel::EmployeeModel(QObject *parent)
     : QAbstractListModel(parent)

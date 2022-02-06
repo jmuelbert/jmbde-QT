@@ -10,7 +10,7 @@ from conans import ConanFile, CMake
 
 class jmbdeQTAppConan(ConanFile):
     name = "jmbdeQT_app"
-    version = "0.5.4"
+    version = "0.6.0"
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake_find_package"
     build_policy = "missing"
@@ -19,8 +19,13 @@ class jmbdeQTAppConan(ConanFile):
     description = "A BDE Tool"
 
     def build_requirements(self):
-        # self.build_requires("cmake/3.21.1")
+        self.build_requires("cmake/3.22")
+        self.build_requires("ninja/1.10.2")
         self.build_requires("extra-cmake-modules/5.84.0")
+        self.build_requires("catch2/2.13.8")
+        self.build_requires("fmt/6.2.0")
+        self.build_requires("spdlog/1.5.0")
+        self.build_requires("qt/6.2.1")
 
     def export_sources(self):
         self.copy("*")

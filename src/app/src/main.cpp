@@ -5,8 +5,8 @@
  *
  */
 
-#include "jmbde-version.h"
-#include <views/mainwindow.h>
+#include "jmbde_version.h"
+#include <jmbdewidgets/mainwindow.h>
 
 /**
  * @brief main

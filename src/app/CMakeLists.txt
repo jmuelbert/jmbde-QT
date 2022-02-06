@@ -1,16 +1,14 @@
-# SPDX-FileCopyrightText: (C) 2013-2021  Jürgen Mülbert
+# SPDX-FileCopyrightText: (C) 2013-2022  Jürgen Mülbert
 # <juergen.muelbert@gmail.com> SPDX-License-Identifier: GNU-V3-later
-#
-# jmbde a BDE Tool for companies Copyright (C) 2013-2021  Jürgen Mülbert
 #
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.10...3.20 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.10...3.21 FATAL_ERROR)
 
-if(${CMAKE_VERSION} VERSION_LESS 3.20)
+if(${CMAKE_VERSION} VERSION_LESS 3.21)
   cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 else()
-  cmake_policy(VERSION 3.20)
+  cmake_policy(VERSION 3.21)
 endif()
 
 #
@@ -22,9 +20,9 @@ project(
   DESCRIPTION "A BDE Tool"
   LANGUAGES CXX)
 
-include(ECMSetupVersion)
-include(ECMInstallIcons)
-include(ECMAddAppIcon)
+# include(ECMSetupVersion)
+# include(ECMInstallIcons)
+# include(ECMAddAppIcon)
 
 message(
   STATUS
@@ -32,14 +30,27 @@ message(
 
 # set project version
 
-ecm_setup_version(
-  ${PROJECT_VERSION}
-  VARIABLE_PREFIX
-  JMBDE
-  VERSION_HEADER
-  "${CMAKE_CURRENT_BINARY_DIR}/jmbde-version.h"
-  PACKAGE_VERSION_FILE
-  "${CMAKE_CURRENT_BINARY_DIR}/JMBDE-ConfigVersion.cmake")
+# ecm_setup_version(
+#   ${PROJECT_VERSION}
+#  VARIABLE_PREFIX
+#  JMBDE
+#  VERSION_HEADER
+#  "${CMAKE_CURRENT_BINARY_DIR}/jmbde-version.h"
+#  PACKAGE_VERSION_FILE
+#  "${CMAKE_CURRENT_BINARY_DIR}/JMBDE-ConfigVersion.cmake")
+
+# --------------- +
+# Write Version   +
+# --------------- +
+set(AUTHOR_MAINTAINER "Jürgen Mülbert")
+set(VERSION_MAJOR 0)
+set(VERSION_MINOR 6)
+set(VERSION_PATCH 0)
+set(VERSION_REVISION 1)
+set(VERSION "0.6.0")
+
+configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/version.h.in
+                 ${CMAKE_CURRENT_BINARY_DIR}/jmbde_version.h @ONLY)
 
 if(APPLE)
   add_executable(${PROJECT_NAME} MACOSX_BUNDLE)
@@ -55,10 +66,14 @@ if(APPLE OR WIN32)
   # target_compile_definitions(${PROJECT_NAME} PRIVATE USE_QT_SINGLE_APP)
 endif()
 
-#
-# Finding Qt
-#
-# find_package(QT_NAMES Qt6 Qt5 COMPONENTS Core Requiered)
+find_package(
+  QT NAMES Qt6 Qt5
+  COMPONENTS Core
+  REQUIRED)
+
+# ---------------------------------------------------------------------------- #
+# Finding Qt5 or Qt6
+# ---------------------------------------------------------------------------- #
 find_package(Qt${QT_VERSION_MAJOR} QUIET COMPONENTS Core Widgets PrintSupport
                                                     Sql Qml)
 
@@ -82,8 +97,8 @@ set(ICONS_SVG ${CMAKE_SOURCE_DIR}/assets/icons/sc-apps-jmbde.svgz)
 
 # Add icon files to the application's source files to have CMake bundle them in
 # the executable.
-ecm_add_app_icon(ICONS_SOURCES ICONS ${ICONS_PNG} OUTFILE_BASENAME
-                 ${PROJECT_NAME})
+# ecm_add_app_icon(ICONS_SOURCES ICONS ${ICONS_PNG} OUTFILE_BASENAME
+#                 ${PROJECT_NAME})
 
 #
 # target
@@ -189,14 +204,14 @@ elseif(UNIX AND NOT APPLE)
 
   install(TARGETS ${PROJECT_NAME} ${INSTALL_TARGETS_DEFAULT_ARGS})
 
-  ecm_install_icons(
-    ICONS
-    ${ICONS_PNG}
-    ${ICONS_SVG}
-    DESTINATION
-    ${ICON_INSTALL_DIR}
-    THEME
-    hicolor)
+#  ecm_install_icons(
+#    ICONS
+#    ${ICONS_PNG}
+#    ${ICONS_SVG}
+#    DESTINATION
+#    ${ICON_INSTALL_DIR}
+#    THEME
+#    hicolor)
 
   # appdata
   configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/jmbde.appdata.xml.in

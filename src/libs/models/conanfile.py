@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+#
+#  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
+#
+#  SPDX-License-Identifier: GPL-3.0-or-later
+#
+#
 import os
 
 from conans import ConanFile, tools
@@ -5,9 +12,9 @@ from conan.tools.cmake import CMake
 from conan.tools.layout import cmake_layout
 
 
-class JmbdemodelsTestConan(ConanFile):
+class JmbdemodelsConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
-    requires = "qt/6.2.1", "jmbdemodels/0.7"
+    requires = "qt/6.2.1"
     # VirtualBuildEnv and VirtualRunEnv can be avoided if "tools.env.virtualenv:auto_use" is defined
     # (it will be defined in Conan 2.0)
     generators = "CMakeDeps", "CMakeToolchain", "VirtualBuildEnv", "VirtualRunEnv"

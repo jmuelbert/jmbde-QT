@@ -31,6 +31,7 @@ on:
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   TARGET_NAME: jmbde
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: RelWithDebInfo
   DISPLAY: ':99'
   CTEST_OUTPUT_ON_FAILURE: 1
@@ -45,6 +46,11 @@ env:
   TEST_CC: 'clang'
   TEST_CXX: 'clang++'
   TEST_BUILD_TYPE: Debug
+
+  # Conan cache environment variables
+  CONAN_SYSREQUIRES_MODE: enabled
+  CONAN_USER_HOME: "${{ github.workspace }}/conan-cache"
+  CONAN_USER_HOME_SHORT: "${{ github.workspace }}/conan-cache/short"
 
 jobs:
   appimage-build:
@@ -85,15 +91,29 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
 
+      - name: Cache
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-conan-modules
+        with:
+          path: |
+            ${{ env.CONAN_USER_HOME }}
+            ~/.cache/pip
+          key: ${{ runner.os }}-${{ env.BUILD_TYPE }}-${{ hashFiles('CMakeLists.txt') }}-${{ hashFiles('cmake/Conan.cmake') }}
+
       - name: '⚙️ Install dependencies'
         run: |
           sudo apt-get -y -qq update
           sudo apt-get -y --no-install-recommends install \
             ninja-build
 
-      - name: '⚙️ install python dependencies'
+
+      - name: Install conan
+        shell: bash
         run: |
-          pipx install conan
+          python3 -m pip install --upgrade pip setuptools
+          python3 -m pip install conan
+          source ~/.profile
 
       - name: '⚙️ Cache Qt'
         id: cache-qt
@@ -128,6 +148,7 @@ jobs:
           CC: ${{ matrix.cc }}
           CXX: ${{ matrix.cxx}}
         run: |
+          source ~/.profile
           APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
           mkdir -p ${APPIMAGE_DST_PATH}
           cd $GITHUB_WORKSPACE
@@ -304,6 +325,16 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
 
+      - name: Cache
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-conan-modules
+        with:
+          path: |
+            ${{ env.CONAN_USER_HOME }}
+            ~/.cache/pip
+          key: ${{ runner.os }}-${{ env.BUILD_TYPE }}-${{ hashFiles('CMakeLists.txt') }}-${{ hashFiles('cmake/Conan.cmake') }}
+
       - name: '⚙️ Cache Qt'
         id: cache-qt
         uses: actions/cache@v1 # not v2!
@@ -324,9 +355,13 @@ jobs:
         run: |
           brew install ninja
 
-      - name: '⚙️ install python dependencies'
+
+      - name: Install conan
+        shell: bash
         run: |
-          pipx install conan
+          python3 -m pip install --upgrade pip setuptools
+          python3 -m pip install conan
+          source ~/.profile
 
       - name: Create Build Environment
         # Some projects don't allow in-source building, so create a separate build directory
@@ -342,6 +377,7 @@ jobs:
         # and build directories, but this is only available with CMake 3.13 and higher.
         # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
         run: |
+          source ~/.profile
           cmake $GITHUB_WORKSPACE \
             -G ${{matrix.cmake_generator}} \
             -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
@@ -410,6 +446,16 @@ jobs:
       - name: Restoring submodules
         run: git submodule update --init
 
+      - name: Cache
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-conan-modules
+        with:
+          path: |
+            ${{ env.CONAN_USER_HOME }}
+            ~/.cache/pip
+          key: ${{ runner.os }}-${{ env.BUILD_TYPE }}-${{ hashFiles('CMakeLists.txt') }}-${{ hashFiles('cmake/Conan.cmake') }}
+
       - name: '⚙️ Configure MSVC'
         uses: ilammy/msvc-dev-cmd@v1
         with:
@@ -433,9 +479,13 @@ jobs:
           # modules: 'qtscript'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
-      - name: '⚙️ install python dependencies'
+
+      - name: Install conan
+        shell: bash
         run: |
-          pipx install conan
+          python3 -m pip install --upgrade pip setuptools
+          python3 -m pip install conan
+          source ~/.profile
 
       - name: '⚙️ Install Build deps'
         run: |
@@ -446,6 +496,7 @@ jobs:
         shell: bash
         working-directory: ${{ runner.workspace }}/build
         run: |
+          source ~/.profile
           cmake ${{ github.workspace }} \
             -G ${{ matrix.cmake_generator }} \
             -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}  \
@@ -565,6 +616,17 @@ jobs:
           sudo apt-get -y --no-install-recommends install \
               ninja-build
 
+
+      - name: Cache
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-conan-modules
+        with:
+          path: |
+            ${{ env.CONAN_USER_HOME }}
+            ~/.cache/pip
+          key: ${{ runner.os }}-${{ env.BUILD_TYPE }}-${{ hashFiles('CMakeLists.txt') }}-${{ hashFiles('cmake/Conan.cmake') }}
+
       - name: '⚙️ Cache Qt'
         id: cache-qt
         uses: actions/cache@v1 # not v2!
@@ -581,9 +643,12 @@ jobs:
           # modules: 'qtscript'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
-      - name: '⚙️ install python dependencies'
+      - name: Install conan
+        shell: bash
         run: |
-          pipx install conan
+          python3 -m pip install --upgrade pip setuptools
+          python3 -m pip install conan
+          source ~/.profile
 
       - name: Xvfb run for ${{ runner.os }}
         run: |
@@ -607,6 +672,7 @@ jobs:
         # and build directories, but this is only available with CMake 3.13 and higher.
         # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
         run: |
+          source ~/.profile
           cmake ${{ github.workspace }} \
             -G ${{matrix.cmake_generator}} \
             -DCMAKE_BUILD_TYPE=${{ matrix.build_type}} \

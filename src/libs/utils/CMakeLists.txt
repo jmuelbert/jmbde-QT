@@ -1,5 +1,5 @@
 #
-# SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+# SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
@@ -13,13 +13,32 @@ else()
   cmake_policy(VERSION 3.21)
 endif()
 
+# JMBDEUtils project
+project(jmbdeutils LANGUAGES CXX)
 
-set(TARGET_ID Utils)
+# ------------------------------------------------------------------------------- #
+# Define CMake Module Imports
+# ------------------------------------------------------------------------------- #
+# This will define the default values for installation
+# directories (all platforms even if named GNU)
+include(GNUInstallDirs)
+# Helper to create relocatable packages
+include(CMakePackageConfigHelpers)
+# Tell CMake that the `install` target
+# needs to install required system
+# libraries (eg: Windows SDK)
+include(InstallRequiredSystemLibraries)
+include(GenerateExportHeader)
+include(CTest) # Must be called before adding tests but after calling project().
+               # This automatically calls enable_testing() and configures ctest
+               # targets when using Make/Ninja
+
+set(TARGET_ID jmbdeUtils)
 string(TOLOWER ${TARGET_ID} TARGET_ID_LOWER)
-set(TARGET_NAMESPACE jmbde)
-set(TARGET_NAME utils)
+set(TARGET_NAMESPACE jmuelbert)
+set(TARGET_NAME ${TARGET_ID_LOWER})
 set(TARGET_DESCRIPTION "Utils for jmdbde")
-set(TARGET_COPYRIGHT "© 2021 Jürgen Mülbert")
+set(TARGET_COPYRIGHT "© 2013-2022 Jürgen Mülbert")
 set(TARGET_URL "https://github.com/jmuelbert/jmdbe-QT")
 set(TARGET_VERSION_MAJOR 0)
 set(TARGET_VERSION_MINOR 1)
@@ -30,10 +49,14 @@ set(TARGET_AUTHOR_ORGANIZATION "Jürgen Mülbert")
 set(TARGET_AUTHOR_DOMAIN "https://github.com/jmuelbert")
 set(TARGET_AUTHOR_MAINTAINER "Jürgen Mülbert")
 
-message(STATUS "Building ${TARGET_NAME}" " Version ${TARGET_VERSION} SO_Version ${TARGET_SO_VERSION}"
+message(STATUS "Building ${TARGET_NAMESPACE}::${TARGET_NAME}" " Version ${TARGET_VERSION} SO_Version ${TARGET_SO_VERSION}"
                " in ${CMAKE_BUILD_TYPE} mode"
 )
 
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
 
 # -------------------------------------------------------------------------------------------------------------------- #
 # Define Target according to options
@@ -55,38 +78,36 @@ include(CMakeLists_files.cmake)
 
 target_sources(
   ${TARGET_NAME}
-  PRIVATE ${SOURCES}
+  PRIVATE ${SOURCES} ${HEADERS}
 )
 
 # -------------------------------------------------------------------------------------------------------------------- #
 # Define Target properties and optional Dependencies
 # -------------------------------------------------------------------------------------------------------------------- #
 
-# generate an export header to expose symbols when using the library
-generate_export_header(${TARGET_NAME} EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/${TARGET_NAME}_export.h)
-
+# This is required so that the exported target has the name  and not
+#
 # add target properties such as debug postfix, MSVC Runtime and library version
 # DEBUG_POSTFIX "-d"
 set_target_properties(${TARGET_NAME} PROPERTIES
                         MSVC_RUNTIME_LIBRARY "${MSVC_RUNTIME_TYPE}"
                         VERSION ${TARGET_VERSION}
-                        SOVERSION ${TARGET_SO_VERSION})
+                        SOVERSION ${TARGET_SO_VERSION}
+                        EXPORTNAME ${TARGET_NAME})
 
-# set target compile options as defined in the cmake/compiler_options.cmake Module
-target_compile_options(${TARGET_NAME} PRIVATE ${compiler_options})
+set_target_properties(${TARGET_NAME} PROPERTIES
+      CXX_STANDARD 17
+      CXX_VISIBILITY_PRESET hidden
+      CMAKE_CXX_STANDARD_REQUIRED ON
+      CMAKE_CXX_EXTENSIONS OFF
+      VISIBILITY_INLINES_HIDDEN 1
+ )
 
-# add compiler definition 
-target_compile_definitions(${TARGET_NAME} PRIVATE ${compiler_definitions} "$<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:${TARGET_NAME}_STATIC_DEFINE>")
-
-# set target link options as defined in the cmake/compiler_options.cmake Module
-target_link_options(${TARGET_NAME} PRIVATE ${linker_flags})
-
-# -------------------------------------------------------------------------------------------------------------------- #
-# Finding Qt5 or Qt6
-# -------------------------------------------------------------------------------------------------------------------- #
-find_package(Qt${QT_VERSION_MAJOR} CONFIG COMPONENTS Core)
-
-target_link_libraries(${TARGET_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Core)
+set_target_properties(
+  ${TARGET_NAME}
+  PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+             LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+             RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # BUILD_INTERFACE specifies where to find includes during build time here we set the include directory to be our src
 # include directory as well as CMAKE_CURRENT_BINARY_DIR, which is where the generated export.h file is located. the
@@ -96,34 +117,96 @@ target_link_libraries(${TARGET_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Core)
 target_include_directories(${TARGET_NAME}
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/exports>
-  PRIVATE 
+  PRIVATE
     ${TARGET_INCLUDE_FOLDER}
     # include OpenSSL directories if present
     # $<$<BOOL:${OPENSSL_FOUND}>:${OPENSSL_INCLUDE_DIR}>
     # Any other extra include required
 )
 
+# set target compile options as defined in the cmake/compiler_options.cmake Module
+target_compile_definitions(${TARGET_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+
+
+find_package(
+  QT NAMES Qt6 Qt5
+  COMPONENTS Core
+  REQUIRED)
+
+# -------------------------------------------------------------------------------------------------------------------- #
+# Finding Qt5 or Qt6
+# -------------------------------------------------------------------------------------------------------------------- #
+find_package(Qt${QT_VERSION_MAJOR} CONFIG COMPONENTS Core Widgets Sql PrintSupport)
+
+# We tell CMake what are the target dependencies
+target_link_libraries(${TARGET_NAME}
+              # PUBLIC
+              PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Gui
+                      Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::PrintSupport
+                      Qt${QT_VERSION_MAJOR}::Sql ${CONAN_LIBS})
+
+
+# generate an export header to expose symbols when using the library
+generate_export_header(${TARGET_NAME} EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/${TARGET_NAME}_export.h)
+
+#
+# Install instructions
+#
+set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/${TARGET_NAME})
+
+install(
+  TARGETS ${TARGET_NAME}
+  EXPORT ${TARGET_NAME}-Targets
+  RUNTIME DESTINATION "${BIN_INSTALL_DIR}"
+  LIBRARY DESTINATION "${LIB_INSTALL_DIR}"
+  ARCHIVE DESTINATION "${LIB_INSTALL_DIR}")
+
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+# Export the targets to a script
+install(
+  EXPORT ${TARGET_NAME}-Targets
+  FILE ${TARGET_NAME}Targets.cmake
+  NAMESPACE ${TARGET_NAMESPACE}::
+  DESTINATION ${INSTALL_CONFIGDIR})
+
+# Create a ConfigVersion.cmake file
+write_basic_package_version_file(
+  ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_ID}ConfigVersion.cmake
+  VERSION ${TARGET_VERSION}
+  COMPATIBILITY AnyNewerVersion)
+
+configure_package_config_file(
+  ${CMAKE_CURRENT_LIST_DIR}/cmake/config.cmake.in
+  ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_ID}Config.cmake
+  INSTALL_DESTINATION ${INSTALL_CONFIGDIR})
+
+# Install the config, configversion and custom find modules
+install(
+  FILES ${CMAKE_CURRENT_LIST_DIR}/cmake/Find${TARGET_ID}.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/Config${TARGET_ID}.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_ID}ConfigVersion.cmake
+  DESTINATION ${INSTALL_CONFIGDIR})
+
+##############################################################################
+# Exporting from the build tree
+configure_file(${CMAKE_CURRENT_LIST_DIR}/cmake/Find${TARGET_ID}.cmake
+               ${CMAKE_CURRENT_BINARY_DIR}/Find${TARGET_ID}.cmake COPYONLY)
+
+export(
+  EXPORT ${TARGET_NAME}-Targets
+  FILE ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}Targets.cmake
+  NAMESPACE ${TARGET_NAMESPACE}::)
+
+if(MSVC AND BUILD_SHARED_LIBS)
+  install(
+    FILES
+      "$<TARGET_PDB_FILE_DIR:>/$<TARGET_PDB_FILE_NAME:>"
+    DESTINATION ${BIN_INSTALL_DIR}
+    CONFIGURATIONS Debug RelWithDebInfo)
+endif()
+
 if(BUILD_TESTING)
-  find_package(Qt${QT_VERSION_MAJOR} CONFIG COMPONENTS Core Test)
-
-  list(APPEND TEST_CASES
-  tst_logger
-  )
-  foreach(TEST_CASE ${TEST_CASES})
-    add_executable(${TEST_CASE} ${CMAKE_CURRENT_SOURCE_DIR}/tests/${TEST_CASE}.cpp)
-    target_link_libraries(${TEST_CASE} PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Test)
-    target_compile_options(${TEST_CASE} PRIVATE ${compiler_options})
-    target_compile_definitions(${TEST_CASE} PRIVATE ${compiler_definitions} $<$<BOOL:${OPENSSL_FOUND}>:WITH_OPENSSL>)
-    target_link_options(${TEST_CASE} PRIVATE ${linker_flags})
-
-    target_include_directories(${TEST_CASE}
-      PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/exports>
-      PRIVATE
-        ${TARGET_INCLUDE_FOLDER}
-        # Any other extra include required
-    )
-
-    add_test(NAME ${TEST_CASE} COMMAND ${TEST_CASE})
-  endforeach(TEST_CASE ${TEST_CASES})
+  enable_testing()
+  add_subdirectory(test_package)
 endif()

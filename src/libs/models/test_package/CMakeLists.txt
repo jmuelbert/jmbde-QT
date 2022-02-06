@@ -1,32 +1,38 @@
 #
- #  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ #  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
  #
  #  SPDX-License-Identifier: GPL-3.0-or-later
  #
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.10...3.20 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.10...3.21 FATAL_ERROR)
 
-if(${CMAKE_VERSION} VERSION_LESS 3.20)
+if(${CMAKE_VERSION} VERSION_LESS 3.21)
   cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 else()
-  cmake_policy(VERSION 3.20)
+  cmake_policy(VERSION 3.21)
 endif()
 
-#include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-#conan_basic_setup()
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
+
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
 
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets Sql
                                                        PrintSupport Test)
 
 # find_package(jmbdemodels CONFIG REQUIRED)
 
-list(APPEND TEST_CASES example tst_models)
+list(APPEND TEST_CASES tst_jmbdemodels tst_models)
 foreach(TEST_CASE ${TEST_CASES})
   add_executable(${TEST_CASE} ${CMAKE_CURRENT_SOURCE_DIR}/src/${TEST_CASE}.cpp)
   target_link_libraries(${TEST_CASE} 
     PRIVATE
       Qt${QT_VERSION_MAJOR}::Core 
+      Qt${QT_VERSION_MAJOR}::Gui      
       Qt${QT_VERSION_MAJOR}::Test
       ${CONAN_LIBS}
     )

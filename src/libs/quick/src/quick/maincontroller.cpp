@@ -4,8 +4,8 @@
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "quick/maincontroller.h"
-#include "models/employeemodel.h"
+#include "jmbdequick/quick/maincontroller.h"
+#include "jmbdemodels/employeemodel.h"
 
 MainController::MainController(/* QObject *parent */) = default;
 
