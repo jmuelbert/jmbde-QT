@@ -148,7 +148,9 @@ target_link_libraries(${TARGET_NAME}
               PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Gui
                       Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::PrintSupport
                       Qt${QT_VERSION_MAJOR}::Sql 
-                      Qt${QT_VERSION_MAJOR}::Quick ${CONAN_LIBS})
+                      Qt${QT_VERSION_MAJOR}::Quick 
+                      jmuelbert::jmbdemodels
+                      ${CONAN_LIBS})
 
 
 # generate an export header to expose symbols when using the library
@@ -213,5 +215,5 @@ endif()
 
 if(BUILD_TESTING)
   enable_testing()
-  add_subdirectory(test_package)
+  add_subdirectory(test)
 endif()

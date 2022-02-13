@@ -1,24 +1,21 @@
 /*
- *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
  *
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "views/processorinputarea.h"
+#include "jmbdewidgets/processorinputarea.h"
 
-#include "models/processor.h"
 #include "ui_processorinputarea.h"
 
 ProcessorInputArea::ProcessorInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::ProcessorInputArea)
-    , m_ProcessorInputAreaLog(QLoggingCategory("jmbde.widgets.processorinputarea"))
-
 {
     ui->setupUi(this);
 
     // Init UI
-    qCDebug(m_ProcessorInputAreaLog) << tr("Initialisiere ProcessorInputarea mit Index : ") << index.row();
+    qDebug() << tr("Initialisiere ProcessorInputarea mit Index : ") << index.row();
 
     this->m_processorModel = new Model::Processor();
     this->m_db = this->m_processorModel->getDB();
@@ -36,7 +33,7 @@ ProcessorInputArea::ProcessorInputArea(QWidget *parent, const QModelIndex &index
 
     setMappings();
 
-    qCDebug(m_ProcessorInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+    qDebug() << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
     if (index.row() < 0) {
         m_mapper->toFirst();
@@ -69,7 +66,7 @@ void ProcessorInputArea::setViewOnlyMode(bool mode)
 
 void ProcessorInputArea::createDataset()
 {
-    qCDebug(m_ProcessorInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Processor...");
+    qDebug() << tr("Erzeuge einen neuen, leeren Datensatz für Processor...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -85,19 +82,20 @@ void ProcessorInputArea::createDataset()
 
 void ProcessorInputArea::deleteDataset(const QModelIndex &index)
 {
-    qCDebug(m_ProcessorInputAreaLog) << tr("Lösche Daten von Processor");
+    qDebug() << tr("Lösche Daten von Processor");
     m_mapper->setCurrentIndex(index.row());
 }
 
 void ProcessorInputArea::addEdit()
 {
-    qCDebug(m_ProcessorInputAreaLog) << tr("Füge neue Daten zu Processor");
+    qDebug() << tr("Füge neue Daten zu Processor");
     createDataset();
     editFinish();
 }
+
 void ProcessorInputArea::editFinish()
 {
-    qCDebug(m_ProcessorInputAreaLog) << tr("Bearbeite oder schließe Processor Daten");
+    qDebug() << tr("Bearbeite oder schließe Processor Daten");
 
     switch (m_actualMode) {
     case Mode::Edit: {
@@ -108,7 +106,7 @@ void ProcessorInputArea::editFinish()
     } break;
 
     case Mode::Finish: {
-        qCDebug(m_ProcessorInputAreaLog) << tr("Die Daten werden gesichert.");
+        qDebug() << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -125,7 +123,7 @@ void ProcessorInputArea::editFinish()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(m_ProcessorInputAreaLog) << tr("Schreiben der Änderungen für Prozessor in die Datenbank");
+                qDebug() << tr("Schreiben der Änderungen für Prozessor in die Datenbank");
                 dataChanged();
             } else {
                 m_model->database().rollback();
@@ -135,7 +133,7 @@ void ProcessorInputArea::editFinish()
     } break;
 
     default: {
-        qCCritical(m_ProcessorInputAreaLog) << tr("Fehler: Unbekannter Modus");
+        qCritical() << tr("Fehler: Unbekannter Modus");
     }
     }
 }

@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
  *
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -14,9 +14,9 @@
 #include <QSqlRelationalDelegate>
 #include <QtSql>
 
+#include "jmbdemodels/datacontext.h"
+#include "jmbdemodels/document.h"
 #include "jmbdewidgets_export.h"
-#include "models/datacontext.h"
-#include "models/document.h"
 
 Q_DECLARE_LOGGING_CATEGORY(m_DocumentInputAreaLog)
 
@@ -125,9 +125,4 @@ private:
      * @param index Delete the data for the ModelIndex
      */
     void deleteDataset(const QModelIndex &index);
-
-    /*!
-     * Logging Category
-     */
-    QLoggingCategory m_DocumentInputAreaLog;
 };

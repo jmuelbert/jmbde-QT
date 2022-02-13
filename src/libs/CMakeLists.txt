@@ -22,8 +22,8 @@ add_subdirectory(widgets)
 
 #
 # This is only for the QML/Quickversion
-add_subdirectory(quick)
+# add_subdirectory(quick)
 
 #
 # Utils log..
-add_subdirectory(utils)
+# add_subdirectory(utils)

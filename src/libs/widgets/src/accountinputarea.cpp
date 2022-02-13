@@ -9,13 +9,13 @@
 #include "ui_accountinputarea.h"
 
 // Edit an existing Account
-AccountInputArea::AccountInputArea(QWidget *parent, const QModelIndex &index)
+AccountInputArea::AccountInputArea(QWidget* parent, const QModelIndex& index)
     : QGroupBox(parent)
     , ui(new Ui::AccountInputArea)
 {
     ui->setupUi(this);
 
-    qCDebug(m_AccountInputAreaLog) << tr("Initialisiere AccountInputArea mit Index :") << index.row();
+    qDebug() << tr("Initialisiere AccountInputArea mit Index :") << index.row();
 
     this->m_accountModel = new Model::Account();
     this->m_db = this->m_accountModel->getDB();
@@ -81,7 +81,7 @@ void AccountInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void AccountInputArea::deleteDataset(const QModelIndex &index)
+void AccountInputArea::deleteDataset(const QModelIndex& index)
 {
     qDebug() << tr("Lösche Daten von Account");
     m_mapper->setCurrentIndex(index.row());

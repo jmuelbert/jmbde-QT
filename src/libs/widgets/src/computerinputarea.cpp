@@ -1,22 +1,20 @@
 /*
- *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
  *
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "views/computerinputarea.h"
+#include "jmbdewidgets/computerinputarea.h"
 
 #include "ui_computerinputarea.h"
 
 ComputerInputArea::ComputerInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::ComputerInputArea)
-    , m_ComputerInputAreaLog(QLoggingCategory("jmbde.widgets.computerinputarea"))
-
 {
     ui->setupUi(this);
 
-    qCDebug(m_ComputerInputAreaLog) << "Initialisiere ComputerInputArea für Index :" << index.row();
+    qDebug() << "Initialisiere ComputerInputArea für Index :" << index.row();
 
     this->m_computerModel = new Model::Computer();
     this->m_db = this->m_computerModel->getDB();
@@ -34,7 +32,7 @@ ComputerInputArea::ComputerInputArea(QWidget *parent, const QModelIndex &index)
 
     setMappings();
 
-    qCDebug(m_ComputerInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+    qDebug() << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
     if (index.row() < 0) {
         m_mapper->toFirst();
@@ -102,7 +100,7 @@ void ComputerInputArea::setViewOnlyMode(bool mode)
 
 void ComputerInputArea::createDataset()
 {
-    qCDebug(m_ComputerInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Computer...");
+    qDebug() << tr("Erzeuge einen neuen, leeren Datensatz für Computer...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -118,31 +116,30 @@ void ComputerInputArea::createDataset()
 
 void ComputerInputArea::deleteDataset(const QModelIndex &index)
 {
-    qCDebug(m_ComputerInputAreaLog) << tr("Lösche Daten von Computer");
+    qDebug() << tr("Lösche Daten von Computer");
     m_mapper->setCurrentIndex(index.row());
 }
 
 void ComputerInputArea::addEdit()
 {
-    qCDebug(m_ComputerInputAreaLog) << tr("Füge neue Daten zu Computer");
+    qDebug() << tr("Füge neue Daten zu Computer");
     createDataset();
     editFinish();
 }
 
 void ComputerInputArea::editFinish()
 {
-    qCDebug(m_ComputerInputAreaLog) << tr("Bearbeite oder schließe Computer Daten");
+    qDebug() << tr("Bearbeite oder schließe Computer Daten");
 
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
         ui->editFinishPushButton->setText(tr("Fertig"));
         setViewOnlyMode(false);
-
     } break;
 
     case Mode::Finish: {
-        qCDebug(m_ComputerInputAreaLog) << tr("Die Daten werden gesichert.");
+        qDebug() << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -159,7 +156,7 @@ void ComputerInputArea::editFinish()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(m_ComputerInputAreaLog) << tr("Schreiben der Änderungen für Account in die Datenbank");
+                qDebug() << tr("Schreiben der Änderungen für Account in die Datenbank");
                 dataChanged();
             } else {
                 m_model->database().rollback();
@@ -169,7 +166,7 @@ void ComputerInputArea::editFinish()
     } break;
 
     default: {
-        qCDebug(m_ComputerInputAreaLog) << tr("Fehler: Unbekannter Modus");
+        qDebug() << tr("Fehler: Unbekannter Modus");
     }
     }
 }

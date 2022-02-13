@@ -13,28 +13,9 @@ else()
   cmake_policy(VERSION 3.21)
 endif()
 
-
-project(jmbde_models LANGUAGES CXX)
-
 # ---------------------------------------------------------------------------- #
-# Define CMake Module Imports
+# Define Target Information
 # ---------------------------------------------------------------------------- #
-# This will define the default values for installation
-# directories (all platforms even if named GNU)
-include(GNUInstallDirs)
-# Helper to create relocatable packages
-include(CMakePackageConfigHelpers)
-# Tell CMake that the `install` target
-# needs to install required system
-# libraries (eg: Windows SDK)
-include(InstallRequiredSystemLibraries)
-include(GenerateExportHeader)
-include(CTest) # Must be called before adding tests but after calling project().
-               # This automatically calls enable_testing() and configures ctest
-               # targets when using Make/Ninja
-
-
-
 set(TARGET_ID jmbdeModels)
 string(TOLOWER ${TARGET_ID} TARGET_ID_LOWER)
 set(TARGET_NAMESPACE jmuelbert)
@@ -50,7 +31,6 @@ set(TARGET_SO_VERSION ${TARGET_VERSION_MAJOR})
 set(TARGET_AUTHOR_ORGANIZATION "Jürgen Mülbert")
 set(TARGET_AUTHOR_DOMAIN "https://github.com/jmuelbert")
 set(TARGET_AUTHOR_MAINTAINER "Jürgen Mülbert")
-
 
 message(STATUS "Building ${TARGET_NAMESPACE}::${TARGET_NAME}" " Version ${TARGET_VERSION} SO_Version ${TARGET_SO_VERSION}"
                " in ${CMAKE_BUILD_TYPE} mode"
@@ -106,12 +86,6 @@ set_target_properties(${TARGET_NAME} PROPERTIES
       VISIBILITY_INLINES_HIDDEN 1
  )
 
-set_target_properties(
-  ${TARGET_NAME}
-  PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-             LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-             RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-
 # BUILD_INTERFACE specifies where to find includes during build time here we set
 # the include directory to be our src include directory as well as
 # CMAKE_CURRENT_BINARY_DIR, which is where the generated export.h file is
@@ -122,6 +96,8 @@ set_target_properties(
 target_include_directories(${TARGET_NAME}
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/exports>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
   PRIVATE 
     ${TARGET_INCLUDE_FOLDER}
     # include OpenSSL directories if present
@@ -160,19 +136,18 @@ set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/${TARGET_NAME})
 
 install(
   TARGETS ${TARGET_NAME}
-  EXPORT ${TARGET_NAME}-Targets
-  RUNTIME DESTINATION "${BIN_INSTALL_DIR}"
-  LIBRARY DESTINATION "${LIB_INSTALL_DIR}"
-  ARCHIVE DESTINATION "${LIB_INSTALL_DIR}")
+  EXPORT ${TARGET_NAME}Config
+  LIBRARY
+  ARCHIVE)
 
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(DIRECTORY include/${TARGET_NAME} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 # ---------------------------------------------------------------------------- #
 # Export the targets to a script
 # ---------------------------------------------------------------------------- #
 install(
-  EXPORT ${TARGET_NAME}-Targets
-  FILE ${TARGET_NAME}Targets.cmake
+  EXPORT ${TARGET_NAME}Config
+  FILE ${TARGET_NAME}Config.cmake
   NAMESPACE ${TARGET_NAMESPACE}::
   DESTINATION ${INSTALL_CONFIGDIR})
 
@@ -205,8 +180,8 @@ configure_file(${CMAKE_CURRENT_LIST_DIR}/cmake/Find${TARGET_ID}.cmake
                ${CMAKE_CURRENT_BINARY_DIR}/Find${TARGET_ID}.cmake COPYONLY)
 
 export(
-  EXPORT ${TARGET_NAME}-Targets
-  FILE ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}Targets.cmake
+  EXPORT ${TARGET_NAME}Config
+  FILE ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}Config.cmake
   NAMESPACE ${TARGET_NAMESPACE}::)
 
 if(MSVC AND BUILD_SHARED_LIBS)
@@ -222,5 +197,5 @@ endif()
 # ---------------------------------------------------------------------------- #
 if(BUILD_TESTING)
   enable_testing()
-  add_subdirectory(test_package)
+  add_subdirectory(test)
 endif()

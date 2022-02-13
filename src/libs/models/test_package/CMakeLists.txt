@@ -13,40 +13,12 @@ else()
   cmake_policy(VERSION 3.21)
 endif()
 
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTOMOC ON)
+add_executable(example_test example_test.cpp)
 
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets Sql
-                                                       PrintSupport Test)
-
-# find_package(jmbdemodels CONFIG REQUIRED)
-
-list(APPEND TEST_CASES tst_jmbdemodels tst_models)
-foreach(TEST_CASE ${TEST_CASES})
-  add_executable(${TEST_CASE} ${CMAKE_CURRENT_SOURCE_DIR}/src/${TEST_CASE}.cpp)
-  target_link_libraries(${TEST_CASE} 
-    PRIVATE
-      Qt${QT_VERSION_MAJOR}::Core 
-      Qt${QT_VERSION_MAJOR}::Gui      
-      Qt${QT_VERSION_MAJOR}::Test
-      ${CONAN_LIBS}
-    )
-  target_compile_options(${TEST_CASE} PRIVATE ${compiler_options})
-  target_compile_definitions(${TEST_CASE} PRIVATE ${compiler_definitions} $<$<BOOL:${OPENSSL_FOUND}>:WITH_OPENSSL>)
-  target_link_options(${TEST_CASE} PRIVATE ${linker_flags})
-                                                     
-  target_include_directories(${TEST_CASE}
-    PUBLIC
-      $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/exports>
-    PRIVATE
-      ${TARGET_INCLUDE_FOLDER}
-      # Any other extra include required
-  )
-                                                     
-  add_test(NAME ${TEST_CASE} COMMAND ${TEST_CASE})
-endforeach(TEST_CASE ${TEST_CASES})
+target_link_libraries(example_test ${CONAN_LIBS})

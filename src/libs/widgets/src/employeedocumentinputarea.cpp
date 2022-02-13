@@ -1,21 +1,19 @@
 /*
- *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
  *
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+#include "jmbdewidgets/employeedocumentinputarea.h"
 #include <ui_employeedocumentinputarea.h>
-#include <views/employeedocumentinputarea.h>
 
 EmployeeDocumentInputArea::EmployeeDocumentInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::EmployeeDocumentInputArea)
-
-    , m_EmployeeDocumentInputAreaLog(QLoggingCategory("jmbde.widgets.employeedocumentinputarea"))
 {
     ui->setupUi(this);
 
-    qCDebug(m_EmployeeDocumentInputAreaLog) << tr("Initialisiere EmployeeDocumentInputArea mit Index :") << index.row();
+    qDebug() << tr("Initialisiere EmployeeDocumentInputArea mit Index :") << index.row();
 
     this->m_employeeDocumentModel = new Model::EmployeeDocument();
     this->m_db = this->m_employeeDocumentModel->getDB();
@@ -33,7 +31,7 @@ EmployeeDocumentInputArea::EmployeeDocumentInputArea(QWidget *parent, const QMod
 
     setMappings();
 
-    qCDebug(m_EmployeeDocumentInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+    qDebug() << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
     if (index.row() < 0) {
         m_mapper->toFirst();
@@ -65,7 +63,7 @@ void EmployeeDocumentInputArea::setViewOnlyMode(bool mode)
 
 void EmployeeDocumentInputArea::createDataset()
 {
-    qCDebug(m_EmployeeDocumentInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für EmployeeDocument...");
+    qDebug() << tr("Erzeuge einen neuen, leeren Datensatz für EmployeeDocument...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -81,20 +79,20 @@ void EmployeeDocumentInputArea::createDataset()
 
 void EmployeeDocumentInputArea::deleteDataset(const QModelIndex &index)
 {
-    qCDebug(m_EmployeeDocumentInputAreaLog) << tr("Lösche Daten von EmployeeDocument");
+    qDebug() << tr("Lösche Daten von EmployeeDocument");
     m_mapper->setCurrentIndex(index.row());
 }
 
 void EmployeeDocumentInputArea::addEdit()
 {
-    qCDebug(m_EmployeeDocumentInputAreaLog) << tr("Füge neue Daten zu EmployeeDocument");
+    qDebug() << tr("Füge neue Daten zu EmployeeDocument");
     createDataset();
     editFinish();
 }
 
 void EmployeeDocumentInputArea::editFinish()
 {
-    qCDebug(m_EmployeeDocumentInputAreaLog) << tr("Bearbeite oder schließe EmployeeDocument Daten");
+    qDebug() << tr("Bearbeite oder schließe EmployeeDocument Daten");
 
     switch (m_actualMode) {
     case Mode::Edit: {
@@ -105,7 +103,7 @@ void EmployeeDocumentInputArea::editFinish()
     } break;
 
     case Mode::Finish: {
-        qCDebug(m_EmployeeDocumentInputAreaLog) << tr("Die Daten werden gesichert.");
+        qDebug() << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -115,17 +113,16 @@ void EmployeeDocumentInputArea::editFinish()
         m_model->database().transaction();
         if (m_model->submitAll()) {
             m_model->database().commit();
-            qCDebug(m_EmployeeDocumentInputAreaLog) << tr("Schreiben der Änderungen für Account in die Datenbank");
+            qDebug() << tr("Schreiben der Änderungen für Account in die Datenbank");
             dataChanged();
         } else {
             m_model->database().rollback();
             QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
         }
-
     } break;
 
     default: {
-        qCCritical(m_EmployeeDocumentInputAreaLog) << tr("Fehler: Unbekannter Modus");
+        qCritical() << tr("Fehler: Unbekannter Modus");
     }
     }
 }

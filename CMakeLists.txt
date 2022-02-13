@@ -1,14 +1,40 @@
-# SPDX-FileCopyrightText: (C) 2013-2022  Jürgen Mülbert
-# <juergen.muelbert@gmail.com> SPDX-License-Identifier: GNU-V3-later
+#
+#  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
+#
+#  SPDX-License-Identifier: GPL-3.0-or-later
 #
 
-cmake_minimum_required(VERSION 3.15)
+# minimal requirements
+cmake_minimum_required(VERSION 3.10...3.21 FATAL_ERROR)
+
+if(${CMAKE_VERSION} VERSION_LESS 3.21)
+  cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
+else()
+  cmake_policy(VERSION 3.21)
+endif()
+
 
 # Set the project name to your project name, my project isn't very descriptive
-project(jmbdeqt CXX)
+project(jmbdeqt LANGUAGES CXX)
 
-include(cmake/StandardProjectSettings.cmake)
-include(cmake/PreventInSourceBuilds.cmake)
+# ---------------------------------------------------------------------------- #
+# Define CMake Module Imports
+# ---------------------------------------------------------------------------- #
+include(GNUInstallDirs)
+include(CMakePackageConfigHelpers)
+include(InstallRequiredSystemLibraries)
+include(GenerateExportHeader)
+
+# ---------------------------------------------------------------------------- #
+# Import from the Project cmake directory
+# ---------------------------------------------------------------------------- #
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
+include(modern_project_structure)
+include(clang_format)
+include(compiler_options)
+include(pack)
+include(StandardProjectSettings)
+include(PreventInSourceBuilds)
 
 # Link this 'library' to set the c++ standard / compile-time options requested
 add_library(project_options INTERFACE)
@@ -24,24 +50,24 @@ endif()
 add_library(project_warnings INTERFACE)
 
 # enable cache system
-include(cmake/Cache.cmake)
+include(Cache)
 
 # standard compiler warnings
-include(cmake/CompilerWarnings.cmake)
+include(CompilerWarnings)
 set_project_warnings(project_warnings)
 
 # sanitizer options if supported by compiler
-include(cmake/Sanitizers.cmake)
+include(Sanitizers)
 enable_sanitizers(project_options)
 
 # enable doxygen
-include(cmake/Doxygen.cmake)
+include(Doxygen)
 enable_doxygen()
 
 # allow for static analysis options
-include(cmake/StaticAnalyzers.cmake)
+include(StaticAnalyzers)
 
-option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
+option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" ON)
 option(ENABLE_TESTING "Enable Test Builds" ON)
 option(ENABLE_FUZZING "Enable Fuzzing Builds" OFF)
 
@@ -61,24 +87,26 @@ if(ENABLE_PCH)
     <utility>)
 endif()
 
-# Set up some extra Conan dependencies based on our needs before loading Conan
-set(CONAN_EXTRA_REQUIRES "")
-set(CONAN_EXTRA_OPTIONS "")
+if(ENABLE_CONAN)
+  # Set up some extra Conan dependencies based on our needs before loading Conan
+  set(CONAN_EXTRA_REQUIRES "")
+  set(CONAN_EXTRA_OPTIONS "")
 
-if(CPP_STARTER_USE_IMGUI)
-  set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES} imgui-sfml/2.1@bincrafters/stable)
+  if(CPP_STARTER_USE_IMGUI)
+    set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES} imgui-sfml/2.1@bincrafters/stable)
 
-  # set(CONAN_EXTRA_OPTIONS ${CONAN_EXTRA_OPTIONS} sfml:shared=False sfml:graphics=True sfml:audio=False
-  # sfml:window=True libalsa:disable_python=True)
+    # set(CONAN_EXTRA_OPTIONS ${CONAN_EXTRA_OPTIONS} sfml:shared=False sfml:graphics=True sfml:audio=False
+    # sfml:window=True libalsa:disable_python=True)
+  endif()
+
+  if(CPP_STARTER_USE_SDL)
+    set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES} sdl2/2.0.10@bincrafters/stable)
+    # set(CONAN_EXTRA_OPTIONS ${CONAN_EXTRA_OPTIONS} sdl2:wayland=True)
+  endif()
+
+  include(Conan)
+  run_conan()
 endif()
-
-if(CPP_STARTER_USE_SDL)
-  set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES} sdl2/2.0.10@bincrafters/stable)
-  # set(CONAN_EXTRA_OPTIONS ${CONAN_EXTRA_OPTIONS} sdl2:wayland=True)
-endif()
-
-include(cmake/Conan.cmake)
-run_conan()
 
 if(ENABLE_TESTING)
   enable_testing()

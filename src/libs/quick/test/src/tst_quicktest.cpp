@@ -4,9 +4,18 @@
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "tst_models.h"
+#include "tst_quicktest.h"
 
-void tst_models::toUpper_data()
+class tst_quicktest : public QObject
+{
+    Q_OBJECT
+
+private slots:
+    void toUpper_data();
+    void toUpper();
+};
+
+void tst_quicktest::toUpper_data()
 {
     QTest::addColumn<QString>("string");
     QTest::addColumn<QString>("result");
@@ -19,7 +28,7 @@ void tst_models::toUpper_data()
                                << "HELLO";
 }
 
-void tst_models::toUpper()
+void tst_quicktest::toUpper()
 {
     QFETCH(QString, string);
     QFETCH(QString, result);
@@ -27,4 +36,6 @@ void tst_models::toUpper()
     QCOMPARE(string.toUpper(), result);
 }
 
-QTEST_MAIN(tst_models)
+QTEST_MAIN(tst_quicktest)
+
+#include "tst_quicktest.moc"

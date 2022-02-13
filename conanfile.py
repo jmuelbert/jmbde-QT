@@ -5,19 +5,27 @@
 #  SPDX-License-Identifier: GPL-3.0-or-later
 #
 
+from pydoc_data.topics import topics
 from conans import ConanFile, CMake
 
 
-class jmbdeQTAppConan(ConanFile):
-    name = "jmbdeQT_app"
+class jmbdeConan(ConanFile):
+    name = "jmbde"
     version = "0.6.0"
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake_find_package"
     build_policy = "missing"
     url = "https://github.com/jmuelbert/jmbde-QT"
     license = "GPL V3+"
+    author = "Jürgen Mülbert"
     description = "A BDE Tool"
+    topics = ("bde", "collect-data", "database", "qt", "qt6", "conan", "cmake", "c++")
+    generators = "cmake"
 
+    options = {"testing": [True, False]}
+    default_options = {"testing": False}
+    build_policy = "missing"
+    
     def build_requirements(self):
         self.build_requires("cmake/3.22")
         self.build_requires("ninja/1.10.2")
@@ -26,6 +34,11 @@ class jmbdeQTAppConan(ConanFile):
         self.build_requires("fmt/6.2.0")
         self.build_requires("spdlog/1.5.0")
         self.build_requires("qt/6.2.1")
+
+    def requirements(self):
+        if self.options.testing:
+            self.requires('gtest/cci.20210126')
+            self.requires('benchmark/1.6.0')
 
     def export_sources(self):
         self.copy("*")

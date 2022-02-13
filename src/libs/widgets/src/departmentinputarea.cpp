@@ -1,28 +1,25 @@
 /*
- *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
  *
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+#include "jmbdewidgets/departmentinputarea.h"
 #include <ui_departmentinputarea.h>
-#include <views/departmentinputarea.h>
 
 DepartmentInputArea::DepartmentInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::DepartmentInputArea)
-    , m_DepartmentInputAreaLog(QLoggingCategory("jmbde.widgets.departmentinputarea"))
-
 {
     ui->setupUi(this);
 
-    qCDebug(m_DepartmentInputAreaLog) << tr("Initialisiere DepartmentInputArea mit Index :") << index.row();
+    qDebug() << tr("Initialisiere DepartmentInputArea mit Index :") << index.row();
 
     this->m_departmentModel = new Model::Department();
     this->m_db = this->m_departmentModel->getDB();
 
     m_actualMode = Mode::Edit;
     setViewOnlyMode(true);
-    ;
 
     // Set the Model
     m_model = this->m_departmentModel->initializeRelationalModel();
@@ -34,7 +31,7 @@ DepartmentInputArea::DepartmentInputArea(QWidget *parent, const QModelIndex &ind
 
     setMappings();
 
-    qCDebug(m_DepartmentInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+    qDebug() << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
     if (index.row() < 0) {
         m_mapper->toFirst();
@@ -77,7 +74,7 @@ void DepartmentInputArea::setViewOnlyMode(bool mode)
 
 void DepartmentInputArea::createDataset()
 {
-    qCDebug(m_DepartmentInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Department");
+    qDebug() << tr("Erzeuge einen neuen, leeren Datensatz für Department");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -93,31 +90,30 @@ void DepartmentInputArea::createDataset()
 
 void DepartmentInputArea::deleteDataset(const QModelIndex &index)
 {
-    qCDebug(m_DepartmentInputAreaLog) << tr("Lösche Daten von Department");
+    qDebug() << tr("Lösche Daten von Department");
     m_mapper->setCurrentIndex(index.row());
 }
 
 void DepartmentInputArea::addEdit()
 {
-    qCDebug(m_DepartmentInputAreaLog) << tr("Füge neue Daten zu Department");
+    qDebug() << tr("Füge neue Daten zu Department");
     createDataset();
     editFinish();
 }
 
 void DepartmentInputArea::editFinish()
 {
-    qCDebug(m_DepartmentInputAreaLog) << tr("Bearbeite oder schließe Department Daten");
+    qDebug() << tr("Bearbeite oder schließe Department Daten");
 
     switch (m_actualMode) {
     case Mode::Edit: {
         m_actualMode = Mode::Finish;
         ui->editFinishPushButton->setText(tr("Fertig"));
         setViewOnlyMode(false);
-
     } break;
 
     case Mode::Finish: {
-        qCDebug(m_DepartmentInputAreaLog) << tr("Die Daten werden gesichert.");
+        qDebug() << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -134,7 +130,7 @@ void DepartmentInputArea::editFinish()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(m_DepartmentInputAreaLog) << tr("Schreiben der Änderungen für Account in die Datenbank");
+                qDebug() << tr("Schreiben der Änderungen für Account in die Datenbank");
                 m_model->database().rollback();
             } else {
                 m_model->database().rollback();
@@ -144,7 +140,7 @@ void DepartmentInputArea::editFinish()
     } break;
 
     default: {
-        qCCritical(m_DepartmentInputAreaLog) << tr("Fehler: Unbekannter Modus");
+        qCritical() << tr("Fehler: Unbekannter Modus");
     }
     }
 }

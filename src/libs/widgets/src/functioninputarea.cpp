@@ -1,21 +1,19 @@
 /*
- *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
  *
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+#include "jmbdewidgets/functioninputarea.h"
 #include <ui_functioninputarea.h>
-#include <views/functioninputarea.h>
 
 FunctionInputArea::FunctionInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::FunctionInputArea)
-    , m_FunctionInputAreaLog(QLoggingCategory("jmbde.widgets.functioninputarea"))
-
 {
     ui->setupUi(this);
 
-    qCDebug(m_FunctionInputAreaLog) << tr("Initialisiere FunctionInputArea mit Index :") << index.row();
+    qDebug() << tr("Initialisiere FunctionInputArea mit Index :") << index.row();
 
     this->m_functionModel = new Model::Function();
     this->m_db = this->m_functionModel->getDB();
@@ -33,7 +31,7 @@ FunctionInputArea::FunctionInputArea(QWidget *parent, const QModelIndex &index)
 
     setMappings();
 
-    qCDebug(m_FunctionInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+    qDebug() << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
     if (index.row() < 0) {
         m_mapper->toFirst();
@@ -71,7 +69,7 @@ void FunctionInputArea::setViewOnlyMode(bool mode)
 
 void FunctionInputArea::createDataset()
 {
-    qCDebug(m_FunctionInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Function...");
+    qDebug() << tr("Erzeuge einen neuen, leeren Datensatz für Function...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -87,20 +85,20 @@ void FunctionInputArea::createDataset()
 
 void FunctionInputArea::deleteDataset(const QModelIndex &index)
 {
-    qCDebug(m_FunctionInputAreaLog) << tr("Lösche Daten von Function");
+    qDebug() << tr("Lösche Daten von Function");
     m_mapper->setCurrentIndex(index.row());
 }
 
 void FunctionInputArea::addEdit()
 {
-    qCDebug(m_FunctionInputAreaLog) << tr("Füge neue Daten zu Function");
+    qDebug() << tr("Füge neue Daten zu Function");
     createDataset();
     editFinish();
 }
 
 void FunctionInputArea::editFinish()
 {
-    qCDebug(m_FunctionInputAreaLog) << tr("Bearbeite oder schließe Function Daten");
+    qDebug() << tr("Bearbeite oder schließe Function Daten");
 
     switch (m_actualMode) {
     case Mode::Edit: {
@@ -111,7 +109,7 @@ void FunctionInputArea::editFinish()
     } break;
 
     case Mode::Finish: {
-        qCDebug(m_FunctionInputAreaLog) << tr("Die Daten werden gesichert.");
+        qDebug() << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -128,7 +126,7 @@ void FunctionInputArea::editFinish()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(m_FunctionInputAreaLog) << tr("Schreiben der Änderungen für Function in die Datenbank");
+                qDebug() << tr("Schreiben der Änderungen für Function in die Datenbank");
                 dataChanged();
             } else {
                 m_model->database().rollback();
@@ -138,7 +136,7 @@ void FunctionInputArea::editFinish()
     } break;
 
     default: {
-        qCCritical(m_FunctionInputAreaLog) << tr("Fehler: Unbekannter Modus");
+        qCritical() << tr("Fehler: Unbekannter Modus");
     }
     }
 }

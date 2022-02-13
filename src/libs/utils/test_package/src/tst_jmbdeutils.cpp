@@ -28,3 +28,5 @@ void tst_jmbdeutils::toUpper()
 }
 
 QTEST_MAIN(tst_jmbdeutils)
+
+#include "tst_jmbdeutils.moc"

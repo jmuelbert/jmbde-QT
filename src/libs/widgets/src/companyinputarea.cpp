@@ -1,21 +1,20 @@
 /*
- *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
  *
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+#include <jmbdewidgets/companyinputarea.h>
 #include <ui_companyinputarea.h>
-#include <views/companyinputarea.h>
 
 CompanyInputArea::CompanyInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::CompanyInputArea)
-    , m_CopmanyInputAreaLog(QLoggingCategory("jmbde.widgets.companyinputarea"))
 
 {
     ui->setupUi(this);
 
-    qCDebug(m_CopmanyInputAreaLog) << "Initialisiere CompanyInputArea mit Index :" << index.row();
+    qDebug() << "Initialisiere CompanyInputArea mit Index :" << index.row();
 
     this->m_companyModel = new Model::Company();
     this->m_db = this->m_companyModel->getDB();
@@ -33,7 +32,7 @@ CompanyInputArea::CompanyInputArea(QWidget *parent, const QModelIndex &index)
 
     setMappings();
 
-    qCDebug(m_CopmanyInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+    qDebug() << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
     if (index.row() < 0) {
         m_mapper->toFirst();
@@ -83,7 +82,7 @@ void CompanyInputArea::setViewOnlyMode(bool mode)
 
 void CompanyInputArea::createDataset()
 {
-    qCDebug(m_CopmanyInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Company...");
+    qDebug() << tr("Erzeuge einen neuen, leeren Datensatz für Company...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -99,20 +98,20 @@ void CompanyInputArea::createDataset()
 
 void CompanyInputArea::deleteDataset(const QModelIndex &index)
 {
-    qCDebug(m_CopmanyInputAreaLog) << tr("Lösche Daten von Company");
+    qDebug() << tr("Lösche Daten von Company");
     m_mapper->setCurrentIndex(index.row());
 }
 
 void CompanyInputArea::addEdit()
 {
-    qCDebug(m_CopmanyInputAreaLog) << tr("Füge neue Daten zu Company");
+    qDebug() << tr("Füge neue Daten zu Company");
     createDataset();
     editFinish();
 }
 
 void CompanyInputArea::editFinish()
 {
-    qCDebug(m_CopmanyInputAreaLog) << tr("Bearbeite oder schließe Company Daten");
+    qDebug() << tr("Bearbeite oder schließe Company Daten");
 
     switch (m_actualMode) {
     case Mode::Edit: {
@@ -123,7 +122,7 @@ void CompanyInputArea::editFinish()
     } break;
 
     case Mode::Finish: {
-        qCDebug(m_CopmanyInputAreaLog) << tr("Die Daten werden gesichert.");
+        qDebug() << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -140,7 +139,7 @@ void CompanyInputArea::editFinish()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(m_CopmanyInputAreaLog) << tr("Schreiben der Änderungen für Company in die Datenbank");
+                qDebug() << tr("Schreiben der Änderungen für Company in die Datenbank");
                 dataChanged();
             } else {
                 m_model->database().rollback();
@@ -150,7 +149,7 @@ void CompanyInputArea::editFinish()
     } break;
 
     default: {
-        qCCritical(m_CopmanyInputAreaLog) << tr("Fehler: Unbekannter Modus");
+        qCritical() << tr("Fehler: Unbekannter Modus");
     }
     }
 }

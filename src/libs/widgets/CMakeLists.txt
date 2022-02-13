@@ -104,12 +104,6 @@ set_target_properties(${TARGET_NAME} PROPERTIES
       VISIBILITY_INLINES_HIDDEN 1
  )
 
-set_target_properties(
-  ${TARGET_NAME}
-  PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-             LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-             RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-
 # BUILD_INTERFACE specifies where to find includes during build time here we set
 # the include directory to be our src include directory as well as
 # CMAKE_CURRENT_BINARY_DIR, which is where the generated export.h file is
@@ -120,6 +114,8 @@ set_target_properties(
 target_include_directories(${TARGET_NAME}
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/exports>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
   PRIVATE 
     ${TARGET_INCLUDE_FOLDER}
     # include OpenSSL directories if present
@@ -135,7 +131,9 @@ target_link_libraries(${TARGET_NAME}
               # PUBLIC
               PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Gui
                       Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::PrintSupport
-                      Qt${QT_VERSION_MAJOR}::Sql ${CONAN_LIBS})
+                      Qt${QT_VERSION_MAJOR}::Sql 
+                      jmuelbert::jmbdemodels
+                      ${CONAN_LIBS})
 
 
 # generate an export header to expose symbols when using the library
@@ -147,11 +145,27 @@ find_package(
   REQUIRED)
 
 find_package(jmbdemodels REQUIRED)
+message(STATUS "jmbdemodels_FOUND = ${jmbdemodels_FOUND}")
+message(STATUS "jmbdemodels_C_FOUND = ${jmbdemodels_C_FOUND}")
+message(STATUS "jmbdemodels_CXX_FOUND = ${jmbdemodels_CXX_FOUND}")
+message(STATUS "jmbdemodels_INCLUDE_DIRS = ${jmbdemodels_INCLUDE_DIRS}")
+message(STATUS "jmbdemodels_C_INCLUDE_DIRS = ${jmbdemodels_C_INCLUDE_DIRS}")
+message(STATUS "jmbdemodels_CXX_INCLUDE_DIRS = ${jmbdemodels_CXX_INCLUDE_DIRS}")
+message(STATUS "jmbdemodels_LIBRARIES = ${jmbdemodels_LIBRARIES}")
+
 
 # ---------------------------------------------------------------------------- #
 # Finding Qt5 or Qt6
 # ---------------------------------------------------------------------------- #
 find_package(Qt${QT_VERSION_MAJOR} CONFIG COMPONENTS Core Widgets Sql PrintSupport)
+
+message(STATUS "Qt${QT_VERSION_MAJOR}_FOUND = ${Qt${QT_VERSION_MAJOR}_FOUND}")
+message(STATUS "Qt${QT_VERSION_MAJOR}_C_FOUND = ${Qt${QT_VERSION_MAJOR}_C_FOUND}")
+message(STATUS "Qt${QT_VERSION_MAJOR}_CXX_FOUND = ${Qt${QT_VERSION_MAJOR}_CXX_FOUND}")
+message(STATUS "Qt${QT_VERSION_MAJOR}_INCLUDE_DIRS = ${Qt${QT_VERSION_MAJOR}_INCLUDE_DIRS}")
+message(STATUS "Qt${QT_VERSION_MAJOR}_C_INCLUDE_DIRS = ${Qt${QT_VERSION_MAJOR}_C_INCLUDE_DIRS}")
+message(STATUS "Qt${QT_VERSION_MAJOR}_CXX_INCLUDE_DIRS = ${Qt${QT_VERSION_MAJOR}_CXX_INCLUDE_DIRS}")
+message(STATUS "Qt${QT_VERSION_MAJOR}_LIBRARIES = ${Qt${QT_VERSION_MAJOR}_LIBRARIES}")
 
 # ---------------------------------------------------------------------------- #
 # Install instructions
@@ -160,19 +174,18 @@ set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/${TARGET_NAME})
 
 install(
   TARGETS ${TARGET_NAME}
-  EXPORT ${TARGET_NAME}-Targets
-  RUNTIME DESTINATION "${BIN_INSTALL_DIR}"
-  LIBRARY DESTINATION "${LIB_INSTALL_DIR}"
-  ARCHIVE DESTINATION "${LIB_INSTALL_DIR}")
+  EXPORT ${TARGET_NAME}Config
+  LIBRARY
+  ARCHIVE)
 
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(DIRECTORY include/${TARGET_NAME} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 # ---------------------------------------------------------------------------- #
 # Export the targets to a script
 # ---------------------------------------------------------------------------- #
 install(
-  EXPORT ${TARGET_NAME}-Targets
-  FILE ${TARGET_NAME}Targets.cmake
+  EXPORT ${TARGET_NAME}Config
+  FILE ${TARGET_NAME}Config.cmake
   NAMESPACE ${TARGET_NAMESPACE}::
   DESTINATION ${INSTALL_CONFIGDIR})
 
@@ -205,8 +218,8 @@ configure_file(${CMAKE_CURRENT_LIST_DIR}/cmake/Find${TARGET_ID}.cmake
                ${CMAKE_CURRENT_BINARY_DIR}/Find${TARGET_ID}.cmake COPYONLY)
 
 export(
-  EXPORT ${TARGET_NAME}-Targets
-  FILE ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}Targets.cmake
+  EXPORT ${TARGET_NAME}Config
+  FILE ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}Config.cmake
   NAMESPACE ${TARGET_NAMESPACE}::)
 
 if(MSVC AND BUILD_SHARED_LIBS)
@@ -222,5 +235,5 @@ endif()
 # ---------------------------------------------------------------------------- #
 if(BUILD_TESTING)
   enable_testing()
-  add_subdirectory(test_package)
+  add_subdirectory(test)
 endif()

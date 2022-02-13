@@ -1,10 +1,10 @@
 /*
- *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
  *
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "views/employeeinputarea.h"
+#include "jmbdewidgets/employeeinputarea.h"
 
 #include "ui_employeeinputarea.h"
 
@@ -12,12 +12,10 @@
 EmployeeInputArea::EmployeeInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::EmployeeInputArea)
-    , m_EmployeeInputAreaLog(QLoggingCategory("jmbde.widgets.employeeinputarea"))
-
 {
     ui->setupUi(this);
 
-    qCDebug(m_EmployeeInputAreaLog) << tr("Initialisiere EmployeeInputArea mit Index :") << index.row();
+    qDebug() << tr("Initialisiere EmployeeInputArea mit Index :") << index.row();
 
     this->m_employeeModel = new Model::Employee();
     this->m_db = this->m_employeeModel->getDB();
@@ -35,7 +33,7 @@ EmployeeInputArea::EmployeeInputArea(QWidget *parent, const QModelIndex &index)
 
     setMappings();
 
-    qCDebug(m_EmployeeInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+    qDebug() << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
     if (index.row() < 0) {
         m_mapper->toFirst();
@@ -120,7 +118,7 @@ void EmployeeInputArea::setViewOnlyMode(bool mode)
 
 void EmployeeInputArea::createDataset()
 {
-    qCDebug(m_EmployeeInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Employee...");
+    qDebug() << tr("Erzeuge einen neuen, leeren Datensatz für Employee...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -136,7 +134,7 @@ void EmployeeInputArea::createDataset()
 
 void EmployeeInputArea::deleteDataset(const QModelIndex &index)
 {
-    qCDebug(m_EmployeeInputAreaLog) << tr("Lösche Daten von Employee");
+    qDebug() << tr("Lösche Daten von Employee");
     m_mapper->setCurrentIndex(index.row());
 }
 
@@ -144,14 +142,14 @@ void EmployeeInputArea::deleteDataset(const QModelIndex &index)
 
 void EmployeeInputArea::addEdit()
 {
-    qCDebug(m_EmployeeInputAreaLog) << tr("Füge neue Daten zu Employee");
+    qDebug() << tr("Füge neue Daten zu Employee");
     createDataset();
     editFinish();
 }
 
 void EmployeeInputArea::editFinish()
 {
-    qCDebug(m_EmployeeInputAreaLog) << tr("Bearbeite oder schließe Employee Daten");
+    qDebug() << tr("Bearbeite oder schließe Employee Daten");
 
     switch (m_actualMode) {
     case Mode::Edit: {
@@ -162,7 +160,7 @@ void EmployeeInputArea::editFinish()
     } break;
 
     case Mode::Finish: {
-        qCDebug(m_EmployeeInputAreaLog) << tr("Die Daten werden gesichert.");
+        qDebug() << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -175,12 +173,12 @@ void EmployeeInputArea::editFinish()
 
             QMessageBox::information(this, tr("Mitarbeiter hinzufügen"), message);
         } else {
-            qCDebug(m_EmployeeInputAreaLog) << tr("Mitarbeiter : ") << ui->lastNameLineEdit->text();
+            qDebug() << tr("Mitarbeiter : ") << ui->lastNameLineEdit->text();
             m_mapper->submit();
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(m_EmployeeInputAreaLog) << tr("Schreiben der Änderungen für Account in die Datenbank");
+                qDebug() << tr("Schreiben der Änderungen für Account in die Datenbank");
                 dataChanged();
             } else {
                 m_model->database().rollback();
@@ -190,7 +188,7 @@ void EmployeeInputArea::editFinish()
     } break;
 
     default: {
-        qCDebug(m_EmployeeInputAreaLog) << tr("Fehler: Unbekannter Modus");
+        qDebug() << tr("Fehler: Unbekannter Modus");
     }
     }
 }

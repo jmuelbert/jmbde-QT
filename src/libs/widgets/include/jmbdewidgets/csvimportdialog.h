@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
  *
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -18,7 +18,6 @@
 #include <QTextStream>
 
 #include "jmbdewidgets_export.h"
-
 
 namespace Ui
 {
@@ -78,5 +77,4 @@ private:
      * @brief standardItemList
      */
     QList<QStandardItem *> standardItemList;
-
 };

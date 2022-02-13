@@ -17,7 +17,7 @@
 #include <QQmlContext>
 #include <QTranslator>
 
-#include "models/employee.h"
+#include "jmbdemodels/employee.h"
 
 class QQmlApplicationEngine;
 

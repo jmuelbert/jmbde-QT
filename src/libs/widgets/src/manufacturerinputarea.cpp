@@ -4,18 +4,16 @@
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+#include "jmbdewidgets/manufacturerinputarea.h"
 #include <ui_manufacturerinputarea.h>
-#include <views/manufacturerinputarea.h>
 
 ManufacturerInputArea::ManufacturerInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::ManufacturerInputArea)
-    , m_ManufacturerInputAreaLog(QLoggingCategory("jmbde.widgets.manufacturerinputarea"))
-
 {
     ui->setupUi(this);
 
-    qCDebug(m_ManufacturerInputAreaLog) << tr("Initialisiere ManufacturerInputArea mit Index :") << index.row();
+    qDebug() << tr("Initialisiere ManufacturerInputArea mit Index :") << index.row();
 
     this->m_manufacturerModel = new Model::Manufacturer();
     this->m_db = this->m_manufacturerModel->getDB();
@@ -33,7 +31,7 @@ ManufacturerInputArea::ManufacturerInputArea(QWidget *parent, const QModelIndex 
 
     setMappings();
 
-    qCDebug(m_ManufacturerInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+    qDebug() << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
     if (index.row() < 0) {
         m_mapper->toFirst();
@@ -81,7 +79,7 @@ void ManufacturerInputArea::setViewOnlyMode(bool mode)
 
 void ManufacturerInputArea::createDataset()
 {
-    qCDebug(m_ManufacturerInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Manufacturer...");
+    qDebug() << tr("Erzeuge einen neuen, leeren Datensatz für Manufacturer...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -97,20 +95,22 @@ void ManufacturerInputArea::createDataset()
 
 void ManufacturerInputArea::deleteDataset(const QModelIndex &index)
 {
-    qCDebug(m_ManufacturerInputAreaLog) << tr("Lösche Daten von Manufacturer");
+    qDebug() << tr("Lösche Daten von Manufacturer");
+
     m_mapper->setCurrentIndex(index.row());
 }
 
 void ManufacturerInputArea::addEdit()
 {
-    qCDebug(m_ManufacturerInputAreaLog) << tr("Füge neue Daten zu Manufacturer");
+    qDebug() << tr("Füge neue Daten zu Manufacturer");
+
     createDataset();
     editFinish();
 }
 
 void ManufacturerInputArea::editFinish()
 {
-    qCDebug(m_ManufacturerInputAreaLog) << tr("Bearbeite oder schließe Manufacturer Daten");
+    qDebug() << tr("Bearbeite oder schließe Manufacturer Daten");
 
     switch (m_actualMode) {
     case Mode::Edit: {
@@ -121,7 +121,7 @@ void ManufacturerInputArea::editFinish()
     } break;
 
     case Mode::Finish: {
-        qCDebug(m_ManufacturerInputAreaLog) << tr("Die Daten werden gesichert.");
+        qDebug() << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -138,7 +138,9 @@ void ManufacturerInputArea::editFinish()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(m_ManufacturerInputAreaLog) << tr("Schreiben der Änderungen für Manufacturer in die Datenbank");
+
+                qDebug() << tr("Schreiben der Änderungen für Manufacturer in die Datenbank");
+
                 dataChanged();
             } else {
                 m_model->database().rollback();
@@ -148,7 +150,7 @@ void ManufacturerInputArea::editFinish()
     } break;
 
     default: {
-        qCCritical(m_ManufacturerInputAreaLog) << tr("Fehler: Unbekannter Modus");
+        qCritical() << tr("Fehler: Unbekannter Modus");
     }
     }
 }

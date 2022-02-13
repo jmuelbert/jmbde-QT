@@ -1,21 +1,19 @@
 /*
- *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
  *
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+#include "jmbdewidgets/systemdatainputarea.h"
 #include <ui_systemdatainputarea.h>
-#include <views/systemdatainputarea.h>
 
 SystemDataInputArea ::SystemDataInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::SystemDataInputArea)
-    , m_SystemDataInputAreaLog(QLoggingCategory("jmbde.widgets.systemdatainputarea"))
-
 {
     ui->setupUi(this);
 
-    qCDebug(m_SystemDataInputAreaLog) << tr("Initialisiere SystemDataInputArea mit Index :") << index.row();
+    qDebug() << tr("Initialisiere SystemDataInputArea mit Index :") << index.row();
 
     this->m_systemDataModel = new Model::SystemData();
     this->m_db = this->m_systemDataModel->getDB();
@@ -33,7 +31,7 @@ SystemDataInputArea ::SystemDataInputArea(QWidget *parent, const QModelIndex &in
 
     setMappings();
 
-    qCDebug(m_SystemDataInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+    qDebug() << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
     if (index.row() < 0) {
         m_mapper->toFirst();
@@ -44,6 +42,7 @@ SystemDataInputArea ::SystemDataInputArea(QWidget *parent, const QModelIndex &in
     QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &SystemDataInputArea::addEdit);
     QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &SystemDataInputArea::editFinish);
 }
+
 SystemDataInputArea::~SystemDataInputArea()
 {
     delete ui;
@@ -66,7 +65,7 @@ void SystemDataInputArea::setViewOnlyMode(bool mode)
 
 void SystemDataInputArea::createDataset()
 {
-    qCDebug(m_SystemDataInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für SystemData...");
+    qDebug() << tr("Erzeuge einen neuen, leeren Datensatz für SystemData...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -82,20 +81,20 @@ void SystemDataInputArea::createDataset()
 
 void SystemDataInputArea::deleteDataset(const QModelIndex &index)
 {
-    qCDebug(m_SystemDataInputAreaLog) << tr("Lösche Daten von SystemData");
+    qDebug() << tr("Lösche Daten von SystemData");
     m_mapper->setCurrentIndex(index.row());
 }
 
 void SystemDataInputArea::addEdit()
 {
-    qCDebug(m_SystemDataInputAreaLog) << tr("Füge neue Daten zu SystemData");
+    qDebug() << tr("Füge neue Daten zu SystemData");
     createDataset();
     editFinish();
 }
 
 void SystemDataInputArea::editFinish()
 {
-    qCDebug(m_SystemDataInputAreaLog) << tr("Bearbeite oder schließe SystemData Daten");
+    qDebug() << tr("Bearbeite oder schließe SystemData Daten");
 
     switch (m_actualMode) {
     case Mode::Edit: {
@@ -106,7 +105,7 @@ void SystemDataInputArea::editFinish()
     } break;
 
     case Mode::Finish: {
-        qCDebug(m_SystemDataInputAreaLog) << tr("Die Daten werden gesichert.");
+        qDebug() << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -123,7 +122,7 @@ void SystemDataInputArea::editFinish()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(m_SystemDataInputAreaLog) << tr("Schreiben der Änderungen für Systemdatem in die Datenbank");
+                qDebug() << tr("Schreiben der Änderungen für Systemdatem in die Datenbank");
                 emit dataChanged();
             } else {
                 m_model->database().rollback();
@@ -133,7 +132,7 @@ void SystemDataInputArea::editFinish()
     } break;
 
     default: {
-        qCCritical(m_SystemDataInputAreaLog) << tr("Fehler: Unbekannter Modus");
+        qCritical() << tr("Fehler: Unbekannter Modus");
     }
     }
 }

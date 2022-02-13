@@ -1,21 +1,19 @@
 /*
- *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
  *
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+#include "jmbdewidgets/placeinputarea.h"
 #include <ui_placeinputarea.h>
-#include <views/placeinputarea.h>
 
 PlaceInputArea::PlaceInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::PlaceInputArea)
-    , m_PlaceInputAreaLog(QLoggingCategory("jmbde.widgets.placeinputarea"))
-
 {
     ui->setupUi(this);
 
-    qCDebug(m_PlaceInputAreaLog) << tr("Initialisiere PlaceInputArea mit Index :") << index.row();
+    qDebug() << tr("Initialisiere PlaceInputArea mit Index :") << index.row();
 
     this->m_placeModel = new Model::Place();
     this->m_db = this->m_placeModel->getDB();
@@ -33,7 +31,7 @@ PlaceInputArea::PlaceInputArea(QWidget *parent, const QModelIndex &index)
 
     setMappings();
 
-    qCDebug(m_PlaceInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+    qDebug() << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
     if (index.row() < 0) {
         m_mapper->toFirst();
@@ -67,7 +65,7 @@ void PlaceInputArea::setViewOnlyMode(bool mode)
 
 void PlaceInputArea::createDataset()
 {
-    qCDebug(m_PlaceInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Place...");
+    qDebug() << tr("Erzeuge einen neuen, leeren Datensatz für Place...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -83,20 +81,20 @@ void PlaceInputArea::createDataset()
 
 void PlaceInputArea::deleteDataset(const QModelIndex &index)
 {
-    qCDebug(m_PlaceInputAreaLog) << tr("Lösche Daten von Place");
+    qDebug() << tr("Lösche Daten von Place");
     m_mapper->setCurrentIndex(index.row());
 }
 
 void PlaceInputArea::addEdit()
 {
-    qCDebug(m_PlaceInputAreaLog) << tr("Füge neue Daten zu Place");
+    qDebug() << tr("Füge neue Daten zu Place");
     createDataset();
     editFinish();
 }
 
 void PlaceInputArea::editFinish()
 {
-    qCDebug(m_PlaceInputAreaLog) << tr("Bearbeite oder schließe Place Daten");
+    qDebug() << tr("Bearbeite oder schließe Place Daten");
 
     switch (m_actualMode) {
     case Mode::Edit: {
@@ -107,7 +105,7 @@ void PlaceInputArea::editFinish()
     } break;
 
     case Mode::Finish: {
-        qCDebug(m_PlaceInputAreaLog) << tr("Die Daten werden gesichert.");
+        qDebug() << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -124,7 +122,7 @@ void PlaceInputArea::editFinish()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(m_PlaceInputAreaLog) << tr("Schreiben der Änderungen für Account in die Datenbank");
+                qDebug() << tr("Schreiben der Änderungen für Account in die Datenbank");
                 dataChanged();
             } else {
                 m_model->database().rollback();
@@ -134,7 +132,7 @@ void PlaceInputArea::editFinish()
     } break;
 
     default: {
-        qCCritical(m_PlaceInputAreaLog) << tr("Fehler: Unbekannter Modus");
+        qCritical() << tr("Fehler: Unbekannter Modus");
     }
     }
 }

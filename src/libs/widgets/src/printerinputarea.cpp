@@ -1,12 +1,10 @@
 /*
- *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
  *
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 #include "jmbdewidgets/printerinputarea.h"
-
-#include "jmdbemodels/printer.h"
 #include "ui_printerinputarea.h"
 
 PrinterInputArea::PrinterInputArea(QWidget *parent, const QModelIndex &index)
@@ -16,7 +14,7 @@ PrinterInputArea::PrinterInputArea(QWidget *parent, const QModelIndex &index)
     ui->setupUi(this);
 
     // Init UI
-    qDebug) << tr("Initialisiere PrintInputarea mit Index : ") << index.row();
+    qDebug() << tr("Initialisiere PrintInputarea mit Index : ") << index.row();
 
     this->m_printerModel = new Model::Printer();
     this->m_db = this->m_printerModel->getDB();

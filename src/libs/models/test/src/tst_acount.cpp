@@ -4,7 +4,7 @@
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include <models/datacontext.h>
+#include <jmbdemodels/datacontext.h>
 
 #include <QCoreApplication>
 #include <QLibrary>
@@ -16,7 +16,7 @@
 #include <QTemporaryDir>
 #include <QtTest>
 
-#include "models/account.h"
+#include "jmbdemodels/account.h"
 
 using namespace Model;
 

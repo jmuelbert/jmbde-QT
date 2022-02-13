@@ -13,15 +13,17 @@ else()
   cmake_policy(VERSION 3.21)
 endif()
 
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup()
+if(ENABLE_CONAN)
+  include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+  conan_basic_setup()
+endif()
 
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets Sql
                                                        PrintSupport Test)
 
 # find_package(jmbdemodels CONFIG REQUIRED)
 
-list(APPEND TEST_CASES tst_jmbdewidgets tst_preferences)
+list(APPEND TEST_CASES tst_jmbdewidgets)
 foreach(TEST_CASE ${TEST_CASES})
   add_executable(${TEST_CASE} ${CMAKE_CURRENT_SOURCE_DIR}/src/${TEST_CASE}.cpp)
   target_link_libraries(${TEST_CASE} 

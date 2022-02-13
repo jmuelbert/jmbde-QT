@@ -1,21 +1,19 @@
 /*
- *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
  *
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "views/preferencesdialog.h"
+#include "jmbdewidgets/preferencesdialog.h"
 #include "ui_preferencesdialog.h"
 
 PreferencesDialog::PreferencesDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::PreferencesDialog)
-    , m_PreferencesDialogLog(QLoggingCategory("jmbde.widgets.preferencesdialog"))
-
 {
     ui->setupUi(this);
 
-    qCDebug(m_PreferencesDialogLog) << "Init the Preferences Dialog";
+    qDebug() << "Init the Preferences Dialog";
 
     ui->comboBoxDatabaseType->addItem(QLatin1String(Database::Type::SQLITE));
     ui->comboBoxDatabaseType->addItem(QLatin1String(Database::Type::MYSQL));

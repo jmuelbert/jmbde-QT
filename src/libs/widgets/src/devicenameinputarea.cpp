@@ -1,29 +1,19 @@
 /*
-    jmbde a BDE Tool for companies
-    Copyright (C) 2013-2019  Jürgen Mülbert
+ *  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *
+ *  SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-*/
-
+#include "jmbdewidgets/devicenameinputarea.h"
 #include <ui_devicenameinputarea.h>
-#include <views/devicenameinputarea.h>
 
 DeviceNameInputArea::DeviceNameInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::DeviceNameInputArea)
-    , m_DeviceNameInputAreaLog(QLoggingCategory("jmbde.widgets.devicenameiputarea"))
 {
     ui->setupUi(this);
 
-    qCDebug(m_DeviceNameInputAreaLog) << "Initialisiere DeviceNameInputArea mit Index :" << index.row();
+    qDebug() << "Initialisiere DeviceNameInputArea mit Index :" << index.row();
 
     this->m_deviceNameModel = new Model::DeviceName();
     this->m_db = this->m_deviceNameModel->getDB();
@@ -41,7 +31,7 @@ DeviceNameInputArea::DeviceNameInputArea(QWidget *parent, const QModelIndex &ind
 
     setMappings();
 
-    qCDebug(m_DeviceNameInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+    qDebug() << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
     if (index.row() < 0) {
         m_mapper->toFirst();
@@ -71,7 +61,7 @@ void DeviceNameInputArea::setViewOnlyMode(bool mode)
 
 void DeviceNameInputArea ::createDataset()
 {
-    qCDebug(m_DeviceNameInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für DeviceName...");
+    qDebug() << tr("Erzeuge einen neuen, leeren Datensatz für DeviceName...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -87,20 +77,20 @@ void DeviceNameInputArea ::createDataset()
 
 void DeviceNameInputArea::deleteDataset(const QModelIndex &index)
 {
-    qCDebug(m_DeviceNameInputAreaLog) << tr("Lösche Daten von DeviceName");
+    qDebug() << tr("Lösche Daten von DeviceName");
     m_mapper->setCurrentIndex(index.row());
 }
 
 void DeviceNameInputArea::addEdit()
 {
-    qCDebug(m_DeviceNameInputAreaLog) << tr("Füge neue Daten zu DeviceName");
+    qDebug() << tr("Füge neue Daten zu DeviceName");
     createDataset();
     editFinish();
 }
 
 void DeviceNameInputArea::editFinish()
 {
-    qCDebug(m_DeviceNameInputAreaLog) << tr("Bearbeite oder schließe DeviceName Daten");
+    qDebug() << tr("Bearbeite oder schließe DeviceName Daten");
 
     switch (m_actualMode) {
     case Mode::Edit: {
@@ -111,7 +101,7 @@ void DeviceNameInputArea::editFinish()
     } break;
 
     case Mode::Finish: {
-        qCDebug(m_DeviceNameInputAreaLog) << tr("Die Daten werden gesichert.");
+        qDebug() << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -128,7 +118,7 @@ void DeviceNameInputArea::editFinish()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(m_DeviceNameInputAreaLog) << tr("Schreiben der Änderungen für DeviceName in die Datenbank");
+                qDebug() << tr("Schreiben der Änderungen für DeviceName in die Datenbank");
                 dataChanged();
             } else {
                 m_model->database().rollback();
@@ -138,7 +128,7 @@ void DeviceNameInputArea::editFinish()
     } break;
 
     default: {
-        qCCritical(m_DeviceNameInputAreaLog) << tr("Fehler: Unbekannter Modus");
+        qCritical() << tr("Fehler: Unbekannter Modus");
     }
     }
 }

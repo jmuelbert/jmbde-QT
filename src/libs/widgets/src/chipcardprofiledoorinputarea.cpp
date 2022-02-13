@@ -1,20 +1,19 @@
 /*
- *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
  *
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+#include "jmbdewidgets/chipcardprofiledoorinputarea.h"
 #include <ui_chipcardprofiledoorinputarea.h>
-#include <views/chipcardprofiledoorinputarea.h>
 
-ChipCardProfileDoorInputArea::ChipCardProfileDoorInputArea(QWidget *parent, const QModelIndex &index)
+ChipCardProfileDoorInputArea::ChipCardProfileDoorInputArea(QWidget* parent, const QModelIndex& index)
     : QGroupBox(parent)
     , ui(new Ui::ChipCardProfileDoorInputArea)
-    , m_chipCardProfileDoorInputAreaLog(QLoggingCategory("jmbde.widgets.chipcardprofiledoor"))
 {
     ui->setupUi(this);
 
-    qCDebug(m_chipCardProfileDoorInputAreaLog) << "Initialisiere ChipCardProfileDoor mit Index :" << index.row();
+    qDebug() << "Initialisiere ChipCardProfileDoor mit Index :" << index.row();
 
     this->m_chipCardProfileDoorModel = new Model::ChipCardProfileDoor();
     this->m_db = this->m_chipCardProfileDoorModel->getDB();
@@ -32,7 +31,7 @@ ChipCardProfileDoorInputArea::ChipCardProfileDoorInputArea(QWidget *parent, cons
 
     setMappings();
 
-    qCDebug(m_chipCardProfileDoorInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+    qDebug() << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
     if (index.row() < 0) {
         m_mapper->toFirst();
@@ -64,7 +63,7 @@ void ChipCardProfileDoorInputArea::setViewOnlyMode(bool mode)
 
 void ChipCardProfileDoorInputArea::createDataset()
 {
-    qCDebug(m_chipCardProfileDoorInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für ChipCardProfileDoor...");
+    qDebug() << tr("Erzeuge einen neuen, leeren Datensatz für ChipCardProfileDoor...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -78,22 +77,22 @@ void ChipCardProfileDoorInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void ChipCardProfileDoorInputArea::deleteDataset(const QModelIndex &index)
+void ChipCardProfileDoorInputArea::deleteDataset(const QModelIndex& index)
 {
-    qCDebug(m_chipCardProfileDoorInputAreaLog) << tr("Lösche Daten von ChipCardProfileDoor");
+    qDebug() << tr("Lösche Daten von ChipCardProfileDoor");
     m_mapper->setCurrentIndex(index.row());
 }
 
 void ChipCardProfileDoorInputArea::addEdit()
 {
-    qCDebug(m_chipCardProfileDoorInputAreaLog) << tr("Füge neue Daten zu ChipCardProfileDoor");
+    qDebug() << tr("Füge neue Daten zu ChipCardProfileDoor");
     createDataset();
     editFinish();
 }
 
 void ChipCardProfileDoorInputArea::editFinish()
 {
-    qCDebug(m_chipCardProfileDoorInputAreaLog) << tr("Bearbeite oder schließe ChipCardProfileDoor Daten");
+    qDebug() << tr("Bearbeite oder schließe ChipCardProfileDoor Daten");
 
     switch (m_actualMode) {
     case Mode::Edit: {
@@ -104,7 +103,7 @@ void ChipCardProfileDoorInputArea::editFinish()
     } break;
 
     case Mode::Finish: {
-        qCDebug(m_chipCardProfileDoorInputAreaLog) << tr("Die Daten werden gesichert.");
+        qDebug() << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -114,7 +113,7 @@ void ChipCardProfileDoorInputArea::editFinish()
         m_model->database().transaction();
         if (m_model->submitAll()) {
             m_model->database().commit();
-            qCDebug(m_chipCardProfileDoorInputAreaLog) << tr("Schreiben der Änderungen für ChipCardProfileDoor in die Datenbank");
+            qDebug() << tr("Schreiben der Änderungen für ChipCardProfileDoor in die Datenbank");
             dataChanged();
         } else {
             m_model->database().rollback();
@@ -123,7 +122,7 @@ void ChipCardProfileDoorInputArea::editFinish()
     } break;
 
     default: {
-        qCCritical(m_chipCardProfileDoorInputAreaLog) << tr("Fehler: Unbekannter Modus");
+        qCritical() << tr("Fehler: Unbekannter Modus");
     }
     }
 }

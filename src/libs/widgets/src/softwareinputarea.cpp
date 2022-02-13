@@ -1,21 +1,20 @@
 /*
- *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
  *
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 #include <ui_softwareinputarea.h>
-#include <views/softwareinputarea.h>
+
+#include "jmbdewidgets/softwareinputarea.h"
 
 SoftwareInputArea::SoftwareInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::SoftwareInputArea)
-    , m_SoftwareInputAreaLog(QLoggingCategory("jmbde.widgets.softwareinputarea"))
-
 {
     ui->setupUi(this);
 
-    qCDebug(m_SoftwareInputAreaLog) << tr("Initialisiere SoftwareInputArea mit Index :") << index.row();
+    qDebug() << tr("Initialisiere SoftwareInputArea mit Index :") << index.row();
 
     this->m_softwareModel = new Model::Software();
     this->m_db = this->m_softwareModel->getDB();
@@ -33,7 +32,7 @@ SoftwareInputArea::SoftwareInputArea(QWidget *parent, const QModelIndex &index)
 
     setMappings();
 
-    qCDebug(m_SoftwareInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+    qDebug() << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
     if (index.row() < 0) {
         m_mapper->toFirst();
@@ -69,7 +68,7 @@ void SoftwareInputArea::setViewOnlyMode(bool mode)
 
 void SoftwareInputArea::createDataset()
 {
-    qCDebug(m_SoftwareInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Software...");
+    qDebug() << tr("Erzeuge einen neuen, leeren Datensatz für Software...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -85,20 +84,20 @@ void SoftwareInputArea::createDataset()
 
 void SoftwareInputArea::deleteDataset(const QModelIndex &index)
 {
-    qCDebug(m_SoftwareInputAreaLog) << tr("Lösche Daten von Software");
+    qDebug() << tr("Lösche Daten von Software");
     m_mapper->setCurrentIndex(index.row());
 }
 
 void SoftwareInputArea::addEdit()
 {
-    qCDebug(m_SoftwareInputAreaLog) << tr("Füge neue Daten zu Software");
+    qDebug() << tr("Füge neue Daten zu Software");
     createDataset();
     editFinish();
 }
 
 void SoftwareInputArea::editFinish()
 {
-    qCDebug(m_SoftwareInputAreaLog) << tr("Bearbeite oder schließe Software Daten");
+    qDebug() << tr("Bearbeite oder schließe Software Daten");
 
     switch (m_actualMode) {
     case Mode::Edit: {
@@ -109,7 +108,7 @@ void SoftwareInputArea::editFinish()
     } break;
 
     case Mode::Finish: {
-        qCDebug(m_SoftwareInputAreaLog) << tr("Die Daten werden gesichert.");
+        qDebug() << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
@@ -126,7 +125,7 @@ void SoftwareInputArea::editFinish()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(m_SoftwareInputAreaLog) << tr("Schreiben der Änderungen für Software in die Datenbank");
+                qDebug() << tr("Schreiben der Änderungen für Software in die Datenbank");
                 dataChanged();
             } else {
                 m_model->database().rollback();
@@ -136,7 +135,7 @@ void SoftwareInputArea::editFinish()
     } break;
 
     default: {
-        qCCritical(m_SoftwareInputAreaLog) << tr("Fehler: Unbekannter Modus");
+        qCritical() << tr("Fehler: Unbekannter Modus");
     }
     }
 }

@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
  *
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -15,8 +15,8 @@
 #include <QtSql>
 
 #include "jmbdemodels/datacontext.h"
+#include "jmbdemodels/inventory.h"
 #include "jmbdewidgets_export.h"
-#include "jmbedmodels/inventory.h"
 
 namespace Ui
 {
@@ -123,5 +123,4 @@ private:
      * @param index Delete the data for the ModelIndex
      */
     void deleteDataset(const QModelIndex &index);
-
 };

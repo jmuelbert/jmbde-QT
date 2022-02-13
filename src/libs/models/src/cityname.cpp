@@ -1,5 +1,5 @@
 /*
- *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
  *
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -27,7 +27,7 @@ void Model::CityName::setIndexes()
     m_LastUpdateIndex = this->m_model->fieldIndex(QLatin1String("last_update"));
 }
 
-auto Model::CityName::initializeRelationalModel() -> QSqlRelationalTableModel*
+auto Model::CityName::initializeRelationalModel() -> QSqlRelationalTableModel *
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -39,9 +39,9 @@ auto Model::CityName::initializeRelationalModel() -> QSqlRelationalTableModel*
     return this->m_model;
 }
 
-auto Model::CityName::initializeListModel() -> QSqlTableModel*
+auto Model::CityName::initializeListModel() -> QSqlTableModel *
 {
-    auto* listModel = new QSqlTableModel(this, this->m_db);
+    auto *listModel = new QSqlTableModel(this, this->m_db);
     listModel->setTable(this->m_tableName);
     listModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
     listModel->select();
@@ -49,7 +49,7 @@ auto Model::CityName::initializeListModel() -> QSqlTableModel*
     return listModel;
 }
 
-auto Model::CityName::initializeInputDataModel() -> QSqlRelationalTableModel*
+auto Model::CityName::initializeInputDataModel() -> QSqlRelationalTableModel *
 {
     this->m_model = new QSqlRelationalTableModel(this, this->m_db);
 
@@ -58,14 +58,14 @@ auto Model::CityName::initializeInputDataModel() -> QSqlRelationalTableModel*
     return this->m_model;
 }
 
-auto Model::CityName::initializeViewModel() -> QSqlTableModel*
+auto Model::CityName::initializeViewModel() -> QSqlTableModel *
 {
     this->m_model->select();
 
     return this->m_model;
 }
 
-auto Model::CityName::generateTableString(const QString& header) -> QString
+auto Model::CityName::generateTableString(const QString &header) -> QString
 {
     QString outString;
 
@@ -92,7 +92,7 @@ auto Model::CityName::generateTableString(const QString& header) -> QString
     return outString;
 }
 
-auto Model::CityName::generateFormularString(const QString& header) -> QString
+auto Model::CityName::generateFormularString(const QString &header) -> QString
 {
     QString outString;
 

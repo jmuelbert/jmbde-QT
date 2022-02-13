@@ -1,12 +1,11 @@
 /*
- *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
  *
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 #pragma once
 
-#include <QLoggingCategory>
 #include <QDataWidgetMapper>
 #include <QGroupBox>
 #include <QLoggingCategory>
@@ -15,9 +14,9 @@
 #include <QSqlRelationalDelegate>
 #include <QtSql>
 
-#include "jmbdewidgets_export.h"
 #include "jmbdemodels/chipcard.h"
 #include "jmbdemodels/datacontext.h"
+#include "jmbdewidgets_export.h"
 
 namespace Ui
 {
@@ -124,5 +123,4 @@ private:
      * @param index Delete the data for the ModelIndex
      */
     void deleteDataset(const QModelIndex &index);
-
 };

@@ -1,24 +1,21 @@
 /*
- *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
  *
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "views/phoneinputarea.h"
+#include "jmbdewidgets/phoneinputarea.h"
 
-#include "models/phone.h"
 #include "ui_phoneinputarea.h"
 
 PhoneInputArea::PhoneInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::PhoneInputArea)
-    , m_PhoneInputAreaLog(QLoggingCategory("jmbde.widgets.phoneinputarea"))
-
 {
     ui->setupUi(this);
 
     // Init UI
-    qCDebug(m_PhoneInputAreaLog) << tr("Initialisiere PhoneInputarea mit Index : ") << index.row();
+    qDebug() << tr("Initialisiere PhoneInputarea mit Index : ") << index.row();
 
     this->m_phoneModel = new Model::Phone();
     this->m_db = this->m_phoneModel->getDB();
@@ -36,7 +33,7 @@ PhoneInputArea::PhoneInputArea(QWidget *parent, const QModelIndex &index)
 
     setMappings();
 
-    qCDebug(m_PhoneInputAreaLog) << tr("Aktueller Index: ") << m_mapper->currentIndex();
+    qDebug() << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
     if (index.row() < 0) {
         m_mapper->toFirst();
@@ -47,6 +44,7 @@ PhoneInputArea::PhoneInputArea(QWidget *parent, const QModelIndex &index)
     QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &PhoneInputArea::addEdit);
     QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &PhoneInputArea::editFinish);
 }
+
 PhoneInputArea::~PhoneInputArea()
 {
     delete ui;
@@ -87,7 +85,7 @@ void PhoneInputArea::setViewOnlyMode(bool mode)
 
 void PhoneInputArea::createDataset()
 {
-    qCDebug(m_PhoneInputAreaLog) << tr("Erzeuge einen neuen, leeren Datensatz für Phone...");
+    qDebug() << tr("Erzeuge einen neuen, leeren Datensatz für Phone...");
 
     // Set all inputfields to blank
     m_mapper->toLast();
@@ -103,20 +101,20 @@ void PhoneInputArea::createDataset()
 
 void PhoneInputArea::deleteDataset(const QModelIndex &index)
 {
-    qCDebug(m_PhoneInputAreaLog) << tr("Lösche Daten von Phone");
+    qDebug() << tr("Lösche Daten von Phone");
     m_mapper->setCurrentIndex(index.row());
 }
 
 void PhoneInputArea::addEdit()
 {
-    qCDebug(m_PhoneInputAreaLog) << tr("Füge neue Daten zu Phone");
+    qDebug() << tr("Füge neue Daten zu Phone");
     createDataset();
     editFinish();
 }
 
 void PhoneInputArea::editFinish()
 {
-    qCDebug(m_PhoneInputAreaLog) << tr("Bearbeite oder schließe Phone Daten");
+    qDebug() << tr("Bearbeite oder schließe Phone Daten");
 
     switch (m_actualMode) {
     case Mode::Edit: {
@@ -127,14 +125,14 @@ void PhoneInputArea::editFinish()
     } break;
 
     case Mode::Finish: {
-        qCDebug(m_PhoneInputAreaLog) << tr("Die Daten werden gesichert.");
+        qDebug() << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         ui->editFinishPushButton->setText(tr("Bearbeiten"));
         setViewOnlyMode(false);
 
         QString number = ui->numberLineEdit->text();
-        qCDebug(m_PhoneInputAreaLog) << tr("Number : ") << number;
+        qDebug() << tr("Number : ") << number;
 
         if (number.isEmpty()) {
             QString message(tr("Bitte eine Telefonnummer angeben."));
@@ -145,7 +143,7 @@ void PhoneInputArea::editFinish()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(m_PhoneInputAreaLog) << tr("Schreiben der Änderungen für Phone in die Datenbank");
+                qDebug() << tr("Schreiben der Änderungen für Phone in die Datenbank");
                 dataChanged();
             } else {
                 m_model->database().rollback();
@@ -155,7 +153,7 @@ void PhoneInputArea::editFinish()
     } break;
 
     default: {
-        qCCritical(m_PhoneInputAreaLog) << tr("Fehler: Unbekannter Modus");
+        qCritical() << tr("Fehler: Unbekannter Modus");
     }
     }
 }

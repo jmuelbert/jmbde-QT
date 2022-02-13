@@ -1,21 +1,20 @@
 /*
- *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
  *
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "views/employeetable.h"
+#include "jmbdewidgets/employeetable.h"
 
 #include "ui_employeetable.h"
 
 EmployeeTable::EmployeeTable(QWidget *parent, const QModelIndex &index)
     : QWidget(parent)
     , ui(new Ui::EmployeeTable)
-    , m_EmployeeTableLog(QLoggingCategory("jmbde.widgets.employeetable"))
 {
-        ui->setupUi(this);
+    ui->setupUi(this);
 
-    qCDebug(m_EmployeeTableLog) << "Init ComputerInputArea for Index :" << index.column();
+    qDebug() << "Init ComputerInputArea for Index :" << index.column();
 
     this->m_employeeModel = new Model::Employee();
     this->m_db = this->m_employeeModel->getDB();
@@ -115,7 +114,7 @@ void EmployeeTable::on_pushButton_EditFinish_clicked()
     } break;
 
     case Mode::Finish: {
-        qCDebug(m_EmployeeTableLog) << tr("Die Daten werden gesichert.");
+        qDebug() << tr("Die Daten werden gesichert.");
 
         m_actualMode = Mode::Edit;
         // TODO: To Implement
@@ -136,7 +135,7 @@ void EmployeeTable::on_pushButton_EditFinish_clicked()
             m_model->database().transaction();
             if (m_model->submitAll()) {
                 m_model->database().commit();
-                qCDebug(m_EmployeeTableLog) << tr("Schreiben der Änderungen in die Datenbank");
+                qDebug() << tr("Schreiben der Änderungen in die Datenbank");
             } else {
                 m_model->database().rollback();
                 QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
@@ -145,7 +144,7 @@ void EmployeeTable::on_pushButton_EditFinish_clicked()
     } break;
 
     default: {
-        qCDebug(m_EmployeeTableLog) << tr("Fehler");
+        qDebug() << tr("Fehler");
     }
     }
 }
