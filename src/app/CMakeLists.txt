@@ -218,11 +218,11 @@ elseif(UNIX AND NOT APPLE)
       COMMAND ${GZIP} -c ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1 > jmbde.1.gz
       COMMENT "Create the bin gz archive"
       DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1)
-    add_custom_target(
-      man ALL
-      COMMENT "Create man-file"
-      DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1.gz)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1.gz
-            DESTINATION ${MAN_INSTALL_DIR}/man1/)
+  #  add_custom_target(
+  #    man ALL
+  #     COMMENT "Create man-file"
+  #    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1.gz)
+ #   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1.gz
+ #           DESTINATION ${MAN_INSTALL_DIR}/man1/)
   endif()
 endif()
