@@ -298,7 +298,6 @@ jobs:
       fail-fast: true
 
     runs-on: ${{ matrix.os }}
-    needs: [tests]
 
     steps:
       - name: '⚙️ Get the version'
