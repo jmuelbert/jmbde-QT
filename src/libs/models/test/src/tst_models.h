@@ -4,7 +4,7 @@
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include <QtTest/QtTest>
+#include <QtTest/QTest>
 
 class tst_models : public QObject
 {

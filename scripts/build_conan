@@ -1,0 +1,9 @@
+#!/bin/sh
+
+mkdir -p build_conan
+cd build_conan
+# conan install .. --build missing
+cmake -G Ninja -DENABLE_CONAN=TRUE -DBUILD_TESTING=TRUE -DBUILD_SHARED_LIBS=TRUE ..
+cmake --build .
+cmake --build . --target format
+cmake --build . --target package

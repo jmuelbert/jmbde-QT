@@ -7,7 +7,7 @@
 #include "jmbdewidgets/chipcardprofiledoorinputarea.h"
 #include <ui_chipcardprofiledoorinputarea.h>
 
-ChipCardProfileDoorInputArea::ChipCardProfileDoorInputArea(QWidget* parent, const QModelIndex& index)
+ChipCardProfileDoorInputArea::ChipCardProfileDoorInputArea(QWidget *parent, const QModelIndex &index)
     : QGroupBox(parent)
     , ui(new Ui::ChipCardProfileDoorInputArea)
 {
@@ -77,7 +77,7 @@ void ChipCardProfileDoorInputArea::createDataset()
     m_mapper->setCurrentIndex(row);
 }
 
-void ChipCardProfileDoorInputArea::deleteDataset(const QModelIndex& index)
+void ChipCardProfileDoorInputArea::deleteDataset(const QModelIndex &index)
 {
     qDebug() << tr("Lösche Daten von ChipCardProfileDoor");
     m_mapper->setCurrentIndex(index.row());

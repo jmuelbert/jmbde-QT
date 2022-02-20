@@ -128,5 +128,4 @@ private:
      * @param index Delete the data for the ModelIndex
      */
     void deleteDataset(const QModelIndex &index);
-
 };

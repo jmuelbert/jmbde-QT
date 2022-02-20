@@ -127,7 +127,7 @@ find_package(
 # ---------------------------------------------------------------------------- #
 # Finding Qt5 or Qt6
 # ---------------------------------------------------------------------------- #
-find_package(Qt${QT_VERSION_MAJOR} CONFIG COMPONENTS Core Widgets Sql PrintSupport)
+find_package(Qt${QT_VERSION_MAJOR} CONFIG COMPONENTS Core Widgets Sql PrintSupport Test)
 
 # ---------------------------------------------------------------------------- #
 # Install instructions
@@ -147,7 +147,7 @@ install(DIRECTORY include/${TARGET_NAME} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 # ---------------------------------------------------------------------------- #
 install(
   EXPORT ${TARGET_NAME}Config
-  FILE ${TARGET_NAME}Config.cmake
+  FILE Config${TARGET_NAME}.cmake
   NAMESPACE ${TARGET_NAMESPACE}::
   DESTINATION ${INSTALL_CONFIGDIR})
 
@@ -181,7 +181,7 @@ configure_file(${CMAKE_CURRENT_LIST_DIR}/cmake/Find${TARGET_ID}.cmake
 
 export(
   EXPORT ${TARGET_NAME}Config
-  FILE ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}Config.cmake
+  FILE ${CMAKE_CURRENT_BINARY_DIR}/Config${TARGET_NAME}.cmake
   NAMESPACE ${TARGET_NAMESPACE}::)
 
 if(MSVC AND BUILD_SHARED_LIBS)

@@ -129,8 +129,7 @@ void MainWindow::initOutline()
                                  tr("System Daten"),
                                  tr("Titel"),
                                  tr("PLZ Stadt"),
-                                 tr("PLZ Code")
-    };
+                                 tr("PLZ Code")};
     outlineData.insert(tr("Alles"), subEntries);
     subEntries = {tr("Mitarbeiter"), tr("Funktion"), tr("Abteilung"), tr("Titel"), tr("Zugang")};
     outlineData.insert(tr("Person"), subEntries);
@@ -786,7 +785,6 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(companyInput);
     } else if (selected == tr("Computer")) {
-
         qDebug() << tr("Selected: ") << selected;
 
         actualView = VIEW_COMPUTER;
@@ -800,7 +798,6 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(computerInput);
     } else if (selected == tr("Computer Software")) {
-
         qDebug() << tr("Selected: ") << selected;
 
         actualView = VIEW_COMPUTERSOFTWARE;
@@ -932,7 +929,6 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(faxInput);
 
     } else if (selected == tr("Funktion")) {
-
         qDebug() << tr("Selected: ") << selected;
 
         actualView = VIEW_FUNCTION;
@@ -947,7 +943,6 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(functionInput);
 
     } else if (selected == tr("Inventar")) {
-
         qDebug() << tr("Selected: ") << selected;
 
         actualView = VIEW_INVENTORY;
@@ -1107,7 +1102,6 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidget(systemDataInput);
 
     } else if (selected == tr("Titel")) {
-
         qDebug() << tr("Selected: ") << selected;
 
         actualView = VIEW_TITLE;

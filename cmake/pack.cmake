@@ -1,9 +1,11 @@
-# MIT License 
-# Copyright (c) 2018-Today Michele Adduci <adduci@tutanota.com>
+#
+#  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
+#
+#  SPDX-License-Identifier: MIT
 #
 # Packaging instructios
 
-set(CPACK_PACKAGE_VENDOR "Michele Adduci <adduci@tutanota.com>")
+set(CPACK_PACKAGE_VENDOR "Jürgen Mülbert <juergen.muelbert@gmail.com>")
 set(CPACK_PACKAGE_VERSION_MAJOR "${CMAKE_PROJECT_VERSION_MAJOR}")
 set(CPACK_PACKAGE_VERSION_MINOR "${CMAKE_PROJECT_VERSION_MINOR}")
 set(CPACK_PACKAGE_VERSION_PATCH "${CMAKE_PROJECT_VERSION_PATCH}")

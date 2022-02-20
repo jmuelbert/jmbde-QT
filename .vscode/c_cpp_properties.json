@@ -42,17 +42,7 @@
     }
   ],
   "env": {
-    "myCompilerPath": "/usr/local/bin/gcc-7",
-    "myDefaultIncludePath": [
-      "${workspaceFolder}",
-      "${workspaceFolder}/src/libs/models/include/models",
-      "${workspaceFolder}/src/libs/quick/include/quick",
-      "${workspaceFolder}/src/libs/widgets/include/views",
-      "${workspaceFolder}/build/src/app",
-      "${workspaceFolder}/build/src/libs/models",
-      "${workspaceFolder}/build/src//libs/quick",
-      "${workspaceFolder}/build/src/libs/widgets"
-    ]
+    "myDefaultIncludePath": ["${workspaceFolder}/**"]
   },
   "version": 4
 }

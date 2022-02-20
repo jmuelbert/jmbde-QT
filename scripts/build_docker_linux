@@ -1,0 +1,3 @@
+#!/env/sh
+
+docker run --rm -it -v $(pwd):/project madduci/docker-cpp-env:latest "mkdir -p linux-build && cd linux-build && conan install .. && cmake -DBUILD_TESTING=TRUE -DBUILD_SHARED_LIBS=TRUE .. && cmake --build ."

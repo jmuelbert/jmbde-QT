@@ -145,27 +145,11 @@ find_package(
   REQUIRED)
 
 find_package(jmbdemodels REQUIRED)
-message(STATUS "jmbdemodels_FOUND = ${jmbdemodels_FOUND}")
-message(STATUS "jmbdemodels_C_FOUND = ${jmbdemodels_C_FOUND}")
-message(STATUS "jmbdemodels_CXX_FOUND = ${jmbdemodels_CXX_FOUND}")
-message(STATUS "jmbdemodels_INCLUDE_DIRS = ${jmbdemodels_INCLUDE_DIRS}")
-message(STATUS "jmbdemodels_C_INCLUDE_DIRS = ${jmbdemodels_C_INCLUDE_DIRS}")
-message(STATUS "jmbdemodels_CXX_INCLUDE_DIRS = ${jmbdemodels_CXX_INCLUDE_DIRS}")
-message(STATUS "jmbdemodels_LIBRARIES = ${jmbdemodels_LIBRARIES}")
-
 
 # ---------------------------------------------------------------------------- #
 # Finding Qt5 or Qt6
 # ---------------------------------------------------------------------------- #
 find_package(Qt${QT_VERSION_MAJOR} CONFIG COMPONENTS Core Widgets Sql PrintSupport)
-
-message(STATUS "Qt${QT_VERSION_MAJOR}_FOUND = ${Qt${QT_VERSION_MAJOR}_FOUND}")
-message(STATUS "Qt${QT_VERSION_MAJOR}_C_FOUND = ${Qt${QT_VERSION_MAJOR}_C_FOUND}")
-message(STATUS "Qt${QT_VERSION_MAJOR}_CXX_FOUND = ${Qt${QT_VERSION_MAJOR}_CXX_FOUND}")
-message(STATUS "Qt${QT_VERSION_MAJOR}_INCLUDE_DIRS = ${Qt${QT_VERSION_MAJOR}_INCLUDE_DIRS}")
-message(STATUS "Qt${QT_VERSION_MAJOR}_C_INCLUDE_DIRS = ${Qt${QT_VERSION_MAJOR}_C_INCLUDE_DIRS}")
-message(STATUS "Qt${QT_VERSION_MAJOR}_CXX_INCLUDE_DIRS = ${Qt${QT_VERSION_MAJOR}_CXX_INCLUDE_DIRS}")
-message(STATUS "Qt${QT_VERSION_MAJOR}_LIBRARIES = ${Qt${QT_VERSION_MAJOR}_LIBRARIES}")
 
 # ---------------------------------------------------------------------------- #
 # Install instructions
@@ -217,11 +201,11 @@ install(
 configure_file(${CMAKE_CURRENT_LIST_DIR}/cmake/Find${TARGET_ID}.cmake
                ${CMAKE_CURRENT_BINARY_DIR}/Find${TARGET_ID}.cmake COPYONLY)
 
-export(
-  EXPORT ${TARGET_NAME}Config
-  FILE ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}Config.cmake
-  NAMESPACE ${TARGET_NAMESPACE}::)
-
+               export(
+                EXPORT ${TARGET_NAME}Config
+                FILE ${CMAKE_CURRENT_BINARY_DIR}/Config${TARGET_NAME}.cmake
+                NAMESPACE ${TARGET_NAMESPACE}::)
+              
 if(MSVC AND BUILD_SHARED_LIBS)
   install(
     FILES
