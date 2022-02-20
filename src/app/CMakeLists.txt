@@ -77,8 +77,6 @@ find_package(
 find_package(Qt${QT_VERSION_MAJOR} QUIET COMPONENTS Core Widgets PrintSupport
                                                     Sql Qml)
 
-find_package(jmbdeModels)
-find_package(jmbdeWidgets)
 
 # Use a single application on MacOS + Windows instead of dbus.
 if(APPLE OR WIN32)
