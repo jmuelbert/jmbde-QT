@@ -144,7 +144,7 @@ find_package(
   COMPONENTS Core
   REQUIRED)
 
-find_package(jmbdemodels REQUIRED)
+find_package(jmuelbert::jmbdemodels REQUIRED)
 
 # ---------------------------------------------------------------------------- #
 # Finding Qt5 or Qt6
