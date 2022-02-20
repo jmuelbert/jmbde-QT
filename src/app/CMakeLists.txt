@@ -218,12 +218,12 @@ elseif(UNIX AND NOT APPLE)
   # appdata
   configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/jmbde.appdata.xml.in
                  ${CMAKE_CURRENT_BINARY_DIR}/jmbde.appdata.xml @ONLY)
-  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde.appdata.xml
-          DESTINATION ${APPDATA_INSTALL_DIR})
+#  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde.appdata.xml
+  #        DESTINATION ${APPDATA_INSTALL_DIR})
 
-  install(
-    FILES ${CMAKE_SOURCE_DIR}/cmake/modules/io.github.jmuelbert.jmbde.desktop
-    DESTINATION ${XDG_APPS_INSTALL_DIR})
+#  install(
+  #  FILES ${CMAKE_SOURCE_DIR}/cmake/modules/io.github.jmuelbert.jmbde.desktop
+ #   DESTINATION ${XDG_APPS_INSTALL_DIR})
 
   # man page
   find_program(GZIP gzip)
@@ -235,11 +235,11 @@ elseif(UNIX AND NOT APPLE)
       COMMAND ${GZIP} -c ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1 > jmbde.1.gz
       COMMENT "Create the bin gz archive"
       DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1)
-    add_custom_target(
-      man ALL
-      COMMENT "Create man-file"
-      DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1.gz)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1.gz
-            DESTINATION ${MAN_INSTALL_DIR}/man1/)
+ #   add_custom_target(
+ #     man ALL
+  #    COMMENT "Create man-file"
+  #    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1.gz)
+  #  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1.gz
+   #         DESTINATION ${MAN_INSTALL_DIR}/man1/)
   endif()
 endif()
