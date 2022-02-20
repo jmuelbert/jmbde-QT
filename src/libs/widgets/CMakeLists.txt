@@ -34,7 +34,7 @@ include(CTest) # Must be called before adding tests but after calling project().
                # targets when using Make/Ninja
 
 
-set(TARGET_ID jmbdeWidgets)
+set(TARGET_ID jmbdewidgets)
 string(TOLOWER ${TARGET_ID} TARGET_ID_LOWER)
 set(TARGET_NAMESPACE jmuelbert)
 set(TARGET_NAME ${TARGET_ID_LOWER})
@@ -132,7 +132,7 @@ target_link_libraries(${TARGET_NAME}
               PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Gui
                       Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::PrintSupport
                       Qt${QT_VERSION_MAJOR}::Sql 
-                      jmuelbert::jmbdeModels
+                      jmuelbert::jmbdemodels
                       ${CONAN_LIBS})
 
 
@@ -150,8 +150,6 @@ find_package(
 # ---------------------------------------------------------------------------- #
 find_package(Qt${QT_VERSION_MAJOR} CONFIG COMPONENTS Core Widgets Sql PrintSupport)
 
-
-find_package(jmbdeModels)
 # ---------------------------------------------------------------------------- #
 # Install instructions
 # ---------------------------------------------------------------------------- #

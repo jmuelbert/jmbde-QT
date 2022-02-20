@@ -16,7 +16,7 @@ endif()
 # ---------------------------------------------------------------------------- #
 # Define Target Information
 # ---------------------------------------------------------------------------- #
-set(TARGET_ID jmbdeModels)
+set(TARGET_ID jmbdemodels)
 string(TOLOWER ${TARGET_ID} TARGET_ID_LOWER)
 set(TARGET_NAMESPACE jmuelbert)
 set(TARGET_NAME ${TARGET_ID_LOWER})

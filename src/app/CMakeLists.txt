@@ -134,8 +134,8 @@ target_link_libraries(
   ${PROJECT_NAME}
   PRIVATE # The following libraries are only linked for this target, and its
           # flags/dependencies will not be used when linking against this target
-          jmuelbert::jmbdeModels
-          jmuelbert::jmbdeWidgets
+          jmuelbert::jmbdemodels
+          jmuelbert::jmbdewidgets
           Qt${QT_VERSION_MAJOR}::Core
           Qt${QT_VERSION_MAJOR}::Widgets
           Qt${QT_VERSION_MAJOR}::PrintSupport
