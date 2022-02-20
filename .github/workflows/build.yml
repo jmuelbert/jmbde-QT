@@ -587,7 +587,7 @@ jobs:
         cc: [gcc-10]
         cxx: [g++-10]
         build_type: [Debug]
-        coverage: [ON]
+        #coverage: [ON]
       fail-fast: true
 
     steps:
