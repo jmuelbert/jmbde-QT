@@ -485,7 +485,7 @@ jobs:
         shell: bash
         working-directory: ${{runner.workspace}}/build
         run: |
-          cmake ${{ github.workspace }} \
+          cmake $GITHUB_WORKSPACE \
             -G ${{ matrix.cmake_generator }} \
             -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}  \
             -DCMAKE_INSTALL_PREFIX:PATH=./programs \
