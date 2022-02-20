@@ -143,7 +143,6 @@ jobs:
           CC: ${{ matrix.cc }}
           CXX: ${{ matrix.cxx}}
         run: |
-          source ~/.profile
           APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
           mkdir -p ${APPIMAGE_DST_PATH}
           cd $GITHUB_WORKSPACE
@@ -478,7 +477,7 @@ jobs:
 
       - name: '🚧 Compile application'
         shell: bash
-        working-directory: ${{ runner.workspace }}/build
+        working-directory: build
         run: |
           cmake ${{ github.workspace }} \
             -G ${{ matrix.cmake_generator }} \
