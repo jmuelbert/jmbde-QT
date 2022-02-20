@@ -132,7 +132,7 @@ target_link_libraries(${TARGET_NAME}
               PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Gui
                       Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::PrintSupport
                       Qt${QT_VERSION_MAJOR}::Sql 
-                      jmuelbert::jmbdemodels
+                      jmuelbert::jmbdeModels
                       ${CONAN_LIBS})
 
 
@@ -144,13 +144,14 @@ find_package(
   COMPONENTS Core
   REQUIRED)
 
-find_package(jmuelbert NAMES jmbdemodels)
 
 # ---------------------------------------------------------------------------- #
 # Finding Qt5 or Qt6
 # ---------------------------------------------------------------------------- #
 find_package(Qt${QT_VERSION_MAJOR} CONFIG COMPONENTS Core Widgets Sql PrintSupport)
 
+
+find_package(jmbdeModels)
 # ---------------------------------------------------------------------------- #
 # Install instructions
 # ---------------------------------------------------------------------------- #
