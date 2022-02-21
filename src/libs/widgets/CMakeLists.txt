@@ -205,7 +205,7 @@ configure_file(${CMAKE_CURRENT_LIST_DIR}/cmake/Find${TARGET_ID}.cmake
                 FILE ${CMAKE_CURRENT_BINARY_DIR}/Config${TARGET_NAME}.cmake
                 NAMESPACE ${TARGET_NAMESPACE}::)
               
-if(MSVC AND BUILD_SHARED_LIBS)
+if__(MSVC AND BUILD_SHARED_LIBS)
   install(
     FILES
       "$<TARGET_PDB_FILE_DIR:>/$<TARGET_PDB_FILE_NAME:>"
