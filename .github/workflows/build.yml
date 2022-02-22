@@ -185,6 +185,7 @@ jobs:
     runs-on: ${{ matrix.platform }}
     strategy:
       matrix:
+        os: [windows-latest]
         platform: [windows-latest]
         name: [Windows 2019 MS Visual C]
         qt_arch: [win64_msvc2019_64]
@@ -633,7 +634,7 @@ jobs:
         uses: actions/cache@v1 # not v2!
         with:
           path: '${{ github.workspace }}/Qt'
-          key: ${{ runner.os }}-QtCache
+          key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ env.QT_VERSION }}
 
       - name: '⚙️ Install Qt'
         uses: jurplel/install-qt-action@v2
