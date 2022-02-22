@@ -53,6 +53,274 @@ env:
   CONAN_USER_HOME_SHORT: '${{ github.workspace }}/conan-cache/short'
 
 jobs:
+  build:
+    name: '🍎 ${{ matrix.os }} - ${{ env.QT_VERSION }}'
+    strategy:
+      matrix:
+        os: [macos-latest]
+        platform: [macos-latest]
+        name: [macos-12.0-x86_64]
+        macos_target: [10.15]
+        qt_arch: [clang_64]
+        arch: [clang_64]
+        cc: [clang]
+        cxx: [clang++]
+        cmake_generator: [Ninja]
+
+      fail-fast: true
+
+    needs: [tests]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: '⚙️ Get the version'
+        id: get_version
+        shell: bash
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+
+      - name: '🧰 Checkout Source Code'
+        if: github.event_name == 'push'
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: master
+
+      - name: '🧰 Checkout Source Code'
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Cache
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-conan-modules
+        with:
+          path: |
+            ${{ env.CONAN_USER_HOME }}
+            ~/.cache/pip
+          key: ${{ runner.os }}-${{ env.BUILD_TYPE }}-${{ hashFiles('CMakeLists.txt') }}-${{ hashFiles('cmake/Conan.cmake') }}
+
+      - name: '⚙️ Cache Qt'
+        id: cache-qt
+        uses: actions/cache@v1 # not v2!
+        with:
+          path: '${{ github.workspace }}/Qt'
+          key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ env.QT_VERSION }}
+
+      - name: '⚙️ Install Qt'
+        uses: jurplel/install-qt-action@v2
+        with:
+          version: ${{ env.QT_VERSION }}
+          target: ${{ env.QT_TARGET }}
+          arch: ${{ matrix.qt_arch }}
+          # modules: 'qtscript'
+          cached: ${{ steps.cache-qt.outputs.cache-hit }}
+
+      - name: '⚙️ Install dependencies for macos'
+        if: matrix.os == 'macos' || matrix.os == 'macos-latest'
+        run: |
+          brew install ninja
+
+      - name: '⚙️ Get conan'
+        uses: turtlebrowser/get-conan@v1.0
+
+      - name: Create Build Environment
+        # Some projects don't allow in-source building, so create a separate build directory
+        # We'll use this as our working directory for all subsequent commands
+        run: cmake -E make_directory ${{runner.workspace}}/build
+
+      - name: '⚙️ Configure cmake build'
+        # Use a bash shell so we can use the same syntax for environment variable
+        # access regardless of the host operating system
+        shell: bash
+        working-directory: ${{runner.workspace}}/build
+        # Note the current convention is to use the -S and -B options here to specify source
+        # and build directories, but this is only available with CMake 3.13 and higher.
+        # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
+        run: |
+          cmake $GITHUB_WORKSPACE \
+            -G ${{matrix.cmake_generator}} \
+            -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
+            -DCMAKE_OSX_DEPLOYMENT_TARGET=${{ matrix.macos_target }} \
+            -DUSE_LAUNCHER_ABSOLUTE_PATH:BOOL=OFF \
+            -DCMAKE_INSTALL_PREFIX:PATH=./app \
+            -DBUILD_TESTING=OFF  \
+            -DBUILD_TRANSLATIONS=ON \
+
+      - name: '🚧 Build'
+        working-directory: ${{runner.workspace}}/build
+        shell: bash
+        # Execute the build.  You can specify a specific target with "--target <NAME>"
+        run: cmake --build . --target install --parallel $(sysctl -n hw.logicalcpu)
+
+      - name: '📦 Package application (macdeployqt and zipfile)'
+        if: matrix.os == 'macos' || matrix.os == 'macos-latest'
+        working-directory: ${{runner.workspace}}/build
+        run: |
+          macdeployqt ./app/${{env.TARGET_NAME}}.app -qmldir=. -appstore-compliant -libpath=./app/${{env.TARGET_NAME}}.app/Contents/Frameworks -verbose=1 -dmg
+          cp ./app/${{env.TARGET_NAME}}.dmg ${{runner.workspace}}/${{env.TARGET_NAME}}.dmg
+
+          # ZIP application "%AppName%-%Version%-macOS.zip"
+          ditto -c -k --sequesterRsrc --keepParent "bin/${{env.TARGET_NAME}}.app" ${{env.TARGET_NAME}}.zip
+          cp ./${{env.TARGET_NAME}}.zip ${{runner.workspace}}/${{env.TARGET_NAME}}.zip
+
+      - name: Upload dmg artifact for macOS - ${{ matrix.qt_version }}
+        if: matrix.os == 'macos' || matrix.os == 'macos-latest'
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${env.TARGET_NAME}-dmg
+          path: ${{runner.workspace}}/${{ env.TARGET_NAME }}.dmg
+
+      - name: Upload zip artifact for macOS - ${{ matrix.qt_version }}-${env.BUILD_TYPE}}
+        if: matrix.os == 'macos' || matrix.os == 'macos-latest'
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.TARGET_NAME }}-macos-zip
+          path: ${{runner.workspace}}/${{ env.TARGET_NAME }}*.zip
+
+  windows-build:
+    name: '🧊 ${{ matrix.platform }} - ${{ env.QT_VERSION }}'
+    runs-on: ${{ matrix.platform }}
+    strategy:
+      matrix:
+        platform: [windows-latest]
+        name: [Windows 2019 MS Visual C]
+        qt_arch: [win64_msvc2019_64]
+        arch: [x64]
+        artifact: [Windows-MSVC]
+        pak_arch: [win64]
+        cc: [cl]
+        cxx: [cl]
+        cmake_generator: [Ninja]
+      fail-fast: true
+    needs: [tests]
+
+    steps:
+      - name: Get the version
+        id: get_version
+        shell: bash
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+
+      - name: Checkout Source Code
+        uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+
+      - name: Restoring submodules
+        run: git submodule update --init
+
+      - name: Cache
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-conan-modules
+        with:
+          path: |
+            ${{ env.CONAN_USER_HOME }}
+            ~/.cache/pip
+          key: ${{ runner.os }}-${{ env.BUILD_TYPE }}-${{ hashFiles('CMakeLists.txt') }}-${{ hashFiles('cmake/Conan.cmake') }}
+
+      - name: '⚙️ Configure MSVC'
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          # 14.1 is for vs2017, 14.2 is vs2019, following the upstream vcpkg build
+          toolset: 14.2
+          arch: ${{ matrix.pak_arch }}
+
+      - name: '⚙️ Cache Qt'
+        id: cache-qt
+        uses: actions/cache@v1 # not v2!
+        with:
+          path: '${{ github.workspace }}/Qt'
+          key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ env.QT_VERSION }}
+
+      - name: '⚙️ Install Qt'
+        uses: jurplel/install-qt-action@v2
+        with:
+          version: ${{ env.QT_VERSION }}
+          target: ${{ env.QT_TARGET }}
+          arch: ${{ matrix.qt_arch }}
+          # modules: 'qtscript'
+          cached: ${{ steps.cache-qt.outputs.cache-hit }}s
+
+      - name: '⚙️ Get conan'
+        uses: turtlebrowser/get-conan@v1.0
+
+      - name: '⚙️ Install Build deps'
+        if: matrix.os == 'windows' || matrix.os == 'windows-latest'
+        run: |
+          choco install png2ico
+          choco install ninja
+
+      - name: Create Build Environment
+        # Some projects don't allow in-source building, so create a separate build directory
+        # We'll use this as our working directory for all subsequent commands
+        run: cmake -E make_directory ${{runner.workspace}}/build
+
+      - name: '🚧 Compile application'
+        shell: bash
+        working-directory: ${{runner.workspace}}/build
+        run: |
+          cmake $GITHUB_WORKSPACE \
+            -G ${{ matrix.cmake_generator }} \
+            -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}  \
+            -DCMAKE_INSTALL_PREFIX:PATH=./programs \
+            -DBUILD_TESTING=OFF  \
+            -DBUILD_TRANSLATIONS=ON
+
+      - name: '⚙️ Run CMake Install'
+        shell: pwsh
+        working-directory: ${{runner.workspace}}/build
+        run: cmake --build . --config ${{ env.BUILD_TYPE }} --target install --parallel $(nproc)
+
+      # Copy Qt DLLs, compiler runtime & application icon
+      - name: '📦 Package application (windeployqt)'
+        if: matrix.os == 'windows' || matrix.os == 'windows-latest'
+        working-directory: ${{runner.workspace}}/build
+        shell: pwsh
+        env:
+          archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+        run: |
+          New-Item -ItemType Directory ${{ env.archiveName }}
+          Copy-Item -PATH ./programs/* -Destination ${{ env.archiveName }} -Recurse
+          Get-ChildItem ${{ env.archiveName }}/bin
+          windeployqt --qmldir . ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}.exe ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}models.dll ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}quick.dll ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}widgets.dll
+
+      - name: Compress Zip Archive
+        if: matrix.os == 'windows' || matrix.os == 'windows-latest'
+        working-directory: ${{runner.workspace}}/build
+        shell: pwsh
+        env:
+          archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+        run: |
+          Compress-Archive -Path ${{ env.archiveName}}/bin -DestinationPath ${{runner.workspace}}/${{ env.archiveName}}.'zip'
+
+      - name: Upload Zip archive
+        if: matrix.os == 'windows' || matrix.os == 'windows-latest'
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.TARGET_NAME}}-win-zip
+          path: ${{ runner.workspace}}/${{ env.archiveName}}.zip
+
+      - name: '📦 Make ISS-Installer for ${{ matrix.qt_version }}'
+        if: matrix.os == 'windows' || matrix.os == 'windows-latest'
+        working-directory: ${{runner.workspace}}/build
+        shell: bash
+        env:
+          archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+        run: |
+          iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=${{runner.workspace}} -DMyOutRoot=$GITHUB_WORKSPACE/build//${archiveName}/bin
+
+      - name: '📤 Upload artifact: ISS Installer'
+        if: matrix.os == 'windows' || matrix.os == 'windows-latest'
+        uses: actions/upload-artifact@v2
+        env:
+          archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+        with:
+          name: ${{ env.TARGET_NAME}}-win
+          path: ${{runner.workspace}}/${{ env.archiveName}}.exe
+
   appimage-build:
     name: '🐧 Build appimage on ${{ matrix.os }} for ${{ matrix.qt_version }}'
 
@@ -115,7 +383,7 @@ jobs:
         uses: actions/cache@v1 # not v2!
         with:
           path: '${{ github.workspace }}/Qt'
-          key: QtCache-${{ matrix.platform }}-{{ matrix.arch }}-${{ env.QT_VERSION }}
+          key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ env.QT_VERSION }}
 
       - name: '⚙️ Install Qt'
         uses: jurplel/install-qt-action@v2
@@ -127,6 +395,7 @@ jobs:
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
       - name: '⚙️ Install go-appimage tool'
+        if: matrix.os == 'ubuntu' || matrix.os == 'ubuntu-latest'
         # Will not use linuxdeployqt anymore, because it suopprts currently still-supported mainstream distribution,
         # which is glibc 2.23. For more information, please see https://github.com/probonopd/linuxdeployqt/issues/340.
         # Will try new tool https://github.com/probonopd/go-appimage written in golang by probonopd.
@@ -138,6 +407,7 @@ jobs:
           APPIMAGETOOL_ARCH: x86_64
 
       - name: '🚧 Compile application'
+        if: matrix.os == 'ubuntu' || matrix.os == 'ubuntu-latest'
         shell: bash
         env:
           CC: ${{ matrix.cc }}
@@ -154,6 +424,7 @@ jobs:
           cmake --build . --config ${{env.BUILD_TYPE}} --target install --parallel $(sysctl -n hw.logicalcpu)
 
       - name: '📦 Create AppImage'
+        if: matrix.os == 'ubuntu' || matrix.os == 'ubuntu-latest'
         shell: bash
         run: |
           APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
@@ -173,6 +444,7 @@ jobs:
           ls ${{runner.workspace}}
 
       - name: '📤 Upload artifact: AppImage'
+        if: matrix.os == 'ubuntu' || matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v2
         with:
           name: ${{env.TARGET_NAME}}.AppImage
@@ -279,265 +551,6 @@ jobs:
           name: ${{env.TARGET_NAME}}.snap
           path: |
             ${{runner.workspace}}/${{ env.TARGET_NAME }}-${{ steps.get_version.outputs.VERSION }}.amd64.snap
-
-  macos-build:
-    name: '🍎 ${{ matrix.os }} -${{ matrix.qt_version}}'
-    strategy:
-      matrix:
-        os: [macos-latest]
-        platform: [macos-latest]
-        name: [macos-12.0-x86_64]
-        macos_target: [10.15]
-        qt_arch: [clang_64]
-        arch: [clang_64]
-        cc: [clang]
-        cxx: [clang++]
-        cmake_generator: [Ninja]
-
-      fail-fast: true
-      
-    needs: [tests]
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - name: '⚙️ Get the version'
-        id: get_version
-        shell: bash
-        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
-
-      - name: '🧰 Checkout Source Code'
-        if: github.event_name == 'push'
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          ref: master
-
-      - name: '🧰 Checkout Source Code'
-        if: github.event_name == 'pull_request'
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: Cache
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-conan-modules
-        with:
-          path: |
-            ${{ env.CONAN_USER_HOME }}
-            ~/.cache/pip
-          key: ${{ runner.os }}-${{ env.BUILD_TYPE }}-${{ hashFiles('CMakeLists.txt') }}-${{ hashFiles('cmake/Conan.cmake') }}
-
-      - name: '⚙️ Cache Qt'
-        id: cache-qt
-        uses: actions/cache@v1 # not v2!
-        with:
-          path: '${{ github.workspace }}/Qt'
-          key: QtCache-${{ matrix.platform }}-{{ matrix.arch }}-${{ env.QT_VERSION }}
-
-      - name: '⚙️ Install Qt'
-        uses: jurplel/install-qt-action@v2
-        with:
-          version: ${{ env.QT_VERSION }}
-          target: ${{ env.QT_TARGET }}
-          arch: ${{ matrix.qt_arch }}
-          # modules: 'qtscript'
-          cached: ${{ steps.cache-qt.outputs.cache-hit }}
-
-      - name: '⚙️ Install dependencies'
-        run: |
-          brew install ninja
-
-      - name: '⚙️ Get conan'
-        uses: turtlebrowser/get-conan@v1.0
-
-      - name: Create Build Environment
-        # Some projects don't allow in-source building, so create a separate build directory
-        # We'll use this as our working directory for all subsequent commands
-        run: cmake -E make_directory ${{runner.workspace}}/build
-
-      - name: '⚙️ Configure cmake build'
-        # Use a bash shell so we can use the same syntax for environment variable
-        # access regardless of the host operating system
-        shell: bash
-        working-directory: ${{runner.workspace}}/build
-        # Note the current convention is to use the -S and -B options here to specify source
-        # and build directories, but this is only available with CMake 3.13 and higher.
-        # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
-        run: |
-          cmake $GITHUB_WORKSPACE \
-            -G ${{matrix.cmake_generator}} \
-            -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
-            -DCMAKE_OSX_DEPLOYMENT_TARGET=${{ matrix.macos_target }} \
-            -DUSE_LAUNCHER_ABSOLUTE_PATH:BOOL=OFF \
-            -DCMAKE_INSTALL_PREFIX:PATH=./app \
-            -DBUILD_TESTING=OFF  \
-            -DBUILD_TRANSLATIONS=ON \
-
-      - name: '🚧 Build'
-        working-directory: ${{runner.workspace}}/build
-        shell: bash
-        # Execute the build.  You can specify a specific target with "--target <NAME>"
-        run: cmake --build . --target install --parallel $(sysctl -n hw.logicalcpu)
-
-      - name: '📦 Package application (macdeployqt and zipfile)'
-        working-directory: ${{runner.workspace}}/build
-        run: |
-          macdeployqt ./app/${{env.TARGET_NAME}}.app -qmldir=. -appstore-compliant -libpath=./app/${{env.TARGET_NAME}}.app/Contents/Frameworks -verbose=1 -dmg
-          cp ./app/${{env.TARGET_NAME}}.dmg ${{runner.workspace}}/${{env.TARGET_NAME}}.dmg
-
-          # ZIP application "%AppName%-%Version%-macOS.zip"
-          ditto -c -k --sequesterRsrc --keepParent "bin/${{env.TARGET_NAME}}.app" ${{env.TARGET_NAME}}.zip
-          cp ./${{env.TARGET_NAME}}.zip ${{runner.workspace}}/${{env.TARGET_NAME}}.zip
-
-      - name: Upload dmg artifact for macOS - ${{ matrix.qt_version }}
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${env.TARGET_NAME}-dmg
-          path: ${{runner.workspace}}/${{ env.TARGET_NAME }}.dmg
-
-      - name: Upload zip artifact for macOS - ${{ matrix.qt_version }}-${env.BUILD_TYPE}}
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ env.TARGET_NAME }}-macos-zip
-          path: ${{runner.workspace}}/${{ env.TARGET_NAME }}*.zip
-
-  windows-build:
-    name: '🧊 ${{ matrix.platform }} ${{matrix.qt_version}}'
-    runs-on: ${{ matrix.platform }}
-    strategy:
-      matrix:
-        platform: [windows-latest]
-        name: [Windows 2019 MS Visual C]
-        qt_arch: [win64_msvc2019_64]
-        arch: [x64]
-        artifact: [Windows-MSVC]
-        pak_arch: [win64]
-        cc: [cl]
-        cxx: [cl]
-        cmake_generator: [Ninja]
-      fail-fast: true
-    needs: [tests]
-
-    steps:
-      - name: Get the version
-        id: get_version
-        shell: bash
-        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
-
-      - name: Checkout Source Code
-        uses: actions/checkout@v2
-        with:
-          submodules: 'recursive'
-
-      - name: Restoring submodules
-        run: git submodule update --init
-
-      - name: Cache
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-conan-modules
-        with:
-          path: |
-            ${{ env.CONAN_USER_HOME }}
-            ~/.cache/pip
-          key: ${{ runner.os }}-${{ env.BUILD_TYPE }}-${{ hashFiles('CMakeLists.txt') }}-${{ hashFiles('cmake/Conan.cmake') }}
-
-      - name: '⚙️ Configure MSVC'
-        uses: ilammy/msvc-dev-cmd@v1
-        with:
-          # 14.1 is for vs2017, 14.2 is vs2019, following the upstream vcpkg build
-          toolset: 14.2
-          arch: ${{ matrix.pak_arch }}
-
-      - name: '⚙️ Cache Qt'
-        id: cache-qt
-        uses: actions/cache@v1 # not v2!
-        with:
-          path: '${{ github.workspace }}/Qt'
-          key: QtCache-${{ matrix.platform }}-{{ matrix.arch }}-${{ env.QT_VERSION }}
-
-      - name: '⚙️ Install Qt'
-        uses: jurplel/install-qt-action@v2
-        with:
-          version: ${{ env.QT_VERSION }}
-          target: ${{ env.QT_TARGET }}
-          arch: ${{ matrix.qt_arch }}
-          # modules: 'qtscript'
-          cached: ${{ steps.cache-qt.outputs.cache-hit }}s
-
-      - name: '⚙️ Get conan'
-        uses: turtlebrowser/get-conan@v1.0
-
-      - name: '⚙️ Install Build deps'
-        run: |
-          choco install png2ico
-          choco install ninja
-
-
-      - name: Create Build Environment
-        # Some projects don't allow in-source building, so create a separate build directory
-        # We'll use this as our working directory for all subsequent commands
-        run: cmake -E make_directory ${{runner.workspace}}/build
-        
-      - name: '🚧 Compile application'
-        shell: bash
-        working-directory: ${{runner.workspace}}/build
-        run: |
-          cmake $GITHUB_WORKSPACE \
-            -G ${{ matrix.cmake_generator }} \
-            -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}  \
-            -DCMAKE_INSTALL_PREFIX:PATH=./programs \
-            -DBUILD_TESTING=OFF  \
-            -DBUILD_TRANSLATIONS=ON
-
-      - name: '⚙️ Run CMake Install'
-        shell: pwsh
-        working-directory: ${{runner.workspace}}/build
-        run: cmake --build . --config ${{ env.BUILD_TYPE }} --target install --parallel $(nproc)
-
-      # Copy Qt DLLs, compiler runtime & application icon
-      - name: '📦 Package application (windeployqt)'
-        working-directory: ${{runner.workspace}}/build
-        shell: pwsh
-        env:
-          archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
-        run: |
-          New-Item -ItemType Directory ${{ env.archiveName }}
-          Copy-Item -PATH ./programs/* -Destination ${{ env.archiveName }} -Recurse
-          Get-ChildItem ${{ env.archiveName }}/bin
-          windeployqt --qmldir . ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}.exe ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}models.dll ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}quick.dll ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}widgets.dll
-
-      - name: Compress Zip Archive
-        working-directory: ${{runner.workspace}}/build
-        shell: pwsh
-        env:
-          archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
-        run: |
-          Compress-Archive -Path ${{ env.archiveName}}/bin -DestinationPath ${{runner.workspace}}/${{ env.archiveName}}.'zip'
-
-      - name: Upload Zip archive
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ env.TARGET_NAME}}-win-zip
-          path: ${{ runner.workspace}}/${{ env.archiveName}}.zip
-
-      - name: '📦 Make ISS-Installer for ${{ matrix.qt_version }}'
-        working-directory: ${{runner.workspace}}/build
-        shell: bash
-        env:
-          archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
-        run: |
-          iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=${{runner.workspace}} -DMyOutRoot=$GITHUB_WORKSPACE/build//${archiveName}/bin
-
-      - name: '📤 Upload artifact: ISS Installer'
-        uses: actions/upload-artifact@v2
-        env:
-          archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
-        with:
-          name: ${{ env.TARGET_NAME}}-win
-          path: ${{runner.workspace}}/${{ env.archiveName}}.exe
 
   source-archive:
     name: All Source Files

@@ -107,12 +107,13 @@ Name: "documents"; Description: "{cm:Documents}"; Types: full
 Source: "{#MyOutRoot}\jmbde.exe"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\jmbdemodels.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\jmbdewidgets.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\jmbdequick.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+; Source: "{#MyOutRoot}\jmbdequick.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 
 ; VC++ redistributable runtime.
 Source: "{#MyOutRoot}\msvcp140.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\msvcp140_1.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\msvcp140_2.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "{#MyOutRoot}\msvcp140_atomic_wait.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\msvcp140_codecvt_ids.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\vcruntime140_1.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\vcruntime140.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
