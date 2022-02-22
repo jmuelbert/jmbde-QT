@@ -784,7 +784,7 @@ jobs:
       - appimage-build
       - flatpak-build
       - snap-build
-      - macos-build
+      - build
       - windows-build
       - source-archive
 
@@ -890,7 +890,7 @@ jobs:
       - appimage-build
       - flatpak-build
       - snap-build
-      - macos-build
+      - build
       - windows-build
       - source-archive
 
