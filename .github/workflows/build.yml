@@ -313,7 +313,7 @@ jobs:
         env:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         run: |
-          iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=${{ runner.workspace }} -DMyOutRoot=$GITHUB_WORKSPACE/${archiveName}/bin
+          iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=$GITHUB_WORKSPACE/build//${archiveName}/bin
 
       - name: '📤 Upload artifact: ISS Installer'
         if: matrix.os == 'windows' || matrix.os == 'windows-latest'
@@ -352,8 +352,7 @@ jobs:
         if: github.event_name == 'push'
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0
-          ref: master
+          fetch-depth: 10
 
       - name: '🧰 Checkout Source Code'
         if: github.event_name == 'pull_request'
