@@ -352,9 +352,8 @@ jobs:
         qt_arch: [gcc_64]
         arch: [amd64]
         artifact: [Ubuntu-gcc]
-        cmake_generator: [Ninja]
         cc: [gcc-10]
-        cxx: [gcc-10++]
+        cxx: [g++-10]
       fail-fast: true
 
     steps:
