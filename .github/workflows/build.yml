@@ -312,7 +312,7 @@ jobs:
         shell: bash
         env:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
-        run: |path: '${{ github.workspace }}
+        run: |
           iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=${{ runner.workspace }} -DMyOutRoot=$GITHUB_WORKSPACE/${archiveName}/bin
 
       - name: '📤 Upload artifact: ISS Installer'
