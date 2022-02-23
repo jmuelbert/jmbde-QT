@@ -328,7 +328,7 @@ jobs:
         env:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         run: |
-          iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot${archiveName}/bin
+          iscc $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=${archiveName}/bin
 
       - name: '📤 Upload artifact: ISS Installer'
         if: matrix.os == 'windows' || matrix.os == 'windows-latest'
@@ -354,6 +354,7 @@ jobs:
         artifact: [Ubuntu-gcc]
         cc: [gcc-10]
         cxx: [g++-10]
+        cmake_generator: [Ninja]
       fail-fast: true
 
     steps:
