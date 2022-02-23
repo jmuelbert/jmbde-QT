@@ -54,18 +54,33 @@ env:
 
 jobs:
   build:
-    name: '🍎 ${{ matrix.os }}'
+    name: '${{ matrix.os }}'
     strategy:
       matrix:
-        os: [macos-latest]
-        platform: [macos-latest]
-        name: [macos-12.0-x86_64]
-        macos_target: [10.15]
-        qt_arch: [clang_64]
-        arch: [clang_64]
-        cc: [clang]
-        cxx: [clang++]
-        cmake_generator: [Ninja]
+        config:
+          - {
+              os: [macos-latest],
+              platform: [macos-latest],
+              name: [macos-12.0-x86_64],
+              macos_target: [10.15],
+              qt_arch: [clang_64],
+              arch: [clang_64],
+              cc: [clang],
+              cxx: [clang++],
+              cmake_generator: [Ninja],
+            }
+          - {
+              os: [windows-latest],
+              platform: [windows-latest],
+              name: [Windows 2019 MS Visual C],
+              qt_arch: [win64_msvc2019_64],
+              arch: [x64],
+              artifact: [Windows-MSVC],
+              pak_arch: [win64],
+              cc: [cl],
+              cxx: [cl],
+              cmake_generator: [Ninja],
+            }
 
       fail-fast: true
 
@@ -308,7 +323,7 @@ jobs:
 
       - name: '📦 Make ISS-Installer for ${{ matrix.qt_version }}'
         if: matrix.os == 'windows' || matrix.os == 'windows-latest'
-        working-directory: ${{runner.workspace}}/build
+        working-directory: build
         shell: bash
         env:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
