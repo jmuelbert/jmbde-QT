@@ -286,7 +286,7 @@ jobs:
           New-Item -ItemType Directory ${{ env.archiveName }}
           Copy-Item -PATH ./programs/* -Destination ${{ env.archiveName }} -Recurse
           Get-ChildItem ${{ env.archiveName }}/bin
-          windeployqt --qmldir . ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}.exe ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}models.dll ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}quick.dll ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}widgets.dll
+          windeployqt --qmldir . ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}.exe ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}models.dll ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}widgets.dll
 
       - name: Compress Zip Archive
         if: matrix.os == 'windows' || matrix.os == 'windows-latest'
