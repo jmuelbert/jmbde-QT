@@ -150,7 +150,7 @@ if(WIN32)
                  ${PROJECT_BINARY_DIR}/app.rc @ONLY)
 
   configure_file($CMAKE_SOURCE_DIR/packaging/win/installer_Qt6_x64.iss.in
-                ${PROJECT_BINARY_DIR/installer_Qt6_x64.iss})
+                ${PROJECT_BINARY_DIR}/installer_Qt6_x64.iss)
 
   install(TARGETS ${PROJECT_NAME} ${INSTALL_TARGETS_DEFAULT_ARGS})
   # add_custom_command( TARGET ${PROJECT_NAME} POST_BUILD COMMAND

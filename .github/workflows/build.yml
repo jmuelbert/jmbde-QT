@@ -53,34 +53,19 @@ env:
   CONAN_USER_HOME_SHORT: '${{ github.workspace }}/conan-cache/short'
 
 jobs:
-  build:
+  build-macos:
     name: '${{ matrix.os }}'
     strategy:
       matrix:
-        config:
-          - {
-              os: [macos-latest],
-              platform: [macos-latest],
-              name: [macos-12.0-x86_64],
-              macos_target: [10.15],
-              qt_arch: [clang_64],
-              arch: [clang_64],
-              cc: [clang],
-              cxx: [clang++],
-              cmake_generator: [Ninja],
-            }
-          - {
-              os: [windows-latest],
-              platform: [windows-latest],
-              name: [Windows 2019 MS Visual C],
-              qt_arch: [win64_msvc2019_64],
-              arch: [x64],
-              artifact: [Windows-MSVC],
-              pak_arch: [win64],
-              cc: [cl],
-              cxx: [cl],
-              cmake_generator: [Ninja],
-            }
+        os: [macos-latest]
+        platform: [macos-latest]
+        name: [macos-12.0-x86_64]
+        macos_target: [10.15]
+        qt_arch: [clang_64]
+        arch: [clang_64]
+        cc: [clang]
+        cxx: [clang++]
+        cmake_generator: [Ninja]
 
       fail-fast: true
 
@@ -447,8 +432,8 @@ jobs:
         run: |
           APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
           cd $GITHUB_WORKSPACE
-
-          cp  $GITHUB_WORKSPACE/packaging/linux/io.github.jmuelbert.jmbde.desktop ${APPIMAGE_DST_PATH}/usr/share/applications/io.github.jmuelbert.jmbde.desktop
+                               
+          cp  $GITHUB_WORKSPACE/packaging/linux/org.jmuelbert.jmbde.desktop ${APPIMAGE_DST_PATH}/usr/share/applications/io.github.jmuelbert.jmbde.desktop
           $GITHUB_WORKSPACE/appimagetool -s deploy ${APPIMAGE_DST_PATH}/usr/share/applications/io.github.jmuelbert.jmbde.desktop
           mkdir -p ${APPIMAGE_DST_PATH}/usr/plugins/platforminputcontexts
           cp \
