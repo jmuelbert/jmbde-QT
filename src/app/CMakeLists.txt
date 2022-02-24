@@ -149,6 +149,9 @@ if(WIN32)
   configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/app.rc.in
                  ${PROJECT_BINARY_DIR}/app.rc @ONLY)
 
+  configure_file($CMAKE_SOURCE_DIR/packaging/win/installer_Qt6_x64.iss.in
+                ${PROJECT_BINARY_DIR/installer_Qt6_x64.iss})
+
   install(TARGETS ${PROJECT_NAME} ${INSTALL_TARGETS_DEFAULT_ARGS})
   # add_custom_command( TARGET ${PROJECT_NAME} POST_BUILD COMMAND
   # ${Qt5_DIR}/../../../bin/windeployqt ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.exe
@@ -218,12 +221,13 @@ elseif(UNIX AND NOT APPLE)
   # appdata
   configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/jmbde.appdata.xml.in
                  ${CMAKE_CURRENT_BINARY_DIR}/jmbde.appdata.xml @ONLY)
-#  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde.appdata.xml
-  #        DESTINATION ${APPDATA_INSTALL_DIR})
 
-#  install(
-  #  FILES ${CMAKE_SOURCE_DIR}/cmake/modules/io.github.jmuelbert.jmbde.desktop
- #   DESTINATION ${XDG_APPS_INSTALL_DIR})
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde.appdata.xml
+        DESTINATION ${APPDATA_INSTALL_DIR})
+
+install(
+   FILES ${CMAKE_SOURCE_DIR}/cmake/modules/io.github.jmuelbert.jmbde.desktop
+   DESTINATION ${XDG_APPS_INSTALL_DIR})
 
   # man page
   find_program(GZIP gzip)
