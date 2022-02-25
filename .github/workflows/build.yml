@@ -314,7 +314,10 @@ jobs:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         run: |
           cp  $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss .
+          cp  $GITHUB_WORKSPACE/packaging/win/License.rtf ${archiveName}/bin/License.rtf
+          cp  $GITHUB_WORKSPACE/assets/icons/jmbde-icon.ico ${archiveName}/bin/jmbde-icon.ico
           ls -la
+          ls -la ${archiveName}
           iscc ./installer_Qt6_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=${archiveName}/bin
 
       - name: '📤 Upload artifact: ISS Installer'
@@ -447,12 +450,10 @@ jobs:
           cp  $GITHUB_WORKSPACE/packaging/linux/org.jmuelbert.jmbde.metainfo.xml ${APPIMAGE_DST_PATH}/usr/share/appdata/jmbde.appdata.xml
           cp  $GITHUB_WORKSPACE/assets/icons/16-apps-jmbde.png ${APPIMAGE_DST_PATH}/usr/share/icons/hicolor/16x16/apps/jmbde.png
           cp  $GITHUB_WORKSPACE/assets/icons/32-apps-jmbde.png ${APPIMAGE_DST_PATH}/usr/share/icons/hicolor/32x32/apps/jmbde.png
-          cp  $GITHUB_WORKSPACE/assets/icons/128-apps-jmbde.png ${APPIMAGE_DST_PATH}/usr/share/applications/io.github.jmuelbert.jmbde.desktop
-          cp  $GITHUB_WORKSPACE/assets/icons/256-apps-jmbde.png ${APPIMAGE_DST_PATH}/usr/share/icons/hicolor/128x128/apps/jmbde.png
-          cp  $GITHUB_WORKSPACE/assets/icons/512-apps-jmbde.png ${APPIMAGE_DST_PATH}/usr/share/icons/hicolor/256x256/apps/jmbde.png
-          cp  $GITHUB_WORKSPACE/assets/icons/sc-appsjmbde.svgz ${APPIMAGE_DST_PATH}/usr/share/icons/hicolor/512x512/apps/jmbde.png
-          cp  $GITHUB_WORKSPACE/assets/icons/16-apps-jmbde.png ${APPIMAGE_DST_PATH}/usr/share/icons/hicolor/512x512/apps/jmbde.png
-          cp  $GITHUB_WORKSPACE/assets/icons/16-apps-jmbde.png ${APPIMAGE_DST_PATH}/usr/share/icons/hicolor/scalable/apps/jmbde.svgz
+          cp  $GITHUB_WORKSPACE/assets/icons/128-apps-jmbde.png ${APPIMAGE_DST_PATH}/usr/share/icons/hicolor/128x128/apps/jmbde.png
+          cp  $GITHUB_WORKSPACE/assets/icons/256-apps-jmbde.png ${APPIMAGE_DST_PATH}/usr/share/icons/hicolor/256x256/apps/jmbde.png
+          cp  $GITHUB_WORKSPACE/assets/icons/512-apps-jmbde.png ${APPIMAGE_DST_PATH}/usr/share/icons/hicolor/512x512/apps/jmbde.png
+          cp  $GITHUB_WORKSPACE/assets/icons/sc-apps-jmbde.svgz ${APPIMAGE_DST_PATH}/usr/share/icons/hicolor/scalable/apps/jmbde.svgz
 
           $GITHUB_WORKSPACE/appimagetool -s deploy ${APPIMAGE_DST_PATH}/usr/share/applications/io.github.jmuelbert.jmbde.desktop
           mkdir -p ${APPIMAGE_DST_PATH}/usr/plugins/platforminputcontexts
