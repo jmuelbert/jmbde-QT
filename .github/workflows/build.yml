@@ -329,7 +329,7 @@ jobs:
           path: ${{runner.workspace}}/${{ env.archiveName}}.exe
 
   appimage-build:
-    name: '🐧 Build appimage on ${{ matrix.os }} for ${{ matrix.qt_version }}'
+    name: '🐧 Build appimage on ${{ matrix.os }}'
 
     runs-on: ${{ matrix.os }}
     needs: [tests]
