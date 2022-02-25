@@ -54,7 +54,7 @@ env:
 
 jobs:
   build-macos:
-    name: '${{ matrix.os }}'
+    name: '🍎 ${{ matrix.os }}'
     strategy:
       matrix:
         os: [macos-latest]

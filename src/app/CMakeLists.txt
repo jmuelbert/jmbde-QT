@@ -149,7 +149,7 @@ if(WIN32)
   configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/app.rc.in
                  ${PROJECT_BINARY_DIR}/app.rc @ONLY)
 
-  configure_file($CMAKE_SOURCE_DIR/packaging/win/installer_Qt6_x64.iss.in
+  configure_file(${CMAKE_SOURCE_DIR}/packaging/win/installer_Qt6_x64.iss.in
                 ${PROJECT_BINARY_DIR}/installer_Qt6_x64.iss)
 
   install(TARGETS ${PROJECT_NAME} ${INSTALL_TARGETS_DEFAULT_ARGS})
