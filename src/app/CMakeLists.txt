@@ -150,7 +150,7 @@ if(WIN32)
                  ${PROJECT_BINARY_DIR}/app.rc @ONLY)
 
   configure_file(${CMAKE_SOURCE_DIR}/packaging/win/installer_Qt6_x64.iss.in
-                ${PROJECT_BINARY_DIR}/installer_Qt6_x64.iss)
+                ${PROJECT_BINARY_DIR}/installer_Qt6_x64.iss @ONLY)
 
   install(TARGETS ${PROJECT_NAME} ${INSTALL_TARGETS_DEFAULT_ARGS})
   # add_custom_command( TARGET ${PROJECT_NAME} POST_BUILD COMMAND
@@ -201,7 +201,7 @@ elseif(APPLE)
     RUNTIME DESTINATION bin COMPONENT Runtime)
 
   configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/package_dmg.json.in
-                 ${CMAKE_CURRENT_BINARY_DIR}/package_dmg.json @ONLY)
+                ${PROJECT_BINARY_DIR}/package_dmg.json @ONLY)
 
   # add_custom_command( TARGET ${PROJECT_NAME} POST BUILD COMMAND
   # ${Qt5_DIR}/../../../bin/macdeployqt ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.app)
