@@ -314,8 +314,8 @@ jobs:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
         run: |
           cp  $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss .
-          cp  $GITHUB_WORKSPACE/packaging/win/License.rtf ${archiveName}/bin/License.rtf
-          cp  $GITHUB_WORKSPACE/assets/icons/jmbde-icon.ico ${archiveName}/bin/jmbde-icon.ico
+          cp  $GITHUB_WORKSPACE/packaging/win/License.rtf .
+          cp  $GITHUB_WORKSPACE/assets/icons/jmbde-icon.ico .
           ls -la
           ls -la ${archiveName}
           iscc ./installer_Qt6_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=${archiveName}/bin

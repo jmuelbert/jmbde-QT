@@ -1,7 +1,8 @@
 [Desktop Entry]
 Name=jmbde
 GenericName=jmbde
-Exec=@LAUNCHER_EXECUTABLE@
+;Exec=@LAUNCHER_EXECUTABLE@
+Exec=jmbde
 Icon=org.jmuelbert.jmbde
 Terminal=false
 Type=Application
