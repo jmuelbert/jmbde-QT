@@ -5,6 +5,6 @@ Exec=jmbde
 Icon=org.jmuelbert.jmbde
 Terminal=false
 Type=Application
-Categories=Business
+Categories=Business;
 StartupNotify=false
 StartupWMClass=jmbde

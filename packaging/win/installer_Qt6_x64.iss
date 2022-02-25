@@ -223,8 +223,8 @@ Source: "{#MyOutRoot}\translations\qt_zh_TW.qm"; DestDir: "{app}\translations"; 
 ; Source: "{#MyOutRoot}\translations\jmbde_zh_TW.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 
 ; Docs
-Source: "..\..\*.md"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "..\..\AUTHORS"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+; Source: "..\..\*.md"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+; Source: "..\..\AUTHORS"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 
 ; Licenses
 Source: "..\..\LICENSE"; DestDir: "{app}"; Components: core; Flags: ignoreversion
