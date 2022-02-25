@@ -376,7 +376,7 @@ jobs:
         run: |
           sudo apt-get -y -qq update
           sudo apt-get -y --no-install-recommends install \
-            ninja-build
+            ninja-build patchelf
 
       - name: '⚙️ Get conan'
         uses: turtlebrowser/get-conan@v1.0
