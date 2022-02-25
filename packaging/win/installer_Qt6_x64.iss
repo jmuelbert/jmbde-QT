@@ -123,9 +123,9 @@ Source: "{#MyOutRoot}\vc_redist.x64.exe"; DestDir: "{app}"; Components: core; Fl
 ; Qt libs
 Source: "{#MyOutRoot}\Qt6Core.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\Qt6Gui.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\Qt6Network.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
+; Source: "{#MyOutRoot}\Qt6Network.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\Qt6PrintSupport.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\Qt6Qml.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
+; Source: "{#MyOutRoot}\Qt6Qml.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\Qt6Sql.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\Qt6Svg.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\Qt6Widgets.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
