@@ -622,7 +622,7 @@ jobs:
         artifact: [Ubuntu-gcc]
         cmake_generator: [Ninja]
         cc: [gcc-10, clang-10]
-        cxx: [g++-10, clang-10++]
+        cxx: [g++-10, clang++-10]
         build_type: [Debug]
         coverage: [ON]
       fail-fast: true
