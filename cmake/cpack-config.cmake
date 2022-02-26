@@ -40,5 +40,17 @@ set( CPACK_COMPONENT_APPLICATIONS_INSTALL_TYPES Full )
 set( CPACK_PACKAGE_EXECUTABLES jmbde "jmbde" )
 set( CPACK_CREATE_DESKTOP_LINKS Qtjmbde )
 
+if(WIN32)
+   # Include all dynamically linked runtime libraries such as MSVCRxxx.dll
+   include(InstallRequiredSystemLibraries)
+   
+   set(CPACK_GENERATOR WIX ZIP)
+   set(CPACK_PACKAGE_NAME "${PROJECT_NAME_CAPITALIZED}")
+   set(CPACK_PACKAGE_INSTALL_DIRECTORY "${PROJECT_NAME_CAPITALIZED}")
+   set(CPACK_PACKAGE_EXECUTABLES ${PROJECT_NAME} "${PROJECT_NAME_CAPITALIZED}")
+   set(CPACK_CREATE_DESKTOP_LINKS ${PROJECT_NAME})
+   
+   # WIX (Windows .msi installer)
+   
 
 include(CPack)
