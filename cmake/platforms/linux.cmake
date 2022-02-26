@@ -10,7 +10,7 @@ include(GNUInstallDirs)
 set(APP_LINUX_ICON_DIMENSIONS 16 32 128 256 512)
 
 # Configure the appdata file and install this
-configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/jmbde.appdata.xml.in
+configure_file(${CMAKE_SOURCE_DIR}/assets/jmbde.appdata.xml.in
                  ${CMAKE_CURRENT_BINARY_DIR}/jmbde.appdata.xml @ONLY)
 
 
@@ -20,7 +20,7 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde.appdata.xml
 
 # Install the desktopf-file in XDG_APPS_INSTALL_DIR
 install(
-   FILES ${CMAKE_SOURCE_DIR}/cmake/modules/io.github.jmuelbert.jmbde.desktop
+   FILES ${CMAKE_SOURCE_DIR}/assets/io.github.jmuelbert.jmbde.desktop
    DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
 
 foreach(APP_LINUX_ICON_DIMENSION ${APP_LINUX_ICON_DIMENSIONS})
@@ -38,7 +38,7 @@ endif()
 # man page
 find_program(GZIP gzip)
 if(GZIP)
-  configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/jmbde.1.in
+  configure_file(${CMAKE_SOURCE_DIR}/assets/jmbde.1.in
                    ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1 @ONLY)
 
     add_custom_command(
