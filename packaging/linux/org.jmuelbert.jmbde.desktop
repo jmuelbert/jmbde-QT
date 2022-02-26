@@ -1,10 +1,12 @@
 [Desktop Entry]
+Version=1.0
+Type=Application
 Name=jmbde
 GenericName=jmbde
+Comment=A BDE Tool
 Exec=jmbde
 Icon=org.jmuelbert.jmbde
 Terminal=false
-Type=Application
-Categories=Business;
+Categories=Qt;Office;Database;
 StartupNotify=false
 StartupWMClass=jmbde
