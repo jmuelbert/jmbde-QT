@@ -18,6 +18,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 
 add_definitions(-DQT_NO_FOREACH)
+list(APPEND CMAKE_AUTORCC_OPTIONS -compress 9 -threshold 5)
 
 # Set a default build type if none was specified
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)

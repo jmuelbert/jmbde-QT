@@ -20,7 +20,7 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde.appdata.xml
 
 # Install the desktop-file in XDG_APPS_INSTALL_DIR
 install(
-   FILES ${CMAKE_SOURCE_DIR}/assets/io.github.jmuelbert.jmbde.desktop.in
+   FILES assets/io.github.jmuelbert.jmbde.desktop.in
    DESTINATION ${CMAKE_INSTALL_DATADIR}/applications RENAME io.github.jmuelbert.jmbde.desktop)
 
 foreach(APP_LINUX_ICON_DIMENSION ${APP_LINUX_ICON_DIMENSIONS})

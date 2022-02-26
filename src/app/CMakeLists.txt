@@ -20,10 +20,6 @@ project(
   DESCRIPTION "A BDE Tool"
   LANGUAGES CXX)
 
-# include(ECMSetupVersion)
-# include(ECMInstallIcons)
-# include(ECMAddAppIcon)
-
 message(
   STATUS
     "Building ${PROJECT_NAME} ${PROJECT_VERSION} in ${CMAKE_BUILD_TYPE} mode")
@@ -42,7 +38,20 @@ set(VERSION "0.6.0")
 configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/version.h.in
                  ${CMAKE_CURRENT_BINARY_DIR}/jmbde_version.h @ONLY)
 
-if(Qt${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+
+find_package(
+  QT NAMES Qt6 Qt5
+  COMPONENTS Core
+  REQUIRED)
+
+# ---------------------------------------------------------------------------- #
+# Finding Qt5 or Qt6
+# ---------------------------------------------------------------------------- #
+find_package(Qt${QT_VERSION_MAJOR} QUIET COMPONENTS Core Widgets PrintSupport
+Sql Qml)
+
+
+if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
   qt_addexecutable(${PROJECT_NAME}
     MANUAL_FINALIZATION)
 else()
@@ -59,16 +68,7 @@ if(APPLE OR WIN32)
   # target_compile_definitions(${PROJECT_NAME} PRIVATE USE_QT_SINGLE_APP)
 endif()
 
-find_package(
-  QT NAMES Qt6 Qt5
-  COMPONENTS Core
-  REQUIRED)
 
-# ---------------------------------------------------------------------------- #
-# Finding Qt5 or Qt6
-# ---------------------------------------------------------------------------- #
-find_package(Qt${QT_VERSION_MAJOR} QUIET COMPONENTS Core Widgets PrintSupport
-                                                    Sql Qml)
 
 
 # Use a single application on MacOS + Windows instead of dbus.
@@ -135,7 +135,7 @@ target_link_libraries(
           # debug DEBUGLIBS optimized RELEASELIBS
 )
 
-if(Qt${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_finalize_executable( ${PROJECT_NAME})
 endif()
 
