@@ -52,7 +52,7 @@ Sql Qml)
 
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-  qt_addexecutable(${PROJECT_NAME}
+  qt_add_executable(${PROJECT_NAME}
     MANUAL_FINALIZATION)
 else()
   if(APPLE OR WIN32)
