@@ -615,7 +615,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         name: [Ubuntu-20.04 gcc-10]
-        qt_version: [5.15.2, 6.2.2]
+        qt_version: [6.2.2]
         qt_target: [desktop]
         qt_arch: [gcc_64]
         arch: [amd64]
