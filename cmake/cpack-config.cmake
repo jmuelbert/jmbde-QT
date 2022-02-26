@@ -5,8 +5,6 @@
 #
 # Packaging instructios
 
-include(version)
-
 set(CPACK_PACKAGE_VENDOR "Jürgen Mülbert <juergen.muelbert@gmail.com>")
 set( CPACK_PACKAGE_VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}.${VERSION_TWEAK} )
 set( CPACK_PACKAGE_VERSION_MAJOR ${VERSION_MAJOR} )
