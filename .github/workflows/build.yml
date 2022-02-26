@@ -108,7 +108,7 @@ jobs:
         uses: actions/cache@v1 # not v2!
         with:
           path: '${{ github.workspace }}/Qt'
-          key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ matrix.qt_version }}
+          key: QtCache-${{ matrix.platform }}-${{ matrix.qt_arch }}-${{ matrix.qt_version }}
 
       - name: '⚙️ Install Qt'
         uses: jurplel/install-qt-action@v2
@@ -237,7 +237,7 @@ jobs:
         uses: actions/cache@v1 # not v2!
         with:
           path: '${{ github.workspace }}/Qt'
-          key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ matrix.qt_version }}
+          key: QtCache-${{ matrix.platform }}-${{ matrix.qt_arch }}-${{ matrix.qt_version }}
 
       - name: '⚙️ Install Qt'
         uses: jurplel/install-qt-action@v2
@@ -286,7 +286,7 @@ jobs:
         working-directory: ${{runner.workspace}}/build
         shell: pwsh
         env:
-          archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+          archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.qt_arch }}
         run: |
           New-Item -ItemType Directory ${{ env.archiveName }}
           Copy-Item -PATH ./programs/* -Destination ${{ env.archiveName }} -Recurse
@@ -298,7 +298,7 @@ jobs:
         working-directory: ${{runner.workspace}}/build
         shell: pwsh
         env:
-          archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+          archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.qt_arch }}
         run: |
           Compress-Archive -Path ${{ env.archiveName}}/bin -DestinationPath ${{runner.workspace}}/${{ env.archiveName}}.'zip'
 
@@ -306,7 +306,7 @@ jobs:
         if: matrix.os == 'windows' || matrix.os == 'windows-latest'
         uses: actions/upload-artifact@v2
         env:
-          archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+          archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.qt_arch }}
         with:
           name: ${{ env.TARGET_NAME}}-win-zip
           path: ${{ runner.workspace}}/${{ env.archiveName}}.zip
@@ -316,7 +316,7 @@ jobs:
         shell: bash
         working-directory: ${{runner.workspace}}/build
         env:
-          archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+          archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.qt_arch }}
         run: |
           cp $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss .
           cp $GITHUB_WORKSPACE/packaging/win/License.rtf .
@@ -333,7 +333,7 @@ jobs:
         if: matrix.os == 'windows' || matrix.os == 'windows-latest'
         uses: actions/upload-artifact@v2
         env:
-          archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.arch }}
+          archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.qt_arch }}
         with:
           name: ${{ env.TARGET_NAME}}-win
           path: ${{runner.workspace}}/${{ env.archiveName}}.exe
@@ -401,7 +401,7 @@ jobs:
         uses: actions/cache@v1 # not v2!
         with:
           path: '${{ github.workspace }}/Qt'
-          key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ env.QT_VERSION }}
+          key: QtCache-${{ matrix.platform }}-${{ matrix.qt_arch }}-${{ env.QT_VERSION }}
 
       - name: '⚙️ Install Qt'
         uses: jurplel/install-qt-action@v2
@@ -651,7 +651,7 @@ jobs:
         uses: actions/cache@v1 # not v2!
         with:
           path: '${{ github.workspace }}/Qt'
-          key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ matrix.qt_version }}
+          key: QtCache-${{ matrix.platform }}-${{ matrix.qt_arch }}-${{ matrix.qt_version }}
 
       - name: '⚙️ Install Qt'
         uses: jurplel/install-qt-action@v2
