@@ -28,16 +28,6 @@ message(
   STATUS
     "Building ${PROJECT_NAME} ${PROJECT_VERSION} in ${CMAKE_BUILD_TYPE} mode")
 
-# set project version
-
-# ecm_setup_version(
-#   ${PROJECT_VERSION}
-#  VARIABLE_PREFIX
-#  JMBDE
-#  VERSION_HEADER
-#  "${CMAKE_CURRENT_BINARY_DIR}/jmbde-version.h"
-#  PACKAGE_VERSION_FILE
-#  "${CMAKE_CURRENT_BINARY_DIR}/JMBDE-ConfigVersion.cmake")
 
 # --------------- +
 # Write Version   +
@@ -52,12 +42,15 @@ set(VERSION "0.6.0")
 configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/version.h.in
                  ${CMAKE_CURRENT_BINARY_DIR}/jmbde_version.h @ONLY)
 
-if(APPLE)
-  add_executable(${PROJECT_NAME} MACOSX_BUNDLE)
-elseif(WIN32)
-  add_executable(${PROJECT_NAME} WIN32)
+if(Qt${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+  qt_addexecutable(${PROJECT_NAME}
+    MANUAL_FINALIZATION)
 else()
-  add_executable(${PROJECT_NAME})
+  if(APPLE OR WIN32)
+    add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE)
+  else()
+    add_executable(${PROJECT_NAME})
+  endif()
 endif()
 
 # Use a single application on MacOS + Windows instead of dbus.
@@ -95,11 +88,6 @@ set(ICONS_PNG
     ${CMAKE_SOURCE_DIR}/assets/icons/512-apps-jmbde.png)
 
 set(ICONS_SVG ${CMAKE_SOURCE_DIR}/assets/icons/sc-apps-jmbde.svgz)
-
-# Add icon files to the application's source files to have CMake bundle them in
-# the executable.
-# ecm_add_app_icon(ICONS_SOURCES ICONS ${ICONS_PNG} OUTFILE_BASENAME
-#                 ${PROJECT_NAME})
 
 #
 # target
@@ -141,21 +129,26 @@ target_link_libraries(
           Qt${QT_VERSION_MAJOR}::PrintSupport
           Qt${QT_VERSION_MAJOR}::Sql
           Qt${QT_VERSION_MAJOR}::Qml
+          ${CMAKE_REQUIRED_LIBRARIES}
           ${CONAN_LIBS}
+          coverage_config
           # debug DEBUGLIBS optimized RELEASELIBS
 )
 
+if(Qt${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+    qt_finalize_executable( ${PROJECT_NAME})
+endif()
 if(WIN32)
   configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/app.rc.in
                  ${PROJECT_BINARY_DIR}/app.rc @ONLY)
 
-  configure_file(${CMAKE_SOURCE_DIR}/packaging/win/installer_Qt6_x64.iss.in
+  configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/installer_Qt6_x64.iss.in
                 ${PROJECT_BINARY_DIR}/installer_Qt6_x64.iss @ONLY)
 
+  install(FILES ${PROJECT_BINARY_DIR}/installer_Qt6_x64.iss
+          DESTINATION ${CMAKE_INSTALL_BINDIR})
+
   install(TARGETS ${PROJECT_NAME} ${INSTALL_TARGETS_DEFAULT_ARGS})
-  # add_custom_command( TARGET ${PROJECT_NAME} POST_BUILD COMMAND
-  # ${Qt5_DIR}/../../../bin/windeployqt ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.exe
-  # --compiler-runtime --verbose 2 --dir ${CMAKE_BINARY_DIR}/winqt/)
 
   # See
   # https://cmake.org/cmake/help/v3.15/prop_tgt/MACOSX_BUNDLE_INFO_PLIST.html
@@ -203,47 +196,49 @@ elseif(APPLE)
   configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/package_dmg.json.in
                 ${PROJECT_BINARY_DIR}/package_dmg.json @ONLY)
 
-  # add_custom_command( TARGET ${PROJECT_NAME} POST BUILD COMMAND
-  # ${Qt5_DIR}/../../../bin/macdeployqt ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.app)
+  install(FILES ${PROJECT_BINARY_DIR}/package_dmg.json
+        DESTINATION ${CMAKE_BINARY_DIR})
+
 elseif(UNIX AND NOT APPLE)
 
   install(TARGETS ${PROJECT_NAME} ${INSTALL_TARGETS_DEFAULT_ARGS})
 
-#  ecm_install_icons(
-#    ICONS
-#    ${ICONS_PNG}
-#    ${ICONS_SVG}
-#    DESTINATION
-#    ${ICON_INSTALL_DIR}
-#    THEME
-#    hicolor)
-
-  # appdata
+  # Configure the appdata file and install this
   configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/jmbde.appdata.xml.in
                  ${CMAKE_CURRENT_BINARY_DIR}/jmbde.appdata.xml @ONLY)
 
-# install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde.appdata.xml
-#         DESTINATION ${APPDATA_INSTALL_DIR})
 
-# install(
-#    FILES ${CMAKE_SOURCE_DIR}/cmake/modules/io.github.jmuelbert.jmbde.desktop
-#    DESTINATION ${XDG_APPS_INSTALL_DIR})
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde.appdata.xml
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/appdata)
+
+  # Install the desktopf-file in XDG_APPS_INSTALL_DIR
+  install(
+   FILES ${CMAKE_SOURCE_DIR}/cmake/modules/io.github.jmuelbert.jmbde.desktop
+   DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
+
+  install(
+    FILES ${CMAKE_SOURCE_DIR}/assets/icons/128-app-jmbde.png
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/128x128/apps/
+    RENAME org.jmuelbert.jmbde.png
+  )
 
   # man page
   find_program(GZIP gzip)
   if(GZIP)
     configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/jmbde.1.in
                    ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1 @ONLY)
+
     add_custom_command(
       OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1.gz
       COMMAND ${GZIP} -c ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1 > jmbde.1.gz
       COMMENT "Create the bin gz archive"
       DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1)
- #   add_custom_target(
- #     man ALL
-  #    COMMENT "Create man-file"
-  #    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1.gz)
-  #  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1.gz
-   #         DESTINATION ${MAN_INSTALL_DIR}/man1/)
+
+   add_custom_target(
+     man ALL
+     COMMENT "Create man-file"
+     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1.gz)
+     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1.gz
+           DESTINATION ${CMAKE_INSTALL_MANDIR}/man1/)
   endif()
 endif()

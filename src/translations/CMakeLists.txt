@@ -11,20 +11,18 @@
 # FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
 # details.
 
-# minimal requirements
-cmake_minimum_required(VERSION 3.12...3.19 FATAL_ERROR)
 
-if(${CMAKE_VERSION} VERSION_LESS 3.19)
-  cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
-else()
-  cmake_policy(VERSION 3.19)
-endif()
+find_package(
+  QT NAMES Qt6 Qt5
+  COMPONENTS Core
+  REQUIRED) 
+
+find_package(Qt${QT_VERSION_MAJOR}LinguistTools REQUIRED)
 
 #
 # The translations
 #
 
-project(translations)
 
 set(LANGUAGES "All")
 
@@ -91,8 +89,16 @@ foreach(LANG ${LANGUAGES})
     DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/jmbde_${LANG}.ts)
   add_custom_target(jmbde_${LANG}_qm ALL
                     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbde_${LANG}.qm)
-  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde_${LANG}.qm
-          DESTINATION ${TRANSLATION_INSTALL_DIR})
+  if(WIN32)   
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde_${LANG}.qm
+    DESTINATION ${CMAKE_INSTALL_BINDIR}/translations)
+  elseif(APPLE)               
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde_${LANG}.qm
+            DESTINATION ${CMAKE_INSTALL_DATADIR}/translations)
+  else()
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde_${LANG}.qm
+      DESTINATION ${CMAKE_INSTALL_DATADIR}/translations)
+  endif()
 endforeach()
 
 # message merging (manual target, affects source dir)

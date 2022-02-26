@@ -32,7 +32,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 include(modern_project_structure)
 include(clang_format)
 include(compiler_options)
-include(pack)
+include(cpack-config)
 include(StandardProjectSettings)
 include(PreventInSourceBuilds)
 
@@ -67,6 +67,7 @@ enable_doxygen()
 # allow for static analysis options
 include(StaticAnalyzers)
 
+option(BUILD_TRANSLATIONS "Build all translations for the project" ON)
 option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" ON)
 option(ENABLE_TESTING "Enable Test Builds" ON)
 option(ENABLE_FUZZING "Enable Fuzzing Builds" OFF)
@@ -121,9 +122,22 @@ endif()
 
 add_subdirectory(src)
 
+# Interface library to propagate code coverage flags if enabled
+add_library(coverage_config INTERFACE)
+option(CODE_COVERAGE "Enable coverage reporting" ON)
+if (CODE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+  target_compile_options(coverage_config INTERFACE -O0 -g --coverage)
+  if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.13)
+    target_link_options(coverage_config INTERFACE --coverage)
+  else()
+    target_link_libraries(coverage_config INTERFACE --coverage)
+  endif()
+endif()
+
+link_libraries(coverage_config)
+
 option(ENABLE_UNITY "Enable Unity builds of projects" OFF)
 if(ENABLE_UNITY)
   # Add for any project you want to apply unity builds for
   set_target_properties(intro PROPERTIES UNITY_BUILD ON)
 endif()
-

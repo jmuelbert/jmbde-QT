@@ -113,7 +113,11 @@ target_link_libraries(${TARGET_NAME}
               # PUBLIC
               PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Gui
                       Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::PrintSupport
-                      Qt${QT_VERSION_MAJOR}::Sql ${CONAN_LIBS})
+                      Qt${QT_VERSION_MAJOR}::Sql 
+                      ${CMAKE_REQUIRED_LIBRARIES}
+                      ${CONAN_LIBS}
+                      coverage_config
+                      )
 
 
 # generate an export header to expose symbols when using the library

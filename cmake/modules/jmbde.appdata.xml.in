@@ -3,7 +3,7 @@
 <component type="desktop">
     <id>https://github.com/jmuelbert/jmbde-QT</id>
     <metadata_license>CC0-1.0</metadata_license>
-    <project_license>EUPL-1.2-or-later</project_license>
+    <project_license>GPL-3.0-or-later</project_license>
     <name>jmbde</name>
     <developer_name>Jürgen Mülbert</developer_name>
     <update_contact>juergen.muelbert_AT_gmail.com</update_contact>
@@ -17,7 +17,7 @@
     <url type="bugtracker">https://github.com/jmuelbert.jmbde-QT/issues</url>
     <url type="donation">https://jmuelbert.github.io/donate</url>
     <provides>
-        <binary>textosaurus</binary>
+        <binary>jmbde</binary>
     </provides>
     <releases>
         <release version="@APPLICATION_VERSION" />

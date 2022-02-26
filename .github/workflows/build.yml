@@ -120,7 +120,7 @@ jobs:
       - name: '⚙️ Install dependencies for macos'
         if: matrix.os == 'macos' || matrix.os == 'macos-latest'
         run: |
-          brew install ninja
+          brew install ninja ccache
 
       - name: '⚙️ Get conan'
         uses: turtlebrowser/get-conan@v1.0
@@ -385,7 +385,7 @@ jobs:
         run: |
           sudo apt-get -y -qq update
           sudo apt-get -y --no-install-recommends install \
-            ninja-build patchelf
+            ninja-build patchelf ccache
 
       - name: '⚙️ Get conan'
         uses: turtlebrowser/get-conan@v1.0
@@ -440,31 +440,12 @@ jobs:
         shell: bash
         run: |
           APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
+
           cd $GITHUB_WORKSPACE
-
-          mkdir -p  ${APPIMAGE_DST_PATH}/usr/share/applications
-          mkdir -p  ${APPIMAGE_DST_PATH}/usr/share/icons/hicolor/16x16/apps
-          mkdir -p  ${APPIMAGE_DST_PATH}/usr/share/icons/hicolor/32x32/apps
-          mkdir -p  ${APPIMAGE_DST_PATH}/usr/share/icons/hicolor/128x128/apps
-          mkdir -p  ${APPIMAGE_DST_PATH}/usr/share/icons/hicolor/256x256/apps
-          mkdir -p  ${APPIMAGE_DST_PATH}/usr/share/icons/hicolor/512x512/apps
-          mkdir -p  ${APPIMAGE_DST_PATH}/usr/share/icons/hicolor/scalable/apps
-          mkdir -p  ${APPIMAGE_DST_PATH}/usr/share/appdata
-
-          cp  $GITHUB_WORKSPACE/packaging/linux/org.jmuelbert.jmbde.desktop ${APPIMAGE_DST_PATH}/usr/share/applications/io.github.jmuelbert.jmbde.desktop
-          cp  $GITHUB_WORKSPACE/packaging/linux/org.jmuelbert.jmbde.metainfo.xml ${APPIMAGE_DST_PATH}/usr/share/appdata/jmbde.appdata.xml
-          cp  $GITHUB_WORKSPACE/assets/icons/16-apps-jmbde.png ${APPIMAGE_DST_PATH}/usr/share/icons/hicolor/16x16/apps/jmbde.png
-          cp  $GITHUB_WORKSPACE/assets/icons/32-apps-jmbde.png ${APPIMAGE_DST_PATH}/usr/share/icons/hicolor/32x32/apps/jmbde.png
-          cp  $GITHUB_WORKSPACE/assets/icons/128-apps-jmbde.png ${APPIMAGE_DST_PATH}/usr/share/icons/hicolor/128x128/apps/jmbde.png
-          cp  $GITHUB_WORKSPACE/assets/icons/256-apps-jmbde.png ${APPIMAGE_DST_PATH}/usr/share/icons/hicolor/256x256/apps/jmbde.png
-          cp  $GITHUB_WORKSPACE/assets/icons/512-apps-jmbde.png ${APPIMAGE_DST_PATH}/usr/share/icons/hicolor/512x512/apps/jmbde.png
-          cp  $GITHUB_WORKSPACE/assets/icons/sc-apps-jmbde.svgz ${APPIMAGE_DST_PATH}/usr/share/icons/hicolor/scalable/apps/jmbde.svgz
 
           $GITHUB_WORKSPACE/appimagetool -s deploy ${APPIMAGE_DST_PATH}/usr/share/applications/io.github.jmuelbert.jmbde.desktop
           mkdir -p ${APPIMAGE_DST_PATH}/usr/plugins/platforminputcontexts
-          cp \
-            $GITHUB_WORKSPACE/assets/icons/256-apps-jmbde.png \
-            ${APPIMAGE_DST_PATH}/
+
           if [ -f "${APPIMAGE_DST_PATH}/lib/x86_64-linux-gnu/libxcb-glx.so.0" ]; then
             rm ${APPIMAGE_DST_PATH}/lib/x86_64-linux-gnu/libxcb-glx.so.0
           fi
@@ -510,7 +491,7 @@ jobs:
         run: |
           sudo apt-get -y -qq update
           sudo apt-get -y --no-install-recommends install \
-              elfutils flatpak flatpak-builder
+              elfutils flatpak flatpak-builder ccache
 
       - name: '⚙️ Setup Flathub'
         run: |
@@ -646,8 +627,7 @@ jobs:
         run: |
           sudo apt-get -y -qq update
           sudo apt-get -y --no-install-recommends install \
-              ninja-build lcov
-
+              ninja-build lcov ccache
       - name: Cache
         uses: actions/cache@v2
         env:

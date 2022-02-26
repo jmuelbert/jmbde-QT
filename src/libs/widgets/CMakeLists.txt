@@ -133,7 +133,9 @@ target_link_libraries(${TARGET_NAME}
                       Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::PrintSupport
                       Qt${QT_VERSION_MAJOR}::Sql 
                       jmuelbert::jmbdemodels
-                      ${CONAN_LIBS})
+                      ${CMAKE_REQUIRED_LIBRARIES}
+                      ${CONAN_LIBS}
+                      coverage_config)
 
 
 # generate an export header to expose symbols when using the library
