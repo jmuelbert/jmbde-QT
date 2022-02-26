@@ -711,7 +711,7 @@ jobs:
       - name: CodeCoverage
         if: ${{ matrix.coverage == 'ON' && matrix.build_type == 'Debug' && matrix.cxx != 'clang-10++'}}
         shell: bash
-        working-directory: ${{github.workspace}}/build
+        working-directory: ${{runner.workspace}}/build
         run: |
           ls -la $GITHUB_WORKSPACE
           lcov -d $GITHUB_WORKSPACE -c -o $GITHUB_WORKSPACE/coverage.info
