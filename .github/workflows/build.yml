@@ -615,14 +615,16 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         name: [Ubuntu-20.04 gcc-10]
+        qt_version: [5.15.2, 6.2.2]
+        qt_target: [desktop]
         qt_arch: [gcc_64]
         arch: [amd64]
         artifact: [Ubuntu-gcc]
         cmake_generator: [Ninja]
-        cc: [gcc-11]
-        cxx: [g++-11]
+        cc: [gcc-10, clang-10]
+        cxx: [g++-10, clang-10++]
         build_type: [Debug]
-        #coverage: [ON]
+        coverage: [ON]
       fail-fast: true
 
     steps:
@@ -649,13 +651,13 @@ jobs:
         uses: actions/cache@v1 # not v2!
         with:
           path: '${{ github.workspace }}/Qt'
-          key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ env.QT_VERSION }}
+          key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ matrix.qt_version }}
 
       - name: '⚙️ Install Qt'
         uses: jurplel/install-qt-action@v2
         with:
-          version: ${{ env.QT_VERSION }}
-          target: ${{ env.QT_TARGET }}
+          version: ${{ matrix.qt_version }}
+          target: ${{ matrix.qt_target }}
           arch: ${{ matrix.qt_arch }}
           # modules: 'qtscript'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
