@@ -709,10 +709,11 @@ jobs:
         run: ctest -VV -C ${{ matrix.build_type}}
 
       - name: CodeCoverage
-        if: ${{ matrix.coverage == 'ON' && matrix.build_type == 'Debug'}}
+        if: ${{ matrix.coverage == 'ON' && matrix.build_type == 'Debug' && matrix.cxx != 'clang-10++'}}
         shell: bash
         working-directory: ${{github.workspace}}/build
         run: |
+          ls -la $GITHUB_WORKSPACE
           lcov -d $GITHUB_WORKSPACE -c -o $GITHUB_WORKSPACE/coverage.info
           lcov -r $GITHUB_WORKSPACE/coverage.info "*Qt*.framework*" "*Xcode.app*" "*.moc" "*moc_*.cpp" "*/test/*" "*Qt*" "*v1*" -o $GITHUB_WORKSPACE/coverage.info 
           lcov --list $GITHUB_WORKSPACE/coverage.info
