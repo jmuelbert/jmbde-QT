@@ -3,10 +3,10 @@
 #
 #  SPDX-License-Identifier: MIT
 
-configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/app.rc.in
+configure_file(${CMAKE_SOURCE_DIR}/assets/app.rc.in
 ${PROJECT_BINARY_DIR}/app.rc @ONLY)
 
-configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/installer_Qt6_x64.iss.in
+configure_file(${CMAKE_SOURCE_DIR}/assets/installer_Qt6_x64.iss.in
 ${PROJECT_BINARY_DIR}/installer_Qt6_x64.iss @ONLY)
 
 install(FILES ${PROJECT_BINARY_DIR}/installer_Qt6_x64.iss

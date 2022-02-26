@@ -18,10 +18,10 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde.appdata.xml
         DESTINATION ${CMAKE_INSTALL_DATADIR}/appdata)
 
 
-# Install the desktopf-file in XDG_APPS_INSTALL_DIR
+# Install the desktop-file in XDG_APPS_INSTALL_DIR
 install(
-   FILES ${CMAKE_SOURCE_DIR}/assets/io.github.jmuelbert.jmbde.desktop
-   DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
+   FILES ${CMAKE_SOURCE_DIR}/assets/io.github.jmuelbert.jmbde.desktop.in
+   DESTINATION ${CMAKE_INSTALL_DATADIR}/applications RENAME io.github.jmuelbert.jmbde.desktop)
 
 foreach(APP_LINUX_ICON_DIMENSION ${APP_LINUX_ICON_DIMENSIONS})
 	install(FILES assets/icons/jmbde.${LEMON_LINUX_ICON_DIMENSION}.png DESTINATION "${CMAKE_INSTALL_DATADIR}/icons/hicolor/${APP_LINUX_ICON_DIMENSION}x${APP_LINUX_ICON_DIMENSION}/apps" RENAME jmbde.png)
