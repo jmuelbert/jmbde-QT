@@ -138,107 +138,11 @@ target_link_libraries(
 if(Qt${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_finalize_executable( ${PROJECT_NAME})
 endif()
+
 if(WIN32)
-  configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/app.rc.in
-                 ${PROJECT_BINARY_DIR}/app.rc @ONLY)
-
-  configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/installer_Qt6_x64.iss.in
-                ${PROJECT_BINARY_DIR}/installer_Qt6_x64.iss @ONLY)
-
-  install(FILES ${PROJECT_BINARY_DIR}/installer_Qt6_x64.iss
-          DESTINATION ${CMAKE_INSTALL_BINDIR})
-
-  install(TARGETS ${PROJECT_NAME} ${INSTALL_TARGETS_DEFAULT_ARGS})
-
-  # See
-  # https://cmake.org/cmake/help/v3.15/prop_tgt/MACOSX_BUNDLE_INFO_PLIST.html
+  include(platforms/windows)
 elseif(APPLE)
-  set_target_properties(
-    ${PROJECT_NAME} PROPERTIES OUTPUT_NAME "${PROJECT_NAME}"
-                               INSTALL_RPATH "@executable_path/../Frameworks")
-
-  set_property(
-    TARGET ${PROJECT_NAME}
-    PROPERTY MACOSX_BUNDLE_INFO_PLIST
-             ${CMAKE_SOURCE_DIR}/cmake/modules/MacOSXBundleInfo.plist.in)
-
-  # the MacOSX bundle display name property (CFBundleDisplayName) is not
-  # currently supported by cmake, so has to be set for all targets in this cmake
-  # file
-  set(MACOSX_BUNDLE_DISPLAY_NAME ${PROJECT_NAME})
-  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_GUI_IDENTIFIER
-                                                   "io.github.jmuelbert.jmbde")
-  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME
-                                                   "jmbde")
-  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_DISPLAY_NAME
-                                                   "jmbde")
-  set_target_properties(
-    ${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_INFO_STRING
-                               "jmbde - A little BDE program")
-  set_target_properties(
-    ${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_LONG_VERSION_STRING
-                               "jmbde ${PROJECT_VERSION}")
-  set_target_properties(
-    ${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_SHORT_VERSION_STRING
-                               "${PROJECT_VERSION}")
-  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_BUNDLE_VERSION
-                                                   "${PROJECT_VERSION}")
-  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_ICON_FILE
-                                                   "${ICONS_SOURCES}")
-  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_COPYRIGHT
-                                                   "2013-2021 Jürgen Mülbert")
-
-  install(
-    TARGETS ${PROJECT_NAME}
-    BUNDLE DESTINATION . COMPONENT Runtime
-    RUNTIME DESTINATION bin COMPONENT Runtime)
-
-  configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/package_dmg.json.in
-                ${PROJECT_BINARY_DIR}/package_dmg.json @ONLY)
-
-  install(FILES ${PROJECT_BINARY_DIR}/package_dmg.json
-        DESTINATION ${CMAKE_BINARY_DIR})
-
+  include(platforms/macos) 
 elseif(UNIX AND NOT APPLE)
-
-  install(TARGETS ${PROJECT_NAME} ${INSTALL_TARGETS_DEFAULT_ARGS})
-
-  # Configure the appdata file and install this
-  configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/jmbde.appdata.xml.in
-                 ${CMAKE_CURRENT_BINARY_DIR}/jmbde.appdata.xml @ONLY)
-
-
-  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde.appdata.xml
-        DESTINATION ${CMAKE_INSTALL_DATADIR}/appdata)
-
-  # Install the desktopf-file in XDG_APPS_INSTALL_DIR
-  install(
-   FILES ${CMAKE_SOURCE_DIR}/cmake/modules/io.github.jmuelbert.jmbde.desktop
-   DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
-
-  install(
-    FILES ${CMAKE_SOURCE_DIR}/assets/icons/128-app-jmbde.png
-    DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/128x128/apps/
-    RENAME org.jmuelbert.jmbde.png
-  )
-
-  # man page
-  find_program(GZIP gzip)
-  if(GZIP)
-    configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/jmbde.1.in
-                   ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1 @ONLY)
-
-    add_custom_command(
-      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1.gz
-      COMMAND ${GZIP} -c ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1 > jmbde.1.gz
-      COMMENT "Create the bin gz archive"
-      DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1)
-
-   add_custom_target(
-     man ALL
-     COMMENT "Create man-file"
-     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1.gz)
-     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1.gz
-           DESTINATION ${CMAKE_INSTALL_MANDIR}/man1/)
-  endif()
+  include(platforms/linux)
 endif()

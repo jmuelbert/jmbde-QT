@@ -24,6 +24,7 @@ include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 include(InstallRequiredSystemLibraries)
 include(GenerateExportHeader)
+include(FeatureSummary)
 
 # ---------------------------------------------------------------------------- #
 # Import from the Project cmake directory
