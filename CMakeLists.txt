@@ -30,6 +30,7 @@ include(FeatureSummary)
 # Import from the Project cmake directory
 # ---------------------------------------------------------------------------- #
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/assets/")
 include(modern_project_structure)
 include(clang_format)
 include(compiler_options)
