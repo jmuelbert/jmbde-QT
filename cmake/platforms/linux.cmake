@@ -41,16 +41,17 @@ if(GZIP)
   configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/jmbde.1.in
                    ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1 @ONLY)
 
-add_custom_command(
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1.gz
-    COMMAND ${GZIP} -c ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1 > jmbde.1.gz
-    COMMENT "Create the bin gz archive"
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1)
+    add_custom_command(
+        OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1.gz
+        COMMAND ${GZIP} -c ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1 > jmbde.1.gz
+        COMMENT "Create the bin gz archive"
+        DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1)
 
-add_custom_target(
-    man ALL
-    COMMENT "Create man-file"
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1.gz)
+    add_custom_target(
+        man ALL
+        COMMENT "Create man-file"
+        DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1.gz)
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1.gz
-    DESTINATION ${CMAKE_INSTALL_MANDIR}/man1/)
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1.gz
+        DESTINATION ${CMAKE_INSTALL_MANDIR}/man1/)
+endif()

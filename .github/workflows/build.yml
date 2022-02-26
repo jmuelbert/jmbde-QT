@@ -60,6 +60,8 @@ jobs:
         platform: [macos-latest]
         name: [macos-12.0-x86_64]
         macos_target: [10.15]
+        qt_version: [6.2.2]
+        qt_target: [desktop]
         qt_arch: [clang_64]
         arch: [clang_64]
         cc: [clang]
@@ -106,13 +108,13 @@ jobs:
         uses: actions/cache@v1 # not v2!
         with:
           path: '${{ github.workspace }}/Qt'
-          key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ env.QT_VERSION }}
+          key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ matrix.qt_version }}
 
       - name: '⚙️ Install Qt'
         uses: jurplel/install-qt-action@v2
         with:
-          version: ${{ env.QT_VERSION }}
-          target: ${{ env.QT_TARGET }}
+          version: ${{ matrix.qt_version }}
+          target: ${{ matrix.qt_target }}
           arch: ${{ matrix.qt_arch }}
           # modules: 'qtscript'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
@@ -187,6 +189,8 @@ jobs:
         os: [windows-latest]
         platform: [windows-latest]
         name: [Windows 2019 MS Visual C]
+        qt_version: [6.2.2]
+        qt_target: [desktop]
         qt_arch: [win64_msvc2019_64]
         arch: [x64]
         artifact: [Windows-MSVC]
@@ -233,13 +237,13 @@ jobs:
         uses: actions/cache@v1 # not v2!
         with:
           path: '${{ github.workspace }}/Qt'
-          key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ env.QT_VERSION }}
+          key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ matrix.qt_version }}
 
       - name: '⚙️ Install Qt'
         uses: jurplel/install-qt-action@v2
         with:
-          version: ${{ env.QT_VERSION }}
-          target: ${{ env.QT_TARGET }}
+          version: ${{ matrix.qt_version }}
+          target: ${{ matrix.qt_target }}
           arch: ${{ matrix.qt_arch }}
           # modules: 'qtscript'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}s
@@ -344,6 +348,8 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         platform: [ubuntu-latest]
+        qt_version: [6.2.2]
+        qt_target: [desktop]
         qt_arch: [gcc_64]
         arch: [amd64]
         artifact: [Ubuntu-gcc]
@@ -400,8 +406,8 @@ jobs:
       - name: '⚙️ Install Qt'
         uses: jurplel/install-qt-action@v2
         with:
-          version: ${{ env.QT_VERSION }}
-          target: ${{ env.QT_TARGET }}
+          version: ${{ matrix.qt_version }}
+          target: ${{ matrix.qt_target }}
           arch: ${{ matrix.qt_arch }}
           # modules: 'qtscript'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
