@@ -74,7 +74,7 @@ jobs:
 
       - name: '🧰 Checkout Source Code'
         if: github.event_name == 'push'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: true
 
@@ -175,14 +175,14 @@ jobs:
 
       - name: '🧰 Checkout Source Code'
         if: github.event_name == 'push'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: master
 
       - name: '🧰 Checkout Source Code'
         if: github.event_name == 'pull_request'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
@@ -229,14 +229,14 @@ jobs:
 
       - name: '🧰 Checkout Source Code'
         if: github.event_name == 'push'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: master
 
       - name: '🧰 Checkout Source Code'
         if: github.event_name == 'pull_request'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
@@ -288,7 +288,7 @@ jobs:
         run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
 
       - name: '🧰 Checkout Source Code'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: true
 
@@ -388,7 +388,7 @@ jobs:
         run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
 
       - name: Checkout Source Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: 'recursive'
 
@@ -503,7 +503,7 @@ jobs:
 
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install Dependencies for ${{ runner.os }}
         run: |
@@ -617,7 +617,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: upload
     steps:
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 2
       - name: Fetch all history for all tags and branches
