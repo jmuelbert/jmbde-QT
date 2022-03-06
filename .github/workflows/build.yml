@@ -320,7 +320,7 @@ jobs:
         run: |
           cp $GITHUB_WORKSPACE/packaging/win/installer_Qt6_x64.iss .
           cp $GITHUB_WORKSPACE/packaging/win/License.rtf .
-          cp $GITHUB_WORKSPACE/assets/icons/jmbde-icon.ico .
+          cp $GITHUB_WORKSPACE/assets/jmbde-icon.ico .
           cp $GITHUB_WORKSPACE/README.md .
           cp $GITHUB_WORKSPACE/README_en.md .
           cp $GITHUB_WORKSPACE/AUTHORS .

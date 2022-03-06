@@ -32,7 +32,7 @@ if(NOT EMBED_TRANSLATIONS)
 endif()
 
 if(NOT EMBED_DOCS)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/manual.pdf DESTINATION "${CMAKE_INSTALL_DATADIR}/doc/jmbde")
+    # install(FILES ${CMAKE_CURRENT_BINARY_DIR}/manual.pdf DESTINATION "${CMAKE_INSTALL_DATADIR}/doc/jmbde")
 endif()
 
 # man page
