@@ -14,7 +14,7 @@ configure_file(${CMAKE_SOURCE_DIR}/assets/jmbde.appdata.xml.in
                  ${CMAKE_CURRENT_BINARY_DIR}/jmbde.appdata.xml @ONLY)
 
 
-install(FILES ${PROJECT_CURRENT_BINARY_DIR}/jmbde.appdata.xml
+install(FILES ${CURRENT_BINARY_DIR}/jmbde.appdata.xml
         DESTINATION ${CMAKE_INSTALL_DATADIR}/appdata)
 
 
