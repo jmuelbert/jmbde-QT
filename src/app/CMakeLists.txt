@@ -51,13 +51,13 @@ Sql Qml)
 
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-  qt_add_executable(${PROJECT_NAME}
+  qt_add_executable(${TARGET_NAME}
     MANUAL_FINALIZATION)
 else()
   if(APPLE OR WIN32)
-    add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE)
+    add_executable(${TARGET_NAME} WIN32 MACOSX_BUNDLE)
   else()
-    add_executable(${PROJECT_NAME})
+    add_executable(${TARGET_NAME})
   endif()
 endif()
 

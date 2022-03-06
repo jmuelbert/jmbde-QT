@@ -9,38 +9,38 @@
 
 
   set_property(
-    TARGET ${PROJECT_NAME}
+    TARGET ${TARGET_NAME}
     PROPERTY MACOSX_BUNDLE_INFO_PLIST
              ${CMAKE_SOURCE_DIR}/cmake/modules/MacOSXBundleInfo.plist.in)
 
   # the MacOSX bundle display name property (CFBundleDisplayName) is not
   # currently supported by cmake, so has to be set for all targets in this cmake
   # file
-  set(MACOSX_BUNDLE_DISPLAY_NAME ${PROJECT_NAME})
-  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_GUI_IDENTIFIER
+  set(MACOSX_BUNDLE_DISPLAY_NAME ${TARGET_NAME})
+  set_target_properties(${TARGET_NAME} PROPERTIES MACOSX_BUNDLE_GUI_IDENTIFIER
                                                    "io.github.jmuelbert.jmbde")
-  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME
+  set_target_properties(${TARGET_NAME} PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME
                                                    "jmbde")
-  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_DISPLAY_NAME
+  set_target_properties(${TARGET_NAME} PROPERTIES MACOSX_BUNDLE_DISPLAY_NAME
                                                    "jmbde")
   set_target_properties(
-    ${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_INFO_STRING
+    ${TARGET_NAME} PROPERTIES MACOSX_BUNDLE_INFO_STRING
                                "jmbde - A little BDE program")
   set_target_properties(
-    ${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_LONG_VERSION_STRING
+    ${TARGET_NAME} PROPERTIES MACOSX_BUNDLE_LONG_VERSION_STRING
                                "jmbde ${PROJECT_VERSION}")
   set_target_properties(
-    ${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_SHORT_VERSION_STRING
+    ${TARGET_NAME} PROPERTIES MACOSX_BUNDLE_SHORT_VERSION_STRING
                                "${PROJECT_VERSION}")
-  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_BUNDLE_VERSION
+  set_target_properties(${TARGET_NAME} PROPERTIES MACOSX_BUNDLE_BUNDLE_VERSION
                                                    "${PROJECT_VERSION}")
-  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_ICON_FILE
+  set_target_properties(${TARGET_NAME} PROPERTIES MACOSX_BUNDLE_ICON_FILE
                                                    "${ICONS_SOURCES}")
-  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_COPYRIGHT
+  set_target_properties(${TARGET_NAME} PROPERTIES MACOSX_BUNDLE_COPYRIGHT
                                                    "2013-2021 Jürgen Mülbert")
 
   install(
-    TARGETS ${PROJECT_NAME}
+    TARGETS ${TARGET_NAME}
     BUNDLE DESTINATION . COMPONENT Runtime
     RUNTIME DESTINATION bin COMPONENT Runtime)
 
