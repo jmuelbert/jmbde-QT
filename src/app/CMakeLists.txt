@@ -24,7 +24,6 @@ message(
   STATUS
     "Building ${PROJECT_NAME} ${PROJECT_VERSION} in ${CMAKE_BUILD_TYPE} mode")
 
-
 # --------------- +
 # Write Version   +
 # --------------- +
@@ -68,9 +67,6 @@ if(APPLE OR WIN32)
   # target_compile_definitions(${PROJECT_NAME} PRIVATE USE_QT_SINGLE_APP)
 endif()
 
-
-
-
 # Use a single application on MacOS + Windows instead of dbus.
 if(APPLE OR WIN32)
   # TODO: Enable QT_SINGLE_APP for macOS and Windows
@@ -81,13 +77,13 @@ endif()
 # Application icons
 #
 set(ICONS_PNG
-    ${CMAKE_SOURCE_DIR}/assets/icons/16-apps-jmbde.png
-    ${CMAKE_SOURCE_DIR}/assets/icons/32-apps-jmbde.png
-    ${CMAKE_SOURCE_DIR}/assets/icons/128-apps-jmbde.png
-    ${CMAKE_SOURCE_DIR}/assets/icons/256-apps-jmbde.png
-    ${CMAKE_SOURCE_DIR}/assets/icons/512-apps-jmbde.png)
+    ${PROJECT_SOURCE_DIR}/assets/icons/16-apps-jmbde.png
+    ${PROJECT_SOURCE_DIR}/assets/icons/32-apps-jmbde.png
+    ${PROJECT_SOURCE_DIR}/assets/icons/128-apps-jmbde.png
+    ${PROJECT_SOURCE_DIR}/assets/icons/256-apps-jmbde.png
+    ${PROJECT_SOURCE_DIR}/assets/icons/512-apps-jmbde.png)
 
-set(ICONS_SVG ${CMAKE_SOURCE_DIR}/assets/icons/sc-apps-jmbde.svgz)
+set(ICONS_SVG ${PROJECT_SOURCE_DIR}/assets/icons/sc-apps-jmbde.svgz)
 
 #
 # target
