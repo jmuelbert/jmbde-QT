@@ -621,8 +621,8 @@ jobs:
         arch: [amd64]
         artifact: [Ubuntu-gcc]
         cmake_generator: [Ninja]
-        cc: [gcc-10, clang-10]
-        cxx: [g++-10, clang++-10]
+        cc: [clang-10]
+        cxx: [clang++-10]
         build_type: [Debug]
         coverage: [OFF]
       fail-fast: true

@@ -11,28 +11,28 @@ else()
   cmake_policy(VERSION 3.21)
 endif()
 
-#
-# the jmbde application (Widgets-Version)
-#
-project(
-  jmbde
-  VERSION "0.6.0"
-  DESCRIPTION "A BDE Tool"
-  LANGUAGES CXX)
+# ---------------------------------------------------------------------------- #
+# Define Target Information
+# ---------------------------------------------------------------------------- #
+set(TARGET_ID jmbde)
+string(TOLOWER ${TARGET_ID} TARGET_ID_LOWER)
+set(TARGET_NAMESPACE jmuelbert)
+set(TARGET_NAME ${TARGET_ID_LOWER})
+set(TARGET_DESCRIPTION "jmdbde app")
+set(TARGET_COPYRIGHT "© 2013-2022 Jürgen Mülbert")
+set(TARGET_URL "https://github.com/jmuelbert/jmdbe-QT")
+set(TARGET_VERSION_MAJOR 0)
+set(TARGET_VERSION_MINOR 7)
+set(TARGET_VERSION_PATCH 0)
+set(TARGET_VERSION ${TARGET_VERSION_MAJOR}.${TARGET_VERSION_MINOR}.${TARGET_VERSION_PATCH})
+set(TARGET_SO_VERSION ${TARGET_VERSION_MAJOR})
+set(TARGET_AUTHOR_ORGANIZATION "Jürgen Mülbert")
+set(TARGET_AUTHOR_DOMAIN "https://github.com/jmuelbert")
+set(TARGET_AUTHOR_MAINTAINER "Jürgen Mülbert")
 
-message(
-  STATUS
-    "Building ${PROJECT_NAME} ${PROJECT_VERSION} in ${CMAKE_BUILD_TYPE} mode")
-
-# --------------- +
-# Write Version   +
-# --------------- +
-set(AUTHOR_MAINTAINER "Jürgen Mülbert")
-set(VERSION_MAJOR 0)
-set(VERSION_MINOR 6)
-set(VERSION_PATCH 0)
-set(VERSION_REVISION 1)
-set(VERSION "0.6.0")
+message(STATUS "Building ${TARGET_NAME}" " Version ${TARGET_VERSION}"
+               " in ${CMAKE_BUILD_TYPE} mode"
+)
 
 configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/version.h.in
                  ${CMAKE_CURRENT_BINARY_DIR}/jmbde_version.h @ONLY)
@@ -77,19 +77,19 @@ endif()
 # Application icons
 #
 set(ICONS_PNG
-    ${PROJECT_SOURCE_DIR}/assets/icons/16-apps-jmbde.png
-    ${PROJECT_SOURCE_DIR}/assets/icons/32-apps-jmbde.png
-    ${PROJECT_SOURCE_DIR}/assets/icons/128-apps-jmbde.png
-    ${PROJECT_SOURCE_DIR}/assets/icons/256-apps-jmbde.png
-    ${PROJECT_SOURCE_DIR}/assets/icons/512-apps-jmbde.png)
+    ${CMAKE_SOURCE_DIR}/assets/icons/16-apps-jmbde.png
+    ${CMAKE_SOURCE_DIR}/assets/icons/32-apps-jmbde.png
+    ${CMAKE_SOURCE_DIR}/assets/icons/128-apps-jmbde.png
+    ${CMAKE_SOURCE_DIR}/assets/icons/256-apps-jmbde.png
+    ${CMAKE_SOURCE_DIR}/assets/icons/512-apps-jmbde.png)
 
-set(ICONS_SVG ${PROJECT_SOURCE_DIR}/assets/icons/sc-apps-jmbde.svgz)
+set(ICONS_SVG ${CMAKE_SOURCE_DIR}/assets/icons/sc-apps-jmbde.svgz)
 
 #
 # target
 #
 target_include_directories(
-  ${PROJECT_NAME}
+  ${TARGET_NAME}
   PRIVATE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>" # For headers
                                                                    # when
                                                                    # building
@@ -97,16 +97,16 @@ target_include_directories(
           "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>"
           $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
-target_sources(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
+target_sources(${TARGET_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 
-target_sources(${PROJECT_NAME} PRIVATE ${ICONS_SOURCES})
+target_sources(${TARGET_NAME} PRIVATE ${ICONS_SOURCES})
 
 # Require c++17, this is better than setting CMAKE_CXX_STANDARD since it won't
 # pollute other targets note : cxx_std_* features were added in CMake 3.8.2
-target_compile_features(jmbde PRIVATE cxx_std_17)
+target_compile_features(${TARGET_NAME} PRIVATE cxx_std_17)
 
 target_compile_definitions(
-  ${PROJECT_NAME}
+  ${TARGET_NAME}
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
 target_link_libraries(
@@ -115,7 +115,7 @@ target_link_libraries(
   # details about transitive usage requirements. libraries/targets to link when
   # linking this library this will automatically setup the needed flags and
   # dependencies when linking against this target
-  ${PROJECT_NAME}
+  ${TARGET_NAME}
   PRIVATE # The following libraries are only linked for this target, and its
           # flags/dependencies will not be used when linking against this target
           jmuelbert::jmbdemodels
@@ -132,7 +132,7 @@ target_link_libraries(
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_finalize_executable( ${PROJECT_NAME})
+    qt_finalize_executable( ${TARGET_NAME})
 endif()
 
 if(WIN32)

@@ -10,7 +10,7 @@ include(GNUInstallDirs)
 set(APP_LINUX_ICON_DIMENSIONS 16 32 128 256 512)
 
 # Configure the appdata file and install this
-configure_file(${PROJECT_SOURCE_DIR}/assets/jmbde.appdata.xml.in
+configure_file(${CMAKE_SOURCE_DIR}/assets/jmbde.appdata.xml.in
                  ${CMAKE_CURRENT_BINARY_DIR}/jmbde.appdata.xml @ONLY)
 
 
@@ -20,11 +20,11 @@ install(FILES ${PROJECT_CURRENT_BINARY_DIR}/jmbde.appdata.xml
 
 # Install the desktop-file in XDG_APPS_INSTALL_DIR
 install(
-   FILES ${PROJECT_SOURCE_DIR}/assets/io.github.jmuelbert.jmbde.desktop.in
+   FILES ${CMAKE_SOURCE_DIR}/assets/io.github.jmuelbert.jmbde.desktop.in
    DESTINATION ${CMAKE_INSTALL_DATADIR}/applications RENAME io.github.jmuelbert.jmbde.desktop)
 
 foreach(APP_LINUX_ICON_DIMENSION ${APP_LINUX_ICON_DIMENSIONS})
-        install(FILES ${PROJECT_SOURCE_DIR}/assets/icons/jmbde-${APP_LINUX_ICON_DIMENSION}.png DESTINATION "${CMAKE_INSTALL_DATADIR}/icons/hicolor/${APP_LINUX_ICON_DIMENSION}x${APP_LINUX_ICON_DIMENSION}/apps" RENAME jmbde.png)
+        install(FILES ${CMAKE_SOURCE_DIR}/assets/icons/jmbde-${APP_LINUX_ICON_DIMENSION}.png DESTINATION "${CMAKE_INSTALL_DATADIR}/icons/hicolor/${APP_LINUX_ICON_DIMENSION}x${APP_LINUX_ICON_DIMENSION}/apps" RENAME jmbde.png)
 endforeach(APP_LINUX_ICON_DIMENSION)
 
 if(NOT EMBED_TRANSLATIONS)
@@ -38,7 +38,7 @@ endif()
 # man page
 find_program(GZIP gzip)
 if(GZIP)
-  configure_file(${PROJECT_SOURCE_DIR}/assets/jmbde.1.in
+  configure_file(${CMAKE_SOURCE_DIR}/assets/jmbde.1.in
                    ${CMAKE_CURRENT_BINARY_DIR}/jmbde.1 @ONLY)
 
     add_custom_command(
