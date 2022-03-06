@@ -3,7 +3,7 @@
 #
 #  SPDX-License-Identifier: MIT
 
-install(TARGETS ${PROJECT_NAME} ${INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS ${TARGET_NAME} ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 include(GNUInstallDirs)
 
