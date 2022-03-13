@@ -614,7 +614,7 @@ jobs:
         cxx: [clang++-10]
         build_type: [Debug]
         coverage: [OFF]
-        display: [:99]
+        display: [':99']
       fail-fast: true
 
     steps:
