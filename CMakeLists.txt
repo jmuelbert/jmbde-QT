@@ -175,7 +175,7 @@ if(${PROJECT_NAME}_ENABLE_UNITY)
 endif()
 
 option(${PROJECT_NAME}_ENABLE_COVERAGE "Generate coverage reports" FALSE)
-include(coverage)
+include(Coverage)
 generate_coverage(jmbde_tests)
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
