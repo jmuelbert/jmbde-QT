@@ -127,7 +127,7 @@ target_link_libraries(
           Qt${QT_VERSION_MAJOR}::Qml
           ${CMAKE_REQUIRED_LIBRARIES}
           ${CONAN_LIBS}
-          coverage_config
+          # coverage_config
           # debug DEBUGLIBS optimized RELEASELIBS
 )
 
