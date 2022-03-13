@@ -620,7 +620,7 @@ jobs:
     steps:
       - name: '🧰 Checkout Source Code'
         uses: actions/checkout@v2
-        width:
+        with:
             fetch-depth: 0
 
       - name: '⚙️ Install dependencies'
