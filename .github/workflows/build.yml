@@ -627,7 +627,7 @@ jobs:
         run: |
           sudo apt-get -y -qq update
           sudo apt-get -y --no-install-recommends install \
-              ninja-build lcov ccache ibtbb-dev tree
+              ninja-build lcov ccache libtbb-dev tree
 
       - name: Install gcovr
         run: pip3 install gcovr
