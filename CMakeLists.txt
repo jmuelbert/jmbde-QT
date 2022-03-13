@@ -115,7 +115,7 @@ if(${PROJECT_NAME}_CODE_COVERAGE)
   endif()
 
 endif()
-link_libraries(coverage_config)
+# link_libraries(coverage_config)
 
 # enable cache system
 include(Cache)
