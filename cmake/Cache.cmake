@@ -1,5 +1,5 @@
-option(ENABLE_CACHE "Enable cache if available" ON)
-if(NOT ENABLE_CACHE)
+option(${PROJECT_NAME}_ENABLE_CACHE "Enable cache if available" ON)
+if(NOT ${PROJECT_NAME}_ENABLE_CACHE)
   return()
 endif()
 

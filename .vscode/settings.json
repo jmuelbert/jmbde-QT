@@ -13,5 +13,6 @@
       "com.github.Desktop.yaml"
     ]
   },
-  "python.pythonPath": "/usr/local/Caskroom/miniconda/base/envs/develop/bin/python"
+  "python.pythonPath": "/usr/local/Caskroom/miniconda/base/envs/develop/bin/python",
+  "esbonio.server.enabled": true
 }

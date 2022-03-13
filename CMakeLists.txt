@@ -1,7 +1,7 @@
 #
-#  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
+# SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
 #
-#  SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: GPL-3.0-or-later
 #
 
 # minimal requirements
@@ -13,12 +13,68 @@ else()
   cmake_policy(VERSION 3.21)
 endif()
 
-
 # Set the project name to your project name, my project isn't very descriptive
-project(jmbdeqt LANGUAGES CXX)
+project(
+  jmbdeqt
+  VERSION 0.6.0
+  LANGUAGES CXX)
 
+# ---------------------------------------------------------------------------- # Import from the Project cmake directory
 # ---------------------------------------------------------------------------- #
-# Define CMake Module Imports
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/assets/")
+
+include(StandardProjectSettings)
+include(StaticAnalyzers)
+include(Utils)
+
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE "Debug")
+endif()
+message(STATUS "Started CMake for ${PROJECT_NAME} v${PROJECT_VERSION}...\n")
+
+if(UNIX)
+  add_compile_options(
+    "$<$<CONFIG:DEBUG>:-D_DEBUG>") # this will allow to use same _DEBUG macro available in both Linux as well as Windows
+                                   # - MSCV environment. Easy to put Debug specific code.
+endif(UNIX)
+
+#
+# Setup alternative names
+#
+
+if(${PROJECT_NAME}_USE_ALT_NAMES)
+  string(TOLOWER ${PROJECT_NAME} PROJECT_NAME_LOWERCASE)
+  string(TOUPPER ${PROJECT_NAME} PROJECT_NAME_UPPERCASE)
+else()
+  set(PROJECT_NAME_LOWERCASE ${PROJECT_NAME})
+  set(PROJECT_NAME_UPPERCASE ${PROJECT_NAME})
+endif()
+
+include(ModernProjectStructure)
+
+#
+# Enable package managers
+#
+include(Conan)
+include(Vcpkg)
+
+# This is done as follows:
+#
+# set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+#
+# On Linux and Mac this variable is ignored. If any issues rise from it, try commenting it out and letting CMake decide
+# how to link with it.
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
+
+verbose_message("Successfully added all dependencies and linked against them.")
+
+include(ClangFormat)
+include(CompilerOptions)
+include(CPackConfig)
+include(PreventInSourceBuilds)
+
+# ---------------------------------------------------------------------------- # Define CMake Module Imports
 # ---------------------------------------------------------------------------- #
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
@@ -26,30 +82,40 @@ include(InstallRequiredSystemLibraries)
 include(GenerateExportHeader)
 include(FeatureSummary)
 
-# ---------------------------------------------------------------------------- #
-# Import from the Project cmake directory
-# ---------------------------------------------------------------------------- #
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/assets/")
-include(modern_project_structure)
-include(clang_format)
-include(compiler_options)
-include(cpack-config)
-include(StandardProjectSettings)
-include(PreventInSourceBuilds)
-
 # Link this 'library' to set the c++ standard / compile-time options requested
 add_library(project_options INTERFACE)
 
-if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
-  option(ENABLE_BUILD_WITH_TIME_TRACE "Enable -ftime-trace to generate time tracing .json files on clang" OFF)
-  if(ENABLE_BUILD_WITH_TIME_TRACE)
-    target_compile_options(project_options INTERFACE -ftime-trace)
-  endif()
-endif()
-
 # Link this 'library' to use the warnings specified in CompilerWarnings.cmake
 add_library(project_warnings INTERFACE)
+
+option(${PROJECT_NAME}_CODE_COVERAGE "Enable coverage reporting" OFF)
+
+# Interface library to propagate code coverage flags if enabled
+add_library(coverage_config INTERFACE)
+if(${PROJECT_NAME}_CODE_COVERAGE)
+
+  message(STATUS "CMAKE_CXX_CLANG_TIDY=${CMAKE_CXX_CLANG_TIDY}")
+  set(CMAKE_CXX_CLANG_TIDY="")
+  if(CMAKE_CXX_CLANG_TIDY)
+    message(
+      FATAL_ERROR
+        "Static analysis and code coverage cannot both be \
+                    turned on in the same build configuration. Create a\
+                    separate build directory for code coverage with \
+                    static analysis disabled.")
+  else()
+    if(${PROJECT_NAME}_CODE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+      target_compile_options(coverage_config INTERFACE -O0 -g --coverage)
+      if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.13)
+        target_link_options(coverage_config INTERFACE --coverage)
+      else()
+        target_link_libraries(coverage_config INTERFACE --coverage)
+      endif()
+    endif()
+  endif()
+
+endif()
+link_libraries(coverage_config)
 
 # enable cache system
 include(Cache)
@@ -69,15 +135,14 @@ enable_doxygen()
 # allow for static analysis options
 include(StaticAnalyzers)
 
-option(BUILD_TRANSLATIONS "Build all translations for the project" ON)
-option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" ON)
-option(ENABLE_TESTING "Enable Test Builds" ON)
-option(ENABLE_FUZZING "Enable Fuzzing Builds" OFF)
-
+option(${PROJECT_NAME}_BUILD_TRANSLATIONS "Build all translations for the project" ON)
+option(${PROJECT_NAME}_BUILD_SHARED_LIBS "Enable compilation of shared libraries" ON)
+option(${PROJECT_NAME}_ENABLE_TESTING "Enable Test Builds" ON)
+option(${PROJECT_NAME}_ENABLE_FUZZING "Enable Fuzzing Builds" OFF)
 
 # Very basic PCH example
-option(ENABLE_PCH "Enable Precompiled Headers" OFF)
-if(ENABLE_PCH)
+option(${PROJECT_NAME}_ENABLE_PCH "Enable Precompiled Headers" OFF)
+if(${PROJECT_NAME}_ENABLE_PCH)
   # This sets a global PCH parameter, each project will build its own PCH, which is a good idea if any #define's change
   #
   # consider breaking this out per project as necessary
@@ -90,58 +155,27 @@ if(ENABLE_PCH)
     <utility>)
 endif()
 
-if(ENABLE_CONAN)
-  # Set up some extra Conan dependencies based on our needs before loading Conan
-  set(CONAN_EXTRA_REQUIRES "")
-  set(CONAN_EXTRA_OPTIONS "")
-
-  if(CPP_STARTER_USE_IMGUI)
-    set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES} imgui-sfml/2.1@bincrafters/stable)
-
-    # set(CONAN_EXTRA_OPTIONS ${CONAN_EXTRA_OPTIONS} sfml:shared=False sfml:graphics=True sfml:audio=False
-    # sfml:window=True libalsa:disable_python=True)
-  endif()
-
-  if(CPP_STARTER_USE_SDL)
-    set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES} sdl2/2.0.10@bincrafters/stable)
-    # set(CONAN_EXTRA_OPTIONS ${CONAN_EXTRA_OPTIONS} sdl2:wayland=True)
-  endif()
-
-  include(Conan)
-  run_conan()
-endif()
-
-if(ENABLE_TESTING)
+if(${PROJECT_NAME}_ENABLE_TESTING)
   enable_testing()
   message("Building Tests. Be sure to check out test/constexpr_tests for constexpr testing")
   # add_subdirectory(test)
 endif()
 
-if(ENABLE_FUZZING)
+if(${PROJECT_NAME}_ENABLE_FUZZING)
   message("Building Fuzz Tests, using fuzzing sanitizer https://www.llvm.org/docs/LibFuzzer.html")
   add_subdirectory(fuzz_test)
 endif()
 
 add_subdirectory(src)
 
-# Interface library to propagate code coverage flags if enabled
-add_library(coverage_config INTERFACE)
-option(CODE_COVERAGE "Enable coverage reporting" ON)
-if (CODE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-  target_compile_options(coverage_config INTERFACE -O0 -g --coverage)
-  if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.13)
-    target_link_options(coverage_config INTERFACE --coverage)
-  else()
-    target_link_libraries(coverage_config INTERFACE --coverage)
-  endif()
-endif()
-
-link_libraries(coverage_config)
-
-option(ENABLE_UNITY "Enable Unity builds of projects" OFF)
-if(ENABLE_UNITY)
+option(${PROJECT_NAME}_ENABLE_UNITY "Enable Unity builds of projects" OFF)
+if(${PROJECT_NAME}_ENABLE_UNITY)
   # Add for any project you want to apply unity builds for
   set_target_properties(intro PROPERTIES UNITY_BUILD ON)
 endif()
+
+option(${PROJECT_NAME}_ENABLE_COVERAGE "Generate coverage reports" FALSE)
+include(coverage)
+generate_coverage(jmbde_tests)
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)

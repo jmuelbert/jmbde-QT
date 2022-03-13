@@ -49,7 +49,7 @@ function(set_project_warnings project_name)
       -Wformat=2 # warn on security issues around functions that format output (ie printf)
   )
 
-  if(WARNINGS_AS_ERRORS)
+  if(${PROJECT_NAME}_WARNINGS_AS_ERRORS)
     set(CLANG_WARNINGS ${CLANG_WARNINGS} -Werror)
     set(MSVC_WARNINGS ${MSVC_WARNINGS} /WX)
   endif()

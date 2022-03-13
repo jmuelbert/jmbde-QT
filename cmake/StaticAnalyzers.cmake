@@ -1,28 +1,25 @@
-option(ENABLE_CPPCHECK "Enable static analysis with cppcheck" OFF)
-option(ENABLE_CLANG_TIDY "Enable static analysis with clang-tidy" OFF)
-option(ENABLE_INCLUDE_WHAT_YOU_USE "Enable static analysis with include-what-you-use" OFF)
 
-if(ENABLE_CPPCHECK)
+if(${PROJECT_NAME}_ENABLE_CPPCHECK)
   find_program(CPPCHECK cppcheck)
   if(CPPCHECK)
     message(STATUS "Found: cppcheck")
     list(
-      APPEND CMAKE_CXX_CPPCHECK
-        "${CPPCHECK_BIN}"
-        "--enable=all"
-        "--enable=warning,performance,portability,information"
-        "--inconclusive"
-        "--check-config"
-        "--force" 
-        "--inline-suppr"
-        "--suppressions-list=${CMAKE_SOURCE_DIR}/cppcheck_suppressions.txt"
-        "--xml"
-        "--output-file=${CMAKE_BINARY_DIR}/cppcheck.xml"        
-    )
+      APPEND
+      CMAKE_CXX_CPPCHECK
+      "${CPPCHECK_BIN}"
+      "--enable=all"
+      "--enable=warning,performance,portability,information"
+      "--inconclusive"
+      "--check-config"
+      "--force"
+      "--inline-suppr"
+      "--suppressions-list=${CMAKE_SOURCE_DIR}/cppcheck_suppressions.txt"
+      "--xml"
+      "--output-file=${CMAKE_BINARY_DIR}/cppcheck.xml")
   endif()
 endif()
 
-if(ENABLE_CLANG_TIDY)
+if(${PROJECT_NAME}_ENABLE_CLANG_TIDY)
   find_program(CLANGTIDY clang-tidy)
   if(CLANGTIDY)
     set(CMAKE_CXX_CLANG_TIDY ${CLANGTIDY} -extra-arg=-Wno-unknown-warning-option)
@@ -31,7 +28,7 @@ if(ENABLE_CLANG_TIDY)
   endif()
 endif()
 
-if(ENABLE_INCLUDE_WHAT_YOU_USE)
+if(${PROJECT_NAME}_ENABLE_INCLUDE_WHAT_YOU_USE)
   find_program(INCLUDE_WHAT_YOU_USE include-what-you-use)
   if(INCLUDE_WHAT_YOU_USE)
     set(CMAKE_CXX_INCLUDE_WHAT_YOU_USE ${INCLUDE_WHAT_YOU_USE})
