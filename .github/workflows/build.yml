@@ -336,7 +336,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         platform: [ubuntu-latest]
-        qt_version: [6.2.2]
+        version: [6.2.2]
         qt_target: [desktop]
         qt_arch: [gcc_64]
         arch: [amd64]
@@ -603,6 +603,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
+        platform: [ubuntu-latest]
         name: [Ubuntu-20.04 gcc-10]
         qt_version: [6.2.2]
         qt_target: [desktop]
