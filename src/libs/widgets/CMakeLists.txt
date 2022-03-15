@@ -53,7 +53,7 @@ set(CMAKE_AUTOMOC ON)
 
 # ---------------------------------------------------------------------------- # Define Target according to options
 # ---------------------------------------------------------------------------- #
-if(BUILD_SHARED_LIBS)
+if(${PROJECT_NAME}_BUILD_SHARED_LIBS)
   add_library(${TARGET_NAME} SHARED "")
 else()
   add_library(${TARGET_NAME} STATIC "")
