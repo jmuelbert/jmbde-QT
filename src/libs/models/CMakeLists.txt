@@ -179,7 +179,7 @@ endif()
 
 # ---------------------------------------------------------------------------- # Testing
 # ---------------------------------------------------------------------------- #
-if(BUILD_TESTING)
+if(${PROJECT_NAME}_ENABLE_TESTING)
   enable_testing()
   add_subdirectory(test)
 endif()

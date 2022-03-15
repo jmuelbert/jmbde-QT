@@ -13,8 +13,6 @@ else()
   cmake_policy(VERSION 3.21)
 endif()
 
-project(jmbde_widgets LANGUAGES CXX)
-
 # ---------------------------------------------------------------------------- # Define CMake Module Imports
 # ---------------------------------------------------------------------------- # This will define the default values for
 # installation directories (all platforms even if named GNU)
@@ -195,7 +193,7 @@ endif()
 
 # ---------------------------------------------------------------------------- # Testing
 # ---------------------------------------------------------------------------- #
-if(BUILD_TESTING)
+if(${PROJECT_NAME}_ENABLE_TESTING)
   enable_testing()
   add_subdirectory(test)
 endif()
