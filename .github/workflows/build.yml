@@ -46,16 +46,34 @@ jobs:
       matrix:
         config:
           - {
-              name: 'Ubuntu 18.04',
+              name: '🐧 Ubuntu 18.04',
               os: ubuntu-18.04,
               conan_home: '/home/runner/work/conan/release',
               conan_home_short: '/home/runner/work/conan/release/short',
+              platform: ubuntu-latest,
+              version: 6.2.2,
+              qt_target: desktop,
+              qt_arch: gcc_64,
+              arch: amd64,
+              artifact: Ubuntu-gcc,
+              cc: gcc-9,
+              cxx: g++-9,
+              cmake_generator: Ninja,
             }
           - {
-              name: 'Ubuntu 20.04',
+              name: '🐧 Ubuntu 20.04',
               os: ubuntu-20.04,
               conan_home: '/home/runner/work/conan/release',
               conan_home_short: '/home/runner/work/conan/release/short',
+              platform: ubuntu-latest,
+              version: 6.2.2,
+              qt_target: desktop,
+              qt_arch: gcc_64,
+              arch: amd64,
+              artifact: Ubuntu-gcc,
+              cc: gcc-10,
+              cxx: g++-10,
+              cmake_generator: Ninja,
             }
           - {
               name: '🧊 Windows 2019',
@@ -71,7 +89,7 @@ jobs:
               pak_arch: win64,
               cc: cl,
               cxx: cl,
-              cmake_generator: [Ninja]
+              cmake_generator: [Ninja],
             }
           - {
               name: '🍎 MacOS 10.15',
@@ -86,7 +104,7 @@ jobs:
               arch: clang_64,
               cc: clang,
               cxx: clang++,
-              cmake_generator: Ninja
+              cmake_generator: Ninja,
             }
           - {
               name: '🍎 MacOS 11',
@@ -101,7 +119,7 @@ jobs:
               arch: clang_64,
               cc: clang,
               cxx: clang++,
-              cmake_generator: Ninja
+              cmake_generator: Ninja,
             }
 
     needs: [tests]
@@ -116,9 +134,17 @@ jobs:
 
     steps:
       - name: '🧰 Checkout Source Code'
+        if: github.event_name == 'push'
         uses: actions/checkout@v2
         with:
-          fetch-depth: 5
+          fetch-depth: 10
+
+      - name: '🧰 Checkout Source Code'
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: '🧰 Restoring submodules'
         run: git submodule update --init
@@ -148,6 +174,25 @@ jobs:
         run: |
           choco install png2ico
           choco install ninja
+
+      - name: '🐧 ⚙️ Install dependencies for ubuntu'
+        if: startsWith(matrix.config.os, 'ubuntu')
+        run: |
+          sudo apt-get -y -qq update
+          sudo apt-get -y --no-install-recommends install \
+            ninja-build patchelf ccache
+
+      - name: '🐧 ⚙️ Install go-appimage tool for ubuntu'
+        if: startsWith(matrix.config.os, 'ubuntu')
+        # Will not use linuxdeployqt anymore, because it suopprts currently still-supported mainstream distribution,
+        # which is glibc 2.23. For more information, please see https://github.com/probonopd/linuxdeployqt/issues/340.
+        # Will try new tool https://github.com/probonopd/go-appimage written in golang by probonopd.
+        run: |
+          wget -c https://github.com/$(wget -q https://github.com/probonopd/go-appimage/releases -O - \
+          | grep "appimagetool-.*-${APPIMAGETOOL_ARCH}.AppImage" | head -n 1 | cut -d '"' -f 2) -O appimagetool
+          chmod +x appimagetool
+        env:
+          APPIMAGETOOL_ARCH: x86_64
 
       # MacOS 10.15 - XCode version 11.7
       # MacOS 11.1  - XCode version 12.4
@@ -192,16 +237,16 @@ jobs:
           # modules: 'qtscript'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
-      - name:  '⚙️ CMake Configure'
+      - name: '⚙️ CMake Configure'
         run: cmake --preset=default
 
-      - name:  '⚙️ Create Build Environment'
+      - name: '⚙️ Create Build Environment'
         # Some projects don't allow in-source building, so create a separate build directory
         # We'll use this as our working directory for all subsequent commands
         run: cmake -E make_directory ${{runner.workspace}}/build
 
       - name: '🍎 🚧 Configure cmake build'
-        if: startsWith(matrix.config.os,'macos')      
+        if: startsWith(matrix.config.os,'macos')
         # Use a bash shell so we can use the same syntax for environment variable
         # access regardless of the host operating system
         shell: bash
@@ -232,7 +277,7 @@ jobs:
             -DBUILD_TRANSLATIONS=ON
 
       - name: '🍎 🚧 Build and Install'
-        if: startsWith(matrix.config.os,'macos')      
+        if: startsWith(matrix.config.os,'macos')
         working-directory: ${{runner.workspace}}/build
         shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
@@ -268,7 +313,6 @@ jobs:
           name: ${{ env.TARGET_NAME }}-macos-zip
           path: ${{runner.workspace}}/${{ env.TARGET_NAME }}*.zip
 
-  
       # Copy Qt DLLs, compiler runtime & application icon
       - name: '🧊 📦 Package application (windeployqt)'
         if: startsWith(matrix.config.os, 'windows')
@@ -283,7 +327,7 @@ jobs:
           windeployqt --qmldir . ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}.exe ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}models.dll ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}widgets.dll
 
       - name: Compress Zip Archive
-        if: matrix.os == 'windows' || matrix.os == 'windows-latest'
+        if: startsWith(matrix.config.os,'windows')
         working-directory: ${{runner.workspace}}/build
         shell: pwsh
         env:
@@ -292,7 +336,7 @@ jobs:
           Compress-Archive -Path ${{ env.archiveName}}/bin -DestinationPath ${{runner.workspace}}/${{ env.archiveName}}.'zip'
 
       - name: Upload Zip archive
-        if: matrix.os == 'windows' || matrix.os == 'windows-latest'
+        if: startsWith(matrix.config.os,'windows')
         uses: actions/upload-artifact@v2
         env:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.qt_arch }}
@@ -301,7 +345,7 @@ jobs:
           path: ${{ runner.workspace}}/${{ env.archiveName}}.zip
 
       - name: '📦 Make ISS-Installer for ${{ matrix.qt_version }}'
-        if: matrix.os == 'windows' || matrix.os == 'windows-latest'
+        if: startsWith(matrix.config.os,'windows')
         shell: bash
         working-directory: ${{runner.workspace}}/build
         env:
@@ -319,7 +363,7 @@ jobs:
           iscc ./installer_Qt6_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=${archiveName}/bin
 
       - name: '📤 Upload artifact: ISS Installer'
-        if: matrix.os == 'windows' || matrix.os == 'windows-latest'
+        if: startsWith(matrix.config.os,'windows' )
         uses: actions/upload-artifact@v2
         env:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.qt_arch }}
@@ -327,103 +371,8 @@ jobs:
           name: ${{ env.TARGET_NAME}}-win
           path: ${{runner.workspace}}/${{ env.archiveName}}.exe
 
-  windows-build:
-
-      fail-fast: true
-    needs: [tests]
-
-    steps:
-
-
-
-  appimage-build:
-    name: '🐧 Build appimage on ${{ matrix.os }}'
-
-    runs-on: ${{ matrix.os }}
-    needs: [tests]
-
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        platform: [ubuntu-latest]
-        version: [6.2.2]
-        qt_target: [desktop]
-        qt_arch: [gcc_64]
-        arch: [amd64]
-        artifact: [Ubuntu-gcc]
-        cc: [gcc-10]
-        cxx: [g++-10]
-        cmake_generator: [Ninja]
-      fail-fast: true
-
-    steps:
-      - name: '⚙️ Get the version'
-        id: get_version
-        shell: bash
-        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
-
-      - name: '🧰 Checkout Source Code'
-        if: github.event_name == 'push'
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 10
-
-      - name: '🧰 Checkout Source Code'
-        if: github.event_name == 'pull_request'
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: Cache
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-conan-modules
-        with:
-          path: |
-            ${{ env.CONAN_USER_HOME }}
-            ~/.cache/pip
-          key: ${{ runner.os }}-${{ env.BUILD_TYPE }}-${{ hashFiles('CMakeLists.txt') }}-${{ hashFiles('cmake/Conan.cmake') }}
-
-      - name: '⚙️ Install dependencies'
-        run: |
-          sudo apt-get -y -qq update
-          sudo apt-get -y --no-install-recommends install \
-            ninja-build patchelf ccache
-
-      - name: '⚙️ Get conan'
-        uses: turtlebrowser/get-conan@v1.0
-
-      - name: '⚙️ Cache Qt'
-        id: cache-qt
-        uses: actions/cache@v1 # not v2!
-        with:
-          path: '${{ github.workspace }}/Qt'
-          key: QtCache-${{ matrix.platform }}-${{ matrix.qt_arch }}-${{ env.QT_VERSION }}
-
-      - name: '⚙️ Install Qt'
-        uses: jurplel/install-qt-action@v2
-        with:
-          version: ${{ matrix.qt_version }}
-          target: ${{ matrix.qt_target }}
-          arch: ${{ matrix.qt_arch }}
-          # modules: 'qtscript'
-          cached: ${{ steps.cache-qt.outputs.cache-hit }}
-
-      - name: '⚙️ Install go-appimage tool'
-        if: matrix.os == 'ubuntu' || matrix.os == 'ubuntu-latest'
-        # Will not use linuxdeployqt anymore, because it suopprts currently still-supported mainstream distribution,
-        # which is glibc 2.23. For more information, please see https://github.com/probonopd/linuxdeployqt/issues/340.
-        # Will try new tool https://github.com/probonopd/go-appimage written in golang by probonopd.
-        run: |
-          wget -c https://github.com/$(wget -q https://github.com/probonopd/go-appimage/releases -O - \
-          | grep "appimagetool-.*-${APPIMAGETOOL_ARCH}.AppImage" | head -n 1 | cut -d '"' -f 2) -O appimagetool
-          chmod +x appimagetool
-        env:
-          APPIMAGETOOL_ARCH: x86_64
-
-      - name: '🚧 Compile application'
-        if: matrix.os == 'ubuntu' || matrix.os == 'ubuntu-latest'
+      - name: '🐧 🚧 Compile application'
+        if: startsWith(matrix.config.os, 'ubuntu')
         shell: bash
         env:
           CC: ${{ matrix.cc }}
@@ -439,8 +388,8 @@ jobs:
               -DBUILD_TRANSLATIONS=ON
           cmake --build . --config ${{env.BUILD_TYPE}} --target install --parallel $(sysctl -n hw.logicalcpu)
 
-      - name: '📦 Create AppImage'
-        if: matrix.os == 'ubuntu' || matrix.os == 'ubuntu-latest'
+      - name: '🐧 📦 Create AppImage'
+        if: startsWith(matrix.config.os, 'ubuntu')
         shell: bash
         run: |
           APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
@@ -458,8 +407,8 @@ jobs:
           cp $GITHUB_WORKSPACE/jmbde-*-x86_64.AppImage ${{runner.workspace}}/${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}.x86_64.AppImage
           ls ${{runner.workspace}}
 
-      - name: '📤 Upload artifact: AppImage'
-        if: matrix.os == 'ubuntu' || matrix.os == 'ubuntu-latest'
+      - name: '🐧 📤 Upload artifact: AppImage'
+        if: startsWith(matrix.config.os, 'ubuntu')
         uses: actions/upload-artifact@v2
         with:
           name: ${{env.TARGET_NAME}}.AppImage
