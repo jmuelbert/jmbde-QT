@@ -805,11 +805,9 @@ jobs:
     name: '🗂 Create pre-release and upload artifacts'
     environment: PreRelease
     needs:
-      - appimage-build
       - flatpak-build
       - snap-build
-      - build-macos
-      - windows-build
+      - build
       - source-archive
 
     runs-on: ubuntu-latest
@@ -911,11 +909,9 @@ jobs:
     name: '🗂 Create release and upload artifacts'
     environment: Release
     needs:
-      - appimage-build
       - flatpak-build
       - snap-build
-      - build-macos
-      - windows-build
+      - build
       - source-archive
 
     runs-on: ubuntu-latest
