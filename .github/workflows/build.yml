@@ -685,7 +685,6 @@ jobs:
 
       - name: Configure Conan
         run: |
-          conan profile new default --detect
           conan profile update settings.compiler.libcxx=libstdc++11 default
 
       - name: CMake Configure
