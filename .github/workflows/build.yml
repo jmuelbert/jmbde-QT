@@ -71,8 +71,8 @@ jobs:
               qt_arch: gcc_64,
               arch: amd64,
               artifact: Ubuntu-gcc,
-              cc: gcc-10,
-              cxx: g++-10,
+              cc: clang-10,
+              cxx: clang-10++,
               cmake_generator: Ninja,
             }
           - {
@@ -277,6 +277,22 @@ jobs:
             -DBUILD_TESTING=OFF  \
             -DBUILD_TRANSLATIONS=ON
 
+      - name: '🐧 🚧 Configure cmake build'
+        if: startsWith(matrix.config.os, 'ubuntu')
+        shell: bash
+        env:
+          CC: ${{ matrix.cc }}
+          CXX: ${{ matrix.cxx}}
+        run: |
+          APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
+          mkdir -p ${APPIMAGE_DST_PATH}
+          cd $GITHUB_WORKSPACE
+          cmake -G ${{matrix.config.cmake_generator}} \
+              -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE}} \
+              -DCMAKE_INSTALL_PREFIX:PATH="${APPIMAGE_DST_PATH}/usr" \
+              -DBUILD_TESTING=OFF \
+              -DBUILD_TRANSLATIONS=ON
+
       - name: '🍎 🚧 Build and Install'
         if: startsWith(matrix.config.os,'macos')
         working-directory: ${{runner.workspace}}/build
@@ -290,6 +306,12 @@ jobs:
         working-directory: ${{runner.workspace}}/build
         run: cmake --build . --config ${{ env.BUILD_TYPE }} --target install --parallel $(nproc)
 
+      - name: '🐧 🚧 Build and Install'
+        if: startsWith(matrix.config.os, 'ubuntu')
+        shell: bash
+        run: |
+          cmake --build . --config ${{env.BUILD_TYPE}} --target install --parallel $(sysctl -n hw.logicalcpu)
+
       - name: '🍎 📦 Package application (macdeployqt and zipfile)'
         if: startsWith(matrix.config.os,'macos')
         working-directory: ${{runner.workspace}}/build
@@ -301,14 +323,14 @@ jobs:
           ditto -c -k --sequesterRsrc --keepParent "bin/${{env.TARGET_NAME}}.app" ${{env.TARGET_NAME}}.zip
           cp ./${{env.TARGET_NAME}}.zip ${{runner.workspace}}/${{env.TARGET_NAME}}.zip
 
-      - name: '🍎 Upload dmg artifact for macOS - ${{ matrix.qt_version }}'
+      - name: '🍎 📤 Upload dmg artifact for macOS - ${{ matrix.qt_version }}'
         if: startsWith(matrix.config.os,'macos')
         uses: actions/upload-artifact@v2
         with:
           name: ${env.TARGET_NAME}-dmg
           path: ${{runner.workspace}}/${{ env.TARGET_NAME }}.dmg
 
-      - name: '🍎 Upload zip artifact for macOS - ${{ matrix.qt_version }}-${env.BUILD_TYPE}}'
+      - name: '🍎 📤 Upload zip artifact for macOS - ${{ matrix.qt_version }}-${env.BUILD_TYPE}}'
         if: startsWith(matrix.config.os,'macos')
         uses: actions/upload-artifact@v2
         with:
@@ -328,7 +350,7 @@ jobs:
           Get-ChildItem ${{ env.archiveName }}/bin
           windeployqt --qmldir . ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}.exe ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}models.dll ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}widgets.dll
 
-      - name: Compress Zip Archive
+      - name: '🧊 Compress Zip Archive'
         if: startsWith(matrix.config.os,'windows')
         working-directory: ${{runner.workspace}}/build
         shell: pwsh
@@ -337,7 +359,7 @@ jobs:
         run: |
           Compress-Archive -Path ${{ env.archiveName}}/bin -DestinationPath ${{runner.workspace}}/${{ env.archiveName}}.'zip'
 
-      - name: Upload Zip archive
+      - name: '🧊 📤 Upload Zip archive'
         if: startsWith(matrix.config.os,'windows')
         uses: actions/upload-artifact@v2
         env:
@@ -346,7 +368,7 @@ jobs:
           name: ${{ env.TARGET_NAME}}-win-zip
           path: ${{ runner.workspace}}/${{ env.archiveName}}.zip
 
-      - name: '📦 Make ISS-Installer for ${{ matrix.qt_version }}'
+      - name: '🧊 📦 Make ISS-Installer for ${{ matrix.qt_version }}'
         if: startsWith(matrix.config.os,'windows')
         shell: bash
         working-directory: ${{runner.workspace}}/build
@@ -364,7 +386,7 @@ jobs:
           ls -la ${archiveName}
           iscc ./installer_Qt6_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=${archiveName}/bin
 
-      - name: '📤 Upload artifact: ISS Installer'
+      - name: '🧊 📤 Upload artifact: ISS Installer'
         if: startsWith(matrix.config.os,'windows' )
         uses: actions/upload-artifact@v2
         env:
@@ -372,23 +394,6 @@ jobs:
         with:
           name: ${{ env.TARGET_NAME}}-win
           path: ${{runner.workspace}}/${{ env.archiveName}}.exe
-
-      - name: '🐧 🚧 Compile application'
-        if: startsWith(matrix.config.os, 'ubuntu')
-        shell: bash
-        env:
-          CC: ${{ matrix.cc }}
-          CXX: ${{ matrix.cxx}}
-        run: |
-          APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
-          mkdir -p ${APPIMAGE_DST_PATH}
-          cd $GITHUB_WORKSPACE
-          cmake -G ${{matrix.cmake_generator}} \
-              -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE}} \
-              -DCMAKE_INSTALL_PREFIX:PATH="${APPIMAGE_DST_PATH}/usr" \
-              -DBUILD_TESTING=OFF \
-              -DBUILD_TRANSLATIONS=ON
-          cmake --build . --config ${{env.BUILD_TYPE}} --target install --parallel $(sysctl -n hw.logicalcpu)
 
       - name: '🐧 📦 Create AppImage'
         if: startsWith(matrix.config.os, 'ubuntu')
