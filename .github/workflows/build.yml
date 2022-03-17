@@ -51,7 +51,7 @@ jobs:
               conan_home: '/home/runner/work/conan/release',
               conan_home_short: '/home/runner/work/conan/release/short',
               platform: ubuntu-latest,
-              version: 6.2.2,
+              qt_version: 6.2.2,
               qt_target: desktop,
               qt_arch: gcc_64,
               arch: amd64,
@@ -66,7 +66,7 @@ jobs:
               conan_home: '/home/runner/work/conan/release',
               conan_home_short: '/home/runner/work/conan/release/short',
               platform: ubuntu-latest,
-              version: 6.2.2,
+              qt_version: 6.2.2,
               qt_target: desktop,
               qt_arch: gcc_64,
               arch: amd64,
@@ -89,7 +89,7 @@ jobs:
               pak_arch: win64,
               cc: cl,
               cxx: cl,
-              cmake_generator: [Ninja],
+              cmake_generator: Ninja,
             }
           - {
               name: '🍎 MacOS 10.15',
@@ -205,6 +205,7 @@ jobs:
           xcode-version: '12.5'
 
       - name: '🧊 ⚙️ Configure MSVC'
+        if: startsWith(matrix.config.os,'windows')
         uses: ilammy/msvc-dev-cmd@v1
         with:
           # 14.1 is for vs2017, 14.2 is vs2019, following the upstream vcpkg build
@@ -284,6 +285,7 @@ jobs:
         run: cmake --build . --target install --parallel $(sysctl -n hw.logicalcpu)
 
       - name: '🧊 🚧 Build and Install'
+        if: startsWith(matrix.config.os,'windows')
         shell: pwsh
         working-directory: ${{runner.workspace}}/build
         run: cmake --build . --config ${{ env.BUILD_TYPE }} --target install --parallel $(nproc)
