@@ -51,7 +51,7 @@ jobs:
               conan_home: '/home/runner/work/conan/release',
               conan_home_short: '/home/runner/work/conan/release/short',
               platform: ubuntu-latest,
-              qt_version: 6.2.2,
+              qt_version: 6.2.0,
               qt_target: desktop,
               qt_arch: gcc_64,
               arch: amd64,
@@ -66,7 +66,7 @@ jobs:
               conan_home: '/home/runner/work/conan/release',
               conan_home_short: '/home/runner/work/conan/release/short',
               platform: ubuntu-latest,
-              qt_version: 6.2.2,
+              qt_version: 6.2.0,
               qt_target: desktop,
               qt_arch: gcc_64,
               arch: amd64,
@@ -215,6 +215,10 @@ jobs:
       - name: '⚙️ Install Conan'
         uses: turtlebrowser/get-conan@main
 
+      - name: '🐧 ⚙️ Configure Conan for ubuntu'
+        run: |
+          conan profile update settings.compiler.libcxx=libstdc++11 default
+
       - name: '⚙️ Check Tool Versions'
         run: |
           echo "${{ steps.conan.outputs.version }}"
@@ -281,8 +285,8 @@ jobs:
         if: startsWith(matrix.config.os, 'ubuntu')
         shell: bash
         env:
-          CC: ${{ matrix.cc }}
-          CXX: ${{ matrix.cxx}}
+          CC: ${{ matrix.config.cc }}
+          CXX: ${{ matrix.config.cxx}}
         run: |
           APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
           mkdir -p ${APPIMAGE_DST_PATH}
@@ -293,8 +297,8 @@ jobs:
               -DBUILD_TESTING=OFF \
               -DBUILD_TRANSLATIONS=ON
 
-      - name: '🍎 🚧 Build and Install'
-        if: startsWith(matrix.config.os,'macos')
+      - name: '🍎 🐧 🚧 Build and Install'
+        if: startsWith(matrix.config.os,'macos') || startsWith(matrix.config.os, 'ubuntu')
         working-directory: ${{runner.workspace}}/build
         shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
@@ -305,12 +309,6 @@ jobs:
         shell: pwsh
         working-directory: ${{runner.workspace}}/build
         run: cmake --build . --config ${{ env.BUILD_TYPE }} --target install --parallel $(nproc)
-
-      - name: '🐧 🚧 Build and Install'
-        if: startsWith(matrix.config.os, 'ubuntu')
-        shell: bash
-        run: |
-          cmake --build . --config ${{env.BUILD_TYPE}} --target install --parallel $(sysctl -n hw.logicalcpu)
 
       - name: '🍎 📦 Package application (macdeployqt and zipfile)'
         if: startsWith(matrix.config.os,'macos')
@@ -577,8 +575,6 @@ jobs:
         arch: [amd64]
         artifact: [Ubuntu-gcc]
         cmake_generator: [Ninja]
-        cc: [clang-10]
-        cxx: [clang++-10]
         build_type: [Debug]
         coverage: [OFF]
         display: [':99']
