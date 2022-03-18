@@ -284,6 +284,7 @@ jobs:
 
       - name: '🐧 🚧 Configure cmake build'
         if: startsWith(matrix.config.os, 'ubuntu')
+        working-directory: ${{runner.workspace}}/build
         shell: bash
         env:
           CC: ${{ matrix.config.cc }}
@@ -294,7 +295,7 @@ jobs:
           cd $GITHUB_WORKSPACE
           cmake -G ${{matrix.config.cmake_generator}} \
               -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE}} \
-              -DCMAKE_INSTALL_PREFIX:PATH="${APPIMAGE_DST_PATH}/usr" \
+              -DCMAKE_INSTALL_PREFIX:PATH=./usr working-directory: ${{runner.workspace}}/build\
               -DBUILD_TESTING=OFF \
               -DBUILD_TRANSLATIONS=ON
 
@@ -317,12 +318,12 @@ jobs:
         if: startsWith(matrix.config.os,'macos')
         working-directory: ${{runner.workspace}}/build
         run: |
-          macdeployqt ${{runner.workspace}}/build/app/${{env.TARGET_NAME}}.app/bin/jmbde  -qmldir=. -appstore-compliant -libpath=./app/${{env.TARGET_NAME}}.app/Contents/Frameworks -verbose=1 -dmg
-          cp ${{runner.workspace}}/build/app/${{env.TARGET_NAME}}.dmg ${{runner.workspace}}/${{env.TARGET_NAME}}.dmg
+          macdeployqt ${{runner.workspace}}/build/app/bin/jmbde  -qmldir=. -appstore-compliant -libpath=./app/${{env.TARGET_NAME}}.app/Contents/Frameworks -verbose=1 -dmg
+          #  cp ${{runner.workspace}}/build/app/${{env.TARGET_NAME}}.dmg ${{runner.workspace}}/${{env.TARGET_NAME}}.dmg
 
           # ZIP application "%AppName%-%Version%-macOS.zip"
-          ditto -c -k --sequesterRsrc --keepParent "bin/${{env.TARGET_NAME}}.app" ${{env.TARGET_NAME}}.zip
-          cp ./${{env.TARGET_NAME}}.zip ${{runner.workspace}}/${{env.TARGET_NAME}}.zip
+          #  ditto -c -k --sequesterRsrc --keepParent "bin/${{env.TARGET_NAME}}.app" ${{env.TARGET_NAME}}.zip
+          # cp ./${{env.TARGET_NAME}}.zip ${{runner.workspace}}/${{env.TARGET_NAME}}.zip
 
       - name: '🍎 📤 Upload dmg artifact for macOS - ${{ matrix.qt_version }}'
         if: startsWith(matrix.config.os,'macos')
@@ -398,20 +399,21 @@ jobs:
 
       - name: '🐧 📦 Create AppImage'
         if: startsWith(matrix.config.os, 'ubuntu')
+        working-directory: ${{runner.workspace}}/build
         shell: bash
         run: |
           APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
 
           cd $GITHUB_WORKSPACE
 
-          $GITHUB_WORKSPACE/appimagetool -s deploy ${APPIMAGE_DST_PATH}/usr/share/applications/io.github.jmuelbert.jmbde.desktop
-          mkdir -p ${APPIMAGE_DST_PATH}/usr/plugins/platforminputcontexts
+          $GITHUB_WORKSPACE/appimagetool -s deploy usr/share/applications/io.github.jmuelbert.jmbde.desktop
+        
 
-          if [ -f "${APPIMAGE_DST_PATH}/lib/x86_64-linux-gnu/libxcb-glx.so.0" ]; then
-            rm ${APPIMAGE_DST_PATH}/lib/x86_64-linux-gnu/libxcb-glx.so.0
+          if [ -f "lib/x86_64-linux-gnu/libxcb-glx.so.0" ]; then
+            rm lib/x86_64-linux-gnu/libxcb-glx.so.0
           fi
-          chmod +x ${APPIMAGE_DST_PATH}/usr/lib64/ld-*.so.*
-          $GITHUB_WORKSPACE/appimagetool ${APPIMAGE_DST_PATH}
+          chmod +x usr/lib64/ld-*.so.*
+          $GITHUB_WORKSPACE/appimagetool usr
           cp $GITHUB_WORKSPACE/jmbde-*-x86_64.AppImage ${{runner.workspace}}/${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}.x86_64.AppImage
           ls ${{runner.workspace}}
 
