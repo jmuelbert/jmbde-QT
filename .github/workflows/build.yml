@@ -276,7 +276,7 @@ jobs:
         working-directory: ${{runner.workspace}}/build
         run: |
           cmake $GITHUB_WORKSPACE \
-            -G ${{ matrix.cmake_generator }} \
+            -G ${{ matrix.config.cmake_generator }} \
             -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}  \
             -DCMAKE_INSTALL_PREFIX:PATH=./programs \
             -DBUILD_TESTING=OFF  \
@@ -303,7 +303,9 @@ jobs:
         working-directory: ${{runner.workspace}}/build
         shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
-        run: cmake --build . --target install --parallel $(sysctl -n hw.logicalcpu)
+        run: |
+           cmake --build . --target install 
+           # --parallel $(sysctl -n hw.logicalcpu)
 
       - name: '🧊 🚧 Build and Install'
         if: startsWith(matrix.config.os,'windows')
