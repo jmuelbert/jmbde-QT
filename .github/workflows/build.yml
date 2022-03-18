@@ -180,7 +180,8 @@ jobs:
         run: |
           sudo apt-get -y -qq update
           sudo apt-get -y --no-install-recommends install \
-            ninja-build patchelf ccache
+            ninja-build 
+            # ccache
 
       - name: '🐧 ⚙️ Install go-appimage tool for ubuntu'
         if: startsWith(matrix.config.os, 'ubuntu')
@@ -317,8 +318,8 @@ jobs:
         if: startsWith(matrix.config.os,'macos')
         working-directory: ${{runner.workspace}}/build
         run: |
-          macdeployqt ./app/${{env.TARGET_NAME}}.app -qmldir=. -appstore-compliant -libpath=./app/${{env.TARGET_NAME}}.app/Contents/Frameworks -verbose=1 -dmg
-          cp ./app/${{env.TARGET_NAME}}.dmg ${{runner.workspace}}/${{env.TARGET_NAME}}.dmg
+          macdeployqt ${{runner.workspace}}/build/app/${{env.TARGET_NAME}}.app -qmldir=. -appstore-compliant -libpath=./app/${{env.TARGET_NAME}}.app/Contents/Frameworks -verbose=1 -dmg
+          cp ${{runner.workspace}}/build/app/${{env.TARGET_NAME}}.dmg ${{runner.workspace}}/${{env.TARGET_NAME}}.dmg
 
           # ZIP application "%AppName%-%Version%-macOS.zip"
           ditto -c -k --sequesterRsrc --keepParent "bin/${{env.TARGET_NAME}}.app" ${{env.TARGET_NAME}}.zip
