@@ -51,7 +51,7 @@ jobs:
               conan_home: '/home/runner/work/conan/release',
               conan_home_short: '/home/runner/work/conan/release/short',
               platform: ubuntu-latest,
-              qt_version: 6.2.0,
+              qt_version: 6.2.2,
               qt_target: desktop,
               qt_arch: gcc_64,
               arch: amd64,
@@ -66,13 +66,13 @@ jobs:
               conan_home: '/home/runner/work/conan/release',
               conan_home_short: '/home/runner/work/conan/release/short',
               platform: ubuntu-latest,
-              qt_version: 6.2.0,
+              qt_version: 6.2.2,
               qt_target: desktop,
               qt_arch: gcc_64,
               arch: amd64,
               artifact: Ubuntu-gcc,
-              cc: clang-10,
-              cxx: clang-10++,
+              cc: gcc-10,
+              cxx: gcc-10++,
               cmake_generator: Ninja,
             }
           - {
@@ -180,8 +180,7 @@ jobs:
         run: |
           sudo apt-get -y -qq update
           sudo apt-get -y --no-install-recommends install \
-            ninja-build 
-            # ccache
+            ninja-build ccache
 
       - name: '🐧 ⚙️ Install go-appimage tool for ubuntu'
         if: startsWith(matrix.config.os, 'ubuntu')
@@ -318,7 +317,7 @@ jobs:
         if: startsWith(matrix.config.os,'macos')
         working-directory: ${{runner.workspace}}/build
         run: |
-          macdeployqt ${{runner.workspace}}/build/app/${{env.TARGET_NAME}}.app -qmldir=. -appstore-compliant -libpath=./app/${{env.TARGET_NAME}}.app/Contents/Frameworks -verbose=1 -dmg
+          macdeployqt ${{runner.workspace}}/build/app/${{env.TARGET_NAME}}.app/bin/jmbde  -qmldir=. -appstore-compliant -libpath=./app/${{env.TARGET_NAME}}.app/Contents/Frameworks -verbose=1 -dmg
           cp ${{runner.workspace}}/build/app/${{env.TARGET_NAME}}.dmg ${{runner.workspace}}/${{env.TARGET_NAME}}.dmg
 
           # ZIP application "%AppName%-%Version%-macOS.zip"
