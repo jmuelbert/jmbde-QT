@@ -56,6 +56,8 @@ jobs:
               qt_arch: gcc_64,
               arch: amd64,
               artifact: Ubuntu-gcc,
+              cc: clang,
+              cxx: clang++,
               cmake_generator: Ninja,
             }
           - {
@@ -131,44 +133,18 @@ jobs:
       - name: '🍎 ⚙️ Install dependencies for macos'
         if: startsWith(matrix.config.os,'macos')
         run: |
-          brew install ccache
+          brew install ccache ninja
 
       - name: '🧊 ⚙️ Install dependencies for windows'
         if: startsWith(matrix.config.os,'windows')
         run: |
-          choco install png2ico
-
-      - name: Set up Clang
-        if: startsWith(matrix.config.os, 'ubuntu')
-        uses: egor-tensin/setup-clang@v1
-        with:
-          version: latest
-          platform: x64
-
-      - name: Get latest CMake and ninja
-        # Using 'latest' branch, the most recent CMake and ninja are installed.
-        uses: lukka/get-cmake@latest
-
-      - name: Cache compilation
-        if: startsWith(matrix.config.os,'macos') || startsWith(matrix.config.os, 'ubuntu')
-        uses: actions/cache@v1
-        with:
-          path: ~/.ccache
-          key: ccache
-
-      - name: Setup ccache
-        if: startsWith(matrix.config.os,'macos') || startsWith(matrix.config.os, 'ubuntu')
-        uses: alexjurkiewicz/setup-ccache@master
-        with:
-          max-size: 150M
-          extra-config: |
-            keep_comments_cpp = true
+          choco install png2ico ninja
 
       - name: '🐧 ⚙️ Install dependencies for ubuntu'
         if: startsWith(matrix.config.os, 'ubuntu')
         run: |
           sudo apt-get -y -qq update
-          sudo apt-get -y --no-install-recommends install ccache
+          sudo apt-get -y --no-install-recommends install ccache ninja-build
 
       - name: '🐧 ⚙️ Install go-appimage tool for ubuntu'
         if: startsWith(matrix.config.os, 'ubuntu')
@@ -273,6 +249,9 @@ jobs:
         if: startsWith(matrix.config.os, 'ubuntu')
         working-directory: ${{runner.workspace}}/build
         shell: bash
+        env:
+          CC: ${{ matrix.config.cc}}
+          CXX: ${{ matrix.config.cxx}}
         run: |
           APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
           mkdir -p ${APPIMAGE_DST_PATH}
@@ -392,9 +371,7 @@ jobs:
 
           $GITHUB_WORKSPACE/appimagetool -s deploy ${APPIMAGE_DST_PATH}/usr/share/applications/io.github.jmuelbert.jmbde.desktop
           mkdir -p ${APPIMAGE_DST_PATH}/usr/plugins/platforminputcontexts
-           cp \
-            $GITHUB_WORKSPACE/assets/icons/256-apps-jmbde.png \
-            ${APPIMAGE_DST_PATH}/
+          cp $GITHUB_WORKSPACE/assets/icons/256-apps-jmbde.png ${APPIMAGE_DST_PATH}
           if [ -f "${APPIMAGE_DST_PATH}/lib/x86_64-linux-gnu/libxcb-glx.so.0" ]; then
             rm ${APPIMAGE_DST_PATH}/lib/x86_64-linux-gnu/libxcb-glx.so.0
           fi
