@@ -530,8 +530,8 @@ jobs:
       SONAR_SCANNER_VERSION: 4.6.2.2472
       SONAR_SERVER_URL: 'https://sonarcloud.io'
       BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory # Directory where build-wrapper output will be placed
-      CC: gcc-10
-      CXX: gcc-10++
+      CC: gcc-9
+      CXX: gcc-9++
 
     strategy:
       matrix:
