@@ -370,7 +370,7 @@ jobs:
 
           $GITHUB_WORKSPACE/appimagetool -s deploy ${APPIMAGE_DST_PATH}/usr/share/applications/io.github.jmuelbert.jmbde.desktop
           mkdir -p ${APPIMAGE_DST_PATH}/usr/plugins/platforminputcontexts
-          cp $GITHUB_WORKSPACE/assets/icons/256-apps-jmbde.png ${APPIMAGE_DST_PATH}
+          # cp $GITHUB_WORKSPACE/assets/icons/256-apps-jmbde.png ${APPIMAGE_DST_PATH}
           if [ -f "${APPIMAGE_DST_PATH}/lib/x86_64-linux-gnu/libxcb-glx.so.0" ]; then
             rm ${APPIMAGE_DST_PATH}/lib/x86_64-linux-gnu/libxcb-glx.so.0
           fi
