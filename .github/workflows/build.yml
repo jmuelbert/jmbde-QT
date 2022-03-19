@@ -274,10 +274,13 @@ jobs:
         working-directory: ${{runner.workspace}}/build
         shell: bash
         run: |
+          APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
+          mkdir -p ${APPIMAGE_DST_PATH}
+          cd $GITHUB_WORKSPACE
           cmake $GITHUB_WORKSPACE \
               -G ${{matrix.config.cmake_generator}} \
               -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE}} \
-              -DCMAKE_INSTALL_PREFIX:PATH=./usr \
+              -DCMAKE_INSTALL_PREFIX:PATH=${APPIMAGE_DST_PATH}/usr" \
               -DBUILD_TESTING=OFF \
               -DBUILD_TRANSLATIONS=ON
 
@@ -385,18 +388,19 @@ jobs:
         shell: bash
         run: |
           APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
-
           cd $GITHUB_WORKSPACE
 
-          $GITHUB_WORKSPACE/appimagetool -s deploy ${{runner.workspace}}/build/usr/share/applications/io.github.jmuelbert.jmbde.desktop
-
-          if [ -f "lib/x86_64-linux-gnu/libxcb-glx.so.0" ]; then
-            rm lib/x86_64-linux-gnu/libxcb-glx.so.0
+          $GITHUB_WORKSPACE/appimagetool -s deploy ${APPIMAGE_DST_PATH}/usr/share/applications/io.github.jmuelbert.jmbde.desktop
+          mkdir -p ${APPIMAGE_DST_PATH}/usr/plugins/platforminputcontexts
+           cp \
+            $GITHUB_WORKSPACE/assets/icons/256-apps-jmbde.png \
+            ${APPIMAGE_DST_PATH}/
+          if [ -f "${APPIMAGE_DST_PATH}/lib/x86_64-linux-gnu/libxcb-glx.so.0" ]; then
+            rm ${APPIMAGE_DST_PATH}/lib/x86_64-linux-gnu/libxcb-glx.so.0
           fi
-          chmod +x usr/lib64/ld-*.so.*
-          $GITHUB_WORKSPACE/appimagetool usr
-          cp $GITHUB_WORKSPACE/jmbde-*-x86_64.AppImage ${{runner.workspace}}/${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}.x86_64.AppImage
-          ls ${{runner.workspace}}
+          chmod +x ${APPIMAGE_DST_PATH}/usr/lib64/ld-*.so.*
+          $GITHUB_WORKSPACE/appimagetool ${APPIMAGE_DST_PATH}
+          mv $GITHUB_WORKSPACE/jmbde-*-x86_64.AppImage $GITHUB_WORKSPACE/${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}}.x86_64.AppImage
 
       - name: '🐧 📤 Upload artifact: AppImage'
         if: startsWith(matrix.config.os, 'ubuntu')
