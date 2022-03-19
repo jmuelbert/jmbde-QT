@@ -255,7 +255,6 @@ jobs:
         run: |
           APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
           mkdir -p ${APPIMAGE_DST_PATH}
-          cd $GITHUB_WORKSPACE
           cmake $GITHUB_WORKSPACE \
               -G ${{matrix.config.cmake_generator}} \
               -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE}} \
