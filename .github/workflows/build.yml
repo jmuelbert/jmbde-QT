@@ -259,7 +259,7 @@ jobs:
           cmake $GITHUB_WORKSPACE \
               -G ${{matrix.config.cmake_generator}} \
               -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE}} \
-              -DCMAKE_INSTALL_PREFIX:PATH=${APPIMAGE_DST_PATH}/usr" \
+              -DCMAKE_INSTALL_PREFIX:PATH="${APPIMAGE_DST_PATH}/usr" \
               -DBUILD_TESTING=OFF \
               -DBUILD_TRANSLATIONS=ON
 
@@ -530,6 +530,8 @@ jobs:
       SONAR_SCANNER_VERSION: 4.6.2.2472
       SONAR_SERVER_URL: 'https://sonarcloud.io'
       BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory # Directory where build-wrapper output will be placed
+      CC: gcc-10
+      CXX: gcc-10++
 
     strategy:
       matrix:
@@ -557,7 +559,7 @@ jobs:
         run: |
           sudo apt-get -y -qq update
           sudo apt-get -y --no-install-recommends install \
-                  lcov ccache libtbb-dev tree
+                  lcov ccache libtbb-dev tree ninja-builds
 
       - name: Install gcovr
         run: pip3 install gcovr
@@ -609,16 +611,6 @@ jobs:
           curl -sSLo $HOME/.sonar/build-wrapper-linux-x86.zip ${{ env.BUILD_WRAPPER_DOWNLOAD_URL }}
           unzip -o $HOME/.sonar/build-wrapper-linux-x86.zip -d $HOME/.sonar/
           echo "$HOME/.sonar/build-wrapper-linux-x86" >> $GITHUB_PATH
-
-      - name: Install GCC
-        uses: egor-tensin/setup-gcc@v1
-        with:
-          version: 11
-          platform: x64
-
-      - name: Get latest CMake and ninja
-        # Using 'latest' branch, the most recent CMake and ninja are installed.
-        uses: lukka/get-cmake@latest
 
       - name: '⚙️ Cache Qt'
         id: cache-qt
