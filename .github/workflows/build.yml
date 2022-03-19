@@ -295,7 +295,7 @@ jobs:
           cd $GITHUB_WORKSPACE
           cmake -G ${{matrix.config.cmake_generator}} \
               -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE}} \
-              -DCMAKE_INSTALL_PREFIX:PATH=./usr working-directory: ${{runner.workspace}}/build\
+              -DCMAKE_INSTALL_PREFIX:PATH=./usr \
               -DBUILD_TESTING=OFF \
               -DBUILD_TRANSLATIONS=ON
 
