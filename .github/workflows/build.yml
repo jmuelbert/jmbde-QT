@@ -56,8 +56,6 @@ jobs:
               qt_arch: gcc_64,
               arch: amd64,
               artifact: Ubuntu-gcc,
-              cc: gcc-9,
-              cxx: g++-9,
               cmake_generator: Ninja,
             }
           - {
@@ -71,8 +69,6 @@ jobs:
               qt_arch: gcc_64,
               arch: amd64,
               artifact: Ubuntu-gcc,
-              cc: gcc-10,
-              cxx: gcc-10++,
               cmake_generator: Ninja,
             }
           - {
@@ -87,8 +83,6 @@ jobs:
               arch: x64,
               artifact: Windows-MSVC,
               pak_arch: win64,
-              cc: cl,
-              cxx: cl,
               cmake_generator: Ninja,
             }
           - {
@@ -102,8 +96,6 @@ jobs:
               qt_target: desktop,
               qt_arch: clang_64,
               arch: clang_64,
-              cc: clang,
-              cxx: clang++,
               cmake_generator: Ninja,
             }
           - {
@@ -117,8 +109,6 @@ jobs:
               qt_target: desktop,
               qt_arch: clang_64,
               arch: clang_64,
-              cc: clang,
-              cxx: clang++,
               cmake_generator: Ninja,
             }
 
@@ -175,6 +165,7 @@ jobs:
           choco install png2ico
 
       - name: Set up Clang
+        if: startsWith(matrix.config.os, 'ubuntu')
         uses: egor-tensin/setup-clang@v1
         with:
           version: latest
@@ -183,6 +174,21 @@ jobs:
       - name: Get latest CMake and ninja
         # Using 'latest' branch, the most recent CMake and ninja are installed.
         uses: lukka/get-cmake@latest
+
+      - name: Cache compilation
+        if: startsWith(matrix.config.os,'macos') || startsWith(matrix.config.os, 'ubuntu'
+        uses: actions/cache@v1
+        with:
+          path: ~/.ccache
+          key: ccache
+
+      - name: Setup ccache
+        if: startsWith(matrix.config.os,'macos') || startsWith(matrix.config.os, 'ubuntu'
+        uses: alexjurkiewicz/setup-ccache@master
+        with:
+          max-size: 150M
+          extra-config: |
+            keep_comments_cpp = true
 
       - name: '🐧 ⚙️ Install dependencies for ubuntu'
         if: startsWith(matrix.config.os, 'ubuntu')
@@ -260,7 +266,7 @@ jobs:
         run: cmake -E make_directory ${{runner.workspace}}/build
 
       - name: '🍎 🚧 Configure cmake build'
-        if: startsWith(matrix.config.os,'macos')
+        if: startsWith(matrix.config.os, 'macos')
         # Use a bash shell so we can use the same syntax for environment variable
         # access regardless of the host operating system
         shell: bash
@@ -273,13 +279,12 @@ jobs:
             -G ${{matrix.config.cmake_generator}} \
             -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
             -DCMAKE_OSX_DEPLOYMENT_TARGET=${{ matrix.config.macos_target }} \
-            -DUSE_LAUNCHER_ABSOLUTE_PATH:BOOL=OFF \
             -DCMAKE_INSTALL_PREFIX:PATH=./app \
             -DBUILD_TESTING=OFF  \
             -DBUILD_TRANSLATIONS=ON \
 
       - name: '🧊 🚧 Configure cmake build'
-        if: startsWith(matrix.config.os,'windows')
+        if: startsWith(matrix.config.os, 'windows')
         shell: bash
         working-directory: ${{runner.workspace}}/build
         run: |
@@ -296,7 +301,7 @@ jobs:
         shell: bash
         run: |
           cmake $GITHUB_WORKSPACE \
-               -G ${{matrix.config.cmake_generator}} \
+              -G ${{matrix.config.cmake_generator}} \
               -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE}} \
               -DCMAKE_INSTALL_PREFIX:PATH=./usr \
               -DBUILD_TESTING=OFF \
@@ -410,7 +415,6 @@ jobs:
           cd $GITHUB_WORKSPACE
 
           $GITHUB_WORKSPACE/appimagetool -s deploy usr/share/applications/io.github.jmuelbert.jmbde.desktop
-
 
           if [ -f "lib/x86_64-linux-gnu/libxcb-glx.so.0" ]; then
             rm lib/x86_64-linux-gnu/libxcb-glx.so.0
@@ -657,13 +661,9 @@ jobs:
           version: 11
           platform: x64
 
-      - name: Install Ninja
-        uses: seanmiddleditch/gha-setup-ninja@master
-
-      - name: Install CMake
-        uses: jwlawson/actions-setup-cmake@v1.12
-        with:
-          cmake-version: '3.22.x'
+      - name: Get latest CMake and ninja
+        # Using 'latest' branch, the most recent CMake and ninja are installed.
+        uses: lukka/get-cmake@latest
 
       - name: '⚙️ Cache Qt'
         id: cache-qt
