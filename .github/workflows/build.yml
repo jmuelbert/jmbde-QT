@@ -388,7 +388,7 @@ jobs:
 
           cd $GITHUB_WORKSPACE
 
-          $GITHUB_WORKSPACE/appimagetool -s deploy usr/share/applications/io.github.jmuelbert.jmbde.desktop
+          $GITHUB_WORKSPACE/appimagetool -s deploy ${{runner.workspace}}/build/usr/share/applications/io.github.jmuelbert.jmbde.desktop
 
           if [ -f "lib/x86_64-linux-gnu/libxcb-glx.so.0" ]; then
             rm lib/x86_64-linux-gnu/libxcb-glx.so.0
