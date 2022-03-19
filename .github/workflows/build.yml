@@ -46,19 +46,6 @@ jobs:
       matrix:
         config:
           - {
-              name: '🐧 Ubuntu 18.04',
-              os: ubuntu-18.04,
-              conan_home: '/home/runner/work/conan/release',
-              conan_home_short: '/home/runner/work/conan/release/short',
-              platform: ubuntu-latest,
-              qt_version: 6.2.2,
-              qt_target: desktop,
-              qt_arch: gcc_64,
-              arch: amd64,
-              artifact: Ubuntu-gcc,
-              cmake_generator: Ninja,
-            }
-          - {
               name: '🐧 Ubuntu 20.04',
               os: ubuntu-20.04,
               conan_home: '/home/runner/work/conan/release',
@@ -83,19 +70,6 @@ jobs:
               arch: x64,
               artifact: Windows-MSVC,
               pak_arch: win64,
-              cmake_generator: Ninja,
-            }
-          - {
-              name: '🍎 MacOS 10.15',
-              os: macos-10.15,
-              conan_home: '/Users/runner/work/conan/release',
-              conan_home_short: '/Users/runner/work/conan/release/short',
-              platform: macos-latest,
-              macos_target: 10.15,
-              qt_version: 6.2.2,
-              qt_target: desktop,
-              qt_arch: clang_64,
-              arch: clang_64,
               cmake_generator: Ninja,
             }
           - {
@@ -176,14 +150,14 @@ jobs:
         uses: lukka/get-cmake@latest
 
       - name: Cache compilation
-        if: startsWith(matrix.config.os,'macos') || startsWith(matrix.config.os, 'ubuntu'
+        if: startsWith(matrix.config.os,'macos') || startsWith(matrix.config.os, 'ubuntu')
         uses: actions/cache@v1
         with:
           path: ~/.ccache
           key: ccache
 
       - name: Setup ccache
-        if: startsWith(matrix.config.os,'macos') || startsWith(matrix.config.os, 'ubuntu'
+        if: startsWith(matrix.config.os,'macos') || startsWith(matrix.config.os, 'ubuntu')
         uses: alexjurkiewicz/setup-ccache@master
         with:
           max-size: 150M
