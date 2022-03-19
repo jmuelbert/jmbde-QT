@@ -167,20 +167,28 @@ jobs:
       - name: '🍎 ⚙️ Install dependencies for macos'
         if: startsWith(matrix.config.os,'macos')
         run: |
-          brew install ninja ccache
+          brew install ccache
 
       - name: '🧊 ⚙️ Install dependencies for windows'
         if: startsWith(matrix.config.os,'windows')
         run: |
           choco install png2ico
-          choco install ninja
+
+      - name: Set up Clang
+        uses: egor-tensin/setup-clang@v1
+        with:
+          version: latest
+          platform: x64
+
+      - name: Get latest CMake and ninja
+        # Using 'latest' branch, the most recent CMake and ninja are installed.
+        uses: lukka/get-cmake@latest
 
       - name: '🐧 ⚙️ Install dependencies for ubuntu'
         if: startsWith(matrix.config.os, 'ubuntu')
         run: |
           sudo apt-get -y -qq update
-          sudo apt-get -y --no-install-recommends install \
-            ninja-build ccache
+          sudo apt-get -y --no-install-recommends install ccache
 
       - name: '🐧 ⚙️ Install go-appimage tool for ubuntu'
         if: startsWith(matrix.config.os, 'ubuntu')
@@ -286,12 +294,7 @@ jobs:
         if: startsWith(matrix.config.os, 'ubuntu')
         working-directory: ${{runner.workspace}}/build
         shell: bash
-        env:
-          CC: ${{ matrix.config.cc }}
-          CXX: ${{ matrix.config.cxx}}
         run: |
-          APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
-          mkdir -p ${APPIMAGE_DST_PATH}
           cmake $GITHUB_WORKSPACE \
                -G ${{matrix.config.cmake_generator}} \
               -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE}} \
@@ -305,8 +308,8 @@ jobs:
         shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
         run: |
-           cmake --build . --target install 
-           # --parallel $(sysctl -n hw.logicalcpu)
+          cmake --build . --target install 
+          # --parallel $(sysctl -n hw.logicalcpu)
 
       - name: '🧊 🚧 Build and Install'
         if: startsWith(matrix.config.os,'windows')
@@ -407,7 +410,7 @@ jobs:
           cd $GITHUB_WORKSPACE
 
           $GITHUB_WORKSPACE/appimagetool -s deploy usr/share/applications/io.github.jmuelbert.jmbde.desktop
-        
+
 
           if [ -f "lib/x86_64-linux-gnu/libxcb-glx.so.0" ]; then
             rm lib/x86_64-linux-gnu/libxcb-glx.so.0
