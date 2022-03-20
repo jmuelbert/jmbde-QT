@@ -12,7 +12,7 @@ macro(run_conan)
       DOWNLOAD "https://github.com/conan-io/cmake-conan/raw/release/0.17/conan.cmake" "${CMAKE_BINARY_DIR}/conan.cmake"
       EXPECTED_HASH SHA256=3bef79da16c2e031dc429e1dac87a08b9226418b300ce004cc125a82687baeef
       TLS_VERIFY ON)
-    message(STATUS "Cmake-Conan downloaded succesfully.")
+    message(STATUS "Cmake-Conan downloaded successfully.")
   endif()
 
   include(${CMAKE_BINARY_DIR}/conan.cmake)
