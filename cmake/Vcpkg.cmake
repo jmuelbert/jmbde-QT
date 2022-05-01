@@ -6,7 +6,7 @@ if(ENABLE_VCPKG)
     message(STATUS "Downloading `vcpkg.cmake` from https://github.com/microsoft/vcpkg...")
     file(DOWNLOAD "https://github.com/microsoft/vcpkg/raw/master/scripts/buildsystems/vcpkg.cmake"
          "${CMAKE_BINARY_DIR}/vcpkg.cmake")
-    message(STATUS "Vcpkg config downloaded succesfully.")
+    message(STATUS "Vcpkg config downloaded successfully.")
   endif()
 
   if(${PROJECT_NAME}_VERBOSE_OUTPUT)
