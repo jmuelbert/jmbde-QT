@@ -42,8 +42,8 @@ env:
 
 jobs:
   tests:
-    name: Tests on ubuntu-latest
-    runs-on: '${{matrix.os}}'
+    name: 'Build and Tests on ubuntu-latest ${{ matrix.os }}'
+    runs-on: ${{ matrix.os }}
 
     strategy:
       fail-fast: false
