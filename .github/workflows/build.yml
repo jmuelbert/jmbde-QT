@@ -41,7 +41,7 @@ env:
   CLANG_TIDY_VERSION: '13.0.0'
 
 jobs:
-  Test:
+  tests:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
