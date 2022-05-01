@@ -41,7 +41,7 @@ class jmbdeConan(ConanFile):
     }
 
     default_options = {
-        "shared": True,
+        "shared": False,
         "build_docs": True,
         "build_translations": True
     }
