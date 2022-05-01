@@ -38,7 +38,7 @@ env:
   CONAN_SYSREQUIRES_MODE: enabled
   CONAN_USER_HOME: '${{ github.workspace }}/conan-cache'
   CONAN_USER_HOME_SHORT: '${{ github.workspace }}/conan-cache/short'
-  CLANG_TIDY_VERSION: "13.0.0"
+  CLANG_TIDY_VERSION: '13.0.0'
 
 jobs:
   tests:
@@ -64,7 +64,7 @@ jobs:
           - llvm-12.0.0
           - gcc-10
         generator:
-          - "Ninja Multi-Config"
+          - 'Ninja Multi-Config'
         build_type:
           - Release
           - Debug
@@ -85,7 +85,7 @@ jobs:
           - compiler: gcc-11
             gcov-executable: gcov
           - compiler: llvm-12.0.0
-            gcov-executable: "llvm-cov gcov"
+            gcov-executable: 'llvm-cov gcov'
 
           # Set up preferred package generators, for given build configurations
           - build_type: Release
@@ -94,25 +94,25 @@ jobs:
 
           - os: windows-2019
             compiler: msvc
-            generator: "Visual Studio 16 2019"
+            generator: 'Visual Studio 16 2019'
             build_type: Debug
             developer_mode: On
 
           - os: windows-2019
             compiler: msvc
-            generator: "Visual Studio 16 2019"
+            generator: 'Visual Studio 16 2019'
             build_type: Release
             developer_mode: On
 
           - os: windows-2019
             compiler: msvc
-            generator: "Visual Studio 16 2019"
+            generator: 'Visual Studio 16 2019'
             build_type: Debug
             developer_mode: OFF
 
           - os: windows-2019
             compiler: msvc
-            generator: "Visual Studio 16 2019"
+            generator: 'Visual Studio 16 2019'
             build_type: Release
             developer_mode: OFF
             package_generator: ZIP
@@ -151,12 +151,10 @@ jobs:
           ccache: true
           clangtidy: ${{ env.CLANG_TIDY_VERSION }}
 
-
           cppcheck: true
 
           gcovr: true
           opencppcoverage: true
-
 
       - name: '⚙️ Cleanup Conan system packages (they are not properly cached)'
         run: |
@@ -685,8 +683,6 @@ jobs:
         with:
           name: source-files
           path: jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
-
-
 
   releaseNotes:
     if: startsWith(github.ref, 'refs/tags/')
