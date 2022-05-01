@@ -8,6 +8,7 @@ on:
       - cmake/**
       - src/**
       - CMakeLists.txt
+      - conanfile.py
       - '.github/workflows/build.yml'
       - 'snap/**'
       - 'packaging/flatpak/*.yml'
