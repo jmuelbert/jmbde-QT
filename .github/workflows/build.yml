@@ -122,10 +122,7 @@ jobs:
             build_type: Release
             developer_mode: Off
             package_generator: ZIP
-            
-    name: 'Build and Tests on ubuntu-latest ${{ matrix.os }}'
-    runs-on: ${{ matrix.os }}
-    
+               
     steps:
       - name: '🧰 Check for llvm version mismatches'
         if: ${{ contains(matrix.compiler, 'llvm') && !contains(matrix.compiler, env.CLANG_TIDY_VERSION) }}
