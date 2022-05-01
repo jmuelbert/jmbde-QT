@@ -43,7 +43,7 @@ env:
 jobs:
   tests:
     name: Tests on ubuntu-latest
-    runs-on: ${{ matrix.os }}
+    runs-on: '${{matrix.os}}'
 
     strategy:
       fail-fast: false
@@ -62,7 +62,7 @@ jobs:
           - macos-11
         compiler:
           - llvm-12.0.0
-          - gcc-10]
+          - gcc-10
         generator:
           - "Ninja Multi-Config"
         build_type:
