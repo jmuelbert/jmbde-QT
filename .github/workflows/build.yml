@@ -38,7 +38,7 @@ env:
   CONAN_SYSREQUIRES_MODE: enabled
   CONAN_USER_HOME: '${{ github.workspace }}/conan-cache'
   CONAN_USER_HOME_SHORT: '${{ github.workspace }}/conan-cache/short'
-  CLANG_TIDY_VERSION: '13.0.0'
+  CLANG_TIDY_VERSION: '12.0.0'
 
 jobs:
   tests:
@@ -135,9 +135,9 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-
-      - name: '⚙️ Setup Cache'
-        uses: actions/cache@v3
+          
+      - name: Setup Cache
+        uses: ./.github/actions/setup_cache
         with:
           compiler: ${{ matrix.compiler }}
           build_type: ${{ matrix.build_type }}
