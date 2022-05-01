@@ -41,10 +41,8 @@ env:
   CLANG_TIDY_VERSION: '13.0.0'
 
 jobs:
-  tests:
-    name: 'Build and Tests on ubuntu-latest ${{ matrix.os }}'
+  Test:
     runs-on: ${{ matrix.os }}
-
     strategy:
       fail-fast: false
 
@@ -55,12 +53,13 @@ jobs:
       #
       # Disable/enable builds in this list to meet the above recommendations
       # and your own projects needs
-
       matrix:
         os:
-          - ubuntu-latest
-          - macos-11
+          - ubuntu-20.04
+          - macos-10.15
+          - windows-2019
         compiler:
+          # you can specify the version after `-` like "llvm-13.0.0".
           - llvm-12.0.0
           - gcc-10
         generator:
@@ -74,24 +73,31 @@ jobs:
 
         exclude:
           # mingw is determined by this author to be too buggy to support
-          - os: macos-11
+          - os: windows-2019
             compiler: gcc-10
-          - os: ubuntu-20.04
-            compiler: llvm-12.0.0
 
         include:
           # Add appropriate variables for gcov version required. This will intentionally break
           # if you try to use a compiler that does not have gcov set
-          - compiler: gcc-11
-            gcov-executable: gcov
+          - compiler: gcc-10
+            gcov_executable: gcov
           - compiler: llvm-12.0.0
-            gcov-executable: 'llvm-cov gcov'
+            gcov_executable: 'llvm-cov gcov'
 
           # Set up preferred package generators, for given build configurations
           - build_type: Release
             developer_mode: OFF
             package_generator: TBZ2
 
+          # This exists solely to make sure a non-multiconfig build works
+          - os: ubuntu-20.04
+            compiler: gcc-10
+            generator: 'Unix Makefiles'
+            build_type: Debug
+            gcov_executable: gcov
+            developer_mode: On
+
+          # Windows msvc builds
           - os: windows-2019
             compiler: msvc
             generator: 'Visual Studio 16 2019'
@@ -108,13 +114,13 @@ jobs:
             compiler: msvc
             generator: 'Visual Studio 16 2019'
             build_type: Debug
-            developer_mode: OFF
+            developer_mode: Off
 
           - os: windows-2019
             compiler: msvc
             generator: 'Visual Studio 16 2019'
             build_type: Release
-            developer_mode: OFF
+            developer_mode: Off
             package_generator: ZIP
 
     steps:
