@@ -10,7 +10,11 @@ list(APPEND TEST_CASES tst_models)
 foreach(TEST_CASE ${TEST_CASES})
   add_executable(${TEST_CASE} ${CMAKE_CURRENT_SOURCE_DIR}/src/${TEST_CASE}.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/${TEST_CASE}.h)
   target_link_libraries(${TEST_CASE} 
-    PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Test ${CONAN_LIBS}
+    PRIVATE
+        Qt${QT_VERSION_MAJOR}::Core
+        Qt${QT_VERSION_MAJOR}::Test
+        jmuelbert::jmbdemodels
+        ${CONAN_LIBS}
     )
   target_compile_options(${TEST_CASE} PRIVATE ${compiler_options})
   target_compile_definitions(${TEST_CASE} PRIVATE ${compiler_definitions} $<$<BOOL:${OPENSSL_FOUND}>:WITH_OPENSSL>)

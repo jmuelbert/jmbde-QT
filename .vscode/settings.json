@@ -14,5 +14,6 @@
     ]
   },
   "python.pythonPath": "/usr/local/Caskroom/miniconda/base/envs/develop/bin/python",
-  "esbonio.server.enabled": true
+  "esbonio.server.enabled": true,
+  "python.formatting.provider": "black"
 }

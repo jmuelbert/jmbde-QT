@@ -57,8 +57,8 @@ void ZipCityInputArea::setMappings()
 
 void ZipCityInputArea::setViewOnlyMode(bool mode)
 {
-    // ui->cityComboBox->setDisabled(mode);
-    // ui->zipCodeComboBox->setDisabled(mode);
+    ui->cityComboBox->setDisabled(mode);
+    ui->zipCodeComboBox->setDisabled(mode);
 }
 
 void ZipCityInputArea::createDataset()

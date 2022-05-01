@@ -1,16 +1,12 @@
-FROM gitpod/workspace-full-vnc
+FROM trainiteu/gitpod-cpp
 
-RUN sudo bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
-RUN sudo apt-get update && sudo apt-get install -y build-essential cmake valgrind doxygen graphviz ccache cppcheck \
-        libfltk1.3 libfltk1.3-dev fltk1.3-doc \
-        libgtkmm-3.0-dev \
-        qt5-default qtbase5-dev qt5-default qttools5-dev-tools qttools5-dev libqt5svg5-dev \
-        libqt5help5 libqt5svg5-dev qt5-image-formats-plugins qtdeclarative5-dev qtdeclarative5-dev-tools \
-        libsdl2-dev libsdl2-2.0-0 libjpeg-dev libwebp-dev libtiff5-dev libsdl2-image-dev libsdl2-image-2.0-0 libmikmod-dev libfishsound1-dev libsmpeg-dev liboggz2-dev libflac-dev libfluidsynth-dev libsdl2-mixer-dev libsdl2-mixer-2.0-0 libfreetype6-dev libsdl2-ttf-dev libsdl2-ttf-2.0-0
-RUN sudo pip install --system conan
+# Add clang-12 and clang-15 apt repositories
+RUN lsb_rel=`lsb_release -cs` \
+        && sudo add-apt-repository "deb http://apt.llvm.org/${lsb_rel}/ llvm-toolchain-${lsb_rel}-12 main" \
+        && sudo add-apt-repository "deb http://apt.llvm.org/${lsb_rel}/ llvm-toolchain-${lsb_rel} main"
 
-RUN echo 'export CC=clang' >> /home/gitpod/.bashrc
-#RUN echo 'export CC=gcc' >> /home/gitpod/.bashrc
-
-RUN echo 'export CCX=clang++' >> /home/gitpod/.bashrc
-#RUN echo 'export CCX=g++' >> /home/gitpod/.bashrc
+# Install older compilers supported by the project as well as clang-format-15 for code formatting
+RUN sudo install-packages \
+        g++-10 \
+        clang-12 \
+        clang-format-15

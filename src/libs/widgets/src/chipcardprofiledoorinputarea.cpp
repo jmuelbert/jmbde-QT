@@ -57,8 +57,8 @@ void ChipCardProfileDoorInputArea::setMappings()
 
 void ChipCardProfileDoorInputArea::setViewOnlyMode(bool mode)
 {
-    // ui->doorComboBox->setDisabled(mode);
-    // ui->profileComboBox->setDisabled(mode);
+    ui->doorComboBox->setDisabled(mode);
+    ui->profileComboBox->setDisabled(mode);
 }
 
 void ChipCardProfileDoorInputArea::createDataset()

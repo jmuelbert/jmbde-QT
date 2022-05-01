@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
         ui->treeView->setCurrentIndex(m_actualView);
         on_treeView_clicked(m_actualView);
     } else {
-        qDebug() << tr("Setze aktuelle Ansicht: Mitarbeiter - Tabelle");
+        qDebug() << tr("Set actual view: Employee - table");
         actualView = VIEW_EMPLOYEE;
 
         actualizeEmployeeListView();
@@ -73,13 +73,13 @@ void MainWindow::focusChanged(QWidget *from, QWidget *now)
     Q_UNUSED(from)
     Q_UNUSED(now)
 
-    qDebug() << tr("Der Fokus hat sich geändert");
+    qDebug() << tr("The focus is changed");
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     Q_UNUSED(event)
-    qDebug() << tr("Der Close Event");
+    qDebug() << tr("Close Event");
 }
 
 void MainWindow::on_actionPreferences_triggered()
@@ -1145,7 +1145,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         ui->scrollArea->setWidgetResizable(true);
         ui->scrollArea->setWidget(zipCodeInput);
     } else {
-        const QString caller = tr("onClickedTreeView(): Unbekannte Funktion");
+        const QString caller = tr("onClickedTreeView(): Unknown function");
         notAvailableMessage(caller);
     }
 }

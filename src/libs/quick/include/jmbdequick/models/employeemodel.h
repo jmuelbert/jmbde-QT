@@ -13,14 +13,24 @@
 class EmployeeModel : public QAbstractListModel
 {
     Q_OBJECT
-
+    Q_PROPERTY(int count READ count WRITE setCount NOTIFY countChanged)
 public:
     enum EmployeeRole { LastNameRole = Qt::DisplayRole, FirstNameRole = Qt::UserRole, StreetRole, ZipRole, CityRole };
     Q_ENUM(EmployeeRole)
 
     explicit JMBDEQUICK_EXPORT EmployeeModel(QObject *parent = nullptr);
 
-    JMBDEQUICK_EXPORT int rowCount(const QModelIndex & = QModelIndex()) const;
+    auto count() const -> int
+    {
+        return m_count;
+    }
+
+    JMBDEQUICK_EXPORT int rowCount(const QModelIndex &p) const
+    {
+        Q_UNUSED(p)
+        return static_cast<int>(m_employees.size());
+    }
+
     JMBDEQUICK_EXPORT QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
     JMBDEQUICK_EXPORT QHash<int, QByteArray> roleNames() const;
 
@@ -30,6 +40,12 @@ public:
     Q_INVOKABLE JMBDEQUICK_EXPORT void
     set(int row, const QString &firstName, const QString &lastName, const QString &street, const QString &zip, const QString &city);
     Q_INVOKABLE JMBDEQUICK_EXPORT void remove(int row);
+
+signals:
+    void countChanged(int count);
+
+public slots:
+    void setCount(int count);
 
 private:
     struct Employee {
@@ -41,4 +57,6 @@ private:
     };
 
     QList<Employee> m_employees;
+
+    int m_count;
 };

@@ -5,177 +5,190 @@
 #
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.10...3.21 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.16..3.23)
 
-if(${CMAKE_VERSION} VERSION_LESS 3.21)
-  cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
-else()
-  cmake_policy(VERSION 3.21)
-endif()
+include(FeatureSummary)
 
 # Set the project name to your project name, my project isn't very descriptive
 project(
   jmbdeqt
-  VERSION 0.6.0
-  LANGUAGES CXX)
+  VERSION 0.7.0
+  DESCRIPTION "A tool to collect company-data"
+  HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
+  LANGUAGES CXX C
+)
 
-# ---------------------------------------------------------------------------- # Import from the Project cmake directory
+# ---------------------------------------------------------------------------- # Import from the
+# Project cmake directory
 # ---------------------------------------------------------------------------- #
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/assets/")
 
-include(StandardProjectSettings)
-include(StaticAnalyzers)
-include(Utils)
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 
-if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE "Debug")
+set(projectPrefix JMBDEQT_)
+
+# Note: by default ENABLE_DEVELOPER_MODE is True
+# This means that all analysis (sanitizers, static analysis)
+# is enabled and all warnings are treated as errors
+# if you want to switch this behavior, change TRUE to FALSE
+set(ENABLE_DEVELOPER_MODE
+    TRUE
+    CACHE BOOL "Enable 'developer mode'")
+
+# Add project_options v0.20.0
+# https://github.com/cpp-best-practices/project_options
+include(FetchContent)
+FetchContent_Declare(_project_options URL https://github.com/aminya/project_options/archive/refs/tags/v0.20.0.zip)
+FetchContent_MakeAvailable(_project_options)
+include(${_project_options_SOURCE_DIR}/Index.cmake)
+
+# This variable is set by project() in CMake 3.21+
+string(
+  COMPARE EQUAL
+          "${CMAKE_SOURCE_DIR}"
+          "${PROJECT_SOURCE_DIR}"
+          PROJECT_IS_TOP_LEVEL)
+if(PROJECT_IS_TOP_LEVEL)
+  # Consider the CTest module, which creates targets and options!
+  # Only needed if you want to enable submissions to a CDash server.
+  include(CTest)
 endif()
-message(STATUS "Started CMake for ${PROJECT_NAME} v${PROJECT_VERSION}...\n")
 
-if(UNIX)
-  add_compile_options(
-    "$<$<CONFIG:DEBUG>:-D_DEBUG>") # this will allow to use same _DEBUG macro available in both Linux as well as Windows
-                                   # - MSCV environment. Easy to put Debug specific code.
-endif(UNIX)
+set(GIT_SHA
+    "Unknown"
+    CACHE STRING "SHA this build was generated from")
+string(
+  SUBSTRING "${GIT_SHA}"
+            0
+            8
+            GIT_SHORT_SHA)
 
-#
-# Setup alternative names
-#
-
-if(${PROJECT_NAME}_USE_ALT_NAMES)
-  string(TOLOWER ${PROJECT_NAME} PROJECT_NAME_LOWERCASE)
-  string(TOUPPER ${PROJECT_NAME} PROJECT_NAME_UPPERCASE)
-else()
-  set(PROJECT_NAME_LOWERCASE ${PROJECT_NAME})
-  set(PROJECT_NAME_UPPERCASE ${PROJECT_NAME})
-endif()
-
-include(ModernProjectStructure)
-
-#
-# Enable package managers
-#
-include(Conan)
-include(Vcpkg)
-
-# This is done as follows:
-#
-# set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-#
-# On Linux and Mac this variable is ignored. If any issues rise from it, try commenting it out and letting CMake decide
-# how to link with it.
-set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
-
-verbose_message("Successfully added all dependencies and linked against them.")
-
-include(ClangFormat)
-include(CompilerOptions)
-include(CPackConfig)
-include(PreventInSourceBuilds)
-
-# ---------------------------------------------------------------------------- # Define CMake Module Imports
-# ---------------------------------------------------------------------------- #
-include(GNUInstallDirs)
-include(CMakePackageConfigHelpers)
-include(InstallRequiredSystemLibraries)
-include(GenerateExportHeader)
-include(FeatureSummary)
-
-# Link this 'library' to set the c++ standard / compile-time options requested
-add_library(project_options INTERFACE)
-
-# Link this 'library' to use the warnings specified in CompilerWarnings.cmake
-add_library(project_warnings INTERFACE)
-
-option(${PROJECT_NAME}_CODE_COVERAGE "Enable coverage reporting" OFF)
-
-# Interface library to propagate code coverage flags if enabled
-add_library(coverage_config INTERFACE)
-if(${PROJECT_NAME}_CODE_COVERAGE)
-
-  message(STATUS "CMAKE_CXX_CLANG_TIDY=${CMAKE_CXX_CLANG_TIDY}")
-  set(CMAKE_CXX_CLANG_TIDY="")
-  if(CMAKE_CXX_CLANG_TIDY)
-    message(
-      FATAL_ERROR
-        "Static analysis and code coverage cannot both be \
-                    turned on in the same build configuration. Create a\
-                    separate build directory for code coverage with \
-                    static analysis disabled.")
+get_property(BUILDING_MULTI_CONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+if(BUILDING_MULTI_CONFIG)
+  if(NOT CMAKE_BUILD_TYPE)
+    # Make sure that all supported configuration types have their
+    # associated conan packages available. You can reduce this
+    # list to only the configuration types you use, but only if one
+    # is not forced-set on the command line for VS
+    message(TRACE "Setting up multi-config build types")
+    set(CMAKE_CONFIGURATION_TYPES
+        Debug
+        Release
+        RelWithDebInfo
+        MinSizeRel
+        CACHE STRING "Enabled build types" FORCE)
   else()
-    if(${PROJECT_NAME}_CODE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-      target_compile_options(coverage_config INTERFACE -O0 -g --coverage)
-      if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.13)
-        target_link_options(coverage_config INTERFACE --coverage)
-      else()
-        target_link_libraries(coverage_config INTERFACE --coverage)
-      endif()
-    endif()
+    message(TRACE "User chose a specific build type, so we are using that")
+    set(CMAKE_CONFIGURATION_TYPES
+        ${CMAKE_BUILD_TYPE}
+        CACHE STRING "Enabled build types" FORCE)
   endif()
-
-endif()
-# link_libraries(coverage_config)
-
-# enable cache system
-include(Cache)
-
-# standard compiler warnings
-include(CompilerWarnings)
-set_project_warnings(project_warnings)
-
-# sanitizer options if supported by compiler
-include(Sanitizers)
-enable_sanitizers(project_options)
-
-# enable doxygen
-include(Doxygen)
-enable_doxygen()
-
-# allow for static analysis options
-include(StaticAnalyzers)
-
-option(${PROJECT_NAME}_BUILD_TRANSLATIONS "Build all translations for the project" ON)
-option(${PROJECT_NAME}_BUILD_SHARED_LIBS "Enable compilation of shared libraries" ON)
-option(${PROJECT_NAME}_ENABLE_TESTING "Enable Test Builds" ON)
-option(${PROJECT_NAME}_ENABLE_FUZZING "Enable Fuzzing Builds" OFF)
-
-# Very basic PCH example
-option(${PROJECT_NAME}_ENABLE_PCH "Enable Precompiled Headers" OFF)
-if(${PROJECT_NAME}_ENABLE_PCH)
-  # This sets a global PCH parameter, each project will build its own PCH, which is a good idea if any #define's change
-  #
-  # consider breaking this out per project as necessary
-  target_precompile_headers(
-    project_options
-    INTERFACE
-    <vector>
-    <string>
-    <map>
-    <utility>)
 endif()
 
-if(${PROJECT_NAME}_ENABLE_TESTING)
+include(${_project_options_SOURCE_DIR}/src/DynamicProjectOptions.cmake)
+
+# defaulted_project_options sets recommended defaults and provides user and developer
+# modes and full GUI support for choosing options at configure time
+
+# for more flexibility, look into project_options() macro
+
+# Any default can be overridden
+# set(<feature_name>_DEFAULT <value>) - set default for both user and developer modes
+# set(<feature_name>_DEVELOPER_DEFAULT <value>) - set default for developer mode
+# set(<feature_name>_USER_DEFAULT <value>) - set default for user mode
+
+# Initialize project_options variable related to this project
+# This overwrites `project_options` and sets `project_warnings`
+# uncomment the options to enable them:
+dynamic_project_options(
+  # Note: PCH is disabled by default in developer mode because these headers become
+  # globally included and they can mask other errors
+  PCH_HEADERS
+  <vector>
+  <string> # This is a list of headers to pre-compile, here are some common ones
+  ENABLE_CONAN
+  # CONAN_OPTIONS    # Extra options to pass to conan
+  # MSVC_WARNINGS    # Override the defaults for the MSVC warnings
+  # CLANG_WARNINGS   # Override the defaults for the CLANG warnings
+  # GCC_WARNINGS     # Override the defaults for the GCC warnings
+  CPPCHECK_OPTIONS
+  --enable=style,performance,warning,portability
+  --inline-suppr
+  # We cannot act on a bug/missing feature of cppcheck
+  --suppress=cppcheckError
+  --suppress=internalAstError
+  # if a file does not have an internalAstError, we get an unmatchedSuppression error
+  --suppress=unmatchedSuppression
+  --suppress=passedByValue
+  --suppress=syntaxError
+  --inconclusive
+)
+
+
+target_compile_features(project_options INTERFACE cxx_std_${CMAKE_CXX_STANDARD})
+# TODO: The INTERFACE library NAMESPACE ALIAS are missing! CK
+add_library(myproject::project_options INTERFACE IMPORTED)
+add_library(myproject::project_warnings INTERFACE IMPORTED)
+
+# configure files based on CMake configuration options
+add_subdirectory(configured_files)
+
+
+option(BUILD_TRANSLATIONS "Build all translations for the project" ON)
+option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" ON)
+option(ENABLE_CLANG_TIDY "Enable CLANG_TIDY tests" ON)
+option(ENABLE_IWYU "Enables include-what-you-use" OFF)
+option(ENABLE_TESTING "Enable Test Builds" ON)
+option(ENABLE_FUZZING "Enable Fuzzing Builds" OFF)
+
+# add project code
+add_subdirectory(src)
+
+# Adding the tests:
+option(ENABLE_TESTING "Enable the tests" ${PROJECT_IS_TOP_LEVEL})
+if(ENABLE_TESTING)
   enable_testing()
-  message("Building Tests. Be sure to check out test/constexpr_tests for constexpr testing")
-  # add_subdirectory(test)
+  message(AUTHOR_WARNING "Building Tests. Be sure to check out test/constexpr_tests.cpp for constexpr testing")
+  add_subdirectory(test)
 endif()
 
-if(${PROJECT_NAME}_ENABLE_FUZZING)
-  message("Building Fuzz Tests, using fuzzing sanitizer https://www.llvm.org/docs/LibFuzzer.html")
+option(ENABLE_FUZZING "Enable the fuzz tests" OFF)
+if(ENABLE_FUZZING)
+  message(AUTHOR_WARNING "Building Fuzz Tests, using fuzzing sanitizer https://www.llvm.org/docs/LibFuzzer.html")
   add_subdirectory(fuzz_test)
 endif()
 
-add_subdirectory(src)
-
-option(${PROJECT_NAME}_ENABLE_UNITY "Enable Unity builds of projects" OFF)
-if(${PROJECT_NAME}_ENABLE_UNITY)
-  # Add for any project you want to apply unity builds for
-  set_target_properties(intro PROPERTIES UNITY_BUILD ON)
+# If MSVC is being used, and ASAN is enabled, we need to set the debugger environment
+# so that it behaves well with MSVC's debugger, and we can run the target from visual studio
+if(MSVC)
+  get_all_installable_targets(all_targets)
+  message("all_targets=${all_targets}")
+  set_target_properties(${all_targets} PROPERTIES VS_DEBUGGER_ENVIRONMENT "PATH=$(VC_ExecutablePath_x64);%PATH%")
 endif()
 
-option(${PROJECT_NAME}_ENABLE_COVERAGE "Generate coverage reports" FALSE)
-include(Coverage)
-generate_coverage(jmbde_tests)
+# set the startup project for the "play" button in MSVC
+set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT intro)
+
+if(CMAKE_SKIP_INSTALL_RULES)
+  return()
+elseif(NOT PROJECT_IS_TOP_LEVEL)
+  return()
+endif()
+
+# Add other targets that you want installed here, be default we just package the one executable
+# we know we want to ship
+package_project(TARGETS jmbde project_options project_warnings
+  # FIXME: this does not work! CK
+  # PRIVATE_DEPENDENCIES_CONFIGURED project_options project_warnings
+)
+
+# Experience shows that explicit package naming can help make it easier to sort
+# out potential ABI related issues before they start, while helping you
+# track a build to a specific GIT SHA
+set(CPACK_PACKAGE_FILE_NAME
+    "${CMAKE_PROJECT_NAME}-${CMAKE_PROJECT_VERSION}-${GIT_SHORT_SHA}-${CMAKE_SYSTEM_NAME}-${CMAKE_BUILD_TYPE}-${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}"
+)
+
+include(CPack)
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)

@@ -3,7 +3,7 @@ name: Build
 
 on:
   push:
-    branches: [master, improve_build-workflow]
+    branches: [master, develop, improve_build-workflow]
     paths:
       - cmake/**
       - src/**
@@ -38,8 +38,165 @@ env:
   CONAN_SYSREQUIRES_MODE: enabled
   CONAN_USER_HOME: '${{ github.workspace }}/conan-cache'
   CONAN_USER_HOME_SHORT: '${{ github.workspace }}/conan-cache/short'
+  CLANG_TIDY_VERSION: "13.0.0"
 
 jobs:
+  tests:
+    name: Tests on ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+
+      # Recommendations:
+      #   * support at least 2 operating systems
+      #   * support at least 2 compilers
+      #   * make sure all supported configurations for your project are built
+      #
+      # Disable/enable builds in this list to meet the above recommendations
+      # and your own projects needs
+
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-11
+        compiler:
+          - llvm-12.0.0
+          - gcc-10]
+        generator:
+          - "Ninja Multi-Config"
+        build_type:
+          - Release
+          - Debug
+        developer_mode:
+          - ON
+          - OFF
+
+        exclude:
+          # mingw is determined by this author to be too buggy to support
+          - os: macos-11
+            compiler: gcc-10
+          - os: ubuntu-20.04
+            compiler: llvm-12.0.0
+
+        include:
+          # Add appropriate variables for gcov version required. This will intentionally break
+          # if you try to use a compiler that does not have gcov set
+          - compiler: gcc-11
+            gcov-executable: gcov
+          - compiler: llvm-12.0.0
+            gcov-executable: "llvm-cov gcov"
+
+          # Set up preferred package generators, for given build configurations
+          - build_type: Release
+            developer_mode: OFF
+            package_generator: TBZ2
+
+          - os: windows-2019
+            compiler: msvc
+            generator: "Visual Studio 16 2019"
+            build_type: Debug
+            developer_mode: On
+
+          - os: windows-2019
+            compiler: msvc
+            generator: "Visual Studio 16 2019"
+            build_type: Release
+            developer_mode: On
+
+          - os: windows-2019
+            compiler: msvc
+            generator: "Visual Studio 16 2019"
+            build_type: Debug
+            developer_mode: OFF
+
+          - os: windows-2019
+            compiler: msvc
+            generator: "Visual Studio 16 2019"
+            build_type: Release
+            developer_mode: OFF
+            package_generator: ZIP
+
+    steps:
+      - name: '🧰 Check for llvm version mismatches'
+      if: ${{ contains(matrix.compiler, 'llvm') && !contains(matrix.compiler, env.CLANG_TIDY_VERSION) }}
+        uses: actions/github-script@v3
+        with:
+          script: |
+            core.setFailed('There is a mismatch between configured llvm compiler and clang-tidy version chosen')
+
+      - name: '🧰 Checkout Source Code'
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: '⚙️ Setup Cache'
+        uses: actions/cache@v3
+        with:
+          compiler: ${{ matrix.compiler }}
+          build_type: ${{ matrix.build_type }}
+          developer_mode: ${{ matrix.developer_mode }}
+          generator: ${{ matrix.generator }}
+
+      - name: '⚙️ Setup Cpp'
+        uses: aminya/setup-cpp@v1
+        with:
+          compiler: ${{ matrix.compiler }}
+          vcvarsall: ${{ contains(matrix.os, 'windows' )}}
+
+          cmake: true
+          ninja: true
+          conan: true
+          vcpkg: false
+          ccache: true
+          clangtidy: ${{ env.CLANG_TIDY_VERSION }}
+
+
+          cppcheck: true
+
+          gcovr: true
+          opencppcoverage: true
+
+
+      - name: '⚙️ Cleanup Conan system packages (they are not properly cached)'
+        run: |
+          conan remove -f '*/system'
+
+        # make sure coverage is only enabled for Debug builds, since it sets -O0 to make sure coverage
+        # has meaningful results
+      - name: Configure CMake
+        run: |
+          cmake -S . -B ./build -G "${{matrix.generator}}" -DCMAKE_BUILD_TYPE:STRING=${{matrix.build_type}} -DENABLE_DEVELOPER_MODE:BOOL=${{matrix.developer_mode}} -DOPT_ENABLE_COVERAGE:BOOL=${{ matrix.build_type == 'Debug' && matrix.developer_mode == 'OFF' }} -DGIT_SHA:STRING=${{ github.sha }}
+      - name: Build
+        # Execute the build.  You can specify a specific target with "--target <NAME>"
+        run: |
+          cmake --build ./build --config ${{matrix.build_type}}
+      - name: Unix - Test and coverage
+        if: runner.os != 'Windows'
+        working-directory: ./build
+        # Execute tests defined by the CMake configuration.
+        # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+        run: |
+          ctest -C ${{matrix.build_type}}
+          gcovr -j ${{env.nproc}} --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable '${{ matrix.gcov_executable }}'
+      - name: Windows - Test and coverage
+        if: runner.os == 'Windows'
+        working-directory: ./build
+        run: |
+          OpenCppCoverage.exe --export_type cobertura:coverage.xml --cover_children -- ctest -C ${{matrix.build_type}}
+
+      - name: CPack
+        if: matrix.package_generator != ''
+        working-directory: ./build
+        run: |
+          cpack -C ${{matrix.build_type}} -G ${{matrix.package_generator}}
+      - name: Publish Tagged Release
+        uses: softprops/action-gh-release@v1
+        if: ${{ startsWith(github.ref, 'refs/tags/') && matrix.package_generator != '' }}
+        with:
+          files: |
+            build/*-*${{ matrix.build_type }}*-*.*
+
   build:
     strategy:
       fail-fast: false
@@ -119,6 +276,17 @@ jobs:
         id: get_version
         shell: bash
         run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+
+      - name: '⚙️ CMake Files'
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-cmake-files
+        with:
+          path: ~/.ccache
+          key: ${{ matrix.os }}-cmake-build-${{ hashFiles('CMakeLists.txt', '**/CMakeLists.txt', '**/*.cmake') }}
+          restore-keys: |
+            ${{ matrix.os }}-cmake-build
+            ${{ matrix.os }}
 
       # Check if GitHub Cache has it, because that's free
       - name: '⚙️ Using the builtin GitHub Cache Action for .conan'
@@ -518,163 +686,7 @@ jobs:
           name: source-files
           path: jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
 
-  tests:
-    name: Tests on ubuntu-latest
-    runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      # Path to the CMake build directory.
-      build: '${{ github.workspace }}/build'
-      CONAN_SYSREQUIRES_MODE: 'enabled'
-      SONAR_SCANNER_VERSION: 4.6.2.2472
-      SONAR_SERVER_URL: 'https://sonarcloud.io'
-      BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory # Directory where build-wrapper output will be placed
 
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        platform: [ubuntu-latest]
-        name: [Ubuntu-20.04 gcc-10]
-        qt_version: [6.2.2]
-        qt_target: [desktop]
-        qt_arch: [gcc_64]
-        arch: [amd64]
-        artifact: [Ubuntu-gcc]
-        cmake_generator: [Ninja]
-        build_type: [Debug]
-        coverage: [OFF]
-        display: [':99']
-      fail-fast: true
-
-    steps:
-      - name: '🧰 Checkout Source Code'
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: '⚙️ Install dependencies'
-        run: |
-          sudo apt-get -y -qq update
-          sudo apt-get -y --no-install-recommends install \
-                  lcov ccache libtbb-dev tree ninja-build
-
-      - name: Install gcovr
-        run: pip3 install gcovr
-
-      - name: '⚙️ Set up JDK 11'
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'temurin'
-          java-version: '11'
-
-      - name: '⚙️ Cache Conan packages'
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-conan-modules
-        with:
-          path: |
-            ${{ env.CONAN_USER_HOME }}
-            ~/.cache/pip
-          key: ${{ runner.os }}-${{ matrix.BUILD_TYPE }}-${{ hashFiles('CMakeLists.txt') }}-${{ hashFiles('cmake/Conan.cmake') }}
-
-      - name: '⚙️ Cache SonarCloud packages'
-        uses: actions/cache@v2
-        with:
-          path: ~\sonar\cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-
-      - name: Cache SonarCloud scanner
-        id: cache-sonar-scanner
-        uses: actions/cache@v2
-        with:
-          path: .\.sonar\scanner
-          key: ${{ runner.os }}-sonar-scanner
-          restore-keys: ${{ runner.os }}-sonar-scanner
-
-      - name: Download and set up sonar-scanner
-        env:
-          SONAR_SCANNER_DOWNLOAD_URL: https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${{ env.SONAR_SCANNER_VERSION }}-linux.zip
-        run: |
-          mkdir -p $HOME/.sonar
-          curl -sSLo $HOME/.sonar/sonar-scanner.zip ${{ env.SONAR_SCANNER_DOWNLOAD_URL }}
-          unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
-          echo "$HOME/.sonar/sonar-scanner-${{ env.SONAR_SCANNER_VERSION }}-linux/bin" >> $GITHUB_PATH
-
-      - name: Download and set up build-wrapper
-        env:
-          BUILD_WRAPPER_DOWNLOAD_URL: ${{ env.SONAR_SERVER_URL }}/static/cpp/build-wrapper-linux-x86.zip
-        run: |
-          curl -sSLo $HOME/.sonar/build-wrapper-linux-x86.zip ${{ env.BUILD_WRAPPER_DOWNLOAD_URL }}
-          unzip -o $HOME/.sonar/build-wrapper-linux-x86.zip -d $HOME/.sonar/
-          echo "$HOME/.sonar/build-wrapper-linux-x86" >> $GITHUB_PATH
-
-      - name: '⚙️ Cache Qt'
-        id: cache-qt
-        uses: actions/cache@v1 # not v2!
-        with:
-          path: '${{ github.workspace }}/Qt'
-          key: QtCache-${{ matrix.platform }}-${{ matrix.qt_arch }}-${{ matrix.qt_version }}
-
-      - name: '⚙️ Install Qt'
-        uses: jurplel/install-qt-action@v2
-        with:
-          version: ${{ matrix.qt_version }}
-          target: ${{ matrix.qt_target }}
-          arch: ${{ matrix.qt_arch }}
-          # modules: 'qtscript'
-          cached: ${{ steps.cache-qt.outputs.cache-hit }}
-
-      - name: '⚙️ Get conan'
-        uses: turtlebrowser/get-conan@main
-
-      - name: Xvfb run for ${{ runner.os }}
-        run: |
-          Xvfb -ac ${{ matrix.display }} -screen 0 1280x780x24 &
-
-      - name: Check Tool Versions
-        run: |
-          conan    --version
-          cmake    --version
-          c++      --version
-
-      - name: Configure Conan
-        run: |
-          conan profile update settings.compiler.libcxx=libstdc++11 default
-
-      - name: CMake Configure
-        run: cmake --preset=default
-
-      - name: CMake Build
-        run: build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build --preset=default
-
-      - name: CTest
-        run: ctest --preset=default
-        continue-on-error: true
-
-      - name: Allow failures
-        run: true # https://github.com/actions/toolkit/issues/399#issuecomment-1058231820
-
-      - name: Run sonar-scanner
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          sonar-scanner --define sonar.host.url="${{ env.SONAR_SERVER_URL }}" --define sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}"
-
-      - name: View Source Tree
-        run: tree
-
-      - name: CodeCoverage
-        if: ${{ matrix.coverage == 'ON' && matrix.build_type == 'Debug' && matrix.cxx != 'clang-10++'}}
-        # working-directory: ${{runner.workspace}}/build
-        shell: bash
-        run: |
-          ls -la $GITHUB_WORKSPACE
-          lcov -d $GITHUB_WORKSPACE -c -o $GITHUB_WORKSPACE/coverage.info
-          lcov -r $GITHUB_WORKSPACE/coverage.info "*Qt*.framework*" "*Xcode.app*" "*.moc" "*moc_*.cpp" "*/test/*" "*Qt*" "*v1*" -o $GITHUB_WORKSPACE/coverage.info 
-          lcov --list $GITHUB_WORKSPACE/coverage.info
-          bash <(curl -s https://codecov.io/bash) -f $GITHUB_WORKSPACE/coverage.info || echo "Codecov did not collect coverage reports"
 
   releaseNotes:
     if: startsWith(github.ref, 'refs/tags/')

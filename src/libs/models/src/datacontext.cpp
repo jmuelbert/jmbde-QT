@@ -231,8 +231,8 @@ auto Model::DataContext::insert(const QString &tableName, const QVariantMap &ins
     QStringList strValues;
     QStringList fields = insertData.keys();
     QVariantList values = insertData.values();
-    int totalFields = fields.size();
-    for (int i = 0; i < totalFields; ++i) {
+    qsizetype totalFields = fields.size();
+    for (qsizetype i = 0; i < totalFields; ++i) {
         strValues.append(QLatin1String("?"));
     }
 

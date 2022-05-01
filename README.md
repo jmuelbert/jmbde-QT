@@ -1,218 +1,88 @@
-<!--
-SPDX-FileCopyrightText: 2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
-
-SPDX-License-Identifier: CC-BY-4.0
--->
-
 # jmbde
 
-jmbde ist ein Programm für das Management von Ressourcen in Unternehmen. Mit diesem
-Programm können die Mitarbeiter und die Ausrüstung, die sie für ihre Arbeit benötigen
-erfasst werden. Das sind unter anderem Computer, Drucker und Telefone.
+jmbde is a program for the management of resources in companies. With the staff and the
+equipment they need for their work can be used in this program. need to be recorded.
+These are computers, printers and telephones.
 
 ---
 [![Build](https://github.com/jmuelbert/jmbde-QT/actions/workflows/build.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/build.yml)
 [![CodeQL](https://github.com/jmuelbert/jmbde-QT/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/codeql-analysis.yml)
 [![Codacy Security Scan](https://github.com/jmuelbert/jmbde-QT/actions/workflows/codacy-analysis.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/codacy-analysis.yml)
 [![DevSkim](https://github.com/jmuelbert/jmbde-QT/actions/workflows/devskim-analysis.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/devskim-analysis.yml)
+[![codecov](https://codecov.io/gh/jmuelbert/jmbde-QT/branch/main/graph/badge.svg)](https://codecov.io/gh/jmuelbert/jmbde-QT)
 [![Release](https://img.shields.io/github/release/jmuelbert/jmbde-QT.svg?style=flat-square)](https://github.com/jmuelbert/jmbde-QT/releases)
 [![GitHub All Releases](https://img.shields.io/github/downloads/jmuelbert/jmbde-QT/total?label=downloads%40all)](https://github.com/jmuelbert/jmbde-QT/releases)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
+[![License](https://img.shields.io/github/license/jmuelbert/jmbde-QT)](https://github.com//jmuelbert/jmbde-QT/blob/release/
+![Lines of Code](https://img.shields.io/tokei/lines/github/jmuelbert/jmbde-QT)
+![Repo Size](https://img.shields.io/github/repo-size/jmuelbert/jmbde-QT)
 [![License](https://img.shields.io/github/license/jmuelbert/jmbde-QT)](https://github.com//jmuelbert/jmbde-QT/blob/release/LICENSE)
-[![jmbde-QT.github.io][docs-badge]][docs]
 
+## Contents
 
-[Features](https://github.com/jmuelbert/jmbde-QT) |
-[Documentation](https://jmuelbert.github.io/jmbde-QT/) | [Changelog](CHANGELOG.md) |
-[Contributing](CONTRIBUTING_de-DE.md) |
-[FAQ](https://github.com/jmuelbert/jmbde-QT/wiki/FAQ) | [english](README_en.md)
+- [jmbde](#jmbde)
+  - [Contents](#contents)
+  - [Contents](#contents-1)
+  - [Quickstart](#quickstart)
+  - [Prerequistes](#prerequistes)
+  - [Installation](#installation)
+  - [About jmbde](#about-jmbde)
+  - [Documentation](#documentation)
+  - [License](#license)
+  - [References](#references)
+  - [License](#license-1)
 
-jmbde verwendet das plattformübergreifende Framework
-[Qt](http://www.qt.io/download-open-source/), was bedeutet, dass es mit den meisten
-Betriebssystemen funktioniert.
+## Quickstart
 
-## Setup
-
-Das Programm verwendet die [QT-Bibliothek](https://www.qt.io). Daher kann es auf fast
-jeder Plattform verwendet werden . Es läuft unter MacOS, Linux und Windows.
-Grundsätzlich sollte ein Installer für die Installation des Programms auf einem Computer
-verwendet werden. Dieses Installationsprogramm wird auf die benötigten QT-Bibliotheken
-mit installieren. Für die Nutzung des Programms bei Windows als Betriebssystem ist dies
-zwingend notwendig. Bei Linux und macOS kann auf eine andere Variante verwendet werden.
-Bei diesen beiden Betriebssystemen kann QT zentral installiert werden. Bei diesen beiden
-Betriebssystemen werden dann nur noch die eigentlichen Programmdateien installiert. Aber
-auch hier gibt es komplette Installationspakete mit allem, auch QT.
-
-## Unterstützte Plattformen
-
-Die ausführbaren Programme und Installer werden für die folgenden Plattformen zur
-Verfügung gestellt:
-
-- macOS ab der Version 10.10
-- Windows ab der Version 7
-- Linux
-
-## Ausführen
-
-Im Folgenden finden Sie einige hilfreiche Hinweise, wie Sie jmbde auf Ihrer nativen
-Plattform ausführen können.
-
-### Unix
-
-Entpacken Sie die Dateien in ein Verzeichnis und führen Sie sie aus:
-
-```bash
-    bin/jmbde
+```sh
+pip install conan
+git clone --depth 1 https://github.com/strangeQuark1041/samarium.git
+conan create samarium -b missing
 ```
 
-### Windows
+## Prerequistes
 
-Entpacken Sie die Dateien in ein Verzeichnis und führen Sie dann jmbde.exe aus.
+| Dependency | URL | Documentation |
+| ---        | --- | --- |
+| python     | <https://www.python.org/downloads/> | <https://www.python.org/doc/> |
+| QT         | <https://www.qt.io>              | <https://www.qt.io> |
+| git        | <https://git-scm.com/downloads/> | <https://git-scm.com/docs/> |
+| cmake      | <https://cmake.org/download/> | <https://cmake.org/cmake/help/latest/> |
+| conan      | <https://conan.io/downloads.html/> | <https://docs.conan.io/en/latest/> |
 
-## macOS
-
-Ziehen Sie jmbde in Ihren Anwendungsordner und führen Sie jmbde aus.
-
-## Anforderungen und Fehlerberichte
-
-- [GitHub issues (preferred)](https://github.com/jmuelbert/jmbde-QT/issues)
-
-## Fragen und Kommentare
-
-## Wiki
-
-- [Main Page](https://github.com/jmuelbert/jmbde-QT/wiki)
-- [User Manual](http://jmuelbert.github.io/jmbde-QT/)
-
-## Datenbank Schema
-
-- [Datenbank Quellcode SQL](docs/database-design.md)
-
-## Code-Quellen
-
-In dem master branch befindet sich der aktuellste Pre-Release Code.
-
-- [Releases](https://github.com/jmuelbert/jmbde-QT/releases)
-
-- [Milestones](https://github.com/jmuelbert/jmbde-QT/milestones)
-
-## Programm erstellen
-
-Im Folgenden finden Sie Hinweise für Entwickler, wie Sie jmbde auf Ihrem nativen System
-aufbauen können. Sie sind keine vollständigen Leitfäden, sondern enthalten Hinweise zu
-den notwendigen Maßnahmen. Bibliotheken, Kompilierungs-Flags, etc.
-
-### Abhängigkeiten
-
-- Das Programm benötigt qt5 ab der Version 5.15.1 oder qt6
-- cmake ab der Version 3.13.3
-- ninja
-- c++ Entwicklungssystem
-
-#### Auf macOS
-
-- Die neueste Xcode Version.
-- Brew [Installationsanleitung](https://brew.sh)
-
-```bash
-  brew install cmake
-  brew install ninja
-  brew install qt5
-  brew link qt5 --force
-```
-
-- Alternativ können Sie auch
-    [Qt hier herunterladen](https://www.qt.io/download-qt-installer)
-
-Führen Sie `cmake` aus, um jmbde zu erstellen:
-
-#### Für die Release-Version
-
-```bash
-        mkdir build
-        cd build
-        cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Release ..
-        cmake --build . --target install
-        cpack .
-```
-
-#### Für die Debug-Version
-
-```bash
-        mkdir build
-        cd build
-        cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Debug ..
-        cmake --build .
-```
-
-### Unter Windows
-
-- Visual Studio 2017 oder höher
-- Sie können [Qt hier herunterladen](https://www.qt.io/download-qt-installer)
-- Sie können viele Werkzeuge mit choco installieren.
-    [Installationsanleitung](https://chocolatey.org/install#installing-chocolatey)
-
-```cmd
-  choco install cmake
-  choco install ninja
-```
-
-#### Für die Release-Version
-
-```cmd
-        mkdir build
-        cd build
-        cmake -G "Ninja" -DCMAKE_BUILD_TYPE=RelWithDebInfo ....
-        cmake -C RelWithDebInfo --build . --target install
-```
-
-#### Für die Debug-Version
-
-```cmd
-        mkdir build
-        cd build
-        cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Debug ..
-        cmake -C Debug --build .
-        ctest -C Debug -VV
-```
-
-### Unter Linux
-
-- Auf Ubuntu/Debian:
-    `sudo apt install qt5-default qttools5-dev-tools zlib1g-dev qtdeclarative5-dev cmake ninja`.
-- Auf Fedora: `sudo dnf builddep jmbde-QT cmake ninja`
-- Auf Arch Linux: `pacman -S qt cmake ninja`
-
-Die installierten Toolchains müssen mit derjenigen übereinstimmen, mit der Qt kompiliert
-wurde.
-
-- Als nächstes kompilieren Sie durch Ausführen:
-
-#### Für die Release-Version
-
-```bash
-        mkdir build
-        cd build
-        cmake -G "Ninja" -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
-        cmake --build . --target install
-```
-
-#### Für die Debug-Version
-
-```bash
-        mkdir build
-        cd build
-        cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Debug ..
-        cmake --build .
-        ctest -VV
-
-```
-
-Sie können nun `jmbde` mit dem Befehl `bin/jmbde` aus der Kommandozeile starten.
+A compiler supporting C++17 is required, namely GCC-11, Clang-13, or Visual C++ 2019
 
 ## Installation
 
-## Lizenz
+To install the library locally:
+
+```sh
+git clone --depth 1 https://github.com/jmuelbert/jmbde-QT.git
+conan create jmbde-QT -b missing
+```
+## About jmbde
+
+jmbde uses the cross platform framework [Qt](http://www.qt.io/download-open-source/),
+which means that it works with most operating systems.
+
+## Documentation
+
+Documentation is located at [Github Pages](https://strangequark1041.github.io/samarium_docs/)
+
+For development, see [BUILDING.md](BUILDING.md)
+
+## License
+
+Samarium is distributed under the permissive [MIT License](LICENSE.md).
+
+## References
+
+These sources were of invaluable help during development:
+
+1. C++ Standard: <https://en.cppreference.com/>
+2. Custom iterators: <https://internalpointers.com/post/writing-custom-iterators-modern-cpp>
+
+## License
 
 This program is free software: you can redistribute it and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation, either
@@ -225,12 +95,6 @@ PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with this
 program. If not, see <https://www.gnu.org/licenses/gpl-3.0.txt>.
 
-Qt ist unter mehreren [Lizenzen](https://www.qt.io/licensing/) verfügbar.
+Qt is available under several [licenses](https://www.qt.io/licensing/).
 
 GPL V3 © [Jürgen Mülbert](https:/github.com/jmuelbert/jmbde-QT)
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-
-[docs-badge]: https://img.shields.io/badge/Docs-github.io-blue
-[docs]: https://jmuelbert.github.io/jmbde-QT/

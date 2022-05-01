@@ -59,8 +59,8 @@ void EmployeeAccountInputArea::setMappings()
 
 void EmployeeAccountInputArea::setViewOnlyMode(bool mode)
 {
-    // ui->employeeComboBox->setDisabled(mode);
-    // ui->accountComboBox->setDisabled(mode);
+    ui->employeeComboBox->setDisabled(mode);
+    ui->accountComboBox->setDisabled(mode);
 }
 
 void EmployeeAccountInputArea::createDataset()

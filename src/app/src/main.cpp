@@ -8,6 +8,10 @@
 #include "jmbde_version.h"
 #include "jmbdewidgets/mainwindow.h"
 
+#include <CLI/CLI.hpp>
+#include <spdlog/spdlog.h>
+
+
 /**
  * @brief main
  * @param argc The count of args
@@ -59,19 +63,31 @@ auto main(int argc, char *argv[]) -> int
     parser.process(app);
 
     // Setup and load translator for localization
+#if DEBUG
     QString locale = QLocale::system().name();
-    QTranslator qtTranslator;
-    qtTranslator.load(QLatin1String("qt_") + locale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-    QApplication::installTranslator(&qtTranslator);
+    qDebug() << "Set Locale to: " << locale;
+     spdlog::info("Set Locale to: {}", locale);
+#endif
 
-    QTranslator jmbdeTranslator;
-    jmbdeTranslator.load(QLatin1String("jmbde_") + locale);
-    QApplication::installTranslator(&jmbdeTranslator);
+    QTranslator translator;
+
+#if defined (ENABLED_EMBEDED_TRANSLATION)
+    qDebug() << "Use embeded translation";
+
+    if (translator.load(QLocale(), QLatin1String("jmbde"), QLatin1String("_"), QLatin1String(":/i18n")))
+        QCoreApplication::installTranslator(&translator);
+#else
+    qDebug() << "Use file based traslations from: " << "Translation Directory";
+    if (translator.load(QLocale(), QLatin1String("jmbde"), QLatin1String("_"), QLatin1String("translations")))
+    {
+           QCoreApplication::installTranslator(&translator);
+    }
+#endif
+    QApplication::installTranslator(&translator);
 
     QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths() << QLatin1String(":tango"));
     QIcon::setThemeName(QLatin1String("tango"));
 
-    app.setProperty("jmbde_locale", locale);
     QApplication::setLayoutDirection(QObject::tr("LTR") == QLatin1String("RTL") ? Qt::RightToLeft : Qt::LeftToRight);
 
     MainWindow w;

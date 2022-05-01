@@ -64,6 +64,7 @@ void EmployeeTable::setMappings()
 
 void EmployeeTable::setViewOnlyMode(bool mode)
 {
+    qDebug() << tr("mployeeTable::setViewOnlyMode set to: ") << mode;
 }
 
 void EmployeeTable::createDataset()
@@ -82,14 +83,17 @@ void EmployeeTable::createDataset()
 
 void EmployeeTable::retrieveDataset(const QModelIndex index)
 {
+    qDebug() << tr("EmployeeTable::retrieveDataset set to: ") << index;
 }
 
 void EmployeeTable::updateDataset(const QModelIndex index)
 {
+    qDebug() << tr("EmployeeTable::updateDataset set to: ") << index;
 }
 
 void EmployeeTable::deleteDataset(const QModelIndex index)
 {
+    qDebug() << tr("EmployeeTable::deleteDataset set to: ") << index;
 }
 
 // Save the actual data

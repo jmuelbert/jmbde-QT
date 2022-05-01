@@ -25,12 +25,12 @@ CsvImportDialog::CsvImportDialog(QWidget *parent)
     QFile file(fileName);
 
     if (file.open(QFile::Text | QIODevice::ReadOnly)) {
-        QString data = QLatin1String(file.readAll());
+        QString csvData = QLatin1String(file.readAll());
 
-        data.remove(QRegularExpression(QLatin1String("\r")));
+        csvData.remove(QRegularExpression(QLatin1String("\r")));
         QString temp;
         QChar character;
-        QTextStream textStream(&data);
+        QTextStream textStream(&csvData);
 
         while (!textStream.atEnd()) {
             textStream >> character;

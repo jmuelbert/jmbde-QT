@@ -1,23 +1,50 @@
-image:
-  - Visual Studio 2019
-clone_folder: c:\projects\source
+branches:
+  only:
+    - master
+    - prelease
+    - ci/appveyor
+    - appveyor
 
 environment:
-    PYTHON: "C:\\Python38-x64\\python.exe"
+
+  matrix:
+  - arch: x64
+    qt: 6.2.4
+    cc: VS2022
+    mode: release
+    QTDIR: C:\Qt\6.2\msvc2022_64
+    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
+
+ init:
+  - set vcarch=%arch%
+  - if "%arch%" == "x64" set vcarch=amd64
+  - if %cc%==VS2022 (
+      call "C:\Program Files (x86)\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" %vcarch%
+    ) else if not %cc%==MinGW (
+      call "C:\Program Files (x86)\Microsoft Visual Studio %toolchain_version%.0\VC\vcvarsall.bat" %vcarch%
+    )
+  - echo NUMBER_OF_PROCESSORS=%NUMBER_OF_PROCESSORS%
+  - echo PROCESSOR_IDENTIFIER=%PROCESSOR_IDENTIFIER%
+  - echo QTDIR=%QTDIR%
+
+ install:
+  - git submodule update --init
+  - mkdir build
+  - cd build
+  # - ..\tools\ci\win\install_dep.bat
+
+before_build:
+  - set PATH=%QTDIR%\bin;%PATH%
+  - if %cc%==MinGW set PATH=C:\Qt\Tools\mingw%toolchain_version%_32\bin;%PATH%
+  - echo PATH=%PATH%
 
 build_script:
-- cmd: >-
-    mkdir build
+  # - ..\tools\ci\win\build.bat
 
-    cd build
+after_build:
+  # - ..\tools\ci\win\deploy_win.bat
 
-    set PATH=%PATH%;C:\Users\appveyor\AppData\Roaming\Python\Python38\Scripts
+test: off
 
-    "%PYTHON%" -m pip install --user conan
-
-    cmake c:\projects\source -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE:STRING=Release
-
-    cmake --build . --config "Release"
-
-test_script:
-- cmd: ctest -C Debug
+artifacts:
+  - path: 'jmbde*.7z'  # relative to repo root

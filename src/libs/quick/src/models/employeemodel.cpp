@@ -4,10 +4,11 @@
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "jmbdemodels/models/employeemodel.h"
+#include "jmbdequick/models/employeemodel.h"
 
 EmployeeModel::EmployeeModel(QObject *parent)
     : QAbstractListModel(parent)
+    , m_count(0)
 {
     m_employees.append({QLatin1String("Magee V."), QLatin1String("Dean"), QLatin1String("1296 Cursus. St."), QLatin1String("3084"), QLatin1String("Montreal")});
     m_employees.append(
@@ -30,14 +31,19 @@ EmployeeModel::EmployeeModel(QObject *parent)
         {QLatin1String("Akeem H."), QLatin1String("Hardin"), QLatin1String("543-3082 Orci. Street"), QLatin1String("04155"), QLatin1String("Niort")});
 }
 
-auto EmployeeModel::rowCount(const QModelIndex &) const -> int
+
+void EmployeeModel::setCount(int count)
 {
-    return m_employees.count();
+    if (count == m_count) {
+        return;
+    }
+    m_count = count;
+    emit countChanged(m_count);
 }
 
 auto EmployeeModel::data(const QModelIndex &index, int role) const -> QVariant
 {
-    if (index.row() < rowCount()) {
+    if (index.row() < count()) {
         switch (role) {
         case FirstNameRole:
             return m_employees.at(index.row()).firstName;

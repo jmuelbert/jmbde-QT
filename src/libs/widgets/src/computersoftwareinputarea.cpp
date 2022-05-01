@@ -57,8 +57,8 @@ void ComputerSoftwareInputArea::setMappings()
 
 void ComputerSoftwareInputArea::setViewOnlyMode(bool mode)
 {
-    // ui->computerComboBox->setDisabled(mode);
-    // ui->softwareComboBox->setDisabled(mode);
+    ui->computerComboBox->setDisabled(mode);
+    ui->softwareComboBox->setDisabled(mode);
 }
 
 void ComputerSoftwareInputArea::createDataset()

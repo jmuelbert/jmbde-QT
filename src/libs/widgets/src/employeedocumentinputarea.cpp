@@ -57,8 +57,8 @@ void EmployeeDocumentInputArea::setMappings()
 
 void EmployeeDocumentInputArea::setViewOnlyMode(bool mode)
 {
-    // ui->employeeIdcomboBox->setDisabled(mode);
-    // ui->documentIdcomboBox->setDisabled(mode);
+    ui->employeeIdcomboBox->setDisabled(mode);
+    ui->documentIdcomboBox->setDisabled(mode);
 }
 
 void EmployeeDocumentInputArea::createDataset()

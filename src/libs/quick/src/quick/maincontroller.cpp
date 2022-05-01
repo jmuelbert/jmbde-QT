@@ -1,11 +1,11 @@
 /*
- *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+ *  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
  *
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 #include "jmbdequick/quick/maincontroller.h"
-#include "jmbdemodels/employeemodel.h"
+#include "jmbdequick/models/employeemodel.h"
 
 MainController::MainController(/* QObject *parent */) = default;
 

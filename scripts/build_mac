@@ -1,0 +1,34 @@
+#!/bin/sh
+
+
+export LLVM_INSTALL_DIR=/usr/local/Cellar/llvm/13.0.1_1
+
+rm -rf build
+mkdir -p build
+cd build
+cmake     -S .. -B . -DCMAKE_PREFIX_PATH="~/Qt/6.3.0/macos_x86_64/bin"
+# -G "Ninja" \
+#    -DCMAKE_BUILD_TYPE="RelWithDebInfo" \
+#    -DCMAKE_INSTALL_PREFIX:PATH="./install" \
+#    -DBUILD_EXECUTABLE="ON" \
+#    -DBUILD_SHARED_LIBS="ON" \
+#    -DBUILD_TRANSLATIONS="ON" \
+#    -DENABLE_APP_AUTO_DEPLOY="ON" \
+#    -DENABLE_DOXYGEN="ON" \
+#    -DENABLE_TESTING="ON" \
+#    -DENABLE_CCACHE="ON" \
+
+cmake --build . --target install
+ctest -VV
+cpack -G 7Z
+cpack -G STGZ
+cpack -G TBZ2
+cpack -G TGZ
+cpack -G TXZ
+# cpack -G TZ
+cpack -G TZST
+cpack -G ZIP
+cpack -G IFW
+cpack -G DragNDrop
+cp jmbdeqt-0.7.0.-macos_x86_64.dmg jmbdeqt-0.7.0-dnd-macos_x86_64.dmg
+cpack -G IFW
