@@ -134,7 +134,7 @@ class jmbdeConan(ConanFile):
         # self.requires("extra-cmake-modules/5.93.0")
         self.requires("spdlog/1.10.0")
         self.requires("cli11/2.2.0")
-        self.requires("fltk/1.3.8")
+        # self.requires("fltk/1.3.8")
 
     def build_requirements(self):
         if self._run_tests:
