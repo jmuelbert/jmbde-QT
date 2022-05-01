@@ -3,7 +3,7 @@ name: Build
 
 on:
   push:
-    branches: main, [master, develop, improve_build-workflow]
+    branches: [main, master, develop, improve_build-workflow]
     paths:
       - cmake/**
       - src/**
