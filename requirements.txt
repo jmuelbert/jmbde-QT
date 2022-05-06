@@ -17,7 +17,7 @@ Jinja2==3.1.1
 MarkupSafe==2.1.1
 nodeenv==1.6.0
 packaging==21.3
-pre-commit==2.18.1
+pre-commit==2.19.0
 Pygments==2.11.2
 pyparsing==3.0.8
 pytz==2022.1
