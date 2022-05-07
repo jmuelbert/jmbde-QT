@@ -49,6 +49,7 @@ env:
 jobs:
   docs:
     name: Generate documentation
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
 
