@@ -59,9 +59,9 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
-      - name: Install Ninja
+      - name: Install dependecies
         run: |
-          sudo apt install -y ninja-build
+          sudo apt install -y libgl-dev ninja-build
       - name: Set up Python
         uses: actions/setup-python@v2
         with:

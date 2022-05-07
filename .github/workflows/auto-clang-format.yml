@@ -1,20 +1,5 @@
 
-name: 'setup_cache'
-description: 'sets up the shared cache'
-inputs:
-  compiler:
-    required: true
-    type: string
-  build_type:
-    required: true
-    type: string
-  generator:
-    required: true
-    type: string
-  developer_mode:
-    required: true
-    type: string
-
+name: 'Clang-Format'
 
 on:
   push:
@@ -43,6 +28,9 @@ on:
   release:
     types: [published]
   workflow_dispatch:
+
+
+
 
 runs:
   using: "composite"
