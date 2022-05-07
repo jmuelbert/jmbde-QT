@@ -71,8 +71,8 @@ auto main(int argc, char *argv[]) -> int
 
     QTranslator translator;
 
-#if defined (ENABLED_EMBEDED_TRANSLATION)
-    qDebug() << "Use embeded translation";
+#if defined (ENABLED_EMBEDDED_TRANSLATION)
+    qDebug() << "Use embedded translation";
 
     if (translator.load(QLocale(), QLatin1String("jmbde"), QLatin1String("_"), QLatin1String(":/i18n")))
         QCoreApplication::installTranslator(&translator);
