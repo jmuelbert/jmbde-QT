@@ -1,53 +1,23 @@
+name: auto-clang-format
+on: [pull_request]
 
-name: 'Clang-Format'
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-on:
-  push:
-    branches: [main, master, develop, improve_build-workflow]
-    paths:
-      - cmake/**
-      - src/**
-      - CMakeLists.txt
-      - conanfile.py
-      - '.github/workflows/build.yml'
-      - 'snap/**'
-      - 'packaging/flatpak/*.yml'
-    tags:
-      - '*'
-  pull_request:
-    branches:
-      - 'master'
-    types: [opened, reopened]
-    paths:
-      - cmake/**
-      - src/**
-      - CMakeLists.txt'
-      - '.github/workflows/build.yml'
-      - 'snap/**'
-      - 'packaging/flatpak/*.yml'
-  release:
-    types: [published]
-  workflow_dispatch:
-
-
-
-
-runs:
-  using: "composite"
-  steps:
-    - name: Cache
-      uses: actions/cache@v2
+    steps:
+    - uses: actions/checkout@v2
+    - uses: DoozyX/clang-format-lint-action@v0.13
       with:
-        # You might want to add .ccache to your cache configuration?
-        path: |
-          ~/vcpkg
-          ./build/vcpkg_installed
-          ${{ env.CONAN_USER_HOME }}
-          ~/.cache/pip
-          ${{ env.HOME }}/.cache/vcpkg/archives
-          ${{ env.XDG_CACHE_HOME }}/vcpkg/archives
-          ${{ env.LOCALAPPDATA }}\vcpkg\archives
-          ${{ env.APPDATA }}\vcpkg\archives
-        key: ${{ runner.os }}-${{ inputs.compiler }}-${{ inputs.build_type }}-${{ hashFiles('./conanfile.txt')}}-${{ inputs.generator }}-${{ inputs.developer_mode }}-${{ hashFiles('**/CMakeLists.txt') }}-${{ hashFiles('./vcpkg.json')}}
-        restore-keys: |
-          ${{ runner.os }}-${{ inputs.compiler }}-${{ inputs.build_type }}-${{ hashFiles('./conanfile.txt') }}
+        source: '.'
+        exclude: './third_party ./external'
+        extensions: 'h,cpp,hpp'
+        clangFormatVersion: 12
+        inplace: True
+    - uses: EndBug/add-and-commit@v4
+      with:
+        author_name: Clang Robot
+        author_email: robot@example.com
+        message: ':art: Committing clang-format changes'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,5 +1,5 @@
 ---
-name: Build
+name: ci
 
 on:
   push:
@@ -137,7 +137,7 @@ jobs:
         with:
           fetch-depth: 0
           
-      #- name: '⚙️ Setup Cache'
+      - name: '⚙️ Setup Cache'
         uses: ./.github/actions/setup_cache
         with:
           compiler: ${{ matrix.compiler }}
@@ -169,14 +169,16 @@ jobs:
 
         # make sure coverage is only enabled for Debug builds, since it sets -O0 to make sure coverage
         # has meaningful results
-      - name: Configure CMake
+      - name: '⚙️ Configure CMake'
         run: |
           cmake -S . -B ./build -G "${{matrix.generator}}" -DCMAKE_BUILD_TYPE:STRING=${{matrix.build_type}} -DENABLE_DEVELOPER_MODE:BOOL=${{matrix.developer_mode}} -DOPT_ENABLE_COVERAGE:BOOL=${{ matrix.build_type == 'Debug' && matrix.developer_mode == 'OFF' }} -DGIT_SHA:STRING=${{ github.sha }}
-      - name: Build
+
+      - name: '🚧 Build'
         # Execute the build.  You can specify a specific target with "--target <NAME>"
         run: |
           cmake --build ./build --config ${{matrix.build_type}}
-      - name: Unix - Test and coverage
+
+      - name: '🐧 Unix - Test and coverage'
         if: runner.os != 'Windows'
         working-directory: ./build
         # Execute tests defined by the CMake configuration.
@@ -184,13 +186,14 @@ jobs:
         run: |
           ctest -C ${{matrix.build_type}}
           gcovr -j ${{env.nproc}} --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable '${{ matrix.gcov_executable }}'
-      - name: Windows - Test and coverage
+
+      - name: '🧊 Windows - Test and coverage'
         if: runner.os == 'Windows'
         working-directory: ./build
         run: |
           OpenCppCoverage.exe --export_type cobertura:coverage.xml --cover_children -- ctest -C ${{matrix.build_type}}
 
-      - name: CPack
+      - name: '📦 CPack'
         if: matrix.package_generator != ''
         working-directory: ./build
         run: |
@@ -282,7 +285,7 @@ jobs:
         shell: bash
         run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
 
-      - name: '⚙️ CMake Files'
+      - name: '⚙️ Cache CMake Files'
         uses: actions/cache@v3
         env:
           cache-name: cache-cmake-files
