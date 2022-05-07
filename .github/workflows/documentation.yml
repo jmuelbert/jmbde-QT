@@ -37,18 +37,92 @@ on:
       - 'example/**'
 
 env:
-  CC: gcc-10
-  CXX: g++-10
-  CMAKE_GENERATOR: Ninja
-  CONAN_CMAKE_GENERATOR: Ninja
+
+  # Conan cache environment variables
+  CONAN_SYSREQUIRES_MODE: enabled
+  CONAN_USER_HOME: '${{ github.workspace }}/conan-cache'
+  CONAN_USER_HOME_SHORT: '${{ github.workspace }}/conan-cache/short'
+  CLANG_TIDY_VERSION: '12.0.0'
+
+
 
 jobs:
   docs:
     name: Generate documentation
-    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+
+      # Recommendations:
+      #   * support at least 2 operating systems
+      #   * support at least 2 compilers
+      #   * make sure all supported configurations for your project are built
+      #
+      # Disable/enable builds in this list to meet the above recommendations
+      # and your own projects needs
+      matrix:
+        os:
+          - ubuntu-20.04
+        compiler:
+          # you can specify the version after `-` like "llvm-13.0.0".
+          - llvm-12.0.0
+        generator:
+          - 'Ninja Multi-Config'
+        build_type:
+          - Release
+        developer_mode:
+          - ON
+
     steps:
-      - uses: actions/checkout@v2
-      - name: Cache Conan data
+      - name: '🧰 Check for llvm version mismatches'
+        if: ${{ contains(matrix.compiler, 'llvm') && !contains(matrix.compiler, env.CLANG_TIDY_VERSION) }}
+        uses: actions/github-script@v3
+        with:
+          script: |
+            core.setFailed('There is a mismatch between configured llvm compiler and clang-tidy version chosen')
+
+      - name: '🧰 Checkout Source Code'
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: '⚙️ Setup Cache'
+        uses: ./.github/actions/setup_cache
+        with:
+          compiler: ${{ matrix.compiler }}
+          build_type: ${{ matrix.build_type }}
+          developer_mode: ${{ matrix.developer_mode }}
+          generator: ${{ matrix.generator }}
+
+      - name: '⚙️ Setup Cpp'
+        uses: aminya/setup-cpp@v1
+        with:
+          compiler: ${{ matrix.compiler }}
+          vcvarsall: ${{ contains(matrix.os, 'windows' )}}
+
+          cmake: true
+          ninja: true
+          conan: true
+          vcpkg: false
+          ccache: true
+          clangtidy: ${{ env.CLANG_TIDY_VERSION }}
+
+          cppcheck: true
+
+          gcovr: false
+          opencppcoverage: false
+
+      - name: '⚙️ Cache CMake Files'
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-cmake-files
+        with:
+          path: ~/.ccache
+          key: ${{ matrix.os }}-cmake-build-${{ hashFiles('CMakeLists.txt', '**/CMakeLists.txt', '**/*.cmake') }}
+          restore-keys: |
+            ${{ matrix.os }}-cmake-build
+            ${{ matrix.os }}
+
+      - name: '⚙️ Cache Conan data'
         uses: actions/cache@v2
         env:
           cache-name: cache-conan-data
@@ -59,35 +133,44 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
+
       - name: Install dependecies
         run: |
-          sudo apt install -y libgl-dev ninja-build
+          sudo apt install -y libgl-dev libx11-dev ninja-build
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.8'
+
       - name: Install Python dependencies
         run: |
           pip install -Ur docs/requirements.txt
+
       - name: Install Conan
         run: |
           pip install -U conan
+
       - name: Configure Conan
         run: |
           conan config init
           conan remote add -i 0 upload https://mpusz.jfrog.io/artifactory/api/conan/conan-oss
+
       - name: Install Conan dependencies
         run: |
           mkdir build && cd build
           conan install .. -s compiler.cppstd=20 -s compiler.libcxx=libstdc++11 -e mp-units:CONAN_RUN_TESTS=True -b outdated -u
+
       - name: Configure CMake
         working-directory: build
         run: |
           cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake
+
       - name: Generate documentation
         working-directory: build
         run: |
           cmake --build . --target documentation --config Release
+
       - name: Deploy documentation
         if: github.ref == 'refs/heads/master'
         uses: peaceiris/actions-gh-pages@v3
