@@ -7,7 +7,42 @@
 # minimal requirements
 cmake_minimum_required(VERSION 3.16..3.23)
 
-include(FeatureSummary)
+# ---------------------------------------------------------------------------- # Import from the
+# Project cmake directory
+# ---------------------------------------------------------------------------- #
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
+
+# Not ideal to use this global variable, but necessary to make sure
+# that tooling and projects use the same version
+set(CMAKE_CXX_STANDARD 20)
+
+# strongly encouraged to enable this globally to avoid conflicts between
+# -Wpedantic being enabled and -std=c++20 and -std=gnu++20 for example
+# when compiling with PCH enabled
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+# Note: by default ENABLE_DEVELOPER_MODE is True
+# This means that all analysis (sanitizers, static analysis)
+# is enabled and all warnings are treated as errors
+# if you want to switch this behavior, change TRUE to FALSE
+set(ENABLE_DEVELOPER_MODE
+    TRUE
+    CACHE BOOL "Enable 'developer mode'")
+
+# Change this to false if you want to disable warnings_as_errors in developer mode
+set(OPT_WARNINGS_AS_ERRORS_DEVELOPER_DEFAULT TRUE)
+
+# Add project_options v0.20.0
+# https://github.com/cpp-best-practices/project_options
+include(FetchContent)
+FetchContent_Declare(_project_options URL https://github.com/aminya/project_options/archive/refs/tags/v0.20.0.zip)
+FetchContent_MakeAvailable(_project_options)
+include(${_project_options_SOURCE_DIR}/Index.cmake)
+
+# uncomment to enable vcpkg:
+# # Setup vcpkg - should be called before defining project()
+# run_vcpkg()
+
 
 # Set the project name to your project name, my project isn't very descriptive
 project(
@@ -18,36 +53,13 @@ project(
   LANGUAGES CXX C
 )
 
-# ---------------------------------------------------------------------------- # Import from the
-# Project cmake directory
-# ---------------------------------------------------------------------------- #
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
-
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-
-set(projectPrefix JMBDEQT_)
-
-# Note: by default ENABLE_DEVELOPER_MODE is True
-# This means that all analysis (sanitizers, static analysis)
-# is enabled and all warnings are treated as errors
-# if you want to switch this behavior, change TRUE to FALSE
-set(ENABLE_DEVELOPER_MODE
-    TRUE
-    CACHE BOOL "Enable 'developer mode'")
-
-# Add project_options v0.20.0
-# https://github.com/cpp-best-practices/project_options
-include(FetchContent)
-FetchContent_Declare(_project_options URL https://github.com/aminya/project_options/archive/refs/tags/v0.20.0.zip)
-FetchContent_MakeAvailable(_project_options)
-include(${_project_options_SOURCE_DIR}/Index.cmake)
-
 # This variable is set by project() in CMake 3.21+
 string(
   COMPARE EQUAL
           "${CMAKE_SOURCE_DIR}"
           "${PROJECT_SOURCE_DIR}"
           PROJECT_IS_TOP_LEVEL)
+
 if(PROJECT_IS_TOP_LEVEL)
   # Consider the CTest module, which creates targets and options!
   # Only needed if you want to enable submissions to a CDash server.
@@ -191,4 +203,5 @@ set(CPACK_PACKAGE_FILE_NAME
 
 include(CPack)
 
+include(FeatureSummary)
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)

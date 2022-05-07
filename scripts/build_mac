@@ -6,17 +6,10 @@ export LLVM_INSTALL_DIR=/usr/local/Cellar/llvm/13.0.1_1
 rm -rf build
 mkdir -p build
 cd build
-cmake     -S .. -B . -DCMAKE_PREFIX_PATH="~/Qt/6.3.0/macos_x86_64/bin"
-# -G "Ninja" \
-#    -DCMAKE_BUILD_TYPE="RelWithDebInfo" \
-#    -DCMAKE_INSTALL_PREFIX:PATH="./install" \
-#    -DBUILD_EXECUTABLE="ON" \
-#    -DBUILD_SHARED_LIBS="ON" \
-#    -DBUILD_TRANSLATIONS="ON" \
-#    -DENABLE_APP_AUTO_DEPLOY="ON" \
-#    -DENABLE_DOXYGEN="ON" \
-#    -DENABLE_TESTING="ON" \
-#    -DENABLE_CCACHE="ON" \
+cmake -S .. -B . -G "Ninja Multi-Config" -DCMAKE_BUILD_TYPE:STRING=Debug -DENABLE_DEVELOPER_MODE:BOOL=ON -DOPT_ENABLE_COVERAGE:BOOL=ON
+
+# Execute the build.  You can specify a specific target with "--target <NAME>"
+cmake --build . --config Release
 
 cmake --build . --target install
 ctest -VV
