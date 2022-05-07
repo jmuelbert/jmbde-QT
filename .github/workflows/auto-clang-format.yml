@@ -16,6 +16,34 @@ inputs:
     type: string
 
 
+on:
+  push:
+    branches: [main, master, develop, improve_build-workflow]
+    paths:
+      - cmake/**
+      - src/**
+      - CMakeLists.txt
+      - conanfile.py
+      - '.github/workflows/build.yml'
+      - 'snap/**'
+      - 'packaging/flatpak/*.yml'
+    tags:
+      - '*'
+  pull_request:
+    branches:
+      - 'master'
+    types: [opened, reopened]
+    paths:
+      - cmake/**
+      - src/**
+      - CMakeLists.txt'
+      - '.github/workflows/build.yml'
+      - 'snap/**'
+      - 'packaging/flatpak/*.yml'
+  release:
+    types: [published]
+  workflow_dispatch:
+
 runs:
   using: "composite"
   steps:
