@@ -162,7 +162,7 @@ jobs:
         run: echo "Issues found in previous step"
 
       - name: Clang Format
-        uses: DoozyX/clang-format-lint-action@v0.13
+        uses: DoozyX/clang-format-lint-action@v0.14
         with:
           source: './src'
           clangFormatVersion: 12
