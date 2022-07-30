@@ -1,0 +1,6 @@
+AUTOMOC
+AUTORCC
+AUTOUIC
+QCOMPARE
+QTEST
+qttranslations

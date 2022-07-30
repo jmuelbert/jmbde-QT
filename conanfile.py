@@ -5,6 +5,7 @@
 #  SPDX-License-Identifier: GPL-3.0-or-later
 #
 
+import string
 from conans import ConanFile, tools
 from conans.tools import Version, check_min_cppstd
 from conan.tools.cmake import CMakeToolchain, CMakeDeps, CMake
@@ -47,14 +48,13 @@ class jmbdeConan(ConanFile):
     }
 
     exports = ["License.md"]
-    exports_sources = ["docs/*", "src/*", "test/*", "cmake/*", "example/*", "CMakeLists.txt"]    
+    exports_sources = ["docs/*", "src/*", "test/*", "cmake/*", "example/*", "CMakeLists.txt"]
 
     generators = (
         "cmake_find_package_multi",
         "markdown",
         "txt"
     )
-
 
     @property
     def _run_tests(self):
@@ -75,7 +75,7 @@ class jmbdeConan(ConanFile):
         compiler = self.settings.compiler
         version = Version(self.settings.compiler.version)
         return "clang" in compiler and compiler.libcxx == "libc++" and version < 14
-    
+
     @property
     def _msvc_version(self):
         compiler = self.settings.compiler
@@ -85,10 +85,9 @@ class jmbdeConan(ConanFile):
             return int(f"{compiler.version}0")
 
     def set_version(self):
-        # content = tools.load(os.path.join(self.recipe_folder, "src/CMakeLists.txt"))
-        # version = re.search(r"project\([^\)]+VERSION (\d+\.\d+\.\d+)[^\)]*\)", content).group(1)
-        # self.version = version.strip()
-        self.version = "0.7.0"
+        content = tools.load(os.path.join(self.recipe_folder, "CMakeLists.txt"))
+        version = re.search(r"project\([^\)]+VERSION (\d+\.\d+\.\d+)[^\)]*\)", content).group(1)
+        print("version = {}", version)
 
     def requirements(self):
         platform_qt = os.getenv("CMAKE_PREFIX_PATH")
@@ -126,6 +125,7 @@ class jmbdeConan(ConanFile):
             self.output.info(
                 "Getting Qt from the system. CMAKE_PREFIX_PATH = " + platform_qt
             )
+        self.requires("libiconv/1.16")
         if self._use_libfmt:
             self.requires("fmt/8.1.1")
         if self._use_range_v3:
@@ -135,14 +135,12 @@ class jmbdeConan(ConanFile):
         self.requires("spdlog/1.10.0")
         self.requires("cli11/2.2.0")
         # self.requires("fltk/1.3.8")
+        self.requires("catch2/2.13.9")
+        self.requires("gtest/cci.20210126")
+        self.requires("benchmark/1.6.1")
+        if self.options.build_docs:
+              self.requires("doxygen/1.9.2")
 
-    def build_requirements(self):
-        if self._run_tests:
-            self.requires("catch2/2.13.9")
-            self.requires("gtest/cci.20210126")
-            self.requires("benchmark/1.6.1")
-            if self.build_docs:
-              self.tool_requieres("doxygen/1.9.2")
 
     # TODO Replace with `valdate()` for Conan 2.0 (https://github.com/conan-io/conan/issues/10723)
     def configure(self) :

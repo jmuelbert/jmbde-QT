@@ -12,6 +12,13 @@ include(CMakeFindDependencyMacro)
 include(GenerateExportHeader)
 include(GNUInstallDirs)
 
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
+add_definitions(QT_NO_FOREACH)
+
+
 # ----------------------------------------------------------------------------
 # Define Target Information
 # ----------------------------------------------------------------------------

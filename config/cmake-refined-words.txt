@@ -1,0 +1,11 @@
+CMAKECONFIG
+DBUILD
+DCATCH
+DCMAKE
+depencencies
+cpack
+ctest
+NSIS
+SOVERSION
+STGZ
+RPATH

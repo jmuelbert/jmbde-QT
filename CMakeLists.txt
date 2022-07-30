@@ -12,6 +12,8 @@ cmake_minimum_required(VERSION 3.16..3.23)
 # ---------------------------------------------------------------------------- #
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # Not ideal to use this global variable, but necessary to make sure
 # that tooling and projects use the same version
 set(CMAKE_CXX_STANDARD 20)
@@ -43,15 +45,13 @@ include(${_project_options_SOURCE_DIR}/Index.cmake)
 # # Setup vcpkg - should be called before defining project()
 # run_vcpkg()
 
-
 # Set the project name to your project name, my project isn't very descriptive
 project(
   jmbdeqt
   VERSION 0.7.0
   DESCRIPTION "A tool to collect company-data"
   HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
-  LANGUAGES CXX C
-)
+  LANGUAGES CXX C)
 
 # This variable is set by project() in CMake 3.21+
 string(
@@ -133,9 +133,7 @@ dynamic_project_options(
   --suppress=unmatchedSuppression
   --suppress=passedByValue
   --suppress=syntaxError
-  --inconclusive
-)
-
+  --inconclusive)
 
 target_compile_features(project_options INTERFACE cxx_std_${CMAKE_CXX_STANDARD})
 # TODO: The INTERFACE library NAMESPACE ALIAS are missing! CK
@@ -144,7 +142,6 @@ add_library(myproject::project_warnings INTERFACE IMPORTED)
 
 # configure files based on CMake configuration options
 add_subdirectory(configured_files)
-
 
 option(BUILD_TRANSLATIONS "Build all translations for the project" ON)
 option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" ON)
@@ -189,10 +186,10 @@ endif()
 
 # Add other targets that you want installed here, be default we just package the one executable
 # we know we want to ship
-package_project(TARGETS jmbde project_options project_warnings
-  # FIXME: this does not work! CK
-  # PRIVATE_DEPENDENCIES_CONFIGURED project_options project_warnings
-)
+# package_project(TARGETS jmbde project_options project_warnings
+# FIXME: this does not work! CK
+# PRIVATE_DEPENDENCIES_CONFIGURED project_options project_warnings
+# )
 
 # Experience shows that explicit package naming can help make it easier to sort
 # out potential ABI related issues before they start, while helping you

@@ -29,14 +29,16 @@ message(STATUS "Building ${TARGET_NAME}" " Version ${TARGET_VERSION}"
                " in ${CMAKE_BUILD_TYPE} mode"
 )
 
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
+add_definitions(QT_NO_FOREACH)
+
 configure_file(
   ${CMAKE_SOURCE_DIR}/cmake/versioninfo/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/jmbde_version.h
   @ONLY
 )
-
-find_package(fmt CONFIG)
-find_package(spdlog CONFIG)
-find_package(CLI11 CONFIG REQUIRED)
 
 find_package(
   QT NAMES Qt6 Qt5
@@ -147,7 +149,6 @@ target_link_libraries(
           Qt${QT_VERSION_MAJOR}::Sql
           Qt${QT_VERSION_MAJOR}::Qml
           ${CMAKE_REQUIRED_LIBRARIES}
-          CLI11::CLI11 fmt::fmt spdlog::spdlog
           ${CONAN_LIBS}
           # coverage_config debug DEBUGLIBS optimized RELEASELIBS
 )
