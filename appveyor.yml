@@ -9,12 +9,11 @@ environment:
 
   matrix:
   - arch: x64
-    qt: 6.2.4
+    qt: 6.3.0
     cc: VS2022
     mode: release
     QTDIR: C:\Qt\6.2\msvc2022_64
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
-
  init:
   - set vcarch=%arch%
   - if "%arch%" == "x64" set vcarch=amd64
@@ -26,7 +25,6 @@ environment:
   - echo NUMBER_OF_PROCESSORS=%NUMBER_OF_PROCESSORS%
   - echo PROCESSOR_IDENTIFIER=%PROCESSOR_IDENTIFIER%
   - echo QTDIR=%QTDIR%
-
  install:
   - git submodule update --init
   - mkdir build

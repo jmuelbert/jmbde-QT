@@ -1,0 +1,20 @@
+{
+  "folders": [
+	{
+		"path": "."
+	},
+	{
+		"path": "../jmbde-QT-bad"
+	}
+],
+  "settings": {
+    "files.associations": {
+      "*.ts": "xml"
+    },
+    "yaml.schemas": {
+      "https://raw.githubusercontent.com/TingPing/flatpak-manifest-schema/master/flatpak-manifest.schema": [
+        "com.github.Desktop.yaml"
+      ]
+    }
+  }
+}

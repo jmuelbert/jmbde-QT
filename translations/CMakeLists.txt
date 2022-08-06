@@ -25,6 +25,7 @@ if(LANGUAGES STREQUAL "All")
       bg
       ca
       cs
+      de
       da
       de
       en

@@ -9,8 +9,25 @@ name: DevSkim
 on:
   push:
     branches: [master]
+    paths:
+      - '**.cpp'
+      - '**.h'
+      - '**.py'
+      - cmake/**
+      - src/**
+      - CMakeLists.txt
+      - '.github/workflows/devskim-analysis.yml'
   pull_request:
-    branches: [master]
+    # The branches below must be a subset of the branches above
+    types: [opened, synchronize, reopened]
+    paths:
+      - '**.cpp'
+      - '**.h'
+      - '**.py'
+      - cmake/**
+      - src/**
+      - CMakeLists.txt
+      - '.github/workflows/devskim-analysis.yml'
   schedule:
     - cron: '26 22 * * 3'
 
@@ -27,9 +44,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run DevSkim scanner
-        uses: microsoft/DevSkim-Action@v1
+        uses: microsoft/DevSkim-Action@v1.0.3
 
       - name: Upload DevSkim scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v1
+        uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: devskim-results.sarif

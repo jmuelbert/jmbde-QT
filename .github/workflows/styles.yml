@@ -72,14 +72,14 @@ jobs:
     steps:
       - name: '🧰 Checkout Source Code'
         if: github.event_name == 'push'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: master
 
       - name: '🧰 Checkout Source Code'
         if: github.event_name == 'pull_request'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
@@ -176,9 +176,16 @@ jobs:
         uses: DoozyX/clang-format-lint-action@v0.13
         with:
           source: './src'
-          extensions: 'h,cpp'
-          clangFormatVersion: 11
-          style: file
+          clangFormatVersion: 12
+          inplace: True
+          
+      - uses: EndBug/add-and-commit@v9
+        with:
+          author_name: Clang Robot
+          author_email: robot@example.com
+          message: 'Committing clang-format changes'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}          
 
       # - name: PMD Code Analyzer Action
       #   uses: billyan2018/setup-pmd@PMDAnalyzer1.0

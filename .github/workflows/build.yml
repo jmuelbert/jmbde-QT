@@ -266,7 +266,7 @@ jobs:
     steps:
       - name: '🧰 Checkout Source Code'
         if: github.event_name == 'push'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 10
 
@@ -575,14 +575,14 @@ jobs:
 
       - name: '🧰 Checkout Source Code'
         if: github.event_name == 'push'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: master
 
       - name: '🧰 Checkout Source Code'
         if: github.event_name == 'pull_request'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
@@ -611,7 +611,7 @@ jobs:
           cp $GITHUB_WORKSPACE/org.jmuelbert.jmbde-QT.flatpak ${{runner.workspace}}/org.jmuelbert.jmbde-QT_${{ steps.get_version.outputs.VERSION }}.x86_64.flatpak
 
       - name: '📤 Upload artifact: FlatPak'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ env.TARGET_NAME }}.flatpak
           path: |
@@ -630,14 +630,14 @@ jobs:
 
       - name: '🧰 Checkout Source Code'
         if: github.event_name == 'push'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: master
 
       - name: '🧰 Checkout Source Code'
         if: github.event_name == 'pull_request'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
@@ -651,13 +651,14 @@ jobs:
       - name: '⚙️ Rename snap name'
         shell: bash
         run: |
+          ls
           mkdir -p $GITHUB_WORKSPACE/build
           cp ${{ steps.snapcraft.outputs.snap }} ${{runner.workspace}}/${{ env.TARGET_NAME }}-${{ steps.get_version.outputs.VERSION }}.amd64.snap
           pwd
           ls ${{runner.workspace}}
 
       - name: '📤 Upload artifact: SnapPack'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ${{env.TARGET_NAME}}.snap
           path: |
@@ -670,7 +671,7 @@ jobs:
 
     steps:
       - name: '🧰 Checkout Source Code'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: 'recursive'
 
@@ -889,7 +890,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: '📥 Download artifacts'
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
       - name: '🗂 Inspect directory after downloading artifacts'
         run: ls -alFR
 
