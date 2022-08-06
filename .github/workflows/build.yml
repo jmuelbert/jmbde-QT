@@ -466,14 +466,14 @@ jobs:
 
       - name: '🍎 📤 Upload dmg artifact for macOS - ${{ matrix.qt_version }}'
         if: startsWith(matrix.config.os,'macos')
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ${env.TARGET_NAME}-dmg
           path: ${{runner.workspace}}/${{ env.TARGET_NAME }}.dmg
 
       - name: '🍎 📤 Upload zip artifact for macOS - ${{ matrix.qt_version }}-${env.BUILD_TYPE}}'
         if: startsWith(matrix.config.os,'macos')
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ env.TARGET_NAME }}-macos-zip
           path: ${{runner.workspace}}/${{ env.TARGET_NAME }}*.zip
@@ -502,7 +502,7 @@ jobs:
 
       - name: '🧊 📤 Upload Zip archive'
         if: startsWith(matrix.config.os,'windows')
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         env:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.qt_arch }}
         with:
@@ -529,7 +529,7 @@ jobs:
 
       - name: '🧊 📤 Upload artifact: ISS Installer'
         if: startsWith(matrix.config.os,'windows' )
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         env:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.qt_arch }}
         with:
@@ -556,7 +556,7 @@ jobs:
 
       - name: '🐧 📤 Upload artifact: AppImage'
         if: startsWith(matrix.config.os, 'ubuntu')
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ${{env.TARGET_NAME}}.AppImage
           path: |
@@ -690,7 +690,7 @@ jobs:
           pathTarget: ./jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: source-files
           path: jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
@@ -750,7 +750,7 @@ jobs:
           sphinx-build docs docs/_build
 
       - name: Upload documentation
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: docs
           path: docs/_build
