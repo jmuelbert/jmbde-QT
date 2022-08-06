@@ -1,0 +1,10 @@
+{
+    "name": "jmbdeqt",
+    "files": [ { "git": 1 } ],
+    "build": {
+        "directory": "build",
+        "build": "cmake --build build",
+        "clean": "cmake --build build --target clean",
+        "install": "cmake --build build --target install"
+        }
+}

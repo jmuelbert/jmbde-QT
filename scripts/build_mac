@@ -1,0 +1,25 @@
+#!/bin/sh
+
+export LLVM_INSTALL_DIR=/usr/local/Cellar/llvm/13.0.1_1
+
+rm -rf build
+mkdir -p build
+cmake -S . -B ./build . -G "Ninja Multi-Config" -DCMAKE_BUILD_TYPE:STRING=Debug -DENABLE_DEVELOPER_MODE:BOOL=OFF -DOPT_ENABLE_COVERAGE:BOOL=ON
+
+# Execute the build.  You can specify a specific target with "--target <NAME>"
+cmake --build ./build --config Debug
+cmake --build ./build --target install --config Debug
+cd build || exit
+ctest -VV
+cpack -G 7Z
+cpack -G STGZ
+cpack -G TBZ2
+cpack -G TGZ
+cpack -G TXZ
+# cpack -G TZ
+cpack -G TZST
+cpack -G ZIP
+cpack -G IFW
+cpack -G DragNDrop
+cp jmbdeqt-0.7.0.-macos_x86_64.dmg jmbdeqt-0.7.0-dnd-macos_x86_64.dmg
+cpack -G IFW

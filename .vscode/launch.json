@@ -12,7 +12,8 @@
       "args": [],
       "cwd": "${workspaceFolder}",
       "preLaunchTask": "Build: Debug",
-      "internalConsoleOptions": "neverOpen"
+      "internalConsoleOptions": "neverOpen",
+      "visualizerFile": "/Users/juergen/Library/Application Support/VSCodium/User/workspaceStorage/2f831df60866c25f60235b3da0a9c005/tonka3000.qtvsctools/qt.natvis.xml"
     },
     {
       "name": "App",
@@ -21,16 +22,20 @@
       "args": [],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder:folder1}/build/bin/${fileBasenameNoExtension}",
-      "externalConsole": false
+      "externalConsole": false,
+      "visualizerFile": "/Users/juergen/Library/Application Support/VSCodium/User/workspaceStorage/2f831df60866c25f60235b3da0a9c005/tonka3000.qtvsctools/qt.natvis.xml"
     },
     {
       "name": "Launch current CMake target with GammaRay",
       "type": "cppvsdbg",
       "request": "launch",
       "program": "GammaRay",
-      "args": ["${command:cmake.launchTargetPath}"],
+      "args": [
+        "${command:cmake.launchTargetPath}"
+      ],
       "console": "internalConsole",
-      "cwd": "${workspaceFolder}"
+      "cwd": "${workspaceFolder}",
+      "visualizerFile": "/Users/juergen/Library/Application Support/VSCodium/User/workspaceStorage/2f831df60866c25f60235b3da0a9c005/tonka3000.qtvsctools/qt.natvis.xml"
     },
     {
       "name": "Profile current CMake target with qmlprofile",
@@ -41,7 +46,8 @@
         "-o",
         "your/favourite/output/dir/qmlprofiler.qtd",
         "${command:cmake.launchTargetPath}"
-      ]
+      ],
+      "visualizerFile": "/Users/juergen/Library/Application Support/VSCodium/User/workspaceStorage/2f831df60866c25f60235b3da0a9c005/tonka3000.qtvsctools/qt.natvis.xml"
     }
   ]
 }

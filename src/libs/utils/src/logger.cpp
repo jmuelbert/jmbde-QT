@@ -4,7 +4,7 @@
  *  SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "utils/logger.h"
+#include "jmbdeutils/logger.h"
 
 #include <QDateTime>
 #include <QDir>

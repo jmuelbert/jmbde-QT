@@ -1,93 +1,49 @@
----
-image: fmeinicke/grpc-docker
+image: ubuntu:latest
 
-variables:
-  GIT_SUBMODULE_STRATEGY: normal
-  DEBIAN_FRONTEND: noninteractive
-  # Change pip's cache directory to be inside the project directory since we can
-  # only cache local items.
-  PIP_CACHE_DIR: '$CI_PROJECT_DIR/.cache/pip'
-  APT_CACHE_DIR: '$CI_PROJECT_DIR/.cache/apt'
-  # https://docs.conan.io/en/latest/reference/env_vars.html#conan-user-home
-  CONAN_USER_HOME: '$CI_PROJECT_DIR/.conan'
+stages:
+  - test
 
-cache:
-  paths:
-    - .cache/
-    - .conan/
-    # Pip's cache doesn't store the python packages
-    # https://pip.pypa.io/en/stable/reference/pip_install/#caching
-    #
-    # To also cache installed packages, we have to install them in a virtualenv and
-    # cache it as well.
-    - venv/
+.setup_linux: &setup_linux |
+  DEBIAN_FRONTEND=noninteractive
 
-before_script:
-  - echo "--- Setting up apt cache ---" && mkdir -pv $APT_CACHE_DIR
-  - echo "--- Installing build tools and dependencies ---" && add-apt-repository
-    ppa:beineri/opt-qt-5.15.2-focal && apt-get update && apt-get -o
-    dir::cache::archives="$APT_CACHE_DIR" install -yq build-essential cmake ninja-build
-    git qtbase5-dev libqt5svg5-dev qttools5-dev qtdeclarative5-dev libssl-dev
-    libavahi-client-dev libavahi-common-dev curl python3-pip
-  - echo "--- Setting up pip virtualenv ---" && pip3 install virtualenv && virtualenv
-    venv && source venv/bin/activate
-  - echo "--- Installing conan and gcovr ---" && pip3 install conan gcovr
+  # set time-zone
+  TZ=Canada/Pacific
+  ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-.global:
-  only:
-    changes:
-      - '**/*.{h,cpp,qrc,proto}'
-      - '**/CMakeLists.txt'
-      - '**/*.cmake'
-      - '.gitlab-ci.yml'
+  # for downloading
+  apt-get update -qq
+  apt-get install -y --no-install-recommends curl gnupg ca-certificates
 
-build:
-  stage: build
-  extends: .global
-  script:
-    - echo "--- Running build ---"
-    - mkdir build && cd build
-    - export SILA_CPP_DISABLE_DISCOVERY=1
-    - cmake .. -DCMAKE_BUILD_TYPE=Debug -DSILA_CPP_BUILD_TESTS=ON
-      -DSILA_CPP_ENABLE_COVERAGE=ON -DSILA_CPP_BUILD_EXAMPLES=ON && cmake --build . -j
-      $(nproc)
-  artifacts:
-    paths:
-      - build/
+  # keys used by apt
+  apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32
+  apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 40976EAF437D05B5
+  apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 1E9377A2BA9EF27F
 
-test:
+.setup_cpp: &setup_cpp |
+  curl -LJO "https://github.com/aminya/setup-cpp/releases/download/v0.10.0/setup_cpp_linux"
+  chmod +x setup_cpp_linux
+  ./setup_cpp_linux --compiler $compiler --cmake true --ninja true  --conan true --ccache true --clangtidy true --clangformat true --cppcheck true
+  source ~/.profile
+
+.test: &test |
+  # Build and Test
+  cmake -S . -B ./build -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo
+  cmake --build ./build --config RelWithDebInfo
+
+test_linux_llvm:
   stage: test
-  extends: .global
-  needs:
-    - job: build
-      artifacts: true
+  variables:
+    compiler: llvm
   script:
-    - conan -v # Validate that conan is installed
-    - echo "--- Running tests ---" && cd build
-    - export SILA_CPP_DISABLE_DISCOVERY=1
-    - cmake --build . --target coverage_xml -j $(nproc) && cmake --build . --target
-      coverage_html -j $(nproc)
-  # after_script:
-  #   - bash <(curl -s https://codecov.io/bash) -p build/src || echo "Codecov did not collect coverage reports"
-  coverage: '/^lines: (\d+\.?\d+\%)/'
-  artifacts:
-    paths:
-      - build/test/coverage/coverage_html/
-    reports:
-      cobertura: build/test/coverage/coverage_xml.xml
+    - *setup_linux
+    - *setup_cpp
+    - *test
 
-badges_before:
-  stage: .pre
-  rules:
-    - if: $CI_COMMIT_BRANCH == "master"
-  before_script:
-    - mkdir -pv $APT_CACHE_DIR
-    - apt-get update && apt-get -o dir::cache::archives="$APT_CACHE_DIR" install -yq
-      wget git
+test_linux_gcc:
+  stage: test
+  variables:
+    compiler: gcc
   script:
-    - mkdir -p badges && cd badges
-    - LATEST_TAG=`git tag -l | tail -n1`
-    - wget https://img.shields.io/badge/version-$LATEST_TAG-blue -O version.svg
-  artifacts:
-    paths:
-      - badges/*.svg
+    - *setup_linux
+    - *setup_cpp
+    - *test

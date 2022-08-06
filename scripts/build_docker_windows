@@ -1,0 +1,9 @@
+#!/bin/sh
+
+docker run --rm -it -v $(pwd)/.. madduci/docker-wine-msvc:16.11-2019
+
+md windows-build
+cd windows-build
+conan install ..
+cmake -G "Ninja" -DBUILD_TESTING=TRUE ..
+cmake --build .

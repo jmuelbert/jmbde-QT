@@ -11,6 +11,7 @@ appdir
 *.tar
 *.gz
 *~swp
+old/
 # .qtmodules-travis
 
 # Sqlite-DB

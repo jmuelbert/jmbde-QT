@@ -1,76 +1,75 @@
 #
-# jmbde a BDE Tool for companies Copyright (C) 2013-2020  Jürgen Mülbert
+# SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
 #
-# This program is free software: you can redistribute it and/or modify it under
-# the terms of the GNU General Public License as published by the Free Software
-# Foundation, either version 3 of the License, or (at your option) any later
-# version.
+# SPDX-License-Identifier: GPL-3.0-or-later
 #
-# This program is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
-# details.
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.10...3.20 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.20)
 
-if(${CMAKE_VERSION} VERSION_LESS 3.20)
-  cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
-else()
-  cmake_policy(VERSION 3.20)
-endif()
+# ---------------------------------------------------------------------------- #
+# Define Target Information
+# ---------------------------------------------------------------------------- #
+set(TARGET_ID jmbdequick)
+string(TOLOWER ${TARGET_ID} TARGET_ID_LOWER)
+set(TARGET_NAMESPACE jmuelbert)
+set(TARGET_NAME ${TARGET_ID_LOWER})
+set(TARGET_DESCRIPTION "jmdbde app")
+set(TARGET_COPYRIGHT "© 2013-2022 Jürgen Mülbert")
+set(TARGET_URL "https://github.com/jmuelbert/jmdbe-QT")
+set(TARGET_VERSION_MAJOR 0)
+set(TARGET_VERSION_MINOR 7)
+set(TARGET_VERSION_PATCH 0)
+set(TARGET_VERSION ${TARGET_VERSION_MAJOR}.${TARGET_VERSION_MINOR}.${TARGET_VERSION_PATCH})
+set(TARGET_SO_VERSION ${TARGET_VERSION_MAJOR})
+set(TARGET_AUTHOR_ORGANIZATION "Jürgen Mülbert")
+set(TARGET_AUTHOR_DOMAIN "https://github.com/jmuelbert")
+set(TARGET_AUTHOR_MAINTAINER "Jürgen Mülbert")
 
-#
-# the jmbde application (QtQuick-Version)
-#
-project(
-  jmbdeappquick
-  VERSION "0.1.2"
-  DESCRIPTION "A BDE Tool"
-  LANGUAGES CXX)
-
-include(ECMSetupVersion)
-include(ECMQtDeclareLoggingCategory)
-include(ECMInstallIcons)
-include(ECMAddAppIcon)
-
-#
-# the jmbde application
-#
-
-message(
-  STATUS
-    "Building ${PROJECT_NAME} ${JMBDE_APP_QUICK_VERSION} in ${CMAKE_BUILD_TYPE} mode"
+message(STATUS "Building ${TARGET_NAME}" " Version ${TARGET_VERSION}"
+               " in ${CMAKE_BUILD_TYPE} mode"
 )
 
-# set project version
+configure_file(${CMAKE_SOURCE_DIR}/cmake/versioninfo/version.h.in
+                 ${CMAKE_CURRENT_BINARY_DIR}/jmbde_version.h @ONLY)
 
-ecm_setup_version(
-  ${PROJECT_VERSION}
-  VARIABLE_PREFIX
-  JMBDEAPPQUICK
-  VERSION_HEADER
-  ${CMAKE_CURRENT_BINARY_DIR}/jmbdeappquick-version.h
-  PACKAGE_VERSION_FILE
-  "${CMAKE_CURRENT_BINARY_DIR}/JMBDEAPPQUICK-ConfigVersion.cmake")
 
-ecm_qt_declare_logging_category(
-  ${PROJECT_NAME}
-  HEADER
-  loggingcategory.h
-  IDENTIFIER
-  ${PROJECT_NAME}
-  CATEGORY_NAME
-  jmuelbert.${PROJECT_NAME}
-  DEFAULT_SEVERITY
-  Warning)
+find_package(
+  QT NAMES Qt6 Qt5
+  COMPONENTS Core
+  REQUIRED)
 
-if(APPLE)
-  add_executable(${PROJECT_NAME} MACOSX_BUNDLE)
-elseif(WIN32)
-  add_executable(${PROJECT_NAME} WIN32)
+# ---------------------------------------------------------------------------- #
+# Finding Qt5 or Qt6
+# ---------------------------------------------------------------------------- #
+find_package(Qt${QT_VERSION_MAJOR} QUIET COMPONENTS Core Widgets PrintSupport
+  Sql Qml)
+
+
+if${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+    qt_add_executable(${TARGET_NAME}
+    MANUAL_FINALIZATION)
+
+    # Define target properties for Android with Qt 6 as:
+    set_property(TARGET jmbde-QT APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
+    #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
+    # For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
+
+    #    qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 else()
-  add_executable(${PROJECT_NAME})
+    if(ANDROID)
+        add_library(${TARGET_NAME} SHARED
+            ${PROJECT_SOURCES}
+                     )
+       # Define properties for Android with Qt 5 after find_package() calls as:
+       #    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
+    else()
+        add_executable(${TARGET_NAME}
+            ${PROJECT_SOURCES}
+            )
+    endif()
+
+    # qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
 # Use a single application on MacOS + Windows instead of dbus.
@@ -78,36 +77,6 @@ if(APPLE OR WIN32)
   # TODO: Enable QT_SINGLE_APP for macOS and Windows
   # target_compile_definitions(${PROJECT_NAME} PRIVATE USE_QT_SINGLE_APP)
 endif()
-
-#
-# Finding Qt
-#
-find_package(Qt${QT_VERSION_MAJOR} QUIET COMPONENTS Core Widgets Sql Qml Quick)
-
-target_compile_features(jmbdeappquick PUBLIC cxx_std_17)
-
-target_include_directories(
-  ${PROJECT_NAME}
-  PRIVATE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-          "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
-          "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>"
-          $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
-
-target_sources(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
-
-target_compile_definitions(
-  ${PROJECT_NAME}
-  PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
-
-target_link_libraries(
-  ${PROJECT_NAME}
-  PRIVATE jmuelbert::jmbdequick
-          Qt${QT_VERSION_MAJOR}::Widgets
-          Qt${QT_VERSION_MAJOR}::Core
-          Qt${QT_VERSION_MAJOR}::Sql
-          Qt${QT_VERSION_MAJOR}::Qml
-          Qt${QT_VERSION_MAJOR}::Quick
-          ${CONAN_LIBS})
 
 # Use a single application on MacOS + Windows instead of dbus.
 if(APPLE OR WIN32)
@@ -119,123 +88,77 @@ endif()
 # Application icons
 #
 set(ICONS_PNG
-    ${CMAKE_CURRENT_SOURCE_DIR}/icons/16-apps-jmbde.png
-    ${CMAKE_CURRENT_SOURCE_DIR}/icons/32-apps-jmbde.png
-    ${CMAKE_CURRENT_SOURCE_DIR}/icons/128-apps-jmbde.png
-    ${CMAKE_CURRENT_SOURCE_DIR}/icons/256-apps-jmbde.png
-    ${CMAKE_CURRENT_SOURCE_DIR}/icons/512-apps-jmbde.png)
+    ${CMAKE_SOURCE_DIR}/assets/icons/16-apps-jmbde.png
+    ${CMAKE_SOURCE_DIR}/assets/icons/32-apps-jmbde.png
+    ${CMAKE_SOURCE_DIR}/assets/icons/128-apps-jmbde.png
+    ${CMAKE_SOURCE_DIR}/assets/icons/256-apps-jmbde.png
+    ${CMAKE_SOURCE_DIR}/assets/icons/512-apps-jmbde.png)
 
-set(ICONS_SVG ${CMAKE_CURRENT_SOURCE_DIR}/icons/sc-apps-jmbde.svgz)
-
-# Add icon files to the application's source files to have CMake bundle them in
-# the executable.
-ecm_add_app_icon(ICONS_SOURCES ICONS ${ICONS_PNG} OUTFILE_BASENAME
-                 ${PROJECT_NAME})
+set(ICONS_SVG ${CMAKE_SOURCE_DIR}/assets/icons/sc-apps-jmbde.svgz)
 
 #
 # target
 #
-target_sources(${PROJECT_NAME} PRIVATE ${ICONS_SOURCES})
+set_target_properties(
+  ${TARGET_NAME}
+  PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+             LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+             RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-target_sources(${PROJECT_NAME} PRIVATE loggingcategory.cpp src/main.cpp)
 
-if(WIN32)
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/app.rc.in
-                 ${PROJECT_BINARY_DIR}/app.rc @ONLY)
+target_include_directories(
+    ${TARGET_NAME}
+    PRIVATE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>" # For headers
+                                                                     # when
+                                                                    # building
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>"
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
-  install(TARGETS ${PROJECT_NAME} ${INSTALL_TARGETS_DEFAULT_ARGS})
+target_sources(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 
-  # See
-  # https://cmake.org/cmake/help/v3.15/prop_tgt/MACOSX_BUNDLE_INFO_PLIST.html
+target_sources(${TARGET_NAME} PRIVATE ${ICONS_SOURCES})
+
+# Require c++17, this is better than setting CMAKE_CXX_STANDARD since it won't
+# pollute other targets note : cxx_std_* features were added in CMake 3.8.2
+target_compile_features(${TARGET_NAME} PRIVATE cxx_std_17)
+
+target_compile_definitions(
+  ${PROJECT_NAME}
+  PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+
+target_link_libraries(
+  # PUBLIC # Useful for libraries, see
+  # https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html for more
+  # details about transitive usage requirements. libraries/targets to link when
+  # linking this library this will automatically setup the needed flags and
+  # dependencies when linking against this target
+  ${TARGET_NAME}
+  PRIVATE # The following libraries are only linked for this target, and its
+          # flags/dependencies will not be used when linking against this target
+          jmuelbert::jmbdemodels
+          jmuelbert::jmbdequick
+          Qt${QT_VERSION_MAJOR}::Core
+          Qt${QT_VERSION_MAJOR}::Widgets
+          Qt${QT_VERSION_MAJOR}::PrintSupport
+          Qt${QT_VERSION_MAJOR}::Sql
+          Qt${QT_VERSION_MAJOR}::Qml
+          ${CMAKE_REQUIRED_LIBRARIES}
+          ${CONAN_LIBS}
+          # coverage_config
+          # debug DEBUGLIBS optimized RELEASELIBS
+)
+
+f(WIN32)
+  include(platforms/windows)
 elseif(APPLE)
-  set_target_properties(
-    ${PROJECT_NAME} PROPERTIES OUTPUT_NAME "${PROJECT_NAME}"
-                               INSTALL_RPATH "@executable_path/../Frameworks")
-
-  # Add icon files to the application's source files to have CMake bundle them
-  # in the executable.
-  ecm_add_app_icon(ICONS_SOURCES ICONS ${ICONS_PNG})
-
-  set_property(
-    TARGET ${PROJECT_NAME}
-    PROPERTY MACOSX_BUNDLE_INFO_PLIST
-             ${CMAKE_CURRENT_SOURCE_DIR}/data/MacOSXBundleInfo.plist.in)
-
-  # the MacOSX bundle display name property (CFBundleDisplayName) is not
-  # currently supported by cmake, so has to be set for all targets in this cmake
-  # file
-  set(MACOSX_BUNDLE_DISPLAY_NAME ${PROJECT_NAME})
-  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_GUI_IDENTIFIER
-                                                   "io.github.jmuelbert.jmbde")
-  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME
-                                                   "jmbdequick")
-  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_DISPLAY_NAME
-                                                   "jmbdequick")
-  set_target_properties(
-    ${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_INFO_STRING
-                               "jmbdequick - A little BDE program")
-  set_target_properties(
-    ${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_LONG_VERSION_STRING
-                               "jmbdequick ${PROJECT_VERSION}")
-  set_target_properties(
-    ${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_SHORT_VERSION_STRING
-                               "${PROJECT_VERSION}")
-  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_BUNDLE_VERSION
-                                                   "${PROJECT_VERSION}")
-  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_ICON_FILE
-                                                   "${ICONS_SOURCES}")
-  set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_COPYRIGHT
-                                                   "2013-2020 Jürgen Mülbert")
-
-  set_target_properties(
-    ${PROJECT_NAME} PROPERTIES OUTPUT_NAME ${PROJECT_NAME}
-                               INSTALL_RPATH "@executable_path/../Frameworks")
-
-  install(
-    TARGETS ${PROJECT_NAME}
-    BUNDLE DESTINATION . COMPONENT Runtime
-    RUNTIME DESTINATION bin COMPONENT Runtime)
+  include(platforms/macos)
 elseif(UNIX AND NOT APPLE)
-
-  install(TARGETS ${PROJECT_NAME} ${INSTALL_TARGETS_DEFAULT_ARGS})
-
-  ecm_install_icons(
-    ICONS
-    ${ICONS_PNG}
-    ${ICONS_SVG}
-    DESTINATION
-    ${ICON_INSTALL_DIR}
-    THEME
-    hicolor)
-
-  # appdata
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/jmbdequick.appdata.xml.in
-                 ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick.appdata.xml @ONLY)
-  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick.appdata.xml
-          DESTINATION ${APPDATA_INSTALL_DIR})
-
-  install(
-    FILES
-      ${CMAKE_CURRENT_SOURCE_DIR}/data/io.github.jmuelbert.jmbdequick.desktop
-    DESTINATION ${XDG_APPS_INSTALL_DIR})
-
-  # man page
-  find_program(GZIP gzip)
-  if(GZIP)
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/jmbdequick.1.in
-                   ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick.1 @ONLY)
-    add_custom_command(
-      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick.1.gz
-      COMMAND ${GZIP} -c ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick.1 >
-              jmbdequick.1.gz
-      DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick.1)
-    add_custom_target(man_jmbdequick ALL
-                      DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick.1.gz)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbdequick.1.gz
-            DESTINATION ${MAN_INSTALL_DIR}/man1/)
-  endif()
+  include(platforms/linux)
 endif()
 
-set(QML_IMPORT_PATH
-    ${CMAKE_BINARY_DIR}/bin
-    CACHE INTERNAL "qml import path" FORCE)
+if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+    qt_finalize_executable( ${TARGET_NAME})
+endif()
+
+

@@ -1,24 +1,4 @@
 {
-  "cmake.configureSettings": {
-    "BUILD_EXAMPLES": "ON",
-    "BUILD_MANUAL": "OFF",
-    "BUILD_API_DOCS": "OFF",
-    "BUILD_TRANSLATIONS": "ON",
-    "BUILD_SHARED_LIBS": "ON",
-    "ENABLE_COVERAGE": "OFF",
-    "ENABLE_CPP_CHECK": "ON",
-    "ENABLE_CLANG_TIDY": "OFF",
-    "ENABLE_INCLUDE_WHAT_YOU_USE": "OFF",
-    "ENABLE_CLANG_FORMAT": "ON",
-    "ENABLE_CLAZY": "OFF",
-    "ENABLE_CCACHE": "OFF",
-    "ENABLE_TESTING": "ON",
-    "ENABLE_PCH": "ON",
-    "ENABLE_GRAPH": "ON",
-    "USE_GIT_VERSION": "ON",
-    "APPLICATION_BUILD_UI": "ON",
-    "CMAKE_INSTALL_PREFIX:PATH": "./install"
-  },
   "code-runner.executorMapByFileExtension": {
     ".qml": "qml",
     ".qrc": "qtcreator -client",
@@ -33,5 +13,7 @@
       "com.github.Desktop.yaml"
     ]
   },
-  "python.pythonPath": "/usr/local/Caskroom/miniconda/base/envs/develop/bin/python"
+  "python.pythonPath": "/usr/local/Caskroom/miniconda/base/envs/develop/bin/python",
+  "esbonio.server.enabled": true,
+  "python.formatting.provider": "black"
 }

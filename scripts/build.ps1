@@ -17,7 +17,7 @@ Param(
     [string]$t
 )
 
-# Globaö values
+# Global values
 $Global:outputPath = "C:\develop\github\"
 $Global:inputPath = "C:\downloads\jmbde-QT\"
 $Global:7ZipBinaryPath = "C:\Program Files\7-Zip\7z.exe"

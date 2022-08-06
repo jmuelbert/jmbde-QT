@@ -48,7 +48,6 @@ on:
 env:
   SOURCE_CACHE: ${{ github.workspace }}/src
   QT_VERSION: 6.2.0
-  QT_ARCH: clang_64
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Debug
   PRODUCT: jmbde
@@ -58,55 +57,64 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        platform: [ubuntu-latest]
+        qt_arch: [gcc_64]
+        arch: [amd64]
+        artifact: [Ubuntu-gcc]
+        cmake_generator: [Ninja]
+        cc: [clang-12]
+        cxx: [clang-12]
+      fail-fast: true
+
     steps:
-      - name: Checkout Source code
+      - name: '🧰 Checkout Source Code'
         if: github.event_name == 'push'
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      #          ref: master
+          ref: master
 
-      - name: Checkout Source code
+      - name: '🧰 Checkout Source Code'
         if: github.event_name == 'pull_request'
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v2
         with:
           path: '**/src'
-          key:
-            ${{ github.workflow }}-src-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake')
+          key: ${{ github.workflow }}-src-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake')
             }}
 
-      - name: Cache Qt
-        id: cache-qt
-        uses: actions/cache@v3
-        with:
-          path: ../Qt
-          key: QtCache-${{ matrix.platform }}-${{ matrix.arch }}-${{ env.QT_VERSION }}
+      - name: '⚙️ Install dependencies'
+        run: |
+          sudo apt-get -y -qq update
+          sudo apt-get -y --no-install-recommends install \
+            ninja-build
 
-      - name: Installing Qt - ${{ matrix.arch }}
+      - name: '⚙️ install python dependencies'
+        run: |
+          pipx install conan
+
+      - name: '⚙️ Cache Qt'
+        id: cache-qt
+        uses: actions/cache@v1 # not v2!
+        with:
+          path: '${{ github.workspace }}/Qt'
+          key: QtCache-${{ matrix.platform }}-{{ matrix.arch }}-${{ env.QT_VERSION }}
+
+      - name: '⚙️ Install Qt'
         uses: jurplel/install-qt-action@v2
         with:
-          version: ${{  env.QT_VERSION }}
-          arch: ${{ matrix.qtarch }}
+          version: ${{ env.QT_VERSION }}
+          target: ${{ env.QT_TARGET }}
+          arch: ${{ matrix.qt_arch }}
+          # modules: 'qtscript'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
-
-      - name: Linux - ${{  env.QT_VERSION }} - Build preparation - Install Packages
-        run: |
-          sudo apt update
-          sudo apt install -y build-essential ninja-build cmake pkgconf fcitx-frontend-qt5 libxcb-xinerama0 libgl-dev libx11-dev libxkbcommon-x11-dev libxcb-image0-dev libxcb-icccm4-dev libssl-dev libxcb-keysyms1 libxcb-render-util0
-
-      - name: Get conan
-        id: conan
-        uses: turtlebrowser/get-conan@v1.0
-
-      - name: Add Bincrafters Remote
-        run:
-          conan remote add bincrafters
-          https://api.bintray.com/conan/bincrafters/public-conan
 
       - name: Create Build Environment
         # Some projects don't allow in-source building, so create a separate build directory
@@ -117,13 +125,16 @@ jobs:
         # Use a bash shell so we can use the same syntax for environment variable
         # access regardless of the host operating system
         shell: bash
+        env:
+          CC: ${{ matrix.cc }}
+          CXX: ${{ matrix.cxx}}
         working-directory: ${{runner.workspace}}/build
         # Note the current convention is to use the -S and -B options here to specify source
         # and build directories, but this is only available with CMake 3.13 and higher.
         # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
         run: |
           cmake $GITHUB_WORKSPACE \
-              ${{matrix.config.generator}} \
+              -G ${{matrix.config.generator}} \
               -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
               -DENABLE_CLANG_FORMAT=ON
 
@@ -134,7 +145,7 @@ jobs:
         run: |
           cmake --build . \
             --config ${{ env.BUILD_TYPE }} \
-            -j2
+            -j$(nproc)
 
       # Run only on linux
       - name: Validate QML and JavaScript files
@@ -176,24 +187,24 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}          
 
-  # - name: PMD Code Analyzer Action
-  #   uses: billyan2018/setup-pmd@PMDAnalyzer1.0
-  #   run: pmd -d ./src -R category/apex/design.xml -f text
+      # - name: PMD Code Analyzer Action
+      #   uses: billyan2018/setup-pmd@PMDAnalyzer1.0
+      #   run: pmd -d ./src -R category/apex/design.xml -f text
 
-  # - name: Check_for_duplicate_code
-  #   uses: platisd/duplicate-code-detection-tool@master
-  #   with:
-  #     github_token: ${{ secrets.GITHUB_TOKEN }}
-  #     directories: 'src'
-  #     # Ignore the specified directories
-  #     ignore_directories: 'src/external_libraries'
-  #     # Only examine .h and .cpp files
-  #     file_extensions: 'h, cpp'
-  #     # Only report similarities above 5%
-  #     ignore_below: 5
-  #     # If a file is more than 70% similar to another, then the job fails
-  #     fail_above: 70
-  #     # If a file is more than 15% similar to another, show a warning symbol in the report
-  #     warn_above: 15
-  #     # Remove `src/` from the file paths when reporting similarities
-  #     project_root_dir: 'src'
+      # - name: Check_for_duplicate_code
+      #   uses: platisd/duplicate-code-detection-tool@master
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     directories: 'src'
+      #     # Ignore the specified directories
+      #     ignore_directories: 'src/3rd-party'
+      #     # Only examine .h and .cpp files
+      #     file_extensions: 'h, cpp'
+      #     # Only report similarities above 5%
+      #     ignore_below: 5
+      #     # If a file is more than 70% similar to another, then the job fails
+      #     fail_above: 70
+      #     # If a file is more than 15% similar to another, show a warning symbol in the report
+      #     warn_above: 15
+      #     # Remove `src/` from the file paths when reporting similarities
+      #     project_root_dir: 'src'

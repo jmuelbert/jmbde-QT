@@ -1,0 +1,3 @@
+kdoctools
+snapcraftctl
+plibcmake

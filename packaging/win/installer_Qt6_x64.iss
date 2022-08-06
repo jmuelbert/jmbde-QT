@@ -30,11 +30,11 @@ DefaultDirName={pf}\{#MyAppName}
 ; DefaultGroupName={#MyAppName}
 UsedUserAreasWarning=no
 DisableProgramGroupPage=yes
-LicenseFile=.\License.rtf
+LicenseFile=License.rtf
 PrivilegesRequiredOverridesAllowed=dialog
 OutputDir={#MyProjectRoot}
 OutputBaseFilename=jmbde-setup
-SetupIconFile=..\..\assets\icons\jmbde-icon.ico
+SetupIconFile=jmbde-icon.ico
 Compression=lzma
 SolidCompression=yes
 ;ShowLanguageDialog=no
@@ -107,12 +107,13 @@ Name: "documents"; Description: "{cm:Documents}"; Types: full
 Source: "{#MyOutRoot}\jmbde.exe"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\jmbdemodels.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\jmbdewidgets.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\jmbdequick.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+; Source: "{#MyOutRoot}\jmbdequick.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 
 ; VC++ redistributable runtime.
 Source: "{#MyOutRoot}\msvcp140.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\msvcp140_1.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\msvcp140_2.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "{#MyOutRoot}\msvcp140_atomic_wait.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\msvcp140_codecvt_ids.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\vcruntime140_1.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\vcruntime140.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
@@ -122,9 +123,9 @@ Source: "{#MyOutRoot}\vc_redist.x64.exe"; DestDir: "{app}"; Components: core; Fl
 ; Qt libs
 Source: "{#MyOutRoot}\Qt6Core.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\Qt6Gui.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\Qt6Network.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
+; Source: "{#MyOutRoot}\Qt6Network.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\Qt6PrintSupport.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "{#MyOutRoot}\Qt6Qml.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
+; Source: "{#MyOutRoot}\Qt6Qml.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\Qt6Sql.dll "; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\Qt6Svg.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 Source: "{#MyOutRoot}\Qt6Widgets.dll"; DestDir: "{app}"; Components: core; Flags: ignoreversion
@@ -191,42 +192,42 @@ Source: "{#MyOutRoot}\translations\qt_zh_CN.qm"; DestDir: "{app}\translations"; 
 Source: "{#MyOutRoot}\translations\qt_zh_TW.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 
 ; - translations
-Source: "{#MyOutRoot}\translations\jmbde_ar.qm"; DestDir: "{app}\translations"; Components: translations;  Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\jmbde_bg.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\jmbde_ca.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\jmbde_cs.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\jmbde_da.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+; Source: "{#MyOutRoot}\translations\jmbde_ar.qm"; DestDir: "{app}\translations"; Components: translations;  Flags: ignoreversion
+; Source: "{#MyOutRoot}\translations\jmbde_bg.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+; Source: "{#MyOutRoot}\translations\jmbde_ca.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+; Source: "{#MyOutRoot}\translations\jmbde_cs.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+; Source: "{#MyOutRoot}\translations\jmbde_da.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 ; Source: "{#MyOutRoot}\translations\jmbde_de.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\jmbde_en.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\jmbde_es.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\jmbde_fa.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\jmbde_fi.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\jmbde_fr.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\jmbde_gd.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\jmbde_gl.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\jmbde_he.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\jmbde_hu.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\jmbde_it.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\jmbde_ja.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\jmbde_ko.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\jmbde_lt.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\jmbde_lv.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\jmbde_nl.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\jmbde_pl.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\jmbde_pt.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\jmbde_ru.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\jmbde_sk.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\jmbde_tr.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\jmbde_uk.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\jmbde_zh_CN.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
-Source: "{#MyOutRoot}\translations\jmbde_zh_TW.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+; Source: "{#MyOutRoot}\translations\jmbde_en.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+; Source: "{#MyOutRoot}\translations\jmbde_es.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+; Source: "{#MyOutRoot}\translations\jmbde_fa.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+; Source: "{#MyOutRoot}\translations\jmbde_fi.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+; Source: "{#MyOutRoot}\translations\jmbde_fr.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+; Source: "{#MyOutRoot}\translations\jmbde_gd.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+; Source: "{#MyOutRoot}\translations\jmbde_gl.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+; Source: "{#MyOutRoot}\translations\jmbde_he.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+; Source: "{#MyOutRoot}\translations\jmbde_hu.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+; Source: "{#MyOutRoot}\translations\jmbde_it.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+; Source: "{#MyOutRoot}\translations\jmbde_ja.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+; Source: "{#MyOutRoot}\translations\jmbde_ko.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+; Source: "{#MyOutRoot}\translations\jmbde_lt.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+; Source: "{#MyOutRoot}\translations\jmbde_lv.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+; Source: "{#MyOutRoot}\translations\jmbde_nl.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+; Source: "{#MyOutRoot}\translations\jmbde_pl.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+; Source: "{#MyOutRoot}\translations\jmbde_pt.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+; Source: "{#MyOutRoot}\translations\jmbde_ru.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+; Source: "{#MyOutRoot}\translations\jmbde_sk.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+; Source: "{#MyOutRoot}\translations\jmbde_tr.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+; Source: "{#MyOutRoot}\translations\jmbde_uk.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+; Source: "{#MyOutRoot}\translations\jmbde_zh_CN.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+; Source: "{#MyOutRoot}\translations\jmbde_zh_TW.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 
 ; Docs
-Source: "..\..\*.md"; DestDir: "{app}"; Components: core; Flags: ignoreversion
-Source: "..\..\AUTHORS"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "*.md"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+Source: "AUTHORS"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 
 ; Licenses
-Source: "..\..\LICENSE"; DestDir: "{app}"; Components: core; Flags: ignoreversion
+; Source: "LICENSE"; DestDir: "{app}"; Components: core; Flags: ignoreversion
 
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"

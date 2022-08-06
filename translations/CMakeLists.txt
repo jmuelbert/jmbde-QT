@@ -1,30 +1,20 @@
 #
 # jmbde a BDE Tool for companies Copyright (C) 2013-2020  Jürgen Mülbert
 #
-# This program is free software: you can redistribute it and/or modify it under
-# the terms of the GNU General Public License as published by the Free Software
-# Foundation, either version 3 of the License, or (at your option) any later
+# This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+# License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later
 # version.
 #
-# This program is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
-# details.
-
-# minimal requirements
-cmake_minimum_required(VERSION 3.12...3.19 FATAL_ERROR)
-
-if(${CMAKE_VERSION} VERSION_LESS 3.19)
-  cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
-else()
-  cmake_policy(VERSION 3.19)
-endif()
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+# warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 #
 # The translations
 #
 
-project(translations)
+set(TARGET_ID jmbde_qm)
+
+add_library(${TARGET_ID})
 
 set(LANGUAGES "All")
 
@@ -37,6 +27,7 @@ if(LANGUAGES STREQUAL "All")
       cs
       de
       da
+      de
       en
       es
       fa
@@ -61,62 +52,55 @@ if(LANGUAGES STREQUAL "All")
       zh_CN
       zh_TW)
 else()
-  string(REGEX MATCHALL [a-zA-Z_@]+ LANGUAGES_TR ${LANGUAGES})
+  string(
+    REGEX MATCHALL
+          [a-zA-Z_@]+
+          LANGUAGES_TR
+          ${LANGUAGES})
   set(jmbdeTSS "")
   foreach(LANG ${LANGUAGES_TR})
     list(APPEND LANGUAGES "${LANG}.ts")
+    list(APPEND QM_FILES "jmbde_${LANG}.qm")
   endforeach()
 endif()
-# translation tools
 
-add_custom_target(ts)
-foreach(LANG ${LANGUAGES})
-  add_custom_target(
-    ts_${LANG}
-    COMMAND
-      Qt${QT_VERSION_MAJOR}::lupdate src/app/src src/libs/models src/libs/quick
-      src/libs/widgets -locations relative -no-ui-lines -no-obsolete -ts
-      ${CMAKE_CURRENT_SOURCE_DIR}/jmbde_${LANG}.ts
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
-  add_dependencies(ts ts_${LANG})
-endforeach()
 
-# qm generation and installation
-foreach(LANG ${LANGUAGES})
-  add_custom_command(
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jmbde_${LANG}.qm
-    COMMAND
-      Qt${QT_VERSION_MAJOR}::lrelease
-      ${CMAKE_CURRENT_SOURCE_DIR}/jmbde_${LANG}.ts -qm
-      ${CMAKE_CURRENT_BINARY_DIR}/jmbde_${LANG}.qm
-    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/jmbde_${LANG}.ts)
-  add_custom_target(jmbde_${LANG}_qm ALL
-                    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbde_${LANG}.qm)
-  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jmbde_${LANG}.qm
-          DESTINATION ${TRANSLATION_INSTALL_DIR})
-endforeach()
-
-# message merging (manual target, affects source dir)
-add_custom_target(tsmerge)
-foreach(LANG ${LANGUAGES})
-  add_custom_target(
-    tsmerge_${LANG}
-    COMMAND ljsonupdate --merge --qm
-            ${CMAKE_CURRENT_BINARY_DIR}/jmbde_${LANG}.qm --lang ${LANG} ${jsons}
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/jmbde_${LANG}.qm)
-  add_dependencies(tsmerge tsmerge_${LANG})
-endforeach()
-
-if(EMBED_TRANSLATIONS)
-  add_definitions(-DEMBED_TRANSLATIONS)
-  configure_file(translations.qrc ${CMAKE_BINARY_DIR} COPYONLY)
-  set(EMBED_TRANSLATION_QRC ${CMAKE_BINARY_DIR}/translations.qrc)
+if(ENABLE_CONAN)
+  find_package(Qt6 CONFIG COMPONENTS Core LinguistTools)
+  set(QT_VERSION, 6)
 else()
-  if(WIN32)
-    install(FILES ${QM_FILES} DESTINATION "${TRANSLATION_INSTALL_DIR}")
-  elseif(APPLE)
-    install(FILES ${QM_FILES} DESTINATION "${TRANSLATION_INSTALL_DIR}")
-  else()
-    install(FILES ${QM_FILES} DESTINATION "${TRANSLATION_INSTALL_DIR}")
-  endif()
+  find_package(
+    QT NAMES Qt6 Qt5
+    COMPONENTS Core
+    REQUIRED
+  )
+
+  # ----------------------------------------------------------------------------
+  # Finding Qt5 or Qt6
+  # ----------------------------------------------------------------------------
+
+  find_package(Qt${QT_VERSION_MAJOR} CONFIG COMPONENTS Core LinguistTools)
 endif()
+
+# translation tools
+if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+    qt_add_translations(${TARGET_ID} ${LANGuAGES})
+else()
+    qt5_add_translation(${TARGET_ID} ${LANGuAGES})
+endif()
+
+if(CMAKE_BUILD_TYPE MATCHES "^[Dd][Ee][Bb][Uu][Gg]$" OR NOT DEFINED CMAKE_BUILD_TYPE)
+    # Only do this in Debug Build
+    add_custom_target(lupdate
+        COMMENT "Generating Translation Sources"
+        COMMAND Qt::lupdate
+        ${CMAKE_SOURCE_DIR}/src
+        -ts translations/en_US.ts
+        -locations none
+        -no-obsolete
+        -no-sort
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+    add_dependencies(qv2ray_baselib lupdate)
+endif()
+
+
