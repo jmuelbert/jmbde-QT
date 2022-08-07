@@ -8,32 +8,32 @@
 
 class tst_quicktest : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 
 private slots:
-    void toUpper_data();
-    void toUpper();
+  void toUpper_data();
+  void toUpper();
 };
 
 void tst_quicktest::toUpper_data()
 {
-    QTest::addColumn<QString>("string");
-    QTest::addColumn<QString>("result");
+  QTest::addColumn<QString>("string");
+  QTest::addColumn<QString>("result");
 
-    QTest::newRow("all lower") << "hello"
-                               << "HELLO";
-    QTest::newRow("mixed") << "Hello"
-                           << "HELLO";
-    QTest::newRow("all upper") << "HELLO"
-                               << "HELLO";
+  QTest::newRow("all lower") << "hello"
+                             << "HELLO";
+  QTest::newRow("mixed") << "Hello"
+                         << "HELLO";
+  QTest::newRow("all upper") << "HELLO"
+                             << "HELLO";
 }
 
 void tst_quicktest::toUpper()
 {
-    QFETCH(QString, string);
-    QFETCH(QString, result);
+  QFETCH(QString, string);
+  QFETCH(QString, result);
 
-    QCOMPARE(string.toUpper(), result);
+  QCOMPARE(string.toUpper(), result);
 }
 
 QTEST_MAIN(tst_quicktest)

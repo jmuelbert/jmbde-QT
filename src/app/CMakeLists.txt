@@ -25,9 +25,7 @@ set(TARGET_AUTHOR_ORGANIZATION "Jürgen Mülbert")
 set(TARGET_AUTHOR_DOMAIN "https://github.com/jmuelbert")
 set(TARGET_AUTHOR_MAINTAINER "Jürgen Mülbert")
 
-message(STATUS "Building ${TARGET_NAME}" " Version ${TARGET_VERSION}"
-               " in ${CMAKE_BUILD_TYPE} mode"
-)
+message(STATUS "Building ${TARGET_NAME}" " Version ${TARGET_VERSION}" " in ${CMAKE_BUILD_TYPE} mode")
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
@@ -35,20 +33,25 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 add_definitions(QT_NO_FOREACH)
 
-configure_file(
-  ${CMAKE_SOURCE_DIR}/cmake/versioninfo/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/jmbde_version.h
-  @ONLY
-)
+configure_file(${CMAKE_SOURCE_DIR}/cmake/versioninfo/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/jmbde_version.h @ONLY)
 
 find_package(
-  QT NAMES Qt6 Qt5
+  QT
+  NAMES
+  Qt6
+  Qt5
   COMPONENTS Core
-  REQUIRED
-)
+  REQUIRED)
 
 # ---------------------------------------------------------------------------- # Finding Qt5 or Qt6
 # ---------------------------------------------------------------------------- #
-find_package(Qt${QT_VERSION_MAJOR} QUIET COMPONENTS Core Widgets PrintSupport Sql Qml)
+find_package(
+  Qt${QT_VERSION_MAJOR} QUIET
+  COMPONENTS Core
+             Widgets
+             PrintSupport
+             Sql
+             Qml)
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
   qt_add_executable(${TARGET_NAME} MANUAL_FINALIZATION)
@@ -83,15 +86,14 @@ if(APPLE OR WIN32)
 endif()
 
 if(APPLE)
-    include(platforms/macos)
+  include(platforms/macos)
 elseif(WIN32)
-    include(platforms/windows)
+  include(platforms/windows)
 elseif(UNIX AND NOT APPLE)
-    include(platforms/linux)
+  include(platforms/linux)
 elseif(ANDROID)
-    include(platforms/android)
+  include(platforms/android)
 endif()
-
 
 #
 # Application icons
@@ -101,8 +103,7 @@ set(ICONS_PNG
     ${CMAKE_SOURCE_DIR}/assets/icons/32-apps-jmbde.png
     ${CMAKE_SOURCE_DIR}/assets/icons/128-apps-jmbde.png
     ${CMAKE_SOURCE_DIR}/assets/icons/256-apps-jmbde.png
-    ${CMAKE_SOURCE_DIR}/assets/icons/512-apps-jmbde.png
-)
+    ${CMAKE_SOURCE_DIR}/assets/icons/512-apps-jmbde.png)
 
 set(ICONS_SVG ${CMAKE_SOURCE_DIR}/assets/icons/sc-apps-jmbde.svgz)
 
@@ -110,16 +111,13 @@ set(ICONS_SVG ${CMAKE_SOURCE_DIR}/assets/icons/sc-apps-jmbde.svgz)
 # target
 #
 
-
 target_include_directories(
   ${TARGET_NAME}
-  PRIVATE
-        "${CMAKE_BINARY_DIR}/configured_files/include"
-        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>" # For headers when building
-        "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
-        "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>"
-        "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
-)
+  PRIVATE "${CMAKE_BINARY_DIR}/configured_files/include"
+          "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>" # For headers when building
+          "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
+          "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>"
+          "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
 
 target_sources(${TARGET_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 
@@ -129,9 +127,7 @@ target_sources(${TARGET_NAME} PRIVATE ${ICONS_SOURCES})
 # note : cxx_std_* features were added in CMake 3.8.2
 target_compile_features(${TARGET_NAME} PRIVATE cxx_std_17)
 
-target_compile_definitions(
-  ${TARGET_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>
-)
+target_compile_definitions(${TARGET_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
 target_link_libraries(
   # PUBLIC # Useful for libraries, see

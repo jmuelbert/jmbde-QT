@@ -37,13 +37,10 @@ find_package_handle_standard_args(
 if(JMBDEQuick_FOUND)
   # Set include dirs to parent, to enable includes like #include
   # <rapidjson/document.h>
-  get_filename_component(JMBDEQuick_INCLUDE_DIRS ${JMBDEQuick_INCLUDE_DIR}
-                         DIRECTORY)
+  get_filename_component(JMBDEQuick_INCLUDE_DIRS ${JMBDEQuick_INCLUDE_DIR} DIRECTORY)
 endif()
 
 if(JMBDEQuick_FOUND AND NOT TARGET jmuelbert::jmbdequick)
   add_library(jmuelbert::jmbdequick INTERFACE IMPORTED)
-  set_target_properties(
-    jmuelbert::jmbdequick PROPERTIES INTERFACE_INCLUDE_DIRECTORIES
-                                     "${JMBDEQuick_INCLUDE_DIRS}")
+  set_target_properties(jmuelbert::jmbdequick PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${JMBDEQuick_INCLUDE_DIRS}")
 endif()

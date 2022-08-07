@@ -30,28 +30,41 @@ set(TARGET_AUTHOR_DOMAIN "https://github.com/jmuelbert")
 set(TARGET_AUTHOR_MAINTAINER "Jürgen Mülbert")
 
 message(STATUS "Building ${TARGET_NAMESPACE}::${TARGET_NAME}"
-               " Version ${TARGET_VERSION} SO_Version ${TARGET_SO_VERSION}"
-               " in ${CMAKE_BUILD_TYPE} mode"
-)
+               " Version ${TARGET_VERSION} SO_Version ${TARGET_SO_VERSION}" " in ${CMAKE_BUILD_TYPE} mode")
 
 find_package(
-  QT NAMES Qt6 Qt5
+  QT
+  NAMES
+  Qt6
+  Qt5
   COMPONENTS Core
-  REQUIRED
-)
+  REQUIRED)
 
 # ---------------------------------------------------------------------------- # Finding Qt5 or Qt6
 # ---------------------------------------------------------------------------- #
-find_package(Qt${QT_VERSION_MAJOR} CONFIG COMPONENTS Core Widgets Sql PrintSupport)
+find_package(
+  Qt${QT_VERSION_MAJOR} CONFIG
+  COMPONENTS Core
+             Widgets
+             Sql
+             PrintSupport)
 
 # ---------------------------------------------------------------------------- # Define Target
 # according to options ----------------------------------------------------------------------------
 # #
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
   if(BUILD_SHARED_LIBS)
-    qt_add_library(${TARGET_NAME} SHARED "" MANUAL_FINALIZATION)
+    qt_add_library(
+      ${TARGET_NAME}
+      SHARED
+      ""
+      MANUAL_FINALIZATION)
   else()
-    qt_add_library(${TARGET_NAME} STATIC "" MANUAL_FINALIZATION)
+    qt_add_library(
+      ${TARGET_NAME}
+      STATIC
+      ""
+      MANUAL_FINALIZATION)
   endif()
 else()
   if(BUILD_SHARED_LIBS)
@@ -84,15 +97,13 @@ set_target_properties(
   PROPERTIES MSVC_RUNTIME_LIBRARY "${MSVC_RUNTIME_TYPE}"
              VERSION ${TARGET_VERSION}
              SOVERSION ${TARGET_SO_VERSION}
-             EXPORTNAME ${TARGET_NAME}
-)
+             EXPORTNAME ${TARGET_NAME})
 
 set_target_properties(
   ${TARGET_NAME}
   PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
              LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-             RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-)
+             RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # BUILD_INTERFACE specifies where to find includes during build time here we set the include
 # directory to be our src
@@ -101,17 +112,15 @@ set_target_properties(
 # ';' can both be used (cmake needs it to be a string) include all the necessary directories
 target_include_directories(
   ${TARGET_NAME}
-  PUBLIC $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/exports>
-         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include> $<INSTALL_INTERFACE:include>
+  PUBLIC $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/exports> $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+         $<INSTALL_INTERFACE:include>
   PRIVATE ${TARGET_INCLUDE_FOLDER}
           # include OpenSSL directories if present
           # $<$<BOOL:${OPENSSL_FOUND}>:${OPENSSL_INCLUDE_DIR}> Any other extra include required
 )
 
 # set target compile options as defined in the cmake/compiler_options.cmake Module
-target_compile_definitions(
-  ${TARGET_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>
-)
+target_compile_definitions(${TARGET_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
 # We tell CMake what are the target dependencies
 target_link_libraries(
@@ -124,17 +133,14 @@ target_link_libraries(
           Qt${QT_VERSION_MAJOR}::Sql
           jmuelbert::jmbdemodels
           ${CMAKE_REQUIRED_LIBRARIES}
-          ${CONAN_LIBS}
-)
+          ${CONAN_LIBS})
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
   qt_finalize_target(${TARGET_NAME})
 endif()
 
 # generate an export header to expose symbols when using the library
-generate_export_header(
-  ${TARGET_NAME} EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/${TARGET_NAME}_export.h
-)
+generate_export_header(${TARGET_NAME} EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/${TARGET_NAME}_export.h)
 
 # ---------------------------------------------------------------------------- # Install
 # instructions ---------------------------------------------------------------------------- #
@@ -144,8 +150,7 @@ install(
   TARGETS ${TARGET_NAME}
   EXPORT ${TARGET_NAME}Config
   LIBRARY
-  ARCHIVE
-)
+  ARCHIVE)
 
 # install(DIRECTORY include/${TARGET_NAME} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
@@ -155,8 +160,7 @@ install(
   EXPORT ${TARGET_NAME}Config
   FILE Config${TARGET_NAME}.cmake
   NAMESPACE ${TARGET_NAMESPACE}::
-  DESTINATION ${INSTALL_CONFIGDIR}
-)
+  DESTINATION ${INSTALL_CONFIGDIR})
 
 # ---------------------------------------------------------------------------- # Create a
 # ConfigVersion.cmake file
@@ -164,43 +168,34 @@ install(
 write_basic_package_version_file(
   ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_ID}ConfigVersion.cmake
   VERSION ${TARGET_VERSION}
-  COMPATIBILITY AnyNewerVersion
-)
+  COMPATIBILITY AnyNewerVersion)
 
 configure_package_config_file(
-  ${CMAKE_CURRENT_LIST_DIR}/cmake/config.cmake.in
-  ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_ID}Config.cmake INSTALL_DESTINATION ${INSTALL_CONFIGDIR}
-)
+  ${CMAKE_CURRENT_LIST_DIR}/cmake/config.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_ID}Config.cmake
+  INSTALL_DESTINATION ${INSTALL_CONFIGDIR})
 
 # ---------------------------------------------------------------------------- # Install the config,
 # configversion and custom find modules
 # ---------------------------------------------------------------------------- #
-install(
-  FILES ${CMAKE_CURRENT_LIST_DIR}/cmake/Find${TARGET_ID}.cmake
-        ${CMAKE_CURRENT_BINARY_DIR}/Config${TARGET_ID}.cmake
-        ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_ID}ConfigVersion.cmake
-  DESTINATION ${INSTALL_CONFIGDIR}
-)
+install(FILES ${CMAKE_CURRENT_LIST_DIR}/cmake/Find${TARGET_ID}.cmake
+              ${CMAKE_CURRENT_BINARY_DIR}/Config${TARGET_ID}.cmake
+              ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_ID}ConfigVersion.cmake DESTINATION ${INSTALL_CONFIGDIR})
 
 # ---------------------------------------------------------------------------- # Exporting from the
 # build tree ---------------------------------------------------------------------------- #
-configure_file(
-  ${CMAKE_CURRENT_LIST_DIR}/cmake/Find${TARGET_ID}.cmake
-  ${CMAKE_CURRENT_BINARY_DIR}/Find${TARGET_ID}.cmake COPYONLY
-)
+configure_file(${CMAKE_CURRENT_LIST_DIR}/cmake/Find${TARGET_ID}.cmake
+               ${CMAKE_CURRENT_BINARY_DIR}/Find${TARGET_ID}.cmake COPYONLY)
 
 export(
   EXPORT ${TARGET_NAME}Config
   FILE ${CMAKE_CURRENT_BINARY_DIR}/Config${TARGET_NAME}.cmake
-  NAMESPACE ${TARGET_NAMESPACE}::
-)
+  NAMESPACE ${TARGET_NAMESPACE}::)
 
 if(__MSVC AND BUILD_SHARED_LIBS)
   install(
     FILES "$<TARGET_PDB_FILE_DIR:>/$<TARGET_PDB_FILE_NAME:>"
     DESTINATION ${BIN_INSTALL_DIR}
-    CONFIGURATIONS Debug RelWithDebInfo
-  )
+    CONFIGURATIONS Debug RelWithDebInfo)
 endif()
 
 # ---------------------------------------------------------------------------- # Testing

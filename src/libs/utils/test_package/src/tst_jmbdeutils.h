@@ -8,9 +8,9 @@
 
 class tst_jmbdeutils : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 
 private slots:
-    void toUpper_data();
-    void toUpper();
+  void toUpper_data();
+  void toUpper();
 };

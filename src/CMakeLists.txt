@@ -1,4 +1,3 @@
-
 # building the libs
 add_subdirectory(libs)
 

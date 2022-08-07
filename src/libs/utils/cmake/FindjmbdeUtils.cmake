@@ -37,13 +37,10 @@ find_package_handle_standard_args(
 if(JMBDEUtils_FOUND)
   # Set include dirs to parent, to enable includes like #include
   # <rapidjson/document.h>
-  get_filename_component(JMBDEUtils_INCLUDE_DIRS ${JMBDEUtils_INCLUDE_DIR}
-                         DIRECTORY)
+  get_filename_component(JMBDEUtils_INCLUDE_DIRS ${JMBDEUtils_INCLUDE_DIR} DIRECTORY)
 endif()
 
 if(JMBDEUtils_FOUND AND NOT TARGET jmuelbert::jmbdeutils)
   add_library(jmuelbert::jmbdeutils INTERFACE IMPORTED)
-  set_target_properties(
-    jmuelbert::jmbdeutils PROPERTIES INTERFACE_INCLUDE_DIRECTORIES
-                                      "${JMBDEUtils_INCLUDE_DIRS}")
+  set_target_properties(jmuelbert::jmbdeutils PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${JMBDEUtils_INCLUDE_DIRS}")
 endif()

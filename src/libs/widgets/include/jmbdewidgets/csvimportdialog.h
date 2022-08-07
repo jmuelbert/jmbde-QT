@@ -19,8 +19,7 @@
 
 #include "jmbdewidgets_export.h"
 
-namespace Ui
-{
+namespace Ui {
 class CsvImportDialog;
 }
 
@@ -29,52 +28,52 @@ class CsvImportDialog;
  */
 class JMBDEWIDGETS_EXPORT CsvImportDialog : public QDialog
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    /**
-     * @brief CsvImportDialog::CsvImportDialog
-       @param parent The pointer to the parent object
-     */
-    explicit CsvImportDialog(QWidget *parent = nullptr);
+  /**
+   * @brief CsvImportDialog::CsvImportDialog
+     @param parent The pointer to the parent object
+   */
+  explicit CsvImportDialog(QWidget *parent = nullptr);
 
-    /**
-     * @brief CsvImportDialog::~CsvImportDialog
-     */
-    ~CsvImportDialog();
+  /**
+   * @brief CsvImportDialog::~CsvImportDialog
+   */
+  ~CsvImportDialog();
 
 private slots:
 
-    /**
-     * @brief CsvImportDialog::checkString
-     * @param temp Check the String
-     * @param character The character to checking
-     */
-    void checkString(QString &temp, QChar character = QChar(' '));
+  /**
+   * @brief CsvImportDialog::checkString
+   * @param temp Check the String
+   * @param character The character to checking
+   */
+  void checkString(QString &temp, QChar character = QChar(' '));
 
-    /**
-     * @brief CsvImportDialog::on_buttonBox_accepted
-     */
-    void on_buttonBox_accepted();
+  /**
+   * @brief CsvImportDialog::on_buttonBox_accepted
+   */
+  void on_buttonBox_accepted();
 
 private:
-    /**
-     * @brief ui
-     */
-    Ui::CsvImportDialog *ui;
+  /**
+   * @brief ui
+   */
+  Ui::CsvImportDialog *ui;
 
-    /**
-     * @brief csv
-     */
-    QList<QStringList> csv;
+  /**
+   * @brief csv
+   */
+  QList<QStringList> csv;
 
-    /**
-     * @brief model
-     */
-    QStandardItemModel *model;
+  /**
+   * @brief model
+   */
+  QStandardItemModel *model;
 
-    /**
-     * @brief standardItemList
-     */
-    QList<QStandardItem *> standardItemList;
+  /**
+   * @brief standardItemList
+   */
+  QList<QStandardItem *> standardItemList;
 };
