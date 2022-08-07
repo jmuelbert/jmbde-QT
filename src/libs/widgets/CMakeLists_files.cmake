@@ -51,15 +51,14 @@ set(HEADERS
     ${INCLUDE_DIR}/systemdatainputarea.h
     ${INCLUDE_DIR}/titleinputarea.h
     ${INCLUDE_DIR}/zipcitiyinputarea.h
-    ${INCLUDE_DIR}/zipcodeinputarea.h
-)
+    ${INCLUDE_DIR}/zipcodeinputarea.h)
 # Group files in IDE project
 source_group("include/${TARGET_ID_LOWER}" FILES ${HEADERS})
 
 # ---------------------------------------------------------------------------- #
 # Define sources files
 # ---------------------------------------------------------------------------- #
-set(SOURCES 
+set(SOURCES
     ${SOURCE_DIR}/aboutdialog.cpp
     ${SOURCE_DIR}/accountinputarea.cpp
     ${SOURCE_DIR}/chipcarddoorinputarea.cpp
@@ -133,8 +132,7 @@ set(SOURCES
     ${SOURCE_DIR}/titleinputarea.ui
     ${SOURCE_DIR}/zipcityinputarea.ui
     ${SOURCE_DIR}/zipcodeinputarea.ui
-    ${SOURCE_DIR}/resources/resources.qrc
-    )
+    ${SOURCE_DIR}/resources/resources.qrc)
 
 # Group files in IDE project
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})

@@ -14,40 +14,39 @@ set(SOURCE_DIR ${MAIN_DIR}/src)
 # Define headers files
 # -------------------------------------------------------------------------------------------------------------------- #
 set(HEADERS
-  ${INCLUDE_DIR}/account.h
-  ${INCLUDE_DIR}/chipcard.h
-  ${INCLUDE_DIR}/chipcarddoor.h
-  ${INCLUDE_DIR}/chipcardprofile.h
-  ${INCLUDE_DIR}/chipcardprofiledoor.h
-  ${INCLUDE_DIR}/cityname.h
-  ${INCLUDE_DIR}/commondata.h
-  ${INCLUDE_DIR}/company.h
-  ${INCLUDE_DIR}/computer.h
-  ${INCLUDE_DIR}/computersoftware.h
-  ${INCLUDE_DIR}/datacontext.h
-  ${INCLUDE_DIR}/department.h
-  ${INCLUDE_DIR}/devicename.h
-  ${INCLUDE_DIR}/devicetype.h
-  ${INCLUDE_DIR}/document.h
-  ${INCLUDE_DIR}/employeeaccount.h
-  ${INCLUDE_DIR}/employee.h
-  ${INCLUDE_DIR}/employeedocument.h
-  ${INCLUDE_DIR}/fax.h
-  ${INCLUDE_DIR}/function.h
-  ${INCLUDE_DIR}/inventory.h
-  ${INCLUDE_DIR}/manufacturer.h
-  ${INCLUDE_DIR}/mobile.h
-  ${INCLUDE_DIR}/os.h
-  ${INCLUDE_DIR}/phone.h
-  ${INCLUDE_DIR}/place.h
-  ${INCLUDE_DIR}/printer.h
-  ${INCLUDE_DIR}/processor.h
-  ${INCLUDE_DIR}/software.h
-  ${INCLUDE_DIR}/systemdata.h
-  ${INCLUDE_DIR}/title.h
-  ${INCLUDE_DIR}/zipcity.h
-  ${INCLUDE_DIR}/zipcode.h
-)
+    ${INCLUDE_DIR}/account.h
+    ${INCLUDE_DIR}/chipcard.h
+    ${INCLUDE_DIR}/chipcarddoor.h
+    ${INCLUDE_DIR}/chipcardprofile.h
+    ${INCLUDE_DIR}/chipcardprofiledoor.h
+    ${INCLUDE_DIR}/cityname.h
+    ${INCLUDE_DIR}/commondata.h
+    ${INCLUDE_DIR}/company.h
+    ${INCLUDE_DIR}/computer.h
+    ${INCLUDE_DIR}/computersoftware.h
+    ${INCLUDE_DIR}/datacontext.h
+    ${INCLUDE_DIR}/department.h
+    ${INCLUDE_DIR}/devicename.h
+    ${INCLUDE_DIR}/devicetype.h
+    ${INCLUDE_DIR}/document.h
+    ${INCLUDE_DIR}/employeeaccount.h
+    ${INCLUDE_DIR}/employee.h
+    ${INCLUDE_DIR}/employeedocument.h
+    ${INCLUDE_DIR}/fax.h
+    ${INCLUDE_DIR}/function.h
+    ${INCLUDE_DIR}/inventory.h
+    ${INCLUDE_DIR}/manufacturer.h
+    ${INCLUDE_DIR}/mobile.h
+    ${INCLUDE_DIR}/os.h
+    ${INCLUDE_DIR}/phone.h
+    ${INCLUDE_DIR}/place.h
+    ${INCLUDE_DIR}/printer.h
+    ${INCLUDE_DIR}/processor.h
+    ${INCLUDE_DIR}/software.h
+    ${INCLUDE_DIR}/systemdata.h
+    ${INCLUDE_DIR}/title.h
+    ${INCLUDE_DIR}/zipcity.h
+    ${INCLUDE_DIR}/zipcode.h)
 
 # Group files in IDE project
 source_group("include/${TARGET_ID_LOWER}" FILES ${HEADERS})
@@ -55,7 +54,7 @@ source_group("include/${TARGET_ID_LOWER}" FILES ${HEADERS})
 # -------------------------------------------------------------------------------------------------------------------- #
 # Define sources files
 # -------------------------------------------------------------------------------------------------------------------- #
-set(SOURCES 
+set(SOURCES
     ${SOURCE_DIR}/account.cpp
     ${SOURCE_DIR}/chipcard.cpp
     ${SOURCE_DIR}/chipcarddoor.cpp
@@ -89,8 +88,7 @@ set(SOURCES
     ${SOURCE_DIR}/title.cpp
     ${SOURCE_DIR}/zipcity.cpp
     ${SOURCE_DIR}/zipcode.cpp
-    ${SOURCE_DIR}/res.qrc
-    )
+    ${SOURCE_DIR}/res.qrc)
 
 # Group files in IDE project
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
