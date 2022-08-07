@@ -1,82 +1,191 @@
 ---
-name: Sonar Cloud Analysis
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# This workflow helps you trigger a SonarCloud analysis of your code and populates
+# GitHub Code Scanning alerts with the vulnerabilities found.
+# Free for open source project.
+
+# 1. Login to SonarCloud.io using your GitHub account
+
+# 2. Import your project on SonarCloud
+#     * Add your GitHub organization first, then add your repository as a new project.
+#     * Please note that many languages are eligible for automatic analysis,
+#       which means that the analysis will start automatically without the need to set up GitHub Actions.
+#     * This behavior can be changed in Administration > Analysis Method.
+#
+# 3. Follow the SonarCloud in-product tutorial
+#     * a. Copy/paste the Project Key and the Organization Key into the args parameter below
+#          (You'll find this information in SonarCloud. Click on "Information" at the bottom left)
+#
+#     * b. Generate a new token and add it to your Github repository's secrets using the name SONAR_TOKEN
+#          (On SonarCloud, click on your avatar on top-right > My account > Security
+#           or go directly to https://sonarcloud.io/account/security/)
+
+# Feel free to take a look at our documentation (https://docs.sonarcloud.io/getting-started/github/)
+# or reach out to our community forum if you need some help (https://community.sonarsource.com/c/help/sc/9)
+
+name: "SonarCloud analysis"
+
 on:
   push:
-    branches:
-      - master
+    branches: [main, develop]
     paths:
-      - '**.cpp'
-      - '**.h'
-      - '**.py'
+      - "**.cpp"
+      - "**.h"
+      - "**.hpp"
+      - "**.py"
       - cmake/**
       - src/**
       - CMakeLists.txt
-      - '.github/workflows/sonarcloud-analysis.yml'
+      - conanfile.py
+      - ".github/workflows/sonarcloud-analysis.yml"
+
   pull_request:
+    # The branches below must be a subset of the branches above
     types: [opened, synchronize, reopened]
     paths:
-      - '**.cpp'
-      - '**.h'
-      - '**.py'
+      - "**.cpp"
+      - "**.h"
+      - "**.hpp"
+      - "**.py"
       - cmake/**
       - src/**
       - CMakeLists.txt
-      - '.github/workflows/sonarcloud-analysis.yml'
+      - conanfile.py
+      - ".github/workflows/sonarcloud-analysis.yml"
+
+  workflow_dispatch:
 
   schedule: # This trigger is here only to make sure
-    - cron: '17 0 * * SUN' # the example itself doesn't become stale
+    - cron: "17 0 * * SUN" # the example itself doesn't become stale
+
+permissions:
+  pull-requests: read # allows SonarCloud to decorate PRs with analysis results
+
+env:
+  # Conan cache environment variables
+  CONAN_SYSREQUIRES_MODE: enabled
+  CONAN_USER_HOME: "${{ github.workspace }}/conan-cache"
+  CONAN_USER_HOME_SHORT: "${{ github.workspace }}/conan-cache/short"
+  CLANG_TIDY_VERSION: "13.0.0"
 
 jobs:
   build:
     name: Sonar Cloud Analysis
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
     env:
       SONAR_SCANNER_VERSION:
-        4.6.1.2450 # Find the latest version in the "Linux" link on this page:
+        4.7.0.2747 # Find the latest version in the "Linux" link on this page:
         # https://sonarcloud.io/documentation/analysis/scan/sonarscanner/
-      SONAR_SERVER_URL: 'https://sonarcloud.io'
+      SONAR_SERVER_URL: "https://sonarcloud.io"
       BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory # Directory where build-wrapper output will be placed
-      DISPLAY: ':99'
+      DISPLAY: ":99"
 
     strategy:
-      matrix:
-        qt_target: [desktop]
-        os: [ubuntu-latest]
-        name: [Ubuntu-20.04 gcc-10]
-        qt_version: [6.2.0]
-        qt_arch: [gcc_64]
-        arch: [amd64]
-        artifact: [Ubuntu-gcc]
-        cmake_generator: [Ninja]
-        build_type: [Release]
       fail-fast: true
 
+      matrix:
+        os:
+          - ubuntu-20.04
+        compiler:
+          # you can specify the version after `-` like "llvm-13.0.0".
+          - gcc-10
+        generator:
+          - "Ninja Multi-Config"
+        build_type:
+          - Debug
+        developer_mode:
+          - OFF
+        qt_version:
+          - "6.3.0"
+        qt_target:
+          - "desktop"
+
     steps:
-      - uses: actions/checkout@v3
+      - name: "Cancel Previous Runs"
+        uses: styfle/cancel-workflow-action@0.5.0
         with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+          access_token: ${{ github.token }}
 
-      - name: Install deps
+      - name: "🧰 Checkout"
+        uses: actions/checkout@v3
+        with:
+          # Full git history is needed to get a proper list of changed files within `super-linter`
+          fetch-depth: 0
+
+      - name: "Install Python"
+        id: python
+        uses: actions/setup-python@v3
+
+      - name: "Install Python dependencies"
+        shell: bash
+        id: python-deps
         run: |
-          sudo apt-get install -y ninja-build
+          python -m pip install --upgrade pip
+          if [ -f ./.github/workflows/requirements.txt ]; then
+            pip install -r ./.github/workflows/requirements.txt;
+          fi
 
-      - name: Cache SonarCloud packages
+      - name: "Setup Cache"
+        uses: ./.github/actions/setup_cache
+        with:
+          build_type: ${{ matrix.build_type }}
+          generator: ${{ matrix.generator }}
+
+      - name: "🐧 ⚙️ Install Linux dependencies"
+        run: |
+          sudo apt install -y libclang-dev ninja-build gcovr ccache
+
+      - name: "⚙️ Install Qt Version ${{ matrix.qt_version  }}"
+        uses: jurplel/install-qt-action@v2
+        with:
+          version: ${{ matrix.qt_version }}
+          # host: ${{ runner.os }}
+          target: ${{ matrix.qt_target }}
+          # arch: ${{ matrix.qt_arch }}
+          install-deps: "true"
+          # modules: 'qtcharts qtwebengine'
+          cached: ${{ steps.cache-qt.outputs.cache-hit }}
+          setup-python: "true"
+          # tools: "tools_ifw"
+          set-env: "true"
+
+      - name: "Cache Qt"
+        id: cache-qt
+        uses: actions/cache@v1
+        with:
+          path: "${{ github.workspace }}/Qt"
+          key: ${{ runner.os }}-QtCache
+
+      - name: "Cleanup Conan system packages (they are not properly cached)"
+        run: |
+          conan remove -f '*/system'
+
+      - name: "Cache SonarCloud packages"
         uses: actions/cache@v3
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
-      - name: Download and set up sonar-scanner
 
+      - name: "Download and set up sonar-scanner"
         env:
           SONAR_SCANNER_DOWNLOAD_URL: https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${{ env.SONAR_SCANNER_VERSION }}-linux.zip
         run: |
           mkdir -p $HOME/.sonar
-          curl -sSLo $HOME/.sonar/sonar-scanner.zip ${{ env.SONAR_SCANNER_DOWNLOAD_URL }} 
+          curl -sSLo $HOME/.sonar/sonar-scanner.zip ${{ env.SONAR_SCANNER_DOWNLOAD_URL }}
           unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
           echo "$HOME/.sonar/sonar-scanner-${{ env.SONAR_SCANNER_VERSION }}-linux/bin" >> $GITHUB_PATH
 
-      - name: Download and set up build-wrapper
+      - name: "Download and set up build-wrapper"
         env:
           BUILD_WRAPPER_DOWNLOAD_URL: ${{ env.SONAR_SERVER_URL }}/static/cpp/build-wrapper-linux-x86.zip
         run: |
@@ -84,79 +193,52 @@ jobs:
           unzip -o $HOME/.sonar/build-wrapper-linux-x86.zip -d $HOME/.sonar/
           echo "$HOME/.sonar/build-wrapper-linux-x86" >> $GITHUB_PATH
 
-      - name: Xvfb run for ${{ runner.os }}
+      - name: "Xvfb run for ${{ runner.os }}"
         run: |
           Xvfb -ac ${{ env.DISPLAY }} -screen 0 1280x780x24 &
 
-      - name: Cache Qt
-        id: cache-qt
-        uses: actions/cache@v3 # not v2!
-        with:
-          path: ${{ runner.workspace }}/Qt
-          key: ${{ runner.os }}-QtCache
-
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v2.14.0
-        with:
-          version: ${{ matrix.qt_version }}
-          target: ${{ matrix.qt_target }}
-          arch: ${{ matrix.qt_arch }}
-          # modules: 'qtscript'
-          cached: ${{ steps.cache-qt.outputs.cache-hit }}
-
-      - name: Get conan
-        id: conan
-        uses: turtlebrowser/get-conan@v1.0
-
-      - name: Create Build Environment
-        # Some projects don't allow in-source building, so create a separate build directory
-        # We'll use this as our working directory for all subsequent commands
-        run: cmake -E make_directory build
-
-      - name: Configure CMake
-        # Use a bash shell so we can use the same syntax for environment variable
-        # access regardless of the host operating system
+        # make sure coverage is only enabled for Debug builds, since it sets -O0 to make sure coverage
+        # has meaningful results
+      - name: "⚙️ 🐧 Configure CMake"
         shell: bash
-        working-directory: build
-
-        # Note the current convention is to use the -S and -B options here to specify source
-        # and build directories, but this is only available with CMake 3.13 and higher.
-        # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
         run: |
-          cmake $GITHUB_WORKSPACE \
-            -G ${{matrix.cmake_generator}} \
-            -DCMAKE_BUILD_TYPE=${{ matrix.build_type}} \
-            -DCMAKE_INSTALL_PREFIX:PATH=$(pwd)/usr \
-            -DBUILD_TESTING=ON  \
-            -DBUILD_TRANSLATIONS=ON \
-            -DBUILD_COVERAGE=YES
+          mkdir -p ./build
+          cd ./build
+          conan install ../conanfile.py -b missing -pr:b default -s build_type="${{ matrix.build_type }}"  -g CMakeToolchain
+          cd ..
+          cmake -S . -B ./build -G "${{matrix.generator}}" \
+            -DCMAKE_BUILD_TYPE:STRING=${{matrix.build_type}} \
+            -DENABLE_DEVELOPER_MODE:BOOL=${{matrix.developer_mode}} \
+            -DOPT_ENABLE_COVERAGE:BOOL=${{ matrix.build_type == 'Debug' }} \
+            -DCMAKE_TOOLCHAIN_FILE:PATH="./build/generators/conan_toolchain.cmake" \
+            -DGIT_SHA:STRING=${{ github.sha }}
 
-      - name: Run build-wrapper
+      - name: "Run build-wrapper"
         run: |
-          build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build build/ --config Release
+          build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build ./build --config ${{matrix.build_type}}
 
-      - name: Test
+      - name: "Test"
         working-directory: build
         shell: bash
         # Execute tests defined by the CMake configuration.
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
         run: ctest -VV -C ${{ matrix.build_type}}
 
-      # - name: Generate coverage reports
-      #   working-directory: build
-      #   run: |
-      #     sudo apt-get install -y lcov gcovr
-      #     lcov --capture --directory . --output-file coverage.info
-      #     lcov --remove coverage.info '/usr/*' '*/usr/include/*' --output-file coverage.info
-      #     lcov --list coverage.info
-      #     gcovr -j $(nproc) --root ../ --keep --delete --sonarqube coverage.xml
+      - name: "🐧 🧪 Test and coverage"
+        working-directory: ./build
+        # Execute tests defined by the CMake configuration.
+        # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+        run: |
+          ctest -C ${{matrix.build_type}}
+          gcovr -j ${{env.nproc}} --delete --root ../ --print-summary --xml-pretty --xml coverage.xml
+          gcovr -j ${{env.nproc}} --root ../ --sonarqube > sonarqube_coverage.xml
 
-      # - name: Publish to codecov
-      #  uses: codecov/codecov-action@v2
-      #  with:
-      #    files: coverage.info
+      - name: "🐧 📤 Publish to codecov"
+        uses: codecov/codecov-action@v2
+        with:
+          files: build/coverage.xml
 
-      - name: Run sonar-scanner
+      - name: "Run sonar-scanner"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

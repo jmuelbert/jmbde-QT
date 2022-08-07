@@ -12,7 +12,7 @@
   color: d73a4a
 - name: build
   description: Build System and Dependencies
-  color: bfdadc
+  color: bfdadc // cspell:disable-line
 - name: ci
   description: Continuous Integration
   color: 4a97d6
@@ -27,10 +27,10 @@
   color: cfd3d7
 - name: enhancement
   description: New feature or request
-  color: a2eeef
+  color: a2eeef   // cspell:disable-line
 - name: github_actions
   description: Pull requests that update Github_actions code
-  color: '000000'
+  color: "000000"
 - name: good first issue
   description: Good for newcomers
   color: 7057ff
@@ -42,7 +42,7 @@
   color: e4e669
 - name: performance
   description: Performance
-  color: '016175'
+  color: "016175"
 - name: python
   description: Pull requests that update Python code
   color: 2b67c6

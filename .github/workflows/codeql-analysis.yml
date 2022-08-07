@@ -1,3 +1,4 @@
+---
 # For most projects, this workflow file will not need changing; you simply need
 # to commit it to your repository.
 #
@@ -13,22 +14,45 @@ name: "CodeQL"
 
 on:
   push:
-    branches: [ main, master, develop ]
+    branches: [main, develop]
+    paths:
+      - "**.cpp"
+      - "**.h"
+      - "**.hpp"
+      - "**.py"
+      - cmake/**
+      - src/**
+      - CMakeLists.txt
+      - conanfile.py
+      - ".github/workflows/codeql-analysis.yml"
+
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [ main, master, develop ]
+    types: [opened, synchronize, reopened]
+    paths:
+      - "**.cpp"
+      - "**.h"
+      - "**.hpp"
+      - "**.py"
+      - cmake/**
+      - src/**
+      - CMakeLists.txt
+      - conanfile.py
+      - ".github/workflows/codeql-analysis.yml"
+
   schedule:
-    - cron: '38 0 * * 5'
+    - cron: "38 0 * * 5"
 
 env:
   # Conan cache environment variables
   CONAN_SYSREQUIRES_MODE: enabled
   CONAN_USER_HOME: "${{ github.workspace }}/conan-cache"
   CONAN_USER_HOME_SHORT: "${{ github.workspace }}/conan-cache/short"
+  CLANG_TIDY_VERSION: "13.0.0"
 
 jobs:
   analyze:
-    name: Analyze
+    name: "Analyze"
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -37,76 +61,121 @@ jobs:
 
     strategy:
       fail-fast: false
+
       matrix:
-        language: [ 'cpp' ]
+        language: ["cpp", "python"]
         # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby' ]
         # Learn more about CodeQL language support at https://git.io/codeql-language-support
-        compiler:
-          # you can specify the version after `-` like "llvm-13.0.0".
-          - gcc-11
         generator:
           - "Ninja Multi-Config"
         build_type:
           - Debug
-        developer_mode:
-          - OFF
-
+        qt_version:
+          - "6.3.0"
+        qt_target:
+          - "desktop"
 
     steps:
-    - uses: actions/checkout@v2
+      - name: "Cancel Previous Runs"
+        uses: styfle/cancel-workflow-action@0.5.0
+        with:
+          access_token: ${{ github.token }}
 
-    - name: Setup Cache
-      uses: ./.github/actions/setup_cache
-      with:
-        compiler: ${{ matrix.compiler }}
-        build_type: ${{ matrix.build_type }}
-        developer_mode: ${{ matrix.developer_mode }}
-        generator: ${{ matrix.generator }}
+      - name: "🧰 Checkout"
+        uses: actions/checkout@v3
+        with:
+          # Full git history is needed to get a proper list of changed files within `super-linter`
+          fetch-depth: 0
 
+      # Initializes the CodeQL tools for scanning.
+      - name: "Initialize CodeQL"
+        uses: github/codeql-action/init@v2
+        with:
+          languages: ${{ matrix.language }}
+          # If you wish to specify custom queries, you can do so here or in a config file.
+          # By default, queries listed here will override any specified in a config file.
+          # Prefix the list here with "+" to use these queries and those in the config file.
+          # queries: ./path/to/local/query, your-org/your-repo/queries@main
 
-    - name: Setup Cpp
-      uses: aminya/setup-cpp@v1
-      with:
-        compiler: ${{ matrix.compiler }}
-        vcvarsall: ${{ contains(matrix.os, 'windows' )}}
+      - name: "Install Python"
+        id: python
+        uses: actions/setup-python@v3
 
-        cmake: true
-        ninja: true
-        conan: true
-        vcpkg: false
-        ccache: true
-        clangtidy: false
+      - name: "Install Python dependencies"
+        shell: bash
+        id: python-deps
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f ./.github/workflows/requirements.txt ]; then
+            pip install -r ./.github/workflows/requirements.txt;
+          fi
 
-        cppcheck: false
+      - name: "🔧 Setup Cache"
+        uses: ./.github/actions/setup_cache
+        with:
+          build_type: ${{ matrix.build_type }}
+          generator: ${{ matrix.generator }}
 
-        gcovr: false
-        opencppcoverage: false
+      - name: "🐧 ⚙️ Install Linux dependencies"
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt install -y libclang-dev ninja-build gcovr ccache
 
-    - name: Cleanup Conan system packages (they are not properly cached)
-      run: |
-        conan remove -f '*/system'
+      - name: "⚙️ Install Qt Version ${{ matrix.qt_version }}"
+        if: matrix.language == 'cpp'
+        uses: jurplel/install-qt-action@v2
+        with:
+          version: ${{ matrix.qt_version }}
+          # host: ${{ runner.os }}
+          target: ${{ matrix.qt_target }}
+          # arch: ${{ matrix.qt_arch }}
+          install-deps: "true"
+          # modules: 'qtcharts qtwebengine'
+          cached: ${{ steps.cache-qt.outputs.cache-hit }}
+          setup-python: "true"
+          # tools: "tools_ifw"
+          set-env: "true"
 
-      # make sure coverage is only enabled for Debug builds, since it sets -O0 to make sure coverage
-      # has meaningful results
-    - name: Configure CMake
-      run: |
-        cmake -S . -B ./build -G "${{matrix.generator}}" -DCMAKE_BUILD_TYPE:STRING=${{matrix.build_type}} -DENABLE_DEVELOPER_MODE:BOOL=${{matrix.developer_mode}} -DOPT_ENABLE_COVERAGE:BOOL=${{ matrix.build_type == 'Debug' }}
+      - name: "Cache Qt"
+        id: cache-qt
+        uses: actions/cache@v1
+        with:
+          path: "${{ github.workspace }}/Qt"
+          key: ${{ runner.os }}-QtCache
 
-    # Initializes the CodeQL tools for scanning.
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v1
-      with:
-        languages: ${{ matrix.language }}
-        # If you wish to specify custom queries, you can do so here or in a config file.
-        # By default, queries listed here will override any specified in a config file.
-        # Prefix the list here with "+" to use these queries and those in the config file.
-        # queries: ./path/to/local/query, your-org/your-repo/queries@main
+      - name: "Cleanup Conan system packages (they are not properly cached)"
+        if: matrix.language == 'cpp'
+        run: |
+          conan remove -f '*/system'
 
+        # make sure coverage is only enabled for Debug builds, since it sets -O0 to make sure coverage
+        # has meaningful results
+      - name: "⚙️ 🐧 Configure CMake"
+        if: matrix.language == 'cpp'
+        shell: bash
+        run: |
+          mkdir -p ./build
+          cd ./build
+          conan install ../conanfile.py -b missing -pr:b default -s build_type="${{ matrix.build_type }}"  -g CMakeToolchain
+          cd ..
+          cmake -S . -B ./build -G "${{matrix.generator}}" \
+            -DCMAKE_BUILD_TYPE:STRING=${{matrix.build_type}} \
+            -DENABLE_DEVELOPER_MODE:BOOL=${{matrix.developer_mode}} \
+            -DOPT_ENABLE_COVERAGE:BOOL='OFF' \
+            -DCMAKE_TOOLCHAIN_FILE:PATH="./build/generators/conan_toolchain.cmake" \
+            -DGIT_SHA:STRING=${{ github.sha }}
 
-    - name: Build
-      # Execute the build.  You can specify a specific target with "--target <NAME>"
-      run: |
-        cmake --build ./build --config ${{matrix.build_type}}
+      - name: "📦 Build"
+        if: matrix.language == 'cpp'
+        # Execute the build.  You can specify a specific target with "--target <NAME>"
+        run: |
+          cmake --build ./build --config ${{matrix.build_type}}
 
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v1
+      # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
+      # If this step fails, then you should remove it and run the build manually (see below)
+      - name: "📦 Autobuild"
+        if: matrix.language != 'cpp'
+        uses: github/codeql-action/autobuild@v2
+
+      - name: "Perform CodeQL Analysis"
+        uses: github/codeql-action/analyze@v2

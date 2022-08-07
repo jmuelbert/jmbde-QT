@@ -1,17 +1,31 @@
 ---
-name: Misspell fixer
+name: "Missspell fixer"
 
-on: [push, pull_request]
-
+on: 
+  push: 
+    branches: [main]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    types: [opened, synchronize, reopened]
+    
 jobs:
   misspell-fixer:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: sobolevn/misspell-fixer-action@master
-      - name: Check diff
+      - name: "🧰 Checkout"
+        uses: actions/checkout@v3
+        with:
+          # Full git history is needed to get a proper list of changed files within `super-linter`
+          fetch-depth: 0
+
+      - name: "Missspell fixer"
+        uses: sobolevn/misspell-fixer-action@master
+
+      - name: "Check diff"
         run: git diff --exit-code ${{ github.sha }}
-      - uses: peter-evans/create-pull-request@v3
+
+      - name: "Pull Request"
+        uses: peter-evans/create-pull-request@v4
         if: failure()
         with:
           commit-message: Fix typos by misspell-fixer
