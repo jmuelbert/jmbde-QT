@@ -99,7 +99,7 @@ jobs:
 
       - name: "Install Python"
         id: python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v4
 
       - name: "Install Python dependencies"
         shell: bash
