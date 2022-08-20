@@ -234,7 +234,7 @@ jobs:
           gcovr -j ${{env.nproc}} --root ../ --sonarqube > sonarqube_coverage.xml
 
       - name: "🐧 📤 Publish to codecov"
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
         with:
           files: build/coverage.xml
 
