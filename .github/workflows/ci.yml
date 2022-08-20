@@ -514,7 +514,7 @@ jobs:
         uses: actions/checkout@master
 
       - name: "Update diagram"
-        uses: githubocto/repo-visualizer@0.7.1
+        uses: githubocto/repo-visualizer@0.8.2
         with:
           output_file: "images/diagram.svg"
           excluded_paths: "dist,node_modules"
@@ -526,7 +526,7 @@ jobs:
     steps:
       - name: "Build Releasenotes"
         id: github_releasenotes
-        uses: release-drafter/release-drafter@v5.20.0
+        uses: release-drafter/release-drafter@v5.20.1
         with:
           publish: "${{ steps.check-version.outputs.tag != '' }}"
           tag: "${{ steps.check-version.outputs.tag }}"
