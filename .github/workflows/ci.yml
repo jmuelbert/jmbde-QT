@@ -109,7 +109,7 @@ jobs:
             cppcheck
 
       - name: "⚙️ Install Qt Version ${{ env.QT_VERSION }}"
-        uses: jurplel/install-qt-action@v2
+        uses: jurplel/install-qt-action@v3
         with:
           version: ${{ env.QT_VERSION }}
           # host: ${{ runner.os }}
@@ -278,7 +278,7 @@ jobs:
           arch: ${{ matrix.confg.pak_arch }}
 
       - name: "⚙️ Install Qt Version ${{ env.QT_VERSION }}"
-        uses: jurplel/install-qt-action@v2
+        uses: jurplel/install-qt-action@v3
         with:
           version: ${{ env.QT_VERSION }}
           # host: ${{ runner.os }}
