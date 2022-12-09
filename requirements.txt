@@ -36,4 +36,4 @@ sphinxcontrib-serializinghtml==1.1.5
 toml==0.10.2
 urllib3==1.26.13
 virtualenv==20.17.0
-zipp==3.10.0
+zipp==3.11.0
