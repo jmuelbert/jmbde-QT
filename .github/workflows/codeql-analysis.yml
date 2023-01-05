@@ -52,7 +52,7 @@ env:
 
 jobs:
   analyze:
-    name: "Analyze"
+    name: "CodeQL Analyze"
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -63,21 +63,21 @@ jobs:
       fail-fast: false
 
       matrix:
-        language: ["cpp", "python"]
+        language: ["cpp", "python", "ruby"]
         # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby' ]
         # Learn more about CodeQL language support at https://git.io/codeql-language-support
         generator:
-          - "Ninja Multi-Config"
+          - "Ninja"
         build_type:
           - Debug
         qt_version:
-          - "6.3.0"
+          - "6.4.1"
         qt_target:
           - "desktop"
 
     steps:
       - name: "Cancel Previous Runs"
-        uses: styfle/cancel-workflow-action@0.5.0
+        uses: styfle/cancel-workflow-action@0.11.0
         with:
           access_token: ${{ github.token }}
 
@@ -97,18 +97,55 @@ jobs:
           # Prefix the list here with "+" to use these queries and those in the config file.
           # queries: ./path/to/local/query, your-org/your-repo/queries@main
 
-      - name: "Install Python"
+      - name: "⚙️ Install Python"
         id: python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v4
+        with:
+          # Read python version from a file .python-version
+          # python-version-file: ".python-version"
+          check-latest: true
+          cache: pip
 
-      - name: "Install Python dependencies"
+      - name: "⚙️ Install Python dependencies"
+        if: matrix.language == 'cpp'
         shell: bash
         id: python-deps
         run: |
           python -m pip install --upgrade pip
-          if [ -f ./.github/workflows/requirements.txt ]; then
-            pip install -r ./.github/workflows/requirements.txt;
-          fi
+          pip3 install "conan<2"
+
+      - name: "🐧 ⚙️ Install Linux dependencies"
+        if: matrix.language == 'cpp'
+        run: |
+          sudo apt install -y libclang-dev ninja-build gcovr ccache
+          echo "CCACHE_DIR=${{runner.workspace}}/ccache" >> $GITHUB_ENV
+          echo "CXX=g++-11" >> $GITHUB_ENV
+          echo "CC=gcc-11" >> $GITHUB_ENV
+          
+      - name: Configure Conan
+        if: matrix.language == 'cpp'
+        shell: bash
+        run: |
+          echo "Setup conan"
+          conan user
+          conan config init
+          conan profile show default
+          
+      - name: restore ccache
+        if: matrix.language == 'cpp'
+        uses: pat-s/always-upload-cache@v3.0.1
+        with:
+          path: ${{runner.workspace}}/ccache
+          key: ccache-${{matrix.os}}-${{matrix.compiler}}-${{matrix.qt}}-${{ github.sha }}
+          restore-keys: ccache-${{matrix.os}}-${{matrix.compiler}}-${{matrix.qt}}
+
+      - name: check ccache stats prior to build
+        if: matrix.language == 'cpp'
+        run: ccache --zero-stats --show-stats
+
+      - name: "Add GCC problem matcher"
+        if: matrix.language == 'cpp'
+        uses: ammaraskar/gcc-problem-matcher@master
 
       - name: "🔧 Setup Cache"
         uses: ./.github/actions/setup_cache
@@ -116,14 +153,9 @@ jobs:
           build_type: ${{ matrix.build_type }}
           generator: ${{ matrix.generator }}
 
-      - name: "🐧 ⚙️ Install Linux dependencies"
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt install -y libclang-dev ninja-build gcovr ccache
-
       - name: "⚙️ Install Qt Version ${{ matrix.qt_version }}"
         if: matrix.language == 'cpp'
-        uses: jurplel/install-qt-action@v2
+        uses: jurplel/install-qt-action@v3
         with:
           version: ${{ matrix.qt_version }}
           # host: ${{ runner.os }}
@@ -136,34 +168,24 @@ jobs:
           # tools: "tools_ifw"
           set-env: "true"
 
-      - name: "Cache Qt"
-        id: cache-qt
-        uses: actions/cache@v1
-        with:
-          path: "${{ github.workspace }}/Qt"
-          key: ${{ runner.os }}-QtCache
-
-      - name: "Cleanup Conan system packages (they are not properly cached)"
+      - name: "Create Build Environment"
         if: matrix.language == 'cpp'
-        run: |
-          conan remove -f '*/system'
+        # Some projects don't allow in-source building, so create a separate build directory
+        # We'll use this as our working directory for all subsequent commands
+        run: cmake -E make_directory build
 
         # make sure coverage is only enabled for Debug builds, since it sets -O0 to make sure coverage
         # has meaningful results
       - name: "⚙️ 🐧 Configure CMake"
         if: matrix.language == 'cpp'
+        working-directory: build
         shell: bash
         run: |
-          mkdir -p ./build
-          cd ./build
-          conan install ../conanfile.py -b missing -pr:b default -s build_type="${{ matrix.build_type }}"  -g CMakeToolchain
-          cd ..
-          cmake -S . -B ./build -G "${{matrix.generator}}" \
+          cmake -S .. -B . -G "${{matrix.generator}}" \
             -DCMAKE_BUILD_TYPE:STRING=${{matrix.build_type}} \
-            -DENABLE_DEVELOPER_MODE:BOOL=${{matrix.developer_mode}} \
-            -DOPT_ENABLE_COVERAGE:BOOL='OFF' \
-            -DCMAKE_TOOLCHAIN_FILE:PATH="./build/generators/conan_toolchain.cmake" \
-            -DGIT_SHA:STRING=${{ github.sha }}
+            -DCMAKE_INSTALL_PREFIX:PATH="./usr" \
+            -DOPT_ENABLE_COVERAGE:BOOL=${{ matrix.build_type == 'Debug' }} \
+            -DOPTION_BUILD_TESTS:BOOL="TRUE"
 
       - name: "📦 Build"
         if: matrix.language == 'cpp'
