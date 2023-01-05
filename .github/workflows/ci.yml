@@ -285,9 +285,9 @@ jobs:
 
   build:
     # if: startsWith(github.event.ref, 'refs/tags/')
-    name: "Build for ${{ matrix.config.os }}"
+    name: "Build for ${{ matrix.name }}"
 
-    runs-on: ${{ matrix.config.os }}
+    runs-on: ${{ matrix.os }}
     needs: tests
 
     strategy:
@@ -330,7 +330,7 @@ jobs:
       actions: read
       contents: read
       security-events: write
-      
+
     steps:
       - name: "⚙️ Get the version"
         id: get_version
@@ -364,8 +364,8 @@ jobs:
         uses: ./.github/actions/setup_cache
         with:
           build_type: ${{ matrix.build_type }}
-          generator: ${{ matrix.config.generator }}
-
+          generator: ${{ matrix.generator }}
+          
       - name: "🐧 ⚙️ Install Linux dependencies"
         if: runner.os == 'Linux'
         run: |
