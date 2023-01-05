@@ -33,8 +33,8 @@ on:
 
 env:
   # Target
-  TARGET_NAME: qtwidgettest
-  PROJECT_NAME: qtconanboilerplate
+  TARGET_NAME: jmbde
+  PROJECT_NAME: jmbde-QT
   # Conan cache environment variables
   CONAN_SYSREQUIRES_MODE: enabled
   CONAN_USER_HOME: "${{ github.workspace }}/conan-cache"

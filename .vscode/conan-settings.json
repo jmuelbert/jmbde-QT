@@ -1,0 +1,134 @@
+{
+    "profiles": [
+        {
+            "name": "test_package",
+            "conanFile": "${workspaceFolder}/src/libs/widgets/test_package/conanfile.py",
+            "profile": "default",
+            "installArg": "",
+            "buildArg": "",
+            "createUser": "disroop",
+            "createChannel": "development",
+            "createArg": ""
+        },
+        {
+            "name": "widgets",
+            "conanFile": "${workspaceFolder}/src/libs/widgets/conanfile.py",
+            "profile": "default",
+            "installArg": "",
+            "buildArg": "",
+            "createUser": "disroop",
+            "createChannel": "development",
+            "createArg": ""
+        },
+        {
+            "name": "test_package",
+            "conanFile": "${workspaceFolder}/src/libs/models/test_package/conanfile.py",
+            "profile": "default",
+            "installArg": "",
+            "buildArg": "",
+            "createUser": "disroop",
+            "createChannel": "development",
+            "createArg": ""
+        },
+        {
+            "name": "test_package",
+            "conanFile": "${workspaceFolder}/src/libs/utils/test_package/conanfile.py",
+            "profile": "default",
+            "installArg": "",
+            "buildArg": "",
+            "createUser": "disroop",
+            "createChannel": "development",
+            "createArg": ""
+        },
+        {
+            "name": "models",
+            "conanFile": "${workspaceFolder}/src/libs/models/conanfile.py",
+            "profile": "default",
+            "installArg": "",
+            "buildArg": "",
+            "createUser": "disroop",
+            "createChannel": "development",
+            "createArg": ""
+        },
+        {
+            "name": "test_package",
+            "conanFile": "${workspaceFolder}/src/libs/quick/test_package/conanfile.py",
+            "profile": "default",
+            "installArg": "",
+            "buildArg": "",
+            "createUser": "disroop",
+            "createChannel": "development",
+            "createArg": ""
+        },
+        {
+            "name": "quick",
+            "conanFile": "${workspaceFolder}/src/libs/quick/conanfile.py",
+            "profile": "default",
+            "installArg": "",
+            "buildArg": "",
+            "createUser": "disroop",
+            "createChannel": "development",
+            "createArg": ""
+        },
+        {
+            "name": "jmbde-QT",
+            "conanFile": "${workspaceFolder}/conanfile.py",
+            "profile": "default",
+            "installArg": "",
+            "buildArg": "",
+            "createUser": "disroop",
+            "createChannel": "development",
+            "createArg": ""
+        },
+        {
+            "name": "packaging",
+            "conanFile": "${workspaceFolder}/packaging/conanfile.py",
+            "profile": "default",
+            "installArg": "",
+            "buildArg": "",
+            "createUser": "disroop",
+            "createChannel": "development",
+            "createArg": ""
+        },
+        {
+            "name": "test-txt",
+            "conanFile": "${workspaceFolder}/build/_deps/_project_options-src/test/conanfile.txt",
+            "profile": "default",
+            "installArg": "",
+            "buildArg": "",
+            "createUser": "disroop",
+            "createChannel": "development",
+            "createArg": ""
+        },
+        {
+            "name": "test_install-txt",
+            "conanFile": "${workspaceFolder}/build/_deps/_project_options-src/test_install/conanfile.txt",
+            "profile": "default",
+            "installArg": "",
+            "buildArg": "",
+            "createUser": "disroop",
+            "createChannel": "development",
+            "createArg": ""
+        },
+        {
+            "name": "test-txt",
+            "conanFile": "${workspaceFolder}/out/build/unixlike-clang-debug/_deps/_project_options-src/test/conanfile.txt",
+            "profile": "default",
+            "installArg": "",
+            "buildArg": "",
+            "createUser": "disroop",
+            "createChannel": "development",
+            "createArg": ""
+        },
+        {
+            "name": "test_install-txt",
+            "conanFile": "${workspaceFolder}/out/build/unixlike-clang-debug/_deps/_project_options-src/test_install/conanfile.txt",
+            "profile": "default",
+            "installArg": "",
+            "buildArg": "",
+            "createUser": "disroop",
+            "createChannel": "development",
+            "createArg": ""
+        }
+    ]
+}

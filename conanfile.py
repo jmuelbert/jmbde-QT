@@ -12,7 +12,6 @@ from conan.tools.cmake import CMakeToolchain, CMakeDeps, CMake
 from conan.tools.files import copy
 from conans.errors import ConanInvalidConfiguration
 import os, re
-from pydoc_data.topics import topics
 
 required_conan_version = ">=1.44.0"
 

@@ -1,15 +1,17 @@
 ---
 name: "Auto-merge minor/patch"
+
+# yamllint disable
 on:
+  # yamllint enable  schedule:
   schedule:
     - cron: "59 23 * * 0"
+
 jobs:
-  test:
+  automerge:
     name: "Auto-merge minor and patch updates"
     runs-on: ubuntu-latest
     steps:
-      - uses: koj-co/dependabot-pr-action@master
+      - uses: ahmadnassri/action-dependabot-auto-merge@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          merge-minor: true
-          merge-patch: true
+          github-token: ${{ secrets.mytoken }}
