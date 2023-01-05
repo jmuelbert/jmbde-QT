@@ -19,6 +19,8 @@ old/
 *.db3
 *.sqlite
 *.user.*
+.envrc
+.clang-format
 
 # General Build artifacts
 [Dd]ebug/
