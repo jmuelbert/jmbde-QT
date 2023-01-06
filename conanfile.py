@@ -109,10 +109,7 @@ class jmbdeConan(ConanFile):
             self.requires("fmt/9.1.0")
         if self._use_range_v3:
             self.requires("range-v3/0.11.0")
-   
-        self.requires("extra-cmake-modules/5.93.0")
-        self.requires("spdlog/1.10.0")
-        
+         
         qtDir = os.environ.get("Qt6_Dir")
         if qtDir == 0:
             self.requires("qt/6.4.1")
