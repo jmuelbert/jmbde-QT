@@ -58,6 +58,10 @@ class jmbdeConan(ConanFile):
     @property
     def _run_tests(self):
         return tools.get_env("CONAN_RUN_TESTS", False)
+    
+    @property
+    def _build_tests(self):
+        return bool((self.settings.build_type == "Debug") or (self.settings.build_type == "RelWithDebInfo") )
 
     @property
     def _use_libfmt(self):
