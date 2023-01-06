@@ -88,26 +88,34 @@ class jmbdeConan(ConanFile):
         version = re.search(r"project\([^\)]+VERSION (\d+\.\d+\.\d+)[^\)]*\)", content).group(1)
         print("version = {}", version)
 
+    
+ 
+    """_summary_
+    """
+    def config_options(self):
+        if self.settings.os == "Windows":
+            del self.options.fPIC
+
+        self.options["qt"].shared = True
+        self.options["qt"].qttranslations = True
+
+    """_summary_
+    """
     def requirements(self):
-        platform_qt = os.getenv("CMAKE_PREFIX_PATH")
-        if not platform_qt:
-            self.output.info("CMAKE_PREFIX_PATH not set")
-            self.output.info(
-                "To use the Qt from your system, set the CMAKE_PREFIX_PATH env var"
-            )
-            # self.output.info("Trying to get Qt from Qt")
-            # self.requires("qtbase/6.2.3@qt/everywhere")
-            # self.requires("qtbuildprofiles/6.2.3@qt/everywhere")
-            # self.requires("qtdeclarative/6.2.3@qt/everywhere")
-            # self.requires("qtdoc/6.2.3@qt/everywhere")
-            # self.requires("qtimageformats/6.2.3@qt/everywhere")
-            # self.requires("qtsvg/6.2.3@qt/everywhere")
-            # if self.options.build_translations:
-            #    self.requires("qttranslations/6.2.3@qt/everywhere")
+        self.requires("spdlog/1.11.0")
+        self.requires("extra-cmake-modules/5.93.0")
 
-
-
-            self.requires("qt/6.2.4")
+        if self._use_libfmt:
+            self.requires("fmt/9.1.0")
+        if self._use_range_v3:
+            self.requires("range-v3/0.11.0")
+   
+        self.requires("extra-cmake-modules/5.93.0")
+        self.requires("spdlog/1.10.0")
+        
+        qtDir = os.environ.get("Qt6_Dir")
+        if qtDir == 0:
+            self.requires("qt/6.4.1")
             self.options["qt"].shared = self.options.shared
             self.options["qt"].qtsvg = True
             self.options["qt"].qtdeclarative = True
@@ -120,26 +128,16 @@ class jmbdeConan(ConanFile):
             self.options["qt"].shared = self.options.shared
             self.options["qt"].qtimageformats = True
 
-        else:
-            self.output.info(
-                "Getting Qt from the system. CMAKE_PREFIX_PATH = " + platform_qt
-            )
-        self.requires("libiconv/1.16")
-        if self._use_libfmt:
-            self.requires("fmt/8.1.1")
-        if self._use_range_v3:
-            self.requires("range-v3/0.11.0")
-
-        # self.requires("extra-cmake-modules/5.93.0")
-        self.requires("spdlog/1.10.0")
-        self.requires("cli11/2.2.0")
-        # self.requires("fltk/1.3.8")
-        self.requires("catch2/2.13.9")
-        self.requires("gtest/cci.20210126")
-        self.requires("benchmark/1.6.1")
-        if self.options.build_docs:
-              self.requires("doxygen/1.9.2")
-
+            
+    """_summary_
+    """
+    def build_requirements(self):
+        if self._build_tests:
+            self.test_requires("gtest/1.12.1")
+            self.test_requires("doctest/2.4.9")
+            self.test_requires("catch2/3.1.0")
+            # self.tool_requires("doxygen/1.9.4")
+            
 
     # TODO Replace with `valdate()` for Conan 2.0 (https://github.com/conan-io/conan/issues/10723)
     def configure(self) :
