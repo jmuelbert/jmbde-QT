@@ -225,7 +225,7 @@ jobs:
           max-size: 50M
 
       - name: restore ccache
-        uses: pat-s/always-upload-cache@v3.0.1
+        uses: pat-s/always-upload-cache@v3.0.11
         with:
           path: ${{runner.workspace}}/ccache
           key: ccache-${{matrix.os}}-${{matrix.compiler}}-${{matrix.qt}}-${{ github.sha }}
@@ -416,7 +416,7 @@ jobs:
      
       - name: (Linux/macOS) restore ccache
         if: runner.os == 'Linux' || runner.os == 'macOS'
-        uses: pat-s/always-upload-cache@v3.0.1
+        uses: pat-s/always-upload-cache@v3.0.11
         with:
           path: ${{runner.workspace}}/ccache
           key: ccache-${{matrix.os}}-${{matrix.compiler}}-${{matrix.qt}}-${{ github.sha }}
