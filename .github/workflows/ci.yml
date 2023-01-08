@@ -76,7 +76,7 @@ jobs:
           clangFormatVersion: 14
           inplace: true
 
-      - uses: EndBug/add-and-commit@v4
+      - uses: EndBug/add-and-commit@v9
         with:
           author_name: Clang Robot
           author_email: robot@example.com
@@ -111,7 +111,7 @@ jobs:
         run: find . \( -name '*.cmake' -o -name 'CMakeLists.txt' \) -exec cmake-format -i {} \;
 
       - name: "📨 Use Commit"
-        uses: EndBug/add-and-commit@v4
+        uses: EndBug/add-and-commit@v9
         with:
           author_name: github_actions
           message: ":art: Committing format changes"
