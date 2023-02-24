@@ -164,7 +164,7 @@ jobs:
         with:
           # Read python version from a file .python-version
           python-version-file: ".python-version"
-          #check-latest: true
+          # check-latest: true
           cache: pip
 
       - name: "'⚙️ Install Python dependencies"
@@ -350,7 +350,7 @@ jobs:
         with:
           # Read python version from a file .python-version
           python-version-file: ".python-version"
-          #check-latest: true
+          # check-latest: true
           cache: pip
 
       - name: "⚙️ Install Python dependencies"
