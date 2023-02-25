@@ -784,7 +784,7 @@ jobs:
 
       - name: "📤 Upload Release: windows"
         if: startsWith(github.event.ref, 'refs/tags/')
-        uses: svenstaro/upload-release-action@v1-release
+        uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./${{ env.TARGET_NAME }}.exe
@@ -794,7 +794,7 @@ jobs:
 
       - name: "📤 Upload Release: zip for windows"
         if: startsWith(github.event.ref, 'refs/tags/')
-        uses: svenstaro/upload-release-action@v1-release
+        uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./${{ env.archiveName }}-win.zip
