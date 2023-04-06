@@ -25,7 +25,7 @@ jobs:
         run: git diff --exit-code ${{ github.sha }}
 
       - name: "Pull Request"
-        uses: peter-evans/create-pull-request@v4
+        uses: peter-evans/create-pull-request@v5
         if: failure()
         with:
           commit-message: Fix typos by misspell-fixer
