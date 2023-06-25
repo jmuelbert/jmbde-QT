@@ -7,8 +7,10 @@
 # minimal requirements
 cmake_minimum_required(VERSION 3.18 FATAL_ERROR)
 
-# ---------------------------------------------------------------------------- # Define Target
-# Information ---------------------------------------------------------------------------- #
+# ---------------------------------------------------------------------------- 
+# Define Target Information 
+# ---------------------------------------------------------------------------- 
+#
 set(TARGET_ID jmbde)
 string(TOLOWER ${TARGET_ID} TARGET_ID_LOWER)
 set(TARGET_NAMESPACE jmuelbert)
@@ -43,8 +45,10 @@ find_package(
   COMPONENTS Core
   REQUIRED)
 
-# ---------------------------------------------------------------------------- # Finding Qt5 or Qt6
-# ---------------------------------------------------------------------------- #
+# ---------------------------------------------------------------------------- 
+# Finding Qt5 or Qt6
+# ---------------------------------------------------------------------------- 
+#
 find_package(
   Qt${QT_VERSION_MAJOR} QUIET
   COMPONENTS Core
@@ -159,4 +163,4 @@ endif()
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
   qt_finalize_executable(${TARGET_NAME})
-endif()
+ wendif()
