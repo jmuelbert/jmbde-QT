@@ -1,0 +1,26 @@
+---
+# SPDX-FileCopyrightText: Jürgen Mülbert <juergen.muelbert@web.de>
+#
+# SPDX-License-Identifier: EUPL-1.2
+#
+name: Processing issues
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  fastlane-env:
+    permissions:
+      contents: read
+      issues: write
+    name: fastlane env reminder
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.3.0
+      - uses: fastlane/github-actions/fastlane-env-reminder@latest
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
