@@ -1,35 +1,33 @@
 ---
-name: "Missspell fixer"
+# SPDX-FileCopyrightText: Nikita Sobolev
+#
+# SPDX-License-Identifier: MIT
+#
+name: Misspell fixer
 
-on: 
-  push: 
-    branches: [main]
+on:
+  push:
+    branches: ["main"]
   pull_request:
     # The branches below must be a subset of the branches above
-    types: [opened, synchronize, reopened]
-    
+    branches: ["main"]
+
+permissions:
+  contents: read
+
 jobs:
   misspell-fixer:
     runs-on: ubuntu-latest
     steps:
-      - name: "🧰 Checkout"
-        uses: actions/checkout@v3
-        with:
-          # Full git history is needed to get a proper list of changed files within `super-linter`
-          fetch-depth: 0
-
-      - name: "Missspell fixer"
-        uses: sobolevn/misspell-fixer-action@master
-
+      - uses: actions/checkout@v3.3.0
+      - uses: sobolevn/misspell-fixer-action@master
       - name: "Check diff"
         run: git diff --exit-code ${{ github.sha }}
-
-      - name: "Pull Request"
-        uses: peter-evans/create-pull-request@v5
+      - uses: peter-evans/create-pull-request@v5
         if: failure()
         with:
-          commit-message: Fix typos by misspell-fixer
-          title: Fix typos by misspell-fixer for ${{ github.ref }}
+          commit-message: "Fix typos by misspell-fixer"
+          title: "Fix typos by misspell-fixer for ${{ github.ref }}"
           assignees: ${{ github.actor }}
           reviewers: ${{ github.actor }}
-          branch: auto-pr/misspell-fixer/${{ github.ref }}
+          branch: "auto-pr/misspell-fixer/${{ github.ref }}"
