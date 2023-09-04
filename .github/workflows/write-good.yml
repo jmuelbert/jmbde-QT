@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     name: A job to lint Markdown files
     steps:
-      - uses: actions/checkout@v3.3.0
+      - uses: actions/checkout@v4
       - name: write-good action step
         id: write-good
         uses: tomwhross/write-good-action@v1.6
