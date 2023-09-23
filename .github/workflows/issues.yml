@@ -20,7 +20,7 @@ jobs:
     name: fastlane env reminder
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.3.0
+      - uses: actions/checkout@v4
       - uses: fastlane/github-actions/fastlane-env-reminder@latest
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"

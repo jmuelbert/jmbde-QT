@@ -58,7 +58,7 @@ jobs:
     steps:
       # Checkout the repository to the GitHub Actions runner
       - name: "🧰 Checkout"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           # Full git history is needed to get a proper list of changed files within `super-linter`
           fetch-depth: 0
