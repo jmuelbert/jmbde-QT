@@ -10,11 +10,10 @@ name: OSSAR
 
 on:
   push:
-    branches: [master]
+    branches:
+      - main
     paths:
-      - '**.cpp'
-      - '**.h'
-      - '**.py'
+      - '**.{cpp,h,hpp,qml,ts,py}'
       - cmake/**
       - src/**
       - CMakeLists.txt
@@ -23,9 +22,7 @@ on:
     # The branches below must be a subset of the branches above
     types: [opened, synchronize, reopened]
     paths:
-      - '**.cpp'
-      - '**.h'
-      - '**.py'
+      - '**.{cpp,h,hpp,qml,ts,py}'
       - cmake/**
       - src/**
       - CMakeLists.txt

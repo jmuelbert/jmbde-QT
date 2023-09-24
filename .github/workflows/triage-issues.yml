@@ -13,12 +13,14 @@ on:
   push:
     branches-ignore:
       - dependabot/**
+  issue_comment:
+    types:
+      - created
+      - edited
+
   schedule:
     # Einmal täglich um Mitternacht UTC
     - cron: '0 0 * * *'
-  issue_comment:
-    - created
-    - edited
 
 permissions:
   issues: write

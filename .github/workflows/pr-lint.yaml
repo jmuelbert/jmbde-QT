@@ -9,7 +9,7 @@ on:
     types:
       - opened
       - edited
-      - reopened
+      - synchronize
 
 permissions:
   contents: read
@@ -19,7 +19,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  lint-pr:
+  lint-pull-request-title:
     name: Lint pull request title
     runs-on: ubuntu-latest
     permissions:
@@ -31,6 +31,6 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Lint pull request title
-        uses: ./
+        uses: matthiashermsen/lint-pull-request-title@v1.0.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          allowed-pull-request-types: chore,feat,fix
