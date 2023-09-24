@@ -1,0 +1,27 @@
+---
+# SPDX-FileCopyrightText: Jürgen Mülbert <juergen.muelbert@web.de>
+#
+# SPDX-License-Identifier: EUPL-1.2
+#
+
+name: Issue Processing Reminder
+
+on:
+  issues:
+    types: [opened, edited] # Trigger the workflow when an issue is opened or edited
+
+permissions:
+  contents: read
+
+jobs:
+  issue-reminder:
+    name: Issue Processing Reminder
+    runs-on: ubuntu-latest
+    steps:
+      - name: '🧰 Check out code'
+        uses: actions/checkout@v4
+
+      - name: Send Issue Processing Reminder
+        uses: fastlane/github-actions/fastlane-env-reminder@latest
+        with:
+          repo-token: '${{ secrets.GITHUB_TOKEN }}'

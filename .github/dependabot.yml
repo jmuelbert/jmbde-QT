@@ -12,6 +12,28 @@ updates:
     schedule:
       interval: weekly
       day: 'friday'
+    commit-message:
+      prefix: ":rocket: gha"
+
+  # Enable version updates for Docker
+  - package-ecosystem: "docker"
+    # Look for a `Dockerfile` in the `root` directory
+    directory: "/"
+    # Check for updates once a week
+    schedule:
+      interval: "daily"
+    commit-message:
+      prefix: ":rocket: docker"
+
+  # Enable version updates for Docker
+  - package-ecosystem: "docker"
+    # Look for a `Dockerfile` in the `root` directory
+    directory: "/"
+    # Check for updates once a week
+    schedule:
+      interval: "daily"
+    commit-message:
+      prefix: ":rocket: docker(devcontainer)"
 
   # Maintain dependencies for pip
   - package-ecosystem: pip # See documentation for possible values
@@ -19,6 +41,8 @@ updates:
     schedule:
       interval: weekly
       day: 'friday'
+    commit-message:
+      prefix: ":rocket: pip(workflows)"
 
   # Maintain dependencies for pip
   - package-ecosystem: pip # See documentation for possible values
@@ -26,6 +50,8 @@ updates:
     schedule:
       interval: weekly
       day: 'friday'
+    commit-message:     
+      prefix: ":rocket: pip(docs)"
 
   # Maintain dependencies for pip
   - package-ecosystem: pip # See documentation for possible values
@@ -33,12 +59,6 @@ updates:
     schedule:
       interval: weekly
       day: 'friday'
+    commit-message:     
+      prefix: ":rocket: pip"
 
-  # Enable version updates for Docker
-  - package-ecosystem: docker
-    # Look for a `Dockerfile` in the `root` directory
-    directory: /
-    # Check for updates once a week
-    schedule:
-      interval: weekly
-      day: 'friday'

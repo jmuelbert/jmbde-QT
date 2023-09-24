@@ -1,10 +1,17 @@
 ---
+# SPDX-FileCopyrightText: © 2016-2023 Jürgen Mülbert
+#
+# SPDX-License-Identifier: EUPL-1.2
+#
 name: ci
 
 on:
   push:
-    branches: [main, master, develop, improve_build-workflow]
+    branches:
+      - main
+      - develop
     paths:
+      - '**.{cpp,h,hpp,py,ts,qml}'
       - cmake/**
       - src/**
       - CMakeLists.txt
@@ -19,6 +26,7 @@ on:
       - 'master'
     types: [opened, reopened]
     paths:
+      - '**.{cpp,h,hpp,py,ts,qml}'
       - cmake/**
       - src/**
       - CMakeLists.txt'
@@ -40,6 +48,13 @@ env:
   CONAN_USER_HOME: '${{ github.workspace }}/conan-cache'
   CONAN_USER_HOME_SHORT: '${{ github.workspace }}/conan-cache/short'
   CLANG_TIDY_VERSION: '12.0.0'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
 
 jobs:
   tests:
@@ -123,7 +138,7 @@ jobs:
             build_type: Release
             developer_mode: Off
             package_generator: ZIP
-               
+
     steps:
       - name: '🧰 Check for llvm version mismatches'
         if: ${{ contains(matrix.compiler, 'llvm') && !contains(matrix.compiler, env.CLANG_TIDY_VERSION) }}
@@ -136,7 +151,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-          
+
       - name: '⚙️ Setup Cache'
         uses: ./.github/actions/setup_cache
         with:
@@ -256,6 +271,9 @@ jobs:
     needs: [tests]
     name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
+
+    # Skip any PR created by dependabot to avoid permission issues:
+    if: (github.actor != 'dependabot[bot]')
 
     env:
       CONAN_SYSREQUIRES_MODE: enabled

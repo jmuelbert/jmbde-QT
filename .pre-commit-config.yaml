@@ -8,13 +8,13 @@ default_language_version:
 fail_fast: true
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.0.1
+    rev: v4.4.0
     hooks:
       - id: check-added-large-files
         args: [--maxkb=150]
       - id: check-ast
       - id: check-byte-order-marker
-        exclude: ^.*(\.cs|\.cbproj|\.groupproj|\.props|\.psm1|\.sln|\.vcxproj|\.vcxproj.filters)$
+        exclude: ^.*(\.cs|\.vb|\.cbproj|\.groupproj|\.props|\.sln|\.vcxproj|\.vcxproj.filters)$
       - id: check-builtin-literals
       - id: check-case-conflict
       - id: check-docstring-first
@@ -22,35 +22,28 @@ repos:
       - id: check-json
         exclude: >
           (?x)(
-              ^\.vscode/.*\.json
-          )$
-      - id: check-merge-conflict
+           ^\.vscode/.*\.json|
+           ^\.github/.*\.yml
+           )$
       - id: check-shebang-scripts-are-executable
+      - id: check-merge-conflict
       - id: check-symlinks
       - id: check-toml
       - id: check-vcs-permalinks
       - id: check-xml
       - id: check-yaml
         args: [--allow-multiple-documents]
-        exclude: >
-          (?x)(
-            ^\.gitlab/.*\.yml|
-            ^\.gitlab/ci/.*\.yml|
-            ^\.clang-format$
-            )$
+      - id: end-of-file-fixer
+        exclude: ^.*(\.cs|\.vb|\.cbproj|\.groupproj|\.props|\.sln|\.vcxproj|\.vcxproj.filters)$
       - id: debug-statements
       - id: destroyed-symlinks
       - id: detect-private-key
-      # - id: double-quote-string-fixer
-      - id: end-of-file-fixer
-        stages:
-          - commit
-          - manual
       - id: file-contents-sorter
       - id: fix-byte-order-marker
-        exclude: ^.*(\.cs|\.cbproj|\.groupproj|\.props|\.psm1|\.sln|\.vcxproj|\.vcxproj.filters)$
+        exclude: ^.*(\.cs|\.vb\\.cbproj|\.groupproj|\.props|\.sln|\.vcxproj|\.vcxproj.filters)$
       - id: fix-encoding-pragma
       - id: forbid-new-submodules
+      - id: forbid-submodules
       - id: mixed-line-ending
         args: [--fix=auto]
       - id: name-tests-test
@@ -59,11 +52,12 @@ repos:
       - id: requirements-txt-fixer
       - id: sort-simple-yaml
       - id: trailing-whitespace
+        exclude: ^.*(\.cs|\.vb\\.cbproj|\.groupproj|\.props|\.sln|\.vcxproj|\.vcxproj.filters)$
         args: [--markdown-linebreak-ext=md]
         stages:
           - commit
           - manual
-
+          
   - repo: https://github.com/pre-commit/pygrep-hooks
     rev: v1.9.0 # Use the ref you want to point at
     hooks:

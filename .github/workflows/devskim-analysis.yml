@@ -10,9 +10,7 @@ on:
   push:
     branches: [master]
     paths:
-      - '**.cpp'
-      - '**.h'
-      - '**.py'
+      - '**.{cpp,h,hpp,ts,qml,py}'
       - cmake/**
       - src/**
       - CMakeLists.txt
@@ -21,9 +19,7 @@ on:
     # The branches below must be a subset of the branches above
     types: [opened, synchronize, reopened]
     paths:
-      - '**.cpp'
-      - '**.h'
-      - '**.py'
+      - '**.{cpp,h,hpp,ts,qml,py}'
       - cmake/**
       - src/**
       - CMakeLists.txt
@@ -39,9 +35,13 @@ jobs:
       actions: read
       contents: read
       security-events: write
+
+    # Skip any PR created by dependabot to avoid permission issues:
+    if: (github.actor != 'dependabot[bot]')
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: '🧰 Check out code'
+        uses: actions/checkout@v4
 
       - name: Run DevSkim scanner
         uses: microsoft/DevSkim-Action@v1.0.3

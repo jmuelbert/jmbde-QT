@@ -1,2 +1,118 @@
 ---
-translations: translations/*
+lang/core:
+  - src/abseil-cpp/**
+  - src/boringssl/**
+  - src/c-ares/**
+  - src/core/**
+  - src/proto/**
+  - src/re2/**
+  - src/upb/**
+  - src/zlib/**
+  - include/grpc/**
+  - test/core/**
+  - tools/codegen/core/**
+
+lang/c++:
+  - examples/cpp/**
+  - src/cpp/**
+  - include/grpc++/**
+  - include/grpcpp/**
+  - test/cpp/**
+
+area/infra:
+  - .github/**
+
+lang/node:
+  - examples/node/**
+  - src/compiler/node*
+
+lang/ObjC:
+  - examples/objective-c/**
+  - src/compiler/objective_c*
+  - src/objective-c/**
+
+lang/php:
+  - examples/php/**
+  - src/compiler/php*
+  - src/php/**
+
+lang/python:
+  - bazel/python_rules.bzl
+  - examples/python/**
+  - requirements.bazel.txt
+  - src/compiler/python*
+  - src/python/**
+
+lang/ruby:
+  - examples/ruby/**
+  - src/compiler/ruby*
+  - src/ruby/**
+  - Formular/**
+
+'lang/C#':
+  - src/compiler/csharp*
+  - src/csharp/**
+
+pr/dependencies:
+  - vendor/**/*
+  - go.*
+theme/acls:
+  - acl/**/*
+theme/agent-cache:
+  - agent/cache/**/*
+theme/api:
+  - api/**/*
+theme/catalog:
+  - agent/catalog/**/*
+theme/certificates:
+  - tlsutil/**/*
+theme/cli:
+  - command/**/*
+theme/config:
+  - agent/config/**/*
+theme/connect:
+  - connect/**/*
+  - agent/connect/**/*
+# theme/consul-nomad:
+theme/consul-terraform-sync:
+  - website/content/docs/nia/**/*
+  - website/content/docs/integrate/nia*
+# theme/consul-vault:
+theme/contributing:
+  - .github/**/*
+theme/dns:
+  - dns/**/*
+theme/envoy/xds:
+  - agent/xds/**/*
+# theme/federation-usability:
+theme/health-checks:
+  - agent/health*
+  - api/health*
+# theme/ingress-gw:
+# theme/internal-cleanup:
+theme/internals:
+  - lib/**/*
+  - types/**/*
+# theme/kubernetes:
+# theme/mesh-gw:
+# theme/operator-usability:
+# theme/performance:
+# theme/service-metadata:
+# theme/streaming:
+theme/telemetry:
+  - logging/**/*
+# theme/terminating-gw:
+theme/testing:
+  - ./*test*/**/*
+theme/tls:
+  - tlsutil/**/*
+theme/ui:
+  - ui/**/*
+# theme/windows:
+# thinking:
+# type/bug:
+type/ci:
+  - .circleci/*
+# type/crash:
+type/docs:
+  - website/**/*

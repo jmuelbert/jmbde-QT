@@ -1,0 +1,97 @@
+---
+# SPDX-FileCopyrightText: Jürgen Mülbert <juergen.muelbert@outlook.de>
+#
+# SPDX-License-Identifier: EUPL-1.2
+#
+# Dies ist eine GitHub-Workflow-Datei zur automatischen Triage von Issues und Pull Requests.
+# Sie wird einmal täglich ausgeführt und markiert oder schließt veraltete Elemente.
+# Weitere Informationen finden Sie in der Dokumentation.
+
+name: Triage Issues
+
+on:
+  push:
+    branches-ignore:
+      - dependabot/**
+  schedule:
+    # Einmal täglich um Mitternacht UTC
+    - cron: '0 0 * * *'
+  issue_comment:
+    - created
+    - edited
+
+permissions:
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: triage-issues
+  cancel-in-progress: ${{ github.event_name != 'issue_comment' }}
+
+jobs:
+  stale:
+    if: |
+      startsWith(github.repository, 'jmuelbert/') &&
+      (
+        !startsWith(github.event.repository.name, 'dependabot/') || 
+        (github.event_name == 'schedule') ||
+        (
+          contains(github.event.issue.labels.*.name, 'stale') ||
+          contains(github.event.pull_request.labels.*.name, 'stale')
+        )
+      )
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mark or Close Stale Issues and Pull Requests
+        uses: actions/stale@v8
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          days-before-stale: 21
+          days-before-close: 7
+          stale-issue-message: |
+            Dieses Issue wurde automatisch als veraltet markiert, da es seit geraumer Zeit keine Aktivität mehr gab.
+            Es wird geschlossen, wenn keine weitere Aktivität erfolgt.
+          stale-pr-message: |
+            Dieser Pull Request wurde automatisch als veraltet markiert, da er seit geraumer Zeit keine Aktivität mehr hatte.
+            Er wird geschlossen, wenn keine weitere Aktivität erfolgt.
+          exempt-issue-labels: 'gsoc-outreachy, help wanted, in progress'
+          exempt-pr-labels: 'gsoc-outreachy, help wanted, in progress'
+
+  bump-pr-stale:
+    if: |
+      startsWith(github.repository, 'jmuelbert/') &&
+      (
+        !startsWith(github.event.repository.name, 'dependabot/') || 
+        (github.event_name == 'schedule') ||
+        (
+          contains(github.event.issue.labels.*.name, 'stale') ||
+          contains(github.event.pull_request.labels.*.name, 'stale')
+        )
+      )
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mark or Close Stale `bump-formula-pr` and `bump-cask-pr` Pull Requests
+        uses: actions/stale@v8
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          days-before-stale: 2
+          days-before-close: 1
+          stale-pr-message: |
+            Dieser Pull Request wurde automatisch als veraltet markiert, da er seit geraumer Zeit keine Aktivität mehr hatte.
+            Er wird geschlossen, wenn keine weitere Aktivität erfolgt. Um diesen Pull Request offen zu halten, fügen Sie ein `help wanted` oder `in progress` Label hinzu.
+          exempt-pr-labels: 'help wanted, in progress'
+          any-of-labels: 'bump-formula-pr, bump-cask-pr'
+
+  lock-threads:
+    if: startsWith(github.repository, 'jmuelbert/') && github.event_name != 'issue_comment'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Lock Outdated Threads
+        uses: dessant/lock-threads@c1b35aecc5cdb1a34539d14196df55838bb2f836
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-inactive-days: 30
+          add-issue-labels: outdated
+          pr-inactive-days: 30
+          add-pr-labels: outdated

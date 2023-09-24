@@ -3,7 +3,7 @@ build/
 out/
 cmake-build-*/
 
-# User spesific settings
+# User specific settings
 CMakeUserPresets.json
 
 # IDE files
@@ -14,6 +14,8 @@ CMakeUserPresets.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# Editor/IDE-specific files and backups
 *.swp
 *~
 _ReSharper*
@@ -31,4 +33,6 @@ $RECYCLE.BIN/
 .TemporaryItems
 ehthumbs.db
 Thumbs.db
+
+# Dockerfile
 Dockerfile

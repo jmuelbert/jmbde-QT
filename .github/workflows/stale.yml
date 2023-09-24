@@ -1,25 +1,35 @@
 ---
 name: Mark stale issues and pull requests
 on:
+  # Tägliche Ausführung um Mitternacht UTC.
   schedule:
-    - cron: 0 0 * * 2
+    - cron: 0 0 * * *
+
+permissions:
+  contents: read
+
 jobs:
   stale:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - uses: actions/stale@v5
+      - name: '🧰 Check out code'
+        uses: actions/checkout@v4
+
+      - name: Mark stale issues and pull requests
+        uses: actions/stale@v8
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           stale-issue-message: >
-            Please reopen this issue once you add more information and updates here. If
-            this is not the case and you need some help, feel free to seek help from our
-            [Gitter](https://gitter.im/TheAlgorithms) or ping one of the reviewers.
-            Thank you for your contributions!
+            Please reopen this issue once you add more information and updates here. If this is not
+            the case and you need some help, feel free to seek help from our
+            [Gitter](https://gitter.im/TheAlgorithms) or ping one of the reviewers. Thank you for
+            your contributions!
           stale-pr-message: >
-            Please reopen this pull request once you commit the changes requested or
-            make improvements on the code. If this is not the case and you need some
-            help, feel free to seek help from our
-            [Gitter](https://gitter.im/TheAlgorithms) or ping one of the reviewers.
-            Thank you for your contributions!
+            Please reopen this pull request once you commit the changes requested or make
+            improvements on the code. If this is not the case and you need some help, feel free to
+            seek help from our [Gitter](https://gitter.im/TheAlgorithms) or ping one of the
+            reviewers. Thank you for your contributions!
           stale-issue-label: no-issue-activity
           stale-pr-label: no-pr-activity

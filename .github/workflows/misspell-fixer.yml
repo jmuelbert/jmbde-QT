@@ -1,21 +1,45 @@
 ---
 name: Misspell fixer
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+permissions:
+  contents: read
 
 jobs:
   misspell-fixer:
     runs-on: ubuntu-latest
+
+    # Skip any PR created by dependabot to avoid permission issues:
+    if: (github.actor != 'dependabot[bot]')
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: sobolevn/misspell-fixer-action@master
-      - name: Check diff
-        run: git diff --exit-code ${{ github.sha }}
-      - uses: peter-evans/create-pull-request@v3
-        if: failure()
+      - name: '🧰 Check out code'
+        uses: actions/checkout@v4
         with:
-          commit-message: Fix typos by misspell-fixer
-          title: Fix typos by misspell-fixer for ${{ github.ref }}
+          # Full git history is needed to get a proper list of changed files within `super-linter`
+          fetch-depth: 0
+
+      - name: Run Misspell Fixer
+        uses: sobolevn/misspell-fixer-action@master
+
+      - name: Check for changes
+        run: git diff --exit-code ${{ github.sha }}
+
+      - name: Create Pull Request for typos
+        if: failure()
+        uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: 'Fix typos by misspell-fixer'
+          title: 'Fix typos by misspell-fixer for ${{ github.ref }}'
           assignees: ${{ github.actor }}
           reviewers: ${{ github.actor }}
-          branch: auto-pr/misspell-fixer/${{ github.ref }}
+          branch: 'auto-pr/misspell-fixer/${{ github.ref }}'

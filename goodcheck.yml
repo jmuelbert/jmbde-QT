@@ -1,0 +1,15 @@
+---
+rules:
+  # id, pattern, message are required attributes.
+  - id: com.github.jmuelbert.jmbde-dotnet
+    pattern: Github
+    severity: warning
+    message: Do you want to write GitHub?
+    glob:
+      - '**/*.rb'
+      - '**/*.{yaml,yml}'
+      - 'public/**/*.html'
+    fail:
+      - Signup via GitHub
+    pass:
+      - Signup via GitHub

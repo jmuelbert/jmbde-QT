@@ -1,0 +1,37 @@
+# SPDX-FileCopyrightText: Alex Page
+# SPDX-License-Identifier: MIT
+
+# Name des Workflows
+name: Move assigned pull requests into To do
+
+# Trigger für den Workflow
+on:
+  pull_request:
+    types: [assigned]
+    branches:
+      - '*'
+    paths-ignore:
+      - '.github/workflows/assigned-pulls-todo.yml'
+
+# Berechtigungen definieren
+permissions:
+  contents: read
+
+# Jobs definieren
+jobs:
+  automate-project-columns:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: '🧰 Check out code'
+        uses: actions/checkout@v4
+
+      - name: Run Project Automation
+        uses: alex-page/github-project-automation-plus@v0.8.3
+        with:
+          # Projektname, in das die Aufgabe verschoben werden soll
+          project: jmbde-QT
+          # Name der Spalte, in die die Aufgabe verschoben werden soll
+          column: To do
+          # GitHub Token
+          repo-token: ${{ secrets.GITHUB_TOKEN }}

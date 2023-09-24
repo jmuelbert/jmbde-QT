@@ -43,6 +43,9 @@
 - name: performance
   description: Performance
   color: '016175'
+- name: production
+  description: Production
+  color: '0015d6'
 - name: python
   description: Pull requests that update Python code
   color: 2b67c6
