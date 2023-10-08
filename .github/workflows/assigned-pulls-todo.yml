@@ -1,37 +1,32 @@
-# SPDX-FileCopyrightText: Alex Page
+---
+# SPDX-FileCopyrightText: Jürgen Mülbert
+#
 # SPDX-License-Identifier: MIT
 
-# Name des Workflows
-name: Move assigned pull requests into To do
+name: Auto Assign to Project(s)
 
-# Trigger für den Workflow
 on:
-  pull_request:
-    types: [assigned]
-    branches:
-      - '*'
-    paths-ignore:
-      - '.github/workflows/assigned-pulls-todo.yml'
+  pull_request_target:
+    types: [opened, labeled]
 
-# Berechtigungen definieren
 permissions:
-  contents: read
+  pull-requests: write
 
-# Jobs definieren
 jobs:
-  automate-project-columns:
+  assign_one_project:
     runs-on: ubuntu-latest
+    name: Assign to One Project
 
     steps:
-      - name: '🧰 Check out code'
-        uses: actions/checkout@v4
-
-      - name: Run Project Automation
-        uses: alex-page/github-project-automation-plus@v0.8.3
+      - name: Assign NEW issues and NEW pull requests to project 10
+        uses: srggrs/assign-one-project-github-action@1.2.1
+        if: github.event.action == 'opened'
         with:
-          # Projektname, in das die Aufgabe verschoben werden soll
-          project: jmbde-QT
-          # Name der Spalte, in die die Aufgabe verschoben werden soll
-          column: To do
-          # GitHub Token
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          project: "10"
+
+      - name: Assign issues and pull requests with `bug` label to project 10
+        uses: srggrs/assign-one-project-github-action@1.2.1
+        if: contains(github.event.pull_request.labels.*.name, 'bug')
+        with:
+          project: "10"
+          column_name: "Labeled"
