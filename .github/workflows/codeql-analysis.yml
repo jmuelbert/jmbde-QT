@@ -155,7 +155,7 @@ jobs:
 
       - name: "⚙️ Install Qt Version ${{ matrix.qt_version }}"
         if: matrix.language == 'cpp'
-        uses: jurplel/install-qt-action@v3
+        uses: jurplel/install-qt-action@v4
         with:
           version: ${{ matrix.qt_version }}
           # host: ${{ runner.os }}
