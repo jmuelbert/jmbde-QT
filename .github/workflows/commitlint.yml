@@ -9,6 +9,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: ahmadnassri/action-commit-lint@v2.1.16
+      - uses: ahmadnassri/action-commit-lint@v2.1.17
         with:
           config: .github/linters/.commit-lint.yml
