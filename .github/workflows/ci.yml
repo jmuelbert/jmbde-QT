@@ -551,14 +551,14 @@ jobs:
 
       - name: "🐧 📤 Upload Linux artifacts"
         if: runner.os == 'Linux'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: AppImage
           path: "./*.AppImage*"
 
       - name: "🍎 📤 Upload macOS artifacts"
         if: runner.os == 'macOS'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: macos-artifacts
           path: |
@@ -567,7 +567,7 @@ jobs:
 
       - name: "🧊 📤 Upload artifact: Windows Installer"
         if: runner.os ==  'Windows'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: windows-artifacts
           path: |
@@ -630,7 +630,7 @@ jobs:
           ls -al
 
       - name: "📤 Upload artifact: FlatPak"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: flatpak-artifact
           path: |
@@ -671,7 +671,7 @@ jobs:
           ls
 
       - name: "🐧 📤 Upload artifact: SnapPack"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: snapcraft-artifact
           path: |
