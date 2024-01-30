@@ -34,6 +34,6 @@ sphinxcontrib-jsmath==1.0.1
 sphinxcontrib-qthelp==1.0.7
 sphinxcontrib-serializinghtml==1.1.10
 toml==0.10.2
-urllib3==2.1.0
+urllib3==2.2.0
 virtualenv==20.25.0
 zipp==3.17.0
