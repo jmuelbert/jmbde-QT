@@ -10,7 +10,10 @@
     "**/report/**",
     "**/*.svg",
     "**/wwwroot/**",
-    "**/*.txt"
+    "**/*.txt",
+    "docs/src/content/docs/de/**",
+    "docs/src/content/docs/es/**",
+    "docs/src/content/docs/it/**"
   ],
   "reporters": [
     "html",

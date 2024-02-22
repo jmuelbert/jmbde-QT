@@ -178,14 +178,14 @@ jobs:
           source: './src'
           clangFormatVersion: 12
           inplace: True
-          
+
       - uses: EndBug/add-and-commit@v9
         with:
           author_name: Clang Robot
           author_email: robot@example.com
           message: 'Committing clang-format changes'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}          
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # - name: PMD Code Analyzer Action
       #   uses: billyan2018/setup-pmd@PMDAnalyzer1.0

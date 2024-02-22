@@ -7,11 +7,17 @@ linuxdeployqt
 .build
 appbuild
 appdir
+test/build/
+test_install/build/
+install/
 /build*/
+build/
 *.tar
 *.gz
 *~swp
 old/
+out/
+megalinter-reports/
 # .qtmodules-travis
 
 # Sqlite-DB
@@ -393,3 +399,5 @@ GPATH
 GRTAGS
 GTAGS
 jmbd-QT.code-workspace
+
+compile_commands.json

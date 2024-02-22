@@ -1,0 +1,212 @@
+version: '0.2'
+language: en,de-DE,it,es-ES
+ignorePaths:
+  - '**/node_modules/**'
+  - '**/vscode_extension/**'
+  - '**/.git/**'
+  - '**/.pnpm-lock.json'
+  - '**/pnpm-lock.yaml'
+  - '**/yarn.lock'
+  - dist/
+  - out/
+  - build/
+  - .vscode
+  - package-lock.json
+  - megalinter-reports
+  - .devcontainer/.dockerignore
+  - .gitattributes
+  - .gitignore
+  - .github/actions/spelling/**
+  - .github/labels.yml
+  - .github/pr-labeler.yml
+  - .prettierignore
+  - .tfignore
+  - CHANGELOG.md
+  - LICENSE
+  - LICENSES/**
+  - cspell.config.yaml
+files:
+  - '*/**'
+words:
+  - aarch
+  - aminya
+  - Aglolia
+  - Akka
+  - ambientale
+  - applellvm
+  - aqui
+  - ARGN
+  - armv
+  - asan
+  - astro
+  - Astro
+  - astrodotbuild
+  - astrojs
+  - Autobuild
+  - autolabeler
+  - automerge
+  - Bazel
+  - Beginne
+  - Bitstream
+  - blinkmacsystemfont
+  - buildscript
+  - buildtools
+  - ccache
+  - ccmake
+  - choco
+   - cmake
+  - CMAKE
+  - cmakelint
+  - cmds 
+  - Codacy
+  - Codecov
+  - CODEOWNERS
+  - codeql
+  - Colab
+  - Comienza
+  - COMMIT_EDITMSG
+  - commitlint
+  - Configuración
+  - consts
+  - CPATH
+  - Cppcheck
+  - cppcoreguidelines
+  - cppdbg
+  - CPPFLAGS
+  - cpprc
+  - cppreference
+  - ctest
+  - Cuda
+  - culori
+  - dessant
+  - Deutsch
+  - devcontainer
+  - devcontainers
+  - devskim
+  - Diátaxis
+  - docsearch
+  - docsify
+  - Documentación
+  - Docus
+  - DUPS
+  - Ecograder
+  - ecológica
+  - Ecoping
+  - Einrichtung
+  - Empezando
+  - Erste
+  - focusable
+  - FOUC
+  - frontmatter
+  - fsfe
+  - ghaction
+  - gitlab
+  - gittools
+  - goodcheck
+  - gsoc
+  - Guías
+  - hastscript
+  - hier
+  - houston
+  - Impatto
+  - Inizia
+  - Iniziamo
+  - Italiano
+  - jmuelbert
+  - Jürgen
+  - labelledby
+  - lengthframeencoder
+  - linkedin
+  - Manuelle
+  - Markdoc
+  - matthiashermsen
+  - MSDO
+  - mshick
+  - Mülbert
+  - Nextra
+  - nocheck
+  - OSSAR
+  - ossf
+  - outreachy
+  - Poulain
+  - preact
+  - Preacts
+  - rarr
+  - recvbuffer
+  - refact
+  - Referencias
+  - Referenz
+  - rehype
+  - resx
+  - returntocorp
+  - Riferimenti
+  - rubocop
+  - ruleset
+  - Sarif
+  - Schritte
+  - Screenreader
+  - searchbox
+  - Semgrep
+  - Signup
+  - skiplink
+  - sobolevn
+  - srggrs
+  - stefanzweifel
+  - stylecop
+  - stylelint
+  - stylelintignore
+  - tomwhross
+  - tsconfigs
+  - Umweltbelastung
+  - Unported
+  - wagoid
+  - WCAG
+  - webfont
+  - webp
+  - withastro
+flagWords:
+  - hte
+maxNumberOfProblems: 1000
+import: []
+useGitignore: true
+overrides:
+  - filename: '**/de_DE/**'
+    language: en,de
+  - filename: '**/nl_NL/**'
+    language: en,nl
+  - filename: '**/ru_RU/samples/**'
+    language: ru,en
+  - filename: '**/sv/**'
+    language: en,sv
+  - filename: package.json
+    ignoreWords:
+      - colour
+      - canot
+allowCompoundWords: true
+enableGlobDot: true
+cache:
+  useCache: true
+  cacheStrategy: content
+enableFiletypes:
+  - shellscript
+dictionaryDefinitions:
+  - name: ./project-words
+    addWords: true
+    scope:
+      - workspace
+    path: ./project-words.txt
+dictionaries:
+  - ./project-words
+  - bash
+  - companies
+  - csharp
+  - css
+  - filetypes
+  - fonts
+  - misc
+  - node
+  - npm
+  - powershell
+  - python
+  - software-terms
+  - typescript

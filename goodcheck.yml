@@ -1,7 +1,7 @@
 ---
 rules:
   # id, pattern, message are required attributes.
-  - id: com.github.jmuelbert.jmbde-dotnet
+  - id: com.github.jmuelbert.jmbde-macos
     pattern: Github
     severity: warning
     message: Do you want to write GitHub?

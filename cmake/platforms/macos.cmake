@@ -6,7 +6,7 @@
 include(GNUInstallDirs)
 include(Deployment)
 
-find_package(Iconv NAMES REQUIRED)
+find_package(Iconv NAMES)
 find_package(CARBON NAMES Carbon)
 find_package(COCOA NAMES Cocoa)
 find_package(SECURITY NAMES Security)
@@ -32,7 +32,7 @@ set_target_properties(
              MACOSX_BUNDLE_INFO_PLIST ${MACOSX_PLIST}
              MACOSX_BUNDLE_BUNDLE_NAME ${TARGET_NAME}
              MACOSX_BUNDLE_BUNDLE_VERSION ${TARGET_VERSION}
-             MACOSX_BUNDLE_COPYRIGHT "Copyright (c) 2013-2022 Jürgen Mülbert"
+             MACOSX_BUNDLE_COPYRIGHT "Copyright (c) 2013-2024 Jürgen Mülbert"
              MACOSX_BUNDLE_GUI_IDENTIFIER "io.github.jmuelbert.jmbde"
              MACOSX_BUNDLE_ICON_FILE "${TARGET_NAME}.icns"
              MACOSX_BUNDLE_INFO_STRING "Created by Jürgen Mülbert"

@@ -1,33 +1,33 @@
 ---
-  # SPDX-FileCopyrightText: Jürgen Mülbert <juergen.muelbert@web.de>
-  #
-  # SPDX-License-Identifier: MIT
-  #
-  # This workflow will triage pull requests and apply a label based on the
-  # paths that are modified in the pull request.
-  #
-  # To use this workflow, you will need to set up a .github/labeler.yml
-  # file with configuration.  For more information, see:
-  # https://github.com/actions/labeler
-  
-  name: Labeler
-  on:
-    pull_request:
-  
-  permissions:
-    contents: read
-  
-  jobs:
-    label:
-      runs-on: ubuntu-latest
-      permissions:
-        contents: read
-        pull-requests: write
-  
-      steps:
-        - name: Use PR Labeler Action
-          uses: actions/labeler@v4
-          with:
-            repo-token: "${{ secrets.GITHUB_TOKEN }}"
-            configuration-path: .github/pr-labeler.yml
-            sync-labels: false
+# SPDX-FileCopyrightText: Jürgen Mülbert <juergen.muelbert@web.de>
+#
+# SPDX-License-Identifier: MIT
+#
+# This workflow will triage pull requests and apply a label based on the
+# paths that are modified in the pull request.
+#
+# To use this workflow, you will need to set up a .github/labeler.yml
+# file with configuration.  For more information, see:
+# https://github.com/actions/labeler
+
+name: Labeler
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Use PR Labeler Action
+        uses: actions/labeler@v4
+        with:
+          repo-token: '${{ secrets.GITHUB_TOKEN }}'
+          configuration-path: .github/pr-labeler.yml
+          sync-labels: false

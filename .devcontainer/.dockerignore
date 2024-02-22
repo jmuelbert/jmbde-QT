@@ -34,5 +34,18 @@ $RECYCLE.BIN/
 ehthumbs.db
 Thumbs.db
 
-# Dockerfile
-Dockerfile
+# Node
+**/node_modules
+**/package-lock.json
+**/temp-*
+
+# TypeScript
+**/*.tsbuildinfo
+
+# Build directories
+**/packages/*/dist/
+**/.parcel-cache
+**/exe/
+**/*.log
+**/*.exe
+**/.cache/

@@ -1,0 +1,45 @@
+FROM ubuntu:22.04 AS base
+
+# add setup-cpp https://github.com/aminya/setup-cpp
+RUN apt-get update && apt-get install -y \
+    npm \
+    && rm -rf /var/lib/apt/lists/*
+RUN npm install -g setup-cpp
+
+
+
+FROM base AS setup
+
+# install cmake, ninja, and ccache
+RUN setup-cpp --compiler mingw --cmake true --ninja true --ccache true --cppcheck true --vcpkg true --conan true --task true --powershell true
+
+COPY ./docker/entrypoint.sh /docker-entrypoint.sh
+ENTRYPOINT [ "/docker-entrypoint.sh" ]
+
+
+FROM setup AS build
+COPY . /home/project_options
+WORKDIR /home/project_options
+RUN git submodule update --init
+CMD ["/bin/bash", "-c", "task myproj:build.mingw"]
+
+
+FROM setup AS build-minimal
+COPY . /home/project_options
+WORKDIR /home/project_options
+RUN git submodule update --init
+CMD ["/bin/bash", "-c", "task minimal:build.mingw"]
+
+
+FROM setup AS build-minimal-from-env
+COPY . /home/project_options
+WORKDIR /home/project_options
+RUN git submodule update --init
+CMD ["/bin/bash", "-c", "task minimal:build.mingw.from-env"]
+
+
+FROM setup AS build-minimal-from-triplet
+COPY . /home/project_options
+WORKDIR /home/project_options
+RUN git submodule update --init
+CMD ["/bin/bash", "-c", "task minimal:build.mingw.from-triplet"]
