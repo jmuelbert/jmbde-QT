@@ -31,7 +31,6 @@ EmployeeModel::EmployeeModel(QObject *parent)
         {QLatin1String("Akeem H."), QLatin1String("Hardin"), QLatin1String("543-3082 Orci. Street"), QLatin1String("04155"), QLatin1String("Niort")});
 }
 
-
 void EmployeeModel::setCount(int count)
 {
     if (count == m_count) {
