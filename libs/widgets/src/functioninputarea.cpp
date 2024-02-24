@@ -40,7 +40,7 @@ FunctionInputArea::FunctionInputArea(QWidget *parent, const QModelIndex &index)
     }
 
     QObject::connect(ui->priorityHorizontalSlider, &QSlider::valueChanged, ui->prioritySpinBox, &QSpinBox::setValue);
-    QObject::connect(ui->prioritySpinBox, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), ui->priorityHorizontalSlider, &QSlider::setValue);
+    QObject::connect(ui->prioritySpinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), ui->priorityHorizontalSlider, &QSlider::setValue);
     QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &FunctionInputArea::addEdit);
     QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &FunctionInputArea::editFinish);
 }

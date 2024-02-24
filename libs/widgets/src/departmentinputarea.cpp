@@ -41,7 +41,7 @@ DepartmentInputArea::DepartmentInputArea(QWidget *parent, const QModelIndex &ind
 
     QObject::connect(ui->priorityHorizontalSlider, &QSlider::valueChanged, ui->prioritySpinBox, &QSpinBox::setValue);
 
-    QObject::connect(ui->prioritySpinBox, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), ui->priorityHorizontalSlider, &QSlider::setValue);
+    QObject::connect(ui->prioritySpinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), ui->priorityHorizontalSlider, &QSlider::setValue);
 
     QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &DepartmentInputArea::addEdit);
 

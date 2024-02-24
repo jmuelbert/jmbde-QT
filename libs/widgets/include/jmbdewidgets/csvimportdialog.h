@@ -50,7 +50,7 @@ private slots:
      * @param temp Check the String
      * @param character The character to checking
      */
-    void checkString(QString &temp, QChar character = QChar(' '));
+    void checkString(QString &temp, QChar character = QChar(QChar::Space));
 
     /**
      * @brief CsvImportDialog::on_buttonBox_accepted

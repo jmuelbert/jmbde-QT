@@ -4,16 +4,15 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
 
-# minimal requirements
-cmake_minimum_required(VERSION 3.18 FATAL_ERROR)
 
 # ---------------------------------------------------------------------------- # Define Target
 # Information ---------------------------------------------------------------------------- #
 set(TARGET_ID jmbde)
 string(TOLOWER ${TARGET_ID} TARGET_ID_LOWER)
 set(TARGET_NAMESPACE jmuelbert)
-set(TARGET_NAME ${TARGET_ID_LOWER})
+set(TARGET_NAME ${TARGET_ID_LOWER}-bin)
 set(TARGET_DESCRIPTION "jmdbde app")
+set(TARGET_OUTPUT_NAME ${TARGET_ID_LOWER})
 set(TARGET_COPYRIGHT "© 2013-2024 Jürgen Mülbert")
 set(TARGET_URL "https://github.com/jmuelbert/jmdbe-QT")
 set(TARGET_VERSION_MAJOR 0)
@@ -26,11 +25,6 @@ set(TARGET_AUTHOR_DOMAIN "https://github.com/jmuelbert")
 set(TARGET_AUTHOR_MAINTAINER "Jürgen Mülbert")
 
 message(STATUS "Building ${TARGET_NAME}" " Version ${TARGET_VERSION}" " in ${CMAKE_BUILD_TYPE} mode")
-
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTORCC ON)
 
 configure_file(${CMAKE_SOURCE_DIR}/cmake/versioninfo/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/jmbde_version.h
                @ONLY)
@@ -48,15 +42,7 @@ find_package(
 add_library(${TARGET_NAME}_lib INTERFACE) # use interface or normal library according to the implementation
 
 
-# ---------------------------------------------------------------------------- # Finding Qt5 or Qt6
-# ---------------------------------------------------------------------------- #
-find_package(
-  Qt${QT_VERSION_MAJOR} QUIET
-  COMPONENTS Core
-             Widgets
-             PrintSupport
-             Sql
-             Qml)
+
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
   qt_add_executable(${TARGET_NAME} MANUAL_FINALIZATION)
@@ -78,39 +64,6 @@ else()
   # qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
-# Use a single application on MacOS + Windows instead of dbus.
-if(APPLE OR WIN32)
-  # TODO: Enable QT_SINGLE_APP for macOS and Windows target_compile_definitions(${PROJECT_NAME}
-  # PRIVATE USE_QT_SINGLE_APP)
-endif()
-
-# Use a single application on MacOS + Windows instead of dbus.
-if(APPLE OR WIN32)
-  # TODO: Enable QT_SINGLE_APP for macOS and Windows target_link_libraries(${PROJECT_NAME} PRIVATE
-  # jmbde::qtsingleapp)
-endif()
-
-if(APPLE)
-  include(platforms/macos)
-elseif(WIN32)
-  include(platforms/windows)
-elseif(UNIX AND NOT APPLE)
-  include(platforms/linux)
-elseif(ANDROID)
-  include(platforms/android)
-endif()
-
-#
-# Application icons
-#
-set(ICONS_PNG
-    ${CMAKE_SOURCE_DIR}/assets/icons/16-apps-jmbde.png
-    ${CMAKE_SOURCE_DIR}/assets/icons/32-apps-jmbde.png
-    ${CMAKE_SOURCE_DIR}/assets/icons/128-apps-jmbde.png
-    ${CMAKE_SOURCE_DIR}/assets/icons/256-apps-jmbde.png
-    ${CMAKE_SOURCE_DIR}/assets/icons/512-apps-jmbde.png)
-
-set(ICONS_SVG ${CMAKE_SOURCE_DIR}/assets/icons/sc-apps-jmbde.svgz)
 
 #
 # target
@@ -124,7 +77,13 @@ target_include_directories(
           "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>"
           "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
 
-target_sources(${TARGET_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
+target_sources(${TARGET_NAME} 
+PRIVATE 
+${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
+# single application handing for the non-dbus case
+${CMAKE_CURRENT_SOURCE_DIR}/SingleApplication/singleapplication.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/SingleApplication/singleapplication_p.cpp
+)
 
 target_sources(${TARGET_NAME} PRIVATE ${ICONS_SOURCES})
 
@@ -132,10 +91,80 @@ target_sources(${TARGET_NAME} PRIVATE ${ICONS_SOURCES})
 # note : cxx_std_* features were added in CMake 3.8.2
 target_compile_features(${TARGET_NAME} PRIVATE cxx_std_17)
 
+# ensure right translations domain, we use one kate.po(t) for lib + apps
+target_compile_definitions${TARGET_NAME}  PRIVATE TRANSLATION_DOMAIN="${TARGET_NAME} ")
+
+# ensure consistent SingleApplication usage
+target_compile_definitions(${TARGET_NAME} PRIVATE -DQAPPLICATION_CLASS=QApplication)
+
 target_compile_definitions(${TARGET_NAME}
                            PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
+# we have different windows icons, less margins
+set(ICONS_FOLDER  ${CMAKE_SOURCE_DIR}/assets/icons//unix)
+if(WIN32)
+    set(ICONS_FOLDER  ${CMAKE_SOURCE_DIR}/assets/icons//windows)
+endif()
+
+#
+# Application icons
+#
+set(ICON_FILES
+    ${ICONS_FOLDER}/sc-apps-jmbde.svg
+    ${ICONS_FOLDER}/16-apps-jmbde.png
+    ${ICONS_FOLDER}/32-apps-jmbde.png
+    ${ICONS_FOLDER}/128-apps-jmbde.png
+    ${ICONS_FOLDER}/256-apps-jmbde.png
+    ${ICONS_FOLDER}/512-apps-jmbde.png)
+
+# Add icon files to the application's source files to have CMake bundle them in the executable.
+ecm_add_app_icon(ICONS_SOURCES ICONS ${ICON_FILES})
+target_sources( ${TARGET_NAME} PRIVATE ${ICONS_SOURCES})
+
+set_property(
+  TARGET ${TARGET_NAME}
+  PROPERTY OUTPUT_NAME ${TARGET_OUTPUT_NAME}
+)
+
+# See https://cmake.org/cmake/help/v3.15/prop_tgt/MACOSX_BUNDLE_INFO_PLIST.html
+if(APPLE)
+  set_property(
+    TARGET {TARGET_NAME}
+    PROPERTY MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/data/MacOSXBundleInfo.plist.in
+  )
+
+  # These are substituted by CMake into plist.in.
+  set(MACOSX_BUNDLE_DISPLAY_NAME "${TARGET_DISPLAY_NAME}")
+  set(MACOSX_BUNDLE_GUI_IDENTIFIER "io.github.jmuelbert.${TARGET_DISPLAY_NAME}")
+  set(MACOSX_BUNDLE_BUNDLE_NAME "${TARGET_DISPLAY_NAME}")
+  set(MACOSX_BUNDLE_DISPLAY_NAME "${TARGET_DISPLAY_NAME}")
+  set(MACOSX_BUNDLE_INFO_STRING "${TARGET_DESCRIPTION}")
+  set(MACOSX_BUNDLE_LONG_VERSION_STRING "${TARGET_DISPLAY_NAME} ${RELEASE_SERVICE_VERSION}")
+  set(MACOSX_BUNDLE_SHORT_VERSION_STRING "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_VERSION_MINOR}")
+  set(MACOSX_BUNDLE_BUNDLE_VERSION "${RELEASE_SERVICE_VERSION}")
+  set(MACOSX_BUNDLE_COPYRIGHT "${TARGET_COPYRIGHT}")
+endif()
+
+install(TARGETS ${TARGET_NAME} ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+
+ecm_install_icons(
+  ICONS ${ICON_FILES}
+  DESTINATION ${KDE_INSTALL_ICONDIR}
+  THEME hicolor
+)
+
+install(
+  PROGRAMS ${CMAKE_CURRENT_SOURCE_DIR}/data/org.kde.kate.desktop
+  DESTINATION ${KDE_INSTALL_APPDIR}
+)
+
+install(
+  FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/org.kde.kate.appdata.xml
+  DESTINATION ${KDE_INSTALL_METAINFODIR}
+)
+
 target_link_libraries(
+
   # PUBLIC # Useful for libraries, see
   # https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html for more details about
   # transitive usage requirements. libraries/targets to link when linking this library this will
@@ -155,13 +184,7 @@ target_link_libraries(
           # coverage_config debug DEBUGLIBS optimized RELEASELIBS
 )
 
-if(WIN32)
-  include(platforms/windows)
-elseif(APPLE)
-  include(platforms/macos)
-elseif(UNIX AND NOT APPLE)
-  include(platforms/linux)
-endif()
+
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
   qt_finalize_executable(${TARGET_NAME})

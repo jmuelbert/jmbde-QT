@@ -15,7 +15,8 @@
 #include <cstdint>
 #include <cstring>
 
-int main() {
+int main()
+{
     fmt::print("Hello from fmt{}", "!");
 
     Eigen::VectorXd eigen_vec = Eigen::Vector3d(1, 2, 3);

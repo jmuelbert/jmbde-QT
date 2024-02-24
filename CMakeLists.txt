@@ -7,16 +7,15 @@
 # minimal requirements
 cmake_minimum_required(VERSION 3.21...3.27)
 
-# set a default CXX standard for the tools and targets that do not specify them.
-# If commented, the latest supported standard for your compiler is automatically set.
-# set(CMAKE_CXX_STANDARD 20)
-
-include(FetchContent)
 if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.24.0")
   cmake_policy(SET CMP0135 NEW)
 endif()
 
-set(PROJECT_OPTIONS_VERSION "v0.7.0")
+# KDE Release Service Version, managed by release script
+set (RELEASE_SERVICE_VERSION_MAJOR "00")
+set (RELEASE_SERVICE_VERSION_MINOR "07")
+set (RELEASE_SERVICE_VERSION_MICRO "00")
+set (RELEASE_SERVICE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_VERSION_MINOR}.${RELEASE_SERVICE_VERSION_MICRO}")
 
 # enable cross-compiling: - should be called before run_vcpkg()
 if(ENABLE_CROSS_COMPILING)
@@ -28,6 +27,7 @@ project(
   jmbdeqt
   DESCRIPTION "A tool to collect company-data"
   HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
+  VERSION ${RELEASE_SERVICE_VERSION}
   LANGUAGES CXX C)
 
 # ---------------------------------------------------------------------------- # Import from the
@@ -35,62 +35,68 @@ project(
 # ---------------------------------------------------------------------------- #
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 
+# KF6 only
 set(KF_MIN_VERSION "5.113.0")
 set(QT_MIN_VERSION "6.6.0")
+set(QT_MAJOR_VERSION "6")
 
 find_package(ECM ${KF_MIN_VERSION} REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
+include(KDECompilerSettings NO_POLICY_SCOPE)
+include(KDEInstallDirs)
+include(KDECMakeSettings)
+include(KDEClangFormat)
+include(KDEGitCommitHooks)
+
+include(ECMOptionalAddSubdirectory)
+include(ECMAddAppIcon)
+include(ECMInstallIcons)
+include(ECMDeprecationSettings)
+
 include(FeatureSummary)
+include(FindIntl)
 
-include(CPack)
+# Required here so that the version comparison below works
+find_package(Qt6Widgets ${QT_MIN_VERSION} CONFIG REQUIRED)
+find_package(Qt6Concurrent ${QT_MIN_VERSION} CONFIG REQUIRED)
+# ---------------------------------------------------------------------------- # Finding Qt5 or Qt6
+# ---------------------------------------------------------------------------- #
+find_package(
+    ${QT_MIN_VERSION} QUIET
+  COMPONENTS Core
+             Widgets
+             PrintSupport
+             Sql
+             Qml)
 
-# Build Features
-option(FEATURE_TESTS "Enable the tests" OFF)
-option(FEATURE_DOCS "Enable the docs" OFF)
+remove_definitions("-DQT_NO_KEYWORDS")
 
-if(FEATURE_TESTS)
-  # enable sanitizers and analyzers if running the tests
-  set(ENABLE_CLANG_TIDY "ENABLE_CLANG_TIDY")
-  set(ENABLE_CPPCHECK "ENABLE_CPPCHECK")
-  set(ENABLE_COVERAGE "ENABLE_COVERAGE")
-  set(ENABLE_VS_ANALYSIS "ENABLE_VS_ANALYSIS")
-
-  check_sanitizers_support(
-    ENABLE_SANITIZER_ADDRESS
-    ENABLE_SANITIZER_UNDEFINED_BEHAVIOR
-    ENABLE_SANITIZER_LEAK
-    ENABLE_SANITIZER_THREAD
-    ENABLE_SANITIZER_MEMORY)
-
-  # generate a main function for the test executable
-  enable_testing()
-  add_library(catch2_test_common INTERFACE)
-  target_find_dependencies(catch2_test_common INTERFACE_CONFIG Catch2)
-  target_link_libraries(catch2_test_common INTERFACE Catch2::Catch2 Catch2::Catch2WithMain)
-  target_compile_definitions(catch2_test_common INTERFACE DO_NOT_USE_WMAIN)
-  include(Catch)
-endif()
-
-if(FEATURE_DOCS)
-  set(ENABLE_DOXYGEN "ENABLE_DOXYGEN")
-endif()
-
-add_subdirectory(app)
-add_subdirectory(libs)
-
-if(FEATURE_FUZZ_TESTS)
-  add_subdirectory(fuzz_test)
-endif()
-
-# set the startup project for the "play" button in MSVC
-set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT jmbde_exe)
-
-# Experience shows that explicit package naming can help make it easier to sort
-# out potential ABI related issues before they start, while helping you
-# track a build to a specific GIT SHA
-set(CPACK_PACKAGE_FILE_NAME
-    "${CMAKE_PROJECT_NAME}-${CMAKE_PROJECT_VERSION}-${GIT_SHORT_SHA}-${CMAKE_SYSTEM_NAME}-${CMAKE_BUILD_TYPE}-${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}"
+# deprecation options
+ecm_set_disabled_deprecation_versions(
+    QT 6.5
+    KF 5.90
 )
 
-feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
+option(BUILD_PCH "Enable PCH support" ON)
+if (BUILD_PCH)
+    add_subdirectory(pch)
+endif()
+
+# the jmde-widgets version
+ecm_optional_add_subdirectory(apps)
+# all libs
+add_subdirectory(libs)
+
+# our documentation
+ecm_optional_add_subdirectory(doc)
+
+feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
+
+include(KDEClangFormat)
+# add clang-format target
+file(GLOB_RECURSE ALL_CLANG_FORMAT_SOURCE_FILES *.cpp *.h *.c)
+kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
+
+include(KDEGitCommitHooks)
+kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)

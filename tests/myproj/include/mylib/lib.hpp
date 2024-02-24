@@ -17,7 +17,8 @@
 #include <cstdint>
 #include <cstring>
 
-int some_fun() {
+int some_fun()
+{
     fmt::print("Hello from fmt{}", "!");
 
     // populate an Eigen vector with the values
