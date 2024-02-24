@@ -179,7 +179,7 @@ jobs:
           version: ${{ matrix.QT_VERSION }}
           host: ${{ matrix.QT_HOST}}
           target: "desktop"
-          arch: $${{ matrix.QT_ARCH }}
+          arch: ${{ matrix.QT_ARCH }}
           dir: "${{ github.workspace }}/qt/"
           install-deps: "true"
           # modules: 'qtcharts qtwebengine'
@@ -190,8 +190,6 @@ jobs:
           # tools: 'tools_ifw tools_qtcreator,qt.tools.qtcreator'
           set-env: "true"
           tools-only: "false"
-          aqtversion: "==3.1.*"
-          py7zrversion: "==0.20.*"
           extra: "--external 7z"
 
       - name: Test
