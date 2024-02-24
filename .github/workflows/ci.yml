@@ -89,7 +89,8 @@ jobs:
           - ZIP
         CMAKE_BUILD_TYPE:
           - Debug
-        QT_VERSION: "6.5.3"
+        QT_VERSION:
+          - 6.5.3
 
         include:
           # Inject GCOV variable for gcc
