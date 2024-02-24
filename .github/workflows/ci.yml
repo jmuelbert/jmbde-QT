@@ -10,6 +10,7 @@ on:
     branches:
       - main
       - develop
+      - improve-build-system
     paths:
       - "**.{cpp,h,hpp,py,ts,qml}"
       - cmake/**
@@ -105,7 +106,7 @@ jobs:
             compiler: gcc-11
             CMAKE_GENERATOR: "Unix Makefiles"
             GCOV: gcov-11
-            QT_ARCH: gcc_64
+            QT_ARCH: linux_gcc_64
             QT_HOST: linux
 
           - os: windows-2022
@@ -117,7 +118,7 @@ jobs:
           - os: macos-12
             compiler: clang
             QT_ARCH: clang_64
-            QT_HOST: macos
+            QT_HOST: mac
 
           # To exclude a specific job from the matrix (e.g gcc on Windows), you can use this syntax.
           # exclude:
@@ -161,18 +162,6 @@ jobs:
           gcovr: "5.2"
           opencppcoverage: true
 
-      - name: "🧰 Setup Python"
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.10"
-          cache: "pip" # caching pip dependencies
-
-      - name: "🧰 Setup Conan"
-        run: |
-          python -m pip install --upgrade pip
-          pip install conan
-          conan profile detect --force
-
       - name: "🧰 Setup QT"
         uses: jurplel/install-qt-action@v3
         with:
@@ -191,6 +180,18 @@ jobs:
           set-env: "true"
           tools-only: "false"
           extra: "--external 7z"
+
+      - name: "🧰 Setup Python"
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: "pip" # caching pip dependencies
+
+      - name: "🧰 Setup Conan"
+        run: |
+          python -m pip install --upgrade pip
+          pip install conan
+          conan profile detect --force
 
       - name: Test
         run: |
