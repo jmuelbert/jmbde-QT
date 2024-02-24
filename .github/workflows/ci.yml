@@ -24,7 +24,7 @@ on:
       - "*"
   pull_request:
     branches:
-      - "master"
+      - "main"
     types: [opened, reopened]
     paths:
       - "**.{cpp,h,hpp,py,ts,qml}"
@@ -84,6 +84,8 @@ jobs:
           # you can specify the version after `-` like "llvm-13.0.0".
           - llvm
           - gcc
+        CMAKE_PREFIX_PATH:
+          - "${{ github.workspace }}/qt/QT"
         CMAKE_GENERATOR:
           - "Ninja Multi-Config"
         CPACK_GENERATOR:
