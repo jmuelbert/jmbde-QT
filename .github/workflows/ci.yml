@@ -55,6 +55,9 @@ jobs:
   tests:
     if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
     runs-on: ${{ matrix.os }}
+    needs: 
+      - clang-format
+      - cmake-format
     permissions:
       actions: read
       contents: read
@@ -156,6 +159,20 @@ jobs:
           gcovr: "5.2"
           opencppcoverage: true
 
+      - name: "🟨 Setup Python"
+        uses: actions/setup-python@v5
+        with:
+          # Read python version from a file .python-version
+          python-version-file: ".python-version"
+          # check-latest: true
+          cache: pip
+
+      - name: "🧰 Setup Conan"
+        run: |
+          python -m pip install --upgrade pip
+          pip install conan
+          conan profile detect --force
+
       - name: "🧰 Setup QT"
         uses: jurplel/install-qt-action@v3
         with:
@@ -175,18 +192,6 @@ jobs:
           tools-only: "false"
           extra: "--external 7z"
 
-      - name: "🧰 Setup Python"
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.10"
-          cache: "pip" # caching pip dependencies
-
-      - name: "🧰 Setup Conan"
-        run: |
-          python -m pip install --upgrade pip
-          pip install conan
-          conan profile detect --force
-
       - name: Test
         run: |
           conan install . --build=missing --settings=build_type=${{matrix.CMAKE_BUILD_TYPE}}
@@ -195,7 +200,7 @@ jobs:
           cmake --build build/${{matrix.CMAKE_BUILD_TYPE}} --config ${{matrix.CMAKE_BUILD_TYPE}}
         env:
           CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
-          CMAKE_INSTALL_PREFIX: "${{ env.QT_6_DIR }}/lib/cmake"
+          CMAKE_INSTALL_PREFIX: "${{ env.Qt6_DIR }}/lib/cmake"
           FEATURE_TESTS: ON
 
       - name: Coverage
@@ -213,11 +218,9 @@ jobs:
           cd build && cpack -C ${{matrix.CMAKE_BUILD_TYPE}} -G {{.CPACK_GENERATOR | default "ZIP"}}
         env:
           CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
-          CMAKE_INSTALL_PREFIX: "${{ env.QT_6_DIR }}/lib/cmake"
+          CMAKE_INSTALL_PREFIX: "${{ env.Qt6_DIR }}/lib/cmake"
 
           CPACK_GENERATOR: ${{matrix.CPACK_GENERATOR}}
-
-
 
       - name: Publish Tagged Release
         uses: softprops/action-gh-release@v1
@@ -760,8 +763,9 @@ jobs:
         env:
           GITHUB_TOKEN: $${{ secrets.GITHUB_TOKEN }}
 
-  Auto-Clang-Format:
-    name: auto-clang-format
+  clang-format:
+    name: "💎 Auto-Clang-Format"
+    id: clang-format
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -769,8 +773,14 @@ jobs:
       security-events: write
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: DoozyX/clang-format-lint-action@v0.16.2
+      - name: "🧰 Checkout"
+        uses: actions/checkout@v4
+        with:
+          # Full git history is needed to get a proper list of changed files within `super-linter`
+          fetch-depth: 0
+
+      - name: "🟨 Use clang-format"
+        uses: DoozyX/clang-format-lint-action@v0.16.2
         with:
           source: "."
           exclude: "./third_party ./external"
@@ -785,6 +795,49 @@ jobs:
           message: ":art: Committing clang-format changes"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  cmake-format:
+    name: "💎 CMake-Format"
+    runs-on: ubuntu-latest
+    id: cmake-format
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+
+    steps:
+      - name: "🧰 Checkout"
+        uses: actions/checkout@v4
+        with:
+          # Full git history is needed to get a proper
+          # list of changed files within `super-linter`
+          fetch-depth: 0
+
+      - name: "🟨 Setup Python"
+        uses: actions/setup-python@v5
+        with:
+          # Read python version from a file .python-version
+          python-version-file: ".python-version"
+          # check-latest: true
+          cache: pip
+
+      - name: "🟨 Install cmakelang"
+        uses: BSFishy/pip-action@v1
+        with:
+          packages: cmakelang pyyaml jinja2
+
+      - name: "🟨 Use cmake-format"
+          run: find . \( -name '*.cmake' -o -name 'CMakeLists.txt' \) -exec cmake-format -i {} \;
+
+      - name: "📨 Use Commit"
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: github_actions
+          message: ":art: Committing format changes"
+        env:
+           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
 
   build_GH_Pages:
     name: Build GH Pages
