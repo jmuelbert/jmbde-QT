@@ -14,10 +14,12 @@ tasks:
     cmds:
       - export CMAKE_PREFIX_PATH={{.CMAKE_PREFIX_PATH}}
       - echo {{.CMAKE_PREFIX_PATH}}
-      - conan install . --build=missing --settings=build_type={{.CMAKE_BUILD_TYPE}}
-      - cmake -S . -B build/{{.CMAKE_BUILD_TYPE}} -DCMAKE_TOOLCHAINFILE=generators/conan_toolchain.cmake -DCMAKE_BUILD_TYPE={{.CMAKE_BUILD_TYPE}}
-      - cd build/{{.CMAKE_BUILD_TYPE}}
-      - cmake --build build/{{.CMAKE_BUILD_TYPE}} --config {{.CMAKE_BUILD_TYPE}}
+      - rm -rf build
+      - rm CMakeUserPresets.json
+      - conan install .  --build=missing --settings=build_type={{.CMAKE_BUILD_TYPE}}
+      - cd build
+      - cmake -S .. -B {{.CMAKE_BUILD_TYPE}} -DCMAKE_TOOLCHAINFILE=generators/conan_toolchain.cmake -DCMAKE_BUILD_TYPE={{.CMAKE_BUILD_TYPE}}
+      - cmake --build {{.CMAKE_BUILD_TYPE}} --config {{.CMAKE_BUILD_TYPE}}
 
   # Execute the app or the tests
   run_template:

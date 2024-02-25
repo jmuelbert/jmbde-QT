@@ -218,11 +218,12 @@ jobs:
           cat "build/${{matrix.CMAKE_BUILD_TYPE}}/generators/CMakePresets.json"
           echo "CMakePresetsUser.json -------------------------"
           cat CMakePresetsUser.json
+
       - name: Build
         run: |
-          cmake -S . -B build/${{matrix.CMAKE_BUILD_TYPE}} -DCMAKE_TOOLCHAINFILE=generators/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=${{matrix.CMAKE_BUILD_TYPE}}
-          cd build/${{matrix.CMAKE_BUILD_TYPE}}
-          cmake --build build/${{matrix.CMAKE_BUILD_TYPE}} --config ${{matrix.CMAKE_BUILD_TYPE}}
+          cd build
+          cmake -S .. -B ${{matrix.CMAKE_BUILD_TYPE}} -DCMAKE_TOOLCHAINFILE=generators/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=${{matrix.CMAKE_BUILD_TYPE}}
+          cmake --build ${{matrix.CMAKE_BUILD_TYPE}} --config ${{matrix.CMAKE_BUILD_TYPE}}
         env:
           CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
           CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
