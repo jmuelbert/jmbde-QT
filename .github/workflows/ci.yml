@@ -765,7 +765,6 @@ jobs:
 
   clang-format:
     name: "💎 Auto-Clang-Format"
-    id: clang-format
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -799,7 +798,6 @@ jobs:
   cmake-format:
     name: "💎 CMake-Format"
     runs-on: ubuntu-latest
-    id: cmake-format
     permissions:
       actions: read
       contents: read
