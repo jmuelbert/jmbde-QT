@@ -38,7 +38,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 
 # KF6 only
 set(KF_MIN_VERSION "5.113.0")
-set(QT_MIN_VERSION "6.6.0")
+set(QT_MIN_VERSION "6.5.0")
 set(QT_MAJOR_VERSION "6")
 
 find_package(
