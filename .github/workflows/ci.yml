@@ -3,7 +3,7 @@
 #
 # SPDX-License-Identifier: EUPL-1.2
 #
-name: ci
+name: "CI: Test, Build and create release"
 
 on:
   push:
@@ -17,7 +17,7 @@ on:
       - src/**
       - CMakeLists.txt
       - conanfile.py
-      - ".github/workflows/build.yml"
+      - ".github/workflows/ci.yml"
       - "snap/**"
       - "packaging/flatpak/*.yml"
     tags:
@@ -31,24 +31,18 @@ on:
       - cmake/**
       - src/**
       - CMakeLists.txt'
-      - ".github/workflows/build.yml"
+      - ".github/workflows/ci.yml"
       - "snap/**"
       - "packaging/flatpak/*.yml"
   release:
     types: [published]
+
   workflow_dispatch:
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   TARGET_NAME: jmbde
-  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
-  BUILD_TYPE: RelWithDebInfo
-
-  # Conan cache environment variables
-  CONAN_SYSREQUIRES_MODE: enabled
-  CONAN_USER_HOME: "${{ github.workspace }}/conan-cache"
-  CONAN_USER_HOME_SHORT: "${{ github.workspace }}/conan-cache/short"
-  CLANG_TIDY_VERSION: "12.0.0"
+  QT_INSTALL_PREFIX: ${{ github.workspace }}/install
 
 permissions:
   contents: read
@@ -84,8 +78,6 @@ jobs:
           # you can specify the version after `-` like "llvm-13.0.0".
           - llvm
           - gcc
-        CMAKE_PREFIX_PATH:
-          - "${{ github.workspace }}/qt/QT"
         CMAKE_GENERATOR:
           - "Ninja Multi-Config"
         CPACK_GENERATOR:
@@ -171,7 +163,7 @@ jobs:
           host: ${{ matrix.QT_HOST}}
           target: "desktop"
           arch: ${{ matrix.QT_ARCH }}
-          dir: "${{ github.workspace }}/qt/"
+          dir: "${{ env.QT_INSTALL_PREFIX}}"
           install-deps: "true"
           # modules: 'qtcharts qtwebengine'
           # archives: 'qtbase qtsvg'
@@ -203,6 +195,7 @@ jobs:
           cmake --build build/${{matrix.CMAKE_BUILD_TYPE}} --config ${{matrix.CMAKE_BUILD_TYPE}}
         env:
           CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
+          CMAKE_INSTALL_PREFIX: "${{ env.QT_6_DIR }}/lib/cmake"
           FEATURE_TESTS: ON
 
       - name: Coverage
@@ -220,11 +213,11 @@ jobs:
           cd build && cpack -C ${{matrix.CMAKE_BUILD_TYPE}} -G {{.CPACK_GENERATOR | default "ZIP"}}
         env:
           CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
+          CMAKE_INSTALL_PREFIX: "${{ env.QT_6_DIR }}/lib/cmake"
+
           CPACK_GENERATOR: ${{matrix.CPACK_GENERATOR}}
 
-      - name: Perform CodeQL Analysis
-        if: ${{ contains(matrix.os, 'ubuntu') && contains(matrix.compiler, 'llvm') }}
-        uses: github/codeql-action/analyze@v3
+
 
       - name: Publish Tagged Release
         uses: softprops/action-gh-release@v1
