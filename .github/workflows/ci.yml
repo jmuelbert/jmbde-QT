@@ -190,7 +190,6 @@ jobs:
           # tools: 'tools_ifw tools_qtcreator,qt.tools.qtcreator'
           set-env: "true"
           tools-only: "false"
-          extra: "--external 7z"
 
       - name: "🧰 Let Conan generate Deps"
         run: |
@@ -209,7 +208,16 @@ jobs:
           ls build/${{matrix.CMAKE_BUILD_TYPE}}
           echo "build/${{matrix.CMAKE_BUILD_TYPE}}/generators -------------------------"
           ls build/${{matrix.CMAKE_BUILD_TYPE}}/generators
-
+          echo "pwd -------------------------"
+          pwd
+          echo "conan info -------------------------"
+          conan info. --graph=file.dot
+          echo "conan graph -------------------------"
+          conan graph build. --graph=file.dot
+          echo "CMakePresets.json -------------------------"
+          cat "build/${{matrix.CMAKE_BUILD_TYPE}}/generators/CMakePresets.json"
+          echo "CMakePresetsUser.json -------------------------"
+          cat CMakePresetsUser.json
       - name: Build
         run: |
           cmake -S . -B build/${{matrix.CMAKE_BUILD_TYPE}} -DCMAKE_TOOLCHAINFILE=generators/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=${{matrix.CMAKE_BUILD_TYPE}}

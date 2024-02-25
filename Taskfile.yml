@@ -15,7 +15,7 @@ tasks:
       - export CMAKE_PREFIX_PATH={{.CMAKE_PREFIX_PATH}}
       - echo {{.CMAKE_PREFIX_PATH}}
       - conan install . --build=missing --settings=build_type={{.CMAKE_BUILD_TYPE}}
-      - cmake -S . -B build/{{.CMAKE_BUILD_TYPE}} -DC  sMAKE_TOOLCHAINFILE=generators/conan_toolchain.cmake -DCMAKE_BUILD_TYPE={{.CMAKE_BUILD_TYPE}}
+      - cmake -S . -B build/{{.CMAKE_BUILD_TYPE}} -DCMAKE_TOOLCHAINFILE=generators/conan_toolchain.cmake -DCMAKE_BUILD_TYPE={{.CMAKE_BUILD_TYPE}}
       - cd build/{{.CMAKE_BUILD_TYPE}}
       - cmake --build build/{{.CMAKE_BUILD_TYPE}} --config {{.CMAKE_BUILD_TYPE}}
 
