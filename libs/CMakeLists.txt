@@ -17,4 +17,3 @@ add_subdirectory(widgets)
 #
 # This is only for the QML/Quickversion
 add_subdirectory(quick)
-

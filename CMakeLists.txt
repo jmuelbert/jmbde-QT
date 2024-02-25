@@ -12,10 +12,11 @@ if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.24.0")
 endif()
 
 # KDE Release Service Version, managed by release script
-set (RELEASE_SERVICE_VERSION_MAJOR "00")
-set (RELEASE_SERVICE_VERSION_MINOR "07")
-set (RELEASE_SERVICE_VERSION_MICRO "00")
-set (RELEASE_SERVICE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_VERSION_MINOR}.${RELEASE_SERVICE_VERSION_MICRO}")
+set(RELEASE_SERVICE_VERSION_MAJOR "00")
+set(RELEASE_SERVICE_VERSION_MINOR "07")
+set(RELEASE_SERVICE_VERSION_MICRO "00")
+set(RELEASE_SERVICE_VERSION
+    "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_VERSION_MINOR}.${RELEASE_SERVICE_VERSION_MICRO}")
 
 # enable cross-compiling: - should be called before run_vcpkg()
 if(ENABLE_CROSS_COMPILING)
@@ -40,7 +41,11 @@ set(KF_MIN_VERSION "5.113.0")
 set(QT_MIN_VERSION "6.6.0")
 set(QT_MAJOR_VERSION "6")
 
-find_package(ECM ${KF_MIN_VERSION} REQUIRED NO_MODULE)
+find_package(
+  ECM
+  ${KF_MIN_VERSION}
+  REQUIRED
+  NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
 include(KDECompilerSettings NO_POLICY_SCOPE)
@@ -58,12 +63,20 @@ include(FeatureSummary)
 include(FindIntl)
 
 # Required here so that the version comparison below works
-find_package(Qt6Widgets ${QT_MIN_VERSION} CONFIG REQUIRED)
-find_package(Qt6Concurrent ${QT_MIN_VERSION} CONFIG REQUIRED)
+find_package(
+  Qt6Widgets
+  ${QT_MIN_VERSION}
+  CONFIG
+  REQUIRED)
+find_package(
+  Qt6Concurrent
+  ${QT_MIN_VERSION}
+  CONFIG
+  REQUIRED)
 # ---------------------------------------------------------------------------- # Finding Qt5 or Qt6
 # ---------------------------------------------------------------------------- #
 find_package(
-    ${QT_MIN_VERSION} QUIET
+  ${QT_MIN_VERSION} QUIET
   COMPONENTS Core
              Widgets
              PrintSupport
@@ -74,13 +87,14 @@ remove_definitions("-DQT_NO_KEYWORDS")
 
 # deprecation options
 ecm_set_disabled_deprecation_versions(
-    QT 6.5
-    KF 5.90
-)
+  QT
+  6.5
+  KF
+  5.90)
 
 option(BUILD_PCH "Enable PCH support" ON)
-if (BUILD_PCH)
-    add_subdirectory(pch)
+if(BUILD_PCH)
+  add_subdirectory(pch)
 endif()
 
 # the jmde-widgets version
@@ -95,7 +109,12 @@ feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
 include(KDEClangFormat)
 # add clang-format target
-file(GLOB_RECURSE ALL_CLANG_FORMAT_SOURCE_FILES *.cpp *.h *.c)
+file(
+  GLOB_RECURSE
+  ALL_CLANG_FORMAT_SOURCE_FILES
+  *.cpp
+  *.h
+  *.c)
 kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
 
 include(KDEGitCommitHooks)

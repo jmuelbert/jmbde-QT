@@ -16,15 +16,15 @@ set(CPACK_PACKAGE_EXECUTABLES ${PROJECT_NAME} "${PROJECT_NAME_CAPITALIZED}")
 set(CPACK_CREATE_DESKTOP_LINKS ${PROJECT_NAME})
 set(CPACK_PACKAGE_VENDOR "Jürgen Mülbert <juergen.muelbert@gmail.com>")
 set(CPACK_PACKAGING_CONTACT "juergen.muelbert@gmail.com")
-set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}.${PROJECT_VERSION_TWEAK})
+set(CPACK_PACKAGE_VERSION
+    ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}.${PROJECT_VERSION_TWEAK})
 set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
 set(CPACK_PACKAGE_INSTALL_DIRECTORY ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION})
 
-
-    configure_file(${CMAKE_SOURCE_DIR}/assets/MacOSXBundleInfo.plist.in ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.plist
-               @ONLY)
+configure_file(${CMAKE_SOURCE_DIR}/assets/MacOSXBundleInfo.plist.in
+               ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.plist @ONLY)
 
 set(CPACK_INCLUDE_TOPLEVEL_DIRECTORY OFF)
 
@@ -140,7 +140,7 @@ if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
   set(CPACK_BUNDLE_ICON "${CMAKE_SOURCE_DIR}/assets/icons/jmbde.icns")
   set(OS_STRING "macos_${CMAKE_SYSTEM_PROCESSOR}")
 elseif(CMAKE_SYSTEM_NAME MATCHES "Windows")
-  set( CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/packaging/win/license.rtf )
+  set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/packaging/win/license.rtf)
   set(CPACK_GENERATOR
       NSIS
       NuGet
@@ -183,7 +183,8 @@ elseif(CMAKE_SYSTEM_NAME MATCHES "Windows")
     set(CPACK_NSIS_MUI_UNIICON "${CMAKE_SOURCE_DIR}/assets/icons/jmbde.ico")
     set(CPACK_NSIS_DISPLAY_NAME "jmbde")
     set(CPACK_NSIS_PACKAGE_NAME "jmbde")
-    set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "
+    set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS
+        "
          CreateShortCut \\\"$DESKTOP\\\\Qv2ray.lnk\\\" \\\"$INSTDIR\\\\jmbde.exe\\\"
         CreateDirectory \\\"$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\Qv2ray\\\"
         CreateShortCut \\\"$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\Qv2ray\\\\Qv2ray.lnk\\\" \\\"$INSTDIR\\\\jmbde.exe\\\"
@@ -193,7 +194,8 @@ elseif(CMAKE_SYSTEM_NAME MATCHES "Windows")
         WriteRegStr HKLM \\\"Software\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Uninstall\\\\jmbde\\\" \\\"URLUpdateInfo\\\" \\\"https://github.com/Qv2ray/Qv2ray/releases\\\"
         WriteRegStr HKLM \\\"Software\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Uninstall\\\\jmbde\\\" \\\"URLInfoAbout\\\" \\\"https://github.com/Qv2ray/Qv2ray\\\"
     ")
-    set(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "
+    set(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS
+        "
         ExecWait \\\"taskkill /f /im jmbde.exe\\\"
         Delete \\\"$DESKTOP\\\\Qv2ray.lnk\\\"
         Delete \\\"$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\Qv2ray\\\\Qv2ray.lnk\\\"
@@ -243,4 +245,3 @@ endif()
 cpack_ifw_configure_component(${CPACK_PACKAGE_NAME}_runtime_depends VIRTUAL FORCED_INSTALLATION)
 
 include(CPack)
-

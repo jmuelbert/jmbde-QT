@@ -64,16 +64,17 @@ else()
   endforeach()
 endif()
 
-
 if(ENABLE_CONAN)
   find_package(Qt6 CONFIG COMPONENTS Core LinguistTools)
   set(QT_VERSION, 6)
 else()
   find_package(
-    QT NAMES Qt6 Qt5
+    QT
+    NAMES
+    Qt6
+    Qt5
     COMPONENTS Core
-    REQUIRED
-  )
+    REQUIRED)
 
   # ----------------------------------------------------------------------------
   # Finding Qt5 or Qt6
@@ -84,23 +85,18 @@ endif()
 
 # translation tools
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_translations(${TARGET_ID} ${LANGuAGES})
+  qt_add_translations(${TARGET_ID} ${LANGuAGES})
 else()
-    qt5_add_translation(${TARGET_ID} ${LANGuAGES})
+  qt5_add_translation(${TARGET_ID} ${LANGuAGES})
 endif()
 
 if(CMAKE_BUILD_TYPE MATCHES "^[Dd][Ee][Bb][Uu][Gg]$" OR NOT DEFINED CMAKE_BUILD_TYPE)
-    # Only do this in Debug Build
-    add_custom_target(lupdate
-        COMMENT "Generating Translation Sources"
-        COMMAND Qt::lupdate
-        ${CMAKE_SOURCE_DIR}/src
-        -ts translations/en_US.ts
-        -locations none
-        -no-obsolete
-        -no-sort
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
-    add_dependencies(qv2ray_baselib lupdate)
+  # Only do this in Debug Build
+  add_custom_target(
+    lupdate
+    COMMENT "Generating Translation Sources"
+    COMMAND Qt::lupdate ${CMAKE_SOURCE_DIR}/src -ts translations/en_US.ts -locations none -no-obsolete
+            -no-sort
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+  add_dependencies(qv2ray_baselib lupdate)
 endif()
-
-

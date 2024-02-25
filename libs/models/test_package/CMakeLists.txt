@@ -1,8 +1,8 @@
 #
- #  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
- #
- #  SPDX-License-Identifier: GPL-3.0-or-later
- #
+#  SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
+#
+#  SPDX-License-Identifier: GPL-3.0-or-later
+#
 
 # minimal requirements
 cmake_minimum_required(VERSION 3.10...3.21 FATAL_ERROR)

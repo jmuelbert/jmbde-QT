@@ -13,11 +13,7 @@ set(SOURCE_DIR ${MAIN_DIR}/src)
 # -------------------------------------------------------------------------------------------------------------------- #
 # Define headers files
 # -------------------------------------------------------------------------------------------------------------------- #
-set(HEADERS
-          ${INCLUDE_DIR}/quick/maincontroller.h
-          ${INCLUDE_DIR}/models/employeemodel.h
-)
-
+set(HEADERS ${INCLUDE_DIR}/quick/maincontroller.h ${INCLUDE_DIR}/models/employeemodel.h)
 
 # Group files in IDE project
 source_group("include/${TARGET_ID_LOWER}" FILES ${HEADERS})
@@ -25,12 +21,8 @@ source_group("include/${TARGET_ID_LOWER}" FILES ${HEADERS})
 # -------------------------------------------------------------------------------------------------------------------- #
 # Define sources files
 # -------------------------------------------------------------------------------------------------------------------- #
-set(SOURCES
-
-          ${SOURCE_DIR}/quick/maincontroller.cpp
-          ${SOURCE_DIR}/models/employeemodel.cpp
-          ${SOURCE_DIR}/qml.qrc
-)
+set(SOURCES ${SOURCE_DIR}/quick/maincontroller.cpp ${SOURCE_DIR}/models/employeemodel.cpp
+            ${SOURCE_DIR}/qml.qrc)
 
 # Group files in IDE project
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
