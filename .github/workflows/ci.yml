@@ -10,7 +10,7 @@ on:
     branches:
       - main
       - develop
-      - improve-build-system
+      - improve_build-workflow
     paths:
       - "**.{cpp,h,hpp,py,ts,qml}"
       - cmake/**
