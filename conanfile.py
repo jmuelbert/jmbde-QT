@@ -98,10 +98,12 @@ class jmbdeReceipe(ConanFile):
             self.output.info(
                 "Getting Qt from the system. CMAKE_PREFIX_PATH = " + platform_qt
             )
-        self.requires("libiconv/1.17")
 
         self.requires("extra-cmake-modules/5.113.0")
+
+        self.requires("libiconv/1.17")
         self.requires("spdlog/1.13.0")
+
         self.requires("cli11/2.4.1")
 
         self.requires("benchmark/1.8.3")
