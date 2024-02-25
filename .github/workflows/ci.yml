@@ -200,8 +200,7 @@ jobs:
 
       - name: Build
         run: |
-          cd build
-          cmake -S .. -B ${{matrix.CMAKE_BUILD_TYPE}} -DCMAKE_TOOLCHAINFILE=generators/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=${{matrix.CMAKE_BUILD_TYPE}}
+          cmake -S . -B build/${{matrix.CMAKE_BUILD_TYPE}} -DCMAKE_TOOLCHAIN_FILE=generators/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=${{matrix.CMAKE_BUILD_TYPE}}
           cmake --build ${{matrix.CMAKE_BUILD_TYPE}} --config ${{matrix.CMAKE_BUILD_TYPE}}
         env:
           CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
