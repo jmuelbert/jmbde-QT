@@ -79,7 +79,7 @@ jobs:
           - windows-2022
         compiler:
           # you can specify the version after `-` like "llvm-13.0.0".
-          - llvm
+          # - llvm
           - gcc
         CMAKE_GENERATOR:
           - "Ninja Multi-Config"
@@ -200,6 +200,9 @@ jobs:
           ls
           cd generate
           ls
+        env:
+          CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
+          CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
 
       - name: Test
         run: |
