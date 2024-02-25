@@ -192,19 +192,25 @@ jobs:
           tools-only: "false"
           extra: "--external 7z"
 
-      - name: "🧰 Setup Conan"
+      - name: "🧰 Let Conan generate Deps"
         run: |
-          ls 
           conan install . --build=missing --settings=build_type=${{matrix.CMAKE_BUILD_TYPE}}
-          cd build 
-          ls
-          cd generate
-          ls
         env:
           CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
           CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
 
-      - name: Test
+      - name: "Check Conan Deps"
+        run: |
+          echo "root -------------------------"
+          ls 
+          echo "build -------------------------"
+          ls build
+          echo "${{matrix.CMAKE_BUILD_TYPE}} -------------------------"
+          ls build/${{matrix.CMAKE_BUILD_TYPE}}
+          echo "build/${{matrix.CMAKE_BUILD_TYPE}}/generators -------------------------"
+          ls build/${{matrix.CMAKE_BUILD_TYPE}}/generators
+
+      - name: Build
         run: |
           cmake -S . -B build/${{matrix.CMAKE_BUILD_TYPE}} -DMAKE_TOOLCHAINFILE=generators/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=${{matrix.CMAKE_BUILD_TYPE}}
           cd build/${{matrix.CMAKE_BUILD_TYPE}}

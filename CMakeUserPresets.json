@@ -4,7 +4,6 @@
         "conan": {}
     },
     "include": [
-        "/Users/juergen/Projects/GitHub/jmbde-QT/build/Debug/generators/CMakePresets.json",
-        "/Users/juergen/Projects/GitHub/jmbde-QT/build/Release/generators/CMakePresets.json"
+        "/Users/juergen/Projects/GitHub/jmbde-QT/build/Debug/generators/CMakePresets.json"
     ]
 }
