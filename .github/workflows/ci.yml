@@ -769,7 +769,7 @@ jobs:
     permissions:
       actions: read
       contents: write
-      security-events: write
+      pull-requests: write
 
     steps:
       - name: "🧰 Checkout"
@@ -801,7 +801,8 @@ jobs:
     permissions:
       actions: read
       contents: read
-      security-events: write
+      pull-requests: write
+
     strategy:
       fail-fast: false
 
