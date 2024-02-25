@@ -101,7 +101,9 @@ class jmbdeReceipe(ConanFile):
 
         self.requires("extra-cmake-modules/5.113.0")
 
-        self.requires("libiconv/1.17")
+        if self.settings.os != "Windows":
+            self.requires("libiconv/1.17")
+
         self.requires("spdlog/1.13.0")
 
         self.requires("cli11/2.4.1")
