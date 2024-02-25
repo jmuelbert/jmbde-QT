@@ -198,27 +198,6 @@ jobs:
           CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
           CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
 
-      - name: "Check Conan Deps"
-        run: |
-          echo "root -------------------------"
-          ls 
-          echo "build -------------------------"
-          ls build
-          echo "${{matrix.CMAKE_BUILD_TYPE}} -------------------------"
-          ls build/${{matrix.CMAKE_BUILD_TYPE}}
-          echo "build/${{matrix.CMAKE_BUILD_TYPE}}/generators -------------------------"
-          ls build/${{matrix.CMAKE_BUILD_TYPE}}/generators
-          echo "pwd -------------------------"
-          pwd
-          echo "conan info -------------------------"
-          conan info. --graph=file.dot
-          echo "conan graph -------------------------"
-          conan graph build. --graph=file.dot
-          echo "CMakePresets.json -------------------------"
-          cat "build/${{matrix.CMAKE_BUILD_TYPE}}/generators/CMakePresets.json"
-          echo "CMakePresetsUser.json -------------------------"
-          cat CMakePresetsUser.json
-
       - name: Build
         run: |
           cd build
