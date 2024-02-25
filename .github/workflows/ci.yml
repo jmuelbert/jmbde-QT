@@ -767,8 +767,8 @@ jobs:
     name: "💎 Auto-Clang-Format"
     runs-on: ubuntu-latest
     permissions:
-      actions: read
       contents: write
+      issues: write
       pull-requests: write
 
     steps:
@@ -799,8 +799,8 @@ jobs:
     name: "💎 CMake-Format"
     runs-on: ubuntu-latest
     permissions:
-      actions: read
-      contents: read
+      contents: write
+      issues: write
       pull-requests: write
 
     strategy:
