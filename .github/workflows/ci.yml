@@ -80,7 +80,7 @@ jobs:
           - windows-2022
         compiler:
           # you can specify the version after `-` like "llvm-13.0.0".
-          # - llvm
+          - llvm
           - gcc
         CMAKE_GENERATOR:
           - "Ninja Multi-Config"
@@ -94,13 +94,14 @@ jobs:
           - compiler: gcc
             GCOV: gcov
           # Inject GCOV variable for llvm
-          # - compiler: llvm
-          #  GCOV: "llvm-cov gcov"
+          - compiler: llvm
+            GCOV: "llvm-cov gcov"
 
           # Only to test non-multiconfig builds
           - os: ubuntu-22.04
             compiler: gcc-11
             CMAKE_GENERATOR: "Unix Makefiles"
+            CMAKE_BUILD_TYPE: Debug
             GCOV: gcov-11
             QT_ARCH: "gcc_64"
             QT_HOST: linux
@@ -108,6 +109,7 @@ jobs:
           - os: windows-2022
             compiler: msvc
             CMAKE_GENERATOR: "Visual Studio 17 2022"
+            CMAKE_BUILD_TYPE: Debug
             QT_ARCH: "win64_msvc2019_64"
             QT_HOST: windows
 
@@ -209,7 +211,7 @@ jobs:
       - name: Coverage
         run: |
           mkdir -p ./build/coverage/
-          ${{matrix.GCOV}} --delete --filter "jmbde" --filter "jmbdewidgets/" --filter "jmbdemodels/" --root ./ --print-summary --html-details ./build/coverage/index.html --xml-pretty --xml ./build/coverage.xml ./build
+          ${{matrix.GCOV}} --filter "jmbde" --filter "jmbdewidgets/" --filter "jmbdemodels/" --root ./ --print-summary --html-details ./build/coverage/index.html --xml-pretty --xml ./build/coverage.xml ./build
           echo "Open ./build/coverage/index.html in a browser for a visual coverage report"
         env:
           GCOV: ${{matrix.GCOV}}
