@@ -103,7 +103,6 @@ jobs:
             compiler: gcc-11
             CMAKE_GENERATOR: "Unix Makefiles"
             GCOV: gcov-11
-            QT_ARCH: linux_gcc_64
             QT_HOST: linux
 
           - os: windows-2022
@@ -114,7 +113,6 @@ jobs:
 
           - os: macos-12
             compiler: clang
-            QT_ARCH: clang_64
             QT_HOST: mac
 
           # To exclude a specific job from the matrix (e.g gcc on Windows), you can use this syntax.
