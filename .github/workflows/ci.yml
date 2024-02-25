@@ -55,7 +55,7 @@ jobs:
   tests:
     if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
     runs-on: ${{ matrix.os }}
-    needs: 
+    needs:
       - clang-format
       - cmake-format
     permissions:
@@ -829,7 +829,7 @@ jobs:
           packages: cmakelang pyyaml jinja2
 
       - name: "🟨 Use cmake-format"
-          run: find . \( -name '*.cmake' -o -name 'CMakeLists.txt' \) -exec cmake-format -i {} \;
+        run: find . \( -name '*.cmake' -o -name 'CMakeLists.txt' \) -exec cmake-format -i {} \;
 
       - name: "📨 Use Commit"
         uses: EndBug/add-and-commit@v9
@@ -837,7 +837,7 @@ jobs:
           author_name: github_actions
           message: ":art: Committing format changes"
         env:
-           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build_GH_Pages:
     name: Build GH Pages
