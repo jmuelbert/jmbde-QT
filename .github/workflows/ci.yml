@@ -200,7 +200,7 @@ jobs:
           cmake --build build/${{matrix.CMAKE_BUILD_TYPE}} --config ${{matrix.CMAKE_BUILD_TYPE}}
         env:
           CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
-          CMAKE_INSTALL_PREFIX: "${{ env.Qt6_DIR }}/lib/cmake"
+          CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
           FEATURE_TESTS: ON
 
       - name: Coverage
@@ -218,7 +218,7 @@ jobs:
           cd build && cpack -C ${{matrix.CMAKE_BUILD_TYPE}} -G {{.CPACK_GENERATOR | default "ZIP"}}
         env:
           CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
-          CMAKE_INSTALL_PREFIX: "${{ env.Qt6_DIR }}/lib/cmake"
+          CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
 
           CPACK_GENERATOR: ${{matrix.CPACK_GENERATOR}}
 
