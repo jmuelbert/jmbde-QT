@@ -95,8 +95,8 @@ jobs:
           - compiler: gcc
             GCOV: gcov
           # Inject GCOV variable for llvm
-          - compiler: llvm
-            GCOV: "llvm-cov gcov"
+          # - compiler: llvm
+          #  GCOV: "llvm-cov gcov"
 
           # Only to test non-multiconfig builds
           - os: ubuntu-22.04
@@ -192,9 +192,17 @@ jobs:
           tools-only: "false"
           extra: "--external 7z"
 
+      - name: "🧰 Setup Conan"
+        run: |
+          ls 
+          conan install . --build=missing --settings=build_type=${{matrix.CMAKE_BUILD_TYPE}}
+          cd build 
+          ls
+          cd generate
+          ls
+
       - name: Test
         run: |
-          conan install . --build=missing --settings=build_type=${{matrix.CMAKE_BUILD_TYPE}}
           cmake -S . -B build/${{matrix.CMAKE_BUILD_TYPE}} -DMAKE_TOOLCHAINFILE=generators/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=${{matrix.CMAKE_BUILD_TYPE}}
           cd build/${{matrix.CMAKE_BUILD_TYPE}}
           cmake --build build/${{matrix.CMAKE_BUILD_TYPE}} --config ${{matrix.CMAKE_BUILD_TYPE}}
