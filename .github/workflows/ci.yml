@@ -178,7 +178,7 @@ jobs:
           conan profile show default
 
       - name: "🧰 nstall Qt Version ${{ env.QT_VERSION }}"
-        uses: jurplel/install-qt-action@v4
+        uses: jurplel/install-qt-action@v3
         with:
           version: ${{ env.QT_VERSION }}
           host: ${{ matrix.QT_HOST}}
@@ -217,7 +217,7 @@ jobs:
           conan remove -f '*/system'
 
       - name: "Add GCC problem matcher"
-        uses: ammaraskar/gcc-problem-matcher@master        
+        uses: ammaraskar/gcc-problem-matcher@master
 
       - name: "🧰 Let Conan generate Deps"
         run: |
@@ -229,7 +229,7 @@ jobs:
       - name: "Configure CMake"
         run: |
           cmake -S . -B build/${{matrix.CMAKE_BUILD_TYPE}} -DCMAKE_TOOLCHAIN_FILE=generators/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=${{matrix.CMAKE_BUILD_TYPE}}
-         
+
         env:
           CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
           CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
@@ -239,7 +239,7 @@ jobs:
         # Execute the build.  You can specify a specific target with "--target <NAME>"
         run: |
           cmake --build build/${{matrix.CMAKE_BUILD_TYPE}} --config ${{matrix.CMAKE_BUILD_TYPE}}
-  
+
       - name: check ccache stats prior to build
         run: ccache --zero-stats --show-stats
 
@@ -255,7 +255,6 @@ jobs:
         env:
           GCOV: ${{matrix.GCOV}}
           FEATURE_TESTS: ON
-    
 
       - name: "Publish to codecov"
         uses: codecov/codecov-action@v3
