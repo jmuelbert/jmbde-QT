@@ -115,6 +115,7 @@ jobs:
 
           - os: macos-12
             compiler: clang
+            CMAKE_BUILD_TYPE: Debug
             QT_ARCH: "clang_64"
             QT_HOST: mac
 
@@ -143,22 +144,21 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ matrix.compiler }}-${{ hashFiles('./vcpkg.json') }}-
 
-      - name: "⚙️ Setup Cpp"
-        uses: aminya/setup-cpp@v1
-        with:
-          compiler: ${{ matrix.compiler }}
-          vcvarsall: ${{ contains(matrix.os, 'windows' )}}
-
-          cmake: false
-          ninja: true
-          conan: false
-          vcpkg: false
-          ccache: true
-          clangtidy: true
-          cppcheck: true
-
-          gcovr: "5.2"
-          opencppcoverage: true
+      - name: "🐧 ⚙️ Install Linux dependencies"
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update && DEBIAN_FRONTEND=--noninteractive \
+          sudo apt-get --no-install-recommends --assume-yes install \
+            libclang-dev \
+            ninja-build \
+            gcovr \
+            ccache \
+            cppcheck \
+            googletest
+            echo "CCACHE_DIR=${{ github.workspace }}/ccache" >> $GITHUB_ENV
+            echo "CCACHE_DIR=${{ github.workspace }}/ccache" >> $GITHUB_ENV
+            echo "CXX=g++-${{ matrix.compiler-version}}" >> $GITHUB_ENV
+            echo "CC=gcc-${{ matrix.compiler-version}}" >> $GITHUB_ENV
 
       - name: "🟨 Setup Python"
         uses: actions/setup-python@v5
@@ -172,10 +172,13 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install conan
+          conan user
+          conan config init
           conan profile detect --force
+          conan profile show default
 
-      - name: "🧰 Setup QT"
-        uses: jurplel/install-qt-action@v3
+      - name: "🧰 nstall Qt Version ${{ env.QT_VERSION }}"
+        uses: jurplel/install-qt-action@v4
         with:
           version: ${{ env.QT_VERSION }}
           host: ${{ matrix.QT_HOST}}
@@ -186,11 +189,35 @@ jobs:
           # modules: 'qtcharts qtwebengine'
           # archives: 'qtbase qtsvg'
           cache: "true"
-          cache-key-prefix: "install-qt-action"
+          cache-key-prefix: "${{ runner.os }}-install-qt-action"
           setup-python: "true"
           # tools: 'tools_ifw tools_qtcreator,qt.tools.qtcreator'
           set-env: "true"
           tools-only: "false"
+
+      - name: "Setup CCache for Linux"
+        uses: hendrikmuhs/ccache-action@v1
+        if: runner.os == 'Linux'
+        with:
+          key: ${{ matrix.os }}-{{matrix.CMAKE_BUILD_TYPE}}
+          max-size: 50M
+
+      - name: restore ccache
+        uses: pat-s/always-upload-cache@v3.0.11
+        with:
+          path: ${{ github.workspace }}/ccache
+          key: ccache-${{matrix.os}}-${{matrix.compiler}}-${{ env.QT_VERSION }}-${{ github.sha }}
+          restore-keys: ccache-${{matrix.os}}-${{matrix.compiler}}-${{ env.QT_VERSION }}
+
+      - name: check ccache stats prior to build
+        run: ccache --zero-stats --show-stats
+
+      - name: "Cleanup Conan system packages (they are not properly cached)"
+        run: |
+          conan remove -f '*/system'
+
+      - name: "Add GCC problem matcher"
+        uses: ammaraskar/gcc-problem-matcher@master        
 
       - name: "🧰 Let Conan generate Deps"
         run: |
@@ -199,14 +226,43 @@ jobs:
           CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
           CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
 
-      - name: Build
+      - name: "Configure CMake"
         run: |
           cmake -S . -B build/${{matrix.CMAKE_BUILD_TYPE}} -DCMAKE_TOOLCHAIN_FILE=generators/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=${{matrix.CMAKE_BUILD_TYPE}}
-          cmake --build build/${{matrix.CMAKE_BUILD_TYPE}} --config ${{matrix.CMAKE_BUILD_TYPE}}
+         
         env:
           CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
           CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
           FEATURE_TESTS: ON
+
+      - name: "🚧 Build"
+        # Execute the build.  You can specify a specific target with "--target <NAME>"
+        run: |
+          cmake --build build/${{matrix.CMAKE_BUILD_TYPE}} --config ${{matrix.CMAKE_BUILD_TYPE}}
+  
+      - name: check ccache stats prior to build
+        run: ccache --zero-stats --show-stats
+
+      - name: "🐧 🧪 Test and coverage"
+        working-directory: build/${{matrix.CMAKE_BUILD_TYPE}}
+        # Execute tests defined by the CMake configuration.
+        # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+        run: |
+          ctest -C ${{matrix.CMAKE_BUILD_TYPE}}
+          ${{env.GCOV}} -j ${{env.nproc}} --delete --root ../ \
+            --filter "jmbde" --filter "jmbdewidgets/" --filter "jmbdemodels/" \ 
+            --print-summary --xml-pretty --xml coverage.xml
+        env:
+          GCOV: ${{matrix.GCOV}}
+          FEATURE_TESTS: ON
+    
+
+      - name: "Publish to codecov"
+        uses: codecov/codecov-action@v3
+        with:
+          flags: ${{ runner.os }}
+          name: ${{ runner.os }}-coverage
+          files: ./build/coverage.xml
 
       - name: Coverage
         run: |
