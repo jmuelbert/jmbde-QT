@@ -174,7 +174,7 @@ jobs:
           pip install conan
           conan profile detect --force
 
-      - name: "🧰 nstall Qt Version ${{ env.QT_VERSION }}"
+      - name: "🧰 Install Qt Version ${{ env.QT_VERSION }}"
         uses: jurplel/install-qt-action@v3
         with:
           version: ${{ env.QT_VERSION }}
@@ -208,10 +208,6 @@ jobs:
 
       - name: check ccache stats prior to build
         run: ccache --zero-stats --show-stats
-
-      - name: "Cleanup Conan system packages (they are not properly cached)"
-        run: |
-          conan remove -f '*/system'
 
       - name: "Add GCC problem matcher"
         uses: ammaraskar/gcc-problem-matcher@master
