@@ -256,7 +256,7 @@ jobs:
         shell: bash
         run: |
           conan profile detect --force
-          if [[ "${{ matrix.config.compiler.type }}" == "CLANG" ]]; then]]
+          if [[ "${{ matrix.config.compiler.type }}" == "CLANG" ]]; then
             sed -i.backup '/^\[settings\]$/,/^\[/ s/^compiler.libcxx=.*/compiler.libcxx=${{ matrix.config.lib }}/' ~/.conan2/profiles/default
           fi
           sed -i.backup '/^\[settings\]$/,/^\[/ s/^compiler.cppstd=.*/compiler.cppstd=${{ matrix.std }}/' ~/.conan2/profiles/default
@@ -375,6 +375,7 @@ jobs:
     # if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
     name: "${{ matrix.formatting }} C++${{ matrix.std }} ${{ matrix.config.name }} ${{ matrix.build_type }}"
     runs-on: ${{ matrix.config.os }}
+    needs: [tests]
     strategy:
       # Recommendations:
       #   * support at least 2 operating systems
