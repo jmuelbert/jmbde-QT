@@ -77,7 +77,7 @@ jobs:
       matrix:
         std: [20, 23]
         formatting: ["std::format", "fmtlib"]
-      config:
+        config:
           - {
               name: "MSVC 2019",
               os: windows-2019,
@@ -137,7 +137,6 @@ jobs:
           - formatting: "std::format"
             config: {std_format_support: "False"}
 
-
         include:
           # Inject GCOV variable for gcc
           - compiler: [gcc-12, gcc-13]
@@ -187,22 +186,6 @@ jobs:
             build-${{ matrix.config.os }}-${{ matrix.formatting }}-${{ matrix.config.compiler.type }}-
             build-${{ matrix.config.os }}-${{ matrix.formatting }}-
             build-${{ matrix.config.os }}-
-
-      - name: "⚙️ Setup Cache"
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/vcpkg
-            ./build/vcpkg_installed
-            ${{ env.CONAN_USER_HOME }}
-            ~/.cache/pip
-            ${{ env.HOME }}/.cache/vcpkg/archives
-            ${{ env.XDG_CACHE_HOME }}/vcpkg/archives
-            ${{ env.LOCALAPPDATA }}\vcpkg\archives
-            ${{ env.APPDATA }}\vcpkg\archives
-          key: ${{ runner.os }}-${{ matrix.compiler }}-${{ hashFiles('./vcpkg.json')}}-${{ matrix.CMAKE_GENERATOR }}-${{ hashFiles('**/CMakeLists.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ matrix.compiler }}-${{ hashFiles('./vcpkg.json') }}-
 
       - name: "Setup CCache for Linux"
         uses: hendrikmuhs/ccache-action@v1
@@ -404,65 +387,30 @@ jobs:
           files: ./build/coverage.xml
 
   build:
+    # if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+    name: "${{ matrix.formatting }} C++${{ matrix.std }} ${{ matrix.config.name }} ${{ matrix.build_type }}"
+    runs-on: ${{ matrix.config.os }}
     strategy:
-      fail-fast: false
+      # Recommendations:
+      #   * support at least 2 operating systems
+      #   * support at least 2 compilers
+      #   * make sure all supported configurations for your project are built
+      #
+      # Disable/enable builds in this list to meet the above recommendations
+      # and your own projects needs
       matrix:
+        std: [20, 23]
+        formatting: ["std::format", "fmtlib"]
         config:
           - {
-              name: "🐧 Ubuntu 20.04",
-              os: ubuntu-20.04,
-              conan_home: "/home/runner/work/conan/release",
-              conan_home_short: "/home/runner/work/conan/release/short",
-              platform: ubuntu-latest,
-              qt_version: 6.2.2,
-              qt_target: desktop,
-              qt_arch: gcc_64,
-              arch: amd64,
-              artifact: Ubuntu-gcc,
-              cc: clang,
-              cxx: clang++,
-              cmake_generator: Ninja,
-            }
-          - {
-              name: "🧊 Windows 2019",
+              name: "MSVC 2019",
               os: windows-2019,
-              conan_home: "C:\\release",
-              conan_home_short: "C:\\release\\short",
-              platform: windows-latest,
-              qt_version: 6.2.2,
-              qt_target: desktop,
-              qt_arch: win64_msvc2019_64,
-              arch: x64,
-              artifact: Windows-MSVC,
-              pak_arch: win64,
-              cmake_generator: Ninja,
+              compiler: {type: VISUAL, version: 16, cc: "", cxx: ""},
+              conan_config: "",
             }
-          - {
-              name: "🍎 MacOS 11",
-              os: macos-11,
-              conan_home: "/Users/runner/work/conan/release",
-              conan_home_short: "/Users/runner/work/conan/release/short",
-              platform: macos-latest,
-              macos_target: 10.15,
-              qt_version: 6.2.2,
-              qt_target: desktop,
-              qt_arch: clang_64,
-              arch: clang_64,
-              cmake_generator: Ninja,
-            }
-
-    needs: [tests]
-    name: ${{ matrix.config.name }}
-    runs-on: ${{ matrix.config.os }}
 
     # Skip any PR created by dependabot to avoid permission issues:
     if: (github.actor != 'dependabot[bot]')
-
-    env:
-      CONAN_SYSREQUIRES_MODE: enabled
-      CONAN_USER_HOME: "${{ matrix.config.conan_home }}"
-      CONAN_USER_HOME_SHORT: "${{ matrix.config.conan_home_short }}"
-      INSTALL_DIR: ${{ github.workspace }}/install/
 
     steps:
       - name: "🧰 Checkout Source Code"
@@ -470,16 +418,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 10
-
-      - name: "🧰 Checkout Source Code"
-        if: github.event_name == 'pull_request'
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: "🧰 Restoring submodules"
-        run: git submodule update --init
 
       - name: "⚙️ Get the version"
         id: get_version
@@ -865,37 +803,6 @@ jobs:
           path: |
             ${{runner.workspace}}/${{ env.TARGET_NAME }}-${{ steps.get_version.outputs.VERSION }}.amd64.snap
 
-  source-archive:
-    name: All Source Files
-    runs-on: ubuntu-latest
-    needs: tests
-
-    steps:
-      - name: "🧰 Checkout Source Code"
-        uses: actions/checkout@v3
-        with:
-          submodules: "recursive"
-
-      - name: "🧰 Restoring submodules"
-        run: git submodule update --init
-
-      - name: Get the version
-        id: get_version
-        shell: bash
-        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
-
-      - name: Create 7z source-archive
-        uses: DuckSoft/create-7z-action@v1.0
-        with:
-          pathSource: ./
-          pathTarget: ./jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: source-files
-          path: jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
-
   releaseNotes:
     if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
@@ -1161,7 +1068,6 @@ jobs:
       - flatpak-build
       - snap-build
       - build
-      - source-archive
 
     runs-on: ubuntu-latest
     steps:
@@ -1237,15 +1143,5 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./${{ env.archiveName }}-win.zip
           asset_name: ${{ env.TARGET_NAME}}-win-${{ steps.get_version.outputs.VERSION }}-win.zip
-          tag: ${{ github.ref }}
-          overwrite: true
-
-      - name: Upload source archive
-        if: startsWith(github.event.ref, 'refs/tags/')
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
-          asset_name: jmbde-qt-${{ steps.get_version.outputs.VERSION }}-source-all.7z
           tag: ${{ github.ref }}
           overwrite: true
