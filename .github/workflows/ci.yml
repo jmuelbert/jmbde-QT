@@ -77,6 +77,7 @@ jobs:
       matrix:
         std: [20, 23]
         formatting: ["std::format", "fmtlib"]
+        CMAKE_GENERATOR: "Ninja Multi-Config"
         config:
           - {
               name: "MSVC 2019",
@@ -137,20 +138,6 @@ jobs:
           - formatting: "std::format"
             config: {std_format_support: "False"}
 
-        os:
-          - ubuntu-22.04
-          - macos-12
-          - windows-2022
-        compiler:
-          # you can specify the version after `-` like "llvm-13.0.0".
-          - llvm
-          - gcc
-        CMAKE_GENERATOR:
-          - "Ninja Multi-Config"
-        CPACK_GENERATOR:
-          - ZIP
-        CMAKE_BUILD_TYPE:
-          - Debug
 
         include:
           # Inject GCOV variable for gcc
