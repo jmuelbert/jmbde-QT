@@ -163,12 +163,20 @@ jobs:
     env:
       CC: ${{ matrix.config.compiler.cc }}
       CXX: ${{ matrix.config.compiler.cxx }}
+      CMAKE_GENERATOR: ${{ matrix.CMAKE_GENERATOR }}
+      CMAKE_BUILD_TYPE: ${{ matrix.build_type }}
 
     steps:
       - name: "🧰 Checkout Source Code"
         uses: actions/checkout@v4
 
-      - run: echo "cache_id=$(/bin/date -u "+%Y%m%d")" >> $GITHUB_ENV
+      - name: "🧰 Setup Cache-ID with date for unix-like systems"
+        if: startsWith(matrix.config.os, 'ubuntu') || startsWith(matrix.config.os,'macos')
+        run: echo "cache_id=$(/bin/date -u "+%Y%m%d")" >> $GITHUB_ENV
+
+      - name: "🧰 Setup Cache-ID with date for windows systems"
+        if: startsWith(matrix.config.os, 'windows')
+        run: echo "cache_id=$(Get-Date -Format "%yyyy%m%d")" >> $GITHUB_ENV
 
       - name: "⚙️️ Cache conan data"
         uses: actions/cache@v4
