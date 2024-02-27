@@ -352,7 +352,7 @@ jobs:
       - name: check ccache stats prior to build
         run: ccache --zero-stats --show-stats
 
-      - name: "Add GCC problem matcher"
+git       - name: "Add GCC problem matcher"
         uses: ammaraskar/gcc-problem-matcher@master
 
       - name: "🧰 Let Conan generate Deps"
