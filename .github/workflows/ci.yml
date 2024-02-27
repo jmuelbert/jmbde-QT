@@ -40,10 +40,9 @@ on:
   workflow_dispatch:
 
 env:
-  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
-  TARGET_NAME: jmbde
+  TARGET_NAME: "jmbde"
   QT_INSTALL_PREFIX: ${{ github.workspace }}/install
-  QT_VERSION: "6.5.3"
+  QT_VERSION: 6.5.3
 
 permissions:
   contents: read
@@ -55,7 +54,8 @@ concurrency:
 jobs:
   tests:
     if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
-    runs-on: ${{ matrix.os }}
+    name: "${{ matrix.formatting }} C++${{ matrix.std }} ${{ matrix.config.name }} ${{ matrix.build_type }}"
+    runs-on: ${{ matrix.config.os }}
     needs:
       - clang-format
       - cmake-format
@@ -74,6 +74,104 @@ jobs:
       # Disable/enable builds in this list to meet the above recommendations
       # and your own projects needs
       matrix:
+        std: [20, 23]
+        config:
+          - {
+            name: "MSVC 2019",
+            os: windows-2019,
+            compiler: {
+              type: VISUAL,
+              version: 16,
+              cc: "",
+              cxx: ""
+              },
+              conan_config: ""
+          }
+          - {
+            name: "MSVC 2022",
+            os: windows-2022,
+            compiler: {
+              type: MSVC,
+              version: 193,
+              cc: "",
+              cxx: ""
+              },
+              conan_config: ""
+          }
+          - {
+            name: "GCC-12",
+            os: ubuntu-22.04,
+            compiler: {
+              type: GCC,
+              version: 12,
+              cc: "gcc-12",
+              cxx: "g++-12"
+            },
+            cxx_modules: "False",
+            std_format_support: "False",
+            conan_config: "",
+          }
+          - {
+            name: "GCC-13",
+            os: ubuntu-22.04,
+            compiler: { 
+              type: GCC,
+              version: 13,
+              cc: "gcc-13",
+              cxx: "g++-13"
+              },
+              cxx_modules: "False",
+              std_format_support: "True",
+              conan_config: "",
+            }
+          - { 
+            name: "Clang-16",
+            os: ubuntu-22.04,
+            compiler: {
+              type: CLANG,
+              version: 16,
+              cc: "clang-16",
+              cxx: "clang++-16"
+            },
+            lib: "libc++",
+            cxx_modules: "False",
+            std_format_support: "True",
+            conan_config: ""  
+          }
+          - { 
+            name: "Clang-17",
+            os: ubuntu-22.04,
+            compiler: {
+              type: CLANG,
+              version: 17,
+              cc: "clang-17",
+              cxx: "clang++-17"
+            },
+            lib: "libc++",
+            cxx_modules: "True",
+            std_format_support: "True",
+            conan_config: ""            
+          }
+          - {
+            name: "Apple Clang 15",
+            os: macos-13,
+            compiler: {
+              type: APPLE_CLANG,
+              version: "15.0",
+              cc: "clang",
+              cxx: "clang++"
+              },
+              cxx_modules: "False",
+              std_format_support: "False",
+              conan_config: ""
+          }
+        build_type: ["Debug", "Release"]
+        exclude:
+          - formatting: "std::format"
+            config: { std_format_support: "False" }
+
+
+          
         os:
           - ubuntu-22.04
           - macos-12
@@ -94,39 +192,50 @@ jobs:
           - compiler: gcc
             GCOV: gcov
           # Inject GCOV variable for llvm
-          - compiler: llvm
+          - compiler: [clang-16, clang-17]
             GCOV: "llvm-cov gcov"
 
           # Only to test non-multiconfig builds
           - os: ubuntu-22.04
-            compiler: gcc-11
             CMAKE_GENERATOR: "Unix Makefiles"
-            CMAKE_BUILD_TYPE: Debug
-            GCOV: gcov-11
             QT_ARCH: "gcc_64"
             QT_HOST: linux
 
           - os: windows-2022
-            compiler: msvc
             CMAKE_GENERATOR: "Visual Studio 17 2022"
-            CMAKE_BUILD_TYPE: Debug
             QT_ARCH: "win64_msvc2019_64"
             QT_HOST: windows
 
           - os: macos-12
-            compiler: clang
-            CMAKE_BUILD_TYPE: Debug
             QT_ARCH: "clang_64"
             QT_HOST: mac
-
-          # To exclude a specific job from the matrix (e.g gcc on Windows), you can use this syntax.
-          # exclude:
-          #   - os: windows-2022
-          #     compiler: gcc
+    env:
+      CC: ${{ matrix.config.compiler.cc }}
+      CXX: ${{ matrix.config.compiler.cxx }}
 
     steps:
       - name: "🧰 Checkout Source Code"
         uses: actions/checkout@v4
+
+      - run: echo "cache_id=$(/bin/date -u "+%Y%m%d")" >> $GITHUB_ENV
+
+      - name: "⚙️️ Cache conan data"
+        uses: actions/cache@v4
+        if: always()
+        env:
+          cache-name: cache-conan-data
+        with:
+          path: ~/.conan2/p
+          key: build-${{ matrix.config.os }}-${{ matrix.formatting }}-${{ matrix.config.compiler.type }}-${{ matrix.config.lib }}-${{ matrix.build_type }}-${{ matrix.config.compiler.version }}-${{ matrix.std }}-${{ env.cache_id }}
+          restore-keys: |
+            build-${{ matrix.config.os }}-${{ matrix.formatting }}-${{ matrix.config.compiler.type }}-${{ matrix.config.lib }}-${{ matrix.build_type }}-${{ matrix.config.compiler.version }}-${{ matrix.std }}-
+            build-${{ matrix.config.os }}-${{ matrix.formatting }}-${{ matrix.config.compiler.type }}-${{ matrix.config.lib }}-${{ matrix.build_type }}-${{ matrix.config.compiler.version }}-
+            build-${{ matrix.config.os }}-${{ matrix.formatting }}-${{ matrix.config.compiler.type }}-${{ matrix.config.lib }}-${{ matrix.build_type }}-
+            build-${{ matrix.config.os }}-${{ matrix.formatting }}-${{ matrix.config.compiler.type }}-${{ matrix.config.lib }}-
+            build-${{ matrix.config.os }}-${{ matrix.formatting }}-${{ matrix.config.compiler.type }}-
+            build-${{ matrix.config.os }}-${{ matrix.formatting }}-
+            build-${{ matrix.config.os }}-
+
 
       - name: "⚙️ Setup Cache"
         uses: actions/cache@v4
@@ -144,21 +253,48 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ matrix.compiler }}-${{ hashFiles('./vcpkg.json') }}-
 
-      - name: "🐧 ⚙️ Install Linux dependencies"
+      - name: "Setup CCache for Linux"
+        uses: hendrikmuhs/ccache-action@v1
         if: runner.os == 'Linux'
+        with:
+          key: ${{ matrix.os }}-{{matrix.CMAKE_BUILD_TYPE}}
+          max-size: 50M
+
+      - name: "🧰 Install gcc-13"
+        if: runner.os == 'Linux' && matrix.config.compiler.type == 'GCC' && matrix.config.compiler.version == '13'
+        shell: bash
         run: |
           sudo apt-get update && DEBIAN_FRONTEND=--noninteractive \
           sudo apt-get --no-install-recommends --assume-yes install \
-            libclang-dev \
-            ninja-build \
-            gcovr \
-            ccache \
-            cppcheck \
-            googletest
-            echo "CCACHE_DIR=${{ github.workspace }}/ccache" >> $GITHUB_ENV
-            echo "CCACHE_DIR=${{ github.workspace }}/ccache" >> $GITHUB_ENV
-            echo "CXX=g++-${{ matrix.compiler-version}}" >> $GITHUB_ENV
-            echo "CC=gcc-${{ matrix.compiler-version}}" >> $GITHUB_ENV
+          g++-${{ matrix.config.compiler.version }}
+
+      - name: "🧰 Install Clang"
+        if: runner.os == 'Linux' && matrix.config.compiler.type == 'CLANG'
+        shell: bash
+        working-directory: ${{ env.HOME }}
+        run: |
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh ${{ matrix.config.compiler.version }}        
+          sudo apt-get update && DEBIAN_FRONTEND=--noninteractive \
+          sudo apt-get --no-install-recommends --assume-yes install \
+          clang-tools-${{ matrix.config.compiler.version }}
+
+      - name: "🧰 libc++"
+        if: runner.os == 'Linux' && matrix.config.compiler.type == 'CLANG'  && matrix.config.lib == 'libc++'
+        shell: bash
+        run: |
+          sudo apt-get update && DEBIAN_FRONTEND=--noninteractive \
+          sudo apt-get --no-install-recommends --assume-yes install \
+          libc++-${{ matrix.config.compiler.version }}-dev \
+          libc++abi-${{ matrix.config.compiler.version }}-dev \
+          libunwind-${{ matrix.config.compiler.version }}-dev
+
+      - name: "🐧 ⚙️ Select Xcode version"
+        if: matrix.config.compiler.type == 'APPLE_CLANG'
+        shell: bash
+        run: |
+          sudo xcode-select -s /Applications/Xcode_${{ matrix.config.compiler.version }}.app && /usr/bin/xcodebuild -version
 
       - name: "🟨 Setup Python"
         uses: actions/setup-python@v5
@@ -168,13 +304,27 @@ jobs:
           # check-latest: true
           cache: pip
 
+      - name: "🧰 Install Ninja"
+        shell: bash
+        run: |
+          pip install --upgrade ninja
+
       - name: "🧰 Setup Conan"
         run: |
-          python -m pip install --upgrade pip
-          pip install conan
-          conan profile detect --force
+          pip install --upgrade conan
 
-      - name: "🧰 nstall Qt Version ${{ env.QT_VERSION }}"
+      - name: "Configure Conan"
+        shell: bash
+        run: |    
+          conan profile detect --force
+          if [[ "${{ matrix.config.compiler.type }}" == "CLANG" ]]; then]]
+            sed -i.backup '/^\[settings\]$/,/^\[/ s/^compiler.libcxx=.*/compiler.libcxx=${{ matrix.config.lib }}/' ~/.conan2/profiles/default
+          fi
+          sed -i.backup '/^\[settings\]$/,/^\[/ s/^compiler.cppstd=.*/compiler.cppstd=${{ matrix.std }}/' ~/.conan2/profiles/default
+          sed -i.backup '/^\[settings\]$/,/^\[/ s/^build_type=.*/build_type=${{ matrix.build_type }}/' ~/.conan2/profiles/default
+          conan profile show -pr default
+
+      - name: "🧰 Install Qt Version ${{ env.QT_VERSION }}"
         uses: jurplel/install-qt-action@v3
         with:
           version: ${{ env.QT_VERSION }}
@@ -192,13 +342,6 @@ jobs:
           set-env: "true"
           tools-only: "false"
 
-      - name: "Setup CCache for Linux"
-        uses: hendrikmuhs/ccache-action@v1
-        if: runner.os == 'Linux'
-        with:
-          key: ${{ matrix.os }}-{{matrix.CMAKE_BUILD_TYPE}}
-          max-size: 50M
-
       - name: restore ccache
         uses: pat-s/always-upload-cache@v3.0.11
         with:
@@ -208,10 +351,6 @@ jobs:
 
       - name: check ccache stats prior to build
         run: ccache --zero-stats --show-stats
-
-      - name: "Cleanup Conan system packages (they are not properly cached)"
-        run: |
-          conan remove -f '*/system'
 
       - name: "Add GCC problem matcher"
         uses: ammaraskar/gcc-problem-matcher@master
