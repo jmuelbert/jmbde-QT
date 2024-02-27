@@ -75,103 +75,67 @@ jobs:
       # and your own projects needs
       matrix:
         std: [20, 23]
+        formatting: ["std::format", "fmtlib"]
         config:
           - {
-            name: "MSVC 2019",
-            os: windows-2019,
-            compiler: {
-              type: VISUAL,
-              version: 16,
-              cc: "",
-              cxx: ""
-              },
-              conan_config: ""
-          }
+              name: "MSVC 2019",
+              os: windows-2019,
+              compiler: {type: VISUAL, version: 16, cc: "", cxx: ""},
+              conan_config: "",
+            }
           - {
-            name: "MSVC 2022",
-            os: windows-2022,
-            compiler: {
-              type: MSVC,
-              version: 193,
-              cc: "",
-              cxx: ""
-              },
-              conan_config: ""
-          }
+              name: "MSVC 2022",
+              os: windows-2022,
+              compiler: {type: MSVC, version: 193, cc: "", cxx: ""},
+              conan_config: "",
+            }
           - {
-            name: "GCC-12",
-            os: ubuntu-22.04,
-            compiler: {
-              type: GCC,
-              version: 12,
-              cc: "gcc-12",
-              cxx: "g++-12"
-            },
-            cxx_modules: "False",
-            std_format_support: "False",
-            conan_config: "",
-          }
+              name: "GCC-12",
+              os: ubuntu-22.04,
+              compiler: {type: GCC, version: 12, cc: "gcc-12", cxx: "g++-12"},
+              cxx_modules: "False",
+              std_format_support: "False",
+              conan_config: "",
+            }
           - {
-            name: "GCC-13",
-            os: ubuntu-22.04,
-            compiler: { 
-              type: GCC,
-              version: 13,
-              cc: "gcc-13",
-              cxx: "g++-13"
-              },
+              name: "GCC-13",
+              os: ubuntu-22.04,
+              compiler: {type: GCC, version: 13, cc: "gcc-13", cxx: "g++-13"},
               cxx_modules: "False",
               std_format_support: "True",
               conan_config: "",
             }
-          - { 
-            name: "Clang-16",
-            os: ubuntu-22.04,
-            compiler: {
-              type: CLANG,
-              version: 16,
-              cc: "clang-16",
-              cxx: "clang++-16"
-            },
-            lib: "libc++",
-            cxx_modules: "False",
-            std_format_support: "True",
-            conan_config: ""  
-          }
-          - { 
-            name: "Clang-17",
-            os: ubuntu-22.04,
-            compiler: {
-              type: CLANG,
-              version: 17,
-              cc: "clang-17",
-              cxx: "clang++-17"
-            },
-            lib: "libc++",
-            cxx_modules: "True",
-            std_format_support: "True",
-            conan_config: ""            
-          }
           - {
-            name: "Apple Clang 15",
-            os: macos-13,
-            compiler: {
-              type: APPLE_CLANG,
-              version: "15.0",
-              cc: "clang",
-              cxx: "clang++"
-              },
+              name: "Clang-16",
+              os: ubuntu-22.04,
+              compiler: {type: CLANG, version: 16, cc: "clang-16", cxx: "clang++-16"},
+              lib: "libc++",
+              cxx_modules: "False",
+              std_format_support: "True",
+              conan_config: "",
+            }
+          - {
+              name: "Clang-17",
+              os: ubuntu-22.04,
+              compiler: {type: CLANG, version: 17, cc: "clang-17", cxx: "clang++-17"},
+              lib: "libc++",
+              cxx_modules: "True",
+              std_format_support: "True",
+              conan_config: "",
+            }
+          - {
+              name: "Apple Clang 15",
+              os: macos-13,
+              compiler: {type: APPLE_CLANG, version: "15.0", cc: "clang", cxx: "clang++"},
               cxx_modules: "False",
               std_format_support: "False",
-              conan_config: ""
-          }
+              conan_config: "",
+            }
         build_type: ["Debug", "Release"]
         exclude:
           - formatting: "std::format"
-            config: { std_format_support: "False" }
+            config: {std_format_support: "False"}
 
-
-          
         os:
           - ubuntu-22.04
           - macos-12
@@ -235,7 +199,6 @@ jobs:
             build-${{ matrix.config.os }}-${{ matrix.formatting }}-${{ matrix.config.compiler.type }}-
             build-${{ matrix.config.os }}-${{ matrix.formatting }}-
             build-${{ matrix.config.os }}-
-
 
       - name: "⚙️ Setup Cache"
         uses: actions/cache@v4
@@ -335,7 +298,7 @@ jobs:
 
       - name: "Configure Conan"
         shell: bash
-        run: |    
+        run: |
           conan profile detect --force
           if [[ "${{ matrix.config.compiler.type }}" == "CLANG" ]]; then]]
             sed -i.backup '/^\[settings\]$/,/^\[/ s/^compiler.libcxx=.*/compiler.libcxx=${{ matrix.config.lib }}/' ~/.conan2/profiles/default
