@@ -56,9 +56,6 @@ jobs:
     # if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
     name: "${{ matrix.formatting }} C++${{ matrix.std }} ${{ matrix.config.name }} ${{ matrix.build_type }}"
     runs-on: ${{ matrix.config.os }}
-    needs:
-      - clang-format
-      - cmake-format
     permissions:
       actions: read
       contents: read
