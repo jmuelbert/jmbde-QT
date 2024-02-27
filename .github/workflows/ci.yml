@@ -230,26 +230,6 @@ jobs:
         run: |
           sudo xcode-select -s /Applications/Xcode_${{ matrix.config.compiler.version }}.app && /usr/bin/xcodebuild -version
 
-      - name: "⚙️ 🍎 Install macos dependencies"
-        if: runner.os == 'macOS'
-        env:
-          HOMEBREW_NO_ANALYTICS: "ON"
-          HOMEBREW_NO_AUTO_UPDATE: "ON"
-          HOMEBREW_NO_BOTTLE_SOURCE_FALLBACK: "ON"
-          HOMEBREW_NO_INSTALL_CLEANUP: "ON"
-        run: |
-          brew install ninja ccache pkg-config
-          echo "/usr/local/opt/ccache/libexec" >> $GITHUB_PATH
-          echo "CCACHE_DIR=${{runner.workspace}}/ccache" >> $GITHUB_ENV
-          # Use latest available XCode
-          sudo xcode-select -s "/Applications/Xcode_13.2.1.app"
-          echo "DEVELOPER_DIR=/Applications/Xcode_13.2.1.app/Contents/Developer" >> $GITHUB_ENV
-
-      - name: "🧊 ⚙️ Install Windows dependencies"
-        if: runner.os ==  'Windows'
-        run: |
-          cinst ninja ccache
-
       - name: "🟨 Setup Python"
         uses: actions/setup-python@v5
         with:
@@ -257,6 +237,11 @@ jobs:
           python-version-file: ".python-version"
           # check-latest: true
           cache: pip
+
+      - name: "Update pip"
+        shell: bash
+        run: |
+          pip install --upgrade pip
 
       - name: "🧰 Install Ninja"
         shell: bash
@@ -964,7 +949,6 @@ jobs:
       - flatpak-build
       - snap-build
       - build
-      - source-archive
 
     runs-on: ubuntu-latest
 
