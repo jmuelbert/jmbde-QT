@@ -151,12 +151,12 @@ jobs:
             QT_ARCH: "gcc_64"
             QT_HOST: linux
 
-          - os: windows-2022
+          - os: [windows-2019, windows-2022]
             CMAKE_GENERATOR: "Visual Studio 17 2022"
             QT_ARCH: "win64_msvc2019_64"
             QT_HOST: windows
 
-          - os: macos-12
+          - os: macos-13
             CMAKE_GENERATOR: "Ninja Multi-Config"
             QT_ARCH: "clang_64"
             QT_HOST: mac
