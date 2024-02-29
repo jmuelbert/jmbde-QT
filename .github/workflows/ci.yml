@@ -105,7 +105,7 @@ jobs:
           - toolchain: linux-gcc13
             os: ubuntu-22.04
             compiler: {type: GCC, version: 13, cc: "gcc-13", cxx: "g++-13"},
-            cxx_modules: "False",
+            cxx_modules: "False"
             std_format_support: "True"
             conan_config: ""
             GCOV: gcov
