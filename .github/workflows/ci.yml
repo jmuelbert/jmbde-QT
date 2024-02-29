@@ -184,7 +184,7 @@ jobs:
 
         exclude:
           - formatting: "std::format"
-            config: {std_format_support: "False"}
+            toolkit: {std_format_support: "False"}
 
     env:
       CC: ${{ matrix.toolchain.compiler.cc }}
