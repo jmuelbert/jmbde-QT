@@ -349,7 +349,7 @@ jobs:
 
       - name: "Configure CMake"
         run: |
-          cmake -S . -B build/${{matrix.build_type}} -DCMAKE_TOOLCHAIN_FILE=generators/conan_cmake -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
+          cmake -S . -B build/${{matrix.build_type}} -DCMAKE_TOOLCHAIN_FILE=generators/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
 
         env:
           CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
