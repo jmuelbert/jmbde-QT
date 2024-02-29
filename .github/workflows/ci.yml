@@ -85,7 +85,7 @@ jobs:
           - linux-clang17
           - windows-2019-msvc
           - windows-2022-msvc
-          - macos-clang        
+          - macos-clang
 
         include:
           - toolchain: linux-gcc12
@@ -114,7 +114,7 @@ jobs:
             QT_HOST: linux
             QT_ARCHIVES: ""
             QT_MODULES: ""
-            QT_TOOLS: "" 
+            QT_TOOLS: ""
           - toolchain: linux-clang16
             os: ubuntu-22.04
             compiler: {type: CLANG, version: 16, cc: "clang-16", cxx: "clang++-16"}
@@ -334,12 +334,12 @@ jobs:
         run: ccache --zero-stats --show-stats
 
       - name: "Add GCC problem matcher"
-        if: runner.os == 'Linux' && matrix.toolchain.compiler.type == 'GCC'        
+        if: runner.os == 'Linux' && matrix.toolchain.compiler.type == 'GCC'
         uses: ammaraskar/gcc-problem-matcher@master
 
       - name: Setup MSVC problem matcher
         if: runner.os == 'Windows'
-        uses: ammaraskar/msvc-problem-matcher@0.3.0      
+        uses: ammaraskar/msvc-problem-matcher@0.3.0
 
       - name: "🧰 Let Conan generate Deps"
         run: |
@@ -376,10 +376,10 @@ jobs:
       - name: "🐧 🧪 Coverage"
         if: runner.os == 'Linux'
         working-directory: build/${{matrix.CMAKE_BUILD_TYPE}}
-        run: ->  
+        run: ->
           ${{matrix.toolchain.GCOV}} -j ${{env.nproc}} --delete --root ../ \
-            --filter "jmbde" --filter "jmbdewidgets/" --filter "jmbdemodels/" \ 
-            --print-summary --xml-pretty --xml coverage.xml
+          --filter "jmbde" --filter "jmbdewidgets/" --filter "jmbdemodels/" \
+          --print-summary --xml-pretty --xml coverage.xml
         env:
           GCOV: ${{matrix.toolchain.GCOV}}
           FEATURE_TESTS: ON
@@ -419,8 +419,8 @@ jobs:
 
   build:
     # if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
-    name: "${{ matrix.formatting }} C++${{ matrix.std }} ${{ matrix\.toolchain.name }} ${{ matrix.build_type }}"
-    runs-on: ${{ matrix\.toolchain.os }}
+    name: "${{ matrix.formatting }} C++${{ matrix.std }} ${{ matrix.toolchain.name }} ${{ matrix.build_type }}"
+    runs-on: ${{ matrix.toolchain.os }}
     needs: [tests]
     strategy:
       # Recommendations:
