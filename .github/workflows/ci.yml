@@ -375,7 +375,7 @@ jobs:
       - name: "🐧 🧪 Coverage"
         if: runner.os == 'Linux'
         working-directory: build/${{matrix.build_type}}
-        run: ->
+        run: |
           ${{matrix.GCOV}} -j ${{env.nproc}} --delete --root ../ \
           --filter "jmbde" --filter "jmbdewidgets/" --filter "jmbdemodels/" \
           --print-summary --xml-pretty --xml coverage.xml
