@@ -475,26 +475,26 @@ jobs:
           cache-name: cache-conan-index-modules
         with:
           path: ${{ env.CONAN_USER_HOME }}
-          key: host-${{ runner.os }}-target-${{ runner.os }}-${{ matrix\.toolchain.os }}-${{ hashFiles('conanfile.py') }}
+          key: host-${{ runner.os }}-target-${{ runner.os }}-${{ matrix.toolchain.os }}-${{ hashFiles('conanfile.py') }}
 
       - name: "🍎 ⚙️ Install dependencies for macos"
-        if: startsWith(matrix\.toolchain.os,'macos')
+        if: startsWith(matrix.toolchain.os,'macos')
         run: |
           brew install ccache ninja
 
       - name: "🧊 ⚙️ Install dependencies for windows"
-        if: startsWith(matrix\.toolchain.os,'windows')
+        if: startsWith(matrix.toolchain.os,'windows')
         run: |
           choco install png2ico ninja
 
       - name: "🐧 ⚙️ Install dependencies for ubuntu"
-        if: startsWith(matrix\.toolchain.os, 'ubuntu')
+        if: startsWith(matrix.toolchain.os, 'ubuntu')
         run: |
           sudo apt-get -y -qq update
           sudo apt-get -y --no-install-recommends install ccache ninja-build
 
       - name: "🐧 ⚙️ Install go-appimage tool for ubuntu"
-        if: startsWith(matrix\.toolchain.os, 'ubuntu')
+        if: startsWith(matrix.toolchain.os, 'ubuntu')
         # Will not use linuxdeployqt anymore, because it suopprts currently still-supported mainstream distribution,
         # which is glibc 2.23. For more information, please see https://github.com/probonopd/linuxdeployqt/issues/340.
         # Will try new tool https://github.com/probonopd/go-appimage written in golang by probonopd.
@@ -510,24 +510,24 @@ jobs:
       # MacOS 11.3  - XCode version 12.5
       # MacOS 12.0  - XCode version 13.0
       - name: "🍎 ⚙️ Get right SDK for MacOS 11"
-        if: startsWith(matrix\.toolchain.os, 'macos-11')
+        if: startsWith(matrix.toolchain.os, 'macos')
         uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: "12.5"
 
       - name: "🧊 ⚙️ Configure MSVC"
-        if: startsWith(matrix\.toolchain.os, 'windows')
+        if: startsWith(matrix.toolchain.os, 'windows')
         uses: ilammy/msvc-dev-cmd@v1
         with:
           # 14.1 is for vs2017, 14.2 is vs2019, following the upstream vcpkg build
           toolset: 14.2
-          arch: ${{ matrix\.toolchain.pak_arch }}
+          arch: ${{ matrix.toolchain.pak_arch }}
 
       - name: "⚙️ Install Conan"
         uses: turtlebrowser/get-conan@main
 
       - name: "🐧 ⚙️ Configure Conan for ubuntu"
-        if: startsWith(matrix\.toolchain.os, 'xxx')
+        if: startsWith(matrix.toolchain.os, 'ubuntu')
         run: |
           conan profile update settings.compiler.libcxx=libstdc++11 default
 
@@ -543,14 +543,14 @@ jobs:
         uses: actions/cache@v1 # not v2!
         with:
           path: "${{ github.workspace }}/Qt"
-          key: QtCache-${{ matrix\.toolchain.platform }}-${{ matrix\.toolchain.qt_arch }}-${{ matrix\.toolchain.qt_version }}
+          key: QtCache-${{ matrix.toolchain.platform }}-${{ matrix.toolchain.qt_arch }}-${{ matrix.toolchain.qt_version }}
 
       - name: "⚙️ Install Qt"
         uses: jurplel/install-qt-action@v2
         with:
-          version: ${{ matrix\.toolchain.qt_version }}
-          target: ${{ matrix\.toolchain.qt_target }}
-          arch: ${{ matrix\.toolchain.qt_arch }}
+          version: ${{ matrix.toolchain.qt_version }}
+          target: ${{ matrix.toolchain.qt_target }}
+          arch: ${{ matrix.toolchain.qt_arch }}
           # modules: 'qtscript'
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
@@ -563,7 +563,7 @@ jobs:
         run: cmake -E make_directory ${{runner.workspace}}/build
 
       - name: "🍎 🚧 Configure cmake build"
-        if: startsWith(matrix\.toolchain.os, 'macos')
+        if: startsWith(matrix.toolchain.os, 'macos')
         # Use a bash shell so we can use the same syntax for environment variable
         # access regardless of the host operating system
         shell: bash
@@ -573,44 +573,44 @@ jobs:
         # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
         run: |
           cmake $GITHUB_WORKSPACE \
-            -G ${{matrix\.toolchain.cmake_generator}} \
+            -G ${{matrix.toolchain.cmake_generator}} \
             -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
-            -DCMAKE_OSX_DEPLOYMENT_TARGET=${{ matrix\.toolchain.macos_target }} \
+            -DCMAKE_OSX_DEPLOYMENT_TARGET=${{ matrix.toolchain.macos_target }} \
             -DCMAKE_INSTALL_PREFIX:PATH=./app \
             -DBUILD_TESTING=OFF  \
             -DBUILD_TRANSLATIONS=ON \
 
       - name: "🧊 🚧 Configure cmake build"
-        if: startsWith(matrix\.toolchain.os, 'windows')
+        if: startsWith(matrix.toolchain.os, 'windows')
         shell: bash
         working-directory: ${{runner.workspace}}/build
         run: |
           cmake $GITHUB_WORKSPACE \
-            -G ${{ matrix\.toolchain.cmake_generator }} \
+            -G ${{ matrix.toolchain.cmake_generator }} \
             -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}  \
             -DCMAKE_INSTALL_PREFIX:PATH=./programs \
             -DBUILD_TESTING=OFF  \
             -DBUILD_TRANSLATIONS=ON
 
       - name: "🐧 🚧 Configure cmake build"
-        if: startsWith(matrix\.toolchain.os, 'ubuntu')
+        if: startsWith(matrix.toolchain.os, 'ubuntu')
         working-directory: ${{runner.workspace}}/build
         shell: bash
         env:
-          CC: ${{ matrix\.toolchain.cc}}
-          CXX: ${{ matrix\.toolchain.cxx}}
+          CC: ${{ matrix.toolchain.cc}}
+          CXX: ${{ matrix.toolchain.cxx}}
         run: |
           APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
           mkdir -p ${APPIMAGE_DST_PATH}
           cmake $GITHUB_WORKSPACE \
-              -G ${{matrix\.toolchain.cmake_generator}} \
+              -G ${{matrix.toolchain.cmake_generator}} \
               -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE}} \
               -DCMAKE_INSTALL_PREFIX:PATH="${APPIMAGE_DST_PATH}/usr" \
               -DBUILD_TESTING=OFF \
               -DBUILD_TRANSLATIONS=ON
 
       - name: "🍎 🐧 🚧 Build and Install"
-        if: startsWith(matrix\.toolchain.os,'macos') || startsWith(matrix\.toolchain.os, 'ubuntu')
+        if: startsWith(matrix.toolchain.os,'macos') || startsWith(matrix.toolchain.os, 'ubuntu')
         working-directory: ${{runner.workspace}}/build
         shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
@@ -619,13 +619,13 @@ jobs:
           # --parallel $(sysctl -n hw.logicalcpu)
 
       - name: "🧊 🚧 Build and Install"
-        if: startsWith(matrix\.toolchain.os,'windows')
+        if: startsWith(matrix.toolchain.os,'windows')
         shell: pwsh
         working-directory: ${{runner.workspace}}/build
         run: cmake --build . --config ${{ env.BUILD_TYPE }} --target install --parallel $(nproc)
 
       - name: "🍎 📦 Package application (macdeployqt and zipfile)"
-        if: startsWith(matrix\.toolchain.os,'macos')
+        if: startsWith(matrix.toolchain.os,'macos')
         working-directory: ${{runner.workspace}}/build
         run: |
           macdeployqt ${{runner.workspace}}/build/app/bin/jmbde  -qmldir=. -appstore-compliant -libpath=./app/${{env.TARGET_NAME}}.app/Contents/Frameworks -verbose=1 -dmg
@@ -636,14 +636,14 @@ jobs:
           # cp ./${{env.TARGET_NAME}}.zip ${{runner.workspace}}/${{env.TARGET_NAME}}.zip
 
       - name: "🍎 📤 Upload dmg artifact for macOS - ${{ matrix.qt_version }}"
-        if: startsWith(matrix\.toolchain.os,'macos')
+        if: startsWith(matrix.toolchain.os,'macos')
         uses: actions/upload-artifact@v2
         with:
           name: ${env.TARGET_NAME}-dmg
           path: ${{runner.workspace}}/${{ env.TARGET_NAME }}.dmg
 
       - name: "🍎 📤 Upload zip artifact for macOS - ${{ matrix.qt_version }}-${env.BUILD_TYPE}}"
-        if: startsWith(matrix\.toolchain.os,'macos')
+        if: startsWith(matrix.toolchain.os,'macos')
         uses: actions/upload-artifact@v2
         with:
           name: ${{ env.TARGET_NAME }}-macos-zip
@@ -651,7 +651,7 @@ jobs:
 
       # Copy Qt DLLs, compiler runtime & application icon
       - name: "🧊 📦 Package application (windeployqt)"
-        if: startsWith(matrix\.toolchain.os, 'windows')
+        if: startsWith(matrix.toolchain.os, 'windows')
         working-directory: ${{runner.workspace}}/build
         shell: pwsh
         env:
@@ -663,7 +663,7 @@ jobs:
           windeployqt --qmldir . ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}.exe ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}models.dll ${{ env.archiveName }}/bin/${{ env.TARGET_NAME}}widgets.dll
 
       - name: "🧊 Compress Zip Archive"
-        if: startsWith(matrix\.toolchain.os,'windows')
+        if: startsWith(matrix.toolchain.os,'windows')
         working-directory: ${{runner.workspace}}/build
         shell: pwsh
         env:
@@ -672,7 +672,7 @@ jobs:
           Compress-Archive -Path ${{ env.archiveName}}/bin -DestinationPath ${{runner.workspace}}/${{ env.archiveName}}.'zip'
 
       - name: "🧊 📤 Upload Zip archive"
-        if: startsWith(matrix\.toolchain.os,'windows')
+        if: startsWith(matrix.toolchain.os,'windows')
         uses: actions/upload-artifact@v2
         env:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.qt_arch }}
@@ -681,7 +681,7 @@ jobs:
           path: ${{ runner.workspace}}/${{ env.archiveName}}.zip
 
       - name: "🧊 📦 Make ISS-Installer for ${{ matrix.qt_version }}"
-        if: startsWith(matrix\.toolchain.os,'windows')
+        if: startsWith(matrix.toolchain.os,'windows')
         shell: bash
         working-directory: ${{runner.workspace}}/build
         env:
@@ -699,7 +699,7 @@ jobs:
           iscc ./installer_Qt6_x64.iss -DMyAppVersion=${{ steps.get_version.outputs.VERSION }} -DMyProjectRoot=$(pwd) -DMyOutRoot=${archiveName}/bin
 
       - name: "🧊 📤 Upload artifact: ISS Installer"
-        if: startsWith(matrix\.toolchain.os,'windows' )
+        if: startsWith(matrix.toolchain.os,'windows' )
         uses: actions/upload-artifact@v2
         env:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.qt_arch }}
@@ -708,7 +708,7 @@ jobs:
           path: ${{runner.workspace}}/${{ env.archiveName}}.exe
 
       - name: "🐧 📦 Create AppImage"
-        if: startsWith(matrix\.toolchain.os, 'ubuntu')
+        if: startsWith(matrix.toolchain.os, 'ubuntu')
         working-directory: ${{runner.workspace}}/build
         shell: bash
         run: |
@@ -726,7 +726,7 @@ jobs:
           mv $GITHUB_WORKSPACE/jmbde-*-x86_64.AppImage $GITHUB_WORKSPACE/${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}}.x86_64.AppImage
 
       - name: "🐧 📤 Upload artifact: AppImage"
-        if: startsWith(matrix\.toolchain.os, 'ubuntu')
+        if: startsWith(matrix.toolchain.os, 'ubuntu')
         uses: actions/upload-artifact@v2
         with:
           name: ${{env.TARGET_NAME}}.AppImage
