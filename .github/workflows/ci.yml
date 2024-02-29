@@ -327,7 +327,7 @@ jobs:
         with:
           path: ${{ github.workspace }}/ccache
           key: ccache-${{matrix.toolchain.os}}-${{matrix.toolchain.compiler}}-${{ env.QT_VERSION }}-${{ github.sha }}
-          restore-keys: ccache-${{matrix.toolchain..os}}-${{matrix.toolchain.compiler}}-${{ env.QT_VERSION }}
+          restore-keys: ccache-${{matrix.toolchain.os}}-${{matrix.toolchain.compiler}}-${{ env.QT_VERSION }}
 
       - name: check ccache stats prior to build
         if: runner.os == 'Linux'
