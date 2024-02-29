@@ -54,8 +54,8 @@ concurrency:
 jobs:
   tests:
     if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
-    name: "${{ matrix.formatting }} C++${{ matrix.std }} ${{ matrix.toolchain.name }} ${{ matrix.build_type }}"
-    runs-on: ${{ matrix.toolchain.os }}
+    name: ${{ matrix.toolchain }}
+    runs-on: ${{ matrix.os }}
     needs:
       - cmake-format
       - clang-format
