@@ -367,7 +367,7 @@ jobs:
           CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
 
       - name: "Configure CMake"
-       shell: bash
+        shell: bash
         run: |
           cmake -S . -B build/${{matrix.build_type}} -DCMAKE_TOOLCHAIN_FILE=generators/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
 
