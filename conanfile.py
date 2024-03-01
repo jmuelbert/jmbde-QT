@@ -121,7 +121,7 @@ class jmbdeReceipe(ConanFile):
     # In case the project requires C++14/17/20/... the minimum compiler version should be listed
     @property
     def _compilers_minimum_version(self):
-        return {"msvc": "193", "gcc": "11", "clang": "13", "apple-clang": "14"}
+        return {"msvc": "192", "gcc": "11", "clang": "13", "apple-clang": "14"}
 
     def _validate_cppstd(self):
         if self.settings.compiler.get_safe("cppstd"):
