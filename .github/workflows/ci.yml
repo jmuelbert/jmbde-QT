@@ -92,7 +92,6 @@ jobs:
             os: ubuntu-22.04
             compiler: {type: GCC, version: 12, cc: "gcc-12", cxx: "g++-12"}
             cxx_modules: "False"
-            std_format_support: "False"
             conan_config: ""
             GCOV: gcovr
             CMAKE_GENERATOR: "Unix Makefiles"
@@ -106,7 +105,6 @@ jobs:
             os: ubuntu-22.04
             compiler: {type: GCC, version: 13, cc: "gcc-13", cxx: "g++-13"}
             cxx_modules: "False"
-            std_format_support: "True"
             conan_config: ""
             GCOV: gcovr
             CMAKE_GENERATOR: "Unix Makefiles"
@@ -120,8 +118,7 @@ jobs:
             os: ubuntu-22.04
             compiler: {type: CLANG, version: 16, cc: "clang-16", cxx: "clang++-16"}
             lib: "libc++"
-            cxx_modules: "False"
-            std_format_support: "True"
+            cxx_modules: "False
             conan_config: ""
             GCOV: "llvm-cov gcovr"
             CMAKE_GENERATOR: "Ninja Multi-Config"
@@ -136,7 +133,6 @@ jobs:
             compiler: {type: CLANG, version: 17, cc: "clang-17", cxx: "clang++-17"}
             lib: "libc++"
             cxx_modules: "True"
-            std_format_support: "True"
             conan_config: ""
             GCOV: "llvm-cov gcovr"
             CMAKE_GENERATOR: "Ninja Multi-Config"
@@ -176,7 +172,6 @@ jobs:
             os: macos-13,
             compiler: {type: APPLE_CLANG, version: "15.1", cc: "clang", cxx: "clang++"}
             cxx_modules: "False"
-            std_format_support: "False"
             conan_config: ""
             CMAKE_GENERATOR: "Ninja Multi-Config"
             QT_ARCH: "clang_64"
@@ -184,10 +179,6 @@ jobs:
             QT_ARCHIVES: ""
             QT_MODULES: ""
             QT_TOOLS: ""
-
-        exclude:
-          - formatting: "std::format"
-            std_format_support: "False"
 
     env:
       CC: ${{ matrix.compiler.cc }}
