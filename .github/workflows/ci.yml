@@ -118,7 +118,7 @@ jobs:
             os: ubuntu-22.04
             compiler: {type: CLANG, version: 16, cc: "clang-16", cxx: "clang++-16"}
             lib: "libc++"
-            cxx_modules: "False
+            cxx_modules: "False"
             conan_config: ""
             GCOV: "llvm-cov gcovr"
             CMAKE_GENERATOR: "Ninja Multi-Config"
