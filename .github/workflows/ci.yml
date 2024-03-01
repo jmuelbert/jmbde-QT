@@ -129,7 +129,7 @@ jobs:
             QT_TOOLS: ""
 
           - toolchain: linux-clang17
-            os: ubuntu-22.04,
+            os: ubuntu-22.04
             compiler: {type: CLANG, version: 17, cc: "clang-17", cxx: "clang++-17"}
             lib: "libc++"
             cxx_modules: "True"
@@ -169,7 +169,7 @@ jobs:
             QT_TOOLS: ""
 
           - toolchain: macos-clang
-            os: macos-13,
+            os: macos-13
             compiler: {type: APPLE_CLANG, version: "15.1", cc: "clang", cxx: "clang++"}
             cxx_modules: "False"
             conan_config: ""
@@ -260,6 +260,15 @@ jobs:
           libc++abi-${{ matrix.compiler.version }}-dev \
           libunwind-${{ matrix.compiler.version }}-dev
 
+
+      - name: "🧰 gcovr"
+        if: runner.os == 'Linux' 
+        shell: bash
+        run: |
+          sudo apt-get update && DEBIAN_FRONTEND=--noninteractive \
+          sudo apt-get --no-install-recommends --assume-yes install \
+          gcovr
+          
       - name: "🐧 ⚙️ Install go-appimage tool for ubuntu"
         if: startsWith(matrix.os, 'ubuntu') && matrix.build_type == 'Release'
         run: |
@@ -381,7 +390,7 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          cmake -S . -B build\${{matrix.build_type}} -DCMAKE_TOOLCHAIN_FILE=generators\conan_toolchain.cmake -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
+          cmake -S . -B "build\${{matrix.build_type}}" -DCMAKE_TOOLCHAIN_FILE="generators\conan_toolchain.cmake" -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
 
         env:
           CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
