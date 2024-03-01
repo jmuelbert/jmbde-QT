@@ -397,11 +397,21 @@ jobs:
           CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
           FEATURE_TESTS: ON
 
+
+
       - name: "🚧 Build"
+        if: runner.os == 'Linux' || runner.os =='macOS'
         shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
         run: |
           cmake --build build/${{matrix.build_type}}  --config ${{matrix.build_type}}
+
+      - name: "🚧 Build"
+        if: runner.os == 'Windows'
+        shell: bash
+        # Execute the build.  You can specify a specific target with "--target <NAME>"
+        run: |
+          cmake --build build --config ${{matrix.build_type}}
 
       - name: check ccache stats prior to build
         if: runner.os == 'Linux' || runner.os =='macOS'
