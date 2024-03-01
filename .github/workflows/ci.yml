@@ -54,7 +54,7 @@ concurrency:
 jobs:
   tests:
     if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
-    # name: "${{ matrix.os }} - ${{matrix.compiler.type}} ${{matrix.compiler.version}} ${{ matrix.formatting }} C++${{ matrix.std }} ${{ matrix.build_type }}"
+    name: ${{ matrix.toolchain }} ${{ matrix.build_type }} ${{ matrix.std }} ${{ matrix.formatting }}
     runs-on: ${{ matrix.os }}
     needs:
       - cmake-format
@@ -75,26 +75,17 @@ jobs:
       # Disable/enable builds in this list to meet the above recommendations
       # and your own projects needs
       matrix:
-        std: ["20"]
-        formatting: ["std::format"]
-        build_type: ["Debug"]
-        conan_config: [""]
-        cxx_modules: ["True"]
-        std_format_support: ["True"]
-
-        CMAKE_GENERATOR: ["Ninja Multi-Config"]
-        QT_ARCHIVES: [""]
-        QT_MODULES: [""]
-        QT_TOOLS: [""]
-
+        std: [20, 23]
+        formatting: ["std::format", "fmtlib"]
+        build_type: ["Debug", "Release"]
         toolchain:
-        #  - linux-gcc12
-           - linux-gcc13
-        #  - linux-clang16
-        #  - linux-clang17
-        #  - windows-2019-msvc
-        #  - windows-2022-msvc
-        #  - macos-clang
+          - linux-gcc12
+          - linux-gcc13
+          - linux-clang16
+          - linux-clang17
+          - windows-2019-msvc
+          - windows-2022-msvc
+          - macos-clang
 
         include:
           - toolchain: linux-gcc12
@@ -102,67 +93,97 @@ jobs:
             compiler: {type: GCC, version: 12, cc: "gcc-12", cxx: "g++-12"}
             cxx_modules: "False"
             std_format_support: "False"
-            GCOV: gcovr
+            conan_config: ""
+            GCOV: gcov
             CMAKE_GENERATOR: "Unix Makefiles"
             QT_ARCH: "gcc_64"
             QT_HOST: linux
+            QT_ARCHIVES: ""
+            QT_MODULES: ""
+            QT_TOOLS: ""
 
           - toolchain: linux-gcc13
             os: ubuntu-22.04
             compiler: {type: GCC, version: 13, cc: "gcc-13", cxx: "g++-13"}
             cxx_modules: "False"
-            GCOV: gcovr
+            std_format_support: "True"
+            conan_config: ""
+            GCOV: gcov
+            CMAKE_GENERATOR: "Unix Makefiles"
             QT_ARCH: "gcc_64"
             QT_HOST: linux
+            QT_ARCHIVES: ""
+            QT_MODULES: ""
+            QT_TOOLS: ""
+          - toolchain: linux-clang16
+            os: ubuntu-22.04
+            compiler: {type: CLANG, version: 16, cc: "clang-16", cxx: "clang++-16"}
+            lib: "libc++"
+            cxx_modules: "False"
+            std_format_support: "True"
+            conan_config: ""
+            GCOV: "llvm-cov gcov"
+            CMAKE_GENERATOR: "Unix Makefiles"
+            QT_ARCH: "gcc_64"
+            QT_HOST: linux
+            QT_ARCHIVES: ""
+            QT_MODULES: ""
+            QT_TOOLS: ""
 
-        #   - toolchain: linux-clang16
-        #     os: ubuntu-22.04
-        #     compiler: {type: CLANG, version: 16, cc: "clang-16", cxx: "clang++-16"}
-        #     lib: "libc++"
-        #     cxx_modules: "False"
-        #     GCOV: "llvm-cov gcov"
-        #     CMAKE_GENERATOR: "Unix Makefiles"
-        #     QT_ARCH: "gcc_64"
-        #     QT_HOST: linux
+          - toolchain: linux-clang17
+            os: ubuntu-22.04,
+            compiler: {type: CLANG, version: 17, cc: "clang-17", cxx: "clang++-17"}
+            lib: "libc++"
+            cxx_modules: "True"
+            std_format_support: "True"
+            conan_config: ""
+            GCOV: "llvm-cov gcov"
+            CMAKE_GENERATOR: "Unix Makefiles"
+            QT_ARCH: "gcc_64"
+            QT_HOST: linux
+            QT_ARCHIVES: ""
+            QT_MODULES: ""
+            QT_TOOLS: ""
 
-        #   - toolchain: linux-clang17
-        #     os: ubuntu-22.04
-        #     compiler: {type: CLANG, version: 17, cc: "clang-17", cxx: "clang++-17"}
-        #     lib: "libc++"
-        #     build_type: ["Debug", "Release"]
-        #     GCOV: "llvm-cov gcov"
-        #     QT_ARCH: "gcc_64"
-        #     QT_HOST: linux
+          - toolchain: windows-2019-msvc
+            os: windows-2019
+            arch: x64
+            compiler: {type: VISUAL, version: 16, cc: "", cxx: ""}
+            conan_config: ""
+            CMAKE_GENERATOR: "Visual Studio 17 2022"
+            QT_ARCH: "win64_msvc2019_64"
+            QT_HOST: windows
+            QT_ARCHIVES: ""
+            QT_MODULES: ""
+            QT_TOOLS: ""
 
-        #   - toolchain: windows-2019-msvc
-        #     os: windows-2019
-        #     arch: x64
-        #     compiler: {type: VISUAL, version: 16, msvc_version: 16, cc: "", cxx: ""}
-        #     CMAKE_GENERATOR: "Visual Studio 16 2019"
-        #     QT_ARCH: "win64_msvc2019_64"
-        #     QT_HOST: windows
+          - toolchain: windows-2022-msvc
+            os: windows-2022
+            arch: x64
+            compiler: {type: MSVC, version: 193, cc: "", cxx: ""}
+            conan_config: ""
+            CMAKE_GENERATOR: "Visual Studio 17 2022"
+            QT_ARCH: "win64_msvc2019_64"
+            QT_HOST: windows
+            QT_ARCHIVES: ""
+            QT_MODULES: ""
+            QT_TOOLS: ""
 
-        #   - toolchain: windows-2022-msvc
-        #     os: windows-2022
-        #     arch: x64
-        #     compiler: {type: MSVC, version: 193, msvc_version: 17, cc: "", cxx: ""}
-        #     build_type: ["Debug", "Release"]
-        #     CMAKE_GENERATOR: "Visual Studio 17 2022"
-        #     QT_ARCH: "win64_msvc2019_64"
-        #     QT_HOST: windows
+          - toolchain: macos-clang
+            os: macos-13,
+            compiler: {type: APPLE_CLANG, version: "15.0", cc: "clang", cxx: "clang++"}
+            cxx_modules: "False"
+            std_format_support: "False"
+            conan_config: ""
+            CMAKE_GENERATOR: "Ninja Multi-Config"
+            QT_ARCH: "clang_64"
+            QT_HOST: mac
+            QT_ARCHIVES: ""
+            QT_MODULES: ""
+            QT_TOOLS: ""
 
-        #   - toolchain: macos-clang
-        #     os: macos-13
-        #     compiler: {type: APPLE_CLANG, version: "15.2", cc: "clang", cxx: "clang++"}
-        #     cxx_modules: "False"
-        #     std_format_support: "False"
-        #     build_type: ["Debug", "Release"]
-        #     QT_ARCH: "clang_64"
-        #     QT_HOST: mac
-
-        # exclude:
-        #   - formatting: "std::format"
-        #     std_format_support: "False"
+        exclude:
+          - formatting: "std::format"
 
     env:
       CC: ${{ matrix.compiler.cc }}
@@ -203,7 +224,7 @@ jobs:
         if: runner.os == 'Linux'
         uses: hendrikmuhs/ccache-action@v1
         with:
-          key: ${{ matrix.os }}-{{matrix.CMAKE_BUILD_TYPE}}
+          key: ${{ matrix.os }}--{{matrix.CMAKE_BUILD_TYPE}}
           max-size: 50M
 
       - name: "🧰 Install gcc-13"
@@ -246,7 +267,6 @@ jobs:
         if: runner.os == 'Windows'
         uses: ilammy/msvc-dev-cmd@v1
         with:
-          vsversion: ${{ matrix.compiler.msvc_version }}
           arch: ${{ matrix.arch }}
 
       - name: "🟨 Setup Python"
@@ -353,7 +373,7 @@ jobs:
           ctest -C ${{matrix.build_type}}
 
       - name: "🐧 🧪 Coverage"
-        if: runner.os == 'Linux' && matrix.build_type == 'Debug' &&  matrix.compiler.type == 'CLANG' && matrix.compiler.version == '17'
+        if: runner.os == 'Linux'
         working-directory: build/${{matrix.build_type}}
         run: |
           ${{matrix.GCOV}} -j ${{env.nproc}} --delete --root ../ \
@@ -364,7 +384,7 @@ jobs:
           FEATURE_TESTS: ON
 
       - name: "Publish to codecov"
-        if: runner.os == 'Linux' && matrix.build_type == 'Debug' &&  matrix.compiler.type == 'CLANG' && matrix.compiler.version == '17'
+        if: runner.os == 'Linux'
         uses: codecov/codecov-action@v3
         with:
           flags: ${{ runner.os }}
@@ -389,7 +409,7 @@ jobs:
             build/*-*Release*-*.*
 
       - name: Publish to codecov
-        if: runner.os == 'Linux' && matrix.build_type == 'Debug' &&  matrix.compiler.type == 'CLANG' && matrix.compiler.version == '17'
+        if: runner.os == 'Linux'
         uses: codecov/codecov-action@v4
         with:
           flags: ${{ runner.os }}
