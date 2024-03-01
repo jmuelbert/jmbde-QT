@@ -75,6 +75,16 @@ jobs:
       # Disable/enable builds in this list to meet the above recommendations
       # and your own projects needs
       matrix:
+        toolchain:
+            os: ubuntu-22.04
+            compiler: {type: GCC, version: 12, cc: "gcc-12", cxx: "g++-12"}
+            cxx_modules: "False"
+            std_format_support: "False"
+            GCOV: gcov
+            CMAKE_GENERATOR: "Unix Makefiles"
+            QT_ARCH: "gcc_64"
+            QT_HOST: linux
+            
         # std: ["20"]
         # formatting: ["std::format"]
         # build_type: ["Debug"]
@@ -87,14 +97,14 @@ jobs:
         # QT_MODULES: [""]
         # QT_TOOLS: [""]
 
-        toolchain:
-          - linux-gcc12
-          - linux-gcc13
-          - linux-clang16
-          - linux-clang17
-          - windows-2019-msvc
-          - windows-2022-msvc
-          - macos-clang
+        #toolchain:
+        #  - linux-gcc12
+        #  - linux-gcc13
+        #  - linux-clang16
+        #  - linux-clang17
+        #  - windows-2019-msvc
+        #  - windows-2022-msvc
+        #  - macos-clang
 
         include:
           - toolchain: linux-gcc12
