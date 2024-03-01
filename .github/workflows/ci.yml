@@ -147,7 +147,7 @@ jobs:
             arch: x64
             compiler: {type: VISUAL, version: 16, cc: "", cxx: ""}
             conan_config: ""
-            msvc_toolset: "14.21"
+            msvc_toolset: "14.2"
             CMAKE_GENERATOR: "Visual Studio 16 2019"
             QT_ARCH: "win64_msvc2019_64"
             QT_HOST: windows
@@ -160,7 +160,7 @@ jobs:
             arch: x64
             compiler: {type: MSVC, version: 193, cc: "", cxx: ""}
             conan_config: ""
-            msvc_toolset: "14.31"
+            msvc_toolset: "14.3"
             CMAKE_GENERATOR: "Visual Studio 17 2022"
             QT_ARCH: "win64_msvc2019_64"
             QT_HOST: windows
@@ -186,9 +186,17 @@ jobs:
       CMAKE_GENERATOR: ${{ matrix.CMAKE_GENERATOR }}
       CMAKE_BUILD_TYPE: ${{ matrix.build_type }}
 
+    # Skip any PR created by dependabot to avoid permission issues:
+    if: (github.actor != 'dependabot[bot]')
+
     steps:
       - name: "🧰 Checkout Source Code"
         uses: actions/checkout@v4
+
+      - name: "⚙️ Get the version"
+        id: get_version
+        shell: bash
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
 
       - name: "🧰 Setup Cache-ID with date for unix-like systems"
         if: startsWith(matrix.os, 'ubuntu') || startsWith(matrix.os,'macos')
@@ -264,6 +272,28 @@ jobs:
         with:
           arch: ${{ matrix.arch }}
           toolset: ${{ matrix.msvc_toolset }}
+
+      - name: "🐧 ⚙️ Install go-appimage tool for ubuntu"
+        if: startsWith(matrix.os, 'ubuntu')
+        # Will not use linuxdeployqt anymore, because it suopprts currently still-supported mainstream distribution,
+        # which is glibc 2.23. For more information, please see https://github.com/probonopd/linuxdeployqt/issues/340.
+        # Will try new tool https://github.com/probonopd/go-appimage written in golang by probonopd.
+        run: |
+          wget -c https://github.com/$(wget -q https://github.com/probonopd/go-appimage/releases -O - \
+            | grep "appimagetool-.*-${APPIMAGETOOL_ARCH}.AppImage" | head -n 1 | cut -d '"' -f 2) -O appimagetool
+            chmod +x appimagetool
+          env:
+            APPIMAGETOOL_ARCH: x86_64
+
+      - name: "🍎 ⚙️ Install dependencies for macos"
+        if: startsWith(matrix.os,'macos')
+        run: |
+          brew install ccache 
+  
+      - name: "🧊 ⚙️ Install dependencies for windows"
+        if: startsWith(matrix.os,'windows')
+        run: |
+          choco install png2ico 
 
       - name: "🟨 Setup Python"
         uses: actions/setup-python@v5
