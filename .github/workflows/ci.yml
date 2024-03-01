@@ -1,5 +1,5 @@
 ---
-# SPDX-FileCopyrightText: © 2016-2023 Jürgen Mülbert
+# SPDX-FileCopyrightText: © 2016-2024 Jürgen Mülbert
 #
 # SPDX-License-Identifier: EUPL-1.2
 #
@@ -75,8 +75,8 @@ jobs:
       # Disable/enable builds in this list to meet the above recommendations
       # and your own projects needs
       matrix:
-        std: [20, 23]
-        formatting: ["std::format", "fmtlib"]
+        std: [20]
+        formatting: ["std::format"]
         build_type: ["Debug", "Release"]
         toolchain:
           - linux-gcc12
@@ -94,7 +94,7 @@ jobs:
             cxx_modules: "False"
             std_format_support: "False"
             conan_config: ""
-            GCOV: gcov
+            GCOV: gcovr
             CMAKE_GENERATOR: "Unix Makefiles"
             QT_ARCH: "gcc_64"
             QT_HOST: linux
@@ -108,13 +108,14 @@ jobs:
             cxx_modules: "False"
             std_format_support: "True"
             conan_config: ""
-            GCOV: gcov
+            GCOV: gcovr
             CMAKE_GENERATOR: "Unix Makefiles"
             QT_ARCH: "gcc_64"
             QT_HOST: linux
             QT_ARCHIVES: ""
             QT_MODULES: ""
             QT_TOOLS: ""
+
           - toolchain: linux-clang16
             os: ubuntu-22.04
             compiler: {type: CLANG, version: 16, cc: "clang-16", cxx: "clang++-16"}
@@ -122,8 +123,8 @@ jobs:
             cxx_modules: "False"
             std_format_support: "True"
             conan_config: ""
-            GCOV: "llvm-cov gcov"
-            CMAKE_GENERATOR: "Unix Makefiles"
+            GCOV: "llvm-cov gcovr"
+            CMAKE_GENERATOR: "Ninja Multi-Config"
             QT_ARCH: "gcc_64"
             QT_HOST: linux
             QT_ARCHIVES: ""
@@ -137,8 +138,8 @@ jobs:
             cxx_modules: "True"
             std_format_support: "True"
             conan_config: ""
-            GCOV: "llvm-cov gcov"
-            CMAKE_GENERATOR: "Unix Makefiles"
+            GCOV: "llvm-cov gcovr"
+            CMAKE_GENERATOR: "Ninja Multi-Config"
             QT_ARCH: "gcc_64"
             QT_HOST: linux
             QT_ARCHIVES: ""
@@ -150,7 +151,8 @@ jobs:
             arch: x64
             compiler: {type: VISUAL, version: 16, cc: "", cxx: ""}
             conan_config: ""
-            CMAKE_GENERATOR: "Visual Studio 17 2022"
+            msvc_toolset: "14.21"
+            CMAKE_GENERATOR: "Visual Studio 16 2019"
             QT_ARCH: "win64_msvc2019_64"
             QT_HOST: windows
             QT_ARCHIVES: ""
@@ -162,6 +164,7 @@ jobs:
             arch: x64
             compiler: {type: MSVC, version: 193, cc: "", cxx: ""}
             conan_config: ""
+            msvc_toolset: "14.31"
             CMAKE_GENERATOR: "Visual Studio 17 2022"
             QT_ARCH: "win64_msvc2019_64"
             QT_HOST: windows
@@ -171,7 +174,7 @@ jobs:
 
           - toolchain: macos-clang
             os: macos-13,
-            compiler: {type: APPLE_CLANG, version: "15.0", cc: "clang", cxx: "clang++"}
+            compiler: {type: APPLE_CLANG, version: "15.1", cc: "clang", cxx: "clang++"}
             cxx_modules: "False"
             std_format_support: "False"
             conan_config: ""
@@ -184,6 +187,7 @@ jobs:
 
         exclude:
           - formatting: "std::format"
+            std_format_support: "False"
 
     env:
       CC: ${{ matrix.compiler.cc }}
@@ -268,6 +272,7 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: ${{ matrix.arch }}
+          toolset: ${{ matrix.msvc_toolset }}
 
       - name: "🟨 Setup Python"
         uses: actions/setup-python@v5
@@ -373,7 +378,7 @@ jobs:
           ctest -C ${{matrix.build_type}}
 
       - name: "🐧 🧪 Coverage"
-        if: runner.os == 'Linux'
+        if: runner.os == 'Linux' && matrix.compiler.type == 'CLANG' && matrix.compiler.version == 17 && matrix.build_type == 'Debug'
         working-directory: build/${{matrix.build_type}}
         run: |
           ${{matrix.GCOV}} -j ${{env.nproc}} --delete --root ../ \
@@ -384,7 +389,7 @@ jobs:
           FEATURE_TESTS: ON
 
       - name: "Publish to codecov"
-        if: runner.os == 'Linux'
+        if: runner.os == 'Linux' && matrix.compiler.type == 'CLANG' && matrix.compiler.version == 17 && matrix.build_type == 'Debug'
         uses: codecov/codecov-action@v3
         with:
           flags: ${{ runner.os }}
@@ -409,7 +414,7 @@ jobs:
             build/*-*Release*-*.*
 
       - name: Publish to codecov
-        if: runner.os == 'Linux'
+        if: runner.os == 'Linux' && matrix.compiler.type == 'CLANG' && matrix.compiler.version == 17 && matrix.build_type == 'Debug'
         uses: codecov/codecov-action@v4
         with:
           flags: ${{ runner.os }}
