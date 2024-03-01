@@ -75,31 +75,21 @@ jobs:
       # Disable/enable builds in this list to meet the above recommendations
       # and your own projects needs
       matrix:
+        std: ["20"]
+        formatting: ["std::format"]
+        build_type: ["Debug"]
+        conan_config: [""]
+        cxx_modules: ["True"]
+        std_format_support: ["True"]
+
+        CMAKE_GENERATOR: ["Ninja Multi-Config"]
+        QT_ARCHIVES: [""]
+        QT_MODULES: [""]
+        QT_TOOLS: [""]
+
         toolchain:
-            os: ubuntu-22.04
-            compiler: {type: GCC, version: 12, cc: "gcc-12", cxx: "g++-12"}
-            cxx_modules: "False"
-            std_format_support: "False"
-            GCOV: gcov
-            CMAKE_GENERATOR: "Unix Makefiles"
-            QT_ARCH: "gcc_64"
-            QT_HOST: linux
-            
-        # std: ["20"]
-        # formatting: ["std::format"]
-        # build_type: ["Debug"]
-        # conan_config: [""]
-        # cxx_modules: ["True"]
-        # std_format_support: ["True"]
-
-        # CMAKE_GENERATOR: ["Ninja Multi-Config"]
-        # QT_ARCHIVES: [""]
-        # QT_MODULES: [""]
-        # QT_TOOLS: [""]
-
-        #toolchain:
         #  - linux-gcc12
-        #  - linux-gcc13
+           - linux-gcc13
         #  - linux-clang16
         #  - linux-clang17
         #  - windows-2019-msvc
@@ -112,18 +102,18 @@ jobs:
             compiler: {type: GCC, version: 12, cc: "gcc-12", cxx: "g++-12"}
             cxx_modules: "False"
             std_format_support: "False"
-            GCOV: gcov
+            GCOV: gcovr
             CMAKE_GENERATOR: "Unix Makefiles"
             QT_ARCH: "gcc_64"
             QT_HOST: linux
 
-        #   - toolchain: linux-gcc13
-        #     os: ubuntu-22.04
-        #     compiler: {type: GCC, version: 13, cc: "gcc-13", cxx: "g++-13"}
-        #     cxx_modules: "False"
-        #     GCOV: gcov
-        #     QT_ARCH: "gcc_64"
-        #     QT_HOST: linux
+          - toolchain: linux-gcc13
+            os: ubuntu-22.04
+            compiler: {type: GCC, version: 13, cc: "gcc-13", cxx: "g++-13"}
+            cxx_modules: "False"
+            GCOV: gcovr
+            QT_ARCH: "gcc_64"
+            QT_HOST: linux
 
         #   - toolchain: linux-clang16
         #     os: ubuntu-22.04
