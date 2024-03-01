@@ -186,8 +186,8 @@ jobs:
       CMAKE_GENERATOR: ${{ matrix.CMAKE_GENERATOR }}
       CMAKE_BUILD_TYPE: ${{ matrix.build_type }}
 
-    # Skip any PR created by dependabot to avoid permission issues:
-    if: (github.actor != 'dependabot[bot]')
+      # Skip any PR created by dependabot to avoid permission issues:
+      if: (github.actor != 'dependabot[bot]')
 
     steps:
       - name: "🧰 Checkout Source Code"
@@ -288,12 +288,12 @@ jobs:
       - name: "🍎 ⚙️ Install dependencies for macos"
         if: startsWith(matrix.os,'macos')
         run: |
-          brew install ccache 
-  
+          brew install ccache
+
       - name: "🧊 ⚙️ Install dependencies for windows"
         if: startsWith(matrix.os,'windows')
         run: |
-          choco install png2ico 
+          choco install png2ico
 
       - name: "🟨 Setup Python"
         uses: actions/setup-python@v5
