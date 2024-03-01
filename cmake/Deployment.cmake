@@ -185,7 +185,7 @@ elseif(CMAKE_SYSTEM_NAME MATCHES "Windows")
     set(CPACK_NSIS_PACKAGE_NAME "jmbde")
     set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS
         "
-         CreateShortCut \\\"$DESKTOP\\\\Qv2ray.lnk\\\" \\\"$INSTDIR\\\\jmbde.exe\\\"
+        CreateShortCut \\\"$DESKTOP\\\\Qv2ray.lnk\\\" \\\"$INSTDIR\\\\jmbde.exe\\\"
         CreateDirectory \\\"$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\Qv2ray\\\"
         CreateShortCut \\\"$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\Qv2ray\\\\Qv2ray.lnk\\\" \\\"$INSTDIR\\\\jmbde.exe\\\"
         WriteRegStr HKLM \\\"Software\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Uninstall\\\\jmbde\\\" \\\"DisplayIcon\\\" \\\"$INSTDIR\\\\jmbde.exe\\\"

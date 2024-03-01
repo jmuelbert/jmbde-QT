@@ -367,6 +367,7 @@ jobs:
           CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
 
       - name: "Configure CMake"
+       shell: bash
         run: |
           cmake -S . -B build/${{matrix.build_type}} -DCMAKE_TOOLCHAIN_FILE=generators/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
 
@@ -376,6 +377,7 @@ jobs:
           FEATURE_TESTS: ON
 
       - name: "🚧 Build"
+        shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
         run: |
           cmake --build build/${{matrix.build_type}}  --config ${{matrix.build_type}}
@@ -410,19 +412,9 @@ jobs:
           name: ${{ runner.os }}-coverage
           files: ./build/coverage.xml
 
-      - name: Install
-        run: |
-          cmake --install ./build/${{matrix.build_type}}  --prefix "./install"
-          cd build && cpack -C ${{matrix.build_type}} -G default "ZIP"
-        env:
-          CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
-          CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
-
-          CPACK_GENERATOR: ${{matrix.CPACK_GENERATOR}}
-
       - name: Publish Tagged Release
         uses: softprops/action-gh-release@v1
-        if: ${{ startsWith(github.ref, 'refs/tags/') && matrix.CPACK_GENERATOR != '' }}
+        if: startsWith(github.ref, 'refs/tags/') && matrix.CPACK_GENERATOR != ''
         with:
           files: |
             build/*-*Release*-*.*
