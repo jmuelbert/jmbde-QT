@@ -164,7 +164,7 @@ jobs:
 
         exclude:
           - formatting: "std::format"
-            config: {std_format_support: "False"}
+            std_format_support: "False"
 
     env:
       CC: ${{ matrix.compiler.cc }}
