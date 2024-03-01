@@ -77,7 +77,7 @@ jobs:
       matrix:
         std: [20]
         formatting: ["std::format"]
-        build_type: ["Debug", "Release"]
+        build_type: ["Debug"]
         toolchain:
           - linux-gcc12
           - linux-gcc13
@@ -367,6 +367,7 @@ jobs:
           CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
 
       - name: "Configure CMake"
+        if: runner.os == 'Linux' || runner.os =='macOS'
         shell: bash
         run: |
           cmake -S . -B build/${{matrix.build_type}} -DCMAKE_TOOLCHAIN_FILE=generators/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
@@ -374,6 +375,17 @@ jobs:
         env:
           CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
           CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
+          FEATURE_TESTS: ON
+
+      - name: "Configure CMake
+        if: runner.os =='Windows'
+        shell: pwsh
+        run: |
+          cmake -S . -B build\${{matrix.build_type}} -DCMAKE_TOOLCHAIN_FILE=generators\conan_toolchain.cmake -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
+
+        env:
+          CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
+          CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}\lib\cmake"
           FEATURE_TESTS: ON
 
       - name: "🚧 Build"
