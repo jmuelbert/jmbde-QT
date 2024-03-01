@@ -116,7 +116,7 @@ class jmbdeReceipe(ConanFile):
 
     @property
     def _min_cppstd(self):
-        return 17
+        return 14
 
     # In case the project requires C++14/17/20/... the minimum compiler version should be listed
     @property

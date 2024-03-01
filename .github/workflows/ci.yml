@@ -321,14 +321,6 @@ jobs:
           sed -i.backup '/^\[settings\]$/,/^\[/ s/^build_type=.*/build_type=${{ matrix.build_type }}/' ~/.conan2/profiles/default
           conan profile show -pr default
 
-      - name: "Configure Conan for Windows"
-        if: startsWith(matrix.os,'windows')
-        shell: bash
-        run: |
-          conan profile update settings.compiler.cppstd=${{ matrix.std }} default
-          
-
-
       - name: "🧰 Install Qt Version ${{ env.QT_VERSION }}"
         uses: jurplel/install-qt-action@v3
         with:
@@ -420,8 +412,8 @@ jobs:
 
       - name: Install
         run: |
-          cmake --install ./build/${{matrix.build_type}}  --prefix {{.INSTALL_PREFIX | default "./install"}}
-          cd build && cpack -C ${{matrix.build_type}} -G {{.CPACK_GENERATOR | default "ZIP"}}
+          cmake --install ./build/${{matrix.build_type}}  --prefix "./install"
+          cd build && cpack -C ${{matrix.build_type}} -G default "ZIP"
         env:
           CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
           CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
