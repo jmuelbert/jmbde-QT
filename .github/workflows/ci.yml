@@ -378,7 +378,7 @@ jobs:
           FEATURE_TESTS: ON
 
       - name: "Configure CMake"
-        if: runner.os = 'Windows'
+        if: runner.os == 'Windows'
         shell: pwsh
         run: |
           cmake -S . -B build\${{matrix.build_type}} -DCMAKE_TOOLCHAIN_FILE=generators\conan_toolchain.cmake -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
