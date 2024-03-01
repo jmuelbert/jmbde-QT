@@ -274,13 +274,13 @@ jobs:
           toolset: ${{ matrix.msvc_toolset }}
 
       - name: "🐧 ⚙️ Install go-appimage tool for ubuntu"
-        if: startsWith(matrix.os, 'ubuntu')
+        if: startsWith(matrix.os, 'ubuntu') && matrix.build_type == 'Release'
         # Will not use linuxdeployqt anymore, because it suopprts currently still-supported mainstream distribution,
         # which is glibc 2.23. For more information, please see https://github.com/probonopd/linuxdeployqt/issues/340.
         # Will try new tool https://github.com/probonopd/go-appimage written in golang by probonopd.
         run: |
           wget -c https://github.com/$(wget -q https://github.com/probonopd/go-appimage/releases -O - \
-            | grep "appimagetool-.*-${APPIMAGETOOL_ARCH}.AppImage" | head -n 1 | cut -d '"' -f 2) -O appimagetool
+           | grep "appimagetool-.*-${APPIMAGETOOL_ARCH}.AppImage" | head -n 1 | cut -d '"' -f 2) -O appimagetool
             chmod +x appimagetool
           env:
             APPIMAGETOOL_ARCH: x86_64
@@ -347,7 +347,7 @@ jobs:
           tools-only: "false"
 
       - name: restore ccache
-        if: runner.os == 'Linux'
+        if: runner.os == 'Linux' || runner.os =='macOS'
         uses: pat-s/always-upload-cache@v3.0.11
         with:
           path: ${{ github.workspace }}/ccache
@@ -355,7 +355,7 @@ jobs:
           restore-keys: ccache-${{matrix.os}}-${{matrix.compiler}}-${{ env.QT_VERSION }}
 
       - name: check ccache stats prior to build
-        if: runner.os == 'Linux'
+        if: runner.os == 'Linux' || runner.os =='macOS'
         run: ccache --zero-stats --show-stats
 
       - name: "Add GCC problem matcher"
@@ -388,7 +388,7 @@ jobs:
           cmake --build build/${{matrix.build_type}}  --config ${{matrix.build_type}}
 
       - name: check ccache stats prior to build
-        if: runner.os == 'Linux'
+        if: runner.os == 'Linux' || runner.os =='macOS'
         run: ccache --zero-stats --show-stats
 
       - name: "🐧 🧪 Test and coverage"
@@ -399,7 +399,7 @@ jobs:
           ctest -C ${{matrix.build_type}}
 
       - name: "🐧 🧪 Coverage"
-        if: runner.os == 'Linux' && matrix.compiler.type == 'CLANG' && matrix.compiler.version == 17 && matrix.build_type == 'Debug'
+        if: runner.os == 'Linux' && matrix.compiler.type == 'CLANG' && matrix.compiler.version == 16 && matrix.build_type == 'Debug'
         working-directory: build/${{matrix.build_type}}
         run: |
           ${{matrix.GCOV}} -j ${{env.nproc}} --delete --root ../ \
@@ -410,7 +410,7 @@ jobs:
           FEATURE_TESTS: ON
 
       - name: "Publish to codecov"
-        if: runner.os == 'Linux' && matrix.compiler.type == 'CLANG' && matrix.compiler.version == 17 && matrix.build_type == 'Debug'
+        if: runner.os == 'Linux' && matrix.compiler.type == 'CLANG' && matrix.compiler.version == 16 && matrix.build_type == 'Debug'
         uses: codecov/codecov-action@v3
         with:
           flags: ${{ runner.os }}
@@ -435,7 +435,7 @@ jobs:
             build/*-*Release*-*.*
 
       - name: Publish to codecov
-        if: runner.os == 'Linux' && matrix.compiler.type == 'CLANG' && matrix.compiler.version == 17 && matrix.build_type == 'Debug'
+        if: runner.os == 'Linux' && matrix.compiler.type == 'CLANG' && matrix.compiler.version == 16 && matrix.build_type == 'Debug'
         uses: codecov/codecov-action@v4
         with:
           flags: ${{ runner.os }}
