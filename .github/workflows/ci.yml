@@ -385,7 +385,7 @@ jobs:
 
         env:
           CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
-          CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}\lib\cmake"
+          CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
           FEATURE_TESTS: ON
 
       - name: "🚧 Build"
