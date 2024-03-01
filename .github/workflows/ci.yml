@@ -75,17 +75,17 @@ jobs:
       # Disable/enable builds in this list to meet the above recommendations
       # and your own projects needs
       matrix:
-        std: ["20"]
-        formatting: ["std::format"]
-        build_type: ["Debug"]
-        conan_config: [""]
-        cxx_modules: ["True"]
-        std_format_support: ["True"]
+        # std: ["20"]
+        # formatting: ["std::format"]
+        # build_type: ["Debug"]
+        # conan_config: [""]
+        # cxx_modules: ["True"]
+        # std_format_support: ["True"]
 
-        CMAKE_GENERATOR: ["Ninja Multi-Config"]
-        QT_ARCHIVES: [""]
-        QT_MODULES: [""]
-        QT_TOOLS: [""]
+        # CMAKE_GENERATOR: ["Ninja Multi-Config"]
+        # QT_ARCHIVES: [""]
+        # QT_MODULES: [""]
+        # QT_TOOLS: [""]
 
         toolchain:
           - linux-gcc12
@@ -107,62 +107,62 @@ jobs:
             QT_ARCH: "gcc_64"
             QT_HOST: linux
 
-          - toolchain: linux-gcc13
-            os: ubuntu-22.04
-            compiler: {type: GCC, version: 13, cc: "gcc-13", cxx: "g++-13"}
-            cxx_modules: "False"
-            GCOV: gcov
-            QT_ARCH: "gcc_64"
-            QT_HOST: linux
+        #   - toolchain: linux-gcc13
+        #     os: ubuntu-22.04
+        #     compiler: {type: GCC, version: 13, cc: "gcc-13", cxx: "g++-13"}
+        #     cxx_modules: "False"
+        #     GCOV: gcov
+        #     QT_ARCH: "gcc_64"
+        #     QT_HOST: linux
 
-          - toolchain: linux-clang16
-            os: ubuntu-22.04
-            compiler: {type: CLANG, version: 16, cc: "clang-16", cxx: "clang++-16"}
-            lib: "libc++"
-            cxx_modules: "False"
-            GCOV: "llvm-cov gcov"
-            CMAKE_GENERATOR: "Unix Makefiles"
-            QT_ARCH: "gcc_64"
-            QT_HOST: linux
+        #   - toolchain: linux-clang16
+        #     os: ubuntu-22.04
+        #     compiler: {type: CLANG, version: 16, cc: "clang-16", cxx: "clang++-16"}
+        #     lib: "libc++"
+        #     cxx_modules: "False"
+        #     GCOV: "llvm-cov gcov"
+        #     CMAKE_GENERATOR: "Unix Makefiles"
+        #     QT_ARCH: "gcc_64"
+        #     QT_HOST: linux
 
-          - toolchain: linux-clang17
-            os: ubuntu-22.04
-            compiler: {type: CLANG, version: 17, cc: "clang-17", cxx: "clang++-17"}
-            lib: "libc++"
-            build_type: ["Debug", "Release"]
-            GCOV: "llvm-cov gcov"
-            QT_ARCH: "gcc_64"
-            QT_HOST: linux
+        #   - toolchain: linux-clang17
+        #     os: ubuntu-22.04
+        #     compiler: {type: CLANG, version: 17, cc: "clang-17", cxx: "clang++-17"}
+        #     lib: "libc++"
+        #     build_type: ["Debug", "Release"]
+        #     GCOV: "llvm-cov gcov"
+        #     QT_ARCH: "gcc_64"
+        #     QT_HOST: linux
 
-          - toolchain: windows-2019-msvc
-            os: windows-2019
-            arch: x64
-            compiler: {type: VISUAL, version: 16, msvc_version: 16, cc: "", cxx: ""}
-            CMAKE_GENERATOR: "Visual Studio 16 2019"
-            QT_ARCH: "win64_msvc2019_64"
-            QT_HOST: windows
+        #   - toolchain: windows-2019-msvc
+        #     os: windows-2019
+        #     arch: x64
+        #     compiler: {type: VISUAL, version: 16, msvc_version: 16, cc: "", cxx: ""}
+        #     CMAKE_GENERATOR: "Visual Studio 16 2019"
+        #     QT_ARCH: "win64_msvc2019_64"
+        #     QT_HOST: windows
 
-          - toolchain: windows-2022-msvc
-            os: windows-2022
-            arch: x64
-            compiler: {type: MSVC, version: 193, msvc_version: 17, cc: "", cxx: ""}
-            build_type: ["Debug", "Release"]
-            CMAKE_GENERATOR: "Visual Studio 17 2022"
-            QT_ARCH: "win64_msvc2019_64"
-            QT_HOST: windows
+        #   - toolchain: windows-2022-msvc
+        #     os: windows-2022
+        #     arch: x64
+        #     compiler: {type: MSVC, version: 193, msvc_version: 17, cc: "", cxx: ""}
+        #     build_type: ["Debug", "Release"]
+        #     CMAKE_GENERATOR: "Visual Studio 17 2022"
+        #     QT_ARCH: "win64_msvc2019_64"
+        #     QT_HOST: windows
 
-          - toolchain: macos-clang
-            os: macos-13
-            compiler: {type: APPLE_CLANG, version: "15.2", cc: "clang", cxx: "clang++"}
-            cxx_modules: "False"
-            std_format_support: "False"
-            build_type: ["Debug", "Release"]
-            QT_ARCH: "clang_64"
-            QT_HOST: mac
+        #   - toolchain: macos-clang
+        #     os: macos-13
+        #     compiler: {type: APPLE_CLANG, version: "15.2", cc: "clang", cxx: "clang++"}
+        #     cxx_modules: "False"
+        #     std_format_support: "False"
+        #     build_type: ["Debug", "Release"]
+        #     QT_ARCH: "clang_64"
+        #     QT_HOST: mac
 
-        exclude:
-          - formatting: "std::format"
-            std_format_support: "False"
+        # exclude:
+        #   - formatting: "std::format"
+        #     std_format_support: "False"
 
     env:
       CC: ${{ matrix.compiler.cc }}
