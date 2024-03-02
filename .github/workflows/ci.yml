@@ -93,7 +93,6 @@ jobs:
             compiler: {type: GCC, version: 12, cc: "gcc-12", cxx: "g++-12"}
             cxx_modules: "False"
             conan_config: ""
-            GCOV: gcovr
             CMAKE_GENERATOR: "Unix Makefiles"
             QT_ARCH: "gcc_64"
             QT_HOST: linux
@@ -134,7 +133,7 @@ jobs:
             lib: "libc++"
             cxx_modules: "True"
             conan_config: ""
-            GCOV: "llvm-cov gcovr"
+            build_type: ["Debug", "Release"]
             CMAKE_GENERATOR: "Ninja Multi-Config"
             QT_ARCH: "gcc_64"
             QT_HOST: linux
@@ -161,7 +160,8 @@ jobs:
             compiler: {type: MSVC, version: 193, cc: "", cxx: ""}
             conan_config: ""
             msvc_toolset: "14.3"
-            CMAKE_GENERATOR: "Visual Studio 17 2022"
+            build_type: ["Debug", "Release"]
+            CMAKE_GENERATOR: "Ninja Multi-Config"
             QT_ARCH: "win64_msvc2019_64"
             QT_HOST: windows
             QT_ARCHIVES: ""
@@ -173,6 +173,7 @@ jobs:
             compiler: {type: APPLE_CLANG, version: "15.1", cc: "clang", cxx: "clang++"}
             cxx_modules: "False"
             conan_config: ""
+            build_type: ["Debug", "Release"]
             CMAKE_GENERATOR: "Ninja Multi-Config"
             QT_ARCH: "clang_64"
             QT_HOST: mac
@@ -363,7 +364,7 @@ jobs:
         if: runner.os == 'Linux' && matrix.compiler.type == 'GCC'
         uses: ammaraskar/gcc-problem-matcher@master
 
-      - name: "Add MSVC problem matcher
+      - name: "Add MSVC problem matcher"
         if: runner.os == 'Windows'
         uses: ammaraskar/msvc-problem-matcher@0.3.0
 
