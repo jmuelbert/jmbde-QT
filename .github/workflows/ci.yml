@@ -186,8 +186,8 @@ jobs:
       CMAKE_GENERATOR: ${{ matrix.CMAKE_GENERATOR }}
       CMAKE_BUILD_TYPE: ${{ matrix.build_type }}
 
-      # Skip any PR created by dependabot to avoid permission issues:
-      if: (github.actor != 'dependabot[bot]')
+    # Skip any PR created by dependabot to avoid permission issues:
+    if: (github.actor != 'dependabot[bot]')
 
     steps:
       - name: "🧰 Checkout Source Code"
@@ -223,8 +223,8 @@ jobs:
             build-${{ matrix.os }}-${{ matrix.formatting }}-
             build-${{ matrix.os }}-
 
-      - name: "Setup CCache for Linux"
-        if: runner.os == 'Linux'
+      - name: "Setup CCache for Linux and macOS"
+        if: runner.os == 'Linux' || runner.os == "macOS" 
         uses: hendrikmuhs/ccache-action@v1
         with:
           key: ${{ matrix.os }}--{{matrix.CMAKE_BUILD_TYPE}}
@@ -260,19 +260,13 @@ jobs:
           libc++abi-${{ matrix.compiler.version }}-dev \
           libunwind-${{ matrix.compiler.version }}-dev
 
-
       - name: "🧰 gcovr"
-        if: runner.os == 'Linux' 
+        if: runner.os == 'Linux' && matrix.GCOV != ''
         shell: bash
         run: |
           sudo apt-get update && DEBIAN_FRONTEND=--noninteractive \
           sudo apt-get --no-install-recommends --assume-yes install \
           gcovr
-          
-      - name: "🐧 ⚙️ Install go-appimage tool for ubuntu"
-        if: startsWith(matrix.os, 'ubuntu') && matrix.build_type == 'Release'
-        run: |
-          pip3 install appimage-builder
 
       - name: "🐧 ⚙️ Select Xcode version"
         if: matrix.compiler.type == 'APPLE_CLANG'
@@ -319,6 +313,11 @@ jobs:
         run: |
           pip install --upgrade conan
 
+      - name: "🐧 ⚙️ Install go-appimage tool for ubuntu"
+        if: startsWith(matrix.os, 'ubuntu') && matrix.build_type == 'Release'
+        run: |
+          pip3 install appimage-builder
+
       - name: "Configure Conan"
         shell: bash
         run: |
@@ -343,7 +342,7 @@ jobs:
           archives: ${{ matrix.QT_ARCHIVES }}
           cache: "true"
           cache-key-prefix: "${{ runner.os }}-install-qt-action"
-          setup-python: "true"
+          setup-python: "false"
           tools: ${{ matrix.QT_TOOLS }}
           set-env: "true"
           tools-only: "false"
@@ -364,7 +363,7 @@ jobs:
         if: runner.os == 'Linux' && matrix.compiler.type == 'GCC'
         uses: ammaraskar/gcc-problem-matcher@master
 
-      - name: Setup MSVC problem matcher
+      - name: "Add MSVC problem matcher
         if: runner.os == 'Windows'
         uses: ammaraskar/msvc-problem-matcher@0.3.0
 
@@ -375,7 +374,7 @@ jobs:
           CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
           CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
 
-      - name: "Configure CMake"
+      - name: "Configure CMake for ${{matrix.os}}"
         if: runner.os == 'Linux' || runner.os =='macOS'
         shell: bash
         run: |
@@ -386,38 +385,44 @@ jobs:
           CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
           FEATURE_TESTS: ON
 
-      - name: "Configure CMake"
+      - name: "Configure CMake for ${{matrix.os}}"
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
           cmake -S . -B "build" -DCMAKE_TOOLCHAIN_FILE="generators/conan_toolchain.cmake" -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
-
         env:
           CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
           CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
           FEATURE_TESTS: ON
 
-
-
-      - name: "🚧 Build"
+      - name: "🚧 Build for ${{matrix.os}}"
         if: runner.os == 'Linux' || runner.os =='macOS'
         shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
         run: |
           cmake --build build/${{matrix.build_type}}  --config ${{matrix.build_type}}
 
-      - name: "🚧 Build"
+      - name: "🚧 Build for ${{matrix.os}}"
         if: runner.os == 'Windows'
         shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
         run: |
           cmake --build build --config ${{matrix.build_type}}
 
-      - name: check ccache stats prior to build
+      - name: "Check ccache stats prior to build for ${{matrix.os}}"
         if: runner.os == 'Linux' || runner.os =='macOS'
         run: ccache --zero-stats --show-stats
 
-      - name: "🐧 🧪 Test and coverage"
+      - name: "🐧 🧪 Tests for ${{matrix.os}}"
+        if: runner.os == 'Linux' || runner.os =='macOS'      
+        working-directory: build/${{matrix.build_type}}
+        # Execute tests defined by the CMake configuration.
+        # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+        run: |
+          ctest -C ${{matrix.build_type}}
+
+      - name: "🐧 🧪 Tests for ${{matrix.os}}"
+        if: runner.os == 'Windows'
         working-directory: build/${{matrix.build_type}}
         # Execute tests defined by the CMake configuration.
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
@@ -425,7 +430,7 @@ jobs:
           ctest -C ${{matrix.build_type}}
 
       - name: "🐧 🧪 Coverage"
-        if: runner.os == 'Linux' && matrix.compiler.type == 'GCC' && matrix.compiler.version == 13 && matrix.build_type == 'Debug'
+        if: runner.os == 'Linux' && matrix.GCOV != ''
         working-directory: build/${{matrix.build_type}}
         run: |
           ${{matrix.GCOV}} -j ${{env.nproc}} --delete --root ../ \
@@ -436,8 +441,8 @@ jobs:
           FEATURE_TESTS: ON
 
       - name: "Publish to codecov"
-        if: runner.os == 'Linux' && matrix.compiler.type == 'GCC' && matrix.compiler.version == 13 && matrix.build_type == 'Debug'
-        uses: codecov/codecov-action@v3
+        if: runner.os == 'Linux' && matrix.GCOV != ''
+        uses: codecov/codecov-action@v4
         with:
           flags: ${{ runner.os }}
           name: ${{ runner.os }}-coverage
@@ -450,13 +455,7 @@ jobs:
           files: |
             build/*-*Release*-*.*
 
-      - name: Publish to codecov
-        if: runner.os == 'Linux' && matrix.compiler.type == 'GCC' && matrix.compiler.version == 13 && matrix.build_type == 'Debug'
-        uses: codecov/codecov-action@v4
-        with:
-          flags: ${{ runner.os }}
-          name: ${{ runner.os }}-coverage
-          files: ./build/coverage.xml
+
 
   build:
     # if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
