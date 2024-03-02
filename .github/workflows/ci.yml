@@ -68,8 +68,6 @@ jobs:
     strategy:
       fail-fast: false
 
-
-
       # Recommendations:
       #   * support at least 2 operating systems
       #   * support at least 2 compilers
@@ -189,7 +187,7 @@ jobs:
       CXX: ${{ matrix.compiler.cxx }}
       CMAKE_GENERATOR: ${{ matrix.CMAKE_GENERATOR }}
       CMAKE_BUILD_TYPE: ${{ matrix.build_type }}
-      
+
     steps:
       - name: "🧰 Checkout Source Code"
         uses: actions/checkout@v4
@@ -225,7 +223,7 @@ jobs:
             build-${{ matrix.os }}-
 
       - name: "Setup CCache for Linux and macOS"
-        if: runner.os == 'Linux' || runner.os == 'macOS' 
+        if: runner.os == 'Linux' || runner.os == 'macOS'
         uses: hendrikmuhs/ccache-action@v1
         with:
           key: ${{ matrix.os }}--{{matrix.CMAKE_BUILD_TYPE}}
@@ -415,7 +413,7 @@ jobs:
         run: ccache --zero-stats --show-stats
 
       - name: "🐧 🧪 Tests for ${{matrix.os}}"
-        if: runner.os == 'Linux' || runner.os =='macOS'      
+        if: runner.os == 'Linux' || runner.os =='macOS'
         working-directory: build/${{matrix.build_type}}
         # Execute tests defined by the CMake configuration.
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
@@ -448,160 +446,6 @@ jobs:
           flags: ${{ runner.os }}
           name: ${{ runner.os }}-coverage
           files: ./build/coverage.xml
-
-      - name: Publish Tagged Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/') && matrix.CPACK_GENERATOR != ''
-        with:
-          files: |
-            build/*-*Release*-*.*
-
-
-
-  build:
-    # if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
-    name: "${{ matrix.formatting }} C++${{ matrix.std }} ${{ matrix.name }} ${{ matrix.build_type }}"
-    runs-on: ${{ matrix.os }}
-    needs: [tests]
-    strategy:
-      # Recommendations:
-      #   * support at least 2 operating systems
-      #   * support at least 2 compilers
-      #   * make sure all supported configurations for your project are built
-      #
-      # Disable/enable builds in this list to meet the above recommendations
-      # and your own projects needs
-      matrix:
-        std: [20, 23]
-        formatting: ["std::format", "fmtlib"]
-        config:
-          - {
-              name: "MSVC 2019",
-              os: windows-2019,
-              compiler: {type: VISUAL, version: 16, cc: "", cxx: ""},
-              conan_config: "",
-            }
-
-    # Skip any PR created by dependabot to avoid permission issues:
-    if: (github.actor != 'dependabot[bot]')
-
-    steps:
-      - name: "🧰 Checkout Source Code"
-        if: github.event_name == 'push'
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 10
-
-      - name: "⚙️ Get the version"
-        id: get_version
-        shell: bash
-        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
-
-      - name: "⚙️ Cache CMake Files"
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-cmake-files
-        with:
-          path: ~/.ccache
-          key: ${{ matrix.os }}-cmake-build-${{ hashFiles('CMakeLists.txt', '**/CMakeLists.txt', '**/*.cmake') }}
-          restore-keys: |
-            ${{ matrix.os }}-cmake-build
-            ${{ matrix.os }}
-
-      # Check if GitHub Cache has it, because that's free
-      - name: "⚙️ Using the builtin GitHub Cache Action for .conan"
-        id: github-cache-conan
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-conan-index-modules
-        with:
-          path: ${{ env.CONAN_USER_HOME }}
-          key: host-${{ runner.os }}-target-${{ runner.os }}-${{ matrix.os }}-${{ hashFiles('conanfile.py') }}
-
-      - name: "🍎 ⚙️ Install dependencies for macos"
-        if: startsWith(matrix.os,'macos')
-        run: |
-          brew install ccache ninja
-
-      - name: "🧊 ⚙️ Install dependencies for windows"
-        if: startsWith(matrix.os,'windows')
-        run: |
-          choco install png2ico ninja
-
-      - name: "🐧 ⚙️ Install dependencies for ubuntu"
-        if: startsWith(matrix.os, 'ubuntu')
-        run: |
-          sudo apt-get -y -qq update
-          sudo apt-get -y --no-install-recommends install ccache ninja-build
-
-      - name: "🐧 ⚙️ Install go-appimage tool for ubuntu"
-        if: startsWith(matrix.os, 'ubuntu')
-        # Will not use linuxdeployqt anymore, because it suopprts currently still-supported mainstream distribution,
-        # which is glibc 2.23. For more information, please see https://github.com/probonopd/linuxdeployqt/issues/340.
-        # Will try new tool https://github.com/probonopd/go-appimage written in golang by probonopd.
-        run: |
-          wget -c https://github.com/$(wget -q https://github.com/probonopd/go-appimage/releases -O - \
-          | grep "appimagetool-.*-${APPIMAGETOOL_ARCH}.AppImage" | head -n 1 | cut -d '"' -f 2) -O appimagetool
-          chmod +x appimagetool
-        env:
-          APPIMAGETOOL_ARCH: x86_64
-
-      # MacOS 10.15 - XCode version 11.7
-      # MacOS 11.1  - XCode version 12.4
-      # MacOS 11.3  - XCode version 12.5
-      # MacOS 12.0  - XCode version 13.0
-      - name: "🍎 ⚙️ Get right SDK for MacOS 11"
-        if: startsWith(matrix.os, 'macos')
-        uses: maxim-lobanov/setup-xcode@v1
-        with:
-          xcode-version: "12.5"
-
-      - name: "🧊 ⚙️ Configure MSVC"
-        if: startsWith(matrix.os, 'windows')
-        uses: ilammy/msvc-dev-cmd@v1
-        with:
-          # 14.1 is for vs2017, 14.2 is vs2019, following the upstream vcpkg build
-          toolset: 14.2
-          arch: ${{ matrix.pak_arch }}
-
-      - name: "⚙️ Install Conan"
-        uses: turtlebrowser/get-conan@main
-
-      - name: "🐧 ⚙️ Configure Conan for ubuntu"
-        if: startsWith(matrix.os, 'ubuntu')
-        run: |
-          conan profile update settings.compiler.libcxx=libstdc++11 default
-
-      - name: "⚙️ Check Tool Versions"
-        run: |
-          echo "${{ steps.conan.outputs.version }}"
-          conan    --version
-          cmake    --version
-          c++      --version
-
-      - name: "⚙️ Cache Qt"
-        id: cache-qt
-        uses: actions/cache@v1 # not v2!
-        with:
-          path: "${{ github.workspace }}/Qt"
-          key: QtCache-${{ matrix.platform }}-${{ matrix.qt_arch }}-${{ matrix.qt_version }}
-
-      - name: "⚙️ Install Qt"
-        uses: jurplel/install-qt-action@v2
-        with:
-          version: ${{ matrix.qt_version }}
-          target: ${{ matrix.qt_target }}
-          arch: ${{ matrix.qt_arch }}
-          # modules: 'qtscript'
-          cached: ${{ steps.cache-qt.outputs.cache-hit }}
-
-      - name: "⚙️ CMake Configure"
-        run: cmake --preset=default
-
-      - name: "⚙️ Create Build Environment"
-        # Some projects don't allow in-source building, so create a separate build directory
-        # We'll use this as our working directory for all subsequent commands
-        run: cmake -E make_directory ${{runner.workspace}}/build
 
       - name: "🍎 🚧 Configure cmake build"
         if: startsWith(matrix.os, 'macos')
@@ -671,7 +515,6 @@ jobs:
         run: |
           macdeployqt ${{runner.workspace}}/build/app/bin/jmbde  -qmldir=. -appstore-compliant -libpath=./app/${{env.TARGET_NAME}}.app/Contents/Frameworks -verbose=1 -dmg
           #  cp ${{runner.workspace}}/build/app/${{env.TARGET_NAME}}.dmg ${{runner.workspace}}/${{env.TARGET_NAME}}.dmg
-
           # ZIP application "%AppName%-%Version%-macOS.zip"
           #  ditto -c -k --sequesterRsrc --keepParent "bin/${{env.TARGET_NAME}}.app" ${{env.TARGET_NAME}}.zip
           # cp ./${{env.TARGET_NAME}}.zip ${{runner.workspace}}/${{env.TARGET_NAME}}.zip
@@ -773,6 +616,13 @@ jobs:
           name: ${{env.TARGET_NAME}}.AppImage
           path: |
             ${{runner.workspace}}/${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}.x86_64.AppImage
+
+      - name: Publish Tagged Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/') && matrix.CPACK_GENERATOR != ''
+        with:
+          files: |
+            build/*-*Release*-*.*
 
   flatpak-build:
     name: "🐧 Build flatpak on ubuntu-20.04"
@@ -991,7 +841,7 @@ jobs:
     needs: upload
     steps:
       - name: "🧰 Checkout Source Code"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 2
 
@@ -1036,7 +886,6 @@ jobs:
     needs:
       - flatpak-build
       - snap-build
-      - build
 
     runs-on: ubuntu-latest
 
@@ -1134,7 +983,7 @@ jobs:
 
   translate-ReadMe:
     name: "🌐 Translate ReadMe"
-    # needs: [tests, build]
+    needs: [tests]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -1172,7 +1021,7 @@ jobs:
     needs:
       - flatpak-build
       - snap-build
-      - build
+      - tests
 
     runs-on: ubuntu-latest
     steps:
