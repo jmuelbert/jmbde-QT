@@ -54,7 +54,7 @@ concurrency:
 jobs:
   tests:
     if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
-    name: ${{ matrix.toolchain }} ${{ matrix.build_type }} ${{ matrix.std }} ${{ matrix.formatting }}
+    name: "Tests ${{ matrix.toolchain }} ${{ matrix.build_type }} ${{ matrix.std }} ${{ matrix.formatting }}"
     runs-on: ${{ matrix.os }}
 
     permissions:
@@ -466,12 +466,323 @@ jobs:
           name: ${{ runner.os }}-coverage
           files: ./build/coverage.xml
 
+  
+  build:
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+    name: "Tests ${{ matrix.toolchain }} ${{ matrix.build_type }} ${{ matrix.std }} ${{ matrix.formatting }}"
+    runs-on: ${{ matrix.os }}
+
+    needs: [tests]
+    
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+
+      # Recommendations:
+      #   * support at least 2 operating systems
+      #   * support at least 2 compilers
+      #   * make sure all supported configurations for your project are built
+      #
+      # Disable/enable builds in this list to meet the above recommendations
+      # and your own projects needs
+      matrix:
+        std: [20]
+        formatting: ["std::format"]
+        build_type: ["Debug"]
+
+        toolchain:
+          - linux-clang17
+          - windows-2022-msvc
+          - macos-clang
+
+        include:
+          - toolchain: linux-clang17
+            os: ubuntu-22.04
+            compiler: {type: CLANG, version: 17, cc: "clang-17", cxx: "clang++-17"}
+            lib: "libc++"
+            cxx_modules: "True"
+            conan_config: ""
+            CMAKE_GENERATOR: "Ninja Multi-Config"
+            QT_ARCH: "gcc_64"
+            QT_HOST: linux
+            QT_ARCHIVES: ""
+            QT_MODULES: ""
+            QT_TOOLS: ""
+
+          - toolchain: windows-2022-msvc
+            os: windows-2022
+            arch: x64
+            compiler: {type: MSVC, version: 193, cc: "", cxx: ""}
+            conan_config: ""
+            msvc_toolset: "14.3"
+            CMAKE_GENERATOR: "Ninja Multi-Config"
+            QT_ARCH: "win64_msvc2019_64"
+            QT_HOST: windows
+            QT_ARCHIVES: ""
+            QT_MODULES: ""
+            QT_TOOLS: ""
+
+          - toolchain: macos-clang
+            os: macos-13
+            compiler: {type: APPLE_CLANG, version: "15.1", cc: "clang", cxx: "clang++"}
+            cxx_modules: "False"
+            conan_config: ""
+            macos_target: "12.0"
+            CMAKE_GENERATOR: "Ninja Multi-Config"
+            QT_ARCH: "clang_64"
+            QT_HOST: mac
+            QT_ARCHIVES: ""
+            QT_MODULES: ""
+            QT_TOOLS: ""
+
+    env:
+      CC: ${{ matrix.compiler.cc }}
+      CXX: ${{ matrix.compiler.cxx }}
+      CMAKE_GENERATOR: ${{ matrix.CMAKE_GENERATOR }}
+      CMAKE_BUILD_TYPE: ${{ matrix.build_type }}
+
+    steps:
+      - name: "🧰 Checkout Source Code"
+        uses: actions/checkout@v4
+
+      - name: "⚙️ Get the version"
+        id: get_version
+        shell: bash
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+
+      - name: "🧰 Setup Cache-ID with date for unix-like systems"
+        if: startsWith(matrix.os, 'ubuntu') || startsWith(matrix.os,'macos')
+        run: echo "cache_id=$(/bin/date -u "+%Y%m%d")" >> $GITHUB_ENV
+
+      - name: "🧰 Setup Cache-ID with date for windows systems"
+        if: startsWith(matrix.os, 'windows')
+        run: echo "cache_id=$(Get-Date -Format "%yyyy%m%d")" >> $GITHUB_ENV
+
+      - name: "⚙️️ Cache conan data"
+        uses: actions/cache@v4
+        if: always()
+        env:
+          cache-name: cache-conan-data
+        with:
+          path: ~/.conan2/p
+          key: build-${{ matrix.os }}-${{ matrix.formatting }}-${{ matrix.compiler.type }}-${{ matrix.lib }}-${{ matrix.build_type }}-${{ matrix.compiler.version }}-${{ matrix.std }}-${{ env.cache_id }}
+          restore-keys: |
+            build-${{ matrix.os }}-${{ matrix.formatting }}-${{ matrix.compiler.type }}-${{ matrix.lib }}-${{ matrix.build_type }}-${{ matrix.compiler.version }}-${{ matrix.std }}-
+            build-${{ matrix.os }}-${{ matrix.formatting }}-${{ matrix.compiler.type }}-${{ matrix.lib }}-${{ matrix.build_type }}-${{ matrix.compiler.version }}-
+            build-${{ matrix.os }}-${{ matrix.formatting }}-${{ matrix.compiler.type }}-${{ matrix.lib }}-${{ matrix.build_type }}-
+            build-${{ matrix.os }}-${{ matrix.formatting }}-${{ matrix.compiler.type }}-${{ matrix.lib }}-
+            build-${{ matrix.os }}-${{ matrix.formatting }}-${{ matrix.compiler.type }}-
+            build-${{ matrix.os }}-${{ matrix.formatting }}-
+            build-${{ matrix.os }}-
+
+      - name: "Setup CCache for Linux and macOS"
+        if: startsWith(matrix.os, 'ubuntu') || startsWith(matrix.os,'macos')
+        uses: hendrikmuhs/ccache-action@v1
+        with:
+          key: ${{ matrix.os }}--{{matrix.CMAKE_BUILD_TYPE}}
+          max-size: 50M
+
+      - name: "🧰 Install Clang"
+        if: startsWith(matrix.os, 'ubuntu')  && matrix.compiler.type == 'CLANG'
+        shell: bash
+        working-directory: ${{ env.HOME }}
+        run: |
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh ${{ matrix.compiler.version }}        
+          sudo apt-get update && DEBIAN_FRONTEND=--noninteractive \
+          sudo apt-get --no-install-recommends --assume-yes install \
+          clang-tools-${{ matrix.compiler.version }}
+  
+      - name: "🧰 libc++"
+        if: startsWith(matrix.os, 'ubuntu')  && matrix.compiler.type == 'CLANG'  && matrix.lib == 'libc++'
+        shell: bash
+        run: |
+          sudo apt-get update && DEBIAN_FRONTEND=--noninteractive \
+          sudo apt-get --no-install-recommends --assume-yes install \
+          libc++-${{ matrix.compiler.version }}-dev \
+          libc++abi-${{ matrix.compiler.version }}-dev \
+          libunwind-${{ matrix.compiler.version }}-dev          
+
+      - name: "🐧 ⚙️ Select Xcode version"
+        if: matrix.compiler.type == 'APPLE_CLANG'
+        shell: bash
+        run: |
+          sudo xcode-select -s /Applications/Xcode_${{ matrix.compiler.version }}.app && /usr/bin/xcodebuild -version
+  
+      - name: "Setup MSVC Version ${{ matrix.msvc_toolset }} - ${{ matrix.arch }}"
+        if: startsWith(matrix.os, 'windows')
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: ${{ matrix.arch }}
+          toolset: ${{ matrix.msvc_toolset }}
+  
+      - name: "🍎 ⚙️ Install dependencies for macos"
+        if: startsWith(matrix.os,'macos')
+        run: |
+          brew install ccache
+  
+      - name: "🧊 ⚙️ Install dependencies for windows"
+        if: startsWith(matrix.os,'windows')
+        run: |
+          choco install png2ico
+  
+      - name: "🟨 Setup Python"
+        uses: actions/setup-python@v5
+        with:
+          # Read python version from a file .python-version
+          python-version-file: ".python-version"
+          # check-latest: true
+          cache: pip
+  
+      - name: "Update pip"
+        shell: bash
+        run: |
+          pip install --upgrade pip
+  
+      - name: "🧰 Install Ninja"
+        shell: bash
+        run: |
+          pip install --upgrade ninja
+  
+      - name: "🧰 Setup Conan"
+        run: |
+          pip install --upgrade conan
+  
+      - name: "🐧 ⚙️ Install go-appimage tool for ubuntu"
+        if: startsWith(matrix.os, 'ubuntu') && matrix.build_type == 'Release'
+        run: |
+          pip3 install appimage-builder
+  
+      - name: "Configure Conan"
+        shell: bash
+        run: |
+          conan profile detect --force
+          if [[ "${{ matrix.compiler.type }}" == "CLANG" ]]; then
+            sed -i.backup '/^\[settings\]$/,/^\[/ s/^compiler.libcxx=.*/compiler.libcxx=${{ matrix.lib }}/' ~/.conan2/profiles/default
+          fi
+          sed -i.backup '/^\[settings\]$/,/^\[/ s/^compiler.cppstd=.*/compiler.cppstd=${{ matrix.std }}/' ~/.conan2/profiles/default
+          sed -i.backup '/^\[settings\]$/,/^\[/ s/^build_type=.*/build_type=${{ matrix.build_type }}/' ~/.conan2/profiles/default
+          conan profile show -pr default
+  
+      - name: "🧰 Install Qt Version ${{ env.QT_VERSION }}"
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: ${{ env.QT_VERSION }}
+          host: ${{ matrix.QT_HOST}}
+          target: "desktop"
+          arch: ${{ matrix.QT_ARCH }}
+          dir: "${{ env.QT_INSTALL_PREFIX}}"
+          install-deps: "true"
+          modules: ${{ matrix.QT_MODULES }}
+          archives: ${{ matrix.QT_ARCHIVES }}
+          cache: "true"
+          cache-key-prefix: "${{ runner.os }}-install-qt-action"
+          setup-python: "false"
+          tools: ${{ matrix.QT_TOOLS }}
+          set-env: "true"
+          tools-only: "false"
+  
+      - name: restore ccache
+        if: startsWith(matrix.os, 'ubuntu') || startsWith(matrix.os,'macos')
+        uses: pat-s/always-upload-cache@v3.0.11
+        with:
+          path: ${{ github.workspace }}/ccache
+          key: ccache-${{matrix.os}}-${{matrix.compiler}}-${{ env.QT_VERSION }}-${{ github.sha }}
+          restore-keys: ccache-${{matrix.os}}-${{matrix.compiler}}-${{ env.QT_VERSION }}
+  
+      - name: check ccache stats prior to build
+        if: startsWith(matrix.os, 'ubuntu') || startsWith(matrix.os,'macos')
+        run: ccache --zero-stats --show-stats
+  
+      - name: "Add GCC problem matcher"
+        if: startsWith(matrix.os, 'ubuntu') && matrix.compiler.type == 'GCC'
+        uses: ammaraskar/gcc-problem-matcher@master
+  
+      - name: "Add MSVC problem matcher"
+        if: startsWith(matrix.os, 'windows') && matrix.compiler.type == 'MSVC'
+        uses: ammaraskar/msvc-problem-matcher@0.3.0
+  
+      - name: "🧰 Let Conan generate Deps"
+        run: |
+          conan install . --build=missing --settings=build_type=${{matrix.build_type}}
+        env:
+          CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
+          CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
+  
+      - name: "🍎 🚧 Configure CMake build for ${{matrix.os}}"
+        if: startsWith(matrix.os,'macos')
+        shell: bash
+        run: |
+          cmake -S . -B build/${{matrix.build_type}} \
+            -DCMAKE_TOOLCHAIN_FILE=generators/conan_toolchain.cmake \
+            -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
+            -DCMAKE_OSX_DEPLOYMENT_TARGET=${{ matrix.macos_target }} \
+            -DCMAKE_INSTALL_PREFIX:PATH=./app
+          env:
+            CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
+            CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
+  
+      - name: "🍎 🚧 Configure CMake build for Linux}"
+        if: startsWith(matrix.os,'ubuntu')
+        shell: bash
+        run: |
+          APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
+          mkdir -p ${APPIMAGE_DST_PATH}
+          cmake -S . -B build/${{matrix.build_type}} \
+            -DCMAKE_TOOLCHAIN_FILE=generators/conan_toolchain.cmake \
+            -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
+            -DCMAKE_INSTALL_PREFIX:PATH="${APPIMAGE_DST_PATH}/usr"
+          env:
+            CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
+            CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
+  
+      - name: "🧊 🚧 Configure CMake build for Windows"
+        if: startsWith(matrix.os, 'windows')
+        shell: bash
+        run: |
+          cmake -S . -B "build" \
+           -DCMAKE_TOOLCHAIN_FILE="generators/conan_toolchain.cmake" \
+           -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
+           -DCMAKE_INSTALL_PREFIX:PATH=./programs
+          env:
+            CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
+            CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
+  
+      - name: "🍎 🐧 🚧 Build and Install"
+        if: startsWith(matrix.os, 'ubuntu') || startsWith(matrix.os,'macos')
+        shell: bash
+         # Execute the build.  You can specify a specific target with "--target <NAME>"
+         run: |
+          cmake --build build/${{matrix.build_type}} \
+            --config ${{matrix.build_type}} \
+            --target install \
+            --parallel $(sysctl -n hw.logicalcpu)
+  
+      - name: "🧊 🚧 Build and Install"
+        if: startsWith(matrix.os, 'windows')
+        shell: bash
+        # Execute the build.  You can specify a specific target with "--target <NAME>"
+        run: |
+          cmake --build build \
+            --config ${{matrix.build_type}} \
+            --target install \
+            --parallel $(nproc)
+  
+      - name: "Check ccache stats prior to build for ${{matrix.os}}"
+        if: startsWith(matrix.os, 'ubuntu') || startsWith(matrix.os,'macos')
+        run: ccache --zero-stats --show-stats
+
       - name: "🍎 📦 Package application (macdeployqt and zipfile)"
         if: startsWith(matrix.os,'macos')
-        working-directory: ${{runner.workspace}}/build
+        working-directory: ${{runner.workspace}}/build/${{matrix.build_type}}
         run: |
-          macdeployqt ${{runner.workspace}}/build/app/bin/jmbde  -qmldir=. -appstore-compliant -libpath=./app/${{env.TARGET_NAME}}.app/Contents/Frameworks -verbose=1 -dmg
-          #  cp ${{runner.workspace}}/build/app/${{env.TARGET_NAME}}.dmg ${{runner.workspace}}/${{env.TARGET_NAME}}.dmg
+          macdeployqt ${{runner.workspace}}/build/${{matrix.build_type}}/app/bin/jmbde  -qmldir=. -appstore-compliant -libpath=./app/${{env.TARGET_NAME}}.app/Contents/Frameworks -verbose=1 -dmg
+          #  cp ${{runner.workspace}}/build/${{matrix.build_type}}/app/${{env.TARGET_NAME}}.dmg ${{runner.workspace}}/${{env.TARGET_NAME}}.dmg
           # ZIP application "%AppName%-%Version%-macOS.zip"
           #  ditto -c -k --sequesterRsrc --keepParent "bin/${{env.TARGET_NAME}}.app" ${{env.TARGET_NAME}}.zip
           # cp ./${{env.TARGET_NAME}}.zip ${{runner.workspace}}/${{env.TARGET_NAME}}.zip
@@ -550,7 +861,7 @@ jobs:
 
       - name: "🐧 📦 Create AppImage"
         if: startsWith(matrix.os, 'ubuntu')
-        working-directory: ${{runner.workspace}}/build
+        working-directory: ${{runner.workspace}}/build/${{matrix.build_type}}
         shell: bash
         run: |
           APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
