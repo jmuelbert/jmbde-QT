@@ -131,6 +131,7 @@ jobs:
             lib: "libc++"
             cxx_modules: "True"
             conan_config: ""
+            build_type: "Release"
             CMAKE_GENERATOR: "Ninja Multi-Config"
             QT_ARCH: "gcc_64"
             QT_HOST: linux
@@ -217,14 +218,14 @@ jobs:
             build-${{ matrix.os }}-
 
       - name: "Setup CCache for Linux and macOS"
-        if: runner.os == 'Linux' || runner.os == 'macOS'
+        if: startsWith(matrix.os, 'ubuntu') || startsWith(matrix.os,'macos')
         uses: hendrikmuhs/ccache-action@v1
         with:
           key: ${{ matrix.os }}--{{matrix.CMAKE_BUILD_TYPE}}
           max-size: 50M
 
       - name: "🧰 Install gcc-13"
-        if: runner.os == 'Linux' && matrix.compiler.type == 'GCC' && matrix.compiler.version == '13'
+        if: startsWith(matrix.os, 'ubuntu')  && matrix.compiler.type == 'GCC' && matrix.compiler.version == '13'
         shell: bash
         run: |
           sudo apt-get update && DEBIAN_FRONTEND=--noninteractive \
@@ -232,7 +233,7 @@ jobs:
           g++-${{ matrix.compiler.version }}
 
       - name: "🧰 Install Clang"
-        if: runner.os == 'Linux' && matrix.compiler.type == 'CLANG'
+        if: startsWith(matrix.os, 'ubuntu')  && matrix.compiler.type == 'CLANG'
         shell: bash
         working-directory: ${{ env.HOME }}
         run: |
@@ -244,7 +245,7 @@ jobs:
           clang-tools-${{ matrix.compiler.version }}
 
       - name: "🧰 libc++"
-        if: runner.os == 'Linux' && matrix.compiler.type == 'CLANG'  && matrix.lib == 'libc++'
+        if: startsWith(matrix.os, 'ubuntu')  && matrix.compiler.type == 'CLANG'  && matrix.lib == 'libc++'
         shell: bash
         run: |
           sudo apt-get update && DEBIAN_FRONTEND=--noninteractive \
@@ -254,7 +255,7 @@ jobs:
           libunwind-${{ matrix.compiler.version }}-dev
 
       - name: "🧰 gcovr"
-        if: runner.os == 'Linux' && matrix.GCOV != ''
+        if: startsWith(matrix.os, 'ubuntu')  && matrix.GCOV != ''
         shell: bash
         run: |
           sudo apt-get update && DEBIAN_FRONTEND=--noninteractive \
@@ -268,7 +269,7 @@ jobs:
           sudo xcode-select -s /Applications/Xcode_${{ matrix.compiler.version }}.app && /usr/bin/xcodebuild -version
 
       - name: Setup MSVC (${{ matrix.arch }})
-        if: runner.os == 'Windows'
+        if: startsWith(matrix.os, 'windows')
         uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: ${{ matrix.arch }}
@@ -341,7 +342,7 @@ jobs:
           tools-only: "false"
 
       - name: restore ccache
-        if: runner.os == 'Linux' || runner.os =='macOS'
+        if: startsWith(matrix.os, 'ubuntu') || startsWith(matrix.os,'macos')
         uses: pat-s/always-upload-cache@v3.0.11
         with:
           path: ${{ github.workspace }}/ccache
@@ -349,15 +350,15 @@ jobs:
           restore-keys: ccache-${{matrix.os}}-${{matrix.compiler}}-${{ env.QT_VERSION }}
 
       - name: check ccache stats prior to build
-        if: runner.os == 'Linux' || runner.os =='macOS'
+        if: startsWith(matrix.os, 'ubuntu') || startsWith(matrix.os,'macos')
         run: ccache --zero-stats --show-stats
 
       - name: "Add GCC problem matcher"
-        if: runner.os == 'Linux' && matrix.compiler.type == 'GCC'
+        if: startsWith(matrix.os, 'ubuntu') && matrix.compiler.type == 'GCC'
         uses: ammaraskar/gcc-problem-matcher@master
 
       - name: "Add MSVC problem matcher"
-        if: runner.os == 'Windows'
+        if: startsWith(matrix.os, 'windows') && matrix.compiler.type == 'MSVC'
         uses: ammaraskar/msvc-problem-matcher@0.3.0
 
       - name: "🧰 Let Conan generate Deps"
@@ -367,47 +368,71 @@ jobs:
           CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
           CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
 
-      - name: "Configure CMake for ${{matrix.os}}"
-        if: runner.os == 'Linux' || runner.os =='macOS'
+      - name: "🍎 🚧 Configure CMake build for ${{matrix.os}}"
+        if: startsWith(matrix.os,'macos')
         shell: bash
         run: |
-          cmake -S . -B build/${{matrix.build_type}} -DCMAKE_TOOLCHAIN_FILE=generators/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
-
+          cmake -S . -B build/${{matrix.build_type}} \
+           -DCMAKE_TOOLCHAIN_FILE=generators/conan_toolchain.cmake \
+           -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
+           -DCMAKE_OSX_DEPLOYMENT_TARGET=${{ matrix.macos_target }} \
+           -DCMAKE_INSTALL_PREFIX:PATH=./app
         env:
           CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
           CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
-          FEATURE_TESTS: ON
 
-      - name: "Configure CMake for ${{matrix.os}}"
-        if: runner.os == 'Windows'
-        shell: pwsh
+      - name: "🍎 🚧 Configure CMake build for Linux}"
+        if: startsWith(matrix.os,'ubuntu')
+        shell: bash
         run: |
-          cmake -S . -B "build" -DCMAKE_TOOLCHAIN_FILE="generators/conan_toolchain.cmake" -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
+          APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
+          mkdir -p ${APPIMAGE_DST_PATH}
+          cmake -S . -B build/${{matrix.build_type}} \
+            -DCMAKE_TOOLCHAIN_FILE=generators/conan_toolchain.cmake \
+            -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
+            -DCMAKE_INSTALL_PREFIX:PATH="${APPIMAGE_DST_PATH}/usr"
         env:
           CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
           CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
-          FEATURE_TESTS: ON
 
-      - name: "🚧 Build for ${{matrix.os}}"
-        if: runner.os == 'Linux' || runner.os =='macOS'
+      - name: "🧊 🚧 Configure CMake build for Windows"
+        if: startsWith(matrix.os, 'windows')
+        shell: bash
+        run: |
+          cmake -S . -B "build" \
+           -DCMAKE_TOOLCHAIN_FILE="generators/conan_toolchain.cmake" \
+           -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
+           -DCMAKE_INSTALL_PREFIX:PATH=./programs
+        env:
+          CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
+          CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
+
+      - name: "🍎 🐧 🚧 Build and Install"
+        if: startsWith(matrix.os, 'ubuntu') || startsWith(matrix.os,'macos')
         shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
         run: |
-          cmake --build build/${{matrix.build_type}}  --config ${{matrix.build_type}}
+          cmake --build build/${{matrix.build_type}} \
+            --config ${{matrix.build_type}} \
+            --target install \
+            --parallel $(sysctl -n hw.logicalcpu)
 
-      - name: "🚧 Build for ${{matrix.os}}"
-        if: runner.os == 'Windows'
+      - name: "🧊 🚧 Build and Install"
+        if: startsWith(matrix.os, 'windows')
         shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
         run: |
-          cmake --build build --config ${{matrix.build_type}}
+          cmake --build build \
+            --config ${{matrix.build_type}} \
+            --target install \
+            --parallel $(nproc)
 
       - name: "Check ccache stats prior to build for ${{matrix.os}}"
-        if: runner.os == 'Linux' || runner.os =='macOS'
+        if: startsWith(matrix.os, 'ubuntu') || startsWith(matrix.os,'macos')
         run: ccache --zero-stats --show-stats
 
       - name: "🐧 🧪 Tests for ${{matrix.os}}"
-        if: runner.os == 'Linux' || runner.os =='macOS'
+        if: startsWith(matrix.os, 'ubuntu') || startsWith(matrix.os,'macos')
         working-directory: build/${{matrix.build_type}}
         # Execute tests defined by the CMake configuration.
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
@@ -415,7 +440,7 @@ jobs:
           ctest -C ${{matrix.build_type}}
 
       - name: "🐧 🧪 Tests for ${{matrix.os}}"
-        if: runner.os == 'Windows'
+        if: startsWith(matrix.os, 'windows')
         working-directory: build/${{matrix.build_type}}
         # Execute tests defined by the CMake configuration.
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
@@ -423,7 +448,7 @@ jobs:
           ctest -C ${{matrix.build_type}}
 
       - name: "🐧 🧪 Coverage"
-        if: runner.os == 'Linux' && matrix.GCOV != ''
+        if: startsWith(matrix.os, 'ubuntu') && matrix.GCOV != ''
         working-directory: build/${{matrix.build_type}}
         run: |
           ${{matrix.GCOV}} -j ${{env.nproc}} --delete --root ../ \
@@ -434,74 +459,12 @@ jobs:
           FEATURE_TESTS: ON
 
       - name: "Publish to codecov"
-        if: runner.os == 'Linux' && matrix.GCOV != ''
+        if: startsWith(matrix.os, 'ubuntu') && matrix.GCOV != ''
         uses: codecov/codecov-action@v4
         with:
           flags: ${{ runner.os }}
           name: ${{ runner.os }}-coverage
           files: ./build/coverage.xml
-
-      - name: "🍎 🚧 Configure cmake build"
-        if: startsWith(matrix.os, 'macos')
-        # Use a bash shell so we can use the same syntax for environment variable
-        # access regardless of the host operating system
-        shell: bash
-        working-directory: ${{runner.workspace}}/build
-        # Note the current convention is to use the -S and -B options here to specify source
-        # and build directories, but this is only available with CMake 3.13 and higher.
-        # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
-        run: |
-          cmake $GITHUB_WORKSPACE \
-            -G ${{matrix.cmake_generator}} \
-            -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
-            -DCMAKE_OSX_DEPLOYMENT_TARGET=${{ matrix.macos_target }} \
-            -DCMAKE_INSTALL_PREFIX:PATH=./app \
-            -DBUILD_TESTING=OFF  \
-            -DBUILD_TRANSLATIONS=ON \
-
-      - name: "🧊 🚧 Configure cmake build"
-        if: startsWith(matrix.os, 'windows')
-        shell: bash
-        working-directory: ${{runner.workspace}}/build
-        run: |
-          cmake $GITHUB_WORKSPACE \
-            -G ${{ matrix.cmake_generator }} \
-            -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}  \
-            -DCMAKE_INSTALL_PREFIX:PATH=./programs \
-            -DBUILD_TESTING=OFF  \
-            -DBUILD_TRANSLATIONS=ON
-
-      - name: "🐧 🚧 Configure cmake build"
-        if: startsWith(matrix.os, 'ubuntu')
-        working-directory: ${{runner.workspace}}/build
-        shell: bash
-        env:
-          CC: ${{ matrix.cc}}
-          CXX: ${{ matrix.cxx}}
-        run: |
-          APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
-          mkdir -p ${APPIMAGE_DST_PATH}
-          cmake $GITHUB_WORKSPACE \
-              -G ${{matrix.cmake_generator}} \
-              -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE}} \
-              -DCMAKE_INSTALL_PREFIX:PATH="${APPIMAGE_DST_PATH}/usr" \
-              -DBUILD_TESTING=OFF \
-              -DBUILD_TRANSLATIONS=ON
-
-      - name: "🍎 🐧 🚧 Build and Install"
-        if: startsWith(matrix.os,'macos') || startsWith(matrix.os, 'ubuntu')
-        working-directory: ${{runner.workspace}}/build
-        shell: bash
-        # Execute the build.  You can specify a specific target with "--target <NAME>"
-        run: |
-          cmake --build . --target install 
-          # --parallel $(sysctl -n hw.logicalcpu)
-
-      - name: "🧊 🚧 Build and Install"
-        if: startsWith(matrix.os,'windows')
-        shell: pwsh
-        working-directory: ${{runner.workspace}}/build
-        run: cmake --build . --config ${{ env.BUILD_TYPE }} --target install --parallel $(nproc)
 
       - name: "🍎 📦 Package application (macdeployqt and zipfile)"
         if: startsWith(matrix.os,'macos')
