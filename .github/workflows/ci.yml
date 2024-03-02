@@ -131,7 +131,6 @@ jobs:
             lib: "libc++"
             cxx_modules: "True"
             conan_config: ""
-            build_type: "Release"
             CMAKE_GENERATOR: "Ninja Multi-Config"
             QT_ARCH: "gcc_64"
             QT_HOST: linux
