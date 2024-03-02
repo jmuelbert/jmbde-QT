@@ -466,14 +466,13 @@ jobs:
           name: ${{ runner.os }}-coverage
           files: ./build/coverage.xml
 
-  
   build:
     if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
     name: "Tests ${{ matrix.toolchain }} ${{ matrix.build_type }} ${{ matrix.std }} ${{ matrix.formatting }}"
     runs-on: ${{ matrix.os }}
 
     needs: [tests]
-    
+
     permissions:
       actions: read
       contents: read
@@ -597,7 +596,7 @@ jobs:
           sudo apt-get update && DEBIAN_FRONTEND=--noninteractive \
           sudo apt-get --no-install-recommends --assume-yes install \
           clang-tools-${{ matrix.compiler.version }}
-  
+
       - name: "🧰 libc++"
         if: startsWith(matrix.os, 'ubuntu')  && matrix.compiler.type == 'CLANG'  && matrix.lib == 'libc++'
         shell: bash
@@ -606,31 +605,31 @@ jobs:
           sudo apt-get --no-install-recommends --assume-yes install \
           libc++-${{ matrix.compiler.version }}-dev \
           libc++abi-${{ matrix.compiler.version }}-dev \
-          libunwind-${{ matrix.compiler.version }}-dev          
+          libunwind-${{ matrix.compiler.version }}-dev
 
       - name: "🐧 ⚙️ Select Xcode version"
         if: matrix.compiler.type == 'APPLE_CLANG'
         shell: bash
         run: |
           sudo xcode-select -s /Applications/Xcode_${{ matrix.compiler.version }}.app && /usr/bin/xcodebuild -version
-  
+
       - name: "Setup MSVC Version ${{ matrix.msvc_toolset }} - ${{ matrix.arch }}"
         if: startsWith(matrix.os, 'windows')
         uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: ${{ matrix.arch }}
           toolset: ${{ matrix.msvc_toolset }}
-  
+
       - name: "🍎 ⚙️ Install dependencies for macos"
         if: startsWith(matrix.os,'macos')
         run: |
           brew install ccache
-  
+
       - name: "🧊 ⚙️ Install dependencies for windows"
         if: startsWith(matrix.os,'windows')
         run: |
           choco install png2ico
-  
+
       - name: "🟨 Setup Python"
         uses: actions/setup-python@v5
         with:
@@ -638,26 +637,26 @@ jobs:
           python-version-file: ".python-version"
           # check-latest: true
           cache: pip
-  
+
       - name: "Update pip"
         shell: bash
         run: |
           pip install --upgrade pip
-  
+
       - name: "🧰 Install Ninja"
         shell: bash
         run: |
           pip install --upgrade ninja
-  
+
       - name: "🧰 Setup Conan"
         run: |
           pip install --upgrade conan
-  
+
       - name: "🐧 ⚙️ Install go-appimage tool for ubuntu"
         if: startsWith(matrix.os, 'ubuntu') && matrix.build_type == 'Release'
         run: |
           pip3 install appimage-builder
-  
+
       - name: "Configure Conan"
         shell: bash
         run: |
@@ -668,7 +667,7 @@ jobs:
           sed -i.backup '/^\[settings\]$/,/^\[/ s/^compiler.cppstd=.*/compiler.cppstd=${{ matrix.std }}/' ~/.conan2/profiles/default
           sed -i.backup '/^\[settings\]$/,/^\[/ s/^build_type=.*/build_type=${{ matrix.build_type }}/' ~/.conan2/profiles/default
           conan profile show -pr default
-  
+
       - name: "🧰 Install Qt Version ${{ env.QT_VERSION }}"
         uses: jurplel/install-qt-action@v3
         with:
@@ -686,7 +685,7 @@ jobs:
           tools: ${{ matrix.QT_TOOLS }}
           set-env: "true"
           tools-only: "false"
-  
+
       - name: restore ccache
         if: startsWith(matrix.os, 'ubuntu') || startsWith(matrix.os,'macos')
         uses: pat-s/always-upload-cache@v3.0.11
@@ -694,26 +693,26 @@ jobs:
           path: ${{ github.workspace }}/ccache
           key: ccache-${{matrix.os}}-${{matrix.compiler}}-${{ env.QT_VERSION }}-${{ github.sha }}
           restore-keys: ccache-${{matrix.os}}-${{matrix.compiler}}-${{ env.QT_VERSION }}
-  
+
       - name: check ccache stats prior to build
         if: startsWith(matrix.os, 'ubuntu') || startsWith(matrix.os,'macos')
         run: ccache --zero-stats --show-stats
-  
+
       - name: "Add GCC problem matcher"
         if: startsWith(matrix.os, 'ubuntu') && matrix.compiler.type == 'GCC'
         uses: ammaraskar/gcc-problem-matcher@master
-  
+
       - name: "Add MSVC problem matcher"
         if: startsWith(matrix.os, 'windows') && matrix.compiler.type == 'MSVC'
         uses: ammaraskar/msvc-problem-matcher@0.3.0
-  
+
       - name: "🧰 Let Conan generate Deps"
         run: |
           conan install . --build=missing --settings=build_type=${{matrix.build_type}}
         env:
           CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
           CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
-  
+
       - name: "🍎 🚧 Configure CMake build for ${{matrix.os}}"
         if: startsWith(matrix.os,'macos')
         shell: bash
@@ -726,7 +725,7 @@ jobs:
           env:
             CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
             CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
-  
+
       - name: "🍎 🚧 Configure CMake build for Linux}"
         if: startsWith(matrix.os,'ubuntu')
         shell: bash
@@ -740,7 +739,7 @@ jobs:
           env:
             CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
             CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
-  
+
       - name: "🧊 🚧 Configure CMake build for Windows"
         if: startsWith(matrix.os, 'windows')
         shell: bash
@@ -752,17 +751,18 @@ jobs:
           env:
             CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
             CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
-  
+
       - name: "🍎 🐧 🚧 Build and Install"
         if: startsWith(matrix.os, 'ubuntu') || startsWith(matrix.os,'macos')
-        shell: bash
-         # Execute the build.  You can specify a specific target with "--target <NAME>"
-         run: |
+        shell:
+          bash
+          # Execute the build.  You can specify a specific target with "--target <NAME>"
+        run: |
           cmake --build build/${{matrix.build_type}} \
             --config ${{matrix.build_type}} \
             --target install \
             --parallel $(sysctl -n hw.logicalcpu)
-  
+
       - name: "🧊 🚧 Build and Install"
         if: startsWith(matrix.os, 'windows')
         shell: bash
@@ -772,7 +772,7 @@ jobs:
             --config ${{matrix.build_type}} \
             --target install \
             --parallel $(nproc)
-  
+
       - name: "Check ccache stats prior to build for ${{matrix.os}}"
         if: startsWith(matrix.os, 'ubuntu') || startsWith(matrix.os,'macos')
         run: ccache --zero-stats --show-stats
