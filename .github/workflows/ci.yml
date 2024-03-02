@@ -56,9 +56,6 @@ jobs:
     if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
     name: ${{ matrix.toolchain }} ${{ matrix.build_type }} ${{ matrix.std }} ${{ matrix.formatting }}
     runs-on: ${{ matrix.os }}
-    needs:
-      - cmake-format
-      - clang-format
 
     permissions:
       actions: read
@@ -79,6 +76,7 @@ jobs:
         std: [20]
         formatting: ["std::format"]
         build_type: ["Debug"]
+
         toolchain:
           - linux-gcc12
           - linux-gcc13
@@ -120,7 +118,6 @@ jobs:
             lib: "libc++"
             cxx_modules: "False"
             conan_config: ""
-            GCOV: "llvm-cov gcovr"
             CMAKE_GENERATOR: "Ninja Multi-Config"
             QT_ARCH: "gcc_64"
             QT_HOST: linux
@@ -134,7 +131,6 @@ jobs:
             lib: "libc++"
             cxx_modules: "True"
             conan_config: ""
-            build_type: ["Debug", "Release"]
             CMAKE_GENERATOR: "Ninja Multi-Config"
             QT_ARCH: "gcc_64"
             QT_HOST: linux
@@ -161,7 +157,6 @@ jobs:
             compiler: {type: MSVC, version: 193, cc: "", cxx: ""}
             conan_config: ""
             msvc_toolset: "14.3"
-            build_type: ["Debug", "Release"]
             CMAKE_GENERATOR: "Ninja Multi-Config"
             QT_ARCH: "win64_msvc2019_64"
             QT_HOST: windows
@@ -174,7 +169,6 @@ jobs:
             compiler: {type: APPLE_CLANG, version: "15.1", cc: "clang", cxx: "clang++"}
             cxx_modules: "False"
             conan_config: ""
-            build_type: ["Debug", "Release"]
             CMAKE_GENERATOR: "Ninja Multi-Config"
             QT_ARCH: "clang_64"
             QT_HOST: mac
@@ -768,6 +762,8 @@ jobs:
       issues: write
       pull-requests: write
 
+    needs: [tests]
+
     steps:
       - name: "🧰 Checkout"
         uses: actions/checkout@v4
@@ -800,6 +796,7 @@ jobs:
       issues: write
       pull-requests: write
 
+    needs: [tests]
     strategy:
       fail-fast: false
 
