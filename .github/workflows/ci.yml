@@ -64,8 +64,11 @@ jobs:
       actions: read
       contents: read
       security-events: write
+
     strategy:
       fail-fast: false
+
+
 
       # Recommendations:
       #   * support at least 2 operating systems
@@ -186,10 +189,7 @@ jobs:
       CXX: ${{ matrix.compiler.cxx }}
       CMAKE_GENERATOR: ${{ matrix.CMAKE_GENERATOR }}
       CMAKE_BUILD_TYPE: ${{ matrix.build_type }}
-
-    # Skip any PR created by dependabot to avoid permission issues:
-    if: (github.actor != 'dependabot[bot]')
-
+      
     steps:
       - name: "🧰 Checkout Source Code"
         uses: actions/checkout@v4
@@ -225,7 +225,7 @@ jobs:
             build-${{ matrix.os }}-
 
       - name: "Setup CCache for Linux and macOS"
-        if: runner.os == 'Linux' || runner.os == "macOS" 
+        if: runner.os == 'Linux' || runner.os == 'macOS' 
         uses: hendrikmuhs/ccache-action@v1
         with:
           key: ${{ matrix.os }}--{{matrix.CMAKE_BUILD_TYPE}}
