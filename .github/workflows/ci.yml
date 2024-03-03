@@ -821,7 +821,7 @@ jobs:
         env:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.qt_arch }}
         run: |
-          Compress-Archive -Path ${{ env.archiveName}}/bin -DestinationPath ${{GITHUB_WORKSPACE}}/${{ env.archiveName}}.'zip'
+          Compress-Archive -Path ${{ env.archiveName}}/bin -DestinationPath $GITHUB_WORKSPACE/${{ env.archiveName}}.'zip'
 
       - name: "🧊 📤 Upload Zip archive"
         if: startsWith(matrix.os,'windows')
@@ -830,12 +830,12 @@ jobs:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.qt_arch }}
         with:
           name: ${{ env.TARGET_NAME}}-win-zip
-          path: ${{GITHUB_WORKSPACE}}/${{ env.archiveName}}.'zip'
+          path: $GITHUB_WORKSPACE/${{ env.archiveName}}.'zip'
 
       - name: "🧊 📦 Make ISS-Installer for ${{ env.QT_VERSION }}"
         if: startsWith(matrix.os,'windows')
         shell: bash
-        working-directory: ${{GITHUB_WORKSPACE}}//build
+        working-directory: $GITHUB_WORKSPACE//build
         env:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.qt_arch }}
         run: |
@@ -857,11 +857,11 @@ jobs:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.qt_arch }}
         with:
           name: ${{ env.TARGET_NAME}}-win
-          path: ${{GITHUB_WORKSPACE}}//${{ env.archiveName}}.exe
+          path: $GITHUB_WORKSPACE//${{ env.archiveName}}.exe
 
       - name: "🐧 📦 Create AppImage"
         if: startsWith(matrix.os, 'ubuntu')
-        working-directory: ${{GITHUB_WORKSPACE}}//build/${{matrix.build_type}}
+        working-directory: $GITHUB_WORKSPACE//build/${{matrix.build_type}}
         shell: bash
         run: |
           APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
@@ -883,7 +883,7 @@ jobs:
         with:
           name: ${{env.TARGET_NAME}}.AppImage
           path: |
-            ${{GITHUB_WORKSPACE}}/${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}.x86_64.AppImage
+            $GITHUB_WORKSPACE/${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}.x86_64.AppImage
 
       - name: Publish Tagged Release
         uses: softprops/action-gh-release@v1
