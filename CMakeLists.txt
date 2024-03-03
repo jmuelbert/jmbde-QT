@@ -98,7 +98,7 @@ if(BUILD_PCH)
 endif()
 
 # the jmde-widgets version
-ecm_optional_add_subdirectory(apps)
+ecm_optional_add_subdirectory(app)
 # all libs
 add_subdirectory(libs)
 

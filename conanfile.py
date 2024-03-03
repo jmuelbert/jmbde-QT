@@ -101,18 +101,18 @@ class jmbdeReceipe(ConanFile):
 
         self.requires("extra-cmake-modules/5.113.0")
 
-        if self.settings.os != "Windows":
-            self.requires("libiconv/1.17")
+        # if self.settings.os != "Windows":
+        #    self.requires("libiconv/1.17")
 
-        self.requires("spdlog/1.13.0")
+        # self.requires("spdlog/1.13.0")
 
-        self.requires("cli11/2.4.1")
+        # self.requires("cli11/2.4.1")
 
-        self.requires("benchmark/1.8.3")
+        # self.requires("benchmark/1.8.3")
         # if self.options.build_docs:
         #      self.requires("doxygen/1.9.4")
-        self.requires("catch2/3.5.2")
-        self.requires("gtest/1.14.0")
+        # self.requires("catch2/3.5.2")
+        # self.requires("gtest/1.14.0")
 
     @property
     def _min_cppstd(self):

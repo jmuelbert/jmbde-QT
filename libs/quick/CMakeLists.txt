@@ -138,20 +138,20 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
   qt_finalize_target(${TARGET_NAME})
 endif()
 
+# ----------------------------------------------------------------------------
 # generate an export header to expose symbols when using the library
+# ----------------------------------------------------------------------------
 generate_export_header(${TARGET_NAME} EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/${TARGET_NAME}_export.h)
 
-# ---------------------------------------------------------------------------- # Install
-# instructions ---------------------------------------------------------------------------- #
 set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/${TARGET_NAME})
 
 install(
   TARGETS ${TARGET_NAME}
   EXPORT ${TARGET_NAME}Config
-  LIBRARY
-  ARCHIVE)
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
-# install(DIRECTORY include/${TARGET_NAME} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(DIRECTORY include/${TARGET_NAME} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 # ---------------------------------------------------------------------------- # Export the targets
 # to a script ---------------------------------------------------------------------------- #

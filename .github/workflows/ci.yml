@@ -468,7 +468,7 @@ jobs:
 
   build:
     if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
-    name: "Tests ${{ matrix.toolchain }} ${{ matrix.build_type }} ${{ matrix.std }} ${{ matrix.formatting }}"
+    name: "Build (Install) Archives ${{ matrix.toolchain }} ${{ matrix.build_type }} ${{ matrix.std }} ${{ matrix.formatting }}"
     runs-on: ${{ matrix.os }}
 
     needs: [tests]
@@ -506,6 +506,7 @@ jobs:
             cxx_modules: "True"
             conan_config: ""
             CMAKE_GENERATOR: "Ninja Multi-Config"
+            CPACK_GENERATOR: "TGZ, ZIP"
             QT_ARCH: "gcc_64"
             QT_HOST: linux
             QT_ARCHIVES: ""
@@ -733,9 +734,9 @@ jobs:
           CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
           CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
         run: |
-          APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
+          APPIMAGE_DST_PATH=${{ github.workspace }}/${TARGET_NAME}.AppDir
           mkdir -p ${APPIMAGE_DST_PATH}
-          cmake -S . -B build/${{matrix.build_type}} \
+          cmake -S . -B ${{ github.workspace }}/build/${{matrix.build_type}} \
             -DCMAKE_TOOLCHAIN_FILE=generators/conan_toolchain.cmake \
             -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
             -DCMAKE_INSTALL_PREFIX:PATH="${APPIMAGE_DST_PATH}/usr"
@@ -747,7 +748,7 @@ jobs:
           CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
           CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
         run: |
-          cmake -S . -B "build" \
+          cmake -S . -B "${{ github.workspace }}/build" \
            -DCMAKE_TOOLCHAIN_FILE="generators/conan_toolchain.cmake" \
            -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
            -DCMAKE_INSTALL_PREFIX:PATH=./programs
@@ -781,8 +782,8 @@ jobs:
         if: startsWith(matrix.os,'macos')
         working-directory: build/${{matrix.build_type}}
         run: |
-          macdeployqt build/${{matrix.build_type}}/app/bin/${{env.TARGET_NAME}}  -qmldir=. -appstore-compliant -libpath=./app/${{env.TARGET_NAME}}.app/Contents/Frameworks -verbose=1 -dmg
-          #  cp build/${{matrix.build_type}}/app/${{env.TARGET_NAME}}.dmg ${{env.TARGET_NAME}}.dmg
+          macdeployqt ${{ github.workspace }}/build/${{matrix.build_type}}/app/bin/${{env.TARGET_NAME}}  -qmldir=. -appstore-compliant -libpath=./app/${{env.TARGET_NAME}}.app/Contents/Frameworks -verbose=1 -dmg
+          #  cp ${{ github.workspace }}/build/${{matrix.build_type}}/app/${{env.TARGET_NAME}}.dmg ${{env.TARGET_NAME}}.dmg
           # ZIP application "%AppName%-%Version%-macOS.zip"
           #  ditto -c -k --sequesterRsrc --keepParent "bin/${{env.TARGET_NAME}}.app" ${{env.TARGET_NAME}}.zip
           # cp ./${{env.TARGET_NAME}}.zip ${{env.TARGET_NAME}}.zip
@@ -830,12 +831,12 @@ jobs:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.qt_arch }}
         with:
           name: ${{ env.TARGET_NAME}}-win-zip
-          path: $GITHUB_WORKSPACE/${{ env.archiveName}}.'zip'
+          path: ${{ github.workspace }}/${{ env.archiveName}}.'zip'
 
       - name: "🧊 📦 Make ISS-Installer for ${{ env.QT_VERSION }}"
         if: startsWith(matrix.os,'windows')
         shell: bash
-        working-directory: $GITHUB_WORKSPACE//build
+        working-directory: ${{ github.workspace }}//build
         env:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.qt_arch }}
         run: |
@@ -857,11 +858,11 @@ jobs:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.qt_arch }}
         with:
           name: ${{ env.TARGET_NAME}}-win
-          path: $GITHUB_WORKSPACE//${{ env.archiveName}}.exe
+          path: ${{ github.workspace }}//${{ env.archiveName}}.exe
 
       - name: "🐧 📦 Create AppImage"
         if: startsWith(matrix.os, 'ubuntu')
-        working-directory: $GITHUB_WORKSPACE//build/${{matrix.build_type}}
+        working-directory: ${{ github.workspace }}//build/${{matrix.build_type}}
         shell: bash
         run: |
           APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
@@ -883,7 +884,7 @@ jobs:
         with:
           name: ${{env.TARGET_NAME}}.AppImage
           path: |
-            $GITHUB_WORKSPACE/${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}.x86_64.AppImage
+            ${{ github.workspace }}/${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}.x86_64.AppImage
 
       - name: Publish Tagged Release
         uses: softprops/action-gh-release@v1

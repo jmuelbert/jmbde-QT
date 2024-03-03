@@ -10,7 +10,7 @@
 set(TARGET_ID jmbde)
 string(TOLOWER ${TARGET_ID} TARGET_ID_LOWER)
 set(TARGET_NAMESPACE jmuelbert)
-set(TARGET_NAME ${TARGET_ID_LOWER}-bin)
+set(TARGET_NAME ${TARGET_ID_LOWER}_bin)
 set(TARGET_DESCRIPTION "jmdbde app")
 set(TARGET_OUTPUT_NAME ${TARGET_ID_LOWER})
 set(TARGET_COPYRIGHT "© 2013-2024 Jürgen Mülbert")
@@ -37,16 +37,10 @@ find_package(
   COMPONENTS Core
   REQUIRED)
 
-# ----------------------------------------------------------------------------------------------------------------------
-# library part
-add_library(${TARGET_NAME}_lib INTERFACE) # use interface or normal library according to the implementation
-
-
-
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
   qt_add_executable(${TARGET_NAME} MANUAL_FINALIZATION)
-
+  
   # Define target properties for Android with Qt 6 as: set_property(TARGET jmbde-QT APPEND PROPERTY
   # QT_ANDROID_PACKAGE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/android) For more information, see
   # https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
@@ -92,7 +86,7 @@ target_sources(${TARGET_NAME} PRIVATE ${ICONS_SOURCES})
 target_compile_features(${TARGET_NAME} PRIVATE cxx_std_17)
 
 # ensure right translations domain, we use one kate.po(t) for lib + apps
-target_compile_definitions${TARGET_NAME}  PRIVATE TRANSLATION_DOMAIN="${TARGET_NAME} ")
+target_compile_definitions(${TARGET_NAME}  PRIVATE TRANSLATION_DOMAIN="${TARGET_NAME} ")
 
 # ensure consistent SingleApplication usage
 target_compile_definitions(${TARGET_NAME} PRIVATE -DQAPPLICATION_CLASS=QApplication)
@@ -129,7 +123,7 @@ set_property(
 # See https://cmake.org/cmake/help/v3.15/prop_tgt/MACOSX_BUNDLE_INFO_PLIST.html
 if(APPLE)
   set_property(
-    TARGET {TARGET_NAME}
+    TARGET ${TARGET_NAME}
     PROPERTY MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/data/MacOSXBundleInfo.plist.in
   )
 
@@ -145,7 +139,7 @@ if(APPLE)
   set(MACOSX_BUNDLE_COPYRIGHT "${TARGET_COPYRIGHT}")
 endif()
 
-install(TARGETS ${TARGET_NAME} ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+# install(TARGETS ${TARGET_NAME} ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ecm_install_icons(
   ICONS ${ICON_FILES}
@@ -154,12 +148,12 @@ ecm_install_icons(
 )
 
 install(
-  PROGRAMS ${CMAKE_CURRENT_SOURCE_DIR}/data/org.kde.kate.desktop
+  PROGRAMS ${CMAKE_CURRENT_SOURCE_DIR}/data/io.github.jmuelbert.${TARGET_DISPLAY_NAME}.desktop
   DESTINATION ${KDE_INSTALL_APPDIR}
 )
 
 install(
-  FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/org.kde.kate.appdata.xml
+  FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/io.github.jmuelbert.${TARGET_DISPLAY_NAME}.appdata.xml
   DESTINATION ${KDE_INSTALL_METAINFODIR}
 )
 

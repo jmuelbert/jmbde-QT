@@ -153,9 +153,6 @@ install(
 
 install(DIRECTORY include/${TARGET_NAME} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-# generate an export header to expose symbols when using the library
-generate_export_header(${TARGET_NAME} EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/${TARGET_NAME}_export.h)
-
 # ---------------------------------------------------------------------------- # Export the targets
 # to a script ---------------------------------------------------------------------------- #
 install(
