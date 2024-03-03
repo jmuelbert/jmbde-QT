@@ -95,9 +95,9 @@ target_compile_definitions(${TARGET_NAME}
                            PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
 # we have different windows icons, less margins
-set(ICONS_FOLDER  ${CMAKE_SOURCE_DIR}/assets/icons//unix)
+set(ICONS_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/icons/unix)
 if(WIN32)
-    set(ICONS_FOLDER  ${CMAKE_SOURCE_DIR}/assets/icons//windows)
+    set(ICONS_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/icons/windows)
 endif()
 
 #
