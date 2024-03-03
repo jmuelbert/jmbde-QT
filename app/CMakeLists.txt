@@ -158,7 +158,6 @@ target_link_libraries(
 set_property(
   TARGET ${TARGET_NAME}
   PROPERTY OUTPUT_NAME ${TARGET_EXECUTABLE_NAME})
-)
 
 # See https://cmake.org/cmake/help/v3.15/prop_tgt/MACOSX_BUNDLE_INFO_PLIST.html
 if(APPLE)
