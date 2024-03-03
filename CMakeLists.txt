@@ -68,11 +68,13 @@ find_package(
   ${QT_MIN_VERSION}
   CONFIG
   REQUIRED)
+
 find_package(
   Qt6Concurrent
   ${QT_MIN_VERSION}
   CONFIG
   REQUIRED)
+
 # ---------------------------------------------------------------------------- # 
 # Finding Qt5 or Qt6
 # ---------------------------------------------------------------------------- #
@@ -104,7 +106,7 @@ ecm_optional_add_subdirectory(app)
 add_subdirectory(libs)
 
 # our documentation
-ecm_optional_add_subdirectory(doc)
+# ecm_optional_add_subdirectory(docs)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
