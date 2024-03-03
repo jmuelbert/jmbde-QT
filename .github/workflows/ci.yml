@@ -779,32 +779,32 @@ jobs:
 
       - name: "🍎 📦 Package application (macdeployqt and zipfile)"
         if: startsWith(matrix.os,'macos')
-        working-directory: ${{runner.workspace}}/build/${{matrix.build_type}}
+        working-directory: build/${{matrix.build_type}}
         run: |
-          macdeployqt ${{runner.workspace}}/build/${{matrix.build_type}}/app/bin/jmbde  -qmldir=. -appstore-compliant -libpath=./app/${{env.TARGET_NAME}}.app/Contents/Frameworks -verbose=1 -dmg
-          #  cp ${{runner.workspace}}/build/${{matrix.build_type}}/app/${{env.TARGET_NAME}}.dmg ${{runner.workspace}}/${{env.TARGET_NAME}}.dmg
+          macdeployqt build/${{matrix.build_type}}/app/bin/${{env.TARGET_NAME}}  -qmldir=. -appstore-compliant -libpath=./app/${{env.TARGET_NAME}}.app/Contents/Frameworks -verbose=1 -dmg
+          #  cp build/${{matrix.build_type}}/app/${{env.TARGET_NAME}}.dmg ${{env.TARGET_NAME}}.dmg
           # ZIP application "%AppName%-%Version%-macOS.zip"
           #  ditto -c -k --sequesterRsrc --keepParent "bin/${{env.TARGET_NAME}}.app" ${{env.TARGET_NAME}}.zip
-          # cp ./${{env.TARGET_NAME}}.zip ${{runner.workspace}}/${{env.TARGET_NAME}}.zip
+          # cp ./${{env.TARGET_NAME}}.zip ${{env.TARGET_NAME}}.zip
 
-      - name: "🍎 📤 Upload dmg artifact for macOS - ${{ matrix.qt_version }}"
+      - name: "🍎 📤 Upload dmg artifact for macOS - ${{ env.QT_VERSION }}"
         if: startsWith(matrix.os,'macos')
         uses: actions/upload-artifact@v2
         with:
           name: ${env.TARGET_NAME}-dmg
-          path: ${{runner.workspace}}/${{ env.TARGET_NAME }}.dmg
+          path: ${{ env.TARGET_NAME }}.dmg
 
-      - name: "🍎 📤 Upload zip artifact for macOS - ${{ matrix.qt_version }}-${env.BUILD_TYPE}}"
+      - name: "🍎 📤 Upload zip artifact for macOS - ${{ env.QT_VERSION }}-${{matrix.build_type}}"
         if: startsWith(matrix.os,'macos')
         uses: actions/upload-artifact@v2
         with:
           name: ${{ env.TARGET_NAME }}-macos-zip
-          path: ${{runner.workspace}}/${{ env.TARGET_NAME }}*.zip
+          path: ${{ env.TARGET_NAME }}*.zip
 
       # Copy Qt DLLs, compiler runtime & application icon
       - name: "🧊 📦 Package application (windeployqt)"
         if: startsWith(matrix.os, 'windows')
-        working-directory: ${{runner.workspace}}/build
+        working-directory: build
         shell: pwsh
         env:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.qt_arch }}
@@ -816,12 +816,12 @@ jobs:
 
       - name: "🧊 Compress Zip Archive"
         if: startsWith(matrix.os,'windows')
-        working-directory: ${{runner.workspace}}/build
+        working-directory: build
         shell: pwsh
         env:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.qt_arch }}
         run: |
-          Compress-Archive -Path ${{ env.archiveName}}/bin -DestinationPath ${{runner.workspace}}/${{ env.archiveName}}.'zip'
+          Compress-Archive -Path ${{ env.archiveName}}/bin -DestinationPath ${{GITHUB_WORKSPACE}}/${{ env.archiveName}}.'zip'
 
       - name: "🧊 📤 Upload Zip archive"
         if: startsWith(matrix.os,'windows')
@@ -830,12 +830,12 @@ jobs:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.qt_arch }}
         with:
           name: ${{ env.TARGET_NAME}}-win-zip
-          path: ${{ runner.workspace}}/${{ env.archiveName}}.zip
+          path: ${{GITHUB_WORKSPACE}}/${{ env.archiveName}}.'zip'
 
-      - name: "🧊 📦 Make ISS-Installer for ${{ matrix.qt_version }}"
+      - name: "🧊 📦 Make ISS-Installer for ${{ env.QT_VERSION }}"
         if: startsWith(matrix.os,'windows')
         shell: bash
-        working-directory: ${{runner.workspace}}/build
+        working-directory: ${{GITHUB_WORKSPACE}}//build
         env:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.qt_arch }}
         run: |
@@ -857,11 +857,11 @@ jobs:
           archiveName: ${{ env.TARGET_NAME}}.${{ steps.get_version.outputs.VERSION }}.Windows-${{ matrix.qt_arch }}
         with:
           name: ${{ env.TARGET_NAME}}-win
-          path: ${{runner.workspace}}/${{ env.archiveName}}.exe
+          path: ${{GITHUB_WORKSPACE}}//${{ env.archiveName}}.exe
 
       - name: "🐧 📦 Create AppImage"
         if: startsWith(matrix.os, 'ubuntu')
-        working-directory: ${{runner.workspace}}/build/${{matrix.build_type}}
+        working-directory: ${{GITHUB_WORKSPACE}}//build/${{matrix.build_type}}
         shell: bash
         run: |
           APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
@@ -883,7 +883,7 @@ jobs:
         with:
           name: ${{env.TARGET_NAME}}.AppImage
           path: |
-            ${{runner.workspace}}/${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}.x86_64.AppImage
+            ${{GITHUB_WORKSPACE}}/${{env.TARGET_NAME}}-${{ steps.get_version.outputs.VERSION }}.x86_64.AppImage
 
       - name: Publish Tagged Release
         uses: softprops/action-gh-release@v1
