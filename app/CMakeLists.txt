@@ -185,12 +185,12 @@ ecm_install_icons(
 )
 
 install(
-  PROGRAMS ${CMAKE_CURRENT_SOURCE_DIR}/data/io.github.jmuelbert.${TARGET_NAME}.desktop
+  PROGRAMS ${CMAKE_CURRENT_SOURCE_DIR}/data/io.github.jmuelbert.${TARGET_ID}.desktop
   DESTINATION ${KDE_INSTALL_APPDIR}
 )
 
 install(
-  FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/io.github.jmuelbert.${TARGET_NAME}.appdata.xml
+  FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/io.github.jmuelbert.${TARGET_ID}.appdata.xml
   DESTINATION ${KDE_INSTALL_METAINFODIR}
 )
 
