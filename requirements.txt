@@ -35,5 +35,5 @@ sphinxcontrib-qthelp==1.0.7
 sphinxcontrib-serializinghtml==1.1.10
 toml==0.10.2
 urllib3==2.2.0
-virtualenv==20.25.0
+virtualenv==20.25.1
 zipp==3.17.0
