@@ -35,7 +35,7 @@ jobs:
     if: |
       startsWith(github.repository, 'jmuelbert/') &&
       (
-        !startsWith(github.event.repository.name, 'dependabot/') || 
+        !startsWith(github.event.repository.name, 'dependabot/') ||
         (github.event_name == 'schedule') ||
         (
           contains(github.event.issue.labels.*.name, 'stale') ||
@@ -63,7 +63,7 @@ jobs:
     if: |
       startsWith(github.repository, 'jmuelbert/') &&
       (
-        !startsWith(github.event.repository.name, 'dependabot/') || 
+        !startsWith(github.event.repository.name, 'dependabot/') ||
         (github.event_name == 'schedule') ||
         (
           contains(github.event.issue.labels.*.name, 'stale') ||

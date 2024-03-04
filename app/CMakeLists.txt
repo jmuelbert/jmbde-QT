@@ -7,9 +7,9 @@
 # minimal requirements
 cmake_minimum_required(VERSION 3.18 FATAL_ERROR)
 
-# ---------------------------------------------------------------------------- 
-# Define Target Information 
-# ---------------------------------------------------------------------------- 
+# ----------------------------------------------------------------------------
+# Define Target Information
+# ----------------------------------------------------------------------------
 #
 set(TARGET_ID jmbde)
 string(TOLOWER ${TARGET_ID} TARGET_ID_LOWER)
@@ -47,9 +47,9 @@ find_package(
   COMPONENTS Core
   REQUIRED)
 
-# ---------------------------------------------------------------------------- 
+# ----------------------------------------------------------------------------
 # Finding Qt5 or Qt6
-# ---------------------------------------------------------------------------- 
+# ----------------------------------------------------------------------------
 #
 find_package(
   Qt${QT_VERSION_MAJOR} QUIET
@@ -185,12 +185,12 @@ ecm_install_icons(
 )
 
 install(
-  PROGRAMS ${CMAKE_CURRENT_SOURCE_DIR}/data/io.github.jmuelbert.${TARGET_NAME}.desktop
+  PROGRAMS ${CMAKE_CURRENT_SOURCE_DIR}/data/io.github.jmuelbert.${TARGET_ID}.desktop
   DESTINATION ${KDE_INSTALL_APPDIR}
 )
 
 install(
-  FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/io.github.jmuelbert.${TARGET_NAME}.appdata.xml
+  FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/io.github.jmuelbert.${TARGET_ID}.appdata.xml
   DESTINATION ${KDE_INSTALL_METAINFODIR}
 )
 

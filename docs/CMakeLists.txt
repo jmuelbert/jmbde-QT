@@ -42,16 +42,16 @@ elseif(NOT SPHINX_EXECUTABLE)
   message(FATAL_ERROR "SPHINX_EXECUTABLE (sphinx-build) is not found!")
 endif()
 
-set(conf_copyright "MIT - Copyright (c) 2022-2100 Amin Yahyaabadi")
+set(conf_copyright "EUPL-1.2 - Copyright (c) 2016-2024 Jürgen Mülbert")
 set(conf_docs "${CMAKE_CURRENT_SOURCE_DIR}") # Location of your index.rst
 set(conf_path "${CMAKE_CURRENT_SOURCE_DIR}") # Location of your conf.py
 set(conf_out_path "${CMAKE_CURRENT_BINARY_DIR}") # Location of the output directory
-set(conf_version "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
-set(conf_release "${PROJECT_VERSION}")
+set(conf_version "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_VERSION_MINOR}.${RELEASE_SERVICE_VERSION_PATCH}")
+set(conf_release "${RELEASE_SERVICE_VERSION}")
 set(conf_name "project_options")
-set(conf_author "Amin Yahyaabadi")
+set(conf_author "Jürgen Mülbert")
 set(conf_brief
-    "A general-purpose CMake library that provides functions that improve the CMake experience following the best practices."
+    "A collection tool for companies"
 )
 set(conf_doxygen_input
     "\

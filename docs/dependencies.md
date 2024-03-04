@@ -213,4 +213,3 @@ linked here:
   to install several of SFML's dependencies using your package manager. See
   [the SFML build tutorial](https://www.sfml-dev.org/tutorials/2.5/compile-with-cmake.php)
   for specifics.
-

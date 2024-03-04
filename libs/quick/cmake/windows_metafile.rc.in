@@ -10,4 +10,3 @@ IDI_ICON1 ICON DISCARDABLE "@ICON_FILE@"
     "@COMPANY@" VALUE "FileDescription", "@PROJECT_NAME@" VALUE "FileVersion", "@PROJECT_VERSION@" VALUE "LegalCopyright", "@COPYRIGHT@" VALUE "InternalName",
     "@PROJECT_NAME@" VALUE "OriginalFilename", "@PROJECT_NAME@.exe" VALUE "ProductName", "@PROJECT_NAME@" VALUE "ProductVersion",
     "@PROJECT_VERSION@" END END END
-

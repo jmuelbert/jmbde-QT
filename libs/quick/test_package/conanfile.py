@@ -2,6 +2,7 @@ import os
 
 from conans import ConanFile, CMake, tools
 
+
 class ModelsTestConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"

@@ -25,7 +25,7 @@ class jmbdeConan(ConanFile):
     options = {"testing": [True, False]}
     default_options = {"testing": False}
     build_policy = "missing"
-    
+
     def build_requirements(self):
         self.build_requires("extra-cmake-modules/5.84.0")
         self.build_requires("catch2/2.13.8")

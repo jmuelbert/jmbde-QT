@@ -9,4 +9,3 @@ get_filename_component(JMBDEQUICK_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH) i
 
                 set(JMBDEquick_LIBRARIES jmuelbert
                     : jmbdequick)
-

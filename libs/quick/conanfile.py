@@ -27,13 +27,12 @@ class JmbdequickConan(ConanFile):
     generators = "CMakeDeps", "CMakeToolchain", "VirtualBuildEnv", "VirtualRunEnv"
     apply_env = False
 
-    options = { "enable_testing": [True, False]}
-    default_options = { "enable_testing": True}
-
+    options = {"enable_testing": [True, False]}
+    default_options = {"enable_testing": True}
 
     def build_requirements(self):
-         if self.options.enable_testing:
-             self.tool_requires("jmbdemodels/0.7", force_host_context=True)
+        if self.options.enable_testing:
+            self.tool_requires("jmbdemodels/0.7", force_host_context=True)
 
     def build(self):
         cmake = CMake(self)
@@ -47,4 +46,3 @@ class JmbdequickConan(ConanFile):
         if not tools.cross_building(self):
             cmd = os.path.join(self.cpp.build.bindirs[0], "example")
             self.run(cmd, env="conanrun")
-

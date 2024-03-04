@@ -20,7 +20,7 @@ parser.add_argument('--version', metavar='version', type=str,
 
 args = parser.parse_args()
 
-#var ar_versions = [
+# var ar_versions = [
 #    {
 #        version: "master",
 #        folder: "master",
@@ -33,7 +33,7 @@ args = parser.parse_args()
 #        has_pdf: "true",
 #        pdf_name: "2_1_0_ar_stable.pdf"
 #    },
-#]
+# ]
 
 versions = list()
 
@@ -41,7 +41,7 @@ if os.path.exists(args.version_file):
     with open(args.version_file, 'r') as file:
         js_data = file.read()
     if js_data.startswith("var ar_versions = "):
-        js_data= js_data[len("var ar_versions = "):]
+        js_data = js_data[len("var ar_versions = "):]
     versions = json.loads(js_data)
 
 # Get branch name or tag name
@@ -62,6 +62,7 @@ versions.append({
 
 is_semver = re.compile("^v?([0-9\.]+)([^0-9\.]*)?$")
 
+
 def versionSortFunc(s):
     ma = is_semver.match(s['version'])
     if ma:
@@ -71,16 +72,15 @@ def versionSortFunc(s):
     else:
         return list(s['version'])
 
+
 versions.sort(key=versionSortFunc, reverse=True)
 
 new_js = "var ar_versions = " + json.dumps(versions, indent=2)
 
 js_dir = os.path.dirname(args.version_file)
 if not os.path.isdir(js_dir):
-    os.makedirs (js_dir)
+    os.makedirs(js_dir)
 with open(args.version_file, 'w') as filetowrite:
     filetowrite.write(new_js)
 
 print("File updated: " + args.version_file)
-
-

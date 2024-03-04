@@ -20,9 +20,9 @@ class JmbdemodelsConan(ConanFile):
     generators = "CMakeDeps", "CMakeToolchain", "VirtualBuildEnv", "VirtualRunEnv"
     apply_env = False
 
-    options = { "enable_testing": [True, False]}
-    default_options = { "enable_testing": True}
-    
+    options = {"enable_testing": [True, False]}
+    default_options = {"enable_testing": True}
+
     # def build_requirements(self):
     #     if self.options.enable_testing:
     #         self.tool_requires("jmbdemodels/0.7", force_host_context=True)

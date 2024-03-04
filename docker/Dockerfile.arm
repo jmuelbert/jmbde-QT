@@ -11,7 +11,7 @@ RUN npm install -g setup-cpp
 FROM base AS setup
 
 # install cmake, ninja, and ccache
-RUN setup-cpp --clangtidy true --clangformat true --cmake true --ninja true --ccache true --cppcheck true --vcpkg true --conan true --task true 
+RUN setup-cpp --clangtidy true --clangformat true --cmake true --ninja true --ccache true --cppcheck true --vcpkg true --conan true --task true
 
 RUN apt-get update && apt-get install -y \
     gcc-arm-linux-gnueabi g++-arm-linux-gnueabi gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf \

@@ -2,6 +2,7 @@ import os
 
 from conans import ConanFile, CMake, tools
 
+
 class ModelsTestConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
@@ -22,4 +23,3 @@ class ModelsTestConan(ConanFile):
         if not tools.cross_building(self):
             os.chdir("bin")
             self.run(".%sexample" % os.sep)
-       

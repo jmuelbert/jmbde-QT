@@ -57,7 +57,7 @@ words:
    - cmake
   - CMAKE
   - cmakelint
-  - cmds 
+  - cmds
   - Codacy
   - Codecov
   - CODEOWNERS

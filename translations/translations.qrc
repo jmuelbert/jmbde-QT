@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>translations/jmbde_ar.qm</file>  
+        <file>translations/jmbde_ar.qm</file>
         <file>translations/jmbde_bg.qm</file>
         <file>translations/jmbde_ca.qm</file>
         <file>translations/jmbde_cs.qm</file>
@@ -13,7 +13,7 @@
         <file>translations/jmbde_fr.qm</file>
         <file>translations/jmbde_gd.qm</file>
         <file>translations/jmbde_gl.qm</file>
-        <file>translations/jmbde_he.qm</file>              
+        <file>translations/jmbde_he.qm</file>
         <file>translations/jmbde_hu.qm</file>
         <file>translations/jmbde_it.qm</file>
         <file>translations/jmbde_ja.qm</file>
