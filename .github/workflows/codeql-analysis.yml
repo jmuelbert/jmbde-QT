@@ -63,10 +63,10 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-22.04]
+        language: ["cpp", "python"]
         std: [20]
         formatting: ["std::format"]
         build_type: ["Debug"]
-        language: ["cpp"]
         # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby' ]
         # Learn more about CodeQL language support at https://git.io/codeql-language-support
         compiler-cc:
@@ -99,13 +99,16 @@ jobs:
       CMAKE_BUILD_TYPE: ${{ matrix.build_type }}
 
     steps:
-      - name: "🧰 Setup Cache-ID with date for windows systems"
-        if: startsWith(matrix.os, 'windows')
-        run: echo "cache_id=$(Get-Date -Format "%yyyy%m%d")" >> $GITHUB_ENV
+      - name: "🧰 Checkout Source Code"
+        uses: actions/checkout@v4
+
+      - name: "🧰 Setup Cache-ID with date for unix-like systems"
+        if: matrix.language == 'cpp'
+        run: echo "cache_id=$(/bin/date -u "+%Y%m%d")" >> $GITHUB_ENV
 
       - name: "⚙️️ Cache conan data"
+        if: matrix.language == 'cpp' && always()
         uses: actions/cache@v4
-        if: always()
         env:
           cache-name: cache-conan-data
         with:
@@ -120,8 +123,8 @@ jobs:
             build-${{ matrix.os }}-${{ matrix.formatting }}-
             build-${{ matrix.os }}-
 
-      - name: "Setup CCache for Linux and macOS"
-        if: startsWith(matrix.os, 'ubuntu') || startsWith(matrix.os,'macos')
+      - name: "Setup CCache for Linux"
+        if: matrix.language == 'cpp'
         uses: hendrikmuhs/ccache-action@v1
         with:
           key: ${{ matrix.os }}--{{matrix.CMAKE_BUILD_TYPE}}
@@ -141,26 +144,27 @@ jobs:
           pip install --upgrade pip
 
       - name: "🧰 Install Ninja"
+        if: matrix.language == 'cpp'
         shell: bash
         run: |
           pip install --upgrade ninja
 
       - name: "🧰 Setup Conan"
+        if: matrix.language == 'cpp'
         run: |
           pip install --upgrade conan
 
       - name: "Configure Conan"
+        if: matrix.language == 'cpp'
         shell: bash
         run: |
           conan profile detect --force
-          if [[ "${{ matrix.compiler.type }}" == "CLANG" ]]; then
-            sed -i.backup '/^\[settings\]$/,/^\[/ s/^compiler.libcxx=.*/compiler.libcxx=${{ matrix.lib }}/' ~/.conan2/profiles/default
-          fi
           sed -i.backup '/^\[settings\]$/,/^\[/ s/^compiler.cppstd=.*/compiler.cppstd=${{ matrix.std }}/' ~/.conan2/profiles/default
           sed -i.backup '/^\[settings\]$/,/^\[/ s/^build_type=.*/build_type=${{ matrix.build_type }}/' ~/.conan2/profiles/default
           conan profile show -pr default
 
       - name: "🧰 Install Qt Version ${{ env.QT_VERSION }}"
+        if: matrix.language == 'cpp'
         uses: jurplel/install-qt-action@v3
         with:
           version: ${{ env.QT_VERSION }}
@@ -179,7 +183,7 @@ jobs:
           tools-only: "false"
 
       - name: restore ccache
-        if: startsWith(matrix.os, 'ubuntu') || startsWith(matrix.os,'macos')
+        if: matrix.language == 'cpp'
         uses: pat-s/always-upload-cache@v3.0.11
         with:
           path: ${{ github.workspace }}/ccache
@@ -187,15 +191,17 @@ jobs:
           restore-keys: ccache-${{matrix.os}}-${{matrix.compiler}}-${{ env.QT_VERSION }}
 
       - name: check ccache stats prior to build
-        if: startsWith(matrix.os, 'ubuntu') || startsWith(matrix.os,'macos')
+        if: matrix.language == 'cpp'
         run: ccache --zero-stats --show-stats
 
       - name: "Add GCC problem matcher"
+        if: matrix.language == 'cpp'
         # make sure coverage is only enabled for Debug builds, since it sets -O0 to make sure coverage
         # has meaningful results
         uses: ammaraskar/gcc-problem-matcher@master
 
       - name: "🧰 Let Conan generate Deps"
+        if: matrix.language == 'cpp'
         run: |
           conan install . --build=missing --settings=build_type=${{matrix.build_type}}
         env:
@@ -203,6 +209,7 @@ jobs:
           CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
 
       - name: "🍎 🚧 Configure CMake build for Linux}"
+        if: matrix.language == 'cpp'
         shell: bash
         run: |
           APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
@@ -226,6 +233,7 @@ jobs:
           # queries: ./path/to/local/query, your-org/your-repo/queries@main
 
       - name: "🍎 🐧 🚧 Build and Install"
+        if: matrix.language == 'cpp'
         shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
         run: |
@@ -233,6 +241,12 @@ jobs:
             --config ${{matrix.build_type}} \
             --target install \
             --parallel $(sysctl -n hw.logicalcpu)
+
+      # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
+      # If this step fails, then you should remove it and run the build manually (see below)
+      - name: "📦 Autobuild"
+        if: matrix.language != 'cpp'
+        uses: github/codeql-action/autobuild@v3
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v1

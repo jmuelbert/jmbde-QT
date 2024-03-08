@@ -197,9 +197,11 @@ qt_finalize_executable(${TARGET_NAME})
 # ----------------------------------------------------------------------------
 # Setup Qt packaging
 # ----------------------------------------------------------------------------
-qt_generate_deploy_app_script(
+if(APPLE || WIN32)
+  qt_generate_deploy_app_script(
     TARGET ${TARGET_NAME}
     OUTPUT_SCRIPT deploy_script
     NO_UNSUPPORTED_PLATFORM_ERROR 
-)
-install(SCRIPT ${deploy_script})
+   )
+   install(SCRIPT deploy_script)
+endif()

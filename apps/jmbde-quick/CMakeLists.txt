@@ -161,34 +161,36 @@ if(APPLE)
   set(MACOSX_BUNDLE_COPYRIGHT "${TARGET_COPYRIGHT}")
 endif()
   
-  ecm_install_icons(
+ecm_install_icons(
     ICONS ${ICON_FILES}
     DESTINATION ${KDE_INSTALL_ICONDIR}
     THEME hicolor
   )
   
-  install(TARGETS ${TARGET_NAME} 
+ install(TARGETS ${TARGET_NAME} 
     BUNDLE DESTINATION .
     RUNTIME DESTINATION ${KDE_INSTALL_APPDIR})
   
-  install(
+ install(
     PROGRAMS ${CMAKE_CURRENT_SOURCE_DIR}/data/io.github.jmuelbert.${TARGET_ID}.desktop
     DESTINATION ${KDE_INSTALL_APPDIR}
   )
   
-  install(
+ install(
     FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/io.github.jmuelbert.${TARGET_ID}.appdata.xml
     DESTINATION ${KDE_INSTALL_METAINFODIR}
   )
   
-  qt_finalize_executable(${TARGET_NAME})
+ qt_finalize_executable(${TARGET_NAME})
   
   # ----------------------------------------------------------------------------
   # Setup Qt packaging
   # ----------------------------------------------------------------------------
-  qt_generate_deploy_app_script(
-      TARGET ${TARGET_NAME}
-      OUTPUT_SCRIPT deploy_script
-      NO_UNSUPPORTED_PLATFORM_ERROR 
-  )
-  install(SCRIPT deploy_script)
+  if(APPLE || WIN32)
+    qt_generate_deploy_app_script(
+        TARGET ${TARGET_NAME}
+        OUTPUT_SCRIPT deploy_script
+        NO_UNSUPPORTED_PLATFORM_ERROR 
+     )
+    install(SCRIPT deploy_script)
+endif()
