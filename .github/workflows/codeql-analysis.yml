@@ -218,9 +218,9 @@ jobs:
             -DCMAKE_TOOLCHAIN_FILE=generators/conan_toolchain.cmake \
             -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
             -DCMAKE_INSTALL_PREFIX:PATH="${APPIMAGE_DST_PATH}/usr"
-          env:
-            CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
-            CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
+        env:
+          CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
+          CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
 
       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL

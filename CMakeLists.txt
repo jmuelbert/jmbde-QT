@@ -114,7 +114,7 @@ endif()
 ecm_optional_add_subdirectory(apps)
 
 
-set(LICENSE_FILE "LICENSE.txt")
+set(LICENSE_FILE "LICENSE")
 set(README_FILE "README.md")
 
 #CPACK: General Settings
