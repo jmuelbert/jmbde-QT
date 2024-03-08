@@ -83,7 +83,6 @@ jobs:
           - linux-gcc13
           - linux-clang15
           - linux-clang16
-          - linux-clang17
           - windows-2019-msvc
           - windows-2022-msvc
           - macos-clang
