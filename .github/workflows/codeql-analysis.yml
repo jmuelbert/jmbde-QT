@@ -82,7 +82,7 @@ jobs:
         CMAKE_GENERATOR:
           - "Ninja Multi-Config"
         QT_ARCH:
-          - "gcc64"
+          - "gcc_64"
         QT_HOST:
           - "linux"
         QT_ARCHIVES:
@@ -249,4 +249,4 @@ jobs:
         uses: github/codeql-action/autobuild@v3
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v1
+        uses: github/codeql-action/analyze@v2
