@@ -66,6 +66,7 @@ jobs:
       fail-fast: false
 
       # Recommendations:
+      #
       #   * support at least 2 operating systems
       #   * support at least 2 compilers
       #   * make sure all supported configurations for your project are built
