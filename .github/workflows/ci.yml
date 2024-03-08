@@ -112,9 +112,9 @@ jobs:
             QT_MODULES: ""
             QT_TOOLS: ""
 
-          - toolchain: linux-clang16
+          - toolchain: linux-clang15
             os: ubuntu-22.04
-            compiler: {type: CLANG, version: 16, cc: "clang-16", cxx: "clang++-16"}
+            compiler: {type: CLANG, version: 15, cc: "clang-15", cxx: "clang++-15"}
             lib: "libc++"
             cxx_modules: "False"
             conan_config: ""
@@ -125,11 +125,11 @@ jobs:
             QT_MODULES: ""
             QT_TOOLS: ""
 
-          - toolchain: linux-clang17
+          - toolchain: linux-clang16
             os: ubuntu-22.04
-            compiler: {type: CLANG, version: 17, cc: "clang-17", cxx: "clang++-17"}
+            compiler: {type: CLANG, version: 16, cc: "clang-16", cxx: "clang++-16"}
             lib: "libc++"
-            cxx_modules: "True"
+            cxx_modules: "False"
             conan_config: ""
             CMAKE_GENERATOR: "Ninja Multi-Config"
             QT_ARCH: "gcc_64"

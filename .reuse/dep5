@@ -22,4 +22,3 @@ License: BSD-3-Clause
 Files: ui/resources/gammaray/*.png plugins/guisupport/images/*.png ui/resources/gammaray/ui/icons/classes/*/*.png  ui/resources/gammaray/ui/*/*/*.png docs/manual/*/*.png docs/api/*.png tests/manual/*.png plugins/positioning/*.png plugins/quickinspector/textureextension/resources/*.png launcher/ui/resources/launcher/*.png ui/resources/svg/*.svg ui/resources/svg/*.svgz plugins/positioning/direction_marker.svg ui/resources/gammaray/GammaRay.icns ui/resources/gammaray/GammaRay.ico
 Copyright: Jürgen Mülbert <juergen.muelbert@outlook.de>
 License: GPL-2.0-or-later
-

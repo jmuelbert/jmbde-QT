@@ -19,6 +19,9 @@ tasks:
       - rm CMakeUserPresets.json
       - conan install .  --build=missing --settings=build_type={{.CMAKE_BUILD_TYPE}}
       - cmake -S . -B build/{{.CMAKE_BUILD_TYPE}} -DCMAKE_TOOLCHAIN_FILE=generators/conan_toolchain.cmake -DCMAKE_BUILD_TYPE={{.CMAKE_BUILD_TYPE}}
+      # - cmake --build build/{{.CMAKE_BUILD_TYPE}} --config {{.CMAKE_BUILD_TYPE}} --target update_translations
+      # - cmake --build build/{{.CMAKE_BUILD_TYPE}} --config {{.CMAKE_BUILD_TYPE}} --target release_translations
+      - cmake --build build/{{.CMAKE_BUILD_TYPE}} --config {{.CMAKE_BUILD_TYPE}} --target clang-format
       - cmake --build build/{{.CMAKE_BUILD_TYPE}} --config {{.CMAKE_BUILD_TYPE}}
 
   # Execute the app or the tests

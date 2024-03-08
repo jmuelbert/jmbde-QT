@@ -1,0 +1,31 @@
+[Desktop Entry]
+GenericName=Company Collector
+GenericName[fr]=Collecteur de société
+GenericName[it]=Raccolta aziendale
+GenericName[nl]=Bedrijfscollector
+GenericName[de]=Datensammler für Unternehmen
+Name=jmbde
+Name[fr]=jmbde
+Name[it]=jmbde
+Name[nl]=jmbde
+Name[de]=jmbde
+Comment=application to collect data in a company
+Comment[fr]=application pour collecter des données dans une société
+Comment[it]=applicazione per raccogliere dati in azienda
+Comment[nl]=applicatie om gegevens te verzamelen in een bedrijf
+Comment[de]=Anwendung zum Sammeln von Daten in einer Firma
+Exec=jmbde -b %U
+StartupNotify=true
+MimeType=text/plain;
+Icon=jmbde
+Type=Application
+Categories=Qt;KDE;Utility
+Keywords=db
+StartupWMClass=jmbde
+
+
+
+
+Icon=jmbde
+Terminal=false
+Categories=Qt;Office;Database;

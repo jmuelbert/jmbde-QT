@@ -1,7 +1,7 @@
 #
-# SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
+# SPDX-FileCopyrightText: 2013-2024 Jürgen Mülbert <juergen.muelbert@outlook.de>
 #
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: EUPL-1.2
 #
 
 # minimal requirements
@@ -84,12 +84,19 @@ find_package(
 find_package(
   ${QT_MIN_VERSION} QUIET
   COMPONENTS Core
+             LinguistTools
              Widgets
              PrintSupport
              Sql
              Qml)
 
-
+if (NOT WIN32 AND NOT HAIKU)
+    find_package(Intl)
+    set_package_properties(Intl PROPERTIES TYPE REQUIRED
+        URL "http://gnuwin32.sourceforge.net/packages/libintl.htm"
+        PURPOSE "Needed for building kate unless glibc is the system libc implementation"
+    )
+endif()
 
 # deprecation options
 ecm_set_disabled_deprecation_versions(
@@ -103,25 +110,9 @@ if(BUILD_PCH)
   add_subdirectory(pch)
 endif()
 
-# the jmde-widgets version
-ecm_optional_add_subdirectory(app)
-# all libs
-add_subdirectory(libs)
+# the jmde-widgets & jmbde-quick application
+ecm_optional_add_subdirectory(apps)
 
-# our documentation
-# ecm_optional_add_subdirectory(docs)
-
-feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
-
-include(KDEClangFormat)
-# add clang-format target
-file(
-  GLOB_RECURSE
-  ALL_CLANG_FORMAT_SOURCE_FILES
-  *.cpp
-  *.h
-  *.c)
-kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
 
 set(LICENSE_FILE "LICENSE.txt")
 set(README_FILE "README.md")
@@ -177,4 +168,15 @@ endif()
 include(CPack)
 
 include(KDEGitCommitHooks)
+feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
+
+include(KDEClangFormat)
+# add clang-format target
+file(
+  GLOB_RECURSE
+  ALL_CLANG_FORMAT_SOURCE_FILES
+  *.cpp
+  *.h
+  *.c)
+kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
 kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
