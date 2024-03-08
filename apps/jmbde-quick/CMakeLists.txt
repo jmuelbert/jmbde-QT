@@ -186,7 +186,7 @@ ecm_install_icons(
   # ----------------------------------------------------------------------------
   # Setup Qt packaging
   # ----------------------------------------------------------------------------
-  if(APPLE || WIN32)
+  if(APPLE OR WIN32)
     qt_generate_deploy_app_script(
         TARGET ${TARGET_NAME}
         OUTPUT_SCRIPT deploy_script

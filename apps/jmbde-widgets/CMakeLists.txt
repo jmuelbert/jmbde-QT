@@ -197,7 +197,7 @@ qt_finalize_executable(${TARGET_NAME})
 # ----------------------------------------------------------------------------
 # Setup Qt packaging
 # ----------------------------------------------------------------------------
-if(APPLE || WIN32)
+if(APPLE OR WIN32)
   qt_generate_deploy_app_script(
     TARGET ${TARGET_NAME}
     OUTPUT_SCRIPT deploy_script
