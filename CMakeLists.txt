@@ -4,6 +4,32 @@
 # SPDX-License-Identifier: EUPL-1.2
 #
 
+
+#[=======================================================================[.rst:
+Main CMakeLists.txt
+-------------------
+
+This is the EntryPoint to build all
+
+ - jmbde-widget app
+ - jmbde-quick app
+ - jmbdewidget-library
+ - jmbdequick-library
+ - jmbdemodels-library
+ - api-docs
+ ----
+.. targets::
+    - clang-format
+    - update_translations
+    - release_translations
+
+#]=======================================================================]
+
+
+# NOTE: This is just a comment which is not added to the generated documentation.
+
+# Default value for the Severity
+
 # minimal requirements
 cmake_minimum_required(VERSION 3.21...3.27)
 
@@ -36,16 +62,24 @@ project(
 # ---------------------------------------------------------------------------- #
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 
+######## FIND DEPENDENCES ########
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/CPM.cmake")
+set(FETCHCONTENT_BASE_DIR "${CMAKE_SOURCE_DIR}/3rdpart")
+set(CPM_USE_LOCAL_PACKAGES ON)
+
 # KF6 only
 set(KF_MIN_VERSION "5.113.0")
 set(QT_MIN_VERSION "6.5.0")
 set(QT_MAJOR_VERSION "6")
 
+# We need some parts of the ECM CMake helpers.
 find_package(
   ECM
   ${KF_MIN_VERSION}
   REQUIRED
   NO_MODULE)
+
+# We append to the module path so modules can be overridden from the command line.
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
 include(KDECompilerSettings NO_POLICY_SCOPE)
@@ -62,6 +96,7 @@ include(ECMDeprecationSettings)
 include(FeatureSummary)
 include(FindIntl)
 
+# Turn off some default settings for KDE
 set(KDE_INSTALL_USE_QT_SYS_PATHS OFF)
 remove_definitions("-DQT_NO_KEYWORDS")
 
@@ -79,16 +114,16 @@ find_package(
   REQUIRED)
 
 # ---------------------------------------------------------------------------- #
-# Finding Qt5 or Qt6
+# Finding Qt6
 # ---------------------------------------------------------------------------- #
 find_package(
-  ${QT_MIN_VERSION} QUIET
-  COMPONENTS Core
-             LinguistTools
-             Widgets
-             PrintSupport
-             Sql
-             Qml)
+  Qt6 REQUIRED COMPONENTS
+    Core
+    LinguistTools
+    Widgets
+    PrintSupport
+    Sql
+    Qml)
 
 if (NOT WIN32 AND NOT HAIKU)
     find_package(Intl)
@@ -113,63 +148,18 @@ endif()
 # the jmde-widgets & jmbde-quick application
 ecm_optional_add_subdirectory(apps)
 
+# the docs
+ecm_optional_add_subdirectory(docs)
 
-set(LICENSE_FILE "LICENSE")
-set(README_FILE "README.md")
-
-#CPACK: General Settings
-set(CPACK_GENERATOR "TBZ2")
-set(CPACK_PACKAGE_NAME "jmbde-qt")
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "An collection tool for companies")
-#TODO: shorten lines in the Readme.txt to make rpmlint happy
-set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_SOURCE_DIR}/${README_FILE}")
-set(CPACK_PACKAGE_VENDOR "Jürgen Mülbert")
-set(CPACK_PACKAGE_CONTACT "juergen.muelbert@outlook.de")
-set(CPACK_PACKAGE_VERSION_MAJOR "${RELEASE_SERVICE_VERSION_MAJOR}")
-set(CPACK_PACKAGE_VERSION_MINOR "${RELEASE_SERVICE_VERSION_MINOR}")
-set(CPACK_PACKAGE_VERSION_PATCH "${RELEASE_SERVICE_VERSION_PATCH}")
-set(CPACK_PACKAGE_VERSION "${RELEASE_SERVICE_VERSION}")
-
-#CPACK: RPM Specific Settings
-set(CPACK_RPM_PACKAGE_LICENSE "GPLv3+")
-set(CPACK_RPM_PACKAGE_GROUP "Business/Tools")
-
-#CPACK: DEB Specific Settings
-set(CPACK_DEBIAN_PACKAGE_SECTION "Business")
-
-set(CPACK_RESOURCE_FILE_README "${CMAKE_SOURCE_DIR}/${README_FILE}")
-set(ICONS_DIR "${CMAKE_SOURCE_DIR}/resources")
-if(WIN32)
-    set(CPACK_GENERATOR "NSIS" "ZIP")
-    set(CPACK_PACKAGE_EXECUTABLES "jmbde" "jmbde")
-    set(CPACK_PACKAGE_INSTALL_DIRECTORY "jmbde")
-    set(CPACK_PACKAGE_FILE_NAME "jmbde ${RELEASE_SERVICE_VERSION}")
-    set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/${LICENSE_FILE}")
-    set(CPACK_NSIS_EXECUTABLES_DIRECTORY "${BIN_INSTALL_DIR}")
-    set(CPACK_NSIS_MUI_ICON "${ICONS_DIR}/jmbde.ico")
-    #set(CPACK_PACKAGE_ICON "${ICONS_DIR}\\\\CharmNSISHeader.bmp")
-    set(CPACK_NSIS_URL_INFO_ABOUT "https://io.github.com/jmuelbert/jmbde-qt")
-    set(CPACK_NSIS_INSTALLED_ICON_NAME "jmbde${CMAKE_EXECUTABLE_SUFFIX}")
-    set(CPACK_NSIS_MENU_LINKS "${LICENSE_FILE}" "License" "${README_FILE}" "Readme")
-    set(CPACK_NSIS_MUI_FINISHPAGE_RUN "${CPACK_NSIS_INSTALLED_ICON_NAME}")
-elseif(APPLE)
-    set(CPACK_GENERATOR "DragNDrop")
-    set(CPACK_DMG_FORMAT "UDBZ")
-    set(CPACK_DMG_VOLUME_NAME "jmbde-qt")
-    set(CPACK_SYSTEM_NAME "OSX")
-    set(CPACK_PACKAGE_FILE_NAME "jmbde ${RELEASE_SERVICE_VERSION}")
-    set(CPACK_PACKAGE_ICON "${ICONS_DIR}/CharmDMG.icns")
-    set(CPACK_DMG_DS_STORE "${ICONS_DIR}/CharmDSStore")
-    set(CPACK_DMG_BACKGROUND_IMAGE "${ICONS_DIR}/CharmDMGBackground.png")
-elseif(UNIX)
-    set(CPACK_SYSTEM_NAME "${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR}")
-endif()
-
-include(CPack)
-
+# ----------------------------------------------------------------------------
+# Install KDEGitCommitHooks
+# ----------------------------------------------------------------------------
 include(KDEGitCommitHooks)
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
+# ----------------------------------------------------------------------------
+# Install KDEClangFormat
+# 
 include(KDEClangFormat)
 # add clang-format target
 file(

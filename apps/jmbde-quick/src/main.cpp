@@ -22,10 +22,7 @@
 #include "jmbde_version.h"
 #include "jmbdequick/maincontroller.h"
 
-#ifndef Q_OS_WIN
-#include <unistd.h>
-#endif
-#include <iostream>
+#include "singleapplication.h"
 
 /**
  * @brief main
@@ -41,61 +38,58 @@ auto main(int argc, char *argv[]) -> int
 {
     QLoggingCategory::setFilterRules(QLatin1String("jmbdequick.*.debug=false\njmbdequick.*.info=false"));
 
-#ifndef Q_OS_WIN
-    // Prohibit using sudo or kdesu (but allow using the root user directly)
-    if (getuid() == 0) {
-        if (!qEnvironmentVariableIsEmpty("SUDO_USER")) {
-            std::cout << "Executing jmbde with sudo is not possible due to "
-                         "unfixable security vulnerabilities."
-                      << std::endl;
-            return EXIT_FAILURE;
-        } else if (!qEnvironmentVariableIsEmpty("KDESU_USER")) {
-            std::cout << "Executing jmbde with kdesu is not possible due to "
-                         "unfixable security vulnerabilities."
-                      << std::endl;
-            return EXIT_FAILURE;
-        }
-    }
-#endif
-
     /**
      * Create application first
+     * We always use a single application that allows to start multiple instances.
+     * This allows for communication even without DBus and better testing of these code paths.
      */
-    QApplication app(argc, argv);
+#ifdef Q_OS_WINDOWS
+    SingleApplication app(argc, argv, true);
+
+    if (app.isSecondary()) {
+        AllowSetForegroundWindow(DWORD(app.primaryPid()));
+
+        app.sendMessage("RAISE_WIDGET");
+
+        return 0;
+    }
+#else
+    SingleApplication app(argc, argv);
+#endif
 
     /**
      * Enforce application name even if the executable is renamed
      */
-    QApplication::setApplicationName(QStringLiteral(PROJECT_NAME));
+    app.setApplicationName(QStringLiteral(PROJECT_NAME));
 
     /**
      * For Windows and macOS: use Breeze if available
      * Of all tested styles that works the best for us
      */
 #if defined(Q_OS_MACOS) || defined(Q_OS_WIN)
-    QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
-    QApplication::setStyle(QStringLiteral("breeze"));
+    app.setAttribute(Qt::AA_DontShowIconsInMenus);
+    app.setStyle(QStringLiteral("breeze"));
 #endif
 
     /**
      * set the program icon
      */
-    QApplication::setWindowIcon(QIcon::fromTheme(QLatin1String("jmbde"), QApplication::windowIcon()));
+    app.setWindowIcon(QIcon::fromTheme(QLatin1String("jmbde"), QApplication::windowIcon()));
 
     /**
      * Enforce application name even if the executable is renamed
      */
-    QApplication::setApplicationName(QStringLiteral(PROJECT_NAME));
+    app.setApplicationName(QStringLiteral(PROJECT_NAME));
 
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
-    QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
+    app.setAttribute(Qt::AA_DontShowIconsInMenus);
 #endif
 
-    QApplication::setApplicationName(QStringLiteral(PROJECT_NAME));
-    QApplication::setApplicationDisplayName(QStringLiteral(PROJECT_NAME));
-    QApplication::setOrganizationDomain(QStringLiteral(AUTHOR_MAINTAINER));
-    QApplication::setOrganizationName(QStringLiteral("io.jmuelbert.github"));
-    QApplication::setApplicationVersion(QLatin1String(VERSION));
+    app.setApplicationName(QStringLiteral(PROJECT_NAME));
+    app.setApplicationDisplayName(QStringLiteral(PROJECT_NAME));
+    app.setOrganizationDomain(QStringLiteral(AUTHOR_MAINTAINER));
+    app.setOrganizationName(QStringLiteral("io.jmuelbert.github"));
+    app.setApplicationVersion(QLatin1String(VERSION));
 
     /**
      * Create command line parser and feed it with known options

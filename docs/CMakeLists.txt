@@ -53,13 +53,13 @@ set(conf_author "Jürgen Mülbert")
 set(conf_brief
     "A collection tool for companies"
 )
-set(conf_doxygen_input
-    "\
-  \"${CMAKE_SOURCE_DIR}/include\" \
-  \"${CMAKE_SOURCE_DIR}/src\" \
+set(conf_doxygen_input "\
+  \"${CMAKE_SOURCE_DIR}/apps\" \
   \"${CMAKE_SOURCE_DIR}/cmake\" \
-")
+  ")
+
 configure_file(conf.py.in conf.py @ONLY)
+configure_file(Doxyfile.in Doxyfile @ONLY)
 
 set(doc_formats "")
 if(SPHINX_HTML)

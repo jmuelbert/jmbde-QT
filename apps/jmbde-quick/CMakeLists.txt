@@ -10,6 +10,8 @@ if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.24.0")
   cmake_policy(SET CMP0135 NEW)
 endif()
 
+include(../../cmake/SingleApplication.cmake)
+include(../../cmake/CPackSettings.cmake)
 
 # ---------------------------------------------------------------------------- #
 # Define Target Information
@@ -59,7 +61,12 @@ qt_add_executable(${TARGET_NAME} MANUAL_FINALIZATION)
 # ----------------------------------------------------------------------------
 # Setup Qt translation
 # ----------------------------------------------------------------------------
-# qt_add_translations(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+set_source_files_properties(
+    ${PROJECT_TS_FILES}
+    PROPERTIES OUTPUT_LOCATION "${CMAKE_CURRENT_BINARY_DIR}/translations"
+)
+
+qt_add_translations(${TARGET_NAME} TS_FILES ${PROJECT_TS_FILES})
 
 # ensure right translations domain, we use one kate.po(t) for lib + apps
 target_compile_definitions(${TARGET_NAME} PRIVATE TRANSLATION_DOMAIN=${TARGET_DISPLAY_NAM})
@@ -104,8 +111,6 @@ target_include_directories(
 target_sources(${TARGET_NAME}
     PRIVATE 
     ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/SingleApplication/singleapplication.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/SingleApplication/singleapplication_p.cpp
     )
 
 target_compile_definitions(
@@ -120,6 +125,7 @@ target_link_libraries(
     ${TARGET_NAME}
     PRIVATE # The following libraries are only linked for this target, and its flags/dependencies will
             # not be used when linking against this target
+            SingleApplication::SingleApplication
             jmuelbert::jmbdemodels
             jmuelbert::jmbdewidgets
             jmuelbert::jmbdequick
@@ -183,14 +189,12 @@ ecm_install_icons(
   
  qt_finalize_executable(${TARGET_NAME})
   
-  # ----------------------------------------------------------------------------
-  # Setup Qt packaging
-  # ----------------------------------------------------------------------------
-  if(APPLE OR WIN32)
-    qt_generate_deploy_app_script(
-        TARGET ${TARGET_NAME}
-        OUTPUT_SCRIPT deploy_script
-        NO_UNSUPPORTED_PLATFORM_ERROR 
-     )
-    install(SCRIPT deploy_script)
-endif()
+# ----------------------------------------------------------------------------
+# Setup Qt packaging
+# ----------------------------------------------------------------------------
+qt_generate_deploy_app_script(
+  TARGET ${TARGET_NAME}
+  OUTPUT_SCRIPT deploy_script
+  NO_UNSUPPORTED_PLATFORM_ERROR 
+ )
+install(SCRIPT ${deploy_script})

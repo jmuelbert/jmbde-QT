@@ -11,6 +11,8 @@ if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.24.0")
   cmake_policy(SET CMP0135 NEW)
 endif()
 
+include(../../cmake/SingleApplication.cmake)
+include(../../cmake/CPackSettings.cmake)
 
 # ----------------------------------------------------------------------------
 # Define Target Information
@@ -59,22 +61,19 @@ qt_add_executable(${TARGET_NAME} MANUAL_FINALIZATION)
 # ----------------------------------------------------------------------------
 # Setup Qt translation
 # ----------------------------------------------------------------------------
-set(TS_FILES
-    ${CMAKE_SOURCE_DIR}/translations/jmbde_de.ts
-    )
+set (PROJECT_TRANSLATIONS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/translations)
+set(PROJECT_TS_FILES 
+    ${PROJECT_TRANSLATIONS_DIR}/jmbde_en.ts 
+    ${PROJECT_TRANSLATIONS_DIR}/jmbde_de.ts)
 
-# qt_add_translations(${TARGET_NAME} TS_FILES ${TS_FILES}
-# RESOURCE_PREFIX "/translations") 
-# qt_add_lupdate(${TARGET_NAME} TS_FILES ${TS_FILES})
-# qt_add_lrelease(${TARGET_NAME}
-#     TS_FILES ${TS_FILES}
-#     QM_FILES_OUTPUT_VARIABLE qm_files)
-# qt_add_resources(${TARGET_NAME} "translations"
-#     PREFIX "/i18n"
-#     BASE "${CMAKE_CURRENT_BINARY_DIR}"
-#     FILES "${qm_files}")
+set_source_files_properties(
+    ${PROJECT_TS_FILES}
+    PROPERTIES OUTPUT_LOCATION "${CMAKE_CURRENT_BINARY_DIR}/translations"
+)
 
-    # ensure right translations domain, we use one kate.po(t) for lib + apps
+qt_add_translations(${TARGET_NAME} TS_FILES ${PROJECT_TS_FILES})
+
+# ensure right translations domain, we use one kate.po(t) for lib + apps
 target_compile_definitions(${TARGET_NAME} PRIVATE TRANSLATION_DOMAIN=${TARGET_DISPLAY_NAM})
 
 # ensure consistent SingleApplication usage
@@ -117,8 +116,6 @@ target_include_directories(
 target_sources(${TARGET_NAME}
  PRIVATE 
  ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
- ${CMAKE_CURRENT_SOURCE_DIR}/SingleApplication/singleapplication.cpp
- ${CMAKE_CURRENT_SOURCE_DIR}/SingleApplication/singleapplication_p.cpp
  )
 
 target_compile_definitions(${TARGET_NAME} 
@@ -197,11 +194,9 @@ qt_finalize_executable(${TARGET_NAME})
 # ----------------------------------------------------------------------------
 # Setup Qt packaging
 # ----------------------------------------------------------------------------
-if(APPLE OR WIN32)
-  qt_generate_deploy_app_script(
-    TARGET ${TARGET_NAME}
-    OUTPUT_SCRIPT deploy_script
-    NO_UNSUPPORTED_PLATFORM_ERROR 
-   )
-   install(SCRIPT deploy_script)
-endif()
+qt_generate_deploy_app_script(
+  TARGET ${TARGET_NAME}
+  OUTPUT_SCRIPT deploy_script
+  NO_UNSUPPORTED_PLATFORM_ERROR 
+ )
+install(SCRIPT ${deploy_script})

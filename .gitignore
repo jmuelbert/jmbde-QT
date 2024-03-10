@@ -19,6 +19,7 @@ old/
 out/
 megalinter-reports/
 # .qtmodules-travis
+3rdpart/
 
 # Sqlite-DB
 *.db

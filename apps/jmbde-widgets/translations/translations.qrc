@@ -1,0 +1,32 @@
+<RCC>
+    <qresource prefix="/">
+        <file>translations/jmbde_ar.qm</file>
+        <file>translations/jmbde_bg.qm</file>
+        <file>translations/jmbde_ca.qm</file>
+        <file>translations/jmbde_cs.qm</file>
+        <file>translations/jmbde_da.qm</file>
+        <file>translations/jmbde_de.qm</file>
+        <file>translations/jmbde_en.qm</file>
+        <file>translations/jmbde_es.qm</file>
+        <file>translations/jmbde_fa.qm</file>
+        <file>translations/jmbde_fi.qm</file>
+        <file>translations/jmbde_fr.qm</file>
+        <file>translations/jmbde_gd.qm</file>
+        <file>translations/jmbde_gl.qm</file>
+        <file>translations/jmbde_he.qm</file>
+        <file>translations/jmbde_hu.qm</file>
+        <file>translations/jmbde_it.qm</file>
+        <file>translations/jmbde_ja.qm</file>
+        <file>translations/jmbde_ko.qm</file>
+        <file>translations/jmbde_lt.qm</file>
+        <file>translations/jmbde_lv.qm</file>
+        <file>translations/jmbde_nl.qm</file>
+        <file>translations/jmbde_pl.qm</file>
+        <file>translations/jmbde_ru.qm</file>
+        <file>translations/jmbde_sk.qm</file>
+        <file>translations/jmbde_tr.qm</file>
+        <file>translations/jmbde_uk.qm</file>
+        <file>translations/jmbde_zh_CN.qm</file>
+        <file>translations/jmbde_zh_TW.qm</file>
+    </qresource>
+</RCC>

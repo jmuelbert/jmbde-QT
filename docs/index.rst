@@ -1,30 +1,33 @@
-Getting Started
+.. C++ Sphinx Doxygen Breathe documentation master file, created by
+   sphinx-quickstart on Wed Jun 24 11:46:27 2020.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to C++ Sphinx Doxygen Breathe's documentation!
 ======================================================
 
-.. include:: ./src/Readme_top.md
-   :parser: myst_parser.sphinx_
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
 
-Usage
-------
 
-.. include:: ./src/project_options_example.md
-   :parser: myst_parser.sphinx_
 
-.. include:: ./src/License.md
-   :parser: myst_parser.sphinx_
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+
 
 Table of Contents
-==================
+^^^^^^^^^^^^^^^^^
 
 .. toctree::
     :maxdepth: 2
 
     self
-    src/index
-
-.. Indices
-.. ==================
-
-.. * :ref:`genindex`
-.. * :ref:`modindex`
+    chapters/introduction
+    api/index
+    cmake/index
 .. * :ref:`search`
