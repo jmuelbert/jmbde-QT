@@ -126,7 +126,7 @@ target_compile_definitions(
 
 # X11 startup handling
 if (UNIX AND NOT APPLE)
-    target_link_libraries(kate-bin PRIVATE Qt::GuiPrivate)
+    target_link_libraries(${TARGET_NAME} PRIVATE Qt::GuiPrivate)
 endif()
 
 target_link_libraries(

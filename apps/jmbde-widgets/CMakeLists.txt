@@ -71,7 +71,7 @@ set_source_files_properties(
 
 qt_add_translations(${TARGET_NAME} TS_FILES ${PROJECT_TS_FILES})
 
-# ensure right translations domain, we use one kate.po(t) for lib + apps
+# ensure right translations domain, we use one jmbde.po(t) for lib + apps
 target_compile_definitions(${TARGET_NAME}
                            PRIVATE TRANSLATION_DOMAIN=${TARGET_DISPLAY_NAM})
 
@@ -121,7 +121,7 @@ target_compile_definitions(
 
 # X11 startup handling
 if(UNIX AND NOT APPLE)
-  target_link_libraries(kate-bin PRIVATE Qt::GuiPrivate)
+  target_link_libraries(${TARGET_NAME} PRIVATE Qt::GuiPrivate)
 endif()
 
 target_link_libraries(
