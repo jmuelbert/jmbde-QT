@@ -1,5 +1,5 @@
-# This module builds the documentation for the project.
-# Based on https://gitlab.com/Pro1/doxygen-cmake-sphinx/-/blob/master/doc/CMakeLists.txt
+# This module builds the documentation for the project. Based on
+# https://gitlab.com/Pro1/doxygen-cmake-sphinx/-/blob/master/doc/CMakeLists.txt
 
 cmake_minimum_required(VERSION 3.20)
 
@@ -11,8 +11,7 @@ project(
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
-# include("../src/Index.cmake")
-# project_options(ENABLE_DOXYGEN)
+# include("../src/Index.cmake") project_options(ENABLE_DOXYGEN)
 
 find_package(Sphinx REQUIRED)
 find_package(Python)
@@ -45,15 +44,17 @@ endif()
 set(conf_copyright "EUPL-1.2 - Copyright (c) 2016-2024 Jürgen Mülbert")
 set(conf_docs "${CMAKE_CURRENT_SOURCE_DIR}") # Location of your index.rst
 set(conf_path "${CMAKE_CURRENT_SOURCE_DIR}") # Location of your conf.py
-set(conf_out_path "${CMAKE_CURRENT_BINARY_DIR}") # Location of the output directory
-set(conf_version "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_VERSION_MINOR}.${RELEASE_SERVICE_VERSION_PATCH}")
+set(conf_out_path "${CMAKE_CURRENT_BINARY_DIR}") # Location of the output
+                                                 # directory
+set(conf_version
+    "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_VERSION_MINOR}.${RELEASE_SERVICE_VERSION_PATCH}"
+)
 set(conf_release "${RELEASE_SERVICE_VERSION}")
 set(conf_name "project_options")
 set(conf_author "Jürgen Mülbert")
-set(conf_brief
-    "A collection tool for companies"
-)
-set(conf_doxygen_input "\
+set(conf_brief "A collection tool for companies")
+set(conf_doxygen_input
+    "\
   \"${CMAKE_SOURCE_DIR}/apps\" \
   \"${CMAKE_SOURCE_DIR}/cmake\" \
   ")
@@ -64,10 +65,13 @@ configure_file(Doxyfile.in Doxyfile @ONLY)
 set(doc_formats "")
 if(SPHINX_HTML)
   list(APPEND doc_formats html)
-  set(html_extra_commands COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_LIST_DIR}/root/
-                          ${CMAKE_CURRENT_BINARY_DIR})
-  file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/js/versions.js
-       "var ar_versions = [{\"version\": \"build\", \"folder\": \"html\", \"has_pdf\": false}]")
+  set(html_extra_commands
+      COMMAND ${CMAKE_COMMAND} -E copy_directory
+      ${CMAKE_CURRENT_LIST_DIR}/root/ ${CMAKE_CURRENT_BINARY_DIR})
+  file(
+    WRITE ${CMAKE_CURRENT_BINARY_DIR}/js/versions.js
+    "var ar_versions = [{\"version\": \"build\", \"folder\": \"html\", \"has_pdf\": false}]"
+  )
 endif()
 if(SPHINX_MAN)
   list(APPEND doc_formats man)
@@ -91,7 +95,8 @@ if(SPHINX_INFO)
   # Sphinx texinfo builder supports .info, .txt, .html and .pdf output.
   # SPHINX_INFO controls the .info output.
   set(texinfo_extra_commands
-      COMMAND ${MAKEINFO_EXECUTABLE} --no-split -o ${CMAKE_CURRENT_BINARY_DIR}/texinfo/cmake.info
+      COMMAND ${MAKEINFO_EXECUTABLE} --no-split -o
+      ${CMAKE_CURRENT_BINARY_DIR}/texinfo/cmake.info
       ${CMAKE_CURRENT_BINARY_DIR}/texinfo/cmake.texi)
 endif()
 
@@ -103,12 +108,14 @@ foreach(format ${doc_formats})
   add_custom_command(
     OUTPUT ${doc_format_output}
     COMMAND
-      ${SPHINX_EXECUTABLE} -c ${CMAKE_CURRENT_BINARY_DIR} -d ${CMAKE_CURRENT_BINARY_DIR}/doctrees -b ${format}
-      ${sphinx_flags} ${CMAKE_CURRENT_LIST_DIR} ${CMAKE_CURRENT_BINARY_DIR}/${format} >
+      ${SPHINX_EXECUTABLE} -c ${CMAKE_CURRENT_BINARY_DIR} -d
+      ${CMAKE_CURRENT_BINARY_DIR}/doctrees -b ${format} ${sphinx_flags}
+      ${CMAKE_CURRENT_LIST_DIR} ${CMAKE_CURRENT_BINARY_DIR}/${format} >
       ${CMAKE_CURRENT_BINARY_DIR}/${doc_format_log} # log stdout, pass stderr
       ${${format}_extra_commands}
     DEPENDS ${doc_format_last}
-    COMMENT "sphinx-build ${format}: see ${CMAKE_CURRENT_BINARY_DIR}/${doc_format_log}"
+    COMMENT
+      "sphinx-build ${format}: see ${CMAKE_CURRENT_BINARY_DIR}/${doc_format_log}"
     VERBATIM)
   set_property(SOURCE ${doc_format_output} PROPERTY SYMBOLIC 1)
   list(APPEND doc_format_outputs ${doc_format_output})

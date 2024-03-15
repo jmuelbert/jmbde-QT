@@ -8,9 +8,9 @@
 
 #include "json_utils_test.h"
 
+#include "jmbdemodels/json_utils.h"
 #include <QJsonDocument>
 #include <QTest>
-#include "jmbdemodels/json_utils.h"
 
 QTEST_MAIN(JsonUtilsTest)
 

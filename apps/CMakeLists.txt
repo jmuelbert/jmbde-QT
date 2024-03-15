@@ -5,4 +5,4 @@ add_subdirectory(libs)
 ecm_optional_add_subdirectory(jmbde-widgets)
 
 # the jmbde-quick application
-ecm_optional_add_subdirectory(jmbde-quick)    
+ecm_optional_add_subdirectory(jmbde-quick)

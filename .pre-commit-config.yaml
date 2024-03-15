@@ -4,7 +4,7 @@ ci:
   skip: [pylint]
   autoupdate_schedule: monthly
 
-exclude: ^(cmake/ECM|cmake/KDAB/|src/3rdparty/|code.dev.code-workspace)
+exclude: ^(3rdpart|cmake/ECM|cmake/KDAB/|src/3rdparty/|code.dev.code-workspace)
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
@@ -22,7 +22,7 @@ repos:
       - id: destroyed-symlinks
       - id: check-executables-have-shebangs
   - repo: https://github.com/pre-commit/mirrors-clang-format
-    rev: v17.0.6
+    rev: v18.1.1
     hooks:
       - id: clang-format
         exclude: (.json)
@@ -41,13 +41,6 @@ repos:
     rev: v2.2.6
     hooks:
       - id: codespell
-  - repo: https://github.com/cheshirekow/cmake-format-precommit
-    rev: v0.6.13
-    hooks:
-      - id: cmake-lint
-        exclude: (.py.cmake|Doxyfile.cmake|examples/flutter/)
-      - id: cmake-format
-        exclude: (.py.cmake|Doxyfile.cmake|examples/flutter/)
   - repo: https://github.com/cheshirekow/cmake-format-precommit
     rev: v0.6.13
     hooks:

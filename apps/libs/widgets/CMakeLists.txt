@@ -37,7 +37,7 @@ set(CMAKE_AUTOUIC ON)
 # Finding Qt6
 # --------------------------------------------------------------------------- #
 find_package(
-    Qt${QT_MAJOR_VERSION} 
+    Qt${QT_MAJOR_VERSION}
     REQUIRED COMPONENTS
     Core
     Widgets
@@ -113,7 +113,7 @@ target_compile_definitions(${TARGET_NAME}
 target_link_libraries(
   ${TARGET_NAME}
   # PUBLIC
-  PRIVATE 
+  PRIVATE
     Qt${QT_MAJOR_VERSION}::Core
     Qt${QT_MAJOR_VERSION}::Gui
     Qt${QT_MAJOR_VERSION}::Widgets
@@ -191,4 +191,3 @@ endif()
 if(BUILD_TESTING)
   add_subdirectory(autotests)
 endif()
-

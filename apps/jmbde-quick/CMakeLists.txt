@@ -44,7 +44,7 @@ configure_file(${CMAKE_SOURCE_DIR}/cmake/versioninfo/version.h.in ${CMAKE_CURREN
 # Finding Qt6
 # --------------------------------------------------------------------------- #
 find_package(
-    Qt${QT_MAJOR_VERSION} 
+    Qt${QT_MAJOR_VERSION}
     REQUIRED COMPONENTS
     Core
     Widgets
@@ -53,7 +53,7 @@ find_package(
     Quick
     Qml
     OPTIONAL_COMPONENTS
-    LinguistTools 
+    LinguistTools
     )
 
 # ---------------------------------------------------------------------------- #
@@ -75,7 +75,7 @@ target_include_directories(
           "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
 
 target_sources(${TARGET_NAME}
-    PRIVATE 
+    PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
     )
 
@@ -160,7 +160,7 @@ set_target_properties(${TARGET_NAME} PROPERTIES
 set_property(
     TARGET ${TARGET_NAME}
     PROPERTY OUTPUT_NAME ${TARGET_EXECUTABLE_NAME})
-  
+
 # See https://cmake.org/cmake/help/v3.15/prop_tgt/MACOSX_BUNDLE_INFO_PLIST.html
 if(APPLE)
   set_property(
@@ -179,35 +179,35 @@ if(APPLE)
   set(MACOSX_BUNDLE_BUNDLE_VERSION "${RELEASE_SERVICE_VERSION}")
   set(MACOSX_BUNDLE_COPYRIGHT "${TARGET_COPYRIGHT}")
 endif()
-  
+
 ecm_install_icons(
     ICONS ${ICON_FILES}
     DESTINATION ${KDE_INSTALL_ICONDIR}
     THEME hicolor
   )
-  
- install(TARGETS ${TARGET_NAME} 
+
+ install(TARGETS ${TARGET_NAME}
     BUNDLE DESTINATION .
     RUNTIME DESTINATION ${KDE_INSTALL_APPDIR})
-  
+
  install(
     PROGRAMS ${CMAKE_CURRENT_SOURCE_DIR}/data/io.github.jmuelbert.${TARGET_ID}.desktop
     DESTINATION ${KDE_INSTALL_APPDIR}
   )
-  
+
  install(
     FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/io.github.jmuelbert.${TARGET_ID}.appdata.xml
     DESTINATION ${KDE_INSTALL_METAINFODIR}
   )
-  
+
  qt_finalize_executable(${TARGET_NAME})
-  
+
 # ----------------------------------------------------------------------------
 # Setup Qt packaging
 # ----------------------------------------------------------------------------
 qt_generate_deploy_app_script(
   TARGET ${TARGET_NAME}
   OUTPUT_SCRIPT deploy_script
-  NO_UNSUPPORTED_PLATFORM_ERROR 
+  NO_UNSUPPORTED_PLATFORM_ERROR
  )
 install(SCRIPT ${deploy_script})

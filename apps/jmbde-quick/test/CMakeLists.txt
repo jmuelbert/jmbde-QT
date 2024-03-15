@@ -13,16 +13,14 @@ add_test(
 # test the library part
 add_executable(jmbde_exe_lib_tests "./tests.cpp")
 target_link_libraries(
-  jmbde_exe_lib_tests
-  PRIVATE jmbde_project_warnings
-          jmbde_project_options
-          catch2_test_common
-          jmbde_exe_lib)
+  jmbde_exe_lib_tests PRIVATE jmbde_project_warnings jmbde_project_options
+                              catch2_test_common jmbde_exe_lib)
 
 # use xml reporter if coverage is enabled
 if(${ENABLE_COVERAGE})
   set(COVERAGE_ARGS REPORTER xml)
 endif()
 
-# automatically discover tests that are defined in catch based test files you can modify the tests
+# automatically discover tests that are defined in catch based test files you
+# can modify the tests
 catch_discover_tests(jmbde_exe_lib_tests ${COVERAGE_ARGS})
