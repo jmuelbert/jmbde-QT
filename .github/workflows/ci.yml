@@ -15,7 +15,7 @@ on:
     paths:
       - "**.{cpp,h,hpp,py,ts,qml}"
       - cmake/**
-      - src/**
+      - app/**
       - CMakeLists.txt
       - conanfile.py
       - ".github/workflows/ci.yml"
@@ -30,7 +30,7 @@ on:
     paths:
       - "**.{cpp,h,hpp,py,ts,qml}"
       - cmake/**
-      - src/**
+      - app/**
       - CMakeLists.txt'
       - ".github/workflows/ci.yml"
       - "snap/**"
