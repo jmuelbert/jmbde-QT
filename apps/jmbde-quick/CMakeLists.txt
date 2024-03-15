@@ -40,23 +40,45 @@ message(STATUS "Building ${TARGET_NAME}" " Version ${TARGET_VERSION}"
 
 configure_file(${CMAKE_SOURCE_DIR}/cmake/versioninfo/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/jmbde_version.h @ONLY)
 
-# ----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Finding Qt6
+# --------------------------------------------------------------------------- #
+find_package(
+    Qt${QT_MAJOR_VERSION} 
+    REQUIRED COMPONENTS
+    Core
+    Widgets
+    PrintSupport
+    Sql
+    Quick
+    Qml
+    OPTIONAL_COMPONENTS
+    LinguistTools 
+    )
+
+# ---------------------------------------------------------------------------- #
 # Setup Qt executable
 # ----------------------------------------------------------------------------
-#
-find_package(
-  Qt6 QUIET
-  COMPONENTS Core
-             LinguistTools
-             Widgets
-             PrintSupport
-             Sql
-             Qml)
-
-
 qt_standard_project_setup()
 
 qt_add_executable(${TARGET_NAME} MANUAL_FINALIZATION)
+
+# ----------------------------------------------------------------------------- #
+# Include and Source files
+# ------------------------------------------------------------------------------ #
+target_include_directories(
+  ${TARGET_NAME}
+  PRIVATE "${CMAKE_BINARY_DIR}/configured_files/include"
+          "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>" # For headers when building
+          "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
+          "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>"
+          "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
+
+target_sources(${TARGET_NAME}
+    PRIVATE 
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
+    )
+
 
 # ----------------------------------------------------------------------------
 # Setup Qt translation
@@ -69,7 +91,7 @@ set_source_files_properties(
 qt_add_translations(${TARGET_NAME} TS_FILES ${PROJECT_TS_FILES})
 
 # ensure right translations domain, we use one kate.po(t) for lib + apps
-target_compile_definitions(${TARGET_NAME} PRIVATE TRANSLATION_DOMAIN=${TARGET_DISPLAY_NAM})
+target_compile_definitions(${TARGET_NAME} PRIVATE TRANSLATION_DOMAIN=${TARGET_DISPLAY_NAME})
 
 # ensure consistent SingleApplication usage
 target_compile_definitions(${TARGET_NAME} PRIVATE -DQAPPLICATION_CLASS=QApplication)
@@ -97,25 +119,15 @@ set(ICON_FILES
 ecm_add_app_icon(ICONS_SOURCES ICONS ${ICON_FILES})
 target_sources(${TARGET_NAME} PRIVATE ${ICONS_SOURCES})
 
-#
-# target
-#
-target_include_directories(
-  ${TARGET_NAME}
-  PRIVATE "${CMAKE_BINARY_DIR}/configured_files/include"
-          "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>" # For headers when building
-          "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
-          "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>"
-          "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
-
-target_sources(${TARGET_NAME}
-    PRIVATE 
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
-    )
 
 target_compile_definitions(
     ${TARGET_NAME}
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+
+# X11 startup handling
+if (UNIX AND NOT APPLE)
+    target_link_libraries(kate-bin PRIVATE Qt::GuiPrivate)
+endif()
 
 target_link_libraries(
     # PUBLIC # Useful for libraries, see
@@ -129,11 +141,12 @@ target_link_libraries(
             jmuelbert::jmbdemodels
             jmuelbert::jmbdewidgets
             jmuelbert::jmbdequick
-            Qt${QT_VERSION_MAJOR}::Core
-            Qt${QT_VERSION_MAJOR}::Widgets
-            Qt${QT_VERSION_MAJOR}::PrintSupport
-            Qt${QT_VERSION_MAJOR}::Sql
-            Qt${QT_VERSION_MAJOR}::Qml
+            Qt${QT_MAJOR_VERSION}::Core
+            Qt${QT_MAJOR_VERSION}::Widgets
+            Qt${QT_MAJOR_VERSION}::PrintSupport
+            Qt${QT_MAJOR_VERSION}::Sql
+            Qt${QT_MAJOR_VERSION}::Quick
+            Qt${QT_MAJOR_VERSION}::Qml
             ${CMAKE_REQUIRED_LIBRARIES}
             ${CONAN_LIBS}
             # coverage_config debug DEBUGLIBS optimized RELEASELIBS

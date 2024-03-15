@@ -1,15 +1,13 @@
 #
-# SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
+# SPDX-FileCopyrightText: 2013-2024 Jürgen Mülbert <juergen.muelbert@outlook.de>
 #
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: EUPL-1.2
 #
 
 include(CMakePackageConfigHelpers)
 include(CMakeFindDependencyMacro)
 include(GenerateExportHeader)
 include(GNUInstallDirs)
-
-set(CMAKE_AUTOUIC ON)
 
 # ----------------------------------------------------------------------------
 # Define Target Information
@@ -19,7 +17,7 @@ string(TOLOWER ${TARGET_ID} TARGET_ID_LOWER)
 set(TARGET_NAMESPACE jmuelbert)
 set(TARGET_NAME ${TARGET_ID_LOWER})
 set(TARGET_DESCRIPTION "Models for jmdbde")
-set(TARGET_COPYRIGHT "© 2013-2022 Jürgen Mülbert")
+set(TARGET_COPYRIGHT "© 2013-2024 Jürgen Mülbert")
 set(TARGET_URL "https://github.com/jmuelbert/jmdbe-QT")
 set(TARGET_VERSION_MAJOR 0)
 set(TARGET_VERSION_MINOR 7)
@@ -33,46 +31,36 @@ set(TARGET_AUTHOR_MAINTAINER "Jürgen Mülbert")
 message(STATUS "Building ${TARGET_NAMESPACE}::${TARGET_NAME}"
                " Version ${TARGET_VERSION} SO_Version ${TARGET_SO_VERSION}" " in ${CMAKE_BUILD_TYPE} mode")
 
-# ----------------------------------------------------------------------------
-# Finding Qt5 or Qt6
-# ----------------------------------------------------------------------------
-
+# ---------------------------------------------------------------------------- #
+# Finding Qt6
+# --------------------------------------------------------------------------- #
 find_package(
-  QT
-  NAMES
-  Qt6
-  Qt5)
-
-find_package(
-  Qt${QT_VERSION_MAJOR} CONFIG
-  COMPONENTS Core
-             Widgets
-             Sql
-             PrintSupport)
+    Qt${QT_MAJOR_VERSION} 
+    REQUIRED COMPONENTS
+    Core
+    Widgets
+    PrintSupport
+    Sql
+    Qml
+    OPTIONAL_COMPONENTS
+    LinguistTools
+    )
 
 # ----------------------------------------------------------------------------
 # Define Target according to options
 # ----------------------------------------------------------------------------
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-  if(BUILD_SHARED_LIBS)
+if(BUILD_SHARED_LIBS)
     qt_add_library(
       ${TARGET_NAME}
       SHARED
       ""
       MANUAL_FINALIZATION)
-  else()
-    qt_add_library(
-      ${TARGET_NAME}
-      STATIC
-      ""
-      MANUAL_FINALIZATION)
-  endif()
 else()
-  if(BUILD_SHARED_LIBS)
-    add_library(${TARGET_NAME} SHARED "")
-  else()
-    add_library(${TARGET_NAME} STATIC "")
-  endif()
+    qt_add_library(
+    ${TARGET_NAME}
+    STATIC
+    ""
+    MANUAL_FINALIZATION)
 endif()
 
 add_library(${TARGET_NAMESPACE}::${TARGET_NAME} ALIAS ${TARGET_NAME})
@@ -120,23 +108,27 @@ target_include_directories(
 target_compile_definitions(${TARGET_NAME}
                            PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
+# ensure right translations domain, we use one kate.po(t) for lib + apps
+target_compile_definitions(${TARGET_NAME} PRIVATE TRANSLATION_DOMAIN="${TARGET_NAME}")
+
+# export version to be used by Kate/KWrite/...
+target_compile_definitions(${TARGET_NAME} PUBLIC JMBDE_MODELS_VERSION="${RELEASE_SERVICE_VERSION}")
+
 # ----------------------------------------------------------------------------
 # We tell CMake what are the target dependencies
 # ----------------------------------------------------------------------------
 target_link_libraries(
   ${TARGET_NAME}
-  # PUBLIC
-  PRIVATE Qt${QT_VERSION_MAJOR}::Core
-          Qt${QT_VERSION_MAJOR}::Gui
-          Qt${QT_VERSION_MAJOR}::Widgets
-          Qt${QT_VERSION_MAJOR}::PrintSupport
-          Qt${QT_VERSION_MAJOR}::Sql
-          ${CMAKE_REQUIRED_LIBRARIES}
-          ${CONAN_LIBS})
+  PUBLIC
+    Qt${QT_MAJOR_VERSION}::Core
+    Qt${QT_MAJOR_VERSION}::Gui
+    Qt${QT_MAJOR_VERSION}::Widgets
+    Qt${QT_MAJOR_VERSION}::PrintSupport
+    Qt${QT_MAJOR_VERSION}::Sql
+    ${CMAKE_REQUIRED_LIBRARIES}
+    ${CONAN_LIBS})
 
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-  qt_finalize_target(${TARGET_NAME})
-endif()
+qt_finalize_target(${TARGET_NAME})
 
 # ----------------------------------------------------------------------------
 # generate an export header to expose symbols when using the library
@@ -144,6 +136,8 @@ endif()
 generate_export_header(${TARGET_NAME} EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/${TARGET_NAME}_export.h)
 
 set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/${TARGET_NAME})
+
+install(TARGETS ${TARGET_NAME} ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
 
 install(
   TARGETS ${TARGET_NAME}
@@ -197,8 +191,10 @@ if(__MSVC AND BUILD_SHARED_LIBS)
     CONFIGURATIONS Debug RelWithDebInfo)
 endif()
 
-# ---------------------------------------------------------------------------- # Testing
-# ---------------------------------------------------------------------------- #
-if(FEATURE_TESTS)
-  add_subdirectory("./test")
+if (BUILD_PCH)
+    target_precompile_headers(${TARGET_NAME} REUSE_FROM ${PCH_TARGET_NAME})
+endif()
+
+if(BUILD_TESTING)
+  add_subdirectory(autotests)
 endif()

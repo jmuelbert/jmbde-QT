@@ -15,7 +15,7 @@ on:
     paths:
       - "**.{cpp,h,hpp,py,ts,qml}"
       - cmake/**
-      - app/**
+      - apps/**
       - CMakeLists.txt
       - conanfile.py
       - ".github/workflows/ci.yml"
@@ -30,8 +30,9 @@ on:
     paths:
       - "**.{cpp,h,hpp,py,ts,qml}"
       - cmake/**
-      - app/**
-      - CMakeLists.txt'
+      - apps/**
+      - CMakeLists.txt
+      - conanfile.py
       - ".github/workflows/ci.yml"
       - "snap/**"
       - "packaging/flatpak/*.yml"
@@ -54,7 +55,7 @@ concurrency:
 
 jobs:
   tests:
-    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }} || (github.actor != 'dependabot[bot]')
     name: "Tests ${{ matrix.toolchain }} ${{ matrix.build_type }} ${{ matrix.std }} ${{ matrix.formatting }}"
     runs-on: ${{ matrix.os }}
 
@@ -82,8 +83,8 @@ jobs:
         toolchain:
           - linux-gcc12
           - linux-gcc13
+          - linux-clang14
           - linux-clang15
-          - linux-clang16
           - windows-2019-msvc
           - windows-2022-msvc
           - macos-clang
@@ -114,9 +115,9 @@ jobs:
             QT_MODULES: ""
             QT_TOOLS: ""
 
-          - toolchain: linux-clang15
+          - toolchain: linux-clang14
             os: ubuntu-22.04
-            compiler: {type: CLANG, version: 15, cc: "clang-15", cxx: "clang++-15"}
+            compiler: {type: CLANG, version: 14, cc: "clang-14", cxx: "clang++-14"}
             lib: "libc++"
             cxx_modules: "False"
             conan_config: ""
@@ -127,9 +128,9 @@ jobs:
             QT_MODULES: ""
             QT_TOOLS: ""
 
-          - toolchain: linux-clang16
+          - toolchain: linux-clang15
             os: ubuntu-22.04
-            compiler: {type: CLANG, version: 16, cc: "clang-16", cxx: "clang++-16"}
+            compiler: {type: CLANG, version: 15, cc: "clang-15", cxx: "clang++-15"}
             lib: "libc++"
             cxx_modules: "False"
             conan_config: ""
@@ -223,38 +224,8 @@ jobs:
         if: startsWith(matrix.os, 'ubuntu') || startsWith(matrix.os,'macos')
         uses: hendrikmuhs/ccache-action@v1
         with:
-          key: ${{ matrix.os }}--{{matrix.CMAKE_BUILD_TYPE}}
+          key: ${{ matrix.os }}-${{ matrix.compiler.type }}-${{ matrix.compiler.version }}-${{matrix.CMAKE_BUILD_TYPE}}
           max-size: 50M
-
-      - name: "🧰 Install gcc-13"
-        if: startsWith(matrix.os, 'ubuntu')  && matrix.compiler.type == 'GCC' && matrix.compiler.version == '13'
-        shell: bash
-        run: |
-          sudo apt-get update && DEBIAN_FRONTEND=--noninteractive \
-          sudo apt-get --no-install-recommends --assume-yes install \
-          g++-${{ matrix.compiler.version }}
-
-      - name: "🧰 Install Clang"
-        if: startsWith(matrix.os, 'ubuntu')  && matrix.compiler.type == 'CLANG'
-        shell: bash
-        working-directory: ${{ env.HOME }}
-        run: |
-          wget https://apt.llvm.org/llvm.sh
-          chmod +x llvm.sh
-          sudo ./llvm.sh ${{ matrix.compiler.version }}
-          sudo apt-get update && DEBIAN_FRONTEND=--noninteractive \
-          sudo apt-get --no-install-recommends --assume-yes install \
-          clang-tools-${{ matrix.compiler.version }}
-
-      - name: "🧰 libc++"
-        if: startsWith(matrix.os, 'ubuntu')  && matrix.compiler.type == 'CLANG'  && matrix.lib == 'libc++'
-        shell: bash
-        run: |
-          sudo apt-get update && DEBIAN_FRONTEND=--noninteractive \
-          sudo apt-get --no-install-recommends --assume-yes install \
-          libc++-${{ matrix.compiler.version }}-dev \
-          libc++abi-${{ matrix.compiler.version }}-dev \
-          libunwind-${{ matrix.compiler.version }}-dev
 
       - name: "🧰 gcovr"
         if: startsWith(matrix.os, 'ubuntu')  && matrix.GCOV != ''
@@ -491,14 +462,14 @@ jobs:
         build_type: ["Release"]
 
         toolchain:
-          - linux-clang17
+          - linux-clang15
           - windows-2022-msvc
           - macos-clang
 
         include:
-          - toolchain: linux-clang17
+          - toolchain: linux-clang15
             os: ubuntu-22.04
-            compiler: {type: CLANG, version: 17, cc: "clang-17", cxx: "clang++-17"}
+            compiler: {type: CLANG, version: 15, cc: "clang-15", cxx: "clang++-15"}
             lib: "libc++"
             cxx_modules: "True"
             conan_config: ""
@@ -580,30 +551,8 @@ jobs:
         if: startsWith(matrix.os, 'ubuntu') || startsWith(matrix.os,'macos')
         uses: hendrikmuhs/ccache-action@v1
         with:
-          key: ${{ matrix.os }}--{{matrix.CMAKE_BUILD_TYPE}}
+          key: ${{ matrix.os }}-${{ matrix.compiler.type }}-${{ matrix.compiler.version }}-${{matrix.CMAKE_BUILD_TYPE}}
           max-size: 50M
-
-      - name: "🧰 Install Clang"
-        if: startsWith(matrix.os, 'ubuntu')  && matrix.compiler.type == 'CLANG'
-        shell: bash
-        working-directory: ${{ env.HOME }}
-        run: |
-          wget https://apt.llvm.org/llvm.sh
-          chmod +x llvm.sh
-          sudo ./llvm.sh ${{ matrix.compiler.version }}
-          sudo apt-get update && DEBIAN_FRONTEND=--noninteractive \
-          sudo apt-get --no-install-recommends --assume-yes install \
-          clang-tools-${{ matrix.compiler.version }}
-
-      - name: "🧰 libc++"
-        if: startsWith(matrix.os, 'ubuntu')  && matrix.compiler.type == 'CLANG'  && matrix.lib == 'libc++'
-        shell: bash
-        run: |
-          sudo apt-get update && DEBIAN_FRONTEND=--noninteractive \
-          sudo apt-get --no-install-recommends --assume-yes install \
-          libc++-${{ matrix.compiler.version }}-dev \
-          libc++abi-${{ matrix.compiler.version }}-dev \
-          libunwind-${{ matrix.compiler.version }}-dev
 
       - name: "🐧 ⚙️ Select Xcode version"
         if: matrix.compiler.type == 'APPLE_CLANG'
@@ -659,9 +608,6 @@ jobs:
         shell: bash
         run: |
           conan profile detect --force
-          if [[ "${{ matrix.compiler.type }}" == "CLANG" ]]; then
-            sed -i.backup '/^\[settings\]$/,/^\[/ s/^compiler.libcxx=.*/compiler.libcxx=${{ matrix.lib }}/' ~/.conan2/profiles/default
-          fi
           sed -i.backup '/^\[settings\]$/,/^\[/ s/^compiler.cppstd=.*/compiler.cppstd=${{ matrix.std }}/' ~/.conan2/profiles/default
           sed -i.backup '/^\[settings\]$/,/^\[/ s/^build_type=.*/build_type=${{ matrix.build_type }}/' ~/.conan2/profiles/default
           conan profile show -pr default

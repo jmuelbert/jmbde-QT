@@ -113,18 +113,6 @@ find_package(
   CONFIG
   REQUIRED)
 
-# ---------------------------------------------------------------------------- #
-# Finding Qt6
-# ---------------------------------------------------------------------------- #
-find_package(
-  Qt6 REQUIRED COMPONENTS
-    Core
-    LinguistTools
-    Widgets
-    PrintSupport
-    Sql
-    Qml)
-
 if (NOT WIN32 AND NOT HAIKU)
     find_package(Intl)
     set_package_properties(Intl PROPERTIES TYPE REQUIRED
@@ -141,6 +129,9 @@ ecm_set_disabled_deprecation_versions(
   5.90)
 
 option(BUILD_PCH "Enable PCH support" ON)
+option(BUILD_API_DOCS "Enable API-Docs" OFF)
+
+set(PCH_TARGET_NAME "jmbdepch")
 if(BUILD_PCH)
   add_subdirectory(pch)
 endif()
@@ -148,9 +139,10 @@ endif()
 # the jmde-widgets & jmbde-quick application
 ecm_optional_add_subdirectory(apps)
 
-# the docs
+# the API-Docs
+if(BUILD_API_DOCS)
 ecm_optional_add_subdirectory(docs)
-
+endif()
 # ----------------------------------------------------------------------------
 # Install KDEGitCommitHooks
 # ----------------------------------------------------------------------------

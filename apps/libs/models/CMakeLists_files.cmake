@@ -35,6 +35,7 @@ set(HEADERS
     ${INCLUDE_DIR}/fax.h
     ${INCLUDE_DIR}/function.h
     ${INCLUDE_DIR}/inventory.h
+    ${INCLUDE_DIR}/json_utils.h
     ${INCLUDE_DIR}/manufacturer.h
     ${INCLUDE_DIR}/mobile.h
     ${INCLUDE_DIR}/os.h

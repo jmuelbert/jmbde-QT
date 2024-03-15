@@ -36,24 +36,28 @@ set(TARGET_AUTHOR_ORGANIZATION "Jürgen Mülbert")
 set(TARGET_AUTHOR_DOMAIN "https://github.com/jmuelbert")
 set(TARGET_AUTHOR_MAINTAINER "Jürgen Mülbert")
 
-message(STATUS "Building ${TARGET_NAME}" " Version ${TARGET_VERSION}" " in ${CMAKE_BUILD_TYPE} mode")
+message(STATUS "Building ${TARGET_NAME} with Qt${QT_MAJOR_VERSION}" " Version ${TARGET_VERSION}" " in ${CMAKE_BUILD_TYPE} mode")
 
 configure_file(${CMAKE_SOURCE_DIR}/cmake/versioninfo/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/jmbde_version.h @ONLY)
+
+# ---------------------------------------------------------------------------- #
+# Finding Qt6
+# --------------------------------------------------------------------------- #
+find_package(
+    Qt${QT_MAJOR_VERSION} 
+    REQUIRED COMPONENTS
+    Core
+    Widgets
+    PrintSupport
+    Sql
+    Qml
+    OPTIONAL_COMPONENTS
+    LinguistTools
+    )
 
 # ----------------------------------------------------------------------------
 # Setup Qt executable
 # ----------------------------------------------------------------------------
-#
-find_package(
-  Qt6 QUIET
-  COMPONENTS Core
-             LinguistTools
-             Widgets
-             PrintSupport
-             Sql
-             Qml)
-
-
 qt_standard_project_setup()
 
 qt_add_executable(${TARGET_NAME} MANUAL_FINALIZATION)
@@ -120,6 +124,11 @@ target_sources(${TARGET_NAME}
 
 target_compile_definitions(${TARGET_NAME} 
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+
+# X11 startup handling
+if (UNIX AND NOT APPLE)
+    target_link_libraries(kate-bin PRIVATE Qt::GuiPrivate)
+endif()
 
 target_link_libraries(
   # PUBLIC # Useful for libraries, see

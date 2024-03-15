@@ -4,24 +4,20 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
 
-# minimal requirements
-cmake_minimum_required(VERSION 3.18 FATAL_ERROR)
-
 include(CMakePackageConfigHelpers)
 include(CMakeFindDependencyMacro)
 include(GenerateExportHeader)
 include(GNUInstallDirs)
 
-set(CMAKE_AUTOUIC ON)
-
-# ---------------------------------------------------------------- # Define Target Information
-# ---------------------------------------------------------------------------- #
+# ----------------------------------------------------------------------------
+# Define Target Information
+# ----------------------------------------------------------------------------
 set(TARGET_ID jmbdewidgets)
 string(TOLOWER ${TARGET_ID} TARGET_ID_LOWER)
 set(TARGET_NAMESPACE jmuelbert)
 set(TARGET_NAME ${TARGET_ID_LOWER})
 set(TARGET_DESCRIPTION "Widgets for jmdbde")
-set(TARGET_COPYRIGHT "© 2013-2022 Jürgen Mülbert")
+set(TARGET_COPYRIGHT "© 2013-2024 Jürgen Mülbert")
 set(TARGET_URL "https://github.com/jmuelbert/jmdbe-QT")
 set(TARGET_VERSION_MAJOR 0)
 set(TARGET_VERSION_MINOR 3)
@@ -35,63 +31,56 @@ set(TARGET_AUTHOR_MAINTAINER "Jürgen Mülbert")
 message(STATUS "Building ${TARGET_NAMESPACE}::${TARGET_NAME}"
                " Version ${TARGET_VERSION} SO_Version ${TARGET_SO_VERSION}" " in ${CMAKE_BUILD_TYPE} mode")
 
-find_package(
-  QT
-  NAMES
-  Qt6
-  Qt5
-  COMPONENTS Core
-  REQUIRED)
+set(CMAKE_AUTOUIC ON)
 
-# ---------------------------------------------------------------------------- # Finding Qt5 or Qt6
 # ---------------------------------------------------------------------------- #
+# Finding Qt6
+# --------------------------------------------------------------------------- #
 find_package(
-  Qt${QT_VERSION_MAJOR} CONFIG
-  COMPONENTS Core
-             Widgets
-             Sql
-             PrintSupport)
+    Qt${QT_MAJOR_VERSION} 
+    REQUIRED COMPONENTS
+    Core
+    Widgets
+    PrintSupport
+    Sql
+    Qml
+    OPTIONAL_COMPONENTS
+    LinguistTools
+    )
 
-# ---------------------------------------------------------------------------- # Define Target
-# according to options ----------------------------------------------------------------------------
-# #
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-  if(BUILD_SHARED_LIBS)
+# ----------------------------------------------------------------------------
+# Define Target according to options
+# ----------------------------------------------------------------------------
+if(BUILD_SHARED_LIBS)
     qt_add_library(
       ${TARGET_NAME}
       SHARED
       ""
       MANUAL_FINALIZATION)
-  else()
+else()
     qt_add_library(
       ${TARGET_NAME}
       STATIC
       ""
       MANUAL_FINALIZATION)
-  endif()
-else()
-  if(BUILD_SHARED_LIBS)
-    add_library(${TARGET_NAME} SHARED "")
-  else()
-    add_library(${TARGET_NAME} STATIC "")
-  endif()
 endif()
 
 add_library(${TARGET_NAMESPACE}::${TARGET_NAME} ALIAS ${TARGET_NAME})
 
-# ---------------------------------------------------------------------------- # Get the Sources and
-# the include directory ----------------------------------------------------------------------------
-# #
+# ----------------------------------------------------------------------------
+# Get the Sources and the include directory
+# ----------------------------------------------------------------------------
+#
 set(TARGET_INCLUDE_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/include)
 # Define source files for the library
 include(CMakeLists_files.cmake)
 
 target_sources(${TARGET_NAME} PRIVATE ${SOURCES} ${HEADERS})
 
-# ---------------------------------------------------------------------------- # Define Target
-# properties and optional Dependencies
-# ---------------------------------------------------------------------------- #
-
+# ----------------------------------------------------------------------------
+# Define Target  properties and optional Dependencies
+# ----------------------------------------------------------------------------
+#
 # This is required so that the exported target has the name  and not
 #
 # add target properties such as debug postfix, MSVC Runtime and library version DEBUG_POSTFIX "-d"
@@ -101,12 +90,6 @@ set_target_properties(
              VERSION ${TARGET_VERSION}
              SOVERSION ${TARGET_SO_VERSION}
              EXPORTNAME ${TARGET_NAME})
-
-set_target_properties(
-  ${TARGET_NAME}
-  PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-             LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-             RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # BUILD_INTERFACE specifies where to find includes during build time here we set the include
 # directory to be our src
@@ -130,18 +113,17 @@ target_compile_definitions(${TARGET_NAME}
 target_link_libraries(
   ${TARGET_NAME}
   # PUBLIC
-  PRIVATE Qt${QT_VERSION_MAJOR}::Core
-          Qt${QT_VERSION_MAJOR}::Gui
-          Qt${QT_VERSION_MAJOR}::Widgets
-          Qt${QT_VERSION_MAJOR}::PrintSupport
-          Qt${QT_VERSION_MAJOR}::Sql
-          jmuelbert::jmbdemodels
-          ${CMAKE_REQUIRED_LIBRARIES}
-          ${CONAN_LIBS})
+  PRIVATE 
+    Qt${QT_MAJOR_VERSION}::Core
+    Qt${QT_MAJOR_VERSION}::Gui
+    Qt${QT_MAJOR_VERSION}::Widgets
+    Qt${QT_MAJOR_VERSION}::PrintSupport
+    Qt${QT_MAJOR_VERSION}::Sql
+    jmuelbert::jmbdemodels
+    ${CMAKE_REQUIRED_LIBRARIES}
+    ${CONAN_LIBS})
 
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-  qt_finalize_target(${TARGET_NAME})
-endif()
+qt_finalize_target(${TARGET_NAME})
 
 # ----------------------------------------------------------------------------
 # generate an export header to expose symbols when using the library
@@ -202,9 +184,11 @@ if(__MSVC AND BUILD_SHARED_LIBS)
     CONFIGURATIONS Debug RelWithDebInfo)
 endif()
 
-# ---------------------------------------------------------------------------- # Testing
-# ---------------------------------------------------------------------------- #
-if(ENABLE_TESTING)
-  enable_testing()
-  add_subdirectory(test)
+if (BUILD_PCH)
+    target_precompile_headers(${TARGET_NAME}  REUSE_FROM ${PCH_TARGET_NAME})
 endif()
+
+if(BUILD_TESTING)
+  add_subdirectory(autotests)
+endif()
+
