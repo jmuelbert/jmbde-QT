@@ -1,3 +1,8 @@
+---
+# SPDX-FileCopyrightText: Microsoft Corporation
+#
+# SPDX-License-Identifier: MIT
+#
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
@@ -6,39 +11,43 @@
 # This workflow integrates a collection of open source static analysis tools
 # with GitHub code scanning. For documentation, or to provide feedback, visit
 # https://github.com/github/ossar-action
+
 name: OSSAR
 
 on:
   push:
-    branches:
-      - main
+    branches: [main, develop, release, improve_build-workflow]
     paths:
-      - '**.{cpp,h,hpp,qml,ts,py}'
+      - "**.{cpp,h,hpp,qml,ts,py}"
       - cmake/**
-      - src/**
+      - apps/**
       - CMakeLists.txt
-      - '.github/workflows/ossar-analysis.yml'
+      - ".github/workflows/ossar-analysis.yml"
+
   pull_request:
     # The branches below must be a subset of the branches above
     types: [opened, synchronize, reopened]
     paths:
-      - '**.{cpp,h,hpp,qml,ts,py}'
+      - "**.{cpp,h,hpp,qml,ts,py}"
       - cmake/**
-      - src/**
+      - apps/**
       - CMakeLists.txt
-      - '.github/workflows/ossar-analysis.yml'
+      - ".github/workflows/ossar-analysis.yml"
+
   schedule:
-    - cron: '22 15 * * 3'
+    - cron: "22 15 * * 3"
 
 jobs:
   OSSAR-Scan:
+    # Skip any PR created by dependabot to avoid permission issues:
+    if: (github.actor != 'dependabot[bot]')
     # OSSAR runs on windows-latest.
     # ubuntu-latest and macos-latest support coming soon
     runs-on: windows-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: "🧰 Checkout Source Code"
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       # Ensure a compatible version of dotnet is installed.
       # The [Microsoft Security Code Analysis CLI](https://aka.ms/mscadocs) is built with dotnet v3.1.201.
@@ -51,11 +60,11 @@ jobs:
       #     dotnet-version: '3.1.x'
       # Run open source static analysis tools
       - name: Run OSSAR
-        uses: github/ossar-action@v1
+        uses: github/ossar-action@fae13e456b9973657a670eef6bccc3a4c2b5153d # main
         id: ossar
 
-        # Upload results to the Security tab
-      - name: Upload OSSAR results
-        uses: github/codeql-action/upload-sarif@v2
+      # Upload the results to GitHub's code scanning dashboard.
+      - name: "Upload to code-scanning"
+        uses: github/codeql-action/upload-sarif@17573ee1cc1b9d061760f3a006fc4aac # v2.2.4
         with:
           sarif_file: ${{ steps.ossar.outputs.sarifFile }}

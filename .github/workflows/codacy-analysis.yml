@@ -1,4 +1,8 @@
 ---
+# SPDX-FileCopyrightText: Codacy Analysis CLI GitHub Action Group
+#
+# SPDX-License-Identifier: Apache-2.0
+#
 # This workflow checks out code, performs a Codacy security scan
 # and integrates the results with the
 # GitHub Advanced Security code scanning feature.  For more information on
@@ -9,27 +13,28 @@
 
 name: Codacy Security Scan
 
-on:
+on: # yamllint disable-line rule:truthy
   push:
-    branches:
-      - main
+    branches: [main, develop, release, improve_build-workflow]
     paths:
-      - '**.{cpp,h,hpp,py,ts,qml}'
+      - "**.{cpp,h,hpp,py,ts,qml}"
       - cmake/**
-      - src/**
+      - apps/**
       - CMakeLists.txt
-      - '.github/workflows/codacy-analysis.yml'
+      - ".github/workflows/codacy-analysis.yml"
+
   pull_request:
     # The branches below must be a subset of the branches above
     types: [opened, synchronize, reopened]
     paths:
-      - '**.{cpp,h,hpp,py,ts,qml}'
+      - "**.{cpp,h,hpp,py,ts,qml}"
       - cmake/**
-      - src/**
+      - apps/**
       - CMakeLists.txt
-      - '.github/workflows/codacy-analysis.yml'
+      - ".github/workflows/codacy-analysis.yml"
+
   schedule:
-    - cron: '35 11 * * 5'
+    - cron: "35 11 * * 5"
 
 permissions:
   contents: read
@@ -40,33 +45,39 @@ concurrency:
 
 jobs:
   codacy-security-scan:
-    name: Codacy Security Scan
-    runs-on: ubuntu-latest
-
     # Skip any PR created by dependabot to avoid permission issues:
     if: (github.actor != 'dependabot[bot]')
+    name: Codacy Security Scan
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
 
     steps:
-      - name: '🧰 Check out code'
-        uses: actions/checkout@v4
+      # Checkout the repository to the GitHub Actions runner
+      - name: "🧰 Checkout Source Code"
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
-      # Wenn dies ein Pull Request-Event ist, dann checkout den Pull Request-Branch.
-      - name: Checkout from pull request
-        if: github.event_name == 'pull_request'
-        run: git checkout ${{ github.event.pull_request.head.ref }}
-
+      # Execute Codacy Analysis CLI and generate a SARIF output with the security issues identified during the analysis
       - name: Run Codacy Analysis CLI
-        uses: codacy/codacy-analysis-cli-action@v4.3.0
+        uses: codacy/codacy-analysis-cli-action@d840f886c4bd4edc059706d09c6a1586111c540b # v4.3.0
+
         with:
-          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          # Check https://github.com/codacy/codacy-analysis-cli#project-token to get your project token from your Codacy repository
+          # You can also omit the token and run the tools that support default configurations
+          # project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           verbose: true
-          output: results.sarif
+          output: codeql-results.sarif
           format: sarif
+          # Adjust severity of non-security issues
           gh-code-scanning-compat: true
+          # Force 0 exit code to allow SARIF file generation
+          # This will handover control about PR rejection to the GitHub side
           max-allowed-issues: 2147483647
 
       # Upload the SARIF file generated in the previous step
       - name: Upload SARIF results file
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@17573ee1cc1b9d061760f3a006fc4aac # v2.2.4
         with:
           sarif_file: results.sarif

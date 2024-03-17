@@ -2,37 +2,54 @@
 # Name of this GitHub Actions workflow.
 name: Semgrep
 
-on:
-  pull_request:
-  workflow_dispatch:
+on: # yamllint disable-line rule:truthy
   push:
-    branches:
-      - main
-  # Täglicher Scan um 17:20 Uhr UTC.
+    branches: [main, develop, release, improve_build-workflow]
+
+  pull_request:
+    # The branches below must be a subset of the branches above
+    types: [opened, synchronize, reopened]
+
+  workflow_dispatch:
+
   schedule:
-    - cron: '20 17 * * *'
+    - cron: "20 17 * * 4"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
 
 jobs:
   semgrep:
+    if: (github.actor != 'dependabot[bot]')
     name: semgrep/ci
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
 
     container:
       image: returntocorp/semgrep
 
-    if: (github.actor != 'dependabot[bot]')
-
     steps:
-      - name: '🧰 Check out code'
-        uses: actions/checkout@v3
+      - name: "🧰 Checkout Source Code"
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+        # Skip any PR created by dependabot to avoid permission issues;
+        if: (github.actor != 'dependabot[bot]')
 
       - name: Run semgrep ci
         run: semgrep ci --sarif --output=semgrep.sarif
         env:
           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
 
-      - name: Upload SARIF file for GitHub Advanced Security Dashboard
-        uses: github/codeql-action/upload-sarif@v2
+      # Upload the results to GitHub's code scanning dashboard.
+      - name: "Upload to code-scanning"
+        uses: github/codeql-action/upload-sarif@17573ee1cc1b9d061760f3a006fc4aac # v2.2.4
         with:
           sarif_file: semgrep.sarif
         if: always()

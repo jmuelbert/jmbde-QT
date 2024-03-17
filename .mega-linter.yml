@@ -1,0 +1,35 @@
+---
+# Configuration file for MegaLinter
+#
+# See all available variables at https://megalinter.io/latest/configuration/ and in
+# linters documentation
+
+# all, none, or list of linter keys
+APPLY_FIXES: all
+
+# If you use ENABLE variable, all other languages/formats/tooling-formats will
+# be disabled by default
+# ENABLE:
+
+# If you use ENABLE_LINTERS variable, all other linters will be disabled by
+# default
+# ENABLE_LINTERS:
+DISABLE_LINTERS:
+  - CSHARP_DOTNET_FORMAT
+
+# DISABLE:
+# - COPYPASTE # Uncomment to disable checks of excessive copy-pastes
+# - SPELL # Uncomment to disable checks of spelling mistakes
+
+EDITORCONFIG_FILTER_REGEX_EXCLUDE: (LICENSE|LICENSES/|AUTHORS|\.github/PULL_REQUEST_TEMPLATE.md|\.github/actions/spelling/advice.md)
+JSON_V8R_FILTER_REGEX_EXCLUDE: (\.devcontainer/devcontainer.json|\.vscode/)
+SPELL_CSPELL_FILTER_REGEX_EXCLUDE: (docs/de|docs/es|docs/it)
+SPELL_LYCHEE_FILTER_REGEX_EXCLUDE: (\.github/workflows/|\.github/actions/|docs/yarn.lock)
+MARKDOWN_MARKDOWNLINT_FILTER_REGEX_EXCLUDE: (\.github/actions/spelling)
+YAML_YAMLLINT_FILTER_REGEX_EXCLUDE: (docs/yarn.lock)
+
+SHOW_ELAPSED_TIME: true
+
+FILEIO_REPORTER: false
+# Uncomment if you want MegaLinter to detect errors but not block CI to pass
+# DISABLE_ERRORS: true

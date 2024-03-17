@@ -5,11 +5,18 @@
 
 name: REUSE Compliance Check
 
-# yamllint disable
-on:
-  # yamllint enable
+on: # yamllint disable-line rule:truthy
   push:
+    branches: [main, develop, release, improve_build-workflow]
+
+  # pull_request event is required only for autolabeler
   pull_request:
+    # Only following types are handled by the action, but one can
+    # default to all as well
+    types: [opened, reopened, synchronize]
+    # pull_request_target event is required for autolabeler to
+    # support PRs from forks
+    # pull_request_target:
 
 permissions:
   contents: read
@@ -17,16 +24,18 @@ permissions:
 jobs:
   ReuseCheck:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     # Skip any PR created by dependabot to avoid permission issues:
     if: (github.actor != 'dependabot[bot]')
 
     steps:
-      - name: '🧰 Check out code'
-        uses: actions/checkout@v4
+      - name: "🧰 Checkout Source Code"
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
           # Full git history is needed to get a proper list of changed files within `super-linter`
           fetch-depth: 0
 
       - name: REUSE Compliance Check
-        uses: fsfe/reuse-action@v2
+        uses: fsfe/reuse-action@4f2804894b54004c8ed4b8a62b7c649e54a3aa4b # v2.0.0

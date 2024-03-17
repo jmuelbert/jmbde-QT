@@ -1,4 +1,8 @@
 ---
+# SPDX-FileCopyrightText: Jürgen Mülbert
+#
+# SPDX-License-Identifier: MIT
+#
 # Sample workflow for building and deploying an Astro site to GitHub Pages
 #
 # To get started with Astro see: https://docs.astro.build/en/getting-started/
@@ -11,35 +15,41 @@ permissions:
   pages: write
   id-token: write
 
-on:
+on: # yamllint disable-line rule:truthy
   push:
-    branches:
-      - main
+    branches: [main, develop, release, improve_workflows]
+
   pull_request:
-    branches:
-      - main
+    # The branches below must be a subset of the branches above
+    types: [opened, synchronize, reopened]
+
   workflow_dispatch:
 
 # Allow one concurrent deployment
 concurrency:
-  group: 'pages'
+  group: "pages"
   cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    # Skip any PR created by dependabot to avoid permission issues:
+    if: (github.actor != 'dependabot[bot]')
+
     steps:
-      - name: '🧰 Check out code'
-        uses: actions/checkout@v4
+      - name: "🧰 Checkout Source Code"
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: Build and Upload Site
-        uses: withastro/action@v0
+        uses: withastro/action@9a7959a16949e620a22e74f81c10cb7ce3b76924 # v1.0.6
         with:
           path:
-            ./docs # The root location of your Astro project inside the repository. (optional)
+            ./pages
+            # The root location of your Astro project inside the
+            # repository. (optional)
             # node-version: 16 # The specific version of Node that should be used to build your site. Defaults to 16. (optional)
-            # package-manager: yarn # The Node package manager that should be used to install dependencies and build your site. Automatically detected based on your lockfile. (optional)
-
+          package-manager: pnpm@latest
   deploy:
     environment:
       name: github-pages

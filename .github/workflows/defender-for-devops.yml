@@ -21,10 +21,11 @@ name: 'Microsoft Defender For Devops'
 
 on:
   push:
-    branches:
-      - main
+    branches: [main, develop, release, improve_build-workflow]
+
   pull_request:
     types: [opened, synchronize, reopened]
+
   schedule:
     - cron: '32 6 * * 5'
 
@@ -37,30 +38,42 @@ concurrency:
 
 jobs:
   MSDO:
+    # Skip any PR created by dependabot to avoid permission issues:
+    if: (github.actor != 'dependabot[bot]')
+    runs-on: windows-latest
     permissions:
       contents: read # for actions/checkout to fetch code
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
       actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
     # currently only windows latest is supported
-    runs-on: windows-latest
-
-    # Skip any PR created by dependabot to avoid permission issues:
-    if: (github.actor != 'dependabot[bot]')
 
     steps:
-      - name: '🧰 Check out code'
-        uses: actions/checkout@v4
+      - name: "🧰 Checkout Source Code"
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+      - name: "⚙️ Setup dotnet"
+        uses: actions/setup-dotnet@4d6c8fcf3c8f7a60068d26b594648e99df24cee3 # v4.0.0
         with:
-          dotnet-version: '7.0.x' # Aktualisiere auf die gewünschte .NET-Version
+          dotnet-version: |
+            6.0.x
+            7.0.x
+          cache: true
 
+      - name: Cache NuGet packages
+        uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3.3.2
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+              ${{ runner.os }}-nuget-          
+      
       - name: Run Microsoft Security DevOps
-        uses: microsoft/security-devops-action@v1.6.0
-        id: msdo
-
-      - name: Upload results to Security tab
-        uses: github/codeql-action/upload-sarif@v2
+        uses: microsoft/security-devops-action@7e3060ae1e6a9347dd7de6b28195099f39852fe2 # v1.10.0
+          id: msdo
+      
+      # Upload the results to GitHub's code scanning dashboard.
+      - name: "Upload to code-scanning"
+        uses: github/codeql-action/upload-sarif@17573ee1cc1b9d061760f3a006fc4aac # v2.2.4
         with:
           sarif_file: ${{ steps.msdo.outputs.sarifFile }}
+      

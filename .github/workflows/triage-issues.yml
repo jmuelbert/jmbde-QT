@@ -3,13 +3,10 @@
 #
 # SPDX-License-Identifier: EUPL-1.2
 #
-# Dies ist eine GitHub-Workflow-Datei zur automatischen Triage von Issues und Pull Requests.
-# Sie wird einmal täglich ausgeführt und markiert oder schließt veraltete Elemente.
-# Weitere Informationen finden Sie in der Dokumentation.
 
 name: Triage Issues
 
-on:
+on: # yamllint disable-line rule:truthy
   push:
     branches-ignore:
       - dependabot/**
@@ -19,8 +16,7 @@ on:
       - edited
 
   schedule:
-    # Einmal täglich um Mitternacht UTC
-    - cron: '0 0 * * *'
+    - cron: "0 0 * * *"
 
 permissions:
   issues: write
@@ -48,16 +44,14 @@ jobs:
         uses: actions/stale@v8
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          days-before-stale: 21
-          days-before-close: 7
+          days-before-stale: 365
+          days-before-close: 30
           stale-issue-message: |
-            Dieses Issue wurde automatisch als veraltet markiert, da es seit geraumer Zeit keine Aktivität mehr gab.
-            Es wird geschlossen, wenn keine weitere Aktivität erfolgt.
+            This issue was automatically marked as deprecated because there has been no activity for quite some time. It will be closed if there is no further activity.
           stale-pr-message: |
-            Dieser Pull Request wurde automatisch als veraltet markiert, da er seit geraumer Zeit keine Aktivität mehr hatte.
-            Er wird geschlossen, wenn keine weitere Aktivität erfolgt.
-          exempt-issue-labels: 'gsoc-outreachy, help wanted, in progress'
-          exempt-pr-labels: 'gsoc-outreachy, help wanted, in progress'
+            This pull request was automatically marked as deprecated because it hasn't had any activity in quite some time. It will be closed if there is no further activity.
+          exempt-issue-labels: "gsoc-outreachy, help wanted, in progress"
+          exempt-pr-labels: "gsoc-outreachy, help wanted, in progress"
 
   bump-pr-stale:
     if: |
@@ -72,17 +66,15 @@ jobs:
       )
     runs-on: ubuntu-latest
     steps:
-      - name: Mark or Close Stale `bump-formula-pr` and `bump-cask-pr` Pull Requests
-        uses: actions/stale@v8
+      - name: Mark or Close Stale `bump-pr`  Pull Requests
+        uses: actions/stale@28ca1036281a5e5922ead5184a1bbf96e5fc984e # v9
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          days-before-stale: 2
-          days-before-close: 1
+          days-before-stale: 365
+          days-before-close: 30
           stale-pr-message: |
-            Dieser Pull Request wurde automatisch als veraltet markiert, da er seit geraumer Zeit keine Aktivität mehr hatte.
-            Er wird geschlossen, wenn keine weitere Aktivität erfolgt. Um diesen Pull Request offen zu halten, fügen Sie ein `help wanted` oder `in progress` Label hinzu.
-          exempt-pr-labels: 'help wanted, in progress'
-          any-of-labels: 'bump-formula-pr, bump-cask-pr'
+            This pull request was automatically marked as deprecated because it hasn't had any activity in quite some time. It will be closed if there is no further activity. To keep this pull request open, add a 'help wanted' or 'in progress' label.          exempt-pr-labels: "help wanted, in progress"
+          any-of-labels: "bump-pr"
 
   lock-threads:
     if: startsWith(github.repository, 'jmuelbert/') && github.event_name != 'issue_comment'
@@ -90,7 +82,7 @@ jobs:
 
     steps:
       - name: Lock Outdated Threads
-        uses: dessant/lock-threads@c1b35aecc5cdb1a34539d14196df55838bb2f836
+        uses: dessant/lock-threads@1bf7ec25051fe7c00bdd17e6a7cf3d7bfb7dc771 # v5.0.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           issue-inactive-days: 30

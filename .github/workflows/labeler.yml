@@ -1,14 +1,18 @@
 ---
-name: 'GitHub Labeler'
+name: "GitHub Labeler"
 
-on:
+on: # yamllint disable-line rule:truthy
   push:
-    branches:
-      - 'main'
+    branches: [main, develop, release, improve_build-workflow]
     paths:
-      - '.github/labels.yml'
-      - '.github/workflows/labels.yml'
+      - ".github/labels.yml"
+      - ".github/workflows/labels.yml"
 
+  pull_request:
+    # The branches below must be a subset of the branches above
+    types: [opened, synchronize, reopened]
+
+# Set permissions for contents
 permissions:
   contents: read
 
@@ -16,11 +20,12 @@ jobs:
   labeler:
     runs-on: ubuntu-latest
     steps:
-      - name: '🧰 Check out code'
-        uses: actions/checkout@v4
+      - name: "🧰 Checkout Source Code"
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: Run Labeler
-        uses: crazy-max/ghaction-github-labeler@v4
+        if: success()
+        uses: crazy-max/ghaction-github-labeler@de749cf181958193cb7debf1a9c5bb28922f3e1b # v5.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           yaml-file: .github/labels.yml

@@ -1,7 +1,7 @@
 ---
 # SPDX-FileCopyrightText: © 2016-2024 Jürgen Mülbert
 #
-# SPDX-License-Identifier: EUPL-1.2
+# SPDX-License-Identifier: MIT 
 #
 
 # For most projects, this workflow file will not need changing; you simply need
@@ -15,14 +15,11 @@
 # the `language` matrix defined below to confirm you have the correct set of
 # supported CodeQL languages.
 #
-name: "CodeQL"
+name: "CodeQL Analysis"
 
-on:
+on: # yamllint disable-line rule:truthy
   push:
-    branches:
-      - main
-      - develop
-      - improve_build-workflow
+    branches: [main, develop, release, improve_build-workflow]
     paths:
       - "**.{cpp,h,hpp,py,ts,qml}"
       - cmake/**
@@ -30,14 +27,16 @@ on:
       - CMakeLists.txt
       - conanfile.py
       - ".github/workflows/codeql-analysis.yml"
+
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
       - "**.{cpp,h,hpp,py,ts,qml}"
       - cmake/**
-      - src/**
+      - apps/**
       - CMakeLists.txt
       - ".github/workflows/codeql-analysis.yml"
+
   schedule:
     - cron: "38 0 * * 5"
 
@@ -105,7 +104,7 @@ jobs:
 
     steps:
       - name: "🧰 Checkout Source Code"
-        uses: actions/checkout@v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: "🧰 Setup Cache-ID with date for unix-like systems"
         if: matrix.language == 'cpp'
@@ -229,7 +228,7 @@ jobs:
 
       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v1
+        uses: github/codeql-action/init@v2
         with:
           languages: ${{ matrix.language }}
           # If you wish to specify custom queries, you can do so here or in a config file.

@@ -1,0 +1,28 @@
+---
+# SPDX-FileCopyrightText: (c) Wagner Santos
+#
+# SPDX-License-Identifier: MIT
+#
+name: Lint Commit Messages
+on: [pull_request] # yamllint disable-line rule:truthy
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: ${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  commitlint:
+    runs-on: ubuntu-latest
+
+    if: (github.actor != 'dependabot[bot]')
+
+    steps:
+      - name: "🧰 Checkout"
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+
+      - name: "Check the commits"
+        uses: wagoid/commitlint-github-action@0d749a1a91d4770e983a7b8f83d4a3f0e7e0874e # v5.4.4

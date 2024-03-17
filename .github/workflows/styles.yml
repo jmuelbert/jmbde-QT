@@ -3,8 +3,8 @@ name: Style
 
 on:
   push:
-    branches:
-      - 'master'
+    branches: [main, develop, release, improve_build-workflow]
+
     paths-ignore:
       - 'docs/**'
       - '.github/ISSUE_TEMPLATE/**'
@@ -21,9 +21,8 @@ on:
       - 'Docker/**'
       - 'report/**'
       - 'resources/**'
+      
   pull_request:
-    branches:
-      - 'master'
     types: [opened, reopened]
     paths-ignore:
       - 'docs/**'
