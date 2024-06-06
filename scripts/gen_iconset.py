@@ -6,8 +6,8 @@
 # Ported Python 3 specific code to Python 2.7.10 for Apple Python support
 # VikingOSX, 2019-04-04, Apple Support Communities, No Warranty at all.
 
-import subprocess
 import os
+import subprocess
 import sys
 
 
@@ -31,7 +31,7 @@ def main():
     if not (os.path.exists(iconsetDir)):
         os.mkdir(iconsetDir, 0o0755)
 
-    class IconParameters():
+    class IconParameters:
         width = 0
         scale = 1
 
@@ -43,8 +43,7 @@ def main():
             if self.scale != 1:
                 return "icon_{}x{}{}".format(self.width, self.width, ext)
             else:
-                return "icon_{}x{}@2x{}".format(self.width // 2, self.width // 2,
-                                                ext)
+                return "icon_{}x{}@2x{}".format(self.width // 2, self.width // 2, ext)
 
     ListOfIconParameters = [
         IconParameters(16, 1),
@@ -60,20 +59,40 @@ def main():
         IconParameters(512, 1),
         IconParameters(512, 2),
         IconParameters(1024, 1),
-        IconParameters(1024, 2)
+        IconParameters(1024, 2),
     ]
 
     # generate iconset
     for ip in ListOfIconParameters:
-        (subprocess.call(["sips", "-z", str(ip.width), str(ip.width),
-                         originalPicture, "--out",
-                         os.path.join(iconsetDir, ip.getIconName())]))
+        (
+            subprocess.call(
+                [
+                    "sips",
+                    "-z",
+                    str(ip.width),
+                    str(ip.width),
+                    originalPicture,
+                    "--out",
+                    os.path.join(iconsetDir, ip.getIconName()),
+                ]
+            )
+        )
         # print("Generated: {}\n".format(ip.getIconName()))
 
     # convert iconset to icns file
-    (subprocess.call(["iconutil", "-c", "icns", iconsetDir, "-o",
-                     os.path.join(destDir, "{}.icns".format(fname))]))
+    (
+        subprocess.call(
+            [
+                "iconutil",
+                "-c",
+                "icns",
+                iconsetDir,
+                "-o",
+                os.path.join(destDir, "{}.icns".format(fname)),
+            ]
+        )
+    )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main())

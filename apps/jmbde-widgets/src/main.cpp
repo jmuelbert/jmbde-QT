@@ -81,7 +81,8 @@ auto main(int argc, char *argv[]) -> int
     if (translator.load(QLocale(), QLatin1String("jmbde"), QLatin1String("_"), QLatin1String(":/i18n")))
         QCoreApplication::installTranslator(&translator);
 #else
-    qDebug() << "Use file based translations from: " << "Translation Directory";
+    qDebug() << "Use file based translations from: "
+             << "Translation Directory";
     if (translator.load(QLocale(), QLatin1String("jmbde"), QLatin1String("_"), QLatin1String("translations"))) {
         QCoreApplication::installTranslator(&translator);
     }

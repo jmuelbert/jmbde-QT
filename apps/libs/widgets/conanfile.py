@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from conans import ConanFile, CMake
+from conans import CMake, ConanFile
 
 
 class JmbdemodelsConan(ConanFile):

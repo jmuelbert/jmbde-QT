@@ -1,8 +1,6 @@
 ---
 name: "size-limit"
 on:
-  push:
-    branches: [main, develop, release, improve_build-workflow]
   pull_request:
     types: [opened, synchronize, reopened]
 

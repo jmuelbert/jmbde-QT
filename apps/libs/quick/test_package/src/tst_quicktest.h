@@ -1,3 +1,4 @@
+#pragma once
 /*
  *  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
  *

@@ -7,9 +7,9 @@
 #
 import os
 
-from conans import ConanFile, tools
 from conan.tools.cmake import CMake
 from conan.tools.layout import cmake_layout
+from conans import ConanFile, tools
 
 
 class JmbdemodelsConan(ConanFile):

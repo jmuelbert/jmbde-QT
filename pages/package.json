@@ -1,8 +1,7 @@
 {
-  "dependencies": {
-    "astro": "^2.0.14"
-  },
   "name": "Documentation",
+  "version": "0.0.1",
+  "type": "module",
   "scripts": {
     "astro": "astro",
     "build": "astro build",
@@ -10,6 +9,7 @@
     "preview": "astro preview",
     "start": "astro dev"
   },
-  "type": "module",
-  "version": "0.0.1"
+  "dependencies": {
+    "astro": "^2.0.14"
+  }
 }

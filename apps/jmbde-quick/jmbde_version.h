@@ -1,3 +1,4 @@
+#pragma once
 #define PROJECT_NAME "jmbdequick-bin"
 #define PROJECT_DESCRIPTION "jmdbde app"
 

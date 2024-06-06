@@ -1,6 +1,6 @@
 import os
 
-from conans import ConanFile, CMake, tools
+from conans import CMake, ConanFile, tools
 
 
 class ModelsTestConan(ConanFile):
@@ -17,7 +17,7 @@ class ModelsTestConan(ConanFile):
     def imports(self):
         self.copy("*.dll", dst="bin", src="bin")
         self.copy("*.dylib*", dst="bin", src="lib")
-        self.copy('*.so*', dst='bin', src='lib')
+        self.copy("*.so*", dst="bin", src="lib")
 
     def test(self):
         if not tools.cross_building(self):

@@ -168,12 +168,14 @@ CREATE TABLE fax (
     inventory_id INTEGER,
     last_update TIMESTAMP
 );
-CREATE TABLE function (
-    function_id INTEGER PRIMARY KEY,
-    name VARCHAR(50),
-    priority INTEGER,
-    last_update TIMESTAMP
-);
+create table function
+    (
+        function_id integer primary key,
+        name varchar(50),
+        priority integer,
+        last_update timestamp
+    )
+;
 CREATE TABLE inventory (
     inventory_id INTEGER PRIMARY KEY,
     number VARCHAR(25),
@@ -309,6 +311,6 @@ CREATE TABLE database_version (
     revision VARCHAR (10),
     patch VARCHAR(10)
 );
---First insertions
+-- First insertions
 INSERT INTO database_version
 VALUES(1, "0", "90", "0");

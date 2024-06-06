@@ -5,8 +5,8 @@
 #  SPDX-License-Identifier: GPL-3.0-or-later
 #
 
+from conans import CMake, ConanFile
 from pydoc_data.topics import topics
-from conans import ConanFile, CMake
 
 
 class jmbdeConan(ConanFile):
@@ -35,8 +35,8 @@ class jmbdeConan(ConanFile):
 
     def requirements(self):
         if self.options.testing:
-            self.requires('gtest/cci.20210126')
-            self.requires('benchmark/1.6.0')
+            self.requires("gtest/cci.20210126")
+            self.requires("benchmark/1.6.0")
 
     def export_sources(self):
         self.copy("*")

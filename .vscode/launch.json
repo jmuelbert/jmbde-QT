@@ -30,9 +30,7 @@
       "type": "cppvsdbg",
       "request": "launch",
       "program": "GammaRay",
-      "args": [
-        "${command:cmake.launchTargetPath}"
-      ],
+      "args": ["${command:cmake.launchTargetPath}"],
       "console": "internalConsole",
       "cwd": "${workspaceFolder}",
       "visualizerFile": "/Users/juergen/Library/Application Support/VSCodium/User/workspaceStorage/2f831df60866c25f60235b3da0a9c005/tonka3000.qtvsctools/qt.natvis.xml"

@@ -80,17 +80,17 @@ function main {
     $content = Get-Content $Global:innoScriptPath
 
     $content |
-    Select-String -Pattern "ArchitecturesInstallIn64BitMode=x64" -NotMatch |
-    Select-String -Pattern "ArchitecturesAllowed=x64" -NotMatch |
-    ForEach-Object {
-        if ($architecture -eq 64 -and $_ -match "^DefaultGroupName.+") {
-            "ArchitecturesInstallIn64BitMode=x64"
-            "ArchitecturesAllowed=x64"
-        }
+        Select-String -Pattern "ArchitecturesInstallIn64BitMode=x64" -NotMatch |
+        Select-String -Pattern "ArchitecturesAllowed=x64" -NotMatch |
+        ForEach-Object {
+            if ($architecture -eq 64 -and $_ -match "^DefaultGroupName.+") {
+                "ArchitecturesInstallIn64BitMode=x64"
+                "ArchitecturesAllowed=x64"
+            }
 
-        $_ -replace "#define MyAppVersion.+", ("#define MyAppVersion `"$mainVersion" + "$contextVersion`"") -replace "OutputBaseFilename=.+", "OutputBaseFilename=$setupName" -replace "LicenseFile=.+", ("LicenseFile=$Global:inputPath" + "COPYING") -replace "OutputDir=.+", "OutputDir=$Global:outputPath" -replace "VersionInfoVersion=.+", "VersionInfoVersion=$mainVersion"
-    } |
-    Set-Content $Global:innoScriptPath
+            $_ -replace "#define MyAppVersion.+", ("#define MyAppVersion `"$mainVersion" + "$contextVersion`"") -replace "OutputBaseFilename=.+", "OutputBaseFilename=$setupName" -replace "LicenseFile=.+", ("LicenseFile=$Global:inputPath" + "COPYING") -replace "OutputDir=.+", "OutputDir=$Global:outputPath" -replace "VersionInfoVersion=.+", "VersionInfoVersion=$mainVersion"
+        } |
+        Set-Content $Global:innoScriptPath
 
     # Do full build
     fullBuild $7zipFileName $zipFileName

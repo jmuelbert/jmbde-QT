@@ -15,7 +15,7 @@ $app64 = "qbs-windows-x86_64-$appVersion.zip"
 Install-ChocolateyZipPackage `
     -PackageName 'jmbde' `
     -Url "$appBaseUrl/$app32" `
-    -UnzipLocation "$(Split-Path -parent $MyInvocation.MyCommand.Definition)" `
+    -UnzipLocation "$(Split-Path -Parent $MyInvocation.MyCommand.Definition)" `
     -Url64bit "$appBaseUrl/$app64" `
     -Checksum $checksums[$app32] `
     -ChecksumType $checksumType `

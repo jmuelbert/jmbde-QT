@@ -15,9 +15,6 @@
     "docs/src/content/docs/es/**",
     "docs/src/content/docs/it/**"
   ],
-  "reporters": [
-    "html",
-    "markdown"
-  ],
+  "reporters": ["html", "markdown"],
   "threshold": 0
 }

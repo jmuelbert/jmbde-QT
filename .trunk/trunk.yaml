@@ -1,0 +1,103 @@
+# This file controls the behavior of Trunk: https://docs.trunk.io/cli
+# To learn more about the format of this file, see https://docs.trunk.io/reference/trunk-yaml
+version: 0.1
+cli:
+  version: 1.22.1
+# Trunk provides extensibility via plugins. (https://docs.trunk.io/plugins)
+plugins:
+  sources:
+    - id: trunk
+      ref: v1.5.0
+      uri: https://github.com/trunk-io/plugins
+# Many linters and tools depend on runtimes - configure them here. (https://docs.trunk.io/runtimes)
+runtimes:
+  enabled:
+    - ruby@3.1.4
+    - go@1.21.0
+    - node@18.12.1
+    - python@3.10.8
+# This is the section where you manage your linters. (https://docs.trunk.io/check/configuration)
+lint:
+  disabled:
+    - semgrep
+    - hadolint
+  enabled:
+    - cmake-format@0.6.13
+    - cspell@8.8.4
+    - djlint@1.34.1
+    - gitleaks@8.18.3
+    - include-what-you-use@0.20
+    - markdown-link-check@3.12.2
+    - mypy@1.10.0:
+        packages:
+          - types-PyYAML
+          - tomli >= 0.2.6, < 2.0.0
+          - click >= 8.1.0, != 8.1.4, != 8.1.5
+          - packaging >= 22.0
+          - platformdirs >= 2.1.0
+          - pytest
+          - hypothesis
+          - aiohttp >= 3.7.4
+          - types-commonmark
+          - types-requests>=2.31
+          - urllib3>=2.2.1
+          - hypothesmith
+    - pragma-once
+    - pre-commit-hooks@4.6.0
+    - psscriptanalyzer@1.22.0
+    - pyright@1.1.366
+    - rubocop@1.39.0
+    - rufo@0.13.0
+    - sort-package-json@2.10.0
+    - sqlfluff@3.0.7
+    - sqlfmt@0.21.3
+    - standardrb@1.3.0
+    - stringslint@0.1.6
+    - stylelint@16.6.1
+    - terrascan@1.19.1
+    - trufflehog-git@3.78.0
+    - trunk-toolbox@0.3.1
+    - actionlint@1.7.1
+    - autopep8@2.2.0
+    - bandit@1.7.8
+    - black@24.4.2
+    - checkov@3.2.125
+    - clang-format@16.0.3
+    - clang-tidy@16.0.3
+    - codespell@2.2.6:
+        packages:
+          - tomli>=2.0.1
+    - eslint@8.57.0:
+        plugins:
+          - airbnb
+          - prettier
+    - flake8@7.0.0
+    - git-diff-check
+    - isort@5.13.2
+    - markdownlint@0.41.0
+    - osv-scanner@1.7.4
+    - oxipng@9.1.1
+    - prettier@3.3.0
+    - pylint@3.2.2
+    - ruff@0.4.7
+    - shellcheck@0.10.0
+    - shfmt@3.6.0
+    - svgo@3.3.2
+    - trivy@0.52.0
+    - trufflehog@3.78.0
+    - yamllint@1.35.1
+actions:
+  enabled:
+    - commitizen
+    - commitlint
+    - git-blame-ignore-revs
+    - git-lfs
+    - npm-check
+    - trunk-announce
+    - trunk-check-pre-push
+    - trunk-fmt-pre-commit
+    - trunk-upgrade-available
+tools:
+  enabled:
+    - converttosarif@1.0.0
+    - pwsh@7.4.2

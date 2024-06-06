@@ -14,158 +14,25 @@ ignorePaths:
   - package-lock.json
   - megalinter-reports
   - .devcontainer/.dockerignore
-  - .gitattributes
-  - .gitignore
-  - .github/actions/spelling/**
-  - .github/labels.yml
-  - .github/pr-labeler.yml
+  - .git*
   - .prettierignore
-  - .tfignore
   - CHANGELOG.md
   - LICENSE
-  - LICENSES/**
+  - '**/report/**'
+  - '**/site/**'
+  - '**/LICENSES/**'
+  - '**/docs/about/EUPL-1.2.md'
   - cspell.config.yaml
 files:
   - '*/**'
 words:
-  - aarch
-  - aminya
-  - Aglolia
-  - Akka
-  - ambientale
-  - applellvm
-  - aqui
-  - ARGN
-  - armv
-  - asan
-  - astro
-  - Astro
-  - astrodotbuild
-  - astrojs
-  - Autobuild
-  - autolabeler
-  - automerge
-  - Bazel
-  - Beginne
-  - Bitstream
-  - blinkmacsystemfont
-  - buildscript
-  - buildtools
-  - ccache
-  - ccmake
-  - choco
-   - cmake
-  - CMAKE
-  - cmakelint
-  - cmds
-  - Codacy
-  - Codecov
-  - CODEOWNERS
-  - codeql
-  - Colab
-  - Comienza
-  - COMMIT_EDITMSG
-  - commitlint
-  - Configuración
-  - consts
-  - CPATH
-  - Cppcheck
-  - cppcoreguidelines
-  - cppdbg
-  - CPPFLAGS
-  - cpprc
-  - cppreference
-  - ctest
-  - Cuda
-  - culori
-  - dessant
-  - Deutsch
-  - devcontainer
-  - devcontainers
-  - devskim
-  - Diátaxis
-  - docsearch
-  - docsify
-  - Documentación
-  - Docus
-  - DUPS
-  - Ecograder
-  - ecológica
-  - Ecoping
-  - Einrichtung
-  - Empezando
-  - Erste
-  - focusable
-  - FOUC
-  - frontmatter
-  - fsfe
-  - ghaction
-  - gitlab
-  - gittools
-  - goodcheck
-  - gsoc
-  - Guías
-  - hastscript
-  - hier
-  - houston
-  - Impatto
-  - Inizia
-  - Iniziamo
-  - Italiano
   - jmuelbert
   - Jürgen
-  - labelledby
-  - lengthframeencoder
-  - linkedin
-  - Manuelle
-  - Markdoc
-  - matthiashermsen
-  - MSDO
-  - mshick
   - Mülbert
-  - Nextra
-  - nocheck
-  - OSSAR
-  - ossf
-  - outreachy
-  - Poulain
-  - preact
-  - Preacts
-  - rarr
-  - recvbuffer
-  - refact
-  - Referencias
-  - Referenz
-  - rehype
-  - resx
-  - returntocorp
-  - Riferimenti
-  - rubocop
-  - ruleset
-  - Sarif
-  - Schritte
-  - Screenreader
-  - searchbox
-  - Semgrep
-  - Signup
-  - skiplink
-  - sobolevn
-  - srggrs
-  - stefanzweifel
-  - stylecop
-  - stylelint
-  - stylelintignore
-  - tomwhross
-  - tsconfigs
-  - Umweltbelastung
-  - Unported
-  - wagoid
-  - WCAG
-  - webfont
-  - webp
-  - withastro
+  - jmbde
+  - jmbde-QT
 flagWords:
-  - hte
+  - xxx
 maxNumberOfProblems: 1000
 import: []
 useGitignore: true
@@ -180,8 +47,11 @@ overrides:
     language: en,sv
   - filename: package.json
     ignoreWords:
-      - colour
-      - canot
+      - color
+      - cannot
+  - filename: pyproject.toml
+    ignoreWords:
+      - LICENSE
 allowCompoundWords: true
 enableGlobDot: true
 cache:
@@ -190,13 +60,49 @@ cache:
 enableFiletypes:
   - shellscript
 dictionaryDefinitions:
-  - name: ./project-words
+  - name: project-words
     addWords: true
     scope:
       - workspace
-    path: ./project-words.txt
+    path: ./config/project-words.txt
+  - name: local-german
+    addWords: true
+    scope:
+      - workspace
+    path: ./config/german-words.txt
+  - name: local-spanish
+    addWords: true
+    scope:
+      - workspace
+    path: ./config/spanish-words.txt
+  - name: local-italiano
+    addWords: true
+    scope:
+      - workspace
+    path: ./config/italian-words.txt
+  - name: local-ruby
+    addWords: false
+    scope:
+      - workspace
+    path: ./config/ruby-words.txt
+  - name: local-python
+    addWords: false
+    scope:
+      - workspace
+    path: ./config/python-words.txt
+  - name: local-github-actions
+    addWords: false
+    scope:
+      - workspace
+    path: ./config/github-actions.txt
 dictionaries:
-  - ./project-words
+  - project-words
+  - local-german
+  - local-spanish
+  - local-italiano
+  - local-ruby
+  - local-python
+  - local-github-actions
   - bash
   - companies
   - csharp
