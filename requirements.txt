@@ -9,8 +9,8 @@ distlib==0.3.8
 docutils==0.21.2
 filelock==3.14.0
 graphviz==0.20.1
-identify==2.5.35
-idna==3.6
+identify==2.5.36
+idna==3.7
 imagesize==1.4.1
 importlib-metadata==7.0.1
 Jinja2==3.1.4
@@ -22,7 +22,7 @@ Pygments==2.17.2
 pyparsing==3.1.1
 pytz==2023.4
 PyYAML==6.0.1
-requests==2.31.0
+requests==2.32.0
 six==1.16.0
 snowballstemmer==2.2.0
 Sphinx==7.3.7
@@ -35,5 +35,5 @@ sphinxcontrib-qthelp==1.0.7
 sphinxcontrib-serializinghtml==1.1.10
 toml==0.10.2
 urllib3==2.2.0
-virtualenv==20.25.0
+virtualenv==20.26.2
 zipp==3.17.0
