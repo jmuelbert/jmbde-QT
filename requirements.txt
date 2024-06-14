@@ -2,7 +2,7 @@ alabaster==0.7.16
 appdirs==1.4.4
 Babel==2.14.0
 breathe==4.35.0
-certifi==2023.7.22
+certifi==2024.6.2
 cfgv==3.4.0
 chardet==5.2.0
 distlib==0.3.8
@@ -22,7 +22,7 @@ Pygments==2.18.0
 pyparsing==3.1.1
 pytz==2023.4
 PyYAML==6.0.1
-requests==2.32.0
+requests==2.32.3
 six==1.16.0
 snowballstemmer==2.2.0
 Sphinx==7.3.7
@@ -36,4 +36,4 @@ sphinxcontrib-serializinghtml==1.1.10
 toml==0.10.2
 urllib3==2.2.0
 virtualenv==20.26.2
-zipp==3.17.0
+zipp==3.19.2
