@@ -12,7 +12,7 @@ graphviz==0.20.1
 identify==2.6.0
 idna==3.7
 imagesize==1.4.1
-importlib-metadata==8.0.0
+importlib-metadata==8.2.0
 Jinja2==3.1.4
 MarkupSafe==2.1.4
 nodeenv==1.9.1
@@ -29,9 +29,9 @@ Sphinx==8.0.2
 sphinx-rtd-theme==2.0.0
 sphinxcontrib-applehelp==1.0.8
 sphinxcontrib-devhelp==1.0.6
-sphinxcontrib-htmlhelp==2.0.5
+sphinxcontrib-htmlhelp==2.1.0
 sphinxcontrib-jsmath==1.0.1
-sphinxcontrib-qthelp==1.0.7
+sphinxcontrib-qthelp==2.0.0
 sphinxcontrib-serializinghtml==1.1.10
 toml==0.10.2
 urllib3==2.2.2
