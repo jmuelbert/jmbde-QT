@@ -1,23 +1,31 @@
 ---
-name: Dependabot auto-merge
+# SPDX-FileCopyrightText: GitHub, Inc. and contributors
+# SPDX-License-Identifier: MIT
 
+name: Dependabot auto-merge
 on: pull_request # yamllint disable-line rule:truthy
 
 permissions:
-  pull-requests: write
-  issues: write
-  repository-projects: write
+  contents: read
+
+defaults:
+  run:
+    shell: bash
 
 jobs:
   dependabot:
-    runs-on: ubuntu-latest
     if: ${{ github.actor == 'dependabot[bot]' }}
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      issues: write
+      repository-projects: write
     steps:
       - name: Dependabot metadata
         id: metadata
-        uses: dependabot/fetch-metadata@c9c4182bf1b97f5224aee3906fd373f6b61b4526 # v1.6.0
+        uses: dependabot/fetch-metadata@5e5f99653a5b510e8555840e80cbf1514ad4af38 # v2.1.0
         with:
-          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Add a label for all production dependencies
         if: ${{ steps.metadata.outputs.dependency-type == 'direct:production' }}
@@ -32,7 +40,8 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
       - name: Enable auto-merge for Dependabot PRs
-        if: ${{contains(steps.metadata.outputs.dependency-names, 'my-dependency') &&
+        if:
+          ${{contains(steps.metadata.outputs.dependency-names, 'my-dependency') &&
           steps.metadata.outputs.update-type == 'version-update:semver-patch'}}
         run: gh pr merge --auto --merge "$PR_URL"
         env:

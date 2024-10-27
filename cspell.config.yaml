@@ -17,19 +17,32 @@ ignorePaths:
   - .devcontainer/.dockerignore
   - .git*
   - .prettierignore
+  - .codespellrc
   - CHANGELOG.md
+  - LICENSE
+  - license.txt
   - '**/{report,site,LICENSES,docs/about/EUPL-1.2.md}/**'
   - cspell.config.yaml
-  - .github/styles/vale/**
+  - '**/styles/vale/**'
+  - '**/nbproject/**'
 words:
   - jmuelbert
   - Jürgen
+  - juergen
   - Mülbert
-  - JMPlasterTemplates
-  - Astro
-  - astrojs
+  - muelbert
+  - apdisk
+  - donotpresent
+  - ehthumbs
+  - esktop
+  - fseventsd
+  - HSTS
+  - icns
+  - msix
   - NOLOGO
   - nupkg
+  - rarr
+  - 
 maxNumberOfProblems: 1000
 import: []
 useGitignore: true
@@ -97,6 +110,11 @@ dictionaryDefinitions:
     scope:
       - workspace
     path: ./.github/styles/config/vocabularies/cspell/github-actions.txt
+  - name: local-node
+    addWords: false
+    scope:
+      - workspace
+    path: ./.github/styles/config/vocabularies/cspell/node.txt
 dictionaries:
   - project-words
   - local-german
@@ -105,6 +123,7 @@ dictionaries:
   - local-ruby
   - local-python
   - local-github-actions
+  - local-node
   - bash
   - companies
   - csharp

@@ -1,10 +1,7 @@
----
 # SPDX-FileCopyrightText: Jürgen Mülbert
 #
 # SPDX-License-Identifier: MIT
-
 name: Check Spelling
-
 # Comment management is handled through a secondary job, for details see:
 # https://github.com/check-spelling/check-spelling/wiki/Feature%3A-Restricted-Permissions
 #
@@ -70,22 +67,18 @@ name: Check Spelling
 #     # remove `security-events: write` and `use_sarif: 1`
 #     # remove `experimental_apply_changes_via_bot: 1`
 #     ... otherwise adjust the `with:` as you wish
-
 on: # yamllint disable-line rule:truthy
   push:
-    branches: [main, develop, release, improve_build-workflow]
+    branches: [main, develop, release]
     tags-ignore:
       - "**"
   pull_request_target:
     types: [opened, reopened, synchronize]
-
   issue_comment:
     types:
-      - "created"
-
+      - created
 permissions:
   contents: read
-
 jobs:
   spelling:
     name: Check Spelling
@@ -116,22 +109,9 @@ jobs:
           report-timing: 1
           warnings: bad-regex,binary-file,deprecated-feature,large-file,limited-references,no-newline-at-eof,noisy-file,non-alpha-in-dictionary,token-is-substring,unexpected-line-ending,whitespace-in-dictionary,minified-file,unsupported-configuration,no-files-to-check
           experimental_apply_changes_via_bot: 1
-          use_sarif:
-            ${{ (!github.event.pull_request || (github.event.pull_request.head.repo.full_name ==
-            github.repository)) && 1 }}
+          use_sarif: ${{ (!github.event.pull_request || (github.event.pull_request.head.repo.full_name == github.repository)) && 1 }}
           extra_dictionary_limit: 20
-          extra_dictionaries: cspell:bash/bash-words.txt
-            cspell:companies/companies.txt
-            cspell:csharp/csharp.txt
-            cspell:css/css.txt
-            cspell:dotnet/dotnet.txt
-            cspell:filetypes/filetypes.txt
-            cspell:fonts/fonts.txt
-            cspell:html/html.txt
-            cspell:node/node.txt
-            cspell:npm/npm.txt
-            cspell:software-terms/dict/softwareTerms.txt
-
+          extra_dictionaries: cspell:bash/bash-words.txt cspell:companies/companies.txt cspell:csharp/csharp.txt cspell:css/css.txt cspell:dotnet/dotnet.txt cspell:filetypes/filetypes.txt cspell:fonts/fonts.txt cspell:html/html.txt cspell:node/node.txt cspell:npm/npm.txt cspell:software-terms/dict/softwareTerms.txt
   comment-push:
     name: Report (Push)
     # If your workflow isn't running on push, you can remove this job
@@ -147,7 +127,6 @@ jobs:
           checkout: true
           spell_check_this: check-spelling/spell-check-this@prerelease
           task: ${{ needs.spelling.outputs.followup }}
-
   comment-pr:
     name: Report (PR)
     # If you workflow isn't running on pull_request*, you can remove this job
@@ -156,8 +135,7 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-    if: (success() || failure()) && needs.spelling.outputs.followup && contains(github.event_name,
-      'pull_request')
+    if: (success() || failure()) && needs.spelling.outputs.followup && contains(github.event_name, 'pull_request')
     steps:
       - name: comment
         uses: check-spelling/check-spelling@00c989c97749eb0cb2d256bdc55ac61b0096c6d3 # v0.0.22
@@ -166,7 +144,6 @@ jobs:
           spell_check_this: check-spelling/spell-check-this@prerelease
           task: ${{ needs.spelling.outputs.followup }}
           experimental_apply_changes_via_bot: 1
-
   update:
     name: Update PR
     permissions:
@@ -174,8 +151,7 @@ jobs:
       pull-requests: write
       actions: read
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'issue_comment' && github.event.issue.pull_request &&
-      contains(github.event.comment.body, '@check-spelling-bot apply') }}
+    if: ${{ github.event_name == 'issue_comment' && github.event.issue.pull_request && contains(github.event.comment.body, '@check-spelling-bot apply') }}
     concurrency:
       group: spelling-update-${{ github.event.issue.number }}
       cancel-in-progress: false
@@ -186,3 +162,18 @@ jobs:
           experimental_apply_changes_via_bot: 1
           checkout: true
           ssh_key: "${{ secrets.CHECK_SPELLING }}"
+  # https://github.com/marketplace/actions/alls-green#why
+  release-all-green: # This job does nothing and is only used for the branch protection
+    if: always()
+    needs:
+      - spelling
+      - comment-push
+      - comment-pr
+      - update
+    runs-on: ubuntu-latest
+    steps:
+      - name: Decide whether the needed jobs succeeded or failed
+        uses: re-actors/alls-green@223e4bb7a751b91f43eda76992bcfbf23b8b0302 # v1.2.2
+        with:
+          allowed-skips: comment-push, comment-pr, update
+          jobs: ${{ toJSON(needs) }}

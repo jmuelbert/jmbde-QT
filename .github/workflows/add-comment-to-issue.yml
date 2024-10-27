@@ -1,0 +1,66 @@
+---
+# SPDX-FileCopyrightText: GitHub, Inc. and contributors
+# SPDX-License-Identifier: MIT
+#
+name: "Add Comment to Issue"
+
+on: # yamllint disable-line rule:truth
+  issues:
+    types:
+      - labeled
+
+permissions:
+  contents: read
+
+jobs:
+  add-comment-to-help-wanted:
+    if: github.event.label.name == 'help wanted'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Add comment
+        uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043 # v4.0.0
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            This issue is available for anyone to work on.
+
+            - Read our [Contributing Guidelines](https://github.com/jmuelbert/checkconnect/.github/blob/main/.github/CONTRIBUTING.md)
+            - Make sure to **reference** this issue in your pull request
+
+            **:sparkles: Thank you for your contribution! :sparkles:**
+
+  add-comment-to-good-first-issue:
+    if: github.event.label.name == 'good first issue'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Add comment
+        uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043 # v4.0.0
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            This issue is a great way to kick-start your journey with our project, or to make a positive impact on open-source development. Jump in!
+
+            - Check out our [Contributing Guidelines](https://github.com/jmuelbet/checkconnect/.github/blob/main/.github/CONTRIBUTING.md) for a smooth experience
+            - Remember to **[link](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue)** your pull request to this issue
+
+            **:sparkles: Thank you for your contribution! :sparkles:**
+
+  # https://github.com/marketplace/actions/alls-green#why
+  release-all-green: # This job does nothing and is only used for the branch protection
+    if: always()
+    needs:
+      - add-comment-to-help-wanted
+      - add-comment-to-good-first-issue
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Decide whether the needed jobs succeeded or failed
+        uses: re-actors/alls-green@223e4bb7a751b91f43eda76992bcfbf23b8b0302 # v1.2.2
+        with:
+          allowed-skips: add-comment-to-help-wanted, add-comment-to-good-first-issue
+          jobs: ${{ toJSON(needs) }}

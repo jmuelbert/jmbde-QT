@@ -2,7 +2,9 @@
   "$schema": "https://biomejs.dev/schemas/1.7.1/schema.json",
   "files": {
     "ignore": [
+      ".venv/**",
       "vendor",
+      "src/app/AnniversaryReminder/wwwroot/**",
       "**/{node_modules,dist,smoke,fixtures,vendor,.vercel,.mypy_cache,.github/styles/vale}/**"
     ],
     "include": ["tests/**", "src/**"]
@@ -19,20 +21,8 @@
       "benchmark/projects/",
       "benchmark/results/",
       ".changeset",
-      "**/pnpm-lock.yaml",
-      "**/package.json",
-      "*.astro",
-      "**/dist",
-      "**/build",
-      "**/smoke",
-      "**/node_modules",
-      "**/fixtures",
-      "**/vendor",
-      "**/.vercel",
-      "**/.github",
-      "**/.changeset",
-      "**/.mypy_cache/**",
-      ".github/styles/vale/**/*.{yml,yaml,json}"
+      "pnpm-lock.yaml",
+      "*.astro"
     ]
   },
   "organizeImports": {
@@ -94,7 +84,8 @@
       "**/.github/",
       "**/.changeset/",
       "**/.mypy_cache/**",
-      ".github/styles/vale/**/*.{yml,yaml,json}"
+      ".github/styles/vale/**/*.{yml,yaml,json}",
+      "*.astro"
     ]
   },
   "javascript": {

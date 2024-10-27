@@ -1,0 +1,53 @@
+version = 1
+SPDX-PackageName = "jmbde-java"
+SPDX-PackageSupplier = "<juergen.muelbert@outlook.de>"
+SPDX-PackageDownloadLocation = "https://www.github.com/jmuelbert/jmbde-java"
+
+[reuse]
+exclude = [
+  "docs/node_modules/**",
+  "**/node_modules/**",
+  "**/bin",
+  "**/obj",
+  "**/result",
+]
+
+[[annotations]]
+path = ["**.java", "**.csproj"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Jürgen Mülbert <juergen.muelbert@outlook.de>"
+SPDX-License-Identifier = "EUPL-1.2"
+
+[[annotations]]
+path = [
+  "CHANGES",
+  "CONTRIBUTORS.txt",
+  "INSTALL.md",
+  "README.md",
+  "AUTHORS",
+  "docs/manual/style/**",
+  "docs/api/**.dox",
+  "docs/api/**.html",
+  "docs/man/**.pod",
+  "docs/**.pdf",
+]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Jürgen Mülbert <juergen.muelbert@outlook.de>"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+[[annotations]]
+path = [
+  ".checkov.yml",
+  ".devcontainer/.dockerignore",
+  ".devcontainer/devcontainer.json",
+  ".devskim.json",
+  ".codespellrc",
+  ".git-blame-ignore-revs",
+  ".gitattributes",
+  ".gitignore",
+  ".pre-commit-config.yaml",
+  ".github/**",
+]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Jürgen Mülbert <juergen.muelbert@outlook.de>"
+SPDX-License-Identifier = "BSD-3-Clause"

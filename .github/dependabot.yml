@@ -2,41 +2,62 @@
 # To get started with Dependabot version updates, you'll need to specify which
 # package ecosystems to update and where the package manifests are located.
 # Please see the documentation for all configuration options:
-# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+# https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
 
 version: 2
 updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: github-actions
+    directory: /
     schedule:
-      interval: "daily"
+      interval: monthly
+    groups:
+      github-actions:
+        patterns:
+          - '*'
+    open-pull-requests-limit: 10
     commit-message:
-      prefix: ":rocket: gha"
+      include: scope
+      prefix: fix(gha)
 
-  - package-ecosystem: "docker"
-    directory: "/"
+  # Enable version updates for Docker
+  - package-ecosystem: docker
+    # Look for a `Dockerfile` in the `root` directory
+    directory: /
+    # Check for updates once a week
     schedule:
-      interval: "daily"
+      interval: monthly
     commit-message:
-      prefix: ":rocket: docker"
+      prefix: fix(docker)
 
-  - package-ecosystem: "bundler"
-    directory: "/"
+  # Maintain dependencies for nuget
+  - package-ecosystem: nuget # See documentation for possible values
+    directory: / # Location of package manifests
     schedule:
-      interval: "daily"
+      interval: monthly
     commit-message:
-      prefix: ":rocket: bundler"
+      prefix: fix(nuget)
 
-  - package-ecosystem: "npm"
-    directory: "/"
+  # Maintain dependencies for pip
+  - package-ecosystem: pip # See documentation for possible values
+    directory: / # Location of package manifests
     schedule:
-      interval: "daily"
+      interval: monthly
     commit-message:
-      prefix: ":rocket: npm"
+      prefix: fix(pip)
 
-  - package-ecosystem: "pip"
-    directory: "/"
+  # Maintain dependencies for npm
+  - package-ecosystem: npm
+    directory: /
     schedule:
-      interval: "daily"
+      interval: monthly
     commit-message:
-      prefix: ":rocket: pip"
+      prefix: fix(npm)
+
+  # Maintain dependencies for npm
+  - package-ecosystem: npm
+    directory: /docs
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: fix(npm for astrodoc)

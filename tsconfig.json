@@ -1,0 +1,11 @@
+{
+    "extends": "astro/tsconfigs/strict",
+    "exclude": [
+        "**/dist/**",
+        "**/__coverage__/**"
+    ],
+    "include": [
+        "./*.js*",
+        "docs/**/*"
+    ],
+}

@@ -1,34 +1,91 @@
----
-name: "GitHub Labeler"
-
+# SPDX-FileCopyrightText: GitHub, Inc. and contributors
+#
+# SPDX-License-Identifier: MIT
+#
+# This workflow will triage pull requests and apply a label based on the
+# paths that are modified in the pull request.
+#
+# To use this workflow, you will need to set up a .github/labeler.yml
+# file with configuration.  For more information, see:
+# https://github.com/actions/labeler
+name: Pull Request auto-label
 on: # yamllint disable-line rule:truthy
   push:
-    branches: [main, develop, release, improve_build-workflow]
-    paths:
-      - ".github/labels.yml"
-      - ".github/workflows/labels.yml"
-
+    branches: [main, develop, release]
   pull_request:
-    # The branches below must be a subset of the branches above
-    types: [opened, synchronize, reopened]
-
-# Set permissions for contents
+    types:
+      - opened
+      - edited
+      - synchronize
 permissions:
   contents: read
-
+concurrency:
+  group: ${{ format('pr-label-{0}', github.event.pull_request.number || github.sha) }}
+  cancel-in-progress: true
 jobs:
-  labeler:
+  conflicts:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Update PRs with conflict labels
+        uses: eps1lon/actions-label-merge-conflict@6d74047dcef155976a15e4a124dde2c7fe0c5522 # v3.0.1
+        with:
+          dirtyLabel: conflicts
+          # removeOnDirtyLabel: "PR: ready to ship"
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          commentOnDirty: This pull request has conflicts with the base branch, please resolve those so we can evaluate the pull request.
+          commentOnClean: Conflicts have been resolved! 🎉 A maintainer will review the pull request shortly.
+  size:
+    if: ${{ github.event_name == 'pull_request_target' }}
+    permissions:
+      issues: write
+      pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - name: "🧰 Checkout Source Code"
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-
-      - name: Run Labeler
-        if: success()
-        uses: crazy-max/ghaction-github-labeler@de749cf181958193cb7debf1a9c5bb28922f3e1b # v5.0
+      - uses: codelytv/pr-size-labeler@56f6f0fc35c7cc0f72963b8467729e1120cb4bed # v1.10.0
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          yaml-file: .github/labels.yml
-          exclude: |
-            help*
-            *issue
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          xs_label: size/xs
+          xs_max_size: "10"
+          s_label: size/s
+          s_max_size: "100"
+          m_label: size/m
+          m_max_size: "500"
+          l_label: size/l
+          l_max_size: "1000"
+          xl_label: size/xl
+          fail_if_xl: "false"
+          message_if_xl: >
+            This PR exceeds the recommended size of 1000 lines. Please make sure you are NOT addressing multiple issues with one PR. Note this PR might be rejected due to its size.
+
+          github_api_url: https://api.github.com
+          files_to_ignore: ""
+  scope:
+    if: ${{ github.event_name == 'pull_request_target' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Use PR Labeler Action
+        uses: actions/labeler@8558fd74291d67161a8a78ce36a881fa63b766a9 # v5.0.0
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          configuration-path: .github/labeler.yml
+          sync-labels: true
+  # https://github.com/marketplace/actions/alls-green#why
+  release-all-green: # This job does nothing and is only used for the branch protection
+    if: always()
+    needs:
+      - conflicts
+      - size
+      - scope
+    runs-on: ubuntu-latest
+    steps:
+      - name: Decide whether the needed jobs succeeded or failed
+        uses: re-actors/alls-green@223e4bb7a751b91f43eda76992bcfbf23b8b0302 # v1.2.2
+        with:
+          allowed-skips: size, scope
+          jobs: ${{ toJSON(needs) }}

@@ -1,0 +1,40 @@
+---
+# SPDX-FileCopyrightText: GitHub, Inc. and contributors
+#
+# SPDX-License-Identifier: MIT
+#
+
+name: Close stale issues and PRs
+
+on: # yamllint disable-line rule:truthy
+  schedule:
+    - cron: 45 1 * * *
+
+permissions:
+  checks: read
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # only for delete-branch option
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/stale@28ca1036281a5e5922ead5184a1bbf96e5fc984e # v9.0.0
+        with:
+          stale-issue-message: This issue is stale because it has been open 30 days with no activity. Remove stale label or comment or this will be closed in 5 days.
+          stale-pr-message: This PR is stale because it has been open 45 days with no activity. Remove stale label or comment or this will be closed in 10 days.
+          stale-issue-label: no-issue-activity
+          stale-pr-label: no-pr-activity
+          exempt-issue-labels: awaiting-approval,work-in-progress
+          exempt-pr-labels: awaiting-approval,work-in-progress
+          exempt-issue-milestones: future,alpha,beta
+          exempt-pr-milestones: bugfix,improvement
+          only-labels: awaiting-feedback,awaiting-answers
+          close-issue-message: This issue was closed because it has been stalled for 5 days with no activity.
+          close-pr-message: This PR was closed because it has been stalled for 10 days with no activity.
+          days-before-issue-stale: 30
+          days-before-pr-stale: 45
+          days-before-issue-close: 5
+          days-before-pr-close: 10

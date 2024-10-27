@@ -16,13 +16,13 @@ concurrency:
 
 jobs:
   commitlint:
+    # Skip any PR created by dependabot to avoid permission issues:
+    if: (github.actor != 'dependabot[bot]')
     runs-on: ubuntu-latest
 
-    if: (github.actor != 'dependabot[bot]')
-
     steps:
-      - name: "🧰 Checkout"
-        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+      - name: 🧰 Checkout Source Code
+        uses: actions/checkout@44c2b7a8a4ea60a981eaca3cf939b5f4305c123b # v4.1.5
 
-      - name: "Check the commits"
-        uses: wagoid/commitlint-github-action@0d749a1a91d4770e983a7b8f83d4a3f0e7e0874e # v5.4.4
+      - name: Check the commits
+        uses: wagoid/commitlint-github-action@7f0a61df502599e1f1f50880aaa7ec1e2c0592f2 # v6.0.1

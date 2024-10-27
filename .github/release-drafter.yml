@@ -1,32 +1,30 @@
----
-name-template: 'v$RESOLVED_VERSION 🌈'
-tag-template: 'v$RESOLVED_VERSION'
+name-template: v$RESOLVED_VERSION 🌈
+tag-template: v$RESOLVED_VERSION
 categories:
   - title: ':boom: Breaking Changes'
-    label: 'breaking'
+    label: breaking
   - title: ':package: Build System'
-    label: 'build'
+    label: build
   - title: ':construction_worker: Continuous Integration'
-    label: 'ci'
+    label: ci
   - title: ':books: Documentation'
-    label: 'documentation'
+    label: documentation
   - title: ':rocket: Features'
-    label: 'enhancement'
+    label: enhancement
   - title: ':beetle: Fixes'
-    label: 'bug'
+    label: bug
   - title: ':racehorse: Performance'
-    label: 'performance'
+    label: performance
   - title: ':hammer: Refactoring'
-    label: 'refactoring'
+    label: refactoring
   - title: ':fire: Removals and Deprecations'
-    label: 'removal'
+    label: removal
   - title: ':lipstick: Style'
-    label: 'style'
+    label: style
   - title: ':rotating_light: Testing'
-    label: 'testing'
+    label: testing
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
-change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
-
+change-title-escapes: \<*_& # You can add # and @ to disable mentions, and add ` to disable code blocks.
 version-resolver:
   major:
     labels:
@@ -41,10 +39,8 @@ version-resolver:
       - 'type: docs'
       - 'type: dependencies'
       - 'type: security'
-
 exclude-labels:
-  - 'skip-changelog'
-
+  - skip-changelog
 template: |
   ## Changes
 

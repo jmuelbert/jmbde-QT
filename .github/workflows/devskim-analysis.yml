@@ -1,4 +1,3 @@
----
 # SPDX-FileCopyrightText: Microsoft Corporation
 #
 # SPDX-License-Identifier: MIT
@@ -7,28 +6,23 @@
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
-
-name: DevSkim
-
+name: DevSkim Analysis
 on: # yamllint disable-line rule:truthy
   push:
-    branches: [main, develop, release, improve_build-workflow]
-
+    branches: [main, develop, release]
   pull_request:
     types: [opened, synchronize, reopened]
-
   schedule:
-    - cron: "36 22 * * 3"
-
+    - cron: 36 22 * * 3
 permissions:
   contents: read
-
 concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
   cancel-in-progress: true
-
 jobs:
-  lint:
+  devSkim:
+    # Skip any PR created by dependabot to avoid permission issues:
+    if: (github.actor != 'dependabot[bot]')
     name: DevSkim
     runs-on: ubuntu-latest
     permissions:
@@ -36,14 +30,12 @@ jobs:
       contents: read
       security-events: write
     steps:
-      - name: "🧰 Checkout Source Code"
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-
+      - name: 🧰 Checkout Source Code
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
       - name: Run DevSkim scanner
-        uses: microsoft/DevSkim-Action@b41921d947434b27f90b8949f8bfbe056e706bf6 # v1.0.11
-
+        uses: microsoft/DevSkim-Action@914fa647b406c387000300b2f09bb28691be2b6d # v1.0.14
       # Upload the results to GitHub's code scanning dashboard.
-      - name: "Upload to code-scanning"
-        uses: github/codeql-action/upload-sarif@17573ee1cc1b9d061760f3a006fc4aac # v2.2.4
+      - name: Upload to code-scanning
+        uses: github/codeql-action/upload-sarif@b611370bb5703a7efb587f9d136a52ea24c5c38c # v3.25.11
         with:
           sarif_file: devskim-results.sarif

@@ -15,8 +15,10 @@ benchmark/results/
 !packages/db/test/fixtures
 
 # Directories
+.venv
 .github
 .changeset
+megalinter-reports
 
 # Files
 pnpm-lock.yaml
@@ -29,9 +31,6 @@ pnpm-lock.yaml
 **/*.jsx
 **/*.mjs
 **/*.cjs
-
-# Formatted by taplo
-**/*.toml
 
 # vale configs
 .github/styles/vale/**
