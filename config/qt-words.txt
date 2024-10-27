@@ -2,5 +2,7 @@ AUTOMOC
 AUTORCC
 AUTOUIC
 QCOMPARE
+qtqml
+qtquick
 QTEST
 qttranslations

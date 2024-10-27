@@ -4,9 +4,10 @@ ignorePaths:
   - '**/node_modules/**'
   - '**/vscode_extension/**'
   - '**/.git/**'
-  - '**/.pnpm-lock.json'
   - '**/pnpm-lock.yaml'
+  - '**/package-lock.json'
   - '**/yarn.lock'
+  - '**/tsconfig.json'
   - dist/
   - out/
   - build/
@@ -17,22 +18,18 @@ ignorePaths:
   - .git*
   - .prettierignore
   - CHANGELOG.md
-  - LICENSE
-  - '**/report/**'
-  - '**/site/**'
-  - '**/LICENSES/**'
-  - '**/docs/about/EUPL-1.2.md'
+  - '**/{report,site,LICENSES,docs/about/EUPL-1.2.md}/**'
   - cspell.config.yaml
-files:
-  - '*/**'
+  - .github/styles/vale/**
 words:
   - jmuelbert
   - Jürgen
   - Mülbert
-  - jmbde
-  - jmbde-QT
-flagWords:
-  - xxx
+  - JMPlasterTemplates
+  - Astro
+  - astrojs
+  - NOLOGO
+  - nupkg
 maxNumberOfProblems: 1000
 import: []
 useGitignore: true
@@ -52,6 +49,11 @@ overrides:
   - filename: pyproject.toml
     ignoreWords:
       - LICENSE
+  - filename: LICENSE
+    ignoreWords:
+      - LICENCE
+      - authorised
+      - Unported
 allowCompoundWords: true
 enableGlobDot: true
 cache:
@@ -64,37 +66,37 @@ dictionaryDefinitions:
     addWords: true
     scope:
       - workspace
-    path: ./config/project-words.txt
+    path: ./.github/styles/config/vocabularies/cspell/project-words.txt
   - name: local-german
     addWords: true
     scope:
       - workspace
-    path: ./config/german-words.txt
+    path: ./.github/styles/config/vocabularies/cspell/german-words.txt
   - name: local-spanish
     addWords: true
     scope:
       - workspace
-    path: ./config/spanish-words.txt
+    path: ./.github/styles/config/vocabularies/cspell/spanish-words.txt
   - name: local-italiano
     addWords: true
     scope:
       - workspace
-    path: ./config/italian-words.txt
+    path: ./.github/styles/config/vocabularies/cspell/italian-words.txt
   - name: local-ruby
     addWords: false
     scope:
       - workspace
-    path: ./config/ruby-words.txt
+    path: ./.github/styles/config/vocabularies/cspell/ruby-words.txt
   - name: local-python
     addWords: false
     scope:
       - workspace
-    path: ./config/python-words.txt
+    path: ./.github/styles/config/vocabularies/cspell/python-words.txt
   - name: local-github-actions
     addWords: false
     scope:
       - workspace
-    path: ./config/github-actions.txt
+    path: ./.github/styles/config/vocabularies/cspell/github-actions.txt
 dictionaries:
   - project-words
   - local-german

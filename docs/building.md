@@ -20,66 +20,66 @@ CMake will detect which compiler was used to build each of the Conan targets. If
 
 - Debian/Ubuntu/MacOS:
 
-	Set your desired compiler (`clang`, `gcc`, etc):
+ Set your desired compiler (`clang`, `gcc`, etc):
 
-	- Temporarily (only for the current shell)
+ 	- Temporarily (only for the current shell)
 
-		Run one of the followings in the terminal:
+  Run one of the followings in the terminal:
 
-		- clang
+  		- clang
 
-				CC=clang CXX=clang++
+    CC=clang CXX=clang++
 
-		- gcc
+  		- gcc
 
-				CC=gcc CXX=g++
+    CC=gcc CXX=g++
 
-	- Permanent:
+ 	- Permanent:
 
-		Open `~/.bashrc` using your text editor:
+  Open `~/.bashrc` using your text editor:
 
-			gedit ~/.bashrc
+   gedit ~/.bashrc
 
-		Add `CC` and `CXX` to point to the compilers:
+  Add `CC` and `CXX` to point to the compilers:
 
-			export CC=clang
-			export CXX=clang++
+   export CC=clang
+   export CXX=clang++
 
-		Save and close the file.
+  Save and close the file.
 
 - Windows:
 
-	- Permanent:
+ 	- Permanent:
 
-		Run one of the followings in PowerShell:
+  Run one of the followings in PowerShell:
 
-		- Visual Studio generator and compiler (cl)
+  		- Visual Studio generator and compiler (cl)
 
-				[Environment]::SetEnvironmentVariable("CC", "cl.exe", "User")
-				[Environment]::SetEnvironmentVariable("CXX", "cl.exe", "User")
-				refreshenv
+    [Environment]::SetEnvironmentVariable("CC", "cl.exe", "User")
+    [Environment]::SetEnvironmentVariable("CXX", "cl.exe", "User")
+    refreshenv
 
-		  Set the architecture using [vcvarsall](https://docs.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=vs-2019#vcvarsall-syntax):
+    Set the architecture using [vcvarsall](https://docs.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=vs-2019#vcvarsall-syntax):
 
-				vcvarsall.bat x64
+    vcvarsall.bat x64
 
-		- clang
+  		- clang
 
-				[Environment]::SetEnvironmentVariable("CC", "clang.exe", "User")
-				[Environment]::SetEnvironmentVariable("CXX", "clang++.exe", "User")
-				refreshenv
+    [Environment]::SetEnvironmentVariable("CC", "clang.exe", "User")
+    [Environment]::SetEnvironmentVariable("CXX", "clang++.exe", "User")
+    refreshenv
 
-		- gcc
+  		- gcc
 
-				[Environment]::SetEnvironmentVariable("CC", "gcc.exe", "User")
-				[Environment]::SetEnvironmentVariable("CXX", "g++.exe", "User")
-				refreshenv
+    [Environment]::SetEnvironmentVariable("CC", "gcc.exe", "User")
+    [Environment]::SetEnvironmentVariable("CXX", "g++.exe", "User")
+    refreshenv
 
 
   - Temporarily (only for the current shell):
 
-			$Env:CC="clang.exe"
-			$Env:CXX="clang++.exe"
+   $Env:CC="clang.exe"
+   $Env:CXX="clang++.exe"
 
 </details>
 
@@ -87,19 +87,19 @@ CMake will detect which compiler was used to build each of the Conan targets. If
 
 To configure the project, you could use `cmake`, or `ccmake` or `cmake-gui`. Each of them are explained in the following:
 
-#### (2.a) Configuring via cmake:
+#### (2.a) Configuring via cmake
 With Cmake directly:
 
     cmake -S . -B ./build
 
 Cmake will automatically create the `./build` folder if it does not exist, and it wil configure the project.
 
-Instead, if you have CMake version 3.21+, you can use one of the configuration presets that are listed in the CmakePresets.json file.
+Instead, if you have CMake version 3.21+, you can use one of the configuration presets that are listed in the CmakePresets.JSON file.
 
     cmake . --preset <configure-preset>
     cmake --build
 
-#### (2.b) Configuring via ccmake:
+#### (2.b) Configuring via ccmake
 
 With the Cmake Curses Dialog Command Line tool:
 
@@ -108,7 +108,7 @@ With the Cmake Curses Dialog Command Line tool:
 Once `ccmake` has finished setting up, press 'c' to configure the project,
 press 'g' to generate, and 'q' to quit.
 
-#### (2.c) Configuring via cmake-gui:
+#### (2.c) Configuring via cmake-gui
 
 To use the GUI of the cmake:
 

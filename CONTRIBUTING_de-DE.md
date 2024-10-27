@@ -1,4 +1,4 @@
-## Willkommen!
+## Willkommen
 
 Sie sind hier, um jmbde-QT zu helfen? Wunderbar, fühlen Sie sich frei und lesen Sie die
 folgenden Abschnitte, um zu wissen, wie man an etwas arbeitet und woher man Hilfe
@@ -7,19 +7,19 @@ besser und besser. :smile:
 
 ## Welche Art von Beiträgen suchen wir?
 
--   Wenn Ihnen jmbde-QT gefällt, starten Sie dieses Projekt und teilen Sie es mit Ihren
+- Wenn Ihnen jmbde-QT gefällt, starten Sie dieses Projekt und teilen Sie es mit Ihren
     Freunden.
--   Melden Sie Fehler oder fordern Sie neue Funktionen an unter
+- Melden Sie Fehler oder fordern Sie neue Funktionen an unter
     [opening issues](https://github.com/jmuelbert/jmbde-QT/issues/new/choose). Bitte
     folgen Sie den Problemvorlagen und stellen Sie detaillierte Informationen zur
     Verfügung, dies wird den Entwicklern helfen, den Grund des Fehlers zu finden und zu
     verstehen, welche Funktion Sie genau anfordern.
--   Helfen Sie anderen Personen bei Problemen/Anfragen in anderen Plattformen, wenn Sie
+- Helfen Sie anderen Personen bei Problemen/Anfragen in anderen Plattformen, wenn Sie
     in der Lage sind, ihnen zu helfen.
--   Schreiben Sie Tutorials und Blogs über die Verwendung von jmbde-QT.
--   Verbessern Sie die Dokumentation, einschließlich der Markdown-Dateien und der
+- Schreiben Sie Tutorials und Blogs über die Verwendung von jmbde-QT.
+- Verbessern Sie die Dokumentation, einschließlich der Markdown-Dateien und der
     Kommentare in den Codes.
--   Schreiben Sie Codes für neue Funktionen oder Fehlerbehebungen.
+- Schreiben Sie Codes für neue Funktionen oder Fehlerbehebungen.
 
 ## Ihr erster Beitrag
 
@@ -75,47 +75,47 @@ schreiben, aus diesen Gründen:
 
 ## Regeln für Beiträge
 
--   Denken Sie daran, dass es das Ziel ist, ein jmbde-QT für Benutzer, nicht für
+- Denken Sie daran, dass es das Ziel ist, ein jmbde-QT für Benutzer, nicht für
     Entwickler zu erstellen.
--   Tun Sie eine Sache bei einer Pull-Anfrage. Wenn Sie mehrere Funktionen
+- Tun Sie eine Sache bei einer Pull-Anfrage. Wenn Sie mehrere Funktionen
     hinzufügen/mehrere Fehler beheben wollen und diese nicht relevant sind, öffnen Sie
     mehrere Pull-Requests. Möglicherweise müssen Sie mehrere Zweige erstellen, um
     mehrere Pull-Anfragen zu öffnen, Sie können das Verzweigen von Git [hier] lernen
-    (https://learngitbranching.js.org/).
--   Fügen Sie neue Funktionen auf dem Master-Zweig hinzu und beheben Sie den Fehler auf
+    (<https://learngitbranching.js.org/>).
+- Fügen Sie neue Funktionen auf dem Master-Zweig hinzu und beheben Sie den Fehler auf
     dem letzten aktiven Zweig (Master-, Beta- und Stable-Zweig), in dem der Fehler
     aufgetreten ist.
--   Bitte schreiben Sie
+- Bitte schreiben Sie
     [clear commit messages](https://chris.beams.io/posts/git-commit/). Es wird auch
     empfohlen, [Konventionelle Commits](https://www.conventionalcommits.org/) zu
     schreiben. Sie können [commitizen/cz-cli](https://github.com/commitizen/cz-cli)
     verwenden, um Commit-Nachrichten zu schreiben. Die Regeln sind jedoch optional, der
     Schlüssel ist, dass andere und Sie selbst in Zukunft verstehen sollten, was geändert
     wurde und warum diese Änderungen vorgenommen wurden.
--   Benutzen Sie Clang-Format 9 (benutzen Sie `clang-format --version`, um Ihre Version
+- Benutzen Sie Clang-Format 9 (benutzen Sie `clang-format --version`, um Ihre Version
     zu überprüfen, Sie müssen möglicherweise den Binärpfad für Ihre IDE im Clang-Format
     einstellen, z.B. kann die Standardversion von clang-format im VS-Code clang-format-6
     sein) und `.clang-format` im Wurzelverzeichnis, um Ihre Codes zu formatieren.
--   Entfernen Sie keine Features, es sei denn, es ist notwendig. Fügen Sie stattdessen
+- Entfernen Sie keine Features, es sei denn, es ist notwendig. Fügen Sie stattdessen
     eine Option zur Deaktivierung einer Funktion hinzu.
--   Halten Sie die Einstellungsdatei die ganze Zeit abwärtskompatibel.
--   Windows, Linux und Mac OS sollten unterstützt werden.
--   Beide hell/dunkel Systemthemen sollten unterstützt werden.
--   Jeder sollte sich an den [Verhaltenskodex](CODE_OF_CONDUCT_de-DE.md) halten, um eine
+- Halten Sie die Einstellungsdatei die ganze Zeit abwärtskompatibel.
+- Windows, Linux und Mac OS sollten unterstützt werden.
+- Beide hell/dunkel Systemthemen sollten unterstützt werden.
+- Jeder sollte sich an den [Verhaltenskodex](CODE_OF_CONDUCT_de-DE.md) halten, um eine
     belästigungsfreie Gemeinschaft aufzubauen.
 
 ## FAQ
 
--   Kann ich es gut machen, wenn ich gerade erst angefangen habe?
-    -   Jeder weiß am Anfang nichts. Machen Sie sich keine Sorgen, unsere coolen
+- Kann ich es gut machen, wenn ich gerade erst angefangen habe?
+  - Jeder weiß am Anfang nichts. Machen Sie sich keine Sorgen, unsere coolen
         Mitwirkenden helfen Ihnen, wenn Sie auf Schwierigkeiten stoßen. Wenn Sie :Herz:
         Open Source und weiter versuchen, wird alles besser und besser werden.
--   Muss ich etwas über CMake lernen?
-    -   Nein, Sie müssen nur wissen, wie man
+- Muss ich etwas über CMake lernen?
+  - Nein, Sie müssen nur wissen, wie man
         [aus dem Quellcode baut](https://github.com/jmuelbert/jmbde-QT).
--   Einige Dateien fehlen beim Kompilieren.
+- Einige Dateien fehlen beim Kompilieren.
 
-    -   Wenn die CI-Tests bestanden werden, liegt das wahrscheinlich daran, dass die
+  - Wenn die CI-Tests bestanden werden, liegt das wahrscheinlich daran, dass die
         Untermodule aktualisiert werden. Sie können die folgenden Befehle ausführen:
 
         ````sh

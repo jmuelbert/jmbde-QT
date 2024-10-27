@@ -6,7 +6,6 @@
 #
 
 from conans import CMake, ConanFile
-from pydoc_data.topics import topics
 
 
 class jmbdeConan(ConanFile):

@@ -1,7 +1,4 @@
 [codespell]
-builtin = "clear,rare,informal,usage,code,names"
-skip = *.ts,./build-*,.git,./3rdparty/*,./cmake/ECM*,format.config.uncrustify.4_spaces
-interactive = 3
-ignore-words-list = ba,statics,resetable,processinf,nnumber,trun
-write-changes = true
-count = true
+skip = build,*.yuv,components/fatfs/src/*,alice.txt,*.rgb,components/wpa_supplicant/*,components/esp_wifi/*
+ignore-words-list = ser,dout,rsource,fram,inout,shs,ans,aci,unstall,unstalling,hart,wheight,wel
+write-changes = false

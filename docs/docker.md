@@ -38,8 +38,8 @@ TLDR:
 
 ```bash
 docker run -it \
-	-v absolute_path_on_host_machine:absolute_path_in_guest_container \
-	my_project:latest
+ -v absolute_path_on_host_machine:absolute_path_in_guest_container \
+ my_project:latest
 ```
 
 You can configure and build [as directed above](#build) using these commands:

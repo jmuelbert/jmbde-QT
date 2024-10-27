@@ -1,4 +1,4 @@
-# Welcome!
+# Welcome
 
 You are here to help jmbde-QT? Awesome, feel free and read the following sections in
 order to know how to work on something and where to get help from. Your contribution
@@ -6,17 +6,17 @@ matters a lot, jmbde-QT is getting better and better because of people like you.
 
 ## What kinds of contributions are we looking for?
 
--   If you like jmbde-QT, star this project and share it with your friends.
--   Report bugs or request new features by
+- If you like jmbde-QT, star this project and share it with your friends.
+- Report bugs or request new features by
     [opening issues](https://github.com/jmuelbert/jmbde-QT/issues/new/choose). Please
     follow the issue templates and provide detailed information, this will help the
     developers to find the reason of the bug and understand what feature you are
     requesting for exactly.
--   Help other people in issues/pull requests/other platforms if you are able to help
+- Help other people in issues/pull requests/other platforms if you are able to help
     them.
--   Write tutorials and blogs on how to use jmbde-QT.
--   Improve documentation, including the Markdown files and the comments in the codes.
--   Write codes for new features or bug fixes.
+- Write tutorials and blogs on how to use jmbde-QT.
+- Improve documentation, including the Markdown files and the comments in the codes.
+- Write codes for new features or bug fixes.
 
 ## Your First Contribution
 
@@ -67,43 +67,43 @@ writing codes for a pull request, for these reasons:
 
 ## Contributing rules
 
--   Remember that the goal is to build an jmbde-QT for user, not for developers.
--   Do one thing in a pull request. If you want to add multiple features/fix multiple
+- Remember that the goal is to build an jmbde-QT for user, not for developers.
+- Do one thing in a pull request. If you want to add multiple features/fix multiple
     bugs and they are not relevant, open multiple pull requests. You may need to create
-    multiple branches to open multiple pull requests, you can learn git branching
+    multiple branches to open multiple pull requests, you can learn Git branching
     [here](https://learngitbranching.js.org/).
--   Add new features on the master branch, and fix bug on the latest active (master,
+- Add new features on the master branch, and fix bug on the latest active (master,
     beta and stable) branch which has the bug.
--   Please write [clear commit messages](https://chris.beams.io/posts/git-commit/). It's
+- Please write [clear commit messages](https://chris.beams.io/posts/git-commit/). It's
     also recommended to write
     [Conventional Commits](https://www.conventionalcommits.org/). You can use
     [commitizen/cz-cli](https://github.com/commitizen/cz-cli) to write commit messages.
     However, the rules are optional, the key is that, others and yourself in the future
     should understand what has been changed and why these changes are made.
--   Use Clang Format 9 (use `clang-format --version` to check your version, you may need
+- Use Clang Format 9 (use `clang-format --version` to check your version, you may need
     to set the clang-format binary path for your IDE, for example, the default version
     of clang-format in VS Code may be clang-format-6) and `.clang-format` in the root
     directory to format your codes.
--   Don't remove features unless it's necessary. Add an option to disable some feature
+- Don't remove features unless it's necessary. Add an option to disable some feature
     instead.
--   Keep the settings file backward compatible all the time.
--   Windows, Linux and Mac OS should be supported.
--   Both light/dark system themes should be supported.
--   Everyone should obey the [Code of Conduct](CODE_OF_CONDUCT.md) in order to build a
+- Keep the settings file backward compatible all the time.
+- Windows, Linux and Mac OS should be supported.
+- Both light/dark system themes should be supported.
+- Everyone should obey the [Code of Conduct](CODE_OF_CONDUCT.md) in order to build a
     harassment-free community.
 
 ## FAQ
 
--   Can I do it well if I've just started?
-    -   Everyone knows nothing at the beginning. Don't worry, our cool contributors will
+- Can I do it well if I've just started?
+  - Everyone knows nothing at the beginning. Don't worry, our cool contributors will
         help you when you meet difficulties. If you :heart: open source and keep trying,
         everything will be better and better.
--   Do I need to learn about CMake?
-    -   No, you only need to know how to
+- Do I need to learn about CMake?
+  - No, you only need to know how to
         [build from source](https://github.com/jmuelbert/jmbde-QT).
--   Some files are missing when compiling.
+- Some files are missing when compiling.
 
-    -   If the CI tests are passed, it's probably because the submodules are updated.
+  - If the CI tests are passed, it's probably because the submodules are updated.
         You can run the following commands:
 
         ```sh

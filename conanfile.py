@@ -82,7 +82,7 @@ class jmbdeReceipe(ConanFile):
             # if self.options.build_translations:
             #    self.requires("qttranslations/6.2.3@qt/everywhere")
 
-            self.requires("qt/6.2.4")
+            self.requires("qt/6.7.2")
             self.options["qt"].shared = self.options.shared
             self.options["qt"].qtsvg = True
             self.options["qt"].qtdeclarative = True

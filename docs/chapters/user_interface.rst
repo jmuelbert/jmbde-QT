@@ -2,5 +2,6 @@
 
 .. _interface-overview:
 
-An Overview of the jmbde Interface
-**********************************
+####################################
+ An Overview of the jmbde Interface
+####################################

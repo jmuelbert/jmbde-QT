@@ -2,6 +2,8 @@
 ## build results
 ## generated databases
 
+node_modules/
+
 linuxdeployqt
 *.AppImage
 .build

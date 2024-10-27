@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: 2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+SPDX-FileCopyrightText: 2021 Jürgen Mülbert <juergen.muelbert@Gmail.com>
 
 SPDX-License-Identifier: CC-BY-4.0
 -->
@@ -15,11 +15,11 @@ These are computers, printers and telephones.
 [![CodeQL](https://github.com/jmuelbert/jmbde-QT/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/codeql-analysis.yml)
 [![Codacy Security Scan](https://github.com/jmuelbert/jmbde-QT/actions/workflows/codacy-analysis.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/codacy-analysis.yml)
 [![DevSkim](https://github.com/jmuelbert/jmbde-QT/actions/workflows/devskim-analysis.yml/badge.svg)](https://github.com/jmuelbert/jmbde-QT/actions/workflows/devskim-analysis.yml)
-[![codecov](https://codecov.io/gh/jmuelbert/jmbde-QT/branch/main/graph/badge.svg)](https://codecov.io/gh/jmuelbert/jmbde-QT)
+[![codecov](https://codecov.io/gh/jmuelbert/jmbde-QT/branch/main/graph/badge.svg)](<https://codecov.io/gh/jmuelbert/jmbde-QT>)
 [![Release](https://img.shields.io/github/release/jmuelbert/jmbde-QT.svg?style=flat-square)](https://github.com/jmuelbert/jmbde-QT/releases)
 [![GitHub All Releases](https://img.shields.io/github/downloads/jmuelbert/jmbde-QT/total?label=downloads%40all)](https://github.com/jmuelbert/jmbde-QT/releases)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
-[![License](https://img.shields.io/github/license/jmuelbert/jmbde-QT)](https://github.com//jmuelbert/jmbde-QT/blob/release/
+[![License](https://img.shields.io/github/license/jmuelbert/jmbde-QT)](<https://github.com//jmuelbert/jmbde-QT/blob/release/>
 ![Lines of Code](https://img.shields.io/tokei/lines/github/jmuelbert/jmbde-QT)
 ![Repo Size](https://img.shields.io/github/repo-size/jmuelbert/jmbde-QT)
 [![License](https://img.shields.io/github/license/jmuelbert/jmbde-QT)](https://github.com//jmuelbert/jmbde-QT/blob/release/LICENSE)
@@ -48,10 +48,10 @@ conan create samarium -b missing
 ## Prerequistes
 
 | Dependency | URL                                 | Documentation                          |
-| ---------- | ----------------------------------- | -------------------------------------- |
-| python     | <https://www.python.org/downloads/> | <https://www.python.org/doc/>          |
+|------------|-------------------------------------|----------------------------------------|
+| Python     | <https://www.python.org/downloads/> | <https://www.python.org/doc/>          |
 | QT         | <https://www.qt.io>                 | <https://www.qt.io>                    |
-| git        | <https://git-scm.com/downloads/>    | <https://git-scm.com/docs/>            |
+| Git        | <https://git-scm.com/downloads/>    | <https://git-scm.com/docs/>            |
 | cmake      | <https://cmake.org/download/>       | <https://cmake.org/cmake/help/latest/> |
 | conan      | <https://conan.io/downloads.html/>  | <https://docs.conan.io/en/latest/>     |
 
@@ -72,7 +72,7 @@ which means that it works with most operating systems.
 
 ## Documentation
 
-Documentation is located at [Github Pages](https://strangequark1041.github.io/samarium_docs/)
+Documentation is located at [GitHub Pages](https://strangequark1041.github.io/samarium_docs/)
 
 For development, see [BUILDING.md](BUILDING.md)
 

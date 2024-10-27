@@ -1,39 +1,37 @@
-/app/assets/javascripts/locale/**/app.js
+# Benchmark artifacts
+benchmark/projects/
+benchmark/results/
 
-/fixtures/lib/gitlab/graphql/
-/node_modules/
-/public/
-/vendor/
-/tmp/
-/sitespeed-result/
-/.mypy_cache/
-/build/
-.clang-tidy
+# Deep Directories
+**/dist
+**/build
+**/smoke
+**/node_modules
+**/fixtures
+**/vendor
+**/.vercel
+
+# Short-term need to format
+!packages/db/test/fixtures
+
+# Directories
+.github
+.changeset
+
+# Files
 pnpm-lock.yaml
-yarn.lock
-docs/.gitpod.yml
-docs/node_modules
-docs/.changeset
-docs/pnpm-lock.yaml
-docs/yarn.lock
-*.md
-*.mdx
-*.ts
-*.wxs
-CMakeLists.txt
-compile_commands.json
-CONTRIBUTORS
-LICENSE
-LICENSES/
-project-words.txt
-cppcheck_suppressions.txt
-conanfile.py
 
-out
-build
-image
-dist
-bin
-.vscode-test
+# Formatted by Biome
+**/*.json
+**/*.js
+**/*.ts
+**/*.tsx
+**/*.jsx
+**/*.mjs
+**/*.cjs
 
-Pipfile.lock
+# Formatted by taplo
+**/*.toml
+
+# vale configs
+.github/styles/vale/**

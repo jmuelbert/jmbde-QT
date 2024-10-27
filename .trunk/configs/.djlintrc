@@ -1,3 +1,0 @@
-{
-  "linter_output_format": "{filename}:{line} - {code} - {message} :: {match}"
-}
