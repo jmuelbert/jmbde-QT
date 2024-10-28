@@ -1,9 +1,23 @@
 # Build directories and binary files
+# general
+/build*/
 build/
 out/
-cmake-build-*/
+*.rej
+*.orig
+*.out
+/.clang-format
+/.idea
 
 # User specific settings
+# Conan
+conan-cache/
+conan.lock
+conanbuildinfo.txt
+conaninfo.txt
+graph_info.json
+
+# User spezific settings
 CMakeUserPresets.json
 
 # IDE files
@@ -21,10 +35,13 @@ CMakeUserPresets.json
 _ReSharper*
 *.log
 
-# OS Generated Files
+# macOS gitignore
+# General
 .DS_Store
 .AppleDouble
 .LSOverride
+
+# OS Generated Files
 ._*
 .Spotlight-V100
 .Trashes

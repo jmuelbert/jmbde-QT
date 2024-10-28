@@ -2,13 +2,12 @@
 # To get started with Dependabot version updates, you'll need to specify which
 # package ecosystems to update and where the package manifests are located.
 # Please see the documentation for all configuration options:
-# https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
 
 version: 2
 updates:
-  # Maintain dependencies for GitHub Actions
-  - package-ecosystem: github-actions
-    directory: /
+  - package-ecosystem: "github-actions" # See documentation for possible values
+    directory: "/" # Location of package manifests
     schedule:
       interval: monthly
     groups:
@@ -20,15 +19,19 @@ updates:
       include: scope
       prefix: fix(gha)
 
-  # Enable version updates for Docker
-  - package-ecosystem: docker
-    # Look for a `Dockerfile` in the `root` directory
-    directory: /
-    # Check for updates once a week
+  - package-ecosystem: "docker" # See documentation for possible values
+    directory: "/" # Location of package manifests
     schedule:
-      interval: monthly
+      interval: "monthly"
     commit-message:
-      prefix: fix(docker)
+      prefix: "fix(docker)"
+
+  - package-ecosystem: "bundler" # See documentaton for possible values
+    directory: "/" # Location of package manifests
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "fix(bundler)"
 
   # Maintain dependencies for nuget
   - package-ecosystem: nuget # See documentation for possible values
@@ -56,7 +59,7 @@ updates:
 
   # Maintain dependencies for npm
   - package-ecosystem: npm
-    directory: /docs
+    directory: /pages
     schedule:
       interval: monthly
     commit-message:

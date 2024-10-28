@@ -1,53 +1,28 @@
 version = 1
-SPDX-PackageName = "jmbde-java"
+SPDX-PackageName = "jmbde-QT"
 SPDX-PackageSupplier = "<juergen.muelbert@outlook.de>"
-SPDX-PackageDownloadLocation = "https://www.github.com/jmuelbert/jmbde-java"
-
-[reuse]
-exclude = [
-  "docs/node_modules/**",
-  "**/node_modules/**",
-  "**/bin",
-  "**/obj",
-  "**/result",
-]
+SPDX-PackageDownloadLocation = "https://www.github.com/jmuelbert/jmbde-QT"
 
 [[annotations]]
-path = ["**.java", "**.csproj"]
+path = ["**.ui", "**.qrc", "**.json", "CMakePresets.json", "app/data/io.github.jmuelbert.jmbde.appdata.xml", "app/data/io.github.jmuelbert.jmbde.desktop", "app/data/MacOSXBundleInfo.plist.in", "docs/collection/about.txt", "**.frag", "**.geom", "**.vert", "**.ts", "**.qm", "**.map", "cmake/jmbde.rc.cmake"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "Jürgen Mülbert <juergen.muelbert@outlook.de>"
-SPDX-License-Identifier = "EUPL-1.2"
+SPDX-License-Identifier = "GPL-2.0-or-later"
 
 [[annotations]]
-path = [
-  "CHANGES",
-  "CONTRIBUTORS.txt",
-  "INSTALL.md",
-  "README.md",
-  "AUTHORS",
-  "docs/manual/style/**",
-  "docs/api/**.dox",
-  "docs/api/**.html",
-  "docs/man/**.pod",
-  "docs/**.pdf",
-]
+path = ["CHANGES", "CONTRIBUTORS.txt", "INSTALL.md", "README.md", "docs/manual/style/**", "ui/resources/gammaray/ui/icons/classes/**/**", "docs/api/**.dox", "docs/api/**.html", "docs/man/**.pod", "docs/**.pdf"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "Jürgen Mülbert <juergen.muelbert@outlook.de>"
-SPDX-License-Identifier = "CC-BY-SA-4.0"
+SPDX-License-Identifier = "GPL-2.0-or-later"
 
 [[annotations]]
-path = [
-  ".checkov.yml",
-  ".devcontainer/.dockerignore",
-  ".devcontainer/devcontainer.json",
-  ".devskim.json",
-  ".codespellrc",
-  ".git-blame-ignore-revs",
-  ".gitattributes",
-  ".gitignore",
-  ".pre-commit-config.yaml",
-  ".github/**",
-]
+path = ["3rdparty/**/qt_attribution.json", ".clang-format", ".clang-tidy", ".clangd", ".clazy", ".cmake-format.py", ".codespellrc", ".emacs-dirvars", ".git-blame-ignore-revs", ".gitattributes", ".gitignore", ".kateconfig", ".krazy", ".mdlrc", ".mdlrc.rb", ".pep8", ".pre-commit-config.yaml", ".pylintrc", ".qmake.conf", ".tag", ".travis.yml", "appveyor.ini", "appveyor.yml", "distro/**", "format.config.uncrustify.4_spaces", "**.qdocconf", "format_sources", "docs/collection/gammaray.qhcp.cmake", "examples/yocto/gammaray_git**.bb", "probe/gammaray_probe-android-dependencies.xml", "docs/api/Doxyfile.cmake", ".github/**"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "Jürgen Mülbert <juergen.muelbert@outlook.de>"
 SPDX-License-Identifier = "BSD-3-Clause"
+
+[[annotations]]
+path = ["ui/resources/gammaray/**.png", "plugins/guisupport/images/**.png", "ui/resources/gammaray/ui/icons/classes/**/**.png", "ui/resources/gammaray/ui/**/**/**.png", "docs/manual/**/**.png", "docs/api/**.png", "tests/manual/**.png", "plugins/positioning/**.png", "plugins/quickinspector/textureextension/resources/**.png", "launcher/ui/resources/launcher/**.png", "ui/resources/svg/**.svg", "ui/resources/svg/**.svgz", "plugins/positioning/direction_marker.svg", "ui/resources/gammaray/GammaRay.icns", "ui/resources/gammaray/GammaRay.ico"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Jürgen Mülbert <juergen.muelbert@outlook.de>"
+SPDX-License-Identifier = "GPL-2.0-or-later"

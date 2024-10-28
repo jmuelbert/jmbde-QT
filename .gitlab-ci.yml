@@ -1,4 +1,11 @@
 image: ubuntu:latest
+---
+variables:
+  SAST_IMAGE_SUFFIX: "-fips"
+
+include:
+  - template: Security/SAST.gitlab-ci.yml
+  - template: Security/Secret-Detection.gitlab-ci.yml
 
 stages:
   - test
@@ -20,7 +27,7 @@ stages:
   apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 1E9377A2BA9EF27F
 
 .setup_cpp: &setup_cpp |
-  curl -LJO "https://github.com/aminya/setup-cpp/releases/download/v0.10.0/setup_cpp_linux"
+  curl -LJO "https://github.com/aminya/setup-cpp/releases/download/v0.15.0/setup_cpp_linux"
   chmod +x setup_cpp_linux
   ./setup_cpp_linux --compiler $compiler --cmake true --ninja true  --conan true --ccache true --clangtidy true --clangformat true --cppcheck true
   source ~/.profile
@@ -38,6 +45,11 @@ test_linux_llvm:
     - *setup_linux
     - *setup_cpp
     - *test
+    - gtest.exe --gtest_output="xml:report.xml"
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml
 
 test_linux_gcc:
   stage: test
@@ -47,3 +59,12 @@ test_linux_gcc:
     - *setup_linux
     - *setup_cpp
     - *test
+
+cpp:
+  stage: test
+  script:
+    - gtest.exe --gtest_output="xml:report.xml"
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml

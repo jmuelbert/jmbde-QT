@@ -10,134 +10,129 @@
 
 // Edit an existing Account
 AccountInputArea::AccountInputArea(QWidget *parent, const QModelIndex &index)
-    : QGroupBox(parent)
-    , ui(new Ui::AccountInputArea)
+  : QGroupBox(parent), ui(new Ui::AccountInputArea)
 {
-    ui->setupUi(this);
+  ui->setupUi(this);
 
-    qDebug() << tr("Initialisiere AccountInputArea mit Index :") << index.row();
+  qDebug() << tr("Initialisiere AccountInputArea mit Index :") << index.row();
 
-    this->m_accountModel = new Model::Account();
-    this->m_db = this->m_accountModel->getDB();
+  this->m_accountModel = new Model::Account();
+  this->m_db = this->m_accountModel->getDB();
 
-    m_actualMode = Mode::Edit;
-    setViewOnlyMode(true);
+  m_actualMode = Mode::Edit;
+  setViewOnlyMode(true);
 
-    // Set the Model
-    m_model = this->m_accountModel->initializeRelationalModel();
+  // Set the Model
+  m_model = this->m_accountModel->initializeRelationalModel();
 
-    // Set the mapper
-    m_mapper = new QDataWidgetMapper();
-    m_mapper->setModel(m_model);
-    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
+  // Set the mapper
+  m_mapper = new QDataWidgetMapper();
+  m_mapper->setModel(m_model);
+  m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
-    setMappings();
+  setMappings();
 
-    qDebug() << tr("Aktueller Index: ") << m_mapper->currentIndex();
+  qDebug() << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
-    if (index.row() < 0) {
-        m_mapper->toFirst();
-    } else {
-        m_mapper->setCurrentIndex(index.row());
-    }
+  if (index.row() < 0) {
+    m_mapper->toFirst();
+  } else {
+    m_mapper->setCurrentIndex(index.row());
+  }
 
-    QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &AccountInputArea::addEdit);
-    QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &AccountInputArea::editFinish);
+  QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &AccountInputArea::addEdit);
+  QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &AccountInputArea::editFinish);
 }
 
-AccountInputArea::~AccountInputArea()
-{
-    delete ui;
-}
+AccountInputArea::~AccountInputArea() { delete ui; }
 
 void AccountInputArea::setMappings()
 {
-    m_mapper->addMapping(ui->userNameLineEdit, this->m_accountModel->getUserNameIndex());
-    m_mapper->addMapping(ui->passwordLineEdit, this->m_accountModel->getPasswordIndex());
-    m_mapper->addMapping(ui->systemListView, this->m_accountModel->getSystemDataIndex());
-    m_mapper->addMapping(ui->lastUpdateLineEdit, this->m_accountModel->getLastUpdateIndex());
+  m_mapper->addMapping(ui->userNameLineEdit, this->m_accountModel->getUserNameIndex());
+  m_mapper->addMapping(ui->passwordLineEdit, this->m_accountModel->getPasswordIndex());
+  m_mapper->addMapping(ui->systemListView, this->m_accountModel->getSystemDataIndex());
+  m_mapper->addMapping(ui->lastUpdateLineEdit, this->m_accountModel->getLastUpdateIndex());
 }
 
 void AccountInputArea::setViewOnlyMode(bool mode)
 {
-    ui->userNameLineEdit->setDisabled(mode);
-    ui->passwordLineEdit->setDisabled(mode);
-    // ui->systemListView->setDisabled(mode);
+  ui->userNameLineEdit->setDisabled(mode);
+  ui->passwordLineEdit->setDisabled(mode);
+  // ui->systemListView->setDisabled(mode);
 }
 
 void AccountInputArea::createDataset()
 {
-    qDebug() << tr("Erzeuge einen neuen, leeren Datensatz für Account...");
+  qDebug() << tr("Erzeuge einen neuen, leeren Datensatz für Account...");
 
-    // Set all inputfields to blank
-    m_mapper->toLast();
+  // Set all inputfields to blank
+  m_mapper->toLast();
 
-    int row = m_mapper->currentIndex();
-    if (row < 0) {
-        row = 0;
-    }
-    m_mapper->submit();
-    m_model->insertRow(row);
-    m_mapper->setCurrentIndex(row);
+  int row = m_mapper->currentIndex();
+  if (row < 0) { row = 0; }
+  m_mapper->submit();
+  m_model->insertRow(row);
+  m_mapper->setCurrentIndex(row);
 }
 
 void AccountInputArea::deleteDataset(const QModelIndex &index)
 {
-    qDebug() << tr("Lösche Daten von Account");
-    m_mapper->setCurrentIndex(index.row());
+  qDebug() << tr("Lösche Daten von Account");
+  m_mapper->setCurrentIndex(index.row());
 }
 
 // Save the actual data
 
 void AccountInputArea::addEdit()
 {
-    qDebug() << tr("Füge neue Daten zu account");
-    createDataset();
-    editFinish();
+  qDebug() << tr("Füge neue Daten zu account");
+  createDataset();
+  editFinish();
 }
 
 void AccountInputArea::editFinish()
 {
-    qDebug() << tr("Bearbeite oder schließe account Daten");
+  qDebug() << tr("Bearbeite oder schließe account Daten");
 
-    switch (m_actualMode) {
-    case Mode::Edit: {
-        m_actualMode = Mode::Finish;
-        ui->editFinishPushButton->setText(tr("Fertig"));
-        setViewOnlyMode(false);
+  switch (m_actualMode) {
+  case Mode::Edit: {
+    m_actualMode = Mode::Finish;
+    ui->editFinishPushButton->setText(tr("Fertig"));
+    setViewOnlyMode(false);
 
-    } break;
+  } break;
 
-    case Mode::Finish: {
-        qDebug() << tr("Die Daten werden gesichert.");
+  case Mode::Finish: {
+    qDebug() << tr("Die Daten werden gesichert.");
 
-        m_actualMode = Mode::Edit;
-        ui->editFinishPushButton->setText(tr("Bearbeiten"));
-        setViewOnlyMode(false);
+    m_actualMode = Mode::Edit;
+    ui->editFinishPushButton->setText(tr("Bearbeiten"));
+    setViewOnlyMode(false);
 
-        QString userName = ui->userNameLineEdit->text();
+    QString userName = ui->userNameLineEdit->text();
 
-        if (userName.isEmpty()) {
-            QString message(tr("Bitte geben Sie den Benutzernamen ein"));
+    if (userName.isEmpty()) {
+      QString message(tr("Bitte geben Sie den Benutzernamen ein"));
 
-            QMessageBox::information(this, tr("Benutzernamen hinzufügen"), message);
-        } else {
-            qDebug() << tr("Benutzer Name : ") << ui->userNameLineEdit->text();
-            m_mapper->submit();
-            m_model->database().transaction();
-            if (m_model->submitAll()) {
-                m_model->database().commit();
-                qDebug() << tr("Schreiben der Änderungen für Account in die Datenbank");
-                dataChanged();
-            } else {
-                m_model->database().rollback();
-                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
-            }
-        }
-    } break;
-
-    default: {
-        qDebug() << tr("Fehler: Unbekannter Modus");
+      QMessageBox::information(this, tr("Benutzernamen hinzufügen"), message);
+    } else {
+      qDebug() << tr("Benutzer Name : ") << ui->userNameLineEdit->text();
+      m_mapper->submit();
+      m_model->database().transaction();
+      if (m_model->submitAll()) {
+        m_model->database().commit();
+        qDebug() << tr("Schreiben der Änderungen für Account in die Datenbank");
+        dataChanged();
+      } else {
+        m_model->database().rollback();
+        QMessageBox::warning(
+          this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
+      }
     }
-    }
+  } break;
+
+  default: {
+    qDebug() << tr("Fehler: Unbekannter Modus");
+  }
+  }
 }

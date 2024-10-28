@@ -13,7 +13,7 @@
       "cwd": "${workspaceFolder}",
       "preLaunchTask": "Build: Debug",
       "internalConsoleOptions": "neverOpen",
-      "visualizerFile": "/Users/juergen/Library/Application Support/VSCodium/User/workspaceStorage/2f831df60866c25f60235b3da0a9c005/tonka3000.qtvsctools/qt.natvis.xml"
+      "visualizerFile": "/Users/juergen/Library/Application Support/Code/User/workspaceStorage/2f831df60866c25f60235b3da0a9c005/tonka3000.qtvsctools/qt.natvis.xml"
     },
     {
       "name": "App",
@@ -23,7 +23,7 @@
       "stopAtEntry": false,
       "cwd": "${workspaceFolder:folder1}/build/bin/${fileBasenameNoExtension}",
       "externalConsole": false,
-      "visualizerFile": "/Users/juergen/Library/Application Support/VSCodium/User/workspaceStorage/2f831df60866c25f60235b3da0a9c005/tonka3000.qtvsctools/qt.natvis.xml"
+      "visualizerFile": "/Users/juergen/Library/Application Support/Code/User/workspaceStorage/2f831df60866c25f60235b3da0a9c005/tonka3000.qtvsctools/qt.natvis.xml"
     },
     {
       "name": "Launch current CMake target with GammaRay",
@@ -33,7 +33,7 @@
       "args": ["${command:cmake.launchTargetPath}"],
       "console": "internalConsole",
       "cwd": "${workspaceFolder}",
-      "visualizerFile": "/Users/juergen/Library/Application Support/VSCodium/User/workspaceStorage/2f831df60866c25f60235b3da0a9c005/tonka3000.qtvsctools/qt.natvis.xml"
+      "visualizerFile": "/Users/juergen/Library/Application Support/Code/User/workspaceStorage/2f831df60866c25f60235b3da0a9c005/tonka3000.qtvsctools/qt.natvis.xml"
     },
     {
       "name": "Profile current CMake target with qmlprofile",
@@ -45,7 +45,7 @@
         "your/favourite/output/dir/qmlprofiler.qtd",
         "${command:cmake.launchTargetPath}"
       ],
-      "visualizerFile": "/Users/juergen/Library/Application Support/VSCodium/User/workspaceStorage/2f831df60866c25f60235b3da0a9c005/tonka3000.qtvsctools/qt.natvis.xml"
+      "visualizerFile": "/Users/juergen/Library/Application Support/Code/User/workspaceStorage/2f831df60866c25f60235b3da0a9c005/tonka3000.qtvsctools/qt.natvis.xml"
     }
   ]
 }
