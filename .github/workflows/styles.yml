@@ -71,19 +71,19 @@ jobs:
     steps:
       - name: '🧰 Checkout Source Code'
         if: github.event_name == 'push'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: master
 
       - name: '🧰 Checkout Source Code'
         if: github.event_name == 'pull_request'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         with:
           path: '**/src'
           key: ${{ github.workflow }}-src-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake')
@@ -101,13 +101,13 @@ jobs:
 
       - name: '⚙️ Cache Qt'
         id: cache-qt
-        uses: actions/cache@v1 # not v2!
+        uses: actions/cache@v4 # not v2!
         with:
           path: '${{ github.workspace }}/Qt'
           key: QtCache-${{ matrix.platform }}-{{ matrix.arch }}-${{ env.QT_VERSION }}
 
       - name: '⚙️ Install Qt'
-        uses: jurplel/install-qt-action@v2
+        uses: jurplel/install-qt-action@v4
         with:
           version: ${{ env.QT_VERSION }}
           target: ${{ env.QT_TARGET }}
@@ -153,7 +153,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: SQL Check
-        uses: yokawasa/action-sqlcheck@v1.3.0
+        uses: yokawasa/action-sqlcheck@v1.5.0
         id: sqlcheck
         with:
           post-comment: true
@@ -172,7 +172,7 @@ jobs:
         run: echo "Issues found in previous step"
 
       - name: Clang Format
-        uses: DoozyX/clang-format-lint-action@v0.13
+        uses: DoozyX/clang-format-lint-action@v0.18
         with:
           source: './src'
           clangFormatVersion: 12
