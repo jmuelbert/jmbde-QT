@@ -13,7 +13,18 @@
       "com.github.Desktop.yaml"
     ]
   },
-  "python.pythonPath": "/usr/local/Caskroom/miniconda/base/envs/develop/bin/python",
   "esbonio.server.enabled": true,
-  "python.formatting.provider": "black"
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/.classpath": true,
+    "**/.factorypath": true,
+    "**/.project": true,
+    "**/.settings": true
+  },
+  "explorerExclude.backup": {}
 }

@@ -1,204 +1,146 @@
 #
-# SPDX-FileCopyrightText: 2013-2022 Jürgen Mülbert <juergen.muelbert@gmail.com>
+# SPDX-FileCopyrightText: 2013-2024 Jürgen Mülbert <juergen.muelbert@outlook.de>
 #
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: EUPL-1.2
 #
+
+#[=======================================================================[.rst:
+Main CMakeLists.txt
+-------------------
+
+This is the EntryPoint to build all
+
+ - jmbde-widget app
+ - jmbde-quick app
+ - jmbdewidget-library
+ - jmbdequick-library
+ - jmbdemodels-library
+ - api-docs
+ ----
+.. targets::
+    - clang-format
+    - update_translations
+    - release_translations
+
+#]=======================================================================]
+
+# NOTE: This is just a comment which is not added to the generated
+# documentation.
+
+# Default value for the Severity
 
 # minimal requirements
-cmake_minimum_required(VERSION 3.16..3.23)
+cmake_minimum_required(VERSION 3.21...3.27)
 
-# ---------------------------------------------------------------------------- # Import from the
-# Project cmake directory
-# ---------------------------------------------------------------------------- #
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
+if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.24.0")
+  cmake_policy(SET CMP0135 NEW)
+endif()
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+# KDE Release Service Version, managed by release script
+set(RELEASE_SERVICE_VERSION_MAJOR "00")
+set(RELEASE_SERVICE_VERSION_MINOR "07")
+set(RELEASE_SERVICE_VERSION_MICRO "01")
+set(RELEASE_SERVICE_VERSION
+    "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_VERSION_MINOR}.${RELEASE_SERVICE_VERSION_MICRO}"
+)
 
-# Not ideal to use this global variable, but necessary to make sure
-# that tooling and projects use the same version
-set(CMAKE_CXX_STANDARD 20)
-
-# strongly encouraged to enable this globally to avoid conflicts between
-# -Wpedantic being enabled and -std=c++20 and -std=gnu++20 for example
-# when compiling with PCH enabled
-set(CMAKE_CXX_EXTENSIONS OFF)
-
-# Note: by default ENABLE_DEVELOPER_MODE is True
-# This means that all analysis (sanitizers, static analysis)
-# is enabled and all warnings are treated as errors
-# if you want to switch this behavior, change TRUE to FALSE
-set(ENABLE_DEVELOPER_MODE
-    TRUE
-    CACHE BOOL "Enable 'developer mode'")
-
-# Change this to false if you want to disable warnings_as_errors in developer mode
-set(OPT_WARNINGS_AS_ERRORS_DEVELOPER_DEFAULT TRUE)
-
-# Add project_options v0.20.0
-# https://github.com/cpp-best-practices/project_options
-include(FetchContent)
-FetchContent_Declare(_project_options URL https://github.com/aminya/project_options/archive/refs/tags/v0.20.0.zip)
-FetchContent_MakeAvailable(_project_options)
-include(${_project_options_SOURCE_DIR}/Index.cmake)
-
-# uncomment to enable vcpkg:
-# # Setup vcpkg - should be called before defining project()
-# run_vcpkg()
+# enable cross-compiling: - should be called before run_vcpkg()
+if(ENABLE_CROSS_COMPILING)
+  enable_cross_compiler()
+endif()
 
 # Set the project name to your project name, my project isn't very descriptive
 project(
   jmbdeqt
-  VERSION 0.7.0
   DESCRIPTION "A tool to collect company-data"
   HOMEPAGE_URL "https://github.com/jmuelbert/jmbde-QT"
+  VERSION ${RELEASE_SERVICE_VERSION}
   LANGUAGES CXX C)
 
-# This variable is set by project() in CMake 3.21+
-string(
-  COMPARE EQUAL
-          "${CMAKE_SOURCE_DIR}"
-          "${PROJECT_SOURCE_DIR}"
-          PROJECT_IS_TOP_LEVEL)
+# ---------------------------------------------------------------------------- #
+# Import from the Project cmake directory
+# ---------------------------------------------------------------------------- #
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 
-if(PROJECT_IS_TOP_LEVEL)
-  # Consider the CTest module, which creates targets and options!
-  # Only needed if you want to enable submissions to a CDash server.
-  include(CTest)
-endif()
+# FIND DEPENDENCES ########
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/CPM.cmake")
+set(FETCHCONTENT_BASE_DIR "${CMAKE_SOURCE_DIR}/3rdpart")
+set(CPM_USE_LOCAL_PACKAGES ON)
 
-set(GIT_SHA
-    "Unknown"
-    CACHE STRING "SHA this build was generated from")
-string(
-  SUBSTRING "${GIT_SHA}"
-            0
-            8
-            GIT_SHORT_SHA)
+# KF6 only
+set(KF_MIN_VERSION "5.113.0")
+set(QT_MIN_VERSION "6.5.0")
+set(QT_MAJOR_VERSION "6")
 
-get_property(BUILDING_MULTI_CONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
-if(BUILDING_MULTI_CONFIG)
-  if(NOT CMAKE_BUILD_TYPE)
-    # Make sure that all supported configuration types have their
-    # associated conan packages available. You can reduce this
-    # list to only the configuration types you use, but only if one
-    # is not forced-set on the command line for VS
-    message(TRACE "Setting up multi-config build types")
-    set(CMAKE_CONFIGURATION_TYPES
-        Debug
-        Release
-        RelWithDebInfo
-        MinSizeRel
-        CACHE STRING "Enabled build types" FORCE)
-  else()
-    message(TRACE "User chose a specific build type, so we are using that")
-    set(CMAKE_CONFIGURATION_TYPES
-        ${CMAKE_BUILD_TYPE}
-        CACHE STRING "Enabled build types" FORCE)
-  endif()
-endif()
+# We need some parts of the ECM CMake helpers.
+find_package(ECM ${KF_MIN_VERSION} REQUIRED NO_MODULE)
 
-include(${_project_options_SOURCE_DIR}/src/DynamicProjectOptions.cmake)
+# We append to the module path so modules can be overridden from the command
+# line.
+set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
-# defaulted_project_options sets recommended defaults and provides user and developer
-# modes and full GUI support for choosing options at configure time
+include(KDECompilerSettings NO_POLICY_SCOPE)
+include(KDEInstallDirs)
+include(KDECMakeSettings)
+include(KDEClangFormat)
+include(KDEGitCommitHooks)
 
-# for more flexibility, look into project_options() macro
-
-# Any default can be overridden
-# set(<feature_name>_DEFAULT <value>) - set default for both user and developer modes
-# set(<feature_name>_DEVELOPER_DEFAULT <value>) - set default for developer mode
-# set(<feature_name>_USER_DEFAULT <value>) - set default for user mode
-
-# Initialize project_options variable related to this project
-# This overwrites `project_options` and sets `project_warnings`
-# uncomment the options to enable them:
-dynamic_project_options(
-  # Note: PCH is disabled by default in developer mode because these headers become
-  # globally included and they can mask other errors
-  PCH_HEADERS
-  <vector>
-  <string> # This is a list of headers to pre-compile, here are some common ones
-  ENABLE_CONAN
-  # CONAN_OPTIONS    # Extra options to pass to conan
-  # MSVC_WARNINGS    # Override the defaults for the MSVC warnings
-  # CLANG_WARNINGS   # Override the defaults for the CLANG warnings
-  # GCC_WARNINGS     # Override the defaults for the GCC warnings
-  CPPCHECK_OPTIONS
-  --enable=style,performance,warning,portability
-  --inline-suppr
-  # We cannot act on a bug/missing feature of cppcheck
-  --suppress=cppcheckError
-  --suppress=internalAstError
-  # if a file does not have an internalAstError, we get an unmatchedSuppression error
-  --suppress=unmatchedSuppression
-  --suppress=passedByValue
-  --suppress=syntaxError
-  --inconclusive)
-
-target_compile_features(project_options INTERFACE cxx_std_${CMAKE_CXX_STANDARD})
-# TODO: The INTERFACE library NAMESPACE ALIAS are missing! CK
-add_library(myproject::project_options INTERFACE IMPORTED)
-add_library(myproject::project_warnings INTERFACE IMPORTED)
-
-# configure files based on CMake configuration options
-add_subdirectory(configured_files)
-
-option(BUILD_TRANSLATIONS "Build all translations for the project" ON)
-option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" ON)
-option(ENABLE_CLANG_TIDY "Enable CLANG_TIDY tests" ON)
-option(ENABLE_IWYU "Enables include-what-you-use" OFF)
-option(ENABLE_TESTING "Enable Test Builds" ON)
-option(ENABLE_FUZZING "Enable Fuzzing Builds" OFF)
-
-# add project code
-add_subdirectory(src)
-
-# Adding the tests:
-option(ENABLE_TESTING "Enable the tests" ${PROJECT_IS_TOP_LEVEL})
-if(ENABLE_TESTING)
-  enable_testing()
-  message(AUTHOR_WARNING "Building Tests. Be sure to check out test/constexpr_tests.cpp for constexpr testing")
-  add_subdirectory(test)
-endif()
-
-option(ENABLE_FUZZING "Enable the fuzz tests" OFF)
-if(ENABLE_FUZZING)
-  message(AUTHOR_WARNING "Building Fuzz Tests, using fuzzing sanitizer https://www.llvm.org/docs/LibFuzzer.html")
-  add_subdirectory(fuzz_test)
-endif()
-
-# If MSVC is being used, and ASAN is enabled, we need to set the debugger environment
-# so that it behaves well with MSVC's debugger, and we can run the target from visual studio
-if(MSVC)
-  get_all_installable_targets(all_targets)
-  message("all_targets=${all_targets}")
-  set_target_properties(${all_targets} PROPERTIES VS_DEBUGGER_ENVIRONMENT "PATH=$(VC_ExecutablePath_x64);%PATH%")
-endif()
-
-# set the startup project for the "play" button in MSVC
-set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT intro)
-
-if(CMAKE_SKIP_INSTALL_RULES)
-  return()
-elseif(NOT PROJECT_IS_TOP_LEVEL)
-  return()
-endif()
-
-# Add other targets that you want installed here, be default we just package the one executable
-# we know we want to ship
-# package_project(TARGETS jmbde project_options project_warnings
-# FIXME: this does not work! CK
-# PRIVATE_DEPENDENCIES_CONFIGURED project_options project_warnings
-# )
-
-# Experience shows that explicit package naming can help make it easier to sort
-# out potential ABI related issues before they start, while helping you
-# track a build to a specific GIT SHA
-set(CPACK_PACKAGE_FILE_NAME
-    "${CMAKE_PROJECT_NAME}-${CMAKE_PROJECT_VERSION}-${GIT_SHORT_SHA}-${CMAKE_SYSTEM_NAME}-${CMAKE_BUILD_TYPE}-${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}"
-)
-
-include(CPack)
+include(ECMOptionalAddSubdirectory)
+include(ECMAddAppIcon)
+include(ECMInstallIcons)
+include(ECMDeprecationSettings)
 
 include(FeatureSummary)
-feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
+include(FindIntl)
+
+# Turn off some default settings for KDE
+set(KDE_INSTALL_USE_QT_SYS_PATHS OFF)
+remove_definitions("-DQT_NO_KEYWORDS")
+
+# Required here so that the version comparison below works
+find_package(Qt6Widgets ${QT_MIN_VERSION} CONFIG REQUIRED)
+
+find_package(Qt6Concurrent ${QT_MIN_VERSION} CONFIG REQUIRED)
+
+if(NOT WIN32 AND NOT HAIKU)
+  find_package(Intl)
+  set_package_properties(
+    Intl PROPERTIES
+    TYPE REQUIRED
+    URL "http://gnuwin32.sourceforge.net/packages/libintl.htm"
+    PURPOSE
+      "Needed for building kate unless glibc is the system libc implementation")
+endif()
+
+# deprecation options
+ecm_set_disabled_deprecation_versions(QT 6.5 KF 5.90)
+
+option(BUILD_PCH "Enable PCH support" ON)
+option(BUILD_API_DOCS "Enable API-Docs" OFF)
+
+set(PCH_TARGET_NAME "jmbdepch")
+if(BUILD_PCH)
+  add_subdirectory(pch)
+endif()
+
+# the jmde-widgets & jmbde-quick application
+ecm_optional_add_subdirectory(apps)
+
+# the API-Docs
+if(BUILD_API_DOCS)
+  ecm_optional_add_subdirectory(docs)
+endif()
+# ----------------------------------------------------------------------------
+# Install KDEGitCommitHooks
+# ----------------------------------------------------------------------------
+include(KDEGitCommitHooks)
+feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
+
+# ----------------------------------------------------------------------------
+# Install KDEClangFormat
+#
+include(KDEClangFormat)
+# add clang-format target
+file(GLOB_RECURSE ALL_CLANG_FORMAT_SOURCE_FILES *.cpp *.h *.c)
+kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
+kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)

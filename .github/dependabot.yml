@@ -9,34 +9,58 @@ updates:
   - package-ecosystem: "github-actions" # See documentation for possible values
     directory: "/" # Location of package manifests
     schedule:
-      interval: "daily"
+      interval: monthly
+    groups:
+      github-actions:
+        patterns:
+          - '*'
+    open-pull-requests-limit: 10
     commit-message:
-      prefix: ":rocket: gha"
+      include: scope
+      prefix: fix(gha)
 
   - package-ecosystem: "docker" # See documentation for possible values
     directory: "/" # Location of package manifests
     schedule:
-      interval: "daily"
+      interval: "monthly"
     commit-message:
-      prefix: ":rocket: docker"
+      prefix: "fix(docker)"
 
-  - package-ecosystem: "bundler" # See documentation for possible values
+  - package-ecosystem: "bundler" # See documentaton for possible values
     directory: "/" # Location of package manifests
     schedule:
-      interval: "daily"
+      interval: "monthly"
     commit-message:
-      prefix: ":rocket: bundler"
+      prefix: "fix(bundler)"
 
-  - package-ecosystem: "npm" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  # Maintain dependencies for nuget
+  - package-ecosystem: nuget # See documentation for possible values
+    directory: / # Location of package manifests
     schedule:
-      interval: "daily"
+      interval: monthly
     commit-message:
-      prefix: ":rocket: npm"
+      prefix: fix(nuget)
 
-  - package-ecosystem: "pip" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  # Maintain dependencies for pip
+  - package-ecosystem: pip # See documentation for possible values
+    directory: / # Location of package manifests
     schedule:
-      interval: "daily"
+      interval: monthly
     commit-message:
-      prefix: ":rocket: pip"
+      prefix: fix(pip)
+
+  # Maintain dependencies for npm
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: fix(npm)
+
+  # Maintain dependencies for npm
+  - package-ecosystem: npm
+    directory: /pages
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: fix(npm for astrodoc)

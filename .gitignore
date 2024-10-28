@@ -2,17 +2,26 @@
 ## build results
 ## generated databases
 
+node_modules/
+
 linuxdeployqt
 *.AppImage
 .build
 appbuild
 appdir
+test/build/
+test_install/build/
+install/
 /build*/
+build/
 *.tar
 *.gz
 *~swp
 old/
+out/
+megalinter-reports/
 # .qtmodules-travis
+3rdpart/
 
 # Sqlite-DB
 *.db
@@ -395,3 +404,6 @@ GPATH
 GRTAGS
 GTAGS
 jmbd-QT.code-workspace
+
+compile_commands.json
+releases

@@ -5,17 +5,17 @@ mkdir -p build_vcpkg
 cd build_vcpkg
 
 cmake -G "Ninja" -DENABLE_VCPKG=TRUE \
-    -DCMAKE_BUILD_TYPE="RelWithDebInfo" \
-    -DCMAKE_INSTALL_PREFIX:PATH="./install" \
-    -DBUILD_EXECUTABLE="ON" \
-    -DBUILD_SHARED_LIBS="ON" \
-    -DBUILD_TRANSLATIONS="ON" \
-    -DENABLE_APP_AUTO_DEPLOY="ON" \
-    -DENABLE_DOXYGEN="ON" \
-    -DENABLE_TESTING="ON" \
-    -DENABLE_PCH="ON" \
-    -DENABLE_CCACHE="ON" \
-    -S .. -B .
+	-DCMAKE_BUILD_TYPE="RelWithDebInfo" \
+	-DCMAKE_INSTALL_PREFIX:PATH="./install" \
+	-DBUILD_EXECUTABLE="ON" \
+	-DBUILD_SHARED_LIBS="ON" \
+	-DBUILD_TRANSLATIONS="ON" \
+	-DENABLE_APP_AUTO_DEPLOY="ON" \
+	-DENABLE_DOXYGEN="ON" \
+	-DENABLE_TESTING="ON" \
+	-DENABLE_PCH="ON" \
+	-DENABLE_CCACHE="ON" \
+	-S .. -B .
 cmake --build .
 ctest -VV
 cmake --build . --target format

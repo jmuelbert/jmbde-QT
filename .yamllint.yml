@@ -1,0 +1,11 @@
+ignore:
+  - .github/styles/vale/**/*.yml
+  - .github/styles/vale/**/*.yaml
+rules:
+  quoted-strings:
+    required: only-when-needed
+    extra-allowed: ['{|}']
+    level: warning
+  key-duplicates: {}
+  octal-values:
+    forbid-implicit-octal: true

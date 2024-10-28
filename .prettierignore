@@ -1,12 +1,36 @@
-/app/assets/javascripts/locale/**/app.js
-/fixtures/lib/gitlab/graphql/
-/node_modules/
-/public/
-/vendor/
-/tmp/
-/sitespeed-result/
+# Benchmark artifacts
+benchmark/projects/
+benchmark/results/
 
-# ignore stylesheets for now as this clashes with our linter
-*.css
-*.scss
-*.md
+# Deep Directories
+**/dist
+**/build
+**/smoke
+**/node_modules
+**/fixtures
+**/vendor
+**/.vercel
+
+# Short-term need to format
+!packages/db/test/fixtures
+
+# Directories
+.venv
+.github
+.changeset
+megalinter-reports
+
+# Files
+pnpm-lock.yaml
+
+# Formatted by Biome
+**/*.json
+**/*.js
+**/*.ts
+**/*.tsx
+**/*.jsx
+**/*.mjs
+**/*.cjs
+
+# vale configs
+.github/styles/vale/**

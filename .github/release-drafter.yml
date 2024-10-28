@@ -1,50 +1,46 @@
----
-name-template: "v$RESOLVED_VERSION 🌈"
-tag-template: "v$RESOLVED_VERSION"
+name-template: v$RESOLVED_VERSION 🌈
+tag-template: v$RESOLVED_VERSION
 categories:
-  - title: ":boom: Breaking Changes"
-    label: "breaking"
-  - title: ":package: Build System"
-    label: "build"
-  - title: ":construction_worker: Continuous Integration"
-    label: "ci"
-  - title: ":books: Documentation"
-    label: "documentation"
-  - title: ":rocket: Features"
-    label: "enhancement"
-  - title: ":beetle: Fixes"
-    label: "bug"
-  - title: ":racehorse: Performance"
-    label: "performance"
-  - title: ":hammer: Refactoring"
-    label: "refactoring"
-  - title: ":fire: Removals and Deprecations"
-    label: "removal"
-  - title: ":lipstick: Style"
-    label: "style"
-  - title: ":rotating_light: Testing"
-    label: "testing"
-change-template: "- $TITLE @$AUTHOR (#$NUMBER)"
-change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
-
+  - title: ':boom: Breaking Changes'
+    label: breaking
+  - title: ':package: Build System'
+    label: build
+  - title: ':construction_worker: Continuous Integration'
+    label: ci
+  - title: ':books: Documentation'
+    label: documentation
+  - title: ':rocket: Features'
+    label: enhancement
+  - title: ':beetle: Fixes'
+    label: bug
+  - title: ':racehorse: Performance'
+    label: performance
+  - title: ':hammer: Refactoring'
+    label: refactoring
+  - title: ':fire: Removals and Deprecations'
+    label: removal
+  - title: ':lipstick: Style'
+    label: style
+  - title: ':rotating_light: Testing'
+    label: testing
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+change-title-escapes: \<*_& # You can add # and @ to disable mentions, and add ` to disable code blocks.
 version-resolver:
   major:
     labels:
-      - "type: breaking"
+      - 'type: breaking'
   minor:
     labels:
-      - "type: feature"
+      - 'type: feature'
   patch:
     labels:
-      - "type: bug"
-      - "type: maintenance"
-      - "type: docs"
-      - "type: dependencies"
-      - "type: security"
-
+      - 'type: bug'
+      - 'type: maintenance'
+      - 'type: docs'
+      - 'type: dependencies'
+      - 'type: security'
 exclude-labels:
-  - "skip-changelog"
-
+  - skip-changelog
 template: |
   ## Changes
 

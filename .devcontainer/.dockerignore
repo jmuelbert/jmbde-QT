@@ -9,6 +9,7 @@ out/
 /.clang-format
 /.idea
 
+# User specific settings
 # Conan
 conan-cache/
 conan.lock
@@ -27,6 +28,8 @@ CMakeUserPresets.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# Editor/IDE-specific files and backups
 *.swp
 *~
 _ReSharper*
@@ -47,3 +50,19 @@ $RECYCLE.BIN/
 .TemporaryItems
 ehthumbs.db
 Thumbs.db
+
+# Node
+**/node_modules
+**/package-lock.json
+**/temp-*
+
+# TypeScript
+**/*.tsbuildinfo
+
+# Build directories
+**/packages/*/dist/
+**/.parcel-cache
+**/exe/
+**/*.log
+**/*.exe
+**/.cache/

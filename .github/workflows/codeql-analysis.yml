@@ -1,4 +1,9 @@
 ---
+# SPDX-FileCopyrightText: © 2016-2024 Jürgen Mülbert
+#
+# SPDX-License-Identifier: MIT 
+#
+
 # For most projects, this workflow file will not need changing; you simply need
 # to commit it to your repository.
 #
@@ -10,48 +15,47 @@
 # the `language` matrix defined below to confirm you have the correct set of
 # supported CodeQL languages.
 #
-name: "CodeQL"
+name: "CodeQL Analysis"
 
-on:
+on: # yamllint disable-line rule:truthy
   push:
-    branches: [main, develop]
+    branches: [main, develop, release, improve_build-workflow]
     paths:
-      - "**.cpp"
-      - "**.h"
-      - "**.hpp"
-      - "**.py"
+      - "**.{cpp,h,hpp,py,ts,qml}"
       - cmake/**
-      - src/**
+      - apps/**
       - CMakeLists.txt
       - conanfile.py
       - ".github/workflows/codeql-analysis.yml"
 
   pull_request:
-    # The branches below must be a subset of the branches above
     types: [opened, synchronize, reopened]
     paths:
-      - "**.cpp"
-      - "**.h"
-      - "**.hpp"
-      - "**.py"
+      - "**.{cpp,h,hpp,py,ts,qml}"
       - cmake/**
-      - src/**
+      - apps/**
       - CMakeLists.txt
-      - conanfile.py
       - ".github/workflows/codeql-analysis.yml"
 
   schedule:
     - cron: "38 0 * * 5"
 
 env:
-  # Conan cache environment variables
-  CONAN_SYSREQUIRES_MODE: enabled
-  CONAN_USER_HOME: "${{ github.workspace }}/conan-cache"
-  CONAN_USER_HOME_SHORT: "${{ github.workspace }}/conan-cache/short"
-  CLANG_TIDY_VERSION: "13.0.0"
+  TARGET_NAME: "jmbde"
+  QT_INSTALL_PREFIX: ${{ github.workspace }}/install
+  QT_VERSION: 6.5.3
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
 
 jobs:
   analyze:
+    # Skip any PR created by dependabot to avoid permission issues:
+    if: (github.actor != 'dependabot[bot]')
     name: "CodeQL Analyze"
     runs-on: ubuntu-latest
     permissions:
@@ -61,83 +65,134 @@ jobs:
 
     strategy:
       fail-fast: false
-
       matrix:
+        os: [ubuntu-22.04]
         language: ["cpp", "python"]
+        std: [20]
+        formatting: ["std::format"]
+        build_type: ["Debug"]
         # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby' ]
         # Learn more about CodeQL language support at https://git.io/codeql-language-support
-        generator:
-          - "Ninja"
-        build_type:
-          - Debug
-        qt_version:
-          - "6.4.1"
-        qt_target:
-          - "desktop"
+        compiler-cc:
+          - clang-15
+        compiler-cxx:
+          - clang++-15
+        lib:
+          - "libc++"
+        cxx-modules:
+          - false
+        conan_config:
+          - ""
+        CMAKE_GENERATOR:
+          - "Ninja Multi-Config"
+        QT_ARCH:
+          - "gcc_64"
+        QT_HOST:
+          - "linux"
+        QT_ARCHIVES:
+          - ""
+        QT_MODULES:
+          - ""
+        QT_TOOLS:
+          - ""
+
+    env:
+      CC: ${{ matrix.compiler-cc }}
+      CXX: ${{ matrix.compiler-cxx }}
+      CMAKE_GENERATOR: ${{ matrix.CMAKE_GENERATOR }}
+      CMAKE_BUILD_TYPE: ${{ matrix.build_type }}
 
     steps:
-      - name: "Cancel Previous Runs"
-        uses: styfle/cancel-workflow-action@0.12.1
-        with:
-          access_token: ${{ github.token }}
+      - name: "🧰 Checkout Source Code"
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
-      - name: "🧰 Checkout"
-        uses: actions/checkout@v4
-        with:
-          # Full git history is needed to get a proper list of changed files within `super-linter`
-          fetch-depth: 0
+      - name: "🧰 Setup Cache-ID with date for unix-like systems"
+        if: matrix.language == 'cpp'
+        run: echo "cache_id=$(/bin/date -u "+%Y%m%d")" >> $GITHUB_ENV
 
-      # Initializes the CodeQL tools for scanning.
-      - name: "Initialize CodeQL"
-        uses: github/codeql-action/init@v3
+      - name: "⚙️️ Cache conan data"
+        if: matrix.language == 'cpp' && always()
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-conan-data
         with:
-          languages: ${{ matrix.language }}
-          # If you wish to specify custom queries, you can do so here or in a config file.
-          # By default, queries listed here will override any specified in a config file.
-          # Prefix the list here with "+" to use these queries and those in the config file.
-          # queries: ./path/to/local/query, your-org/your-repo/queries@main
+          path: ~/.conan2/p
+          key: build-${{ matrix.os }}-${{ matrix.formatting }}-${{ matrix.lib }}-${{ matrix.build_type }}-${{ matrix.compiler.version }}-${{ matrix.std }}-${{ env.cache_id }}
+          restore-keys: |
+            build-${{ matrix.os }}-${{ matrix.formatting }}-${{ matrix.lib }}-${{ matrix.build_type }}-${{ matrix.compiler.version }}-${{ matrix.std }}-
+            build-${{ matrix.os }}-${{ matrix.formatting }}-${{ matrix.lib }}-${{ matrix.build_type }}-${{ matrix.compiler.version }}-
+            build-${{ matrix.os }}-${{ matrix.formatting }}-${{ matrix.lib }}-${{ matrix.build_type }}-
+            build-${{ matrix.os }}-${{ matrix.formatting }}-${{ matrix.lib }}-
+            build-${{ matrix.os }}-${{ matrix.formatting }}-
+            build-${{ matrix.os }}-${{ matrix.formatting }}-
+            build-${{ matrix.os }}-
 
-      - name: "⚙️ Install Python"
-        id: python
+      - name: "Setup CCache for Linux"
+        if: matrix.language == 'cpp'
+        uses: hendrikmuhs/ccache-action@v1
+        with:
+          key: ${{ matrix.os }}-{{matrix.CMAKE_BUILD_TYPE}}
+          max-size: 50M
+
+      - name: "🟨 Setup Python"
         uses: actions/setup-python@v5
         with:
           # Read python version from a file .python-version
-          # python-version-file: ".python-version"
-          check-latest: true
+          python-version-file: ".python-version"
+          # check-latest: true
           cache: pip
 
-      - name: "⚙️ Install Python dependencies"
-        if: matrix.language == 'cpp'
+      - name: "Update pip"
         shell: bash
-        id: python-deps
         run: |
-          python -m pip install --upgrade pip
-          pip3 install "conan<2"
+          pip install --upgrade pip
 
-      - name: "🐧 ⚙️ Install Linux dependencies"
-        if: matrix.language == 'cpp'
-        run: |
-          sudo apt install -y libclang-dev ninja-build gcovr ccache
-          echo "CCACHE_DIR=${{runner.workspace}}/ccache" >> $GITHUB_ENV
-          echo "CXX=g++-11" >> $GITHUB_ENV
-          echo "CC=gcc-11" >> $GITHUB_ENV
-          
-      - name: Configure Conan
+      - name: "🧰 Install Ninja"
         if: matrix.language == 'cpp'
         shell: bash
         run: |
-          echo "Setup conan"
-          conan user
-          conan config init
-          conan profile show default
-          
+          pip install --upgrade ninja
+
+      - name: "🧰 Setup Conan"
+        if: matrix.language == 'cpp'
+        run: |
+          pip install --upgrade conan
+
+      - name: "Configure Conan"
+        if: matrix.language == 'cpp'
+        shell: bash
+        run: |
+          conan profile detect --force
+          sed -i.backup '/^\[settings\]$/,/^\[/ s/^compiler.cppstd=.*/compiler.cppstd=${{ matrix.std }}/' ~/.conan2/profiles/default
+          sed -i.backup '/^\[settings\]$/,/^\[/ s/^build_type=.*/build_type=${{ matrix.build_type }}/' ~/.conan2/profiles/default
+          conan profile show -pr default
+
+      - name: "🧰 Install Qt Version ${{ env.QT_VERSION }}"
+        if: matrix.language == 'cpp'
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: ${{ env.QT_VERSION }}
+          host: ${{ matrix.QT_HOST}}
+          target: "desktop"
+          arch: ${{ matrix.QT_ARCH }}
+          dir: "${{ env.QT_INSTALL_PREFIX}}"
+          install-deps: "true"
+          modules: ${{ matrix.QT_MODULES }}
+          archives: ${{ matrix.QT_ARCHIVES }}
+          cache: "true"
+          cache-key-prefix: "${{ runner.os }}-install-qt-action"
+          setup-python: "false"
+          tools: ${{ matrix.QT_TOOLS }}
+          set-env: "true"
+          tools-only: "false"
+
       - name: restore ccache
         if: matrix.language == 'cpp'
         uses: pat-s/always-upload-cache@v3.0.11
         with:
-          path: ${{runner.workspace}}/ccache
-          key: ccache-${{matrix.os}}-${{matrix.compiler}}-${{matrix.qt}}-${{ github.sha }}
-          restore-keys: ccache-${{matrix.os}}-${{matrix.compiler}}-${{matrix.qt}}
+          path: ${{ github.workspace }}/ccache
+          key: ccache-${{matrix.os}}-${{matrix.compiler}}-${{ env.QT_VERSION }}-${{ github.sha }}
+          restore-keys: ccache-${{matrix.os}}-${{matrix.compiler}}-${{ env.QT_VERSION }}
 
       - name: check ccache stats prior to build
         if: matrix.language == 'cpp'
@@ -145,53 +200,51 @@ jobs:
 
       - name: "Add GCC problem matcher"
         if: matrix.language == 'cpp'
-        uses: ammaraskar/gcc-problem-matcher@master
-
-      - name: "🔧 Setup Cache"
-        uses: ./.github/actions/setup_cache
-        with:
-          build_type: ${{ matrix.build_type }}
-          generator: ${{ matrix.generator }}
-
-      - name: "⚙️ Install Qt Version ${{ matrix.qt_version }}"
-        if: matrix.language == 'cpp'
-        uses: jurplel/install-qt-action@v4
-        with:
-          version: ${{ matrix.qt_version }}
-          # host: ${{ runner.os }}
-          target: ${{ matrix.qt_target }}
-          # arch: ${{ matrix.qt_arch }}
-          install-deps: "true"
-          # modules: 'qtcharts qtwebengine'
-          cached: ${{ steps.cache-qt.outputs.cache-hit }}
-          setup-python: "true"
-          # tools: "tools_ifw"
-          set-env: "true"
-
-      - name: "Create Build Environment"
-        if: matrix.language == 'cpp'
-        # Some projects don't allow in-source building, so create a separate build directory
-        # We'll use this as our working directory for all subsequent commands
-        run: cmake -E make_directory build
-
         # make sure coverage is only enabled for Debug builds, since it sets -O0 to make sure coverage
         # has meaningful results
-      - name: "⚙️ 🐧 Configure CMake"
+        uses: ammaraskar/gcc-problem-matcher@master
+
+      - name: "🧰 Let Conan generate Deps"
         if: matrix.language == 'cpp'
-        working-directory: build
+        run: |
+          conan install . --build=missing --settings=build_type=${{matrix.build_type}}
+        env:
+          CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
+          CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
+
+      - name: "🍎 🚧 Configure CMake build for Linux}"
+        if: matrix.language == 'cpp'
         shell: bash
         run: |
-          cmake -S .. -B . -G "${{matrix.generator}}" \
-            -DCMAKE_BUILD_TYPE:STRING=${{matrix.build_type}} \
-            -DCMAKE_INSTALL_PREFIX:PATH="./usr" \
-            -DOPT_ENABLE_COVERAGE:BOOL=${{ matrix.build_type == 'Debug' }} \
-            -DOPTION_BUILD_TESTS:BOOL="TRUE"
+          APPIMAGE_DST_PATH=$GITHUB_WORKSPACE/${TARGET_NAME}.AppDir
+          mkdir -p ${APPIMAGE_DST_PATH}
+          cmake -S . -B build/${{matrix.build_type}} \
+            -DCMAKE_TOOLCHAIN_FILE=generators/conan_toolchain.cmake \
+            -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
+            -DCMAKE_INSTALL_PREFIX:PATH="${APPIMAGE_DST_PATH}/usr"
+        env:
+          CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
+          CMAKE_PREFIX_PATH: "${{ env.Qt6_DIR }}/lib/cmake"
 
-      - name: "📦 Build"
+      # Initializes the CodeQL tools for scanning.
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: ${{ matrix.language }}
+          # If you wish to specify custom queries, you can do so here or in a config file.
+          # By default, queries listed here will override any specified in a config file.
+          # Prefix the list here with "+" to use these queries and those in the config file.
+          # queries: ./path/to/local/query, your-org/your-repo/queries@main
+
+      - name: "🍎 🐧 🚧 Build and Install"
         if: matrix.language == 'cpp'
+        shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
         run: |
-          cmake --build ./build --config ${{matrix.build_type}}
+          cmake --build build/${{matrix.build_type}} \
+            --config ${{matrix.build_type}} \
+            --target install \
+            --parallel $(sysctl -n hw.logicalcpu)
 
       # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
       # If this step fails, then you should remove it and run the build manually (see below)
@@ -199,5 +252,5 @@ jobs:
         if: matrix.language != 'cpp'
         uses: github/codeql-action/autobuild@v3
 
-      - name: "Perform CodeQL Analysis"
-        uses: github/codeql-action/analyze@v3
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2

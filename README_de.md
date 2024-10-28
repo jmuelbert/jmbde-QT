@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: 2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+SPDX-FileCopyrightText: 2021 Jürgen Mülbert <juergen.muelbert@Gmail.com>
 
 SPDX-License-Identifier: CC-BY-4.0
 -->
@@ -19,7 +19,7 @@ erfasst werden. Das sind unter anderem Computer, Drucker und Telefone.
 [![GitHub All Releases](https://img.shields.io/github/downloads/jmuelbert/jmbde-QT/total?label=downloads%40all)](https://github.com/jmuelbert/jmbde-QT/releases)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
 [![License](https://img.shields.io/github/license/jmuelbert/jmbde-QT)](https://github.com//jmuelbert/jmbde-QT/blob/release/LICENSE)
-[![jmbde-QT.github.io][docs-badge]][docs]
+[![jmbde-QT.GitHub.io][docs-badge]][docs]
 
 
 [Features](https://github.com/jmuelbert/jmbde-QT) |
@@ -229,7 +229,7 @@ Qt ist unter mehreren [Lizenzen](https://www.qt.io/licensing/) verfügbar.
 
 GPL V3 © [Jürgen Mülbert](https:/github.com/jmuelbert/jmbde-QT)
 
-<!-- MARKDOWN LINKS & IMAGES -->
+<!-- Markdown LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
 [docs-badge]: https://img.shields.io/badge/Docs-github.io-blue

@@ -5,118 +5,84 @@
 #  SPDX-License-Identifier: GPL-3.0-or-later
 #
 
-import string
-from conans import ConanFile, tools
-from conans.tools import Version, check_min_cppstd
-from conan.tools.cmake import CMakeToolchain, CMakeDeps, CMake
-from conan.tools.files import copy
-from conans.errors import ConanInvalidConfiguration
-import os, re
+import os
 
-required_conan_version = ">=1.44.0"
+from conan import ConanFile
+from conan.errors import ConanInvalidConfiguration
+from conan.tools.build import check_min_cppstd
+from conan.tools.cmake import CMake, CMakeDeps, CMakeToolchain
+from conan.tools.files import copy, rm, rmdir
+from conan.tools.scm import Version
 
-class jmbdeConan(ConanFile):
+required_conan_version = ">=2.0"
+
+
+class jmbdeReceipe(ConanFile):
     name = "jmbde"
+    description = "A BDE Tool"
+    license = "EUPL-1.2"
+    url = "https://github.com/jmuelbert/jmbde-QT"
     homepage = "https://github.com/jmuelbert/jmbde-QT"
     author = "Jürgen Mülbert"
-    description = "A BDE Tool"
-    topics = (
-        "bde", 
-        "collect-data", 
-        "database", 
-        "qt", 
-        "qt6", 
-        "conan", 
-        "cmake", 
-        "c++"
-        )
-    license = "GPL V3+"
-    url = "https://github.com/jmuelbert/jmbde-QT"
-    settings = "os", "compiler", "build_type", "arch"
-
+    topics = ("bde", "collect-data", "database", "qt", "qt6", "conan", "cmake", "c++")
+    package_type = "application"
+    settings = "os", "arch", "compiler", "build_type"
+    version = "0.7.0"
     options = {
         "shared": [True, False],
+        "fPIC": [True, False],
         "build_docs": [True, False],
-        "build_translations": [True, False]
+        "build_translations": [True, False],
     }
 
     default_options = {
         "shared": False,
+        "fPIC": True,
         "build_docs": True,
-        "build_translations": True
+        "build_translations": True,
     }
 
-    exports = ["License.md"]
-    exports_sources = ["docs/*", "src/*", "test/*", "cmake/*", "example/*", "CMakeLists.txt"]
-
-    generators = (
-        "cmake_find_package_multi",
-        "markdown",
-        "txt"
-    )
-
-    @property
-    def _run_tests(self):
-        return tools.get_env("CONAN_RUN_TESTS", False)
-    
-    @property
-    def _build_tests(self):
-        return bool((self.settings.build_type == "Debug") or (self.settings.build_type == "RelWithDebInfo") )
-
-    @property
-    def _use_libfmt(self):
-        compiler = self.settings.compiler
-        version = Version(self.settings.compiler.version)
-        std_support = \
-            (compiler == "Visual Studio" and version >= 17 and compiler.cppstd == 23) or \
-            (compiler == "msvc" and version >= 193 and compiler.cppstd == 23)
-        return not std_support
-
-
-    @property
-    def _use_range_v3(self):
-        compiler = self.settings.compiler
-        version = Version(self.settings.compiler.version)
-        return "clang" in compiler and compiler.libcxx == "libc++" and version < 14
-
-    @property
-    def _msvc_version(self):
-        compiler = self.settings.compiler
-        if compiler.update:
-            return int(f"{compiler.version}{compiler.update}")
-        else:
-            return int(f"{compiler.version}0")
-
-    def set_version(self):
-        content = tools.load(os.path.join(self.recipe_folder, "CMakeLists.txt"))
-        version = re.search(r"project\([^\)]+VERSION (\d+\.\d+\.\d+)[^\)]*\)", content).group(1)
-        print("version = {}", version)
-
-    
- 
-    """_summary_
-    """
     def config_options(self):
         if self.settings.os == "Windows":
             del self.options.fPIC
 
-        self.options["qt"].shared = True
-        self.options["qt"].qttranslations = True
+    def configure(self):
+        if self.options.shared:
+            self.options["qt"].shared = True
+            self.options.rm_safe("qt:fPIC")
+            self.options.rm_safe("fPIC")
 
-    """_summary_
-    """
+    def layout(self):
+        # We make the assumption that if the compiler is msvc the
+        # CMake generator is multi-config
+        multi = True if self.settings.get_safe("compiler") == "msvc" else False
+        if multi:
+            self.folders.generators = os.path.join("build", "generators")
+            self.folders.build = "build"
+        else:
+            self.folders.generators = os.path.join(
+                "build", str(self.settings.build_type), "generators"
+            )
+            self.folders.build = os.path.join("build", str(self.settings.build_type))
+
     def requirements(self):
-        self.requires("spdlog/1.11.0")
-        self.requires("extra-cmake-modules/5.93.0")
+        platform_qt = os.getenv("CMAKE_PREFIX_PATH")
+        if not platform_qt:
+            self.output.info("CMAKE_PREFIX_PATH not set")
+            self.output.info(
+                "To use the Qt from your system, set the CMAKE_PREFIX_PATH env var"
+            )
+            # self.output.info("Trying to get Qt from Qt")
+            # self.requires("qtbase/6.2.3@qt/everywhere")
+            # self.requires("qtbuildprofiles/6.2.3@qt/everywhere")
+            # self.requires("qtdeclarative/6.2.3@qt/everywhere")
+            # self.requires("qtdoc/6.2.3@qt/everywhere")
+            # self.requires("qtimageformats/6.2.3@qt/everywhere")
+            # self.requires("qtsvg/6.2.3@qt/everywhere")
+            # if self.options.build_translations:
+            #    self.requires("qttranslations/6.2.3@qt/everywhere")
 
-        if self._use_libfmt:
-            self.requires("fmt/9.1.0")
-        if self._use_range_v3:
-            self.requires("range-v3/0.11.0")
-         
-        qtDir = os.environ.get("Qt6_Dir")
-        if qtDir == 0:
-            self.requires("qt/6.4.1")
+            self.requires("qt/6.7.2")
             self.options["qt"].shared = self.options.shared
             self.options["qt"].qtsvg = True
             self.options["qt"].qtdeclarative = True
@@ -129,100 +95,113 @@ class jmbdeConan(ConanFile):
             self.options["qt"].shared = self.options.shared
             self.options["qt"].qtimageformats = True
 
-            
-    """_summary_
-    """
-    def build_requirements(self):
-        if self._build_tests:
-            self.test_requires("gtest/1.12.1")
-            self.test_requires("doctest/2.4.9")
-            self.test_requires("catch2/3.1.0")
-            # self.tool_requires("doxygen/1.9.4")
-            
-
-    # TODO Replace with `valdate()` for Conan 2.0 (https://github.com/conan-io/conan/issues/10723)
-    def configure(self) :
-        compiler = self.settings.compiler
-        version = Version(self.settings.compiler.version)
-        if compiler == "gcc":
-            if version < 10:
-                raise ConanInvalidConfiguration("jmbde-QT requires at least g++-10")
-        elif compiler == "clang":
-            if version < 12:
-                raise ConanInvalidConfiguration("jmbde-QT requires at least clang++-12")
-        elif compiler == "apple-clang":
-            if version < 13:
-                raise ConanInvalidConfiguration("jmbde-QT requires at least AppleClang 13")
-        elif compiler == "Visual Studio":
-            if version < 16:
-                raise ConanInvalidConfiguration("jmbde-QT requires at least Visual Studio 16.9")
-        elif compiler == "msvc":
-            if self._msvc_version < 1928:
-                raise ConanInvalidConfiguration("jmbde-QT requires at least MSVC 19.28")
         else:
-            raise ConanInvalidConfiguration("Unsupported compiler")
-        check_min_cppstd(self, 20)
+            self.output.info(
+                "Getting Qt from the system. CMAKE_PREFIX_PATH = " + platform_qt
+            )
 
+        self.requires("extra-cmake-modules/5.113.0")
 
-    # TODO Uncomment this when environment is supported in the Conan toolchain
-    # def config_options(self):
-    #     if not self._run_tests:
-    #         # build_docs has sense only in a development or CI build
-    #         del self.options.build_docs
+        # if self.settings.os != "Windows":
+        #    self.requires("libiconv/1.17")
 
+        # self.requires("spdlog/1.13.0")
+
+        # self.requires("cli11/2.4.1")
+
+        # self.requires("benchmark/1.8.3")
+        # if self.options.build_docs:
+        #      self.requires("doxygen/1.9.4")
+        # self.requires("catch2/3.5.2")
+        # self.requires("gtest/1.14.0")
+
+    @property
+    def _min_cppstd(self):
+        return 14
+
+    # In case the project requires C++14/17/20/... the minimum compiler version should be listed
+    @property
+    def _compilers_minimum_version(self):
+        return {"msvc": "192", "gcc": "11", "clang": "13", "apple-clang": "14"}
+
+    def _validate_cppstd(self):
+        if self.settings.compiler.get_safe("cppstd"):
+            # Validate the minimum cpp standard supported when installing the package. For C++ projects only
+            check_min_cppstd(self, self._min_cppstd)
+        minimum_version = self._compilers_minimum_version.get(
+            str(self.settings.compiler), False
+        )
+        if (
+            minimum_version
+            and Version(self.settings.compiler.version) < minimum_version
+        ):
+            raise ConanInvalidConfiguration(
+                f"{self.ref} requires C++{self._min_cppstd}, which your compiler does not support."
+            )
+
+    @property
+    def _required_options(self):
+        options = []
+        # Usage: options.append(("boost", [("without_graph", False), ("without_test", False)]))
+        return options
+
+    def _strict_options_requirements(self):
+        for requirement, options in self._required_options:
+            for option_name, value in options:
+                setattr(self.options[requirement], f"{option_name}", value)
+
+    def _validate_options_requirements(self):
+        for requirement, options in self._required_options:
+            is_missing_option = not all(
+                self.dependencies[requirement].options.get_safe(f"{option_name}")
+                == value
+                for option_name, value in options
+            )
+            if is_missing_option:
+                raise ConanInvalidConfiguration(
+                    f"{self.ref} requires {requirement} with these options: {options}"
+                )
+
+    def validate(self):
+        self._validate_cppstd()
+        self._validate_options_requirements()
+
+    def build_requirements(self):
+        self.tool_requires("cmake/[>=3.25 <4.0.0]")
 
     def generate(self):
-        tc = CMakeToolchain(self)
-        # if self._run_tests:  # TODO Enable this when environment is supported in the Conan toolchain
-        tc.variables["BUILD_DOCS"] = bool(self.options.build_docs)
-        tc.variables["BUILD_TRANSATIONS"] = bool(self.options.build_translations)
-        tc.variables["USE_LIBFMT"] = self._use_libfmt
-        tc.generate()
-        deps = CMakeDeps(self)
-        deps.generate()
+        CMakeDeps(self).generate()
+        toolchain = CMakeToolchain(self)
+        toolchain.presets_prefix = ""
+        toolchain.generate()
 
     def build(self):
         cmake = CMake(self)
-        cmake.configure(build_script_folder=None if self._run_tests else "src")
+        cmake.configure()
         cmake.build()
-        if self._run_tests:
+        if not self.conf.get("tools.build:skip_test", default=False):
             cmake.test()
 
-    def package_id(self):
-        self.info.header_only()
-
     def package(self):
-        copy(self, "LICENSE.md", self.source_folder, os.path.join(self.package_folder, "licenses"))
+        copy(
+            self,
+            pattern="LICENSE",
+            dst=os.path.join(self.package_folder, "licenses"),
+            src=self.source_folder,
+        )
         cmake = CMake(self)
         cmake.install()
-        tools.rmdir(os.path.join(self.package_folder, "lib", "cmake"))
+
+        # some files extensions and folders are not allowed. Please, read the FAQs to get informed.
+        rmdir(self, os.path.join(self.package_folder, "lib", "pkgconfig"))
+        rmdir(self, os.path.join(self.package_folder, "lib", "cmake"))
+        rmdir(self, os.path.join(self.package_folder, "share"))
+        rm(self, "*.la", os.path.join(self.package_folder, "lib"))
+        rm(self, "*.pdb", os.path.join(self.package_folder, "lib"))
+        rm(self, "*.pdb", os.path.join(self.package_folder, "bin"))
 
     def package_info(self):
-        # self.cpp_info.includedirs = ['include']  # Ordered list of include paths
-        # self.cpp_info.libs = ['dena_library']  # The libs to link against
-        # self.cpp_info.system_libs = []  # System libs to link against
-        # self.cpp_info.libdirs = ['lib']  # Directories where libraries can be found
-        # self.cpp_info.resdirs = ['res']  # Directories where resources, data, etc. can be found
-        # Directories where executables and shared libs can be found
-        self.cpp_info.bindirs = ["bin"]
-        # self.cpp_info.srcdirs = []  # Directories where sources can be found (debugging, reusing sources)
-        # self.cpp_info.build_modules = {}  # Build system utility module files
-        # self.cpp_info.defines = []  # preprocessor definitions
-        # self.cpp_info.cflags = []  # pure C flags
-        # self.cpp_info.cxxflags = []  # C++ compilation flags
-        # self.cpp_info.sharedlinkflags = []  # linker flags
-        # self.cpp_info.exelinkflags = []  # linker flags
-        # self.cpp_info.components  # Dictionary with the different components a package may have
-        # self.cpp_info.requires = None  # List of components from requirements
+        self.cpp_info.libs = ["starter"]
 
-    def imports(self):
-        self.copy("*.dll", dst="bin", src="bin")
-        self.copy("*.dylib*", dst="bin", src="lib")
-        self.copy("*.so*", dst="lib", src="lib")
-        self.copy("*", dst="libexec", src="libexec")
-        self.copy("*", dst="bin/archdatadir/plugins", src="bin/archdatadir/plugins")
-        self.copy("*", dst="bin/archdatadir/qml", src="bin/archdatadir/qml")
-        self.copy("*", dst="bin/archdatadir/libexec", src="bin/archdatadir/libexec")
-        self.copy("*", dst="bin/datadir/translations", src="bin/datadir/translations")
-        self.copy("*", dst="resources", src="resources")
-        self.copy("license*", dst="licenses", folder=True, ignore_case=True)
+        self.cpp_info.set_property("cmake_file_name", "starter")
+        self.cpp_info.set_property("cmake_target_name", "starter::starter")

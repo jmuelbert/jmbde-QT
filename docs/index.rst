@@ -1,43 +1,36 @@
-.. jmbde documentation master file, created by
-   sphinx-quickstart on Sat Aug 10 11:00:12 2019.
+..
+   C++ Sphinx Doxygen Breathe documentation master file, created by
+   sphinx-quickstart on Wed Jun 24 11:46:27 2020.
    You can adapt this file completely to your liking, but it should at least
-   contain the root ``toctree`` directive.
+   contain the root `toctree` directive.
 
-jmbde |version| User Manual
-***************************
+########################################################
+ Welcome to C++ Sphinx Doxygen Breathe's documentation!
+########################################################
 
-jmbde is a ``free <https://www.gnu.org/philosophy/free-sw.html>``
-software for Windows, macOS and Linux.
-This program is easy to understand and easy to use.
-With this software you can record and manage
-employees, hardware and accesses in a company.
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
 
-Table of Contents
------------------
+####################
+ Indices and tables
+####################
 
-..  toctree::
-    :maxdepth: 2
-    :glob:
-    :numbered:
+-  :ref:`genindex`
+-  :ref:`modindex`
+-  :ref:`search`
 
-    chapters/introduction
-    chapters/getting_started
-    chapters/user_interface
-    chapters/preferences
-    chapters/database
-    chapters/appendix
-    usage
-    reference
-    Code of Conduct <codeofconduct>
-    License <gpl-3.0>
-    Changelog <https://github.com/jmuelbert/jmbde-QT/releases>
-    glossary
+*******************
+ Table of Contents
+*******************
 
+.. toctree::
+   :maxdepth: 2
 
+   self
+   chapters/introduction
+   api/index
+   cmake/index
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+..
+   * :ref:`search`

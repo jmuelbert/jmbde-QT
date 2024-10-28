@@ -1,0 +1,6 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource prefix="/jmbde">
+        <file alias="jmbde.svg">../icons/unix/sc-apps-jmbde.svg</file>
+    </qresource>
+</RCC>

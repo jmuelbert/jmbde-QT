@@ -6,7 +6,7 @@
 include(GNUInstallDirs)
 include(Deployment)
 
-find_package(Iconv NAMES REQUIRED)
+find_package(Iconv NAMES)
 find_package(CARBON NAMES Carbon)
 find_package(COCOA NAMES Cocoa)
 find_package(SECURITY NAMES Security)
@@ -31,12 +31,14 @@ set_target_properties(
              MACOSX_BUNDLE_INFO_PLIST ${MACOSX_PLIST}
              MACOSX_BUNDLE_BUNDLE_NAME ${TARGET_NAME}
              MACOSX_BUNDLE_BUNDLE_VERSION ${TARGET_VERSION}
-             MACOSX_BUNDLE_COPYRIGHT "Copyright (c) 2013-2022 Jürgen Mülbert"
+             MACOSX_BUNDLE_COPYRIGHT "Copyright (c) 2013-2024 Jürgen Mülbert"
              MACOSX_BUNDLE_GUI_IDENTIFIER "io.github.jmuelbert.jmbde"
              MACOSX_BUNDLE_ICON_FILE "${TARGET_NAME}.icns"
              MACOSX_BUNDLE_INFO_STRING "Created by Jürgen Mülbert"
-             MACOSX_BUNDLE_LONG_VERSION_STRING ${TARGET_VERSION_MAJOR}.${TARGET_VERSION_MINOR}
-             MACOSX_BUNDLE_SHORT_VERSION_STRING ${TARGET_VERSION_MAJOR}.${TARGET_VERSION_MINOR}
+             MACOSX_BUNDLE_LONG_VERSION_STRING
+             ${TARGET_VERSION_MAJOR}.${TARGET_VERSION_MINOR}
+             MACOSX_BUNDLE_SHORT_VERSION_STRING
+             ${TARGET_VERSION_MAJOR}.${TARGET_VERSION_MINOR}
              RESOURCE ${MACOSX_ICON})
 
 # CMAKE_OSX_DEPLOYMENT_TARGET must go before project() or enable_language()
@@ -64,18 +66,13 @@ endif()
 
 set(APPS "\${CMAKE_INSTALL_PREFIX}/${TARGET_NAME}.app")
 
-# Directories to look for dependencies
-# set(DIRS ${CMAKE_BINARY_DIR})
+# Directories to look for dependencies set(DIRS ${CMAKE_BINARY_DIR})
 
-# install(CODE "include(BundleUtilities)
-#    fixup_bundle(\"${APPS}\" \"\" \"${DIRS}\")"
-# )
+# install(CODE "include(BundleUtilities) fixup_bundle(\"${APPS}\" \"\"
+# \"${DIRS}\")" )
 
 find_package(
-  QT
-  NAMES
-  Qt6
-  Qt5
+  QT NAMES Qt6 Qt5
   COMPONENTS Core
   REQUIRED)
 
@@ -88,8 +85,10 @@ if(ENABLE_APP_AUTO_DEPLOY)
   add_custom_command(
     TARGET ${TARGET_NAME}
     POST_BUILD
-    COMMAND ${APP_QtX_DIR}/../../../bin/macdeployqt "${CMAKE_BINARY_DIR}/${TARGET_NAME}.app" -verbose=2
-            -appstore-compliant)
+    COMMAND
+      ${APP_QtX_DIR}/../../../bin/macdeployqt
+      "${CMAKE_BINARY_DIR}/${TARGET_NAME}.app" -verbose=2 -appstore-compliant)
 endif()
 
-configure_file(${CMAKE_SOURCE_DIR}/assets/package_dmg.json.in ${CMAKE_BINARY_DIR}/package_dmg.json @ONLY)
+configure_file(${CMAKE_SOURCE_DIR}/assets/package_dmg.json.in
+               ${CMAKE_BINARY_DIR}/package_dmg.json @ONLY)

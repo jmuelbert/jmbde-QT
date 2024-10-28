@@ -13,7 +13,7 @@ set_target_properties(
                LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
                RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
   )
-  
+
 install(TARGETS ${TARGET_NAME} RUNTIME DESTINATION .)
 
 if(NOT EMBED_TRANSLATIONS)
@@ -48,5 +48,3 @@ ${PROJECT_BINARY_DIR}/installer_Qt6_x64.iss @ONLY)
 s
 install(FILES ${PROJECT_BINARY_DIR}/installer_Qt6_x64.iss
 DESTINATION ${CMAKE_INSTALL_BINDIR})
-
-

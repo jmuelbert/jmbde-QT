@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: Armin Sebastian
+# SPDX-License-Identifier: MIT
+name: Lock Threads
+on: # yamllint disable-line rule:truthy
+  schedule:
+    - cron: 0 0 * * 1
+permissions:
+  issues: write
+concurrency:
+  group: lock
+jobs:
+  action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lock threads
+        uses: dessant/lock-threads@1bf7ec25051fe7c00bdd17e6a7cf3d7bfb7dc771 # v5.0.1
+        with:
+          issue-inactive-days: "182"
+          issue-comment: >
+            This issue has been automatically locked since there has not been any recent activity (i.e. last half year) after it was closed. It helps our maintainers focus on the active issues. If you have found a problem that seems similar, please open a new issue, complete the issue template with all the details necessary to reproduce, and mention this issue as reference.
+
+          process-only: issues
+          exclude-any-issue-labels: keep_unlocked

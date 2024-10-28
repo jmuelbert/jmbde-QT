@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource prefix="/jmbdetest">
+        <file alias="test.diff">data/test.diff</file>
+    </qresource>
+</RCC>

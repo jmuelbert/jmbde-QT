@@ -9,7 +9,7 @@
 
 <!--- If your PR fixes/resolves one or more issues, or is related to
     another PR, link to them here. -->
-<!--- See: https://docs.github.com/en/free-pro-team@latest/github/managing-your-work-on-github/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword --->
+<!--- See: https://docs.GitHub.com/en/free-pro-team@latest/GitHub/managing-your-work-on-GitHub/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword --->
 
 ## Motivation and Context
 
@@ -28,13 +28,13 @@
 <!--- You can open a pull request before all these are done, but
      they should be done before getting merged. -->
 
--   [ ] If the key of a setting is changed, the `old` attribute is updated or it is
+- [ ] If the key of a setting is changed, the `old` attribute is updated or it is
         resolved in SettingsUpdater.
--   [ ] If there are changes of the text displayed in the UI, they are wrapped in `tr()`
+- [ ] If there are changes of the text displayed in the UI, they are wrapped in `tr()`
         or `QCoreApplication::translate()`.
--   [ ] If needed, I have opened a pull request or an issue to update the
+- [ ] If needed, I have opened a pull request or an issue to update the
         [documentation](http://jmuelbert.github.io/jmbde-QT/).
--   [ ] If these changes are notable, they are documented in
+- [ ] If these changes are notable, they are documented in
         [CHANGELOG.md](https://github.com/jmuelbert/jmbde-QT/blob/master/CHANGELOG.md).
 
 ## Additional text

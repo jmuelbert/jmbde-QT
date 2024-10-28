@@ -1,4 +1,4 @@
 .. include:: _CONTRIBUTING.rst
    :end-before: github-only
 
-.. _Code of Conduct: codeofconduct.html
+.. _code of conduct: codeofconduct.html

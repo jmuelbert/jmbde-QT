@@ -1,155 +1,139 @@
-version: "0.2"
-files:
-  - "**/*"
-dictionaryDefinitions:
-  - name: cmake-refined
-    path: ./config/cmake-refined-words.txt
-    addWords: false
-  - name: qt
-    path: ./config/qt-words.txt
-    addWords: false
-  - name: linux-package
-    path: ./config/linux-package-words.txt
-    addWords: false
-  - name: taskfile
-    path: ./config/taskfile-words.txt
-    addWords: false
-dictionaries:
-  - qt
-  - taskfile
-  - bash
-  - cmake-refined
-  - cpp-refined
-  - docker
-  - linux-package
-  - python-common
+version: '0.2'
+language: en,de-DE,it,es-ES
 ignorePaths:
-  - s**/node_modules/**
-  - "**/vscode-extension/**"
-  - "**/.git/**"
-  - ".github/actions/**"
-  - ".github/workflows/**"
-  - "cmake/modules/**"
-  - "docs/api-docs/**"
-  - "cspell.config.yaml"
-  - "*.gz"
-  - "*.lock"
-  - "*.svg"
-  - .gitignore
-  - .devcontainer/.dockerignore
+  - '**/node_modules/**'
+  - '**/vscode_extension/**'
+  - '**/.git/**'
+  - '**/pnpm-lock.yaml'
+  - '**/package-lock.json'
+  - '**/yarn.lock'
+  - '**/tsconfig.json'
+  - dist/
+  - out/
+  - build/
   - .vscode
-  - megalinter
   - package-lock.json
-  - report
-  - pnpm-lock.yaml
-  - dist/**
-  - build/**
-  - /project-words.txt
-  - ./qt-words.txt
-  - ./taskfile-words.txt
-  - ./cmake-refined-words.txt
-  - ./linux-package-words.txt
+  - megalinter-reports
+  - .devcontainer/.dockerignore
+  - .git*
+  - .prettierignore
+  - .codespellrc
+  - CHANGELOG.md
+  - LICENSE
+  - license.txt
+  - '**/{report,site,LICENSES,docs/about/EUPL-1.2.md}/**'
+  - cspell.config.yaml
+  - '**/styles/vale/**'
+  - '**/nbproject/**'
+words:
+  - jmuelbert
+  - Jürgen
+  - juergen
+  - Mülbert
+  - muelbert
+  - apdisk
+  - donotpresent
+  - ehthumbs
+  - esktop
+  - fseventsd
+  - HSTS
+  - icns
+  - msix
+  - NOLOGO
+  - nupkg
+  - rarr
+  - 
+maxNumberOfProblems: 1000
+import: []
 useGitignore: true
-language: en, en-GB, de, de-DE
+overrides:
+  - filename: '**/de_DE/**'
+    language: en,de
+  - filename: '**/nl_NL/**'
+    language: en,nl
+  - filename: '**/ru_RU/samples/**'
+    language: ru,en
+  - filename: '**/sv/**'
+    language: en,sv
+  - filename: package.json
+    ignoreWords:
+      - color
+      - cannot
+  - filename: pyproject.toml
+    ignoreWords:
+      - LICENSE
+  - filename: LICENSE
+    ignoreWords:
+      - LICENCE
+      - authorised
+      - Unported
 allowCompoundWords: true
 enableGlobDot: true
-words:
-  - aqtinstall
-  - APPL
-  - ARGN
-  - cbproj
-  - ccache
-  - ccmake
-  - clangd
-  - cmakelang
-  - Codacy
-  - codecov
-  - cppcheck
-  - cppstd
-  - cpptools
-  - cschlosser.doxdocgen
-  - Devel
-  - DCOMPONENT
-  - DOPTION*
-  - DPROJECT
-  - eamodio
-  - fasterer
-  - FILEOS
-  - fips
-  - ftest
-  - fprofile
-  - furo
-  - Fuzzer
-  - Gcov
-  - giticket
-  - groupproj
-  - gtest
-  - hmarr
-  - hwrap
-  - icns
-  - IHELP
-  - IOPTIONS
-  - IQUIT
-  - IWYU
-  - jamf
-  - jinja
-  - jmuelbert
-  - juergen
-  - kwarg
-  - kwargs
-  - LCOV
-  - libcxx
-  - libfmt
-  - libgmp
-  - libmpfr
-  - libspdlog
-  - lstrip
-  - muelbert
-  - Mülbert
-  - munki
-  - munkiadmin
-  - munkipkg
-  - myclass
-  - noqa
-  - oclint
-  - parg
-  - pargs
-  - Pavlik
-  - Pboard
-  - plists
-  - pipenv
-  - pkgsinfo
-  - PTRACE
-  - pthread
-  - pthreads
-  - pylance
-  - pyyaml
-  - qtconanboilerplate
-  - qtwidgettest
-  - REDIST
-  - SAST
-  - sectnums
-  - socat
-  - sonarqube
-  - spdlog
-  - svgz
-  - SYSREQUIRES
-  - rubocop
-  - twxs
-  - uncrustify
-  - venv
-  - VRAC
-  - webp
-  - Wextra
-  - Wignored
-  - winver
-  - Wmaybe
-  - Wmissing
-  - Wpedantic
-  - Wreorder
-  - Wreturn
-  - Wuninitialized
-  - Wunused
-  - xcodeproj
-flagWords:
-  - hte
+cache:
+  useCache: true
+  cacheStrategy: content
+enableFiletypes:
+  - shellscript
+dictionaryDefinitions:
+  - name: project-words
+    addWords: true
+    scope:
+      - workspace
+    path: ./.github/styles/config/vocabularies/cspell/project-words.txt
+  - name: local-german
+    addWords: true
+    scope:
+      - workspace
+    path: ./.github/styles/config/vocabularies/cspell/german-words.txt
+  - name: local-spanish
+    addWords: true
+    scope:
+      - workspace
+    path: ./.github/styles/config/vocabularies/cspell/spanish-words.txt
+  - name: local-italiano
+    addWords: true
+    scope:
+      - workspace
+    path: ./.github/styles/config/vocabularies/cspell/italian-words.txt
+  - name: local-ruby
+    addWords: false
+    scope:
+      - workspace
+    path: ./.github/styles/config/vocabularies/cspell/ruby-words.txt
+  - name: local-python
+    addWords: false
+    scope:
+      - workspace
+    path: ./.github/styles/config/vocabularies/cspell/python-words.txt
+  - name: local-github-actions
+    addWords: false
+    scope:
+      - workspace
+    path: ./.github/styles/config/vocabularies/cspell/github-actions.txt
+  - name: local-node
+    addWords: false
+    scope:
+      - workspace
+    path: ./.github/styles/config/vocabularies/cspell/node.txt
+dictionaries:
+  - project-words
+  - local-german
+  - local-spanish
+  - local-italiano
+  - local-ruby
+  - local-python
+  - local-github-actions
+  - local-node
+  - bash
+  - companies
+  - csharp
+  - css
+  - filetypes
+  - fonts
+  - misc
+  - node
+  - npm
+  - powershell
+  - python
+  - software-terms
+  - typescript

@@ -1,0 +1,26 @@
+# Add 'root' label to any root file changes
+# Quotation marks are required for the leading asterisk
+'project':
+  - changed-files:
+      - any-glob-to-any-file: '*'
+      - all-globs-to-all-files: '!*.md'
+# Add 'Documentation' label to any change to .md files within the entire repository
+documentation:
+  - changed-files:
+      - any-glob-to-any-file: docs/**
+# Add 'source' label to any change to src files within the source dir EXCEPT for the docs sub-folder
+'source':
+  - changed-files:
+      - any-glob-to-any-file: src/**/*
+      - all-globs-to-all-files: '!src/docs/**'
+'github_actions':
+  - changed-files:
+      - any-glob-to-any-file:
+          - .github/actions/**
+          - .github/workflows/**
+# Add 'feature' label to any PR where the head branch name starts with `feature` or has a `feature` section in the name
+'feature':
+  - head-branch: [^feature, feature]
+# Add 'release' label to any PR that is opened against the `main` branch
+release:
+  - base-branch: release

@@ -10,6 +10,11 @@
     "**/.github/**",
     "**/.idea/**",
     "**/report/**",
-    "**/*.svg"
+    "**/*.svg",
+    "**/*.txt",
+    "LICENSES/**",
+    "docs/src/content/docs/de/**",
+    "docs/src/content/docs/es/**",
+    "docs/src/content/docs/it/**"
   ]
 }
