@@ -101,7 +101,8 @@ auto main(int argc, char *argv[]) -> int
     /**
      * Use file based translations from translations directory
      */
-    qDebug() << "Use file based translations from: " << "Translation Directory";
+    qDebug() << "Use file based translations from: "
+             << "Translation Directory";
     qDebug() << "Use file based translations from: "
              << "Translation Directory";
     if (translator.load(QLocale(), QLatin1String("jmbde"), QLatin1String("_"), QLatin1String("translations"))) {

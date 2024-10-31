@@ -25,7 +25,8 @@
 #include "jmbdewidgets/definitions.h"
 #include <QStandardPaths>
 
-namespace Ui {
+namespace Ui
+{
 class PreferencesDialog;
 }
 
@@ -34,50 +35,50 @@ class PreferencesDialog;
  */
 class PreferencesDialog : public QDialog
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  /**
-   * @brief PreferencesDialog::PreferencesDialog
-   * @param parent
-   */
-  explicit PreferencesDialog(QWidget *paret = nullptr);
+    /**
+     * @brief PreferencesDialog::PreferencesDialog
+     * @param parent
+     */
+    explicit PreferencesDialog(QWidget *paret = nullptr);
 
-  /**
-   * @brief PreferencesDialog::~PreferencesDialog
-   */
-  ~PreferencesDialog();
+    /**
+     * @brief PreferencesDialog::~PreferencesDialog
+     */
+    ~PreferencesDialog();
 
 private slots:
 
-  /**
-   * @brief on_pushButtonDBForceFileDialog_clicked
-   */
-  void on_pushButtonDBForceFileDialog_clicked();
+    /**
+     * @brief on_pushButtonDBForceFileDialog_clicked
+     */
+    void on_pushButtonDBForceFileDialog_clicked();
 
-  /**
-   * @brief on_buttonBox_accepted
-   */
-  void on_buttonBox_accepted();
+    /**
+     * @brief on_buttonBox_accepted
+     */
+    void on_buttonBox_accepted();
 
 private:
-  /**
-   * @brief ui
-   */
-  Ui::PreferencesDialog *ui;
-  /**
-   * @brief readSettings
-   */
-  void readSettings();
+    /**
+     * @brief ui
+     */
+    Ui::PreferencesDialog *ui;
+    /**
+     * @brief readSettings
+     */
+    void readSettings();
 
-  /**
-   * @brief writeSettings
-   */
-  void writeSettings();
+    /**
+     * @brief writeSettings
+     */
+    void writeSettings();
 
-  /**
-   * @brief getUserDataDir
-   * @return
-   */
-  static auto getUserDataDir() -> QString;
+    /**
+     * @brief getUserDataDir
+     * @return
+     */
+    static auto getUserDataDir() -> QString;
 };
