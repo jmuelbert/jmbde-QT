@@ -193,11 +193,7 @@ jobs:
           echo "CC=gcc-10" >> $GITHUB_ENV
       - name: Configure Conan
         shell: bash
-        run: |
-          echo "Setup conan"
-          conan user
-          conan config init
-          conan profile show default
+        run: "echo \"Setup conan\"\nconan profile detect --force    \nconan profile show default\n"
       - name: ⚙️ Install Qt Version ${{ matrix.qt_version }}
         uses: jurplel/install-qt-action@f03f05556819ceb3781ee2f455ec44c339d683c0 # v4.0.0
         with:
@@ -380,11 +376,7 @@ jobs:
           arch: ${{ matrix.pak_arch }}
       - name: Configure Conan
         shell: bash
-        run: |
-          echo "Setup conan"
-          conan user
-          conan config init
-          conan profile show default
+        run: "echo \"Setup conan\"\nconan profile detect --force  \nconan profile show default\n"
       - name: (Linux/macOS) restore ccache
         if: runner.os == 'Linux' || runner.os == 'macOS'
         uses: pat-s/always-upload-cache@v3.0.11
