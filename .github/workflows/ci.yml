@@ -225,9 +225,6 @@ jobs:
           restore-keys: ccache-${{matrix.os}}-${{matrix.qt_version}}
       - name: check ccache stats prior to build
         run: ccache --zero-stats --show-stats
-      - name: Cleanup Conan system packages (they are not properly cached)
-        run: |
-          conan remove -f '*/system'
       - name: Add GCC problem matcher
         uses: ammaraskar/gcc-problem-matcher@0f9c86f9e693db67dacf53986e1674de5f2e5f28 # v0.3.0
       - name: Create Build Environment
@@ -412,9 +409,6 @@ jobs:
           # tools: "tools_ifw"
 
           set-env: "true"
-      - name: Cleanup Conan system packages (they are not properly cached)
-        run: |
-          conan remove -f '*/system'
       - name: Create Build Environment
         # Some projects don't allow in-source building, so create a separate build directory
 
