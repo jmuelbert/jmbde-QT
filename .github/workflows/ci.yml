@@ -197,6 +197,7 @@ jobs:
           echo "Setup conan"
           conan profile detect --force
           conan profile show
+          conan install .  --build=missing --settings=build_type={{.CMAKE_BUILD_TYPE}}
       - name: ⚙️ Install Qt Version ${{ matrix.qt_version }}
         uses: jurplel/install-qt-action@f03f05556819ceb3781ee2f455ec44c339d683c0 # v4.0.0
         with:
