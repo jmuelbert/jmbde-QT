@@ -148,7 +148,7 @@ jobs:
           - Ninja
         build_type:
           - Debug
-        qt_version: [5.15.2, 6.7.2]
+        qt_version: [6.7.2]
     permissions:
       actions: read
       contents: read
@@ -197,7 +197,7 @@ jobs:
           echo "Setup conan"
           conan profile detect --force
           conan profile show
-          conan install .  --build=missing --settings=build_type=${{matrix.build_type}}
+          
       - name: ⚙️ Install Qt Version ${{ matrix.qt_version }}
         uses: jurplel/install-qt-action@f03f05556819ceb3781ee2f455ec44c339d683c0 # v4.0.0
         with:
@@ -241,6 +241,7 @@ jobs:
         shell: bash
         run: |
           mkdir -pv usr
+          conan install .  --build=missing --settings=build_type=${{matrix.build_type}}
           cmake -S .. -B . -G "${{matrix.generator}}" \
             -DCMAKE_MAKE_PROGRAM="/usr/bin/ninja" \
             -DCMAKE_TOOLCHAIN_FILE="generators/conan_toolchain.cmake" \
