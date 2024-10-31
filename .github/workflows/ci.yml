@@ -145,7 +145,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, ubuntu-22.04]
         generator:
-          - Unix Makefiles
+          - Ninja
         build_type:
           - Debug
         qt_version: [5.15.2, 6.7.2]
@@ -241,6 +241,7 @@ jobs:
         run: |
           mkdir -pv usr
           cmake -S .. -B . -G "${{matrix.generator}}" \
+            -DCMAKE_MAKE_PROGRAM="/usr/bin/ninja" \
             -DCMAKE_TOOLCHAIN_FILE="generators/conan_toolchain.cmake" \
             -DCMAKE_BUILD_TYPE:STRING=${{matrix.build_type}} \
             -DCMAKE_INSTALL_PREFIX:PATH="./usr" \
