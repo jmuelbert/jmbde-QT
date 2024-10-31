@@ -1,7 +1,7 @@
-name: "Bug Report"
+name: Bug Report
 description: Report an issue or possible bug
 title: "[Bug]:  "
-labels: ["bug", "triage"]
+labels: [bug, triage]
 assignees:
   - jmuelbert
 body:
@@ -19,7 +19,7 @@ body:
     validations:
       required: true
   - type: input
-    id: Qt Version
+    id: qt-Version
     attributes:
       label: What version of `Qt` are you using?
       placeholder: 6.5.2
