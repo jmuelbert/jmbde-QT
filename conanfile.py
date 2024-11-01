@@ -143,8 +143,7 @@ class jmbdeReceipe(ConanFile):
                 for option_name, value in options
             ):
                 raise ConanInvalidConfiguration(
-                    f"{self.ref} requires {
-                        requirement} with these options: {options}"
+                    f"{self.ref} requires {requirement} with these options: {options}"
                 )
 
     def validate(self):
