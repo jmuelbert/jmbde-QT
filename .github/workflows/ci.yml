@@ -241,7 +241,7 @@ jobs:
         shell: bash
         run: |
           mkdir -pv usr
-          conan install .  --build=missing --settings=build_type=${{matrix.build_type}}
+          conan install ..  --build=missing --settings=build_type=${{matrix.build_type}}
           cmake -S .. -B . -G "${{matrix.generator}}" \
             -DCMAKE_MAKE_PROGRAM="/usr/bin/ninja" \
             -DCMAKE_TOOLCHAIN_FILE="generators/conan_toolchain.cmake" \
