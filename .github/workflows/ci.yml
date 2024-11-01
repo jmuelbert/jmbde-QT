@@ -197,7 +197,6 @@ jobs:
           echo "Setup conan"
           conan profile detect --force
           conan profile show
-          
       - name: ⚙️ Install Qt Version ${{ matrix.qt_version }}
         uses: jurplel/install-qt-action@f03f05556819ceb3781ee2f455ec44c339d683c0 # v4.0.0
         with:
@@ -241,6 +240,7 @@ jobs:
         shell: bash
         run: |
           mkdir -pv usr
+          echo "CMAKE_PREFIX_PATH=$env.QT_ROOT_DIR" >> $GITHUB_ENV
           conan install ..  --build=missing --settings=build_type=${{matrix.build_type}}
           cmake -S .. -B . -G "${{matrix.generator}}" \
             -DCMAKE_MAKE_PROGRAM="/usr/bin/ninja" \
