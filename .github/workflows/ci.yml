@@ -146,6 +146,8 @@ jobs:
         os: [ubuntu-latest, ubuntu-22.04]
         generator:
           - Ninja
+        compiler: g++-10
+        ccompiler: gcc-10
         build_type:
           - Debug
         qt_version: [6.7.2]
@@ -187,10 +189,9 @@ jobs:
             ccache \
             cppcheck \
             googletest
-          echo "CCACHE_DIR=${{runner.workspace}}/ccache" >> $GITHUB_ENV
-          echo "CCACHE_DIR=${{runner.workspace}}/ccache" >> $GITHUB_ENV
-          echo "CXX=g++-10" >> $GITHUB_ENV
-          echo "CC=gcc-10" >> $GITHUB_ENV
+          echo "CCACHE_DIR=${{github.workspace}}/ccache" >> $GITHUB_ENV
+          echo "CXX=${{matrix.compiler}}" >> $GITHUB_ENV
+          echo "CC=${{matrix.ccompiler}}" >> $GITHUB_ENV
       - name: Configure Conan
         shell: bash
         run: |
@@ -201,9 +202,6 @@ jobs:
         uses: jurplel/install-qt-action@f03f05556819ceb3781ee2f455ec44c339d683c0 # v4.0.0
         with:
           version: "${{ matrix.qt_version }}"
-          dir: "${{ env.QT_DIR }}"
-          # host: ${{ runner.os }}
-
           arch: "${{ env.QT_ARCH }}"
           target: "${{ env.QT_TARGET }}"
           tools: "${{ env.QT_TOOLS }}"
@@ -240,7 +238,8 @@ jobs:
         shell: bash
         run: |
           mkdir -pv usr
-          echo "CMAKE_PREFIX_PATH=$env.QT_ROOT_DIR" >> $GITHUB_ENV
+          echo "CMAKE_PREFIX_PATH=$QT_ROOT_DIR" >> $GITHUB_ENV
+          printenv
           conan install ..  --build=missing --settings=build_type=${{matrix.build_type}}
           cmake -S .. -B . -G "${{matrix.generator}}" \
             -DCMAKE_MAKE_PROGRAM="/usr/bin/ninja" \
@@ -273,7 +272,7 @@ jobs:
           files: ./build/coverage.xml
   build:
     # if: startsWith(github.event.ref, 'refs/tags/')
-    name: "Build for ${{ matrix.name }}"
+    name: "Build for ${{ matrix.na + qt_dirme }}"
     runs-on: ${{ matrix.os }}
     needs: tests
     strategy:
@@ -425,6 +424,8 @@ jobs:
         working-directory: build
         shell: pwsh
         run: |
+          echo "CMAKE_PREFIX_PATH=$env.QT_ROOT_DIR" >> $GITHUB_ENV '
+          conan install ..  --build=missing --settings=build_type=${{matrix.build_type}} '
           cmake  `
           -S .. -B  . `
           -G "${{matrix.generator}}" `
@@ -441,6 +442,8 @@ jobs:
         working-directory: build
         shell: bash
         run: |
+          echo "CMAKE_PREFIX_PATH=$env.QT_ROOT_DIR" >> $GITHUB_ENV \
+          conan install ..  --build=missing --settings=build_type=${{matrix.build_type}} \
           cmake -S .. -B . -G "${{matrix.generator}}" \
             -DCMAKE_TOOLCHAIN_FILE="generators/conan_toolchain.cmake" \
             -DCMAKE_BUILD_TYPE:STRING="${{matrix.build_type}}" \
@@ -452,6 +455,8 @@ jobs:
         shell: bash
         if: runner.os ==  'macOS'
         run: |
+          echo "CMAKE_PREFIX_PATH=$env.QT_ROOT_DIR" >> $GITHUB_ENV \
+          conan install ..  --build=missing --settings=build_type=${{matrix.build_type}} \
           cmake -S .. -B . -G "${{matrix.generator}}" \
             -DCMAKE_TOOLCHAIN_FILE="generators/conan_toolchain.cmake" \
             -DCMAKE_BUILD_TYPE:STRING="${{matrix.build_type}}" \

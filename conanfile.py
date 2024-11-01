@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-#  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+#  SPDX-FileCopyrightText: 2013-2024 Jürgen Mülbert <juergen.muelbert@gmail.com>
 #
 #  SPDX-License-Identifier: GPL-3.0-or-later
 #
@@ -66,54 +66,36 @@ class jmbdeReceipe(ConanFile):
             self.folders.build = os.path.join("build", str(self.settings.build_type))
 
     def requirements(self):
+        qt_dir = os.getenv("QT_ROOT_DIR")
         platform_qt = os.getenv("CMAKE_PREFIX_PATH")
-        if not platform_qt:
+
+        if not platform_qt or not qt_dir:
             self.output.info("CMAKE_PREFIX_PATH not set")
             self.output.info(
                 "To use the Qt from your system, set the CMAKE_PREFIX_PATH env var"
             )
-            # self.output.info("Trying to get Qt from Qt")
-            # self.requires("qtbase/6.2.3@qt/everywhere")
-            # self.requires("qtbuildprofiles/6.2.3@qt/everywhere")
-            # self.requires("qtdeclarative/6.2.3@qt/everywhere")
-            # self.requires("qtdoc/6.2.3@qt/everywhere")
-            # self.requires("qtimageformats/6.2.3@qt/everywhere")
-            # self.requires("qtsvg/6.2.3@qt/everywhere")
-            # if self.options.build_translations:
-            #    self.requires("qttranslations/6.2.3@qt/everywhere")
 
+            # Verwenden Sie die Standard-Qt-Version, wenn die Umgebungsvariablen nicht gesetzt sind
             self.requires("qt/6.7.2")
             self.options["qt"].shared = self.options.shared
             self.options["qt"].qtsvg = True
             self.options["qt"].qtdeclarative = True
             self.options["qt"].qttools = True
-            if self.options.build_translations:
-                self.options["qt"].qttranslations = True
             self.options["qt"].qtimageformats = True
             self.options["qt"].qtdoc = True
-            self.options["qt"].qtimageformats = True
-            self.options["qt"].shared = self.options.shared
-            self.options["qt"].qtimageformats = True
 
+            if self.options.build_translations:
+                self.options["qt"].qttranslations = True
         else:
+            self.output.info(
+                "Getting the Qt installation directory from the system: QT_ROOT_DIR = "
+                + qt_dir
+            )
             self.output.info(
                 "Getting Qt from the system. CMAKE_PREFIX_PATH = " + platform_qt
             )
 
         self.requires("extra-cmake-modules/5.113.0")
-
-        # if self.settings.os != "Windows":
-        #    self.requires("libiconv/1.17")
-
-        # self.requires("spdlog/1.13.0")
-
-        # self.requires("cli11/2.4.1")
-
-        # self.requires("benchmark/1.8.3")
-        # if self.options.build_docs:
-        #      self.requires("doxygen/1.9.4")
-        # self.requires("catch2/3.5.2")
-        # self.requires("gtest/1.14.0")
 
     @property
     def _min_cppstd(self):
@@ -159,7 +141,8 @@ class jmbdeReceipe(ConanFile):
             )
             if is_missing_option:
                 raise ConanInvalidConfiguration(
-                    f"{self.ref} requires {requirement} with these options: {options}"
+                    f"{self.ref} requires {
+                        requirement} with these options: {options}"
                 )
 
     def validate(self):
