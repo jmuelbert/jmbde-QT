@@ -104,7 +104,7 @@ jobs:
 
     steps:
       - name: "🧰 Checkout Source Code"
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: "🧰 Setup Cache-ID with date for unix-like systems"
         if: matrix.language == 'cpp'
@@ -169,7 +169,7 @@ jobs:
 
       - name: "🧰 Install Qt Version ${{ env.QT_VERSION }}"
         if: matrix.language == 'cpp'
-        uses: jurplel/install-qt-action@v3
+        uses: jurplel/install-qt-action@v4
         with:
           version: ${{ env.QT_VERSION }}
           host: ${{ matrix.QT_HOST}}
@@ -228,7 +228,7 @@ jobs:
 
       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
+        uses: github/codeql-action/init@v3
         with:
           languages: ${{ matrix.language }}
           # If you wish to specify custom queries, you can do so here or in a config file.
@@ -253,4 +253,4 @@ jobs:
         uses: github/codeql-action/autobuild@v3
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@v3
