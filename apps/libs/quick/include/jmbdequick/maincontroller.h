@@ -23,15 +23,15 @@ class QQmlApplicationEngine;
 
 class MainController : public QObject
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  explicit JMBDEQUICK_EXPORT MainController(/* QObject *parent = nullptr */);
+    explicit JMBDEQUICK_EXPORT MainController(/* QObject *parent = nullptr */);
 
-  JMBDEQUICK_EXPORT ~MainController();
+    JMBDEQUICK_EXPORT ~MainController();
 
-  Q_REQUIRED_RESULT JMBDEQUICK_EXPORT bool initialize();
+    Q_REQUIRED_RESULT JMBDEQUICK_EXPORT bool initialize();
 
 private:
-  QQmlApplicationEngine *mEngine = nullptr;
+    QQmlApplicationEngine *mEngine = nullptr;
 };

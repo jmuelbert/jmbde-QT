@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-#  SPDX-FileCopyrightText: 2013-2021 Jürgen Mülbert <juergen.muelbert@gmail.com>
+#  SPDX-FileCopyrightText: 2013-2024 Jürgen Mülbert <juergen.muelbert@gmail.com>
 #
 #  SPDX-License-Identifier: GPL-3.0-or-later
 #
@@ -24,7 +24,8 @@ class jmbdeReceipe(ConanFile):
     url = "https://github.com/jmuelbert/jmbde-QT"
     homepage = "https://github.com/jmuelbert/jmbde-QT"
     author = "Jürgen Mülbert"
-    topics = ("bde", "collect-data", "database", "qt", "qt6", "conan", "cmake", "c++")
+    topics = ("bde", "collect-data", "database",
+              "qt", "qt6", "conan", "cmake", "c++")
     package_type = "application"
     settings = "os", "arch", "compiler", "build_type"
     version = "0.7.0"
@@ -63,38 +64,34 @@ class jmbdeReceipe(ConanFile):
             self.folders.generators = os.path.join(
                 "build", str(self.settings.build_type), "generators"
             )
-            self.folders.build = os.path.join("build", str(self.settings.build_type))
+            self.folders.build = os.path.join(
+                "build", str(self.settings.build_type))
 
     def requirements(self):
+        qt_dir = os.getenv("QT_ROOT_DIR")
         platform_qt = os.getenv("CMAKE_PREFIX_PATH")
+
         if not platform_qt:
             self.output.info("CMAKE_PREFIX_PATH not set")
             self.output.info(
                 "To use the Qt from your system, set the CMAKE_PREFIX_PATH env var"
             )
-            # self.output.info("Trying to get Qt from Qt")
-            # self.requires("qtbase/6.2.3@qt/everywhere")
-            # self.requires("qtbuildprofiles/6.2.3@qt/everywhere")
-            # self.requires("qtdeclarative/6.2.3@qt/everywhere")
-            # self.requires("qtdoc/6.2.3@qt/everywhere")
-            # self.requires("qtimageformats/6.2.3@qt/everywhere")
-            # self.requires("qtsvg/6.2.3@qt/everywhere")
-            # if self.options.build_translations:
-            #    self.requires("qttranslations/6.2.3@qt/everywhere")
 
+            # Verwenden Sie die Standard-Qt-Version, wenn die Umgebungsvariablen nicht gesetzt sind
             self.requires("qt/6.7.2")
             self.options["qt"].shared = self.options.shared
             self.options["qt"].qtsvg = True
             self.options["qt"].qtdeclarative = True
             self.options["qt"].qttools = True
-            if self.options.build_translations:
-                self.options["qt"].qttranslations = True
             self.options["qt"].qtimageformats = True
             self.options["qt"].qtdoc = True
-            self.options["qt"].qtimageformats = True
-            self.options["qt"].shared = self.options.shared
-            self.options["qt"].qtimageformats = True
 
+            if self.options.build_translations:
+                self.options["qt"].qttranslations = True
+
+            self.output.info(
+                "Getting Qt from the system. CMAKE_PREFIX_PATH = " + platform_qt
+            )
         else:
             self.output.info(
                 "Getting Qt from the system. CMAKE_PREFIX_PATH = " + platform_qt
@@ -102,34 +99,22 @@ class jmbdeReceipe(ConanFile):
 
         self.requires("extra-cmake-modules/5.113.0")
 
-        # if self.settings.os != "Windows":
-        #    self.requires("libiconv/1.17")
-
-        # self.requires("spdlog/1.13.0")
-
-        # self.requires("cli11/2.4.1")
-
-        # self.requires("benchmark/1.8.3")
-        # if self.options.build_docs:
-        #      self.requires("doxygen/1.9.4")
-        # self.requires("catch2/3.5.2")
-        # self.requires("gtest/1.14.0")
-
     @property
     def _min_cppstd(self):
         return 14
 
-    # In case the project requires C++14/17/20/... the minimum compiler version should be listed
     @property
     def _compilers_minimum_version(self):
         return {"msvc": "192", "gcc": "11", "clang": "13", "apple-clang": "14"}
 
     def _validate_cppstd(self):
-        if self.settings.compiler.get_safe("cppstd"):
+        cppstd = self.settings.compiler.get_safe("cppstd")
+        if cppstd:
             # Validate the minimum cpp standard supported when installing the package. For C++ projects only
             check_min_cppstd(self, self._min_cppstd)
+
         minimum_version = self._compilers_minimum_version.get(
-            str(self.settings.compiler), False
+            str(self.settings.compiler)
         )
         if (
             minimum_version
@@ -141,23 +126,22 @@ class jmbdeReceipe(ConanFile):
 
     @property
     def _required_options(self):
-        options = []
-        # Usage: options.append(("boost", [("without_graph", False), ("without_test", False)]))
-        return options
+        return [
+            # Usage: ("boost", [("without_graph", False), ("without_test", False)])
+        ]
 
     def _strict_options_requirements(self):
         for requirement, options in self._required_options:
             for option_name, value in options:
-                setattr(self.options[requirement], f"{option_name}", value)
+                setattr(self.options[requirement], option_name, value)
 
     def _validate_options_requirements(self):
         for requirement, options in self._required_options:
-            is_missing_option = not all(
-                self.dependencies[requirement].options.get_safe(f"{option_name}")
-                == value
+            if not all(
+                self.dependencies[requirement].options.get_safe(
+                    option_name) == value
                 for option_name, value in options
-            )
-            if is_missing_option:
+            ):
                 raise ConanInvalidConfiguration(
                     f"{self.ref} requires {requirement} with these options: {options}"
                 )

@@ -1,3 +1,9 @@
+name: Featuri Request
+description: Request for a missing or a new Feature.
+title: "[Request]: "
+labels: [request]
+assignees:
+  - jmuelbert
 body:
   - type: markdown
     attributes:

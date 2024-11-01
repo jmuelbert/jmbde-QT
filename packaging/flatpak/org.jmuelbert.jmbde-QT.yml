@@ -1,4 +1,4 @@
----
+# TODO: Update to use Qt6.x
 app-id: org.jmuelbert.jmbde_QT
 runtime: org.kde.Platform
 runtime-version: '5.15'
@@ -20,7 +20,6 @@ finish-args:
   # Notification access
   - --talk-name=org.freedesktop.Notifications
   # System Tray Icon
-
 modules:
   - name: jmbde
     buildsystem: cmake-ninja

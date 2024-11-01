@@ -9,128 +9,133 @@
 #include "jmbdewidgets/softwareinputarea.h"
 
 SoftwareInputArea::SoftwareInputArea(QWidget *parent, const QModelIndex &index)
-  : QGroupBox(parent), ui(new Ui::SoftwareInputArea)
+    : QGroupBox(parent)
+    , ui(new Ui::SoftwareInputArea)
 {
-  ui->setupUi(this);
+    ui->setupUi(this);
 
-  qDebug() << tr("Initialisiere SoftwareInputArea mit Index :") << index.row();
+    qDebug() << tr("Initialisiere SoftwareInputArea mit Index :") << index.row();
 
-  this->m_softwareModel = new Model::Software();
-  this->m_db = this->m_softwareModel->getDB();
+    this->m_softwareModel = new Model::Software();
+    this->m_db = this->m_softwareModel->getDB();
 
-  m_actualMode = Mode::Edit;
-  setViewOnlyMode(true);
+    m_actualMode = Mode::Edit;
+    setViewOnlyMode(true);
 
-  // Set the Model
-  m_model = this->m_softwareModel->initializeRelationalModel();
+    // Set the Model
+    m_model = this->m_softwareModel->initializeRelationalModel();
 
-  // Set the mapper
-  m_mapper = new QDataWidgetMapper();
-  m_mapper->setModel(m_model);
-  m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
+    // Set the mapper
+    m_mapper = new QDataWidgetMapper();
+    m_mapper->setModel(m_model);
+    m_mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
-  setMappings();
+    setMappings();
 
-  qDebug() << tr("Aktueller Index: ") << m_mapper->currentIndex();
+    qDebug() << tr("Aktueller Index: ") << m_mapper->currentIndex();
 
-  if (index.row() < 0) {
-    m_mapper->toFirst();
-  } else {
-    m_mapper->setCurrentIndex(index.row());
-  }
+    if (index.row() < 0) {
+        m_mapper->toFirst();
+    } else {
+        m_mapper->setCurrentIndex(index.row());
+    }
 
-  QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &SoftwareInputArea::addEdit);
-  QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &SoftwareInputArea::editFinish);
+    QObject::connect(this->ui->addPushButton, &QPushButton::released, this, &SoftwareInputArea::addEdit);
+    QObject::connect(this->ui->editFinishPushButton, &QPushButton::released, this, &SoftwareInputArea::editFinish);
 }
 
-SoftwareInputArea::~SoftwareInputArea() { delete ui; }
+SoftwareInputArea::~SoftwareInputArea()
+{
+    delete ui;
+}
 
 void SoftwareInputArea::setMappings()
 {
-  m_mapper->addMapping(ui->nameLineEdit, this->m_softwareModel->getNameIndex());
-  m_mapper->addMapping(ui->versionLineEdit, this->m_softwareModel->getVersionIndex());
-  m_mapper->addMapping(ui->revisionLineEdit, this->m_softwareModel->getRevisionIndex());
-  m_mapper->addMapping(ui->fixLineEdit, this->m_softwareModel->getFixIndex());
-  m_mapper->addMapping(ui->lastUpdateLineEdit, this->m_softwareModel->getLastUpdateIndex());
+    m_mapper->addMapping(ui->nameLineEdit, this->m_softwareModel->getNameIndex());
+    m_mapper->addMapping(ui->versionLineEdit, this->m_softwareModel->getVersionIndex());
+    m_mapper->addMapping(ui->revisionLineEdit, this->m_softwareModel->getRevisionIndex());
+    m_mapper->addMapping(ui->fixLineEdit, this->m_softwareModel->getFixIndex());
+    m_mapper->addMapping(ui->lastUpdateLineEdit, this->m_softwareModel->getLastUpdateIndex());
 }
 
 void SoftwareInputArea::setViewOnlyMode(bool mode)
 {
-  ui->nameLineEdit->setDisabled(mode);
-  ui->versionLineEdit->setDisabled(mode);
-  ui->revisionLineEdit->setDisabled(mode);
-  ui->fixLineEdit->setDisabled(mode);
+    ui->nameLineEdit->setDisabled(mode);
+    ui->versionLineEdit->setDisabled(mode);
+    ui->revisionLineEdit->setDisabled(mode);
+    ui->fixLineEdit->setDisabled(mode);
 }
 
 void SoftwareInputArea::createDataset()
 {
-  qDebug() << tr("Erzeuge einen neuen, leeren Datensatz für Software...");
+    qDebug() << tr("Erzeuge einen neuen, leeren Datensatz für Software...");
 
-  // Set all inputfields to blank
-  m_mapper->toLast();
+    // Set all inputfields to blank
+    m_mapper->toLast();
 
-  int row = m_mapper->currentIndex();
-  if (row < 0) { row = 0; }
-  m_mapper->submit();
-  m_model->insertRow(row);
-  m_mapper->setCurrentIndex(row);
+    int row = m_mapper->currentIndex();
+    if (row < 0) {
+        row = 0;
+    }
+    m_mapper->submit();
+    m_model->insertRow(row);
+    m_mapper->setCurrentIndex(row);
 }
 
 void SoftwareInputArea::deleteDataset(const QModelIndex &index)
 {
-  qDebug() << tr("Lösche Daten von Software");
-  m_mapper->setCurrentIndex(index.row());
+    qDebug() << tr("Lösche Daten von Software");
+    m_mapper->setCurrentIndex(index.row());
 }
 
 void SoftwareInputArea::addEdit()
 {
-  qDebug() << tr("Füge neue Daten zu Software");
-  createDataset();
-  editFinish();
+    qDebug() << tr("Füge neue Daten zu Software");
+    createDataset();
+    editFinish();
 }
 
 void SoftwareInputArea::editFinish()
 {
-  qDebug() << tr("Bearbeite oder schließe Software Daten");
+    qDebug() << tr("Bearbeite oder schließe Software Daten");
 
-  switch (m_actualMode) {
-  case Mode::Edit: {
-    m_actualMode = Mode::Finish;
-    ui->editFinishPushButton->setText(tr("Fertig"));
-    setViewOnlyMode(false);
+    switch (m_actualMode) {
+    case Mode::Edit: {
+        m_actualMode = Mode::Finish;
+        ui->editFinishPushButton->setText(tr("Fertig"));
+        setViewOnlyMode(false);
 
-  } break;
+    } break;
 
-  case Mode::Finish: {
-    qDebug() << tr("Die Daten werden gesichert.");
+    case Mode::Finish: {
+        qDebug() << tr("Die Daten werden gesichert.");
 
-    m_actualMode = Mode::Edit;
-    ui->editFinishPushButton->setText(tr("Bearbeiten"));
-    setViewOnlyMode(false);
+        m_actualMode = Mode::Edit;
+        ui->editFinishPushButton->setText(tr("Bearbeiten"));
+        setViewOnlyMode(false);
 
-    QString name = ui->nameLineEdit->text();
+        QString name = ui->nameLineEdit->text();
 
-    if (name.isEmpty()) {
-      QString message(tr("PBitte Namen eingeben."));
+        if (name.isEmpty()) {
+            QString message(tr("PBitte Namen eingeben."));
 
-      QMessageBox::information(this, tr("Software hinzufügen."), message);
-    } else {
-      m_mapper->submit();
-      m_model->database().transaction();
-      if (m_model->submitAll()) {
-        m_model->database().commit();
-        qDebug() << tr("Schreiben der Änderungen für Software in die Datenbank");
-        dataChanged();
-      } else {
-        m_model->database().rollback();
-        QMessageBox::warning(
-          this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
-      }
+            QMessageBox::information(this, tr("Software hinzufügen."), message);
+        } else {
+            m_mapper->submit();
+            m_model->database().transaction();
+            if (m_model->submitAll()) {
+                m_model->database().commit();
+                qDebug() << tr("Schreiben der Änderungen für Software in die Datenbank");
+                dataChanged();
+            } else {
+                m_model->database().rollback();
+                QMessageBox::warning(this, tr("jmbde"), tr("Die Datenbank meldet den Fehler: %1").arg(m_model->lastError().text()));
+            }
+        }
+    } break;
+
+    default: {
+        qCritical() << tr("Fehler: Unbekannter Modus");
     }
-  } break;
-
-  default: {
-    qCritical() << tr("Fehler: Unbekannter Modus");
-  }
-  }
+    }
 }
