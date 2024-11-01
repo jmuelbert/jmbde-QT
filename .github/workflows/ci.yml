@@ -146,8 +146,10 @@ jobs:
         os: [ubuntu-latest, ubuntu-22.04]
         generator:
           - Ninja
-        compiler: g++-10
-        ccompiler: gcc-10
+        compiler:
+          - g++-10
+        ccompiler:
+          - gcc-10
         build_type:
           - Debug
         qt_version: [6.7.2]
@@ -287,7 +289,7 @@ jobs:
             compiler: clang++-14
             ccompiler: clang-14
             clang-tidy: ""
-            generator: Unix Makefiles
+            generator: Ninja
           - name: windows-latest-cl.exe
             os: windows-latest
             build_type: Release
@@ -349,8 +351,8 @@ jobs:
             ninja-build \
             ccache
           echo "CCACHE_DIR=${{github.workspace}}/ccache" >> "$GITHUB_ENV"
-          echo "CXX=clang++-12" >> "$GITHUB_ENV"
-          echo "CC=clang-12" >> "$GITHUB_ENV"
+          echo "CXX=${{matrix.compiler}}" >> "$GITHUB_ENV"
+          echo "CC=${{matrix.ccompiler}}" >> "$GITHUB_ENV"
       - name: ⚙️ 🍎 Install macos dependencies
         if: runner.os == 'macOS'
         env:
@@ -399,8 +401,6 @@ jobs:
         uses: jurplel/install-qt-action@f03f05556819ceb3781ee2f455ec44c339d683c0 # v4.0.0
         with:
           version: ${{ env.QT_VERSION }}
-          # host: ${{ runner.os }}
-
           target: ${{ env.QT_TARGET }}
           arch: ${{ matrix.qt_arch }}
           dir: "${{ github.workspace }}/build/"
