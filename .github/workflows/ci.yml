@@ -274,7 +274,7 @@ jobs:
           files: ./build/coverage.xml
   build:
     # if: startsWith(github.event.ref, 'refs/tags/')
-    name: "Build for ${{ matrix.na + qt_dirme }}"
+    name: "Build for ${{ matrix.name }}"
     runs-on: ${{ matrix.os }}
     needs: tests
     strategy:
