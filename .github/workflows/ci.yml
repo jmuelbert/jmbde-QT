@@ -165,26 +165,14 @@ jobs:
         with:
           # Full git history is needed to get a proper list of changed files within `super-linter`
           fetch-depth: 0
-      - name: ⚙️ Install Python
-        id: python
-        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
-        with:
-          # Read python version from a file .python-version
-          python-version-file: .python-version
-          # check-latest: true
-
-          cache: pip
-      - name: ⚙️ Install Python dependencies
-        shell: bash
-        id: python-deps
-        run: |
-          python -m pip install --upgrade pip
-          pip3 install -r .github/workflows/conan-requirements.txt
       - name: 🐧 ⚙️ Install Linux dependencies
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update && DEBIAN_FRONTEND=--noninteractive \
           sudo apt-get --no-install-recommends --assume-yes install \
+            qt6-base-dev \
+            qt6-tools-dev \
+            qt6-tools-dev-tools \
             libclang-dev \
             ninja-build \
             gcovr \
@@ -194,24 +182,6 @@ jobs:
           echo "CCACHE_DIR=${{github.workspace}}/ccache" >> $GITHUB_ENV
           echo "CXX=${{matrix.compiler}}" >> $GITHUB_ENV
           echo "CC=${{matrix.ccompiler}}" >> $GITHUB_ENV
-      - name: Configure Conan
-        shell: bash
-        run: |
-          echo "Setup conan"
-          conan profile detect --force
-          conan profile show
-      - name: ⚙️ Install Qt Version ${{ matrix.qt_version }}
-        uses: jurplel/install-qt-action@f03f05556819ceb3781ee2f455ec44c339d683c0 # v4.0.0
-        with:
-          version: "${{ matrix.qt_version }}"
-          arch: "${{ env.QT_ARCH }}"
-          target: "${{ env.QT_TARGET }}"
-          tools: "${{ env.QT_TOOLS }}"
-          setup-python: "true"
-          cache: "true"
-          cache-key-prefix: "${{ runner.os }}-install-qt-action"
-          set-env: "true"
-          install-deps: "true"
       - uses: hendrikmuhs/ccache-action@ed74d11c0b343532753ecead8a951bb09bb34bc9 # v1.2.14
         if: runner.os == 'Linux'
         with:
@@ -244,8 +214,6 @@ jobs:
           printenv
           conan install ..  --build=missing --settings=build_type=${{matrix.build_type}}
           cmake -S .. -B . -G "${{matrix.generator}}" \
-            -DCMAKE_MAKE_PROGRAM="/usr/bin/ninja" \
-            -DCMAKE_TOOLCHAIN_FILE="generators/conan_toolchain.cmake" \
             -DCMAKE_BUILD_TYPE:STRING=${{matrix.build_type}} \
             -DCMAKE_INSTALL_PREFIX:PATH="./usr" \
             -DOPT_ENABLE_COVERAGE:BOOL=${{ matrix.build_type == 'Debug' }} \

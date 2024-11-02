@@ -64,6 +64,9 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 
 # FIND DEPENDENCES ########
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/CPM.cmake")
+# Add Extra CMake Modules
+cpmaddpackage(NAME ExtraCMakeModules GITHUB_REPOSITORY KDE/extra-cmake-modules
+              GITHUB_TAG master)
 set(FETCHCONTENT_BASE_DIR "${CMAKE_SOURCE_DIR}/3rdpart")
 set(CPM_USE_LOCAL_PACKAGES ON)
 
@@ -91,6 +94,7 @@ include(ECMInstallIcons)
 include(ECMDeprecationSettings)
 
 include(FeatureSummary)
+
 include(FindIntl)
 
 # Turn off some default settings for KDE
