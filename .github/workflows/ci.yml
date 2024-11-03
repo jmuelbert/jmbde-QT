@@ -153,7 +153,7 @@ jobs:
         build_type:
           - Debug
         qt_version: [6.7.2]
-        qt_arch: [gcc_64]
+        qt_arch: [linux_gcc_64]
     permissions:
       actions: read
       contents: read
@@ -262,7 +262,7 @@ jobs:
           - name: ubuntu-latest-clang++
             os: ubuntu-latest
             build_type: Release
-            qt_arch: gcc_64
+            qt_arch: linux_gcc_64
             compiler: clang++-14
             ccompiler: clang-14
             clang-tidy: ""
