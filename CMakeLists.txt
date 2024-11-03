@@ -62,13 +62,27 @@ project(
 # ---------------------------------------------------------------------------- #
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 
+# Set to use local packages
+set(CPM_USE_LOCAL_PACKAGES ON)
+
+# Set the path to the directory containing ECMConfig.cmake
+set(CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}/local_packages/MyPackage")
+
 # FIND DEPENDENCES ########
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/CPM.cmake")
-# Add Extra CMake Modules
-cpmaddpackage(NAME ExtraCMakeModules GITHUB_REPOSITORY KDE/extra-cmake-modules
-              GITHUB_TAG master)
+
+# Now you can use the modules from Ex
 set(FETCHCONTENT_BASE_DIR "${CMAKE_SOURCE_DIR}/3rdpart")
 set(CPM_USE_LOCAL_PACKAGES ON)
+
+# Optionally, set the path to Extra CMake Modules if you cloned it
+set(ECM_DIR "${CMAKE_SOURCE_DIR}/path/to/extra-cmake-modules")
+
+# Include the ECM modules
+list(APPEND CMAKE_MODULE_PATH "${ECM_DIR}/cmake/modules")
+
+# Find the required ECM package
+find_package(ECM REQUIRED NO_MODULE)
 
 # KF6 only
 set(KF_MIN_VERSION "5.113.0")
@@ -76,7 +90,7 @@ set(QT_MIN_VERSION "6.5.0")
 set(QT_MAJOR_VERSION "6")
 
 # We need some parts of the ECM CMake helpers.
-find_package(ECM ${KF_MIN_VERSION} REQUIRED NO_MODULE)
+find_package(ECM REQUIRED NO_MODULE)
 
 # We append to the module path so modules can be overridden from the command
 # line.
@@ -85,7 +99,6 @@ set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 include(KDECompilerSettings NO_POLICY_SCOPE)
 include(KDEInstallDirs)
 include(KDECMakeSettings)
-include(KDEClangFormat)
 include(KDEGitCommitHooks)
 
 include(ECMOptionalAddSubdirectory)
@@ -94,8 +107,6 @@ include(ECMInstallIcons)
 include(ECMDeprecationSettings)
 
 include(FeatureSummary)
-
-include(FindIntl)
 
 # Turn off some default settings for KDE
 set(KDE_INSTALL_USE_QT_SYS_PATHS OFF)
@@ -107,13 +118,14 @@ find_package(Qt6Widgets ${QT_MIN_VERSION} CONFIG REQUIRED)
 find_package(Qt6Concurrent ${QT_MIN_VERSION} CONFIG REQUIRED)
 
 if(NOT WIN32 AND NOT HAIKU)
-  find_package(Intl)
+  find_package(Gettext)
   set_package_properties(
     Intl PROPERTIES
     TYPE REQUIRED
     URL "http://gnuwin32.sourceforge.net/packages/libintl.htm"
     PURPOSE
-      "Needed for building kate unless glibc is the system libc implementation")
+      "Needed for building jmbde unless glibc is the system libc implementation"
+  )
 endif()
 
 # deprecation options

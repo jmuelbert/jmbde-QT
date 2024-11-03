@@ -38,7 +38,7 @@ message(STATUS "Building ${TARGET_NAMESPACE}::${TARGET_NAME}"
 # --------------------------------------------------------------------------- #
 find_package(
   Qt${QT_MAJOR_VERSION} REQUIRED
-  COMPONENTS Core Widgets PrintSupport Sql Qml
+  COMPONENTS Core Widgets Sql Qml
   OPTIONAL_COMPONENTS LinguistTools)
 
 # ----------------------------------------------------------------------------
@@ -116,7 +116,7 @@ target_link_libraries(
   PUBLIC Qt${QT_MAJOR_VERSION}::Core
          Qt${QT_MAJOR_VERSION}::Gui
          Qt${QT_MAJOR_VERSION}::Widgets
-         Qt${QT_MAJOR_VERSION}::PrintSupport
+         # Qt${QT_MAJOR_VERSION}::PrintSupport
          Qt${QT_MAJOR_VERSION}::Sql
          ${CMAKE_REQUIRED_LIBRARIES}
          ${CONAN_LIBS})

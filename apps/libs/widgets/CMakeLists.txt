@@ -40,7 +40,7 @@ set(CMAKE_AUTOUIC ON)
 # --------------------------------------------------------------------------- #
 find_package(
   Qt${QT_MAJOR_VERSION} REQUIRED
-  COMPONENTS Core Widgets PrintSupport Sql Qml
+  COMPONENTS Core Widgets Sql Qml
   OPTIONAL_COMPONENTS LinguistTools)
 
 # ----------------------------------------------------------------------------
@@ -109,7 +109,7 @@ target_link_libraries(
   PRIVATE Qt${QT_MAJOR_VERSION}::Core
           Qt${QT_MAJOR_VERSION}::Gui
           Qt${QT_MAJOR_VERSION}::Widgets
-          Qt${QT_MAJOR_VERSION}::PrintSupport
+          # Qt${QT_MAJOR_VERSION}::PrintSupport
           Qt${QT_MAJOR_VERSION}::Sql
           jmuelbert::jmbdemodels
           ${CMAKE_REQUIRED_LIBRARIES}
