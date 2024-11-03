@@ -153,6 +153,7 @@ jobs:
         build_type:
           - Debug
         qt_version: [6.7.2]
+        qt_arch: gcc_64
     permissions:
       actions: read
       contents: read
@@ -170,17 +171,6 @@ jobs:
         run: |
           sudo apt-get update && DEBIAN_FRONTEND=--noninteractive \
           sudo apt-get --no-install-recommends --assume-yes install \
-            qt6-base-dev \
-            qt6-tools-dev-tools \
-            libqt6widgets6 \
-            libqt6gui6 \
-            libqt6network6 \
-            libqt6printsupport6 \
-            libqt6sql6 \
-            libqt6test6 \
-            libopengl0 \
-            libopengl-dev \
-            extra-cmake-modules \
             libclang-dev \
             ninja-build \
             gcovr \
@@ -205,6 +195,20 @@ jobs:
         run: ccache --zero-stats --show-stats
       - name: Add GCC problem matcher
         uses: ammaraskar/gcc-problem-matcher@0f9c86f9e693db67dacf53986e1674de5f2e5f28 # v0.3.0
+      - name: "⚙️ Install Qt Version ${{ env.QT_VERSION }}"
+        uses: jurplel/install-qt-action@f03f05556819ceb3781ee2f455ec44c339d683c0 # v4.0.0
+        with:
+          version: ${{ env.QT_VERSION }}
+          target: ${{ env.QT_TARGET }}
+          arch: ${{ matrix.qt_arch }}
+          dir: "${{ github.workspace }}/build/"
+          install-deps: "true"
+          # modules: 'qtcharts qtwebengine'
+
+          setup-python: "true"
+          # tools: "tools_ifw"
+
+          set-env: "true"
       - name: Create Build Environment
         # Some projects don't allow in-source building, so create a separate build directory
 
