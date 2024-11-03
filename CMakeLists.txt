@@ -86,7 +86,7 @@ find_package(ECM REQUIRED NO_MODULE)
 
 # KF6 only
 set(KF_MIN_VERSION "5.113.0")
-set(QT_MIN_VERSION "6.5.0")
+set(QT_MIN_VERSION "6.2.4")
 set(QT_MAJOR_VERSION "6")
 
 # We need some parts of the ECM CMake helpers.
