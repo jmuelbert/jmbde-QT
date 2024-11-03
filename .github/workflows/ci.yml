@@ -179,6 +179,7 @@ jobs:
             libqt6sql6 \
             libqt6test6 \
             libopengl0 \
+            libopengl-dev \
             extra-cmake-modules \
             libclang-dev \
             ninja-build \
