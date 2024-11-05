@@ -1,13 +1,11 @@
----
-name:Build
-
+name: Build
 on:
   pull_request:
     branches: [main, add_nix_support]
     paths:
       - '**.cmake'
       - '**.cpp'
-      - '*+.hpp'
+      - '**.hpp'
       - '**.hpp.in'
       - '**.h'
       - '**.h.in'
@@ -21,14 +19,12 @@ on:
       - packaging/com.jmuelbert.jmbde-QT.metainfo.yml
       - packaging/com.jmuelbert.jmbde-QT.svg
       - packaging/com.jmuelbert.jmbde-QT.yaml
-
-
   push:
     branches: [main, add_nix_support]
     paths:
       - '**.cmake'
       - '**.cpp'
-      - '*+.hpp'
+      - '**.hpp'
       - '**.hpp.in'
       - '**.h'
       - '**.h.in'
@@ -42,9 +38,7 @@ on:
       - packaging/com.jmuelbert.jmbde-QT.metainfo.yml
       - packaging/com.jmuelbert.jmbde-QT.svg
       - packaging/com.jmuelbert.jmbde-QT.yaml
-    
   workflow_dispatch:
-
 jobs:
   build:
     strategy:
@@ -83,4 +77,4 @@ jobs:
       - uses: DeterminateSystems/nix-installer-action@v14
       - uses: DeterminateSystems/magic-nix-cache-action@v8
       - name: Build the Nix package
-        run: nix build     
+        'run': nix build
