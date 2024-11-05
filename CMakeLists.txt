@@ -62,11 +62,20 @@ project(
 # ---------------------------------------------------------------------------- #
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 
+# FIND DEPENDENCES ########
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/CPM.cmake")
+
+# Download and install extra-cmake-modules
+cpmaddpackage(
+  NAME extra-cmake-modules GITHUB_REPOSITORY KDE/extra-cmake-modules GIT_TAG
+  v6.7.0 # You can specify a specific tag or branch if needed
+)
+
+# Now you can use the extra-cmake-modules in your project
+find_package(ECM REQUIRED NO_MODULE)
+
 # Set to use local packages
 set(CPM_USE_LOCAL_PACKAGES ON)
-
-# Set the path to the directory containing ECMConfig.cmake
-set(CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}/local_packages/MyPackage")
 
 # FIND DEPENDENCES ########
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/CPM.cmake")
@@ -75,14 +84,16 @@ include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/CPM.cmake")
 set(FETCHCONTENT_BASE_DIR "${CMAKE_SOURCE_DIR}/3rdpart")
 set(CPM_USE_LOCAL_PACKAGES ON)
 
-# Optionally, set the path to Extra CMake Modules if you cloned it
-set(ECM_DIR "${CMAKE_SOURCE_DIR}/path/to/extra-cmake-modules")
+cpmaddpackage("gh:fmtlib/fmt#10.1.1")
+cpmaddpackage("gh:kde/extra-cmake-modules#v6.7.0")
 
-# Include the ECM modules
-list(APPEND CMAKE_MODULE_PATH "${ECM_DIR}/cmake/modules")
+list(APPEND CMAKE_MODULE_PATH
+     "${CMAKE_SOURCE_DIR}/3rdpart/extra-cmake-modules-build")
 
-# Find the required ECM package
-find_package(ECM REQUIRED NO_MODULE)
+list(APPEND CMAKE_MODULE_PATH
+     "$(CMAKE_SOURCE_DIR)/build/${CMAKE_BUILD_TYPE}/CPM_modules")
+
+# Find the required ECM package find_package(ECM REQUIRED NO_MODULE)
 
 # KF6 only
 set(KF_MIN_VERSION "5.113.0")
@@ -93,8 +104,7 @@ set(QT_MAJOR_VERSION "6")
 find_package(ECM REQUIRED NO_MODULE)
 
 # We append to the module path so modules can be overridden from the command
-# line.
-set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
+# line. set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
 include(KDECompilerSettings NO_POLICY_SCOPE)
 include(KDEInstallDirs)

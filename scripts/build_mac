@@ -3,19 +3,11 @@
 source .venv/bin/activate
 pip install --upgrade pip
 pip install --upgrade sphinx
-pip install --upgrade aqtinstall
 
-# Install qt with aqtinall
-QM_FILE="./qt/6.8.0/macos/bin/qmake"
-if [ ! -e "$QM_FILE" ]; then
-	aqt install-qt mac desktop 6.8.0 clang_64 --outputdir qt
-fi
-# export Qt6_Dir="./qt/6.8.0/macos"
-
-# Qt6_Dir=$(brew --prefix qt)
-export PATH="/usr/local/opt/qt@6/bin:$PATH"
-export LDFLAGS="-L/usr/local/opt/qt@6/lib"
-export CPPFLAGS="-I/usr/local/opt/qt@6/include"
+export Qt6_Dir=$(brew --prefix qt)
+# export PATH="/usr/local/opt/qt@6/bin:$PATH"
+# export LDFLAGS="-L/usr/local/opt/qt@6/lib"
+# export CPPFLAGS="-I/usr/local/opt/qt@6/include"
 
 BUILD_TYPE=Release
 MAC_OS_TARGET=13
@@ -23,7 +15,7 @@ MAC_OS_TARGET=13
 rm -rf build/"$BUILD_TYPE"
 rm -rf install/
 
-cmake --debug-find-pkg=cups -S . -B build/"$BUILD_TYPE" \
+cmake --debug-find-pkg=ECM . -B build/"$BUILD_TYPE" \
 	-DQT_DEBUG_FIND_PACKAGE=ON \
 	-DCMAKE_BUILD_TYPE="$BUILD_TYPE" \
 	-DCMAKE_OSX_DEPLOYMENT_TARGET="$MAC_OS_TARGET" \
