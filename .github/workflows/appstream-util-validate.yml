@@ -1,0 +1,25 @@
+name: Validate MetaInfo
+"on":
+  pull_request:
+    branches: [main]
+    paths:
+      - '**.nix'
+      - .github/workflows/appstream-util-validate.yaml
+      - flake.lock
+      - packaging/com.jwillikers.CyrillicEncoder.metainfo.xml
+  push:
+    branches: [main]
+    paths:
+      - '**.nix'
+      - .github/workflows/appstream-util-validate.yaml
+      - flake.lock
+      - packaging/com.jwillikers.CyrillicEncoder.metainfo.xml
+jobs:
+  appstream-util-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@v14
+      - uses: DeterminateSystems/magic-nix-cache-action@v8
+      - name: Check the MetaInfo file
+        run: nix develop --command appstream-util validate packaging/co.jmuelbert.jmbde-QT.metainfo.xml
