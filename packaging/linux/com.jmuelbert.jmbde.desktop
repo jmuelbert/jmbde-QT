@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=jmbde
+Exec=/app/bin/jmbde
+Comment=Add Persons and devices to a company database
+Icon=com.jmuelbert.jmbde
+StartupWMClass=jmbde
+Terminal=false
+Categories=Business;Qt
+Keywords=jmbde;business
