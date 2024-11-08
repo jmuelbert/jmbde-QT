@@ -8,7 +8,7 @@
         nixpkgs.follows = "nixpkgs";
         nixpkgs-unstable.follows = "nixpkgs";
         pre-commit-hooks.follows = "pre-commit-hooks";
-        treefmt-nix.follows = " treefmt-nix";
+        treefmt-nix.follows = "treefmt-nix";
       };
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
