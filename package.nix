@@ -7,13 +7,12 @@
 , stdenv
 , ut
 , wrapQtAppsHook
-,
-};
+}:
 stdenv.mkDerivation = {
 pname = "jmbde";
 version = "0.7.0";
 
-src ) ./.
+src = ./.;
 
 buildInputs =[
 microsoft-gsl
