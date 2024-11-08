@@ -34,10 +34,10 @@ on:
       - CMakePresets.json
       - flake.lock
       - iwyu.imp
-      - packaging/com.jmuelbert.jmbde-QT.desktop
-      - packaging/com.jmuelbert.jmbde-QT.metainfo.yml
-      - packaging/com.jmuelbert.jmbde-QT.svg
-      - packaging/com.jmuelbert.jmbde-QT.yaml
+      - packaging/com.jmuelbert.jmbde.desktop
+      - packaging/com.jmuelbert.jmbde.metainfo.yml
+      - packaging/com.jmuelbert.jmbde.svg
+      - packaging/com.jmuelbert.jmbde.yaml
   workflow_dispatch:
 jobs:
   build:
