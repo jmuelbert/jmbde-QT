@@ -1,6 +1,6 @@
 { cmake
 , microsoft-gsl
-, modl-wrapped
+, mold-wrapped
 , ninja
 , qtbase
 , qtwayland
