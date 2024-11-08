@@ -8,28 +8,28 @@
 , ut
 , wrapQtAppsHook
 }:
-stdenv.mkDerivation = {
-pname = "jmbde";
-version = "0.7.0";
+stdenv.mkDerivation {
+  pname = "jmbde";
+  version = "0.7.0";
 
-src = ./.;
+  src = ./.;
 
-buildInputs =[
-microsoft-gsl
-qtbase
-qtwayland
-ut
-];
+  buildInputs = [
+    microsoft-gsl
+    qtbase
+    qtwayland
+    ut
+  ];
 
-nativeBuildInputs = [
-cmake
-mold-wrapped
-ninja
-wrapQtAppsHook
-];
+  nativeBuildInputs = [
+    cmake
+    mold-wrapped
+    ninja
+    wrapQtAppsHook
+  ];
 
-cmakeFlags = [
-"--preset=minimal"
-"-DCMAKE_LINKER_TYPE=MOLD"
-];
+  cmakeFlags = [
+    "--preset=minimal"
+    "-DCMAKE_LINKER_TYPE=MOLD"
+  ];
 }
