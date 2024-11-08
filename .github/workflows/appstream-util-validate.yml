@@ -22,4 +22,4 @@ jobs:
       - uses: DeterminateSystems/nix-installer-action@v14
       - uses: DeterminateSystems/magic-nix-cache-action@v8
       - name: Check the MetaInfo file
-        run: nix develop --command appstream-util validate packaging/com.jmuelbert.jmbde.metainfo.xml
+        run: nix develop --command appstream-util validate packaging/linux/com.jmuelbert.jmbde.metainfo.xml
