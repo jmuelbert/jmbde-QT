@@ -45,16 +45,19 @@
         pre-commit = pre-commit-hooks.lib.${system}.run (
           import ./pre-commit-hooks.nix { inherit pkgs treefmtEval; }
         );
-        treefmtEval = treefmt-nix.lib.evalModule pkgs ./treefmt-nix;
+        treefmtEval = treefmt-nix.lib.evalModule pkgs ./treefmt.nix;
       in
       with pkgs;
       {
         apps = {
+          inherit (nix-update-scripts.apps.${system}) update-nix-direnv;
+        };
+        devShells.default = mkShell {
           inherit (pre-commit) shellHook;
           buildInputs = with pkgs; [
             microsoft-gsl
             qt6.qtbase
-            qt6.wayland
+            qt6.qtwayland
             ut
           ];
           nativeBuildInputs =
@@ -72,7 +75,7 @@
               gdb
               include-what-you-use
               just
-              lonv
+              lcov
               librsvg
               lldb
               llvm
@@ -83,7 +86,7 @@
               nushell
               python311Packages.lcov-cobertura
               qt6.wrapQtAppsHook
-              treefmtEcal.config.build.wrapper
+              treefmtEval.config.build.wrapper
               (builtins.attrValues treefmtEval.config.build.programs)
             ]
             ++ pre-commit.enabledPackages;

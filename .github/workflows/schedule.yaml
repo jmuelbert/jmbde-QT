@@ -1,0 +1,40 @@
+name: schedule
+on:
+  workflow_dispatch:
+  schedule:
+    # Run on the third of every month
+    - cron: 0 0 3 * *
+jobs:
+  coverage-main-branch:
+    strategy:
+      fail-fast: true
+      matrix:
+        compiler: [clang]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@v14
+      - uses: DeterminateSystems/magic-nix-cache-action@v8
+      - name: Restore ccache cache
+        id: cache-ccache-restore
+        uses: action/cache/restore@v4
+        with:
+          key: coverage-${{ matrix.compiler }}-cache-
+          path: .ccache
+      - name: Generate Coverage
+        run: nix develop --command just workflow coverage-${{ matrix.compiler }}
+      - name: Prepare ccache timestamp
+        id: ccache_cache_timestamp
+        shell: cmake -P {0}
+        run: |
+          string(TIMESTAMP current_date "%Y-%m-%d-%H;%M;%S" UTC)
+          message("::echo timestamp=${current_date}")
+      - name: Save ccache cache
+        uses: actions/cache/save@v4
+        if: always() && steps.cache-ccache-restore.outputs.cache-hit != 'true'
+        with:
+          key: coverage-${{ matrix.compiler }}-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
+          path: .ccache
+      - uses: clearlyip/code-coverage-report-action@v5
+        with:
+          filename: build-coverage-${{ matrix.compiler }}/cobertura.xml
