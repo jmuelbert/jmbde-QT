@@ -17,7 +17,7 @@
     check-shebang-scripts-are-executable.enable = true;
     check-toml.enable = true;
     check-xml.enable = true;
-    check-yml.enable = true;
+    check-yaml.enable = true;
     deadnix.enable = true;
     detect-private-keys.enable = true;
     editorconfig-checker.enable = true;
