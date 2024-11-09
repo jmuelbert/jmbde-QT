@@ -1,4 +1,4 @@
-name: Flake ❄️ Lock 🔒️ Updater ✨
+name: Flake ❄️ Lock 🔒️ Updater ✨ lychee.
 on:
   schedule:
     # Run on the third of the month

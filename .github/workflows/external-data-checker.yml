@@ -1,7 +1,8 @@
 name: Check for updates
 on:
   schedule:
-    - cron: 0 0 13 * * # run on the 13th every month
+    # Run on the 13th every month 
+    - cron: 0 0 13 * *
   workflow_dispatch:
 jobs:
   flatpak-external-data-checker:
