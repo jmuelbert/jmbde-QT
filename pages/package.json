@@ -1,15 +1,20 @@
 {
-  "name": "Documentation",
+  "name": "docs",
   "version": "0.0.1",
   "type": "module",
   "scripts": {
     "astro": "astro",
-    "build": "astro build",
+    "build": "astro check && astro build",
     "dev": "astro dev",
     "preview": "astro preview",
     "start": "astro dev"
   },
   "dependencies": {
-    "astro": "^2.10.15",
-  }
+    "@astrojs/check": "^0.9.3",
+    "@astrojs/starlight": "^0.28.2",
+    "astro": "^4.15.3",
+    "sharp": "^0.32.5",
+    "typescript": "^5.6.2"
+  },
+  "packageManager": "pnpm@9.5.0+sha512.140036830124618d624a2187b50d04289d5a087f326c9edfc0ccd733d76c4f52c3a313d4fc148794a2a9d81553016004e6742e8cf850670268a7387fc220c903"
 }

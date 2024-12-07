@@ -64,25 +64,51 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 
 # FIND DEPENDENCES ########
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/CPM.cmake")
+
+# Download and install extra-cmake-modules
+cpmaddpackage(
+  NAME extra-cmake-modules GITHUB_REPOSITORY KDE/extra-cmake-modules GIT_TAG
+  v6.7.0 # You can specify a specific tag or branch if needed
+)
+
+# Now you can use the extra-cmake-modules in your project
+find_package(ECM REQUIRED NO_MODULE)
+
+# Set to use local packages
+set(CPM_USE_LOCAL_PACKAGES ON)
+
+# FIND DEPENDENCES ########
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/CPM.cmake")
+
+# Now you can use the modules from Ex
 set(FETCHCONTENT_BASE_DIR "${CMAKE_SOURCE_DIR}/3rdpart")
 set(CPM_USE_LOCAL_PACKAGES ON)
 
+cpmaddpackage("gh:fmtlib/fmt#10.1.1")
+cpmaddpackage("gh:kde/extra-cmake-modules#v6.7.0")
+
+list(APPEND CMAKE_MODULE_PATH
+     "${CMAKE_SOURCE_DIR}/3rdpart/extra-cmake-modules-build")
+
+list(APPEND CMAKE_MODULE_PATH
+     "$(CMAKE_SOURCE_DIR)/build/${CMAKE_BUILD_TYPE}/CPM_modules")
+
+# Find the required ECM package find_package(ECM REQUIRED NO_MODULE)
+
 # KF6 only
 set(KF_MIN_VERSION "5.113.0")
-set(QT_MIN_VERSION "6.5.0")
+set(QT_MIN_VERSION "6.2.4")
 set(QT_MAJOR_VERSION "6")
 
 # We need some parts of the ECM CMake helpers.
-find_package(ECM ${KF_MIN_VERSION} REQUIRED NO_MODULE)
+find_package(ECM REQUIRED NO_MODULE)
 
 # We append to the module path so modules can be overridden from the command
-# line.
-set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
+# line. set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
 include(KDECompilerSettings NO_POLICY_SCOPE)
 include(KDEInstallDirs)
 include(KDECMakeSettings)
-include(KDEClangFormat)
 include(KDEGitCommitHooks)
 
 include(ECMOptionalAddSubdirectory)
@@ -91,7 +117,6 @@ include(ECMInstallIcons)
 include(ECMDeprecationSettings)
 
 include(FeatureSummary)
-include(FindIntl)
 
 # Turn off some default settings for KDE
 set(KDE_INSTALL_USE_QT_SYS_PATHS OFF)
@@ -103,13 +128,14 @@ find_package(Qt6Widgets ${QT_MIN_VERSION} CONFIG REQUIRED)
 find_package(Qt6Concurrent ${QT_MIN_VERSION} CONFIG REQUIRED)
 
 if(NOT WIN32 AND NOT HAIKU)
-  find_package(Intl)
+  find_package(Gettext)
   set_package_properties(
     Intl PROPERTIES
     TYPE REQUIRED
     URL "http://gnuwin32.sourceforge.net/packages/libintl.htm"
     PURPOSE
-      "Needed for building kate unless glibc is the system libc implementation")
+      "Needed for building jmbde unless glibc is the system libc implementation"
+  )
 endif()
 
 # deprecation options

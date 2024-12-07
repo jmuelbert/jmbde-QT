@@ -24,7 +24,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 
 find_package(Qt${QT_MAJOR_VERSION} REQUIRED COMPONENTS Core Gui Widgets Sql
-                                                       PrintSupport Test)
+                                                       Test)
 
 # find_package(jmbdemodels CONFIG REQUIRED)
 

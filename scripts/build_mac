@@ -1,28 +1,32 @@
 #!/bin/sh
 
-export CMAKE_PREFIX_PATH=$(brew --prefix qt)
+source .venv/bin/activate
+pip install --upgrade pip
+pip install --upgrade sphinx
+
+export Qt6_Dir=$(brew --prefix qt)
+# export PATH="/usr/local/opt/qt@6/bin:$PATH"
+# export LDFLAGS="-L/usr/local/opt/qt@6/lib"
+# export CPPFLAGS="-I/usr/local/opt/qt@6/include"
+
 BUILD_TYPE=Release
-MAC_OS_TARGET=12.0
+MAC_OS_TARGET=13
 
-pip install conan
+rm -rf build/"$BUILD_TYPE"
+rm -rf install/
 
-rm -rf build/${BUILD_TYPE}
-
-conan profile detect --force
-conan install . --build=missing --settings=build_type=${BUILD_TYPE}
-
-cmake -S . -B build/${BUILD_TYPE} \
-  -DCMAKE_TOOLCHAIN_FILE=generators/conan_toolchain.cmake \
-  -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
-  -DCMAKE_OSX_DEPLOYMENT_TARGET=${MAC_OS_TARGET} \
-  -DCMAKE_INSTALL_PREFIX:PATH=./app
+cmake --debug-find-pkg=ECM . -B build/"$BUILD_TYPE" \
+	-DQT_DEBUG_FIND_PACKAGE=ON \
+	-DCMAKE_BUILD_TYPE="$BUILD_TYPE" \
+	-DCMAKE_OSX_DEPLOYMENT_TARGET="$MAC_OS_TARGET" \
+	-DCMAKE_INSTALL_PREFIX:PATH=./app
 
 # Execute the build.  You can specify a specific target with "--target <NAME>"
 
-cmake --build build/${BUILD_TYPE} \
-  --config ${BUILD_TYPE} \
-  --target install \
-  --parallel $(sysctl -n hw.logicalcpu)
+cmake --build build/"$BUILD_TYPE" \
+	--config "$BUILD_TYPE" \
+	--target install \
+	--parallel "$(sysctl -n hw.logicalcpu)"
 
 cd build || exit
 ctest -VV

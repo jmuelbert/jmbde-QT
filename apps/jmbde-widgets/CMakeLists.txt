@@ -48,7 +48,7 @@ configure_file(${CMAKE_SOURCE_DIR}/cmake/versioninfo/version.h.in
 # --------------------------------------------------------------------------- #
 find_package(
   Qt${QT_MAJOR_VERSION} REQUIRED
-  COMPONENTS Core Widgets PrintSupport Sql Qml
+  COMPONENTS Core Widgets Sql Qml PrintSupport
   OPTIONAL_COMPONENTS LinguistTools)
 
 # ----------------------------------------------------------------------------

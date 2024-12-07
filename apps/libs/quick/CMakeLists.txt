@@ -38,7 +38,7 @@ message(STATUS "Building ${TARGET_NAMESPACE}::${TARGET_NAME}"
 # --------------------------------------------------------------------------- #
 find_package(
   Qt${QT_MAJOR_VERSION} REQUIRED
-  COMPONENTS Core Widgets PrintSupport Sql Quick Qml
+  COMPONENTS Core Widgets Sql Quick Qml
   OPTIONAL_COMPONENTS LinguistTools)
 
 # ----------------------------------------------------------------------------
@@ -122,7 +122,7 @@ target_link_libraries(
   PRIVATE Qt${QT_MAJOR_VERSION}::Core
           Qt${QT_MAJOR_VERSION}::Gui
           Qt${QT_MAJOR_VERSION}::Widgets
-          Qt${QT_MAJOR_VERSION}::PrintSupport
+          # Qt${QT_MAJOR_VERSION}::PrintSupport
           Qt${QT_MAJOR_VERSION}::Sql
           Qt${QT_MAJOR_VERSION}::Quick
           Qt${QT_MAJOR_VERSION}::Qml
