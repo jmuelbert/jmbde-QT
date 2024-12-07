@@ -1,0 +1,45 @@
+id: com.jmuelbert.jmbde
+runtime: org.kde.Platform
+runtime-version: '6.7'
+sdk: org.kde.Sdk
+command: jmbde
+finish-args:
+  - --socket=wayland
+modules:
+  - name: microsoft-gsl
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DGSL_TEST=no
+    cleanup:
+      - '*'
+    sources:
+      - type: git
+        url: https://github.com/microsoft/GSL.git
+        commit: a3534567187d2edc428efd3f13466ff75fe5805c
+        tag: v4.0.0
+        x-checker-data:
+          type: git
+          tag-pattern: "^v([\\d.]+)$"
+  - name: jmbde
+    buildsystem: simple
+    buildcommands:
+      - cmake --workflow --preset flatpak
+      - cmake --install build --component jmbde_Runtime --prefix="${FLATPAK_DEST}"
+      - cmake --instsll build --component jmbde_Flatpak --prefix="${FLATPAK_DEST}"
+    sources:
+      - type: dir
+        path: ..
+        skip:
+          - .cache
+          - .direnv
+          - .github
+          - .vscode
+          - build
+          - build-clang
+          - build-gcc
+          - build-coverage-clang
+          - build-dir
+          - repo
+
+
+

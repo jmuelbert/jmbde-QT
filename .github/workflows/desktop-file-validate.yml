@@ -1,0 +1,25 @@
+name: Check desktop file
+"on":
+  pull_request:
+    branches: [main]
+    paths:
+      - '**.nix'
+      - .github/workflows/desktop-file-validate.yaml
+      - flake.lock
+      - packaging/linux/com.jmuelbert.jmbde.desktop
+  push:
+    branches: [main]
+    paths:
+      - '**.nix'
+      - .github/workflows/desktop-file-validate.yaml
+      - flake.lock
+      - packaging/linux/com.jmuelbert.jmbde.desktop
+jobs:
+  desktop-file-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@v14
+      - uses: DeterminateSystems/magic-nix-cache-action@v8
+      - name: Check the desktop file
+        run: nix develop --command desktop-file-validate packaging/linux/com.jmuelbert.jmbde.desktop

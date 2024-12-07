@@ -1,0 +1,129 @@
+name: Build
+on:
+  pull_request:
+    branches: [main, add_nix_support]
+    paths:
+      - '**.cmake'
+      - '**.cpp'
+      - '**.hpp'
+      - '**.hpp.in'
+      - '**.h'
+      - '**.h.in'
+      - '**/CMakeLists.txt'
+      - .clang.tidy
+      - .github/workflow/ci-nix.yml
+      - CMakePresets.json
+      - flake.lock
+      - iwyu.imp
+      - packaging/com.jmuelbert.jmbde-QT.desktop
+      - packaging/com.jmuelbert.jmbde-QT.metainfo.yml
+      - packaging/com.jmuelbert.jmbde-QT.svg
+      - packaging/com.jmuelbert.jmbde-QT.yaml
+  push:
+    branches: [main, add_nix_support]
+    paths:
+      - '**.cmake'
+      - '**.cpp'
+      - '**.hpp'
+      - '**.hpp.in'
+      - '**.h'
+      - '**.h.in'
+      - '**/CMakeLists.txt'
+      - .clang.tidy
+      - .github/workflow/ci-nix.yml
+      - CMakePresets.json
+      - flake.lock
+      - iwyu.imp
+      - packaging/com.jmuelbert.jmbde.desktop
+      - packaging/com.jmuelbert.jmbde.metainfo.yml
+      - packaging/com.jmuelbert.jmbde.svg
+      - packaging/com.jmuelbert.jmbde.yaml
+  workflow_dispatch:
+jobs:
+  build:
+    strategy:
+      fail-fast: true
+      matrix:
+        compiler: [clang, gcc]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@v14
+      - uses: DeterminateSystems/magic-nix-cache-action@v8
+      - name: Restore ccache cache
+        id: cache-ccache-restore
+        uses: actions/cache/restore@v4
+        with:
+          key: coverage-${{ matrix.compiler }}-ccache-
+          path: .ccache
+      - name: Build
+        run: nix develop --command just workflow ci-${{ matrix.compiler }}
+      - name: Prepare ccache timestamp
+        id: ccache_cache_timestamp
+        shell: cmake -P {0}
+        run: |
+          string(TIMESTAMP current_date "%Y-%m-%d-%H;%M;%S" UTC)
+          message("::echo timestamp=${current_date}")
+      - name: Save ccache cache
+        uses: actions/cache/save@v4
+        if: always() && steps.cache-ccache-restore.outputs.cache-hit != 'true'
+        with:
+          key: coverage-${{ matrix.compiler }}-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
+          path: .ccache
+  package-nix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@v14
+      - uses: DeterminateSystems/magic-nix-cache-action@v8
+      - name: Build the Nix package
+        'run': nix build
+  coverage:
+    permissions:
+      pull-requests: write
+    strategy:
+      matrix:
+        compiler: [clang]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@v14
+      - uses: DeterminateSystems/magic-nix-cache-action@v8
+      - name: Restore ccache cache
+        id: cache-ccache-restore
+        uses: actions/cache/restore@v4
+        with:
+          key: coverage-${{ matrix.compiler }}-ccache-
+          path: .ccache
+      - name: Generate Coverage
+        run: nix develop --command just workflow coverage-${{ matrix.compiler }}
+      - name: Prepare ccache timestamp
+        id: ccache_cache_timestamp
+        shell: cmake -P {0}
+        run: |
+          string(TIMESTAMP current_date "%Y-%m-%d-%H;%M;%S" UTC)
+          message("::echo timestamp=${current_date}")
+      - name: Save ccache cache
+        uses: actions/cache/save@v4
+        if: always() && steps.cache-ccache-restore.outputs.cache-hit != 'true'
+        with:
+          key: coverage-${{ matrix.compiler }}-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
+          path: .ccache
+      - name: Code Coverage Report
+        uses: clearlyip/code-coverage-report-action@v5
+        id: code_coverage_report_action
+        with:
+          artifact_download_workflow_names: build,schedule
+          badge: true
+          fail_on_negative_difference: true
+          file_coverage_error_min: 40
+          file_coverage_warning_max: 60
+          filename: build-coverage-${{ matrix.compiler }}/cobertura.xml
+          overall_coverage_fail_threshold: 60
+      - name: Add Coverage PR Comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        if: github.event_name == 'pull_request'
+        with:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_FOR_UPDATES }}
+          recreate: true
+          path: code-coverage-results.md
