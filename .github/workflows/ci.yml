@@ -1,0 +1,804 @@
+---
+name: "CI: Test, Build and create release"
+
+# yamllint disable
+on:
+  # yamllint enable
+  push:
+    branches:
+      - main
+      - develop
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
+    paths:
+      - "**.cpp"
+      - "**.h"
+      - "**.hpp"
+      - "**.py"
+      - cmake/**
+      - src/**
+      - CMakeLists.txt
+      - conanfile.py
+      - ".github/workflows/ci.yml"
+      - "deploy/flatpak.yaml"
+      - "snap/snapcraft.yaml"
+
+  pull_request:
+    # The branches below must be a subset of the branches above
+    types: [ opened, synchronize, reopened ]
+    paths:
+      - "**.cpp"
+      - "**.h"
+      - "**.hpp"
+      - "**.py"
+      - cmake/**
+      - src/**
+      - CMakeLists.txt
+      - conanfile.py
+      - ".github/workflows/ci.yml"
+      - "deploy/flatpak.yaml"
+      - "snap/snapcraft.yaml"
+
+  workflow_dispatch:
+
+
+env:
+  # Target
+  TARGET_NAME: jmbde
+  PROJECT_NAME: jmbde-QT
+  # Conan cache environment variables
+  CONAN_SYSREQUIRES_MODE: enabled
+  CONAN_USER_HOME: "${{ github.workspace }}/conan-cache"
+  CONAN_USER_HOME_SHORT: "${{ github.workspace }}/conan-cache/short"
+  CLANG_TIDY_VERSION: "13.0.0"
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+  QT_VERSION: "6.4.1"
+  QT_TARGET: "desktop"
+
+jobs:
+  # format
+  clang-format:
+    name: "💎 CLang-Format"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "🧰 Checkout"
+        uses: actions/checkout@v4
+        with:
+          # Full git history is needed to get a proper list of changed files within `super-linter`
+          fetch-depth: 0
+
+      - name: "🟨 Use clang-format"
+        uses: DoozyX/clang-format-lint-action@v0.17
+        with:
+          source: "."
+          exclude: "./third_party ./external"
+          extensions: "c,h,cpp,hpp"
+          clangFormatVersion: 14
+          inplace: true
+
+      - uses: EndBug/add-and-commit@v9
+        with:
+          author_name: Clang Robot
+          author_email: robot@example.com
+          message: ":art: Committing clang-format changes"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  cmake-format:
+    name: "💎 CMake-Format"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "🧰 Checkout"
+        uses: actions/checkout@v4
+        with:
+          # Full git history is needed to get a proper
+          # list of changed files within `super-linter`
+          fetch-depth: 0
+
+      - name: "🟨 Setup Python"
+        uses: actions/setup-python@v5
+        with:
+          # Read python version from a file .python-version
+          python-version-file: ".python-version"
+          # check-latest: true
+          cache: pip
+
+      - name: "🟨 Install cmakelang"
+        uses: BSFishy/pip-action@v1
+        with:
+          packages: cmakelang pyyaml jinja2
+
+      - name: "🟨 Use cmake-format"
+        run: find . \( -name '*.cmake' -o -name 'CMakeLists.txt' \) -exec cmake-format -i {} \;
+
+      - name: "📨 Use Commit"
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: github_actions
+          message: ":art: Committing format changes"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  # lint:
+
+  # tests:
+  tests:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+
+      # Recommendations:
+      #   * support at least 2 operating systems
+      #   * support at least 2 compilers
+      #   * make sure all supported configurations for your project are built
+      #
+      # Disable/enable builds in this list to meet the above recommendations
+      # and your own projects needs
+      matrix:
+        os: [ ubuntu-latest, ubuntu-22.04 ]
+        generator:
+          - "Ninja"
+        build_type:
+          - Debug
+        qt_version: [ 5.15.2, 6.4.0 ]
+
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    steps:
+      - name: "Cancel Previous Runs"
+        uses: styfle/cancel-workflow-action@0.12.1
+        with:
+          access_token: ${{ github.token }}
+
+      - name: "🧰 Checkout"
+        uses: actions/checkout@v4
+        with:
+          # Full git history is needed to get a proper list of changed files within `super-linter`
+          fetch-depth: 0
+
+      - name: "⚙️ Install Python"
+        id: python
+        uses: actions/setup-python@v5
+        with:
+          # Read python version from a file .python-version
+          python-version-file: ".python-version"
+          # check-latest: true
+          cache: pip
+
+      - name: "'⚙️ Install Python dependencies"
+        shell: bash
+        id: python-deps
+        run: |
+          python -m pip install --upgrade pip
+          pip3 install "conan<2"
+
+      - name: "🐧 ⚙️ Install Linux dependencies"
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update && DEBIAN_FRONTEND=--noninteractive \
+          sudo apt-get --no-install-recommends --assume-yes install \
+            libclang-dev \
+            ninja-build \
+            gcovr \
+            ccache \
+            cppcheck \
+            googletest
+          echo "CCACHE_DIR=${{runner.workspace}}/ccache" >> $GITHUB_ENV
+          echo "CCACHE_DIR=${{runner.workspace}}/ccache" >> $GITHUB_ENV
+          echo "CXX=g++-10" >> $GITHUB_ENV
+          echo "CC=gcc-10" >> $GITHUB_ENV
+
+      - name: Configure Conan
+        shell: bash
+        run: |
+          echo "Setup conan"
+          conan user
+          conan config init
+          conan profile show default 
+
+      - name: "🔧 Setup Cache"
+        uses: ./.github/actions/setup_cache
+        with:
+          build_type: ${{ matrix.build_type }}
+          generator: ${{ matrix.generator }}
+
+      - name: "⚙️ Install Qt Version ${{ matrix.qt_version }}"
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: "${{ matrix.qt_version }}"
+          dir: "${{ env.QT_DIR }}"
+          # host: ${{ runner.os }}
+          arch: "${{ env.QT_ARCH }}"
+          target: "${{ env.QT_TARGET }}"
+          tools: "${{ env.QT_TOOLS }}"
+          setup-python: "true"
+          cache: "true"
+          cache-key-prefix: "${{ runner.os }}-install-qt-action"
+          set-env: "true"
+          install-deps: "true"
+      - uses: hendrikmuhs/ccache-action@v1
+        if: runner.os == 'Linux'
+        with:
+          key: ${{ matrix.os }}-${{ matrix.build_type }}
+          max-size: 50M
+
+      - name: restore ccache
+        uses: pat-s/always-upload-cache@v3.0.11
+        with:
+          path: ${{runner.workspace}}/ccache
+          key: ccache-${{matrix.os}}-${{matrix.compiler}}-${{matrix.qt}}-${{ github.sha }}
+          restore-keys: ccache-${{matrix.os}}-${{matrix.compiler}}-${{matrix.qt}}
+
+      - name: check ccache stats prior to build
+        run: ccache --zero-stats --show-stats
+
+      - name: "Cleanup Conan system packages (they are not properly cached)"
+        run: |
+          conan remove -f '*/system'
+
+      - name: "Add GCC problem matcher"
+        uses: ammaraskar/gcc-problem-matcher@master
+
+      - name: "Create Build Environment"
+        # Some projects don't allow in-source building, so create a separate build directory
+        # We'll use this as our working directory for all subsequent commands
+        run: cmake -E make_directory build
+        # make sure coverage is only enabled for Debug builds, since it sets -O0 to make sure coverage
+        # has meaningful results
+      - name: "Configure CMake"
+        working-directory: build
+        shell: bash
+        run: |
+          mkdir -pv usr
+          cmake -S .. -B . -G "${{matrix.generator}}" \
+            -DCMAKE_BUILD_TYPE:STRING=${{matrix.build_type}} \
+            -DCMAKE_INSTALL_PREFIX:PATH="./usr" \
+            -DOPT_ENABLE_COVERAGE:BOOL=${{ matrix.build_type == 'Debug' }} \
+            -DBUILD_TESTING:BOOL=${{ matrix.build_type == 'Debug' }} \
+            -DENABLE_CACHE="ON"
+
+      - name: "🚧 Build"
+        # Execute the build.  You can specify a specific target with "--target <NAME>"
+        run: |
+          cmake --build ./build --config ${{matrix.build_type}}
+
+      - name: check ccache stats prior to build
+        run: ccache --zero-stats --show-stats
+
+      - name: "🐧 🧪 Test and coverage"
+        working-directory: build
+        # Execute tests defined by the CMake configuration.
+        # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+        run: |
+          ctest -C ${{matrix.build_type}}
+          gcovr -j ${{env.nproc}} --delete --root ../ --print-summary --xml-pretty --xml coverage.xml
+
+      - name: "Publish to codecov"
+        uses: codecov/codecov-action@v3
+        with:
+          flags: ${{ runner.os }}
+          name: ${{ runner.os }}-coverage
+          files: ./build/coverage.xml
+
+  build:
+    # if: startsWith(github.event.ref, 'refs/tags/')
+    name: "Build for ${{ matrix.name }}"
+
+    runs-on: ${{ matrix.os }}
+    needs: tests
+
+    strategy:
+      fail-fast: false
+      matrix:
+        name:
+          [
+            ubuntu-latest-clang++,
+            macos-latest-clang++,
+            windows-latest-cl.exe
+          ]
+        include:
+          - name: ubuntu-latest-clang++
+            os: ubuntu-latest
+            build_type: Release
+            qt_arch: gcc_64
+            compiler: clang++-14
+            ccompiler: clang-14
+            clang-tidy: ""
+            generators: Ninja
+          - name: windows-latest-cl.exe
+            os: windows-latest
+            build_type: Release
+            qt_arch: win64_msvc2019_64
+            arch: x64
+            pak_arch: win64
+            compiler: cl.exe
+            ccompiler: cl.exe
+            clang-tidy: ""
+            generators: Ninja
+          - name: macos-latest-clang++
+            os: macos-latest
+            build_type: Release
+            qt_arch: clang_64
+            arch: clang_64
+            compiler: clang++
+            ccompiler: clang
+            generators: Ninja
+
+    env:
+      CXX: ${{ matrix.compiler }}
+      CC: ${{ matrix.ccompiler }}
+
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    steps:
+      - name: "⚙️ Get the version"
+        id: get_version
+        shell: bash
+        run: |
+          echo ::set-output name=VERSION::"$(echo $GITHUB_REF | cut -d / -f 3)"
+
+      - name: "🧰 Checkout"
+        uses: actions/checkout@v4
+        with:
+          # Full git history is needed to get a proper list of changed files within `super-linter`
+          fetch-depth: 0
+
+      - name: "⚙️ Install Python"
+        id: python
+        uses: actions/setup-python@v5
+        with:
+          # Read python version from a file .python-version
+          python-version-file: ".python-version"
+          # check-latest: true
+          cache: pip
+
+      - name: "⚙️ Install Python dependencies"
+        shell: bash
+        id: python-deps
+        run: |
+          python -m pip install --upgrade pip
+          pip3 install "conan<2"
+
+      - name: "🔧 Setup Cache"
+        uses: ./.github/actions/setup_cache
+        with:
+          build_type: ${{ matrix.build_type }}
+          generator: ${{ matrix.generator }}
+
+      - name: "🐧 ⚙️ Install Linux dependencies"
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update && DEBIAN_FRONTEND=--noninteractive \
+          sudo apt-get --no-install-recommends --assume-yes install \
+            libclang-dev \
+            ninja-build \
+            ccache
+          echo "CCACHE_DIR=${{runner.workspace}}/ccache" >> $GITHUB_ENV
+          echo "CXX=clang++-12" >> $GITHUB_ENV
+          echo "CC=clang-12" >> $GITHUB_ENV
+
+      - name: "⚙️ 🍎 Install macos dependencies"
+        if: runner.os == 'macOS'
+        env:
+          HOMEBREW_NO_ANALYTICS: "ON"
+          HOMEBREW_NO_AUTO_UPDATE: "ON"
+          HOMEBREW_NO_BOTTLE_SOURCE_FALLBACK: "ON"
+          HOMEBREW_NO_INSTALL_CLEANUP: "ON"
+        run: |
+          brew install ninja ccache pkg-config
+          echo "/usr/local/opt/ccache/libexec" >> $GITHUB_PATH
+          echo "CCACHE_DIR=${{runner.workspace}}/ccache" >> $GITHUB_ENV
+          # Use latest available XCode
+          sudo xcode-select -s "/Applications/Xcode_13.2.1.app"
+          echo "DEVELOPER_DIR=/Applications/Xcode_13.2.1.app/Contents/Developer" >> $GITHUB_ENV
+
+      - name: "🧊 ⚙️ Install Windows dependencies"
+        if: runner.os ==  'Windows'
+        run: |
+          cinst ninja ccache
+
+      - name: "🧊 ⚙️ Configure MSVC"
+        if: runner.os ==  'Windows'
+        uses: ilammy/msvc-dev-cmd@v1.13.0
+        with:
+          # 14.1 is for vs2017, 14.2 is vs2019, following the upstream vcpkg build from Qv2ray-deps repo
+          toolset: 14.2
+          arch: ${{ matrix.confg.pak_arch }}
+
+      - name: Configure Conan
+        shell: bash
+        run: |
+          echo "Setup conan"
+          conan user
+          conan config init
+          conan profile show default
+
+      - name: (Linux/macOS) restore ccache
+        if: runner.os == 'Linux' || runner.os == 'macOS'
+        uses: pat-s/always-upload-cache@v3.0.11
+        with:
+          path: ${{runner.workspace}}/ccache
+          key: ccache-${{matrix.os}}-${{matrix.compiler}}-${{matrix.qt}}-${{ github.sha }}
+          restore-keys: ccache-${{matrix.os}}-${{matrix.compiler}}-${{matrix.qt}}
+
+      - name: (Linux/macOS) check ccache stats prior to build
+        if: runner.os == 'Linux' || runner.os == 'macOS'
+        run: ccache --zero-stats --show-stats
+
+      - name: "Add GCC problem matcher"
+        if: runner.os ==  'Linux'
+        uses: ammaraskar/gcc-problem-matcher@master
+
+      - name: "⚙️ Install Qt Version ${{ env.QT_VERSION }}"
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: ${{ env.QT_VERSION }}
+          # host: ${{ runner.os }}
+          target: ${{ env.QT_TARGET }}
+          arch: ${{ matrix.config.qt_arch }}
+          dir: "${{ github.workspace }}/build/"
+          install-deps: "true"
+          # modules: 'qtcharts qtwebengine'
+          cached: "${{ steps.cache-qt.outputs.cache-hit }}"
+          setup-python: "true"
+          # tools: "tools_ifw"
+          set-env: "true"
+
+      - name: "Cleanup Conan system packages (they are not properly cached)"
+        run: |
+          conan remove -f '*/system'
+
+      - name: "Create Build Environment"
+        # Some projects don't allow in-source building, so create a separate build directory
+        # We'll use this as our working directory for all subsequent commands
+        run: cmake -E make_directory build
+
+      # make sure coverage is only enabled for Debug builds, since it sets -O0 to make sure coverage
+      # has meaningful results
+      - name: "⚙️ 🧊 Configure CMake"
+        if: runner.os ==  'Windows'
+        working-directory: build
+        shell: pwsh
+        run: |
+          cmake  `
+          -S .. -B  . `
+          -G "${{matrix.generators}}" `
+          -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }} `
+          -DCMAKE_INSTALL_PREFIX:PATH="${{github.workspace}}/install" `
+          -DBUILD_SHARED_LIBS:BOOL="TRUE"
+        # -G "Visual Studio 16 2019" -A "x64" `
+        # make sure coverage is only enabled for Debug builds, since it sets -O0 to make sure coverage
+        # has meaningful results.
+
+      - name: "⚙️ 🐧 Configure CMake"
+        if: runner.os ==  'Linux'
+        working-directory: build
+        shell: bash
+        run: |+
+          cmake -S .. -B . -G "${{matrix.generator}}" \
+           -DCMAKE_BUILD_TYPE:STRING=${{matrix.build_type}} \
+           -DCMAKE_INSTALL_PREFIX:PATH="${{github.workspace}}/AppDir/usr" \
+           -DBUILD_SHARED_LIBS:BOOL="TRUE" \
+           -DENABLE_CACHE="ON"
+           
+      - name: "⚙️ 🍎 Configure CMake"
+        working-directory: build
+        shell: bash
+        if: runner.os ==  'macOS'
+        run: |+
+          cmake -S .. -B . -G "${{matrix.generator}}" \
+           -DCMAKE_BUILD_TYPE:STRING=${{matrix.build_type}} \
+           -DCMAKE_INSTALL_PREFIX:PATH="${{github.workspace}}/install" \
+           -DBUILD_SHARED_LIBS:BOOL="TRUE" \
+           -DENABLE_CACHE="ON"
+           
+      # TODO: Stored in install. Build DMG with CPack
+      - name: "📦 🍎 Build and package application (macdeployqt and zipfile)"
+        working-directory: build
+        if: runner.os == 'macOS'
+        run: |
+          cmake --build . --config ${{matrix.build_type}}
+          cpack -C "${{matrix.build_type}}" -G "DragNDrop;ZIP"
+
+      # TODO: Stored in install. Build installer with CPack
+      - name: "⚙️ 🧊 Build"
+        if: runner.os ==  'Windows'
+        working-directory: build
+        run: |
+          cmake --build . --config ${{matrix.build_type}}
+          cpack -C "${{matrix.build_type}}" -G "WIX;ZIP"
+
+      - name: "⚙️ 🐧 Build"
+        if: runner.os == 'Linux'
+        working-directory: build
+        # Execute the build.  You can specify a specific target with "--target <NAME>"
+        run: |
+          sudo apt-get -y --no-install-recommends install tree
+          cmake --build . --config ${{matrix.build_type}} --target install
+
+      - name: "⚙️ 🐧 Install go-appimage tool"
+        if: runner.os == 'Linux'
+        # Will not use linuxdeployqt anymore, because it suopprts currently still-supported mainstream distribution,
+        # which is glibc 2.23. For more information, please see https://github.com/probonopd/linuxdeployqt/issues/340.
+        # Will try new tool https://github.com/probonopd/go-appimage written in golang by probonopd.
+        run: |
+          wget $(curl https://api.github.com/repos/probonopd/go-appimage/releases | jq -r '.[] | select(.tag_name == "continuous") | .assets[] | select((.name | endswith("x86_64.AppImage")) and (.name | contains("appimagetool"))) | .browser_download_url') -O appimagetool
+          chmod +x appimagetool
+        env:
+          APPIMAGETOOL_ARCH: x86_64
+
+      # TODO: Stored in build directory
+      - name: "🐧 📦 Create AppImage"
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          APPIMAGE_DST_PATH="${{github.workspace}}/AppDir"
+          cd $GITHUB_WORKSPACE
+          cp $GITHUB_WORKSPACE/assets/icons/icons8-app-symbol-80.png $APPIMAGE_DST_PATH/io.github.jmuelbert.${TARGET_NAME}.png
+          $GITHUB_WORKSPACE/appimagetool -s deploy ${APPIMAGE_DST_PATH}/usr/share/applications/io.github.jmuelbert.${TARGET_NAME}.desktop
+          mkdir -p ${APPIMAGE_DST_PATH}/usr/plugins/platforminputcontexts
+          if [ -f "${APPIMAGE_DST_PATH}/lib/x86_64-linux-gnu/libxcb-glx.so.0" ]; then
+            rm ${APPIMAGE_DST_PATH}/lib/x86_64-linux-gnu/libxcb-glx.so.0
+          fi
+          chmod +x ${APPIMAGE_DST_PATH}/usr/lib64/ld-*.so.*
+          $GITHUB_WORKSPACE/appimagetool ${APPIMAGE_DST_PATH}
+
+      - name: "🐧 📤 Upload Linux artifacts"
+        if: runner.os == 'Linux'
+        uses: actions/upload-artifact@v4
+        with:
+          name: AppImage
+          path: "./*.AppImage*"
+
+      - name: "🍎 📤 Upload macOS artifacts"
+        if: runner.os == 'macOS'
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-artifacts
+          path: |
+            build/*.dmg
+            build/*.zip
+
+      - name: "🧊 📤 Upload artifact: Windows Installer"
+        if: runner.os ==  'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-artifacts
+          path: |
+            build/*.msi
+            build/*.zip
+
+  flatpak-build:
+    name: "🐧 Build flatpak on ubuntu-latest"
+    runs-on: ubuntu-latest
+    needs: tests
+
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    steps:
+      - name: "⚙️ Get the version"
+        id: get_version
+        shell: bash
+        run: echo ::set-output name=VERSION::"$(echo $GITHUB_REF | cut -d / -f 3)"
+
+      - name: "Cancel Previous Runs"
+        uses: styfle/cancel-workflow-action@0.12.1
+        with:
+          access_token: ${{ github.token }}
+
+      - name: "🧰 Checkout"
+        uses: actions/checkout@v4
+        with:
+          # Full git history is needed to get a proper list of changed files within `super-linter`
+          fetch-depth: 0
+
+      - name: "Setup Flatpak"
+        run: |
+          sudo apt-get -y -qq update
+          sudo apt-get install -y flatpak flatpak-builder
+
+      - name: "Setup Flatpak"
+        run: |
+          sudo apt-get update && sudo DEBIAN_FRONTEND=noninteractive \
+          apt-get --no-install-recommends --assume-yes install \
+          flatpak flatpak-builder elfutils
+
+      - name: "Setup Flathub"
+        run: |
+          flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+      - name: "📦 Create flatpak"
+        run: |
+          mkdir -pv $GITHUB_WORKSPACE/install
+          BUNDLE="io.github.jmuelbert.${{env.TARGET_NAME}}.flatpak"
+          MANIFEST_PATH=$GITHUB_WORKSPACE/deploy/flatpak.yaml
+          RUNTIME_REPO="https://flathub.org/repo/flathub.flatpakrepo"
+          APP_ID="io.github.jmuelbert.${{env.TARGET_NAME}}"
+
+          flatpak-builder --user --disable-rofiles-fuse --repo=repo --force-clean flatpak_app ${MANIFEST_PATH} --install-deps-from=flathub
+          flatpak build-bundle repo ${BUNDLE} --runtime-repo=${RUNTIME_REPO} ${APP_ID}
+          mv $GITHUB_WORKSPACE/$BUNDLE $GITHUB_WORKSPACE/io.github.jmuelbert.${{env.TARGET_NAME}}_${{ steps.get_version.outputs.VERSION }}.x86_64.flatpak
+          ls -al
+
+      - name: "📤 Upload artifact: FlatPak"
+        uses: actions/upload-artifact@v4
+        with:
+          name: flatpak-artifact
+          path: |
+            ./install/*.flatpak
+
+  snap-build:
+    name: "🐧 Build snap on ubuntu-20.04"
+    runs-on: ubuntu-20.04
+    needs: tests
+
+    steps:
+      - name: "⚙️ Get the version"
+        id: get_version
+        shell: bash
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+
+      - name: "Cancel Previous Runs"
+        uses: styfle/cancel-workflow-action@0.12.1
+        with:
+          access_token: ${{ github.token }}
+
+      - name: "🧰 Checkout"
+        uses: actions/checkout@v4
+        with:
+          # Full git history is needed to get a proper list of changed files within `super-linter`
+          fetch-depth: 0
+
+      - name: "📦 Create snap"
+        uses: snapcore/action-build@v1
+        id: snapcraft
+        with:
+          snapcraft-args: --enable-experimental-extensions
+
+      - name: "Rename snap name"
+        shell: bash
+        run: |
+          mv ${{ steps.snapcraft.outputs.snap }} $GITHUB_WORKSPACE/${TARGET_NAME}_${{ steps.get_version.outputs.VERSION }}_amd64.snap
+          ls
+
+      - name: "🐧 📤 Upload artifact: SnapPack"
+        uses: actions/upload-artifact@v4
+        with:
+          name: snapcraft-artifact
+          path: |
+            $GITHUB_WORKSPACE/${{ env.TARGET_NAME}}_*_amd64.snap
+
+  diagram:
+    name: "Build diagram"
+    needs: tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "🧰 Checkout"
+        uses: actions/checkout@master
+
+      - name: "Update diagram"
+        uses: githubocto/repo-visualizer@0.9.1
+        with:
+          output_file: "images/diagram.svg"
+          excluded_paths: "dist,node_modules"
+
+  releaseNotes:
+    # if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    needs: upload
+    steps:
+      - name: "🧰 Checkout"
+        uses: actions/checkout@v4
+        with:
+          # Full git history is needed to get a proper list of changed files within `super-linter`
+          fetch-depth: 0
+
+      - name: "Build Releasenotes"
+        id: github_releasenotes
+        uses: release-drafter/release-drafter@v5.25.0
+        with:
+          publish: "${{ steps.check-version.outputs.tag != '' }}"
+          tag: "${{ steps.check-version.outputs.tag }}"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+  changeLog:
+    # if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    needs: upload
+    steps:
+      - name: Build Changelog
+        id: github_release
+        uses: mikepenz/release-changelog-builder-action@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Release
+        uses: mikepenz/action-gh-release@v0.2.0-a03 #softprops/action-gh-release
+        with:
+          body: ${{steps.github_release.outputs.changelog}}
+
+  # Upload continous build
+  upload:
+    name: "🗂 Create release and upload artifacts"
+    needs:
+      - build
+      - flatpak-build
+      - snap-build
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: "📥 Download artifacts"
+        uses: actions/download-artifact@v4
+      - name: "🗂 Inspect directory after downloading artifacts"
+        run: ls -alFR
+
+      - name: "📤 Upload Release: AppImage"
+        if: startsWith(github.event.ref, 'refs/tags/')
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{runner.workspace}}/${{env.TARGET_NAME}}.appimage
+          asset_name: ${{env.TARGET_NAME}}.appimage
+          tag: ${{ github.ref }}
+          overwrite: true
+
+      - name: "📤 Upload Release: FlatPak"
+        if: startsWith(github.event.ref, 'refs/tags/')
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{runner.workspace}}/${{env.TARGET_NAME}}.flatpak
+          asset_name: ${{env.TARGET_NAME}}.flatpak
+          tag: ${{ github.ref }}
+          overwrite: true
+
+      - name: "📤 Upload Release: snap"
+        if: startsWith(github.event.ref, 'refs/tags/')
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{runner.workspace}}/${{env.TARGET_NAME}}.amd64.snap
+          asset_name: ${{env.TARGET_NAME}}.amd64.snap
+          tag: ${{ github.ref }}
+          overwrite: true
+
+      - name: "📤 Upload Release: macOS"
+        if: startsWith(github.event.ref, 'refs/tags/')
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{runner.workspace}}/${{env.TARGET_NAME}}.dmg
+          asset_name: ${{env.TARGET_NAME}}.dmg
+          tag: ${{ github.ref }}
+          overwrite: true
+
+      - name: "📤 Upload Release: windows"
+        if: startsWith(github.event.ref, 'refs/tags/')
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./${{ env.TARGET_NAME }}.exe
+          asset_name: ${{ env.TARGET_NAME}}-win.exe
+          tag: ${{ github.ref }}
+          overwrite: true
+
+      - name: "📤 Upload Release: zip for windows"
+        if: startsWith(github.event.ref, 'refs/tags/')
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./${{ env.archiveName }}-win.zip
+          asset_name: ${{ env.TARGET_NAME}}-win-${{ steps.get_version.outputs.VERSION }}.zip
+          tag: ${{ github.ref }}
+          overwrite: true
