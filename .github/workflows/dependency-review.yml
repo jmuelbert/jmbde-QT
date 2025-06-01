@@ -32,7 +32,7 @@ jobs:
       - name: 🧰 Checkout Source Code
         uses: actions/checkout@cbb722410c2e876e24abbe8de2cc27693e501dcb # v4.1.5
       - name: Dependency Review Action
-        uses: actions/dependency-review-action@ce3cf9537a52e8119d91fd484ab5b8a807627bf8 # v4.6.0
+        uses: actions/dependency-review-action@da24556b548a50705dd671f47852072ea4c105d9 # v4.7.1
         # Commonly enabled options, see https://github.com/actions/dependency-review-action#configuration-options for all available options.
         with:
           comment-summary-in-pr: always
